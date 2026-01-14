@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-10T00:00:00Z",
+  "description": "Track Claude Code feature versions, release status, and documentation relevance",
+
+  "claudeCodeVersions": {
+    "current": "2.1.x",
+    "history": [
+      {
+        "version": "2.1.0",
+        "releaseDate": "2025-10-15",
+        "majorChanges": [
+          "Prompt-based hooks",
+          "Agent hooks",
+          "PermissionRequest event",
+          "once: true option",
+          "Expanded matchers (startup, resume, clear, compact)",
+          "Frontmatter scoping for hooks"
+        ]
+      },
+      {
+        "version": "2.0.0",
+        "releaseDate": "2025-06-15",
+        "majorChanges": [
+          "Sandboxing support",
+          "Container isolation",
+          "Enhanced security model"
+        ]
+      },
+      {
+        "version": "1.0.0",
+        "releaseDate": "2025-02-24",
+        "majorChanges": [
+          "Initial public release",
+          "Command hooks",
+          "Basic MCP integration",
+          "Subagents",
+          "Slash commands"
+        ]
+      }
+    ]
+  },
+
+  "features": {
+    "hooks": {
+      "command": {
+        "status": "released",
+        "introducedVersion": "1.0.0",
+        "introducedDate": "2025-02-24",
+        "documentation": {
+          "primary": "official/patterns/hook-creation.md",
+          "cached": "cache/docs/code-claude-com/hooks.md"
+        },
+        "description": "Shell command hooks for deterministic automation"
+      },
+      "prompt": {
+        "status": "released",
+        "introducedVersion": "2.1.0",
+        "introducedDate": "2025-10-15",
+        "documentation": {
+          "primary": "official/patterns/hook-advanced.md",
+          "cached": "cache/docs/code-claude-com/hooks.md"
+        },
+        "description": "LLM-based hooks for context-aware decisions"
+      },
+      "agent": {
+        "status": "released",
+        "introducedVersion": "2.1.0",
+        "introducedDate": "2025-10-15",
+        "documentation": {
+          "primary": "official/patterns/hook-advanced.md",
+          "cached": "cache/docs/code-claude-com/hooks.md"
+        },
+        "description": "Subagent hooks for complex multi-step analysis"
+      },
+      "permissionRequest": {
+        "status": "released",
+        "introducedVersion": "2.1.0",
+        "introducedDate": "2025-10-15",
+        "documentation": {
+          "primary": "official/patterns/hook-advanced.md"
+        },
+        "description": "Programmatic control over permission dialogs"
+      },
+      "onceOption": {
+        "status": "released",
+        "introducedVersion": "2.1.0",
+        "introducedDate": "2025-10-15",
+        "documentation": {
+          "primary": "official/patterns/hook-advanced.md"
+        },
+        "description": "Run hook only once per session"
+      }
+    },
+
+    "agents": {
+      "subagents": {
+        "status": "released",
+        "introducedVersion": "1.0.0",
+        "introducedDate": "2025-02-24",
+        "documentation": {
+          "primary": "official/patterns/agent-creation.md",
+          "cached": "cache/docs/code-claude-com/sub-agents.md"
+        },
+        "description": "Specialized AI assistants with focused expertise"
+      },
+      "agentSdk": {
+        "status": "released",
+        "introducedVersion": "1.5.0",
+        "introducedDate": "2025-09-29",
+        "documentation": {
+          "primary": null,
+          "cached": "cache/docs/anthropic/claude-code/sdk.md"
+        },
+        "description": "Programmatic agent building with Python SDK"
+      }
+    },
+
+    "skills": {
+      "agentSkills": {
+        "status": "released",
+        "introducedVersion": "2.0.0",
+        "introducedDate": "2025-12-18",
+        "documentation": {
+          "primary": "official/patterns/skill-creation.md",
+          "cached": "cache/docs/code-claude-com/skills.md"
+        },
+        "description": "Modular capability packages with persistent state"
+      }
+    },
+
+    "commands": {
+      "slashCommands": {
+        "status": "released",
+        "introducedVersion": "1.0.0",
+        "introducedDate": "2025-02-24",
+        "documentation": {
+          "primary": "official/patterns/command-creation.md",
+          "cached": "cache/docs/code-claude-com/slash-commands.md"
+        },
+        "description": "Custom slash commands for reusable prompts"
+      }
+    },
+
+    "mcp": {
+      "mcpCore": {
+        "status": "released",
+        "introducedVersion": "1.0.0",
+        "introducedDate": "2024-03-01",
+        "documentation": {
+          "primary": "official/features/mcp-integration.md",
+          "cached": "cache/docs/code-claude-com/mcp.md"
+        },
+        "description": "Model Context Protocol for external integrations"
+      },
+      "codeExecution": {
+        "status": "released",
+        "introducedVersion": "1.0.0",
+        "introducedDate": "2024-11-04",
+        "documentation": {
+          "primary": "official/features/code-execution.md",
+          "cached": "cache/blog/code-execution-mcp.md"
+        },
+        "description": "Python/Jupyter execution via MCP"
+      }
+    },
+
+    "security": {
+      "sandboxing": {
+        "status": "released",
+        "introducedVersion": "2.0.0",
+        "introducedDate": "2025-06-15",
+        "documentation": {
+          "primary": null,
+          "cached": "cache/blog/claude-code-sandboxing.md"
+        },
+        "description": "Container isolation for secure execution"
+      },
+      "permissions": {
+        "status": "released",
+        "introducedVersion": "1.0.0",
+        "introducedDate": "2025-02-24",
+        "documentation": {
+          "primary": null,
+          "cached": "cache/docs/code-claude-com/permissions.md"
+        },
+        "description": "Fine-grained permission control"
+      }
+    },
+
+    "plugins": {
+      "pluginMarketplace": {
+        "status": "released",
+        "introducedVersion": "1.5.0",
+        "introducedDate": "2025-03-15",
+        "documentation": {
+          "primary": null,
+          "cached": "cache/github/claude-code/plugins/"
+        },
+        "description": "Plugin marketplace with 36+ official plugins for extending Claude Code"
+      }
+    }
+  },
+
+  "documentationRelevance": {
+    "description": "Helps prioritize which docs to load based on user query",
+    "mappings": {
+      "creating hook": ["hooks.command", "hooks.prompt", "hooks.agent"],
+      "creating agent": ["agents.subagents"],
+      "creating skill": ["skills.agentSkills"],
+      "creating command": ["commands.slashCommands"],
+      "mcp integration": ["mcp.mcpCore", "mcp.codeExecution"],
+      "security": ["security.sandboxing", "security.permissions"],
+      "best practices": ["*"],
+      "v2.1 features": ["hooks.prompt", "hooks.agent", "hooks.permissionRequest", "hooks.onceOption"]
+    }
+  },
+
+  "breakingChanges": [],
+
+  "upcomingFeatures": {
+    "description": "Features announced but not yet released (track for freshness)",
+    "features": []
+  }
+}

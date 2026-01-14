@@ -7,6 +7,7 @@ A collection of Claude Code plugins for various development workflows.
 | Plugin | Description |
 |--------|-------------|
 | [umbrel-app](./plugins/umbrel-app) | Expert assistant for developing, packaging, testing, and submitting apps for umbrelOS |
+| [claude-code-expert](./plugins/claude-code-expert) | Comprehensive Claude Code & Anthropic ecosystem knowledge. Official patterns for agents, skills, hooks, commands, MCP. |
 
 ## Installation
 
@@ -62,6 +63,25 @@ Full lifecycle support for Umbrel app development:
 
 [Full documentation](./plugins/umbrel-app/README.md)
 
+### claude-code-expert
+
+Comprehensive Claude Code and Anthropic ecosystem knowledge:
+
+- **create agent/skill/hook/command** - Official patterns and guidance
+- **validate** - Check artifacts against official checklists
+- **patterns** - Browse available creation patterns
+- **features** - Learn about Claude Code capabilities
+- **sync/check** - Keep documentation up to date
+
+```bash
+/claude-code-expert:claude create agent
+/claude-code-expert:claude create skill
+/claude-code-expert:claude validate ./my-agent
+/claude-code-expert:claude features
+```
+
+[Full documentation](./plugins/claude-code-expert/README.md)
+
 ## Adding New Plugins
 
 1. Create a new directory under `plugins/`:
@@ -95,7 +115,7 @@ claude-plugins/
 │   └── marketplace.json      # Marketplace manifest
 ├── plugins/
 │   ├── umbrel-app/           # Umbrel app development plugin
-│   └── [future-plugins]/     # Add more plugins here
+│   └── claude-code-expert/   # Claude Code knowledge base
 └── README.md
 ```
 

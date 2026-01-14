@@ -1,0 +1,21 @@
+{
+  "name": "claude-code-expert",
+  "description": "Comprehensive Claude Code and Anthropic ecosystem knowledge. Official patterns for creating agents, skills, hooks, commands, and MCP integrations. Auto-invokes for artifact creation and validation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://claude.ai/claude-code",
+  "repository": "https://github.com/zot24/claude-plugins",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "anthropic",
+    "agents",
+    "skills",
+    "hooks",
+    "commands",
+    "mcp",
+    "best-practices"
+  ]
+}

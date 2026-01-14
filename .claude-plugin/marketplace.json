@@ -11,6 +11,12 @@
       "source": "./plugins/umbrel-app",
       "description": "Expert assistant for developing, packaging, testing, and submitting apps for umbrelOS",
       "version": "1.0.0"
+    },
+    {
+      "name": "claude-code-expert",
+      "source": "./plugins/claude-code-expert",
+      "description": "Comprehensive Claude Code and Anthropic ecosystem knowledge. Official patterns for agents, skills, hooks, commands, and MCP.",
+      "version": "1.0.0"
     }
   ]
 }
