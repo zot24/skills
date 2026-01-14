@@ -92,10 +92,28 @@ Comprehensive Claude Code and Anthropic ecosystem knowledge:
        │   └── plugin.json
        ├── commands/
        ├── skills/
+       ├── sync.json           # Required for CI automation
        └── README.md
    ```
 
-2. Add entry to `.claude-plugin/marketplace.json`:
+2. Create `sync.json` for automated updates:
+   ```json
+   {
+     "name": "my-new-plugin",
+     "version": "1.0.0",
+     "description": "What it does",
+     "sources": [
+       {
+         "url": "https://example.com/docs.md",
+         "target": "skills/my-skill/SKILL.md",
+         "freshness_days": 14
+       }
+     ],
+     "cache_dir": ".cache"
+   }
+   ```
+
+3. Add entry to `.claude-plugin/marketplace.json`:
    ```json
    {
      "name": "my-new-plugin",
@@ -105,17 +123,56 @@ Comprehensive Claude Code and Anthropic ecosystem knowledge:
    }
    ```
 
-3. Commit and push
+4. Commit and push
+
+## CI Automation
+
+The repository includes automated workflows for keeping plugin documentation up to date.
+
+### Scheduled Sync
+
+Runs bi-weekly (1st and 15th of each month) to check for upstream documentation changes.
+
+**Manual trigger**: Actions > Sync Plugin Documentation > Run workflow
+
+Options:
+- `plugin`: all, umbrel-app, or claude-code-expert
+- `force`: Force sync even without detected changes
+- `dry_run`: Check for changes without creating PR
+
+### Release Tagging
+
+When sync PRs are merged:
+- Bumps patch version in `sync.json`
+- Creates git tag (e.g., `umbrel-app-v1.0.1`)
+- Creates GitHub release with changelog
+
+### Configuration
+
+Set custom schedule via repository variable:
+```
+SYNC_SCHEDULE: "0 6 1,15 * *"  # Cron format
+```
 
 ## Structure
 
 ```
 claude-plugins/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace manifest
+│   └── marketplace.json          # Marketplace manifest
+├── .github/
+│   ├── scripts/
+│   │   └── sync-plugin.sh        # Generic sync script
+│   └── workflows/
+│       ├── sync-docs.yml         # Scheduled sync workflow
+│       └── release-on-merge.yml  # Auto-release on PR merge
 ├── plugins/
-│   ├── umbrel-app/           # Umbrel app development plugin
-│   └── claude-code-expert/   # Claude Code knowledge base
+│   ├── umbrel-app/               # Umbrel app development
+│   │   ├── sync.json
+│   │   └── ...
+│   └── claude-code-expert/       # Claude Code knowledge base
+│       ├── sync.json
+│       └── ...
 └── README.md
 ```
 
