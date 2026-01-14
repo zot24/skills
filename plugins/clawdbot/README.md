@@ -21,7 +21,7 @@ Clawdbot is an AI assistant framework that:
 /plugin marketplace add zot24/claude-plugins
 
 # Install plugin
-/plugin install clawdbot@claude-plugins
+/plugin install clawdbot@zot24-claude-code-plugins
 ```
 
 ### Project-Level Installation
@@ -31,7 +31,7 @@ Add to your project's `.claude/settings.json`:
 ```json
 {
   "enabledPlugins": {
-    "clawdbot@claude-plugins": true
+    "clawdbot@zot24-claude-code-plugins": true
   }
 }
 ```

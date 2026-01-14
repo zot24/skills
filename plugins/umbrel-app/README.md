@@ -27,7 +27,7 @@ claude --plugin-dir /path/to/umbrel-app-plugin
 /plugin marketplace add zot24/claude-plugins
 
 # Install the plugin
-/plugin install umbrel-app@claude-plugins
+/plugin install umbrel-app@zot24-claude-code-plugins
 ```
 
 ### Option 3: Project-Level Installation
@@ -37,7 +37,7 @@ Add to your project's `.claude/settings.json`:
 ```json
 {
   "enabledPlugins": {
-    "umbrel-app@claude-plugins": true
+    "umbrel-app@zot24-claude-code-plugins": true
   }
 }
 ```

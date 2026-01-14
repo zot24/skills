@@ -21,7 +21,7 @@ A collection of Claude Code plugins for various development workflows.
 ### Install a Plugin
 
 ```bash
-/plugin install umbrel-app@claude-plugins
+/plugin install umbrel-app@zot24-claude-code-plugins
 ```
 
 ### Or Add to Project Settings
@@ -31,7 +31,7 @@ Add to your project's `.claude/settings.json`:
 ```json
 {
   "extraKnownMarketplaces": {
-    "claude-plugins": {
+    "zot24-claude-code-plugins": {
       "source": {
         "source": "github",
         "repo": "zot24/claude-plugins"
@@ -39,7 +39,7 @@ Add to your project's `.claude/settings.json`:
     }
   },
   "enabledPlugins": {
-    "umbrel-app@claude-plugins": true
+    "umbrel-app@zot24-claude-code-plugins": true
   }
 }
 ```
