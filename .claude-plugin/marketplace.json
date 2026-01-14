@@ -2,8 +2,8 @@
   "name": "claude-plugins",
   "description": "A collection of Claude Code plugins for various development workflows",
   "owner": {
-    "name": "Your Name",
-    "email": "your@email.com"
+    "name": "zot24",
+    "email": "hi@zot24.com"
   },
   "plugins": [
     {

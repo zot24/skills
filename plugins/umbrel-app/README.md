@@ -23,11 +23,11 @@ claude --plugin-dir /path/to/umbrel-app-plugin
 ### Option 2: Install from GitHub
 
 ```bash
-# Add the marketplace (if hosting on GitHub)
-/plugin marketplace add your-username/umbrel-app-plugin
+# Add the marketplace
+/plugin marketplace add zot24/claude-plugins
 
 # Install the plugin
-/plugin install umbrel-app
+/plugin install umbrel-app@claude-plugins
 ```
 
 ### Option 3: Project-Level Installation
@@ -37,7 +37,7 @@ Add to your project's `.claude/settings.json`:
 ```json
 {
   "enabledPlugins": {
-    "umbrel-app@your-marketplace": true
+    "umbrel-app@claude-plugins": true
   }
 }
 ```

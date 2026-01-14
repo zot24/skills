@@ -13,7 +13,7 @@ A collection of Claude Code plugins for various development workflows.
 ### Add the Marketplace
 
 ```bash
-/plugin marketplace add YOUR_USERNAME/claude-plugins
+/plugin marketplace add zot24/claude-plugins
 ```
 
 ### Install a Plugin
@@ -32,7 +32,7 @@ Add to your project's `.claude/settings.json`:
     "claude-plugins": {
       "source": {
         "source": "github",
-        "repo": "YOUR_USERNAME/claude-plugins"
+        "repo": "zot24/claude-plugins"
       }
     }
   },
