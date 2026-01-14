@@ -1,0 +1,14 @@
+{
+  "name": "umbrel-app",
+  "version": "1.0.0",
+  "description": "Umbrel app development plugin",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/getumbrel/umbrel-apps/master/README.md",
+      "target": "skills/umbrel-app/SKILL.md",
+      "type": "extract-sections",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache"
+}
