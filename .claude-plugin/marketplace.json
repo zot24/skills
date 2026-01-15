@@ -41,6 +41,12 @@
       "source": "./plugins/ai-sdk",
       "description": "Expert on AI SDK - Vercel's TypeScript toolkit for building AI applications with unified LLM API, streaming, tool calling, and agents",
       "version": "1.0.0"
+    },
+    {
+      "name": "agent-skills",
+      "source": "./plugins/agent-skills",
+      "description": "Expert at the Agent Skills open format for extending AI agent capabilities - create, validate, and understand SKILL.md files",
+      "version": "1.0.0"
     }
   ]
 }

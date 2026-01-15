@@ -18,7 +18,8 @@ claude-plugins/
 │   ├── umbrel-app/           # Umbrel app development
 │   ├── claude-code-expert/   # Claude Code knowledge base
 │   ├── clawdbot/             # Clawdbot AI assistant framework
-│   └── agent-browser/        # Browser automation for AI agents
+│   ├── agent-browser/        # Browser automation for AI agents
+│   └── agent-skills/         # Agent Skills format specification
 └── README.md
 ```
 
@@ -213,6 +214,7 @@ Each plugin syncs documentation from upstream sources.
 | agent-browser | https://github.com/vercel-labs/agent-browser + https://agent-browser.dev/ | URL-based |
 | chat-sdk | https://github.com/vercel/ai-chatbot + https://chat-sdk.dev/ | URL-based |
 | ai-sdk | https://github.com/vercel/ai + https://ai-sdk.dev/ | URL-based |
+| agent-skills | https://github.com/agentskills/agentskills + https://agentskills.io | URL-based |
 
 ### When to Sync
 

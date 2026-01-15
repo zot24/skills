@@ -1,0 +1,21 @@
+{
+  "name": "agent-skills",
+  "description": "Expert at the Agent Skills open format - create, validate, and understand SKILL.md files for extending AI agent capabilities. Use when working with skills, SKILL.md files, or agent extensibility.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://agentskills.io/",
+  "repository": "https://github.com/zot24/claude-plugins",
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "skills",
+    "SKILL.md",
+    "agent",
+    "extensibility",
+    "format",
+    "specification",
+    "progressive-disclosure"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "agent-skills",
+  "version": "1.0.0",
+  "description": "Agent Skills format expert - create and validate SKILL.md files",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/agentskills/agentskills/main/README.md",
+      "target": "skills/agent-skills/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://agentskills.io/specification",
+      "target": "skills/agent-skills/docs/specification.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://agentskills.io/what-are-skills",
+      "target": "skills/agent-skills/docs/what-are-skills.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://agentskills.io/integrate-skills",
+      "target": "skills/agent-skills/docs/integrate-skills.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+      "target": "skills/agent-skills/docs/best-practices.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache"
+}
