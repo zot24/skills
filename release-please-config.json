@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "simple",
+  "include-component-in-tag": true,
+  "include-v-in-tag": true,
+  "tag-separator": "-",
+  "separate-pull-requests": true,
+  "changelog-sections": [
+    {"type": "feat", "section": "Features"},
+    {"type": "fix", "section": "Bug Fixes"},
+    {"type": "docs", "section": "Documentation"},
+    {"type": "chore", "section": "Maintenance", "hidden": true}
+  ],
+  "packages": {
+    "plugins/umbrel-app": {
+      "component": "umbrel-app",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "plugins/claude-code-expert": {
+      "component": "claude-code-expert",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "plugins/clawdbot": {
+      "component": "clawdbot",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    }
+  }
+}
