@@ -357,7 +357,295 @@ umbreld client apps.install.mutate --appId <app-id>
 
 ---
 
-## 8. SYNC & UPDATE
+## 7. UMBREL CLI REFERENCE
+
+Complete command reference for managing umbrelOS systems and apps.
+
+### System Commands
+
+```bash
+# Start/Stop/Restart Umbrel
+umbrel start              # Start Umbrel
+umbrel stop               # Stop Umbrel
+umbrel restart            # Restart Umbrel
+umbrel start --debug      # Start in debug mode
+
+# Status & Updates
+umbrel status             # Check current status
+umbrel update             # Update Umbrel
+umbrel update check       # Check for available updates
+
+# Backup & Recovery
+umbrel backup             # Create manual backup
+umbrel restore <file>     # Restore from backup file
+umbrel reset              # Factory reset (DESTRUCTIVE - erases all data)
+```
+
+### App Management Commands
+
+```bash
+# List & Discover
+umbrel app list           # List all installed apps
+
+# Install & Uninstall
+umbrel app install <app-id>     # Install an app
+umbrel app uninstall <app-id>   # Uninstall an app
+```
+
+### umbreld Client Commands
+
+Direct API commands via the umbreld client for fine-grained control:
+
+```bash
+# App Lifecycle
+umbreld client apps.install.mutate --appId <app-id>
+umbreld client apps.uninstall.mutate --appId <app-id>
+umbreld client apps.start.mutate --appId <app-id>
+umbreld client apps.stop.mutate --appId <app-id>
+umbreld client apps.restart.mutate --appId <app-id>
+
+# Monitoring
+umbreld client apps.logs --appId <app-id>
+umbreld client apps.state --appId <app-id>
+
+# Container-Level Operations
+docker ps                               # List running containers
+docker ps --filter name=<app-id>        # Filter by app
+docker logs <container-name>            # View container logs
+docker logs -f <container-name>         # Follow logs in real-time
+docker inspect <container-name>         # Full container details
+docker exec -it <container-name> /bin/sh  # Shell into container
+```
+
+### SSH Access
+
+```bash
+# Default credentials
+ssh umbrel@umbrel.local
+# Password: your Umbrel dashboard password
+
+# Alternative hostnames
+ssh umbrel@umbrel.local      # mDNS
+ssh umbrel@<ip-address>      # Direct IP
+```
+
+### File System Paths
+
+```bash
+~/umbrel/                    # Main Umbrel directory
+~/umbrel/app-data/<app-id>/  # App persistent data
+~/umbrel/app-stores/         # App store repositories
+~/umbrel/scripts/            # System scripts
+~/umbrel/scripts/debug       # Debug script
+```
+
+---
+
+## 8. COMMUNITY APP STORES
+
+Umbrel supports community-maintained app stores alongside the official store.
+
+### Official App Store
+
+- **URL**: https://apps.umbrel.com/
+- **Repository**: https://github.com/getumbrel/umbrel-apps
+- Pre-vetted apps, maintained by Umbrel team
+
+### Adding Community Stores
+
+1. Open umbrelOS web interface
+2. Go to **App Store** → **Community App Stores**
+3. Click **Add Community App Store**
+4. Paste the GitHub repository URL (e.g., `https://github.com/username/umbrel-app-store`)
+5. Apps from the community store will appear in your app store
+
+### Creating Your Own Community Store
+
+Template repository: https://github.com/getumbrel/umbrel-community-app-store
+
+```bash
+# Fork the template
+# Each app follows the same structure as official apps:
+my-community-store/
+├── app-1/
+│   ├── docker-compose.yml
+│   ├── umbrel-app.yml
+│   └── exports.sh
+├── app-2/
+│   └── ...
+└── umbrel-app-store.yml  # Store manifest
+```
+
+### Store Manifest (umbrel-app-store.yml)
+
+```yaml
+id: my-store-id
+name: My Community Store
+```
+
+### Example Community Stores
+
+| Store | Repository | Focus |
+|-------|------------|-------|
+| Alby | https://github.com/getAlby/umbrel-community-app-store | Lightning apps |
+| Denny's | https://github.com/dennysubke/dennys-umbrel-app-store | Various utilities |
+
+### Listing Apps from Community Stores
+
+```bash
+# Via UI: Browse App Store, filter by store
+# Community apps show their source store
+
+# Installed apps from all stores
+umbrel app list
+```
+
+### Installing from Community
+
+```bash
+# Same commands as official apps
+umbrel app install <community-app-id>
+
+# Or via umbreld client
+umbreld client apps.install.mutate --appId <community-app-id>
+```
+
+### Trust & Safety
+
+- Community apps are NOT reviewed by Umbrel team
+- Review the app's source code before installing
+- Check the store maintainer's reputation
+- Community apps have full access to your system
+
+---
+
+## 9. AI AGENT OPERATIONS
+
+Workflows for AI agents to manage and debug Umbrel systems.
+
+### Debug Error on System
+
+Step-by-step workflow for diagnosing issues:
+
+```bash
+# 1. Connect to the device
+ssh umbrel@umbrel.local
+
+# 2. Check overall system status
+umbrel status
+
+# 3. Check disk space (common issue)
+df -h
+
+# 4. List running containers
+docker ps
+
+# 5. Check specific app logs
+umbreld client apps.logs --appId <app-id>
+
+# 6. View detailed container logs
+docker logs <container-name>
+docker logs -f <container-name> --tail 100  # Last 100 lines, follow
+
+# 7. Check container health
+docker inspect <container-name> | grep -A 10 "Health"
+
+# 8. Run system debug script
+sudo ~/umbrel/scripts/debug
+
+# 9. Remediation options
+umbreld client apps.restart.mutate --appId <app-id>  # Restart app
+umbreld client apps.uninstall.mutate --appId <app-id>  # Uninstall
+umbreld client apps.install.mutate --appId <app-id>    # Reinstall
+```
+
+### Common Error Patterns
+
+| Symptom | Likely Cause | Debug Command | Fix |
+|---------|--------------|---------------|-----|
+| App "Not running" | Container crash | `docker logs <container>` | Restart or reinstall |
+| "Bad Gateway" | Wrong APP_HOST/PORT | Check docker-compose.yml | Fix proxy config |
+| "could not connect" | Dependency not running | `docker ps` | Start dependency first |
+| Disk full | Storage exhausted | `df -h` | Clean up or expand |
+| Slow performance | Memory pressure | `free -h` | Reduce running apps |
+
+### App Lifecycle Management
+
+```bash
+# Check what's installed
+umbrel app list
+
+# Full reinstall cycle
+umbreld client apps.stop.mutate --appId <app-id>
+umbreld client apps.uninstall.mutate --appId <app-id>
+# Wait a few seconds
+umbreld client apps.install.mutate --appId <app-id>
+
+# Verify app is running
+docker ps --filter name=<app-id>
+umbreld client apps.state --appId <app-id>
+```
+
+### Deployment Troubleshooting
+
+```bash
+# 1. Verify app files exist
+ls -la ~/umbrel/app-stores/*/
+
+# 2. Validate YAML syntax
+cat ~/umbrel/app-stores/*/my-app/docker-compose.yml | python3 -c "import sys,yaml; yaml.safe_load(sys.stdin)"
+
+# 3. Check image availability
+docker pull <image>@sha256:<digest>
+
+# 4. Verify port not in use
+docker ps --format "{{.Ports}}" | grep <port>
+netstat -tlnp | grep <port>
+
+# 5. Check dependencies are installed
+umbrel app list | grep <dependency-app-id>
+```
+
+### Batch Operations
+
+```bash
+# Restart all apps (use sparingly)
+for app in $(umbrel app list | awk '{print $1}'); do
+  umbreld client apps.restart.mutate --appId $app
+done
+
+# Check all container statuses
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+# Get logs from all containers for specific app
+docker ps --filter name=<app-id> -q | xargs -I {} docker logs {}
+```
+
+### Health Check Workflow
+
+```bash
+# Quick health assessment
+ssh umbrel@umbrel.local << 'EOF'
+echo "=== System Status ==="
+umbrel status
+
+echo "=== Disk Usage ==="
+df -h | grep -E "^/dev|Filesystem"
+
+echo "=== Memory ==="
+free -h
+
+echo "=== Running Containers ==="
+docker ps --format "table {{.Names}}\t{{.Status}}"
+
+echo "=== Recent Errors ==="
+docker ps -q | xargs -I {} sh -c 'docker logs {} 2>&1 | tail -5' 2>/dev/null
+EOF
+```
+
+---
+
+## 10. SYNC & UPDATE
 
 This skill should stay synchronized with the official Umbrel documentation.
 

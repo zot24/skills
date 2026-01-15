@@ -4,11 +4,24 @@ A comprehensive Claude Code plugin for developing, packaging, testing, and submi
 
 ## Features
 
+### App Development
 - **Scaffold** - Generate complete app structure with all required files
 - **Validate** - Check apps against 20+ requirements and best practices
 - **Convert** - Transform existing Docker Compose apps to Umbrel format
 - **PR Generation** - Create submission-ready pull request content
+
+### System Operations
+- **CLI Reference** - Complete `umbrel` and `umbreld client` command documentation
 - **Debug** - Troubleshoot installation and runtime issues
+- **Community Stores** - Add, browse, and install from community app stores
+
+### AI Agent Support
+- **Debug Workflows** - Step-by-step error diagnosis patterns
+- **App Management** - Install, uninstall, start, stop, restart operations
+- **Health Checks** - System and container monitoring commands
+- **Deployment Troubleshooting** - Validate configs, check dependencies, verify ports
+
+### Maintenance
 - **Sync** - Keep skill updated with upstream Umbrel documentation
 - **Diff** - Check for documentation changes without modifying skill
 
@@ -64,6 +77,58 @@ The skill also triggers automatically when you mention:
 - "Package this for umbrelOS"
 - "Validate my Umbrel app"
 - "Submit to Umbrel app store"
+- "Debug my Umbrel system"
+- "Install app from community store"
+
+## CLI Reference
+
+The plugin includes comprehensive documentation for Umbrel CLI commands.
+
+### System Commands
+
+```bash
+umbrel start              # Start Umbrel
+umbrel stop               # Stop Umbrel
+umbrel restart            # Restart Umbrel
+umbrel status             # Check status
+umbrel app list           # List installed apps
+umbrel app install <id>   # Install app
+umbrel app uninstall <id> # Uninstall app
+```
+
+### umbreld Client Commands
+
+```bash
+umbreld client apps.logs --appId <app-id>
+umbreld client apps.restart.mutate --appId <app-id>
+umbreld client apps.stop.mutate --appId <app-id>
+umbreld client apps.start.mutate --appId <app-id>
+```
+
+## AI Agent Use Cases
+
+The skill provides workflows optimized for AI agent operations:
+
+### Debug System Errors
+
+```
+"Debug why my-app is showing Bad Gateway"
+→ SSH → check logs → identify issue → suggest fix
+```
+
+### Manage Apps
+
+```
+"Install btc-rpc-explorer and verify it's running"
+→ Install → wait → check status → report
+```
+
+### Community Store Apps
+
+```
+"Add Alby community store and list available apps"
+→ Provide store URL → list apps → explain installation
+```
 
 ## What is an Umbrel App?
 
@@ -215,5 +280,9 @@ MIT
 ## Resources
 
 - [Umbrel App Documentation](https://github.com/getumbrel/umbrel-apps)
+- [Umbrel Core](https://github.com/getumbrel/umbrel)
+- [Community App Store Template](https://github.com/getumbrel/umbrel-community-app-store)
+- [Official App Store](https://apps.umbrel.com/)
+- [Community Forum](https://community.umbrel.com/)
 - [umbrelOS](https://umbrel.com)
 - [Claude Code](https://claude.ai/claude-code)
