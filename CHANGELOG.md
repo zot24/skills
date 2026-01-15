@@ -2,6 +2,18 @@
 
 All notable documentation sync changes to this project.
 
+
+## [2026-01-15] Documentation Sync
+
+**Updated plugins:** claude-code-expert
+
+
+### claude-code-expert
+
+
+---
+
+
 ## [2026-01-14] umbrel-app v1.2.0
 
 **Added:**
