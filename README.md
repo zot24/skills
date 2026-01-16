@@ -2,6 +2,8 @@
 
 A collection of Claude Code skills for various development workflows.
 
+**Agent Skills Compatible** - All skills follow the [Agent Skills](https://agentskills.io) open format specification.
+
 ## Available Skills
 
 | Skill | Description |
@@ -294,6 +296,35 @@ skills/
 │       └── ...
 └── README.md
 ```
+
+## Agent Skills Compatibility
+
+All skills in this repository follow the [Agent Skills](https://agentskills.io) open format specification:
+
+| Requirement | Status |
+|-------------|--------|
+| Valid `name` field (lowercase, hyphens) | ✓ |
+| Name matches directory | ✓ |
+| Descriptive `description` with triggers | ✓ |
+| SKILL.md under 500 lines | ✓ |
+| Progressive disclosure pattern | ✓ |
+| References in docs/ folder | ✓ |
+
+### Specification Compliance
+
+- **SKILL.md format**: YAML frontmatter + Markdown body
+- **Progressive disclosure**: Metadata → Instructions → References (docs/)
+- **Directory structure**: `skills/<name>/skills/<name>/SKILL.md`
+- **Token efficiency**: Main skills ~100 lines, detailed docs loaded on-demand
+
+### Validate with skills-ref
+
+```bash
+pip install skills-ref
+skills-ref validate ./skills/umbrel-app/skills/umbrel-app
+```
+
+For more information, see [agentskills.io](https://agentskills.io) or the [agent-skills skill](./skills/agent-skills).
 
 ## License
 
