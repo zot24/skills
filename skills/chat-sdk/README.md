@@ -1,10 +1,10 @@
-# Chat SDK Plugin
+# Chat SDK Skill
 
 Expert assistant for building AI chatbot applications with Vercel's Chat SDK.
 
 ## Overview
 
-[Chat SDK](https://chat-sdk.dev/) is a free, open-source template for building production-ready AI chatbots. This plugin provides comprehensive guidance on setup, customization, and deployment.
+[Chat SDK](https://chat-sdk.dev/) is a free, open-source template for building production-ready AI chatbots. This skill provides comprehensive guidance on setup, customization, and deployment.
 
 ## Features
 
@@ -65,7 +65,7 @@ pnpm dev
 Documentation is synced from upstream sources. Run sync manually:
 
 ```bash
-.github/scripts/sync-plugin.sh plugins/chat-sdk
+.github/scripts/sync-skill.sh skills/chat-sdk
 ```
 
 Or wait for the bi-weekly CI sync.

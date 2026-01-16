@@ -1,6 +1,6 @@
-# Claude Code Skills
+# AI Agent Skills
 
-A collection of Claude Code skills for various development workflows.
+An opinionated selection of skills for daily dev workflows.
 
 **Agent Skills Compatible** - All skills follow the [Agent Skills](https://agentskills.io) open format specification.
 
@@ -255,12 +255,39 @@ Options:
 - `force`: Force sync even without detected changes
 - `dry_run`: Check for changes without creating PR
 
-### Release Tagging
+### Automated Releases (release-please)
 
-When sync PRs are merged:
-- Bumps patch version in `sync.json`
-- Creates git tag (e.g., `umbrel-app-v1.0.1`)
-- Creates GitHub release with changelog
+This repository uses [release-please](https://github.com/googleapis/release-please) to automate versioning and releases based on [Conventional Commits](https://www.conventionalcommits.org/).
+
+**How it works:**
+
+1. Push commits using conventional format: `feat(skill-name): description`
+2. Release-please detects changes and creates a release PR
+3. The PR updates versions and CHANGELOG automatically
+4. When merged, creates a GitHub release with tag (e.g., `umbrel-app-v1.3.0`)
+
+**Commit types:**
+
+| Prefix | Version Bump | Changelog Section |
+|--------|--------------|-------------------|
+| `feat` | Minor (1.x.0) | Features |
+| `fix` | Patch (1.0.x) | Bug Fixes |
+| `docs` | Patch (1.0.x) | Documentation |
+| `chore` | None | Hidden |
+
+**Configuration files:**
+
+- `release-please-config.json` - Release settings and package definitions
+- `.release-please-manifest.json` - Current versions for each skill
+
+**Current versions:**
+
+| Skill | Version |
+|-------|---------|
+| umbrel-app | 1.3.0 |
+| claude-code-expert | 1.0.1 |
+| clawdbot | 2.1.0 |
+| agent-browser | 1.1.0 |
 
 ### Configuration
 

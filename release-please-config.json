@@ -12,7 +12,7 @@
     {"type": "chore", "section": "Maintenance", "hidden": true}
   ],
   "packages": {
-    "plugins/umbrel-app": {
+    "skills/umbrel-app": {
       "component": "umbrel-app",
       "extra-files": [
         {
@@ -22,7 +22,7 @@
         }
       ]
     },
-    "plugins/claude-code-expert": {
+    "skills/claude-code-expert": {
       "component": "claude-code-expert",
       "extra-files": [
         {
@@ -32,7 +32,7 @@
         }
       ]
     },
-    "plugins/clawdbot": {
+    "skills/clawdbot": {
       "component": "clawdbot",
       "extra-files": [
         {
@@ -42,7 +42,7 @@
         }
       ]
     },
-    "plugins/agent-browser": {
+    "skills/agent-browser": {
       "component": "agent-browser",
       "extra-files": [
         {

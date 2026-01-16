@@ -1,10 +1,10 @@
-# AI SDK Plugin
+# AI SDK Skill
 
 Expert assistant for building AI-powered applications with Vercel's AI SDK.
 
 ## Overview
 
-[AI SDK](https://ai-sdk.dev/) is the TypeScript toolkit for building AI applications and agents. This plugin provides comprehensive guidance on text generation, streaming, tool calling, agents, and multi-provider support.
+[AI SDK](https://ai-sdk.dev/) is the TypeScript toolkit for building AI applications and agents. This skill provides comprehensive guidance on text generation, streaming, tool calling, agents, and multi-provider support.
 
 ## Features
 
@@ -64,7 +64,7 @@ const { text } = await generateText({
 Documentation is synced from upstream sources. Run sync manually:
 
 ```bash
-.github/scripts/sync-plugin.sh plugins/ai-sdk
+.github/scripts/sync-skill.sh skills/ai-sdk
 ```
 
 Or wait for the bi-weekly CI sync.

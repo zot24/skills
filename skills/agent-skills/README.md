@@ -1,4 +1,4 @@
-# Agent Skills Plugin
+# Agent Skills
 
 Expert assistance for the **Agent Skills open format** - a standard for extending AI agent capabilities.
 
@@ -12,7 +12,7 @@ Agent Skills is an open format for giving AI agents new capabilities via SKILL.m
 
 ## Installation
 
-Add this plugin to Claude Code via the marketplace or local installation.
+Add this skill to Claude Code via the marketplace or local installation.
 
 ## Usage
 

@@ -1,6 +1,6 @@
 # Skills Development Guide
 
-This repository contains Claude Code skills for various development workflows.
+This repository contains AI agent skills for various development workflows.
 
 ## Project Structure
 
@@ -27,7 +27,7 @@ skills/
 
 ## Skill Architecture (IMPORTANT)
 
-All skills MUST follow the **Progressive Disclosure Pattern** from official Claude Code documentation.
+All skills MUST follow the **Progressive Disclosure Pattern** from the [Agent Skills specification](https://agentskills.io).
 
 ### Progressive Disclosure Pattern
 
@@ -337,6 +337,71 @@ GitHub Actions > Sync Skill Documentation > Run workflow
    ```
 
 2. Ensure sync.json is properly configured with all sources
+
+---
+
+## Best Practices (from Agent Skills Spec)
+
+### Naming Conventions
+
+Use **gerund form** (verb + -ing) for skill names:
+- `processing-pdfs` (not `pdf-processor`)
+- `analyzing-spreadsheets` (not `spreadsheet-analyzer`)
+- `managing-databases` (not `database-manager`)
+
+**Avoid:** Vague names (`helper`, `utils`, `tools`) or reserved words (`anthropic-*`, `claude-*`)
+
+### Writing Descriptions
+
+**Always write in third person** (injected into system prompt):
+- Good: "Processes Excel files and generates reports"
+- Avoid: "I can help you process Excel files"
+
+**Be specific with trigger keywords:**
+```yaml
+description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
+```
+
+### Conciseness
+
+The context window is shared. Only add context the agent doesn't already have.
+
+**Good (~50 tokens):**
+```markdown
+## Extract PDF text
+Use pdfplumber: `pdfplumber.open("file.pdf").pages[0].extract_text()`
+```
+
+**Bad (~150 tokens):**
+```markdown
+## Extract PDF text
+PDF (Portable Document Format) files are a common file format...
+```
+
+### Avoid Time-Sensitive Information
+
+Use "old patterns" sections instead of dates:
+```markdown
+## Current method
+Use the v2 API endpoint.
+
+## Old patterns
+<details>
+<summary>Legacy v1 API (deprecated)</summary>
+...
+</details>
+```
+
+### Quality Checklist
+
+Before publishing a skill:
+- [ ] Description is specific with trigger keywords
+- [ ] SKILL.md body under 500 lines (~100 recommended)
+- [ ] Additional details in separate docs/ files
+- [ ] No time-sensitive information
+- [ ] Consistent terminology throughout
+- [ ] File references one level deep
+- [ ] Scripts handle errors and list dependencies
 
 ---
 

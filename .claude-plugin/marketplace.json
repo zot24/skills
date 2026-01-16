@@ -1,6 +1,6 @@
 {
   "name": "zot24-skills",
-  "description": "A collection of Claude Code skills for various development workflows",
+  "description": "An opinionated selection of skills for daily dev workflows",
   "owner": {
     "name": "zot24",
     "email": "hi@zot24.com"
