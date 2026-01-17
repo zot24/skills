@@ -16,18 +16,6 @@
           "description": "Main Claude Code repository",
           "priority": 1,
           "paths": {
-            "examples/hooks": {
-              "description": "Official hook examples",
-              "localCache": "cache/github/claude-code/examples-hooks/",
-              "lastFetched": null,
-              "status": "not_cached"
-            },
-            "plugins": {
-              "description": "Official plugins and plugin-dev toolkit",
-              "localCache": "cache/github/claude-code/plugins/",
-              "lastFetched": null,
-              "status": "not_cached"
-            },
             "CHANGELOG.md": {
               "description": "Version changelog - critical for tracking new features",
               "localCache": "cache/github/claude-code/CHANGELOG.md",
@@ -46,12 +34,6 @@
               "localCache": "cache/github/skills/README.md",
               "lastFetched": null,
               "status": "not_cached"
-            },
-            "skills/": {
-              "description": "Community and official skills",
-              "localCache": "cache/github/skills/skills/",
-              "lastFetched": null,
-              "status": "not_cached"
             }
           }
         },
@@ -60,9 +42,9 @@
           "description": "Practical examples and recipes",
           "priority": 2,
           "paths": {
-            "skills/": {
-              "description": "Skill examples",
-              "localCache": "cache/github/claude-cookbooks/skills/",
+            "README.md": {
+              "description": "Cookbooks overview and examples",
+              "localCache": "cache/github/claude-cookbooks/README.md",
               "lastFetched": null,
               "status": "not_cached"
             }
@@ -141,10 +123,17 @@
           "lastFetched": null,
           "status": "not_cached"
         },
-        "permissions.md": {
-          "description": "Permissions system",
+        "iam.md": {
+          "description": "Identity and Access Management - permissions system",
           "category": "security",
-          "localCache": "cache/docs/code-claude-com/permissions.md",
+          "localCache": "cache/docs/code-claude-com/iam.md",
+          "lastFetched": null,
+          "status": "not_cached"
+        },
+        "settings.md": {
+          "description": "Settings including permission settings",
+          "category": "configuration",
+          "localCache": "cache/docs/code-claude-com/settings.md",
           "lastFetched": null,
           "status": "not_cached"
         },
