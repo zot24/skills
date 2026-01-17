@@ -16,5 +16,8 @@ npm-debug.log
 # Logs
 *.log
 
+# Sync reports (generated during sync)
+sync-report.txt
+
 # Claude Code local config
 .claude/

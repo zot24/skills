@@ -28,8 +28,8 @@
       "freshness_days": 14
     },
     {
-      "url": "https://chat-sdk.dev/docs/customization/models",
-      "target": "skills/chat-sdk/docs/models.md",
+      "url": "https://chat-sdk.dev/docs/customization/models-and-providers",
+      "target": "skills/chat-sdk/docs/models-and-providers.md",
       "type": "extract-content",
       "freshness_days": 14
     },
