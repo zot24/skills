@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/zot24/skills/compare/claude-code-expert-v2.0.0...claude-code-expert-v2.0.1) (2026-01-17)
+
+
+### Bug Fixes
+
+* **claude-code-expert:** remove unfetchable directory entries from registry ([4cea730](https://github.com/zot24/skills/commit/4cea73076329c6012a58ff3cb28ecd02b3e97e94))
+
 ## [2.0.0](https://github.com/zot24/skills/compare/claude-code-expert-v1.0.1...claude-code-expert-v2.0.0) (2026-01-17)
 
 
