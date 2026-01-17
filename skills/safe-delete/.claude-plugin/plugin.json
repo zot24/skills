@@ -1,0 +1,18 @@
+{
+  "name": "safe-delete",
+  "version": "1.0.0",
+  "description": "Prevents catastrophic file deletion by transforming rm commands to trash and blocking dangerous patterns like rm -rf /",
+  "keywords": ["safety", "rm", "delete", "trash", "protection", "hooks", "prevention"],
+  "author": {
+    "name": "zot24",
+    "email": "hi@zot24.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zot24/skills"
+  },
+  "files": {
+    "claudeMd": "./CLAUDE.md",
+    "hooks": "./hooks/hooks.json"
+  }
+}

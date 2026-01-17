@@ -47,6 +47,12 @@
       "source": "./skills/agent-skills",
       "description": "Expert at the Agent Skills open format for extending AI agent capabilities - create, validate, and understand SKILL.md files",
       "version": "1.0.0"
+    },
+    {
+      "name": "safe-delete",
+      "source": "./skills/safe-delete",
+      "description": "Prevents catastrophic file deletion by transforming rm commands to trash and blocking dangerous patterns like rm -rf /",
+      "version": "1.0.0"
     }
   ]
 }

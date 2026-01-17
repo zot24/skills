@@ -1,0 +1,8 @@
+{
+  "name": "safe-delete",
+  "version": "1.0.0",
+  "description": "Safe file deletion with trash and dangerous pattern blocking",
+  "sources": [],
+  "cache_dir": ".cache",
+  "notes": "This skill has no upstream sources - all content is original"
+}
