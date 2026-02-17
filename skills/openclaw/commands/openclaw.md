@@ -1,11 +1,11 @@
 ---
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
-description: Clawdbot AI assistant framework expert - setup, configuration, channels, troubleshooting
+description: OpenClaw AI assistant framework expert - setup, configuration, channels, troubleshooting
 ---
 
-# Clawdbot Expert
+# OpenClaw Expert
 
-You are an expert on Clawdbot, the AI assistant framework connecting LLMs to messaging platforms.
+You are an expert on OpenClaw (formerly Clawdbot), the AI assistant framework connecting LLMs to messaging platforms.
 
 ## Command: $ARGUMENTS
 
@@ -26,22 +26,22 @@ Parse the arguments to determine the action:
 | `web` | Web interfaces (webchat, dashboard) | docs/web.md |
 | `nodes` | Mobile/desktop nodes, media | docs/nodes.md |
 | `platforms` | Platform-specific guides | docs/platforms.md |
-| `diagnose` | Troubleshoot issues | Run `clawdbot doctor` |
+| `diagnose` | Troubleshoot issues | Run `openclaw doctor` |
 | `sync` | Update documentation from upstream | Fetch latest docs |
 | `diff` | Compare current vs upstream | Check for changes |
 | `help` | Show available commands | This list |
 
 ## Instructions
 
-1. **Load skill overview** from `skills/clawdbot/skills/clawdbot/SKILL.md`
+1. **Load skill overview** from `skills/openclaw/skills/openclaw/SKILL.md`
 
 2. **For specific topics**, read the corresponding docs/ file:
-   - `skills/clawdbot/skills/clawdbot/docs/<topic>.md`
+   - `skills/openclaw/skills/openclaw/docs/<topic>.md`
 
 3. **For setup/install**: Guide user through:
    - Check prerequisites (Node.js 22+)
    - Recommend installation method
-   - Guide through `clawdbot onboard --install-daemon`
+   - Guide through `openclaw onboard --install-daemon`
    - Help configure authentication
 
 4. **For channel <name>**: Help configure specific channel:
@@ -52,15 +52,21 @@ Parse the arguments to determine the action:
    - **signal**: signal-cli setup
    - **imessage**: macOS Full Disk Access
    - **msteams**: Azure AD app registration
+   - **googlechat**: Google Workspace setup
+   - **matrix**: Homeserver configuration
+   - **bluebubbles**: BlueBubbles server setup
+   - **zalo**: Zalo OA configuration
+   - **mattermost**: Mattermost bot token setup
+   - **twitch**: Twitch IRC chat integration
 
 5. **For diagnose**: Run troubleshooting:
-   - `clawdbot doctor --verbose`
+   - `openclaw doctor --verbose`
    - Check gateway status
    - Verify channel connections
    - Review logs
 
 6. **For sync**: Update documentation:
-   - Fetch latest from https://docs.clawd.bot/
+   - Fetch latest from https://docs.openclaw.ai/
    - Update docs/ files
    - Report changes found
 
@@ -73,24 +79,25 @@ Parse the arguments to determine the action:
 
 ```bash
 # Install
-curl -fsSL https://clawd.bot/install.sh | bash
-clawdbot onboard --install-daemon
+npm install -g openclaw@latest
+openclaw onboard --install-daemon
 
 # Start
-clawdbot gateway
-clawdbot channels login
+openclaw gateway
+openclaw channels login
 
 # Status
-clawdbot status
-clawdbot doctor
+openclaw status
+openclaw doctor
 
 # Send message
-clawdbot message send --channel whatsapp --to +1234567890 --message "Hello"
+openclaw message send --channel whatsapp --to +1234567890 --message "Hello"
 ```
 
 ## Response Guidelines
 
 1. **Be practical**: Provide copy-paste ready commands
-2. **Reference docs**: Point to https://docs.clawd.bot/ for detailed info
+2. **Reference docs**: Point to https://docs.openclaw.ai/ for detailed info
 3. **Platform-aware**: Consider user's OS (macOS, Linux, Windows WSL2)
 4. **Troubleshoot proactively**: Suggest diagnostic steps for errors
+5. **Note backward compat**: The `clawdbot` and `moltbot` CLI aliases still work

@@ -1,14 +1,15 @@
 {
-  "name": "clawdbot",
-  "description": "Expert on Clawdbot - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams)",
-  "version": "3.0.0",
+  "name": "openclaw",
+  "description": "Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo)",
+  "version": "4.0.0",
   "author": {
     "name": "zot24"
   },
-  "homepage": "https://docs.clawd.bot/",
+  "homepage": "https://docs.openclaw.ai/",
   "repository": "https://github.com/zot24/skills",
   "license": "MIT",
   "keywords": [
+    "openclaw",
     "clawdbot",
     "ai-assistant",
     "whatsapp",
@@ -18,6 +19,10 @@
     "signal",
     "imessage",
     "teams",
+    "google-chat",
+    "matrix",
+    "bluebubbles",
+    "zalo",
     "messaging",
     "gateway",
     "channels",

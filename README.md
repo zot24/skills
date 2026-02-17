@@ -10,7 +10,7 @@ An opinionated selection of skills for daily dev workflows.
 |-------|-------------|
 | [umbrel-app](./skills/umbrel-app) | Expert assistant for developing, packaging, testing, and submitting apps for umbrelOS |
 | [claude-code-expert](./skills/claude-code-expert) | Comprehensive Claude Code & Anthropic ecosystem knowledge. Official patterns for agents, skills, hooks, commands, MCP. |
-| [clawdbot](./skills/clawdbot) | Expert on Clawdbot - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams) |
+| [openclaw](./skills/openclaw) | Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo) |
 | [agent-browser](./skills/agent-browser) | Expert on agent-browser - Vercel's headless browser automation CLI for AI agents with 50+ commands, snapshots, and multi-session support |
 
 ## Installation
@@ -69,12 +69,12 @@ Format: `/skill-name:command-name [arguments]`
 /claude-code-expert:claude validate ./x   # Validate against best practices
 /claude-code-expert:claude features       # Show Claude Code capabilities
 
-# Clawdbot AI assistant framework
-/clawdbot:clawdbot setup                  # Installation guide
-/clawdbot:clawdbot channel whatsapp       # Configure WhatsApp
-/clawdbot:clawdbot channel telegram       # Configure Telegram
-/clawdbot:clawdbot diagnose               # Troubleshoot issues
-/clawdbot:clawdbot gateway                # Gateway configuration
+# OpenClaw AI assistant framework
+/openclaw:openclaw setup                  # Installation guide
+/openclaw:openclaw channel whatsapp       # Configure WhatsApp
+/openclaw:openclaw channel telegram       # Configure Telegram
+/openclaw:openclaw diagnose               # Troubleshoot issues
+/openclaw:openclaw gateway                # Gateway configuration
 
 # Agent browser automation
 /agent-browser:agent-browser open <url>   # Open a webpage
@@ -92,7 +92,7 @@ You can also just describe what you want:
 "Help me package this for umbrelOS"
 "How do I create a Claude Code agent?"
 "What are the best practices for hooks?"
-"How do I set up WhatsApp with Clawdbot?"
+"How do I set up WhatsApp with OpenClaw?"
 "My Telegram bot isn't receiving messages"
 "Automate browser login with agent-browser"
 "How do I use snapshots for element selection?"
@@ -156,25 +156,25 @@ Comprehensive Claude Code and Anthropic ecosystem knowledge:
 
 [Full documentation](./skills/claude-code-expert/README.md)
 
-### clawdbot
+### openclaw
 
-Expert on Clawdbot AI assistant framework:
+Expert on OpenClaw (formerly Clawdbot) AI assistant framework:
 
 - **setup** - Installation and configuration guide
-- **channel** - Configure messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams)
+- **channel** - Configure messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo)
 - **diagnose** - Troubleshoot common issues
 - **gateway** - Gateway configuration and remote access
-- **skills** - Create and manage Clawdbot skills
+- **skills** - Create and manage OpenClaw skills
 - **memory** - Memory system configuration
 - **sync/diff** - Stay updated with upstream docs
 
 ```bash
-/clawdbot:clawdbot setup
-/clawdbot:clawdbot channel whatsapp
-/clawdbot:clawdbot diagnose
+/openclaw:openclaw setup
+/openclaw:openclaw channel whatsapp
+/openclaw:openclaw diagnose
 ```
 
-[Full documentation](./skills/clawdbot/README.md)
+[Full documentation](./skills/openclaw/README.md)
 
 ### agent-browser
 
@@ -251,7 +251,7 @@ Runs bi-weekly (1st and 15th of each month) to check for upstream documentation 
 **Manual trigger**: Actions > Sync Skill Documentation > Run workflow
 
 Options:
-- `skill`: all, umbrel-app, claude-code-expert, or clawdbot
+- `skill`: all, umbrel-app, claude-code-expert, or openclaw
 - `force`: Force sync even without detected changes
 - `dry_run`: Check for changes without creating PR
 
@@ -286,7 +286,7 @@ This repository uses [release-please](https://github.com/googleapis/release-plea
 |-------|---------|
 | umbrel-app | 1.3.0 |
 | claude-code-expert | 1.0.1 |
-| clawdbot | 2.1.0 |
+| openclaw | 4.0.0 |
 | agent-browser | 1.1.0 |
 
 ### Configuration
@@ -315,7 +315,7 @@ skills/
 │   ├── claude-code-expert/       # Claude Code knowledge base
 │   │   ├── sync.json
 │   │   └── ...
-│   ├── clawdbot/                 # Clawdbot AI assistant framework
+│   ├── openclaw/                 # OpenClaw AI assistant framework
 │   │   ├── sync.json
 │   │   └── ...
 │   └── agent-browser/            # Browser automation for AI agents

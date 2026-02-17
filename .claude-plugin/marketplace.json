@@ -19,9 +19,9 @@
       "version": "1.0.0"
     },
     {
-      "name": "clawdbot",
-      "source": "./skills/clawdbot",
-      "description": "Expert on Clawdbot - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams)",
+      "name": "openclaw",
+      "source": "./skills/openclaw",
+      "description": "Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo)",
       "version": "1.0.0"
     },
     {
