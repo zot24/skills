@@ -1,6 +1,6 @@
 # Changelog
 
-## [4.0.0](https://github.com/zot24/skills/compare/openclaw-v3.0.0...openclaw-v4.0.0) (2026-02-17)
+## [4.0.0](https://github.com/zot24/skills/compare/openclaw-v3.1.0...openclaw-v4.0.0) (2026-02-17)
 
 
 ### ⚠ BREAKING CHANGES
@@ -16,6 +16,13 @@
 * **openclaw:** add new channels: Google Chat, BlueBubbles, Matrix, Zalo
 * **openclaw:** update all documentation URLs to docs.openclaw.ai
 * **openclaw:** update install method to `npm install -g openclaw@latest`
+
+## [3.1.0](https://github.com/zot24/skills/compare/clawdbot-v3.0.0...clawdbot-v3.1.0) (2026-01-18)
+
+
+### Features
+
+* **clawdbot:** add MCP server support via MCPorter ([536d015](https://github.com/zot24/skills/commit/536d0159e8953bdcbd4348a932d39b4b7d8d1e67))
 
 ## [3.0.0](https://github.com/zot24/skills/compare/clawdbot-v2.1.0...clawdbot-v3.0.0) (2026-01-18)
 
