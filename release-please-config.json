@@ -32,8 +32,8 @@
         }
       ]
     },
-    "skills/clawdbot": {
-      "component": "clawdbot",
+    "skills/openclaw": {
+      "component": "openclaw",
       "extra-files": [
         {
           "type": "json",

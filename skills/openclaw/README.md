@@ -1,18 +1,19 @@
-# Clawdbot Skill
+# OpenClaw Skill
 
-Expert assistant for Clawdbot - the AI assistant framework that connects Claude and other LLMs to messaging platforms.
+Expert assistant for OpenClaw (formerly Clawdbot) - the AI assistant framework that connects Claude and other LLMs to messaging platforms.
 
-## What is Clawdbot?
+## What is OpenClaw?
 
-Clawdbot is an AI assistant framework that:
+OpenClaw is an AI assistant framework that:
 - Connects LLMs (Claude, OpenAI, etc.) to messaging platforms
-- Supports WhatsApp, Telegram, Discord, Slack, Signal, iMessage, MS Teams
+- Supports WhatsApp, Telegram, Discord, Slack, Signal, iMessage, MS Teams, Google Chat, Matrix, BlueBubbles, Zalo
 - Uses a gateway architecture with WebSocket protocol
 - Provides workspace management with memory and session persistence
 - Supports skills/plugins via AgentSkills-compatible system
 - Runs on macOS, iOS, Android, Windows (WSL2), Linux
+- Backward-compatible with `clawdbot` and `moltbot` CLI commands
 
-**Documentation**: https://docs.clawd.bot/
+**Documentation**: https://docs.openclaw.ai/
 
 ## Installation
 
@@ -21,7 +22,7 @@ Clawdbot is an AI assistant framework that:
 /plugin marketplace add zot24/skills
 
 # Install skill
-/plugin install clawdbot@zot24-skills
+/plugin install openclaw@zot24-skills
 ```
 
 ### Project-Level Installation
@@ -31,7 +32,7 @@ Add to your project's `.claude/settings.json`:
 ```json
 {
   "enabledPlugins": {
-    "clawdbot@zot24-skills": true
+    "openclaw@zot24-skills": true
   }
 }
 ```
@@ -40,31 +41,31 @@ Add to your project's `.claude/settings.json`:
 
 | Command | Description |
 |---------|-------------|
-| `/clawdbot setup` | Guide through installation and setup |
-| `/clawdbot install` | Installation methods (Docker, npm, source) |
-| `/clawdbot cli` | CLI command reference |
-| `/clawdbot concepts` | Core architecture concepts |
-| `/clawdbot gateway` | Gateway configuration and troubleshooting |
-| `/clawdbot channels` | All messaging channel configurations |
-| `/clawdbot channel <name>` | Configure specific channel |
-| `/clawdbot providers` | LLM provider setup |
-| `/clawdbot tools` | Tools and skills system |
-| `/clawdbot automation` | Webhooks, cron, polling |
-| `/clawdbot web` | Web interfaces (webchat, dashboard, TUI) |
-| `/clawdbot nodes` | Mobile/desktop nodes, media capabilities |
-| `/clawdbot platforms` | Platform-specific guides |
-| `/clawdbot diagnose` | Troubleshoot issues |
-| `/clawdbot sync` | Update docs from upstream |
-| `/clawdbot help` | Show available commands |
+| `/openclaw setup` | Guide through installation and setup |
+| `/openclaw install` | Installation methods (Docker, npm, source) |
+| `/openclaw cli` | CLI command reference |
+| `/openclaw concepts` | Core architecture concepts |
+| `/openclaw gateway` | Gateway configuration and troubleshooting |
+| `/openclaw channels` | All messaging channel configurations |
+| `/openclaw channel <name>` | Configure specific channel |
+| `/openclaw providers` | LLM provider setup |
+| `/openclaw tools` | Tools and skills system |
+| `/openclaw automation` | Webhooks, cron, polling |
+| `/openclaw web` | Web interfaces (webchat, dashboard, TUI) |
+| `/openclaw nodes` | Mobile/desktop nodes, media capabilities |
+| `/openclaw platforms` | Platform-specific guides |
+| `/openclaw diagnose` | Troubleshoot issues |
+| `/openclaw sync` | Update docs from upstream |
+| `/openclaw help` | Show available commands |
 
-### `/clawdbot setup`
+### `/openclaw setup`
 Guide through installation and initial configuration:
 - Check prerequisites (Node.js 22+)
-- Run installation script
-- Configure `clawdbot onboard --install-daemon`
+- Install via `npm install -g openclaw@latest`
+- Configure `openclaw onboard --install-daemon`
 - Set up authentication (API keys or OAuth)
 
-### `/clawdbot channel <name>`
+### `/openclaw channel <name>`
 Configure a specific messaging channel:
 
 | Channel | Setup |
@@ -76,62 +77,66 @@ Configure a specific messaging channel:
 | `signal` | signal-cli setup |
 | `imessage` | macOS Full Disk Access permission |
 | `msteams` | App registration, appId/appPassword |
+| `googlechat` | Google Workspace setup |
+| `matrix` | Homeserver configuration |
+| `bluebubbles` | BlueBubbles server setup |
+| `zalo` | Zalo OA configuration |
 
-### `/clawdbot diagnose`
+### `/openclaw diagnose`
 Troubleshoot common issues:
-1. Run `clawdbot doctor --verbose`
+1. Run `openclaw doctor --verbose`
 2. Check gateway status
 3. Verify channel connections
-4. Review log files at `/tmp/clawdbot/`
+4. Review log files at `/tmp/openclaw/`
 5. Provide specific fixes
 
-### `/clawdbot gateway`
+### `/openclaw gateway`
 Help with gateway configuration:
-- Starting: `clawdbot gateway --port 18789`
-- Health check: `clawdbot gateway health`
+- Starting: `openclaw gateway --port 18789`
+- Health check: `openclaw gateway health`
 - Remote access via SSH/Tailscale
 - Hot reload configuration
 
-### `/clawdbot skills`
-Guide on creating and managing Clawdbot skills:
+### `/openclaw skills`
+Guide on creating and managing OpenClaw skills:
 - SKILL.md structure and frontmatter
 - Skill locations and precedence
 - ClawdHub installation: `clawdhub install <skill>`
-- Configuration in `clawdbot.json`
+- Configuration in `openclaw.json`
 
-### `/clawdbot memory`
+### `/openclaw memory`
 Configure the memory system:
 - Daily files: `memory/YYYY-MM-DD.md`
 - Long-term: `MEMORY.md`
 - Memory search with embeddings
 - Provider configuration (OpenAI/local)
 
-### `/clawdbot sync`
-Update documentation from upstream https://docs.clawd.bot/
+### `/openclaw sync`
+Update documentation from upstream https://docs.openclaw.ai/
 
-### `/clawdbot diff`
+### `/openclaw diff`
 Check for documentation changes without modifying.
 
-### `/clawdbot help`
+### `/openclaw help`
 Show available commands.
 
 ## Natural Language
 
-The skill auto-activates when you mention Clawdbot topics:
-- "How do I set up WhatsApp with Clawdbot?"
+The skill auto-activates when you mention OpenClaw topics:
+- "How do I set up WhatsApp with OpenClaw?"
 - "My Telegram bot isn't receiving messages"
-- "Configure Discord for Clawdbot"
-- "Clawdbot gateway won't start"
-- "Create a Clawdbot skill"
+- "Configure Discord for OpenClaw"
+- "OpenClaw gateway won't start"
+- "Create an OpenClaw skill"
 - "Set up memory search"
 
 ## Quick Start
 
-### Install Clawdbot
+### Install OpenClaw
 
 ```bash
-curl -fsSL https://clawd.bot/install.sh | bash
-clawdbot onboard --install-daemon
+npm install -g openclaw@latest
+openclaw onboard --install-daemon
 ```
 
 ### Configure Authentication
@@ -147,19 +152,19 @@ claude setup-token
 ### Start Gateway
 
 ```bash
-clawdbot gateway
+openclaw gateway
 ```
 
 ### Set Up WhatsApp
 
 ```bash
-clawdbot channels login
+openclaw channels login
 # Scan QR code with your phone
 ```
 
 ### Configuration File
 
-Location: `~/.clawdbot/clawdbot.json`
+Location: `~/.openclaw/openclaw.json` (also reads `~/.clawdbot/` for backward compat)
 
 ```json
 {
@@ -176,7 +181,7 @@ Location: `~/.clawdbot/clawdbot.json`
   },
   "agents": {
     "defaults": {
-      "workspace": "~/clawd",
+      "workspace": "~/openclaw",
       "timeoutSeconds": 600
     }
   }
@@ -185,7 +190,7 @@ Location: `~/.clawdbot/clawdbot.json`
 
 ## Coverage
 
-The skill covers all major Clawdbot documentation:
+The skill covers all major OpenClaw documentation:
 
 | Section | Topics |
 |---------|--------|
@@ -199,6 +204,10 @@ The skill covers all major Clawdbot documentation:
 | **Signal** | signal-cli setup |
 | **iMessage** | macOS only, Full Disk Access |
 | **MS Teams** | App registration |
+| **Google Chat** | Google Workspace integration |
+| **Matrix** | Homeserver configuration |
+| **BlueBubbles** | iMessage replacement via BlueBubbles server |
+| **Zalo** | Zalo OA configuration |
 | **CLI** | Message sending, agent commands, pairing, diagnostics |
 | **Agent Loop** | Execution flow, timeouts, event streams |
 | **Memory** | Daily files, long-term, search, providers |
@@ -219,37 +228,37 @@ The skill covers all major Clawdbot documentation:
 lsof -i :18789
 
 # Verify config
-clawdbot doctor
+openclaw doctor
 
 # Check logs
-tail -f /tmp/clawdbot/clawdbot-$(date +%Y-%m-%d).log
+tail -f /tmp/openclaw/openclaw-$(date +%Y-%m-%d).log
 
 # Force restart
-clawdbot gateway --force
+openclaw gateway --force
 ```
 
 ### WhatsApp Not Connecting
 
 ```bash
 # Re-scan QR code
-clawdbot channels login
+openclaw channels login
 
 # Check status
-clawdbot gateway status
+openclaw gateway status
 
 # Note: Use Node.js, not Bun (Bun unreliable for WhatsApp)
 ```
 
 ### Messages Not Received
 
-1. Check DM policy settings in `clawdbot.json`
-2. Verify pairing approvals: `clawdbot pairing list`
+1. Check DM policy settings in `openclaw.json`
+2. Verify pairing approvals: `openclaw pairing list`
 3. Check allowlist configuration
 
 ### Agent Errors
 
 1. Verify API key: `echo $ANTHROPIC_API_KEY`
-2. Check OAuth: `~/.clawdbot/credentials/oauth.json`
+2. Check OAuth: `~/.openclaw/credentials/oauth.json`
 3. Review timeout settings
 
 ## Keeping Updated
@@ -257,40 +266,40 @@ clawdbot gateway status
 ### Check for Changes
 
 ```bash
-/clawdbot diff
+/openclaw diff
 ```
 
 ### Sync with Upstream
 
 ```bash
-/clawdbot sync
+/openclaw sync
 ```
 
 ### Upstream Sources
 
 | Section | URL |
 |---------|-----|
-| Getting Started | https://docs.clawd.bot/start/getting-started |
-| Architecture | https://docs.clawd.bot/concepts/architecture |
-| Gateway | https://docs.clawd.bot/cli/gateway |
-| WhatsApp | https://docs.clawd.bot/channels/whatsapp |
-| Telegram | https://docs.clawd.bot/channels/telegram |
-| Discord | https://docs.clawd.bot/channels/discord |
-| Slack | https://docs.clawd.bot/channels/slack |
-| Memory | https://docs.clawd.bot/concepts/memory |
-| Skills | https://docs.clawd.bot/tools/skills |
-| CLI Reference | https://docs.clawd.bot/cli/message |
+| Getting Started | https://docs.openclaw.ai/start/getting-started |
+| Architecture | https://docs.openclaw.ai/concepts/agent |
+| Gateway | https://docs.openclaw.ai/gateway |
+| WhatsApp | https://docs.openclaw.ai/channels/whatsapp |
+| Telegram | https://docs.openclaw.ai/channels/telegram |
+| Discord | https://docs.openclaw.ai/channels/discord |
+| Slack | https://docs.openclaw.ai/channels/slack |
+| Memory | https://docs.openclaw.ai/concepts/memory |
+| Skills | https://docs.openclaw.ai/tools/skills |
+| CLI Reference | https://docs.openclaw.ai/tools/agent-send |
 
 ## Skill Structure
 
 ```
-clawdbot/
+openclaw/
 ├── .claude-plugin/
 │   └── plugin.json       # Skill manifest
 ├── commands/
-│   └── clawdbot.md       # Slash command router
+│   └── openclaw.md       # Slash command router
 ├── skills/
-│   └── clawdbot/
+│   └── openclaw/
 │       ├── SKILL.md      # Overview (~100 lines)
 │       └── docs/         # Detailed documentation
 │           ├── install.md
@@ -311,7 +320,7 @@ clawdbot/
 
 ## Resources
 
-- [Clawdbot Documentation](https://docs.clawd.bot/)
+- [OpenClaw Documentation](https://docs.openclaw.ai/)
 - [ClawdHub Skills Registry](https://clawdhub.com)
 - [AgentSkills Specification](https://agentskills.io)
 

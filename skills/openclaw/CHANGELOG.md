@@ -1,5 +1,22 @@
 # Changelog
 
+## [4.0.0](https://github.com/zot24/skills/compare/openclaw-v3.0.0...openclaw-v4.0.0) (2026-02-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* Skill renamed from `clawdbot` to `openclaw` following the upstream project rename from Clawdbot to OpenClaw. Update your commands:
+  - `/plugin install openclaw@zot24-skills`
+  - `/openclaw setup` (was `/clawdbot setup`)
+  - The `clawdbot` and `moltbot` CLI commands still work as backward-compatible aliases.
+
+### Features
+
+* **openclaw:** rename skill from clawdbot to openclaw ([#TBD](https://github.com/zot24/skills/issues/TBD))
+* **openclaw:** add new channels: Google Chat, BlueBubbles, Matrix, Zalo
+* **openclaw:** update all documentation URLs to docs.openclaw.ai
+* **openclaw:** update install method to `npm install -g openclaw@latest`
+
 ## [3.0.0](https://github.com/zot24/skills/compare/clawdbot-v2.1.0...clawdbot-v3.0.0) (2026-01-18)
 
 
