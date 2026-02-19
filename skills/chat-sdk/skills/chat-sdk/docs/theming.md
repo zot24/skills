@@ -2,121 +2,114 @@
 
 # Theming
 
-Chat SDK uses Tailwind CSS and CSS variables for easy customization.
+Chat SDK leverages [Tailwind CSS](https://tailwindcss.com) for styling and [shadcn/ui](https://ui.shadcn.com) for components. The interface components can be customized by modifying CSS variables in `app/global.css`.
 
-## Color System
+## Convention
 
-Colors are defined using CSS variables in `app/globals.css`:
+A straightforward `background` and `foreground` naming pattern applies to colors. The `background` variable controls component backgrounds, while `foreground` manages text color. The `background` suffix is omitted when the variable is used for the background color of the component.
+
+For example, with these variables:
 
 ```css
-:root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
-  --radius: 0.5rem;
-}
+--primary: 240 5.9% 10%;
+--primary-foreground: 0 0% 98%;
+```
 
-.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  /* ... dark mode values */
+The following markup uses `var(--primary)` for background and `var(--primary-foreground)` for text:
+
+```tsx
+<div className="bg-primary text-primary-foreground">Hello</div>
+```
+
+## Available CSS Variables
+
+The complete list of customizable variables includes color definitions for light and dark modes, sidebar styling, chart colors, and border radius:
+
+```css
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 240 5.9% 10%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 240 4.8% 95.9%;
+        --secondary-foreground: 240 5.9% 10%;
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+        --accent: 240 4.8% 95.9%;
+        --accent-foreground: 240 5.9% 10%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
+        --ring: 240 10% 3.9%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+        --sidebar-background: 0 0% 98%;
+        --sidebar-foreground: 240 5.3% 26.1%;
+        --sidebar-primary: 240 5.9% 10%;
+        --sidebar-primary-foreground: 0 0% 98%;
+        --sidebar-accent: 240 4.8% 95.9%;
+        --sidebar-accent-foreground: 240 5.9% 10%;
+        --sidebar-border: 220 13% 91%;
+        --sidebar-ring: 217.2 91.2% 59.8%;
+    }
+    .dark {
+        --background: 240 10% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 240 10% 3.9%;
+        --card-foreground: 0 0% 98%;
+        --popover: 240 10% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 240 5.9% 10%;
+        --secondary: 240 3.7% 15.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 240 3.7% 15.9%;
+        --muted-foreground: 240 5% 64.9%;
+        --accent: 240 3.7% 15.9%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 3.7% 15.9%;
+        --input: 240 3.7% 15.9%;
+        --ring: 240 4.9% 83.9%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+        --sidebar-background: 240 5.9% 10%;
+        --sidebar-foreground: 240 4.8% 95.9%;
+        --sidebar-primary: 224.3 76.3% 48%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 240 3.7% 15.9%;
+        --sidebar-accent-foreground: 240 4.8% 95.9%;
+        --sidebar-border: 240 3.7% 15.9%;
+        --sidebar-ring: 217.2 91.2% 59.8%;
+    }
 }
 ```
 
 ## Customizing Colors
 
-Update the CSS variables to match your brand:
+Update the CSS variables in `app/global.css` to match your brand:
 
 ```css
 :root {
-  --primary: 221.2 83.2% 53.3%; /* Your brand color */
-  --primary-foreground: 210 40% 98%;
+    --primary: 221.2 83.2% 53.3%; /* Your brand color */
+    --primary-foreground: 210 40% 98%;
 }
-```
-
-## Fonts
-
-### Changing Fonts
-
-1. Import your font in `app/layout.tsx`:
-
-```typescript
-import { Inter, Fira_Code } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
-const firaCode = Fira_Code({ subsets: ['latin'], variable: '--font-mono' });
-```
-
-2. Apply to the body:
-
-```typescript
-<body className={`${inter.className} ${firaCode.variable}`}>
-```
-
-3. Use in Tailwind:
-
-```css
-/* tailwind.config.js */
-fontFamily: {
-  mono: ['var(--font-mono)', 'monospace'],
-}
-```
-
-## Component Theming
-
-shadcn/ui components can be customized in `components/ui/`:
-
-```typescript
-// components/ui/button.tsx
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        // Add custom variants
-        brand: "bg-brand-500 text-white hover:bg-brand-600",
-      },
-    },
-  }
-);
 ```
 
 ## Dark Mode
 
-Chat SDK supports dark mode out of the box:
-
-```typescript
-// Use next-themes for mode switching
-import { ThemeProvider } from 'next-themes';
-
-<ThemeProvider attribute="class" defaultTheme="system">
-  {children}
-</ThemeProvider>
-```
-
-Toggle with the theme switcher component in the UI.
-
-## Layout Customization
-
-Modify the chat layout in `app/(chat)/layout.tsx`:
-- Sidebar width
-- Header height
-- Message container width
-- Input area height
+Chat SDK supports dark mode out of the box via the `.dark` class. The dark mode variables are defined alongside the light mode variables in the same CSS file.

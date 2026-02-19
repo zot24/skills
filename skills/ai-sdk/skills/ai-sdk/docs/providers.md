@@ -1,130 +1,111 @@
-<!-- Source: https://ai-sdk.dev/providers -->
+<!-- Source: https://ai-sdk.dev/docs/foundations/providers-and-models -->
 
-# AI Providers
+# Providers and Models
 
-AI SDK supports multiple LLM providers through a unified interface.
+Companies such as OpenAI and Anthropic (providers) offer access to a range of large language models (LLMs) with differing strengths and capabilities through their own APIs.
 
-## Official Providers
+Each provider typically has its own unique method for interfacing with their models, complicating the process of switching providers and increasing the risk of vendor lock-in.
 
-### OpenAI
+To solve these challenges, AI SDK Core offers a standardized approach to interacting with LLMs through a language model specification that abstracts differences between providers. This unified interface allows you to switch between providers with ease while using the same API for all providers.
 
-```bash
-npm install @ai-sdk/openai
-```
+## Vercel AI Gateway
 
-```typescript
-import { openai } from '@ai-sdk/openai';
-
-const model = openai('gpt-4o');
-const model = openai('gpt-4o-mini');
-const model = openai('o1');
-const model = openai('o1-mini');
-```
-
-Environment: `OPENAI_API_KEY`
-
-### Anthropic
-
-```bash
-npm install @ai-sdk/anthropic
-```
+By default, the AI SDK uses the Vercel AI Gateway to give access to all major providers out of the box:
 
 ```typescript
-import { anthropic } from '@ai-sdk/anthropic';
+import { generateText } from 'ai';
 
-const model = anthropic('claude-3-5-sonnet-20241022');
-const model = anthropic('claude-3-5-haiku-20241022');
-const model = anthropic('claude-3-opus-20240229');
+const result = await generateText({
+  model: 'anthropic/claude-opus-4.5', // or 'openai/gpt-5.2', 'google/gemini-3-flash'
+  prompt: 'Hello!',
+});
 ```
 
-Environment: `ANTHROPIC_API_KEY`
+## AI SDK Providers
 
-### Google (Gemini)
+Official provider packages:
 
-```bash
-npm install @ai-sdk/google
-```
+- [xAI Grok Provider](https://ai-sdk.dev/providers/ai-sdk-providers/xai) (`@ai-sdk/xai`)
+- [OpenAI Provider](https://ai-sdk.dev/providers/ai-sdk-providers/openai) (`@ai-sdk/openai`)
+- [Azure OpenAI Provider](https://ai-sdk.dev/providers/ai-sdk-providers/azure) (`@ai-sdk/azure`)
+- [Anthropic Provider](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) (`@ai-sdk/anthropic`)
+- [Amazon Bedrock Provider](https://ai-sdk.dev/providers/ai-sdk-providers/amazon-bedrock) (`@ai-sdk/amazon-bedrock`)
+- [Google Generative AI Provider](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai) (`@ai-sdk/google`)
+- [Google Vertex Provider](https://ai-sdk.dev/providers/ai-sdk-providers/google-vertex) (`@ai-sdk/google-vertex`)
+- [Mistral Provider](https://ai-sdk.dev/providers/ai-sdk-providers/mistral) (`@ai-sdk/mistral`)
+- [Together.ai Provider](https://ai-sdk.dev/providers/ai-sdk-providers/togetherai) (`@ai-sdk/togetherai`)
+- [Cohere Provider](https://ai-sdk.dev/providers/ai-sdk-providers/cohere) (`@ai-sdk/cohere`)
+- [Fireworks Provider](https://ai-sdk.dev/providers/ai-sdk-providers/fireworks) (`@ai-sdk/fireworks`)
+- [DeepInfra Provider](https://ai-sdk.dev/providers/ai-sdk-providers/deepinfra) (`@ai-sdk/deepinfra`)
+- [DeepSeek Provider](https://ai-sdk.dev/providers/ai-sdk-providers/deepseek) (`@ai-sdk/deepseek`)
+- [Cerebras Provider](https://ai-sdk.dev/providers/ai-sdk-providers/cerebras) (`@ai-sdk/cerebras`)
+- [Groq Provider](https://ai-sdk.dev/providers/ai-sdk-providers/groq) (`@ai-sdk/groq`)
+- [Perplexity Provider](https://ai-sdk.dev/providers/ai-sdk-providers/perplexity) (`@ai-sdk/perplexity`)
+- [ElevenLabs Provider](https://ai-sdk.dev/providers/ai-sdk-providers/elevenlabs) (`@ai-sdk/elevenlabs`)
+- [LMNT Provider](https://ai-sdk.dev/providers/ai-sdk-providers/lmnt) (`@ai-sdk/lmnt`)
+- [Hume Provider](https://ai-sdk.dev/providers/ai-sdk-providers/hume) (`@ai-sdk/hume`)
+- [Rev.ai Provider](https://ai-sdk.dev/providers/ai-sdk-providers/revai) (`@ai-sdk/revai`)
+- [Deepgram Provider](https://ai-sdk.dev/providers/ai-sdk-providers/deepgram) (`@ai-sdk/deepgram`)
+- [Gladia Provider](https://ai-sdk.dev/providers/ai-sdk-providers/gladia) (`@ai-sdk/gladia`)
+- [AssemblyAI Provider](https://ai-sdk.dev/providers/ai-sdk-providers/assemblyai) (`@ai-sdk/assemblyai`)
+- [Baseten Provider](https://ai-sdk.dev/providers/ai-sdk-providers/baseten) (`@ai-sdk/baseten`)
 
-```typescript
-import { google } from '@ai-sdk/google';
+OpenAI-compatible providers:
 
-const model = google('gemini-1.5-pro');
-const model = google('gemini-1.5-flash');
-const model = google('gemini-2.0-flash-exp');
-```
+- [LM Studio](https://ai-sdk.dev/providers/openai-compatible-providers/lmstudio)
+- [Heroku](https://ai-sdk.dev/providers/openai-compatible-providers/heroku)
 
-Environment: `GOOGLE_GENERATIVE_AI_API_KEY`
+## Community Providers
 
-### Cohere
+The open-source community has created these providers:
 
-```bash
-npm install @ai-sdk/cohere
-```
+- [Ollama Provider](https://ai-sdk.dev/providers/community-providers/ollama) (`ollama-ai-provider`)
+- [FriendliAI Provider](https://ai-sdk.dev/providers/community-providers/friendliai) (`@friendliai/ai-provider`)
+- [Portkey Provider](https://ai-sdk.dev/providers/community-providers/portkey) (`@portkey-ai/vercel-provider`)
+- [Cloudflare Workers AI Provider](https://ai-sdk.dev/providers/community-providers/cloudflare-workers-ai) (`workers-ai-provider`)
+- [OpenRouter Provider](https://ai-sdk.dev/providers/community-providers/openrouter) (`@openrouter/ai-sdk-provider`)
+- [Apertis Provider](https://ai-sdk.dev/providers/community-providers/apertis) (`@apertis/ai-sdk-provider`)
+- [Aihubmix Provider](https://ai-sdk.dev/providers/community-providers/aihubmix) (`@aihubmix/ai-sdk-provider`)
+- [Requesty Provider](https://ai-sdk.dev/providers/community-providers/requesty) (`@requesty/ai-sdk`)
+- [Crosshatch Provider](https://ai-sdk.dev/providers/community-providers/crosshatch) (`@crosshatch/ai-provider`)
+- [Mixedbread Provider](https://ai-sdk.dev/providers/community-providers/mixedbread) (`mixedbread-ai-provider`)
+- [Voyage AI Provider](https://ai-sdk.dev/providers/community-providers/voyage-ai) (`voyage-ai-provider`)
+- [Mem0 Provider](https://ai-sdk.dev/providers/community-providers/mem0) (`@mem0/vercel-ai-provider`)
+- [Letta Provider](https://ai-sdk.dev/providers/community-providers/letta) (`@letta-ai/vercel-ai-sdk-provider`)
+- [Supermemory Provider](https://ai-sdk.dev/providers/community-providers/supermemory) (`@supermemory/tools`)
+- [Spark Provider](https://ai-sdk.dev/providers/community-providers/spark) (`spark-ai-provider`)
+- [AnthropicVertex Provider](https://ai-sdk.dev/providers/community-providers/anthropic-vertex-ai) (`anthropic-vertex-ai`)
+- [LangDB Provider](https://ai-sdk.dev/providers/community-providers/langdb) (`@langdb/vercel-provider`)
+- [Dify Provider](https://ai-sdk.dev/providers/community-providers/dify) (`dify-ai-provider`)
+- [Sarvam Provider](https://ai-sdk.dev/providers/community-providers/sarvam) (`sarvam-ai-provider`)
+- [Claude Code Provider](https://ai-sdk.dev/providers/community-providers/claude-code) (`ai-sdk-provider-claude-code`)
+- [Browser AI Provider](https://ai-sdk.dev/providers/community-providers/browser-ai) (`browser-ai`)
+- [Gemini CLI Provider](https://ai-sdk.dev/providers/community-providers/gemini-cli) (`ai-sdk-provider-gemini-cli`)
+- [A2A Provider](https://ai-sdk.dev/providers/community-providers/a2a) (`a2a-ai-provider`)
+- [SAP-AI Provider](https://ai-sdk.dev/providers/community-providers/sap-ai) (`@mymediset/sap-ai-provider`)
+- [AI/ML API Provider](https://ai-sdk.dev/providers/community-providers/aimlapi) (`@ai-ml.api/aimlapi-vercel-ai`)
+- [MCP Sampling Provider](https://ai-sdk.dev/providers/community-providers/mcp-sampling) (`@mcpc-tech/mcp-sampling-ai-provider`)
+- [ACP Provider](https://ai-sdk.dev/providers/community-providers/acp) (`@mcpc-tech/acp-ai-provider`)
+- [OpenCode Provider](https://ai-sdk.dev/providers/community-providers/opencode-sdk) (`ai-sdk-provider-opencode-sdk`)
+- [Codex CLI Provider](https://ai-sdk.dev/providers/community-providers/codex-cli) (`ai-sdk-provider-codex-cli`)
+- [Soniox Provider](https://ai-sdk.dev/providers/community-providers/soniox) (`@soniox/vercel-ai-sdk-provider`)
+- [Zhipu (Z.AI) Provider](https://ai-sdk.dev/providers/community-providers/zhipu) (`zhipu-ai-provider`)
+- [OLLM Provider](https://ai-sdk.dev/providers/community-providers/ollm) (`@ofoundation/ollm`)
 
-```typescript
-import { cohere } from '@ai-sdk/cohere';
+## Self-Hosted Models
 
-const model = cohere('command-r-plus');
-const model = cohere('command-r');
-```
+Access self-hosted models with:
 
-Environment: `COHERE_API_KEY`
+- [Ollama Provider](https://ai-sdk.dev/providers/community-providers/ollama)
+- [LM Studio](https://ai-sdk.dev/providers/openai-compatible-providers/lmstudio)
+- [Baseten](https://ai-sdk.dev/providers/ai-sdk-providers/baseten)
+- [Browser AI](https://ai-sdk.dev/providers/community-providers/browser-ai)
 
-### Mistral
-
-```bash
-npm install @ai-sdk/mistral
-```
-
-```typescript
-import { mistral } from '@ai-sdk/mistral';
-
-const model = mistral('mistral-large-latest');
-const model = mistral('mistral-small-latest');
-```
-
-Environment: `MISTRAL_API_KEY`
-
-### Amazon Bedrock
-
-```bash
-npm install @ai-sdk/amazon-bedrock
-```
-
-```typescript
-import { bedrock } from '@ai-sdk/amazon-bedrock';
-
-const model = bedrock('anthropic.claude-3-5-sonnet-20241022-v2:0');
-const model = bedrock('amazon.titan-text-premier-v1:0');
-```
-
-Environment: AWS credentials
-
-### Azure OpenAI
-
-```bash
-npm install @ai-sdk/azure
-```
-
-```typescript
-import { azure } from '@ai-sdk/azure';
-
-const model = azure('your-deployment-name');
-```
-
-Environment: `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT`
-
-## Additional Providers
-
-- **Groq** - @ai-sdk/groq
-- **Perplexity** - @ai-sdk/perplexity
-- **Fireworks** - @ai-sdk/fireworks
-- **Together AI** - @ai-sdk/togetherai
-- **xAI** - @ai-sdk/xai
+Any self-hosted provider that supports the OpenAI specification can be used with the OpenAI Compatible Provider.
 
 ## Custom Providers
 
-Create custom provider for any OpenAI-compatible API:
+Create a custom provider for any OpenAI-compatible API:
 
 ```typescript
 import { createOpenAI } from '@ai-sdk/openai';
@@ -137,20 +118,27 @@ const customProvider = createOpenAI({
 const model = customProvider('model-name');
 ```
 
-## Switching Providers
+## Model Capabilities
 
-```typescript
-import { generateText } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { anthropic } from '@ai-sdk/anthropic';
+Popular models and their capabilities:
 
-// Easy to switch providers
-const provider = process.env.USE_ANTHROPIC
-  ? anthropic('claude-3-5-sonnet-20241022')
-  : openai('gpt-4o');
+| Provider | Model | Image Input | Object Generation | Tool Usage | Tool Streaming |
+|----------|-------|-------------|-------------------|------------|----------------|
+| xAI Grok | grok-4 | Yes | Yes | Yes | Yes |
+| xAI Grok | grok-3 | Yes | Yes | Yes | Yes |
+| OpenAI | gpt-5.2 | Yes | Yes | Yes | Yes |
+| OpenAI | gpt-5 | Yes | Yes | Yes | Yes |
+| OpenAI | gpt-5-mini | Yes | Yes | Yes | Yes |
+| Anthropic | claude-opus-4-6 | Yes | Yes | Yes | Yes |
+| Anthropic | claude-sonnet-4-6 | Yes | Yes | Yes | Yes |
+| Anthropic | claude-opus-4-5 | Yes | Yes | Yes | Yes |
+| Anthropic | claude-opus-4-1 | Yes | Yes | Yes | Yes |
+| Anthropic | claude-3-5-haiku-latest | Yes | Yes | Yes | Yes |
+| Mistral | mistral-large-latest | No | Yes | Yes | Yes |
+| Mistral | mistral-medium-latest | No | Yes | Yes | Yes |
+| Google | gemini-2.0-flash-exp | Yes | Yes | Yes | Yes |
+| Google | gemini-1.5-pro | Yes | Yes | Yes | Yes |
+| DeepSeek | deepseek-chat | No | Yes | Yes | Yes |
+| Groq | llama-3.3-70b-versatile | No | Yes | Yes | Yes |
 
-const { text } = await generateText({
-  model: provider,
-  prompt: 'Hello!',
-});
-```
+This table is not exhaustive. Additional models can be found in the provider documentation pages and on the provider websites.

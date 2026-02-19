@@ -1,56 +1,113 @@
-# Agent-Browser Snapshots
+> Source: https://agent-browser.dev/docs/snapshots
 
-> Source: https://agent-browser.dev/snapshots
+# Snapshots
 
-## Overview
+The `snapshot` command returns a compact accessibility tree with refs for element interaction.
 
-The `snapshot` command retrieves the accessibility tree with refs designed for AI-friendly interaction with web pages.
+## Options
 
-## Command Options
-
-| Flag | Description |
-|------|-------------|
-| `-i, --interactive` | Only interactive elements (buttons, links, inputs) |
-| `-c, --compact` | Remove empty structural elements |
-| `-d, --depth` | Limit tree depth |
-| `-s, --selector` | Scope to CSS selector |
-
-## Usage Examples
+Filter output to reduce size:
 
 ```bash
 agent-browser snapshot                    # Full accessibility tree
-agent-browser snapshot -i                 # Interactive elements only
+agent-browser snapshot -i                 # Interactive elements only (recommended)
+agent-browser snapshot -i -C              # Include cursor-interactive elements
 agent-browser snapshot -c                 # Compact (remove empty elements)
 agent-browser snapshot -d 3               # Limit depth to 3 levels
 agent-browser snapshot -s "#main"         # Scope to CSS selector
 agent-browser snapshot -i -c -d 5         # Combine options
 ```
 
+| Option | Description |
+| --- | --- |
+| `-i, --interactive` | Only interactive elements (buttons, links, inputs) |
+| `-C, --cursor` | Include cursor-interactive elements (cursor:pointer, onclick, tabindex) |
+| `-c, --compact` | Remove empty structural elements |
+| `-d, --depth` | Limit tree depth |
+| `-s, --selector` | Scope to CSS selector |
+
+## Cursor-Interactive Elements
+
+Many modern web apps use custom clickable elements (divs, spans) instead of standard buttons or links.
+The `-C` flag detects these by looking for:
+
+- `cursor: pointer` CSS style
+- `onclick` attribute or handler
+- `tabindex` attribute (keyboard focusable)
+
+```bash
+agent-browser snapshot -i -C
+# Output includes:
+# @e1 [button] "Submit"
+# @e2 [link] "Learn more"
+# Cursor-interactive elements:
+# @e3 [clickable] "Menu Item" [cursor:pointer, onclick]
+# @e4 [clickable] "Card" [cursor:pointer]
+```
+
 ## Output Format
 
-Standard text output example:
+The default text output is compact and AI-friendly:
 
-```
-agent-browser snapshot
+```bash
+agent-browser snapshot -i
 # Output:
-# - heading "Example Domain" [ref=e1] [level=1]
-# - button "Submit" [ref=e2]
-# - textbox "Email" [ref=e3]
-# - link "Learn more" [ref=e4]
+# @e1 [heading] "Example Domain" [level=1]
+# @e2 [button] "Submit"
+# @e3 [input type="email"] placeholder="Email"
+# @e4 [link] "Learn more"
 ```
+
+## Using Refs
+
+Refs from the snapshot map directly to commands:
+
+```bash
+agent-browser click @e2      # Click the Submit button
+agent-browser fill @e3 "a@b.com"  # Fill the email input
+agent-browser get text @e1        # Get heading text
+```
+
+## Ref Lifecycle
+
+Refs are invalidated when the page changes. Always re-snapshot after navigation or DOM updates:
+
+```bash
+agent-browser click @e4      # Navigates to new page
+agent-browser snapshot -i    # Get fresh refs
+agent-browser click @e1      # Use new refs
+```
+
+## Annotated Screenshots
+
+For visual context alongside text snapshots, use `screenshot --annotate` to overlay numbered labels on interactive elements. Each label `[N]` maps to ref `@eN`:
+
+```bash
+agent-browser screenshot --annotate ./page.png
+# -> Screenshot saved to ./page.png
+#    [1] @e1 button "Submit"
+#    [2] @e2 link "Home"
+#    [3] @e3 textbox "Email"
+agent-browser click @e2
+```
+
+Annotated screenshots also cache refs, so you can interact with elements immediately. This is useful when the text snapshot is insufficient -- unlabeled icons, canvas content, or visual layout verification.
+
+## Best Practices
+
+1. Use `-i` to reduce output to actionable elements
+2. Re-snapshot after page changes to get updated refs
+3. Scope with `-s` for specific page sections
+4. Use `-d` to limit depth on complex pages
+5. Use `screenshot --annotate` when visual context is needed alongside refs
 
 ## JSON Output
 
-Using the `--json` flag produces machine-readable output:
+For programmatic parsing in scripts:
 
 ```bash
 agent-browser snapshot --json
 # {"success":true,"data":{"snapshot":"...","refs":{"e1":{"role":"heading","name":"Title"},...}}}
 ```
 
-## Best Practices
-
-1. Use `-i` to reduce output to actionable elements
-2. Use `--json` for structured parsing
-3. Re-snapshot after page changes to get updated refs
-4. Scope with `-s` for specific page sections
+Note: JSON uses more tokens than text output. The default text format is preferred for AI agents.

@@ -2,7 +2,7 @@
 
 > **Source**: Official Claude Code Documentation
 > **Source URL**: https://code.claude.com/docs/en/sub-agents.md
-> **Last Updated**: 2025-01-15
+> **Last Updated**: 2026-02-19
 
 ## Pre-Creation Validation
 
@@ -45,6 +45,12 @@
 - [ ] Frequency of agent invocation considered in model choice
 - [ ] Error cost/impact analyzed and matched to model capability
 - [ ] Speed vs accuracy trade-off evaluated for agent's purpose
+- [ ] `permissionMode` uses valid value if set (`default`, `acceptEdits`, `bypassPermissions`, `plan`)
+- [ ] `permissionMode` is appropriate for agent's purpose (read-only agents should use `plan`)
+- [ ] `maxTurns` is set appropriately if agent tasks have bounded scope
+- [ ] `skills` lists valid skill names if preloading skills into agent context
+- [ ] `mcpServers` lists valid MCP server names if restricting MCP access
+- [ ] `hooks` follow valid hook configuration format if scoping hooks to this agent
 - [ ] YAML frontmatter is valid and properly formatted
 - [ ] Frontmatter delimiter `---` is correct
 

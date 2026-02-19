@@ -1,199 +1,269 @@
-# Agent-Browser Command Reference
+> Source: https://agent-browser.dev/docs/commands
 
-> Source: https://agent-browser.dev/commands
+# Commands
 
-## Core Commands
+## Core
 
-Navigate and interact with pages:
+```bash
+agent-browser open <url>              # Navigate (aliases: goto, navigate)
+agent-browser click <sel>             # Click element (--new-tab to open in new tab)
+agent-browser dblclick <sel>          # Double-click
+agent-browser fill <sel> <text>       # Clear and fill
+agent-browser type <sel> <text>       # Type into element
+agent-browser press <key>             # Press key (Enter, Tab, Control+a) (alias: key)
+agent-browser keydown <key>           # Hold key down
+agent-browser keyup <key>             # Release key
+agent-browser hover <sel>             # Hover element
+agent-browser focus <sel>             # Focus element
+agent-browser select <sel> <val>      # Select dropdown option
+agent-browser check <sel>             # Check checkbox
+agent-browser uncheck <sel>           # Uncheck checkbox
+agent-browser scroll <dir> [px]       # Scroll (up/down/left/right)
+agent-browser scrollintoview <sel>    # Scroll element into view
+agent-browser drag <src> <dst>        # Drag and drop
+agent-browser upload <sel> <files>    # Upload files
+agent-browser screenshot [path]       # Screenshot (--full for full page)
+agent-browser screenshot --annotate   # Annotated screenshot with numbered element labels
+agent-browser pdf <path>              # Save page as PDF
+agent-browser snapshot                # Accessibility tree with refs
+agent-browser eval <js>               # Run JavaScript
+agent-browser connect <port|url>      # Connect to browser via CDP
+agent-browser close                   # Close browser (aliases: quit, exit)
+```
 
-| Command | Description |
-|---------|-------------|
-| `open <url>` | Navigate (aliases: goto, navigate) |
-| `click <sel>` | Click element |
-| `dblclick <sel>` | Double-click |
-| `fill <sel> <text>` | Clear and fill input |
-| `type <sel> <text>` | Type into element |
-| `press <key>` | Press key (Enter, Tab, Control+a) |
-| `hover <sel>` | Hover element |
-| `select <sel> <val>` | Select dropdown option |
-| `check <sel>` | Check checkbox |
-| `uncheck <sel>` | Uncheck checkbox |
-| `scroll <dir> [px]` | Scroll (up/down/left/right) |
-| `screenshot [path]` | Screenshot (--full for full page) |
-| `snapshot` | Accessibility tree with refs |
-| `eval <js>` | Run JavaScript |
-| `close` | Close browser |
+## Get Info
 
-## Get Info Commands
+```bash
+agent-browser get text <sel>          # Get text content
+agent-browser get html <sel>          # Get innerHTML
+agent-browser get value <sel>         # Get input value
+agent-browser get attr <sel> <attr>   # Get attribute
+agent-browser get title               # Get page title
+agent-browser get url                 # Get current URL
+agent-browser get count <sel>         # Count matching elements
+agent-browser get box <sel>           # Get bounding box
+agent-browser get styles <sel>        # Get computed styles
+```
 
-Retrieve page and element data:
+## Check State
 
-| Command | Description |
-|---------|-------------|
-| `get text <sel>` | Get text content |
-| `get html <sel>` | Get innerHTML |
-| `get value <sel>` | Get input value |
-| `get attr <sel> <attr>` | Get attribute |
-| `get title` | Get page title |
-| `get url` | Get current URL |
-| `get count <sel>` | Count matching elements |
-| `get box <sel>` | Get bounding box |
+```bash
+agent-browser is visible <sel>        # Check if visible
+agent-browser is enabled <sel>        # Check if enabled
+agent-browser is checked <sel>        # Check if checked
+```
 
-## Check State Commands
+## Find Elements
 
-Verify element conditions:
-
-| Command | Description |
-|---------|-------------|
-| `is visible <sel>` | Check if visible |
-| `is enabled <sel>` | Check if enabled |
-| `is checked <sel>` | Check if checked |
-
-## Find Elements (Semantic Locators)
-
-Query by role, text, label, placeholder, testid, or position:
+Semantic locators with actions (`click`, `fill`, `type`, `hover`, `focus`, `check`, `uncheck`, `text`):
 
 ```bash
 agent-browser find role <role> <action> [value]
 agent-browser find text <text> <action>
 agent-browser find label <label> <action> [value]
 agent-browser find placeholder <ph> <action> [value]
+agent-browser find alt <text> <action>
+agent-browser find title <text> <action>
 agent-browser find testid <id> <action> [value]
 agent-browser find first <sel> <action> [value]
+agent-browser find last <sel> <action> [value]
 agent-browser find nth <n> <sel> <action> [value]
 ```
 
-Actions: click, fill, check, hover, text
+Options:
 
-### Examples
+- `--name <name>` -- filter role by accessible name
+- `--exact` -- require exact text match
+
+Examples:
 
 ```bash
 agent-browser find role button click --name "Submit"
 agent-browser find label "Email" fill "test@test.com"
+agent-browser find alt "Logo" click
 agent-browser find first ".item" click
+agent-browser find last ".item" text
+agent-browser find nth 2 ".card" hover
 ```
 
-## Wait Commands
-
-Control timing and conditions:
-
-| Command | Description |
-|---------|-------------|
-| `wait <selector>` | Wait for element |
-| `wait <ms>` | Wait for time |
-| `wait --text "Welcome"` | Wait for text |
-| `wait --url "**/dash"` | Wait for URL pattern |
-| `wait --load networkidle` | Wait for load state |
-| `wait --fn "condition"` | Wait for JS condition |
-
-## Mouse Commands
-
-Control mouse interactions:
-
-| Command | Description |
-|---------|-------------|
-| `mouse move <x> <y>` | Move mouse |
-| `mouse down [button]` | Press button |
-| `mouse up [button]` | Release button |
-| `mouse wheel <dy> [dx]` | Scroll wheel |
-
-## Settings Commands
-
-Configure browser behavior:
-
-| Command | Description |
-|---------|-------------|
-| `set viewport <w> <h>` | Set viewport size |
-| `set device <name>` | Emulate device (e.g., "iPhone 14") |
-| `set geo <lat> <lng>` | Set geolocation |
-| `set offline [on|off]` | Toggle offline mode |
-| `set headers <json>` | Extra HTTP headers |
-| `set credentials <u> <p>` | HTTP basic auth |
-| `set media [dark|light]` | Emulate color scheme |
-
-## Cookies & Storage Commands
-
-Manage cookies and browser storage:
+## Wait
 
 ```bash
-# Cookies
-agent-browser cookies              # Get all cookies
-agent-browser cookies set <name> <val>  # Set cookie
-agent-browser cookies clear        # Clear cookies
-
-# localStorage
-agent-browser storage local        # Get all localStorage
-agent-browser storage local <key>  # Get specific key
-agent-browser storage local set <k> <v>  # Set value
-agent-browser storage local clear  # Clear all
-
-# sessionStorage (same commands)
-agent-browser storage session
-agent-browser storage session <key>
-agent-browser storage session set <k> <v>
-agent-browser storage session clear
+agent-browser wait <selector>         # Wait for element
+agent-browser wait <ms>               # Wait for time
+agent-browser wait --text "Welcome"   # Wait for text
+agent-browser wait --url "**/dash"    # Wait for URL pattern
+agent-browser wait --load networkidle # Wait for load state
+agent-browser wait --fn "condition"   # Wait for JS condition
+agent-browser wait --download [path]  # Wait for download
 ```
 
-## Network Commands
+## Downloads
 
-Intercept and mock requests:
+```bash
+agent-browser download <sel> <path>   # Click element to trigger download
+agent-browser wait --download [path]  # Wait for any download to complete
+```
 
-| Command | Description |
-|---------|-------------|
-| `network route <url>` | Intercept requests |
-| `network route <url> --abort` | Block requests |
-| `network route <url> --body <json>` | Mock response |
-| `network unroute [url]` | Remove routes |
-| `network requests` | View tracked requests |
+## Mouse
 
-## Tabs & Frames Commands
+```bash
+agent-browser mouse move <x> <y>      # Move mouse
+agent-browser mouse down [button]     # Press button
+agent-browser mouse up [button]       # Release button
+agent-browser mouse wheel <dy> [dx]   # Scroll wheel
+```
 
-Manage multiple tabs and iframes:
+## Settings
 
-| Command | Description |
-|---------|-------------|
-| `tab` | List tabs |
-| `tab new [url]` | New tab |
-| `tab <n>` | Switch to tab |
-| `tab close [n]` | Close tab |
-| `frame <sel>` | Switch to iframe |
-| `frame main` | Back to main frame |
+```bash
+agent-browser set viewport <w> <h>    # Set viewport size
+agent-browser set device <name>       # Emulate device ("iPhone 14")
+agent-browser set geo <lat> <lng>     # Set geolocation
+agent-browser set offline [on|off]    # Toggle offline mode
+agent-browser set headers <json>      # Extra HTTP headers
+agent-browser set credentials <u> <p> # HTTP basic auth
+agent-browser set media [dark|light]  # Emulate color scheme
+```
 
-## Debug Commands
+## Cookies & Storage
 
-Troubleshoot and inspect:
+```bash
+agent-browser cookies                 # Get all cookies
+agent-browser cookies set <name> <val> # Set cookie
+agent-browser cookies clear           # Clear cookies
 
-| Command | Description |
-|---------|-------------|
-| `trace start [path]` | Start trace |
-| `trace stop [path]` | Stop and save trace |
-| `console` | View console messages |
-| `errors` | View page errors |
-| `highlight <sel>` | Highlight element |
-| `state save <path>` | Save auth state |
-| `state load <path>` | Load auth state |
+agent-browser storage local           # Get all localStorage
+agent-browser storage local <key>     # Get specific key
+agent-browser storage local set <k> <v>  # Set value
+agent-browser storage local clear     # Clear all
 
-## Navigation Commands
+agent-browser storage session         # Same for sessionStorage
+```
 
-Control browser history:
+## Network
 
-| Command | Description |
-|---------|-------------|
-| `back` | Go back |
-| `forward` | Go forward |
-| `reload` | Reload page |
+```bash
+agent-browser network route <url>              # Intercept requests
+agent-browser network route <url> --abort      # Block requests
+agent-browser network route <url> --body <json>  # Mock response
+agent-browser network unroute [url]            # Remove routes
+agent-browser network requests                 # View tracked requests
+agent-browser network requests --clear         # Clear request log
+agent-browser network requests --filter <pat>  # Filter by URL pattern
+```
+
+## Tabs & Frames
+
+```bash
+agent-browser tab                     # List tabs
+agent-browser tab new [url]           # New tab
+agent-browser tab <n>                 # Switch to tab
+agent-browser tab close [n]           # Close tab
+agent-browser window new              # Open new browser window
+agent-browser frame <sel>             # Switch to iframe
+agent-browser frame main              # Back to main frame
+```
+
+## Dialogs
+
+```bash
+agent-browser dialog accept [text]    # Accept dialog (with optional prompt text)
+agent-browser dialog dismiss          # Dismiss dialog
+```
+
+## Debug
+
+```bash
+agent-browser trace start [path]      # Start trace
+agent-browser trace stop [path]       # Stop and save trace
+agent-browser profiler start          # Start Chrome DevTools profiling
+agent-browser profiler stop [path]    # Stop and save profile (.json)
+agent-browser record start <path>     # Start video recording (WebM)
+agent-browser record stop             # Stop and save video
+agent-browser record restart <path>   # Stop current and start new recording
+agent-browser console                 # View console messages
+agent-browser console --clear         # Clear console log
+agent-browser errors                  # View page errors
+agent-browser errors --clear          # Clear error log
+agent-browser highlight <sel>         # Highlight element
+```
+
+## State Management
+
+```bash
+agent-browser state save <path>       # Save auth state to file
+agent-browser state load <path>       # Load auth state from file
+agent-browser state list              # List saved state files
+agent-browser state show <file>       # Show state summary
+agent-browser state rename <old> <new> # Rename state file
+agent-browser state clear [name]      # Clear states for session name
+agent-browser state clear --all       # Clear all saved states
+agent-browser state clean --older-than <days>  # Delete old states
+```
+
+## Sessions
+
+```bash
+agent-browser session                 # Show current session name
+agent-browser session list            # List active sessions
+```
+
+## Navigation
+
+```bash
+agent-browser back                    # Go back
+agent-browser forward                 # Go forward
+agent-browser reload                  # Reload page
+```
 
 ## Global Options
 
-| Option | Purpose |
-|--------|---------|
-| `--session <name>` | Use isolated session |
-| `--headers <json>` | HTTP headers scoped to origin |
-| `--executable-path` | Custom browser executable |
-| `--json` | JSON output for agents |
-| `--full, -f` | Full page screenshot |
-| `--name, -n` | Locator name filter |
-| `--exact` | Exact text match |
-| `--headed` | Show browser window |
-| `--cdp <port>` | CDP connection port |
-| `--debug` | Debug output |
+```bash
+--session <name>         # Isolated browser session
+--session-name <name>    # Auto-save/restore session state (cookies, localStorage)
+--profile <path>         # Persistent browser profile directory
+--state <path>           # Load storage state from JSON file
+--headers <json>         # HTTP headers scoped to URL's origin
+--executable-path <path> # Custom browser executable
+--extension <path>       # Load browser extension (repeatable)
+--args <args>            # Browser launch args (comma separated)
+--user-agent <ua>        # Custom User-Agent string
+--proxy <url>            # Proxy server URL
+--proxy-bypass <hosts>   # Hosts to bypass proxy
+--ignore-https-errors    # Ignore HTTPS certificate errors
+--allow-file-access      # Allow file:// URLs to access local files (Chromium only)
+-p, --provider <name>    # Browser provider (ios, browserbase, kernel, browseruse)
+--device <name>          # iOS device name (e.g., "iPhone 15 Pro")
+--json                   # JSON output (for scripts)
+--full, -f               # Full page screenshot
+--annotate               # Annotated screenshot with numbered element labels
+--headed                 # Show browser window (not headless)
+--cdp <port|url>         # Connect via Chrome DevTools Protocol (port or WebSocket URL)
+--auto-connect           # Auto-discover and connect to running Chrome
+--debug                  # Debug output
+```
+
+## Command Chaining
+
+Chain commands with `&&` in a single shell invocation. The browser persists via a background daemon, so chaining works naturally and is more efficient than separate calls:
+
+```bash
+agent-browser open example.com && agent-browser wait --load networkidle && agent-browser snapshot -i
+agent-browser fill @e1 "user@example.com" && agent-browser fill @e2 "pass" && agent-browser click @e3
+agent-browser open example.com && agent-browser wait --load networkidle && agent-browser screenshot page.png
+```
+
+Use `&&` when you don't need to read intermediate output. Run commands separately when you need to parse output first (e.g., snapshot to discover refs, then interact with those refs).
+
+## Local Files
+
+Open local files (PDFs, HTML) using `file://` URLs:
+
+```bash
+agent-browser --allow-file-access open file:///path/to/document.pdf
+agent-browser --allow-file-access open file:///path/to/page.html
+agent-browser screenshot output.png
+```
+
+The `--allow-file-access` flag enables JavaScript to access other local files. Chromium only.

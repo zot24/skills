@@ -2,7 +2,7 @@
 
 > **Source**: Official Claude Engineering Blog & MCP Documentation
 > **Source URL**: https://www.anthropic.com/engineering/code-execution-with-mcp
-> **Last Updated**: 2025-01-15
+> **Last Updated**: 2026-02-19
 
 ## Overview
 

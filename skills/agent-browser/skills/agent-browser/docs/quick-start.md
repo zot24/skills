@@ -1,70 +1,92 @@
-# Agent-Browser Quick Start
+> Source: https://agent-browser.dev/docs/quick-start
 
-> Source: https://agent-browser.dev/quick-start
+# Quick Start
 
-## Basic Workflow
+## Core Workflow
 
-The fundamental command sequence includes:
+Every browser automation follows this pattern:
 
 ```bash
-agent-browser open example.com              # Launch a website
-agent-browser snapshot                       # Retrieve accessibility tree with refs
-agent-browser click @e2                      # Click element by reference
-agent-browser fill @e3 "test@example.com"   # Populate form fields
-agent-browser get text @e1                   # Extract text content
-agent-browser screenshot page.png            # Capture page image
-agent-browser close                          # Terminate session
+# 1. Navigate
+agent-browser open example.com
+
+# 2. Snapshot to get element refs
+agent-browser snapshot -i
+# Output:
+# @e1 [heading] "Example Domain"
+# @e2 [link] "More information..."
+
+# 3. Interact using refs
+agent-browser click @e2
+
+# 4. Re-snapshot after page changes
+agent-browser snapshot -i
+```
+
+## Common Commands
+
+```bash
+agent-browser open example.com
+agent-browser snapshot -i                # Get interactive elements with refs
+agent-browser click @e2                  # Click by ref
+agent-browser fill @e3 "test@example.com" # Fill input by ref
+agent-browser get text @e1               # Get text content
+agent-browser screenshot                 # Save to temp directory
+agent-browser screenshot page.png        # Save to specific path
+agent-browser close
 ```
 
 ## Traditional Selectors
 
-The tool supports standard web selectors alongside reference-based targeting:
+CSS selectors and semantic locators also supported:
 
 ```bash
-agent-browser click "#submit"                            # CSS selector usage
-agent-browser fill "#email" "test@example.com"          # Form field completion
-agent-browser find role button click --name "Submit"    # Semantic locator pattern
+agent-browser click "#submit"
+agent-browser fill "#email" "test@example.com"
+agent-browser find role button click --name "Submit"
 ```
 
-## AI-Optimized Workflow
+## Headed Mode
 
-For AI agent integration:
-
-1. Open site and capture snapshot with `-i --json` flags for machine-readable parsing
-2. AI analyzes returned tree structure and identifies target references
-3. Execute actions using element references (`@e2`, `@e3`, etc.)
-4. Obtain refreshed snapshot after page modifications
-
-```bash
-# 1. Navigate and get snapshot
-agent-browser open example.com
-agent-browser snapshot -i --json
-
-# 2. AI parses response, identifies refs
-# 3. Execute actions
-agent-browser click @e2
-agent-browser fill @e3 "input text"
-
-# 4. Re-snapshot after changes
-agent-browser snapshot -i --json
-```
-
-## Display Modes
-
-### Headed Mode
-
-Display a visible browser window for debugging:
+Show browser window for debugging:
 
 ```bash
 agent-browser open example.com --headed
 ```
 
-### JSON Output
+## Wait for Content
 
-Append `--json` flag to commands for structured data responses:
+```bash
+agent-browser wait @e1                   # Wait for element
+agent-browser wait --load networkidle    # Wait for network idle
+agent-browser wait --url "**/dashboard"  # Wait for URL pattern
+agent-browser wait 2000                  # Wait milliseconds
+```
+
+## Command Chaining
+
+Chain commands with `&&` in a single shell call. The browser persists via a background daemon, so chaining is safe and efficient:
+
+```bash
+# Open, wait, and snapshot in one call
+agent-browser open example.com && agent-browser wait --load networkidle && agent-browser snapshot -i
+
+# Chain multiple interactions
+agent-browser fill @e1 "user@example.com" && agent-browser fill @e2 "pass" && agent-browser click @e3
+
+# Navigate and capture
+agent-browser open example.com && agent-browser wait --load networkidle && agent-browser screenshot page.png
+```
+
+Use `&&` when you don't need intermediate output. Run commands separately when you need to parse output first (e.g., snapshot to discover refs before interacting).
+
+## JSON Output
+
+For programmatic parsing in scripts:
 
 ```bash
 agent-browser snapshot --json
 agent-browser get text @e1 --json
-agent-browser is visible @e2 --json
 ```
+
+Note: The default text output is more compact and preferred for AI agents.

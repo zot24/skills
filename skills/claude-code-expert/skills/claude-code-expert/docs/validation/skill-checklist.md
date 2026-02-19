@@ -2,7 +2,7 @@
 
 > **Source**: Official Claude Code Documentation
 > **Source URL**: https://code.claude.com/docs/en/skills.md
-> **Last Updated**: 2025-01-15
+> **Last Updated**: 2026-02-19
 
 ## Pre-Creation Validation
 
@@ -61,8 +61,16 @@
 - [ ] Error impact assessed and matched to model capability
 - [ ] Auto-invoke frequency analyzed for cost implications (Haiku for frequent auto-invokes)
 - [ ] `allowed-tools` restricts tools appropriately if specified
-- [ ] `context_persistence` set correctly for stateful skills
-- [ ] `auto_invoke` and `triggers` configured for automatic activation
+- [ ] `argument-hint` provides clear parameter guidance if skill accepts arguments
+- [ ] `$ARGUMENTS`, `$1`, `$2` substitutions used correctly in skill body
+- [ ] `context: fork` set if skill needs isolated sub-agent context
+- [ ] `agent` field specifies valid agent type if `context: fork` is used
+- [ ] `user-invocable` set to `false` if skill should be hidden from slash menu
+- [ ] `disable-model-invocation` set to `true` if skill should not be auto-invoked
+- [ ] `hooks` follow valid hook format if skill defines lifecycle hooks
+- [ ] `!` bash commands have corresponding `allowed-tools` permissions
+- [ ] `@` file references point to valid, accessible paths
+- [ ] No conflict with existing commands in `.claude/commands/` (skills take precedence)
 
 ## Skill Prompt Validation
 

@@ -1,12 +1,10 @@
-# What Are Agent Skills?
-
 > Source: https://agentskills.io/what-are-skills
 
-## Overview
+# What Are Skills?
 
-Agent Skills are a **lightweight, open format for extending AI agent capabilities** with specialized knowledge and workflows. At their core, skills are folders containing a `SKILL.md` file with metadata and instructions that tell agents how to perform specific tasks.
+Agent Skills are a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows.
 
-### Basic Structure
+At its core, a skill is a folder containing a `SKILL.md` file. This file includes metadata (`name` and `description`, at minimum) and instructions that tell an agent how to perform a specific task. Skills can also bundle scripts, templates, and reference materials.
 
 ```
 my-skill/
@@ -20,7 +18,7 @@ my-skill/
 
 Skills use **progressive disclosure** to manage context efficiently:
 
-1. **Discovery**: At startup, agents load only the name and description of each available skill—just enough to know when it might be relevant.
+1. **Discovery**: At startup, agents load only the name and description of each available skill, just enough to know when it might be relevant.
 
 2. **Activation**: When a task matches a skill's description, the agent reads the full `SKILL.md` instructions into context.
 
@@ -28,7 +26,7 @@ Skills use **progressive disclosure** to manage context efficiently:
 
 This approach keeps agents fast while giving them access to more context on demand.
 
-## The SKILL.md File Format
+## The SKILL.md File
 
 Every skill starts with a `SKILL.md` file containing YAML frontmatter and Markdown instructions:
 
@@ -50,66 +48,25 @@ Use this skill when the user needs to work with PDF files...
 ...
 ```
 
-### Required Frontmatter
+The following frontmatter is required at the top of `SKILL.md`:
 
-- **`name`**: A short identifier for the skill
-- **`description`**: When to use this skill (helps agents decide if it's relevant)
+- `name`: A short identifier
+- `description`: When to use this skill
 
-The Markdown body contains the actual instructions with no specific restrictions on structure or content.
+The Markdown body contains the actual instructions and has no specific restrictions on structure or content.
 
-## Key Advantages
+This simple format has some key advantages:
 
-- **Self-documenting**: Skill authors and users can read `SKILL.md` to understand what it does, making skills easy to audit and improve.
-- **Extensible**: Skills can range from text instructions alone to executable code, assets, and templates.
-- **Portable**: Skills are just files, making them easy to edit, version, and share.
+- **Self-documenting**: A skill author or user can read a `SKILL.md` and understand what it does, making skills easy to audit and improve.
 
-## Example Use Case: PDF Processing
+- **Extensible**: Skills can range in complexity from just text instructions to executable code, assets, and templates.
 
-A `pdf-processing` skill would include:
-- Instructions for text extraction using tools like pdfplumber
-- Methods for filling PDF forms
-- Guidance on merging multiple documents
-- Optional scripts in the `scripts/` directory for common operations
-- Reference documentation in `references/`
+- **Portable**: Skills are just files, so they're easy to edit, version, and share.
 
-## The Problem Skills Solve
+## Next Steps
 
-**The Challenge:**
-- Agents are increasingly capable but lack context needed for reliable real-world work
-- Agents don't have access to procedural knowledge, company-specific information, or user-specific context
-
-**The Solution:**
-Skills solve this by giving agents access to:
-- Procedural knowledge
-- Company-, team-, and user-specific context
-- On-demand loadable capabilities
-- Task-specific extensions
-
-## What Skills Enable
-
-1. **Domain Expertise**: Package specialized knowledge into reusable instructions
-2. **New Capabilities**: Give agents abilities like creating presentations, building MCP servers, analyzing datasets
-3. **Repeatable Workflows**: Turn multi-step tasks into consistent, auditable workflows
-4. **Interoperability**: Reuse the same skill across different skills-compatible agent products
-
-## Adoption
-
-Agent Skills are supported by leading AI development tools including:
-- Claude Code
-- Gemini CLI
-- Cursor
-- VS Code
-- GitHub
-- OpenAI Codex
-- Amp
-- Letta
-- Goose
-- Factory
-- And more
-
-## Resources
-
-- **GitHub Repository**: https://github.com/agentskills/agentskills
-- **Documentation**: https://agentskills.io
-- **Example Skills**: https://github.com/anthropics/skills
-- **Reference Library**: https://github.com/agentskills/agentskills/tree/main/skills-ref
+- [View the specification](https://agentskills.io/specification) to understand the full format.
+- [Add skills support to your agent](https://agentskills.io/integrate-skills) to build a compatible client.
+- [See example skills](https://github.com/anthropics/skills) on GitHub.
+- [Read authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) for writing effective skills.
+- [Use the reference library](https://github.com/agentskills/agentskills/tree/main/skills-ref) to validate skills and generate prompt XML.

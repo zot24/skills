@@ -1,20 +1,20 @@
-# Agent-Browser Streaming
+> Source: https://agent-browser.dev/docs/streaming
 
-> Source: https://agent-browser.dev/streaming
+# Streaming
 
-## Overview
-
-Agent-browser enables viewport streaming via WebSocket for real-time preview and "pair browsing" where humans can watch and interact alongside AI agents.
+Stream the browser viewport via WebSocket for live preview or "pair browsing"
+where a human can watch and interact alongside an AI agent.
 
 ## Enable Streaming
 
-Set the `AGENT_BROWSER_STREAM_PORT` environment variable:
+Set the `AGENT_BROWSER_STREAM_PORT` environment variable to start
+a WebSocket server:
 
 ```bash
 AGENT_BROWSER_STREAM_PORT=9223 agent-browser open example.com
 ```
 
-The server transmits viewport frames and receives input events (mouse, keyboard, touch).
+The server streams viewport frames and accepts input events (mouse, keyboard, touch).
 
 ## WebSocket Protocol
 
@@ -22,7 +22,7 @@ Connect to `ws://localhost:9223` to receive frames and send input.
 
 ### Frame Messages
 
-The server sends frame messages containing base64-encoded image data:
+The server sends frame messages with base64-encoded images:
 
 ```json
 {
@@ -41,7 +41,7 @@ The server sends frame messages containing base64-encoded image data:
 
 ### Status Messages
 
-Connection and screencast status updates:
+Connection and screencast status:
 
 ```json
 {
@@ -55,7 +55,7 @@ Connection and screencast status updates:
 
 ## Input Injection
 
-Control the browser remotely by sending input events.
+Send input events to control the browser remotely.
 
 ### Mouse Events
 
@@ -171,7 +171,7 @@ Control the browser remotely by sending input events.
 
 ## Programmatic API
 
-Control streaming via TypeScript:
+For advanced use, control streaming directly via the TypeScript API:
 
 ```typescript
 import { BrowserManager } from 'agent-browser';
@@ -223,8 +223,8 @@ await browser.stopScreencast();
 
 ## Use Cases
 
-- **Pair browsing**: Human observes and assists AI agent in real-time
-- **Remote preview**: View browser output in a separate interface
-- **Recording**: Capture frames for video generation
-- **Mobile testing**: Inject touch events for mobile emulation
-- **Accessibility testing**: Manual interaction during automated tests
+- **Pair browsing** - Human watches and assists AI agent in real-time
+- **Remote preview** - View browser output in a separate UI
+- **Recording** - Capture frames for video generation
+- **Mobile testing** - Inject touch events for mobile emulation
+- **Accessibility testing** - Manual interaction during automated tests
