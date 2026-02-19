@@ -1,8 +1,8 @@
 # MCP (Model Context Protocol) Integration Guide
 
 > **Source**: Official Claude Code Documentation & MCP Specification
-> **Source URL**: https://code.claude.com/docs/en/mcp.md
-> **Last Updated**: 2025-01-15
+> **Source URL**: https://code.claude.com/docs/en/mcp
+> **Last Updated**: 2026-02-19
 
 ## Overview
 
@@ -19,35 +19,22 @@ MCP creates a standardized way for LLMs to interact with external systems by def
 
 1. **Unified Integration**: Single protocol for all external connections
 2. **Composability**: Mix and match different MCP servers
-3. **Security**: Controlled access to external systems
+3. **Security**: Controlled access with OAuth 2.0 and scoped permissions
 4. **Extensibility**: Easy to add new capabilities
 5. **Reusability**: Share servers across projects and users
-
-### MCP vs Traditional Integrations
-
-**Traditional Approach**:
-- Custom integration per service
-- Proprietary protocols
-- Tight coupling
-- Duplication of effort
-
-**MCP Approach**:
-- Standard protocol
-- Universal interface
-- Loose coupling
-- Reusable components
+6. **Multiple Transports**: HTTP (recommended), SSE, and stdio support
 
 ## MCP Architecture
 
 ### Three Core Components
 
 ```
-┌─────────────┐          ┌─────────────┐          ┌─────────────┐
-│   Claude    │ ←──MCP──→│ MCP Server  │ ←──────→│  External   │
-│    Code     │          │             │          │   System    │
-│  (Client)   │          │  (Bridge)   │          │ (Database,  │
-│             │          │             │          │  API, etc)  │
-└─────────────┘          └─────────────┘          └─────────────┘
++-------------+          +-------------+          +-------------+
+|   Claude    | <--MCP--> | MCP Server  | <------> |  External   |
+|    Code     |          |             |          |   System    |
+|  (Client)   |          |  (Bridge)   |          | (Database,  |
+|             |          |             |          |  API, etc)  |
++-------------+          +-------------+          +-------------+
 ```
 
 **Claude Code (MCP Client)**:
@@ -67,6 +54,16 @@ MCP creates a standardized way for LLMs to interact with external systems by def
 - Original source of data/functionality
 - Accessed by MCP server
 
+### Communication Transports
+
+MCP supports three transport types:
+
+| Transport | Recommended | Description |
+|-----------|-------------|-------------|
+| **HTTP** (Streamable) | **Yes** | HTTP-based transport with streaming support. Recommended for new servers. |
+| **SSE** (Server-Sent Events) | Deprecated | Legacy HTTP+SSE transport. Use HTTP instead for new implementations. |
+| **stdio** | For local | Standard input/output. Best for local processes and CLI tools. |
+
 ### Communication Model
 
 MCP uses JSON-RPC 2.0 for communication:
@@ -84,17 +81,87 @@ MCP uses JSON-RPC 2.0 for communication:
 }
 ```
 
+## MCP Configuration Scopes
+
+Claude Code supports three scopes for MCP server configuration:
+
+| Scope | Location | Shared | Use Case |
+|-------|----------|--------|----------|
+| **Local** | `.claude.local/settings.json` | No (gitignored) | Personal servers with credentials |
+| **Project** | `.mcp.json` or `.claude/settings.json` | Yes (via git) | Team-shared servers |
+| **User** | `~/.claude/settings.json` | Across projects | Personal global servers |
+
+### Project-Level MCP Configuration (`.mcp.json`)
+
+The recommended approach for team-shared MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "server-name": {
+      "command": "npx",
+      "args": ["-y", "@org/mcp-server"],
+      "env": {
+        "API_KEY": "${API_KEY}"
+      }
+    }
+  }
+}
+```
+
+**Note**: Environment variables use `${VAR_NAME}` syntax for expansion. This allows team members to use different credentials while sharing the same configuration.
+
+### Adding MCP Servers via CLI
+
+The `claude mcp add` command is the easiest way to configure servers:
+
+```bash
+# Add a stdio server
+claude mcp add my-server -- npx -y @org/mcp-server
+
+# Add with environment variables
+claude mcp add my-server -e API_KEY=abc123 -- npx -y @org/mcp-server
+
+# Add to specific scope
+claude mcp add my-server --scope project -- npx -y @org/mcp-server
+claude mcp add my-server --scope user -- npx -y @org/mcp-server
+claude mcp add my-server --scope local -- npx -y @org/mcp-server
+
+# Add an HTTP/SSE server
+claude mcp add my-server --transport http --url https://example.com/mcp
+
+# List configured servers
+claude mcp list
+
+# Remove a server
+claude mcp remove my-server
+```
+
+### OAuth 2.0 Authentication
+
+MCP servers can use OAuth 2.0 for authentication:
+
+```bash
+# Add server with OAuth (browser-based auth flow)
+claude mcp add my-server --transport http --url https://api.example.com/mcp
+```
+
+When connecting to an OAuth-enabled server, Claude Code will:
+1. Open a browser for authentication
+2. Complete the OAuth flow
+3. Store tokens securely
+4. Automatically refresh tokens as needed
+
 ## Core MCP Primitives
 
 ### 1. Resources
 
 **Purpose**: Expose data and content to Claude
 
-**Characteristics**:
-- Read-only data sources
-- URI-based identification
-- Support for text and binary content
-- Optional templating support
+Resources can be accessed using the `@` mention syntax in conversations:
+```
+@mcp-server-name://resource-path
+```
 
 **Example Resource Types**:
 ```markdown
@@ -106,9 +173,6 @@ postgres://localhost/mydb?query=SELECT*FROM users
 
 # API endpoint data
 http://api.example.com/v1/users
-
-# Application state
-app://current-project/config
 ```
 
 **Resource Schema**:
@@ -123,41 +187,9 @@ interface Resource {
 }
 ```
 
-**Use Cases**:
-- Exposing documentation
-- Providing configuration data
-- Sharing database contents
-- Making API data available
-
 ### 2. Prompts
 
 **Purpose**: Reusable prompt templates and workflows
-
-**Characteristics**:
-- Parameterized templates
-- Support for dynamic content
-- Can include resource references
-- Composable workflows
-
-**Example Prompts**:
-```markdown
-# Code review prompt
-name: "code-review"
-description: "Review code for quality and security"
-arguments:
-  - name: "file_path"
-    description: "Path to file to review"
-    required: true
-
-# Data analysis prompt
-name: "analyze-metrics"
-description: "Analyze performance metrics"
-arguments:
-  - name: "metric_type"
-    required: true
-  - name: "time_range"
-    required: false
-```
 
 **Prompt Schema**:
 ```typescript
@@ -174,52 +206,9 @@ interface PromptArgument {
 }
 ```
 
-**Use Cases**:
-- Standard analysis workflows
-- Consistent review processes
-- Parameterized queries
-- Template-based generation
-
 ### 3. Tools
 
 **Purpose**: Actions that Claude can execute
-
-**Characteristics**:
-- Function-like interface
-- Input schema definition (JSON Schema)
-- Synchronous or asynchronous execution
-- Arbitrary side effects allowed
-
-**Example Tools**:
-```markdown
-# Database query tool
-name: "execute_query"
-description: "Execute SQL query on database"
-input_schema:
-  type: "object"
-  properties:
-    sql: {type: "string"}
-    parameters: {type: "array"}
-
-# File operation tool
-name: "search_files"
-description: "Search files by pattern"
-input_schema:
-  type: "object"
-  properties:
-    pattern: {type: "string"}
-    directory: {type: "string"}
-
-# API call tool
-name: "create_issue"
-description: "Create GitHub issue"
-input_schema:
-  type: "object"
-  properties:
-    title: {type: "string"}
-    body: {type: "string"}
-    labels: {type: "array"}
-```
 
 **Tool Schema**:
 ```typescript
@@ -234,38 +223,9 @@ interface Tool {
 }
 ```
 
-**Use Cases**:
-- Database operations
-- API interactions
-- File system access
-- External service integration
+## MCP Server Configuration Examples
 
-## MCP Server Configuration
-
-### Configuration File Location
-
-Claude Code reads MCP configuration from:
-```
-~/.config/claude/claude_desktop_config.json
-```
-
-### Basic Configuration Structure
-
-```json
-{
-  "mcpServers": {
-    "server-name": {
-      "command": "command-to-start-server",
-      "args": ["arg1", "arg2"],
-      "env": {
-        "ENV_VAR": "value"
-      }
-    }
-  }
-}
-```
-
-### Example Configurations
+### stdio Transport (Local Servers)
 
 #### PostgreSQL Server
 ```json
@@ -310,41 +270,23 @@ Claude Code reads MCP configuration from:
         "@modelcontextprotocol/server-github"
       ],
       "env": {
-        "GITHUB_TOKEN": "your-token-here"
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
       }
     }
   }
 }
 ```
 
-#### Google Drive Server
-```json
-{
-  "mcpServers": {
-    "gdrive": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-gdrive"
-      ]
-    }
-  }
-}
-```
+### HTTP Transport (Remote Servers)
 
-#### Slack Server
 ```json
 {
   "mcpServers": {
-    "slack": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-slack"
-      ],
-      "env": {
-        "SLACK_BOT_TOKEN": "xoxb-your-token",
-        "SLACK_TEAM_ID": "T01234567"
+    "remote-api": {
+      "type": "http",
+      "url": "https://api.example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${API_TOKEN}"
       }
     }
   }
@@ -370,90 +312,49 @@ Claude Code reads MCP configuration from:
       "env": {
         "GITHUB_TOKEN": "${GITHUB_TOKEN}"
       }
+    },
+    "remote-service": {
+      "type": "http",
+      "url": "https://mcp.example.com/api"
     }
   }
 }
 ```
 
-## Official MCP Servers
+## MCP Tool Search
 
-### Database Servers
+Claude Code includes a **Tool Search** feature that helps discover relevant MCP tools across all configured servers:
 
-**PostgreSQL** (`@modelcontextprotocol/server-postgres`):
-- Execute SQL queries
-- Read table schemas
-- Manage connections
-- Transaction support
+- Claude can search for tools by description or capability
+- Tool Search works across all configured MCP servers
+- Useful when you have many MCP servers and need to find the right tool
+- Claude automatically uses Tool Search when a user request might benefit from MCP tools
 
-**SQLite** (`@modelcontextprotocol/server-sqlite`):
-- Local database access
-- Schema inspection
-- Query execution
+## Plugin-Provided MCP Servers
 
-### Filesystem Servers
+Plugins can bundle MCP servers that are automatically configured when the plugin is installed:
 
-**Filesystem** (`@modelcontextprotocol/server-filesystem`):
-- Read/write files
-- Directory traversal
-- File search
-- Path operations
+```json
+{
+  "mcpServers": {
+    "plugin-server": {
+      "command": "node",
+      "args": ["./mcp-server/index.js"]
+    }
+  }
+}
+```
 
-**Memory** (`@modelcontextprotocol/server-memory`):
-- In-memory key-value store
-- Session persistence
-- Temporary storage
+Plugin-provided servers are configured in the plugin's `plugin.json` and automatically available to Claude Code users who install the plugin.
 
-### Development Servers
+## Managed MCP Configuration
 
-**GitHub** (`@modelcontextprotocol/server-github`):
-- Repository access
-- Issue management
-- Pull request operations
-- File browsing
+Organizations can deploy MCP servers through managed settings:
 
-**GitLab** (`@modelcontextprotocol/server-gitlab`):
-- Project management
-- Merge request operations
-- CI/CD integration
-
-**Sentry** (`@modelcontextprotocol/server-sentry`):
-- Error tracking
-- Issue browsing
-- Performance monitoring
-
-### Productivity Servers
-
-**Google Drive** (`@modelcontextprotocol/server-gdrive`):
-- Document access
-- File search
-- Sharing management
-
-**Google Maps** (`@modelcontextprotocol/server-google-maps`):
-- Location search
-- Geocoding
-- Place details
-
-**Slack** (`@modelcontextprotocol/server-slack`):
-- Channel access
-- Message posting
-- User lookup
-
-### AI & Search Servers
-
-**Brave Search** (`@modelcontextprotocol/server-brave-search`):
-- Web search
-- News search
-- Image search
-
-**Fetch** (`@modelcontextprotocol/server-fetch`):
-- HTTP requests
-- Web scraping
-- API calls
-
-**Puppeteer** (`@modelcontextprotocol/server-puppeteer`):
-- Browser automation
-- Screenshot capture
-- Web interaction
+- Administrators configure MCP servers centrally
+- Servers are automatically available to all team members
+- Credentials and access are managed at the organization level
+- Overrides local and project-level configurations when specified
 
 ## Using MCP in Claude Code
 
@@ -491,25 +392,14 @@ Claude uses: mcp__postgres__query
 Parameters: {sql: "SELECT * FROM users LIMIT 10"}
 ```
 
-### Accessing MCP Resources
+### Accessing MCP Resources with @-mentions
 
-Resources are available for Claude to read:
-
-```markdown
-User: "Analyze the project documentation"
-
-Claude accesses: mcp__gdrive__resource://docs/project-spec
-```
-
-### Using MCP Prompts
-
-Invoke pre-configured workflows:
+Resources from MCP servers can be referenced using the `@` syntax:
 
 ```markdown
-User: "Run the code review workflow on main.ts"
+User: "Look at @postgres://users/schema"
 
-Claude uses: mcp__server__prompt://code-review
-Arguments: {file_path: "main.ts"}
+Claude accesses the resource from the postgres MCP server.
 ```
 
 ## MCP in Subagents
@@ -546,27 +436,27 @@ You can read files and access GitHub for code review,
 but cannot modify files or create issues.
 ```
 
-### MCP-Specialized Agents
+### Specifying MCP Servers for Agents
 
-Create agents focused on MCP capabilities:
+Use the `mcpServers` field to control which MCP servers an agent can access:
 
 ```yaml
 ---
-name: slack-notifier
-description: Post updates to Slack channels
-tools: mcp__slack__post_message, mcp__slack__get_channels
-model: haiku
+name: data-analyst
+description: Analyze data using database tools
+mcpServers: postgres, analytics-server
+tools: Read, Grep
+model: sonnet
 ---
 
-You notify team members via Slack.
-Post concise, well-formatted updates to appropriate channels.
+You have access to the postgres and analytics MCP servers.
 ```
 
 ## Building Custom MCP Servers
 
 ### Server Implementation Options
 
-**Node.js/TypeScript**:
+**Node.js/TypeScript** (Recommended):
 ```typescript
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -634,18 +524,10 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
 2. **Comprehensive Schemas**: Define all parameters with types and descriptions
 3. **Error Handling**: Return meaningful error messages
 4. **Security**: Validate inputs, limit access, use authentication
-5. **Documentation**: Provide usage examples and limitations
-6. **Testing**: Verify tool behavior with various inputs
-7. **Logging**: Track usage for debugging and optimization
-
-### Publishing Servers
-
-1. **Package**: Create npm package or PyPI distribution
-2. **Document**: Provide clear installation and configuration guide
-3. **Examples**: Include sample configurations
-4. **Version**: Use semantic versioning
-5. **License**: Choose appropriate open source license
-6. **Share**: Submit to MCP server directory
+5. **Use HTTP Transport**: Recommended for new servers (over SSE or stdio)
+6. **OAuth 2.0**: Implement OAuth for servers requiring authentication
+7. **Documentation**: Provide usage examples and limitations
+8. **Testing**: Verify tool behavior with various inputs
 
 ## Security Considerations
 
@@ -666,18 +548,27 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
 }
 ```
 
+### OAuth 2.0 for Remote Servers
+
+For HTTP-based MCP servers, OAuth 2.0 provides secure authentication:
+- Browser-based authorization flow
+- Automatic token refresh
+- Secure credential storage
+- No manual token management required
+
 ### Access Control
 
 - **Filesystem servers**: Limit to specific directories
 - **Database servers**: Use read-only credentials when possible
 - **API servers**: Implement rate limiting and scoping
+- **Use scopes**: Place sensitive servers in local scope (`.claude.local/settings.json`)
 
 ### Data Privacy
 
-- **Local processing**: MCP servers run locally
-- **Credential management**: Store secrets in environment variables
+- **Local processing**: stdio MCP servers run locally
+- **Credential management**: Store secrets in environment variables with `${VAR}` expansion
 - **Audit logging**: Track MCP tool usage
-- **Data retention**: Configure according to requirements
+- **Scope separation**: Use local scope for credentials, project scope for shared config
 
 ## Troubleshooting
 
@@ -687,8 +578,8 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
 # Check server installation
 npx -y @modelcontextprotocol/server-postgres --version
 
-# Verify configuration syntax
-cat ~/.config/claude/claude_desktop_config.json | jq .
+# List configured MCP servers
+claude mcp list
 
 # Check environment variables
 echo $GITHUB_TOKEN
@@ -697,9 +588,10 @@ echo $GITHUB_TOKEN
 ### Tools Not Appearing
 
 1. Verify server is in configuration file
-2. Restart Claude Code
-3. Check server logs for errors
-4. Validate JSON syntax
+2. Run `claude mcp list` to check status
+3. Restart Claude Code
+4. Check server logs for errors
+5. Validate JSON syntax in config files
 
 ### Tool Execution Failures
 
@@ -714,107 +606,32 @@ echo $GITHUB_TOKEN
 2. Limit data returned from resources
 3. Use pagination for large datasets
 4. Optimize database queries
+5. Consider HTTP transport for remote servers (better connection management)
 
-## Best Practices
+## Official MCP Servers
 
-### Configuration Management
+### Database Servers
+- **PostgreSQL** (`@modelcontextprotocol/server-postgres`)
+- **SQLite** (`@modelcontextprotocol/server-sqlite`)
 
-```markdown
-✅ DO:
-- Store config in version control (without secrets)
-- Use environment variables for credentials
-- Document required environment variables
-- Provide example configurations
+### Filesystem Servers
+- **Filesystem** (`@modelcontextprotocol/server-filesystem`)
+- **Memory** (`@modelcontextprotocol/server-memory`)
 
-❌ DON'T:
-- Hardcode secrets in config files
-- Share production credentials
-- Forget to document setup steps
-```
+### Development Servers
+- **GitHub** (`@modelcontextprotocol/server-github`)
+- **GitLab** (`@modelcontextprotocol/server-gitlab`)
+- **Sentry** (`@modelcontextprotocol/server-sentry`)
 
-### Tool Design
+### Productivity Servers
+- **Google Drive** (`@modelcontextprotocol/server-gdrive`)
+- **Google Maps** (`@modelcontextprotocol/server-google-maps`)
+- **Slack** (`@modelcontextprotocol/server-slack`)
 
-```markdown
-✅ DO:
-- Provide clear, specific tool descriptions
-- Use descriptive parameter names
-- Include examples in descriptions
-- Return structured, parseable results
-- Validate inputs before processing
-
-❌ DON'T:
-- Create overly generic tools
-- Use ambiguous parameter names
-- Return unstructured text blobs
-- Assume inputs are valid
-```
-
-### Agent Integration
-
-```markdown
-✅ DO:
-- Create MCP-specialized agents for complex workflows
-- Document which MCP servers agents require
-- Test agents with MCP tools
-- Provide setup instructions
-
-❌ DON'T:
-- Assume MCP servers are always available
-- Create agent dependencies on optional servers
-- Skip error handling for MCP tools
-```
-
-## Example Workflows
-
-### Database Analysis Workflow
-
-```markdown
-1. Configure PostgreSQL MCP server
-2. Create database-analyst agent
-3. Agent uses mcp__postgres__query to fetch data
-4. Agent analyzes results
-5. Agent generates insights and recommendations
-```
-
-### Code Review Workflow
-
-```markdown
-1. Configure GitHub MCP server
-2. Create code-reviewer agent with GitHub access
-3. Agent uses mcp__github__get_pull_request
-4. Agent reads changed files
-5. Agent posts review comments via mcp__github__create_comment
-```
-
-### Documentation Workflow
-
-```markdown
-1. Configure Google Drive MCP server
-2. Create documentation-writer agent
-3. Agent reads project files with Read tool
-4. Agent accesses docs via mcp__gdrive__read
-5. Agent updates documentation
-6. Agent saves back to Drive via mcp__gdrive__write
-```
-
-## Future Developments
-
-### Planned MCP Features
-
-- Enhanced resource templating
-- Streaming support for large responses
-- Binary data handling improvements
-- Server discovery mechanisms
-- Cross-server coordination
-
-### Community Servers
-
-The MCP ecosystem is growing with community-contributed servers for:
-- Additional databases (MongoDB, Redis, etc.)
-- Cloud platforms (AWS, Azure, GCP)
-- Development tools (Jira, Linear, etc.)
-- Analytics platforms
-- Custom business systems
+### AI & Search Servers
+- **Brave Search** (`@modelcontextprotocol/server-brave-search`)
+- **Fetch** (`@modelcontextprotocol/server-fetch`)
+- **Puppeteer** (`@modelcontextprotocol/server-puppeteer`)
 
 ## Resources
 
@@ -826,18 +643,24 @@ The MCP ecosystem is growing with community-contributed servers for:
 ### Community
 - Server Directory: https://modelcontextprotocol.io/servers
 - GitHub Discussions: Community support and examples
-- Sample Implementations: Reference code and patterns
 
 ## Quick Reference
 
-### Enable MCP Server
+### Add MCP Server (CLI)
+```bash
+claude mcp add server-name -- npx -y @org/mcp-server
+claude mcp add server-name -e KEY=val -- npx -y @org/mcp-server
+claude mcp add server-name --transport http --url https://example.com/mcp
+```
+
+### Project Config (`.mcp.json`)
 ```json
 {
   "mcpServers": {
     "server-name": {
       "command": "npx",
       "args": ["-y", "@org/server-package"],
-      "env": {"KEY": "value"}
+      "env": {"KEY": "${ENV_VAR}"}
     }
   }
 }
@@ -848,7 +671,8 @@ The MCP ecosystem is growing with community-contributed servers for:
 ---
 name: mcp-agent
 description: Agent with MCP access
-# Omit tools to inherit MCP tools
+mcpServers: server-name
+# Or omit tools to inherit all MCP tools
 ---
 ```
 
@@ -858,7 +682,11 @@ Claude automatically selects appropriate MCP tools based on:
 - Tool descriptions
 - User request context
 - Available parameters
+- Tool Search across all servers
 ```
 
 ### Check Available MCP Tools
+```bash
+claude mcp list
+```
 Look for tools prefixed with `mcp__` in tool listings.

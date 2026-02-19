@@ -1,8 +1,10 @@
 # Command Validation Checklist
 
 > **Source**: Official Claude Code Documentation
-> **Source URL**: https://code.claude.com/docs/en/slash-commands.md
-> **Last Updated**: 2025-01-15
+> **Source URL**: https://code.claude.com/docs/en/skills
+> **Last Updated**: 2026-02-19
+>
+> **Note**: Custom slash commands (`.claude/commands/`) and skills (`.claude/skills/`) have been unified in Claude Code. Skills take precedence over commands with the same name. For new development, consider using the skills format instead. See the [skill checklist](skill-checklist.md) for skills validation.
 
 ## Pre-Creation Validation
 
@@ -180,8 +182,10 @@ argument-hint: [type] [message]
 
 ### Naming Conflicts
 - [ ] Command name doesn't conflict with personal commands
+- [ ] Command name doesn't conflict with skills (skills take precedence)
 - [ ] Command name follows team conventions
 - [ ] Command subdirectory follows team structure
+- [ ] Consider migrating to skill format if command needs state, auto-invocation, or multi-file support
 
 ## Best Practices Validation
 

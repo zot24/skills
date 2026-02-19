@@ -1,8 +1,8 @@
 # Hook Validation Checklist
 
 > **Source**: Official Claude Code Documentation
-> **Source URL**: https://code.claude.com/docs/en/hooks-guide.md
-> **Last Updated**: 2025-01-15
+> **Source URL**: https://code.claude.com/docs/en/hooks
+> **Last Updated**: 2026-02-19
 
 ## Pre-Creation Validation
 
@@ -87,49 +87,116 @@
 - [ ] Resource limits documented
 - [ ] Security constraints included
 
-## Hook Type Validation
+## Hook Event Validation
 
-### beforeStart Hooks
-- [ ] Runs before conversation starts
+### SessionStart Hooks
+- [ ] Runs when session starts or resumes
 - [ ] Setup/initialization tasks defined
 - [ ] Environment checks performed
 - [ ] Dependencies validated
 - [ ] Quick execution (doesn't delay start)
+- [ ] Matcher distinguishes `startup` vs `resume` if needed
 
-### afterEdit Hooks
-- [ ] Runs after file edits
-- [ ] Receives file path information
-- [ ] Receives edit details (old/new content)
-- [ ] Processing is efficient
-- [ ] Doesn't interfere with editing flow
+### UserPromptSubmit Hooks
+- [ ] Runs when user submits a prompt
+- [ ] Context injection is appropriate
+- [ ] `hookSpecificOutput` used for prompt modification if needed
+- [ ] `suppressPrompt` used carefully (if at all)
+- [ ] Quick execution to avoid delays
 
-### beforeToolCall Hooks
+### PreToolUse Hooks
 - [ ] Runs before tool execution
-- [ ] Receives tool name and parameters
+- [ ] Receives tool name and parameters via stdin JSON
+- [ ] Decision output uses JSON format (`{"decision": "approve"}` or `{"decision": "block", "reason": "..."}`)
+- [ ] Legacy exit code approach (exit 2 to block) used only for backward compatibility
 - [ ] Validation logic is correct
-- [ ] Can prevent tool execution if needed
 - [ ] Fast execution to avoid delays
 
-### afterToolCall Hooks
-- [ ] Runs after tool execution
+### PermissionRequest Hooks
+- [ ] Runs when permission dialog would show
+- [ ] `hookSpecificOutput` with `decision` field used for approve/deny
+- [ ] Safe commands correctly auto-approved
+- [ ] Dangerous commands correctly denied or left for user prompt
+- [ ] Does not approve overly broad permissions
+
+### PostToolUse Hooks
+- [ ] Runs after successful tool execution
 - [ ] Receives tool result information
-- [ ] Post-processing is appropriate
-- [ ] Error handling for failed tools
-- [ ] Logging/tracking implemented correctly
+- [ ] Post-processing is appropriate (formatting, linting, staging)
+- [ ] Does not interfere with editing flow
+- [ ] Errors handled gracefully (|| true)
 
-### beforeResponse Hooks
-- [ ] Runs before Claude responds
-- [ ] Context analysis is relevant
-- [ ] Response guidance is helpful
-- [ ] Quick execution required
-- [ ] Doesn't delay user experience
+### PostToolUseFailure Hooks
+- [ ] Runs after failed tool execution
+- [ ] Error information logged or processed
+- [ ] Recovery logic is appropriate
+- [ ] Does not mask errors from the user
 
-### afterResponse Hooks
-- [ ] Runs after Claude responds
-- [ ] Response analysis is valuable
-- [ ] Follow-up actions are appropriate
-- [ ] Async operations considered
-- [ ] User experience not degraded
+### Notification Hooks
+- [ ] Runs during notification delivery
+- [ ] Custom notification system is appropriate
+- [ ] Message extraction is correct
+- [ ] System-specific notification commands used
+
+### SubagentStart / SubagentStop Hooks
+- [ ] Runs at subagent lifecycle boundaries
+- [ ] Tracking and coordination logic is correct
+- [ ] Does not interfere with subagent execution
+
+### Stop Hooks
+- [ ] Runs when Claude finishes responding
+- [ ] Cleanup tasks are appropriate
+- [ ] State updates are correct
+- [ ] Temporary files cleaned up
+
+### TeammateIdle / TaskCompleted Hooks
+- [ ] Team coordination logic is correct
+- [ ] Progress tracking is appropriate
+- [ ] Notification to team members is helpful
+
+### PreCompact Hooks
+- [ ] Runs before context compaction
+- [ ] Important context saved before compaction
+- [ ] Data preservation logic is correct
+
+### SessionEnd Hooks
+- [ ] Runs at session termination
+- [ ] Cleanup tasks completed
+- [ ] Reporting/logging finalized
+- [ ] Temporary state cleaned up
+
+## Hook Type Validation (command / prompt / agent)
+
+### Command Hooks
+- [ ] Shell command syntax is correct
+- [ ] jq parsing of stdin JSON is correct
+- [ ] Exit codes are appropriate (0 = allow, 2 = block for PreToolUse)
+- [ ] JSON output format correct for decision hooks
+- [ ] Errors handled with `|| true` where appropriate
+- [ ] `$CLAUDE_PROJECT_DIR` and `$CLAUDE_ENV_FILE` used if needed
+
+### Prompt Hooks
+- [ ] `type: "prompt"` specified
+- [ ] Prompt text is clear and actionable
+- [ ] Decision response format specified in prompt (`{"decision": "approve"}` or `{"decision": "block", "reason": "..."}`)
+- [ ] Timeout is appropriate for complexity
+
+### Agent Hooks
+- [ ] `type: "agent"` specified
+- [ ] Prompt text describes what the agent should analyze
+- [ ] Timeout is sufficient for agent execution (60-120s)
+- [ ] Agent has access to required tools
+
+### Async Hooks
+- [ ] `async: true` set for non-blocking operations
+- [ ] No decision output expected from async hooks
+- [ ] Appropriate for logging, analytics, notifications
+- [ ] Results written to files for later consumption if needed
+
+### Once Hooks
+- [ ] `once: true` set for initialization hooks
+- [ ] Hook is idempotent (safe if run more than once)
+- [ ] Appropriate for session setup, dependency checks
 
 ## Functional Validation
 

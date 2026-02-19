@@ -1,137 +1,85 @@
-<!-- Source: https://ai-sdk.dev/docs/ai-sdk-core/overview -->
+<!-- Source: https://ai-sdk.dev/docs/foundations/overview -->
 
-# AI SDK Core Overview
+# AI SDK Foundations Overview
 
-AI SDK Core simplifies working with LLMs by offering a standardized way of integrating them into your app.
+The AI SDK standardizes integrating artificial intelligence (AI) models across supported providers. This enables developers to focus on building great AI applications, not waste time on technical details.
 
-## Primary Functions
-
-### generateText
-
-For non-interactive scenarios like automation, email drafting, or summarization:
+## Quick Example
 
 ```typescript
 import { generateText } from 'ai';
-import { openai } from '@ai-sdk/openai';
 
-const { text, usage, finishReason } = await generateText({
-  model: openai('gpt-4o'),
-  prompt: 'Summarize this article: ...',
-});
-```
-
-### streamText
-
-For real-time streaming in interactive applications:
-
-```typescript
-import { streamText } from 'ai';
-import { openai } from '@ai-sdk/openai';
-
-const result = streamText({
-  model: openai('gpt-4o'),
-  messages: [{ role: 'user', content: 'Tell me a story' }],
-});
-
-for await (const textPart of result.textStream) {
-  process.stdout.write(textPart);
-}
-```
-
-### generateObject
-
-For typed, structured data matching Zod schemas:
-
-```typescript
-import { generateObject } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { z } from 'zod';
-
-const { object } = await generateObject({
-  model: openai('gpt-4o'),
-  schema: z.object({
-    name: z.string(),
-    age: z.number(),
-    email: z.string().email(),
-  }),
-  prompt: 'Generate a user profile for John Doe, 30 years old',
-});
-```
-
-### streamObject
-
-For streaming structured objects in real-time:
-
-```typescript
-import { streamObject } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { z } from 'zod';
-
-const result = streamObject({
-  model: openai('gpt-4o'),
-  schema: z.object({
-    items: z.array(z.object({
-      title: z.string(),
-      description: z.string(),
-    })),
-  }),
-  prompt: 'Generate 5 product ideas',
-});
-
-for await (const partialObject of result.partialObjectStream) {
-  console.log(partialObject);
-}
-```
-
-## Common Options
-
-All functions accept these common options:
-
-```typescript
-const result = await generateText({
-  model: openai('gpt-4o'),
-  prompt: 'Hello',
-
-  // Optional settings
-  system: 'You are a helpful assistant.',
-  temperature: 0.7,
-  maxTokens: 1000,
-  topP: 1,
-  frequencyPenalty: 0,
-  presencePenalty: 0,
-  seed: 12345,
-
-  // Abort signal for cancellation
-  abortSignal: controller.signal,
-});
-```
-
-## Messages Format
-
-For multi-turn conversations:
-
-```typescript
 const { text } = await generateText({
-  model: openai('gpt-4o'),
-  messages: [
-    { role: 'system', content: 'You are a helpful assistant.' },
-    { role: 'user', content: 'What is TypeScript?' },
-    { role: 'assistant', content: 'TypeScript is...' },
-    { role: 'user', content: 'How do I use it?' },
-  ],
+  model: 'anthropic/claude-sonnet-4.5', // Vercel AI Gateway
+  prompt: 'What is love?',
 });
 ```
 
-## Response Properties
+## Key Concepts
 
-```typescript
-const result = await generateText({
-  model: openai('gpt-4o'),
-  prompt: 'Hello',
-});
+### Generative Artificial Intelligence
 
-console.log(result.text);        // Generated text
-console.log(result.usage);       // { promptTokens, completionTokens, totalTokens }
-console.log(result.finishReason); // 'stop', 'length', 'tool-calls', etc.
-console.log(result.response);    // Full response metadata
-```
+Generative artificial intelligence refers to models that predict and generate various types of outputs (such as text, images, or audio) based on what's statistically likely, pulling from patterns they've learned from their training data. For example:
+
+- Given a photo, a generative model can generate a caption.
+- Given an audio file, a generative model can generate a transcription.
+- Given a text description, a generative model can generate an image.
+
+### Large Language Models
+
+A large language model (LLM) is a subset of generative models focused primarily on text. An LLM takes a sequence of words as input and aims to predict the most likely sequence to follow. It assigns probabilities to potential next sequences and then selects one. The model continues to generate sequences until it meets a specified stopping criterion.
+
+LLMs learn by training on massive collections of written text, which means they will be better suited to some use cases than others. For example, a model trained on GitHub data would understand the probabilities of sequences in source code particularly well.
+
+However, it's crucial to understand LLMs' limitations. When asked about less known or absent information, like the birthday of a personal relative, LLMs might "hallucinate" or make up information. It's essential to consider how well-represented the information you need is in the model.
+
+### Embedding Models
+
+An embedding model is used to convert complex data (like words or images) into a dense vector (a list of numbers) representation, known as an embedding. Unlike generative models, embedding models do not generate new text or data. Instead, they provide representations of semantic and syntactic relationships between entities that can be used as input for other models or other natural language processing tasks.
+
+## AI SDK Architecture
+
+The AI SDK is organized into several modules:
+
+### AI SDK Core
+
+Core functions for generating text, structured data, and tool calls:
+
+- `generateText` / `streamText` - Text generation
+- `generateObject` / `streamObject` - Structured data generation (with Zod schemas)
+- Tool calling with `tool()` helper and `stopWhen` for multi-step execution
+- Embeddings, reranking, image generation, transcription, speech, video generation
+- Language model middleware, provider management, error handling
+- Testing, telemetry, and DevTools
+
+### AI SDK UI
+
+Framework-agnostic hooks for building chat and generative UIs:
+
+- `useChat` - Real-time streaming chat
+- `useCompletion` - Text completions
+- `useObject` - Streamed JSON objects
+- Supports React, Vue, Svelte, Angular, SolidJS (community)
+
+### AI SDK Agents
+
+Build intelligent agents with the `ToolLoopAgent` class:
+
+- Automatic tool loop orchestration
+- `stopWhen` for configurable stopping conditions
+- `prepareStep` for per-step configuration
+- Subagent delegation
+- Memory management
+
+### AI SDK RSC
+
+React Server Components integration for server-side AI rendering.
+
+## Foundations
+
+The documentation covers these foundational topics:
+
+- **[Providers and Models](https://ai-sdk.dev/docs/foundations/providers-and-models)** - Available providers and model capabilities
+- **[Prompts](https://ai-sdk.dev/docs/foundations/prompts)** - How to structure prompts
+- **[Tools](https://ai-sdk.dev/docs/foundations/tools)** - How tools work with LLMs
+- **[Streaming](https://ai-sdk.dev/docs/foundations/streaming)** - Real-time streaming support

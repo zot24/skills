@@ -2,12 +2,11 @@
 
 > **Source**: Official Claude Code Documentation + Community Best Practices
 > **Source URLs**:
-> - https://code.claude.com/docs/en/hooks.md
+> - https://code.claude.com/docs/en/hooks
 > - https://gist.github.com/alexfazio/653c5164d726987569ee8229a19f451f
-> **Last Updated**: 2026-01-09
-> **Requires**: Claude Code v2.1.0+
+> **Last Updated**: 2026-02-19
 
-This document covers advanced hook patterns including prompt-based hooks, agent hooks, and sophisticated automation workflows. For basic hook concepts, see [hook-creation.md](hook-creation.md).
+This document covers advanced hook patterns including prompt-based hooks, agent hooks, async hooks, and sophisticated automation workflows. For basic hook concepts, see [hook-creation.md](hook-creation.md).
 
 ## Hook Types Overview
 
@@ -54,7 +53,7 @@ Prompt hooks use LLM reasoning for decisions that require understanding context 
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Evaluate if this edit is safe and follows project conventions",
+            "prompt": "Evaluate if this edit is safe and follows project conventions. Respond with JSON: {\"decision\": \"approve\"} or {\"decision\": \"block\", \"reason\": \"explanation\"}.",
             "timeout": 30
           }
         ]
@@ -69,23 +68,28 @@ Prompt hooks use LLM reasoning for decisions that require understanding context 
 | Field | Required | Default | Description |
 |-------|----------|---------|-------------|
 | `type` | Yes | - | Must be `"prompt"` |
-| `prompt` | Yes | - | Instructions for the LLM to evaluate |
+| `prompt` | Yes | - | Instructions for the LLM to evaluate. Use `$ARGUMENTS` to access the hook input data. |
 | `timeout` | No | 60 | Max seconds before timeout |
-| `model` | No | inherit | Model to use (haiku/sonnet/opus) |
 
-### Variable Substitution
+### Variable Access in Prompt Hooks
 
-Prompt hooks can access context via variables:
+Prompt hooks receive the full hook input context automatically. The `$ARGUMENTS` variable contains the serialized hook input. The LLM can reason about the tool name, input parameters, file paths, and other context provided in the hook input JSON.
 
-| Variable | Available In | Description |
-|----------|--------------|-------------|
-| `$TOOL_NAME` | All events | Name of the tool being called |
-| `$TOOL_INPUT` | All events | JSON-encoded tool parameters |
-| `$FILE_PATH` | Edit/Write | Target file path |
-| `$OLD_STRING` | Edit | Content being replaced |
-| `$NEW_STRING` | Edit | New content |
-| `$CONTENT` | Write | File content being written |
-| `$COMMAND` | Bash | Command being executed |
+### Prompt Hook Response Format
+
+For `PreToolUse` hooks that need to make decisions, the prompt should instruct the LLM to respond with JSON:
+
+```json
+{"decision": "approve"}
+```
+
+or:
+
+```json
+{"decision": "block", "reason": "Explanation of why this was blocked"}
+```
+
+The `reason` is shown to Claude for context when an operation is blocked.
 
 ### Example: Security-Aware Edit Validation
 
@@ -98,9 +102,8 @@ Prompt hooks can access context via variables:
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "You are a security reviewer. Analyze this file edit:\n\nFile: $FILE_PATH\nNew content snippet: $NEW_STRING\n\nCheck for:\n1. Hardcoded secrets (API keys, passwords, tokens)\n2. SQL injection vulnerabilities\n3. Command injection risks\n4. Unsafe file path handling\n\nRespond with ONLY 'APPROVE' or 'BLOCK: <reason>'",
-            "timeout": 15,
-            "model": "haiku"
+            "prompt": "You are a security reviewer. Analyze this file edit for:\n1. Hardcoded secrets (API keys, passwords, tokens)\n2. SQL injection vulnerabilities\n3. Command injection risks\n4. Unsafe file path handling\n\nRespond with JSON: {\"decision\": \"approve\"} or {\"decision\": \"block\", \"reason\": \"description\"}",
+            "timeout": 15
           }
         ]
       }
@@ -120,7 +123,7 @@ Prompt hooks can access context via variables:
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Review this code change for quality:\n\nFile: $FILE_PATH\nChange: $OLD_STRING -> $NEW_STRING\n\nCheck:\n- Does it follow DRY principles?\n- Are there obvious bugs?\n- Is error handling appropriate?\n\nRespond 'APPROVE' or 'BLOCK: <specific issue>'",
+            "prompt": "Review this code change for quality:\n- Does it follow DRY principles?\n- Are there obvious bugs?\n- Is error handling appropriate?\n\nRespond with JSON: {\"decision\": \"approve\"} or {\"decision\": \"block\", \"reason\": \"specific issue\"}",
             "timeout": 20
           }
         ]
@@ -130,14 +133,7 @@ Prompt hooks can access context via variables:
 }
 ```
 
-### Prompt Hook Response Format
-
-For `PreToolUse` hooks that need to block operations:
-- Return `APPROVE` (or similar affirmative) to allow
-- Return `BLOCK: <reason>` to prevent the operation
-- The reason is shown to Claude for context
-
-## Agent Hooks (v2.1.0+)
+## Agent Hooks
 
 Agent hooks invoke subagents for complex multi-step analysis.
 
@@ -152,8 +148,7 @@ Agent hooks invoke subagents for complex multi-step analysis.
         "hooks": [
           {
             "type": "agent",
-            "agent": "code-reviewer",
-            "prompt": "Review the changes made to $FILE_PATH",
+            "prompt": "Review the changes made to this file for code quality and security issues.",
             "timeout": 60
           }
         ]
@@ -168,9 +163,10 @@ Agent hooks invoke subagents for complex multi-step analysis.
 | Field | Required | Default | Description |
 |-------|----------|---------|-------------|
 | `type` | Yes | - | Must be `"agent"` |
-| `agent` | Yes | - | Name of subagent to invoke |
-| `prompt` | No | - | Additional context for the agent |
+| `prompt` | Yes | - | Instructions for the agent describing what to analyze |
 | `timeout` | No | 120 | Max seconds for agent execution |
+
+The agent receives the hook input context along with the prompt instructions. For PreToolUse, the agent can return a decision in the same JSON format as prompt hooks.
 
 ### Example: Architectural Validation
 
@@ -183,8 +179,7 @@ Agent hooks invoke subagents for complex multi-step analysis.
         "hooks": [
           {
             "type": "agent",
-            "agent": "architecture-validator",
-            "prompt": "Validate that creating $FILE_PATH follows our architectural patterns. Check import boundaries, folder structure, and naming conventions.",
+            "prompt": "Validate that this new file follows our architectural patterns. Check import boundaries, folder structure, and naming conventions. Respond with JSON: {\"decision\": \"approve\"} or {\"decision\": \"block\", \"reason\": \"explanation\"}.",
             "timeout": 45
           }
         ]
@@ -205,8 +200,7 @@ Agent hooks invoke subagents for complex multi-step analysis.
         "hooks": [
           {
             "type": "agent",
-            "agent": "test-coverage-analyzer",
-            "prompt": "Analyze if $FILE_PATH has adequate test coverage after this change. Suggest any missing test cases.",
+            "prompt": "Analyze if this file has adequate test coverage after this change. Suggest any missing test cases.",
             "timeout": 60
           }
         ]
@@ -216,7 +210,48 @@ Agent hooks invoke subagents for complex multi-step analysis.
 }
 ```
 
-## PermissionRequest Event (v2.1.0+)
+## Async Hooks
+
+Hooks can run asynchronously to avoid blocking the agent loop:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(jq -r '.file_path'); eslint \"$FILE\" >> /tmp/claude_lint_results.txt 2>&1",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Async Hook Behavior
+
+- Runs in the background without blocking Claude's agent loop
+- Cannot produce decision output (approve/block)
+- Useful for logging, analytics, background linting, notifications
+- Results can be written to files for later consumption
+
+### When to Use Async
+
+| Use Case | Sync | Async |
+|----------|------|-------|
+| File formatting | Yes | No (needs to complete before next tool) |
+| Access control blocking | Yes | No (needs decision) |
+| Command logging | No | Yes (non-blocking) |
+| Analytics/metrics | No | Yes (non-blocking) |
+| Background linting | No | Yes (results consumed later) |
+| Notifications | No | Yes (fire and forget) |
+
+## PermissionRequest Event
 
 The `PermissionRequest` event fires when Claude requests permission for a tool, allowing programmatic control over permission dialogs.
 
@@ -231,7 +266,7 @@ The `PermissionRequest` event fires when Claude requests permission for a tool, 
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'ALLOW' # or 'DENY' or 'ASK'"
+            "command": "CMD=$(jq -r '.tool_input.command'); if [[ $CMD == npm\\ test* ]]; then echo '{\"hookSpecificOutput\":{\"decision\":\"approve\"}}'; else echo '{}'; fi"
           }
         ]
       }
@@ -240,13 +275,23 @@ The `PermissionRequest` event fires when Claude requests permission for a tool, 
 }
 ```
 
-### Response Values
+### Response Format
 
-| Response | Effect |
+The PermissionRequest hook uses `hookSpecificOutput` for decisions:
+
+```json
+{
+  "hookSpecificOutput": {
+    "decision": "approve"
+  }
+}
+```
+
+| Decision | Effect |
 |----------|--------|
-| `ALLOW` | Automatically grant permission |
-| `DENY` | Automatically deny permission |
-| `ASK` | Show normal permission dialog |
+| `"approve"` | Automatically grant permission |
+| `"deny"` | Automatically deny permission |
+| (omitted) | Show normal permission dialog |
 
 ### Example: Auto-Allow Safe Commands
 
@@ -259,7 +304,7 @@ The `PermissionRequest` event fires when Claude requests permission for a tool, 
         "hooks": [
           {
             "type": "command",
-            "command": "CMD=$(jq -r '.tool_input.command'); if [[ $CMD == npm\\ test* ]] || [[ $CMD == npm\\ run\\ lint* ]]; then echo 'ALLOW'; else echo 'ASK'; fi"
+            "command": "CMD=$(jq -r '.tool_input.command'); if [[ $CMD == npm\\ test* ]] || [[ $CMD == npm\\ run\\ lint* ]] || [[ $CMD == git\\ status* ]] || [[ $CMD == git\\ log* ]]; then echo '{\"hookSpecificOutput\":{\"decision\":\"approve\"}}'; fi"
           }
         ]
       }
@@ -279,7 +324,7 @@ The `PermissionRequest` event fires when Claude requests permission for a tool, 
         "hooks": [
           {
             "type": "command",
-            "command": "CMD=$(jq -r '.tool_input.command'); if [[ $CMD == *rm\\ -rf* ]] || [[ $CMD == *--force* ]]; then echo 'DENY'; else echo 'ASK'; fi"
+            "command": "CMD=$(jq -r '.tool_input.command'); if [[ $CMD == *rm\\ -rf* ]] || [[ $CMD == *--force* ]] || [[ $CMD == *sudo* ]]; then echo '{\"hookSpecificOutput\":{\"decision\":\"deny\"}}'; fi"
           }
         ]
       }
@@ -288,7 +333,7 @@ The `PermissionRequest` event fires when Claude requests permission for a tool, 
 }
 ```
 
-## The `once: true` Option (v2.1.0+)
+## The `once: true` Option
 
 Run a hook only once per session, useful for initialization or one-time checks.
 
@@ -341,9 +386,11 @@ Run a hook only once per session, useful for initialization or one-time checks.
 }
 ```
 
-## Expanded Matchers (v2.1.0+)
+## Expanded Matchers
 
-Beyond tool names, v2.1.0 introduces session lifecycle matchers:
+Beyond tool names, Claude Code supports session lifecycle matchers and MCP tool matchers:
+
+### Session Lifecycle Matchers
 
 | Matcher | Event | Description |
 |---------|-------|-------------|
@@ -351,6 +398,13 @@ Beyond tool names, v2.1.0 introduces session lifecycle matchers:
 | `resume` | SessionStart | Resuming existing session |
 | `clear` | SessionEnd | Session cleared by user |
 | `compact` | PreCompact | Before context compaction |
+
+### MCP Tool Matchers
+
+```json
+"matcher": "mcp__server-name__tool-name"    // Specific MCP tool
+"matcher": "mcp__server-name__*"            // All tools from an MCP server
+```
 
 ### Example: Different Behavior for New vs Resumed Sessions
 
@@ -373,6 +427,26 @@ Beyond tool names, v2.1.0 introduces session lifecycle matchers:
           {
             "type": "command",
             "command": "echo 'Welcome back! Last session: '$(cat ~/.claude/last_session.txt)"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Example: Hook for Specific MCP Server Tools
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__database-server__*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Database operation detected' >> ~/.claude/db_audit.log"
           }
         ]
       }
@@ -426,7 +500,7 @@ Validate all edits to API code follow security best practices:
 
 ### Multi-Stage Validation
 
-Chain multiple validation steps:
+Chain multiple validation steps with escalating cost:
 
 ```json
 {
@@ -437,18 +511,16 @@ Chain multiple validation steps:
         "hooks": [
           {
             "type": "command",
-            "command": "FILE=$(jq -r '.file_path'); [[ $FILE != *.env* ]] || exit 2"
+            "command": "FILE=$(jq -r '.file_path'); [[ $FILE != *.env* ]] || echo '{\"decision\":\"block\",\"reason\":\"Cannot edit .env files\"}'"
           },
           {
             "type": "prompt",
-            "prompt": "Quick security check for $FILE_PATH: any obvious vulnerabilities in $NEW_STRING? Reply APPROVE or BLOCK.",
-            "timeout": 10,
-            "model": "haiku"
+            "prompt": "Quick security check: any obvious vulnerabilities in this edit? Respond with JSON: {\"decision\": \"approve\"} or {\"decision\": \"block\", \"reason\": \"issue\"}.",
+            "timeout": 10
           },
           {
             "type": "agent",
-            "agent": "deep-security-scan",
-            "prompt": "Comprehensive security analysis of changes to $FILE_PATH",
+            "prompt": "Comprehensive security analysis of these changes. Check for OWASP Top 10 vulnerabilities.",
             "timeout": 60
           }
         ]
@@ -504,30 +576,7 @@ Load hook behavior from external config:
         "hooks": [
           {
             "type": "command",
-            "command": "CMD=$(jq -r '.tool_input.command'); BLOCKED=$(cat .claude/blocked-commands.txt 2>/dev/null || echo ''); echo \"$BLOCKED\" | grep -q \"$CMD\" && exit 2 || exit 0"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### Context-Aware Decisions
-
-Use project context in prompt hooks:
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Given this project uses:\n- Framework: $(cat package.json | jq -r '.dependencies | keys[]' | head -5)\n- Style: $(cat .prettierrc 2>/dev/null || echo 'default')\n\nDoes this edit to $FILE_PATH follow project conventions? APPROVE or BLOCK.",
-            "timeout": 20
+            "command": "CMD=$(jq -r '.tool_input.command'); BLOCKED=$(cat .claude/blocked-commands.txt 2>/dev/null || echo ''); if echo \"$BLOCKED\" | grep -q \"$CMD\"; then echo '{\"decision\":\"block\",\"reason\":\"Command is in blocklist\"}'; fi"
           }
         ]
       }
@@ -627,10 +676,10 @@ fi
 
 # Validate path is within project
 REAL_PATH=$(realpath "$FILE_PATH" 2>/dev/null || echo "")
-PROJECT_ROOT=$(pwd)
+PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 if [[ ! "$REAL_PATH" == "$PROJECT_ROOT"* ]]; then
-  echo "BLOCKED: File outside project" >&2
-  exit 2
+  echo '{"decision":"block","reason":"File outside project"}'
+  exit 0
 fi
 ```
 
@@ -647,7 +696,7 @@ Never expose credentials in hooks:
         "hooks": [
           {
             "type": "command",
-            "command": "CMD=$(jq -r '.tool_input.command'); if echo \"$CMD\" | grep -qE '(API_KEY|SECRET|PASSWORD|TOKEN)='; then echo 'BLOCKED: Command may expose secrets' >&2; exit 2; fi"
+            "command": "CMD=$(jq -r '.tool_input.command'); if echo \"$CMD\" | grep -qE '(API_KEY|SECRET|PASSWORD|TOKEN)='; then echo '{\"decision\":\"block\",\"reason\":\"Command may expose secrets\"}'; fi"
           }
         ]
       }
@@ -664,8 +713,7 @@ Set appropriate timeouts:
 |-----------|-------------------|
 | Command (simple) | 5-10s |
 | Command (complex) | 15-30s |
-| Prompt (haiku) | 10-20s |
-| Prompt (sonnet) | 20-40s |
+| Prompt | 10-30s |
 | Agent | 60-120s |
 
 ### Error Handling
@@ -680,10 +728,9 @@ trap 'exit 0' ERR
 # Your validation logic here
 # ...
 
-# Only exit 2 for explicit blocks
+# Only block for explicit violations
 if [[ "$SHOULD_BLOCK" == "true" ]]; then
-  echo "BLOCKED: $REASON" >&2
-  exit 2
+  echo "{\"decision\":\"block\",\"reason\":\"$REASON\"}"
 fi
 ```
 
@@ -704,7 +751,7 @@ fi
           },
           {
             "type": "prompt",
-            "prompt": "Validate non-test file edit...",
+            "prompt": "Validate non-test file edit. Respond with JSON: {\"decision\": \"approve\"} or {\"decision\": \"block\", \"reason\": \"issue\"}.",
             "timeout": 15
           }
         ]
@@ -729,9 +776,8 @@ fi
           },
           {
             "type": "prompt",
-            "prompt": "Security-critical file detected. Perform thorough review...",
-            "timeout": 30,
-            "condition": "[ -f /tmp/claude_hook_flags ] && grep -q 'SECURITY_FILE=true' /tmp/claude_hook_flags"
+            "prompt": "Security-critical file detected. Perform thorough review of this change. Respond with JSON: {\"decision\": \"approve\"} or {\"decision\": \"block\", \"reason\": \"issue\"}.",
+            "timeout": 30
           }
         ]
       }
@@ -752,16 +798,14 @@ fi
 ### Prompt Hook Timing Out?
 
 1. Reduce prompt complexity
-2. Use faster model (haiku)
-3. Increase timeout value
-4. Add fast-path command hook first
+2. Increase timeout value
+3. Add fast-path command hook first to skip unnecessary checks
 
 ### Agent Hook Failing?
 
-1. Verify agent exists and is valid
-2. Check agent has required tools
-3. Increase timeout for complex analysis
-4. Review agent output for errors
+1. Verify the prompt is clear and actionable
+2. Increase timeout for complex analysis
+3. Review agent output for errors
 
 ### State Not Persisting?
 
@@ -774,12 +818,12 @@ fi
 
 ### Minimal Prompt Hook
 ```json
-{"type": "prompt", "prompt": "Check: $TOOL_INPUT. Reply APPROVE or BLOCK."}
+{"type": "prompt", "prompt": "Check this change. Respond with JSON: {\"decision\": \"approve\"} or {\"decision\": \"block\", \"reason\": \"issue\"}."}
 ```
 
 ### Minimal Agent Hook
 ```json
-{"type": "agent", "agent": "validator", "prompt": "Validate $FILE_PATH"}
+{"type": "agent", "prompt": "Validate this file change for security and quality issues."}
 ```
 
 ### Minimal Once Hook
@@ -787,7 +831,26 @@ fi
 {"type": "command", "command": "echo 'Init'", "once": true}
 ```
 
-### Permission Auto-Allow
+### Minimal Async Hook
 ```json
-{"event": "PermissionRequest", "matcher": "Bash", "response": "ALLOW"}
+{"type": "command", "command": "log-operation.sh", "async": true}
+```
+
+### Permission Auto-Approval
+```json
+{
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "CMD=$(jq -r '.tool_input.command'); if [[ $CMD == npm\\ test* ]]; then echo '{\"hookSpecificOutput\":{\"decision\":\"approve\"}}'; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
 ```

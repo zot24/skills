@@ -1,28 +1,26 @@
-# Agent Skills Integration Guide
-
 > Source: https://agentskills.io/integrate-skills
+
+# Integrate Skills into Your Agent
+
+How to add Agent Skills support to your agent or tool.
+
+## Integration Approaches
+
+The two main approaches to integrating skills are:
+
+**Filesystem-based agents** operate within a computer environment (bash/unix) and represent the most capable option. Skills are activated when models issue shell commands like `cat /path/to/my-skill/SKILL.md`. Bundled resources are accessed through shell commands.
+
+**Tool-based agents** function without a dedicated computer environment. Instead, they implement tools allowing models to trigger skills and access bundled assets. The specific tool implementation is up to the developer.
 
 ## Overview
 
 A skills-compatible agent needs to:
+
 1. **Discover** skills in configured directories
 2. **Load metadata** (name and description) at startup
 3. **Match** user tasks to relevant skills
 4. **Activate** skills by loading full instructions
 5. **Execute** scripts and access resources as needed
-
-## Two Integration Approaches
-
-### 1. Filesystem-based Agents
-- Operate within a computer environment (bash/unix)
-- Most capable option
-- Skills activated when models issue shell commands like `cat /path/to/my-skill/SKILL.md`
-- Bundled resources accessed through shell commands
-
-### 2. Tool-based Agents
-- Function without a dedicated computer environment
-- Implement tools allowing models to trigger skills and access bundled assets
-- Specific tool implementation is up to the developer
 
 ## Skill Discovery
 
@@ -30,9 +28,9 @@ Skills are folders containing a `SKILL.md` file. Your agent should scan configur
 
 ## Loading Metadata
 
-Parse only the frontmatter of each `SKILL.md` file at startup to keep initial context usage low.
+At startup, parse only the frontmatter of each `SKILL.md` file. This keeps initial context usage low.
 
-### Parsing Frontmatter Example
+### Parsing Frontmatter
 
 ```
 function parseMetadata(skillPath):
@@ -46,11 +44,11 @@ function parseMetadata(skillPath):
     }
 ```
 
-## Injecting Skills into Context
+### Injecting into Context
 
 Include skill metadata in the system prompt so the model knows what skills are available.
 
-### Recommended Format (Claude Models - XML)
+Follow your platform's guidance for system prompt updates. For example, for Claude models, the recommended format uses XML:
 
 ```xml
 <available_skills>
@@ -67,14 +65,14 @@ Include skill metadata in the system prompt so the model knows what skills are a
 </available_skills>
 ```
 
-**Key Details:**
-- For **filesystem-based agents**: Include the `location` field with the absolute path to SKILL.md
-- For **tool-based agents**: The location can be omitted
-- Keep metadata concise; each skill should add roughly 50-100 tokens to context
+For filesystem-based agents, include the `location` field with the absolute path to the SKILL.md file. For tool-based agents, the location can be omitted.
+
+Keep metadata concise. Each skill should add roughly 50-100 tokens to the context.
 
 ## Security Considerations
 
-When implementing script execution, consider:
+Script execution introduces security risks. Consider:
+
 - **Sandboxing**: Run scripts in isolated environments
 - **Allowlisting**: Only execute scripts from trusted skills
 - **Confirmation**: Ask users before running potentially dangerous operations
@@ -82,21 +80,23 @@ When implementing script execution, consider:
 
 ## Reference Implementation
 
-The [**skills-ref** library](https://github.com/agentskills/agentskills/tree/main/skills-ref) provides Python utilities and a CLI for working with skills.
+The [skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref) library provides Python utilities and a CLI for working with skills.
 
-### Useful Commands
+For example:
 
 **Validate a skill directory:**
+
 ```bash
 skills-ref validate <path>
 ```
 
 **Generate `<available_skills>` XML for agent prompts:**
+
 ```bash
 skills-ref to-prompt <path>...
 ```
 
-Use the library source code as a reference implementation for your own integration.
+Use the library source code as a reference implementation.
 
 ## Progressive Disclosure Flow
 

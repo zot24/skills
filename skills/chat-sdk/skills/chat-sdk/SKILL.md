@@ -52,8 +52,8 @@ const { text } = await generateText({
 ```
 
 ### Model Providers
-Default: xAI (grok-2-vision-1212). Switch providers easily:
-- OpenAI, Anthropic, Cohere, Google, and more
+Default: AI SDK Gateway with xAI (grok-2-vision-1212). Switch providers easily:
+- OpenAI, Anthropic, Google, xAI, and more via unified gateway
 - Configure in `lib/ai/models.ts`
 
 ### Generative UI
@@ -63,9 +63,10 @@ Dynamic interfaces that adapt to conversation context beyond text.
 
 For detailed information, see the reference documentation:
 
+- **[Overview](docs/overview.md)** - Feature summary and doc structure
 - **[Setup](docs/setup.md)** - Installation and configuration
 - **[Architecture](docs/architecture.md)** - Project structure and components
-- **[Models](docs/models.md)** - AI providers and configuration
+- **[Models and Providers](docs/models-and-providers.md)** - AI providers and configuration
 - **[Artifacts](docs/artifacts.md)** - Custom workspaces and tools
 - **[Theming](docs/theming.md)** - Customizing appearance
 - **[Deployment](docs/deployment.md)** - Vercel and self-hosting

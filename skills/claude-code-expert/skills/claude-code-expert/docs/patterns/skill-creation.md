@@ -4,13 +4,15 @@
 > **Source URLs**:
 > - https://code.claude.com/docs/en/skills
 > - https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
-> **Last Updated**: 2025-01-17
+> **Last Updated**: 2026-02-19
 
 ## What Are Agent Skills?
 
 Agent Skills are **modular packages** that extend Claude's capabilities through organized folders of instructions, scripts, and resources that agents can discover and load dynamically.
 
 > "Building a skill for an agent is like putting together an onboarding guide for a new hire." - Anthropic Engineering
+
+**Note**: Skills and custom slash commands have been **unified** in Claude Code. Skills stored in `.claude/skills/` and commands stored in `.claude/commands/` both appear in the slash command menu. Skills take precedence over commands with the same name. The `.claude/commands/` directory continues to work for backward compatibility, but new development should use the skills system.
 
 ## File Structure & Organization
 
@@ -30,6 +32,11 @@ Agent Skills are **modular packages** that extend Claude's capabilities through 
 
 4. **Plugin Skills**: Bundled within Claude Code plugins
    - Automatically available upon plugin installation
+
+5. **Legacy Commands**: `.claude/commands/` and `~/.claude/commands/`
+   - Still supported for backward compatibility
+   - Single `.md` files (no directory required)
+   - Skills with same name take precedence
 
 If two Skills have the same name, the higher-priority location wins.
 
@@ -88,6 +95,7 @@ description: What the skill does and when Claude should use it
 name: my-skill
 description: Detailed description with trigger keywords
 allowed-tools: Read, Grep, Glob
+argument-hint: [file-path] [action]
 model: sonnet
 context: fork
 agent: general-purpose
@@ -105,6 +113,7 @@ hooks:
 | Field | Default | Purpose |
 |-------|---------|---------|
 | `allowed-tools` | All tools | Restrict which tools Claude can access (comma-separated or YAML list) |
+| `argument-hint` | (none) | Expected parameters shown in auto-complete (e.g., `[file-path] [action]`) |
 | `model` | Inherits | Specific model for this skill (e.g., `claude-sonnet-4-20250514`) |
 | `context` | (none) | Set to `fork` to run skill in isolated sub-agent context |
 | `agent` | general-purpose | Agent type when `context: fork` is set (`Explore`, `Plan`, `general-purpose`, or custom) |
@@ -112,30 +121,116 @@ hooks:
 | `disable-model-invocation` | false | Blocks programmatic invocation via `Skill` tool |
 | `hooks` | (none) | Define lifecycle hooks scoped to this skill (`PreToolUse`, `PostToolUse`, `Stop`) |
 
-### String Substitutions
+### String Substitutions and Arguments
 
-Available variables for dynamic content in skill instructions:
+Skills support dynamic content through variable substitution and argument handling:
 
 | Variable | Description |
 |----------|-------------|
 | `$ARGUMENTS` | All arguments passed when invoking the skill. If not present, arguments are appended as `ARGUMENTS: <value>` |
+| `$1`, `$2`, `$3`... | Positional arguments (shell-script style). `$1` is the first argument, `$2` second, etc. |
+| `$ARGUMENTS[0]`, `$ARGUMENTS[1]`... | Alternative positional syntax (0-indexed) |
 | `${CLAUDE_SESSION_ID}` | Current session ID for logging, session-specific files, or correlating output |
 
-**Example**:
+#### Positional Arguments Example
+
 ```yaml
 ---
-name: session-logger
-description: Log activity for this session
+name: review-component
+description: Review a specific component with focus area
+argument-hint: [component-name] [focus-area]
 ---
 
-Log the following to logs/${CLAUDE_SESSION_ID}.log:
+Review the $1 component with focus on $2.
 
-$ARGUMENTS
+Component file: @src/components/$1.tsx
+Test file: @tests/components/$1.test.tsx
 ```
+
+Usage: `/review-component Button accessibility`
+
+Result: Reviews the Button component with focus on accessibility.
+
+#### All Arguments Example
+
+```yaml
+---
+name: fix-issue
+description: Fix a GitHub issue
+argument-hint: [issue-number]
+---
+
+Fix issue #$ARGUMENTS following our coding standards and best practices.
+```
+
+Usage: `/fix-issue 123 high-priority`
+
+Result: "Fix issue #123 high-priority following our coding standards..."
+
+### Dynamic Context Injection
+
+Skills can execute bash commands inline using the `!` prefix to inject dynamic context:
+
+```yaml
+---
+name: review-changes
+description: Review current git changes
+allowed-tools: Bash(git status:*), Bash(git diff:*)
+---
+
+Current git status:
+!`git status`
+
+Current changes:
+!`git diff HEAD`
+
+Please review these changes and suggest improvements.
+```
+
+**Important**: The `allowed-tools` field must include `Bash` permissions for any commands used with `!`.
+
+### File References
+
+Include file contents using the `@` prefix:
+
+```yaml
+---
+name: compare-files
+description: Compare two files for changes
+---
+
+Old version: @src/old-version.js
+New version: @src/new-version.js
+
+Identify breaking changes and suggest improvements.
+```
+
+### Combined: Arguments + Bash + Files
+
+```yaml
+---
+name: analyze-component
+description: Comprehensive component analysis
+argument-hint: [component-name]
+allowed-tools: Bash(git log:*)
+---
+
+Analyze the $1 component:
+
+Component: @src/components/$1.tsx
+Tests: @tests/components/$1.test.tsx
+
+Recent changes:
+!`git log --oneline -n 5 -- src/components/$1.tsx`
+
+Provide analysis of code quality, test coverage, and potential improvements.
+```
+
+Usage: `/analyze-component Button`
 
 ### Deprecated/Unofficial Fields
 
-> ⚠️ **Warning**: The following fields appear in some documentation but are **not in the official Claude Code docs**. Use with caution as they may not be officially supported.
+> **Warning**: The following fields appear in some documentation but are **not in the official Claude Code docs**. Use with caution as they may not be officially supported.
 
 | Field | Status | Notes |
 |-------|--------|-------|
@@ -227,30 +322,30 @@ model: opus
 Consider these factors:
 
 1. **Invocation Frequency**: How often will this skill activate?
-   - Many times per session → Haiku (cost-efficient)
-   - Several times per session → Sonnet (balanced)
-   - Rarely, on-demand → Opus (when accuracy critical)
+   - Many times per session -> Haiku (cost-efficient)
+   - Several times per session -> Sonnet (balanced)
+   - Rarely, on-demand -> Opus (when accuracy critical)
 
 2. **Operation Complexity**: How sophisticated is the analysis?
-   - Simple pattern matching → Haiku
-   - Moderate analysis → Sonnet
-   - Complex reasoning → Opus
+   - Simple pattern matching -> Haiku
+   - Moderate analysis -> Sonnet
+   - Complex reasoning -> Opus
 
 3. **Error Impact**: What happens if the skill makes a mistake?
-   - Low impact (formatting) → Haiku
-   - Moderate impact (docs) → Sonnet
-   - High impact (security/compliance) → Opus
+   - Low impact (formatting) -> Haiku
+   - Moderate impact (docs) -> Sonnet
+   - High impact (security/compliance) -> Opus
 
 4. **State Management**: Does state complexity matter?
-   - Simple state tracking → Haiku
-   - Moderate state analysis → Sonnet
-   - Complex state reasoning → Opus
+   - Simple state tracking -> Haiku
+   - Moderate state analysis -> Sonnet
+   - Complex state reasoning -> Opus
 
 **Tip**: For auto-invoking skills with high frequency, strongly consider Haiku to minimize token costs. Reserve Sonnet/Opus for skills that run less frequently or require deeper analysis.
 
 ## Auto-Invocation Mechanism
 
-Skills operate through **model-invocation**—Claude autonomously determines usage based on your request and the skill's description.
+Skills operate through **model-invocation** -- Claude autonomously determines usage based on your request and the skill's description.
 
 ### Discovery Effectiveness
 
@@ -310,7 +405,7 @@ description: Aggressive cleanup of temp files and caches
 disable-model-invocation: true
 ---
 
-⚠️ This skill performs destructive operations...
+This skill performs destructive operations...
 ```
 
 ## Run Skills in Forked Context
@@ -356,7 +451,7 @@ You are a senior code reviewer using the code-analysis and security-check skills
 **Important Notes**:
 - The full skill content is **injected into the subagent's context** at startup
 - Subagents do NOT inherit skills from the parent conversation
-- **Built-in agents** (`Explore`, `Plan`, `general-purpose`) **don't have access to your Skills** — only custom subagents with explicit `skills` field
+- **Built-in agents** (`Explore`, `Plan`, `general-purpose`) **don't have access to your Skills** -- only custom subagents with explicit `skills` field
 
 ### Run a Skill in a Subagent Context
 
@@ -579,6 +674,25 @@ python scripts/analyze.py input.csv --output report.json
 See [script-reference.md](scripts/README.md) for full documentation.
 ```
 
+### Git Workflow Skill Pattern
+```yaml
+---
+name: conventional-commit
+description: Create conventional commits with proper formatting
+allowed-tools: Bash(git add:*), Bash(git commit:*), Bash(git status:*), Bash(git diff:*)
+argument-hint: [type] [message]
+---
+
+Create a conventional commit:
+- Type: $1 (feat, fix, docs, style, refactor, test, chore)
+- Message: $2
+
+Current staged files:
+!`git diff --cached --name-only`
+
+Generate a commit message following conventional commit format.
+```
+
 ## Best Practices
 
 ### 1. Keep Skills Focused
@@ -621,9 +735,18 @@ Bundle pre-written scripts for:
 - Data validation
 - Complex calculations
 
+### 8. Use Argument Hints for User Experience
+Provide `argument-hint` to guide users on expected parameters:
+```yaml
+argument-hint: [component-name] [test-type]
+```
+
+### 9. Leverage Dynamic Context
+Use `!` bash execution and `@` file references to inject relevant context automatically rather than requiring users to paste content.
+
 ## Security Considerations
 
-⚠️ **Skills provide powerful capabilities but introduce risks:**
+**Skills provide powerful capabilities but introduce risks:**
 
 - Install only from **trusted sources**
 - Thoroughly **audit** unfamiliar skills before use
@@ -676,22 +799,22 @@ description: Extract text and tables from PDF files, fill forms, merge documents
 
 ### Skill Doesn't Load?
 
-- ✓ **Check file path**: Must be exact: `SKILL.md` (case-sensitive)
-- ✓ **Check YAML syntax**: Frontmatter must start with `---` on line 1 (no blank lines before), end with `---`, use spaces (not tabs)
-- ✓ **Run debug mode**: `claude --debug`
-- ✓ **Check file location**: `~/.claude/skills/name/SKILL.md` or `.claude/skills/name/SKILL.md`
+- Check file path: Must be exact: `SKILL.md` (case-sensitive)
+- Check YAML syntax: Frontmatter must start with `---` on line 1 (no blank lines before), end with `---`, use spaces (not tabs)
+- Run debug mode: `claude --debug`
+- Check file location: `~/.claude/skills/name/SKILL.md` or `.claude/skills/name/SKILL.md`
 
 ### Skill Has Errors?
 
-- ✓ Confirm required dependencies/packages are installed
-- ✓ Verify script permissions: `chmod +x scripts/*.py`
-- ✓ Use forward slashes in paths: `scripts/helper.py` not `scripts\helper.py`
+- Confirm required dependencies/packages are installed
+- Verify script permissions: `chmod +x scripts/*.py`
+- Use forward slashes in paths: `scripts/helper.py` not `scripts\helper.py`
 
 ### Multiple Skills Conflicting?
 
 Make descriptions distinct with specific trigger terms:
-- ✓ "sales data in Excel files and CRM exports" (vs generic "data analysis")
-- ✓ "log files and system metrics" (vs generic "data analysis")
+- "sales data in Excel files and CRM exports" (vs generic "data analysis")
+- "log files and system metrics" (vs generic "data analysis")
 
 ### Plugin Skills Not Loading?
 
@@ -719,22 +842,23 @@ Make descriptions distinct with specific trigger terms:
 
 ## When to Use Skills vs Other Options
 
-| Use This | When You Want To… | When It Runs |
+| Use This | When You Want To... | When It Runs |
 |----------|-------------------|--------------|
-| **Skills** | Give Claude specialized knowledge | Claude chooses when relevant |
-| **Slash commands** | Create reusable prompts | You type `/command` |
+| **Skills** | Give Claude specialized knowledge + reusable prompts | Claude chooses or user types `/skill-name` |
 | **CLAUDE.md** | Set project-wide instructions | Loaded into every conversation |
 | **Subagents** | Delegate tasks in separate context | Claude delegates or you invoke |
 | **Hooks** | Run scripts on events | Fires on specific tool events |
 | **MCP servers** | Connect to external tools/data | Claude calls as needed |
 
+**Note**: Custom slash commands (`.claude/commands/`) and skills are now unified. Skills are the recommended approach for new development.
+
 ## Platform Support
 
 Agent Skills are supported across:
-- ✅ Claude.ai
-- ✅ Claude Code
-- ✅ Claude Agent SDK
-- ✅ Claude Developer Platform
+- Claude.ai
+- Claude Code
+- Claude Agent SDK
+- Claude Developer Platform
 
 ## Quick Reference
 
@@ -771,6 +895,7 @@ Instructions for what this skill does.
 name: advanced-skill
 description: Comprehensive description with PROACTIVE keywords and specific use cases
 allowed-tools: Read, Write, Bash
+argument-hint: [target] [options]
 model: sonnet
 context: fork
 agent: general-purpose
@@ -786,7 +911,9 @@ hooks:
 # Main instructions
 
 Session ID: ${CLAUDE_SESSION_ID}
-Arguments: $ARGUMENTS
+Target: $1
+Options: $2
+All arguments: $ARGUMENTS
 
 See [reference.md](reference.md) for details.
 See [examples.md](examples.md) for usage.
@@ -798,6 +925,7 @@ See [examples.md](examples.md) for usage.
 | `name` | Yes | Unique identifier (lowercase, numbers, hyphens; max 64 chars) |
 | `description` | Yes | When to use skill (max 1024 chars) |
 | `allowed-tools` | No | Tools Claude can use (comma-separated or YAML list) |
+| `argument-hint` | No | Expected parameters for auto-complete |
 | `model` | No | Model to use (e.g., `claude-sonnet-4-20250514`) |
 | `context` | No | Set to `fork` for isolated sub-agent context |
 | `agent` | No | Agent type when `context: fork` is set |

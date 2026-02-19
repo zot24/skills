@@ -1,12 +1,94 @@
+> Source: https://github.com/anthropics/skills
+
 # Example Skills
 
-> Source: Curated from https://github.com/anthropics/skills
+Skills are folders of instructions, scripts, and resources that Claude loads dynamically to improve performance on specialized tasks. Skills teach Claude how to complete specific tasks in a repeatable way, whether that's creating documents with your company's brand guidelines, analyzing data using your organization's specific workflows, or automating personal tasks.
 
-## Overview
+## About the Examples Repository
 
-This document provides example skills to help you understand how to structure and write effective SKILL.md files.
+The [anthropics/skills](https://github.com/anthropics/skills) repository contains skills that demonstrate what's possible with Claude's skills system. These skills range from creative applications (art, music, design) to technical tasks (testing web apps, MCP server generation) to enterprise workflows (communications, branding, etc.).
 
-## Example 1: PDF Processing Skill
+Each skill is self-contained in its own folder with a `SKILL.md` file containing the instructions and metadata that Claude uses.
+
+The repository also includes the document creation and editing skills that power Claude's document capabilities under the hood in the `skills/docx`, `skills/pdf`, `skills/pptx`, and `skills/xlsx` subfolders. These are source-available (not open source) but shared as a reference for more complex skills that are actively used in a production AI application.
+
+**Disclaimer**: These skills are provided for demonstration and educational purposes only. Implementations and behaviors may differ from what is shown. Always test skills thoroughly in your own environment.
+
+## Skill Sets
+
+- **Skills**: Skill examples for Creative and Design, Development and Technical, Enterprise and Communication, and Document Skills
+- **Spec**: The Agent Skills specification
+- **Template**: Skill template for starting new skills
+
+## Using Example Skills
+
+### Claude Code
+
+Register the repository as a Claude Code Plugin marketplace:
+
+```
+/plugin marketplace add anthropics/skills
+```
+
+Then install a specific set of skills:
+
+1. Select `Browse and install plugins`
+2. Select `anthropic-agent-skills`
+3. Select `document-skills` or `example-skills`
+4. Select `Install now`
+
+Or directly install either Plugin:
+
+```
+/plugin install document-skills@anthropic-agent-skills
+/plugin install example-skills@anthropic-agent-skills
+```
+
+After installing the plugin, use the skill by mentioning it. For instance: "Use the PDF skill to extract the form fields from `path/to/some-file.pdf`"
+
+### Claude.ai
+
+Example skills are already available to paid plans in Claude.ai.
+
+To use any skill from the repository or upload custom skills, follow the instructions in [Using skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude#h_a4222fa77b).
+
+### Claude API
+
+You can use Anthropic's pre-built skills and upload custom skills via the Claude API. See the [Skills API Quickstart](https://docs.claude.com/en/api/skills-guide#creating-a-skill) for more.
+
+## Creating a Basic Skill
+
+Skills are simple to create - just a folder with a `SKILL.md` file containing YAML frontmatter and instructions. Use the **template-skill** in the repository as a starting point:
+
+```yaml
+---
+name: my-skill-name
+description: A clear description of what this skill does and when to use it
+---
+
+# My Skill Name
+
+[Add your instructions here that Claude will follow when this skill is active]
+
+## Examples
+- Example usage 1
+- Example usage 2
+
+## Guidelines
+- Guideline 1
+- Guideline 2
+```
+
+The frontmatter requires only two fields:
+
+- `name` - A unique identifier for your skill (lowercase, hyphens for spaces)
+- `description` - A complete description of what the skill does and when to use it
+
+The markdown content below contains the instructions, examples, and guidelines that Claude will follow.
+
+## Example Skill Structures
+
+### Example 1: PDF Processing Skill
 
 A complete example of a PDF processing skill:
 
@@ -23,7 +105,8 @@ pdf-processing/
 ```
 
 **SKILL.md:**
-```yaml
+
+````yaml
 ---
 name: pdf-processing
 description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
@@ -51,9 +134,9 @@ with pdfplumber.open("file.pdf") as pdf:
 
 - **Form filling guide**: See [references/FORMS.md](references/FORMS.md)
 - **API reference**: See [references/REFERENCE.md](references/REFERENCE.md)
-```
+````
 
-## Example 2: Code Review Skill
+### Example 2: Code Review Skill
 
 A minimal skill for code review guidance:
 
@@ -89,7 +172,7 @@ description: Perform thorough code reviews with consistent standards. Use when r
 - Prioritize: Distinguish blocking issues from suggestions
 ```
 
-## Example 3: Data Analysis Skill
+### Example 3: Data Analysis Skill
 
 A skill with domain-specific reference files:
 
@@ -103,7 +186,8 @@ data-analysis/
 ```
 
 **SKILL.md:**
-```yaml
+
+````yaml
 ---
 name: data-analysis
 description: Analyze datasets, generate insights, and create visualizations. Use when working with data, spreadsheets, or when the user needs analytical insights.
@@ -142,13 +226,13 @@ import matplotlib.pyplot as plt
 df.plot(kind='bar', x='category', y='value')
 plt.savefig('chart.png')
 ```
-```
+````
 
-## Example 4: Git Commit Helper
+### Example 4: Git Commit Helper
 
 A focused skill for a specific task:
 
-```yaml
+````yaml
 ---
 name: git-commit-helper
 description: Generate descriptive commit messages by analyzing git diffs. Use when the user asks for help writing commit messages or reviewing staged changes.
@@ -198,12 +282,18 @@ Use UTC timestamps consistently across report generation
 2. Analyze the nature of the changes
 3. Generate commit message following the format
 4. Present for user review
-```
+````
+
+## Partner Skills
+
+Skills are a great way to teach Claude how to get better at using specific pieces of software. Notable partner skills include:
+
+- **Notion** - [Notion Skills for Claude](https://www.notion.so/notiondevs/Notion-Skills-for-Claude-28da4445d27180c7af1df7d8615723d0)
 
 ## Key Patterns Demonstrated
 
 1. **Progressive disclosure**: Main instructions in SKILL.md, details in reference files
-2. **Clear structure**: Frontmatter → Quick start → Workflows → References
+2. **Clear structure**: Frontmatter -> Quick start -> Workflows -> References
 3. **Concrete examples**: Input/output pairs, code snippets
 4. **Checklists**: For multi-step processes
 5. **Domain organization**: Separate files for different domains/topics
@@ -213,3 +303,7 @@ Use UTC timestamps consistently across report generation
 - **Official examples**: https://github.com/anthropics/skills
 - **Specification**: https://agentskills.io/specification
 - **Best practices**: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+- **What are skills?**: https://support.claude.com/en/articles/12512176-what-are-skills
+- **Using skills in Claude**: https://support.claude.com/en/articles/12512180-using-skills-in-claude
+- **Creating custom skills**: https://support.claude.com/en/articles/12512198-creating-custom-skills
+- **Blog post**: https://anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills

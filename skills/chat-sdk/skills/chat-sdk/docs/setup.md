@@ -2,38 +2,31 @@
 
 # Setup
 
-This guide covers setting up Chat SDK for local development and production deployment.
+This guide covers setting up Chat SDK for local development and production deployment. There are two pathways available.
 
-## Prerequisites
+## Option 1: One-Click Deploy with Vercel (Recommended)
 
-- Node.js 18+
-- pnpm (recommended) or npm
-- A database (Neon Postgres recommended)
-- AI provider API key (xAI, OpenAI, Anthropic, etc.)
+The quickest approach uses Vercel's one-click deployment:
 
-## Quick Start
+1. Click the "Deploy with Vercel" button in the repository
+2. Create a new project and associated repository
+3. Vercel integrates services like Neon Postgres and AI Gateway automatically
+4. Clone the repository locally and connect via `vc link`
+5. Pull environment variables through `vc env pull`
+6. Proceed with local development
+7. Pushing code changes automatically triggers redeployment
 
-### Option 1: Deploy to Vercel (Recommended)
+## Option 2: Local Development with Deferred Deployment
 
-Click the "Deploy with Vercel" button in the repository to:
-1. Clone the repository to your GitHub
-2. Set up environment variables
-3. Provision Neon database and Vercel Blob storage
-4. Deploy automatically
+For developers preferring to establish local infrastructure first:
 
-### Option 2: Local Development
-
-```bash
-# Clone the repository
-git clone https://github.com/vercel/ai-chatbot.git
-cd ai-chatbot
-
-# Install dependencies
-pnpm install
-
-# Copy environment variables
-cp .env.example .env.local
-```
+1. Fork the Chat SDK repository on GitHub
+2. Clone your forked copy locally
+3. Create a PostgreSQL database and configure the `DATABASE_URL` environment variable in `.env.local`
+4. Create a Vercel Blob store and set `BLOB_READ_WRITE_TOKEN` in `.env.local`
+5. Configure AI Gateway and establish the `AI_GATEWAY_API_KEY` environment variable
+6. Execute `pnpm install` for dependency installation
+7. Launch the development environment using `pnpm dev`
 
 ## Environment Variables
 
@@ -43,12 +36,8 @@ Required variables in `.env.local`:
 # Authentication
 AUTH_SECRET=your-auth-secret  # Generate with: npx auth secret
 
-# AI Provider (choose one)
-XAI_API_KEY=your-xai-key
-# or
-OPENAI_API_KEY=your-openai-key
-# or
-ANTHROPIC_API_KEY=your-anthropic-key
+# AI Gateway (for non-Vercel deployments)
+AI_GATEWAY_API_KEY=your-gateway-key
 
 # Database
 DATABASE_URL=your-neon-postgres-url
@@ -73,15 +62,6 @@ pnpm dev
 
 The app will be available at [http://localhost:3000](http://localhost:3000).
 
-## Authentication Setup
-
-Chat SDK uses Auth.js for authentication. By default, it supports:
-- Email/password registration
-- Magic links
-- OAuth providers (GitHub, Google, etc.)
-
-Configure additional providers in `auth.config.ts`.
-
 ## Vercel CLI Workflow
 
 For the best experience with environment variables:
@@ -98,3 +78,10 @@ vercel env pull
 ```
 
 This automatically syncs your production environment variables locally.
+
+## Infrastructure
+
+Both pathways enable developers to work with:
+- **PostgreSQL** (via Neon) - Chat history and user data
+- **Vercel Blob** - File storage for attachments and avatars
+- **AI Gateway** - Unified access to multiple AI model providers

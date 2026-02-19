@@ -1,46 +1,43 @@
 <!-- Source: https://ai-sdk.dev/docs/ai-sdk-ui/overview -->
 
-# AI SDK UI Overview
+# AI SDK UI
 
-AI SDK UI is a framework-agnostic toolkit for building interactive chat, completion, and assistant applications.
+AI SDK UI is designed to help you build interactive chat, completion, and assistant applications with ease. It is a **framework-agnostic toolkit**, streamlining the integration of advanced AI functionalities into your applications.
+
+AI SDK UI provides robust abstractions that simplify the complex tasks of managing chat streams and UI updates on the frontend, enabling you to develop dynamic AI-driven interfaces more efficiently. With three main hooks -- **`useChat`**, **`useCompletion`**, and **`useObject`** -- you can incorporate real-time chat capabilities, text completions, streamed JSON, and interactive assistant features into your app.
 
 ## Primary Hooks
 
 ### useChat
 
-Real-time streaming chat with automatic state management:
+Offers real-time streaming of chat messages, abstracting state management for inputs, messages, loading, and errors, allowing for seamless integration into any UI design.
 
 ```typescript
 'use client';
 import { useChat } from '@ai-sdk/react';
 
 export default function Chat() {
-  const {
-    messages,
-    input,
-    handleInputChange,
-    handleSubmit,
-    isLoading,
-    error,
-    reload,
-    stop,
-  } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, status } = useChat();
 
   return (
     <div>
-      {messages.map(m => (
-        <div key={m.id}>
-          <strong>{m.role}:</strong> {m.content}
+      {messages.map(message => (
+        <div key={message.id}>
+          <strong>{message.role}:</strong>
+          {message.parts.map((part, index) => {
+            switch (part.type) {
+              case 'text':
+                return <div key={index}>{part.text}</div>;
+            }
+          })}
         </div>
       ))}
-
-      {isLoading && <div>AI is typing...</div>}
 
       <form onSubmit={handleSubmit}>
         <input
           value={input}
           onChange={handleInputChange}
-          placeholder="Say something..."
+          disabled={status !== 'ready'}
         />
         <button type="submit">Send</button>
       </form>
@@ -51,20 +48,15 @@ export default function Chat() {
 
 ### useCompletion
 
-For text completion interfaces:
+Enables you to handle text completions in your applications, managing the prompt input and automatically updating the UI as new completions are streamed.
 
 ```typescript
 'use client';
 import { useCompletion } from '@ai-sdk/react';
 
 export default function Completion() {
-  const {
-    completion,
-    input,
-    handleInputChange,
-    handleSubmit,
-    isLoading,
-  } = useCompletion();
+  const { completion, input, handleInputChange, handleSubmit, isLoading } =
+    useCompletion();
 
   return (
     <div>
@@ -82,7 +74,7 @@ export default function Completion() {
 
 ### useObject
 
-For consuming streamed JSON objects:
+A hook that allows you to consume streamed JSON objects, providing a simple way to handle and display structured data in your application.
 
 ```typescript
 'use client';
@@ -90,10 +82,12 @@ import { useObject } from '@ai-sdk/react';
 import { z } from 'zod';
 
 const schema = z.object({
-  notifications: z.array(z.object({
-    title: z.string(),
-    message: z.string(),
-  })),
+  notifications: z.array(
+    z.object({
+      title: z.string(),
+      message: z.string(),
+    }),
+  ),
 });
 
 export default function Notifications() {
@@ -119,31 +113,20 @@ export default function Notifications() {
 }
 ```
 
-## Framework Support
+## UI Framework Support
 
-| Framework | Package | Hooks |
-|-----------|---------|-------|
-| React | @ai-sdk/react | useChat, useCompletion, useObject |
-| Vue.js | @ai-sdk/vue | useChat, useCompletion, useObject |
-| Svelte | @ai-sdk/svelte | useChat, useCompletion, useObject |
-| Angular | @ai-sdk/angular | useChat, useCompletion, useObject |
-| SolidJS | Community | useChat, useCompletion, useObject |
+| Hook | React `@ai-sdk/react` | Vue.js `@ai-sdk/vue` | Svelte `@ai-sdk/svelte` | Angular `@ai-sdk/angular` | SolidJS (community) |
+|------|----------------------|---------------------|------------------------|--------------------------|---------------------|
+| useChat | useChat | useChat | Chat | Chat | useChat |
+| useCompletion | useCompletion | useCompletion | Completion | Completion | useCompletion |
+| useObject | useObject | useObject | StructuredObject | StructuredObject | useObject |
 
-## useChat Options
+## Framework Examples
 
-```typescript
-const { messages, ... } = useChat({
-  api: '/api/chat',           // Custom API endpoint
-  id: 'my-chat',              // Unique chat ID
-  initialMessages: [],        // Pre-populate messages
-  initialInput: '',           // Pre-populate input
-  onResponse: (response) => {}, // Called on response
-  onFinish: (message) => {},    // Called when complete
-  onError: (error) => {},       // Called on error
-  headers: {},                  // Custom headers
-  body: {},                     // Additional body data
-});
-```
+- [**Next.js**](https://github.com/vercel/ai/tree/main/examples/next-openai)
+- [**Nuxt**](https://github.com/vercel/ai/tree/main/examples/nuxt-openai)
+- [**SvelteKit**](https://github.com/vercel/ai/tree/main/examples/sveltekit-openai)
+- [**Angular**](https://github.com/vercel/ai/tree/main/examples/angular)
 
 ## Server-Side API Routes
 
@@ -151,17 +134,53 @@ const { messages, ... } = useChat({
 
 ```typescript
 // app/api/chat/route.ts
-import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = streamText({
-    model: openai('gpt-4o'),
+    model: 'anthropic/claude-sonnet-4.5',
     messages,
   });
 
-  return result.toDataStreamResponse();
+  return result.toUIMessageStreamResponse();
 }
 ```
+
+### Agent-based Route
+
+```typescript
+// app/api/chat/route.ts
+import { createAgentUIStreamResponse } from 'ai';
+import { myAgent } from '@/agent/my-agent';
+
+export async function POST(req: Request) {
+  const { messages } = await req.json();
+
+  return createAgentUIStreamResponse({
+    agent: myAgent,
+    uiMessages: messages,
+  });
+}
+```
+
+## Key Topics
+
+- **[Chatbot](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot)** - Building chat interfaces
+- **[Chatbot Message Persistence](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-message-persistence)** - Persisting messages
+- **[Chatbot Resume Streams](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-resume-streams)** - Resuming interrupted streams
+- **[Chatbot Tool Usage](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-tool-usage)** - Using tools in chat UIs
+- **[Generative User Interfaces](https://ai-sdk.dev/docs/ai-sdk-ui/generative-user-interfaces)** - Dynamic AI-driven UIs
+- **[Completion](https://ai-sdk.dev/docs/ai-sdk-ui/completion)** - Text completion interfaces
+- **[Object Generation](https://ai-sdk.dev/docs/ai-sdk-ui/object-generation)** - Streaming structured objects
+- **[Streaming Custom Data](https://ai-sdk.dev/docs/ai-sdk-ui/streaming-data)** - Custom data streaming
+- **[Error Handling](https://ai-sdk.dev/docs/ai-sdk-ui/error-handling)** - Error management
+- **[Transport](https://ai-sdk.dev/docs/ai-sdk-ui/transport)** - Transport protocols
+- **[Reading UIMessage Streams](https://ai-sdk.dev/docs/ai-sdk-ui/reading-ui-message-streams)** - Consuming streams
+- **[Message Metadata](https://ai-sdk.dev/docs/ai-sdk-ui/message-metadata)** - Adding metadata to messages
+- **[Stream Protocols](https://ai-sdk.dev/docs/ai-sdk-ui/stream-protocol)** - Protocol details
+
+## API Reference
+
+Please check out the [AI SDK UI API Reference](https://ai-sdk.dev/docs/reference/ai-sdk-ui) for more details on each function.

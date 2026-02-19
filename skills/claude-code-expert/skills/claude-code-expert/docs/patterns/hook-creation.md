@@ -1,8 +1,8 @@
 # Hook Creation Pattern
 
 > **Source**: Official Claude Code Documentation
-> **Source URL**: https://code.claude.com/docs/en/hooks-guide.md
-> **Last Updated**: 2025-01-15
+> **Source URL**: https://code.claude.com/docs/en/hooks
+> **Last Updated**: 2026-02-19
 
 ## What Are Hooks?
 
@@ -10,21 +10,36 @@ Hooks are event-driven automations that execute shell commands at specific Claud
 
 > "Encode rules as hooks rather than relying on LLM prompts to turn suggestions into app-level code that executes every time it is expected to run."
 
+## Hook Types
+
+Claude Code supports three types of hooks:
+
+| Type | Description | Use Cases |
+|------|-------------|-----------|
+| `command` | Execute a shell command | Formatting, logging, validation, file operations |
+| `prompt` | Send output to Claude for LLM-driven decisions | Context-aware validation, smart routing |
+| `agent` | Invoke a subagent for multi-step analysis | Complex reviews, deep analysis, multi-file operations |
+
 ## Hook Event Types
 
-Claude Code provides nine distinct hook events:
+Claude Code provides fourteen distinct hook events:
 
-| Event | Timing | Can Block? | Use Cases |
-|-------|--------|------------|-----------|
-| `PreToolUse` | Before tool calls | **Yes** | Validation, access control, blocking |
-| `PostToolUse` | After tool calls | No | Post-processing, logging, formatting |
-| `UserPromptSubmit` | When users submit prompts | No | Prompt modification, context injection |
-| `Notification` | During notification delivery | No | Custom alerts, integrations |
-| `Stop` | When Claude finishes responding | No | Cleanup, state updates |
-| `SubagentStop` | Upon subagent completion | No | Result processing, coordination |
-| `PreCompact` | Before compact operations | No | Data preservation |
-| `SessionStart` | Starting/resuming sessions | No | Initialization, setup |
-| `SessionEnd` | Session termination | No | Cleanup, reporting |
+| Event | Timing | Can Block? | Decision Control | Use Cases |
+|-------|--------|------------|------------------|-----------|
+| `SessionStart` | Starting/resuming sessions | No | No | Initialization, setup, environment checks |
+| `UserPromptSubmit` | When users submit prompts | No | **Yes** (modify/suppress) | Prompt modification, context injection |
+| `PreToolUse` | Before tool calls | **Yes** | **Yes** (approve/block) | Validation, access control, blocking |
+| `PermissionRequest` | When permission dialog would show | No | **Yes** (approve/deny) | Programmatic permission control |
+| `PostToolUse` | After successful tool calls | No | No | Post-processing, logging, formatting |
+| `PostToolUseFailure` | After failed tool calls | No | No | Error handling, retry logic, alerting |
+| `Notification` | During notification delivery | No | No | Custom alerts, integrations |
+| `SubagentStart` | When a subagent begins | No | No | Subagent tracking, setup |
+| `SubagentStop` | Upon subagent completion | No | No | Result processing, coordination |
+| `Stop` | When Claude finishes responding | No | No | Cleanup, state updates |
+| `TeammateIdle` | When a teammate agent becomes idle | No | No | Team coordination, load balancing |
+| `TaskCompleted` | When a task finishes | No | No | Progress tracking, notifications |
+| `PreCompact` | Before compact operations | No | No | Data preservation, context saving |
+| `SessionEnd` | Session termination | No | No | Cleanup, reporting |
 
 ## File Structure and Configuration
 
@@ -60,7 +75,16 @@ Claude Code provides nine distinct hook events:
 }
 ```
 
-**Note on Models**: Hooks execute deterministic shell commands independently of Claude's language model. There is no model selection for hooks - they run as native system processes regardless of which Claude model is active in the conversation.
+**Note on Models**: Command hooks execute deterministic shell commands independently of Claude's language model. There is no model selection for command hooks. Prompt and agent hooks do use the LLM.
+
+### Environment Variables
+
+Hooks have access to these environment variables:
+
+| Variable | Description |
+|----------|-------------|
+| `$CLAUDE_PROJECT_DIR` | The project root directory |
+| `$CLAUDE_ENV_FILE` | Path to environment file for the session |
 
 ## Matcher Patterns
 
@@ -79,6 +103,20 @@ Claude Code provides nine distinct hook events:
 ### Wildcard Matcher
 ```json
 "matcher": "*"  // Matches ALL tools
+```
+
+### MCP Tool Matchers
+```json
+"matcher": "mcp__server-name__tool-name"  // Specific MCP tool
+"matcher": "mcp__server-name__*"          // All tools from an MCP server
+```
+
+### Session Event Matchers
+```json
+"matcher": "startup"   // New session start only
+"matcher": "resume"    // Resumed session only
+"matcher": "clear"     // Context cleared
+"matcher": "compact"   // Context compacted
 ```
 
 ## Hook Input Format
@@ -109,6 +147,64 @@ jq -r '.file_path'
 # Extract new content from Write tool
 jq -r '.tool_input.content'
 ```
+
+## Hook Output Format
+
+### Command Hooks
+
+Command hooks can produce structured JSON output to control behavior:
+
+**For PreToolUse** (decision control):
+```json
+{
+  "decision": "block",
+  "reason": "File is in a protected directory"
+}
+```
+
+Decision values: `"approve"`, `"block"`, or omit for default behavior.
+
+**For UserPromptSubmit** (prompt modification):
+```json
+{
+  "hookSpecificOutput": {
+    "suppressPrompt": false,
+    "newPromptForModel": "Modified prompt text here"
+  }
+}
+```
+
+**For PermissionRequest** (permission control):
+```json
+{
+  "hookSpecificOutput": {
+    "decision": "approve"
+  }
+}
+```
+
+Decision values: `"approve"` or `"deny"`.
+
+### Exit Codes (PreToolUse Command Hooks)
+
+For simple command hooks without JSON output:
+- `exit 0` = Allow operation
+- `exit 2` = Block operation
+- Other codes = Treated as success
+
+### Async Hooks
+
+Hooks can be run asynchronously by setting `async: true`:
+
+```json
+{
+  "type": "command",
+  "command": "long-running-script.sh",
+  "async": true
+}
+```
+
+Async hooks run in the background and do not block the agent loop. They cannot produce decision output.
 
 ## Common Use Cases and Examples
 
@@ -203,7 +299,7 @@ jq -r '.tool_input.content'
         "hooks": [
           {
             "type": "command",
-            "command": "FILE=$(jq -r '.file_path'); if [[ $FILE == *.env ]] || [[ $FILE == *package-lock.json ]] || [[ $FILE == .git/* ]]; then echo 'Blocked: Cannot modify sensitive files' >&2; exit 2; fi"
+            "command": "FILE=$(jq -r '.file_path'); if [[ $FILE == *.env ]] || [[ $FILE == *package-lock.json ]] || [[ $FILE == .git/* ]]; then echo '{\"decision\":\"block\",\"reason\":\"Cannot modify sensitive files\"}'; exit 0; fi"
           }
         ]
       }
@@ -212,9 +308,7 @@ jq -r '.tool_input.content'
 }
 ```
 
-**Exit codes for PreToolUse**:
-- `0` = Allow operation
-- `2` = Block operation
+**Note**: The preferred approach is to output JSON with `decision` field. The legacy `exit 2` approach still works for backward compatibility.
 
 ### 5. Notifications (System Alerts)
 
@@ -276,9 +370,69 @@ jq -r '.tool_input.content'
 }
 ```
 
+### 8. Context Injection (UserPromptSubmit)
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\":{\"suppressPrompt\":false,\"newPromptForModel\":\"'\"$(cat <<EOF\n[Context: Current time is $(date '+%Y-%m-%d %H:%M'), Project: $CLAUDE_PROJECT_DIR]\nEOF\n)\"'}}'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 9. Permission Auto-Approval
+
+```json
+{
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "CMD=$(jq -r '.tool_input.command'); if [[ $CMD == npm\\ test* ]] || [[ $CMD == npm\\ run\\ lint* ]]; then echo '{\"hookSpecificOutput\":{\"decision\":\"approve\"}}'; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 10. Error Recovery (PostToolUseFailure)
+
+```json
+{
+  "hooks": {
+    "PostToolUseFailure": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.error // .tool_output' >> ~/.claude/error_log.txt"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## Security Considerations
 
-⚠️ **CRITICAL SECURITY WARNING**
+**CRITICAL SECURITY WARNING**
 
 > "You must consider the security implication of hooks as you add them, because hooks run automatically during the agent loop with your current environment's credentials."
 
@@ -340,8 +494,8 @@ dangerous_operation 2>/dev/null || echo "Warning: operation failed" >&2
 ```
 
 ### 3. Exit Codes (PreToolUse Only)
-- `exit 0` = Allow operation (success)
-- `exit 2` = Block operation (validation failed)
+- `exit 0` = Allow operation (success) -- or use JSON output with `decision` field
+- `exit 2` = Block operation (validation failed) -- legacy approach
 - Other codes = Treated as success
 
 ### 4. Storage Location Selection
@@ -361,6 +515,18 @@ dangerous_operation 2>/dev/null || echo "Warning: operation failed" >&2
 - Verify stdin parsing with sample JSON
 - Test both success and failure paths
 - Ensure proper exit codes
+- Test JSON output format for decision hooks
+
+### 6. Use Once for Initialization
+Use `once: true` for hooks that should only run once per session:
+
+```json
+{
+  "type": "command",
+  "command": "echo 'Session initialized'",
+  "once": true
+}
+```
 
 ## Advanced Patterns
 
@@ -405,18 +571,39 @@ fi
 }
 ```
 
-### Context Injection (UserPromptSubmit)
+### Prompt-Based Hook (LLM Decision)
 
 ```json
 {
   "hooks": {
-    "UserPromptSubmit": [
+    "PreToolUse": [
       {
-        "matcher": "*",
+        "matcher": "Edit|Write",
         "hooks": [
           {
-            "type": "command",
-            "command": "echo '[Context: Current time is '$(date '+%Y-%m-%d %H:%M')']'"
+            "type": "prompt",
+            "prompt": "Review this file change. If the edit introduces security vulnerabilities, respond with {\"decision\": \"block\", \"reason\": \"description\"}. Otherwise respond with {\"decision\": \"approve\"}."
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Agent Hook (Subagent Analysis)
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "agent",
+            "prompt": "Analyze this bash command for security risks. Check for dangerous operations, data exfiltration attempts, or unintended side effects.",
+            "agent": "security-reviewer"
           }
         ]
       }
@@ -428,21 +615,22 @@ fi
 ## Troubleshooting
 
 ### Hook Not Executing?
-- ✓ Verify JSON syntax in settings.json
-- ✓ Check event name spelling (case-sensitive)
-- ✓ Ensure matcher pattern matches tool name
-- ✓ Validate shell command works independently
-- ✓ Check file permissions on scripts
+- Verify JSON syntax in settings.json
+- Check event name spelling (case-sensitive)
+- Ensure matcher pattern matches tool name
+- Validate shell command works independently
+- Check file permissions on scripts
 
 ### Hook Blocking Operations?
-- ✓ Verify exit code (0 = allow, 2 = block in PreToolUse)
-- ✓ Check stderr output for error messages
-- ✓ Test hook command manually with sample JSON
+- Verify exit code (0 = allow, 2 = block in PreToolUse)
+- Check JSON output for `decision` field
+- Check stderr output for error messages
+- Test hook command manually with sample JSON
 
 ### JSON Parsing Errors?
-- ✓ Ensure jq is installed: `which jq`
-- ✓ Test JSON structure: `echo '{}' | jq`
-- ✓ Verify stdin is being received
+- Ensure jq is installed: `which jq`
+- Test JSON structure: `echo '{}' | jq`
+- Verify stdin is being received
 
 ## Quick Reference
 
@@ -475,7 +663,7 @@ fi
         "hooks": [
           {
             "type": "command",
-            "command": "FILE=$(jq -r '.file_path'); [[ $FILE != *.env ]] || exit 2"
+            "command": "FILE=$(jq -r '.file_path'); [[ $FILE != *.env ]] || echo '{\"decision\":\"block\",\"reason\":\"Cannot edit .env files\"}'"
           }
         ]
       }
@@ -505,12 +693,13 @@ fi
 
 ## Advanced Hook Patterns
 
-For advanced hook development including v2.1.0+ features, see [hook-advanced.md](hook-advanced.md):
+For advanced hook development, see [hook-advanced.md](hook-advanced.md):
 
 - **Prompt-Based Hooks**: LLM-driven decision making with context awareness
 - **Agent Hooks**: Invoke subagents for complex multi-step analysis
 - **PermissionRequest Event**: Programmatic control over permission dialogs
 - **`once: true` Option**: Single-execution hooks for initialization
-- **Expanded Matchers**: startup, resume, clear, compact
+- **Async Hooks**: Background execution for non-blocking operations
+- **Expanded Matchers**: startup, resume, clear, compact, MCP tools
 - **Frontmatter Scoping**: Path-specific hook targeting
 - **Advanced Patterns**: Multi-stage validation, hook chaining, caching strategies

@@ -1,53 +1,116 @@
-# Agent-Browser CDP Mode
+> Source: https://agent-browser.dev/docs/cdp-mode
 
-> Source: https://agent-browser.dev/cdp-mode
+# CDP Mode
 
-## Overview
-
-CDP (Chrome DevTools Protocol) Mode enables connection to existing browsers rather than launching new instances.
-
-## Connection Examples
-
-### Electron Application Connection
+Connect to an existing browser via Chrome DevTools Protocol:
 
 ```bash
+# Start Chrome with: google-chrome --remote-debugging-port=9222
+
+# Connect once, then run commands without --cdp
+agent-browser connect 9222
+agent-browser snapshot
+agent-browser tab
+agent-browser close
+
+# Or pass --cdp on each command
 agent-browser --cdp 9222 snapshot
 ```
 
-### Chrome with Remote Debugging
+## Remote WebSocket URLs
 
-Start Chrome with remote debugging enabled:
-
-```bash
-google-chrome --remote-debugging-port=9222
-```
-
-Then connect:
+Connect to remote browser services via WebSocket URL:
 
 ```bash
-agent-browser --cdp 9222 open about:blank
+# Connect to remote browser service
+agent-browser --cdp "wss://browser-service.com/cdp?token=..." snapshot
+
+# Works with any CDP-compatible service
+agent-browser --cdp "ws://localhost:9222/devtools/browser/abc123" open example.com
 ```
 
-## Supported Environments
+The `--cdp` flag accepts either:
 
-CDP Mode enables control of:
+- A port number (e.g., `9222`) for local connections via `http://localhost:{port}`
+- A full WebSocket URL (e.g., `wss://...` or `ws://...`) for remote browser services
 
-- Electron applications
-- Chrome/Chromium instances with remote debugging enabled
+## Auto-Connect
+
+Use `--auto-connect` to automatically discover and connect to a running Chrome instance without specifying a port:
+
+```bash
+# Auto-discover running Chrome with remote debugging
+agent-browser --auto-connect open example.com
+agent-browser --auto-connect snapshot
+
+# Or via environment variable
+AGENT_BROWSER_AUTO_CONNECT=1 agent-browser snapshot
+```
+
+Auto-connect discovers Chrome by:
+
+1. Reading Chrome's `DevToolsActivePort` file from the default user data directory
+2. Falling back to probing common debugging ports (9222, 9229)
+
+This is useful when:
+
+- Chrome 144+ has remote debugging enabled via `chrome://inspect/#remote-debugging` (which uses a dynamic port)
+- You want a zero-configuration connection to your existing browser
+- You don't want to track which port Chrome is using
+
+## Use Cases
+
+This enables control of:
+
+- Electron apps
+- Chrome/Chromium with remote debugging
 - WebView2 applications
+- Remote browser services (via WebSocket URL)
 - Any browser exposing a CDP endpoint
+
+## Cloud Providers
+
+Use cloud browser infrastructure when local browsers aren't available:
+
+```bash
+# Browserbase
+export BROWSERBASE_API_KEY="your-api-key"
+export BROWSERBASE_PROJECT_ID="your-project-id"
+agent-browser -p browserbase open https://example.com
+
+# Browser Use
+export BROWSER_USE_API_KEY="your-api-key"
+agent-browser -p browseruse open https://example.com
+
+# Kernel
+export KERNEL_API_KEY="your-api-key"
+agent-browser -p kernel open https://example.com
+
+# Or via environment variable
+export AGENT_BROWSER_PROVIDER=browserbase
+agent-browser open https://example.com
+```
+
+The `-p` flag takes precedence over `AGENT_BROWSER_PROVIDER`.
 
 ## Global Options
 
-| Option | Purpose |
-|--------|---------|
+| Option | Description |
+| --- | --- |
 | `--session <name>` | Use isolated session |
+| `--profile <path>` | Persistent browser profile directory |
+| `-p <provider>` | Cloud browser provider (`browserbase`, `browseruse`, `kernel`) |
 | `--headers <json>` | HTTP headers scoped to origin |
 | `--executable-path` | Custom browser executable |
-| `--json` | JSON output for agents |
+| `--args <args>` | Browser launch args (comma-separated) |
+| `--user-agent <ua>` | Custom User-Agent string |
+| `--proxy <url>` | Proxy server URL |
+| `--proxy-bypass <hosts>` | Hosts to bypass proxy |
+| `--json` | JSON output for scripts |
 | `--full, -f` | Full page screenshot |
 | `--name, -n` | Locator name filter |
 | `--exact` | Exact text match |
 | `--headed` | Show browser window |
-| `--cdp <port>` | CDP connection port |
+| `--cdp <port\|url>` | CDP connection (port or WebSocket URL) |
+| `--auto-connect` | Auto-discover and connect to running Chrome |
 | `--debug` | Debug output |

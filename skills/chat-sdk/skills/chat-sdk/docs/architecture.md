@@ -2,7 +2,30 @@
 
 # Architecture
 
-Chat SDK is built on Next.js App Router with a modular architecture designed for extensibility.
+The Chat SDK leverages several open source libraries to enable core chatbot features like authentication, persistence, text generation, and file storage.
+
+## Key Components
+
+### Application Framework
+Built on Next.js with the App Router, the SDK organizes code into `(chat)/` and `(auth)/` route segments, with API endpoints functioning as serverless route handlers.
+
+### Model Providers
+The AI SDK connects to language models from various providers, enabling text generation, structured data creation, and advanced features including Tool Use, Retrieval Augmented Generation, and Reasoning.
+
+### Authentication
+Auth.js handles user authentication, which is required by default for creating and saving chats.
+
+### Persistence
+PostgreSQL stores chat history and user data, accessed via Drizzle ORM. This approach supports multiple database providers like Neon and Supabase without requiring query modifications.
+
+### Blob Storage
+Vercel Blob enables file uploads as chat attachments and stores user avatars and other assets.
+
+### Security
+It is recommended to enable Vercel Firewall and rate limiting on endpoints like `/api/chat` to prevent costly abuse. Alternatively, use a key-value store to track requests and define thresholds.
+
+### Testing
+Playwright runs end-to-end tests to verify user workflows and detect breaking changes during customization.
 
 ## Project Structure
 
@@ -13,44 +36,37 @@ ai-chatbot/
 │   ├── (chat)/            # Chat interface routes
 │   ├── api/               # API routes
 │   └── layout.tsx         # Root layout
+├── artifacts/             # Artifact implementations
+│   ├── code/             # Code execution artifact
+│   ├── image/            # Image artifact
+│   ├── sheet/            # Sheet/tabular data artifact
+│   └── text/             # Text editing artifact
 ├── components/            # React components
 │   ├── ui/               # shadcn/ui components
-│   ├── chat/             # Chat-specific components
-│   └── artifacts/        # Artifact components
+│   └── ...               # Feature components
 ├── lib/                   # Shared utilities
 │   ├── ai/               # AI SDK configuration
+│   │   ├── models.ts     # Model configuration
+│   │   ├── providers.ts  # Provider setup
+│   │   └── prompts.ts    # System prompts
+│   ├── artifacts/        # Artifact server handlers
 │   ├── db/               # Database utilities
+│   │   ├── schema.ts     # Drizzle ORM schema
+│   │   └── queries.ts    # Database queries
 │   └── utils/            # Helper functions
 ├── hooks/                 # Custom React hooks
 └── public/               # Static assets
 ```
 
-## Key Components
+## Message Flow
 
-### Chat Interface
-- `components/chat/chat.tsx` - Main chat container
-- `components/chat/messages.tsx` - Message list
-- `components/chat/input.tsx` - User input area
-- `components/chat/message.tsx` - Individual message
+When users send messages, the process follows this sequence:
 
-### AI Integration
-- `lib/ai/models.ts` - Model configuration
-- `lib/ai/providers.ts` - Provider setup
-- `app/api/chat/route.ts` - Chat API endpoint
-
-### Data Layer
-- `lib/db/schema.ts` - Database schema (Drizzle ORM)
-- `lib/db/queries.ts` - Database queries
-- `drizzle.config.ts` - Drizzle configuration
-
-## Data Flow
-
-1. User sends message via chat input
-2. Message is sent to `/api/chat` endpoint
-3. AI SDK processes with configured model
-4. Response streams back via Server-Sent Events
-5. Messages persist to Neon Postgres
-6. UI updates in real-time
+1. User submits message via the `useChat` hook
+2. Optional file uploads are sent to Vercel Blob
+3. Request is routed through `/api/chat`
+4. Model selection occurs and response is streamed
+5. Messages are persisted to the database afterward
 
 ## Server Components vs Client Components
 

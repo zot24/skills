@@ -1,12 +1,16 @@
 # Command Creation Pattern
 
 > **Source**: Official Claude Code Documentation
-> **Source URL**: https://code.claude.com/docs/en/slash-commands.md
-> **Last Updated**: 2025-01-15
+> **Source URL**: https://code.claude.com/docs/en/skills
+> **Last Updated**: 2026-02-19
+
+> **Note**: Custom slash commands and skills have been **unified** in Claude Code. The `.claude/commands/` directory continues to work for backward compatibility, but new development should use the **skills system** (`.claude/skills/`). See [skill-creation.md](skill-creation.md) for the recommended approach. This document remains as a reference for the legacy commands format and for teams that prefer the simpler single-file approach.
 
 ## What Are Custom Slash Commands?
 
 Custom slash commands are Markdown files that create reusable prompts with the `/command-name` syntax. They enable workflow shortcuts, parameterized prompts, and team-shared conventions.
+
+**Relationship to Skills**: Skills (in `.claude/skills/`) and commands (in `.claude/commands/`) both appear in the slash command menu. Skills take precedence over commands with the same name.
 
 ## File Structure and Locations
 
@@ -27,9 +31,9 @@ Custom slash commands are Markdown files that create reusable prompts with the `
 Command names derive from the Markdown filename (without `.md` extension):
 
 ```
-.claude/commands/optimize.md  →  /optimize
-.claude/commands/review-pr.md  →  /review-pr
-~/.claude/commands/commit.md  →  /commit
+.claude/commands/optimize.md  ->  /optimize
+.claude/commands/review-pr.md  ->  /review-pr
+~/.claude/commands/commit.md  ->  /commit
 ```
 
 ### Namespacing with Subdirectories
@@ -37,8 +41,8 @@ Command names derive from the Markdown filename (without `.md` extension):
 Organize commands hierarchically **without affecting the command name**:
 
 ```
-.claude/commands/frontend/component.md  →  /component (project:frontend)
-.claude/commands/backend/api.md         →  /api (project:backend)
+.claude/commands/frontend/component.md  ->  /component (project:frontend)
+.claude/commands/backend/api.md         ->  /api (project:backend)
 ```
 
 The subdirectory appears in the description but doesn't change the command name.
@@ -116,24 +120,6 @@ Choose the appropriate model based on the command's complexity and frequency of 
 - Quick status checks
 - Repetitive workflows
 
-**Examples**:
-```markdown
----
-description: Format code with prettier
-model: haiku
----
-# Fast, simple formatting operation
-```
-
-```markdown
----
-description: List recent commits
-allowed-tools: Bash(git log:*)
-model: haiku
----
-# Simple git log command
-```
-
 ### When to Use Sonnet (Default Recommendation)
 
 **Best for**:
@@ -143,23 +129,6 @@ model: haiku
 - Moderate complexity prompts
 - Most general-purpose commands
 
-**Examples**:
-```markdown
----
-description: Review code for issues
-model: sonnet
----
-# Balanced code review analysis
-```
-
-```markdown
----
-description: Generate unit tests
-model: sonnet
----
-# Requires reasoning about test cases
-```
-
 ### When to Use Opus
 
 **Best for**:
@@ -168,40 +137,6 @@ model: sonnet
 - Architectural reviews
 - Complex analysis requiring deep reasoning
 - High-stakes deployments
-
-**Examples**:
-```markdown
----
-description: Pre-production security audit
-model: opus
----
-# Critical security review before production
-```
-
-```markdown
----
-description: Review architectural changes
-model: opus
----
-# Complex architectural decision-making
-```
-
-### Decision Framework for Commands
-
-1. **Usage Frequency**: How often will this command be invoked?
-   - Very frequent (daily/hourly) → Haiku
-   - Regular (few times per session) → Sonnet
-   - Occasional (critical moments) → Opus
-
-2. **Reasoning Complexity**: How much analysis is required?
-   - Simple execution → Haiku
-   - Moderate analysis → Sonnet
-   - Deep reasoning → Opus
-
-3. **Error Impact**: What's the consequence of mistakes?
-   - Low impact (formatting) → Haiku
-   - Moderate impact (reviews) → Sonnet
-   - High impact (security/deployment) → Opus
 
 **Tip**: Leave the model field unset to inherit from the main conversation. Only specify when the command requires different capabilities than typical conversation flow.
 
@@ -483,6 +418,30 @@ Verify:
 - [ ] Database migrations ready
 ```
 
+## Migrating Commands to Skills
+
+To migrate a command to the skills system:
+
+1. Create a skill directory: `.claude/skills/command-name/`
+2. Create `SKILL.md` with the command content
+3. Convert frontmatter fields:
+   - `description` -> `description` (same)
+   - `allowed-tools` -> `allowed-tools` (same)
+   - `argument-hint` -> `argument-hint` (same)
+   - `model` -> `model` (same)
+   - Add `name` field (required for skills)
+4. Remove the old `.claude/commands/command-name.md` file
+
+**Before** (command):
+```
+.claude/commands/review-pr.md
+```
+
+**After** (skill):
+```
+.claude/skills/review-pr/SKILL.md
+```
+
 ## Best Practices
 
 ### 1. Use Descriptive Names
@@ -531,42 +490,16 @@ argument-hint: [component-name] [test-type]
 ```
 
 ### 6. Start Simple, Build Complexity Gradually
-Begin with basic prompts, add features as needed:
-```markdown
-# Version 1: Basic
-Analyze code for issues.
+Begin with basic prompts, add features as needed.
 
-# Version 2: With file reference
-Analyze code in @$1 for issues.
-
-# Version 3: With bash execution
-Current files: !`ls $1`
-Analyze code in @$1 for issues.
-
-# Version 4: With full context
-Run tests: !`npm test -- $1`
-Current implementation: @$1
-Current tests: @tests/$1
-Analyze code and tests for issues.
-```
-
-### 7. Document with Comments
-Explain non-obvious prompt logic:
-```markdown
----
-description: Complex deployment command
----
-
-<!-- This command runs pre-deployment checks -->
-<!-- Requires: npm, git, environment variables set -->
-
-Check deployment readiness for: $1
-...
-```
+### 7. Consider Migrating to Skills
+For commands that need multi-file support, state management, or auto-invocation, consider migrating to the skills format.
 
 ## Conflict Resolution
 
-**Naming conflicts**: Commands at project-level and personal-level with the same name cannot coexist. Choose unique names or use subdirectories for organization.
+**Naming conflicts**: Skills take precedence over commands with the same name. If you have both `.claude/skills/review/SKILL.md` and `.claude/commands/review.md`, the skill version will be used.
+
+**Level conflicts**: Commands at project-level and personal-level with the same name cannot coexist. Choose unique names or use subdirectories for organization.
 
 ## SlashCommand Tool Integration
 

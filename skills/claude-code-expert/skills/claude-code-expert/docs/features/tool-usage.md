@@ -2,7 +2,7 @@
 
 > **Source**: Official Claude Code Documentation
 > **Source URL**: https://code.claude.com/docs/en/common-workflows.md
-> **Last Updated**: 2025-01-15
+> **Last Updated**: 2026-02-19
 
 ## Overview
 

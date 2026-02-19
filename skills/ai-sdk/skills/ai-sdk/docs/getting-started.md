@@ -2,7 +2,7 @@
 
 # Getting Started
 
-This guide covers setting up AI SDK in your project.
+The following guides provide an introduction to some of the core features provided by the AI SDK.
 
 ## Prerequisites
 
@@ -22,6 +22,33 @@ npm install @ai-sdk/anthropic
 npm install @ai-sdk/google
 ```
 
+## Vercel AI Gateway (Default)
+
+By default, the AI SDK uses the Vercel AI Gateway. Just pass a model string:
+
+```typescript
+import { generateText } from 'ai';
+
+const { text } = await generateText({
+  model: 'anthropic/claude-sonnet-4.5', // or 'openai/gpt-5', 'google/gemini-3-flash'
+  prompt: 'Hello!',
+});
+```
+
+## Direct Provider Usage
+
+Connect to providers directly using their SDK packages:
+
+```typescript
+import { generateText } from 'ai';
+import { anthropic } from '@ai-sdk/anthropic';
+
+const { text } = await generateText({
+  model: anthropic('claude-sonnet-4-5-20250414'),
+  prompt: 'Hello!',
+});
+```
+
 ## Environment Setup
 
 Create a `.env.local` file:
@@ -37,24 +64,23 @@ ANTHROPIC_API_KEY=sk-ant-...
 GOOGLE_GENERATIVE_AI_API_KEY=...
 ```
 
-## Framework Quick Start
+## Framework Quick Starts
 
 ### Next.js App Router
 
 ```typescript
 // app/api/chat/route.ts
-import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = streamText({
-    model: openai('gpt-4o'),
+    model: 'anthropic/claude-sonnet-4.5',
     messages,
   });
 
-  return result.toDataStreamResponse();
+  return result.toUIMessageStreamResponse();
 }
 ```
 
@@ -69,7 +95,14 @@ export default function Chat() {
   return (
     <div>
       {messages.map(m => (
-        <div key={m.id}>{m.role}: {m.content}</div>
+        <div key={m.id}>
+          {m.parts.map((part, i) => {
+            switch (part.type) {
+              case 'text':
+                return <div key={i}>{part.text}</div>;
+            }
+          })}
+        </div>
       ))}
       <form onSubmit={handleSubmit}>
         <input value={input} onChange={handleInputChange} />
@@ -84,11 +117,10 @@ export default function Chat() {
 
 ```typescript
 import { generateText } from 'ai';
-import { openai } from '@ai-sdk/openai';
 
 async function main() {
   const { text } = await generateText({
-    model: openai('gpt-4o'),
+    model: 'openai/gpt-5',
     prompt: 'Hello, AI!',
   });
 
@@ -98,29 +130,15 @@ async function main() {
 main();
 ```
 
-### Express
+## Backend Framework Examples
 
-```typescript
-import express from 'express';
-import { streamText } from 'ai';
-import { openai } from '@ai-sdk/openai';
+You can use AI SDK Core and AI SDK UI with the following backend frameworks:
 
-const app = express();
-app.use(express.json());
-
-app.post('/api/chat', async (req, res) => {
-  const { prompt } = req.body;
-
-  const result = streamText({
-    model: openai('gpt-4o'),
-    prompt,
-  });
-
-  result.pipeDataStreamToResponse(res);
-});
-
-app.listen(3000);
-```
+- **Node.js HTTP Server** - Send AI responses from a Node.js HTTP server
+- **Express** - Send AI responses from an Express server
+- **Hono** - Send AI responses from a Hono server
+- **Fastify** - Send AI responses from a Fastify server
+- **Nest.js** - Send AI responses from a Nest.js server
 
 ## Supported Frameworks
 
@@ -133,8 +151,12 @@ app.listen(3000);
 
 ### Backend
 - Next.js (App Router & Pages Router)
+- SvelteKit
+- Nuxt
 - Express
 - Hono
 - Fastify
 - Nest.js
 - Node.js HTTP Server
+- Expo
+- TanStack Start
