@@ -10,25 +10,25 @@
       "freshness_days": 14
     },
     {
-      "url": "https://agentskills.io/specification",
+      "url": "https://agentskills.io/specification.md",
       "target": "skills/agent-skills/docs/specification.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://agentskills.io/what-are-skills",
+      "url": "https://agentskills.io/what-are-skills.md",
       "target": "skills/agent-skills/docs/what-are-skills.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://agentskills.io/integrate-skills",
+      "url": "https://agentskills.io/integrate-skills.md",
       "target": "skills/agent-skills/docs/integrate-skills.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.md",
       "target": "skills/agent-skills/docs/best-practices.md",
       "type": "extract-content",
       "freshness_days": 14
