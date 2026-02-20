@@ -183,34 +183,70 @@ fetch_with_retry() {
     return 1
 }
 
-# Extract content from HTML using pandoc
+# Extract content from HTML using pandoc, or clean up markdown
 extract_content() {
     local input_file="$1"
     local output_file="$2"
 
+    # Check if input is already clean markdown (not HTML)
+    if ! head -5 "$input_file" | grep -qi '<!DOCTYPE\|<html'; then
+        # Already markdown - just clean up minor artifacts
+        local temp_clean
+        temp_clean=$(mktemp)
+        perl -pe '
+            # Strip Mintlify-specific tags like <Tip>, <Warning>, etc.
+            s/<\/?(?:Tip|Warning|Note|Info|Check|Accordion|AccordionGroup|Card|CardGroup|Steps|Step|Tabs|Tab)[^>]*>//gi;
+            # Strip code block theme annotations
+            s/\s+theme=\{null\}//g;
+        ' "$input_file" | \
+        # Collapse 3+ blank lines to 2
+        awk '
+            /^[[:space:]]*$/ { blank++; if (blank <= 2) print ""; next }
+            { blank=0; print }
+        ' > "$temp_clean"
+        mv "$temp_clean" "$output_file"
+        return 0
+    fi
+
+    # Input is HTML - convert to markdown
     if command -v pandoc &> /dev/null; then
-        # Use pandoc to convert HTML to markdown
-        pandoc -f html -t markdown --wrap=none "$input_file" -o "$output_file" 2>/dev/null
-
-        # Clean up excessive whitespace
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' 's/^[[:space:]]*$//' "$output_file"
+        # Strip noise elements first
+        local cleaned
+        cleaned=$(mktemp)
+        if command -v perl &> /dev/null; then
+            perl -0777 -pe '
+                s/<script[^>]*>.*?<\/script>//gis;
+                s/<style[^>]*>.*?<\/style>//gis;
+                s/<nav[^>]*>.*?<\/nav>//gis;
+                s/<footer[^>]*>.*?<\/footer>//gis;
+                s/<aside[^>]*>.*?<\/aside>//gis;
+                s/<svg[^>]*>.*?<\/svg>//gis;
+                s/<noscript[^>]*>.*?<\/noscript>//gis;
+            ' "$input_file" > "$cleaned"
         else
-            sed -i 's/^[[:space:]]*$//' "$output_file"
+            cp "$input_file" "$cleaned"
         fi
-    else
-        # Fallback: basic HTML tag stripping (not ideal)
-        # Remove script and style tags and their content
-        sed 's/<script[^>]*>.*<\/script>//g' "$input_file" | \
-        sed 's/<style[^>]*>.*<\/style>//g' | \
-        # Remove HTML tags
-        sed 's/<[^>]*>//g' | \
-        # Decode common HTML entities
-        sed 's/&nbsp;/ /g; s/&amp;/\&/g; s/&lt;/</g; s/&gt;/>/g; s/&quot;/"/g' | \
-        # Remove excessive blank lines
-        cat -s > "$output_file"
 
-        log_warn "Used basic HTML stripping - consider installing pandoc for better results"
+        pandoc -f html -t gfm --wrap=none "$cleaned" -o "$output_file" 2>/dev/null
+        rm -f "$cleaned"
+
+        # Clean up pandoc artifacts
+        local temp_clean
+        temp_clean=$(mktemp)
+        grep -v '^<\(div\|/div\|span\|/span\)' "$output_file" | \
+        grep -v '^:::' | \
+        grep -v '^{[.#]' | \
+        awk '
+            /^[[:space:]]*$/ { blank++; if (blank <= 2) print ""; next }
+            { blank=0; print }
+        ' > "$temp_clean"
+        mv "$temp_clean" "$output_file"
+    else
+        # Fallback: basic tag stripping
+        sed 's/<[^>]*>//g' "$input_file" | \
+        sed 's/&nbsp;/ /g; s/&amp;/\&/g; s/&lt;/</g; s/&gt;/>/g; s/&quot;/"/g' | \
+        cat -s > "$output_file"
+        log_warn "pandoc not installed - used basic HTML stripping"
     fi
 }
 
@@ -303,18 +339,18 @@ fetch_url_source() {
         log_info "Cached: $(basename "$cache_file")"
         report_entry "$url" "SUCCESS" "$http_code"
 
-        # Compare with target and detect changes
-        if [ -f "$SKILL_DIR/$target" ]; then
-            # Extract content for comparison (skip metadata headers)
-            local upstream_content
-            upstream_content=$(tail -n +6 "$cache_file" | head -100)
-            local target_content
-            target_content=$(head -100 "$SKILL_DIR/$target")
+        # Extract content from cache (strip YAML metadata frontmatter)
+        local upstream_body
+        upstream_body=$(mktemp)
+        tail -n +6 "$cache_file" > "$upstream_body"
 
+        # Compare with target and detect changes
+        local target_file="$SKILL_DIR/$target"
+        if [ -f "$target_file" ]; then
             # Check for new environment variables
             local new_vars
-            new_vars=$(grep -oE '\$APP_[A-Z_]+' "$cache_file" 2>/dev/null | sort -u | \
-                comm -23 - <(grep -oE '\$APP_[A-Z_]+' "$SKILL_DIR/$target" 2>/dev/null | sort -u) 2>/dev/null || true)
+            new_vars=$(grep -oE '\$APP_[A-Z_]+' "$upstream_body" 2>/dev/null | sort -u | \
+                comm -23 - <(grep -oE '\$APP_[A-Z_]+' "$target_file" 2>/dev/null | sort -u) 2>/dev/null || true)
             if [ -n "$new_vars" ]; then
                 for var in $new_vars; do
                     log_change "New environment variable: $var"
@@ -323,14 +359,44 @@ fetch_url_source() {
 
             # Check for version changes
             local upstream_version
-            upstream_version=$(grep -oE 'manifestVersion[: ]+[0-9.]+' "$cache_file" 2>/dev/null | head -1 || echo "")
+            upstream_version=$(grep -oE 'manifestVersion[: ]+[0-9.]+' "$upstream_body" 2>/dev/null | head -1 || echo "")
             local target_version
-            target_version=$(grep -oE 'manifestVersion[: ]+[0-9.]+' "$SKILL_DIR/$target" 2>/dev/null | head -1 || echo "")
+            target_version=$(grep -oE 'manifestVersion[: ]+[0-9.]+' "$target_file" 2>/dev/null | head -1 || echo "")
             if [ "$upstream_version" != "$target_version" ] && [ -n "$upstream_version" ]; then
                 log_change "manifestVersion changed: $target_version -> $upstream_version"
             fi
+
+            # Check if content actually changed (ignore Source header line)
+            local target_body
+            target_body=$(mktemp)
+            # Strip existing > Source: header for comparison
+            sed '/^> Source:/d' "$target_file" > "$target_body"
+
+            if diff -q "$target_body" "$upstream_body" > /dev/null 2>&1; then
+                log_info "No changes: $(basename "$target")"
+                rm -f "$upstream_body" "$target_body"
+                return 0
+            fi
+
+            rm -f "$target_body"
+            log_change "Updated: $(basename "$target")"
+        else
+            log_change "New file: $(basename "$target")"
         fi
 
+        # Write fetched content to target file
+        if [ "$DRY_RUN" = "true" ]; then
+            log_info "Dry run: would update $target"
+        else
+            {
+                echo "> Source: $url"
+                echo ""
+                cat "$upstream_body"
+            } > "$target_file"
+            log_info "Written: $target"
+        fi
+
+        rm -f "$upstream_body"
         return 0
     else
         log_error "Failed to fetch: $url (HTTP $http_code)"
