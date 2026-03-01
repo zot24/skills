@@ -1,409 +1,789 @@
-<!-- Source: https://getopenclaw.ai/docs/configuration, https://openclaw.dog/docs/automation/webhook/, https://zenvanriel.nl/ai-engineer-blog/openclaw-cron-jobs-proactive-ai-guide/ -->
+> Source: https://docs.openclaw.ai/automation/webhook
 
-# OpenClaw Automation
 
-Complete guide to automation features in OpenClaw: webhooks, Gmail Pub/Sub, cron jobs, heartbeats, and the event system.
 
-## Webhooks
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
-The Gateway exposes HTTP webhook endpoints when enabled. Webhooks trigger agent actions from external services (GitHub, CI/CD, monitoring, etc.).
 
-### Configuration
+<a href="/" class="select-none" data-state="closed" data-slot="context-menu-trigger" style="-webkit-touch-callout:none"><span class="sr-only">OpenClaw home page</span><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 block dark:hidden" alt="light logo" /><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 hidden dark:block" alt="dark logo" /></a>
 
-```json
+
+<img src="https://d3gk2c5xim1je2.cloudfront.net/flags/US.svg" class="w-full h-full rounded-full" alt="US" />
+
+
+Search...
+
+
+Automation
+
+
+Webhooks
+
+
+<a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get started</a>
+
+
+<a href="/install" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Install</a>
+
+
+<a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Channels</a>
+
+
+<a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
+
+
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Tools</a>
+
+
+<a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Models</a>
+
+
+<a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
+
+
+<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Gateway &amp; Ops</a>
+
+
+<a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Reference</a>
+
+
+<a href="/help" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Help</a>
+
+
+##### Overview
+
+
+- <span id="/tools"><a href="/tools" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Tools
+
+  </div>
+
+  </div>
+
+
+##### Built-in tools
+
+
+- <span id="/tools/lobster"><a href="/tools/lobster" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Lobster
+
+  </div>
+
+  </div>
+- <span id="/tools/llm-task"><a href="/tools/llm-task" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  LLM Task
+
+  </div>
+
+  </div>
+- <span id="/tools/exec"><a href="/tools/exec" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Exec Tool
+
+  </div>
+
+  </div>
+- <span id="/tools/web"><a href="/tools/web" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Web Tools
+
+  </div>
+
+  </div>
+- <span id="/tools/apply-patch"><a href="/tools/apply-patch" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  apply_patch Tool
+
+  </div>
+
+  </div>
+- <span id="/tools/elevated"><a href="/tools/elevated" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Elevated Mode
+
+  </div>
+
+  </div>
+- <span id="/tools/thinking"><a href="/tools/thinking" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Thinking Levels
+
+  </div>
+
+  </div>
+- <span id="/tools/reactions"><a href="/tools/reactions" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Reactions
+
+  </div>
+
+  </div>
+
+
+##### Browser
+
+
+- <span id="/tools/browser"><a href="/tools/browser" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Browser (OpenClaw-managed)
+
+  </div>
+
+  </div>
+- <span id="/tools/browser-login"><a href="/tools/browser-login" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Browser Login
+
+  </div>
+
+  </div>
+- <span id="/tools/chrome-extension"><a href="/tools/chrome-extension" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Chrome Extension
+
+  </div>
+
+  </div>
+- <span id="/tools/browser-linux-troubleshooting"><a href="/tools/browser-linux-troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Browser Troubleshooting
+
+  </div>
+
+  </div>
+
+
+##### Agent coordination
+
+
+- <span id="/tools/agent-send"><a href="/tools/agent-send" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Agent Send
+
+  </div>
+
+  </div>
+- <span id="/tools/subagents"><a href="/tools/subagents" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Sub-Agents
+
+  </div>
+
+  </div>
+- <span id="/tools/acp-agents"><a href="/tools/acp-agents" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  ACP Agents
+
+  </div>
+
+  </div>
+- <span id="/tools/multi-agent-sandbox-tools"><a href="/tools/multi-agent-sandbox-tools" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Multi-Agent Sandbox & Tools
+
+  </div>
+
+  </div>
+
+
+##### Skills
+
+
+- <span id="/tools/slash-commands"><a href="/tools/slash-commands" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Slash Commands
+
+  </div>
+
+  </div>
+- <span id="/tools/skills"><a href="/tools/skills" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Skills
+
+  </div>
+
+  </div>
+- <span id="/tools/skills-config"><a href="/tools/skills-config" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Skills Config
+
+  </div>
+
+  </div>
+- <span id="/tools/clawhub"><a href="/tools/clawhub" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  ClawHub
+
+  </div>
+
+  </div>
+- <span id="/tools/plugin"><a href="/tools/plugin" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Plugins
+
+  </div>
+
+  </div>
+
+
+##### Extensions
+
+
+- <span id="/plugins/community"><a href="/plugins/community" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Community plugins
+
+  </div>
+
+  </div>
+- <span id="/plugins/voice-call"><a href="/plugins/voice-call" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Voice Call Plugin
+
+  </div>
+
+  </div>
+- <span id="/plugins/zalouser"><a href="/plugins/zalouser" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Zalo Personal Plugin
+
+  </div>
+
+  </div>
+
+
+##### Automation
+
+
+- <span id="/automation/hooks"><a href="/automation/hooks" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Hooks
+
+  </div>
+
+  </div>
+- <span id="/automation/cron-jobs"><a href="/automation/cron-jobs" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Cron Jobs
+
+  </div>
+
+  </div>
+- <span id="/automation/cron-vs-heartbeat"><a href="/automation/cron-vs-heartbeat" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Cron vs Heartbeat
+
+  </div>
+
+  </div>
+- <span id="/automation/troubleshooting"><a href="/automation/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Automation Troubleshooting
+
+  </div>
+
+  </div>
+- <span id="/automation/webhook"><a href="/automation/webhook" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Webhooks
+
+  </div>
+
+  </div>
+- <span id="/automation/gmail-pubsub"><a href="/automation/gmail-pubsub" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Gmail PubSub
+
+  </div>
+
+  </div>
+- <span id="/automation/poll"><a href="/automation/poll" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Polls
+
+  </div>
+
+  </div>
+- <span id="/automation/auth-monitoring"><a href="/automation/auth-monitoring" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Auth Monitoring
+
+  </div>
+
+  </div>
+
+
+##### Media and devices
+
+
+- <span id="/nodes"><a href="/nodes" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Nodes
+
+  </div>
+
+  </div>
+- <span id="/nodes/troubleshooting"><a href="/nodes/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Node Troubleshooting
+
+  </div>
+
+  </div>
+- <span id="/nodes/images"><a href="/nodes/images" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Image and Media Support
+
+  </div>
+
+  </div>
+- <span id="/nodes/audio"><a href="/nodes/audio" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Audio and Voice Notes
+
+  </div>
+
+  </div>
+- <span id="/nodes/camera"><a href="/nodes/camera" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Camera Capture
+
+  </div>
+
+  </div>
+- <span id="/nodes/talk"><a href="/nodes/talk" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Talk Mode
+
+  </div>
+
+  </div>
+- <span id="/nodes/voicewake"><a href="/nodes/voicewake" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Voice Wake
+
+  </div>
+
+  </div>
+- <span id="/nodes/location-command"><a href="/nodes/location-command" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Location Command
+
+  </div>
+
+  </div>
+
+
+On this page
+
+
+- <a href="#webhooks" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Webhooks</a>
+- <a href="#enable" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Enable</a>
+- <a href="#auth" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Auth</a>
+- <a href="#endpoints" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Endpoints</a>
+- <a href="#post-%2Fhooks%2Fwake" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">POST /hooks/wake</a>
+- <a href="#post-%2Fhooks%2Fagent" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">POST /hooks/agent</a>
+- <a href="#session-key-policy-breaking-change" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Session key policy (breaking change)</a>
+- <a href="#post-%2Fhooks%2F%3Cname%3E-mapped" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">POST /hooks/&lt;name&gt; (mapped)</a>
+- <a href="#responses" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Responses</a>
+- <a href="#examples" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Examples</a>
+- <a href="#use-a-different-model" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Use a different model</a>
+- <a href="#security" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Security</a>
+
+
+Automation
+
+
+# Webhooks
+
+
+# 
+
+
+<a href="#webhooks" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#enable" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
 {
-  "hooks": {
-    "enabled": true,
-    "token": "shared-secret",
-    "path": "/hooks"
-  }
+  hooks: {
+    enabled: true,
+    token: "shared-secret",
+    path: "/hooks",
+    // Optional: restrict explicit `agentId` routing to this allowlist.
+    // Omit or include "*" to allow any agent.
+    // Set [] to deny all explicit `agentId` routing.
+    allowedAgentIds: ["hooks", "main"],
+  },
 }
 ```
 
-The `token` is mandatory when webhooks are active. The `path` defaults to `/hooks`.
 
-### Authentication
+- `hooks.token` is required when `hooks.enabled=true`.
+- `hooks.path` defaults to `/hooks`.
 
-All requests must include the hook token via one of three approaches:
+## 
 
-| Method | Example | Status |
-|--------|---------|--------|
-| `Authorization` header | `Authorization: Bearer <token>` | **Recommended** |
-| Custom header | `x-openclaw-token: <token>` | Alternative |
-| Query parameter | `?token=<token>` | **Deprecated** (generates warnings) |
 
-### Core Endpoints
+<a href="#auth" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-#### `/hooks/wake` (POST)
 
-Enqueues system events for the main session:
+- `Authorization: Bearer <token>` (recommended)
+- `x-openclaw-token: <token>`
+- Query-string tokens are rejected (`?token=...` returns `400`).
 
-```bash
-curl -X POST http://localhost:18789/hooks/wake \
-  -H "Authorization: Bearer shared-secret" \
-  -H "Content-Type: application/json" \
-  -d '{"text": "New email received", "mode": "now"}'
+## 
+
+
+<a href="#endpoints" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#post-/hooks/wake" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+{ "text": "System line", "mode": "now" }
 ```
 
-Parameters:
-- `text` (required): Event description
-- `mode` (optional): `"now"` for immediate heartbeat (default) or `"next-heartbeat"` to queue
 
-#### `/hooks/agent` (POST)
+- `text` **required** (string): The description of the event (e.g., “New email received”).
+- `mode` optional (`now` \| `next-heartbeat`): Whether to trigger an immediate heartbeat (default `now`) or wait for the next periodic check.
 
-Runs isolated agent turns with full parameter control:
 
-```bash
-curl -X POST http://localhost:18789/hooks/agent \
-  -H "Authorization: Bearer shared-secret" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Summarize the deployment status",
-    "name": "deploy-check",
-    "channel": "slack",
-    "to": "#deployments",
-    "deliver": true
-  }'
-```
+- Enqueues a system event for the **main** session
+- If `mode=now`, triggers an immediate heartbeat
 
-Parameters:
-- `message` (required): The agent prompt
-- `name`: Human-readable identifier for session summaries
-- `sessionKey`: Conversation identifier (defaults to random UUID)
-- `wakeMode`: `"now"` (default) or `"next-heartbeat"`
-- `deliver`: Send responses to messaging channels (default: `true`)
-- `channel`: Target platform -- `last`, `whatsapp`, `telegram`, `discord`, `slack`, `mattermost`, `signal`, `imessage`, `msteams`
-- `to`: Recipient identifier (phone number, chat ID, channel ID)
-- `model`: Override model selection
-- `thinking`: Thinking level (`low`, `medium`, `high`)
-- `timeoutSeconds`: Maximum execution duration
-- `agentId`: Route to specific agent
+### 
 
-#### Custom Mapped Hooks
 
-Additional endpoints via `hooks.mappings` configuration. Supports Gmail presets and custom transforms via JavaScript or TypeScript modules.
+<a href="#post-/hooks/agent" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-### Response Codes
 
-| Code | Meaning |
-|------|---------|
-| 200 | `/hooks/wake` success |
-| 202 | `/hooks/agent` success (async) |
-| 401 | Authentication failure |
-| 400 | Invalid payload |
-| 413 | Oversized payload |
+Copy
 
-### Security Best Practices
 
-- Keep endpoints behind loopback, private networks, or trusted proxies
-- Use dedicated hook tokens separate from gateway credentials
-- External payloads include safety boundaries by default
-- Disable only via `allowUnsafeExternalContent: true` for trusted internal sources
-
----
-
-## Gmail Integration (Pub/Sub)
-
-Real-time email automation using Google Pub/Sub push notifications instead of polling.
-
-### Architecture
-
-```
-Gmail Watch API -> Google Pub/Sub -> gog gmail watch serve -> OpenClaw webhook (/hooks/wake)
-```
-
-### Prerequisites
-
-- `gcloud` CLI installed and logged in
-- `gogcli` (gog) installed and authorized for the Gmail account
-- Tailscale Funnel for public push endpoint (recommended)
-- OpenClaw with hooks enabled
-
-### Installation
-
-```bash
-# Install gogcli
-brew install gog        # macOS
-npm install -g gog-cli  # All platforms
-```
-
-### Setup
-
-#### Wizard (Recommended)
-
-```bash
-openclaw hooks gmail setup
-```
-
-The wizard:
-1. Uses Tailscale Funnel for the public push endpoint
-2. Writes `hooks.gmail` config for `openclaw webhooks gmail run`
-3. Enables the Gmail hook preset
-
-#### Manual Setup
-
-```bash
-# Authorize Gmail
-gogcli auth login --scopes gmail.readonly,gmail.send,gmail.compose,gmail.modify
-
-# Set up Tailscale endpoint
-tailscale funnel 8080
-
-# Configure and start
-openclaw hooks gmail setup
-openclaw hooks gmail status
-```
-
-### OAuth Permission Scopes
-
-| Scope | Access |
-|-------|--------|
-| `gmail.readonly` | Read emails |
-| `gmail.send` | Send/compose |
-| `gmail.modify` | Labels, archive |
-| `gmail.compose` | Create drafts |
-
-### Auto-Renewal
-
-Gmail watches expire after 7 days. When `hooks.enabled=true` and `hooks.gmail.account` is set, the Gateway starts `gog gmail watch serve` on boot and auto-renews the watch automatically.
-
-### Tailscale Integration
-
-When `tailscale.mode` is enabled, OpenClaw automatically:
-- Sets `hooks.gmail.serve.path` to `/`
-- Keeps public path at `hooks.gmail.tailscale.path` (default `/gmail-pubsub`)
-
-### Capabilities
-
-- Email summarization and prioritized briefings
-- Draft reply generation matching communication style
-- Smart categorization via Gmail labels
-- Natural language email search
-- Batch operations (archive, mark read)
-- Scheduled daily email briefings
-- Model overrides per email type for cost optimization
-
-### Privacy
-
-OAuth tokens stay on your machine. Email content is sent to the AI only when explicitly requested. Nothing stored in the cloud.
-
-### Troubleshooting
-
-```bash
-gogcli auth status        # Check authorization
-gogcli auth whoami        # Verify account
-gogcli auth --reset       # Clear and re-authenticate
-gogcli gmail list --limit 5  # Test access
-openclaw hooks gmail status  # Check webhook status
-openclaw logs --tail 100 | grep -i "gmail\|draft\|gog"
-```
-
-For Google Workspace accounts, verify third-party app access is enabled.
-
----
-
-## Cron Jobs
-
-Persistent scheduled task execution. Unlike heartbeats (which run the same check periodically), cron jobs run specific tasks at specific times.
-
-### Three Schedule Types
-
-| Type | Syntax | Behavior |
-|------|--------|----------|
-| **At** | ISO datetime | One-time, disappears after running |
-| **Every** | Interval string | Repeats ("every 30m", "every 6h") |
-| **Cron** | 5-field expression | Unix-style (`0 9 * * 1` = 9 AM every Monday) |
-
-### CLI Commands
-
-```bash
-# Add a cron job
-openclaw cron add \
-  --name "Morning brief" \
-  --cron "0 7 * * *" \
-  --tz "America/Los_Angeles" \
-  --session isolated \
-  --message "Summarize overnight updates." \
-  --announce \
-  --channel slack \
-  --to "channel:C1234567890"
-
-# Management
-openclaw cron list               # List all jobs
-openclaw cron remove <name>      # Delete a job
-openclaw cron pause <name>       # Pause without removing
-openclaw cron resume <name>      # Resume paused job
-openclaw cron run <name>         # Manually trigger a job
-```
-
-### Common Schedules
-
-| Schedule | Description |
-|----------|-------------|
-| `0 9 * * *` | Daily at 9 AM |
-| `0 9 * * 1-5` | Weekdays at 9 AM |
-| `*/15 * * * *` | Every 15 minutes |
-| `0 0 1 * *` | First of month |
-| `0 9 * * 1` | Every Monday at 9 AM |
-
-### Storage & Persistence
-
-Jobs persist under `~/.openclaw/cron/` directory, surviving system restarts and reboots.
-
-### Session Execution Modes
-
-**Isolated execution** (recommended for most cron jobs):
-- Fresh start without conversation history
-- Prevents accidental private information leakage
-- Enables task-specific model optimization
-- Keeps main session history clean
-
-**Main session integration:**
-- Scheduled tasks leverage accumulated context from ongoing conversations
-- Useful for context-aware reminders
-
-### Heartbeat vs Cron
-
-| Feature | Heartbeat | Cron |
-|---------|-----------|------|
-| Timing | Every N minutes | Precise schedule |
-| Context | Main session | Isolated or main |
-| Batching | Multiple checks per turn | Single task |
-| Use case | Monitoring, reactive | Scheduled, predictable |
-| Model | Uses main model | Can override model |
-
-### Configuration (Heartbeat)
-
-```json
+``` shiki
 {
-  "agents": {
-    "defaults": {
-      "heartbeat": {
-        "every": "30m",
-        "prompt": "Check pending items, inbox, and calendar"
-      }
-    }
-  }
+  "message": "Run this",
+  "name": "Email",
+  "agentId": "hooks",
+  "sessionKey": "hook:email:msg-123",
+  "wakeMode": "now",
+  "deliver": true,
+  "channel": "last",
+  "to": "+15551234567",
+  "model": "openai/gpt-5.2-mini",
+  "thinking": "low",
+  "timeoutSeconds": 120
 }
 ```
 
----
 
-## Polling
+- `message` **required** (string): The prompt or message for the agent to process.
+- `name` optional (string): Human-readable name for the hook (e.g., “GitHub”), used as a prefix in session summaries.
+- `agentId` optional (string): Route this hook to a specific agent. Unknown IDs fall back to the default agent. When set, the hook runs using the resolved agent’s workspace and configuration.
+- `sessionKey` optional (string): The key used to identify the agent’s session. By default this field is rejected unless `hooks.allowRequestSessionKey=true`.
+- `wakeMode` optional (`now` \| `next-heartbeat`): Whether to trigger an immediate heartbeat (default `now`) or wait for the next periodic check.
+- `deliver` optional (boolean): If `true`, the agent’s response will be sent to the messaging channel. Defaults to `true`. Responses that are only heartbeat acknowledgments are automatically skipped.
+- `channel` optional (string): The messaging channel for delivery. One of: `last`, `whatsapp`, `telegram`, `discord`, `slack`, `mattermost` (plugin), `signal`, `imessage`, `msteams`. Defaults to `last`.
+- `to` optional (string): The recipient identifier for the channel (e.g., phone number for WhatsApp/Signal, chat ID for Telegram, channel ID for Discord/Slack/Mattermost (plugin), conversation ID for MS Teams). Defaults to the last recipient in the main session.
+- `model` optional (string): Model override (e.g., `anthropic/claude-3-5-sonnet` or an alias). Must be in the allowed model list if restricted.
+- `thinking` optional (string): Thinking level override (e.g., `low`, `medium`, `high`).
+- `timeoutSeconds` optional (number): Maximum duration for the agent run in seconds.
 
-Periodic checks against external APIs:
 
-```json
+- Runs an **isolated** agent turn (own session key)
+- Always posts a summary into the **main** session
+- If `wakeMode=now`, triggers an immediate heartbeat
+
+## 
+
+
+<a href="#session-key-policy-breaking-change" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Recommended: set a fixed `hooks.defaultSessionKey` and keep request overrides off.
+- Optional: allow request overrides only when needed, and restrict prefixes.
+
+
+Copy
+
+
+``` shiki
 {
-  "automation": {
-    "polling": {
-      "enabled": true,
-      "jobs": {
-        "github-issues": {
-          "url": "https://api.github.com/repos/owner/repo/issues",
-          "interval": 300000,
-          "headers": { "Authorization": "token ${GITHUB_TOKEN}" },
-          "handler": "github-issues-handler"
-        }
-      }
-    }
-  }
+  hooks: {
+    enabled: true,
+    token: "${OPENCLAW_HOOKS_TOKEN}",
+    defaultSessionKey: "hook:ingress",
+    allowRequestSessionKey: false,
+    allowedSessionKeyPrefixes: ["hook:"],
+  },
 }
 ```
 
----
 
-## Auth Monitoring
+Copy
 
-```json
+
+``` shiki
 {
-  "automation": {
-    "authMonitoring": {
-      "enabled": true,
-      "checkInterval": 60000,
-      "alertChannel": "slack",
-      "alertTo": "#alerts",
-      "providers": ["anthropic", "openai"]
-    }
-  }
+  hooks: {
+    enabled: true,
+    token: "${OPENCLAW_HOOKS_TOKEN}",
+    allowRequestSessionKey: true,
+    allowedSessionKeyPrefixes: ["hook:"], // strongly recommended
+  },
 }
 ```
 
-Events: `auth.expired`, `auth.revoked`, `auth.refreshed`, `auth.failed`
 
----
+### 
 
-## Event System
 
-```json
-{
-  "automation": {
-    "events": {
-      "subscriptions": {
-        "message.received": "message-handler",
-        "agent.completed": "completion-handler",
-        "channel.connected": "connection-handler"
-      }
-    }
-  }
-}
+<a href="#post-/hooks/%3Cname%3E-mapped" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `hooks.presets: ["gmail"]` enables the built-in Gmail mapping.
+- `hooks.mappings` lets you define `match`, `action`, and templates in config.
+- `hooks.transformsDir` + `transform.module` loads a JS/TS module for custom logic.
+  - `hooks.transformsDir` (if set) must stay within the transforms root under your OpenClaw config directory (typically `~/.openclaw/hooks/transforms`).
+  - `transform.module` must resolve within the effective transforms directory (traversal/escape paths are rejected).
+- Use `match.source` to keep a generic ingest endpoint (payload-driven routing).
+- TS transforms require a TS loader (e.g. `bun` or `tsx`) or precompiled `.js` at runtime.
+- Set `deliver: true` + `channel`/`to` on mappings to route replies to a chat surface (`channel` defaults to `last` and falls back to WhatsApp).
+- `agentId` routes the hook to a specific agent; unknown IDs fall back to the default agent.
+- `hooks.allowedAgentIds` restricts explicit `agentId` routing. Omit it (or include `*`) to allow any agent. Set `[]` to deny explicit `agentId` routing.
+- `hooks.defaultSessionKey` sets the default session for hook agent runs when no explicit key is provided.
+- `hooks.allowRequestSessionKey` controls whether `/hooks/agent` payloads may set `sessionKey` (default: `false`).
+- `hooks.allowedSessionKeyPrefixes` optionally restricts explicit `sessionKey` values from request payloads and mappings.
+- `allowUnsafeExternalContent: true` disables the external content safety wrapper for that hook (dangerous; only for trusted internal sources).
+- `openclaw webhooks gmail setup` writes `hooks.gmail` config for `openclaw webhooks gmail run`. See <a href="/automation/gmail-pubsub" class="link">Gmail Pub/Sub</a> for the full Gmail watch flow.
+
+## 
+
+
+<a href="#responses" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `200` for `/hooks/wake`
+- `202` for `/hooks/agent` (async run started)
+- `401` on auth failure
+- `429` after repeated auth failures from the same client (check `Retry-After`)
+- `400` on invalid payload
+- `413` on oversized payloads
+
+## 
+
+
+<a href="#examples" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+curl -X POST http://127.0.0.1:18789/hooks/wake \
+  -H 'Authorization: Bearer SECRET' \
+  -H 'Content-Type: application/json' \
+  -d '{"text":"New email received","mode":"now"}'
 ```
 
-### Available Events
 
-`message.received`, `message.sent`, `agent.started`, `agent.completed`, `agent.error`, `channel.connected`, `channel.disconnected`
+Copy
 
----
 
-## Automation CLI
-
-```bash
-openclaw automation list
-openclaw automation status
-openclaw automation run <job-name>
-openclaw automation logs --job <job-name>
-openclaw automation pause --all
-openclaw automation resume --all
+``` shiki
+curl -X POST http://127.0.0.1:18789/hooks/agent \
+  -H 'x-openclaw-token: SECRET' \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"Summarize inbox","name":"Email","wakeMode":"next-heartbeat"}'
 ```
 
----
 
-## Best Practices
+### 
 
-### Rate Limiting
 
-```json
-{
-  "automation": {
-    "rateLimit": { "enabled": true, "maxPerMinute": 60, "maxPerHour": 1000 }
-  }
-}
+<a href="#use-a-different-model" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+curl -X POST http://127.0.0.1:18789/hooks/agent \
+  -H 'x-openclaw-token: SECRET' \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"Summarize inbox","name":"Email","model":"openai/gpt-5.2-mini"}'
 ```
 
-### Sending Custom Data
 
-**Webhook method:**
-```bash
-curl -X POST http://localhost:18789/hooks/agent \
-  -H "Authorization: Bearer <token>" \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Process this data", "channel": "telegram"}'
+Copy
+
+
+``` shiki
+curl -X POST http://127.0.0.1:18789/hooks/gmail \
+  -H 'Authorization: Bearer SECRET' \
+  -H 'Content-Type: application/json' \
+  -d '{"source":"gmail","messages":[{"from":"Ada","subject":"Hello","snippet":"Hi"}]}'
 ```
 
-**File-based ingestion:**
-```bash
-echo '{"message": "Process this"}' > ~/.openclaw/inbox/email-001.json
-```
 
-**Custom channel plugin:** Create custom channels in `~/.openclaw/channels/`
+## 
 
----
 
-## Upstream Sources
+<a href="#security" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-- https://openclaw.dog/docs/automation/webhook/
-- https://zenvanriel.nl/ai-engineer-blog/openclaw-cron-jobs-proactive-ai-guide/
-- https://zenvanriel.nl/ai-engineer-blog/openclaw-gmail-pubsub-automation-guide/
-- https://getopenclaw.ai/how-to/gmail-integration
-- https://getopenclaw.ai/help/email-gmail-integration
-- https://getopenclaw.ai/docs/configuration
+
+- Keep hook endpoints behind loopback, tailnet, or trusted reverse proxy.
+- Use a dedicated hook token; do not reuse gateway auth tokens.
+- Repeated auth failures are rate-limited per client address to slow brute-force attempts.
+- If you use multi-agent routing, set `hooks.allowedAgentIds` to limit explicit `agentId` selection.
+- Keep `hooks.allowRequestSessionKey=false` unless you require caller-selected sessions.
+- If you enable request `sessionKey`, restrict `hooks.allowedSessionKeyPrefixes` (for example, `["hook:"]`).
+- Avoid including sensitive raw payloads in webhook logs.
+- Hook payloads are treated as untrusted and wrapped with safety boundaries by default. If you must disable this for a specific hook, set `allowUnsafeExternalContent: true` in that hook’s mapping (dangerous).
+
+
+<a href="/automation/troubleshooting" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Automation Troubleshooting</span></a><a href="/automation/gmail-pubsub" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Gmail PubSub</span></a>
+
+

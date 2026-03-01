@@ -1,10 +1,16 @@
-> Source: https://agentskills.io/integrate-skills
+> Source: https://agentskills.io/integrate-skills.md
 
-# Integrate Skills into Your Agent
+> ## Documentation Index
+> Fetch the complete documentation index at: https://agentskills.io/llms.txt
+> Use this file to discover all available pages before exploring further.
 
-How to add Agent Skills support to your agent or tool.
+# Integrate skills into your agent
 
-## Integration Approaches
+> How to add Agent Skills support to your agent or tool.
+
+This guide explains how to add skills support to an AI agent or development tool.
+
+## Integration approaches
 
 The two main approaches to integrating skills are:
 
@@ -22,15 +28,15 @@ A skills-compatible agent needs to:
 4. **Activate** skills by loading full instructions
 5. **Execute** scripts and access resources as needed
 
-## Skill Discovery
+## Skill discovery
 
 Skills are folders containing a `SKILL.md` file. Your agent should scan configured directories for valid skills.
 
-## Loading Metadata
+## Loading metadata
 
 At startup, parse only the frontmatter of each `SKILL.md` file. This keeps initial context usage low.
 
-### Parsing Frontmatter
+### Parsing frontmatter
 
 ```
 function parseMetadata(skillPath):
@@ -44,7 +50,7 @@ function parseMetadata(skillPath):
     }
 ```
 
-### Injecting into Context
+### Injecting into context
 
 Include skill metadata in the system prompt so the model knows what skills are available.
 
@@ -69,16 +75,16 @@ For filesystem-based agents, include the `location` field with the absolute path
 
 Keep metadata concise. Each skill should add roughly 50-100 tokens to the context.
 
-## Security Considerations
+## Security considerations
 
 Script execution introduces security risks. Consider:
 
-- **Sandboxing**: Run scripts in isolated environments
-- **Allowlisting**: Only execute scripts from trusted skills
-- **Confirmation**: Ask users before running potentially dangerous operations
-- **Logging**: Record all script executions for auditing
+* **Sandboxing**: Run scripts in isolated environments
+* **Allowlisting**: Only execute scripts from trusted skills
+* **Confirmation**: Ask users before running potentially dangerous operations
+* **Logging**: Record all script executions for auditing
 
-## Reference Implementation
+## Reference implementation
 
 The [skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref) library provides Python utilities and a CLI for working with skills.
 
@@ -86,31 +92,14 @@ For example:
 
 **Validate a skill directory:**
 
-```bash
+```
 skills-ref validate <path>
 ```
 
 **Generate `<available_skills>` XML for agent prompts:**
 
-```bash
+```
 skills-ref to-prompt <path>...
 ```
 
 Use the library source code as a reference implementation.
-
-## Progressive Disclosure Flow
-
-1. **Startup**: Load only `name` and `description` from all skills (~100 tokens each)
-2. **Task Matching**: When user request matches a skill's description, load full SKILL.md
-3. **Execution**: Load scripts/references/assets only when specifically needed
-4. **Cleanup**: Release loaded content when task completes
-
-## Implementation Checklist
-
-- [ ] Scan configured directories for SKILL.md files
-- [ ] Parse YAML frontmatter to extract metadata
-- [ ] Inject available skills into system prompt
-- [ ] Implement mechanism to load full SKILL.md on activation
-- [ ] Provide file access for bundled resources
-- [ ] (Optional) Implement script execution with sandboxing
-- [ ] (Optional) Add logging for skill usage analytics

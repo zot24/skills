@@ -1,30 +1,36 @@
-> Source: https://agent-browser.dev/docs/streaming
+> Source: https://agent-browser.dev/streaming
+
+
+
+[](https://vercel.com "Made with love by Vercel")<span class="text-border"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+
 
 # Streaming
 
-Stream the browser viewport via WebSocket for live preview or "pair browsing"
-where a human can watch and interact alongside an AI agent.
+Stream the browser viewport via WebSocket for live preview or "pair browsing" where a human can watch and interact alongside an AI agent.
 
-## Enable Streaming
+## Enable streaming
 
-Set the `AGENT_BROWSER_STREAM_PORT` environment variable to start
-a WebSocket server:
+Set the `AGENT_BROWSER_STREAM_PORT` environment variable to start a WebSocket server:
 
-```bash
+
+``` shiki
 AGENT_BROWSER_STREAM_PORT=9223 agent-browser open example.com
 ```
 
+
 The server streams viewport frames and accepts input events (mouse, keyboard, touch).
 
-## WebSocket Protocol
+## WebSocket protocol
 
 Connect to `ws://localhost:9223` to receive frames and send input.
 
-### Frame Messages
+### Frame messages
 
 The server sends frame messages with base64-encoded images:
 
-```json
+
+``` shiki
 {
   "type": "frame",
   "data": "<base64-encoded-jpeg>",
@@ -39,11 +45,13 @@ The server sends frame messages with base64-encoded images:
 }
 ```
 
-### Status Messages
+
+### Status messages
 
 Connection and screencast status:
 
-```json
+
+``` shiki
 {
   "type": "status",
   "connected": true,
@@ -53,13 +61,15 @@ Connection and screencast status:
 }
 ```
 
-## Input Injection
+
+## Input injection
 
 Send input events to control the browser remotely.
 
-### Mouse Events
+### Mouse events
 
-```json
+
+``` shiki
 // Click
 {
   "type": "input_mouse",
@@ -98,9 +108,11 @@ Send input events to control the browser remotely.
 }
 ```
 
-### Keyboard Events
 
-```json
+### Keyboard events
+
+
+``` shiki
 // Key down
 {
   "type": "input_keyboard",
@@ -134,9 +146,11 @@ Send input events to control the browser remotely.
 }
 ```
 
-### Touch Events
 
-```json
+### Touch events
+
+
+``` shiki
 // Touch start
 {
   "type": "input_touch",
@@ -169,11 +183,13 @@ Send input events to control the browser remotely.
 }
 ```
 
+
 ## Programmatic API
 
 For advanced use, control streaming directly via the TypeScript API:
 
-```typescript
+
+``` shiki
 import { BrowserManager } from 'agent-browser';
 
 const browser = new BrowserManager();
@@ -221,10 +237,14 @@ console.log('Active:', browser.isScreencasting());
 await browser.stopScreencast();
 ```
 
-## Use Cases
+
+## Use cases
 
 - **Pair browsing** - Human watches and assists AI agent in real-time
 - **Remote preview** - View browser output in a separate UI
 - **Recording** - Capture frames for video generation
 - **Mobile testing** - Inject touch events for mobile emulation
 - **Accessibility testing** - Manual interaction during automated tests
+
+
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>

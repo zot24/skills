@@ -1,365 +1,886 @@
-<!-- Source: https://docs.openclaw.ai/channels/whatsapp -->
+> Source: https://docs.openclaw.ai/channels/whatsapp
 
-# OpenClaw Channels
 
-Complete guide to configuring messaging channels. OpenClaw supports 13+ platforms simultaneously.
 
-## WhatsApp
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
-```json
+
+<a href="/" class="select-none" data-state="closed" data-slot="context-menu-trigger" style="-webkit-touch-callout:none"><span class="sr-only">OpenClaw home page</span><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 block dark:hidden" alt="light logo" /><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 hidden dark:block" alt="dark logo" /></a>
+
+
+<img src="https://d3gk2c5xim1je2.cloudfront.net/flags/US.svg" class="w-full h-full rounded-full" alt="US" />
+
+
+Search...
+
+
+Messaging platforms
+
+
+WhatsApp
+
+
+<a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get started</a>
+
+
+<a href="/install" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Install</a>
+
+
+<a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Channels</a>
+
+
+<a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
+
+
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools</a>
+
+
+<a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Models</a>
+
+
+<a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
+
+
+<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Gateway &amp; Ops</a>
+
+
+<a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Reference</a>
+
+
+<a href="/help" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Help</a>
+
+
+##### Overview
+
+
+- <span id="/channels"><a href="/channels" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Chat Channels
+
+  </div>
+
+  </div>
+
+
+##### Messaging platforms
+
+
+- <span id="/channels/whatsapp"><a href="/channels/whatsapp" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  WhatsApp
+
+  </div>
+
+  </div>
+- <span id="/channels/telegram"><a href="/channels/telegram" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Telegram
+
+  </div>
+
+  </div>
+- <span id="/channels/discord"><a href="/channels/discord" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Discord
+
+  </div>
+
+  </div>
+- <span id="/channels/irc"><a href="/channels/irc" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  IRC
+
+  </div>
+
+  </div>
+- <span id="/channels/slack"><a href="/channels/slack" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Slack
+
+  </div>
+
+  </div>
+- <span id="/channels/feishu"><a href="/channels/feishu" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Feishu
+
+  </div>
+
+  </div>
+- <span id="/channels/googlechat"><a href="/channels/googlechat" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Google Chat
+
+  </div>
+
+  </div>
+- <span id="/channels/mattermost"><a href="/channels/mattermost" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Mattermost
+
+  </div>
+
+  </div>
+- <span id="/channels/signal"><a href="/channels/signal" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Signal
+
+  </div>
+
+  </div>
+- <span id="/channels/imessage"><a href="/channels/imessage" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  iMessage
+
+  </div>
+
+  </div>
+- <span id="/channels/bluebubbles"><a href="/channels/bluebubbles" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  BlueBubbles
+
+  </div>
+
+  </div>
+- <span id="/channels/msteams"><a href="/channels/msteams" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Microsoft Teams
+
+  </div>
+
+  </div>
+- <span id="/channels/synology-chat"><a href="/channels/synology-chat" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Synology Chat
+
+  </div>
+
+  </div>
+- <span id="/channels/line"><a href="/channels/line" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  LINE
+
+  </div>
+
+  </div>
+- <span id="/channels/matrix"><a href="/channels/matrix" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Matrix
+
+  </div>
+
+  </div>
+- <span id="/channels/nextcloud-talk"><a href="/channels/nextcloud-talk" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Nextcloud Talk
+
+  </div>
+
+  </div>
+- <span id="/channels/nostr"><a href="/channels/nostr" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Nostr
+
+  </div>
+
+  </div>
+- <span id="/channels/tlon"><a href="/channels/tlon" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Tlon
+
+  </div>
+
+  </div>
+- <span id="/channels/twitch"><a href="/channels/twitch" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Twitch
+
+  </div>
+
+  </div>
+- <span id="/channels/zalo"><a href="/channels/zalo" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Zalo
+
+  </div>
+
+  </div>
+- <span id="/channels/zalouser"><a href="/channels/zalouser" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Zalo Personal
+
+  </div>
+
+  </div>
+
+
+##### Configuration
+
+
+- <span id="/channels/pairing"><a href="/channels/pairing" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Pairing
+
+  </div>
+
+  </div>
+- <span id="/channels/group-messages"><a href="/channels/group-messages" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Group Messages
+
+  </div>
+
+  </div>
+- <span id="/channels/groups"><a href="/channels/groups" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Groups
+
+  </div>
+
+  </div>
+- <span id="/channels/broadcast-groups"><a href="/channels/broadcast-groups" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Broadcast Groups
+
+  </div>
+
+  </div>
+- <span id="/channels/channel-routing"><a href="/channels/channel-routing" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Channel Routing
+
+  </div>
+
+  </div>
+- <span id="/channels/location"><a href="/channels/location" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Channel Location Parsing
+
+  </div>
+
+  </div>
+- <span id="/channels/troubleshooting"><a href="/channels/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Channel Troubleshooting
+
+  </div>
+
+  </div>
+
+
+On this page
+
+
+- <a href="#whatsapp-web-channel" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">WhatsApp (Web channel)</a>
+- <a href="#quick-setup" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick setup</a>
+- <a href="#deployment-patterns" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Deployment patterns</a>
+- <a href="#runtime-model" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Runtime model</a>
+- <a href="#access-control-and-activation" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Access control and activation</a>
+- <a href="#personal-number-and-self-chat-behavior" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Personal-number and self-chat behavior</a>
+- <a href="#message-normalization-and-context" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Message normalization and context</a>
+- <a href="#delivery-chunking-and-media" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Delivery, chunking, and media</a>
+- <a href="#acknowledgment-reactions" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Acknowledgment reactions</a>
+- <a href="#multi-account-and-credentials" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Multi-account and credentials</a>
+- <a href="#tools-actions-and-config-writes" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Tools, actions, and config writes</a>
+- <a href="#troubleshooting" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Troubleshooting</a>
+- <a href="#configuration-reference-pointers" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Configuration reference pointers</a>
+- <a href="#related" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Related</a>
+
+
+Messaging platforms
+
+
+# WhatsApp
+
+
+# 
+
+
+<a href="#whatsapp-web-channel" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+<a href="/channels/pairing" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
+
+
+## Pairing
+
+
+<a href="/channels/troubleshooting" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
+
+
+## Channel troubleshooting
+
+
+<a href="/gateway/configuration" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
+
+
+## Gateway configuration
+
+
+## 
+
+
+<a href="#quick-setup" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Configure WhatsApp access policy
+
+
+Copy
+
+
+``` shiki
 {
-  "channels": {
-    "whatsapp": {
-      "enabled": true,
-      "dmPolicy": "pairing",
-      "allowFrom": ["+1234567890"]
-    }
-  }
+  channels: {
+    whatsapp: {
+      dmPolicy: "pairing",
+      allowFrom: ["+15551234567"],
+      groupPolicy: "allowlist",
+      groupAllowFrom: ["+15551234567"],
+    },
+  },
 }
 ```
 
-### Setup
 
-1. Configure in `~/.openclaw/openclaw.json`
-2. Scan QR: `openclaw channels login`
-3. Start gateway
+2
 
-### DM Policies
 
-| Policy | Description |
-|--------|-------------|
-| `pairing` | Unknown senders get approval code (default) |
-| `allowlist` | Only specified numbers |
-| `open` | Anyone (requires `allowFrom: ["*"]`) |
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
 
-### Self-Chat Mode
 
-```json
-{ "channels": { "whatsapp": { "selfChatMode": true } } }
+Link WhatsApp (QR)
+
+
+Copy
+
+
+``` shiki
+openclaw channels login --channel whatsapp
 ```
 
-### Troubleshooting
 
-- Use Node.js (not Bun)
-- Re-scan QR if disconnected
-- Delete `~/.openclaw/whatsapp-session` and re-scan
+Copy
 
----
 
-## Telegram (Easiest)
+``` shiki
+openclaw channels login --channel whatsapp --account work
+```
 
-```json
+
+3
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Start the gateway
+
+
+Copy
+
+
+``` shiki
+openclaw gateway
+```
+
+
+4
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Approve first pairing request (if using pairing mode)
+
+
+Copy
+
+
+``` shiki
+openclaw pairing list whatsapp
+openclaw pairing approve whatsapp <CODE>
+```
+
+
+## 
+
+
+<a href="#deployment-patterns" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Dedicated number (recommended)
+
+
+- separate WhatsApp identity for OpenClaw
+- clearer DM allowlists and routing boundaries
+- lower chance of self-chat confusion
+
+
+Copy
+
+
+``` shiki
 {
-  "channels": {
-    "telegram": {
-      "enabled": true,
-      "botToken": "${TELEGRAM_BOT_TOKEN}",
-      "dmPolicy": "pairing",
-      "groupPolicy": "open",
-      "allowFrom": [123456789],
-      "groups": {
-        "-1001234567890": { "enabled": true, "agent": "work" }
+  channels: {
+    whatsapp: {
+      dmPolicy: "allowlist",
+      allowFrom: ["+15551234567"],
+    },
+  },
+}
+```
+
+
+Personal-number fallback
+
+
+- `dmPolicy: "allowlist"`
+- `allowFrom` includes your personal number
+- `selfChatMode: true`
+
+
+WhatsApp Web-only channel scope
+
+
+## 
+
+
+<a href="#runtime-model" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Gateway owns the WhatsApp socket and reconnect loop.
+- Outbound sends require an active WhatsApp listener for the target account.
+- Status and broadcast chats are ignored (`@status`, `@broadcast`).
+- Direct chats use DM session rules (`session.dmScope`; default `main` collapses DMs to the agent main session).
+- Group sessions are isolated (`agent:<agentId>:whatsapp:group:<jid>`).
+
+## 
+
+
+<a href="#access-control-and-activation" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <div id="dm-policy">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-DM policy">
+
+  DM policy
+
+  </div>
+
+  </div>
+
+- <div id="group-policy-%2B-allowlists">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" component-part="tab-button" active="false" testid="tab-Group policy + allowlists">
+
+  Group policy + allowlists
+
+  </div>
+
+  </div>
+
+- <div id="mentions-%2B-%2Factivation">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" component-part="tab-button" active="false" testid="tab-Mentions + /activation">
+
+  Mentions + /activation
+
+  </div>
+
+  </div>
+
+
+- `pairing` (default)
+- `allowlist`
+- `open` (requires `allowFrom` to include `"*"`)
+- `disabled`
+
+
+- pairings are persisted in channel allow-store and merged with configured `allowFrom`
+- if no allowlist is configured, the linked self number is allowed by default
+- outbound `fromMe` DMs are never auto-paired
+
+
+1.  <span data-as="p">**Group membership allowlist** (`channels.whatsapp.groups`)</span>
+    - if `groups` is omitted, all groups are eligible
+    - if `groups` is present, it acts as a group allowlist (`"*"` allowed)
+2.  <span data-as="p">**Group sender policy** (`channels.whatsapp.groupPolicy` + `groupAllowFrom`)</span>
+    - `open`: sender allowlist bypassed
+    - `allowlist`: sender must match `groupAllowFrom` (or `*`)
+    - `disabled`: block all group inbound
+
+
+- if `groupAllowFrom` is unset, runtime falls back to `allowFrom` when available
+- sender allowlists are evaluated before mention/reply activation
+
+
+- explicit WhatsApp mentions of the bot identity
+- configured mention regex patterns (`agents.list[].groupChat.mentionPatterns`, fallback `messages.groupChat.mentionPatterns`)
+- implicit reply-to-bot detection (reply sender matches bot identity)
+
+
+- quote/reply only satisfies mention gating; it does **not** grant sender authorization
+- with `groupPolicy: "allowlist"`, non-allowlisted senders are still blocked even if they reply to an allowlisted user’s message
+
+
+- `/activation mention`
+- `/activation always`
+
+
+## 
+
+
+<a href="#personal-number-and-self-chat-behavior" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- skip read receipts for self-chat turns
+- ignore mention-JID auto-trigger behavior that would otherwise ping yourself
+- if `messages.responsePrefix` is unset, self-chat replies default to `[{identity.name}]` or `[openclaw]`
+
+## 
+
+
+<a href="#message-normalization-and-context" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Inbound envelope + reply context
+
+
+Copy
+
+
+``` shiki
+[Replying to <sender> id:<stanzaId>]
+<quoted body or media placeholder>
+[/Replying]
+```
+
+
+Media placeholders and location/contact extraction
+
+
+- `<media:image>`
+- `<media:video>`
+- `<media:audio>`
+- `<media:document>`
+- `<media:sticker>`
+
+
+Pending group history injection
+
+
+- default limit: `50`
+- config: `channels.whatsapp.historyLimit`
+- fallback: `messages.groupChat.historyLimit`
+- `0` disables
+
+
+- `[Chat messages since your last reply - for context]`
+- `[Current message - respond to this]`
+
+
+Read receipts
+
+
+Copy
+
+
+``` shiki
+{
+  channels: {
+    whatsapp: {
+      sendReadReceipts: false,
+    },
+  },
+}
+```
+
+
+Copy
+
+
+``` shiki
+{
+  channels: {
+    whatsapp: {
+      accounts: {
+        work: {
+          sendReadReceipts: false,
+        },
       },
-      "streamMode": "partial",
-      "actions": { "reactions": true, "sendMessage": true }
-    }
-  }
+    },
+  },
 }
 ```
 
-### Setup
 
-1. Create bot via @BotFather → `/newbot`
-2. Copy token
-3. Get user ID from @userinfobot
-4. Configure and start gateway
+## 
 
-### Policies
 
-- `dmPolicy`: `open`, `pairing`, `allowlist`
-- `groupPolicy`: `open`, `mention`, `disabled`
-- `streamMode`: `partial` (live preview), `block`, `off`
+<a href="#delivery-chunking-and-media" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-Telegram is the **only** channel with live preview streaming.
 
----
+Text chunking
 
-## Discord
 
-```json
+- default chunk limit: `channels.whatsapp.textChunkLimit = 4000`
+- `channels.whatsapp.chunkMode = "length" | "newline"`
+- `newline` mode prefers paragraph boundaries (blank lines), then falls back to length-safe chunking
+
+
+Outbound media behavior
+
+
+- supports image, video, audio (PTT voice-note), and document payloads
+- `audio/ogg` is rewritten to `audio/ogg; codecs=opus` for voice-note compatibility
+- animated GIF playback is supported via `gifPlayback: true` on video sends
+- captions are applied to the first media item when sending multi-media reply payloads
+- media source can be HTTP(S), `file://`, or local paths
+
+
+Media size limits and fallback behavior
+
+
+- inbound media save cap: `channels.whatsapp.mediaMaxMb` (default `50`)
+- outbound media cap for auto-replies: `agents.defaults.mediaMaxMb` (default `5MB`)
+- images are auto-optimized (resize/quality sweep) to fit limits
+- on media send failure, first-item fallback sends text warning instead of dropping the response silently
+
+
+## 
+
+
+<a href="#acknowledgment-reactions" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
 {
-  "channels": {
-    "discord": {
-      "enabled": true,
-      "botToken": "${DISCORD_BOT_TOKEN}",
-      "applicationId": "${DISCORD_APP_ID}",
-      "dmPolicy": "pairing",
-      "allowedGuilds": ["123456789"],
-      "allowedChannels": ["general", "ai-chat"]
-    }
-  }
+  channels: {
+    whatsapp: {
+      ackReaction: {
+        emoji: "👀",
+        direct: true,
+        group: "mentions", // always | mentions | never
+      },
+    },
+  },
 }
 ```
 
-### Setup
 
-1. Create app at Discord Developer Portal
-2. Go to Bot → Add Bot
-3. Copy token, enable "Message Content Intent"
-4. Invite with permissions integer: `274877910016`
+- sent immediately after inbound is accepted (pre-reply)
+- failures are logged but do not block normal reply delivery
+- group mode `mentions` reacts on mention-triggered turns; group activation `always` acts as bypass for this check
+- WhatsApp uses `channels.whatsapp.ackReaction` (legacy `messages.ackReaction` is not used here)
 
-### Required Intents
+## 
 
-`GUILDS`, `GUILD_MESSAGES`, `MESSAGE_CONTENT`, `DIRECT_MESSAGES`
 
----
+<a href="#multi-account-and-credentials" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-## Slack
 
-```json
-{
-  "channels": {
-    "slack": {
-      "enabled": true,
-      "appToken": "${SLACK_APP_TOKEN}",
-      "botToken": "${SLACK_BOT_TOKEN}",
-      "signingSecret": "${SLACK_SIGNING_SECRET}"
-    }
-  }
-}
+Account selection and defaults
+
+
+- account ids come from `channels.whatsapp.accounts`
+- default account selection: `default` if present, otherwise first configured account id (sorted)
+- account ids are normalized internally for lookup
+
+
+Credential paths and legacy compatibility
+
+
+- current auth path: `~/.openclaw/credentials/whatsapp/<accountId>/creds.json`
+- backup file: `creds.json.bak`
+- legacy default auth in `~/.openclaw/credentials/` is still recognized/migrated for default-account flows
+
+
+Logout behavior
+
+
+## 
+
+
+<a href="#tools-actions-and-config-writes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Agent tool support includes WhatsApp reaction action (`react`).
+- Action gates:
+  - `channels.whatsapp.actions.reactions`
+  - `channels.whatsapp.actions.polls`
+- Channel-initiated config writes are enabled by default (disable via `channels.whatsapp.configWrites=false`).
+
+## 
+
+
+<a href="#troubleshooting" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Not linked (QR required)
+
+
+Copy
+
+
+``` shiki
+openclaw channels login --channel whatsapp
+openclaw channels status
 ```
 
-### Setup
 
-1. Create app at api.slack.com/apps
-2. Enable Socket Mode
-3. Generate App Token with `connections:write`
-4. Add bot token scopes, install to workspace
+Linked but disconnected / reconnect loop
 
-### Required Scopes
 
-`chat:write`, `im:write`, `channels:history`, `groups:history`, `users:read`, `reactions:read`, `reactions:write`, `files:write`
+Copy
 
----
 
-## Signal
-
-```json
-{
-  "channels": {
-    "signal": {
-      "enabled": true,
-      "number": "+1234567890"
-    }
-  }
-}
+``` shiki
+openclaw doctor
+openclaw logs --follow
 ```
 
-Requires signal-cli installed and configured.
 
----
+No active listener when sending
 
-## iMessage
 
-macOS only. Requires Full Disk Access permission.
+Group messages unexpectedly ignored
 
-```json
-{
-  "channels": { "imessage": { "enabled": true } }
-}
-```
 
-Grant in System Preferences > Privacy & Security > Full Disk Access.
+- `groupPolicy`
+- `groupAllowFrom` / `allowFrom`
+- `groups` allowlist entries
+- mention gating (`requireMention` + mention patterns)
+- duplicate keys in `openclaw.json` (JSON5): later entries override earlier ones, so keep a single `groupPolicy` per scope
 
----
 
-## Microsoft Teams
+Bun runtime warning
 
-```json
-{
-  "channels": {
-    "msteams": {
-      "enabled": true,
-      "appId": "...",
-      "appPassword": "..."
-    }
-  }
-}
-```
 
-Requires Azure AD app registration and bot channel.
+## 
 
----
 
-## Google Chat
+<a href="#configuration-reference-pointers" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-```json
-{
-  "channels": {
-    "googlechat": {
-      "enabled": true,
-      "serviceAccountKey": "~/.openclaw/credentials/google-chat.json"
-    }
-  }
-}
-```
 
-Requires Google Workspace with Chat API enabled and a service account.
+- <a href="/gateway/configuration-reference#whatsapp" class="link">Configuration reference - WhatsApp</a>
 
----
 
-## Matrix
+- access: `dmPolicy`, `allowFrom`, `groupPolicy`, `groupAllowFrom`, `groups`
+- delivery: `textChunkLimit`, `chunkMode`, `mediaMaxMb`, `sendReadReceipts`, `ackReaction`
+- multi-account: `accounts.<id>.enabled`, `accounts.<id>.authDir`, account-level overrides
+- operations: `configWrites`, `debounceMs`, `web.enabled`, `web.heartbeatSeconds`, `web.reconnect.*`
+- session behavior: `session.dmScope`, `historyLimit`, `dmHistoryLimit`, `dms.<id>.historyLimit`
 
-```json
-{
-  "channels": {
-    "matrix": {
-      "enabled": true,
-      "homeserver": "https://matrix.org",
-      "userId": "@bot:matrix.org",
-      "accessToken": "..."
-    }
-  }
-}
-```
+## 
 
----
 
-## BlueBubbles
+<a href="#related" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-iMessage alternative that works on any platform via a BlueBubbles server running on macOS.
 
-```json
-{
-  "channels": {
-    "bluebubbles": {
-      "enabled": true,
-      "serverUrl": "http://your-bluebubbles-server:1234",
-      "password": "..."
-    }
-  }
-}
-```
+- <a href="/channels/pairing" class="link">Pairing</a>
+- <a href="/channels/channel-routing" class="link">Channel routing</a>
+- <a href="/concepts/multi-agent" class="link">Multi-agent routing</a>
+- <a href="/channels/troubleshooting" class="link">Troubleshooting</a>
 
----
 
-## Zalo
+<a href="/channels" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Chat Channels</span></a><a href="/channels/telegram" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Telegram</span></a>
 
-```json
-{
-  "channels": {
-    "zalo": {
-      "enabled": true,
-      "oaId": "...",
-      "oaSecret": "${ZALO_OA_SECRET}"
-    }
-  }
-}
-```
 
-Requires Zalo Official Account (OA) credentials.
-
----
-
-## Mattermost
-
-```json
-{
-  "channels": {
-    "mattermost": {
-      "enabled": true,
-      "botToken": "${MATTERMOST_BOT_TOKEN}",
-      "serverUrl": "https://your-mattermost.com"
-    }
-  }
-}
-```
-
----
-
-## Twitch
-
-```json
-{
-  "channels": {
-    "twitch": {
-      "enabled": true,
-      "botToken": "${TWITCH_BOT_TOKEN}"
-    }
-  }
-}
-```
-
----
-
-## Broadcast Groups
-
-```json
-{
-  "channels": {
-    "broadcast": {
-      "groups": {
-        "all-social": {
-          "channels": ["discord", "slack", "telegram"],
-          "targets": {
-            "discord": "channel:123",
-            "slack": "#announcements",
-            "telegram": "@channel"
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-```bash
-openclaw message send --broadcast all-social --message "Announcement!"
-```
-
----
-
-## Multiple Channels
-
-OpenClaw supports all channels simultaneously. Add each to your config:
-
-```json
-{
-  "channels": {
-    "telegram": { "enabled": true, "botToken": "..." },
-    "discord": { "enabled": true, "botToken": "..." },
-    "slack": { "enabled": true, "botToken": "...", "appToken": "..." },
-    "whatsapp": { "enabled": true }
-  }
-}
-```
-
----
-
-## Troubleshooting
-
-**Channel not connecting:**
-- Verify credentials/tokens
-- `openclaw doctor`
-- `openclaw logs --channel <name>`
-
-**Messages not received:**
-- Check DM policy settings
-- Verify pairing approvals: `openclaw pairing list`
-
----
-
-## Upstream Sources
-
-- https://docs.openclaw.ai/channels/whatsapp
-- https://docs.openclaw.ai/channels/telegram
-- https://docs.openclaw.ai/channels/discord
-- https://docs.openclaw.ai/channels/slack
-- https://docs.openclaw.ai/channels/signal
-- https://docs.openclaw.ai/channels/imessage
-- https://docs.openclaw.ai/channels/msteams
-- https://docs.openclaw.ai/channels/googlechat
-- https://docs.openclaw.ai/channels/matrix
-- https://docs.openclaw.ai/channels/bluebubbles
-- https://docs.openclaw.ai/channels/zalo
-- https://github.com/openclaw/openclaw

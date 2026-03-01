@@ -1,12 +1,18 @@
-> Source: https://agent-browser.dev/docs/quick-start
+> Source: https://agent-browser.dev/quick-start
+
+
+
+[](https://vercel.com "Made with love by Vercel")<span class="text-border"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+
 
 # Quick Start
 
-## Core Workflow
+## Core workflow
 
 Every browser automation follows this pattern:
 
-```bash
+
+``` shiki
 # 1. Navigate
 agent-browser open example.com
 
@@ -23,9 +29,11 @@ agent-browser click @e2
 agent-browser snapshot -i
 ```
 
-## Common Commands
 
-```bash
+## Common commands
+
+
+``` shiki
 agent-browser open example.com
 agent-browser snapshot -i                # Get interactive elements with refs
 agent-browser click @e2                  # Click by ref
@@ -36,38 +44,46 @@ agent-browser screenshot page.png        # Save to specific path
 agent-browser close
 ```
 
-## Traditional Selectors
+
+## Traditional selectors
 
 CSS selectors and semantic locators also supported:
 
-```bash
+
+``` shiki
 agent-browser click "#submit"
 agent-browser fill "#email" "test@example.com"
 agent-browser find role button click --name "Submit"
 ```
 
-## Headed Mode
+
+## Headed mode
 
 Show browser window for debugging:
 
-```bash
+
+``` shiki
 agent-browser open example.com --headed
 ```
 
-## Wait for Content
 
-```bash
+## Wait for content
+
+
+``` shiki
 agent-browser wait @e1                   # Wait for element
 agent-browser wait --load networkidle    # Wait for network idle
 agent-browser wait --url "**/dashboard"  # Wait for URL pattern
 agent-browser wait 2000                  # Wait milliseconds
 ```
 
-## Command Chaining
+
+## Command chaining
 
 Chain commands with `&&` in a single shell call. The browser persists via a background daemon, so chaining is safe and efficient:
 
-```bash
+
+``` shiki
 # Open, wait, and snapshot in one call
 agent-browser open example.com && agent-browser wait --load networkidle && agent-browser snapshot -i
 
@@ -78,15 +94,21 @@ agent-browser fill @e1 "user@example.com" && agent-browser fill @e2 "pass" && ag
 agent-browser open example.com && agent-browser wait --load networkidle && agent-browser screenshot page.png
 ```
 
+
 Use `&&` when you don't need intermediate output. Run commands separately when you need to parse output first (e.g., snapshot to discover refs before interacting).
 
-## JSON Output
+## JSON output
 
 For programmatic parsing in scripts:
 
-```bash
+
+``` shiki
 agent-browser snapshot --json
 agent-browser get text @e1 --json
 ```
 
+
 Note: The default text output is more compact and preferred for AI agents.
+
+
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>

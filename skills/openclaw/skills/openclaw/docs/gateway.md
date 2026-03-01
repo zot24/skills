@@ -1,404 +1,596 @@
-<!-- Source: https://getopenclaw.ai/docs/gateway, https://github.com/openclaw/openclaw README -->
+> Source: https://docs.openclaw.ai/gateway
 
-# OpenClaw Gateway
 
-Complete guide to the OpenClaw gateway daemon -- the core service that keeps your assistant running 24/7.
 
-## Overview
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
-The Gateway is the central hub that:
-- Listens to connected channels (Telegram, WhatsApp, Discord, Slack, iMessage, etc.)
-- Routes messages to the AI agent (Pi runtime)
-- Handles scheduled tasks (heartbeats, cron jobs, reminders)
-- Manages tool execution and responses
-- Serves the WebChat UI and Control Panel
-- Coordinates device nodes via Node Bridge
 
-Architecture: messaging platforms connect to the Gateway WebSocket (`ws://127.0.0.1:18789`), which coordinates with the agent runtime, CLI tools, WebChat UI, and device nodes.
+<a href="/" class="select-none" data-state="closed" data-slot="context-menu-trigger" style="-webkit-touch-callout:none"><span class="sr-only">OpenClaw home page</span><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 block dark:hidden" alt="light logo" /><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 hidden dark:block" alt="dark logo" /></a>
 
-## Starting the Gateway
 
-```bash
-openclaw gateway                              # Basic start (foreground)
-openclaw gateway start                        # Start as daemon
-openclaw gateway stop                         # Stop the daemon
-openclaw gateway restart                      # Restart the daemon
-openclaw gateway status                       # Check current state
-openclaw gateway logs                         # View activity logs
-openclaw gateway --port 18789 --bind loopback # With explicit options
-openclaw gateway --dev --allow-unconfigured   # Development mode
-openclaw gateway --force                      # Force restart
-```
+<img src="https://d3gk2c5xim1je2.cloudfront.net/flags/US.svg" class="w-full h-full rounded-full" alt="US" />
 
-### Service Management (Unified CLI)
 
-```bash
-openclaw gateway install          # Install as system service (launchd/systemd)
-openclaw gateway install --force  # Reinstall service
-openclaw gateway uninstall        # Remove system service
-openclaw gateway status --deep    # Deep system scan
-openclaw gateway probe            # Connectivity testing
-```
+Search...
 
----
 
-## Protocol
+Gateway
 
-### Wire Format (WebSocket Protocol v3)
 
-```json
-{"type": "req", "id": "uuid", "method": "agent.run", "params": {...}}
-{"type": "res", "id": "uuid", "ok": true, "payload": {...}}
-{"type": "event", "event": "agent.delta", "payload": {...}}
-```
+Gateway Runbook
 
-### Connection Handshake
 
-1. Client connects to `ws://127.0.0.1:18789`
-2. Client sends `connect` frame with `clientId` and `clientType` (operator, node, etc.)
-3. Gateway responds with channels and health snapshot
+<a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get started</a>
 
-### Client Types
 
-- **operator**: CLI, Control UI, remote management
-- **node**: Device nodes (iOS/Android/macOS) with `role: "node"`
-- **channel**: Messaging platform adapters
+<a href="/install" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Install</a>
 
----
 
-## Bridge Protocol
+<a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Channels</a>
 
-For mobile nodes (iOS/Android) via TCP with JSONL format on port 18790 (Gateway port + 1):
 
-```json
-{"type":"bridge.hello","nodeId":"iphone-xyz","capabilities":["camera","location","audio"]}
-```
+<a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
 
-### Discovery
 
-- iOS: Bonjour service discovery
-- Android: mDNS discovery
-- Service advertised as `_openclaw._tcp`
-- Nodes send capability manifests upon connection
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools</a>
 
-### Commands via node.invoke
 
-`canvas.*`, `camera.snap`, `camera.clip`, `screen.record`, `location.get`
+<a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Models</a>
 
----
+
+<a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
+
+
+<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Gateway &amp; Ops</a>
+
+
+<a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Reference</a>
+
+
+<a href="/help" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Help</a>
+
+
+##### Gateway
+
+
+- <span id="/gateway"><a href="/gateway" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Gateway Runbook
+
+  </div>
+
+  </div>
+
+- <div>
+
+  Configuration and operations
+
+  </div>
+
+- <div>
+
+  Security and sandboxing
+
+  </div>
+
+- <div>
+
+  Protocols and APIs
+
+  </div>
+
+- <div>
+
+  Networking and discovery
+
+  </div>
+
+
+##### Remote access
+
+
+- <span id="/gateway/remote"><a href="/gateway/remote" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Remote Access
+
+  </div>
+
+  </div>
+- <span id="/gateway/remote-gateway-readme"><a href="/gateway/remote-gateway-readme" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Remote Gateway Setup
+
+  </div>
+
+  </div>
+- <span id="/gateway/tailscale"><a href="/gateway/tailscale" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Tailscale
+
+  </div>
+
+  </div>
+
+
+##### Security
+
+
+- <span id="/security/formal-verification"><a href="/security/formal-verification" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Formal Verification (Security Models)
+
+  </div>
+
+  </div>
+
+
+##### Web interfaces
+
+
+- <span id="/web"><a href="/web" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Web
+
+  </div>
+
+  </div>
+- <span id="/web/control-ui"><a href="/web/control-ui" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Control UI
+
+  </div>
+
+  </div>
+- <span id="/web/dashboard"><a href="/web/dashboard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Dashboard
+
+  </div>
+
+  </div>
+- <span id="/web/webchat"><a href="/web/webchat" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  WebChat
+
+  </div>
+
+  </div>
+- <span id="/web/tui"><a href="/web/tui" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  TUI
+
+  </div>
+
+  </div>
+
+
+On this page
+
+
+- <a href="#gateway-runbook" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Gateway runbook</a>
+- <a href="#5-minute-local-startup" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">5-minute local startup</a>
+- <a href="#runtime-model" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Runtime model</a>
+- <a href="#port-and-bind-precedence" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Port and bind precedence</a>
+- <a href="#hot-reload-modes" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Hot reload modes</a>
+- <a href="#operator-command-set" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Operator command set</a>
+- <a href="#remote-access" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Remote access</a>
+- <a href="#supervision-and-service-lifecycle" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Supervision and service lifecycle</a>
+- <a href="#multiple-gateways-on-one-host" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Multiple gateways on one host</a>
+- <a href="#dev-profile-quick-path" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Dev profile quick path</a>
+- <a href="#protocol-quick-reference-operator-view" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Protocol quick reference (operator view)</a>
+- <a href="#operational-checks" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Operational checks</a>
+- <a href="#liveness" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Liveness</a>
+- <a href="#readiness" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Readiness</a>
+- <a href="#gap-recovery" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Gap recovery</a>
+- <a href="#common-failure-signatures" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Common failure signatures</a>
+- <a href="#safety-guarantees" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Safety guarantees</a>
+
+
+Gateway
+
+
+# Gateway Runbook
+
+
+# 
+
+
+<a href="#gateway-runbook" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+<a href="/gateway/troubleshooting" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
+
+
+## Deep troubleshooting
+
+
+<a href="/gateway/configuration" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
+
 
 ## Configuration
 
-```json
-{
-  "gateway": {
-    "mode": "local",
-    "bind": "loopback",
-    "port": 18789,
-    "maxConnections": 100
-  }
-}
-```
 
-Configuration file location: `~/.openclaw/openclaw.json`
+<a href="/gateway/secrets" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
 
-### Bind Options
 
-| Value | Address | Auth Required | Use Case |
-|-------|---------|---------------|----------|
-| `loopback` | `127.0.0.1` | No | Local-only (default, most secure) |
-| `lan` | `0.0.0.0` | **Yes** | Docker, LAN access |
-| `tailnet` | Tailscale IP | **Yes** | Mesh network access |
-| `auto` | Varies | Varies | Defaults to loopback, switches to tailnet if configured |
+## Secrets management
 
-**Docker**: Use `bind: "lan"` with authentication. Port mapping: `0.0.0.0:18789:18789`.
 
-### Mode Options
+<a href="/gateway/secrets-plan-contract" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
 
-- `local`: Standard local deployment
-- `cloud`: Cloud/VPS deployment
 
----
+## Secrets plan contract
 
-## Port Reference
 
-| Port | Protocol | Service |
-|------|----------|---------|
-| 18789 | HTTP + WebSocket | Gateway + WebChat at `/chat` + Control UI |
-| 18790 | TCP (JSONL) | Bridge (mobile nodes) = Gateway port + 1 |
-| 18793 | HTTP | Canvas file serving |
+## 
 
----
 
-## Authentication
+<a href="#5-minute-local-startup" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-### Token Auth (Recommended)
 
-```json
-{
-  "gateway": {
-    "auth": {
-      "token": "your-secure-token"
-    }
-  }
-}
-```
+1
 
-Or via environment variable: `OPENCLAW_GATEWAY_TOKEN` (legacy: `CLAWDBOT_GATEWAY_TOKEN`).
 
-Alternatively set via: `gateway.auth.password` for password-based auth.
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
 
-### Insecure Auth Mode
 
-For trusted networks only (significantly reduces security):
+Start the Gateway
 
-```json
-{
-  "gateway": {
-    "allowInsecureAuth": true
-  }
-}
-```
 
-### WebCrypto Requirements
+Copy
 
-Browsers require HTTPS for remote access due to WebCrypto security constraints. Non-localhost HTTP connections are blocked. Use Tailscale Serve or SSH tunnels for remote access.
 
----
-
-## Pairing
-
-Default security: DM pairing mode. Unknown senders receive short pairing codes; the assistant does not process their messages until approved.
-
-```bash
-openclaw pairing list
-openclaw pairing approve <code>
-openclaw pairing deny <code>
-```
-
-```json
-{
-  "pairing": { "enabled": true, "codeExpiry": 300, "maxPending": 10 }
-}
-```
-
-### Device Pairing (Remote UI)
-
-When accessing the Control UI remotely (via Tailscale, LAN IP, etc.), the browser needs device pairing approval. Local `127.0.0.1` connections auto-approve; remote connections need explicit approval.
-
-```bash
-openclaw devices list          # List pending pairing requests
-openclaw devices approve <id>  # Approve a device
-```
-
----
-
-## Health & Doctor
-
-```bash
-openclaw gateway health
-openclaw gateway status          # Gateway status, connected channels, active sessions, memory
-openclaw status --all            # Comprehensive system check
-openclaw doctor --verbose        # Validate API keys, channel configs, file permissions
-openclaw doctor --fix            # Auto-fix common issues
-openclaw config validate         # Validate configuration
-```
-
-### Health Check Endpoint
-
-- RPC method: `gateway.health()`
-- HTTP endpoint: `/health` (when control UI enabled)
-
-### Monitoring Checklist
-
-Verify: service runtime status, port listening, WebSocket reachability, auth config, channel connections, model auth, disk space, memory usage.
-
----
-
-## Logging
-
-```json
-{
-  "logging": {
-    "level": "info",
-    "format": "json",
-    "file": "~/.openclaw/logs/gateway.log"
-  }
-}
-```
-
-```bash
-openclaw logs -f --level error --channel whatsapp
-openclaw gateway logs --tail 50    # Recent error history
-```
-
-Structured JSONL output for log aggregation.
-
----
-
-## Security
-
-### Sandbox Mode
-
-```json
-{
-  "gateway": {
-    "sandbox": {
-      "mode": "non-main",
-      "enabled": true,
-      "allowNetwork": false,
-      "allowFileSystem": "workspace"
-    }
-  }
-}
-```
-
-- Tools run on the host with full access for the main session
-- Non-main sessions (groups/channels) can run in per-session Docker sandboxes when `sandbox.mode: "non-main"`
-- Treat inbound direct messages as untrusted input
-
-### Secrets Management
-
-Store API keys in `~/.openclaw/.env`:
-
-```bash
-ANTHROPIC_API_KEY=sk-ant-...
-OPENAI_API_KEY=sk-...
-```
-
-Reference in config via `${ANTHROPIC_API_KEY}` syntax. Set file permissions with `chmod 600`. Never commit `.env` files to git.
-
----
-
-## Remote Access
-
-### SSH Tunnel (Recommended for VMs)
-
-Keep Gateway on loopback, tunnel from host:
-
-```bash
-ssh -L 18789:127.0.0.1:18789 user@server
-```
-
-### Tailscale
-
-```bash
-openclaw gateway --tailscale serve   # Access via MagicDNS URL (https://machine-name.tailnet/)
-openclaw gateway --tailscale funnel  # Public internet access (use with auth!)
-```
-
-Tailscale Serve provides automatic identity-based authentication for tailnet clients. Funnel mode requires password authentication.
-
-### Cloudflare Tunnel
-
-```bash
-cloudflared tunnel create openclaw
-cloudflared tunnel route dns openclaw openclaw.yourdomain.com
-cloudflared tunnel run openclaw
-```
-
-### mDNS/Bonjour
-
-```bash
-openclaw gateway --mdns
-openclaw gateway discover
-```
-
----
-
-## OpenAI-Compatible API
-
-The Gateway itself does not expose an OpenAI-compatible endpoint natively. Use **ClawProxy** (community tool) to expose OpenClaw agents as OpenAI-compatible models:
-
-```bash
-# ClawProxy: github.com/AijooseFactory/clawproxy
-npm install && npm start
-# Exposes /v1/models and /v1/chat/completions
-# Connects to Gateway via WebSocket (Protocol v3)
-# Auto-reconnects and dynamically exposes agents as "Custom Models"
-```
-
-Configuration:
-
-```json
-{
-  "httpPort": 8080,
-  "httpHost": "127.0.0.1",
-  "gatewayUrl": "ws://127.0.0.1:18789",
-  "gatewayToken": "your-token"
-}
-```
-
-Compatible with OpenWebUI, SillyTavern, LM Studio, and any OpenAI SDK client. Full SSE streaming support with anti-buffering headers.
-
-### Claude Max API Proxy
-
-`claude-max-api-proxy` exposes your Claude Max/Pro subscription as an OpenAI-compatible endpoint.
-
----
-
-## Multiple Gateway Profiles
-
-Run isolated instances using profiles, each with separate state directories, configs, workspaces, and ports:
-
-```bash
-openclaw gateway --profile work
-openclaw gateway --profile personal
-```
-
-Ports derived from the base port number per profile.
-
----
-
-## Emergency Recovery
-
-Complete reset (preserves configuration):
-
-```bash
-openclaw gateway stop
-rm -rf ~/.openclaw/gateway-state/
-openclaw gateway start
-```
-
----
-
-## Troubleshooting
-
-**Port in use:**
-```bash
-lsof -i :18789                    # macOS/Linux
-Get-NetTCPConnection -LocalPort 18789  # Windows PowerShell
+``` shiki
+openclaw gateway --port 18789
+# debug/trace mirrored to stdio
+openclaw gateway --port 18789 --verbose
+# force-kill listener on selected port, then start
 openclaw gateway --force
 ```
 
-**Gateway won't start:**
-```bash
-openclaw gateway              # Run in foreground to see errors
-openclaw gateway logs --tail 50
-openclaw config validate
+
+2
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Verify service health
+
+
+Copy
+
+
+``` shiki
+openclaw gateway status
+openclaw status
+openclaw logs --follow
 ```
 
-**Common error codes:**
-- 1006 WebSocket: Abnormal closure -- gateway not running or crashed
-- 1008 Token mismatch: `gateway.remote.token` must match `gateway.auth.token`
-- ECONNREFUSED: Service not listening on port
 
-**Channel disconnections:**
-```bash
-openclaw channels status
-openclaw channels login
+3
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Validate channel readiness
+
+
+Copy
+
+
+``` shiki
+openclaw channels status --probe
 ```
 
-**Telegram 409 Conflict:** If webhook is set on bot token, long-polling cannot receive updates. Delete webhook: `curl https://api.telegram.org/bot<TOKEN>/deleteWebhook`
 
-**WhatsApp session issues:** Sessions can expire on unfamiliar IP addresses (relevant for VPS migrations).
+## 
 
----
 
-## Upstream Sources
+<a href="#runtime-model" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-- https://getopenclaw.ai/docs/gateway
-- https://github.com/openclaw/openclaw (README)
-- https://getopenclaw.ai/help/gateway-crashes-wont-start
-- https://getopenclaw.ai/help/dashboard-web-ui-guide
-- https://deepwiki.com/openclaw/openclaw/13-deployment
+
+- One always-on process for routing, control plane, and channel connections.
+- Single multiplexed port for:
+  - WebSocket control/RPC
+  - HTTP APIs (OpenAI-compatible, Responses, tools invoke)
+  - Control UI and hooks
+- Default bind mode: `loopback`.
+- Auth is required by default (`gateway.auth.token` / `gateway.auth.password`, or `OPENCLAW_GATEWAY_TOKEN` / `OPENCLAW_GATEWAY_PASSWORD`).
+
+### 
+
+
+<a href="#port-and-bind-precedence" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| Setting      | Resolution order                                              |
+|--------------|---------------------------------------------------------------|
+| Gateway port | `--port` → `OPENCLAW_GATEWAY_PORT` → `gateway.port` → `18789` |
+| Bind mode    | CLI/override → `gateway.bind` → `loopback`                    |
+
+
+### 
+
+
+<a href="#hot-reload-modes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| `gateway.reload.mode` | Behavior                                   |
+|-----------------------|--------------------------------------------|
+| `off`                 | No config reload                           |
+| `hot`                 | Apply only hot-safe changes                |
+| `restart`             | Restart on reload-required changes         |
+| `hybrid` (default)    | Hot-apply when safe, restart when required |
+
+
+## 
+
+
+<a href="#operator-command-set" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+openclaw gateway status
+openclaw gateway status --deep
+openclaw gateway status --json
+openclaw gateway install
+openclaw gateway restart
+openclaw gateway stop
+openclaw secrets reload
+openclaw logs --follow
+openclaw doctor
+```
+
+
+## 
+
+
+<a href="#remote-access" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+ssh -N -L 18789:127.0.0.1:18789 user@host
+```
+
+
+## 
+
+
+<a href="#supervision-and-service-lifecycle" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <div id="macos-launchd">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-macOS (launchd)">
+
+  macOS (launchd)
+
+  </div>
+
+  </div>
+
+- <div id="linux-systemd-user">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" component-part="tab-button" active="false" testid="tab-Linux (systemd user)">
+
+  Linux (systemd user)
+
+  </div>
+
+  </div>
+
+- <div id="linux-system-service">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" component-part="tab-button" active="false" testid="tab-Linux (system service)">
+
+  Linux (system service)
+
+  </div>
+
+  </div>
+
+
+Copy
+
+
+``` shiki
+openclaw gateway install
+openclaw gateway status
+openclaw gateway restart
+openclaw gateway stop
+```
+
+
+Copy
+
+
+``` shiki
+openclaw gateway install
+systemctl --user enable --now openclaw-gateway[-<profile>].service
+openclaw gateway status
+```
+
+
+Copy
+
+
+``` shiki
+sudo loginctl enable-linger <user>
+```
+
+
+Copy
+
+
+``` shiki
+sudo systemctl daemon-reload
+sudo systemctl enable --now openclaw-gateway[-<profile>].service
+```
+
+
+## 
+
+
+<a href="#multiple-gateways-on-one-host" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Unique `gateway.port`
+- Unique `OPENCLAW_CONFIG_PATH`
+- Unique `OPENCLAW_STATE_DIR`
+- Unique `agents.defaults.workspace`
+
+
+Copy
+
+
+``` shiki
+OPENCLAW_CONFIG_PATH=~/.openclaw/a.json OPENCLAW_STATE_DIR=~/.openclaw-a openclaw gateway --port 19001
+OPENCLAW_CONFIG_PATH=~/.openclaw/b.json OPENCLAW_STATE_DIR=~/.openclaw-b openclaw gateway --port 19002
+```
+
+
+### 
+
+
+<a href="#dev-profile-quick-path" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+openclaw --dev setup
+openclaw --dev gateway --allow-unconfigured
+openclaw --dev status
+```
+
+
+## 
+
+
+<a href="#protocol-quick-reference-operator-view" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- First client frame must be `connect`.
+- Gateway returns `hello-ok` snapshot (`presence`, `health`, `stateVersion`, `uptimeMs`, limits/policy).
+- Requests: `req(method, params)` → `res(ok/payload|error)`.
+- Common events: `connect.challenge`, `agent`, `chat`, `presence`, `tick`, `health`, `heartbeat`, `shutdown`.
+
+
+1.  Immediate accepted ack (`status:"accepted"`)
+2.  Final completion response (`status:"ok"|"error"`), with streamed `agent` events in between.
+
+
+## 
+
+
+<a href="#operational-checks" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#liveness" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Open WS and send `connect`.
+- Expect `hello-ok` response with snapshot.
+
+### 
+
+
+<a href="#readiness" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+openclaw gateway status
+openclaw channels status --probe
+openclaw health
+```
+
+
+### 
+
+
+<a href="#gap-recovery" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#common-failure-signatures" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| Signature                                                      | Likely issue                             |
+|----------------------------------------------------------------|------------------------------------------|
+| `refusing to bind gateway ... without auth`                    | Non-loopback bind without token/password |
+| `another gateway instance is already listening` / `EADDRINUSE` | Port conflict                            |
+| `Gateway start blocked: set gateway.mode=local`                | Config set to remote mode                |
+| `unauthorized` during connect                                  | Auth mismatch between client and gateway |
+
+
+## 
+
+
+<a href="#safety-guarantees" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Gateway protocol clients fail fast when Gateway is unavailable (no implicit direct-channel fallback).
+- Invalid/non-connect first frames are rejected and closed.
+- Graceful shutdown emits `shutdown` event before socket close.
+
+------------------------------------------------------------------------
+
+
+- <a href="/gateway/troubleshooting" class="link">Troubleshooting</a>
+- <a href="/gateway/background-process" class="link">Background Process</a>
+- <a href="/gateway/configuration" class="link">Configuration</a>
+- <a href="/gateway/health" class="link">Health</a>
+- <a href="/gateway/doctor" class="link">Doctor</a>
+- <a href="/gateway/authentication" class="link">Authentication</a>
+
+
+<a href="/gateway/configuration" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Configuration</span></a>
+
+

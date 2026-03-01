@@ -1,882 +1,502 @@
-<!-- Source: https://deepwiki.com/openclaw/moltbot/5.2-model-providers -->
-<!-- Source: https://deepwiki.com/openclaw/openclaw/12.4-model-commands -->
-<!-- Source: https://www.getopenclaw.ai/help/api-key-setup-all-providers -->
-<!-- Source: https://open-claw.bot/docs/concepts/model-providers/ -->
-<!-- Source: https://blog.laozhang.ai/en/posts/openclaw-custom-model -->
-<!-- Source: https://openrouter.ai/docs/guides/guides/openclaw-integration -->
-<!-- Source: https://github.com/openclaw/openclaw/blob/main/.env.example -->
-<!-- Source: https://help.apiyi.com/en/openclaw-web-search-configuration-guide-en.html -->
-<!-- Updated: 2026-02-17 -->
+> Source: https://docs.openclaw.ai/concepts/models
 
-# OpenClaw Model Providers
 
-Complete guide to configuring LLM providers in OpenClaw (formerly Clawdbot).
 
-## Model Reference Format
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
-OpenClaw uses the `provider/model-id` pattern for all model references. The system splits on the first forward slash to separate provider name from model identifier.
 
-Examples: `anthropic/claude-opus-4-6`, `openai/gpt-5.1-codex`, `openrouter/anthropic/claude-sonnet-4.5`, `ollama/llama3.3`
+<a href="/" class="select-none" data-state="closed" data-slot="context-menu-trigger" style="-webkit-touch-callout:none"><span class="sr-only">OpenClaw home page</span><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 block dark:hidden" alt="light logo" /><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 hidden dark:block" alt="dark logo" /></a>
 
----
 
-## Provider Priority (Built-in)
+<img src="https://d3gk2c5xim1je2.cloudfront.net/flags/US.svg" class="w-full h-full rounded-full" alt="US" />
 
-When auto-selecting a primary model, OpenClaw uses this priority order:
 
-Anthropic > OpenAI > OpenRouter > Gemini > OpenCode > GitHub Copilot > xAI > Groq > Mistral > Cerebras > Venice > Moonshot > Kimi > MiniMax > Synthetic > ZAI > AI Gateway > Xiaomi > Bedrock > Ollama
+Search...
 
----
 
-## API Types
+Model concepts
 
-| API Type | Description | Providers |
-|----------|-------------|-----------|
-| `anthropic-messages` | Anthropic Messages API | anthropic, minimax, chutes, synthetic |
-| `openai-chat` | OpenAI Chat Completions | openai, azure-openai |
-| `openai-responses` | OpenAI Responses API (Codex) | openai, openai-codex |
-| `openai-completions` | OpenAI-compatible completions | moonshot, ollama, vllm, lm-studio, venice, groq, mistral, cerebras |
-| `google-genai` | Google GenAI SDK | google, google-gemini-cli |
-| `google-antigravity` | Google Vertex AI | google-antigravity |
-| `aws-bedrock` | AWS Bedrock SDK | aws-bedrock-anthropic, aws-bedrock-nova |
-| `github-copilot-api` | GitHub Copilot Chat | github-copilot |
 
----
+Models CLI
 
-## Provider Overview
 
-| Provider | Models | Auth Method | Env Variable |
-|----------|--------|-------------|--------------|
-| Anthropic | Claude Opus 4.6, Sonnet 4, Opus 4.5 | API Key, OAuth, setup-token | `ANTHROPIC_API_KEY` |
-| OpenAI | GPT-5.1-codex, GPT-4o, o1 | API Key, OAuth | `OPENAI_API_KEY` |
-| Google | Gemini 2.0 Flash, Gemini Pro 1.5 | API Key, OAuth (Vertex) | `GEMINI_API_KEY` / `GOOGLE_API_KEY` |
-| OpenRouter | Multiple (aggregated) | API Key | `OPENROUTER_API_KEY` |
-| Moonshot | Kimi K2.5 | API Key | `MOONSHOT_API_KEY` |
-| MiniMax | MiniMax-M2.1 | API Key | `MINIMAX_API_KEY` |
-| Z.AI (GLM) | GLM-5, GLM-4.7-flash | API Key | `ZAI_API_KEY` |
-| Groq | Multiple (fast inference) | API Key | `GROQ_API_KEY` |
-| Mistral | Mistral models | API Key | `MISTRAL_API_KEY` |
-| Cerebras | Cerebras models | API Key | `CEREBRAS_API_KEY` |
-| Venice | Venice models (OpenAI-compatible) | API Key | `VENICE_API_KEY` |
-| xAI | Grok models | API Key | `XAI_API_KEY` |
-| Synthetic | Synthetic models | API Key | `SYNTHETIC_API_KEY` |
-| AI Gateway | Gateway models | API Key | `AI_GATEWAY_API_KEY` |
-| Xiaomi | MiMo-V2-Flash | API Key | - |
-| GitHub Copilot | Copilot Chat | GitHub Copilot auth | - |
-| AWS Bedrock | Anthropic, Nova | AWS SDK credential chain | AWS env vars |
-| Ollama | Local models (llama3.3, etc.) | None (auto-detected) | - |
-| Qwen | Qwen Coder | OAuth device-code flow | - |
+<a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get started</a>
 
----
 
-## Anthropic (Default / Recommended)
+<a href="/install" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Install</a>
 
-OpenClaw recommends Anthropic Pro/Max (100/200) + Opus 4.6 for long-context strength and better prompt-injection resistance.
 
-### Authentication Methods
+<a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Channels</a>
 
-**API Key (recommended for production):**
-```bash
-export ANTHROPIC_API_KEY="sk-ant-..."
+
+<a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
+
+
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools</a>
+
+
+<a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Models</a>
+
+
+<a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
+
+
+<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Gateway &amp; Ops</a>
+
+
+<a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Reference</a>
+
+
+<a href="/help" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Help</a>
+
+
+##### Overview
+
+
+- <span id="/providers"><a href="/providers" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Model Providers
+
+  </div>
+
+  </div>
+- <span id="/providers/models"><a href="/providers/models" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Model Provider Quickstart
+
+  </div>
+
+  </div>
+
+
+##### Model concepts
+
+
+- <span id="/concepts/models"><a href="/concepts/models" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Models CLI
+
+  </div>
+
+  </div>
+
+
+##### Configuration
+
+
+- <span id="/concepts/model-providers"><a href="/concepts/model-providers" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Model Providers
+
+  </div>
+
+  </div>
+- <span id="/concepts/model-failover"><a href="/concepts/model-failover" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Model Failover
+
+  </div>
+
+  </div>
+
+
+##### Providers
+
+
+- <span id="/providers/anthropic"><a href="/providers/anthropic" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Anthropic
+
+  </div>
+
+  </div>
+- <span id="/providers/openai"><a href="/providers/openai" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  OpenAI
+
+  </div>
+
+  </div>
+- <span id="/providers/openrouter"><a href="/providers/openrouter" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  OpenRouter
+
+  </div>
+
+  </div>
+- <span id="/providers/litellm"><a href="/providers/litellm" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Litellm
+
+  </div>
+
+  </div>
+- <span id="/providers/bedrock"><a href="/providers/bedrock" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Amazon Bedrock
+
+  </div>
+
+  </div>
+- <span id="/providers/vercel-ai-gateway"><a href="/providers/vercel-ai-gateway" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Vercel AI Gateway
+
+  </div>
+
+  </div>
+- <span id="/providers/moonshot"><a href="/providers/moonshot" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Moonshot AI
+
+  </div>
+
+  </div>
+- <span id="/providers/mistral"><a href="/providers/mistral" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Mistral
+
+  </div>
+
+  </div>
+- <span id="/providers/minimax"><a href="/providers/minimax" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  MiniMax
+
+  </div>
+
+  </div>
+- <span id="/providers/opencode"><a href="/providers/opencode" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  OpenCode Zen
+
+  </div>
+
+  </div>
+- <span id="/providers/glm"><a href="/providers/glm" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  GLM Models
+
+  </div>
+
+  </div>
+- <span id="/providers/zai"><a href="/providers/zai" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Z.AI
+
+  </div>
+
+  </div>
+- <span id="/providers/synthetic"><a href="/providers/synthetic" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Synthetic
+
+  </div>
+
+  </div>
+- <span id="/providers/qianfan"><a href="/providers/qianfan" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Qianfan
+
+  </div>
+
+  </div>
+
+
+On this page
+
+
+- <a href="#models-cli" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Models CLI</a>
+- <a href="#how-model-selection-works" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">How model selection works</a>
+- <a href="#quick-model-picks-anecdotal" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick model picks (anecdotal)</a>
+- <a href="#setup-wizard-recommended" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Setup wizard (recommended)</a>
+- <a href="#config-keys-overview" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Config keys (overview)</a>
+- <a href="#%E2%80%9Cmodel-is-not-allowed%E2%80%9D-and-why-replies-stop" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">“Model is not allowed” (and why replies stop)</a>
+- <a href="#switching-models-in-chat-%2Fmodel" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Switching models in chat (/model)</a>
+- <a href="#cli-commands" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">CLI commands</a>
+- <a href="#models-list" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">models list</a>
+- <a href="#models-status" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">models status</a>
+- <a href="#scanning-openrouter-free-models" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Scanning (OpenRouter free models)</a>
+- <a href="#models-registry-models-json" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Models registry (models.json)</a>
+
+
+Model concepts
+
+
+# Models CLI
+
+
+# 
+
+
+<a href="#models-cli" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#how-model-selection-works" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1.  **Primary** model (`agents.defaults.model.primary` or `agents.defaults.model`).
+2.  **Fallbacks** in `agents.defaults.model.fallbacks` (in order).
+3.  **Provider auth failover** happens inside a provider before moving to the next model.
+
+
+- `agents.defaults.models` is the allowlist/catalog of models OpenClaw can use (plus aliases).
+- `agents.defaults.imageModel` is used **only when** the primary model can’t accept images.
+- Per-agent defaults can override `agents.defaults.model` via `agents.list[].model` plus bindings (see <a href="/concepts/multi-agent" class="link">/concepts/multi-agent</a>).
+
+## 
+
+
+<a href="#quick-model-picks-anecdotal" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- **GLM**: a bit better for coding/tool calling.
+- **MiniMax**: better for writing and vibes.
+
+## 
+
+
+<a href="#setup-wizard-recommended" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+openclaw onboard
 ```
 
-**OAuth (via Claude Pro/Max subscription):**
-```bash
-openclaw models auth setup-token --provider anthropic
-# Paste token from: claude setup-token
+
+## 
+
+
+<a href="#config-keys-overview" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `agents.defaults.model.primary` and `agents.defaults.model.fallbacks`
+- `agents.defaults.imageModel.primary` and `agents.defaults.imageModel.fallbacks`
+- `agents.defaults.models` (allowlist + aliases + provider params)
+- `models.providers` (custom providers written into `models.json`)
+
+
+## 
+
+
+<a href="#“model-is-not-allowed”-and-why-replies-stop" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+Model "provider/model" is not allowed. Use /model to list available models.
 ```
 
-**Non-interactive onboarding:**
-```bash
-openclaw onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
-```
 
-### Auth Profiles
+- Add the model to `agents.defaults.models`, or
+- Clear the allowlist (remove `agents.defaults.models`), or
+- Pick a model from `/model list`.
 
-Configure multiple auth profiles for rate limit resilience:
 
-```json5
+Copy
+
+
+``` shiki
 {
-  auth: {
-    order: {
-      anthropic: ["anthropic:subscription", "anthropic:api"]
+  agent: {
+    model: { primary: "anthropic/claude-sonnet-4-5" },
+    models: {
+      "anthropic/claude-sonnet-4-5": { alias: "Sonnet" },
+      "anthropic/claude-opus-4-6": { alias: "Opus" },
     },
-    profiles: {
-      "anthropic:subscription": {
-        provider: "anthropic",
-        mode: "oauth",
-        email: "me@example.com"
-      },
-      "anthropic:api": {
-        provider: "anthropic",
-        mode: "api_key"
-      }
-    }
-  }
+  },
 }
 ```
 
-### OAuth Tool Restrictions
 
-When using Anthropic OAuth (vs API key), tool names are restricted. OpenClaw remaps tool names on the wire:
-- `exec` -> `bash`
-- `apply_patch` -> `str_replace_editor`
+## 
 
-### Available Models
 
-| Model ID | Context | Max Output | Reasoning |
-|----------|---------|------------|-----------|
-| `claude-opus-4-6` | 1,000,000 | 128,000 | Yes |
-| `claude-opus-4-5` | 200,000 | 32,000 | Yes |
-| `claude-sonnet-4-5` | 200,000 | 16,000 | No |
-| `claude-sonnet-4-20250514` | 200,000 | 16,000 | No |
-| `claude-3-5-haiku-20241022` | 200,000 | 8,192 | No |
+<a href="#switching-models-in-chat-/model" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-### Configuration
 
-```json5
-{
-  agents: {
-    defaults: {
-      model: {
-        primary: "anthropic/claude-opus-4-6",
-        fallbacks: ["anthropic/claude-opus-4-5"]
-      },
-      contextTokens: 1000000
-    }
-  }
-}
+Copy
+
+
+``` shiki
+/model
+/model list
+/model 3
+/model openai/gpt-5.2
+/model status
 ```
 
-### Adding Opus 4.6 to Catalog (if not yet in built-in catalog)
 
-```json5
-{
-  models: {
-    mode: "merge",
-    providers: {
-      anthropic: {
-        baseUrl: "https://api.anthropic.com",
-        api: "anthropic-messages",
-        models: [
-          {
-            id: "claude-opus-4-6",
-            name: "Claude Opus 4.6",
-            reasoning: true,
-            input: ["text", "image"],
-            contextWindow: 1000000,
-            maxTokens: 128000
-          }
-        ]
-      }
-    }
-  }
-}
+- `/model` (and `/model list`) is a compact, numbered picker (model family + available providers).
+- On Discord, `/model` and `/models` open an interactive picker with provider and model dropdowns plus a Submit step.
+- `/model <#>` selects from that picker.
+- `/model status` is the detailed view (auth candidates and, when configured, provider endpoint `baseUrl` + `api` mode).
+- Model refs are parsed by splitting on the **first** `/`. Use `provider/model` when typing `/model <ref>`.
+- If the model ID itself contains `/` (OpenRouter-style), you must include the provider prefix (example: `/model openrouter/moonshotai/kimi-k2`).
+- If you omit the provider, OpenClaw treats the input as an alias or a model for the **default provider** (only works when there is no `/` in the model ID).
+
+
+## 
+
+
+<a href="#cli-commands" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+openclaw models list
+openclaw models status
+openclaw models set <provider/model>
+openclaw models set-image <provider/model>
+
+openclaw models aliases list
+openclaw models aliases add <alias> <provider/model>
+openclaw models aliases remove <alias>
+
+openclaw models fallbacks list
+openclaw models fallbacks add <provider/model>
+openclaw models fallbacks remove <provider/model>
+openclaw models fallbacks clear
+
+openclaw models image-fallbacks list
+openclaw models image-fallbacks add <provider/model>
+openclaw models image-fallbacks remove <provider/model>
+openclaw models image-fallbacks clear
 ```
 
-### Model Parameters
 
-```json5
-{
-  agents: {
-    defaults: {
-      models: {
-        "anthropic/claude-opus-4-6": {
-          alias: "opus",
-          temperature: 0.7,
-          maxTokens: 128000,
-          cacheControlTtl: 300
-        }
-      }
-    }
-  }
-}
-```
+### 
 
-After changes, restart gateway and start a new session:
-```bash
-openclaw gateway restart
-# Use /new or /reset in chat for new session
+
+<a href="#models-list" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `--all`: full catalog
+- `--local`: local providers only
+- `--provider <name>`: filter by provider
+- `--plain`: one model per line
+- `--json`: machine‑readable output
+
+### 
+
+
+<a href="#models-status" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+claude setup-token
 openclaw models status
 ```
 
----
 
-## OpenAI
+## 
 
-```bash
-export OPENAI_API_KEY="sk-..."
-```
 
-OAuth via ChatGPT/Codex subscriptions also supported.
+<a href="#scanning-openrouter-free-models" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-### Available Models
 
-- `openai/gpt-5.1-codex` (Responses API)
-- `openai/gpt-4o`
-- `openai/gpt-4o-mini`
-- `openai/gpt-4-turbo`
-- `openai/gpt-4-vision` (image model)
-- `openai/o1-preview`, `openai/o1-mini`
+- `--no-probe`: skip live probes (metadata only)
+- `--min-params <b>`: minimum parameter size (billions)
+- `--max-age-days <days>`: skip older models
+- `--provider <name>`: provider prefix filter
+- `--max-candidates <n>`: fallback list size
+- `--set-default`: set `agents.defaults.model.primary` to the first selection
+- `--set-image`: set `agents.defaults.imageModel.primary` to the first image selection
 
-### Configuration
 
-```json5
-{
-  models: {
-    providers: {
-      openai: {
-        apiKey: "${OPENAI_API_KEY}",
-        organization: "org-..."
-      }
-    }
-  },
-  agents: {
-    defaults: {
-      model: {
-        primary: "openai/gpt-5.1-codex"
-      }
-    }
-  }
-}
-```
+1.  Image support
+2.  Tool latency
+3.  Context size
+4.  Parameter count
 
-### OpenAI Codex (Responses API)
 
-OpenAI Codex uses the Responses API with reasoning blocks. OpenClaw handles reasoning replay and tool-call flows differently, extracting reasoning content and flattening tool calls into single-turn responses.
+- OpenRouter `/models` list (filter `:free`)
+- Requires OpenRouter API key from auth profiles or `OPENROUTER_API_KEY` (see <a href="/help/environment" class="link">/environment</a>)
+- Optional filters: `--max-age-days`, `--min-params`, `--provider`, `--max-candidates`
+- Probe controls: `--timeout`, `--concurrency`
 
----
 
-## Google (Gemini)
+## 
 
-```bash
-export GEMINI_API_KEY="AIza..."
-# or
-export GOOGLE_API_KEY="AIza..."
-```
 
-Enable the Gemini API in Google Cloud Console for your project to resolve 403 errors.
+<a href="#models-registry-models-json" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-### Configuration
 
-```json5
-{
-  models: {
-    providers: {
-      google: {
-        apiKey: "$GOOGLE_API_KEY"
-      }
-    }
-  },
-  agents: {
-    defaults: {
-      model: {
-        primary: "google/gemini-2.0-flash"
-      }
-    }
-  }
-}
-```
+- Non-empty `apiKey`/`baseUrl` already present in the agent `models.json` win.
+- Empty or missing agent `apiKey`/`baseUrl` fall back to config `models.providers`.
+- Other provider fields are refreshed from config and normalized catalog data.
 
-### Google Vertex AI (Antigravity)
 
-Requires OAuth and plugin enablement:
-```bash
-openclaw plugins enable google-antigravity-auth
-```
+<a href="/providers/models" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model Provider Quickstart</span></a><a href="/concepts/model-providers" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model Providers</span></a>
 
-### Google-Specific Adaptations
 
-Google's API rejects certain JSON schema features. OpenClaw strips unsupported constructs including root-level `anyOf`/`oneOf`/`allOf`, `additionalProperties` in tool schemas, and empty `required` arrays. Google also requires alternating user/assistant turns; OpenClaw merges consecutive user turns when needed.
-
----
-
-## OpenRouter
-
-Access multiple models through one API. OpenClaw has built-in support -- you do not need to configure `models.providers`, just set the API key.
-
-```bash
-export OPENROUTER_API_KEY="sk-or-..."
-```
-
-### Quick Setup
-
-```bash
-openclaw onboard --auth-choice apiKey --token-provider openrouter --token "$OPENROUTER_API_KEY"
-```
-
-### Model Format
-
-Uses `openrouter/<author>/<slug>` pattern:
-
-- `openrouter/anthropic/claude-sonnet-4.5`
-- `openrouter/google/gemini-pro-1.5`
-- `openrouter/openrouter/auto` (cost-optimized routing)
-- `openrouter/meta-llama/llama-3.2-3b-instruct:free` (free models use `:free` suffix)
-
-### Configuration
-
-```json5
-{
-  agents: {
-    defaults: {
-      model: {
-        primary: "openrouter/anthropic/claude-sonnet-4.5",
-        fallbacks: ["openrouter/openrouter/auto"]
-      }
-    }
-  }
-}
-```
-
-The auto router automatically selects the most cost-effective model based on your prompt. Monitor usage via the OpenRouter Activity Dashboard.
-
----
-
-## Ollama (Local Models - Auto-Detected)
-
-Ollama is auto-detected at `http://127.0.0.1:11434/v1`. No manual configuration needed.
-
-```bash
-ollama pull llama3.3
-openclaw models list
-```
-
-```json5
-{
-  agents: {
-    defaults: {
-      model: {
-        primary: "ollama/llama3.3"
-      }
-    }
-  }
-}
-```
-
-Note: Some builds disable streaming for certain Ollama setups because of SDK and streaming format quirks.
-
----
-
-## Custom / OpenAI-Compatible Providers (vLLM, LM Studio, etc.)
-
-For any OpenAI-compatible endpoint, configure under `models.providers`:
-
-```json5
-{
-  models: {
-    mode: "merge",
-    providers: {
-      providerName: {
-        baseUrl: "https://api.endpoint/v1",
-        apiKey: "${ENV_VAR}",
-        api: "openai-completions",
-        models: [
-          {
-            id: "model-id",
-            name: "Display Name",
-            reasoning: false,
-            input: ["text"],
-            contextWindow: 200000,
-            maxTokens: 8192,
-            cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }
-          }
-        ]
-      }
-    }
-  }
-}
-```
-
-`mode: "merge"` combines your custom providers with the built-in ones (recommended).
-
-### Common Local Endpoints
-
-| Runtime | Default Base URL |
-|---------|-----------------|
-| Ollama | `http://127.0.0.1:11434/v1` (auto-detected) |
-| vLLM | `http://localhost:8000/v1` |
-| LM Studio | `http://localhost:1234/v1` |
-| LiteLLM | Configurable |
-| llama.cpp | Configurable |
-
-Set cost fields to zero for local inference.
-
----
-
-## Moonshot (Kimi)
-
-OpenAI-compatible provider.
-
-```bash
-export MOONSHOT_API_KEY="..."
-```
-
-```json5
-{
-  models: {
-    mode: "merge",
-    providers: {
-      moonshot: {
-        baseUrl: "https://api.moonshot.ai/v1",
-        apiKey: "${MOONSHOT_API_KEY}",
-        api: "openai-completions",
-        models: [{ id: "kimi-k2.5", name: "Kimi K2.5" }]
-      }
-    }
-  },
-  agents: {
-    defaults: {
-      model: {
-        primary: "moonshot/kimi-k2.5"
-      }
-    }
-  }
-}
-```
-
----
-
-## MiniMax
-
-Uses the `anthropic-messages` API type with tag enforcement.
-
-```bash
-export MINIMAX_API_KEY="..."
-```
-
-When `enforceFinalTag` is enabled, only content inside `<final>` blocks is returned, suppressing content outside to prevent reasoning leakage.
-
-Available models: `minimax/MiniMax-M2.1`
-
----
-
-## Z.AI (GLM)
-
-```bash
-export ZAI_API_KEY="..."
-```
-
-Requires subscription to the GLM Coding Plan at https://z.ai/model-api.
-
-### Available Models
-
-- `zai/glm-5` (primary)
-- `zai/glm-4.7-flash` (fallback)
-
-```json5
-{
-  agents: {
-    defaults: {
-      model: {
-        primary: "zai/glm-5",
-        fallbacks: ["zai/glm-4.7-flash"]
-      }
-    }
-  }
-}
-```
-
----
-
-## Qwen (OAuth)
-
-Uses device-code flow authentication with a bundled plugin. One of the rare free-tier options that is usable for real work.
-
-Model references use `qwen-portal/coder-model` format.
-
----
-
-## Other Built-in Providers
-
-| Provider | Env Variable | Example Model | Notes |
-|----------|-------------|---------------|-------|
-| Groq | `GROQ_API_KEY` | `groq/llama-3.3-70b` | Fast inference, generous experimentation access |
-| Mistral | `MISTRAL_API_KEY` | `mistral/mistral-large` | Built-in provider |
-| xAI | `XAI_API_KEY` | `xai/grok-2` | Built-in provider |
-| Cerebras | `CEREBRAS_API_KEY` | `cerebras/...` | Built-in provider |
-| Venice | `VENICE_API_KEY` | `venice/...` | OpenAI-compatible |
-| Synthetic | `SYNTHETIC_API_KEY` | `synthetic/...` | Uses `anthropic-messages` at `api.synthetic.new/anthropic` |
-| Cohere | - | - | Summarization/classification focus |
-| DeepSeek | - | - | Low-cost hosted or local |
-| GitHub Copilot | - | `github/...` | Uses `github-copilot-api` type |
-| AWS Bedrock | AWS env vars | `bedrock/...` | AWS SDK credential chain (IAM roles, env, profiles), no explicit API key |
-| Xiaomi | - | `xiaomi/mimo-v2-flash` | MiMo-V2-Flash |
-
----
-
-## Brave Search Integration
-
-OpenClaw supports Brave Search for web search capabilities.
-
-```bash
-export BRAVE_API_KEY="..."
-```
-
-### Configuration
-
-```json5
-{
-  tools: {
-    web: {
-      search: {
-        provider: "brave",
-        apiKey: "YOUR_BRAVE_API_KEY",
-        maxResults: 10,
-        timeoutSeconds: 5,
-        cacheTtlMinutes: 15,
-        // Optional locale settings
-        country: "US",
-        search_lang: "en",
-        ui_lang: "en"
-      }
-    }
-  }
-}
-```
-
-Get API key at https://brave.com/search/api/ -- choose the "Data for Search" plan (not "Data for AI"). Free tier: 2,000 monthly requests.
-
-### Multi-Engine Fallback
-
-```json5
-{
-  tools: {
-    web: {
-      search: {
-        provider: "brave",
-        apiKey: "YOUR_BRAVE_API_KEY",
-        fallback: {
-          provider: "duckduckgo"
-        }
-      }
-    }
-  }
-}
-```
-
-### Alternative Search Providers
-
-- **Tavily MCP** -- AI-optimized search (1,000 free monthly searches), integrates via MCP
-- **DuckDuckGo** -- No API key needed (fallback option)
-- **Perplexity** -- `PERPLEXITY_API_KEY=pplx-...`
-- **Built-in WebSearch** -- Available for Claude-based models, zero configuration
-- **OneSearch MCP** -- Unified search supporting Tavily, DuckDuckGo, Bing, SearXNG
-
----
-
-## Provider Failover
-
-OpenClaw supports automatic failover with auth profile rotation and model fallbacks.
-
-### Fallback Chain Configuration
-
-```json5
-{
-  agents: {
-    defaults: {
-      model: {
-        primary: "anthropic/claude-sonnet-4-5",
-        fallbacks: ["moonshot/kimi-k2.5", "openai/gpt-5.1-codex", "ollama/llama3.3"]
-      }
-    }
-  }
-}
-```
-
-When the primary provider hits rate limits, requests automatically cascade through fallbacks.
-
-### Failover Reasons
-
-| Reason | Trigger | Behavior |
-|--------|---------|----------|
-| `auth` | 401, invalid key | Try next auth profile, then next fallback |
-| `billing` | 402, billing error | Try next profile, cooldown, then fallback |
-| `rate_limit` | 429, quota exceeded | Try next profile (with cooldown), then fallback |
-| `context_overflow` | Context too large | Compact session, retry, then fallback |
-| `timeout` | Network timeout | Retry with backoff, then fallback |
-| `image_size` | Image too large | Downscale image, retry, then fallback |
-
-### Auth Profile Rotation
-
-When a model fails due to rate limits or billing:
-1. Try primary auth profile
-2. Mark failed (cooldown period)
-3. Try next profile in `auth.order[provider]`
-4. If all profiles exhausted, try fallback model
-
-```bash
-openclaw models auth order get
-openclaw models auth order set anthropic:work,anthropic:default
-openclaw models auth order clear
-```
-
-### Per-Agent Model Overrides
-
-```json5
-{
-  agents: {
-    list: [{
-      id: "work",
-      model: { primary: "anthropic/claude-opus-4-5" },
-      imageModel: { primary: "openai/gpt-4-vision" },
-      fallbacks: ["openai/gpt-4-turbo"]
-    }]
-  }
-}
-```
-
-Empty `fallbacks` array disables the global chain for that agent.
-
----
-
-## Authentication
-
-### Auth Modes
-
-| Mode | Description | Example |
-|------|-------------|---------|
-| `api-key` | Static API key | `ANTHROPIC_API_KEY=sk-ant-...` |
-| `oauth` | OAuth2 with refresh | Anthropic setup-token, Google Vertex |
-| `token` | Long-lived token | Manually pasted credentials |
-| `aws-sdk` | AWS credential chain | Bedrock models |
-
-### OAuth Providers
-
-- `anthropic`: Anthropic Console OAuth (supports tool-name restrictions)
-- `google-gemini-cli`: Google Cloud OAuth (requires project ID)
-- `google-antigravity`: Google Vertex AI OAuth
-- `chutes`: Chutes platform OAuth (Anthropic-compatible)
-
-### Auth Resolution Order (highest to lowest)
-
-1. Explicit profile ID (if specified)
-2. `auth.order.<provider>` rotation order
-3. Environment variables (`ANTHROPIC_API_KEY`, etc.)
-4. Config file stored profiles
-5. Provider-specific fallbacks (AWS SDK chain)
-
-### Auth Commands
-
-```bash
-openclaw models auth add                           # Interactive auth setup
-openclaw models auth setup-token --provider anthropic  # Setup token auth
-openclaw models auth paste-token --provider openai --expires-in 365d  # Manual token
-openclaw models auth order get                     # View profile rotation
-openclaw models auth order set anthropic:work,anthropic:default  # Set rotation
-```
-
----
-
-## CLI Backend Support
-
-OpenClaw supports CLI backends as fallback when API providers are unavailable. CLI backends invoke local AI tools via subprocess and parse their output.
-
-| Backend | Tool |
-|---------|------|
-| `claude-cli` | Official Claude CLI (Anthropic) |
-| `gemini-cli` | Official Gemini CLI (Google) |
-| `ai-cli` | Generic OpenAI CLI |
-| `openrouter-cli` | OpenRouter CLI wrapper |
-
----
-
-## Model Definition Parameters
-
-Each model entry in the providers config supports:
-
-| Field | Description | Default |
-|-------|-------------|---------|
-| `id` | Model identifier (e.g., `claude-opus-4-6`) | Required |
-| `name` | Display name | - |
-| `api` | API type (e.g., `anthropic-messages`) | - |
-| `reasoning` | Supports native reasoning mode | `false` |
-| `input` | Supported input types (e.g., `["text", "image"]`) | `["text"]` |
-| `cost` | Token costs (`input`, `output`, `cacheRead`, `cacheWrite`) | - |
-| `contextWindow` | Max context tokens | `200000` |
-| `maxTokens` | Max output tokens | `8192` |
-
----
-
-## Rate Limiting & Usage
-
-```json5
-{
-  providers: {
-    anthropic: {
-      rateLimit: { requestsPerMinute: 60, tokensPerMinute: 100000 }
-    },
-    usage: { enabled: true, logFile: "~/.openclaw/usage.log" }
-  }
-}
-```
-
-```bash
-openclaw usage show --provider anthropic --period month
-```
-
----
-
-## Environment Variables (Complete)
-
-### Model Providers
-
-| Variable | Provider |
-|----------|----------|
-| `ANTHROPIC_API_KEY` | Anthropic (Claude) |
-| `OPENAI_API_KEY` | OpenAI |
-| `GEMINI_API_KEY` | Google Gemini |
-| `GOOGLE_API_KEY` | Google (alternative) |
-| `OPENROUTER_API_KEY` | OpenRouter |
-| `MOONSHOT_API_KEY` | Moonshot (Kimi) |
-| `MINIMAX_API_KEY` | MiniMax |
-| `ZAI_API_KEY` | Z.AI (GLM) |
-| `AI_GATEWAY_API_KEY` | AI Gateway |
-| `SYNTHETIC_API_KEY` | Synthetic |
-| `GROQ_API_KEY` | Groq |
-| `MISTRAL_API_KEY` | Mistral |
-| `CEREBRAS_API_KEY` | Cerebras |
-| `VENICE_API_KEY` | Venice |
-| `XAI_API_KEY` | xAI (Grok) |
-
-### Tools & Search
-
-| Variable | Service |
-|----------|---------|
-| `BRAVE_API_KEY` | Brave Search |
-| `PERPLEXITY_API_KEY` | Perplexity |
-| `FIRECRAWL_API_KEY` | Firecrawl |
-
-### Voice & Media
-
-| Variable | Service |
-|----------|---------|
-| `ELEVENLABS_API_KEY` | ElevenLabs TTS |
-| `XI_API_KEY` | ElevenLabs (alias) |
-| `DEEPGRAM_API_KEY` | Deepgram STT |
-
-### Gateway & System
-
-| Variable | Purpose |
-|----------|---------|
-| `OPENCLAW_GATEWAY_TOKEN` | Gateway auth token |
-| `OPENCLAW_GATEWAY_PASSWORD` | Alternative gateway auth |
-| `OPENCLAW_STATE_DIR` | State directory (default: `~/.openclaw`) |
-| `OPENCLAW_CONFIG_PATH` | Config file path |
-| `OPENCLAW_HOME` | Home directory |
-| `OPENCLAW_LOAD_SHELL_ENV` | Import keys from login shell (`1` to enable) |
-| `OPENCLAW_SHELL_ENV_TIMEOUT_MS` | Shell env import timeout (default: `15000`) |
-
-### Channels
-
-| Variable | Channel |
-|----------|---------|
-| `TELEGRAM_BOT_TOKEN` | Telegram |
-| `DISCORD_BOT_TOKEN` | Discord |
-| `SLACK_BOT_TOKEN` | Slack |
-| `SLACK_APP_TOKEN` | Slack (app token) |
-| `MATTERMOST_BOT_TOKEN` | Mattermost |
-| `MATTERMOST_URL` | Mattermost server URL |
-| `ZALO_BOT_TOKEN` | Zalo |
-| `OPENCLAW_TWITCH_ACCESS_TOKEN` | Twitch |
-
-### Env-Source Precedence (highest to lowest)
-
-1. Process environment variables
-2. `./.env` (project-local)
-3. `~/.openclaw/.env` (user-level)
-4. `openclaw.json` `env` block
-
-Existing non-empty process env vars are not overridden by dotenv/config env loading.
-
-Environment variables can be referenced in config with `${VAR_NAME}` or `$VAR_NAME` syntax:
-```json5
-{
-  env: {
-    ANTHROPIC_API_KEY: "sk-ant-...",
-    OPENAI_API_KEY: "sk-..."
-  },
-  models: {
-    providers: {
-      anthropic: { apiKey: "$ANTHROPIC_API_KEY" },
-      openai: { apiKey: "$OPENAI_API_KEY" }
-    }
-  }
-}
-```
-
----
-
-## CLI Commands Reference
-
-```bash
-# Model status and listing
-openclaw models status                  # Show auth status and current model
-openclaw models status --probe          # Test connectivity and auth
-openclaw models status --check          # Exit code indicates auth health
-openclaw models list                    # List available models
-openclaw models list --all              # Full catalog
-openclaw models list --local            # Locally available only
-openclaw models list --provider <name>  # Specific provider models
-
-# Setting models
-openclaw models set <provider/model>    # Set primary text model
-openclaw models set-image <model>       # Set primary image model
-
-# Aliases
-openclaw models aliases list            # Show aliases
-openclaw models aliases add <a> <m>     # Create alias (e.g., opus anthropic/claude-opus-4-6)
-openclaw models aliases remove <alias>  # Remove alias
-
-# Fallbacks
-openclaw models fallbacks list          # Show fallback chain
-openclaw models fallbacks add <model>   # Add to fallback chain
-openclaw models fallbacks remove <m>    # Remove from chain
-openclaw models fallbacks clear         # Disable fallbacks
-
-# Scanning
-openclaw models scan                    # Auto-scan and select best model
-openclaw models scan --set-default      # Update primary after scan
-
-# Authentication
-openclaw models auth add                # Interactive auth setup
-openclaw models auth setup-token --provider anthropic  # Setup token auth
-openclaw models auth paste-token --provider openai --expires-in 365d  # Manual token
-openclaw models auth order get          # View profile rotation order
-openclaw models auth order set <list>   # Set rotation order
-
-# Diagnostics
-openclaw doctor                         # Full diagnostic check
-openclaw models status --probe          # Test all providers
-```
-
----
-
-## Provider-Specific Behavior Notes
-
-### MiniMax Tag Enforcement
-
-When `enforceFinalTag` is enabled, only content inside `<final>` blocks is returned, suppressing content outside to prevent reasoning leakage.
-
-### Provider-Specific Tool Policy
-
-Use `tools.byProvider` to narrow tools for specific providers or models without changing global defaults.
-
-### Model Discovery
-
-OpenClaw writes a `models.json` file to each agent directory at runtime. This file merges configured providers with model metadata, enabling the SDK to discover available models.
-
----
-
-## Upstream Sources
-
-- https://deepwiki.com/openclaw/moltbot/5.2-model-providers
-- https://deepwiki.com/openclaw/openclaw/12.4-model-commands
-- https://www.getopenclaw.ai/help/api-key-setup-all-providers
-- https://open-claw.bot/docs/concepts/model-providers/
-- https://blog.laozhang.ai/en/posts/openclaw-custom-model
-- https://openrouter.ai/docs/guides/guides/openclaw-integration
-- https://github.com/openclaw/openclaw/blob/main/.env.example
-- https://help.apiyi.com/en/openclaw-web-search-configuration-guide-en.html
-- https://docs.z.ai/devpack/tool/openclaw
-- https://lumadock.com/tutorials/free-ai-models-openclaw

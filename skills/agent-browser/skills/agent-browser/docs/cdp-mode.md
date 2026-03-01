@@ -1,10 +1,16 @@
-> Source: https://agent-browser.dev/docs/cdp-mode
+> Source: https://agent-browser.dev/cdp-mode
+
+
+
+[](https://vercel.com "Made with love by Vercel")<span class="text-border"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+
 
 # CDP Mode
 
 Connect to an existing browser via Chrome DevTools Protocol:
 
-```bash
+
+``` shiki
 # Start Chrome with: google-chrome --remote-debugging-port=9222
 
 # Connect once, then run commands without --cdp
@@ -17,17 +23,20 @@ agent-browser close
 agent-browser --cdp 9222 snapshot
 ```
 
+
 ## Remote WebSocket URLs
 
 Connect to remote browser services via WebSocket URL:
 
-```bash
+
+``` shiki
 # Connect to remote browser service
 agent-browser --cdp "wss://browser-service.com/cdp?token=..." snapshot
 
 # Works with any CDP-compatible service
 agent-browser --cdp "ws://localhost:9222/devtools/browser/abc123" open example.com
 ```
+
 
 The `--cdp` flag accepts either:
 
@@ -38,7 +47,8 @@ The `--cdp` flag accepts either:
 
 Use `--auto-connect` to automatically discover and connect to a running Chrome instance without specifying a port:
 
-```bash
+
+``` shiki
 # Auto-discover running Chrome with remote debugging
 agent-browser --auto-connect open example.com
 agent-browser --auto-connect snapshot
@@ -47,10 +57,11 @@ agent-browser --auto-connect snapshot
 AGENT_BROWSER_AUTO_CONNECT=1 agent-browser snapshot
 ```
 
+
 Auto-connect discovers Chrome by:
 
-1. Reading Chrome's `DevToolsActivePort` file from the default user data directory
-2. Falling back to probing common debugging ports (9222, 9229)
+1.  Reading Chrome's `DevToolsActivePort` file from the default user data directory
+2.  Falling back to probing common debugging ports (9222, 9229)
 
 This is useful when:
 
@@ -58,7 +69,26 @@ This is useful when:
 - You want a zero-configuration connection to your existing browser
 - You don't want to track which port Chrome is using
 
-## Use Cases
+## Color scheme
+
+Playwright overrides the browser's color scheme to `light` by default when connecting via CDP. Use `--color-scheme` to set a persistent preference:
+
+
+``` shiki
+agent-browser --cdp 9222 --color-scheme dark open https://example.com
+agent-browser --cdp 9222 snapshot  # stays in dark mode
+```
+
+
+Or set it globally via config or environment variable:
+
+
+``` shiki
+AGENT_BROWSER_COLOR_SCHEME=dark agent-browser --cdp 9222 open https://example.com
+```
+
+
+## Use cases
 
 This enables control of:
 
@@ -68,11 +98,35 @@ This enables control of:
 - Remote browser services (via WebSocket URL)
 - Any browser exposing a CDP endpoint
 
-## Cloud Providers
+## Global options
+
+| Option                    | Description                                                    |
+|---------------------------|----------------------------------------------------------------|
+| `--session <name>`        | Use isolated session                                           |
+| `--profile <path>`        | Persistent browser profile directory                           |
+| `-p <provider>`           | Cloud browser provider (`browserbase`, `browseruse`, `kernel`) |
+| `--headers <json>`        | HTTP headers scoped to origin                                  |
+| `--executable-path`       | Custom browser executable                                      |
+| `--args <args>`           | Browser launch args (comma-separated)                          |
+| `--user-agent <ua>`       | Custom User-Agent string                                       |
+| `--proxy <url>`           | Proxy server URL                                               |
+| `--proxy-bypass <hosts>`  | Hosts to bypass proxy                                          |
+| `--json`                  | JSON output for scripts                                        |
+| `--full, -f`              | Full page screenshot                                           |
+| `--name, -n`              | Locator name filter                                            |
+| `--exact`                 | Exact text match                                               |
+| `--headed`                | Show browser window                                            |
+| `--cdp <port|url>`        | CDP connection (port or WebSocket URL)                         |
+| `--auto-connect`          | Auto-discover and connect to running Chrome                    |
+| `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`)     |
+| `--debug`                 | Debug output                                                   |
+
+## Cloud providers
 
 Use cloud browser infrastructure when local browsers aren't available:
 
-```bash
+
+``` shiki
 # Browserbase
 export BROWSERBASE_API_KEY="your-api-key"
 export BROWSERBASE_PROJECT_ID="your-project-id"
@@ -91,26 +145,8 @@ export AGENT_BROWSER_PROVIDER=browserbase
 agent-browser open https://example.com
 ```
 
+
 The `-p` flag takes precedence over `AGENT_BROWSER_PROVIDER`.
 
-## Global Options
 
-| Option | Description |
-| --- | --- |
-| `--session <name>` | Use isolated session |
-| `--profile <path>` | Persistent browser profile directory |
-| `-p <provider>` | Cloud browser provider (`browserbase`, `browseruse`, `kernel`) |
-| `--headers <json>` | HTTP headers scoped to origin |
-| `--executable-path` | Custom browser executable |
-| `--args <args>` | Browser launch args (comma-separated) |
-| `--user-agent <ua>` | Custom User-Agent string |
-| `--proxy <url>` | Proxy server URL |
-| `--proxy-bypass <hosts>` | Hosts to bypass proxy |
-| `--json` | JSON output for scripts |
-| `--full, -f` | Full page screenshot |
-| `--name, -n` | Locator name filter |
-| `--exact` | Exact text match |
-| `--headed` | Show browser window |
-| `--cdp <port\|url>` | CDP connection (port or WebSocket URL) |
-| `--auto-connect` | Auto-discover and connect to running Chrome |
-| `--debug` | Debug output |
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>

@@ -1,12 +1,16 @@
-> Source: https://agentskills.io/what-are-skills
+> Source: https://agentskills.io/what-are-skills.md
 
-# What Are Skills?
+> ## Documentation Index
+> Fetch the complete documentation index at: https://agentskills.io/llms.txt
+> Use this file to discover all available pages before exploring further.
 
-Agent Skills are a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows.
+# What are skills?
+
+> Agent Skills are a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows.
 
 At its core, a skill is a folder containing a `SKILL.md` file. This file includes metadata (`name` and `description`, at minimum) and instructions that tell an agent how to perform a specific task. Skills can also bundle scripts, templates, and reference materials.
 
-```
+```directory
 my-skill/
 ├── SKILL.md          # Required: instructions + metadata
 ├── scripts/          # Optional: executable code
@@ -14,7 +18,7 @@ my-skill/
 └── assets/           # Optional: templates, resources
 ```
 
-## How Skills Work
+## How skills work
 
 Skills use **progressive disclosure** to manage context efficiently:
 
@@ -26,11 +30,11 @@ Skills use **progressive disclosure** to manage context efficiently:
 
 This approach keeps agents fast while giving them access to more context on demand.
 
-## The SKILL.md File
+## The SKILL.md file
 
 Every skill starts with a `SKILL.md` file containing YAML frontmatter and Markdown instructions:
 
-```yaml
+```mdx
 ---
 name: pdf-processing
 description: Extract text and tables from PDF files, fill forms, merge documents.
@@ -50,23 +54,23 @@ Use this skill when the user needs to work with PDF files...
 
 The following frontmatter is required at the top of `SKILL.md`:
 
-- `name`: A short identifier
-- `description`: When to use this skill
+* `name`: A short identifier
+* `description`: When to use this skill
 
 The Markdown body contains the actual instructions and has no specific restrictions on structure or content.
 
 This simple format has some key advantages:
 
-- **Self-documenting**: A skill author or user can read a `SKILL.md` and understand what it does, making skills easy to audit and improve.
+* **Self-documenting**: A skill author or user can read a `SKILL.md` and understand what it does, making skills easy to audit and improve.
 
-- **Extensible**: Skills can range in complexity from just text instructions to executable code, assets, and templates.
+* **Extensible**: Skills can range in complexity from just text instructions to executable code, assets, and templates.
 
-- **Portable**: Skills are just files, so they're easy to edit, version, and share.
+* **Portable**: Skills are just files, so they're easy to edit, version, and share.
 
-## Next Steps
+## Next steps
 
-- [View the specification](https://agentskills.io/specification) to understand the full format.
-- [Add skills support to your agent](https://agentskills.io/integrate-skills) to build a compatible client.
-- [See example skills](https://github.com/anthropics/skills) on GitHub.
-- [Read authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) for writing effective skills.
-- [Use the reference library](https://github.com/agentskills/agentskills/tree/main/skills-ref) to validate skills and generate prompt XML.
+* [View the specification](/specification) to understand the full format.
+* [Add skills support to your agent](/integrate-skills) to build a compatible client.
+* [See example skills](https://github.com/anthropics/skills) on GitHub.
+* [Read authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) for writing effective skills.
+* [Use the reference library](https://github.com/agentskills/agentskills/tree/main/skills-ref) to validate skills and generate prompt XML.
