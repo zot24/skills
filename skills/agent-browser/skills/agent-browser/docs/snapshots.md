@@ -1,4 +1,9 @@
-> Source: https://agent-browser.dev/docs/snapshots
+> Source: https://agent-browser.dev/snapshots
+
+
+
+[](https://vercel.com "Made with love by Vercel")<span class="text-border"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+
 
 # Snapshots
 
@@ -8,7 +13,8 @@ The `snapshot` command returns a compact accessibility tree with refs for elemen
 
 Filter output to reduce size:
 
-```bash
+
+``` shiki
 agent-browser snapshot                    # Full accessibility tree
 agent-browser snapshot -i                 # Interactive elements only (recommended)
 agent-browser snapshot -i -C              # Include cursor-interactive elements
@@ -18,24 +24,25 @@ agent-browser snapshot -s "#main"         # Scope to CSS selector
 agent-browser snapshot -i -c -d 5         # Combine options
 ```
 
-| Option | Description |
-| --- | --- |
-| `-i, --interactive` | Only interactive elements (buttons, links, inputs) |
-| `-C, --cursor` | Include cursor-interactive elements (cursor:pointer, onclick, tabindex) |
-| `-c, --compact` | Remove empty structural elements |
-| `-d, --depth` | Limit tree depth |
-| `-s, --selector` | Scope to CSS selector |
 
-## Cursor-Interactive Elements
+| Option              | Description                                                             |
+|---------------------|-------------------------------------------------------------------------|
+| `-i, --interactive` | Only interactive elements (buttons, links, inputs)                      |
+| `-C, --cursor`      | Include cursor-interactive elements (cursor:pointer, onclick, tabindex) |
+| `-c, --compact`     | Remove empty structural elements                                        |
+| `-d, --depth`       | Limit tree depth                                                        |
+| `-s, --selector`    | Scope to CSS selector                                                   |
 
-Many modern web apps use custom clickable elements (divs, spans) instead of standard buttons or links.
-The `-C` flag detects these by looking for:
+## Cursor-interactive elements
+
+Many modern web apps use custom clickable elements (divs, spans) instead of standard buttons or links. The `-C` flag detects these by looking for:
 
 - `cursor: pointer` CSS style
 - `onclick` attribute or handler
 - `tabindex` attribute (keyboard focusable)
 
-```bash
+
+``` shiki
 agent-browser snapshot -i -C
 # Output includes:
 # @e1 [button] "Submit"
@@ -45,11 +52,13 @@ agent-browser snapshot -i -C
 # @e4 [clickable] "Card" [cursor:pointer]
 ```
 
-## Output Format
+
+## Output format
 
 The default text output is compact and AI-friendly:
 
-```bash
+
+``` shiki
 agent-browser snapshot -i
 # Output:
 # @e1 [heading] "Example Domain" [level=1]
@@ -58,31 +67,37 @@ agent-browser snapshot -i
 # @e4 [link] "Learn more"
 ```
 
-## Using Refs
+
+## Using refs
 
 Refs from the snapshot map directly to commands:
 
-```bash
+
+``` shiki
 agent-browser click @e2      # Click the Submit button
 agent-browser fill @e3 "a@b.com"  # Fill the email input
 agent-browser get text @e1        # Get heading text
 ```
 
-## Ref Lifecycle
+
+## Ref lifecycle
 
 Refs are invalidated when the page changes. Always re-snapshot after navigation or DOM updates:
 
-```bash
+
+``` shiki
 agent-browser click @e4      # Navigates to new page
 agent-browser snapshot -i    # Get fresh refs
 agent-browser click @e1      # Use new refs
 ```
 
-## Annotated Screenshots
+
+## Annotated screenshots
 
 For visual context alongside text snapshots, use `screenshot --annotate` to overlay numbered labels on interactive elements. Each label `[N]` maps to ref `@eN`:
 
-```bash
+
+``` shiki
 agent-browser screenshot --annotate ./page.png
 # -> Screenshot saved to ./page.png
 #    [1] @e1 button "Submit"
@@ -91,23 +106,29 @@ agent-browser screenshot --annotate ./page.png
 agent-browser click @e2
 ```
 
+
 Annotated screenshots also cache refs, so you can interact with elements immediately. This is useful when the text snapshot is insufficient -- unlabeled icons, canvas content, or visual layout verification.
 
-## Best Practices
+## Best practices
 
-1. Use `-i` to reduce output to actionable elements
-2. Re-snapshot after page changes to get updated refs
-3. Scope with `-s` for specific page sections
-4. Use `-d` to limit depth on complex pages
-5. Use `screenshot --annotate` when visual context is needed alongside refs
+1.  Use `-i` to reduce output to actionable elements
+2.  Re-snapshot after page changes to get updated refs
+3.  Scope with `-s` for specific page sections
+4.  Use `-d` to limit depth on complex pages
+5.  Use `screenshot --annotate` when visual context is needed alongside refs
 
-## JSON Output
+## JSON output
 
 For programmatic parsing in scripts:
 
-```bash
+
+``` shiki
 agent-browser snapshot --json
 # {"success":true,"data":{"snapshot":"...","refs":{"e1":{"role":"heading","name":"Title"},...}}}
 ```
 
+
 Note: JSON uses more tokens than text output. The default text format is preferred for AI agents.
+
+
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>

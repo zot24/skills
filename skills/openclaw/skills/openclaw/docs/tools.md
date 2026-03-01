@@ -1,382 +1,824 @@
-<!-- Source: https://docs.openclaw.ai/tools/skills -->
+> Source: https://docs.openclaw.ai/tools/skills
 
-# OpenClaw Tools & Skills
 
-Complete guide to tools and skills in OpenClaw.
 
-## Tool System
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
-### Core Tools
 
-| Category | Tools |
-|----------|-------|
-| File Operations | `read`, `write`, `edit`, `apply_patch` |
-| Execution | `exec`, `bash`, `process` |
-| Sessions | `sessions_list`, `sessions_history`, `sessions_send`, `sessions_spawn`, `session_status` |
-| Memory | `memory_search`, `memory_get` |
-| Web | `web_search`, `web_fetch` |
-| UI | `browser`, `canvas` |
+<a href="/" class="select-none" data-state="closed" data-slot="context-menu-trigger" style="-webkit-touch-callout:none"><span class="sr-only">OpenClaw home page</span><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 block dark:hidden" alt="light logo" /><img src="https://mintcdn.com/clawdhub/A8OxQpxR3DcyCCHY/assets/pixel-lobster.svg?fit=max&amp;auto=format&amp;n=A8OxQpxR3DcyCCHY&amp;q=85&amp;s=7d28d01258a677dc2c3e3ad383948e91" class="nav-logo w-auto h-7 relative object-contain shrink-0 hidden dark:block" alt="dark logo" /></a>
 
-### Tool Profiles
 
-| Profile | Available Tools |
-|---------|----------------|
-| `minimal` | session_status only |
-| `coding` | file I/O, runtime, sessions, memory |
-| `messaging` | messaging and session tools |
-| `full` | all available tools |
+<img src="https://d3gk2c5xim1je2.cloudfront.net/flags/US.svg" class="w-full h-full rounded-full" alt="US" />
 
-### Tool Policy
 
-Cascading filter where each stage can only restrict, never expand:
+Search...
 
+
+Skills
+
+
+Skills
+
+
+<a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get started</a>
+
+
+<a href="/install" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Install</a>
+
+
+<a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Channels</a>
+
+
+<a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
+
+
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Tools</a>
+
+
+<a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Models</a>
+
+
+<a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
+
+
+<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Gateway &amp; Ops</a>
+
+
+<a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Reference</a>
+
+
+<a href="/help" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Help</a>
+
+
+##### Overview
+
+
+- <span id="/tools"><a href="/tools" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Tools
+
+  </div>
+
+  </div>
+
+
+##### Built-in tools
+
+
+- <span id="/tools/lobster"><a href="/tools/lobster" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Lobster
+
+  </div>
+
+  </div>
+- <span id="/tools/llm-task"><a href="/tools/llm-task" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  LLM Task
+
+  </div>
+
+  </div>
+- <span id="/tools/exec"><a href="/tools/exec" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Exec Tool
+
+  </div>
+
+  </div>
+- <span id="/tools/web"><a href="/tools/web" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Web Tools
+
+  </div>
+
+  </div>
+- <span id="/tools/apply-patch"><a href="/tools/apply-patch" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  apply_patch Tool
+
+  </div>
+
+  </div>
+- <span id="/tools/elevated"><a href="/tools/elevated" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Elevated Mode
+
+  </div>
+
+  </div>
+- <span id="/tools/thinking"><a href="/tools/thinking" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Thinking Levels
+
+  </div>
+
+  </div>
+- <span id="/tools/reactions"><a href="/tools/reactions" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Reactions
+
+  </div>
+
+  </div>
+
+
+##### Browser
+
+
+- <span id="/tools/browser"><a href="/tools/browser" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Browser (OpenClaw-managed)
+
+  </div>
+
+  </div>
+- <span id="/tools/browser-login"><a href="/tools/browser-login" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Browser Login
+
+  </div>
+
+  </div>
+- <span id="/tools/chrome-extension"><a href="/tools/chrome-extension" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Chrome Extension
+
+  </div>
+
+  </div>
+- <span id="/tools/browser-linux-troubleshooting"><a href="/tools/browser-linux-troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Browser Troubleshooting
+
+  </div>
+
+  </div>
+
+
+##### Agent coordination
+
+
+- <span id="/tools/agent-send"><a href="/tools/agent-send" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Agent Send
+
+  </div>
+
+  </div>
+- <span id="/tools/subagents"><a href="/tools/subagents" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Sub-Agents
+
+  </div>
+
+  </div>
+- <span id="/tools/acp-agents"><a href="/tools/acp-agents" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  ACP Agents
+
+  </div>
+
+  </div>
+- <span id="/tools/multi-agent-sandbox-tools"><a href="/tools/multi-agent-sandbox-tools" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Multi-Agent Sandbox & Tools
+
+  </div>
+
+  </div>
+
+
+##### Skills
+
+
+- <span id="/tools/slash-commands"><a href="/tools/slash-commands" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Slash Commands
+
+  </div>
+
+  </div>
+- <span id="/tools/skills"><a href="/tools/skills" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Skills
+
+  </div>
+
+  </div>
+- <span id="/tools/skills-config"><a href="/tools/skills-config" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Skills Config
+
+  </div>
+
+  </div>
+- <span id="/tools/clawhub"><a href="/tools/clawhub" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  ClawHub
+
+  </div>
+
+  </div>
+- <span id="/tools/plugin"><a href="/tools/plugin" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Plugins
+
+  </div>
+
+  </div>
+
+
+##### Extensions
+
+
+- <span id="/plugins/community"><a href="/plugins/community" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Community plugins
+
+  </div>
+
+  </div>
+- <span id="/plugins/voice-call"><a href="/plugins/voice-call" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Voice Call Plugin
+
+  </div>
+
+  </div>
+- <span id="/plugins/zalouser"><a href="/plugins/zalouser" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Zalo Personal Plugin
+
+  </div>
+
+  </div>
+
+
+##### Automation
+
+
+- <span id="/automation/hooks"><a href="/automation/hooks" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Hooks
+
+  </div>
+
+  </div>
+- <span id="/automation/cron-jobs"><a href="/automation/cron-jobs" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Cron Jobs
+
+  </div>
+
+  </div>
+- <span id="/automation/cron-vs-heartbeat"><a href="/automation/cron-vs-heartbeat" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Cron vs Heartbeat
+
+  </div>
+
+  </div>
+- <span id="/automation/troubleshooting"><a href="/automation/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Automation Troubleshooting
+
+  </div>
+
+  </div>
+- <span id="/automation/webhook"><a href="/automation/webhook" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Webhooks
+
+  </div>
+
+  </div>
+- <span id="/automation/gmail-pubsub"><a href="/automation/gmail-pubsub" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Gmail PubSub
+
+  </div>
+
+  </div>
+- <span id="/automation/poll"><a href="/automation/poll" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Polls
+
+  </div>
+
+  </div>
+- <span id="/automation/auth-monitoring"><a href="/automation/auth-monitoring" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Auth Monitoring
+
+  </div>
+
+  </div>
+
+
+##### Media and devices
+
+
+- <span id="/nodes"><a href="/nodes" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Nodes
+
+  </div>
+
+  </div>
+- <span id="/nodes/troubleshooting"><a href="/nodes/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Node Troubleshooting
+
+  </div>
+
+  </div>
+- <span id="/nodes/images"><a href="/nodes/images" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Image and Media Support
+
+  </div>
+
+  </div>
+- <span id="/nodes/audio"><a href="/nodes/audio" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Audio and Voice Notes
+
+  </div>
+
+  </div>
+- <span id="/nodes/camera"><a href="/nodes/camera" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Camera Capture
+
+  </div>
+
+  </div>
+- <span id="/nodes/talk"><a href="/nodes/talk" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Talk Mode
+
+  </div>
+
+  </div>
+- <span id="/nodes/voicewake"><a href="/nodes/voicewake" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Voice Wake
+
+  </div>
+
+  </div>
+- <span id="/nodes/location-command"><a href="/nodes/location-command" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex items-start space-x-2.5">
+
+  <div class="break-words [word-break:break-word]">
+
+  Location Command
+
+  </div>
+
+  </div>
+
+
+On this page
+
+
+- <a href="#skills-openclaw" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Skills (OpenClaw)</a>
+- <a href="#locations-and-precedence" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Locations and precedence</a>
+- <a href="#per-agent-vs-shared-skills" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Per-agent vs shared skills</a>
+- <a href="#plugins-%2B-skills" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Plugins + skills</a>
+- <a href="#clawhub-install-%2B-sync" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">ClawHub (install + sync)</a>
+- <a href="#security-notes" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Security notes</a>
+- <a href="#format-agentskills-%2B-pi-compatible" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Format (AgentSkills + Pi-compatible)</a>
+- <a href="#gating-load-time-filters" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Gating (load-time filters)</a>
+- <a href="#config-overrides-%2F-openclaw%2Fopenclaw-json" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Config overrides (~/.openclaw/openclaw.json)</a>
+- <a href="#environment-injection-per-agent-run" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Environment injection (per agent run)</a>
+- <a href="#session-snapshot-performance" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Session snapshot (performance)</a>
+- <a href="#remote-macos-nodes-linux-gateway" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Remote macOS nodes (Linux gateway)</a>
+- <a href="#skills-watcher-auto-refresh" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Skills watcher (auto-refresh)</a>
+- <a href="#token-impact-skills-list" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Token impact (skills list)</a>
+- <a href="#managed-skills-lifecycle" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Managed skills lifecycle</a>
+- <a href="#config-reference" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Config reference</a>
+- <a href="#looking-for-more-skills" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Looking for more skills?</a>
+
+
+Skills
+
+
+# Skills
+
+
+# 
+
+
+<a href="#skills-openclaw" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#locations-and-precedence" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1.  **Bundled skills**: shipped with the install (npm package or OpenClaw.app)
+2.  **Managed/local skills**: `~/.openclaw/skills`
+3.  **Workspace skills**: `<workspace>/skills`
+
+
+## 
+
+
+<a href="#per-agent-vs-shared-skills" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- **Per-agent skills** live in `<workspace>/skills` for that agent only.
+- **Shared skills** live in `~/.openclaw/skills` (managed/local) and are visible to **all agents** on the same machine.
+- **Shared folders** can also be added via `skills.load.extraDirs` (lowest precedence) if you want a common skills pack used by multiple agents.
+
+
+## 
+
+
+<a href="#plugins-+-skills" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#clawhub-install-+-sync" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Install a skill into your workspace:
+  - `clawhub install <skill-slug>`
+- Update all installed skills:
+  - `clawhub update --all`
+- Sync (scan + publish updates):
+  - `clawhub sync --all`
+
+
+## 
+
+
+<a href="#security-notes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Treat third-party skills as **untrusted code**. Read them before enabling.
+- Prefer sandboxed runs for untrusted inputs and risky tools. See <a href="/gateway/sandboxing" class="link">Sandboxing</a>.
+- `skills.entries.*.env` and `skills.entries.*.apiKey` inject secrets into the **host** process for that agent turn (not the sandbox). Keep secrets out of prompts and logs.
+- For a broader threat model and checklists, see <a href="/gateway/security" class="link">Security</a>.
+
+## 
+
+
+<a href="#format-agentskills-+-pi-compatible" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+---
+name: nano-banana-pro
+description: Generate or edit images via Gemini 3 Pro Image
+---
 ```
-profile → global/agent policies → group policies → sandbox policies → subagent overrides
-```
 
-Deny rules always override allow rules at every stage.
 
-```json
-{
-  "tools": {
-    "profile": "coding",
-    "deny": ["browser", "canvas"],
-    "byProvider": {
-      "openai/gpt-4": {
-        "allow": ["group:fs", "sessions_list"]
-      }
-    }
+- We follow the AgentSkills spec for layout/intent.
+- The parser used by the embedded agent supports **single-line** frontmatter keys only.
+- `metadata` should be a **single-line JSON object**.
+- Use `{baseDir}` in instructions to reference the skill folder path.
+- Optional frontmatter keys:
+  - <span data-as="p">`homepage` — URL surfaced as “Website” in the macOS Skills UI (also supported via `metadata.openclaw.homepage`).</span>
+  - <span data-as="p">`user-invocable` — `true|false` (default: `true`). When `true`, the skill is exposed as a user slash command.</span>
+  - <span data-as="p">`disable-model-invocation` — `true|false` (default: `false`). When `true`, the skill is excluded from the model prompt (still available via user invocation).</span>
+  - <span data-as="p">`command-dispatch` — `tool` (optional). When set to `tool`, the slash command bypasses the model and dispatches directly to a tool.</span>
+  - <span data-as="p">`command-tool` — tool name to invoke when `command-dispatch: tool` is set.</span>
+  - <span data-as="p">`command-arg-mode` — `raw` (default). For tool dispatch, forwards the raw args string to the tool (no core parsing).</span> <span data-as="p">The tool is invoked with params: `{ command: "<raw args>", commandName: "<slash command>", skillName: "<skill name>" }`.</span>
+
+## 
+
+
+<a href="#gating-load-time-filters" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+---
+name: nano-banana-pro
+description: Generate or edit images via Gemini 3 Pro Image
+metadata:
+  {
+    "openclaw":
+      {
+        "requires": { "bins": ["uv"], "env": ["GEMINI_API_KEY"], "config": ["browser.enabled"] },
+        "primaryEnv": "GEMINI_API_KEY",
+      },
   }
-}
+---
 ```
 
-### Tool Groups
 
-| Group | Tools |
-|-------|-------|
-| `group:runtime` | exec, bash, process |
-| `group:fs` | file system tools |
-| `group:sessions` | all session operations |
-| `group:memory` | semantic search tools |
+- `always: true` — always include the skill (skip other gates).
+- `emoji` — optional emoji used by the macOS Skills UI.
+- `homepage` — optional URL shown as “Website” in the macOS Skills UI.
+- `os` — optional list of platforms (`darwin`, `linux`, `win32`). If set, the skill is only eligible on those OSes.
+- `requires.bins` — list; each must exist on `PATH`.
+- `requires.anyBins` — list; at least one must exist on `PATH`.
+- `requires.env` — list; env var must exist **or** be provided in config.
+- `requires.config` — list of `openclaw.json` paths that must be truthy.
+- `primaryEnv` — env var name associated with `skills.entries.<name>.apiKey`.
+- `install` — optional array of installer specs used by the macOS Skills UI (brew/node/go/uv/download).
 
+
+- `requires.bins` is checked on the **host** at skill load time.
+- If an agent is sandboxed, the binary must also exist **inside the container**. Install it via `agents.defaults.sandbox.docker.setupCommand` (or a custom image). `setupCommand` runs once after the container is created. Package installs also require network egress, a writable root FS, and a root user in the sandbox. Example: the `summarize` skill (`skills/summarize/SKILL.md`) needs the `summarize` CLI in the sandbox container to run there.
+
+
+Copy
+
+
+``` shiki
 ---
-
-## Skills System
-
-AgentSkills-compatible folders with `SKILL.md` that teach OpenClaw tools and capabilities.
-
-### Skill Locations (Precedence)
-
-1. **Workspace skills**: `<workspace>/skills/` (highest)
-2. **Agent-specific**: `~/.openclaw/agents/<agentId>/skills/`
-3. **Managed/local**: `~/.openclaw/skills/`
-4. **Bundled**: Shipped with installation (lowest)
-
-### Creating Skills
-
-```markdown
----
-name: my-skill
-description: What this skill does
-allowed-tools: Read, Write, Edit, Bash
----
-
-# My Skill
-
-Instructions for the agent...
-```
-
-### Skill Configuration
-
-```json
-{
-  "skills": {
-    "install": { "nodeManager": "bun" },
-    "entries": {
-      "my-skill": {
-        "enabled": true,
-        "env": { "MY_VAR": "value" },
-        "apiKey": "${MY_API_KEY}"
-      }
-    }
+name: gemini
+description: Use Gemini CLI for coding assistance and Google search lookups.
+metadata:
+  {
+    "openclaw":
+      {
+        "emoji": "♊️",
+        "requires": { "bins": ["gemini"] },
+        "install":
+          [
+            {
+              "id": "brew",
+              "kind": "brew",
+              "formula": "gemini-cli",
+              "bins": ["gemini"],
+              "label": "Install Gemini CLI (brew)",
+            },
+          ],
+      },
   }
-}
-```
-
-### Skills CLI
-
-```bash
-openclaw skills list
-openclaw skills install <skill-slug>
-openclaw skills config <skill> set <key> <value>
-openclaw skills run <skill> <command>
-openclaw skills update --all
-openclaw skills remove <skill-name>
-```
-
 ---
-
-## Plugins System
-
-Four integration types: channels, tools, providers, memory.
-
-```bash
-openclaw plugins list                        # List installed
-openclaw plugins add <plugin-name>           # Install from npm
-openclaw plugins enable <plugin>             # Enable
-openclaw plugins disable <plugin>            # Disable
-openclaw plugins update                      # Update all
 ```
 
-### Plugin Configuration
 
-```json
+- If multiple installers are listed, the gateway picks a **single** preferred option (brew when available, otherwise node).
+- If all installers are `download`, OpenClaw lists each entry so you can see the available artifacts.
+- Installer specs can include `os: ["darwin"|"linux"|"win32"]` to filter options by platform.
+- Node installs honor `skills.install.nodeManager` in `openclaw.json` (default: npm; options: npm/pnpm/yarn/bun). This only affects **skill installs**; the Gateway runtime should still be Node (Bun is not recommended for WhatsApp/Telegram).
+- Go installs: if `go` is missing and `brew` is available, the gateway installs Go via Homebrew first and sets `GOBIN` to Homebrew’s `bin` when possible.
+- Download installs: `url` (required), `archive` (`tar.gz` \| `tar.bz2` \| `zip`), `extract` (default: auto when archive detected), `stripComponents`, `targetDir` (default: `~/.openclaw/tools/<skillKey>`).
+
+
+## 
+
+
+<a href="#config-overrides-/-openclaw/openclaw-json" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
 {
-  "plugins": {
-    "entries": {
-      "telegram": { "enabled": true },
-      "unbrowse-openclaw": {
-        "enabled": true,
-        "credentialSource": "auto"
-      }
+  skills: {
+    entries: {
+      "nano-banana-pro": {
+        enabled: true,
+        apiKey: { source: "env", provider: "default", id: "GEMINI_API_KEY" }, // or plaintext string
+        env: {
+          GEMINI_API_KEY: "GEMINI_KEY_HERE",
+        },
+        config: {
+          endpoint: "https://example.invalid",
+          model: "nano-pro",
+        },
+      },
+      peekaboo: { enabled: true },
+      sag: { enabled: false },
     },
-    "installs": {
-      "unbrowse-openclaw": {
-        "source": "npm",
-        "spec": "@getfoundry/unbrowse-openclaw",
-        "version": "0.5.2"
-      }
-    }
-  }
-}
-```
-
----
-
-## Hooks
-
-Internal hooks for automation:
-
-```json
-{
-  "hooks": {
-    "internal": {
-      "enabled": true,
-      "entries": {
-        "boot-md": { "enabled": true },
-        "command-logger": { "enabled": true },
-        "session-memory": { "enabled": true }
-      }
-    }
-  }
-}
-```
-
-- `boot-md` — Load BOOT.md on startup
-- `command-logger` — Log executed commands
-- `session-memory` — Persist conversation memory
-
----
-
-## ClawdHub
-
-Public skills registry at https://clawhub.com (5,700+ community skills)
-
-```bash
-clawdhub install <skill-slug>
-clawdhub update --all
-clawdhub search "web scraping"
-clawdhub publish <skill-dir>
-```
-
----
-
-## Exec Tool
-
-```json
-{
-  "tools": {
-    "exec": {
-      "enabled": true,
-      "allowedCommands": ["ls", "cat", "grep"],
-      "blockedCommands": ["rm", "sudo"],
-      "timeout": 30000,
-      "sandbox": { "enabled": true, "network": false }
-    }
-  }
-}
-```
-
-### Sandbox Execution Modes
-
-- **Sandbox** (Docker): Isolated per-session containers
-- **Host**: Runs directly on Gateway process
-- **Node**: Remote execution on paired devices via `node.invoke`
-- **Elevated**: Bypasses sandbox when authorized
-
----
-
-## Browser Automation
-
-```json
-{
-  "tools": {
-    "browser": { "enabled": true, "engine": "playwright", "headless": true }
-  }
-}
-```
-
-Includes **unbrowse** — visual element detection for API reverse-engineering.
-
-Capabilities: Navigate, click, fill forms, screenshots, extract content, execute JS, CDP access, profile support.
-
----
-
-## Web Search
-
-```json
-{
-  "tools": {
-    "web": {
-      "search": {
-        "provider": "brave",
-        "apiKey": "${BRAVE_SEARCH_KEY}"
-      }
-    }
-  }
-}
-```
-
-Built-in skills include: Web Search (Brave), Web Fetch, Browser automation.
-
----
-
-## Slash Commands
-
-### Built-in
-
-| Command | Description |
-|---------|-------------|
-| `/help` | Show commands |
-| `/status` | Session status |
-| `/new` / `/reset` | Reset session |
-| `/mesh <goal>` | Multi-step workflow |
-| `/think <level>` | Thinking depth |
-| `/compact` | Context compaction |
-| `/verbose on\|off` | Toggle verbosity |
-| `/model` | Switch model |
-
-### Custom Commands
-
-Define in skill files:
-
-```markdown
-## /mycommand
-When user runs `/mycommand`: Do something...
-```
-
----
-
-## Thinking Modes
-
-```bash
-openclaw agent --thinking high "Deep analysis"
-```
-
-In-channel: `/think off|minimal|low|medium|high|xhigh`
-
----
-
-## Subagents
-
-```json
-{
-  "agents": {
-    "defaults": {
-      "subagents": { "maxConcurrent": 8 }
-    }
-  }
-}
-```
-
-Session tools enable agent-to-agent coordination: `sessions_list`, `sessions_history`, `sessions_send`, `sessions_spawn`.
-
----
-
-## Tool Permissions
-
-```json
-{
-  "tools": {
-    "permissions": {
-      "session:whatsapp:+1234567890": { "exec": false, "browser": true }
-    }
-  }
-}
-```
-
-**Owner-only tools**: gateway actions (restart, update) and WhatsApp login, regardless of policy.
-
----
-
-## Custom Tool Development
-
-```javascript
-// tools/mytool.js
-module.exports = {
-  name: 'mytool',
-  description: 'Does something useful',
-  parameters: {
-    type: 'object',
-    properties: { input: { type: 'string' } }
   },
-  execute: async ({ input }) => ({ result: 'done' })
-};
-```
-
----
-
-## MCP Servers (via MCPorter)
-
-Connect to Model Context Protocol (MCP) servers using [MCPorter](https://github.com/steipete/mcporter).
-
-**Note**: Native MCP integration is not yet implemented (GitHub Issue #13248).
-
-### Configuration
-
-Create `~/.openclaw/mcporter.json`:
-
-```json
-{
-  "servers": {
-    "linear": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/linear-mcp-server"],
-      "env": { "LINEAR_API_KEY": "${LINEAR_API_KEY}" }
-    }
-  }
 }
 ```
 
-### Auto-Discovery
 
-MCPorter auto-discovers MCP servers configured in Claude Code/Desktop, Cursor, Codex, and local overrides.
+- `enabled: false` disables the skill even if it’s bundled/installed.
+- `env`: injected **only if** the variable isn’t already set in the process.
+- `apiKey`: convenience for skills that declare `metadata.openclaw.primaryEnv`. Supports plaintext string or SecretRef object (`{ source, provider, id }`).
+- `config`: optional bag for custom per-skill fields; custom keys must live here.
+- `allowBundled`: optional allowlist for **bundled** skills only. If set, only bundled skills in the list are eligible (managed/workspace skills unaffected).
 
-```bash
-npx mcporter list
-npx mcporter list <server-name>
-npx mcporter call <server>.<tool> [args]
+## 
+
+
+<a href="#environment-injection-per-agent-run" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1.  Reads skill metadata.
+2.  Applies any `skills.entries.<key>.env` or `skills.entries.<key>.apiKey` to `process.env`.
+3.  Builds the system prompt with **eligible** skills.
+4.  Restores the original environment after the run ends.
+
+
+## 
+
+
+<a href="#session-snapshot-performance" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#remote-macos-nodes-linux-gateway" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#skills-watcher-auto-refresh" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Copy
+
+
+``` shiki
+{
+  skills: {
+    load: {
+      watch: true,
+      watchDebounceMs: 250,
+    },
+  },
+}
 ```
 
----
 
-## Upstream Sources
+## 
 
-- https://docs.openclaw.ai/tools/skills
-- https://docs.openclaw.ai/tools/exec
-- https://docs.openclaw.ai/tools/browser
-- https://docs.openclaw.ai/tools/slash-commands
-- https://docs.openclaw.ai/tools/subagents
-- https://docs.openclaw.ai/tools/clawdhub
-- https://github.com/steipete/mcporter
-- https://github.com/openclaw/openclaw
+
+<a href="#token-impact-skills-list" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- **Base overhead (only when ≥1 skill):** 195 characters.
+- **Per skill:** 97 characters + the length of the XML-escaped `<name>`, `<description>`, and `<location>` values.
+
+
+Copy
+
+
+``` shiki
+total = 195 + Σ (97 + len(name_escaped) + len(description_escaped) + len(location_escaped))
+```
+
+
+- XML escaping expands `& < > " '` into entities (`&amp;`, `&lt;`, etc.), increasing length.
+- Token counts vary by model tokenizer. A rough OpenAI-style estimate is ~4 chars/token, so **97 chars ≈ 24 tokens** per skill plus your actual field lengths.
+
+## 
+
+
+<a href="#managed-skills-lifecycle" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#config-reference" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#looking-for-more-skills" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+------------------------------------------------------------------------
+
+
+<a href="/tools/slash-commands" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Slash Commands</span></a><a href="/tools/skills-config" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Skills Config</span></a>
+
+

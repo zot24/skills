@@ -1,44 +1,93 @@
-<!-- Source: https://chat-sdk.dev/docs -->
+> Source: https://chat-sdk.dev/docs.md
 
-# Chat SDK Overview
+---
+title: Introduction
+description: A unified SDK for building chat bots across Slack, Microsoft Teams, Google Chat, Discord, Telegram, and more.
+type: overview
+---
 
-The Chat SDK is an open-source template that helps you quickly build powerful chatbot applications without starting from scratch. It provides a structural foundation for developers launching projects of any scale, from side projects to enterprise solutions.
+# Introduction
 
-## Features
 
-1. **Next.js App Router** - Framework optimized for web performance
-2. **AI SDK** - Flexible model and provider selection across application components
-3. **Generative User Interfaces** - Enhancement of chat responses beyond text-only interactions
-4. **Artifacts** - Custom workspace creation specific to user workflows
-5. **Code Execution** - Browser-based code snippet execution with text or image output display
-6. **Multimodal** - Support for file, image, and various media type attachments compatible with models
-7. **Built-in Authentication** - Email/password registration and login functionality
-8. **Sharing** - User-controlled chat visibility management
+Chat SDK is a TypeScript library for building chat bots that work across multiple platforms with a single codebase. Write your bot logic once and deploy it to Slack, Microsoft Teams, Google Chat, Discord, Telegram, GitHub, and Linear.
 
-## Documentation Structure
+## Why Chat SDK?
 
-The Chat SDK documentation is organized into the following sections:
+Building a chat bot that works across multiple platforms typically means maintaining separate codebases, learning different APIs, and handling platform-specific quirks individually. Chat SDK abstracts these differences behind a unified interface.
 
-### Getting Started
-- **Architecture** - System architecture and component overview
-- **Changelog** - Version history and updates
-- **Deploying** - Deployment guides for Vercel and other platforms
-- **Setup** - Installation and configuration instructions
+* **Single codebase** for all platforms
+* **Type-safe** adapters and event handlers with full TypeScript support
+* **Event-driven** architecture with handlers for mentions, messages, reactions, button clicks, slash commands, and modals
+* **Thread subscriptions** for multi-turn conversations
+* **Rich UI** with JSX cards, buttons, and modals that render natively on each platform
+* **AI streaming** with first-class support for streaming LLM responses
+* **Serverless-ready** with distributed state via Redis and message deduplication
 
-### Customization
-- **Artifacts** - Custom workspace creation and configuration
-- **Fonts** - Font customization
-- **Models and Providers** - AI model and provider configuration
-- **Resumable Streams** - Stream reliability and reconnection
-- **Testing** - End-to-end testing with Playwright
-- **Theming** - Visual customization with CSS variables
-- **Tool Approval** - Tool use approval workflows
+## How it works
 
-### Migration
-- **Message Parts** - Migration guide for message parts format
+Chat SDK has three core concepts:
 
-## Resources
+1. **Chat** — the main entry point that coordinates adapters and routes events to your handlers
+2. **Adapters** — platform-specific implementations that handle webhook parsing, message formatting, and API calls
+3. **State** — a pluggable persistence layer for thread subscriptions and distributed locking
 
-- **Repository**: https://github.com/vercel/ai-chatbot
-- **Documentation**: https://chat-sdk.dev
-- **Demo**: https://chat-sdk.dev
+```typescript title="lib/bot.ts" lineNumbers
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createRedisState } from "@chat-adapter/state-redis";
+
+const bot = new Chat({
+  userName: "mybot",
+  adapters: {
+    slack: createSlackAdapter(),
+  },
+  state: createRedisState(),
+});
+
+bot.onNewMention(async (thread) => {
+  await thread.subscribe();
+  await thread.post("Hello! I'm listening to this thread.");
+});
+```
+
+Each adapter factory auto-detects credentials from environment variables (`SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, `REDIS_URL`, etc.), so you can get started with zero config. Pass explicit values to override.
+
+## Supported platforms
+
+| Platform        | Package                  | Mentions | Reactions | Cards   | Modals | Streaming | DMs |
+| --------------- | ------------------------ | -------- | --------- | ------- | ------ | --------- | --- |
+| Slack           | `@chat-adapter/slack`    | Yes      | Yes       | Yes     | Yes    | Native    | Yes |
+| Microsoft Teams | `@chat-adapter/teams`    | Yes      | Read-only | Yes     | No     | Post+Edit | Yes |
+| Google Chat     | `@chat-adapter/gchat`    | Yes      | Yes       | Yes     | No     | Post+Edit | Yes |
+| Discord         | `@chat-adapter/discord`  | Yes      | Yes       | Yes     | No     | Post+Edit | Yes |
+| Telegram        | `@chat-adapter/telegram` | Yes      | Yes       | Partial | No     | Post+Edit | Yes |
+| GitHub          | `@chat-adapter/github`   | Yes      | Yes       | No      | No     | No        | No  |
+| Linear          | `@chat-adapter/linear`   | Yes      | Yes       | No      | No     | No        | No  |
+
+## AI coding agent support
+
+If you use an AI coding agent like [Claude Code](https://docs.anthropic.com/en/docs/claude-code), you can teach it about Chat SDK by installing the skill:
+
+```bash
+npx skills add vercel/chat
+```
+
+This gives your agent access to Chat SDK's documentation, patterns, and best practices so it can help you build bots more effectively.
+
+## Packages
+
+The SDK is distributed as a set of packages you install based on your needs:
+
+| Package                       | Description                                                   |
+| ----------------------------- | ------------------------------------------------------------- |
+| `chat`                        | Core SDK with `Chat` class, types, JSX runtime, and utilities |
+| `@chat-adapter/slack`         | Slack adapter                                                 |
+| `@chat-adapter/teams`         | Microsoft Teams adapter                                       |
+| `@chat-adapter/gchat`         | Google Chat adapter                                           |
+| `@chat-adapter/discord`       | Discord adapter                                               |
+| `@chat-adapter/telegram`      | Telegram adapter                                              |
+| `@chat-adapter/github`        | GitHub Issues adapter                                         |
+| `@chat-adapter/linear`        | Linear Issues adapter                                         |
+| `@chat-adapter/state-redis`   | Redis state adapter (production)                              |
+| `@chat-adapter/state-ioredis` | ioredis state adapter (alternative)                           |
+| `@chat-adapter/state-memory`  | In-memory state adapter (development)                         |

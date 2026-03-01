@@ -1,10 +1,16 @@
-> Source: https://agent-browser.dev/docs/sessions
+> Source: https://agent-browser.dev/sessions
+
+
+
+[](https://vercel.com "Made with love by Vercel")<span class="text-border"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+
 
 # Sessions
 
 Run multiple isolated browser instances:
 
-```bash
+
+``` shiki
 # Different sessions
 agent-browser --session agent1 open site-a.com
 agent-browser --session agent2 open site-b.com
@@ -23,7 +29,8 @@ agent-browser session list
 agent-browser session
 ```
 
-## Session Isolation
+
+## Session isolation
 
 Each session has its own:
 
@@ -32,11 +39,12 @@ Each session has its own:
 - Navigation history
 - Authentication state
 
-## Persistent Profiles
+## Persistent profiles
 
 By default, browser state is lost when the browser closes. Use `--profile` to persist state across restarts:
 
-```bash
+
+``` shiki
 # Use a persistent profile directory
 agent-browser --profile ~/.myapp-profile open myapp.com
 
@@ -47,6 +55,7 @@ agent-browser --profile ~/.myapp-profile open myapp.com/dashboard
 AGENT_BROWSER_PROFILE=~/.myapp-profile agent-browser open myapp.com
 ```
 
+
 The profile directory stores:
 
 - Cookies and localStorage
@@ -55,11 +64,12 @@ The profile directory stores:
 - Browser cache
 - Login sessions
 
-## Session Persistence
+## Session persistence
 
 Use `--session-name` to automatically save and restore cookies and localStorage across browser restarts:
 
-```bash
+
+``` shiki
 # Auto-save/load state for "twitter" session
 agent-browser --session-name twitter open twitter.com
 
@@ -71,13 +81,15 @@ export AGENT_BROWSER_SESSION_NAME=twitter
 agent-browser open twitter.com
 ```
 
+
 State files are stored in `~/.agent-browser/sessions/` and automatically loaded on daemon start.
 
-### Session Name Rules
+### Session name rules
 
 Session names must contain only alphanumeric characters, hyphens, and underscores:
 
-```bash
+
+``` shiki
 # Valid session names
 agent-browser --session-name my-project open example.com
 agent-browser --session-name test_session_v2 open example.com
@@ -88,11 +100,13 @@ agent-browser --session-name "my session" open example.com # spaces
 agent-browser --session-name "foo/bar" open example.com    # slashes
 ```
 
-## State Encryption
+
+## State encryption
 
 Encrypt saved state files (cookies, localStorage) using AES-256-GCM:
 
-```bash
+
+``` shiki
 # Generate a 256-bit key (64 hex characters)
 openssl rand -hex 32
 
@@ -106,11 +120,13 @@ agent-browser --session-name secure-session open example.com
 agent-browser state list
 ```
 
-## State Auto-Expiration
+
+## State auto-expiration
 
 Automatically delete old state files to prevent accumulation:
 
-```bash
+
+``` shiki
 # Set expiration (default: 30 days)
 export AGENT_BROWSER_STATE_EXPIRE_DAYS=7
 
@@ -118,9 +134,11 @@ export AGENT_BROWSER_STATE_EXPIRE_DAYS=7
 agent-browser state clean --older-than 7
 ```
 
-## State Management Commands
 
-```bash
+## State management commands
+
+
+``` shiki
 # List all saved states
 agent-browser state list
 
@@ -141,11 +159,13 @@ agent-browser state save ./backup.json
 agent-browser state load ./backup.json
 ```
 
-## Authenticated Sessions
+
+## Authenticated sessions
 
 Use `--headers` to set HTTP headers for a specific origin:
 
-```bash
+
+``` shiki
 # Headers scoped to api.example.com only
 agent-browser open api.example.com --headers '{"Authorization": "Bearer <token>"}'
 
@@ -157,6 +177,7 @@ agent-browser click @e2
 agent-browser open other-site.com
 ```
 
+
 Useful for:
 
 - **Skipping login flows** - Authenticate via headers
@@ -164,26 +185,33 @@ Useful for:
 - **API testing** - Access protected endpoints
 - **Security** - Headers scoped to origin, not leaked
 
-## Multiple Origins
+## Multiple origins
 
-```bash
+
+``` shiki
 agent-browser open api.example.com --headers '{"Authorization": "Bearer token1"}'
 agent-browser open api.acme.com --headers '{"Authorization": "Bearer token2"}'
 ```
 
-## Global Headers
+
+## Global headers
 
 For headers on all domains:
 
-```bash
+
+``` shiki
 agent-browser set headers '{"X-Custom-Header": "value"}'
 ```
 
-## Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `AGENT_BROWSER_SESSION` | Browser session ID (default: "default") |
-| `AGENT_BROWSER_SESSION_NAME` | Auto-save/load state persistence name |
-| `AGENT_BROWSER_ENCRYPTION_KEY` | 64-char hex key for AES-256-GCM encryption |
+## Environment variables
+
+| Variable                          | Description                                        |
+|-----------------------------------|----------------------------------------------------|
+| `AGENT_BROWSER_SESSION`           | Browser session ID (default: "default")            |
+| `AGENT_BROWSER_SESSION_NAME`      | Auto-save/load state persistence name              |
+| `AGENT_BROWSER_ENCRYPTION_KEY`    | 64-char hex key for AES-256-GCM encryption         |
 | `AGENT_BROWSER_STATE_EXPIRE_DAYS` | Auto-delete states older than N days (default: 30) |
+
+
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>

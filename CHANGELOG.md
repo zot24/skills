@@ -3,6 +3,47 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-03-01] Documentation Sync
+
+**Updated skills:** openclaw agent-browser chat-sdk ai-sdk agent-skills
+
+
+### openclaw
+Updated: install.md
+Updated: cli.md
+Updated: concepts.md
+Updated: gateway.md
+Updated: channels.md
+
+### agent-browser
+Updated: readme-upstream.md
+Updated: installation.md
+Updated: quick-start.md
+Updated: commands.md
+Updated: selectors.md
+
+### chat-sdk
+Updated: readme-upstream.md
+Updated: overview.md
+
+### ai-sdk
+Updated: readme-upstream.md
+Updated: getting-started.md
+Updated: core-overview.md
+Updated: ui-overview.md
+Updated: tools.md
+
+### agent-skills
+Updated: readme-upstream.md
+Updated: specification.md
+Updated: what-are-skills.md
+Updated: integrate-skills.md
+Updated: best-practices.md
+
+---
+
+
+
 ## [2026-01-18] Documentation Sync
 
 **Updated skills:** claude-code-expert

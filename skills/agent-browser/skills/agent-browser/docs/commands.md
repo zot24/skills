@@ -1,16 +1,24 @@
-> Source: https://agent-browser.dev/docs/commands
+> Source: https://agent-browser.dev/commands
+
+
+
+[](https://vercel.com "Made with love by Vercel")<span class="text-border"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+
 
 # Commands
 
 ## Core
 
-```bash
+
+``` shiki
 agent-browser open <url>              # Navigate (aliases: goto, navigate)
 agent-browser click <sel>             # Click element (--new-tab to open in new tab)
 agent-browser dblclick <sel>          # Double-click
 agent-browser fill <sel> <text>       # Clear and fill
 agent-browser type <sel> <text>       # Type into element
 agent-browser press <key>             # Press key (Enter, Tab, Control+a) (alias: key)
+agent-browser keyboard type <text>    # Type at current focus (no selector needed)
+agent-browser keyboard inserttext <text>  # Insert text without key events
 agent-browser keydown <key>           # Hold key down
 agent-browser keyup <key>             # Release key
 agent-browser hover <sel>             # Hover element
@@ -18,7 +26,7 @@ agent-browser focus <sel>             # Focus element
 agent-browser select <sel> <val>      # Select dropdown option
 agent-browser check <sel>             # Check checkbox
 agent-browser uncheck <sel>           # Uncheck checkbox
-agent-browser scroll <dir> [px]       # Scroll (up/down/left/right)
+agent-browser scroll <dir> [px]       # Scroll (up/down/left/right, --selector <sel>)
 agent-browser scrollintoview <sel>    # Scroll element into view
 agent-browser drag <src> <dst>        # Drag and drop
 agent-browser upload <sel> <files>    # Upload files
@@ -31,9 +39,11 @@ agent-browser connect <port|url>      # Connect to browser via CDP
 agent-browser close                   # Close browser (aliases: quit, exit)
 ```
 
-## Get Info
 
-```bash
+## Get info
+
+
+``` shiki
 agent-browser get text <sel>          # Get text content
 agent-browser get html <sel>          # Get innerHTML
 agent-browser get value <sel>         # Get input value
@@ -45,19 +55,23 @@ agent-browser get box <sel>           # Get bounding box
 agent-browser get styles <sel>        # Get computed styles
 ```
 
-## Check State
 
-```bash
+## Check state
+
+
+``` shiki
 agent-browser is visible <sel>        # Check if visible
 agent-browser is enabled <sel>        # Check if enabled
 agent-browser is checked <sel>        # Check if checked
 ```
 
-## Find Elements
+
+## Find elements
 
 Semantic locators with actions (`click`, `fill`, `type`, `hover`, `focus`, `check`, `uncheck`, `text`):
 
-```bash
+
+``` shiki
 agent-browser find role <role> <action> [value]
 agent-browser find text <text> <action>
 agent-browser find label <label> <action> [value]
@@ -70,6 +84,7 @@ agent-browser find last <sel> <action> [value]
 agent-browser find nth <n> <sel> <action> [value]
 ```
 
+
 Options:
 
 - `--name <name>` -- filter role by accessible name
@@ -77,7 +92,8 @@ Options:
 
 Examples:
 
-```bash
+
+``` shiki
 agent-browser find role button click --name "Submit"
 agent-browser find label "Email" fill "test@test.com"
 agent-browser find alt "Logo" click
@@ -86,9 +102,11 @@ agent-browser find last ".item" text
 agent-browser find nth 2 ".card" hover
 ```
 
+
 ## Wait
 
-```bash
+
+``` shiki
 agent-browser wait <selector>         # Wait for element
 agent-browser wait <ms>               # Wait for time
 agent-browser wait --text "Welcome"   # Wait for text
@@ -98,37 +116,55 @@ agent-browser wait --fn "condition"   # Wait for JS condition
 agent-browser wait --download [path]  # Wait for download
 ```
 
+
 ## Downloads
 
-```bash
+
+``` shiki
 agent-browser download <sel> <path>   # Click element to trigger download
 agent-browser wait --download [path]  # Wait for any download to complete
 ```
 
+
+Use `--download-path <dir>` (or `AGENT_BROWSER_DOWNLOAD_PATH` env) to set a default download directory. Without it, downloads go to a temporary directory that is deleted when the browser closes.
+
 ## Mouse
 
-```bash
+
+``` shiki
 agent-browser mouse move <x> <y>      # Move mouse
 agent-browser mouse down [button]     # Press button
 agent-browser mouse up [button]       # Release button
 agent-browser mouse wheel <dy> [dx]   # Scroll wheel
 ```
 
+
 ## Settings
 
-```bash
+
+``` shiki
 agent-browser set viewport <w> <h>    # Set viewport size
 agent-browser set device <name>       # Emulate device ("iPhone 14")
 agent-browser set geo <lat> <lng>     # Set geolocation
 agent-browser set offline [on|off]    # Toggle offline mode
 agent-browser set headers <json>      # Extra HTTP headers
 agent-browser set credentials <u> <p> # HTTP basic auth
-agent-browser set media [dark|light]  # Emulate color scheme
+agent-browser set media [dark|light]  # Emulate color scheme (persists for session)
 ```
 
-## Cookies & Storage
 
-```bash
+Use `--color-scheme` for persistent dark/light mode across all commands:
+
+
+``` shiki
+agent-browser --color-scheme dark open https://example.com
+```
+
+
+## Cookies & storage
+
+
+``` shiki
 agent-browser cookies                 # Get all cookies
 agent-browser cookies set <name> <val> # Set cookie
 agent-browser cookies clear           # Clear cookies
@@ -141,9 +177,11 @@ agent-browser storage local clear     # Clear all
 agent-browser storage session         # Same for sessionStorage
 ```
 
+
 ## Network
 
-```bash
+
+``` shiki
 agent-browser network route <url>              # Intercept requests
 agent-browser network route <url> --abort      # Block requests
 agent-browser network route <url> --body <json>  # Mock response
@@ -153,9 +191,11 @@ agent-browser network requests --clear         # Clear request log
 agent-browser network requests --filter <pat>  # Filter by URL pattern
 ```
 
-## Tabs & Frames
 
-```bash
+## Tabs & frames
+
+
+``` shiki
 agent-browser tab                     # List tabs
 agent-browser tab new [url]           # New tab
 agent-browser tab <n>                 # Switch to tab
@@ -165,16 +205,20 @@ agent-browser frame <sel>             # Switch to iframe
 agent-browser frame main              # Back to main frame
 ```
 
+
 ## Dialogs
 
-```bash
+
+``` shiki
 agent-browser dialog accept [text]    # Accept dialog (with optional prompt text)
 agent-browser dialog dismiss          # Dismiss dialog
 ```
 
+
 ## Debug
 
-```bash
+
+``` shiki
 agent-browser trace start [path]      # Start trace
 agent-browser trace stop [path]       # Stop and save trace
 agent-browser profiler start          # Start Chrome DevTools profiling
@@ -189,9 +233,62 @@ agent-browser errors --clear          # Clear error log
 agent-browser highlight <sel>         # Highlight element
 ```
 
-## State Management
 
-```bash
+## Auth vault
+
+
+``` shiki
+agent-browser auth save <name> [opts]    # Save auth profile
+agent-browser auth login <name>          # Login using saved credentials
+agent-browser auth list                  # List saved profiles (names and URLs only)
+agent-browser auth show <name>           # Show profile metadata (no passwords)
+agent-browser auth delete <name>         # Delete a saved profile
+```
+
+
+Save options:
+
+- `--url <url>` -- login page URL (required)
+- `--username <user>` -- username (required)
+- `--password <pass>` -- password (required unless `--password-stdin`)
+- `--password-stdin` -- read password from stdin (recommended to avoid shell history exposure)
+- `--username-selector <sel>` -- custom CSS selector for username field
+- `--password-selector <sel>` -- custom CSS selector for password field
+- `--submit-selector <sel>` -- custom CSS selector for submit button
+
+
+``` shiki
+echo "pass" | agent-browser auth save github --url https://github.com/login --username user --password-stdin
+agent-browser auth login github
+agent-browser auth list
+```
+
+
+## Confirmation
+
+When `--confirm-actions` is set, certain action categories return a `confirmation_required` response instead of executing immediately. Use `confirm` or `deny` to approve or reject the action.
+
+
+``` shiki
+agent-browser confirm <confirmation-id>  # Approve a pending action
+agent-browser deny <confirmation-id>     # Deny a pending action
+```
+
+
+Pending confirmations auto-deny after 60 seconds.
+
+
+``` shiki
+agent-browser --confirm-actions eval,download eval "document.title"
+# Returns confirmation_required with ID
+agent-browser confirm c_8f3a1234
+```
+
+
+## State management
+
+
+``` shiki
 agent-browser state save <path>       # Save auth state to file
 agent-browser state load <path>       # Load auth state from file
 agent-browser state list              # List saved state files
@@ -202,24 +299,30 @@ agent-browser state clear --all       # Clear all saved states
 agent-browser state clean --older-than <days>  # Delete old states
 ```
 
+
 ## Sessions
 
-```bash
+
+``` shiki
 agent-browser session                 # Show current session name
 agent-browser session list            # List active sessions
 ```
 
+
 ## Navigation
 
-```bash
+
+``` shiki
 agent-browser back                    # Go back
 agent-browser forward                 # Go forward
 agent-browser reload                  # Reload page
 ```
 
-## Global Options
 
-```bash
+## Global options
+
+
+``` shiki
 --session <name>         # Isolated browser session
 --session-name <name>    # Auto-save/restore session state (cookies, localStorage)
 --profile <path>         # Persistent browser profile directory
@@ -241,29 +344,46 @@ agent-browser reload                  # Reload page
 --headed                 # Show browser window (not headless)
 --cdp <port|url>         # Connect via Chrome DevTools Protocol (port or WebSocket URL)
 --auto-connect           # Auto-discover and connect to running Chrome
+--color-scheme <scheme>  # Color scheme: dark, light, no-preference
+--download-path <path>   # Default download directory
+--content-boundaries     # Wrap page output in boundary markers for LLM safety
+--max-output <chars>     # Truncate page output to N characters
+--allowed-domains <list> # Comma-separated allowed domain patterns
+--action-policy <path>   # Path to action policy JSON file
+--confirm-actions <list> # Action categories requiring confirmation
+--confirm-interactive    # Interactive confirmation prompts (auto-denies if stdin is not a TTY)
+--config <path>          # Use a custom config file
 --debug                  # Debug output
 ```
 
-## Command Chaining
+
+## Command chaining
 
 Chain commands with `&&` in a single shell invocation. The browser persists via a background daemon, so chaining works naturally and is more efficient than separate calls:
 
-```bash
+
+``` shiki
 agent-browser open example.com && agent-browser wait --load networkidle && agent-browser snapshot -i
 agent-browser fill @e1 "user@example.com" && agent-browser fill @e2 "pass" && agent-browser click @e3
 agent-browser open example.com && agent-browser wait --load networkidle && agent-browser screenshot page.png
 ```
 
+
 Use `&&` when you don't need to read intermediate output. Run commands separately when you need to parse output first (e.g., snapshot to discover refs, then interact with those refs).
 
-## Local Files
+## Local files
 
 Open local files (PDFs, HTML) using `file://` URLs:
 
-```bash
+
+``` shiki
 agent-browser --allow-file-access open file:///path/to/document.pdf
 agent-browser --allow-file-access open file:///path/to/page.html
 agent-browser screenshot output.png
 ```
 
+
 The `--allow-file-access` flag enables JavaScript to access other local files. Chromium only.
+
+
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>
