@@ -1,0 +1,7 @@
+{
+  "name": "x-engagement",
+  "version": "1.0.0",
+  "description": "X (Twitter) engagement playbook - hooks, conversation hijacking, authority building",
+  "sources": [],
+  "cache_dir": ".cache"
+}
