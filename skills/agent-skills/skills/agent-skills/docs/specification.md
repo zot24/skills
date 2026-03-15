@@ -8,46 +8,24 @@
 
 > The complete format specification for Agent Skills.
 
-This document defines the Agent Skills format.
-
 ## Directory structure
 
-A skill is a directory containing at minimum a `SKILL.md` file:
+A skill is a directory containing, at minimum, a `SKILL.md` file:
 
 ```
 skill-name/
-└── SKILL.md          # Required
+├── SKILL.md          # Required: metadata + instructions
+├── scripts/          # Optional: executable code
+├── references/       # Optional: documentation
+├── assets/           # Optional: templates, resources
+└── ...               # Any additional files or directories
 ```
 
-
-  You can optionally include [additional directories](#optional-directories) such as `scripts/`, `references/`, and `assets/` to support your skill.
-
-
-## SKILL.md format
+## `SKILL.md` format
 
 The `SKILL.md` file must contain YAML frontmatter followed by Markdown content.
 
-### Frontmatter (required)
-
-```yaml
----
-name: skill-name
-description: A description of what this skill does and when to use it.
----
-```
-
-With optional fields:
-
-```yaml
----
-name: pdf-processing
-description: Extract text and tables from PDF files, fill forms, merge documents.
-license: Apache-2.0
-metadata:
-  author: example-org
-  version: "1.0"
----
-```
+### Frontmatter
 
 | Field           | Required | Constraints                                                                                                       |
 | --------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -58,43 +36,69 @@ metadata:
 | `metadata`      | No       | Arbitrary key-value mapping for additional metadata.                                                              |
 | `allowed-tools` | No       | Space-delimited list of pre-approved tools the skill may use. (Experimental)                                      |
 
+
+  **Minimal example:**
+
+  ```markdown SKILL.md
+  ---
+  name: skill-name
+  description: A description of what this skill does and when to use it.
+  ---
+  ```
+
+  **Example with optional fields:**
+
+  ```markdown SKILL.md
+  ---
+  name: pdf-processing
+  description: Extract PDF text, fill forms, merge files. Use when handling PDFs.
+  license: Apache-2.0
+  metadata:
+    author: example-org
+    version: "1.0"
+  ---
+  ```
+
+
 #### `name` field
 
 The required `name` field:
 
 * Must be 1-64 characters
-* May only contain unicode lowercase alphanumeric characters and hyphens (`a-z` and `-`)
-* Must not start or end with `-`
+* May only contain unicode lowercase alphanumeric characters (`a-z`) and hyphens (`-`)
+* Must not start or end with a hyphen (`-`)
 * Must not contain consecutive hyphens (`--`)
 * Must match the parent directory name
 
-Valid examples:
 
-```yaml
-name: pdf-processing
-```
+  **Valid examples:**
 
-```yaml
-name: data-analysis
-```
+  ```yaml
+  name: pdf-processing
+  ```
 
-```yaml
-name: code-review
-```
+  ```yaml
+  name: data-analysis
+  ```
 
-Invalid examples:
+  ```yaml
+  name: code-review
+  ```
 
-```yaml
-name: PDF-Processing  # uppercase not allowed
-```
+  **Invalid examples:**
 
-```yaml
-name: -pdf  # cannot start with hyphen
-```
+  ```yaml
+  name: PDF-Processing  # uppercase not allowed
+  ```
 
-```yaml
-name: pdf--processing  # consecutive hyphens not allowed
-```
+  ```yaml
+  name: -pdf  # cannot start with hyphen
+  ```
+
+  ```yaml
+  name: pdf--processing  # consecutive hyphens not allowed
+  ```
+
 
 #### `description` field
 
@@ -104,17 +108,19 @@ The required `description` field:
 * Should describe both what the skill does and when to use it
 * Should include specific keywords that help agents identify relevant tasks
 
-Good example:
 
-```yaml
-description: Extracts text and tables from PDF files, fills PDF forms, and merges multiple PDFs. Use when working with PDF documents or when the user mentions PDFs, forms, or document extraction.
-```
+  **Good example:**
 
-Poor example:
+  ```yaml
+  description: Extracts text and tables from PDF files, fills PDF forms, and merges multiple PDFs. Use when working with PDF documents or when the user mentions PDFs, forms, or document extraction.
+  ```
 
-```yaml
-description: Helps with PDFs.
-```
+  **Poor example:**
+
+  ```yaml
+  description: Helps with PDFs.
+  ```
+
 
 #### `license` field
 
@@ -123,11 +129,13 @@ The optional `license` field:
 * Specifies the license applied to the skill
 * We recommend keeping it short (either the name of a license or the name of a bundled license file)
 
-Example:
 
-```yaml
-license: Proprietary. LICENSE.txt has complete terms
-```
+  **Example:**
+
+  ```yaml
+  license: Proprietary. LICENSE.txt has complete terms
+  ```
+
 
 #### `compatibility` field
 
@@ -137,15 +145,16 @@ The optional `compatibility` field:
 * Should only be included if your skill has specific environment requirements
 * Can indicate intended product, required system packages, network access needs, etc.
 
-Examples:
 
-```yaml
-compatibility: Designed for Claude Code (or similar products)
-```
+  **Examples:**
 
-```yaml
-compatibility: Requires git, docker, jq, and access to the internet
-```
+  ```yaml
+  compatibility: Designed for Claude Code (or similar products)
+  ```
+
+  ```yaml
+  compatibility: Requires git, docker, jq, and access to the internet
+  ```
 
 
   Most skills do not need the `compatibility` field.
@@ -159,13 +168,15 @@ The optional `metadata` field:
 * Clients can use this to store additional properties not defined by the Agent Skills spec
 * We recommend making your key names reasonably unique to avoid accidental conflicts
 
-Example:
 
-```yaml
-metadata:
-  author: example-org
-  version: "1.0"
-```
+  **Example:**
+
+  ```yaml
+  metadata:
+    author: example-org
+    version: "1.0"
+  ```
+
 
 #### `allowed-tools` field
 
@@ -174,11 +185,13 @@ The optional `allowed-tools` field:
 * A space-delimited list of tools that are pre-approved to run
 * Experimental. Support for this field may vary between agent implementations
 
-Example:
 
-```yaml
-allowed-tools: Bash(git:*) Bash(jq:*) Read
-```
+  **Example:**
+
+  ```yaml
+  allowed-tools: Bash(git:*) Bash(jq:*) Read
+  ```
+
 
 ### Body content
 
@@ -194,7 +207,7 @@ Note that the agent will load this entire file once it's decided to activate a s
 
 ## Optional directories
 
-### scripts/
+### `scripts/`
 
 Contains executable code that agents can run. Scripts should:
 
@@ -204,7 +217,7 @@ Contains executable code that agents can run. Scripts should:
 
 Supported languages depend on the agent implementation. Common options include Python, Bash, and JavaScript.
 
-### references/
+### `references/`
 
 Contains additional documentation that agents can read when needed:
 
@@ -214,7 +227,7 @@ Contains additional documentation that agents can read when needed:
 
 Keep individual [reference files](#file-references) focused. Agents load these on demand, so smaller files mean less use of context.
 
-### assets/
+### `assets/`
 
 Contains static resources:
 
@@ -236,7 +249,7 @@ Keep your main `SKILL.md` under 500 lines. Move detailed reference material to s
 
 When referencing other files in your skill, use relative paths from the skill root:
 
-```markdown
+```markdown SKILL.md
 See [the reference guide](references/REFERENCE.md) for details.
 
 Run the extraction script:
@@ -254,3 +267,6 @@ skills-ref validate ./my-skill
 ```
 
 This checks that your `SKILL.md` frontmatter is valid and follows all naming conventions.
+
+
+Built with [Mintlify](https://mintlify.com).

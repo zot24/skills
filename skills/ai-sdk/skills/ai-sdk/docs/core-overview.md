@@ -48,6 +48,7 @@ In the next section, you will learn about the difference between models provider
 - [Prompts](/docs/foundations/prompts)
 - [Tools](/docs/foundations/tools)
 - [Streaming](/docs/foundations/streaming)
+- [Provider Options](/docs/foundations/provider-options)
 
 
 [Full Sitemap](/sitemap.md)

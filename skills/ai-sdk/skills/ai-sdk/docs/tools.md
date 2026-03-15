@@ -1163,6 +1163,7 @@ You can see tools in action using various frameworks in the following examples:
 - [Testing](/docs/ai-sdk-core/testing)
 - [Telemetry](/docs/ai-sdk-core/telemetry)
 - [DevTools](/docs/ai-sdk-core/devtools)
+- [Event Callbacks](/docs/ai-sdk-core/event-listeners)
 
 
 [Full Sitemap](/sitemap.md)
