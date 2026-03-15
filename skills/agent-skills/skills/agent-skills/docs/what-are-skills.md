@@ -37,7 +37,7 @@ Every skill starts with a `SKILL.md` file containing YAML frontmatter and Markdo
 ```mdx
 ---
 name: pdf-processing
-description: Extract text and tables from PDF files, fill forms, merge documents.
+description: Extract PDF text, fill forms, merge files. Use when handling PDFs.
 ---
 
 # PDF Processing
@@ -70,7 +70,10 @@ This simple format has some key advantages:
 ## Next steps
 
 * [View the specification](/specification) to understand the full format.
-* [Add skills support to your agent](/integrate-skills) to build a compatible client.
+* [Add skills support to your agent](/client-implementation/adding-skills-support) to build a compatible client.
 * [See example skills](https://github.com/anthropics/skills) on GitHub.
 * [Read authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) for writing effective skills.
 * [Use the reference library](https://github.com/agentskills/agentskills/tree/main/skills-ref) to validate skills and generate prompt XML.
+
+
+Built with [Mintlify](https://mintlify.com).

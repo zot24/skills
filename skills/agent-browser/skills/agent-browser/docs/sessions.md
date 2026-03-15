@@ -2,7 +2,13 @@
 
 
 
-[](https://vercel.com "Made with love by Vercel")<span class="text-border"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+[](https://vercel.com "Made with love by Vercel")<span class="text-neutral-300 dark:text-neutral-700"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+
+
+Sessions
+
+
+Copy Page
 
 
 # Sessions
@@ -63,6 +69,58 @@ The profile directory stores:
 - Service workers
 - Browser cache
 - Login sessions
+
+## Import auth from your browser
+
+If you are already logged in to a site in Chrome, you can grab that auth state and reuse it in agent-browser. This is the fastest way to bypass login flows, OAuth, SSO, or 2FA.
+
+**Step 1:** Start Chrome with remote debugging:
+
+
+``` shiki
+# macOS
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --remote-debugging-port=9222
+
+# Linux
+google-chrome --remote-debugging-port=9222
+```
+
+
+Log in to your target site(s) in this Chrome window.
+
+`--remote-debugging-port` exposes full browser control on localhost. Any local process can connect. Only use on trusted machines and close Chrome when done.
+
+**Step 2:** Connect and save the authenticated state:
+
+
+``` shiki
+agent-browser --auto-connect state save ./my-auth.json
+```
+
+
+**Step 3:** Use the saved auth in future sessions:
+
+
+``` shiki
+# Load auth at launch
+agent-browser --state ./my-auth.json open https://app.example.com/dashboard
+
+# Or load into an existing session
+agent-browser state load ./my-auth.json
+agent-browser open https://app.example.com/dashboard
+```
+
+
+Combine with `--session-name` so the imported auth auto-persists across restarts:
+
+
+``` shiki
+agent-browser --session-name myapp state load ./my-auth.json
+# From now on, state auto-saves/restores for "myapp"
+```
+
+
+State files contain session tokens in plaintext. Add them to `.gitignore` and delete when no longer needed. For encryption at rest, see <a href="#state-encryption" target="_blank" rel="noopener noreferrer">State encryption</a> below.
 
 ## Session persistence
 

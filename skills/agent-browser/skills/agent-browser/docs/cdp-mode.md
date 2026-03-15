@@ -2,7 +2,13 @@
 
 
 
-[](https://vercel.com "Made with love by Vercel")<span class="text-border"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+[](https://vercel.com "Made with love by Vercel")<span class="text-neutral-300 dark:text-neutral-700"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+
+
+CDP Mode
+
+
+Copy Page
 
 
 # CDP Mode
@@ -71,7 +77,7 @@ This is useful when:
 
 ## Color scheme
 
-Playwright overrides the browser's color scheme to `light` by default when connecting via CDP. Use `--color-scheme` to set a persistent preference:
+Use `--color-scheme` to set a persistent preference when connecting via CDP:
 
 
 ``` shiki
@@ -100,26 +106,26 @@ This enables control of:
 
 ## Global options
 
-| Option                    | Description                                                    |
-|---------------------------|----------------------------------------------------------------|
-| `--session <name>`        | Use isolated session                                           |
-| `--profile <path>`        | Persistent browser profile directory                           |
-| `-p <provider>`           | Cloud browser provider (`browserbase`, `browseruse`, `kernel`) |
-| `--headers <json>`        | HTTP headers scoped to origin                                  |
-| `--executable-path`       | Custom browser executable                                      |
-| `--args <args>`           | Browser launch args (comma-separated)                          |
-| `--user-agent <ua>`       | Custom User-Agent string                                       |
-| `--proxy <url>`           | Proxy server URL                                               |
-| `--proxy-bypass <hosts>`  | Hosts to bypass proxy                                          |
-| `--json`                  | JSON output for scripts                                        |
-| `--full, -f`              | Full page screenshot                                           |
-| `--name, -n`              | Locator name filter                                            |
-| `--exact`                 | Exact text match                                               |
-| `--headed`                | Show browser window                                            |
-| `--cdp <port|url>`        | CDP connection (port or WebSocket URL)                         |
-| `--auto-connect`          | Auto-discover and connect to running Chrome                    |
-| `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`)     |
-| `--debug`                 | Debug output                                                   |
+| Option                    | Description                                                                   |
+|---------------------------|-------------------------------------------------------------------------------|
+| `--session <name>`        | Use isolated session                                                          |
+| `--profile <path>`        | Persistent browser profile directory                                          |
+| `-p <provider>`           | Cloud browser provider (`browserbase`, `browseruse`, `kernel`, `browserless`) |
+| `--headers <json>`        | HTTP headers scoped to origin                                                 |
+| `--executable-path`       | Custom browser executable                                                     |
+| `--args <args>`           | Browser launch args (comma-separated)                                         |
+| `--user-agent <ua>`       | Custom User-Agent string                                                      |
+| `--proxy <url>`           | Proxy server URL                                                              |
+| `--proxy-bypass <hosts>`  | Hosts to bypass proxy                                                         |
+| `--json`                  | JSON output for scripts                                                       |
+| `--full, -f`              | Full page screenshot                                                          |
+| `--name, -n`              | Locator name filter                                                           |
+| `--exact`                 | Exact text match                                                              |
+| `--headed`                | Show browser window                                                           |
+| `--cdp <port|url>`        | CDP connection (port or WebSocket URL)                                        |
+| `--auto-connect`          | Auto-discover and connect to running Chrome                                   |
+| `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`)                    |
+| `--debug`                 | Debug output                                                                  |
 
 ## Cloud providers
 
@@ -129,7 +135,6 @@ Use cloud browser infrastructure when local browsers aren't available:
 ``` shiki
 # Browserbase
 export BROWSERBASE_API_KEY="your-api-key"
-export BROWSERBASE_PROJECT_ID="your-project-id"
 agent-browser -p browserbase open https://example.com
 
 # Browser Use
@@ -139,6 +144,10 @@ agent-browser -p browseruse open https://example.com
 # Kernel
 export KERNEL_API_KEY="your-api-key"
 agent-browser -p kernel open https://example.com
+
+# Browserless
+export BROWSERLESS_API_KEY="your-api-key"
+agent-browser -p browserless open https://example.com
 
 # Or via environment variable
 export AGENT_BROWSER_PROVIDER=browserbase

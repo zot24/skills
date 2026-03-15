@@ -2,7 +2,13 @@
 
 
 
-[](https://vercel.com "Made with love by Vercel")<span class="text-border"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+[](https://vercel.com "Made with love by Vercel")<span class="text-neutral-300 dark:text-neutral-700"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+
+
+Installation
+
+
+Copy Page
 
 
 # Installation
@@ -14,7 +20,7 @@ Installs the native Rust binary for maximum performance:
 
 ``` shiki
 npm install -g agent-browser
-agent-browser install  # Download Chromium
+agent-browser install  # Download Chrome from Chrome for Testing (first time)
 ```
 
 
@@ -22,16 +28,12 @@ This is the fastest option -- commands run through the native Rust CLI directly 
 
 ## Quick start (no install)
 
-Run directly with `npx` if you want to try it without installing globally:
-
 
 ``` shiki
-npx agent-browser install   # Download Chromium (first time only)
+npx agent-browser install   # Download Chrome (first time only)
 npx agent-browser open example.com
 ```
 
-
-> **Note:** `npx` routes through Node.js before reaching the Rust CLI, so it is noticeably slower than a global install. For regular use, install globally.
 
 ## Project installation (local dependency)
 
@@ -40,26 +42,31 @@ For projects that want to pin the version in `package.json`:
 
 ``` shiki
 npm install agent-browser
-npx agent-browser install
+npx agent-browser install  # Download Chrome (first time)
 ```
 
 
-Then use via `npx` or `package.json` scripts:
-
-
-``` shiki
-npx agent-browser open example.com
-```
-
+Then use via `npx` or `package.json` scripts.
 
 ## Homebrew (macOS)
 
 
 ``` shiki
 brew install agent-browser
-agent-browser install  # Download Chromium
+agent-browser install  # Download Chrome (first time)
 ```
 
+
+## Cargo (Rust)
+
+
+``` shiki
+cargo install agent-browser
+agent-browser install  # Download Chrome (first time)
+```
+
+
+Compiles from source (~2-3 min). Requires the Rust toolchain (<a href="https://rustup.rs" target="_blank" rel="noopener noreferrer">rustup.rs</a>).
 
 ## From source
 
@@ -82,7 +89,6 @@ On Linux, install system dependencies:
 
 ``` shiki
 agent-browser install --with-deps
-# or manually: npx playwright install-deps chromium
 ```
 
 
@@ -106,21 +112,7 @@ AGENT_BROWSER_EXECUTABLE_PATH=/path/to/chromium agent-browser open example.com
 
 ### Serverless example
 
-
-``` shiki
-import chromium from '@sparticuz/chromium';
-import { BrowserManager } from 'agent-browser';
-
-export async function handler() {
-  const browser = new BrowserManager();
-  await browser.launch({
-    executablePath: await chromium.executablePath(),
-    headless: true,
-  });
-  // ... use browser
-}
-```
-
+Use `@sparticuz/chromium` or similar to obtain a Chromium executable path, then pass it via `--executable-path` or `AGENT_BROWSER_EXECUTABLE_PATH`.
 
 ## AI agent setup
 
