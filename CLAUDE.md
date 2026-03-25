@@ -220,8 +220,6 @@ Each skill syncs documentation from upstream sources.
 | chat-sdk | https://github.com/vercel/ai-chatbot + https://chat-sdk.dev/ | URL-based |
 | ai-sdk | https://github.com/vercel/ai + https://ai-sdk.dev/ | URL-based |
 | agent-skills | https://github.com/agentskills/agentskills + https://agentskills.io | URL-based |
-| safe-delete | Original content (no upstream) | None |
-| x-engagement | Original content (no upstream) | None |
 | hermes-self-knowledge | Hermes Agent docs + operational experience | Hybrid |
 
 ### When to Sync
