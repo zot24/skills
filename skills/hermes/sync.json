@@ -1,5 +1,5 @@
 {
-  "name": "hermes-self-knowledge",
+  "name": "hermes",
   "version": "1.0.0",
   "description": "Expert knowledge about Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
   "sources": [

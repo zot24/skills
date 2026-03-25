@@ -24,7 +24,7 @@ skills/
 │   ├── ai-sdk/               # Vercel AI SDK
 │   ├── safe-delete/          # Safe file deletion
 │   ├── x-engagement/         # X/Twitter engagement
-│   └── hermes-self-knowledge/ # Hermes Agent self-knowledge
+│   └── hermes/                  # Hermes Agent self-knowledge
 └── README.md
 ```
 
@@ -220,7 +220,7 @@ Each skill syncs documentation from upstream sources.
 | chat-sdk | https://github.com/vercel/ai-chatbot + https://chat-sdk.dev/ | URL-based |
 | ai-sdk | https://github.com/vercel/ai + https://ai-sdk.dev/ | URL-based |
 | agent-skills | https://github.com/agentskills/agentskills + https://agentskills.io | URL-based |
-| hermes-self-knowledge | Hermes Agent docs + operational experience | Hybrid |
+| hermes | Hermes Agent docs + operational experience | Hybrid |
 
 ### When to Sync
 

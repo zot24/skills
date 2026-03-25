@@ -1,4 +1,4 @@
-# hermes-self-knowledge
+# hermes
 
 Expert knowledge about Hermes Agent — its memory system, skills architecture, cron job scheduler, tools, and behavioral conventions.
 
@@ -21,7 +21,8 @@ Activate when user asks questions like:
 ## Files
 
 - `SKILL.md` — main skill file with all knowledge
-- `commands/hermes-self-knowledge.md` — slash command entry point
+- `commands/hermes.md` — slash command entry point
+- `sync.json` — CI sync configuration
 
 ## Source
 

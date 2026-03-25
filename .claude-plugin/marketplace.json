@@ -61,8 +61,8 @@
       "version": "1.0.0"
     },
     {
-      "name": "hermes-self-knowledge",
-      "source": "./skills/hermes-self-knowledge",
+      "name": "hermes",
+      "source": "./skills/hermes",
       "description": "Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
       "version": "1.0.0"
     }

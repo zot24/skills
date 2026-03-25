@@ -1,5 +1,5 @@
 ---
-name: hermes-self-knowledge
+name: hermes
 description: Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions. Use when configuring Hermes, writing skills for it, debugging its behavior, or understanding what it can and cannot do.
 trigger: how does hermes work, hermes memory, hermes skills, hermes tools, hermes configuration, hermes capabilities, what can hermes do
 ---
