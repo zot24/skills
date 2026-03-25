@@ -59,6 +59,12 @@
       "source": "./skills/x-engagement",
       "description": "Crafts high-engagement X (Twitter) content using conversation hijacking, authority building, and strategic hooks",
       "version": "1.0.0"
+    },
+    {
+      "name": "hermes-self-knowledge",
+      "source": "./skills/hermes-self-knowledge",
+      "description": "Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
+      "version": "1.0.0"
     }
   ]
 }
