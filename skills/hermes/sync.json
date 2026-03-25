@@ -1,0 +1,15 @@
+{
+  "name": "hermes",
+  "version": "1.0.0",
+  "description": "Expert knowledge about Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
+  "sources": [
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs",
+      "target": "skills/hermes-self-knowledge/docs/hermes-docs.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "Hermes documentation is the primary source. Operational notes derived from deployment experience."
+}

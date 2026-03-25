@@ -7,19 +7,24 @@ This repository contains AI agent skills for various development workflows.
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace manifest
+│   └── marketplace.json      # Marketplace manifest (10 skills)
 ├── .github/
 │   ├── scripts/
-│   │   └── sync-skill.sh     # Generic sync script
+│   │   └── sync-skill.sh   # Generic sync script
 │   └── workflows/
-│       ├── sync-docs.yml     # Scheduled sync workflow
+│       ├── sync-docs.yml    # Scheduled sync workflow (all 10 skills)
 │       └── release-on-merge.yml
 ├── skills/
 │   ├── umbrel-app/           # Umbrel app development
 │   ├── claude-code-expert/   # Claude Code knowledge base
-│   ├── clawdbot/             # Clawdbot AI assistant framework
+│   ├── openclaw/             # OpenClaw messaging framework
 │   ├── agent-browser/        # Browser automation for AI agents
-│   └── agent-skills/         # Agent Skills format specification
+│   ├── agent-skills/         # Agent Skills format specification
+│   ├── chat-sdk/             # Vercel Chat SDK
+│   ├── ai-sdk/               # Vercel AI SDK
+│   ├── safe-delete/          # Safe file deletion
+│   ├── x-engagement/         # X/Twitter engagement
+│   └── hermes/                  # Hermes Agent self-knowledge
 └── README.md
 ```
 
@@ -210,11 +215,12 @@ Each skill syncs documentation from upstream sources.
 |-------|-----------------|-----------|
 | umbrel-app | https://github.com/getumbrel/umbrel-apps/blob/master/README.md | URL-based |
 | claude-code-expert | Multiple sources via registry.json | Registry-based |
-| clawdbot | https://docs.clawd.bot/ | URL-based |
+| openclaw | https://docs.clawd.bot/ | URL-based |
 | agent-browser | https://github.com/vercel-labs/agent-browser + https://agent-browser.dev/ | URL-based |
 | chat-sdk | https://github.com/vercel/ai-chatbot + https://chat-sdk.dev/ | URL-based |
 | ai-sdk | https://github.com/vercel/ai + https://ai-sdk.dev/ | URL-based |
 | agent-skills | https://github.com/agentskills/agentskills + https://agentskills.io | URL-based |
+| hermes | Hermes Agent docs + operational experience | Hybrid |
 
 ### When to Sync
 
