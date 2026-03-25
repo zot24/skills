@@ -12,6 +12,12 @@ An opinionated selection of skills for daily dev workflows.
 | [claude-code-expert](./skills/claude-code-expert) | Comprehensive Claude Code & Anthropic ecosystem knowledge. Official patterns for agents, skills, hooks, commands, MCP. |
 | [openclaw](./skills/openclaw) | Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo) |
 | [agent-browser](./skills/agent-browser) | Expert on agent-browser - Vercel's headless browser automation CLI for AI agents with 50+ commands, snapshots, and multi-session support |
+| [chat-sdk](./skills/chat-sdk) | Expert on Chat SDK - Vercel's open-source template for building production-ready AI chatbots with generative UI, artifacts, and multi-provider support |
+| [ai-sdk](./skills/ai-sdk) | Expert on AI SDK - Vercel's TypeScript toolkit for building AI applications with unified LLM API, streaming, tool calling, and agents |
+| [agent-skills](./skills/agent-skills) | Expert at the Agent Skills open format for extending AI agent capabilities - create, validate, and understand SKILL.md files |
+| [hermes](./skills/hermes) | Expert at understanding and working with Hermes Agent - its memory system, skills, cron jobs, tools, and behavioral conventions |
+| [safe-delete](./skills/safe-delete) | Prevents catastrophic file deletion by transforming rm commands to trash and blocking dangerous patterns like `rm -rf /` |
+| [x-engagement](./skills/x-engagement) | Crafts high-engagement X (Twitter) content using conversation hijacking, authority building, and strategic hooks |
 
 ## Installation
 
@@ -61,26 +67,35 @@ Format: `/skill-name:command-name [arguments]`
 /umbrel-app:umbrel validate ./my-app      # Validate app configuration
 /umbrel-app:umbrel convert ./docker-app   # Convert Docker Compose to Umbrel
 /umbrel-app:umbrel pr ./my-app            # Generate PR submission
-/umbrel-app:umbrel debug ./my-app         # Troubleshoot issues
+/umbrel-app:umbrel debug ./my-app        # Troubleshoot issues
 
 # Claude Code expertise
-/claude-code-expert:claude create agent   # Guide for creating agents
-/claude-code-expert:claude create skill   # Guide for creating skills
-/claude-code-expert:claude validate ./x   # Validate against best practices
-/claude-code-expert:claude features       # Show Claude Code capabilities
+/claude-code-expert:claude create agent    # Guide for creating agents
+/claude-code-expert:claude create skill    # Guide for creating skills
+/claude-code-expert:claude validate ./x    # Validate against best practices
+/claude-code-expert:claude features        # Show Claude Code capabilities
 
 # OpenClaw AI assistant framework
 /openclaw:openclaw setup                  # Installation guide
 /openclaw:openclaw channel whatsapp       # Configure WhatsApp
-/openclaw:openclaw channel telegram       # Configure Telegram
+/openclaw:openclaw channel telegram        # Configure Telegram
 /openclaw:openclaw diagnose               # Troubleshoot issues
 /openclaw:openclaw gateway                # Gateway configuration
 
 # Agent browser automation
-/agent-browser:agent-browser open <url>   # Open a webpage
+/agent-browser:agent-browser open <url>    # Open a webpage
 /agent-browser:agent-browser snapshot     # Get element refs
 /agent-browser:agent-browser click @e2    # Click by ref
 /agent-browser:agent-browser screenshot   # Capture viewport
+
+# Hermes Agent
+/hermes:hermes memory                    # How Hermes memory works
+/hermes:hermes skills                    # How to create Hermes skills
+/hermes:hermes cron                      # Cron job configuration
+
+# Safe delete
+/safe-delete:safe-delete enable          # Enable trash-based deletion
+/safe-delete:safe-delete status          # Check current mode
 ```
 
 ### Natural Language
@@ -96,26 +111,11 @@ You can also just describe what you want:
 "My Telegram bot isn't receiving messages"
 "Automate browser login with agent-browser"
 "How do I use snapshots for element selection?"
+"Write a viral X/Twitter post about AI"
+"Set up a safe delete alias so I don't accidentally delete everything"
 ```
 
 The skills auto-activate based on context.
-
-### Quick Start Examples
-
-**Create a new Umbrel app:**
-```
-> /umbrel-app:umbrel scaffold my-bitcoin-dashboard
-```
-
-**Validate before submitting:**
-```
-> /umbrel-app:umbrel validate ./my-bitcoin-dashboard
-```
-
-**Learn Claude Code patterns:**
-```
-> /claude-code-expert:claude create hook
-```
 
 ## Skill Details
 
@@ -197,9 +197,106 @@ Expert on Vercel's browser automation CLI for AI agents:
 
 [Full documentation](./skills/agent-browser/README.md)
 
+### chat-sdk
+
+Expert on Vercel's Chat SDK for building production-ready AI chatbots:
+
+- **setup** - Installation and project scaffolding
+- **providers** - Configure OpenAI, Anthropic, Google, and other LLM providers
+- **ui** - Build generative UI with artifacts
+- **streaming** - Implement streaming responses
+- **tools** - Define and use tools with LLMs
+- **sync/diff** - Stay updated with upstream docs
+
+[Full documentation](./skills/chat-sdk/README.md)
+
+### ai-sdk
+
+Expert on Vercel's AI SDK - TypeScript toolkit for building AI applications:
+
+- **providers** - Unified API across 100+ LLMs
+- **streaming** - Streaming text, audio, and image generation
+- **tool calling** - Structured tool definitions and execution
+- **agents** - Build autonomous agents with memory
+- **rags** - Retrieval augmented generation patterns
+- **sync/diff** - Stay updated with upstream docs
+
+[Full documentation](./skills/ai-sdk/README.md)
+
+### agent-skills
+
+Expert at the Agent Skills open format specification:
+
+- **create** - Create new SKILL.md files following the spec
+- **validate** - Validate skills against the specification
+- **spec** - Understand the Agent Skills format
+- **best-practices** - Authoring guidelines and patterns
+- **integrate** - Add skills to your agent
+- **sync/diff** - Stay updated with upstream docs
+
+```bash
+/skills-ref validate ./skills/my-skill
+```
+
+[Full documentation](./skills/agent-skills/README.md)
+
+### hermes
+
+Expert at understanding and configuring Hermes Agent:
+
+- **memory** - Dual-store memory, Honcho profiles, instruction capture
+- **skills** - How skills are created, triggered, and structured
+- **cron** - Schedule formats, delivery targets, scheduler architecture
+- **tools** - Built-in tool categories and capabilities
+- **config** - Configuration files and environment variables
+- **conventions** - Communication style and user preferences
+
+```bash
+/hermes:hermes memory
+/hermes:hermes skills
+/hermes:hermes cron
+```
+
+[Full documentation](./skills/hermes/README.md)
+
+### safe-delete
+
+Prevents catastrophic file deletion by intercepting dangerous rm commands:
+
+- **enable** - Activate trash-based deletion (aliases rm to trash-cli)
+- **block** - Block patterns like `rm -rf /` or `rm -rf /*`
+- **whitelist** - Allow specific directories to be deleted
+- **status** - Show current protection state
+- **restore** - Recover files from trash
+
+```bash
+/safe-delete:safe-delete enable
+/safe-delete:safe-delete status
+```
+
+[Full documentation](./skills/safe-delete/README.md)
+
+### x-engagement
+
+Crafts high-engagement X (Twitter) content using strategic frameworks:
+
+- **hook** - Write viral-worthy opening hooks
+- **authority** - Build authority through strategic content
+- **conversation** - Hijack trending conversations
+- **thread** - Write viral threads
+- **draft** - Generate engagement-optimized posts
+
+```bash
+/x-engagement:x-engagement hook "AI agents"
+/x-engagement:x-engagement thread "Why most AI projects fail"
+```
+
+[Full documentation](./skills/x-engagement/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
+
    ```
    skills/
    └── my-new-skill/
@@ -212,6 +309,7 @@ Expert on Vercel's browser automation CLI for AI agents:
    ```
 
 2. Create `sync.json` for automated updates:
+
    ```json
    {
      "name": "my-new-skill",
@@ -220,7 +318,7 @@ Expert on Vercel's browser automation CLI for AI agents:
      "sources": [
        {
          "url": "https://example.com/docs.md",
-         "target": "skills/my-skill/SKILL.md",
+         "target": "skills/my-skill/docs/readme-upstream.md",
          "freshness_days": 14
        }
      ],
@@ -229,6 +327,7 @@ Expert on Vercel's browser automation CLI for AI agents:
    ```
 
 3. Add entry to `.claude-plugin/marketplace.json`:
+
    ```json
    {
      "name": "my-new-skill",
@@ -238,7 +337,8 @@ Expert on Vercel's browser automation CLI for AI agents:
    }
    ```
 
-4. Commit and push
+4. Add skill to CI sync array in `.github/workflows/sync-docs.yml` if it has upstream docs
+5. Commit and push
 
 ## CI Automation
 
@@ -246,14 +346,16 @@ The repository includes automated workflows for keeping skill documentation up t
 
 ### Scheduled Sync
 
-Runs bi-weekly (1st and 15th of each month) to check for upstream documentation changes.
+Runs bi-weekly (1st and 15th of each month) to check for upstream documentation changes. Only syncs skills with actual upstream documentation sources.
 
 **Manual trigger**: Actions > Sync Skill Documentation > Run workflow
 
 Options:
-- `skill`: all, umbrel-app, claude-code-expert, or openclaw
 - `force`: Force sync even without detected changes
 - `dry_run`: Check for changes without creating PR
+
+**Skills with CI sync enabled:**
+- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes
 
 ### Automated Releases (release-please)
 
@@ -292,6 +394,7 @@ This repository uses [release-please](https://github.com/googleapis/release-plea
 ### Configuration
 
 Set custom schedule via repository variable:
+
 ```
 SYNC_SCHEDULE: "0 6 1,15 * *"  # Cron format
 ```
@@ -301,26 +404,24 @@ SYNC_SCHEDULE: "0 6 1,15 * *"  # Cron format
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json          # Marketplace manifest
+│   └── marketplace.json          # Marketplace manifest (10 skills)
 ├── .github/
 │   ├── scripts/
-│   │   └── sync-skill.sh         # Generic sync script
+│   │   └── sync-skill.sh        # Generic sync script
 │   └── workflows/
-│       ├── sync-docs.yml         # Scheduled sync workflow
-│       └── release-on-merge.yml  # Auto-release on PR merge
+│       ├── sync-docs.yml        # Scheduled sync workflow
+│       └── release-on-merge.yml # Auto-release on PR merge
 ├── skills/
-│   ├── umbrel-app/               # Umbrel app development
-│   │   ├── sync.json
-│   │   └── ...
-│   ├── claude-code-expert/       # Claude Code knowledge base
-│   │   ├── sync.json
-│   │   └── ...
-│   ├── openclaw/                 # OpenClaw AI assistant framework
-│   │   ├── sync.json
-│   │   └── ...
-│   └── agent-browser/            # Browser automation for AI agents
-│       ├── sync.json
-│       └── ...
+│   ├── umbrel-app/              # Umbrel app development
+│   ├── claude-code-expert/      # Claude Code knowledge base
+│   ├── openclaw/                # OpenClaw messaging framework
+│   ├── agent-browser/           # Browser automation for AI agents
+│   ├── chat-sdk/                # Vercel Chat SDK
+│   ├── ai-sdk/                  # Vercel AI SDK
+│   ├── agent-skills/            # Agent Skills specification
+│   ├── hermes/                  # Hermes Agent self-knowledge
+│   ├── safe-delete/             # Safe file deletion
+│   └── x-engagement/            # X/Twitter engagement
 └── README.md
 ```
 
