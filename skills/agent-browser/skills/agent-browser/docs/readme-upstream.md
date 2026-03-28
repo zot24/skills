@@ -60,6 +60,16 @@ On Linux, install system dependencies:
 agent-browser install --with-deps
 ```
 
+### Updating
+
+Upgrade to the latest version:
+
+```bash
+agent-browser upgrade
+```
+
+Detects your installation method (npm, Homebrew, or Cargo) and runs the appropriate update command automatically.
+
 ### Requirements
 
 - **Chrome** - Run `agent-browser install` to download Chrome from [Chrome for Testing](https://developer.chrome.com/blog/chrome-for-testing/) (Google's official automation channel). No Playwright or Node.js required for the daemon.
@@ -117,7 +127,11 @@ agent-browser pdf <path>              # Save as PDF
 agent-browser snapshot                # Accessibility tree with refs (best for AI)
 agent-browser eval <js>               # Run JavaScript (-b for base64, --stdin for piped input)
 agent-browser connect <port>          # Connect to browser via CDP
+agent-browser stream enable [--port <port>]  # Start runtime WebSocket streaming
+agent-browser stream status           # Show runtime streaming state and bound port
+agent-browser stream disable          # Stop runtime WebSocket streaming
 agent-browser close                   # Close browser (aliases: quit, exit)
+agent-browser close --all             # Close all active sessions
 ```
 
 ### Get Info
@@ -189,6 +203,25 @@ agent-browser wait "#spinner" --state hidden
 
 **Load states:** `load`, `domcontentloaded`, `networkidle`
 
+### Batch Execution
+
+Execute multiple commands in a single invocation by piping a JSON array of
+string arrays to `batch`. This avoids per-command process startup overhead
+when running multi-step workflows.
+
+```bash
+# Pipe commands as JSON
+echo '[
+  ["open", "https://example.com"],
+  ["snapshot", "-i"],
+  ["click", "@e1"],
+  ["screenshot", "result.png"]
+]' | agent-browser batch --json
+
+# Stop on first error
+agent-browser batch --bail < commands.json
+```
+
 ### Clipboard
 
 ```bash
@@ -243,6 +276,12 @@ agent-browser network route <url> --body <json>  # Mock response
 agent-browser network unroute [url]            # Remove routes
 agent-browser network requests                 # View tracked requests
 agent-browser network requests --filter api    # Filter requests
+agent-browser network requests --type xhr,fetch  # Filter by resource type
+agent-browser network requests --method POST   # Filter by HTTP method
+agent-browser network requests --status 2xx    # Filter by status (200, 2xx, 400-499)
+agent-browser network request <requestId>      # View full request/response detail
+agent-browser network har start                # Start HAR recording
+agent-browser network har stop [output.har]    # Stop and save HAR (temp path if omitted)
 ```
 
 ### Tabs & Windows
@@ -267,7 +306,10 @@ agent-browser frame main              # Back to main frame
 ```bash
 agent-browser dialog accept [text]    # Accept (with optional prompt text)
 agent-browser dialog dismiss          # Dismiss
+agent-browser dialog status           # Check if a dialog is currently open
 ```
+
+When a JavaScript dialog is pending, all command responses include a `warning` field with the dialog type and message.
 
 ### Diff
 
@@ -320,6 +362,7 @@ agent-browser reload                  # Reload page
 ```bash
 agent-browser install                 # Download Chrome from Chrome for Testing (Google's official automation channel)
 agent-browser install --with-deps     # Also install system deps (Linux)
+agent-browser upgrade                 # Upgrade agent-browser to the latest version
 ```
 
 ## Authentication
@@ -456,7 +499,7 @@ agent-browser --session-name secure open example.com
 
 agent-browser includes security features for safe AI agent deployments. All features are opt-in -- existing workflows are unaffected until you explicitly enable a feature:
 
-- **Authentication Vault** -- Store credentials locally (always encrypted), reference by name. The LLM never sees passwords. A key is auto-generated at `~/.agent-browser/.encryption-key` if `AGENT_BROWSER_ENCRYPTION_KEY` is not set: `echo "pass" | agent-browser auth save github --url https://github.com/login --username user --password-stdin` then `agent-browser auth login github`
+- **Authentication Vault** -- Store credentials locally (always encrypted), reference by name. The LLM never sees passwords. `auth login` navigates with `load` and then waits for login form selectors to appear (SPA-friendly, timeout follows the default action timeout). A key is auto-generated at `~/.agent-browser/.encryption-key` if `AGENT_BROWSER_ENCRYPTION_KEY` is not set: `echo "pass" | agent-browser auth save github --url https://github.com/login --username user --password-stdin` then `agent-browser auth login github`
 - **Content Boundary Markers** -- Wrap page output in delimiters so LLMs can distinguish tool output from untrusted content: `--content-boundaries`
 - **Domain Allowlist** -- Restrict navigation to trusted domains (wildcards like `*.example.com` also match the bare domain): `--allowed-domains "example.com,*.example.com"`. Sub-resource requests (scripts, images, fetch) and WebSocket/EventSource connections to non-allowed domains are also blocked. Include any CDN domains your target pages depend on (e.g., `*.cdn.example.com`).
 - **Action Policy** -- Gate destructive actions with a static policy file: `--action-policy ./policy.json`
@@ -481,7 +524,6 @@ The `snapshot` command supports filtering to reduce output size:
 ```bash
 agent-browser snapshot                    # Full accessibility tree
 agent-browser snapshot -i                 # Interactive elements only (buttons, inputs, links)
-agent-browser snapshot -i -C              # Include cursor-interactive elements (divs with onclick, etc.)
 agent-browser snapshot -c                 # Compact (remove empty structural elements)
 agent-browser snapshot -d 3               # Limit depth to 3 levels
 agent-browser snapshot -s "#main"         # Scope to CSS selector
@@ -491,12 +533,9 @@ agent-browser snapshot -i -c -d 5         # Combine options
 | Option                 | Description                                                             |
 | ---------------------- | ----------------------------------------------------------------------- |
 | `-i, --interactive`    | Only show interactive elements (buttons, links, inputs)                 |
-| `-C, --cursor`         | Include cursor-interactive elements (cursor:pointer, onclick, tabindex) |
 | `-c, --compact`        | Remove empty structural elements                                        |
 | `-d, --depth <n>`      | Limit tree depth                                                        |
 | `-s, --selector <sel>` | Scope to CSS selector                                                   |
-
-The `-C` flag is useful for modern web apps that use custom clickable elements (divs, spans) instead of standard buttons/links.
 
 ## Annotated Screenshots
 
@@ -541,7 +580,6 @@ This is useful for multimodal AI models that can reason about visual layout, unl
 | `-p, --provider <name>` | Cloud browser provider (or `AGENT_BROWSER_PROVIDER` env) |
 | `--device <name>` | iOS device name, e.g. "iPhone 15 Pro" (or `AGENT_BROWSER_IOS_DEVICE` env) |
 | `--json` | JSON output (for agents) |
-| `--full, -f` | Full page screenshot |
 | `--annotate` | Annotated screenshot with numbered element labels (or `AGENT_BROWSER_ANNOTATE` env) |
 | `--screenshot-dir <path>` | Default screenshot output directory (or `AGENT_BROWSER_SCREENSHOT_DIR` env) |
 | `--screenshot-quality <n>` | JPEG quality 0-100 (or `AGENT_BROWSER_SCREENSHOT_QUALITY` env) |
@@ -560,6 +598,32 @@ This is useful for multimodal AI models that can reason about visual layout, unl
 | `--engine <name>` | Browser engine: `chrome` (default), `lightpanda` (or `AGENT_BROWSER_ENGINE` env) |
 | `--config <path>` | Use a custom config file (or `AGENT_BROWSER_CONFIG` env) |
 | `--debug` | Debug output |
+
+## Observability Dashboard
+
+Monitor agent-browser sessions in real time with a local web dashboard showing a live viewport and command activity feed.
+
+```bash
+# Install the dashboard (one time)
+agent-browser dashboard install
+
+# Start the dashboard server (runs in background on port 4848)
+agent-browser dashboard start
+agent-browser dashboard start --port 8080   # Custom port
+
+# All sessions are automatically visible in the dashboard
+agent-browser open example.com
+
+# Stop the dashboard
+agent-browser dashboard stop
+```
+
+The dashboard runs as a standalone background process on port 4848, independent of browser sessions. It stays available even when no sessions are running. All sessions automatically stream to the dashboard.
+
+The dashboard displays:
+- **Live viewport** -- real-time JPEG frames from the browser
+- **Activity feed** -- chronological command/result stream with timing and expandable details
+- **Console output** -- browser console messages (log, warn, error)
 
 ## Configuration
 
@@ -796,15 +860,15 @@ See the [environments example](examples/environments/) for a working demo with a
 
 ```typescript
 import chromium from '@sparticuz/chromium';
-import { BrowserManager } from 'agent-browser';
+import { execSync } from 'child_process';
 
 export async function handler() {
-  const browser = new BrowserManager();
-  await browser.launch({
-    executablePath: await chromium.executablePath(),
-    headless: true,
-  });
-  // ... use browser
+  const executablePath = await chromium.executablePath();
+  const result = execSync(
+    `AGENT_BROWSER_EXECUTABLE_PATH=${executablePath} agent-browser open https://example.com && agent-browser snapshot -i --json`,
+    { encoding: 'utf-8' }
+  );
+  return JSON.parse(result);
 }
 ```
 
@@ -879,6 +943,7 @@ Auto-connect discovers Chrome by:
 
 1. Reading Chrome's `DevToolsActivePort` file from the default user data directory
 2. Falling back to probing common debugging ports (9222, 9229)
+3. If HTTP-based discovery (`/json/version`, `/json/list`) fails, falling back to a direct WebSocket connection
 
 This is useful when:
 
@@ -890,15 +955,28 @@ This is useful when:
 
 Stream the browser viewport via WebSocket for live preview or "pair browsing" where a human can watch and interact alongside an AI agent.
 
-### Enable Streaming
+### Streaming
 
-Set the `AGENT_BROWSER_STREAM_PORT` environment variable:
+Every session automatically starts a WebSocket stream server on an OS-assigned port. Use `stream status` to see the bound port and connection state:
+
+```bash
+agent-browser stream status
+```
+
+To bind to a specific port, set `AGENT_BROWSER_STREAM_PORT`:
 
 ```bash
 AGENT_BROWSER_STREAM_PORT=9223 agent-browser open example.com
 ```
 
-This starts a WebSocket server on the specified port that streams the browser viewport and accepts input events.
+You can also manage streaming at runtime with `stream enable`, `stream disable`, and `stream status`:
+
+```bash
+agent-browser stream enable --port 9223   # Re-enable on a specific port
+agent-browser stream disable              # Stop streaming for the session
+```
+
+The WebSocket server streams the browser viewport and accepts input events.
 
 ### WebSocket Protocol
 
@@ -953,51 +1031,6 @@ Connect to `ws://localhost:9223` to receive frames and send input:
   "eventType": "touchStart",
   "touchPoints": [{ "x": 100, "y": 200 }]
 }
-```
-
-### Programmatic API
-
-For advanced use, control streaming directly via the protocol:
-
-```typescript
-import { BrowserManager } from 'agent-browser';
-
-const browser = new BrowserManager();
-await browser.launch({ headless: true });
-await browser.navigate('https://example.com');
-
-// Start screencast
-await browser.startScreencast(
-  (frame) => {
-    // frame.data is base64-encoded image
-    // frame.metadata contains viewport info
-    console.log('Frame received:', frame.metadata.deviceWidth, 'x', frame.metadata.deviceHeight);
-  },
-  {
-    format: 'jpeg',
-    quality: 80,
-    maxWidth: 1280,
-    maxHeight: 720,
-  }
-);
-
-// Inject mouse events
-await browser.injectMouseEvent({
-  type: 'mousePressed',
-  x: 100,
-  y: 200,
-  button: 'left',
-});
-
-// Inject keyboard events
-await browser.injectKeyboardEvent({
-  type: 'keyDown',
-  key: 'Enter',
-  code: 'Enter',
-});
-
-// Stop when done
-await browser.stopScreencast();
 ```
 
 ## Architecture

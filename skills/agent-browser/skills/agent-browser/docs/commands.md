@@ -43,8 +43,12 @@ agent-browser screenshot --screenshot-format jpeg --screenshot-quality 80
 agent-browser pdf <path>              # Save page as PDF
 agent-browser snapshot                # Accessibility tree with refs
 agent-browser eval <js>               # Run JavaScript
-agent-browser connect <port|url>      # Connect to browser via CDP
+agent-browser connect ​​port|url​​      # Connect to browser via CDP
+agent-browser stream enable [--port <port>]  # Start runtime WebSocket streaming
+agent-browser stream status           # Show runtime streaming state and bound port
+agent-browser stream disable          # Stop runtime WebSocket streaming
 agent-browser close                   # Close browser (aliases: quit, exit)
+agent-browser close --all             # Close all active sessions
 ```
 
 
@@ -211,6 +215,12 @@ agent-browser network unroute [url]            # Remove routes
 agent-browser network requests                 # View tracked requests
 agent-browser network requests --clear         # Clear request log
 agent-browser network requests --filter <pat>  # Filter by URL pattern
+agent-browser network requests --type xhr,fetch  # Filter by resource type
+agent-browser network requests --method POST   # Filter by HTTP method
+agent-browser network requests --status 2xx    # Filter by status (200, 2xx, 400-499)
+agent-browser network request <requestId>      # View full request/response detail
+agent-browser network har start                # Start HAR recording
+agent-browser network har stop [output.har]    # Stop and save HAR (temp path if omitted)
 ```
 
 
@@ -223,10 +233,35 @@ agent-browser tab new [url]           # New tab
 agent-browser tab <n>                 # Switch to tab
 agent-browser tab close [n]           # Close tab
 agent-browser window new              # Open new browser window
-agent-browser frame <sel>             # Switch to iframe
+agent-browser frame <sel>             # Switch to iframe by CSS selector
+agent-browser frame @e3               # Switch to iframe by element ref
 agent-browser frame main              # Back to main frame
 ```
 
+
+### Iframe support
+
+Iframes are detected automatically during snapshots. `Iframe` nodes are resolved and their content is inlined beneath the iframe element in the snapshot output. Refs assigned to elements inside iframes carry frame context, so `click`, `fill`, and other interactions work without manually switching frames.
+
+
+``` shiki
+agent-browser snapshot -i
+# @e3 [Iframe] "payment-frame"
+#   @e4 [input] "Card number"
+#   @e5 [button] "Pay"
+
+# Interact directly using refs — no frame switch needed
+agent-browser fill @e4 "4111111111111111"
+agent-browser click @e5
+
+# Or switch frame context for scoped snapshots
+agent-browser frame @e3
+agent-browser snapshot -i             # Only elements inside that iframe
+agent-browser frame main              # Return to main frame
+```
+
+
+The `frame` command accepts element refs (`@e3`), CSS selectors (`"#my-iframe"`), or frame name/URL.
 
 ## Dialogs
 
@@ -234,8 +269,24 @@ agent-browser frame main              # Back to main frame
 ``` shiki
 agent-browser dialog accept [text]    # Accept dialog (with optional prompt text)
 agent-browser dialog dismiss          # Dismiss dialog
+agent-browser dialog status           # Check if a dialog is currently open
 ```
 
+
+When a JavaScript dialog (`alert`, `confirm`, `prompt`) is pending, all command responses include a `warning` field with the dialog type and message.
+
+## Streaming
+
+
+``` shiki
+agent-browser stream enable           # Start runtime WebSocket streaming on an auto-selected port
+agent-browser stream enable --port 9223  # Bind a specific localhost port
+agent-browser stream status           # Show enabled state, port, browser connection, screencasting
+agent-browser stream disable          # Stop runtime streaming and remove the .stream metadata file
+```
+
+
+Streaming is enabled automatically for all sessions. Use these commands to check status, re-enable on a specific port, or disable streaming.
 
 ## Debug
 
@@ -278,6 +329,8 @@ Save options:
 - `--username-selector <sel>` -- custom CSS selector for username field
 - `--password-selector <sel>` -- custom CSS selector for password field
 - `--submit-selector <sel>` -- custom CSS selector for submit button
+
+`auth login` navigates with `load` and then waits for the username/password/submit selectors to appear before interacting. This improves reliability on SPA login pages where fields render after initial page load.
 
 
 ``` shiki
@@ -332,6 +385,17 @@ agent-browser session list            # List active sessions
 ```
 
 
+## Dashboard
+
+
+``` shiki
+agent-browser dashboard [start]       # Start the dashboard server (default port: 4848)
+agent-browser dashboard start --port <n>  # Start on a specific port
+agent-browser dashboard stop          # Stop the dashboard server
+agent-browser dashboard install       # Install the dashboard files
+```
+
+
 ## Navigation
 
 
@@ -362,13 +426,12 @@ agent-browser reload                  # Reload page
 -p, --provider <name>    # Browser provider (ios, browserbase, kernel, browseruse, browserless)
 --device <name>          # iOS device name (e.g., "iPhone 15 Pro")
 --json                   # JSON output (for scripts)
---full, -f               # Full page screenshot
 --annotate               # Annotated screenshot with numbered element labels
 --screenshot-dir <path>   # Default screenshot output directory (or AGENT_BROWSER_SCREENSHOT_DIR)
 --screenshot-quality <n>  # JPEG quality 0-100 (or AGENT_BROWSER_SCREENSHOT_QUALITY)
 --screenshot-format <fmt> # Format: png (default), jpeg (or AGENT_BROWSER_SCREENSHOT_FORMAT)
 --headed                 # Show browser window (not headless)
---cdp <port|url>         # Connect via Chrome DevTools Protocol (port or WebSocket URL)
+--cdp ​​port|url​​         # Connect via Chrome DevTools Protocol (port or WebSocket URL)
 --auto-connect           # Auto-discover and connect to running Chrome
 --color-scheme <scheme>  # Color scheme: dark, light, no-preference
 --download-path <path>   # Default download directory
@@ -382,6 +445,29 @@ agent-browser reload                  # Reload page
 --debug                  # Debug output
 ```
 
+
+## Batch execution
+
+Execute multiple commands in a single invocation by piping a JSON array of string arrays to `batch`:
+
+
+``` shiki
+echo '[
+  ["open", "https://example.com"],
+  ["snapshot", "-i"],
+  ["click", "@e1"],
+  ["screenshot", "result.png"]
+]' | agent-browser batch --json
+
+# Stop on first error
+agent-browser batch --bail < commands.json
+```
+
+
+| Option   | Description                                          |
+|----------|------------------------------------------------------|
+| `--bail` | Stop on first error (default: continue all commands) |
+| `--json` | Output results as a JSON array                       |
 
 ## Command chaining
 
@@ -412,4 +498,4 @@ agent-browser screenshot output.png
 The `--allow-file-access` flag enables JavaScript to access other local files. Chromium only.
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>

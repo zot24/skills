@@ -14,7 +14,7 @@
 Search...
 
 
-Model concepts
+Concepts and configuration
 
 
 Models CLI
@@ -29,10 +29,10 @@ Models CLI
 <a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Channels</a>
 
 
-<a href="/pi" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
+<a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
 
 
-<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools</a>
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools &amp; Plugins</a>
 
 
 <a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Models</a>
@@ -54,61 +54,56 @@ Models CLI
 
 
 - <span id="/providers"><a href="/providers" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Model Providers
+  <span class="min-w-0 max-w-full break-words">Provider Directory</span>
 
   </div>
 
   </div>
 - <span id="/providers/models"><a href="/providers/models" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Model Provider Quickstart
-
-  </div>
+  <span class="min-w-0 max-w-full break-words">Model Provider Quickstart</span>
 
   </div>
 
+  </div>
 
-##### Model concepts
+
+##### Concepts and configuration
 
 
 - <span id="/concepts/models"><a href="/concepts/models" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Models CLI
-
-  </div>
+  <span class="min-w-0 max-w-full break-words">Models CLI</span>
 
   </div>
 
-
-##### Configuration
-
-
+  </div>
 - <span id="/concepts/model-providers"><a href="/concepts/model-providers" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Model Providers
+  <span class="min-w-0 max-w-full break-words">Model Providers</span>
 
   </div>
 
   </div>
 - <span id="/concepts/model-failover"><a href="/concepts/model-failover" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Model Failover
+  <span class="min-w-0 max-w-full break-words">Model Failover</span>
 
   </div>
 
@@ -119,281 +114,361 @@ Models CLI
 
 
 - <span id="/providers/anthropic"><a href="/providers/anthropic" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Anthropic
+  <span class="min-w-0 max-w-full break-words">Anthropic</span>
 
   </div>
 
   </div>
 - <span id="/providers/bedrock"><a href="/providers/bedrock" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Amazon Bedrock
-
-  </div>
-
-  </div>
-- <span id="/providers/cloudflare-ai-gateway"><a href="/providers/cloudflare-ai-gateway" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Cloudflare AI Gateway
+  <span class="min-w-0 max-w-full break-words">Amazon Bedrock</span>
 
   </div>
 
   </div>
 - <span id="/providers/claude-max-api-proxy"><a href="/providers/claude-max-api-proxy" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Claude Max API Proxy
+  <span class="min-w-0 max-w-full break-words">Claude Max API Proxy</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/cloudflare-ai-gateway"><a href="/providers/cloudflare-ai-gateway" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Cloudflare AI Gateway</span>
 
   </div>
 
   </div>
 - <span id="/providers/deepgram"><a href="/providers/deepgram" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Deepgram
+  <span class="min-w-0 max-w-full break-words">Deepgram</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/deepseek"><a href="/providers/deepseek" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Deepseek</span>
 
   </div>
 
   </div>
 - <span id="/providers/github-copilot"><a href="/providers/github-copilot" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  GitHub Copilot
-
-  </div>
-
-  </div>
-- <span id="/providers/huggingface"><a href="/providers/huggingface" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Hugging Face (Inference)
-
-  </div>
-
-  </div>
-- <span id="/providers/kilocode"><a href="/providers/kilocode" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Kilocode
-
-  </div>
-
-  </div>
-- <span id="/providers/litellm"><a href="/providers/litellm" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Litellm
+  <span class="min-w-0 max-w-full break-words">GitHub Copilot</span>
 
   </div>
 
   </div>
 - <span id="/providers/glm"><a href="/providers/glm" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  GLM Models
+  <span class="min-w-0 max-w-full break-words">GLM Models</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/google"><a href="/providers/google" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Google (Gemini)</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/groq"><a href="/providers/groq" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Groq</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/huggingface"><a href="/providers/huggingface" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Hugging Face (Inference)</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/kilocode"><a href="/providers/kilocode" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Kilo Gateway</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/litellm"><a href="/providers/litellm" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">LiteLLM</span>
 
   </div>
 
   </div>
 - <span id="/providers/minimax"><a href="/providers/minimax" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  MiniMax
-
-  </div>
-
-  </div>
-- <span id="/providers/moonshot"><a href="/providers/moonshot" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Moonshot AI
+  <span class="min-w-0 max-w-full break-words">MiniMax</span>
 
   </div>
 
   </div>
 - <span id="/providers/mistral"><a href="/providers/mistral" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Mistral
+  <span class="min-w-0 max-w-full break-words">Mistral</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/moonshot"><a href="/providers/moonshot" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Moonshot AI</span>
 
   </div>
 
   </div>
 - <span id="/providers/nvidia"><a href="/providers/nvidia" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  NVIDIA
+  <span class="min-w-0 max-w-full break-words">NVIDIA</span>
 
   </div>
 
   </div>
 - <span id="/providers/ollama"><a href="/providers/ollama" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Ollama
+  <span class="min-w-0 max-w-full break-words">Ollama</span>
 
   </div>
 
   </div>
 - <span id="/providers/openai"><a href="/providers/openai" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  OpenAI
-
-  </div>
-
-  </div>
-- <span id="/providers/opencode-go"><a href="/providers/opencode-go" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  OpenCode Go
+  <span class="min-w-0 max-w-full break-words">OpenAI</span>
 
   </div>
 
   </div>
 - <span id="/providers/opencode"><a href="/providers/opencode" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  OpenCode
+  <span class="min-w-0 max-w-full break-words">OpenCode</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/opencode-go"><a href="/providers/opencode-go" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">OpenCode Go</span>
 
   </div>
 
   </div>
 - <span id="/providers/openrouter"><a href="/providers/openrouter" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  OpenRouter
+  <span class="min-w-0 max-w-full break-words">OpenRouter</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/perplexity-provider"><a href="/providers/perplexity-provider" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Perplexity (Provider)</span>
 
   </div>
 
   </div>
 - <span id="/providers/qianfan"><a href="/providers/qianfan" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Qianfan
+  <span class="min-w-0 max-w-full break-words">Qianfan</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/qwen_modelstudio"><a href="/providers/qwen_modelstudio" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Qwen / Model Studio</span>
 
   </div>
 
   </div>
 - <span id="/providers/qwen"><a href="/providers/qwen" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Qwen
+  <span class="min-w-0 max-w-full break-words">Qwen</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/sglang"><a href="/providers/sglang" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">SGLang</span>
 
   </div>
 
   </div>
 - <span id="/providers/synthetic"><a href="/providers/synthetic" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Synthetic
-
-  </div>
-
-  </div>
-- <span id="/providers/together"><a href="/providers/together" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Together
+  <span class="min-w-0 max-w-full break-words">Synthetic</span>
 
   </div>
 
   </div>
-- <span id="/providers/vercel-ai-gateway"><a href="/providers/vercel-ai-gateway" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+- <span id="/providers/together"><a href="/providers/together" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Vercel AI Gateway
+  <span class="min-w-0 max-w-full break-words">Together AI</span>
 
   </div>
 
   </div>
 - <span id="/providers/venice"><a href="/providers/venice" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Venice AI
+  <span class="min-w-0 max-w-full break-words">Venice AI</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/vercel-ai-gateway"><a href="/providers/vercel-ai-gateway" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Vercel AI Gateway</span>
 
   </div>
 
   </div>
 - <span id="/providers/vllm"><a href="/providers/vllm" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  vLLM
+  <span class="min-w-0 max-w-full break-words">vLLM</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/volcengine"><a href="/providers/volcengine" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Volcengine (Doubao)</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/xai"><a href="/providers/xai" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">xAI</span>
 
   </div>
 
   </div>
 - <span id="/providers/xiaomi"><a href="/providers/xiaomi" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Xiaomi MiMo
+  <span class="min-w-0 max-w-full break-words">Xiaomi MiMo</span>
 
   </div>
 
   </div>
 - <span id="/providers/zai"><a href="/providers/zai" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Z.AI
+  <span class="min-w-0 max-w-full break-words">Z.AI</span>
 
   </div>
 
@@ -406,9 +481,9 @@ On this page
 - <a href="#models-cli" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Models CLI</a>
 - <a href="#how-model-selection-works" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">How model selection works</a>
 - <a href="#quick-model-policy" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick model policy</a>
-- <a href="#setup-wizard-recommended" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Setup wizard (recommended)</a>
+- <a href="#onboarding-recommended" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Onboarding (recommended)</a>
 - <a href="#config-keys-overview" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Config keys (overview)</a>
-- <a href="#%E2%80%9Cmodel-is-not-allowed%E2%80%9D-and-why-replies-stop" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">“Model is not allowed” (and why replies stop)</a>
+- <a href="#%E2%80%9Dmodel-is-not-allowed%E2%80%9D-and-why-replies-stop" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">”Model is not allowed” (and why replies stop)</a>
 - <a href="#switching-models-in-chat-%2Fmodel" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Switching models in chat (/model)</a>
 - <a href="#cli-commands" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">CLI commands</a>
 - <a href="#models-list" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">models list</a>
@@ -417,7 +492,7 @@ On this page
 - <a href="#models-registry-models-json" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Models registry (models.json)</a>
 
 
-Model concepts
+Concepts and configuration
 
 
 # Models CLI
@@ -442,6 +517,7 @@ Model concepts
 
 - `agents.defaults.models` is the allowlist/catalog of models OpenClaw can use (plus aliases).
 - `agents.defaults.imageModel` is used **only when** the primary model can’t accept images.
+- `agents.defaults.imageGenerationModel` is used by the shared image-generation capability. If omitted, `image_generate` can still infer a provider default from compatible auth-backed image-generation plugins. If you set a specific provider/model, also configure that provider’s auth/API key.
 - Per-agent defaults can override `agents.defaults.model` via `agents.list[].model` plus bindings (see <a href="/concepts/multi-agent" class="link">/concepts/multi-agent</a>).
 
 ## 
@@ -457,10 +533,7 @@ Model concepts
 ## 
 
 
-<a href="#setup-wizard-recommended" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
+<a href="#onboarding-recommended" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 ``` shiki
@@ -476,6 +549,7 @@ openclaw onboard
 
 - `agents.defaults.model.primary` and `agents.defaults.model.fallbacks`
 - `agents.defaults.imageModel.primary` and `agents.defaults.imageModel.fallbacks`
+- `agents.defaults.imageGenerationModel.primary` and `agents.defaults.imageGenerationModel.fallbacks`
 - `agents.defaults.models` (allowlist + aliases + provider params)
 - `models.providers` (custom providers written into `models.json`)
 
@@ -483,10 +557,7 @@ openclaw onboard
 ## 
 
 
-<a href="#“model-is-not-allowed”-and-why-replies-stop" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
+<a href="#”model-is-not-allowed”-and-why-replies-stop" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 ``` shiki
@@ -499,15 +570,12 @@ Model "provider/model" is not allowed. Use /model to list available models.
 - Pick a model from `/model list`.
 
 
-Copy
-
-
 ``` shiki
 {
   agent: {
-    model: { primary: "anthropic/claude-sonnet-4-5" },
+    model: { primary: "anthropic/claude-sonnet-4-6" },
     models: {
-      "anthropic/claude-sonnet-4-5": { alias: "Sonnet" },
+      "anthropic/claude-sonnet-4-6": { alias: "Sonnet" },
       "anthropic/claude-opus-4-6": { alias: "Opus" },
     },
   },
@@ -519,9 +587,6 @@ Copy
 
 
 <a href="#switching-models-in-chat-/model" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -546,9 +611,6 @@ Copy
 
 
 <a href="#cli-commands" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -589,9 +651,6 @@ openclaw models image-fallbacks clear
 
 
 <a href="#models-status" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki

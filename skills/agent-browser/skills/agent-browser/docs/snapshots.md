@@ -23,7 +23,6 @@ Filter output to reduce size:
 ``` shiki
 agent-browser snapshot                    # Full accessibility tree
 agent-browser snapshot -i                 # Interactive elements only (recommended)
-agent-browser snapshot -i -C              # Include cursor-interactive elements
 agent-browser snapshot -c                 # Compact (remove empty elements)
 agent-browser snapshot -d 3               # Limit depth to 3 levels
 agent-browser snapshot -s "#main"         # Scope to CSS selector
@@ -31,33 +30,12 @@ agent-browser snapshot -i -c -d 5         # Combine options
 ```
 
 
-| Option              | Description                                                             |
-|---------------------|-------------------------------------------------------------------------|
-| `-i, --interactive` | Only interactive elements (buttons, links, inputs)                      |
-| `-C, --cursor`      | Include cursor-interactive elements (cursor:pointer, onclick, tabindex) |
-| `-c, --compact`     | Remove empty structural elements                                        |
-| `-d, --depth`       | Limit tree depth                                                        |
-| `-s, --selector`    | Scope to CSS selector                                                   |
-
-## Cursor-interactive elements
-
-Many modern web apps use custom clickable elements (divs, spans) instead of standard buttons or links. The `-C` flag detects these by looking for:
-
-- `cursor: pointer` CSS style
-- `onclick` attribute or handler
-- `tabindex` attribute (keyboard focusable)
-
-
-``` shiki
-agent-browser snapshot -i -C
-# Output includes:
-# @e1 [button] "Submit"
-# @e2 [link] "Learn more"
-# Cursor-interactive elements:
-# @e3 [clickable] "Menu Item" [cursor:pointer, onclick]
-# @e4 [clickable] "Card" [cursor:pointer]
-```
-
+| Option              | Description                                        |
+|---------------------|----------------------------------------------------|
+| `-i, --interactive` | Only interactive elements (buttons, links, inputs) |
+| `-c, --compact`     | Remove empty structural elements                   |
+| `-d, --depth`       | Limit tree depth                                   |
+| `-s, --selector`    | Scope to CSS selector                              |
 
 ## Output format
 
@@ -117,6 +95,35 @@ agent-browser click @e2
 
 Annotated screenshots also cache refs, so you can interact with elements immediately. This is useful when the text snapshot is insufficient -- unlabeled icons, canvas content, or visual layout verification.
 
+## Iframes
+
+Snapshots automatically detect and inline iframe content. Each `Iframe` node in the main frame is resolved and its child accessibility tree is included directly beneath it. Refs assigned to elements inside iframes carry frame context, so interactions work without switching frames first.
+
+
+``` shiki
+agent-browser snapshot -i
+# @e1 [heading] "Checkout"
+# @e2 [Iframe] "payment-frame"
+#   @e3 [input] "Card number"
+#   @e4 [button] "Pay"
+
+agent-browser fill @e3 "4111111111111111"
+agent-browser click @e4
+```
+
+
+Only one level of iframe nesting is expanded. Cross-origin iframes that block accessibility tree access and empty iframes are silently omitted.
+
+To scope a snapshot to a single iframe, switch into it first:
+
+
+``` shiki
+agent-browser frame @e2
+agent-browser snapshot -i       # Only elements inside that iframe
+agent-browser frame main        # Return to main frame
+```
+
+
 ## Best practices
 
 1.  Use `-i` to reduce output to actionable elements
@@ -139,4 +146,4 @@ agent-browser snapshot --json
 Note: JSON uses more tokens than text output. The default text format is preferred for AI agents.
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>

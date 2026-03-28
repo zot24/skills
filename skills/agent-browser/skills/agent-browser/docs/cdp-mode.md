@@ -68,6 +68,7 @@ Auto-connect discovers Chrome by:
 
 1.  Reading Chrome's `DevToolsActivePort` file from the default user data directory
 2.  Falling back to probing common debugging ports (9222, 9229)
+3.  If HTTP-based discovery (`/json/version`, `/json/list`) fails, falling back to a direct WebSocket connection
 
 This is useful when:
 
@@ -118,7 +119,6 @@ This enables control of:
 | `--proxy <url>`           | Proxy server URL                                                              |
 | `--proxy-bypass <hosts>`  | Hosts to bypass proxy                                                         |
 | `--json`                  | JSON output for scripts                                                       |
-| `--full, -f`              | Full page screenshot                                                          |
 | `--name, -n`              | Locator name filter                                                           |
 | `--exact`                 | Exact text match                                                              |
 | `--headed`                | Show browser window                                                           |
@@ -129,33 +129,15 @@ This enables control of:
 
 ## Cloud providers
 
-Use cloud browser infrastructure when local browsers aren't available:
+Use the `-p` flag to connect to a cloud browser provider instead of launching a local browser:
 
 
 ``` shiki
-# Browserbase
-export BROWSERBASE_API_KEY="your-api-key"
 agent-browser -p browserbase open https://example.com
-
-# Browser Use
-export BROWSER_USE_API_KEY="your-api-key"
-agent-browser -p browseruse open https://example.com
-
-# Kernel
-export KERNEL_API_KEY="your-api-key"
-agent-browser -p kernel open https://example.com
-
-# Browserless
-export BROWSERLESS_API_KEY="your-api-key"
-agent-browser -p browserless open https://example.com
-
-# Or via environment variable
-export AGENT_BROWSER_PROVIDER=browserbase
-agent-browser open https://example.com
 ```
 
 
-The `-p` flag takes precedence over `AGENT_BROWSER_PROVIDER`.
+See the [Providers](/providers/browser-use) section for setup and configuration of each supported provider: [Browser Use](/providers/browser-use), [Browserbase](/providers/browserbase), [Browserless](/providers/browserless), and [Kernel](/providers/kernel).
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>
