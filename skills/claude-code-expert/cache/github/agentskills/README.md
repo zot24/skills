@@ -1,6 +1,6 @@
 ---
 source_url: https://raw.githubusercontent.com/agentskills/agentskills/main/README.md
-cached_at: 2026-01-18T22:00:32Z
+cached_at: 2026-03-28T23:52:59Z
 skill: claude-awareness-skill
 ---
 
@@ -12,12 +12,17 @@ Skills are folders of instructions, scripts, and resources that agents can disco
 
 ## Getting Started
 
-- [Documentation](https://agentskills.io) - Guides and tutorials
-- [Specification](https://agentskills.io/specification) - Format details
-- [Example Skills](https://github.com/anthropics/skills) - See what's possible
+- **[Documentation](https://agentskills.io)** — Guides and tutorials
+- **[Specification](https://agentskills.io/specification)** — Format details
+- **[Example Skills](https://github.com/anthropics/skills)** — See what's possible
+- **[Discord](https://discord.gg/MKPE9g8aUy)** — Join the discussion!
 
 This repo contains the specification, documentation, and reference SDK. Also see a list of example skills [here](https://github.com/anthropics/skills).
 
 ## About
 
 Agent Skills is an open format maintained by [Anthropic](https://anthropic.com) and open to contributions from the community.
+
+## License
+
+Code in this repository is licensed under [Apache 2.0](LICENSE). Documentation is licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/). See individual directories for details.

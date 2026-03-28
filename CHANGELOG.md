@@ -5,6 +5,18 @@ All notable documentation sync changes to this project.
 
 ## [2026-03-28] Documentation Sync
 
+**Updated skills:** claude-code-expert
+
+
+### claude-code-expert
+
+
+---
+
+
+
+## [2026-03-28] Documentation Sync
+
 **Updated skills:** openclaw agent-browser chat-sdk ai-sdk agent-skills hermes-self-knowledge
 
 
