@@ -5,7 +5,7 @@
   "sources": [
     {
       "url": "https://hermes-agent.nousresearch.com/docs",
-      "target": "skills/hermes-self-knowledge/docs/hermes-docs.md",
+      "target": "skills/hermes/docs/hermes-docs.md",
       "type": "extract-content",
       "freshness_days": 7
     }
