@@ -14,7 +14,7 @@
 Search...
 
 
-Media and devices
+Nodes and devices
 
 
 Nodes
@@ -29,10 +29,10 @@ Nodes
 <a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Channels</a>
 
 
-<a href="/pi" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
+<a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
 
 
-<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Tools</a>
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools &amp; Plugins</a>
 
 
 <a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Models</a>
@@ -41,7 +41,7 @@ Nodes
 <a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
 
 
-<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Gateway &amp; Ops</a>
+<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Gateway &amp; Ops</a>
 
 
 <a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Reference</a>
@@ -50,590 +50,269 @@ Nodes
 <a href="/help" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Help</a>
 
 
-##### Overview
+##### Gateway
 
 
-- <span id="/tools"><a href="/tools" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+- <span id="/gateway"><a href="/gateway" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Tools
+  <span class="min-w-0 max-w-full break-words">Gateway Runbook</span>
 
   </div>
 
   </div>
 
+- <div>
 
-##### Built-in tools
+  Configuration and operations
 
-
-- <span id="/tools/apply-patch"><a href="/tools/apply-patch" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  apply_patch Tool
-
-  </div>
-
-  </div>
-- <span id="/brave-search"><a href="/brave-search" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Brave Search
-
-  </div>
-
-  </div>
-- <span id="/perplexity"><a href="/perplexity" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Perplexity Search
-
-  </div>
-
-  </div>
-- <span id="/tools/diffs"><a href="/tools/diffs" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Diffs
-
-  </div>
-
-  </div>
-- <span id="/tools/pdf"><a href="/tools/pdf" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  PDF Tool
-
-  </div>
-
-  </div>
-- <span id="/tools/elevated"><a href="/tools/elevated" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Elevated Mode
-
-  </div>
-
-  </div>
-- <span id="/tools/exec"><a href="/tools/exec" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Exec Tool
-
-  </div>
-
-  </div>
-- <span id="/tools/exec-approvals"><a href="/tools/exec-approvals" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Exec Approvals
-
-  </div>
-
-  </div>
-- <span id="/tools/firecrawl"><a href="/tools/firecrawl" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Firecrawl
-
-  </div>
-
-  </div>
-- <span id="/tools/llm-task"><a href="/tools/llm-task" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  LLM Task
-
-  </div>
-
-  </div>
-- <span id="/tools/lobster"><a href="/tools/lobster" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Lobster
-
-  </div>
-
-  </div>
-- <span id="/tools/loop-detection"><a href="/tools/loop-detection" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Tool-loop detection
-
-  </div>
-
-  </div>
-- <span id="/tools/reactions"><a href="/tools/reactions" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Reactions
-
-  </div>
-
-  </div>
-- <span id="/tools/thinking"><a href="/tools/thinking" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Thinking Levels
-
-  </div>
-
-  </div>
-- <span id="/tools/web"><a href="/tools/web" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Web Tools
-
-  </div>
-
-  </div>
-- <span id="/tools/btw"><a href="/tools/btw" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  BTW Side Questions
-
-  </div>
-
-  </div>
-
-
-##### Browser
-
-
-- <span id="/tools/browser"><a href="/tools/browser" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Browser (OpenClaw-managed)
-
-  </div>
-
-  </div>
-- <span id="/tools/browser-login"><a href="/tools/browser-login" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Browser Login
-
-  </div>
-
-  </div>
-- <span id="/tools/chrome-extension"><a href="/tools/chrome-extension" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Chrome Extension
-
-  </div>
-
-  </div>
-- <span id="/tools/browser-linux-troubleshooting"><a href="/tools/browser-linux-troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Browser Troubleshooting
-
-  </div>
-
-  </div>
-
-
-##### Agent coordination
-
-
-- <span id="/tools/agent-send"><a href="/tools/agent-send" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Agent Send
-
-  </div>
-
-  </div>
-- <span id="/tools/subagents"><a href="/tools/subagents" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Sub-Agents
-
-  </div>
-
-  </div>
-- <span id="/tools/acp-agents"><a href="/tools/acp-agents" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  ACP Agents
-
-  </div>
-
-  </div>
-- <span id="/tools/multi-agent-sandbox-tools"><a href="/tools/multi-agent-sandbox-tools" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Multi-Agent Sandbox & Tools
-
-  </div>
-
-  </div>
-
-
-##### Skills
-
-
-- <span id="/tools/creating-skills"><a href="/tools/creating-skills" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Creating Skills
-
-  </div>
-
-  </div>
-- <span id="/tools/slash-commands"><a href="/tools/slash-commands" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Slash Commands
-
-  </div>
-
-  </div>
-- <span id="/tools/skills"><a href="/tools/skills" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Skills
-
-  </div>
-
-  </div>
-- <span id="/tools/skills-config"><a href="/tools/skills-config" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Skills Config
-
-  </div>
-
-  </div>
-- <span id="/tools/clawhub"><a href="/tools/clawhub" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  ClawHub
-
-  </div>
-
-  </div>
-- <span id="/tools/plugin"><a href="/tools/plugin" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Plugins
-
-  </div>
-
-  </div>
-
-
-##### Extensions
-
-
-- <span id="/plugins/community"><a href="/plugins/community" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Community plugins
-
-  </div>
-
-  </div>
-- <span id="/plugins/voice-call"><a href="/plugins/voice-call" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Voice Call Plugin
-
-  </div>
-
-  </div>
-- <span id="/plugins/zalouser"><a href="/plugins/zalouser" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  Zalo Personal Plugin
-
-  </div>
-
   </div>
-- <span id="/plugins/manifest"><a href="/plugins/manifest" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+- <div>
 
-  Plugin Manifest
-
-  </div>
+  Security and sandboxing
 
   </div>
-- <span id="/plugins/agent-tools"><a href="/plugins/agent-tools" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+- <div>
 
-  Plugin Agent Tools
+  Protocols and APIs
 
   </div>
 
-  </div>
-- <span id="/prose"><a href="/prose" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
+- <div>
 
-  OpenProse
-
-  </div>
+  Networking and discovery
 
   </div>
 
 
-##### Automation
+##### Remote access
 
 
-- <span id="/automation/hooks"><a href="/automation/hooks" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+- <span id="/gateway/remote"><a href="/gateway/remote" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Hooks
+  <span class="min-w-0 max-w-full break-words">Remote Access</span>
 
   </div>
 
   </div>
-- <span id="/automation/cron-jobs"><a href="/automation/cron-jobs" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+- <span id="/gateway/remote-gateway-readme"><a href="/gateway/remote-gateway-readme" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Cron Jobs
+  <span class="min-w-0 max-w-full break-words">Remote Gateway Setup</span>
 
   </div>
 
   </div>
-- <span id="/automation/cron-vs-heartbeat"><a href="/automation/cron-vs-heartbeat" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+- <span id="/gateway/tailscale"><a href="/gateway/tailscale" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Cron vs Heartbeat
+  <span class="min-w-0 max-w-full break-words">Tailscale</span>
 
   </div>
 
   </div>
-- <span id="/automation/troubleshooting"><a href="/automation/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
 
-  Automation Troubleshooting
+##### Security
 
-  </div>
-
-  </div>
-- <span id="/automation/webhook"><a href="/automation/webhook" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
 
-  Webhooks
-
-  </div>
-
-  </div>
-- <span id="/automation/gmail-pubsub"><a href="/automation/gmail-pubsub" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+- <span id="/security/formal-verification"><a href="/security/formal-verification" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Gmail PubSub
+  <span class="min-w-0 max-w-full break-words">Formal Verification (Security Models)</span>
 
   </div>
 
   </div>
-- <span id="/automation/poll"><a href="/automation/poll" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+- <span id="/security/THREAT-MODEL-ATLAS"><a href="/security/THREAT-MODEL-ATLAS" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Polls
+  <span class="min-w-0 max-w-full break-words">Threat Model (MITRE ATLAS)</span>
 
   </div>
 
   </div>
-- <span id="/automation/auth-monitoring"><a href="/automation/auth-monitoring" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+- <span id="/security/CONTRIBUTING-THREAT-MODEL"><a href="/security/CONTRIBUTING-THREAT-MODEL" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Auth Monitoring
+  <span class="min-w-0 max-w-full break-words">Contributing to the Threat Model</span>
 
   </div>
 
   </div>
 
 
-##### Media and devices
+##### Nodes and devices
 
 
 - <span id="/nodes"><a href="/nodes" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Nodes
+  <span class="min-w-0 max-w-full break-words">Nodes</span>
 
   </div>
 
   </div>
 - <span id="/nodes/troubleshooting"><a href="/nodes/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Node Troubleshooting
+  <span class="min-w-0 max-w-full break-words">Node Troubleshooting</span>
 
   </div>
 
   </div>
 - <span id="/nodes/media-understanding"><a href="/nodes/media-understanding" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Media Understanding
+  <span class="min-w-0 max-w-full break-words">Media Understanding</span>
 
   </div>
 
   </div>
 - <span id="/nodes/images"><a href="/nodes/images" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Image and Media Support
+  <span class="min-w-0 max-w-full break-words">Image and Media Support</span>
 
   </div>
 
   </div>
 - <span id="/nodes/audio"><a href="/nodes/audio" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Audio and Voice Notes
+  <span class="min-w-0 max-w-full break-words">Audio and Voice Notes</span>
 
   </div>
 
   </div>
 - <span id="/nodes/camera"><a href="/nodes/camera" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Camera Capture
+  <span class="min-w-0 max-w-full break-words">Camera Capture</span>
 
   </div>
 
   </div>
 - <span id="/nodes/talk"><a href="/nodes/talk" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Talk Mode
+  <span class="min-w-0 max-w-full break-words">Talk Mode</span>
 
   </div>
 
   </div>
 - <span id="/nodes/voicewake"><a href="/nodes/voicewake" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Voice Wake
+  <span class="min-w-0 max-w-full break-words">Voice Wake</span>
 
   </div>
 
   </div>
 - <span id="/nodes/location-command"><a href="/nodes/location-command" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Location Command
+  <span class="min-w-0 max-w-full break-words">Location Command</span>
+
+  </div>
+
+  </div>
+- <span id="/tools/tts"><a href="/tools/tts" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Text-to-Speech</span>
 
   </div>
 
   </div>
-- <span id="/tts"><a href="/tts" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
 
-  Text-to-Speech
+##### Web interfaces
+
+
+- <span id="/web"><a href="/web" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Web</span>
+
+  </div>
+
+  </div>
+- <span id="/web/control-ui"><a href="/web/control-ui" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Control UI</span>
+
+  </div>
+
+  </div>
+- <span id="/web/dashboard"><a href="/web/dashboard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Dashboard</span>
+
+  </div>
+
+  </div>
+- <span id="/web/webchat"><a href="/web/webchat" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">WebChat</span>
+
+  </div>
+
+  </div>
+- <span id="/web/tui"><a href="/web/tui" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">TUI</span>
 
   </div>
 
@@ -669,7 +348,7 @@ On this page
 - <a href="#mac-node-mode" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Mac node mode</a>
 
 
-Media and devices
+Nodes and devices
 
 
 # Nodes
@@ -689,9 +368,6 @@ Media and devices
 
 
 <a href="#pairing-+-status" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -733,9 +409,6 @@ openclaw nodes describe --node <idOrNameOrIp>
 <a href="#start-a-node-host-foreground" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Copy
-
-
 ``` shiki
 openclaw node run --host <gateway-host> --port 18789 --display-name "Build Node"
 ```
@@ -745,9 +418,6 @@ openclaw node run --host <gateway-host> --port 18789 --display-name "Build Node"
 
 
 <a href="#remote-gateway-via-ssh-tunnel-loopback-bind" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -766,15 +436,12 @@ openclaw node run --host 127.0.0.1 --port 18790 --display-name "Build Node"
 - In local mode, node host intentionally ignores `gateway.remote.token` / `gateway.remote.password`.
 - In remote mode, `gateway.remote.token` / `gateway.remote.password` are eligible per remote precedence rules.
 - If active local `gateway.auth.*` SecretRefs are configured but unresolved, node-host auth fails closed.
-- Legacy `CLAWDBOT_GATEWAY_*` env vars are intentionally ignored by node-host auth resolution.
+- Node-host auth resolution only honors `OPENCLAW_GATEWAY_*` env vars.
 
 ### 
 
 
 <a href="#start-a-node-host-service" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -787,9 +454,6 @@ openclaw node restart
 
 
 <a href="#pair-+-name" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -808,9 +472,6 @@ openclaw nodes status
 <a href="#allowlist-the-commands" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Copy
-
-
 ``` shiki
 openclaw approvals allowlist add --node <id|name|ip> "/usr/bin/uname"
 openclaw approvals allowlist add --node <id|name|ip> "/usr/bin/sw_vers"
@@ -823,17 +484,11 @@ openclaw approvals allowlist add --node <id|name|ip> "/usr/bin/sw_vers"
 <a href="#point-exec-at-the-node" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Copy
-
-
 ``` shiki
 openclaw config set tools.exec.host node
 openclaw config set tools.exec.security allowlist
 openclaw config set tools.exec.node "<id-or-name>"
 ```
-
-
-Copy
 
 
 ``` shiki
@@ -851,9 +506,6 @@ Copy
 <a href="#invoking-commands" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Copy
-
-
 ``` shiki
 openclaw nodes invoke --node <idOrNameOrIp> --command canvas.eval --params '{"javaScript":"location.href"}'
 ```
@@ -863,9 +515,6 @@ openclaw nodes invoke --node <idOrNameOrIp> --command canvas.eval --params '{"ja
 
 
 <a href="#screenshots-canvas-snapshots" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -878,9 +527,6 @@ openclaw nodes canvas snapshot --node <idOrNameOrIp> --format jpg --max-width 12
 
 
 <a href="#canvas-controls" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -900,9 +546,6 @@ openclaw nodes canvas eval --node <idOrNameOrIp> --js "document.title"
 <a href="#a2ui-canvas" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Copy
-
-
 ``` shiki
 openclaw nodes canvas a2ui push --node <idOrNameOrIp> --text "Hello"
 openclaw nodes canvas a2ui push --node <idOrNameOrIp> --jsonl ./payload.jsonl
@@ -918,17 +561,11 @@ openclaw nodes canvas a2ui reset --node <idOrNameOrIp>
 <a href="#photos-+-videos-node-camera" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Copy
-
-
 ``` shiki
 openclaw nodes camera list --node <idOrNameOrIp>
 openclaw nodes camera snap --node <idOrNameOrIp>            # default: both facings (2 MEDIA lines)
 openclaw nodes camera snap --node <idOrNameOrIp> --facing front
 ```
-
-
-Copy
 
 
 ``` shiki
@@ -945,9 +582,6 @@ openclaw nodes camera clip --node <idOrNameOrIp> --duration 3000 --no-audio
 
 
 <a href="#screen-recordings-nodes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -967,9 +601,6 @@ openclaw nodes screen record --node <idOrNameOrIp> --duration 10s --fps 10 --no-
 <a href="#location-nodes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Copy
-
-
 ``` shiki
 openclaw nodes location get --node <idOrNameOrIp>
 openclaw nodes location get --node <idOrNameOrIp> --accuracy precise --max-age 15000 --location-timeout 10000
@@ -984,9 +615,6 @@ openclaw nodes location get --node <idOrNameOrIp> --accuracy precise --max-age 1
 
 
 <a href="#sms-android-nodes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -1008,10 +636,9 @@ openclaw nodes invoke --node <idOrNameOrIp> --command sms.send --params '{"to":"
 - `photos.latest`
 - `contacts.search`, `contacts.add`
 - `calendar.events`, `calendar.add`
+- `callLog.search`
+- `sms.search`
 - `motion.activity`, `motion.pedometer`
-
-
-Copy
 
 
 ``` shiki
@@ -1027,9 +654,6 @@ openclaw nodes invoke --node <idOrNameOrIp> --command photos.latest --params '{"
 
 
 <a href="#system-commands-node-host-/-mac-node" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -1056,24 +680,15 @@ openclaw nodes notify --node <idOrNameOrIp> --title "Ping" --body "Gateway ready
 <a href="#exec-node-binding" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Copy
-
-
 ``` shiki
 openclaw config set tools.exec.node "node-id-or-name"
 ```
-
-
-Copy
 
 
 ``` shiki
 openclaw config get agents.list
 openclaw config set agents.list[0].tools.exec.node "node-id-or-name"
 ```
-
-
-Copy
 
 
 ``` shiki
@@ -1092,9 +707,6 @@ openclaw config unset agents.list[0].tools.exec.node
 
 
 <a href="#headless-node-host-cross-platform" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -1118,6 +730,6 @@ openclaw node run --host <gateway-host> --port 18789
 - In remote mode, the app opens an SSH tunnel for the Gateway port and connects to `localhost`.
 
 
-<a href="/automation/auth-monitoring" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Auth Monitoring</span></a><a href="/nodes/troubleshooting" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Node Troubleshooting</span></a>
+<a href="/security/CONTRIBUTING-THREAT-MODEL" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Contributing to the Threat Model</span></a><a href="/nodes/troubleshooting" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Node Troubleshooting</span></a>
 
 

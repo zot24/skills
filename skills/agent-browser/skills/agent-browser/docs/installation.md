@@ -92,6 +92,18 @@ agent-browser install --with-deps
 ```
 
 
+## Updating
+
+Upgrade to the latest version:
+
+
+``` shiki
+agent-browser upgrade
+```
+
+
+Detects your installation method (npm, Homebrew, or Cargo) and runs the appropriate update command automatically. Displays the version change on success, or informs you if you are already on the latest version.
+
 ## Custom browser
 
 Use a custom browser executable instead of bundled Chromium:
@@ -150,4 +162,4 @@ Core workflow:
 ```
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>

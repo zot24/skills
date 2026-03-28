@@ -29,10 +29,10 @@ Getting Started
 <a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Channels</a>
 
 
-<a href="/pi" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
+<a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
 
 
-<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools</a>
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools &amp; Plugins</a>
 
 
 <a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Models</a>
@@ -50,45 +50,35 @@ Getting Started
 <a href="/help" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Help</a>
 
 
-##### Home
-
-
-- <span id="/"><a href="/" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
-
-  <div class="break-words [word-break:break-word]">
-
-  OpenClaw
-
-  </div>
-
-  </div>
-
-
 ##### Overview
 
 
+- <span id="/"><a href="/" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">OpenClaw</span>
+
+  </div>
+
+  </div>
 - <span id="/start/showcase"><a href="/start/showcase" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Showcase
-
-  </div>
+  <span class="min-w-0 max-w-full break-words">Showcase</span>
 
   </div>
 
-
-##### Core concepts
-
-
+  </div>
 - <span id="/concepts/features"><a href="/concepts/features" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Features
+  <span class="min-w-0 max-w-full break-words">Features</span>
 
   </div>
 
@@ -99,41 +89,41 @@ Getting Started
 
 
 - <span id="/start/getting-started"><a href="/start/getting-started" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Getting Started
+  <span class="min-w-0 max-w-full break-words">Getting Started</span>
 
   </div>
 
   </div>
 - <span id="/start/onboarding-overview"><a href="/start/onboarding-overview" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Onboarding Overview
+  <span class="min-w-0 max-w-full break-words">Onboarding Overview</span>
 
   </div>
 
   </div>
 - <span id="/start/wizard"><a href="/start/wizard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Onboarding: CLI
+  <span class="min-w-0 max-w-full break-words">Onboarding: CLI</span>
 
   </div>
 
   </div>
 - <span id="/start/onboarding"><a href="/start/onboarding" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Onboarding: macOS App
+  <span class="min-w-0 max-w-full break-words">Onboarding: macOS App</span>
 
   </div>
 
@@ -144,31 +134,31 @@ Getting Started
 
 
 - <span id="/start/openclaw"><a href="/start/openclaw" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Personal Assistant Setup
+  <span class="min-w-0 max-w-full break-words">Personal Assistant Setup</span>
 
   </div>
 
   </div>
 - <span id="/start/wizard-cli-reference"><a href="/start/wizard-cli-reference" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  CLI reference
+  <span class="min-w-0 max-w-full break-words">CLI reference</span>
 
   </div>
 
   </div>
 - <span id="/start/wizard-cli-automation"><a href="/start/wizard-cli-automation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  CLI automation
+  <span class="min-w-0 max-w-full break-words">CLI automation</span>
 
   </div>
 
@@ -179,13 +169,9 @@ On this page
 
 
 - <a href="#getting-started" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Getting Started</a>
-- <a href="#prereqs" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Prereqs</a>
-- <a href="#quick-setup-cli" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick setup (CLI)</a>
-- <a href="#optional-checks-and-extras" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Optional checks and extras</a>
-- <a href="#useful-environment-variables" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Useful environment variables</a>
-- <a href="#go-deeper" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Go deeper</a>
-- <a href="#what-you-will-have" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">What you will have</a>
-- <a href="#next-steps" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Next steps</a>
+- <a href="#what-you-need" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">What you need</a>
+- <a href="#quick-setup" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick setup</a>
+- <a href="#what-to-do-next" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">What to do next</a>
 
 
 First steps
@@ -200,25 +186,20 @@ First steps
 <a href="#getting-started" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Fastest chat: open the Control UI (no channel setup needed). Run `openclaw dashboard` and chat in the browser, or open `http://127.0.0.1:18789/` on the
+## 
 
 
-. Docs: <a href="/web/dashboard" class="link">Dashboard</a> and <a href="/web/control-ui" class="link">Control UI</a>.
+<a href="#what-you-need" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- **Node.js** — Node 24 recommended (Node 22.14+ also supported)
+- **An API key** from a model provider (Anthropic, OpenAI, Google, etc.) — onboarding will prompt you
 
 
 ## 
 
 
-<a href="#prereqs" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-- Node 24 recommended (Node 22 LTS, currently `22.16+`, still supported for compatibility)
-
-
-## 
-
-
-<a href="#quick-setup-cli" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#quick-setup" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 1
@@ -227,14 +208,14 @@ Fastest chat: open the Control UI (no channel setup needed). Run `openclaw dashb
 <a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
 
 
-Install OpenClaw (recommended)
+Install OpenClaw
 
 
-- <div id="macos%2Flinux">
+- <div id="macos-%2F-linux">
 
-  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-macOS/Linux">
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-macOS / Linux">
 
-  macOS/Linux
+  macOS / Linux
 
   </div>
 
@@ -251,15 +232,9 @@ Install OpenClaw (recommended)
   </div>
 
 
-Copy
-
-
 ``` shiki
 curl -fsSL https://openclaw.ai/install.sh | bash
 ```
-
-
-Copy
 
 
 ``` shiki
@@ -273,10 +248,7 @@ iwr -useb https://openclaw.ai/install.ps1 | iex
 <a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
 
 
-Run the onboarding wizard
-
-
-Copy
+Run onboarding
 
 
 ``` shiki
@@ -290,10 +262,7 @@ openclaw onboard --install-daemon
 <a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
 
 
-Check the Gateway
-
-
-Copy
+Verify the Gateway is running
 
 
 ``` shiki
@@ -307,10 +276,7 @@ openclaw gateway status
 <a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
 
 
-Open the Control UI
-
-
-Copy
+Open the dashboard
 
 
 ``` shiki
@@ -318,82 +284,39 @@ openclaw dashboard
 ```
 
 
-## 
+5
 
 
-<a href="#optional-checks-and-extras" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
 
 
-Run the Gateway in the foreground
-
-
-Copy
-
-
-``` shiki
-openclaw gateway --port 18789
-```
-
-
-Send a test message
-
-
-Copy
-
-
-``` shiki
-openclaw message send --target +15555550123 --message "Hello from OpenClaw"
-```
+Send your first message
 
 
 ## 
 
 
-<a href="#useful-environment-variables" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#what-to-do-next" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- `OPENCLAW_HOME` sets the home directory used for internal path resolution.
-- `OPENCLAW_STATE_DIR` overrides the state directory.
-- `OPENCLAW_CONFIG_PATH` overrides the config file path.
+## Connect a channel
 
 
-## 
+## Pairing and safety
 
 
-<a href="#go-deeper" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+## Configure the Gateway
 
 
-<a href="/start/wizard" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
+## Browse tools
 
 
-## Onboarding Wizard (details)
+Advanced: environment variables
 
 
-<a href="/start/onboarding" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
-
-
-## macOS app onboarding
-
-
-## 
-
-
-<a href="#what-you-will-have" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-- A running Gateway
-- Auth configured
-- Control UI access or a connected channel
-
-## 
-
-
-<a href="#next-steps" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-- DM safety and approvals: <a href="/channels/pairing" class="link">Pairing</a>
-- Connect more channels: <a href="/channels" class="link">Channels</a>
-- Advanced workflows and from source: <a href="/start/setup" class="link">Setup</a>
+- `OPENCLAW_HOME` — home directory for internal path resolution
+- `OPENCLAW_STATE_DIR` — override the state directory
+- `OPENCLAW_CONFIG_PATH` — override the config file path
 
 
 <a href="/concepts/features" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Features</span></a><a href="/start/onboarding-overview" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Onboarding Overview</span></a>

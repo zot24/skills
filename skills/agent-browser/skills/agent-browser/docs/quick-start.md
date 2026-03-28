@@ -117,4 +117,4 @@ agent-browser get text @e1 --json
 Note: The default text output is more compact and preferred for AI agents.
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘K</span>
+Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>

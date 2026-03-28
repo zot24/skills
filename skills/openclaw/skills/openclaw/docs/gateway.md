@@ -29,10 +29,10 @@ Gateway Runbook
 <a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Channels</a>
 
 
-<a href="/pi" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
+<a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
 
 
-<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools</a>
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools &amp; Plugins</a>
 
 
 <a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Models</a>
@@ -54,11 +54,11 @@ Gateway Runbook
 
 
 - <span id="/gateway"><a href="/gateway" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Gateway Runbook
+  <span class="min-w-0 max-w-full break-words">Gateway Runbook</span>
 
   </div>
 
@@ -93,31 +93,31 @@ Gateway Runbook
 
 
 - <span id="/gateway/remote"><a href="/gateway/remote" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Remote Access
+  <span class="min-w-0 max-w-full break-words">Remote Access</span>
 
   </div>
 
   </div>
 - <span id="/gateway/remote-gateway-readme"><a href="/gateway/remote-gateway-readme" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Remote Gateway Setup
+  <span class="min-w-0 max-w-full break-words">Remote Gateway Setup</span>
 
   </div>
 
   </div>
 - <span id="/gateway/tailscale"><a href="/gateway/tailscale" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Tailscale
+  <span class="min-w-0 max-w-full break-words">Tailscale</span>
 
   </div>
 
@@ -128,31 +128,136 @@ Gateway Runbook
 
 
 - <span id="/security/formal-verification"><a href="/security/formal-verification" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Formal Verification (Security Models)
+  <span class="min-w-0 max-w-full break-words">Formal Verification (Security Models)</span>
 
   </div>
 
   </div>
 - <span id="/security/THREAT-MODEL-ATLAS"><a href="/security/THREAT-MODEL-ATLAS" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  THREAT MODEL ATLAS
+  <span class="min-w-0 max-w-full break-words">Threat Model (MITRE ATLAS)</span>
 
   </div>
 
   </div>
 - <span id="/security/CONTRIBUTING-THREAT-MODEL"><a href="/security/CONTRIBUTING-THREAT-MODEL" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  CONTRIBUTING THREAT MODEL
+  <span class="min-w-0 max-w-full break-words">Contributing to the Threat Model</span>
+
+  </div>
+
+  </div>
+
+
+##### Nodes and devices
+
+
+- <span id="/nodes"><a href="/nodes" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Nodes</span>
+
+  </div>
+
+  </div>
+- <span id="/nodes/troubleshooting"><a href="/nodes/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Node Troubleshooting</span>
+
+  </div>
+
+  </div>
+- <span id="/nodes/media-understanding"><a href="/nodes/media-understanding" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Media Understanding</span>
+
+  </div>
+
+  </div>
+- <span id="/nodes/images"><a href="/nodes/images" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Image and Media Support</span>
+
+  </div>
+
+  </div>
+- <span id="/nodes/audio"><a href="/nodes/audio" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Audio and Voice Notes</span>
+
+  </div>
+
+  </div>
+- <span id="/nodes/camera"><a href="/nodes/camera" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Camera Capture</span>
+
+  </div>
+
+  </div>
+- <span id="/nodes/talk"><a href="/nodes/talk" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Talk Mode</span>
+
+  </div>
+
+  </div>
+- <span id="/nodes/voicewake"><a href="/nodes/voicewake" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Voice Wake</span>
+
+  </div>
+
+  </div>
+- <span id="/nodes/location-command"><a href="/nodes/location-command" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Location Command</span>
+
+  </div>
+
+  </div>
+- <span id="/tools/tts"><a href="/tools/tts" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Text-to-Speech</span>
 
   </div>
 
@@ -163,51 +268,51 @@ Gateway Runbook
 
 
 - <span id="/web"><a href="/web" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Web
+  <span class="min-w-0 max-w-full break-words">Web</span>
 
   </div>
 
   </div>
 - <span id="/web/control-ui"><a href="/web/control-ui" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Control UI
+  <span class="min-w-0 max-w-full break-words">Control UI</span>
 
   </div>
 
   </div>
 - <span id="/web/dashboard"><a href="/web/dashboard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  Dashboard
+  <span class="min-w-0 max-w-full break-words">Dashboard</span>
 
   </div>
 
   </div>
 - <span id="/web/webchat"><a href="/web/webchat" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  WebChat
+  <span class="min-w-0 max-w-full break-words">WebChat</span>
 
   </div>
 
   </div>
 - <span id="/web/tui"><a href="/web/tui" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex items-start space-x-2.5">
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-  <div class="break-words [word-break:break-word]">
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  TUI
+  <span class="min-w-0 max-w-full break-words">TUI</span>
 
   </div>
 
@@ -220,6 +325,7 @@ On this page
 - <a href="#gateway-runbook" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Gateway runbook</a>
 - <a href="#5-minute-local-startup" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">5-minute local startup</a>
 - <a href="#runtime-model" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Runtime model</a>
+- <a href="#openai-compatible-endpoints" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">OpenAI-compatible endpoints</a>
 - <a href="#port-and-bind-precedence" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Port and bind precedence</a>
 - <a href="#hot-reload-modes" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Hot reload modes</a>
 - <a href="#operator-command-set" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Operator command set</a>
@@ -248,25 +354,13 @@ Gateway
 <a href="#gateway-runbook" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-<a href="/gateway/troubleshooting" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
-
-
 ## Deep troubleshooting
-
-
-<a href="/gateway/configuration" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
 
 
 ## Configuration
 
 
-<a href="/gateway/secrets" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
-
-
 ## Secrets management
-
-
-<a href="/gateway/secrets-plan-contract" class="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"></a>
 
 
 ## Secrets plan contract
@@ -287,9 +381,6 @@ Gateway
 Start the Gateway
 
 
-Copy
-
-
 ``` shiki
 openclaw gateway --port 18789
 # debug/trace mirrored to stdio
@@ -308,9 +399,6 @@ openclaw gateway --force
 Verify service health
 
 
-Copy
-
-
 ``` shiki
 openclaw gateway status
 openclaw status
@@ -327,9 +415,6 @@ openclaw logs --follow
 Validate channel readiness
 
 
-Copy
-
-
 ``` shiki
 openclaw channels status --probe
 ```
@@ -344,10 +429,33 @@ openclaw channels status --probe
 - One always-on process for routing, control plane, and channel connections.
 - Single multiplexed port for:
   - WebSocket control/RPC
-  - HTTP APIs (OpenAI-compatible, Responses, tools invoke)
+  - HTTP APIs, OpenAI compatible (`/v1/models`, `/v1/embeddings`, `/v1/chat/completions`, `/v1/responses`, `/tools/invoke`)
   - Control UI and hooks
 - Default bind mode: `loopback`.
 - Auth is required by default (`gateway.auth.token` / `gateway.auth.password`, or `OPENCLAW_GATEWAY_TOKEN` / `OPENCLAW_GATEWAY_PASSWORD`).
+
+## 
+
+
+<a href="#openai-compatible-endpoints" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `GET /v1/models`
+- `GET /v1/models/{id}`
+- `POST /v1/embeddings`
+- `POST /v1/chat/completions`
+- `POST /v1/responses`
+
+
+- Most Open WebUI, LobeChat, and LibreChat integrations probe `/v1/models` first.
+- Many RAG and memory pipelines expect `/v1/embeddings`.
+- Agent-native clients increasingly prefer `/v1/responses`.
+
+
+- `/v1/models` is agent-first: it returns `openclaw`, `openclaw/default`, and `openclaw/<agentId>`.
+- `openclaw/default` is the stable alias that always maps to the configured default agent.
+- Use `x-openclaw-model` when you want a backend provider/model override; otherwise the selected agent’s normal model and embedding setup stays in control.
+
 
 ### 
 
@@ -381,9 +489,6 @@ openclaw channels status --probe
 <a href="#operator-command-set" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Copy
-
-
 ``` shiki
 openclaw gateway status
 openclaw gateway status --deep
@@ -401,9 +506,6 @@ openclaw doctor
 
 
 <a href="#remote-access" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -448,18 +550,12 @@ ssh -N -L 18789:127.0.0.1:18789 user@host
   </div>
 
 
-Copy
-
-
 ``` shiki
 openclaw gateway install
 openclaw gateway status
 openclaw gateway restart
 openclaw gateway stop
 ```
-
-
-Copy
 
 
 ``` shiki
@@ -469,15 +565,9 @@ openclaw gateway status
 ```
 
 
-Copy
-
-
 ``` shiki
 sudo loginctl enable-linger <user>
 ```
-
-
-Copy
 
 
 ``` shiki
@@ -498,9 +588,6 @@ sudo systemctl enable --now openclaw-gateway[-<profile>].service
 - Unique `agents.defaults.workspace`
 
 
-Copy
-
-
 ``` shiki
 OPENCLAW_CONFIG_PATH=~/.openclaw/a.json OPENCLAW_STATE_DIR=~/.openclaw-a openclaw gateway --port 19001
 OPENCLAW_CONFIG_PATH=~/.openclaw/b.json OPENCLAW_STATE_DIR=~/.openclaw-b openclaw gateway --port 19002
@@ -511,9 +598,6 @@ OPENCLAW_CONFIG_PATH=~/.openclaw/b.json OPENCLAW_STATE_DIR=~/.openclaw-b opencla
 
 
 <a href="#dev-profile-quick-path" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki
@@ -558,9 +642,6 @@ openclaw --dev status
 
 
 <a href="#readiness" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-Copy
 
 
 ``` shiki

@@ -156,6 +156,10 @@ The optional `compatibility` field:
   compatibility: Requires git, docker, jq, and access to the internet
   ```
 
+  ```yaml
+  compatibility: Requires Python 3.14+ and uv
+  ```
+
 
   Most skills do not need the `compatibility` field.
 

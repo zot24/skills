@@ -114,6 +114,8 @@ Here are the capabilities of popular models:
 | [Vercel](/providers/ai-sdk-providers/vercel)       | `v0-1.0-md`                                 |  |  |  |  |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4-pro`                               |  |  |  |  |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4`                                   |  |  |  |  |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4-mini`                              |  |  |  |  |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4-nano`                              |  |  |  |  |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.3-chat-latest`                       |  |  |  |  |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.2-pro`                               |  |  |  |  |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.2-chat-latest`                       |  |  |  |  |
