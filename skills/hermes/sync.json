@@ -1,11 +1,59 @@
 {
   "name": "hermes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Expert knowledge about Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
   "sources": [
     {
-      "url": "https://hermes-agent.nousresearch.com/docs",
-      "target": "skills/hermes/docs/hermes-docs.md",
+      "url": "https://hermes-agent.nousresearch.com/docs/getting-started/installation/",
+      "target": "skills/hermes/docs/installation.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/getting-started/quickstart/",
+      "target": "skills/hermes/docs/quickstart.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/configuration/",
+      "target": "skills/hermes/docs/configuration.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/cli/",
+      "target": "skills/hermes/docs/cli.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/tools/",
+      "target": "skills/hermes/docs/tools.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/cron/",
+      "target": "skills/hermes/docs/cron.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/skills/godmode/",
+      "target": "skills/hermes/docs/skills.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/developer-guide/architecture/",
+      "target": "skills/hermes/docs/architecture.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/reference/cli-commands/",
+      "target": "skills/hermes/docs/cli-commands.md",
       "type": "extract-content",
       "freshness_days": 7
     }
