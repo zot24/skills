@@ -1,6 +1,6 @@
 ---
 source_url: https://code.claude.com/docs/en/skills.md
-cached_at: 2026-03-28T23:52:57Z
+cached_at: 2026-03-29T00:32:59Z
 skill: claude-awareness-skill
 ---
 

@@ -1,6 +1,6 @@
 ---
 source_url: https://raw.githubusercontent.com/agentskills/agentskills/main/README.md
-cached_at: 2026-03-28T23:52:59Z
+cached_at: 2026-03-29T00:33:01Z
 skill: claude-awareness-skill
 ---
 
