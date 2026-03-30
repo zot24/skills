@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -16,7 +13,7 @@ Hermes Agent's CLI is a full terminal user interface (TUI) — not a web UI. It 
 ## Running the CLI<a href="#running-the-cli" class="hash-link" aria-label="Direct link to Running the CLI" translate="no" title="Direct link to Running the CLI">​</a>
 
 
-``` prism-code
+``` bash
 # Start an interactive session (default)
 hermes
 
@@ -63,18 +60,18 @@ The welcome banner shows your model, terminal backend, working directory, availa
 A persistent status bar sits above the input area, updating in real time:
 
 
-``` prism-code
+``` text
  ⚕ claude-sonnet-4-20250514 │ 12.4K/200K │ [██████░░░░] 6% │ $0.06 │ 15m
 ```
 
 
-| Element     | Description                                                      |
-|-------------|------------------------------------------------------------------|
-| Model name  | Current model (truncated if longer than 26 chars)                |
-| Token count | Context tokens used / max context window                         |
-| Context bar | Visual fill indicator with color-coded thresholds                |
-| Cost        | Estimated session cost (or `n/a` for unknown/zero-priced models) |
-| Duration    | Elapsed session time                                             |
+| Element | Description |
+|----|----|
+| Model name | Current model (truncated if longer than 26 chars) |
+| Token count | Context tokens used / max context window |
+| Context bar | Visual fill indicator with color-coded thresholds |
+| Cost | Estimated session cost (or `n/a` for unknown/zero-priced models) |
+| Duration | Elapsed session time |
 
 The bar adapts to terminal width — full layout at ≥ 76 columns, compact at 52–75, minimal (model + duration only) below 52.
 
@@ -95,16 +92,16 @@ When resuming a previous session (`hermes -c` or `hermes --resume <id>`), a "Pre
 
 ## Keybindings<a href="#keybindings" class="hash-link" aria-label="Direct link to Keybindings" translate="no" title="Direct link to Keybindings">​</a>
 
-| Key                     | Action                                                                                        |
-|-------------------------|-----------------------------------------------------------------------------------------------|
-| `Enter`                 | Send message                                                                                  |
-| `Alt+Enter` or `Ctrl+J` | New line (multi-line input)                                                                   |
-| `Alt+V`                 | Paste an image from the clipboard when supported by the terminal                              |
-| `Ctrl+V`                | Paste text and opportunistically attach clipboard images                                      |
-| `Ctrl+B`                | Start/stop voice recording when voice mode is enabled (`voice.record_key`, default: `ctrl+b`) |
-| `Ctrl+C`                | Interrupt agent (double-press within 2s to force exit)                                        |
-| `Ctrl+D`                | Exit                                                                                          |
-| `Tab`                   | Accept auto-suggestion (ghost text) or autocomplete slash commands                            |
+| Key | Action |
+|----|----|
+| `Enter` | Send message |
+| `Alt+Enter` or `Ctrl+J` | New line (multi-line input) |
+| `Alt+V` | Paste an image from the clipboard when supported by the terminal |
+| `Ctrl+V` | Paste text and opportunistically attach clipboard images |
+| `Ctrl+B` | Start/stop voice recording when voice mode is enabled (`voice.record_key`, default: `ctrl+b`) |
+| `Ctrl+C` | Interrupt agent (double-press within 2s to force exit) |
+| `Ctrl+D` | Exit |
+| `Tab` | Accept auto-suggestion (ghost text) or autocomplete slash commands |
 
 ## Slash Commands<a href="#slash-commands" class="hash-link" aria-label="Direct link to Slash Commands" translate="no" title="Direct link to Slash Commands">​</a>
 
@@ -138,7 +135,7 @@ Commands are case-insensitive — `/HELP` works the same as `/help`. Installed s
 You can define custom commands that run shell commands instantly without invoking the LLM. These work in both the CLI and messaging platforms (Telegram, Discord, etc.).
 
 
-``` prism-code
+``` yaml
 # ~/.hermes/config.yaml
 quick_commands:
   status:
@@ -157,7 +154,7 @@ Then type `/status` or `/gpu` in any chat. See the [Configuration guide](/docs/u
 If you already know which skills you want active for the session, pass them at launch time:
 
 
-``` prism-code
+``` bash
 hermes -s hermes-agent-dev,github-auth
 hermes chat -s github-pr-workflow -s github-auth
 ```
@@ -170,7 +167,7 @@ Hermes loads each named skill into the session prompt before the first turn. The
 Every installed skill in `~/.hermes/skills/` is automatically registered as a slash command. The skill name becomes the command:
 
 
-``` prism-code
+``` text
 /gif-search funny cats
 /axolotl help me fine-tune Llama 3 on my dataset
 /github-pr-workflow create a PR for the auth refactor
@@ -185,7 +182,7 @@ Every installed skill in `~/.hermes/skills/` is automatically registered as a sl
 Set a predefined personality to change the agent's tone:
 
 
-``` prism-code
+``` text
 /personality pirate
 /personality kawaii
 /personality concise
@@ -197,7 +194,7 @@ Built-in personalities include: `helpful`, `concise`, `technical`, `creative`, `
 You can also define custom personalities in `~/.hermes/config.yaml`:
 
 
-``` prism-code
+``` yaml
 personalities:
   helpful: "You are a helpful, friendly AI assistant."
   kawaii: "You are a kawaii assistant! Use cute expressions..."
@@ -214,7 +211,7 @@ There are two ways to enter multi-line messages:
 2.  **Backslash continuation** — end a line with `\` to continue:
 
 
-``` prism-code
+``` text
 ❯ Write a function that:\
   1. Takes a list of numbers\
   2. Returns the sum
@@ -240,7 +237,7 @@ The CLI shows animated feedback as the agent works:
 **Thinking animation** (during API calls):
 
 
-``` prism-code
+``` text
   ◜ (｡•́︿•̀｡) pondering... (1.2s)
   ◠ (⊙_⊙) contemplating... (2.4s)
   ✧٩(ˊᗜˋ*)و✧ got it! (3.1s)
@@ -250,7 +247,7 @@ The CLI shows animated feedback as the agent works:
 **Tool execution feed:**
 
 
-``` prism-code
+``` text
   ┊ 💻 terminal `ls -la` (0.3s)
   ┊ 🔍 web_search (1.2s)
   ┊ 📄 web_extract (2.1s)
@@ -266,7 +263,7 @@ Cycle through display modes with `/verbose`: `off → new → all → verbose`. 
 When you exit a CLI session, a resume command is printed:
 
 
-``` prism-code
+``` text
 Resume this session with:
   hermes --resume 20260225_143052_a1b2c3
 
@@ -279,7 +276,7 @@ Messages:       28 (5 user, 18 tool calls)
 Resume options:
 
 
-``` prism-code
+``` bash
 hermes --continue                          # Resume the most recent CLI session
 hermes -c                                  # Short form
 hermes -c "my project"                     # Resume a named session (latest in lineage)
@@ -309,7 +306,7 @@ Some messaging adapters also keep per-platform transcript files alongside the da
 Long conversations are automatically summarized when approaching context limits:
 
 
-``` prism-code
+``` yaml
 # In ~/.hermes/config.yaml
 compression:
   enabled: true
@@ -325,7 +322,7 @@ When compression triggers, middle turns are summarized while the first 3 and las
 Run a prompt in a separate background session while continuing to use the CLI for other work:
 
 
-``` prism-code
+``` text
 /background Analyze the logs in /var/log and summarize any errors from today
 ```
 
@@ -333,7 +330,7 @@ Run a prompt in a separate background session while continuing to use the CLI fo
 Hermes immediately confirms the task and gives you back the prompt:
 
 
-``` prism-code
+``` text
 🔄 Background task #1 started: "Analyze the logs in /var/log and summarize..."
    Task ID: bg_143022_a1b2c3
 ```
@@ -353,7 +350,7 @@ Each `/background` prompt spawns a **completely separate agent session** in a da
 When a background task finishes, the result appears as a panel in your terminal:
 
 
-``` prism-code
+``` text
 ╭─ ⚕ Hermes (background #1) ──────────────────────────────────╮
 │ Found 3 errors in syslog from today:                         │
 │ 1. OOM killer invoked at 03:22 — killed process nginx        │
@@ -386,7 +383,7 @@ By default, the CLI runs in quiet mode which:
 For debug output:
 
 
-``` prism-code
+``` bash
 hermes chat --verbose
 ```
 

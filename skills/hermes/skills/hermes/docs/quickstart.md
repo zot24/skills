@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -18,7 +15,7 @@ This guide walks you through installing Hermes Agent, setting up a provider, and
 Run the one-line installer:
 
 
-``` prism-code
+``` bash
 # Linux / macOS / WSL2
 curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
 ```
@@ -30,7 +27,7 @@ Install <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="
 After it finishes, reload your shell:
 
 
-``` prism-code
+``` bash
 source ~/.bashrc   # or source ~/.zshrc
 ```
 
@@ -40,7 +37,7 @@ source ~/.bashrc   # or source ~/.zshrc
 The installer configures your LLM provider automatically. To change it later, use one of these commands:
 
 
-``` prism-code
+``` bash
 hermes model       # Choose your LLM provider and model
 hermes tools       # Configure which tools are enabled
 hermes setup       # Or configure everything at once
@@ -49,23 +46,23 @@ hermes setup       # Or configure everything at once
 
 `hermes model` walks you through selecting an inference provider:
 
-| Provider              | What it is                                                      | How to set up                                                 |
-|-----------------------|-----------------------------------------------------------------|---------------------------------------------------------------|
-| **Nous Portal**       | Subscription-based, zero-config                                 | OAuth login via `hermes model`                                |
-| **OpenAI Codex**      | ChatGPT OAuth, uses Codex models                                | Device code auth via `hermes model`                           |
-| **Anthropic**         | Claude models directly (Pro/Max or API key)                     | `hermes model` with Claude Code auth, or an Anthropic API key |
-| **OpenRouter**        | Multi-provider routing across many models                       | Enter your API key                                            |
-| **Z.AI**              | GLM / Zhipu-hosted models                                       | Set `GLM_API_KEY` / `ZAI_API_KEY`                             |
-| **Kimi / Moonshot**   | Moonshot-hosted coding and chat models                          | Set `KIMI_API_KEY`                                            |
-| **MiniMax**           | International MiniMax endpoint                                  | Set `MINIMAX_API_KEY`                                         |
-| **MiniMax China**     | China-region MiniMax endpoint                                   | Set `MINIMAX_CN_API_KEY`                                      |
-| **Alibaba Cloud**     | Qwen models via DashScope                                       | Set `DASHSCOPE_API_KEY`                                       |
-| **Hugging Face**      | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.) | Set `HF_TOKEN`                                                |
-| **Kilo Code**         | KiloCode-hosted models                                          | Set `KILOCODE_API_KEY`                                        |
-| **OpenCode Zen**      | Pay-as-you-go access to curated models                          | Set `OPENCODE_ZEN_API_KEY`                                    |
-| **OpenCode Go**       | \$10/month subscription for open models                         | Set `OPENCODE_GO_API_KEY`                                     |
-| **Vercel AI Gateway** | Vercel AI Gateway routing                                       | Set `AI_GATEWAY_API_KEY`                                      |
-| **Custom Endpoint**   | VLLM, SGLang, Ollama, or any OpenAI-compatible API              | Set base URL + API key                                        |
+| Provider | What it is | How to set up |
+|----|----|----|
+| **Nous Portal** | Subscription-based, zero-config | OAuth login via `hermes model` |
+| **OpenAI Codex** | ChatGPT OAuth, uses Codex models | Device code auth via `hermes model` |
+| **Anthropic** | Claude models directly (Pro/Max or API key) | `hermes model` with Claude Code auth, or an Anthropic API key |
+| **OpenRouter** | Multi-provider routing across many models | Enter your API key |
+| **Z.AI** | GLM / Zhipu-hosted models | Set `GLM_API_KEY` / `ZAI_API_KEY` |
+| **Kimi / Moonshot** | Moonshot-hosted coding and chat models | Set `KIMI_API_KEY` |
+| **MiniMax** | International MiniMax endpoint | Set `MINIMAX_API_KEY` |
+| **MiniMax China** | China-region MiniMax endpoint | Set `MINIMAX_CN_API_KEY` |
+| **Alibaba Cloud** | Qwen models via DashScope | Set `DASHSCOPE_API_KEY` |
+| **Hugging Face** | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.) | Set `HF_TOKEN` |
+| **Kilo Code** | KiloCode-hosted models | Set `KILOCODE_API_KEY` |
+| **OpenCode Zen** | Pay-as-you-go access to curated models | Set `OPENCODE_ZEN_API_KEY` |
+| **OpenCode Go** | \$10/month subscription for open models | Set `OPENCODE_GO_API_KEY` |
+| **Vercel AI Gateway** | Vercel AI Gateway routing | Set `AI_GATEWAY_API_KEY` |
+| **Custom Endpoint** | VLLM, SGLang, Ollama, or any OpenAI-compatible API | Set base URL + API key |
 
 
 You can switch providers at any time with `hermes model` — no code changes, no lock-in. When configuring a custom endpoint, Hermes will prompt for the context window size and auto-detect it when possible. See [Context Length Detection](/docs/user-guide/configuration#context-length-detection) for details.
@@ -74,7 +71,7 @@ You can switch providers at any time with `hermes model` — no code changes, no
 ## 3. Start Chatting<a href="#3-start-chatting" class="hash-link" aria-label="Direct link to 3. Start Chatting" translate="no" title="Direct link to 3. Start Chatting">​</a>
 
 
-``` prism-code
+``` bash
 hermes
 ```
 
@@ -82,7 +79,7 @@ hermes
 That's it! You'll see a welcome banner with your model, available tools, and skills. Type a message and press Enter.
 
 
-``` prism-code
+``` text
 ❯ What can you help me with?
 ```
 
@@ -94,7 +91,7 @@ The agent has access to tools for web search, file operations, terminal commands
 ### Ask it to use the terminal<a href="#ask-it-to-use-the-terminal" class="hash-link" aria-label="Direct link to Ask it to use the terminal" translate="no" title="Direct link to Ask it to use the terminal">​</a>
 
 
-``` prism-code
+``` text
 ❯ What's my disk usage? Show the top 5 largest directories.
 ```
 
@@ -126,7 +123,7 @@ If the agent is taking too long, just type a new message and press Enter — it 
 When you exit, hermes prints a resume command:
 
 
-``` prism-code
+``` bash
 hermes --continue    # Resume the most recent session
 hermes -c            # Short form
 ```
@@ -141,7 +138,7 @@ Here are some things to try next:
 For safety, run the agent in a Docker container or on a remote server:
 
 
-``` prism-code
+``` bash
 hermes config set terminal.backend docker    # Docker isolation
 hermes config set terminal.backend ssh       # Remote server
 ```
@@ -152,7 +149,7 @@ hermes config set terminal.backend ssh       # Remote server
 Chat with Hermes from your phone or other surfaces via Telegram, Discord, Slack, WhatsApp, Signal, Email, or Home Assistant:
 
 
-``` prism-code
+``` bash
 hermes gateway setup    # Interactive platform configuration
 ```
 
@@ -162,7 +159,7 @@ hermes gateway setup    # Interactive platform configuration
 Want microphone input in the CLI or spoken replies in messaging?
 
 
-``` prism-code
+``` bash
 pip install "hermes-agent[voice]"
 
 # Optional but recommended for free local speech-to-text
@@ -173,7 +170,7 @@ pip install faster-whisper
 Then start Hermes and enable it inside the CLI:
 
 
-``` prism-code
+``` text
 /voice on
 ```
 
@@ -183,7 +180,7 @@ Press `Ctrl+B` to record, or use `/voice tts` to have Hermes speak its replies. 
 ### Schedule automated tasks<a href="#schedule-automated-tasks" class="hash-link" aria-label="Direct link to Schedule automated tasks" translate="no" title="Direct link to Schedule automated tasks">​</a>
 
 
-``` prism-code
+``` text
 ❯ Every morning at 9am, check Hacker News for AI news and send me a summary on Telegram.
 ```
 
@@ -193,7 +190,7 @@ The agent will set up a cron job that runs automatically via the gateway.
 ### Browse and install skills<a href="#browse-and-install-skills" class="hash-link" aria-label="Direct link to Browse and install skills" translate="no" title="Direct link to Browse and install skills">​</a>
 
 
-``` prism-code
+``` bash
 hermes skills search kubernetes
 hermes skills search react --source skills-sh
 hermes skills search https://mintlify.com/docs --source well-known
@@ -216,7 +213,7 @@ Or use the `/skills` slash command inside chat.
 Hermes can also run as an ACP server for ACP-compatible editors like VS Code, Zed, and JetBrains:
 
 
-``` prism-code
+``` bash
 pip install -e '.[acp]'
 hermes acp
 ```
@@ -229,7 +226,7 @@ See [ACP Editor Integration](/docs/user-guide/features/acp) for setup details.
 Connect to external tools via the Model Context Protocol:
 
 
-``` prism-code
+``` yaml
 # Add to ~/.hermes/config.yaml
 mcp_servers:
   github:

@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -16,7 +13,7 @@ All settings are stored in the `~/.hermes/` directory for easy access.
 ## Directory Structure<a href="#directory-structure" class="hash-link" aria-label="Direct link to Directory Structure" translate="no" title="Direct link to Directory Structure">​</a>
 
 
-``` prism-code
+``` text
 ~/.hermes/
 ├── config.yaml     # Settings (model, terminal, TTS, compression, etc.)
 ├── .env            # API keys and secrets
@@ -33,7 +30,7 @@ All settings are stored in the `~/.hermes/` directory for easy access.
 ## Managing Configuration<a href="#managing-configuration" class="hash-link" aria-label="Direct link to Managing Configuration" translate="no" title="Direct link to Managing Configuration">​</a>
 
 
-``` prism-code
+``` bash
 hermes config              # View current configuration
 hermes config edit         # Open config.yaml in your editor
 hermes config set KEY VAL  # Set a specific value
@@ -68,7 +65,7 @@ Secrets (API keys, bot tokens, passwords) go in `.env`. Everything else (model, 
 You can reference environment variables in `config.yaml` using `${VAR_NAME}` syntax:
 
 
-``` prism-code
+``` yaml
 auxiliary:
   vision:
     api_key: ${GOOGLE_API_KEY}
@@ -85,25 +82,25 @@ Multiple references in a single value work: `url: "${HOST}:${PORT}"`. If a refer
 
 You need at least one way to connect to an LLM. Use `hermes model` to switch providers and models interactively, or configure directly:
 
-| Provider               | Setup                                                                                               |
-|------------------------|-----------------------------------------------------------------------------------------------------|
-| **Nous Portal**        | `hermes model` (OAuth, subscription-based)                                                          |
-| **OpenAI Codex**       | `hermes model` (ChatGPT OAuth, uses Codex models)                                                   |
-| **GitHub Copilot**     | `hermes model` (OAuth device code flow, `COPILOT_GITHUB_TOKEN`, `GH_TOKEN`, or `gh auth token`)     |
-| **GitHub Copilot ACP** | `hermes model` (spawns local `copilot --acp --stdio`)                                               |
-| **Anthropic**          | `hermes model` (Claude Pro/Max via Claude Code auth, Anthropic API key, or manual setup-token)      |
-| **OpenRouter**         | `OPENROUTER_API_KEY` in `~/.hermes/.env`                                                            |
-| **AI Gateway**         | `AI_GATEWAY_API_KEY` in `~/.hermes/.env` (provider: `ai-gateway`)                                   |
-| **z.ai / GLM**         | `GLM_API_KEY` in `~/.hermes/.env` (provider: `zai`)                                                 |
-| **Kimi / Moonshot**    | `KIMI_API_KEY` in `~/.hermes/.env` (provider: `kimi-coding`)                                        |
-| **MiniMax**            | `MINIMAX_API_KEY` in `~/.hermes/.env` (provider: `minimax`)                                         |
-| **MiniMax China**      | `MINIMAX_CN_API_KEY` in `~/.hermes/.env` (provider: `minimax-cn`)                                   |
-| **Alibaba Cloud**      | `DASHSCOPE_API_KEY` in `~/.hermes/.env` (provider: `alibaba`, aliases: `dashscope`, `qwen`)         |
-| **Kilo Code**          | `KILOCODE_API_KEY` in `~/.hermes/.env` (provider: `kilocode`)                                       |
-| **OpenCode Zen**       | `OPENCODE_ZEN_API_KEY` in `~/.hermes/.env` (provider: `opencode-zen`)                               |
-| **OpenCode Go**        | `OPENCODE_GO_API_KEY` in `~/.hermes/.env` (provider: `opencode-go`)                                 |
-| **Hugging Face**       | `HF_TOKEN` in `~/.hermes/.env` (provider: `huggingface`, aliases: `hf`)                             |
-| **Custom Endpoint**    | `hermes model` (saved in `config.yaml`) or `OPENAI_BASE_URL` + `OPENAI_API_KEY` in `~/.hermes/.env` |
+| Provider | Setup |
+|----|----|
+| **Nous Portal** | `hermes model` (OAuth, subscription-based) |
+| **OpenAI Codex** | `hermes model` (ChatGPT OAuth, uses Codex models) |
+| **GitHub Copilot** | `hermes model` (OAuth device code flow, `COPILOT_GITHUB_TOKEN`, `GH_TOKEN`, or `gh auth token`) |
+| **GitHub Copilot ACP** | `hermes model` (spawns local `copilot --acp --stdio`) |
+| **Anthropic** | `hermes model` (Claude Pro/Max via Claude Code auth, Anthropic API key, or manual setup-token) |
+| **OpenRouter** | `OPENROUTER_API_KEY` in `~/.hermes/.env` |
+| **AI Gateway** | `AI_GATEWAY_API_KEY` in `~/.hermes/.env` (provider: `ai-gateway`) |
+| **z.ai / GLM** | `GLM_API_KEY` in `~/.hermes/.env` (provider: `zai`) |
+| **Kimi / Moonshot** | `KIMI_API_KEY` in `~/.hermes/.env` (provider: `kimi-coding`) |
+| **MiniMax** | `MINIMAX_API_KEY` in `~/.hermes/.env` (provider: `minimax`) |
+| **MiniMax China** | `MINIMAX_CN_API_KEY` in `~/.hermes/.env` (provider: `minimax-cn`) |
+| **Alibaba Cloud** | `DASHSCOPE_API_KEY` in `~/.hermes/.env` (provider: `alibaba`, aliases: `dashscope`, `qwen`) |
+| **Kilo Code** | `KILOCODE_API_KEY` in `~/.hermes/.env` (provider: `kilocode`) |
+| **OpenCode Zen** | `OPENCODE_ZEN_API_KEY` in `~/.hermes/.env` (provider: `opencode-zen`) |
+| **OpenCode Go** | `OPENCODE_GO_API_KEY` in `~/.hermes/.env` (provider: `opencode-go`) |
+| **Hugging Face** | `HF_TOKEN` in `~/.hermes/.env` (provider: `huggingface`, aliases: `hf`) |
+| **Custom Endpoint** | `hermes model` (saved in `config.yaml`) or `OPENAI_BASE_URL` + `OPENAI_API_KEY` in `~/.hermes/.env` |
 
 
 In the `model:` config section, you can use either `default:` or `model:` as the key name for your model ID. Both `model: { default: my-model }` and `model: { model: my-model }` work identically.
@@ -120,7 +117,7 @@ Even when using Nous Portal, Codex, or a custom endpoint, some tools (vision, we
 Use Claude models directly through the Anthropic API — no OpenRouter proxy needed. Supports three auth methods:
 
 
-``` prism-code
+``` bash
 # With an API key (pay-per-token)
 export ANTHROPIC_API_KEY=***
 hermes chat --provider anthropic --model claude-sonnet-4-6
@@ -143,7 +140,7 @@ When you choose Anthropic OAuth through `hermes model`, Hermes prefers Claude Co
 Or set it permanently:
 
 
-``` prism-code
+``` yaml
 model:
   provider: "anthropic"
   default: "claude-sonnet-4-6"
@@ -160,7 +157,7 @@ Hermes supports GitHub Copilot as a first-class provider with two modes:
 **`copilot` — Direct Copilot API** (recommended). Uses your GitHub Copilot subscription to access GPT-5.x, Claude, Gemini, and other models through the Copilot API.
 
 
-``` prism-code
+``` bash
 hermes chat --provider copilot --model gpt-5.4
 ```
 
@@ -177,11 +174,11 @@ If no token is found, `hermes model` offers an **OAuth device code login** — t
 
 The Copilot API does **not** support classic Personal Access Tokens (`ghp_*`). Supported token types:
 
-| Type             | Prefix        | How to get                                                                                         |
-|------------------|---------------|----------------------------------------------------------------------------------------------------|
-| OAuth token      | `gho_`        | `hermes model` → GitHub Copilot → Login with GitHub                                                |
+| Type | Prefix | How to get |
+|----|----|----|
+| OAuth token | `gho_` | `hermes model` → GitHub Copilot → Login with GitHub |
 | Fine-grained PAT | `github_pat_` | GitHub Settings → Developer settings → Fine-grained tokens (needs **Copilot Requests** permission) |
-| GitHub App token | `ghu_`        | Via GitHub App installation                                                                        |
+| GitHub App token | `ghu_` | Via GitHub App installation |
 
 If your `gh auth token` returns a `ghp_*` token, use `hermes model` to authenticate via OAuth instead.
 
@@ -191,7 +188,7 @@ If your `gh auth token` returns a `ghp_*` token, use `hermes model` to authentic
 **`copilot-acp` — Copilot ACP agent backend**. Spawns the local Copilot CLI as a subprocess:
 
 
-``` prism-code
+``` bash
 hermes chat --provider copilot-acp --model copilot-acp
 # Requires the GitHub Copilot CLI in PATH and an existing `copilot login` session
 ```
@@ -200,25 +197,25 @@ hermes chat --provider copilot-acp --model copilot-acp
 **Permanent config:**
 
 
-``` prism-code
+``` yaml
 model:
   provider: "copilot"
   default: "gpt-5.4"
 ```
 
 
-| Environment variable         | Description                                               |
-|------------------------------|-----------------------------------------------------------|
-| `COPILOT_GITHUB_TOKEN`       | GitHub token for Copilot API (first priority)             |
+| Environment variable | Description |
+|----|----|
+| `COPILOT_GITHUB_TOKEN` | GitHub token for Copilot API (first priority) |
 | `HERMES_COPILOT_ACP_COMMAND` | Override the Copilot CLI binary path (default: `copilot`) |
-| `HERMES_COPILOT_ACP_ARGS`    | Override ACP args (default: `--acp --stdio`)              |
+| `HERMES_COPILOT_ACP_ARGS` | Override ACP args (default: `--acp --stdio`) |
 
 ### First-Class Chinese AI Providers<a href="#first-class-chinese-ai-providers" class="hash-link" aria-label="Direct link to First-Class Chinese AI Providers" translate="no" title="Direct link to First-Class Chinese AI Providers">​</a>
 
 These providers have built-in support with dedicated provider IDs. Set the API key and use `--provider` to select:
 
 
-``` prism-code
+``` bash
 # z.ai / ZhipuAI GLM
 hermes chat --provider zai --model glm-4-plus
 # Requires: GLM_API_KEY in ~/.hermes/.env
@@ -244,7 +241,7 @@ hermes chat --provider alibaba --model qwen3.5-plus
 Or set the provider permanently in `config.yaml`:
 
 
-``` prism-code
+``` yaml
 model:
   provider: "zai"       # or: kimi-coding, minimax, minimax-cn, alibaba
   default: "glm-4-plus"
@@ -258,7 +255,7 @@ Base URLs can be overridden with `GLM_BASE_URL`, `KIMI_BASE_URL`, `MINIMAX_BASE_
 <a href="https://huggingface.co/docs/inference-providers" target="_blank" rel="noopener noreferrer">Hugging Face Inference Providers</a> routes to 20+ open models through a unified OpenAI-compatible endpoint (`router.huggingface.co/v1`). Requests are automatically routed to the fastest available backend (Groq, Together, SambaNova, etc.) with automatic failover.
 
 
-``` prism-code
+``` bash
 # Use any available model
 hermes chat --provider huggingface --model Qwen/Qwen3-235B-A22B-Thinking-2507
 # Requires: HF_TOKEN in ~/.hermes/.env
@@ -271,7 +268,7 @@ hermes chat --provider hf --model deepseek-ai/DeepSeek-V3.2
 Or set it permanently in `config.yaml`:
 
 
-``` prism-code
+``` yaml
 model:
   provider: "huggingface"
   default: "Qwen/Qwen3-235B-A22B-Thinking-2507"
@@ -295,7 +292,7 @@ Three ways to configure a custom endpoint:
 **Interactive setup (recommended):**
 
 
-``` prism-code
+``` bash
 hermes model
 # Select "Custom endpoint (self-hosted / VLLM / etc.)"
 # Enter: API base URL, API key, Model name
@@ -305,7 +302,7 @@ hermes model
 **Manual config (`config.yaml`):**
 
 
-``` prism-code
+``` yaml
 # In ~/.hermes/config.yaml
 model:
   default: your-model-name
@@ -318,7 +315,7 @@ model:
 **Environment variables (`.env` file):**
 
 
-``` prism-code
+``` bash
 # Add to ~/.hermes/.env
 OPENAI_BASE_URL=http://localhost:8000/v1
 OPENAI_API_KEY=your-key     # Any non-empty string for local servers
@@ -333,7 +330,7 @@ All three approaches end up in the same runtime path. `hermes model` persists pr
 Once a custom endpoint is configured, you can switch models mid-session:
 
 
-``` prism-code
+``` text
 /model custom:qwen-2.5          # Switch to a model on your custom endpoint
 /model custom                    # Auto-detect the model from the endpoint
 /model openrouter:claude-sonnet-4 # Switch back to a cloud provider
@@ -343,7 +340,7 @@ Once a custom endpoint is configured, you can switch models mid-session:
 If you have **named custom providers** configured (see below), use the triple syntax:
 
 
-``` prism-code
+``` text
 /model custom:local:qwen-2.5    # Use the "local" custom provider with model qwen-2.5
 /model custom:work:llama3       # Use the "work" custom provider with llama3
 ```
@@ -364,7 +361,7 @@ Everything below follows this same pattern — just change the URL, key, and mod
 <a href="https://ollama.com/" target="_blank" rel="noopener noreferrer">Ollama</a> runs open-weight models locally with one command. Best for: quick local experimentation, privacy-sensitive work, offline use.
 
 
-``` prism-code
+``` bash
 # Install and run a model
 ollama pull llama3.1:70b
 ollama serve   # Starts on port 11434
@@ -389,7 +386,7 @@ List available models with `ollama list`. Pull any model from the <a href="https
 <a href="https://docs.vllm.ai/" target="_blank" rel="noopener noreferrer">vLLM</a> is the standard for production LLM serving. Best for: maximum throughput on GPU hardware, serving large models, continuous batching.
 
 
-``` prism-code
+``` bash
 # Start vLLM server
 pip install vllm
 vllm serve meta-llama/Llama-3.1-70B-Instruct \
@@ -412,7 +409,7 @@ vLLM supports tool calling, structured output, and multi-modal models. Use `--en
 <a href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener noreferrer">SGLang</a> is an alternative to vLLM with RadixAttention for KV cache reuse. Best for: multi-turn conversations (prefix caching), constrained decoding, structured output.
 
 
-``` prism-code
+``` bash
 # Start SGLang server
 pip install "sglang[all]"
 python -m sglang.launch_server \
@@ -434,7 +431,7 @@ LLM_MODEL=meta-llama/Llama-3.1-70B-Instruct
 <a href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener noreferrer">llama.cpp</a> runs quantized models on CPU, Apple Silicon (Metal), and consumer GPUs. Best for: running models without a datacenter GPU, Mac users, edge deployment.
 
 
-``` prism-code
+``` bash
 # Build and start llama-server
 cmake -B build && cmake --build build --config Release
 ./build/bin/llama-server \
@@ -458,7 +455,7 @@ Download GGUF models from <a href="https://huggingface.co/models?library=gguf" t
 <a href="https://docs.litellm.ai/" target="_blank" rel="noopener noreferrer">LiteLLM</a> is an OpenAI-compatible proxy that unifies 100+ LLM providers behind a single API. Best for: switching between providers without config changes, load balancing, fallback chains, budget controls.
 
 
-``` prism-code
+``` bash
 # Install and start
 pip install "litellm[proxy]"
 litellm --model anthropic/claude-sonnet-4 --port 4000
@@ -476,7 +473,7 @@ LLM_MODEL=anthropic/claude-sonnet-4
 Example `litellm_config.yaml` with fallback:
 
 
-``` prism-code
+``` yaml
 model_list:
   - model_name: "best"
     litellm_params:
@@ -498,7 +495,7 @@ router_settings:
 <a href="https://github.com/BlockRunAI/ClawRouter" target="_blank" rel="noopener noreferrer">ClawRouter</a> by BlockRunAI is a local routing proxy that auto-selects models based on query complexity. It classifies requests across 14 dimensions and routes to the cheapest model that can handle the task. Payment is via USDC cryptocurrency (no API keys).
 
 
-``` prism-code
+``` bash
 # Install and start
 npx @blockrun/clawrouter    # Starts on port 8402
 
@@ -529,21 +526,21 @@ ClawRouter requires a USDC-funded wallet on Base or Solana for payment. All requ
 
 Any service with an OpenAI-compatible API works. Some popular options:
 
-| Provider                                                                                         | Base URL                                | Notes                         |
-|--------------------------------------------------------------------------------------------------|-----------------------------------------|-------------------------------|
-| <a href="https://together.ai" target="_blank" rel="noopener noreferrer">Together AI</a>          | `https://api.together.xyz/v1`           | Cloud-hosted open models      |
-| <a href="https://groq.com" target="_blank" rel="noopener noreferrer">Groq</a>                    | `https://api.groq.com/openai/v1`        | Ultra-fast inference          |
-| <a href="https://deepseek.com" target="_blank" rel="noopener noreferrer">DeepSeek</a>            | `https://api.deepseek.com/v1`           | DeepSeek models               |
-| <a href="https://fireworks.ai" target="_blank" rel="noopener noreferrer">Fireworks AI</a>        | `https://api.fireworks.ai/inference/v1` | Fast open model hosting       |
-| <a href="https://cerebras.ai" target="_blank" rel="noopener noreferrer">Cerebras</a>             | `https://api.cerebras.ai/v1`            | Wafer-scale chip inference    |
-| <a href="https://mistral.ai" target="_blank" rel="noopener noreferrer">Mistral AI</a>            | `https://api.mistral.ai/v1`             | Mistral models                |
-| <a href="https://openai.com" target="_blank" rel="noopener noreferrer">OpenAI</a>                | `https://api.openai.com/v1`             | Direct OpenAI access          |
-| <a href="https://azure.microsoft.com" target="_blank" rel="noopener noreferrer">Azure OpenAI</a> | `https://YOUR.openai.azure.com/`        | Enterprise OpenAI             |
-| <a href="https://localai.io" target="_blank" rel="noopener noreferrer">LocalAI</a>               | `http://localhost:8080/v1`              | Self-hosted, multi-model      |
-| <a href="https://jan.ai" target="_blank" rel="noopener noreferrer">Jan</a>                       | `http://localhost:1337/v1`              | Desktop app with local models |
+| Provider | Base URL | Notes |
+|----|----|----|
+| <a href="https://together.ai" target="_blank" rel="noopener noreferrer">Together AI</a> | `https://api.together.xyz/v1` | Cloud-hosted open models |
+| <a href="https://groq.com" target="_blank" rel="noopener noreferrer">Groq</a> | `https://api.groq.com/openai/v1` | Ultra-fast inference |
+| <a href="https://deepseek.com" target="_blank" rel="noopener noreferrer">DeepSeek</a> | `https://api.deepseek.com/v1` | DeepSeek models |
+| <a href="https://fireworks.ai" target="_blank" rel="noopener noreferrer">Fireworks AI</a> | `https://api.fireworks.ai/inference/v1` | Fast open model hosting |
+| <a href="https://cerebras.ai" target="_blank" rel="noopener noreferrer">Cerebras</a> | `https://api.cerebras.ai/v1` | Wafer-scale chip inference |
+| <a href="https://mistral.ai" target="_blank" rel="noopener noreferrer">Mistral AI</a> | `https://api.mistral.ai/v1` | Mistral models |
+| <a href="https://openai.com" target="_blank" rel="noopener noreferrer">OpenAI</a> | `https://api.openai.com/v1` | Direct OpenAI access |
+| <a href="https://azure.microsoft.com" target="_blank" rel="noopener noreferrer">Azure OpenAI</a> | `https://YOUR.openai.azure.com/` | Enterprise OpenAI |
+| <a href="https://localai.io" target="_blank" rel="noopener noreferrer">LocalAI</a> | `http://localhost:8080/v1` | Self-hosted, multi-model |
+| <a href="https://jan.ai" target="_blank" rel="noopener noreferrer">Jan</a> | `http://localhost:1337/v1` | Desktop app with local models |
 
 
-``` prism-code
+``` bash
 # Example: Together AI
 OPENAI_BASE_URL=https://api.together.xyz/v1
 OPENAI_API_KEY=your-together-key
@@ -572,7 +569,7 @@ For most setups this works out of the box. The system is provider-aware — the 
 To set the context length explicitly, add `context_length` to your model config:
 
 
-``` prism-code
+``` yaml
 model:
   default: "qwen3.5:9b"
   base_url: "http://localhost:8080/v1"
@@ -583,7 +580,7 @@ model:
 For custom endpoints, you can also set context length per model:
 
 
-``` prism-code
+``` yaml
 custom_providers:
   - name: "My Local LLM"
     base_url: "http://localhost:11434/v1"
@@ -610,7 +607,7 @@ custom_providers:
 If you work with multiple custom endpoints (e.g., a local dev server and a remote GPU server), you can define them as named custom providers in `config.yaml`:
 
 
-``` prism-code
+``` yaml
 custom_providers:
   - name: local
     base_url: http://localhost:8080/v1
@@ -629,7 +626,7 @@ custom_providers:
 Switch between them mid-session with the triple syntax:
 
 
-``` prism-code
+``` text
 /model custom:local:qwen-2.5       # Use the "local" endpoint with qwen-2.5
 /model custom:work:llama3-70b      # Use the "work" endpoint with llama3-70b
 /model custom:anthropic-proxy:claude-sonnet-4  # Use the proxy
@@ -642,17 +639,17 @@ You can also select named custom providers from the interactive `hermes model` m
 
 ### Choosing the Right Setup<a href="#choosing-the-right-setup" class="hash-link" aria-label="Direct link to Choosing the Right Setup" translate="no" title="Direct link to Choosing the Right Setup">​</a>
 
-| Use Case                     | Recommended                                                   |
-|------------------------------|---------------------------------------------------------------|
-| **Just want it to work**     | OpenRouter (default) or Nous Portal                           |
-| **Local models, easy setup** | Ollama                                                        |
-| **Production GPU serving**   | vLLM or SGLang                                                |
-| **Mac / no GPU**             | Ollama or llama.cpp                                           |
-| **Multi-provider routing**   | LiteLLM Proxy or OpenRouter                                   |
-| **Cost optimization**        | ClawRouter or OpenRouter with `sort: "price"`                 |
-| **Maximum privacy**          | Ollama, vLLM, or llama.cpp (fully local)                      |
-| **Enterprise / Azure**       | Azure OpenAI with custom endpoint                             |
-| **Chinese AI models**        | z.ai (GLM), Kimi/Moonshot, or MiniMax (first-class providers) |
+| Use Case | Recommended |
+|----|----|
+| **Just want it to work** | OpenRouter (default) or Nous Portal |
+| **Local models, easy setup** | Ollama |
+| **Production GPU serving** | vLLM or SGLang |
+| **Mac / no GPU** | Ollama or llama.cpp |
+| **Multi-provider routing** | LiteLLM Proxy or OpenRouter |
+| **Cost optimization** | ClawRouter or OpenRouter with `sort: "price"` |
+| **Maximum privacy** | Ollama, vLLM, or llama.cpp (fully local) |
+| **Enterprise / Azure** | Azure OpenAI with custom endpoint |
+| **Chinese AI models** | z.ai (GLM), Kimi/Moonshot, or MiniMax (first-class providers) |
 
 
 You can switch between providers at any time with `hermes model` — no restart required. Your conversation history, memory, and skills carry over regardless of which provider you use.
@@ -660,15 +657,15 @@ You can switch between providers at any time with `hermes model` — no restart 
 
 ## Optional API Keys<a href="#optional-api-keys" class="hash-link" aria-label="Direct link to Optional API Keys" translate="no" title="Direct link to Optional API Keys">​</a>
 
-| Feature                          | Provider                                                                                                                                                                                     | Env Variable                                    |
-|----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
-| Web scraping                     | <a href="https://firecrawl.dev/" target="_blank" rel="noopener noreferrer">Firecrawl</a>                                                                                                     | `FIRECRAWL_API_KEY`, `FIRECRAWL_API_URL`        |
-| Browser automation               | <a href="https://browserbase.com/" target="_blank" rel="noopener noreferrer">Browserbase</a>                                                                                                 | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID` |
-| Image generation                 | <a href="https://fal.ai/" target="_blank" rel="noopener noreferrer">FAL</a>                                                                                                                  | `FAL_KEY`                                       |
-| Premium TTS voices               | <a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">ElevenLabs</a>                                                                                                    | `ELEVENLABS_API_KEY`                            |
-| OpenAI TTS + voice transcription | <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI</a>                                                                                          | `VOICE_TOOLS_OPENAI_KEY`                        |
-| RL Training                      | <a href="https://tinker-console.thinkingmachines.ai/" target="_blank" rel="noopener noreferrer">Tinker</a> + <a href="https://wandb.ai/" target="_blank" rel="noopener noreferrer">WandB</a> | `TINKER_API_KEY`, `WANDB_API_KEY`               |
-| Cross-session user modeling      | <a href="https://honcho.dev/" target="_blank" rel="noopener noreferrer">Honcho</a>                                                                                                           | `HONCHO_API_KEY`                                |
+| Feature | Provider | Env Variable |
+|----|----|----|
+| Web scraping | <a href="https://firecrawl.dev/" target="_blank" rel="noopener noreferrer">Firecrawl</a> | `FIRECRAWL_API_KEY`, `FIRECRAWL_API_URL` |
+| Browser automation | <a href="https://browserbase.com/" target="_blank" rel="noopener noreferrer">Browserbase</a> | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID` |
+| Image generation | <a href="https://fal.ai/" target="_blank" rel="noopener noreferrer">FAL</a> | `FAL_KEY` |
+| Premium TTS voices | <a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">ElevenLabs</a> | `ELEVENLABS_API_KEY` |
+| OpenAI TTS + voice transcription | <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI</a> | `VOICE_TOOLS_OPENAI_KEY` |
+| RL Training | <a href="https://tinker-console.thinkingmachines.ai/" target="_blank" rel="noopener noreferrer">Tinker</a> + <a href="https://wandb.ai/" target="_blank" rel="noopener noreferrer">WandB</a> | `TINKER_API_KEY`, `WANDB_API_KEY` |
+| Cross-session user modeling | <a href="https://honcho.dev/" target="_blank" rel="noopener noreferrer">Honcho</a> | `HONCHO_API_KEY` |
 
 ### Self-Hosting Firecrawl<a href="#self-hosting-firecrawl" class="hash-link" aria-label="Direct link to Self-Hosting Firecrawl" translate="no" title="Direct link to Self-Hosting Firecrawl">​</a>
 
@@ -686,7 +683,7 @@ By default, Hermes uses the <a href="https://firecrawl.dev/" target="_blank" rel
 
     <div class="codeBlockContent_QJqH">
 
-    ``` prism-code
+    ``` bash
     git clone https://github.com/firecrawl/firecrawl
     cd firecrawl
     # In .env, set: USE_DB_AUTHENTICATION=false, HOST=0.0.0.0, PORT=3002
@@ -703,7 +700,7 @@ By default, Hermes uses the <a href="https://firecrawl.dev/" target="_blank" rel
 
     <div class="codeBlockContent_QJqH">
 
-    ``` prism-code
+    ``` bash
     hermes config set FIRECRAWL_API_URL http://localhost:3002
     ```
 
@@ -718,7 +715,7 @@ You can also set both `FIRECRAWL_API_KEY` and `FIRECRAWL_API_URL` if your self-h
 When using OpenRouter, you can control how requests are routed across providers. Add a `provider_routing` section to `~/.hermes/config.yaml`:
 
 
-``` prism-code
+``` yaml
 provider_routing:
   sort: "throughput"          # "price" (default), "throughput", or "latency"
   # only: ["anthropic"]      # Only use these providers
@@ -736,7 +733,7 @@ provider_routing:
 Configure a backup provider:model that Hermes switches to automatically when your primary model fails (rate limits, server errors, auth failures):
 
 
-``` prism-code
+``` yaml
 fallback_model:
   provider: openrouter                    # required
   model: anthropic/claude-sonnet-4        # required
@@ -758,7 +755,7 @@ Fallback is configured exclusively through `config.yaml` — there are no enviro
 Optional cheap-vs-strong routing lets Hermes keep your main model for complex work while sending very short/simple turns to a cheaper model.
 
 
-``` prism-code
+``` yaml
 smart_model_routing:
   enabled: true
   max_simple_chars: 160
@@ -793,103 +790,194 @@ Use this when you want lower latency or cost without fully changing your default
 
 ## Terminal Backend Configuration<a href="#terminal-backend-configuration" class="hash-link" aria-label="Direct link to Terminal Backend Configuration" translate="no" title="Direct link to Terminal Backend Configuration">​</a>
 
-Configure which environment the agent uses for terminal commands:
+Hermes supports six terminal backends. Each determines where the agent's shell commands actually execute — your local machine, a Docker container, a remote server via SSH, a Modal cloud sandbox, a Daytona workspace, or a Singularity/Apptainer container.
 
 
-``` prism-code
+``` yaml
 terminal:
-  backend: local    # or: docker, ssh, singularity, modal, daytona
-  cwd: "."          # Working directory ("." = current dir)
-  timeout: 180      # Command timeout in seconds
-
-  # Docker-specific settings
-  docker_image: "nikolaik/python-nodejs:python3.11-nodejs20"
-  docker_mount_cwd_to_workspace: false  # SECURITY: off by default. Opt in to mount the launch cwd into /workspace.
-  docker_forward_env:              # Optional explicit allowlist for env passthrough
-    - "GITHUB_TOKEN"
-  docker_volumes:                    # Additional explicit host mounts
-    - "/home/user/projects:/workspace/projects"
-    - "/home/user/data:/data:ro"     # :ro for read-only
-
-  # Container resource limits (docker, singularity, modal, daytona)
-  container_cpu: 1                   # CPU cores
-  container_memory: 5120             # MB (default 5GB)
-  container_disk: 51200              # MB (default 50GB)
-  container_persistent: true         # Persist filesystem across sessions
-
-  # Persistent shell — keep a long-lived bash process across commands
-  persistent_shell: true             # Enabled by default for SSH backend
+  backend: local    # local | docker | ssh | modal | daytona | singularity
+  cwd: "."          # Working directory ("." = current dir for local, "/root" for containers)
+  timeout: 180      # Per-command timeout in seconds
 ```
 
 
+### Backend Overview<a href="#backend-overview" class="hash-link" aria-label="Direct link to Backend Overview" translate="no" title="Direct link to Backend Overview">​</a>
+
+| Backend | Where commands run | Isolation | Best for |
+|----|----|----|----|
+| **local** | Your machine directly | None | Development, personal use |
+| **docker** | Docker container | Full (namespaces, cap-drop) | Safe sandboxing, CI/CD |
+| **ssh** | Remote server via SSH | Network boundary | Remote dev, powerful hardware |
+| **modal** | Modal cloud sandbox | Full (cloud VM) | Ephemeral cloud compute, evals |
+| **daytona** | Daytona workspace | Full (cloud container) | Managed cloud dev environments |
+| **singularity** | Singularity/Apptainer container | Namespaces (--containall) | HPC clusters, shared machines |
+
+### Local Backend<a href="#local-backend" class="hash-link" aria-label="Direct link to Local Backend" translate="no" title="Direct link to Local Backend">​</a>
+
+The default. Commands run directly on your machine with no isolation. No special setup required.
+
+
+``` yaml
+terminal:
+  backend: local
+```
+
+
+The agent has the same filesystem access as your user account. Use `hermes tools` to disable tools you don't want, or switch to Docker for sandboxing.
+
+
+### Docker Backend<a href="#docker-backend" class="hash-link" aria-label="Direct link to Docker Backend" translate="no" title="Direct link to Docker Backend">​</a>
+
+Runs commands inside a Docker container with security hardening (all capabilities dropped, no privilege escalation, PID limits).
+
+
+``` yaml
+terminal:
+  backend: docker
+  docker_image: "nikolaik/python-nodejs:python3.11-nodejs20"
+  docker_mount_cwd_to_workspace: false  # Mount launch dir into /workspace
+  docker_forward_env:              # Env vars to forward into container
+    - "GITHUB_TOKEN"
+  docker_volumes:                  # Host directory mounts
+    - "/home/user/projects:/workspace/projects"
+    - "/home/user/data:/data:ro"   # :ro for read-only
+
+  # Resource limits
+  container_cpu: 1                 # CPU cores (0 = unlimited)
+  container_memory: 5120           # MB (0 = unlimited)
+  container_disk: 51200            # MB (requires overlay2 on XFS+pquota)
+  container_persistent: true       # Persist /workspace and /root across sessions
+```
+
+
+**Requirements:** Docker Desktop or Docker Engine installed and running. Hermes probes `$PATH` plus common macOS install locations (`/usr/local/bin/docker`, `/opt/homebrew/bin/docker`, Docker Desktop app bundle).
+
+**Container lifecycle:** Each session starts a long-lived container (`docker run -d ... sleep 2h`). Commands run via `docker exec` with a login shell. On cleanup, the container is stopped and removed.
+
+**Security hardening:**
+
+- `--cap-drop ALL` with only `DAC_OVERRIDE`, `CHOWN`, `FOWNER` added back
+- `--security-opt no-new-privileges`
+- `--pids-limit 256`
+- Size-limited tmpfs for `/tmp` (512MB), `/var/tmp` (256MB), `/run` (64MB)
+
+**Credential forwarding:** Env vars listed in `docker_forward_env` are resolved from your shell environment first, then `~/.hermes/.env`. Skills can also declare `required_environment_variables` which are merged automatically.
+
+### SSH Backend<a href="#ssh-backend" class="hash-link" aria-label="Direct link to SSH Backend" translate="no" title="Direct link to SSH Backend">​</a>
+
+Runs commands on a remote server over SSH. Uses ControlMaster for connection reuse (5-minute idle keepalive). Persistent shell is enabled by default — state (cwd, env vars) survives across commands.
+
+
+``` yaml
+terminal:
+  backend: ssh
+  persistent_shell: true           # Keep a long-lived bash session (default: true)
+```
+
+
+**Required environment variables:**
+
+
+``` bash
+TERMINAL_SSH_HOST=my-server.example.com
+TERMINAL_SSH_USER=ubuntu
+```
+
+
+**Optional:**
+
+| Variable                  | Default          | Description             |
+|---------------------------|------------------|-------------------------|
+| `TERMINAL_SSH_PORT`       | `22`             | SSH port                |
+| `TERMINAL_SSH_KEY`        | (system default) | Path to SSH private key |
+| `TERMINAL_SSH_PERSISTENT` | `true`           | Enable persistent shell |
+
+**How it works:** Connects at init time with `BatchMode=yes` and `StrictHostKeyChecking=accept-new`. Persistent shell keeps a single `bash -l` process alive on the remote host, communicating via temporary files. Commands that need `stdin_data` or `sudo` automatically fall back to one-shot mode.
+
+### Modal Backend<a href="#modal-backend" class="hash-link" aria-label="Direct link to Modal Backend" translate="no" title="Direct link to Modal Backend">​</a>
+
+Runs commands in a <a href="https://modal.com" target="_blank" rel="noopener noreferrer">Modal</a> cloud sandbox. Each task gets an isolated VM with configurable CPU, memory, and disk. Filesystem can be snapshot/restored across sessions.
+
+
+``` yaml
+terminal:
+  backend: modal
+  container_cpu: 1                 # CPU cores
+  container_memory: 5120           # MB (5GB)
+  container_disk: 51200            # MB (50GB)
+  container_persistent: true       # Snapshot/restore filesystem
+```
+
+
+**Required:** Either `MODAL_TOKEN_ID` + `MODAL_TOKEN_SECRET` environment variables, or a `~/.modal.toml` config file.
+
+**Persistence:** When enabled, the sandbox filesystem is snapshotted on cleanup and restored on next session. Snapshots are tracked in `~/.hermes/modal_snapshots.json`.
+
+**Credential files:** Automatically mounted from `~/.hermes/` (OAuth tokens, etc.) and synced before each command.
+
+### Daytona Backend<a href="#daytona-backend" class="hash-link" aria-label="Direct link to Daytona Backend" translate="no" title="Direct link to Daytona Backend">​</a>
+
+Runs commands in a <a href="https://daytona.io" target="_blank" rel="noopener noreferrer">Daytona</a> managed workspace. Supports stop/resume for persistence.
+
+
+``` yaml
+terminal:
+  backend: daytona
+  container_cpu: 1                 # CPU cores
+  container_memory: 5120           # MB → converted to GiB
+  container_disk: 10240            # MB → converted to GiB (max 10 GiB)
+  container_persistent: true       # Stop/resume instead of delete
+```
+
+
+**Required:** `DAYTONA_API_KEY` environment variable.
+
+**Persistence:** When enabled, sandboxes are stopped (not deleted) on cleanup and resumed on next session. Sandbox names follow the pattern `hermes-{task_id}`.
+
+**Disk limit:** Daytona enforces a 10 GiB maximum. Requests above this are capped with a warning.
+
+### Singularity/Apptainer Backend<a href="#singularityapptainer-backend" class="hash-link" aria-label="Direct link to Singularity/Apptainer Backend" translate="no" title="Direct link to Singularity/Apptainer Backend">​</a>
+
+Runs commands in a <a href="https://apptainer.org" target="_blank" rel="noopener noreferrer">Singularity/Apptainer</a> container. Designed for HPC clusters and shared machines where Docker isn't available.
+
+
+``` yaml
+terminal:
+  backend: singularity
+  singularity_image: "docker://nikolaik/python-nodejs:python3.11-nodejs20"
+  container_cpu: 1                 # CPU cores
+  container_memory: 5120           # MB
+  container_persistent: true       # Writable overlay persists across sessions
+```
+
+
+**Requirements:** `apptainer` or `singularity` binary in `$PATH`.
+
+**Image handling:** Docker URLs (`docker://...`) are automatically converted to SIF files and cached. Existing `.sif` files are used directly.
+
+**Scratch directory:** Resolved in order: `TERMINAL_SCRATCH_DIR` → `TERMINAL_SANDBOX_DIR/singularity` → `/scratch/$USER/hermes-agent` (HPC convention) → `~/.hermes/sandboxes/singularity`.
+
+**Isolation:** Uses `--containall --no-home` for full namespace isolation without mounting the host home directory.
+
 ### Common Terminal Backend Issues<a href="#common-terminal-backend-issues" class="hash-link" aria-label="Direct link to Common Terminal Backend Issues" translate="no" title="Direct link to Common Terminal Backend Issues">​</a>
 
-If terminal commands fail immediately or the terminal tool is reported as disabled, check the following:
+If terminal commands fail immediately or the terminal tool is reported as disabled:
 
-- **Local backend**
+- **Local** — No special requirements. The safest default when getting started.
+- **Docker** — Run `docker version` to verify Docker is working. If it fails, fix Docker or `hermes config set terminal.backend local`.
+- **SSH** — Both `TERMINAL_SSH_HOST` and `TERMINAL_SSH_USER` must be set. Hermes logs a clear error if either is missing.
+- **Modal** — Needs `MODAL_TOKEN_ID` env var or `~/.modal.toml`. Run `hermes doctor` to check.
+- **Daytona** — Needs `DAYTONA_API_KEY`. The Daytona SDK handles server URL configuration.
+- **Singularity** — Needs `apptainer` or `singularity` in `$PATH`. Common on HPC clusters.
 
-  - No special requirements. This is the safest default when you are just getting started.
-
-- **Docker backend**
-
-  - Ensure Docker Desktop (or the Docker daemon) is installed and running.
-  - Hermes needs to be able to find the `docker` CLI. It checks your `$PATH` first and also probes common Docker Desktop install locations on macOS. Run:
-    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
-
-    <div class="codeBlockContent_QJqH">
-
-    ``` prism-code
-    docker version
-    ```
-
-    </div>
-
-    </div>
-
-    If this fails, fix your Docker installation or switch back to the local backend:
-    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
-
-    <div class="codeBlockContent_QJqH">
-
-    ``` prism-code
-    hermes config set terminal.backend local
-    ```
-
-    </div>
-
-    </div>
-
-- **SSH backend**
-
-  - Both `TERMINAL_SSH_HOST` and `TERMINAL_SSH_USER` must be set, for example:
-    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
-
-    <div class="codeBlockContent_QJqH">
-
-    ``` prism-code
-    export TERMINAL_ENV=ssh
-    export TERMINAL_SSH_HOST=my-server.example.com
-    export TERMINAL_SSH_USER=ubuntu
-    ```
-
-    </div>
-
-    </div>
-  - If either value is missing, Hermes will log a clear error and refuse to use the SSH backend.
-
-- **Modal backend**
-
-  - You need either a `MODAL_TOKEN_ID` environment variable or a `~/.modal.toml` config file.
-  - If neither is present, the backend check fails and Hermes will report that the Modal backend is not available.
-
-When in doubt, set `terminal.backend` back to `local` and verify that commands run there first.
+When in doubt, set `terminal.backend` back to `local` and verify commands run there first.
 
 ### Docker Volume Mounts<a href="#docker-volume-mounts" class="hash-link" aria-label="Direct link to Docker Volume Mounts" translate="no" title="Direct link to Docker Volume Mounts">​</a>
 
 When using the Docker backend, `docker_volumes` lets you share host directories with the container. Each entry uses standard Docker `-v` syntax: `host_path:container_path[:options]`.
 
 
-``` prism-code
+``` yaml
 terminal:
   backend: docker
   docker_volumes:
@@ -912,7 +1000,7 @@ Can also be set via environment variable: `TERMINAL_DOCKER_VOLUMES='["/host:/con
 By default, Docker terminal sessions do not inherit arbitrary host credentials. If you need a specific token inside the container, add it to `terminal.docker_forward_env`.
 
 
-``` prism-code
+``` yaml
 terminal:
   backend: docker
   docker_forward_env:
@@ -934,7 +1022,7 @@ Docker sandboxes stay isolated by default. Hermes does **not** pass your current
 Enable it in `config.yaml`:
 
 
-``` prism-code
+``` yaml
 terminal:
   backend: docker
   docker_mount_cwd_to_workspace: true
@@ -963,7 +1051,7 @@ By default, each terminal command runs in its own subprocess — working directo
 This is most useful for the **SSH backend**, where it also eliminates per-command connection overhead. Persistent shell is **enabled by default for SSH** and disabled for the local backend.
 
 
-``` prism-code
+``` yaml
 terminal:
   persistent_shell: true   # default — enables persistent shell for SSH
 ```
@@ -972,7 +1060,7 @@ terminal:
 To disable:
 
 
-``` prism-code
+``` bash
 hermes config set terminal.persistent_shell false
 ```
 
@@ -994,7 +1082,7 @@ hermes config set terminal.persistent_shell false
 Per-backend environment variables take highest precedence. If you want persistent shell on the local backend too:
 
 
-``` prism-code
+``` bash
 export TERMINAL_LOCAL_PERSISTENT=true
 ```
 
@@ -1007,7 +1095,7 @@ See [Code Execution](/docs/user-guide/features/code-execution) and the [Terminal
 ## Memory Configuration<a href="#memory-configuration" class="hash-link" aria-label="Direct link to Memory Configuration" translate="no" title="Direct link to Memory Configuration">​</a>
 
 
-``` prism-code
+``` yaml
 memory:
   memory_enabled: true
   user_profile_enabled: true
@@ -1021,7 +1109,7 @@ memory:
 Enable isolated git worktrees for running multiple agents in parallel on the same repo:
 
 
-``` prism-code
+``` yaml
 worktree: true    # Always create a worktree (same as hermes -w)
 # worktree: false # Default — only when -w flag is passed
 ```
@@ -1032,7 +1120,7 @@ When enabled, each CLI session creates a fresh worktree under `.worktrees/` with
 You can also list gitignored files to copy into worktrees via `.worktreeinclude` in your repo root:
 
 
-``` prism-code
+``` text
 # .worktreeinclude
 .env
 .venv/
@@ -1049,7 +1137,7 @@ All compression settings live in `config.yaml` (no environment variables).
 ### Full reference<a href="#full-reference" class="hash-link" aria-label="Direct link to Full reference" translate="no" title="Direct link to Full reference">​</a>
 
 
-``` prism-code
+``` yaml
 compression:
   enabled: true                                     # Toggle compression on/off
   threshold: 0.50                                   # Compress at this % of context limit
@@ -1064,7 +1152,7 @@ compression:
 **Default (auto-detect) — no configuration needed:**
 
 
-``` prism-code
+``` yaml
 compression:
   enabled: true
   threshold: 0.50
@@ -1076,7 +1164,7 @@ Uses the first available provider (OpenRouter → Nous → Codex) with Gemini Fl
 **Force a specific provider** (OAuth or API-key based):
 
 
-``` prism-code
+``` yaml
 compression:
   summary_provider: nous
   summary_model: gemini-3-flash
@@ -1088,7 +1176,7 @@ Works with any provider: `nous`, `openrouter`, `codex`, `anthropic`, `main`, etc
 **Custom endpoint** (self-hosted, Ollama, zai, DeepSeek, etc.):
 
 
-``` prism-code
+``` yaml
 compression:
   summary_model: glm-4.7
   summary_base_url: https://api.z.ai/api/coding/paas/v4
@@ -1099,11 +1187,11 @@ Points at a custom OpenAI-compatible endpoint. Uses `OPENAI_API_KEY` for auth.
 
 ### How the three knobs interact<a href="#how-the-three-knobs-interact" class="hash-link" aria-label="Direct link to How the three knobs interact" translate="no" title="Direct link to How the three knobs interact">​</a>
 
-| `summary_provider`           | `summary_base_url` | Result                                              |
-|------------------------------|--------------------|-----------------------------------------------------|
-| `auto` (default)             | not set            | Auto-detect best available provider                 |
-| `nous` / `openrouter` / etc. | not set            | Force that provider, use its auth                   |
-| any                          | set                | Use the custom endpoint directly (provider ignored) |
+| `summary_provider` | `summary_base_url` | Result |
+|----|----|----|
+| `auto` (default) | not set | Auto-detect best available provider |
+| `nous` / `openrouter` / etc. | not set | Force that provider, use its auth |
+| any | set | Use the custom endpoint directly (provider ignored) |
 
 The `summary_model` must support a context length at least as large as your main model's, since it receives the full middle section of the conversation for compression.
 
@@ -1111,15 +1199,15 @@ The `summary_model` must support a context length at least as large as your main
 
 When the agent is working on a complex task with many tool calls, it can burn through its iteration budget (default: 90 turns) without realizing it's running low. Budget pressure automatically warns the model as it approaches the limit:
 
-| Threshold | Level   | What the model sees                                         |
-|-----------|---------|-------------------------------------------------------------|
-| **70%**   | Caution | `[BUDGET: 63/90. 27 iterations left. Start consolidating.]` |
-| **90%**   | Warning | `[BUDGET WARNING: 81/90. Only 9 left. Respond NOW.]`        |
+| Threshold | Level | What the model sees |
+|----|----|----|
+| **70%** | Caution | `[BUDGET: 63/90. 27 iterations left. Start consolidating.]` |
+| **90%** | Warning | `[BUDGET WARNING: 81/90. Only 9 left. Respond NOW.]` |
 
 Warnings are injected into the last tool result's JSON (as a `_budget_warning` field) rather than as separate messages — this preserves prompt caching and doesn't disrupt the conversation structure.
 
 
-``` prism-code
+``` yaml
 agent:
   max_turns: 90                # Max iterations per conversation turn (default: 90)
 ```
@@ -1131,15 +1219,15 @@ Budget pressure is enabled by default. The agent sees warnings naturally as part
 
 Separate from iteration budget pressure, context pressure tracks how close the conversation is to the **compaction threshold** — the point where context compression fires to summarize older messages. This helps both you and the agent understand when the conversation is getting long.
 
-| Progress               | Level   | What happens                                                         |
-|------------------------|---------|----------------------------------------------------------------------|
-| **≥ 60%** to threshold | Info    | CLI shows a cyan progress bar; gateway sends an informational notice |
-| **≥ 85%** to threshold | Warning | CLI shows a bold yellow bar; gateway warns compaction is imminent    |
+| Progress | Level | What happens |
+|----|----|----|
+| **≥ 60%** to threshold | Info | CLI shows a cyan progress bar; gateway sends an informational notice |
+| **≥ 85%** to threshold | Warning | CLI shows a bold yellow bar; gateway warns compaction is imminent |
 
 In the CLI, context pressure appears as a progress bar in the tool output feed:
 
 
-``` prism-code
+``` text
   ◐ context ████████████░░░░░░░░ 62% to compaction  48k threshold (50%) · approaching compaction
 ```
 
@@ -1147,7 +1235,7 @@ In the CLI, context pressure appears as a progress bar in the tool output feed:
 On messaging platforms, a plain-text notification is sent:
 
 
-``` prism-code
+``` text
 ◐ Context: ████████████░░░░░░░░ 62% to compaction (threshold: 50% of window).
 ```
 
@@ -1164,11 +1252,11 @@ Hermes uses lightweight "auxiliary" models for side tasks like image analysis, w
 
 Every model slot in Hermes — auxiliary tasks, compression, fallback — uses the same three knobs:
 
-| Key        | What it does                                           | Default            |
-|------------|--------------------------------------------------------|--------------------|
-| `provider` | Which provider to use for auth and routing             | `"auto"`           |
-| `model`    | Which model to request                                 | provider's default |
-| `base_url` | Custom OpenAI-compatible endpoint (overrides provider) | not set            |
+| Key | What it does | Default |
+|----|----|----|
+| `provider` | Which provider to use for auth and routing | `"auto"` |
+| `model` | Which model to request | provider's default |
+| `base_url` | Custom OpenAI-compatible endpoint (overrides provider) | not set |
 
 When `base_url` is set, Hermes ignores the provider and calls that endpoint directly (using `api_key` or `OPENAI_API_KEY` for auth). When only `provider` is set, Hermes uses that provider's built-in auth and base URL.
 
@@ -1177,7 +1265,7 @@ Available providers: `auto`, `openrouter`, `nous`, `codex`, `copilot`, `anthropi
 ### Full auxiliary config reference<a href="#full-auxiliary-config-reference" class="hash-link" aria-label="Direct link to Full auxiliary config reference" translate="no" title="Direct link to Full auxiliary config reference">​</a>
 
 
-``` prism-code
+``` yaml
 auxiliary:
   # Image analysis (vision_analyze tool + browser screenshots)
   vision:
@@ -1185,7 +1273,8 @@ auxiliary:
     model: ""                  # e.g. "openai/gpt-4o", "google/gemini-2.5-flash"
     base_url: ""               # Custom OpenAI-compatible endpoint (overrides provider)
     api_key: ""                # API key for base_url (falls back to OPENAI_API_KEY)
-    timeout: 30                # seconds — increase for slow local vision models
+    timeout: 30                # seconds — LLM API call; increase for slow local vision models
+    download_timeout: 30       # seconds — image HTTP download; increase for slow connections
 
   # Web page summarization + browser page text extraction
   web_extract:
@@ -1209,7 +1298,7 @@ auxiliary:
 ```
 
 
-Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 30s, web_extract 30s, approval 30s, compression 120s. Increase these if you use slow local models for auxiliary tasks.
+Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 30s, web_extract 30s, approval 30s, compression 120s. Increase these if you use slow local models for auxiliary tasks. Vision also has a separate `download_timeout` (default 30s) for the HTTP image download — increase this for slow connections or self-hosted image servers.
 
 
 Context compression has its own top-level `compression:` block with `summary_provider`, `summary_model`, and `summary_base_url` — see [Context Compression](#context-compression) above. The fallback model uses a `fallback_model:` block — see [Fallback Model](#fallback-model) above. All three follow the same provider/model/base_url pattern.
@@ -1220,7 +1309,7 @@ Context compression has its own top-level `compression:` block with `summary_pro
 To use GPT-4o instead of Gemini Flash for image analysis:
 
 
-``` prism-code
+``` yaml
 auxiliary:
   vision:
     model: "openai/gpt-4o"
@@ -1230,27 +1319,27 @@ auxiliary:
 Or via environment variable (in `~/.hermes/.env`):
 
 
-``` prism-code
+``` bash
 AUXILIARY_VISION_MODEL=openai/gpt-4o
 ```
 
 
 ### Provider Options<a href="#provider-options" class="hash-link" aria-label="Direct link to Provider Options" translate="no" title="Direct link to Provider Options">​</a>
 
-| Provider       | Description                                                                                                                                                                                                                      | Requirements                           |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
-| `"auto"`       | Best available (default). Vision tries OpenRouter → Nous → Codex.                                                                                                                                                                | —                                      |
-| `"openrouter"` | Force OpenRouter — routes to any model (Gemini, GPT-4o, Claude, etc.)                                                                                                                                                            | `OPENROUTER_API_KEY`                   |
-| `"nous"`       | Force Nous Portal                                                                                                                                                                                                                | `hermes login`                         |
-| `"codex"`      | Force Codex OAuth (ChatGPT account). Supports vision (gpt-5.3-codex).                                                                                                                                                            | `hermes model` → Codex                 |
-| `"main"`       | Use your active custom/main endpoint. This can come from `OPENAI_BASE_URL` + `OPENAI_API_KEY` or from a custom endpoint saved via `hermes model` / `config.yaml`. Works with OpenAI, local models, or any OpenAI-compatible API. | Custom endpoint credentials + base URL |
+| Provider | Description | Requirements |
+|----|----|----|
+| `"auto"` | Best available (default). Vision tries OpenRouter → Nous → Codex. | — |
+| `"openrouter"` | Force OpenRouter — routes to any model (Gemini, GPT-4o, Claude, etc.) | `OPENROUTER_API_KEY` |
+| `"nous"` | Force Nous Portal | `hermes login` |
+| `"codex"` | Force Codex OAuth (ChatGPT account). Supports vision (gpt-5.3-codex). | `hermes model` → Codex |
+| `"main"` | Use your active custom/main endpoint. This can come from `OPENAI_BASE_URL` + `OPENAI_API_KEY` or from a custom endpoint saved via `hermes model` / `config.yaml`. Works with OpenAI, local models, or any OpenAI-compatible API. | Custom endpoint credentials + base URL |
 
 ### Common Setups<a href="#common-setups-1" class="hash-link" aria-label="Direct link to Common Setups" translate="no" title="Direct link to Common Setups">​</a>
 
 **Using a direct custom endpoint** (clearer than `provider: "main"` for local/self-hosted APIs):
 
 
-``` prism-code
+``` yaml
 auxiliary:
   vision:
     base_url: "http://localhost:1234/v1"
@@ -1264,7 +1353,7 @@ auxiliary:
 **Using OpenAI API key for vision:**
 
 
-``` prism-code
+``` yaml
 # In ~/.hermes/.env:
 # OPENAI_BASE_URL=https://api.openai.com/v1
 # OPENAI_API_KEY=sk-...
@@ -1279,7 +1368,7 @@ auxiliary:
 **Using OpenRouter for vision** (route to any model):
 
 
-``` prism-code
+``` yaml
 auxiliary:
   vision:
     provider: "openrouter"
@@ -1290,7 +1379,7 @@ auxiliary:
 **Using Codex OAuth** (ChatGPT Pro/Plus account — no API key needed):
 
 
-``` prism-code
+``` yaml
 auxiliary:
   vision:
     provider: "codex"     # uses your ChatGPT OAuth token
@@ -1301,7 +1390,7 @@ auxiliary:
 **Using a local/self-hosted model:**
 
 
-``` prism-code
+``` yaml
 auxiliary:
   vision:
     provider: "main"      # uses your active custom endpoint
@@ -1344,7 +1433,7 @@ Run `hermes config` to see your current auxiliary model settings. Overrides only
 Control how much "thinking" the model does before responding:
 
 
-``` prism-code
+``` yaml
 agent:
   reasoning_effort: ""   # empty = medium (default). Options: xhigh (max), high, medium, low, minimal, none
 ```
@@ -1355,7 +1444,7 @@ When unset (default), reasoning effort defaults to "medium" — a balanced level
 You can also change the reasoning effort at runtime with the `/reasoning` command:
 
 
-``` prism-code
+``` text
 /reasoning           # Show current effort level and display state
 /reasoning high      # Set reasoning effort to high
 /reasoning none      # Disable reasoning
@@ -1369,25 +1458,25 @@ You can also change the reasoning effort at runtime with the `/reasoning` comman
 Some models (especially GPT-family) occasionally describe intended actions as text instead of making tool calls. Tool-use enforcement injects guidance that steers the model back to actually calling tools.
 
 
-``` prism-code
+``` yaml
 agent:
   tool_use_enforcement: "auto"   # "auto" | true | false | ["model-substring", ...]
 ```
 
 
-| Value                             | Behavior                                                                    |
-|-----------------------------------|-----------------------------------------------------------------------------|
-| `"auto"` (default)                | Enabled for GPT models (`gpt-`, `openai/gpt-`) and disabled for all others. |
-| `true`                            | Always enabled for all models.                                              |
-| `false`                           | Always disabled.                                                            |
-| `["gpt-", "o1-", "custom-model"]` | Enabled only for models whose name contains one of the listed substrings.   |
+| Value | Behavior |
+|----|----|
+| `"auto"` (default) | Enabled for GPT models (`gpt-`, `openai/gpt-`) and disabled for all others. |
+| `true` | Always enabled for all models. |
+| `false` | Always disabled. |
+| `["gpt-", "o1-", "custom-model"]` | Enabled only for models whose name contains one of the listed substrings. |
 
 When enabled, the system prompt includes guidance reminding the model to make actual tool calls rather than describing what it would do. This is transparent to the user and has no effect on models that already use tools reliably.
 
 ## TTS Configuration<a href="#tts-configuration" class="hash-link" aria-label="Direct link to TTS Configuration" translate="no" title="Direct link to TTS Configuration">​</a>
 
 
-``` prism-code
+``` yaml
 tts:
   provider: "edge"              # "edge" | "elevenlabs" | "openai" | "neutts"
   edge:
@@ -1412,7 +1501,7 @@ This controls both the `text_to_speech` tool and spoken replies in voice mode (`
 ## Display Settings<a href="#display-settings" class="hash-link" aria-label="Direct link to Display Settings" translate="no" title="Direct link to Display Settings">​</a>
 
 
-``` prism-code
+``` yaml
 display:
   tool_progress: all      # off | new | all | verbose
   tool_progress_command: false  # Enable /verbose slash command in messaging gateway
@@ -1433,11 +1522,11 @@ display:
 
 The `theme_mode` setting controls whether skins render in light or dark mode:
 
-| Mode             | Behavior                                                                                                                              |
-|------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| `auto` (default) | Detects your terminal's background color automatically. Falls back to `dark` if detection fails.                                      |
-| `light`          | Forces light-mode skin colors. Skins that define a `colors_light` override use those colors instead of the default dark-mode palette. |
-| `dark`           | Forces dark-mode skin colors.                                                                                                         |
+| Mode | Behavior |
+|----|----|
+| `auto` (default) | Detects your terminal's background color automatically. Falls back to `dark` if detection fails. |
+| `light` | Forces light-mode skin colors. Skins that define a `colors_light` override use those colors instead of the default dark-mode palette. |
+| `dark` | Forces dark-mode skin colors. |
 
 This works with any skin — built-in or custom. Skin authors can provide `colors_light` in their skin definition for optimal light-terminal appearance.
 
@@ -1453,7 +1542,7 @@ In the CLI, cycle through these modes with `/verbose`. To use `/verbose` in mess
 ## Privacy<a href="#privacy" class="hash-link" aria-label="Direct link to Privacy" translate="no" title="Direct link to Privacy">​</a>
 
 
-``` prism-code
+``` yaml
 privacy:
   redact_pii: false  # Strip PII from LLM context (gateway only)
 ```
@@ -1461,13 +1550,13 @@ privacy:
 
 When `redact_pii` is `true`, the gateway redacts personally identifiable information from the system prompt before sending it to the LLM on supported platforms:
 
-| Field                                      | Treatment                                                             |
-|--------------------------------------------|-----------------------------------------------------------------------|
-| Phone numbers (user ID on WhatsApp/Signal) | Hashed to `user_<12-char-sha256>`                                     |
-| User IDs                                   | Hashed to `user_<12-char-sha256>`                                     |
-| Chat IDs                                   | Numeric portion hashed, platform prefix preserved (`telegram:<hash>`) |
-| Home channel IDs                           | Numeric portion hashed                                                |
-| User names / usernames                     | **Not affected** (user-chosen, publicly visible)                      |
+| Field | Treatment |
+|----|----|
+| Phone numbers (user ID on WhatsApp/Signal) | Hashed to `user_<12-char-sha256>` |
+| User IDs | Hashed to `user_<12-char-sha256>` |
+| Chat IDs | Numeric portion hashed, platform prefix preserved (`telegram:<hash>`) |
+| Home channel IDs | Numeric portion hashed |
+| User names / usernames | **Not affected** (user-chosen, publicly visible) |
 
 **Platform support:** Redaction applies to WhatsApp, Signal, and Telegram. Discord and Slack are excluded because their mention systems (`<@user_id>`) require the real ID in the LLM context.
 
@@ -1476,7 +1565,7 @@ Hashes are deterministic — the same user always maps to the same hash, so the 
 ## Speech-to-Text (STT)<a href="#speech-to-text-stt" class="hash-link" aria-label="Direct link to Speech-to-Text (STT)" translate="no" title="Direct link to Speech-to-Text (STT)">​</a>
 
 
-``` prism-code
+``` yaml
 stt:
   provider: "local"            # "local" | "groq" | "openai"
   local:
@@ -1498,7 +1587,7 @@ If the requested provider is unavailable, Hermes falls back automatically in thi
 Groq and OpenAI model overrides are environment-driven:
 
 
-``` prism-code
+``` bash
 STT_GROQ_MODEL=whisper-large-v3-turbo
 STT_OPENAI_MODEL=whisper-1
 GROQ_BASE_URL=https://api.groq.com/openai/v1
@@ -1509,7 +1598,7 @@ STT_OPENAI_BASE_URL=https://api.openai.com/v1
 ## Voice Mode (CLI)<a href="#voice-mode-cli" class="hash-link" aria-label="Direct link to Voice Mode (CLI)" translate="no" title="Direct link to Voice Mode (CLI)">​</a>
 
 
-``` prism-code
+``` yaml
 voice:
   record_key: "ctrl+b"         # Push-to-talk key inside the CLI
   max_recording_seconds: 120    # Hard stop for long recordings
@@ -1528,7 +1617,7 @@ Stream tokens to the terminal or messaging platforms as they arrive, instead of 
 ### CLI Streaming<a href="#cli-streaming" class="hash-link" aria-label="Direct link to CLI Streaming" translate="no" title="Direct link to CLI Streaming">​</a>
 
 
-``` prism-code
+``` yaml
 display:
   streaming: true         # Stream tokens to terminal in real-time
   show_reasoning: true    # Also stream reasoning/thinking tokens (optional)
@@ -1540,7 +1629,7 @@ When enabled, responses appear token-by-token inside a streaming box. Tool calls
 ### Gateway Streaming (Telegram, Discord, Slack)<a href="#gateway-streaming-telegram-discord-slack" class="hash-link" aria-label="Direct link to Gateway Streaming (Telegram, Discord, Slack)" translate="no" title="Direct link to Gateway Streaming (Telegram, Discord, Slack)">​</a>
 
 
-``` prism-code
+``` yaml
 streaming:
   enabled: true           # Enable progressive message editing
   edit_interval: 0.3      # Seconds between message edits
@@ -1560,7 +1649,7 @@ Streaming is disabled by default. Enable it in `~/.hermes/config.yaml` to try th
 Control whether shared chats keep one conversation per room or one conversation per participant:
 
 
-``` prism-code
+``` yaml
 group_sessions_per_user: true  # true = per-user isolation in groups/channels, false = one shared session per chat
 ```
 
@@ -1577,7 +1666,7 @@ For the behavior details and examples, see [Sessions](/docs/user-guide/sessions)
 Control what Hermes does when an unknown user sends a direct message:
 
 
-``` prism-code
+``` yaml
 unauthorized_dm_behavior: pair
 
 whatsapp:
@@ -1594,7 +1683,7 @@ whatsapp:
 Define custom commands that run shell commands without invoking the LLM — zero token usage, instant execution. Especially useful from messaging platforms (Telegram, Discord, etc.) for quick server checks or utility scripts.
 
 
-``` prism-code
+``` yaml
 quick_commands:
   status:
     type: exec
@@ -1624,7 +1713,7 @@ Usage: type `/status`, `/disk`, `/update`, or `/gpu` in the CLI or any messaging
 Enable progressive token delivery on messaging platforms. When streaming is enabled, responses appear character-by-character in Telegram, Discord, and Slack via message editing, rather than waiting for the full response.
 
 
-``` prism-code
+``` yaml
 streaming:
   enabled: false              # Enable streaming token delivery (default: off)
   transport: edit             # "edit" (progressive message editing) or "off"
@@ -1643,7 +1732,7 @@ streaming:
 Simulate human-like response pacing in messaging platforms:
 
 
-``` prism-code
+``` yaml
 human_delay:
   mode: "off"                  # off | natural | custom
   min_ms: 800                  # Minimum delay (custom mode)
@@ -1656,7 +1745,7 @@ human_delay:
 Configure the sandboxed Python code execution tool:
 
 
-``` prism-code
+``` yaml
 code_execution:
   timeout: 300                 # Max execution time in seconds
   max_tool_calls: 50           # Max tool calls within code execution
@@ -1668,7 +1757,7 @@ code_execution:
 The `web_search`, `web_extract`, and `web_crawl` tools support three backend providers. Configure the backend in `config.yaml` or via `hermes tools`:
 
 
-``` prism-code
+``` yaml
 web:
   backend: firecrawl    # firecrawl | parallel | tavily
 ```
@@ -1691,7 +1780,7 @@ web:
 Configure browser automation behavior:
 
 
-``` prism-code
+``` yaml
 browser:
   inactivity_timeout: 120        # Seconds before auto-closing idle sessions
   record_sessions: false         # Auto-record browser sessions as WebM videos to ~/.hermes/browser_recordings/
@@ -1705,7 +1794,7 @@ The browser toolset supports multiple providers. See the [Browser feature page](
 Block specific domains from being accessed by the agent's web and browser tools:
 
 
-``` prism-code
+``` yaml
 security:
   website_blocklist:
     enabled: false               # Enable URL blocking (default: false)
@@ -1735,17 +1824,17 @@ The policy is cached for 30 seconds, so config changes take effect quickly witho
 Control how Hermes handles potentially dangerous commands:
 
 
-``` prism-code
+``` yaml
 approvals:
   mode: manual   # manual | smart | off
 ```
 
 
-| Mode               | Behavior                                                                                                                                                                                                |
-|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `manual` (default) | Prompt the user before executing any flagged command. In the CLI, shows an interactive approval dialog. In messaging, queues a pending approval request.                                                |
-| `smart`            | Use an auxiliary LLM to assess whether a flagged command is actually dangerous. Low-risk commands are auto-approved with session-level persistence. Genuinely risky commands are escalated to the user. |
-| `off`              | Skip all approval checks. Equivalent to `HERMES_YOLO_MODE=true`. **Use with caution.**                                                                                                                  |
+| Mode | Behavior |
+|----|----|
+| `manual` (default) | Prompt the user before executing any flagged command. In the CLI, shows an interactive approval dialog. In messaging, queues a pending approval request. |
+| `smart` | Use an auxiliary LLM to assess whether a flagged command is actually dangerous. Low-risk commands are auto-approved with session-level persistence. Genuinely risky commands are escalated to the user. |
+| `off` | Skip all approval checks. Equivalent to `HERMES_YOLO_MODE=true`. **Use with caution.** |
 
 Smart mode is particularly useful for reducing approval fatigue — it lets the agent work more autonomously on safe operations while still catching genuinely destructive commands.
 
@@ -1758,7 +1847,7 @@ Setting `approvals.mode: off` disables all safety checks for terminal commands. 
 Automatic filesystem snapshots before destructive file operations. See the [Checkpoints feature page](/docs/user-guide/features/checkpoints) for details.
 
 
-``` prism-code
+``` yaml
 checkpoints:
   enabled: true                  # Enable automatic checkpoints (also: hermes --checkpoints)
   max_snapshots: 50              # Max checkpoints to keep per directory
@@ -1770,7 +1859,7 @@ checkpoints:
 Configure subagent behavior for the delegate tool:
 
 
-``` prism-code
+``` yaml
 delegation:
   # model: "google/gemini-3-flash-preview"  # Override model (empty = inherit parent)
   # provider: "openrouter"                  # Override provider (empty = inherit parent)
@@ -1792,7 +1881,7 @@ The delegation provider uses the same credential resolution as CLI/gateway start
 Configure the clarification prompt behavior:
 
 
-``` prism-code
+``` yaml
 clarify:
   timeout: 120                 # Seconds to wait for user clarification response
 ```
@@ -1802,14 +1891,14 @@ clarify:
 
 Hermes uses two different context scopes:
 
-| File                       | Purpose                                                                               | Scope                                         |
-|----------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------|
-| `SOUL.md`                  | **Primary agent identity** — defines who the agent is (slot \#1 in the system prompt) | `~/.hermes/SOUL.md` or `$HERMES_HOME/SOUL.md` |
-| `.hermes.md` / `HERMES.md` | Project-specific instructions (highest priority)                                      | Walks to git root                             |
-| `AGENTS.md`                | Project-specific instructions, coding conventions                                     | Recursive directory walk                      |
-| `CLAUDE.md`                | Claude Code context files (also detected)                                             | Working directory only                        |
-| `.cursorrules`             | Cursor IDE rules (also detected)                                                      | Working directory only                        |
-| `.cursor/rules/*.mdc`      | Cursor rule files (also detected)                                                     | Working directory only                        |
+| File | Purpose | Scope |
+|----|----|----|
+| `SOUL.md` | **Primary agent identity** — defines who the agent is (slot \#1 in the system prompt) | `~/.hermes/SOUL.md` or `$HERMES_HOME/SOUL.md` |
+| `.hermes.md` / `HERMES.md` | Project-specific instructions (highest priority) | Walks to git root |
+| `AGENTS.md` | Project-specific instructions, coding conventions | Recursive directory walk |
+| `CLAUDE.md` | Claude Code context files (also detected) | Working directory only |
+| `.cursorrules` | Cursor IDE rules (also detected) | Working directory only |
+| `.cursor/rules/*.mdc` | Cursor rule files (also detected) | Working directory only |
 
 - **SOUL.md** is the agent's primary identity. It occupies slot \#1 in the system prompt, completely replacing the built-in default identity. Edit it to fully customize who the agent is.
 - If SOUL.md is missing, empty, or cannot be loaded, Hermes falls back to a built-in default identity.
@@ -1825,16 +1914,16 @@ See also:
 
 ## Working Directory<a href="#working-directory" class="hash-link" aria-label="Direct link to Working Directory" translate="no" title="Direct link to Working Directory">​</a>
 
-| Context                                | Default                                                      |
-|----------------------------------------|--------------------------------------------------------------|
-| **CLI (`hermes`)**                     | Current directory where you run the command                  |
-| **Messaging gateway**                  | Home directory `~` (override with `MESSAGING_CWD`)           |
+| Context | Default |
+|----|----|
+| **CLI (`hermes`)** | Current directory where you run the command |
+| **Messaging gateway** | Home directory `~` (override with `MESSAGING_CWD`) |
 | **Docker / Singularity / Modal / SSH** | User's home directory inside the container or remote machine |
 
 Override the working directory:
 
 
-``` prism-code
+``` bash
 # In ~/.hermes/.env or ~/.hermes/config.yaml:
 MESSAGING_CWD=/home/myuser/projects    # Gateway sessions
 TERMINAL_CWD=/workspace                # All terminal sessions
@@ -1869,6 +1958,13 @@ TERMINAL_CWD=/workspace                # All terminal sessions
 - <a href="#fallback-model" class="table-of-contents__link toc-highlight">Fallback Model</a>
 - <a href="#smart-model-routing" class="table-of-contents__link toc-highlight">Smart Model Routing</a>
 - <a href="#terminal-backend-configuration" class="table-of-contents__link toc-highlight">Terminal Backend Configuration</a>
+  - <a href="#backend-overview" class="table-of-contents__link toc-highlight">Backend Overview</a>
+  - <a href="#local-backend" class="table-of-contents__link toc-highlight">Local Backend</a>
+  - <a href="#docker-backend" class="table-of-contents__link toc-highlight">Docker Backend</a>
+  - <a href="#ssh-backend" class="table-of-contents__link toc-highlight">SSH Backend</a>
+  - <a href="#modal-backend" class="table-of-contents__link toc-highlight">Modal Backend</a>
+  - <a href="#daytona-backend" class="table-of-contents__link toc-highlight">Daytona Backend</a>
+  - <a href="#singularityapptainer-backend" class="table-of-contents__link toc-highlight">Singularity/Apptainer Backend</a>
   - <a href="#common-terminal-backend-issues" class="table-of-contents__link toc-highlight">Common Terminal Backend Issues</a>
   - <a href="#docker-volume-mounts" class="table-of-contents__link toc-highlight">Docker Volume Mounts</a>
   - <a href="#docker-credential-forwarding" class="table-of-contents__link toc-highlight">Docker Credential Forwarding</a>

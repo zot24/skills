@@ -42,6 +42,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Discover new docs pages
+        run: |
+          # Run discovery scripts to catch new upstream pages before syncing
+          for script in skills/*/discover-pages.sh; do
+            if [ -f "$script" ]; then
+              SKILL_NAME=$(basename "$(dirname "$script")")
+              echo "=== Discovering new pages for $SKILL_NAME ==="
+              chmod +x "$script"
+              "$script" --auto-add || echo "::warning::Discovery failed for $SKILL_NAME"
+            fi
+          done
+
       - name: Sync all skills
         id: sync
         env:

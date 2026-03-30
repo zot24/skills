@@ -88,5 +88,40 @@ Jobs are defined in `~/.hermes/cron/jobs.json` with fields: `name`, `prompt`, `s
 
 ## Documentation
 
+Reference docs cached locally from upstream:
+
+### Getting Started
+- **[Installation](skills/hermes/docs/installation.md)** - Setup and install
+- **[Quickstart](skills/hermes/docs/quickstart.md)** - First steps
+- **[Learning Path](skills/hermes/docs/learning-path.md)** - Guided learning
+
+### User Guide
+- **[CLI](skills/hermes/docs/cli.md)** - Command-line interface
+- **[Configuration](skills/hermes/docs/configuration.md)** - Config options
+- **[Messaging](skills/hermes/docs/messaging.md)** - Messaging platforms
+- **[Profiles](skills/hermes/docs/profiles.md)** - Running multiple agents
+- **[Security](skills/hermes/docs/security.md)** - Security model
+
+### Features
+- **[Tools](skills/hermes/docs/tools.md)** - Built-in tools
+- **[Memory](skills/hermes/docs/memory.md)** - Memory system
+- **[Skills](skills/hermes/docs/skills.md)** - Skills system
+- **[MCP](skills/hermes/docs/mcp.md)** - MCP integration
+- **[Voice Mode](skills/hermes/docs/voice-mode.md)** - Voice interaction
+- **[Personality](skills/hermes/docs/personality.md)** - Personality customization
+- **[Context Files](skills/hermes/docs/context-files.md)** - Context file system
+- **[Cron](skills/hermes/docs/cron.md)** - Scheduled tasks
+
+### Guides
+- **[MCP Guide](skills/hermes/docs/guide-mcp.md)** - Using MCP with Hermes
+- **[Voice Guide](skills/hermes/docs/guide-voice-mode.md)** - Voice mode guide
+- **[Tips](skills/hermes/docs/tips.md)** - Usage tips
+
+### Reference
+- **[CLI Commands](skills/hermes/docs/cli-commands.md)** - Full command reference
+- **[FAQ](skills/hermes/docs/faq.md)** - Frequently asked questions
+- **[Architecture](skills/hermes/docs/architecture.md)** - System architecture
+
+### Upstream
 - Docs: https://hermes-agent.nousresearch.com/docs
 - Skills spec: https://agentskills.io

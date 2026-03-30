@@ -1,6 +1,6 @@
 {
   "name": "hermes",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Expert knowledge about Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
   "sources": [
     {
@@ -16,8 +16,8 @@
       "freshness_days": 7
     },
     {
-      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/configuration/",
-      "target": "skills/hermes/docs/configuration.md",
+      "url": "https://hermes-agent.nousresearch.com/docs/getting-started/learning-path/",
+      "target": "skills/hermes/docs/learning-path.md",
       "type": "extract-content",
       "freshness_days": 7
     },
@@ -28,8 +28,68 @@
       "freshness_days": 7
     },
     {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/configuration/",
+      "target": "skills/hermes/docs/configuration.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/messaging/",
+      "target": "skills/hermes/docs/messaging.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/profiles/",
+      "target": "skills/hermes/docs/profiles.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/security/",
+      "target": "skills/hermes/docs/security.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
       "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/tools/",
       "target": "skills/hermes/docs/tools.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/memory/",
+      "target": "skills/hermes/docs/memory.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/skills/",
+      "target": "skills/hermes/docs/skills.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/",
+      "target": "skills/hermes/docs/mcp.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/voice-mode/",
+      "target": "skills/hermes/docs/voice-mode.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/personality/",
+      "target": "skills/hermes/docs/personality.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/context-files/",
+      "target": "skills/hermes/docs/context-files.md",
       "type": "extract-content",
       "freshness_days": 7
     },
@@ -40,8 +100,20 @@
       "freshness_days": 7
     },
     {
-      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/skills/godmode/",
-      "target": "skills/hermes/docs/skills.md",
+      "url": "https://hermes-agent.nousresearch.com/docs/guides/use-mcp-with-hermes/",
+      "target": "skills/hermes/docs/guide-mcp.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/guides/use-voice-mode-with-hermes/",
+      "target": "skills/hermes/docs/guide-voice-mode.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/guides/tips/",
+      "target": "skills/hermes/docs/tips.md",
       "type": "extract-content",
       "freshness_days": 7
     },
@@ -56,8 +128,14 @@
       "target": "skills/hermes/docs/cli-commands.md",
       "type": "extract-content",
       "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/reference/faq/",
+      "target": "skills/hermes/docs/faq.md",
+      "type": "extract-content",
+      "freshness_days": 7
     }
   ],
   "cache_dir": ".cache",
-  "notes": "Hermes documentation is the primary source. Operational notes derived from deployment experience."
+  "notes": "All pages from hermes-agent.nousresearch.com/docs/ are listed. When new docs pages are added upstream, add them here. Check the site navigation periodically for new entries."
 }

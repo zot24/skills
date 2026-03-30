@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -16,7 +13,7 @@ This page is the top-level map of Hermes Agent internals. The project has grown 
 ## High-level structure<a href="#high-level-structure" class="hash-link" aria-label="Direct link to High-level structure" translate="no" title="Direct link to High-level structure">​</a>
 
 
-``` prism-code
+``` text
 hermes-agent/
 ├── run_agent.py              # AIAgent core loop
 ├── cli.py                    # interactive terminal UI
