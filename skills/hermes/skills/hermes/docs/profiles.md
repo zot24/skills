@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -19,7 +22,7 @@ When you create a profile, it automatically becomes its own command. Create a pr
 ## Quick start<a href="#quick-start" class="hash-link" aria-label="Direct link to Quick start" translate="no" title="Direct link to Quick start">​</a>
 
 
-``` bash
+``` prism-code
 hermes profile create coder       # creates profile + "coder" command alias
 coder setup                       # configure API keys and model
 coder chat                        # start chatting
@@ -33,7 +36,7 @@ That's it. `coder` is now a fully independent agent. It has its own config, its 
 ### Blank profile<a href="#blank-profile" class="hash-link" aria-label="Direct link to Blank profile" translate="no" title="Direct link to Blank profile">​</a>
 
 
-``` bash
+``` prism-code
 hermes profile create mybot
 ```
 
@@ -43,7 +46,7 @@ Creates a fresh profile with bundled skills seeded. Run `mybot setup` to configu
 ### Clone config only (`--clone`)<a href="#clone-config-only---clone" class="hash-link" aria-label="Direct link to clone-config-only---clone" translate="no" title="Direct link to clone-config-only---clone">​</a>
 
 
-``` bash
+``` prism-code
 hermes profile create work --clone
 ```
 
@@ -53,7 +56,7 @@ Copies your current profile's `config.yaml`, `.env`, and `SOUL.md` into the new 
 ### Clone everything (`--clone-all`)<a href="#clone-everything---clone-all" class="hash-link" aria-label="Direct link to clone-everything---clone-all" translate="no" title="Direct link to clone-everything---clone-all">​</a>
 
 
-``` bash
+``` prism-code
 hermes profile create backup --clone-all
 ```
 
@@ -63,7 +66,7 @@ Copies **everything** — config, API keys, personality, all memories, full sess
 ### Clone from a specific profile<a href="#clone-from-a-specific-profile" class="hash-link" aria-label="Direct link to Clone from a specific profile" translate="no" title="Direct link to Clone from a specific profile">​</a>
 
 
-``` bash
+``` prism-code
 hermes profile create work --clone --clone-from coder
 ```
 
@@ -75,7 +78,7 @@ hermes profile create work --clone --clone-from coder
 Every profile automatically gets a command alias at `~/.local/bin/<name>`:
 
 
-``` bash
+``` prism-code
 coder chat                    # chat with the coder agent
 coder setup                   # configure coder's settings
 coder gateway start           # start coder's gateway
@@ -92,7 +95,7 @@ The alias works with every hermes subcommand — it's just `hermes -p <name>` un
 You can also target a profile explicitly with any command:
 
 
-``` bash
+``` prism-code
 hermes -p coder chat
 hermes --profile=coder doctor
 hermes chat -p coder -q "hello"    # works in any position
@@ -102,7 +105,7 @@ hermes chat -p coder -q "hello"    # works in any position
 ### Sticky default (`hermes profile use`)<a href="#sticky-default-hermes-profile-use" class="hash-link" aria-label="Direct link to sticky-default-hermes-profile-use" translate="no" title="Direct link to sticky-default-hermes-profile-use">​</a>
 
 
-``` bash
+``` prism-code
 hermes profile use coder
 hermes chat                   # now targets coder
 hermes tools                  # configures coder's tools
@@ -125,7 +128,7 @@ The CLI always shows which profile is active:
 Each profile runs its own gateway as a separate process with its own bot token:
 
 
-``` bash
+``` prism-code
 coder gateway start           # starts coder's gateway
 assistant gateway start       # starts assistant's gateway (separate process)
 ```
@@ -136,7 +139,7 @@ assistant gateway start       # starts assistant's gateway (separate process)
 Each profile has its own `.env` file. Configure a different Telegram/Discord/Slack bot token in each:
 
 
-``` bash
+``` prism-code
 # Edit coder's tokens
 nano ~/.hermes/profiles/coder/.env
 
@@ -152,7 +155,7 @@ If two profiles accidentally use the same bot token, the second gateway will be 
 ### Persistent services<a href="#persistent-services" class="hash-link" aria-label="Direct link to Persistent services" translate="no" title="Direct link to Persistent services">​</a>
 
 
-``` bash
+``` prism-code
 coder gateway install         # creates hermes-gateway-coder systemd/launchd service
 assistant gateway install     # creates hermes-gateway-assistant service
 ```
@@ -169,7 +172,7 @@ Each profile has its own:
 - **`SOUL.md`** — personality and instructions
 
 
-``` bash
+``` prism-code
 coder config set model.model anthropic/claude-sonnet-4
 echo "You are a focused coding assistant." > ~/.hermes/profiles/coder/SOUL.md
 ```
@@ -180,7 +183,7 @@ echo "You are a focused coding assistant." > ~/.hermes/profiles/coder/SOUL.md
 `hermes update` pulls code once (shared) and syncs new bundled skills to **all** profiles automatically:
 
 
-``` bash
+``` prism-code
 hermes update
 # → Code updated (12 commits)
 # → Skills synced: default (up to date), coder (+2 new), assistant (+2 new)
@@ -192,7 +195,7 @@ User-modified skills are never overwritten.
 ## Managing profiles<a href="#managing-profiles" class="hash-link" aria-label="Direct link to Managing profiles" translate="no" title="Direct link to Managing profiles">​</a>
 
 
-``` bash
+``` prism-code
 hermes profile list           # show all profiles with status
 hermes profile show coder     # detailed info for one profile
 hermes profile rename coder dev-bot   # rename (updates alias + service)
@@ -204,7 +207,7 @@ hermes profile import coder.tar.gz   # import from archive
 ## Deleting a profile<a href="#deleting-a-profile" class="hash-link" aria-label="Direct link to Deleting a profile" translate="no" title="Direct link to Deleting a profile">​</a>
 
 
-``` bash
+``` prism-code
 hermes profile delete coder
 ```
 
@@ -220,7 +223,7 @@ You cannot delete the default profile (`~/.hermes`). To remove everything, use `
 ## Tab completion<a href="#tab-completion" class="hash-link" aria-label="Direct link to Tab completion" translate="no" title="Direct link to Tab completion">​</a>
 
 
-``` bash
+``` prism-code
 # Bash
 eval "$(hermes completion bash)"
 

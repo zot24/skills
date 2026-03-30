@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -35,7 +38,7 @@ Set your provider with `hermes model` or by editing `~/.hermes/.env`. See the [E
 **Not natively.** Hermes Agent requires a Unix-like environment. On Windows, install <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener noreferrer">WSL2</a> and run Hermes from inside it. The standard install command works perfectly in WSL2:
 
 
-``` bash
+``` prism-code
 curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
 ```
 
@@ -49,7 +52,7 @@ API calls go **only to the LLM provider you configure** (e.g., OpenRouter, your 
 Yes. Run `hermes model`, select **Custom endpoint**, and enter your server's URL:
 
 
-``` bash
+``` prism-code
 hermes model
 # Select: Custom endpoint (enter URL manually)
 # API base URL: http://localhost:11434/v1
@@ -62,7 +65,7 @@ hermes model
 Or configure it directly in `config.yaml`:
 
 
-``` yaml
+``` prism-code
 model:
   default: qwen3.5:27b
   provider: custom
@@ -98,7 +101,7 @@ Both persist across sessions. See [Memory](/docs/user-guide/features/memory) and
 Yes. Import the `AIAgent` class and use Hermes programmatically:
 
 
-``` python
+``` prism-code
 from hermes.agent import AIAgent
 
 agent = AIAgent(model="openrouter/nous/hermes-3-llama-3.1-70b")
@@ -121,7 +124,7 @@ See the [Python Library guide](/docs/user-guide/features/code-execution) for ful
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Reload your shell profile
 source ~/.bashrc    # bash
 source ~/.zshrc     # zsh
@@ -133,7 +136,7 @@ source ~/.zshrc     # zsh
 If it still doesn't work, verify the install location:
 
 
-``` bash
+``` prism-code
 which hermes
 ls ~/.local/bin/hermes
 ```
@@ -149,7 +152,7 @@ The installer adds `~/.local/bin` to your PATH. If you use a non-standard shell 
 **Solution:**
 
 
-``` bash
+``` prism-code
 python3 --version   # Check current version
 
 # Install a newer Python
@@ -167,7 +170,7 @@ The installer handles this automatically — if you see this error during manual
 **Solution:**
 
 
-``` bash
+``` prism-code
 curl -LsSf https://astral.sh/uv/install.sh | sh
 source ~/.bashrc
 ```
@@ -180,7 +183,7 @@ source ~/.bashrc
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Don't use sudo with the installer — it installs to ~/.local/bin
 # If you previously installed with sudo, clean up:
 sudo rm /usr/local/bin/hermes
@@ -200,7 +203,7 @@ curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scri
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Check your configuration
 hermes config show
 
@@ -222,7 +225,7 @@ Make sure the key matches the provider. An OpenAI key won't work with OpenRouter
 **Solution:**
 
 
-``` bash
+``` prism-code
 # List available models for your provider
 hermes model
 
@@ -251,7 +254,7 @@ hermes chat --model openrouter/meta-llama/llama-3.1-70b-instruct
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Compress the current session
 /compress
 
@@ -270,7 +273,7 @@ Look at the CLI startup line — it shows the detected context length (e.g., `�
 To fix context detection, set it explicitly:
 
 
-``` yaml
+``` prism-code
 # In ~/.hermes/config.yaml
 model:
   default: your-model-name
@@ -281,7 +284,7 @@ model:
 Or for custom endpoints, add it per-model:
 
 
-``` yaml
+``` prism-code
 custom_providers:
   - name: "My Server"
     base_url: "http://localhost:11434/v1"
@@ -327,7 +330,7 @@ This is working as intended — Hermes never silently runs destructive commands.
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Check Docker is running
 docker info
 
@@ -351,7 +354,7 @@ docker run hello-world
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Check if the gateway is running
 hermes gateway status
 
@@ -394,7 +397,7 @@ Configure in `~/.hermes/config.yaml` under your gateway's settings. See the [Mes
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Install messaging dependencies
 pip install "hermes-agent[telegram]"   # or [discord], [slack], [whatsapp]
 
@@ -413,7 +416,7 @@ hermes config show
 **Solution:** The gateway captures your shell PATH when you run `hermes gateway install`. If you installed tools after setting up the gateway, re-run the install to capture the updated PATH:
 
 
-``` bash
+``` prism-code
 hermes gateway install    # Re-snapshots your current PATH
 hermes gateway start      # Detects the updated plist and reloads
 ```
@@ -422,7 +425,7 @@ hermes gateway start      # Detects the updated plist and reloads
 You can verify the plist has the correct PATH:
 
 
-``` bash
+``` prism-code
 /usr/libexec/PlistBuddy -c "Print :EnvironmentVariables:PATH" \
   ~/Library/LaunchAgents/ai.hermes.gateway.plist
 ```
@@ -450,7 +453,7 @@ You can verify the plist has the correct PATH:
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Compress the conversation to reduce tokens
 /compress
 
@@ -469,7 +472,7 @@ Use `/compress` regularly during long sessions. It summarizes the conversation h
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Compress current session (preserves key context)
 /compress
 
@@ -492,7 +495,7 @@ hermes chat --continue
 **Solution:**
 
 
-``` bash
+``` prism-code
 # Ensure MCP dependencies are installed (already included in standard install)
 cd ~/.hermes/hermes-agent && uv pip install -e ".[mcp]"
 
@@ -508,7 +511,7 @@ npx -y @modelcontextprotocol/server-filesystem /tmp
 Verify your `~/.hermes/config.yaml` MCP configuration:
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   filesystem:
     command: "npx"
@@ -529,7 +532,7 @@ mcp_servers:
 - Use `/reload-mcp` after changing config
 
 
-``` bash
+``` prism-code
 # Verify MCP servers are configured
 hermes config show | grep -A 12 mcp_servers
 
@@ -583,7 +586,7 @@ No. Each profile has its own memory store, session database, and skills director
 Yes. Export the profile to a portable archive and import it on the other machine:
 
 
-``` bash
+``` prism-code
 # On the source machine
 hermes profile export work ./work-backup.tar.gz
 

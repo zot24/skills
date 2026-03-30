@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -22,11 +25,11 @@ If you haven't installed Hermes Agent yet, begin with the [Installation guide](/
 
 ## By Experience Level<a href="#by-experience-level" class="hash-link" aria-label="Direct link to By Experience Level" translate="no" title="Direct link to By Experience Level">​</a>
 
-| Level | Goal | Recommended Reading | Time Estimate |
-|----|----|----|----|
-| **Beginner** | Get up and running, have basic conversations, use built-in tools | [Installation](/docs/getting-started/installation) → [Quickstart](/docs/getting-started/quickstart) → [CLI Usage](/docs/user-guide/cli) → [Configuration](/docs/user-guide/configuration) | ~1 hour |
-| **Intermediate** | Set up messaging bots, use advanced features like memory, cron jobs, and skills | [Sessions](/docs/user-guide/sessions) → [Messaging](/docs/user-guide/messaging) → [Tools](/docs/user-guide/features/tools) → [Skills](/docs/user-guide/features/skills) → [Memory](/docs/user-guide/features/memory) → [Cron](/docs/user-guide/features/cron) | ~2–3 hours |
-| **Advanced** | Build custom tools, create skills, train models with RL, contribute to the project | [Architecture](/docs/developer-guide/architecture) → [Adding Tools](/docs/developer-guide/adding-tools) → [Creating Skills](/docs/developer-guide/creating-skills) → [RL Training](/docs/user-guide/features/rl-training) → [Contributing](/docs/developer-guide/contributing) | ~4–6 hours |
+| Level            | Goal                                                                               | Recommended Reading                                                                                                                                                                                                                                                            | Time Estimate |
+|------------------|------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| **Beginner**     | Get up and running, have basic conversations, use built-in tools                   | [Installation](/docs/getting-started/installation) → [Quickstart](/docs/getting-started/quickstart) → [CLI Usage](/docs/user-guide/cli) → [Configuration](/docs/user-guide/configuration)                                                                                      | ~1 hour       |
+| **Intermediate** | Set up messaging bots, use advanced features like memory, cron jobs, and skills    | [Sessions](/docs/user-guide/sessions) → [Messaging](/docs/user-guide/messaging) → [Tools](/docs/user-guide/features/tools) → [Skills](/docs/user-guide/features/skills) → [Memory](/docs/user-guide/features/memory) → [Cron](/docs/user-guide/features/cron)                  | ~2–3 hours    |
+| **Advanced**     | Build custom tools, create skills, train models with RL, contribute to the project | [Architecture](/docs/developer-guide/architecture) → [Adding Tools](/docs/developer-guide/adding-tools) → [Creating Skills](/docs/developer-guide/creating-skills) → [RL Training](/docs/user-guide/features/rl-training) → [Contributing](/docs/developer-guide/contributing) | ~4–6 hours    |
 
 ## By Use Case<a href="#by-use-case" class="hash-link" aria-label="Direct link to By Use Case" translate="no" title="Direct link to By Use Case">​</a>
 
@@ -123,21 +126,21 @@ Integrate Hermes Agent into your own Python applications programmatically.
 
 Not sure what's available? Here's a quick directory of major features:
 
-| Feature | What It Does | Link |
-|----|----|----|
-| **Tools** | Built-in tools the agent can call (file I/O, search, shell, etc.) | [Tools](/docs/user-guide/features/tools) |
-| **Skills** | Installable plugin packages that add new capabilities | [Skills](/docs/user-guide/features/skills) |
-| **Memory** | Persistent memory across sessions | [Memory](/docs/user-guide/features/memory) |
-| **Context Files** | Feed files and directories into conversations | [Context Files](/docs/user-guide/features/context-files) |
-| **MCP** | Connect to external tool servers via Model Context Protocol | [MCP](/docs/user-guide/features/mcp) |
-| **Cron** | Schedule recurring agent tasks | [Cron](/docs/user-guide/features/cron) |
-| **Delegation** | Spawn sub-agents for parallel work | [Delegation](/docs/user-guide/features/delegation) |
-| **Code Execution** | Run code in sandboxed environments | [Code Execution](/docs/user-guide/features/code-execution) |
-| **Browser** | Web browsing and scraping | [Browser](/docs/user-guide/features/browser) |
-| **Hooks** | Event-driven callbacks and middleware | [Hooks](/docs/user-guide/features/hooks) |
-| **Batch Processing** | Process multiple inputs in bulk | [Batch Processing](/docs/user-guide/features/batch-processing) |
-| **RL Training** | Fine-tune models with reinforcement learning | [RL Training](/docs/user-guide/features/rl-training) |
-| **Provider Routing** | Route requests across multiple LLM providers | [Provider Routing](/docs/user-guide/features/provider-routing) |
+| Feature              | What It Does                                                      | Link                                                           |
+|----------------------|-------------------------------------------------------------------|----------------------------------------------------------------|
+| **Tools**            | Built-in tools the agent can call (file I/O, search, shell, etc.) | [Tools](/docs/user-guide/features/tools)                       |
+| **Skills**           | Installable plugin packages that add new capabilities             | [Skills](/docs/user-guide/features/skills)                     |
+| **Memory**           | Persistent memory across sessions                                 | [Memory](/docs/user-guide/features/memory)                     |
+| **Context Files**    | Feed files and directories into conversations                     | [Context Files](/docs/user-guide/features/context-files)       |
+| **MCP**              | Connect to external tool servers via Model Context Protocol       | [MCP](/docs/user-guide/features/mcp)                           |
+| **Cron**             | Schedule recurring agent tasks                                    | [Cron](/docs/user-guide/features/cron)                         |
+| **Delegation**       | Spawn sub-agents for parallel work                                | [Delegation](/docs/user-guide/features/delegation)             |
+| **Code Execution**   | Run code in sandboxed environments                                | [Code Execution](/docs/user-guide/features/code-execution)     |
+| **Browser**          | Web browsing and scraping                                         | [Browser](/docs/user-guide/features/browser)                   |
+| **Hooks**            | Event-driven callbacks and middleware                             | [Hooks](/docs/user-guide/features/hooks)                       |
+| **Batch Processing** | Process multiple inputs in bulk                                   | [Batch Processing](/docs/user-guide/features/batch-processing) |
+| **RL Training**      | Fine-tune models with reinforcement learning                      | [RL Training](/docs/user-guide/features/rl-training)           |
+| **Provider Routing** | Route requests across multiple LLM providers                      | [Provider Routing](/docs/user-guide/features/provider-routing) |
 
 ## What to Read Next<a href="#what-to-read-next" class="hash-link" aria-label="Direct link to What to Read Next" translate="no" title="Direct link to What to Read Next">​</a>
 

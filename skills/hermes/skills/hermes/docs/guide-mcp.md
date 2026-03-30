@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -46,7 +49,7 @@ If you installed Hermes with the standard install script, MCP support is already
 If you installed without extras and need to add MCP separately:
 
 
-``` bash
+``` prism-code
 cd ~/.hermes/hermes-agent
 uv pip install -e ".[mcp]"
 ```
@@ -63,7 +66,7 @@ Start with a single, safe server.
 Example: filesystem access to one project directory only.
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   project_fs:
     command: "npx"
@@ -74,7 +77,7 @@ mcp_servers:
 Then start Hermes:
 
 
-``` bash
+``` prism-code
 hermes chat
 ```
 
@@ -82,7 +85,7 @@ hermes chat
 Now ask something concrete:
 
 
-``` text
+``` prism-code
 Inspect this project and summarize the repo layout.
 ```
 
@@ -99,7 +102,7 @@ You can verify MCP in a few ways:
 A practical test prompt:
 
 
-``` text
+``` prism-code
 Tell me which MCP-backed tools are available right now.
 ```
 
@@ -111,7 +114,7 @@ Do not wait until later if the server exposes a lot of tools.
 ### Example: whitelist only what you want<a href="#example-whitelist-only-what-you-want" class="hash-link" aria-label="Direct link to Example: whitelist only what you want" translate="no" title="Direct link to Example: whitelist only what you want">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   github:
     command: "npx"
@@ -128,7 +131,7 @@ This is usually the best default for sensitive systems.
 ### Example: blacklist dangerous actions<a href="#example-blacklist-dangerous-actions" class="hash-link" aria-label="Direct link to Example: blacklist dangerous actions" translate="no" title="Direct link to Example: blacklist dangerous actions">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   stripe:
     url: "https://mcp.stripe.com"
@@ -142,7 +145,7 @@ mcp_servers:
 ### Example: disable utility wrappers too<a href="#example-disable-utility-wrappers-too" class="hash-link" aria-label="Direct link to Example: disable utility wrappers too" translate="no" title="Direct link to Example: disable utility wrappers too">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   docs:
     url: "https://mcp.docs.example.com"
@@ -194,7 +197,7 @@ So Hermes will not pretend a server has resources/prompts if it does not.
 Use MCP for a repo-local filesystem or git server when you want Hermes to reason over a bounded workspace.
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   fs:
     command: "npx"
@@ -209,12 +212,12 @@ mcp_servers:
 Good prompts:
 
 
-``` text
+``` prism-code
 Review the project structure and identify where configuration lives.
 ```
 
 
-``` text
+``` prism-code
 Check the local git state and summarize what changed recently.
 ```
 
@@ -222,7 +225,7 @@ Check the local git state and summarize what changed recently.
 ### Pattern 2: GitHub triage assistant<a href="#pattern-2-github-triage-assistant" class="hash-link" aria-label="Direct link to Pattern 2: GitHub triage assistant" translate="no" title="Direct link to Pattern 2: GitHub triage assistant">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   github:
     command: "npx"
@@ -239,12 +242,12 @@ mcp_servers:
 Good prompts:
 
 
-``` text
+``` prism-code
 List open issues about MCP, cluster them by theme, and draft a high-quality issue for the most common bug.
 ```
 
 
-``` text
+``` prism-code
 Search the repo for uses of _discover_and_register_server and explain how MCP tools are registered.
 ```
 
@@ -252,7 +255,7 @@ Search the repo for uses of _discover_and_register_server and explain how MCP to
 ### Pattern 3: internal API assistant<a href="#pattern-3-internal-api-assistant" class="hash-link" aria-label="Direct link to Pattern 3: internal API assistant" translate="no" title="Direct link to Pattern 3: internal API assistant">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   internal_api:
     url: "https://mcp.internal.example.com"
@@ -268,7 +271,7 @@ mcp_servers:
 Good prompts:
 
 
-``` text
+``` prism-code
 Look up customer ACME Corp and summarize recent invoice activity.
 ```
 
@@ -280,7 +283,7 @@ This is the sort of place where a strict whitelist is far better than an exclude
 Some MCP servers expose prompts or resources that are more like shared knowledge assets than direct actions.
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   docs:
     url: "https://mcp.docs.example.com"
@@ -293,12 +296,12 @@ mcp_servers:
 Good prompts:
 
 
-``` text
+``` prism-code
 List available MCP resources from the docs server, then read the onboarding guide and summarize it.
 ```
 
 
-``` text
+``` prism-code
 List prompts exposed by the docs server and tell me which ones would help with incident response.
 ```
 
@@ -310,7 +313,7 @@ Here is a practical progression.
 ### Phase 1: add GitHub MCP with a tight whitelist<a href="#phase-1-add-github-mcp-with-a-tight-whitelist" class="hash-link" aria-label="Direct link to Phase 1: add GitHub MCP with a tight whitelist" translate="no" title="Direct link to Phase 1: add GitHub MCP with a tight whitelist">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   github:
     command: "npx"
@@ -327,7 +330,7 @@ mcp_servers:
 Start Hermes and ask:
 
 
-``` text
+``` prism-code
 Search the codebase for references to MCP and summarize the main integration points.
 ```
 
@@ -337,7 +340,7 @@ Search the codebase for references to MCP and summarize the main integration poi
 If you later need issue updates too:
 
 
-``` yaml
+``` prism-code
 tools:
   include: [list_issues, create_issue, update_issue, search_code]
 ```
@@ -346,7 +349,7 @@ tools:
 Then reload:
 
 
-``` text
+``` prism-code
 /reload-mcp
 ```
 
@@ -354,7 +357,7 @@ Then reload:
 ### Phase 3: add a second server with different policy<a href="#phase-3-add-a-second-server-with-different-policy" class="hash-link" aria-label="Direct link to Phase 3: add a second server with different policy" translate="no" title="Direct link to Phase 3: add a second server with different policy">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   github:
     command: "npx"
@@ -375,7 +378,7 @@ mcp_servers:
 Now Hermes can combine them:
 
 
-``` text
+``` prism-code
 Inspect the local project files, then create a GitHub issue summarizing the bug you find.
 ```
 
@@ -396,7 +399,7 @@ For anything financial, customer-facing, or destructive:
 If you do not want the model browsing server-provided resources/prompts, turn them off:
 
 
-``` yaml
+``` prism-code
 tools:
   resources: false
   prompts: false
@@ -414,7 +417,7 @@ Examples:
 ### Reload after config changes<a href="#reload-after-config-changes" class="hash-link" aria-label="Direct link to Reload after config changes" translate="no" title="Direct link to Reload after config changes">​</a>
 
 
-``` text
+``` prism-code
 /reload-mcp
 ```
 
@@ -455,7 +458,7 @@ Because Hermes now respects your per-server policy and capability-aware registra
 Use:
 
 
-``` yaml
+``` prism-code
 enabled: false
 ```
 

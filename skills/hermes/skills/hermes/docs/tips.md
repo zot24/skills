@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -71,7 +74,7 @@ Use `/verbose` to cycle through tool output display modes: **off → new → all
 Create an `AGENTS.md` in your project root with architecture decisions, coding conventions, and project-specific instructions. This is automatically injected into every session, so the agent always knows your project's rules.
 
 
-``` markdown
+``` prism-code
 # Project Context
 - This is a FastAPI backend with SQLAlchemy ORM
 - Always use async/await for database operations
@@ -87,7 +90,7 @@ Want Hermes to have a stable default voice? Edit `~/.hermes/SOUL.md` (or `$HERME
 For a full walkthrough, see [Use SOUL.md with Hermes](/docs/guides/use-soul-with-hermes).
 
 
-``` markdown
+``` prism-code
 # Soul
 You are a senior backend engineer. Be terse and direct.
 Skip explanations unless asked. Prefer one-liners over verbose solutions.
@@ -186,7 +189,7 @@ On messaging platforms, sessions auto-reset after idle time (default: 24 hours) 
 When working with untrusted repositories or running unfamiliar code, use Docker or Daytona as your terminal backend. Set `TERMINAL_BACKEND=docker` in your `.env`. Destructive commands inside a container can't harm your host system.
 
 
-``` bash
+``` prism-code
 # In your .env:
 TERMINAL_BACKEND=docker
 TERMINAL_DOCKER_IMAGE=hermes-sandbox:latest
@@ -200,7 +203,7 @@ On Windows, some default encodings (such as `cp125x`) cannot represent all Unico
 - Prefer opening files with an explicit UTF-8 encoding:
 
 
-``` python
+``` prism-code
 with open("results.txt", "w", encoding="utf-8") as f:
     f.write("✓ All good\n")
 ```
@@ -209,7 +212,7 @@ with open("results.txt", "w", encoding="utf-8") as f:
 - In PowerShell, you can also switch the current session to UTF-8 for console and native command output:
 
 
-``` powershell
+``` prism-code
 $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
 ```
 
@@ -233,7 +236,7 @@ When running in a container backend (Docker, Singularity, Modal, Daytona), dange
 Never set `GATEWAY_ALLOW_ALL_USERS=true` on a bot with terminal access. Always use platform-specific allowlists (`TELEGRAM_ALLOWED_USERS`, `DISCORD_ALLOWED_USERS`) or DM pairing to control who can interact with your agent.
 
 
-``` bash
+``` prism-code
 # Recommended: explicit allowlists per platform
 TELEGRAM_ALLOWED_USERS=123456789,987654321
 DISCORD_ALLOWED_USERS=123456789012345678

@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -25,7 +28,7 @@ If you have ever wanted Hermes to use a tool that already exists somewhere else,
 1.  Install MCP support (already included if you used the standard install script):
 
 
-``` bash
+``` prism-code
 cd ~/.hermes/hermes-agent
 uv pip install -e ".[mcp]"
 ```
@@ -34,7 +37,7 @@ uv pip install -e ".[mcp]"
 2.  Add an MCP server to `~/.hermes/config.yaml`:
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   filesystem:
     command: "npx"
@@ -45,7 +48,7 @@ mcp_servers:
 3.  Start Hermes:
 
 
-``` bash
+``` prism-code
 hermes chat
 ```
 
@@ -55,7 +58,7 @@ hermes chat
 For example:
 
 
-``` text
+``` prism-code
 List the files in /home/user/projects and summarize the repo structure.
 ```
 
@@ -69,7 +72,7 @@ Hermes will discover the MCP server's tools and use them like any other tool.
 Stdio servers run as local subprocesses and talk over stdin/stdout.
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   github:
     command: "npx"
@@ -90,7 +93,7 @@ Use stdio servers when:
 HTTP MCP servers are remote endpoints Hermes connects to directly.
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   remote_api:
     url: "https://mcp.example.com/mcp"
@@ -126,7 +129,7 @@ Hermes reads MCP config from `~/.hermes/config.yaml` under `mcp_servers`.
 ### Minimal stdio example<a href="#minimal-stdio-example" class="hash-link" aria-label="Direct link to Minimal stdio example" translate="no" title="Direct link to Minimal stdio example">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   filesystem:
     command: "npx"
@@ -137,7 +140,7 @@ mcp_servers:
 ### Minimal HTTP example<a href="#minimal-http-example" class="hash-link" aria-label="Direct link to Minimal HTTP example" translate="no" title="Direct link to Minimal HTTP example">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   company_api:
     url: "https://mcp.internal.example.com"
@@ -151,7 +154,7 @@ mcp_servers:
 Hermes prefixes MCP tools so they do not collide with built-in names:
 
 
-``` text
+``` prism-code
 mcp_<server_name>_<tool_name>
 ```
 
@@ -198,7 +201,7 @@ You can now control which tools each MCP server contributes to Hermes.
 ### Disable a server entirely<a href="#disable-a-server-entirely" class="hash-link" aria-label="Direct link to Disable a server entirely" translate="no" title="Direct link to Disable a server entirely">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   legacy:
     url: "https://mcp.legacy.internal"
@@ -211,7 +214,7 @@ If `enabled: false`, Hermes skips the server completely and does not even attemp
 ### Whitelist server tools<a href="#whitelist-server-tools" class="hash-link" aria-label="Direct link to Whitelist server tools" translate="no" title="Direct link to Whitelist server tools">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   github:
     command: "npx"
@@ -228,7 +231,7 @@ Only those MCP server tools are registered.
 ### Blacklist server tools<a href="#blacklist-server-tools" class="hash-link" aria-label="Direct link to Blacklist server tools" translate="no" title="Direct link to Blacklist server tools">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   stripe:
     url: "https://mcp.stripe.com"
@@ -244,7 +247,7 @@ All server tools are registered except the excluded ones.
 If both are present:
 
 
-``` yaml
+``` prism-code
 tools:
   include: [create_issue]
   exclude: [create_issue, delete_issue]
@@ -258,7 +261,7 @@ tools:
 You can also separately disable Hermes-added utility wrappers:
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   docs:
     url: "https://mcp.docs.example.com"
@@ -276,7 +279,7 @@ That means:
 ### Full example<a href="#full-example" class="hash-link" aria-label="Direct link to Full example" translate="no" title="Direct link to Full example">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   github:
     command: "npx"
@@ -318,7 +321,7 @@ Hermes discovers MCP servers at startup and registers their tools into the norma
 If you change MCP config, use:
 
 
-``` text
+``` prism-code
 /reload-mcp
 ```
 
@@ -330,7 +333,7 @@ This reloads MCP servers from config and refreshes the available tool list.
 Each configured MCP server also creates a runtime toolset when it contributes at least one registered tool:
 
 
-``` text
+``` prism-code
 mcp-<server>
 ```
 
@@ -358,7 +361,7 @@ The new filtering support is also a security control:
 ### GitHub server with a minimal issue-management surface<a href="#github-server-with-a-minimal-issue-management-surface" class="hash-link" aria-label="Direct link to GitHub server with a minimal issue-management surface" translate="no" title="Direct link to GitHub server with a minimal issue-management surface">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   github:
     command: "npx"
@@ -375,7 +378,7 @@ mcp_servers:
 Use it like:
 
 
-``` text
+``` prism-code
 Show me open issues labeled bug, then draft a new issue for the flaky MCP reconnection behavior.
 ```
 
@@ -383,7 +386,7 @@ Show me open issues labeled bug, then draft a new issue for the flaky MCP reconn
 ### Stripe server with dangerous actions removed<a href="#stripe-server-with-dangerous-actions-removed" class="hash-link" aria-label="Direct link to Stripe server with dangerous actions removed" translate="no" title="Direct link to Stripe server with dangerous actions removed">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   stripe:
     url: "https://mcp.stripe.com"
@@ -397,7 +400,7 @@ mcp_servers:
 Use it like:
 
 
-``` text
+``` prism-code
 Look up the last 10 failed payments and summarize common failure reasons.
 ```
 
@@ -405,7 +408,7 @@ Look up the last 10 failed payments and summarize common failure reasons.
 ### Filesystem server for a single project root<a href="#filesystem-server-for-a-single-project-root" class="hash-link" aria-label="Direct link to Filesystem server for a single project root" translate="no" title="Direct link to Filesystem server for a single project root">​</a>
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   project_fs:
     command: "npx"
@@ -416,7 +419,7 @@ mcp_servers:
 Use it like:
 
 
-``` text
+``` prism-code
 Inspect the project root and explain the directory layout.
 ```
 
@@ -428,7 +431,7 @@ Inspect the project root and explain the directory layout.
 Check:
 
 
-``` bash
+``` prism-code
 # Verify MCP deps are installed (already included in standard install)
 cd ~/.hermes/hermes-agent && uv pip install -e ".[mcp]"
 
@@ -473,7 +476,7 @@ In addition to connecting **to** MCP servers, Hermes can also **be** an MCP serv
 ### Quick start<a href="#quick-start-1" class="hash-link" aria-label="Direct link to Quick start" translate="no" title="Direct link to Quick start">​</a>
 
 
-``` bash
+``` prism-code
 hermes mcp serve
 ```
 
@@ -485,7 +488,7 @@ This starts a stdio MCP server. The MCP client (not you) manages the process lif
 Add Hermes to your MCP client config. For example, in Claude Code's `~/.claude/claude_desktop_config.json`:
 
 
-``` json
+``` prism-code
 {
   "mcpServers": {
     "hermes": {
@@ -500,7 +503,7 @@ Add Hermes to your MCP client config. For example, in Claude Code's `~/.claude/c
 Or if you installed Hermes in a specific location:
 
 
-``` json
+``` prism-code
 {
   "mcpServers": {
     "hermes": {
@@ -516,25 +519,25 @@ Or if you installed Hermes in a specific location:
 
 The MCP server exposes 10 tools, matching OpenClaw's channel bridge surface plus a Hermes-specific channel browser:
 
-| Tool | Description |
-|----|----|
-| `conversations_list` | List active messaging conversations. Filter by platform or search by name. |
-| `conversation_get` | Get detailed info about one conversation by session key. |
-| `messages_read` | Read recent message history for a conversation. |
-| `attachments_fetch` | Extract non-text attachments (images, media) from a specific message. |
-| `events_poll` | Poll for new conversation events since a cursor position. |
-| `events_wait` | Long-poll / block until the next event arrives (near-real-time). |
-| `messages_send` | Send a message through a platform (e.g. `telegram:123456`, `discord:#general`). |
-| `channels_list` | List available messaging targets across all platforms. |
-| `permissions_list_open` | List pending approval requests observed during this bridge session. |
-| `permissions_respond` | Allow or deny a pending approval request. |
+| Tool                    | Description                                                                     |
+|-------------------------|---------------------------------------------------------------------------------|
+| `conversations_list`    | List active messaging conversations. Filter by platform or search by name.      |
+| `conversation_get`      | Get detailed info about one conversation by session key.                        |
+| `messages_read`         | Read recent message history for a conversation.                                 |
+| `attachments_fetch`     | Extract non-text attachments (images, media) from a specific message.           |
+| `events_poll`           | Poll for new conversation events since a cursor position.                       |
+| `events_wait`           | Long-poll / block until the next event arrives (near-real-time).                |
+| `messages_send`         | Send a message through a platform (e.g. `telegram:123456`, `discord:#general`). |
+| `channels_list`         | List available messaging targets across all platforms.                          |
+| `permissions_list_open` | List pending approval requests observed during this bridge session.             |
+| `permissions_respond`   | Allow or deny a pending approval request.                                       |
 
 ### Event system<a href="#event-system" class="hash-link" aria-label="Direct link to Event system" translate="no" title="Direct link to Event system">​</a>
 
 The MCP server includes a live event bridge that polls Hermes's session database for new messages. This gives MCP clients near-real-time awareness of incoming conversations:
 
 
-``` text
+``` prism-code
 # Poll for new events (non-blocking)
 events_poll(after_cursor=0)
 
@@ -550,7 +553,7 @@ The event queue is in-memory and starts when the bridge connects. Older messages
 ### Options<a href="#options" class="hash-link" aria-label="Direct link to Options" translate="no" title="Direct link to Options">​</a>
 
 
-``` bash
+``` prism-code
 hermes mcp serve              # Normal mode
 hermes mcp serve --verbose    # Debug logging on stderr
 ```
