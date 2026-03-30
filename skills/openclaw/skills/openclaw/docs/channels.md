@@ -248,16 +248,6 @@ WhatsApp
   </div>
 
   </div>
-- <span id="/plugins/voice-call"><a href="/plugins/voice-call" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Voice Call Plugin</span>
-
-  </div>
-
-  </div>
 - <span id="/channels/whatsapp"><a href="/channels/whatsapp" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -860,11 +850,13 @@ Bun runtime warning
 
 
 - <a href="/channels/pairing" class="link">Pairing</a>
+- <a href="/channels/groups" class="link">Groups</a>
+- <a href="/gateway/security" class="link">Security</a>
 - <a href="/channels/channel-routing" class="link">Channel routing</a>
 - <a href="/concepts/multi-agent" class="link">Multi-agent routing</a>
 - <a href="/channels/troubleshooting" class="link">Troubleshooting</a>
 
 
-<a href="/plugins/voice-call" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Voice Call Plugin</span></a><a href="/channels/zalo" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Zalo</span></a>
+<a href="/channels/twitch" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Twitch</span></a><a href="/channels/zalo" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Zalo</span></a>
 
 

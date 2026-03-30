@@ -273,6 +273,8 @@ agent-browser dialog status           # Check if a dialog is currently open
 ```
 
 
+By default, `alert` and `beforeunload` dialogs are automatically accepted so they never block the agent. `confirm` and `prompt` dialogs still require explicit handling. Use `--no-auto-dialog` (or `AGENT_BROWSER_NO_AUTO_DIALOG=1`) to disable automatic handling.
+
 When a JavaScript dialog (`alert`, `confirm`, `prompt`) is pending, all command responses include a `warning` field with the dialog type and message.
 
 ## Streaming
@@ -300,6 +302,7 @@ agent-browser record start <path>     # Start video recording (WebM)
 agent-browser record stop             # Stop and save video
 agent-browser record restart <path>   # Stop current and start new recording
 agent-browser console                 # View console messages
+agent-browser console --json          # JSON output with raw CDP args
 agent-browser console --clear         # Clear console log
 agent-browser errors                  # View page errors
 agent-browser errors --clear          # Clear error log

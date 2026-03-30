@@ -3,6 +3,29 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-03-30] Documentation Sync
+
+**Updated skills:** openclaw agent-browser
+
+
+### openclaw
+Updated: install.md
+Updated: cli.md
+Updated: concepts.md
+Updated: gateway.md
+Updated: channels.md
+
+### agent-browser
+Updated: readme-upstream.md
+Updated: installation.md
+Updated: quick-start.md
+Updated: commands.md
+Updated: selectors.md
+
+---
+
+
+
 ## [2026-03-29] Documentation Sync
 
 **Updated skills:** claude-code-expert
