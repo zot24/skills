@@ -1,0 +1,169 @@
+name: Sync Hermes on New Release
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Check every 6 hours
+
+  repository_dispatch:
+    types: [hermes-release]
+
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force sync regardless of release version'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-and-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check for new release
+        id: check
+        run: |
+          # Fetch latest release from hermes-agent
+          LATEST=$(curl -sSL https://api.github.com/repos/NousResearch/hermes-agent/releases/latest | jq -r '.tag_name // empty')
+
+          if [ -z "$LATEST" ]; then
+            echo "No release found, checking tags..."
+            LATEST=$(curl -sSL https://api.github.com/repos/NousResearch/hermes-agent/tags | jq -r '.[0].name // empty')
+          fi
+
+          if [ -z "$LATEST" ]; then
+            echo "No releases or tags found"
+            echo "has_new=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Latest upstream version: $LATEST"
+          echo "version=$LATEST" >> $GITHUB_OUTPUT
+
+          # Force mode skips version check
+          if [ "${{ inputs.force }}" == "true" ]; then
+            echo "Force mode — syncing regardless"
+            echo "has_new=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "has_new=true" >> $GITHUB_OUTPUT
+
+      - name: Checkout repository
+        if: steps.check.outputs.has_new == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if already synced
+        if: steps.check.outputs.has_new == 'true'
+        id: version
+        run: |
+          VERSION="${{ steps.check.outputs.version }}"
+          MARKER_FILE="skills/hermes/.last-synced-release"
+
+          if [ -f "$MARKER_FILE" ] && [ "$(cat "$MARKER_FILE")" == "$VERSION" ]; then
+            echo "Already synced for $VERSION"
+            echo "needs_sync=false" >> $GITHUB_OUTPUT
+          else
+            echo "New release detected: $VERSION"
+            echo "needs_sync=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install dependencies
+        if: steps.version.outputs.needs_sync == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq curl pandoc
+
+      - name: Setup Git
+        if: steps.version.outputs.needs_sync == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Discover new docs pages
+        if: steps.version.outputs.needs_sync == 'true'
+        run: |
+          if [ -f "skills/hermes/discover-pages.sh" ]; then
+            chmod +x skills/hermes/discover-pages.sh
+            skills/hermes/discover-pages.sh --auto-add || echo "::warning::Discovery failed"
+          fi
+
+      - name: Sync hermes docs
+        if: steps.version.outputs.needs_sync == 'true'
+        id: sync
+        run: |
+          chmod +x .github/workflows/scripts/sync-skill.sh
+          OUTPUT=$(.github/workflows/scripts/sync-skill.sh skills/hermes --force 2>&1)
+          echo "$OUTPUT"
+
+          if git diff --quiet skills/hermes/; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Record synced version
+        if: steps.version.outputs.needs_sync == 'true'
+        run: |
+          echo "${{ steps.check.outputs.version }}" > skills/hermes/.last-synced-release
+
+      - name: Create branch and commit
+        if: steps.sync.outputs.has_changes == 'true' || steps.version.outputs.needs_sync == 'true'
+        id: branch
+        run: |
+          VERSION="${{ steps.check.outputs.version }}"
+          BRANCH_NAME="sync/hermes-${VERSION}"
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+          git checkout -b "$BRANCH_NAME"
+          git add skills/hermes/
+          git commit -m "docs(hermes): sync for upstream release ${VERSION}
+
+          Triggered by new release of NousResearch/hermes-agent ${VERSION}.
+          Run ID: ${{ github.run_id }}"
+
+          git push origin "$BRANCH_NAME"
+
+      - name: Create Pull Request
+        if: steps.branch.outputs.branch != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.check.outputs.version }}"
+
+          gh pr create \
+            --title "docs(hermes): sync for upstream release ${VERSION}" \
+            --body "$(cat <<EOF
+          ## Summary
+
+          Automated sync triggered by new release of [hermes-agent ${VERSION}](https://github.com/NousResearch/hermes-agent/releases/tag/${VERSION}).
+
+          - Ran page discovery to catch any new docs pages
+          - Force-synced all hermes documentation from upstream
+
+          ---
+
+          *This PR was automatically generated by the hermes release sync workflow.*
+          EOF
+          )" \
+            --label "documentation,automated,hermes" \
+            --base main \
+            --head "${{ steps.branch.outputs.branch }}"
+
+      - name: Enable auto-merge
+        if: steps.branch.outputs.branch != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=$(gh pr list --head "${{ steps.branch.outputs.branch }}" --json number --jq '.[0].number')
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr merge "$PR_NUMBER" --auto --squash
+            echo "Auto-merge enabled for PR #$PR_NUMBER"
+          fi

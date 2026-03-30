@@ -134,8 +134,26 @@
       "target": "skills/hermes/docs/faq.md",
       "type": "extract-content",
       "freshness_days": 7
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NousResearch/hermes-agent/main/README.md",
+      "target": "skills/hermes/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NousResearch/hermes-agent/main/.env.example",
+      "target": "skills/hermes/docs/env-reference.md",
+      "type": "raw",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NousResearch/hermes-agent/main/cli-config.yaml.example",
+      "target": "skills/hermes/docs/config-reference.md",
+      "type": "raw",
+      "freshness_days": 7
     }
   ],
   "cache_dir": ".cache",
-  "notes": "All pages from hermes-agent.nousresearch.com/docs/ are listed. When new docs pages are added upstream, add them here. Check the site navigation periodically for new entries."
+  "notes": "All pages from hermes-agent.nousresearch.com/docs/ plus repo source files. When new docs pages are added upstream, add them here. The discover-pages.sh script automates this. The sync-hermes-on-release.yml workflow triggers on new GitHub releases."
 }

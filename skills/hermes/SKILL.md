@@ -121,7 +121,11 @@ Reference docs cached locally from upstream:
 - **[CLI Commands](skills/hermes/docs/cli-commands.md)** - Full command reference
 - **[FAQ](skills/hermes/docs/faq.md)** - Frequently asked questions
 - **[Architecture](skills/hermes/docs/architecture.md)** - System architecture
+- **[Source Reference](skills/hermes/docs/source-reference.md)** - Repo structure, all tools, toolsets, platforms, config sections, env vars
+- **[Config Reference](skills/hermes/docs/config-reference.md)** - Full cli-config.yaml.example
+- **[Env Reference](skills/hermes/docs/env-reference.md)** - Full .env.example
 
 ### Upstream
 - Docs: https://hermes-agent.nousresearch.com/docs
+- Repo: https://github.com/NousResearch/hermes-agent
 - Skills spec: https://agentskills.io
