@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -26,18 +29,18 @@ The `~/.hermes/` directory and default `config.yaml` are created automatically t
 
 ## Overview<a href="#overview" class="hash-link" aria-label="Direct link to Overview" translate="no" title="Direct link to Overview">​</a>
 
-| Feature | Platform | Description |
-|----|----|----|
-| **Interactive Voice** | CLI | Press Ctrl+B to record, agent auto-detects silence and responds |
-| **Auto Voice Reply** | Telegram, Discord | Agent sends spoken audio alongside text responses |
-| **Voice Channel** | Discord | Bot joins VC, listens to users speaking, speaks replies back |
+| Feature               | Platform          | Description                                                     |
+|-----------------------|-------------------|-----------------------------------------------------------------|
+| **Interactive Voice** | CLI               | Press Ctrl+B to record, agent auto-detects silence and responds |
+| **Auto Voice Reply**  | Telegram, Discord | Agent sends spoken audio alongside text responses               |
+| **Voice Channel**     | Discord           | Bot joins VC, listens to users speaking, speaks replies back    |
 
 ## Requirements<a href="#requirements" class="hash-link" aria-label="Direct link to Requirements" translate="no" title="Direct link to Requirements">​</a>
 
 ### Python Packages<a href="#python-packages" class="hash-link" aria-label="Direct link to Python Packages" translate="no" title="Direct link to Python Packages">​</a>
 
 
-``` bash
+``` prism-code
 # CLI voice mode (microphone + audio playback)
 pip install "hermes-agent[voice]"
 
@@ -55,11 +58,11 @@ pip install "hermes-agent[all]"
 ```
 
 
-| Extra | Packages | Required For |
-|----|----|----|
-| `voice` | `sounddevice`, `numpy` | CLI voice mode |
-| `messaging` | `discord.py[voice]`, `python-telegram-bot`, `aiohttp` | Discord & Telegram bots |
-| `tts-premium` | `elevenlabs` | ElevenLabs TTS provider |
+| Extra         | Packages                                              | Required For            |
+|---------------|-------------------------------------------------------|-------------------------|
+| `voice`       | `sounddevice`, `numpy`                                | CLI voice mode          |
+| `messaging`   | `discord.py[voice]`, `python-telegram-bot`, `aiohttp` | Discord & Telegram bots |
+| `tts-premium` | `elevenlabs`                                          | ElevenLabs TTS provider |
 
 Optional local TTS provider: install `neutts` separately with `python -m pip install -U neutts[all]`. On first use it downloads the model automatically.
 
@@ -70,7 +73,7 @@ Optional local TTS provider: install `neutts` separately with `python -m pip ins
 ### System Dependencies<a href="#system-dependencies" class="hash-link" aria-label="Direct link to System Dependencies" translate="no" title="Direct link to System Dependencies">​</a>
 
 
-``` bash
+``` prism-code
 # macOS
 brew install portaudio ffmpeg opus
 brew install espeak-ng   # for NeuTTS
@@ -81,19 +84,19 @@ sudo apt install espeak-ng   # for NeuTTS
 ```
 
 
-| Dependency | Purpose | Required For |
-|----|----|----|
-| **PortAudio** | Microphone input and audio playback | CLI voice mode |
-| **ffmpeg** | Audio format conversion (MP3 → Opus, PCM → WAV) | All platforms |
-| **Opus** | Discord voice codec | Discord voice channels |
-| **espeak-ng** | Phonemizer backend | Local NeuTTS provider |
+| Dependency    | Purpose                                         | Required For           |
+|---------------|-------------------------------------------------|------------------------|
+| **PortAudio** | Microphone input and audio playback             | CLI voice mode         |
+| **ffmpeg**    | Audio format conversion (MP3 → Opus, PCM → WAV) | All platforms          |
+| **Opus**      | Discord voice codec                             | Discord voice channels |
+| **espeak-ng** | Phonemizer backend                              | Local NeuTTS provider  |
 
 ### API Keys<a href="#api-keys" class="hash-link" aria-label="Direct link to API Keys" translate="no" title="Direct link to API Keys">​</a>
 
 Add to `~/.hermes/.env`:
 
 
-``` bash
+``` prism-code
 # Speech-to-Text — local provider needs NO key at all
 # pip install faster-whisper          # Free, runs locally, recommended
 GROQ_API_KEY=your-key                 # Groq Whisper — fast, free tier (cloud)
@@ -117,7 +120,7 @@ If `faster-whisper` is installed, voice mode works with **zero API keys** for ST
 Start the CLI and enable voice mode:
 
 
-``` bash
+``` prism-code
 hermes                # Start the interactive CLI
 ```
 
@@ -125,7 +128,7 @@ hermes                # Start the interactive CLI
 Then use these commands inside the CLI:
 
 
-``` text
+``` prism-code
 /voice          Toggle voice mode on/off
 /voice on       Enable voice mode
 /voice off      Disable voice mode
@@ -186,7 +189,7 @@ If you haven't set up your messaging bots yet, see the platform-specific guides:
 Start the gateway to connect to your messaging platforms:
 
 
-``` bash
+``` prism-code
 hermes gateway        # Start the gateway (connects to configured platforms)
 hermes gateway setup  # Interactive setup wizard for first-time configuration
 ```
@@ -196,10 +199,10 @@ hermes gateway setup  # Interactive setup wizard for first-time configuration
 
 The bot supports two interaction modes on Discord:
 
-| Mode | How to Talk | Mention Required | Setup |
-|----|----|----|----|
-| **Direct Message (DM)** | Open the bot's profile → "Message" | No | Works immediately |
-| **Server Channel** | Type in a text channel where the bot is present | Yes (`@botname`) | Bot must be invited to the server |
+| Mode                    | How to Talk                                     | Mention Required | Setup                             |
+|-------------------------|-------------------------------------------------|------------------|-----------------------------------|
+| **Direct Message (DM)** | Open the bot's profile → "Message"              | No               | Works immediately                 |
+| **Server Channel**      | Type in a text channel where the bot is present | Yes (`@botname`) | Bot must be invited to the server |
 
 **DM (recommended for personal use):** Just open a DM with the bot and type — no @mention needed. Voice replies and all commands work the same as in channels.
 
@@ -209,7 +212,7 @@ The bot supports two interaction modes on Discord:
 To disable the mention requirement in server channels, add to `~/.hermes/.env`:
 
 
-``` bash
+``` prism-code
 DISCORD_REQUIRE_MENTION=false
 ```
 
@@ -217,7 +220,7 @@ DISCORD_REQUIRE_MENTION=false
 Or set specific channels as free-response (no mention needed):
 
 
-``` bash
+``` prism-code
 DISCORD_FREE_RESPONSE_CHANNELS=123456789,987654321
 ```
 
@@ -227,7 +230,7 @@ DISCORD_FREE_RESPONSE_CHANNELS=123456789,987654321
 These work in both Telegram and Discord (DMs and text channels):
 
 
-``` text
+``` prism-code
 /voice          Toggle voice mode on/off
 /voice on       Voice replies only when you send a voice message
 /voice tts      Voice replies for ALL messages
@@ -248,10 +251,10 @@ Voice mode setting is persisted across gateway restarts.
 
 ### Platform Delivery<a href="#platform-delivery" class="hash-link" aria-label="Direct link to Platform Delivery" translate="no" title="Direct link to Platform Delivery">​</a>
 
-| Platform | Format | Notes |
-|----|----|----|
-| **Telegram** | Voice bubble (Opus/OGG) | Plays inline in chat. ffmpeg converts MP3 → Opus if needed |
-| **Discord** | Native voice bubble (Opus/OGG) | Plays inline like a user voice message. Falls back to file attachment if voice bubble API fails |
+| Platform     | Format                         | Notes                                                                                           |
+|--------------|--------------------------------|-------------------------------------------------------------------------------------------------|
+| **Telegram** | Voice bubble (Opus/OGG)        | Plays inline in chat. ffmpeg converts MP3 → Opus if needed                                      |
+| **Discord**  | Native voice bubble (Opus/OGG) | Plays inline like a user voice message. Falls back to file attachment if voice bubble API fails |
 
 ------------------------------------------------------------------------
 
@@ -277,15 +280,15 @@ Go to the <a href="https://discord.com/developers/applications" target="_blank" 
 
 **Updated Permissions Integer:**
 
-| Level | Integer | What's Included |
-|----|----|----|
-| Text only | `274878286912` | View Channels, Send Messages, Read History, Embeds, Attachments, Threads, Reactions |
-| Text + Voice | `274881432640` | All above + Connect, Speak |
+| Level        | Integer        | What's Included                                                                     |
+|--------------|----------------|-------------------------------------------------------------------------------------|
+| Text only    | `274878286912` | View Channels, Send Messages, Read History, Embeds, Attachments, Threads, Reactions |
+| Text + Voice | `274881432640` | All above + Connect, Speak                                                          |
 
 **Re-invite the bot** with the updated permissions URL:
 
 
-``` text
+``` prism-code
 https://discord.com/oauth2/authorize?client_id=YOUR_APP_ID&scope=bot+applications.commands&permissions=274881432640
 ```
 
@@ -313,7 +316,7 @@ All three are required for full voice channel functionality. **Server Members In
 The Opus codec library must be installed on the machine running the gateway:
 
 
-``` bash
+``` prism-code
 # macOS (Homebrew)
 brew install opus
 
@@ -330,7 +333,7 @@ The bot auto-loads the codec from:
 #### 4. Environment Variables<a href="#4-environment-variables" class="hash-link" aria-label="Direct link to 4. Environment Variables" translate="no" title="Direct link to 4. Environment Variables">​</a>
 
 
-``` bash
+``` prism-code
 # ~/.hermes/.env
 
 # Discord bot (already configured for text)
@@ -349,7 +352,7 @@ DISCORD_ALLOWED_USERS=your-user-id
 ### Start the Gateway<a href="#start-the-gateway" class="hash-link" aria-label="Direct link to Start the Gateway" translate="no" title="Direct link to Start the Gateway">​</a>
 
 
-``` bash
+``` prism-code
 hermes gateway        # Start with existing configuration
 ```
 
@@ -361,7 +364,7 @@ The bot should come online in Discord within a few seconds.
 Use these in the Discord text channel where the bot is present:
 
 
-``` text
+``` prism-code
 /voice join      Bot joins your current voice channel
 /voice channel   Alias for /voice join
 /voice leave     Bot disconnects from voice channel
@@ -399,7 +402,7 @@ The bot automatically pauses its audio listener while playing TTS replies, preve
 Only users listed in `DISCORD_ALLOWED_USERS` can interact via voice. Other users' audio is silently ignored.
 
 
-``` bash
+``` prism-code
 # ~/.hermes/.env
 DISCORD_ALLOWED_USERS=284102345871466496
 ```
@@ -412,7 +415,7 @@ DISCORD_ALLOWED_USERS=284102345871466496
 ### config.yaml<a href="#configyaml" class="hash-link" aria-label="Direct link to config.yaml" translate="no" title="Direct link to config.yaml">​</a>
 
 
-``` yaml
+``` prism-code
 # Voice recording (CLI)
 voice:
   record_key: "ctrl+b"            # Key to start/stop recording
@@ -451,7 +454,7 @@ tts:
 ### Environment Variables<a href="#environment-variables" class="hash-link" aria-label="Direct link to Environment Variables" translate="no" title="Direct link to Environment Variables">​</a>
 
 
-``` bash
+``` prism-code
 # Speech-to-Text providers (local needs no key)
 # pip install faster-whisper        # Free local STT — no API key needed
 GROQ_API_KEY=...                    # Groq Whisper (fast, free tier)
@@ -475,15 +478,15 @@ DISCORD_ALLOWED_USERS=...
 
 ### STT Provider Comparison<a href="#stt-provider-comparison" class="hash-link" aria-label="Direct link to STT Provider Comparison" translate="no" title="Direct link to STT Provider Comparison">​</a>
 
-| Provider | Model | Speed | Quality | Cost | API Key |
-|----|----|----|----|----|----|
-| **Local** | `base` | Fast (depends on CPU/GPU) | Good | Free | No |
-| **Local** | `small` | Medium | Better | Free | No |
-| **Local** | `large-v3` | Slow | Best | Free | No |
-| **Groq** | `whisper-large-v3-turbo` | Very fast (~0.5s) | Good | Free tier | Yes |
-| **Groq** | `whisper-large-v3` | Fast (~1s) | Better | Free tier | Yes |
-| **OpenAI** | `whisper-1` | Fast (~1s) | Good | Paid | Yes |
-| **OpenAI** | `gpt-4o-transcribe` | Medium (~2s) | Best | Paid | Yes |
+| Provider   | Model                    | Speed                     | Quality | Cost      | API Key |
+|------------|--------------------------|---------------------------|---------|-----------|---------|
+| **Local**  | `base`                   | Fast (depends on CPU/GPU) | Good    | Free      | No      |
+| **Local**  | `small`                  | Medium                    | Better  | Free      | No      |
+| **Local**  | `large-v3`               | Slow                      | Best    | Free      | No      |
+| **Groq**   | `whisper-large-v3-turbo` | Very fast (~0.5s)         | Good    | Free tier | Yes     |
+| **Groq**   | `whisper-large-v3`       | Fast (~1s)                | Better  | Free tier | Yes     |
+| **OpenAI** | `whisper-1`              | Fast (~1s)                | Good    | Paid      | Yes     |
+| **OpenAI** | `gpt-4o-transcribe`      | Medium (~2s)              | Best    | Paid      | Yes     |
 
 Provider priority (automatic fallback): **local** \> **groq** \> **openai**
 
@@ -507,7 +510,7 @@ NeuTTS uses the `tts.neutts` config block above.
 PortAudio is not installed:
 
 
-``` bash
+``` prism-code
 brew install portaudio    # macOS
 sudo apt install portaudio19-dev  # Ubuntu
 ```

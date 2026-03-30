@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -14,10 +17,10 @@ Hermes Agent has bounded, curated memory that persists across sessions. This let
 
 Two files make up the agent's memory:
 
-| File | Purpose | Char Limit |
-|----|----|----|
+| File          | Purpose                                                                 | Char Limit                |
+|---------------|-------------------------------------------------------------------------|---------------------------|
 | **MEMORY.md** | Agent's personal notes — environment facts, conventions, things learned | 2,200 chars (~800 tokens) |
-| **USER.md** | User profile — your preferences, communication style, expectations | 1,375 chars (~500 tokens) |
+| **USER.md**   | User profile — your preferences, communication style, expectations      | 1,375 chars (~500 tokens) |
 
 Both are stored in `~/.hermes/memories/` and are injected into the system prompt as a frozen snapshot at session start. The agent manages its own memory via the `memory` tool — it can add, replace, or remove entries.
 
@@ -30,7 +33,7 @@ Character limits keep memory focused. When memory is full, the agent consolidate
 At the start of every session, memory entries are loaded from disk and rendered into the system prompt as a frozen block:
 
 
-``` text
+``` prism-code
 ══════════════════════════════════════════════
 MEMORY (your personal notes) [67% — 1,474/2,200 chars]
 ══════════════════════════════════════════════
@@ -66,7 +69,7 @@ There is no `read` action — memory content is automatically injected into the 
 The `replace` and `remove` actions use short unique substring matching — you don't need the full entry text. The `old_text` parameter just needs to be a unique substring that identifies exactly one entry:
 
 
-``` python
+``` prism-code
 # If memory contains "User prefers dark mode in all editors"
 memory(action="replace", target="memory",
        old_text="dark mode",
@@ -133,7 +136,7 @@ Memory has strict character limits to keep system prompts bounded:
 When you try to add an entry that would exceed the limit, the tool returns an error:
 
 
-``` json
+``` prism-code
 {
   "success": false,
   "error": "Memory at 2,100/2,200 chars. Adding this entry (250 chars) would exceed the limit. Replace or remove existing entries first.",
@@ -157,7 +160,7 @@ The agent should then:
 **Compact, information-dense entries work best:**
 
 
-``` text
+``` prism-code
 # Good: Packs multiple related facts
 User runs macOS 14 Sonoma, uses Homebrew, has Docker Desktop and Podman. Shell: zsh with oh-my-zsh. Editor: VS Code with Vim keybindings.
 
@@ -193,27 +196,27 @@ Beyond MEMORY.md and USER.md, the agent can search its past conversations using 
 - The agent can find things it discussed weeks ago, even if they're not in its active memory
 
 
-``` bash
+``` prism-code
 hermes sessions list    # Browse past sessions
 ```
 
 
 ### session_search vs memory<a href="#session_search-vs-memory" class="hash-link" aria-label="Direct link to session_search vs memory" translate="no" title="Direct link to session_search vs memory">​</a>
 
-| Feature | Persistent Memory | Session Search |
-|----|----|----|
-| **Capacity** | ~1,300 tokens total | Unlimited (all sessions) |
-| **Speed** | Instant (in system prompt) | Requires search + LLM summarization |
-| **Use case** | Key facts always available | Finding specific past conversations |
-| **Management** | Manually curated by agent | Automatic — all sessions stored |
-| **Token cost** | Fixed per session (~1,300 tokens) | On-demand (searched when needed) |
+| Feature        | Persistent Memory                 | Session Search                      |
+|----------------|-----------------------------------|-------------------------------------|
+| **Capacity**   | ~1,300 tokens total               | Unlimited (all sessions)            |
+| **Speed**      | Instant (in system prompt)        | Requires search + LLM summarization |
+| **Use case**   | Key facts always available        | Finding specific past conversations |
+| **Management** | Manually curated by agent         | Automatic — all sessions stored     |
+| **Token cost** | Fixed per session (~1,300 tokens) | On-demand (searched when needed)    |
 
 **Memory** is for critical facts that should always be in context. **Session search** is for "did we discuss X last week?" queries where the agent needs to recall specifics from past conversations.
 
 ## Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" translate="no" title="Direct link to Configuration">​</a>
 
 
-``` yaml
+``` prism-code
 # In ~/.hermes/config.yaml
 memory:
   memory_enabled: true
@@ -228,7 +231,7 @@ memory:
 For deeper, AI-generated user understanding that works across sessions and platforms, you can enable [Honcho Memory](/docs/user-guide/features/honcho). Honcho runs alongside built-in memory in `hybrid` mode (the default) — `MEMORY.md` and `USER.md` stay as-is, and Honcho adds a persistent user modeling layer on top.
 
 
-``` bash
+``` prism-code
 hermes honcho setup
 ```
 

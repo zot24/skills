@@ -5,6 +5,29 @@ All notable documentation sync changes to this project.
 
 ## [2026-03-30] Documentation Sync
 
+**Updated skills:** agent-browser hermes
+
+
+### agent-browser
+Updated: readme-upstream.md
+Updated: installation.md
+Updated: quick-start.md
+Updated: commands.md
+Updated: selectors.md
+
+### hermes
+Updated: learning-path.md
+Updated: messaging.md
+Updated: profiles.md
+Updated: security.md
+Updated: memory.md
+
+---
+
+
+
+## [2026-03-30] Documentation Sync
+
 **Updated skills:** openclaw agent-browser
 
 
