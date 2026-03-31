@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -29,7 +32,7 @@ Cron-run sessions cannot recursively create more cron jobs. Hermes disables cron
 ### In chat with `/cron`<a href="#in-chat-with-cron" class="hash-link" aria-label="Direct link to in-chat-with-cron" translate="no" title="Direct link to in-chat-with-cron">​</a>
 
 
-``` bash
+``` prism-code
 /cron add 30m "Remind me to check the build"
 /cron add "every 2h" "Check server status"
 /cron add "every 1h" "Summarize new feed items" --skill blogwatcher
@@ -40,7 +43,7 @@ Cron-run sessions cannot recursively create more cron jobs. Hermes disables cron
 ### From the standalone CLI<a href="#from-the-standalone-cli" class="hash-link" aria-label="Direct link to From the standalone CLI" translate="no" title="Direct link to From the standalone CLI">​</a>
 
 
-``` bash
+``` prism-code
 hermes cron create "every 2h" "Check server status"
 hermes cron create "every 1h" "Summarize new feed items" --skill blogwatcher
 hermes cron create "every 1h" "Use both skills and combine the result" \
@@ -55,7 +58,7 @@ hermes cron create "every 1h" "Use both skills and combine the result" \
 Ask Hermes normally:
 
 
-``` text
+``` prism-code
 Every morning at 9am, check Hacker News for AI news and send me a summary on Telegram.
 ```
 
@@ -69,7 +72,7 @@ A cron job can load one or more skills before it runs the prompt.
 ### Single skill<a href="#single-skill" class="hash-link" aria-label="Direct link to Single skill" translate="no" title="Direct link to Single skill">​</a>
 
 
-``` python
+``` prism-code
 cronjob(
     action="create",
     skill="blogwatcher",
@@ -85,7 +88,7 @@ cronjob(
 Skills are loaded in order. The prompt becomes the task instruction layered on top of those skills.
 
 
-``` python
+``` prism-code
 cronjob(
     action="create",
     skills=["blogwatcher", "find-nearby"],
@@ -105,7 +108,7 @@ You do not need to delete and recreate jobs just to change them.
 ### Chat<a href="#chat" class="hash-link" aria-label="Direct link to Chat" translate="no" title="Direct link to Chat">​</a>
 
 
-``` bash
+``` prism-code
 /cron edit <job_id> --schedule "every 4h"
 /cron edit <job_id> --prompt "Use the revised task"
 /cron edit <job_id> --skill blogwatcher --skill find-nearby
@@ -117,7 +120,7 @@ You do not need to delete and recreate jobs just to change them.
 ### Standalone CLI<a href="#standalone-cli" class="hash-link" aria-label="Direct link to Standalone CLI" translate="no" title="Direct link to Standalone CLI">​</a>
 
 
-``` bash
+``` prism-code
 hermes cron edit <job_id> --schedule "every 4h"
 hermes cron edit <job_id> --prompt "Use the revised task"
 hermes cron edit <job_id> --skill blogwatcher --skill find-nearby
@@ -141,7 +144,7 @@ Cron jobs now have a fuller lifecycle than just create/remove.
 ### Chat<a href="#chat-1" class="hash-link" aria-label="Direct link to Chat" translate="no" title="Direct link to Chat">​</a>
 
 
-``` bash
+``` prism-code
 /cron list
 /cron pause <job_id>
 /cron resume <job_id>
@@ -153,7 +156,7 @@ Cron jobs now have a fuller lifecycle than just create/remove.
 ### Standalone CLI<a href="#standalone-cli-1" class="hash-link" aria-label="Direct link to Standalone CLI" translate="no" title="Direct link to Standalone CLI">​</a>
 
 
-``` bash
+``` prism-code
 hermes cron list
 hermes cron pause <job_id>
 hermes cron resume <job_id>
@@ -176,7 +179,7 @@ What they do:
 **Cron execution is handled by the gateway daemon.** The gateway ticks the scheduler every 60 seconds, running any due jobs in isolated agent sessions.
 
 
-``` bash
+``` prism-code
 hermes gateway install     # Install as a user service
 sudo hermes gateway install --system   # Linux: boot-time system service for servers
 hermes gateway             # Or run in foreground
@@ -204,14 +207,14 @@ A file lock at `~/.hermes/cron/.tick.lock` prevents overlapping scheduler ticks 
 
 When scheduling jobs, you specify where the output goes:
 
-| Option | Description | Example |
-|----|----|----|
-| `"origin"` | Back to where the job was created | Default on messaging platforms |
-| `"local"` | Save to local files only (`~/.hermes/cron/output/`) | Default on CLI |
-| `"telegram"` | Telegram home channel | Uses `TELEGRAM_HOME_CHANNEL` |
-| `"discord"` | Discord home channel | Uses `DISCORD_HOME_CHANNEL` |
-| `"telegram:123456"` | Specific Telegram chat by ID | Direct delivery |
-| `"discord:987654"` | Specific Discord channel by ID | Direct delivery |
+| Option              | Description                                         | Example                        |
+|---------------------|-----------------------------------------------------|--------------------------------|
+| `"origin"`          | Back to where the job was created                   | Default on messaging platforms |
+| `"local"`           | Save to local files only (`~/.hermes/cron/output/`) | Default on CLI                 |
+| `"telegram"`        | Telegram home channel                               | Uses `TELEGRAM_HOME_CHANNEL`   |
+| `"discord"`         | Discord home channel                                | Uses `DISCORD_HOME_CHANNEL`    |
+| `"telegram:123456"` | Specific Telegram chat by ID                        | Direct delivery                |
+| `"discord:987654"`  | Specific Discord channel by ID                      | Direct delivery                |
 
 The agent's final response is automatically delivered. You do not need to call `send_message` in the cron prompt.
 
@@ -222,7 +225,7 @@ The agent's final response is automatically delivered — you do **not** need to
 ### Relative delays (one-shot)<a href="#relative-delays-one-shot" class="hash-link" aria-label="Direct link to Relative delays (one-shot)" translate="no" title="Direct link to Relative delays (one-shot)">​</a>
 
 
-``` text
+``` prism-code
 30m     → Run once in 30 minutes
 2h      → Run once in 2 hours
 1d      → Run once in 1 day
@@ -232,7 +235,7 @@ The agent's final response is automatically delivered — you do **not** need to
 ### Intervals (recurring)<a href="#intervals-recurring" class="hash-link" aria-label="Direct link to Intervals (recurring)" translate="no" title="Direct link to Intervals (recurring)">​</a>
 
 
-``` text
+``` prism-code
 every 30m    → Every 30 minutes
 every 2h     → Every 2 hours
 every 1d     → Every day
@@ -242,7 +245,7 @@ every 1d     → Every day
 ### Cron expressions<a href="#cron-expressions" class="hash-link" aria-label="Direct link to Cron expressions" translate="no" title="Direct link to Cron expressions">​</a>
 
 
-``` text
+``` prism-code
 0 9 * * *       → Daily at 9:00 AM
 0 9 * * 1-5     → Weekdays at 9:00 AM
 0 */6 * * *     → Every 6 hours
@@ -254,7 +257,7 @@ every 1d     → Every day
 ### ISO timestamps<a href="#iso-timestamps" class="hash-link" aria-label="Direct link to ISO timestamps" translate="no" title="Direct link to ISO timestamps">​</a>
 
 
-``` text
+``` prism-code
 2026-03-15T09:00:00    → One-time at March 15, 2026 9:00 AM
 ```
 
@@ -270,7 +273,7 @@ every 1d     → Every day
 You can override it:
 
 
-``` python
+``` prism-code
 cronjob(
     action="create",
     prompt="...",
@@ -285,7 +288,7 @@ cronjob(
 The agent-facing API is one tool:
 
 
-``` python
+``` prism-code
 cronjob(action="create", ...)
 cronjob(action="list")
 cronjob(action="update", job_id="...")

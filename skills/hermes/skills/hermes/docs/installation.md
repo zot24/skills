@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -15,7 +18,7 @@ Get Hermes Agent up and running in under two minutes with the one-line installer
 ### Linux / macOS / WSL2<a href="#linux--macos--wsl2" class="hash-link" aria-label="Direct link to Linux / macOS / WSL2" translate="no" title="Direct link to Linux / macOS / WSL2">​</a>
 
 
-``` bash
+``` prism-code
 curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
 ```
 
@@ -32,7 +35,7 @@ The installer handles everything automatically — all dependencies (Python, Nod
 Reload your shell and start chatting:
 
 
-``` bash
+``` prism-code
 source ~/.bashrc   # or: source ~/.zshrc
 hermes             # Start chatting!
 ```
@@ -41,7 +44,7 @@ hermes             # Start chatting!
 To reconfigure individual settings later, use the dedicated commands:
 
 
-``` bash
+``` prism-code
 hermes model          # Choose your LLM provider and model
 hermes tools          # Configure which tools are enabled
 hermes gateway setup  # Set up messaging platforms
@@ -80,7 +83,7 @@ If you prefer full control over the installation process, follow these steps.
 Clone with `--recurse-submodules` to pull the required submodules:
 
 
-``` bash
+``` prism-code
 git clone --recurse-submodules https://github.com/NousResearch/hermes-agent.git
 cd hermes-agent
 ```
@@ -89,7 +92,7 @@ cd hermes-agent
 If you already cloned without `--recurse-submodules`:
 
 
-``` bash
+``` prism-code
 git submodule update --init --recursive
 ```
 
@@ -97,7 +100,7 @@ git submodule update --init --recursive
 ### Step 2: Install uv & Create Virtual Environment<a href="#step-2-install-uv--create-virtual-environment" class="hash-link" aria-label="Direct link to Step 2: Install uv &amp; Create Virtual Environment" translate="no" title="Direct link to Step 2: Install uv &amp; Create Virtual Environment">​</a>
 
 
-``` bash
+``` prism-code
 # Install uv (if not already installed)
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
@@ -112,7 +115,7 @@ You do **not** need to activate the venv to use `hermes`. The entry point has a 
 ### Step 3: Install Python Dependencies<a href="#step-3-install-python-dependencies" class="hash-link" aria-label="Direct link to Step 3: Install Python Dependencies" translate="no" title="Direct link to Step 3: Install Python Dependencies">​</a>
 
 
-``` bash
+``` prism-code
 # Tell uv which venv to install into
 export VIRTUAL_ENV="$(pwd)/venv"
 
@@ -124,7 +127,7 @@ uv pip install -e ".[all]"
 If you only want the core agent (no Telegram/Discord/cron support):
 
 
-``` bash
+``` prism-code
 uv pip install -e "."
 ```
 
@@ -132,22 +135,22 @@ uv pip install -e "."
 **Optional extras breakdown**
 
 
-| Extra | What it adds | Install command |
-|----|----|----|
-| `all` | Everything below | `uv pip install -e ".[all]"` |
-| `messaging` | Telegram & Discord gateway | `uv pip install -e ".[messaging]"` |
-| `cron` | Cron expression parsing for scheduled tasks | `uv pip install -e ".[cron]"` |
-| `cli` | Terminal menu UI for setup wizard | `uv pip install -e ".[cli]"` |
-| `modal` | Modal cloud execution backend | `uv pip install -e ".[modal]"` |
-| `tts-premium` | ElevenLabs premium voices | `uv pip install -e ".[tts-premium]"` |
-| `voice` | CLI microphone input + audio playback | `uv pip install -e ".[voice]"` |
-| `pty` | PTY terminal support | `uv pip install -e ".[pty]"` |
-| `honcho` | AI-native memory (Honcho integration) | `uv pip install -e ".[honcho]"` |
-| `mcp` | Model Context Protocol support | `uv pip install -e ".[mcp]"` |
-| `homeassistant` | Home Assistant integration | `uv pip install -e ".[homeassistant]"` |
-| `acp` | ACP editor integration support | `uv pip install -e ".[acp]"` |
-| `slack` | Slack messaging | `uv pip install -e ".[slack]"` |
-| `dev` | pytest & test utilities | `uv pip install -e ".[dev]"` |
+| Extra           | What it adds                                | Install command                        |
+|-----------------|---------------------------------------------|----------------------------------------|
+| `all`           | Everything below                            | `uv pip install -e ".[all]"`           |
+| `messaging`     | Telegram & Discord gateway                  | `uv pip install -e ".[messaging]"`     |
+| `cron`          | Cron expression parsing for scheduled tasks | `uv pip install -e ".[cron]"`          |
+| `cli`           | Terminal menu UI for setup wizard           | `uv pip install -e ".[cli]"`           |
+| `modal`         | Modal cloud execution backend               | `uv pip install -e ".[modal]"`         |
+| `tts-premium`   | ElevenLabs premium voices                   | `uv pip install -e ".[tts-premium]"`   |
+| `voice`         | CLI microphone input + audio playback       | `uv pip install -e ".[voice]"`         |
+| `pty`           | PTY terminal support                        | `uv pip install -e ".[pty]"`           |
+| `honcho`        | AI-native memory (Honcho integration)       | `uv pip install -e ".[honcho]"`        |
+| `mcp`           | Model Context Protocol support              | `uv pip install -e ".[mcp]"`           |
+| `homeassistant` | Home Assistant integration                  | `uv pip install -e ".[homeassistant]"` |
+| `acp`           | ACP editor integration support              | `uv pip install -e ".[acp]"`           |
+| `slack`         | Slack messaging                             | `uv pip install -e ".[slack]"`         |
+| `dev`           | pytest & test utilities                     | `uv pip install -e ".[dev]"`           |
 
 You can combine extras: `uv pip install -e ".[messaging,cron]"`
 
@@ -155,7 +158,7 @@ You can combine extras: `uv pip install -e ".[messaging,cron]"`
 ### Step 4: Install Optional Submodules (if needed)<a href="#step-4-install-optional-submodules-if-needed" class="hash-link" aria-label="Direct link to Step 4: Install Optional Submodules (if needed)" translate="no" title="Direct link to Step 4: Install Optional Submodules (if needed)">​</a>
 
 
-``` bash
+``` prism-code
 # RL training backend (optional)
 uv pip install -e "./tinker-atropos"
 ```
@@ -168,7 +171,7 @@ Both are optional — if you skip them, the corresponding toolsets simply won't 
 Only needed for **browser automation** (Browserbase-powered) and **WhatsApp bridge**:
 
 
-``` bash
+``` prism-code
 npm install
 ```
 
@@ -176,7 +179,7 @@ npm install
 ### Step 6: Create the Configuration Directory<a href="#step-6-create-the-configuration-directory" class="hash-link" aria-label="Direct link to Step 6: Create the Configuration Directory" translate="no" title="Direct link to Step 6: Create the Configuration Directory">​</a>
 
 
-``` bash
+``` prism-code
 # Create the directory structure
 mkdir -p ~/.hermes/{cron,sessions,logs,memories,skills,pairing,hooks,image_cache,audio_cache,whatsapp/session}
 
@@ -193,7 +196,7 @@ touch ~/.hermes/.env
 Open `~/.hermes/.env` and add at minimum an LLM provider key:
 
 
-``` bash
+``` prism-code
 # Required — at least one LLM provider:
 OPENROUTER_API_KEY=sk-or-v1-your-key-here
 
@@ -206,7 +209,7 @@ FAL_KEY=your-fal-key                   # Image generation (FLUX)
 Or set them via the CLI:
 
 
-``` bash
+``` prism-code
 hermes config set OPENROUTER_API_KEY sk-or-v1-your-key-here
 ```
 
@@ -214,7 +217,7 @@ hermes config set OPENROUTER_API_KEY sk-or-v1-your-key-here
 ### Step 8: Add `hermes` to Your PATH<a href="#step-8-add-hermes-to-your-path" class="hash-link" aria-label="Direct link to step-8-add-hermes-to-your-path" translate="no" title="Direct link to step-8-add-hermes-to-your-path">​</a>
 
 
-``` bash
+``` prism-code
 mkdir -p ~/.local/bin
 ln -sf "$(pwd)/venv/bin/hermes" ~/.local/bin/hermes
 ```
@@ -223,7 +226,7 @@ ln -sf "$(pwd)/venv/bin/hermes" ~/.local/bin/hermes
 If `~/.local/bin` isn't on your PATH, add it to your shell config:
 
 
-``` bash
+``` prism-code
 # Bash
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
 
@@ -238,7 +241,7 @@ fish_add_path $HOME/.local/bin
 ### Step 9: Configure Your Provider<a href="#step-9-configure-your-provider" class="hash-link" aria-label="Direct link to Step 9: Configure Your Provider" translate="no" title="Direct link to Step 9: Configure Your Provider">​</a>
 
 
-``` bash
+``` prism-code
 hermes model       # Select your LLM provider and model
 ```
 
@@ -246,7 +249,7 @@ hermes model       # Select your LLM provider and model
 ### Step 10: Verify the Installation<a href="#step-10-verify-the-installation" class="hash-link" aria-label="Direct link to Step 10: Verify the Installation" translate="no" title="Direct link to Step 10: Verify the Installation">​</a>
 
 
-``` bash
+``` prism-code
 hermes version    # Check that the command is available
 hermes doctor     # Run diagnostics to verify everything is working
 hermes status     # Check your configuration
@@ -261,7 +264,7 @@ hermes chat -q "Hello! What tools do you have available?"
 For those who just want the commands:
 
 
-``` bash
+``` prism-code
 # Install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
@@ -298,11 +301,11 @@ hermes
 
 ## Troubleshooting<a href="#troubleshooting" class="hash-link" aria-label="Direct link to Troubleshooting" translate="no" title="Direct link to Troubleshooting">​</a>
 
-| Problem | Solution |
-|----|----|
-| `hermes: command not found` | Reload your shell (`source ~/.bashrc`) or check PATH |
-| `API key not set` | Run `hermes model` to configure your provider, or `hermes config set OPENROUTER_API_KEY your_key` |
-| Missing config after update | Run `hermes config check` then `hermes config migrate` |
+| Problem                     | Solution                                                                                          |
+|-----------------------------|---------------------------------------------------------------------------------------------------|
+| `hermes: command not found` | Reload your shell (`source ~/.bashrc`) or check PATH                                              |
+| `API key not set`           | Run `hermes model` to configure your provider, or `hermes config set OPENROUTER_API_KEY your_key` |
+| Missing config after update | Run `hermes config check` then `hermes config migrate`                                            |
 
 For more diagnostics, run `hermes doctor` — it will tell you exactly what's missing and how to fix it.
 
