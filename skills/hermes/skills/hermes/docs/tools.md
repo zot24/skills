@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -16,23 +19,23 @@ Hermes ships with a broad built-in tool registry covering web search, browser au
 
 High-level categories:
 
-| Category | Examples | Description |
-|----|----|----|
-| **Web** | `web_search`, `web_extract` | Search the web and extract page content. |
-| **Terminal & Files** | `terminal`, `process`, `read_file`, `patch` | Execute commands and manipulate files. |
-| **Browser** | `browser_navigate`, `browser_snapshot`, `browser_vision` | Interactive browser automation with text and vision support. |
-| **Media** | `vision_analyze`, `image_generate`, `text_to_speech` | Multimodal analysis and generation. |
-| **Agent orchestration** | `todo`, `clarify`, `execute_code`, `delegate_task` | Planning, clarification, code execution, and subagent delegation. |
-| **Memory & recall** | `memory`, `session_search`, `honcho_*` | Persistent memory, session search, and Honcho cross-session context. |
-| **Automation & delivery** | `cronjob`, `send_message` | Scheduled tasks with create/list/update/pause/resume/run/remove actions, plus outbound messaging delivery. |
-| **Integrations** | `ha_*`, MCP server tools, `rl_*` | Home Assistant, MCP, RL training, and other integrations. |
+| Category                  | Examples                                                 | Description                                                                                                |
+|---------------------------|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| **Web**                   | `web_search`, `web_extract`                              | Search the web and extract page content.                                                                   |
+| **Terminal & Files**      | `terminal`, `process`, `read_file`, `patch`              | Execute commands and manipulate files.                                                                     |
+| **Browser**               | `browser_navigate`, `browser_snapshot`, `browser_vision` | Interactive browser automation with text and vision support.                                               |
+| **Media**                 | `vision_analyze`, `image_generate`, `text_to_speech`     | Multimodal analysis and generation.                                                                        |
+| **Agent orchestration**   | `todo`, `clarify`, `execute_code`, `delegate_task`       | Planning, clarification, code execution, and subagent delegation.                                          |
+| **Memory & recall**       | `memory`, `session_search`, `honcho_*`                   | Persistent memory, session search, and Honcho cross-session context.                                       |
+| **Automation & delivery** | `cronjob`, `send_message`                                | Scheduled tasks with create/list/update/pause/resume/run/remove actions, plus outbound messaging delivery. |
+| **Integrations**          | `ha_*`, MCP server tools, `rl_*`                         | Home Assistant, MCP, RL training, and other integrations.                                                  |
 
 For the authoritative code-derived registry, see [Built-in Tools Reference](/docs/reference/tools-reference) and [Toolsets Reference](/docs/reference/toolsets-reference).
 
 ## Using Toolsets<a href="#using-toolsets" class="hash-link" aria-label="Direct link to Using Toolsets" translate="no" title="Direct link to Using Toolsets">​</a>
 
 
-``` bash
+``` prism-code
 # Use specific toolsets
 hermes chat --toolsets "web,terminal"
 
@@ -52,19 +55,19 @@ See [Toolsets Reference](/docs/reference/toolsets-reference) for the full set, i
 
 The terminal tool can execute commands in different environments:
 
-| Backend | Description | Use Case |
-|----|----|----|
-| `local` | Run on your machine (default) | Development, trusted tasks |
-| `docker` | Isolated containers | Security, reproducibility |
-| `ssh` | Remote server | Sandboxing, keep agent away from its own code |
-| `singularity` | HPC containers | Cluster computing, rootless |
-| `modal` | Cloud execution | Serverless, scale |
-| `daytona` | Cloud sandbox workspace | Persistent remote dev environments |
+| Backend       | Description                   | Use Case                                      |
+|---------------|-------------------------------|-----------------------------------------------|
+| `local`       | Run on your machine (default) | Development, trusted tasks                    |
+| `docker`      | Isolated containers           | Security, reproducibility                     |
+| `ssh`         | Remote server                 | Sandboxing, keep agent away from its own code |
+| `singularity` | HPC containers                | Cluster computing, rootless                   |
+| `modal`       | Cloud execution               | Serverless, scale                             |
+| `daytona`     | Cloud sandbox workspace       | Persistent remote dev environments            |
 
 ### Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" translate="no" title="Direct link to Configuration">​</a>
 
 
-``` yaml
+``` prism-code
 # In ~/.hermes/config.yaml
 terminal:
   backend: local    # or: docker, ssh, singularity, modal, daytona
@@ -76,7 +79,7 @@ terminal:
 ### Docker Backend<a href="#docker-backend" class="hash-link" aria-label="Direct link to Docker Backend" translate="no" title="Direct link to Docker Backend">​</a>
 
 
-``` yaml
+``` prism-code
 terminal:
   backend: docker
   docker_image: python:3.11-slim
@@ -88,13 +91,13 @@ terminal:
 Recommended for security — agent can't modify its own code:
 
 
-``` yaml
+``` prism-code
 terminal:
   backend: ssh
 ```
 
 
-``` bash
+``` prism-code
 # Set credentials in ~/.hermes/.env
 TERMINAL_SSH_HOST=my-server.example.com
 TERMINAL_SSH_USER=myuser
@@ -105,7 +108,7 @@ TERMINAL_SSH_KEY=~/.ssh/id_rsa
 ### Singularity/Apptainer<a href="#singularityapptainer" class="hash-link" aria-label="Direct link to Singularity/Apptainer" translate="no" title="Direct link to Singularity/Apptainer">​</a>
 
 
-``` bash
+``` prism-code
 # Pre-build SIF for parallel workers
 apptainer build ~/python.sif docker://python:3.11-slim
 
@@ -118,7 +121,7 @@ hermes config set terminal.singularity_image ~/python.sif
 ### Modal (Serverless Cloud)<a href="#modal-serverless-cloud" class="hash-link" aria-label="Direct link to Modal (Serverless Cloud)" translate="no" title="Direct link to Modal (Serverless Cloud)">​</a>
 
 
-``` bash
+``` prism-code
 uv pip install modal
 modal setup
 hermes config set terminal.backend modal
@@ -130,7 +133,7 @@ hermes config set terminal.backend modal
 Configure CPU, memory, disk, and persistence for all container backends:
 
 
-``` yaml
+``` prism-code
 terminal:
   backend: docker  # or singularity, modal, daytona
   container_cpu: 1              # CPU cores (default: 1)
@@ -160,7 +163,7 @@ Docker can optionally receive an explicit env allowlist via `terminal.docker_for
 Start background processes and manage them:
 
 
-``` python
+``` prism-code
 terminal(command="pytest -v tests/", background=true)
 # Returns: {"session_id": "proc_abc123", "pid": 12345}
 

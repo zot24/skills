@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -24,7 +27,7 @@ See also:
 Every installed skill is automatically available as a slash command:
 
 
-``` bash
+``` prism-code
 # In the CLI or any messaging platform:
 /gif-search funny cats
 /axolotl help me fine-tune Llama 3 on my dataset
@@ -41,7 +44,7 @@ The bundled `plan` skill is a good example of a skill-backed slash command with 
 You can also interact with skills through natural conversation:
 
 
-``` bash
+``` prism-code
 hermes chat --toolsets skills -q "What skills do you have?"
 hermes chat --toolsets skills -q "Show me the axolotl skill"
 ```
@@ -52,7 +55,7 @@ hermes chat --toolsets skills -q "Show me the axolotl skill"
 Skills use a token-efficient loading pattern:
 
 
-``` text
+``` prism-code
 Level 0: skills_list()           → [{name, description, category}, ...]   (~3k tokens)
 Level 1: skill_view(name)        → Full content + metadata       (varies)
 Level 2: skill_view(name, path)  → Specific reference file       (varies)
@@ -64,7 +67,7 @@ The agent only loads the full skill content when it actually needs it.
 ## SKILL.md Format<a href="#skillmd-format" class="hash-link" aria-label="Direct link to SKILL.md Format" translate="no" title="Direct link to SKILL.md Format">​</a>
 
 
-``` markdown
+``` prism-code
 ---
 name: my-skill
 description: Brief description of what this skill does
@@ -106,7 +109,7 @@ Skills can restrict themselves to specific operating systems using the `platform
 | `windows` | Windows        |
 
 
-``` yaml
+``` prism-code
 platforms: [macos]            # macOS only (e.g., iMessage, Apple Reminders, FindMy)
 platforms: [macos, linux]     # macOS and Linux
 ```
@@ -119,7 +122,7 @@ When set, the skill is automatically hidden from the system prompt, `skills_list
 Skills can automatically show or hide themselves based on which tools are available in the current session. This is most useful for **fallback skills** — free or local alternatives that should only appear when a premium tool is unavailable.
 
 
-``` yaml
+``` prism-code
 metadata:
   hermes:
     fallback_for_toolsets: [web]      # Show ONLY when these toolsets are unavailable
@@ -129,12 +132,12 @@ metadata:
 ```
 
 
-| Field | Behavior |
-|----|----|
-| `fallback_for_toolsets` | Skill is **hidden** when the listed toolsets are available. Shown when they're missing. |
-| `fallback_for_tools` | Same, but checks individual tools instead of toolsets. |
-| `requires_toolsets` | Skill is **hidden** when the listed toolsets are unavailable. Shown when they're present. |
-| `requires_tools` | Same, but checks individual tools. |
+| Field                   | Behavior                                                                                  |
+|-------------------------|-------------------------------------------------------------------------------------------|
+| `fallback_for_toolsets` | Skill is **hidden** when the listed toolsets are available. Shown when they're missing.   |
+| `fallback_for_tools`    | Same, but checks individual tools instead of toolsets.                                    |
+| `requires_toolsets`     | Skill is **hidden** when the listed toolsets are unavailable. Shown when they're present. |
+| `requires_tools`        | Same, but checks individual tools.                                                        |
 
 **Example:** The built-in `duckduckgo-search` skill uses `fallback_for_toolsets: [web]`. When you have `FIRECRAWL_API_KEY` set, the web toolset is available and the agent uses `web_search` — the DuckDuckGo skill stays hidden. If the API key is missing, the web toolset is unavailable and the DuckDuckGo skill automatically appears as a fallback.
 
@@ -145,7 +148,7 @@ Skills without any conditional fields behave exactly as before — they're alway
 Skills can declare required environment variables without disappearing from discovery:
 
 
-``` yaml
+``` prism-code
 required_environment_variables:
   - name: TENOR_API_KEY
     prompt: Tenor API key
@@ -161,7 +164,7 @@ Once set, declared env vars are **automatically passed through** to `execute_cod
 ## Skill Directory Structure<a href="#skill-directory-structure" class="hash-link" aria-label="Direct link to Skill Directory Structure" translate="no" title="Direct link to Skill Directory Structure">​</a>
 
 
-``` text
+``` prism-code
 ~/.hermes/skills/                  # Single source of truth
 ├── mlops/                         # Category directory
 │   ├── axolotl/
@@ -191,7 +194,7 @@ If you maintain skills outside of Hermes — for example, a shared `~/.agents/sk
 Add `external_dirs` under the `skills` section in `~/.hermes/config.yaml`:
 
 
-``` yaml
+``` prism-code
 skills:
   external_dirs:
     - ~/.agents/skills
@@ -212,7 +215,7 @@ Paths support `~` expansion and `${VAR}` environment variable substitution.
 ### Example<a href="#example" class="hash-link" aria-label="Direct link to Example" translate="no" title="Direct link to Example">​</a>
 
 
-``` text
+``` prism-code
 ~/.hermes/skills/               # Local (primary, read-write)
 ├── devops/deploy-k8s/
 │   └── SKILL.md
@@ -242,14 +245,14 @@ The agent can create, update, and delete its own skills via the `skill_manage` t
 
 ### Actions<a href="#actions" class="hash-link" aria-label="Direct link to Actions" translate="no" title="Direct link to Actions">​</a>
 
-| Action | Use for | Key params |
-|----|----|----|
-| `create` | New skill from scratch | `name`, `content` (full SKILL.md), optional `category` |
-| `patch` | Targeted fixes (preferred) | `name`, `old_string`, `new_string` |
-| `edit` | Major structural rewrites | `name`, `content` (full SKILL.md replacement) |
-| `delete` | Remove a skill entirely | `name` |
-| `write_file` | Add/update supporting files | `name`, `file_path`, `file_content` |
-| `remove_file` | Remove a supporting file | `name`, `file_path` |
+| Action        | Use for                     | Key params                                             |
+|---------------|-----------------------------|--------------------------------------------------------|
+| `create`      | New skill from scratch      | `name`, `content` (full SKILL.md), optional `category` |
+| `patch`       | Targeted fixes (preferred)  | `name`, `old_string`, `new_string`                     |
+| `edit`        | Major structural rewrites   | `name`, `content` (full SKILL.md replacement)          |
+| `delete`      | Remove a skill entirely     | `name`                                                 |
+| `write_file`  | Add/update supporting files | `name`, `file_path`, `file_content`                    |
+| `remove_file` | Remove a supporting file    | `name`, `file_path`                                    |
 
 
 The `patch` action is preferred for updates — it's more token-efficient than `edit` because only the changed text appears in the tool call.
@@ -262,7 +265,7 @@ Browse, search, install, and manage skills from online registries, `skills.sh`, 
 ### Common commands<a href="#common-commands" class="hash-link" aria-label="Direct link to Common commands" translate="no" title="Direct link to Common commands">​</a>
 
 
-``` bash
+``` prism-code
 hermes skills browse                              # Browse all hub skills (official first)
 hermes skills browse --source official            # Browse only official optional skills
 hermes skills search kubernetes                   # Search all sources
@@ -286,13 +289,13 @@ hermes skills tap add myorg/skills-repo           # Add a custom GitHub source
 
 ### Supported hub sources<a href="#supported-hub-sources" class="hash-link" aria-label="Direct link to Supported hub sources" translate="no" title="Direct link to Supported hub sources">​</a>
 
-| Source | Example | Notes |
-|----|----|----|
-| `official` | `official/security/1password` | Optional skills shipped with Hermes. |
-| `skills-sh` | `skills-sh/vercel-labs/agent-skills/vercel-react-best-practices` | Searchable via `hermes skills search <query> --source skills-sh`. Hermes resolves alias-style skills when the skills.sh slug differs from the repo folder. |
-| `well-known` | `well-known:https://mintlify.com/docs/.well-known/skills/mintlify` | Skills served directly from `/.well-known/skills/index.json` on a website. Search using the site or docs URL. |
-| `github` | `openai/skills/k8s` | Direct GitHub repo/path installs and custom taps. |
-| `clawhub`, `lobehub`, `claude-marketplace` | Source-specific identifiers | Community or marketplace integrations. |
+| Source                                     | Example                                                            | Notes                                                                                                                                                      |
+|--------------------------------------------|--------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `official`                                 | `official/security/1password`                                      | Optional skills shipped with Hermes.                                                                                                                       |
+| `skills-sh`                                | `skills-sh/vercel-labs/agent-skills/vercel-react-best-practices`   | Searchable via `hermes skills search <query> --source skills-sh`. Hermes resolves alias-style skills when the skills.sh slug differs from the repo folder. |
+| `well-known`                               | `well-known:https://mintlify.com/docs/.well-known/skills/mintlify` | Skills served directly from `/.well-known/skills/index.json` on a website. Search using the site or docs URL.                                              |
+| `github`                                   | `openai/skills/k8s`                                                | Direct GitHub repo/path installs and custom taps.                                                                                                          |
+| `clawhub`, `lobehub`, `claude-marketplace` | Source-specific identifiers                                        | Community or marketplace integrations.                                                                                                                     |
 
 ### Integrated hubs and registries<a href="#integrated-hubs-and-registries" class="hash-link" aria-label="Direct link to Integrated hubs and registries" translate="no" title="Direct link to Integrated hubs and registries">​</a>
 
@@ -307,7 +310,7 @@ These are maintained in the Hermes repository itself and install with builtin tr
 - Example:
 
 
-``` bash
+``` prism-code
 hermes skills browse --source official
 hermes skills install official/security/1password
 ```
@@ -323,7 +326,7 @@ This is Vercel's public skills directory. Hermes can search it directly, inspect
 - Example:
 
 
-``` bash
+``` prism-code
 hermes skills search react --source skills-sh
 hermes skills inspect skills-sh/vercel-labs/json-render/json-render-react
 hermes skills install skills-sh/vercel-labs/json-render/json-render-react --force
@@ -339,7 +342,7 @@ This is URL-based discovery from sites that publish `/.well-known/skills/index.j
 - Example:
 
 
-``` bash
+``` prism-code
 hermes skills search https://mintlify.com/docs --source well-known
 hermes skills inspect well-known:https://mintlify.com/docs/.well-known/skills/mintlify
 hermes skills install well-known:https://mintlify.com/docs/.well-known/skills/mintlify
@@ -363,7 +366,7 @@ Default taps (browsable without any setup):
 - Example:
 
 
-``` bash
+``` prism-code
 hermes skills install openai/skills/k8s
 hermes skills tap add myorg/skills-repo
 ```
@@ -412,7 +415,7 @@ All hub-installed skills go through a **security scanner** that checks for data 
 Use `--force` when you have reviewed a third-party skill and want to override a non-dangerous policy block:
 
 
-``` bash
+``` prism-code
 hermes skills install skills-sh/anthropics/skills/pdf --force
 ```
 
@@ -425,11 +428,11 @@ Important behavior:
 
 ### Trust levels<a href="#trust-levels" class="hash-link" aria-label="Direct link to Trust levels" translate="no" title="Direct link to Trust levels">​</a>
 
-| Level | Source | Policy |
-|----|----|----|
-| `builtin` | Ships with Hermes | Always trusted |
-| `official` | `optional-skills/` in the repo | Builtin trust, no third-party warning |
-| `trusted` | Trusted registries/repos such as `openai/skills`, `anthropics/skills` | More permissive policy than community sources |
+| Level       | Source                                                                                      | Policy                                                                                     |
+|-------------|---------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| `builtin`   | Ships with Hermes                                                                           | Always trusted                                                                             |
+| `official`  | `optional-skills/` in the repo                                                              | Builtin trust, no third-party warning                                                      |
+| `trusted`   | Trusted registries/repos such as `openai/skills`, `anthropics/skills`                       | More permissive policy than community sources                                              |
 | `community` | Everything else (`skills.sh`, well-known endpoints, custom GitHub repos, most marketplaces) | Non-dangerous findings can be overridden with `--force`; `dangerous` verdicts stay blocked |
 
 ### Update lifecycle<a href="#update-lifecycle" class="hash-link" aria-label="Direct link to Update lifecycle" translate="no" title="Direct link to Update lifecycle">​</a>
@@ -437,7 +440,7 @@ Important behavior:
 The hub now tracks enough provenance to re-check upstream copies of installed skills:
 
 
-``` bash
+``` prism-code
 hermes skills check          # Report which installed hub skills changed upstream
 hermes skills update         # Reinstall only the skills with updates available
 hermes skills update react   # Update one specific installed hub skill
@@ -451,7 +454,7 @@ This uses the stored source identifier plus the current upstream bundle content 
 All the same commands work with `/skills`:
 
 
-``` text
+``` prism-code
 /skills browse
 /skills search react --source skills-sh
 /skills search https://mintlify.com/docs --source well-known
