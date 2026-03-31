@@ -121,10 +121,21 @@ jobs:
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Record synced version
+      - name: Bump skill version and record synced release
         if: steps.sync.outputs.has_changes == 'true'
         run: |
-          echo "${{ steps.check.outputs.version }}" > skills/hermes/.last-synced-release
+          VERSION="${{ steps.check.outputs.version }}"
+          echo "$VERSION" > skills/hermes/.last-synced-release
+
+          # Patch-bump sync.json version so Claude detects the update
+          CURRENT=$(jq -r '.version' skills/hermes/sync.json)
+          IFS='.' read -r major minor patch <<< "$CURRENT"
+          patch=$((patch + 1))
+          NEW_VERSION="$major.$minor.$patch"
+          tmp=$(mktemp)
+          jq --arg v "$NEW_VERSION" '.version = $v' skills/hermes/sync.json > "$tmp"
+          mv "$tmp" skills/hermes/sync.json
+          echo "Bumped skill version: $CURRENT -> $NEW_VERSION"
 
       - name: Create branch and commit
         if: steps.sync.outputs.has_changes == 'true'
@@ -183,6 +194,6 @@ jobs:
         run: |
           PR_NUMBER=$(gh pr list --head "${{ steps.branch.outputs.branch }}" --json number --jq '.[0].number')
           if [ -n "$PR_NUMBER" ]; then
-            gh pr merge "$PR_NUMBER" --auto --squash
-            echo "Auto-merge enabled for PR #$PR_NUMBER"
+            gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
+            echo "Auto-merge enabled for PR #$PR_NUMBER (branch will be deleted)"
           fi

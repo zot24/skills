@@ -102,6 +102,18 @@ jobs:
               echo "Changes detected for $SKILL"
               CHANGED_SKILLS="$CHANGED_SKILLS $SKILL"
 
+              # Patch-bump sync.json version so Claude detects the update
+              if [ -f "skills/$SKILL/sync.json" ]; then
+                CURRENT=$(jq -r '.version' "skills/$SKILL/sync.json")
+                IFS='.' read -r major minor patch <<< "$CURRENT"
+                patch=$((patch + 1))
+                NEW_VERSION="$major.$minor.$patch"
+                tmp=$(mktemp)
+                jq --arg v "$NEW_VERSION" '.version = $v' "skills/$SKILL/sync.json" > "$tmp"
+                mv "$tmp" "skills/$SKILL/sync.json"
+                echo "Bumped $SKILL version: $CURRENT -> $NEW_VERSION"
+              fi
+
               # Extract change summary for this skill
               CHANGES=$(echo "$OUTPUT" | grep -E "^\[CHANGE\]" | sed 's/\[CHANGE\] //' | head -5 || echo "Documentation updated")
               ALL_CHANGES="$ALL_CHANGES
@@ -270,6 +282,6 @@ jobs:
           PR_NUMBER=$(gh pr list --head "${{ steps.branch.outputs.branch }}" --json number --jq '.[0].number')
 
           if [ -n "$PR_NUMBER" ]; then
-            gh pr merge "$PR_NUMBER" --auto --squash
+            gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
             echo "Auto-merge enabled for PR #$PR_NUMBER"
           fi
