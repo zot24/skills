@@ -49,26 +49,29 @@ hermes setup       # Or configure everything at once
 
 `hermes model` walks you through selecting an inference provider:
 
-| Provider              | What it is                                                      | How to set up                                                 |
-|-----------------------|-----------------------------------------------------------------|---------------------------------------------------------------|
-| **Nous Portal**       | Subscription-based, zero-config                                 | OAuth login via `hermes model`                                |
-| **OpenAI Codex**      | ChatGPT OAuth, uses Codex models                                | Device code auth via `hermes model`                           |
-| **Anthropic**         | Claude models directly (Pro/Max or API key)                     | `hermes model` with Claude Code auth, or an Anthropic API key |
-| **OpenRouter**        | Multi-provider routing across many models                       | Enter your API key                                            |
-| **Z.AI**              | GLM / Zhipu-hosted models                                       | Set `GLM_API_KEY` / `ZAI_API_KEY`                             |
-| **Kimi / Moonshot**   | Moonshot-hosted coding and chat models                          | Set `KIMI_API_KEY`                                            |
-| **MiniMax**           | International MiniMax endpoint                                  | Set `MINIMAX_API_KEY`                                         |
-| **MiniMax China**     | China-region MiniMax endpoint                                   | Set `MINIMAX_CN_API_KEY`                                      |
-| **Alibaba Cloud**     | Qwen models via DashScope                                       | Set `DASHSCOPE_API_KEY`                                       |
-| **Hugging Face**      | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.) | Set `HF_TOKEN`                                                |
-| **Kilo Code**         | KiloCode-hosted models                                          | Set `KILOCODE_API_KEY`                                        |
-| **OpenCode Zen**      | Pay-as-you-go access to curated models                          | Set `OPENCODE_ZEN_API_KEY`                                    |
-| **OpenCode Go**       | \$10/month subscription for open models                         | Set `OPENCODE_GO_API_KEY`                                     |
-| **Vercel AI Gateway** | Vercel AI Gateway routing                                       | Set `AI_GATEWAY_API_KEY`                                      |
-| **Custom Endpoint**   | VLLM, SGLang, Ollama, or any OpenAI-compatible API              | Set base URL + API key                                        |
+| Provider               | What it is                                                      | How to set up                                                    |
+|------------------------|-----------------------------------------------------------------|------------------------------------------------------------------|
+| **Nous Portal**        | Subscription-based, zero-config                                 | OAuth login via `hermes model`                                   |
+| **OpenAI Codex**       | ChatGPT OAuth, uses Codex models                                | Device code auth via `hermes model`                              |
+| **Anthropic**          | Claude models directly (Pro/Max or API key)                     | `hermes model` with Claude Code auth, or an Anthropic API key    |
+| **OpenRouter**         | Multi-provider routing across many models                       | Enter your API key                                               |
+| **Z.AI**               | GLM / Zhipu-hosted models                                       | Set `GLM_API_KEY` / `ZAI_API_KEY`                                |
+| **Kimi / Moonshot**    | Moonshot-hosted coding and chat models                          | Set `KIMI_API_KEY`                                               |
+| **MiniMax**            | International MiniMax endpoint                                  | Set `MINIMAX_API_KEY`                                            |
+| **MiniMax China**      | China-region MiniMax endpoint                                   | Set `MINIMAX_CN_API_KEY`                                         |
+| **Alibaba Cloud**      | Qwen models via DashScope                                       | Set `DASHSCOPE_API_KEY`                                          |
+| **Hugging Face**       | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.) | Set `HF_TOKEN`                                                   |
+| **Kilo Code**          | KiloCode-hosted models                                          | Set `KILOCODE_API_KEY`                                           |
+| **OpenCode Zen**       | Pay-as-you-go access to curated models                          | Set `OPENCODE_ZEN_API_KEY`                                       |
+| **OpenCode Go**        | \$10/month subscription for open models                         | Set `OPENCODE_GO_API_KEY`                                        |
+| **DeepSeek**           | Direct DeepSeek API access                                      | Set `DEEPSEEK_API_KEY`                                           |
+| **GitHub Copilot**     | GitHub Copilot subscription (GPT-5.x, Claude, Gemini, etc.)     | OAuth via `hermes model`, or `COPILOT_GITHUB_TOKEN` / `GH_TOKEN` |
+| **GitHub Copilot ACP** | Copilot ACP agent backend (spawns local `copilot` CLI)          | `hermes model` (requires `copilot` CLI + `copilot login`)        |
+| **Vercel AI Gateway**  | Vercel AI Gateway routing                                       | Set `AI_GATEWAY_API_KEY`                                         |
+| **Custom Endpoint**    | VLLM, SGLang, Ollama, or any OpenAI-compatible API              | Set base URL + API key                                           |
 
 
-You can switch providers at any time with `hermes model` — no code changes, no lock-in. When configuring a custom endpoint, Hermes will prompt for the context window size and auto-detect it when possible. See [Context Length Detection](/docs/user-guide/configuration#context-length-detection) for details.
+You can switch providers at any time with `hermes model` — no code changes, no lock-in. When configuring a custom endpoint, Hermes will prompt for the context window size and auto-detect it when possible. See [Context Length Detection](/docs/integrations/providers#context-length-detection) for details.
 
 
 ## 3. Start Chatting<a href="#3-start-chatting" class="hash-link" aria-label="Direct link to 3. Start Chatting" translate="no" title="Direct link to 3. Start Chatting">​</a>

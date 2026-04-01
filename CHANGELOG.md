@@ -3,6 +3,36 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-04-01] Documentation Sync
+
+**Updated skills:** openclaw ai-sdk hermes
+
+
+### openclaw
+Updated: install.md
+Updated: cli.md
+Updated: concepts.md
+Updated: gateway.md
+Updated: channels.md
+
+### ai-sdk
+Updated: readme-upstream.md
+Updated: getting-started.md
+Updated: core-overview.md
+Updated: ui-overview.md
+Updated: tools.md
+
+### hermes
+Updated: installation.md
+Updated: quickstart.md
+Updated: learning-path.md
+Updated: cli.md
+Updated: configuration.md
+
+---
+
+
+
 ## [2026-03-30] Documentation Sync
 
 **Updated skills:** agent-browser hermes

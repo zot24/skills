@@ -294,7 +294,7 @@ custom_providers:
 ```
 
 
-See [Context Length Detection](/docs/user-guide/configuration#context-length-detection) for how auto-detection works and all override options.
+See [Context Length Detection](/docs/integrations/providers#context-length-detection) for how auto-detection works and all override options.
 
 ------------------------------------------------------------------------
 

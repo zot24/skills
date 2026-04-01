@@ -81,715 +81,7 @@ delegation:
 
 Multiple references in a single value work: `url: "${HOST}:${PORT}"`. If a referenced variable is not set, the placeholder is kept verbatim (`${UNDEFINED_VAR}` stays as-is). Only the `${VAR}` syntax is supported — bare `$VAR` is not expanded.
 
-## Inference Providers<a href="#inference-providers" class="hash-link" aria-label="Direct link to Inference Providers" translate="no" title="Direct link to Inference Providers">​</a>
-
-You need at least one way to connect to an LLM. Use `hermes model` to switch providers and models interactively, or configure directly:
-
-| Provider               | Setup                                                                                               |
-|------------------------|-----------------------------------------------------------------------------------------------------|
-| **Nous Portal**        | `hermes model` (OAuth, subscription-based)                                                          |
-| **OpenAI Codex**       | `hermes model` (ChatGPT OAuth, uses Codex models)                                                   |
-| **GitHub Copilot**     | `hermes model` (OAuth device code flow, `COPILOT_GITHUB_TOKEN`, `GH_TOKEN`, or `gh auth token`)     |
-| **GitHub Copilot ACP** | `hermes model` (spawns local `copilot --acp --stdio`)                                               |
-| **Anthropic**          | `hermes model` (Claude Pro/Max via Claude Code auth, Anthropic API key, or manual setup-token)      |
-| **OpenRouter**         | `OPENROUTER_API_KEY` in `~/.hermes/.env`                                                            |
-| **AI Gateway**         | `AI_GATEWAY_API_KEY` in `~/.hermes/.env` (provider: `ai-gateway`)                                   |
-| **z.ai / GLM**         | `GLM_API_KEY` in `~/.hermes/.env` (provider: `zai`)                                                 |
-| **Kimi / Moonshot**    | `KIMI_API_KEY` in `~/.hermes/.env` (provider: `kimi-coding`)                                        |
-| **MiniMax**            | `MINIMAX_API_KEY` in `~/.hermes/.env` (provider: `minimax`)                                         |
-| **MiniMax China**      | `MINIMAX_CN_API_KEY` in `~/.hermes/.env` (provider: `minimax-cn`)                                   |
-| **Alibaba Cloud**      | `DASHSCOPE_API_KEY` in `~/.hermes/.env` (provider: `alibaba`, aliases: `dashscope`, `qwen`)         |
-| **Kilo Code**          | `KILOCODE_API_KEY` in `~/.hermes/.env` (provider: `kilocode`)                                       |
-| **OpenCode Zen**       | `OPENCODE_ZEN_API_KEY` in `~/.hermes/.env` (provider: `opencode-zen`)                               |
-| **OpenCode Go**        | `OPENCODE_GO_API_KEY` in `~/.hermes/.env` (provider: `opencode-go`)                                 |
-| **Hugging Face**       | `HF_TOKEN` in `~/.hermes/.env` (provider: `huggingface`, aliases: `hf`)                             |
-| **Custom Endpoint**    | `hermes model` (saved in `config.yaml`) or `OPENAI_BASE_URL` + `OPENAI_API_KEY` in `~/.hermes/.env` |
-
-
-In the `model:` config section, you can use either `default:` or `model:` as the key name for your model ID. Both `model: { default: my-model }` and `model: { model: my-model }` work identically.
-
-
-The OpenAI Codex provider authenticates via device code (open a URL, enter a code). Hermes stores the resulting credentials in its own auth store under `~/.hermes/auth.json` and can import existing Codex CLI credentials from `~/.codex/auth.json` when present. No Codex CLI installation is required.
-
-
-Even when using Nous Portal, Codex, or a custom endpoint, some tools (vision, web summarization, MoA) use a separate "auxiliary" model — by default Gemini Flash via OpenRouter. An `OPENROUTER_API_KEY` enables these tools automatically. You can also configure which model and provider these tools use — see [Auxiliary Models](#auxiliary-models) below.
-
-
-### Anthropic (Native)<a href="#anthropic-native" class="hash-link" aria-label="Direct link to Anthropic (Native)" translate="no" title="Direct link to Anthropic (Native)">​</a>
-
-Use Claude models directly through the Anthropic API — no OpenRouter proxy needed. Supports three auth methods:
-
-
-``` prism-code
-# With an API key (pay-per-token)
-export ANTHROPIC_API_KEY=***
-hermes chat --provider anthropic --model claude-sonnet-4-6
-
-# Preferred: authenticate through `hermes model`
-# Hermes will use Claude Code's credential store directly when available
-hermes model
-
-# Manual override with a setup-token (fallback / legacy)
-export ANTHROPIC_TOKEN=***  # setup-token or manual OAuth token
-hermes chat --provider anthropic
-
-# Auto-detect Claude Code credentials (if you already use Claude Code)
-hermes chat --provider anthropic  # reads Claude Code credential files automatically
-```
-
-
-When you choose Anthropic OAuth through `hermes model`, Hermes prefers Claude Code's own credential store over copying the token into `~/.hermes/.env`. That keeps refreshable Claude credentials refreshable.
-
-Or set it permanently:
-
-
-``` prism-code
-model:
-  provider: "anthropic"
-  default: "claude-sonnet-4-6"
-```
-
-
-`--provider claude` and `--provider claude-code` also work as shorthand for `--provider anthropic`.
-
-
-### GitHub Copilot<a href="#github-copilot" class="hash-link" aria-label="Direct link to GitHub Copilot" translate="no" title="Direct link to GitHub Copilot">​</a>
-
-Hermes supports GitHub Copilot as a first-class provider with two modes:
-
-**`copilot` — Direct Copilot API** (recommended). Uses your GitHub Copilot subscription to access GPT-5.x, Claude, Gemini, and other models through the Copilot API.
-
-
-``` prism-code
-hermes chat --provider copilot --model gpt-5.4
-```
-
-
-**Authentication options** (checked in this order):
-
-1.  `COPILOT_GITHUB_TOKEN` environment variable
-2.  `GH_TOKEN` environment variable
-3.  `GITHUB_TOKEN` environment variable
-4.  `gh auth token` CLI fallback
-
-If no token is found, `hermes model` offers an **OAuth device code login** — the same flow used by the Copilot CLI and opencode.
-
-
-The Copilot API does **not** support classic Personal Access Tokens (`ghp_*`). Supported token types:
-
-| Type             | Prefix        | How to get                                                                                         |
-|------------------|---------------|----------------------------------------------------------------------------------------------------|
-| OAuth token      | `gho_`        | `hermes model` → GitHub Copilot → Login with GitHub                                                |
-| Fine-grained PAT | `github_pat_` | GitHub Settings → Developer settings → Fine-grained tokens (needs **Copilot Requests** permission) |
-| GitHub App token | `ghu_`        | Via GitHub App installation                                                                        |
-
-If your `gh auth token` returns a `ghp_*` token, use `hermes model` to authenticate via OAuth instead.
-
-
-**API routing**: GPT-5+ models (except `gpt-5-mini`) automatically use the Responses API. All other models (GPT-4o, Claude, Gemini, etc.) use Chat Completions. Models are auto-detected from the live Copilot catalog.
-
-**`copilot-acp` — Copilot ACP agent backend**. Spawns the local Copilot CLI as a subprocess:
-
-
-``` prism-code
-hermes chat --provider copilot-acp --model copilot-acp
-# Requires the GitHub Copilot CLI in PATH and an existing `copilot login` session
-```
-
-
-**Permanent config:**
-
-
-``` prism-code
-model:
-  provider: "copilot"
-  default: "gpt-5.4"
-```
-
-
-| Environment variable         | Description                                               |
-|------------------------------|-----------------------------------------------------------|
-| `COPILOT_GITHUB_TOKEN`       | GitHub token for Copilot API (first priority)             |
-| `HERMES_COPILOT_ACP_COMMAND` | Override the Copilot CLI binary path (default: `copilot`) |
-| `HERMES_COPILOT_ACP_ARGS`    | Override ACP args (default: `--acp --stdio`)              |
-
-### First-Class Chinese AI Providers<a href="#first-class-chinese-ai-providers" class="hash-link" aria-label="Direct link to First-Class Chinese AI Providers" translate="no" title="Direct link to First-Class Chinese AI Providers">​</a>
-
-These providers have built-in support with dedicated provider IDs. Set the API key and use `--provider` to select:
-
-
-``` prism-code
-# z.ai / ZhipuAI GLM
-hermes chat --provider zai --model glm-4-plus
-# Requires: GLM_API_KEY in ~/.hermes/.env
-
-# Kimi / Moonshot AI
-hermes chat --provider kimi-coding --model moonshot-v1-auto
-# Requires: KIMI_API_KEY in ~/.hermes/.env
-
-# MiniMax (global endpoint)
-hermes chat --provider minimax --model MiniMax-M2.7
-# Requires: MINIMAX_API_KEY in ~/.hermes/.env
-
-# MiniMax (China endpoint)
-hermes chat --provider minimax-cn --model MiniMax-M2.7
-# Requires: MINIMAX_CN_API_KEY in ~/.hermes/.env
-
-# Alibaba Cloud / DashScope (Qwen models)
-hermes chat --provider alibaba --model qwen3.5-plus
-# Requires: DASHSCOPE_API_KEY in ~/.hermes/.env
-```
-
-
-Or set the provider permanently in `config.yaml`:
-
-
-``` prism-code
-model:
-  provider: "zai"       # or: kimi-coding, minimax, minimax-cn, alibaba
-  default: "glm-4-plus"
-```
-
-
-Base URLs can be overridden with `GLM_BASE_URL`, `KIMI_BASE_URL`, `MINIMAX_BASE_URL`, `MINIMAX_CN_BASE_URL`, or `DASHSCOPE_BASE_URL` environment variables.
-
-### Hugging Face Inference Providers<a href="#hugging-face-inference-providers" class="hash-link" aria-label="Direct link to Hugging Face Inference Providers" translate="no" title="Direct link to Hugging Face Inference Providers">​</a>
-
-<a href="https://huggingface.co/docs/inference-providers" target="_blank" rel="noopener noreferrer">Hugging Face Inference Providers</a> routes to 20+ open models through a unified OpenAI-compatible endpoint (`router.huggingface.co/v1`). Requests are automatically routed to the fastest available backend (Groq, Together, SambaNova, etc.) with automatic failover.
-
-
-``` prism-code
-# Use any available model
-hermes chat --provider huggingface --model Qwen/Qwen3-235B-A22B-Thinking-2507
-# Requires: HF_TOKEN in ~/.hermes/.env
-
-# Short alias
-hermes chat --provider hf --model deepseek-ai/DeepSeek-V3.2
-```
-
-
-Or set it permanently in `config.yaml`:
-
-
-``` prism-code
-model:
-  provider: "huggingface"
-  default: "Qwen/Qwen3-235B-A22B-Thinking-2507"
-```
-
-
-Get your token at <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener noreferrer">huggingface.co/settings/tokens</a> — make sure to enable the "Make calls to Inference Providers" permission. Free tier included (\$0.10/month credit, no markup on provider rates).
-
-You can append routing suffixes to model names: `:fastest` (default), `:cheapest`, or `:provider_name` to force a specific backend.
-
-The base URL can be overridden with `HF_BASE_URL`.
-
-## Custom & Self-Hosted LLM Providers<a href="#custom--self-hosted-llm-providers" class="hash-link" aria-label="Direct link to Custom &amp; Self-Hosted LLM Providers" translate="no" title="Direct link to Custom &amp; Self-Hosted LLM Providers">​</a>
-
-Hermes Agent works with **any OpenAI-compatible API endpoint**. If a server implements `/v1/chat/completions`, you can point Hermes at it. This means you can use local models, GPU inference servers, multi-provider routers, or any third-party API.
-
-### General Setup<a href="#general-setup" class="hash-link" aria-label="Direct link to General Setup" translate="no" title="Direct link to General Setup">​</a>
-
-Three ways to configure a custom endpoint:
-
-**Interactive setup (recommended):**
-
-
-``` prism-code
-hermes model
-# Select "Custom endpoint (self-hosted / VLLM / etc.)"
-# Enter: API base URL, API key, Model name
-```
-
-
-**Manual config (`config.yaml`):**
-
-
-``` prism-code
-# In ~/.hermes/config.yaml
-model:
-  default: your-model-name
-  provider: custom
-  base_url: http://localhost:8000/v1
-  api_key: your-key-or-leave-empty-for-local
-```
-
-
-**Environment variables (`.env` file):**
-
-
-``` prism-code
-# Add to ~/.hermes/.env
-OPENAI_BASE_URL=http://localhost:8000/v1
-OPENAI_API_KEY=your-key     # Any non-empty string for local servers
-LLM_MODEL=your-model-name
-```
-
-
-All three approaches end up in the same runtime path. `hermes model` persists provider, model, and base URL to `config.yaml` so later sessions keep using that endpoint even if env vars are not set.
-
-### Switching Models with `/model`<a href="#switching-models-with-model" class="hash-link" aria-label="Direct link to switching-models-with-model" translate="no" title="Direct link to switching-models-with-model">​</a>
-
-Once a custom endpoint is configured, you can switch models mid-session:
-
-
-``` prism-code
-/model custom:qwen-2.5          # Switch to a model on your custom endpoint
-/model custom                    # Auto-detect the model from the endpoint
-/model openrouter:claude-sonnet-4 # Switch back to a cloud provider
-```
-
-
-If you have **named custom providers** configured (see below), use the triple syntax:
-
-
-``` prism-code
-/model custom:local:qwen-2.5    # Use the "local" custom provider with model qwen-2.5
-/model custom:work:llama3       # Use the "work" custom provider with llama3
-```
-
-
-When switching providers, Hermes persists the base URL and provider to config so the change survives restarts. When switching away from a custom endpoint to a built-in provider, the stale base URL is automatically cleared.
-
-
-`/model custom` (bare, no model name) queries your endpoint's `/models` API and auto-selects the model if exactly one is loaded. Useful for local servers running a single model.
-
-
-Everything below follows this same pattern — just change the URL, key, and model name.
-
-------------------------------------------------------------------------
-
-### Ollama — Local Models, Zero Config<a href="#ollama--local-models-zero-config" class="hash-link" aria-label="Direct link to Ollama — Local Models, Zero Config" translate="no" title="Direct link to Ollama — Local Models, Zero Config">​</a>
-
-<a href="https://ollama.com/" target="_blank" rel="noopener noreferrer">Ollama</a> runs open-weight models locally with one command. Best for: quick local experimentation, privacy-sensitive work, offline use.
-
-
-``` prism-code
-# Install and run a model
-ollama pull llama3.1:70b
-ollama serve   # Starts on port 11434
-
-# Configure Hermes
-OPENAI_BASE_URL=http://localhost:11434/v1
-OPENAI_API_KEY=ollama           # Any non-empty string
-LLM_MODEL=llama3.1:70b
-```
-
-
-Ollama's OpenAI-compatible endpoint supports chat completions, streaming, and tool calling (for supported models). No GPU required for smaller models — Ollama handles CPU inference automatically.
-
-
-List available models with `ollama list`. Pull any model from the <a href="https://ollama.com/library" target="_blank" rel="noopener noreferrer">Ollama library</a> with `ollama pull <model>`.
-
-
-------------------------------------------------------------------------
-
-### vLLM — High-Performance GPU Inference<a href="#vllm--high-performance-gpu-inference" class="hash-link" aria-label="Direct link to vLLM — High-Performance GPU Inference" translate="no" title="Direct link to vLLM — High-Performance GPU Inference">​</a>
-
-<a href="https://docs.vllm.ai/" target="_blank" rel="noopener noreferrer">vLLM</a> is the standard for production LLM serving. Best for: maximum throughput on GPU hardware, serving large models, continuous batching.
-
-
-``` prism-code
-# Start vLLM server
-pip install vllm
-vllm serve meta-llama/Llama-3.1-70B-Instruct \
-  --port 8000 \
-  --tensor-parallel-size 2    # Multi-GPU
-
-# Configure Hermes
-OPENAI_BASE_URL=http://localhost:8000/v1
-OPENAI_API_KEY=dummy
-LLM_MODEL=meta-llama/Llama-3.1-70B-Instruct
-```
-
-
-vLLM supports tool calling, structured output, and multi-modal models. Use `--enable-auto-tool-choice` and `--tool-call-parser hermes` for Hermes-format tool calling with NousResearch models.
-
-------------------------------------------------------------------------
-
-### SGLang — Fast Serving with RadixAttention<a href="#sglang--fast-serving-with-radixattention" class="hash-link" aria-label="Direct link to SGLang — Fast Serving with RadixAttention" translate="no" title="Direct link to SGLang — Fast Serving with RadixAttention">​</a>
-
-<a href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener noreferrer">SGLang</a> is an alternative to vLLM with RadixAttention for KV cache reuse. Best for: multi-turn conversations (prefix caching), constrained decoding, structured output.
-
-
-``` prism-code
-# Start SGLang server
-pip install "sglang[all]"
-python -m sglang.launch_server \
-  --model meta-llama/Llama-3.1-70B-Instruct \
-  --port 8000 \
-  --tp 2
-
-# Configure Hermes
-OPENAI_BASE_URL=http://localhost:8000/v1
-OPENAI_API_KEY=dummy
-LLM_MODEL=meta-llama/Llama-3.1-70B-Instruct
-```
-
-
-------------------------------------------------------------------------
-
-### llama.cpp / llama-server — CPU & Metal Inference<a href="#llamacpp--llama-server--cpu--metal-inference" class="hash-link" aria-label="Direct link to llama.cpp / llama-server — CPU &amp; Metal Inference" translate="no" title="Direct link to llama.cpp / llama-server — CPU &amp; Metal Inference">​</a>
-
-<a href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener noreferrer">llama.cpp</a> runs quantized models on CPU, Apple Silicon (Metal), and consumer GPUs. Best for: running models without a datacenter GPU, Mac users, edge deployment.
-
-
-``` prism-code
-# Build and start llama-server
-cmake -B build && cmake --build build --config Release
-./build/bin/llama-server \
-  -m models/llama-3.1-8b-instruct-Q4_K_M.gguf \
-  --port 8080 --host 0.0.0.0
-
-# Configure Hermes
-OPENAI_BASE_URL=http://localhost:8080/v1
-OPENAI_API_KEY=dummy
-LLM_MODEL=llama-3.1-8b-instruct
-```
-
-
-Download GGUF models from <a href="https://huggingface.co/models?library=gguf" target="_blank" rel="noopener noreferrer">Hugging Face</a>. Q4_K_M quantization offers the best balance of quality vs. memory usage.
-
-
-------------------------------------------------------------------------
-
-### LiteLLM Proxy — Multi-Provider Gateway<a href="#litellm-proxy--multi-provider-gateway" class="hash-link" aria-label="Direct link to LiteLLM Proxy — Multi-Provider Gateway" translate="no" title="Direct link to LiteLLM Proxy — Multi-Provider Gateway">​</a>
-
-<a href="https://docs.litellm.ai/" target="_blank" rel="noopener noreferrer">LiteLLM</a> is an OpenAI-compatible proxy that unifies 100+ LLM providers behind a single API. Best for: switching between providers without config changes, load balancing, fallback chains, budget controls.
-
-
-``` prism-code
-# Install and start
-pip install "litellm[proxy]"
-litellm --model anthropic/claude-sonnet-4 --port 4000
-
-# Or with a config file for multiple models:
-litellm --config litellm_config.yaml --port 4000
-
-# Configure Hermes
-OPENAI_BASE_URL=http://localhost:4000/v1
-OPENAI_API_KEY=sk-your-litellm-key
-LLM_MODEL=anthropic/claude-sonnet-4
-```
-
-
-Example `litellm_config.yaml` with fallback:
-
-
-``` prism-code
-model_list:
-  - model_name: "best"
-    litellm_params:
-      model: anthropic/claude-sonnet-4
-      api_key: sk-ant-...
-  - model_name: "best"
-    litellm_params:
-      model: openai/gpt-4o
-      api_key: sk-...
-router_settings:
-  routing_strategy: "latency-based-routing"
-```
-
-
-------------------------------------------------------------------------
-
-### ClawRouter — Cost-Optimized Routing<a href="#clawrouter--cost-optimized-routing" class="hash-link" aria-label="Direct link to ClawRouter — Cost-Optimized Routing" translate="no" title="Direct link to ClawRouter — Cost-Optimized Routing">​</a>
-
-<a href="https://github.com/BlockRunAI/ClawRouter" target="_blank" rel="noopener noreferrer">ClawRouter</a> by BlockRunAI is a local routing proxy that auto-selects models based on query complexity. It classifies requests across 14 dimensions and routes to the cheapest model that can handle the task. Payment is via USDC cryptocurrency (no API keys).
-
-
-``` prism-code
-# Install and start
-npx @blockrun/clawrouter    # Starts on port 8402
-
-# Configure Hermes
-OPENAI_BASE_URL=http://localhost:8402/v1
-OPENAI_API_KEY=dummy
-LLM_MODEL=blockrun/auto     # or: blockrun/eco, blockrun/premium, blockrun/agentic
-```
-
-
-Routing profiles:
-
-| Profile            | Strategy               | Savings |
-|--------------------|------------------------|---------|
-| `blockrun/auto`    | Balanced quality/cost  | 74-100% |
-| `blockrun/eco`     | Cheapest possible      | 95-100% |
-| `blockrun/premium` | Best quality models    | 0%      |
-| `blockrun/free`    | Free models only       | 100%    |
-| `blockrun/agentic` | Optimized for tool use | varies  |
-
-
-ClawRouter requires a USDC-funded wallet on Base or Solana for payment. All requests route through BlockRun's backend API. Run `npx @blockrun/clawrouter doctor` to check wallet status.
-
-
-------------------------------------------------------------------------
-
-### Other Compatible Providers<a href="#other-compatible-providers" class="hash-link" aria-label="Direct link to Other Compatible Providers" translate="no" title="Direct link to Other Compatible Providers">​</a>
-
-Any service with an OpenAI-compatible API works. Some popular options:
-
-| Provider                                                                                         | Base URL                                | Notes                         |
-|--------------------------------------------------------------------------------------------------|-----------------------------------------|-------------------------------|
-| <a href="https://together.ai" target="_blank" rel="noopener noreferrer">Together AI</a>          | `https://api.together.xyz/v1`           | Cloud-hosted open models      |
-| <a href="https://groq.com" target="_blank" rel="noopener noreferrer">Groq</a>                    | `https://api.groq.com/openai/v1`        | Ultra-fast inference          |
-| <a href="https://deepseek.com" target="_blank" rel="noopener noreferrer">DeepSeek</a>            | `https://api.deepseek.com/v1`           | DeepSeek models               |
-| <a href="https://fireworks.ai" target="_blank" rel="noopener noreferrer">Fireworks AI</a>        | `https://api.fireworks.ai/inference/v1` | Fast open model hosting       |
-| <a href="https://cerebras.ai" target="_blank" rel="noopener noreferrer">Cerebras</a>             | `https://api.cerebras.ai/v1`            | Wafer-scale chip inference    |
-| <a href="https://mistral.ai" target="_blank" rel="noopener noreferrer">Mistral AI</a>            | `https://api.mistral.ai/v1`             | Mistral models                |
-| <a href="https://openai.com" target="_blank" rel="noopener noreferrer">OpenAI</a>                | `https://api.openai.com/v1`             | Direct OpenAI access          |
-| <a href="https://azure.microsoft.com" target="_blank" rel="noopener noreferrer">Azure OpenAI</a> | `https://YOUR.openai.azure.com/`        | Enterprise OpenAI             |
-| <a href="https://localai.io" target="_blank" rel="noopener noreferrer">LocalAI</a>               | `http://localhost:8080/v1`              | Self-hosted, multi-model      |
-| <a href="https://jan.ai" target="_blank" rel="noopener noreferrer">Jan</a>                       | `http://localhost:1337/v1`              | Desktop app with local models |
-
-
-``` prism-code
-# Example: Together AI
-OPENAI_BASE_URL=https://api.together.xyz/v1
-OPENAI_API_KEY=your-together-key
-LLM_MODEL=meta-llama/Llama-3.1-70B-Instruct-Turbo
-```
-
-
-------------------------------------------------------------------------
-
-### Context Length Detection<a href="#context-length-detection" class="hash-link" aria-label="Direct link to Context Length Detection" translate="no" title="Direct link to Context Length Detection">​</a>
-
-Hermes uses a multi-source resolution chain to detect the correct context window for your model and provider:
-
-1.  **Config override** — `model.context_length` in config.yaml (highest priority)
-2.  **Custom provider per-model** — `custom_providers[].models.<id>.context_length`
-3.  **Persistent cache** — previously discovered values (survives restarts)
-4.  **Endpoint `/models`** — queries your server's API (local/custom endpoints)
-5.  **Anthropic `/v1/models`** — queries Anthropic's API for `max_input_tokens` (API-key users only)
-6.  **OpenRouter API** — live model metadata from OpenRouter
-7.  **Nous Portal** — suffix-matches Nous model IDs against OpenRouter metadata
-8.  **<a href="https://models.dev" target="_blank" rel="noopener noreferrer">models.dev</a>** — community-maintained registry with provider-specific context lengths for 3800+ models across 100+ providers
-9.  **Fallback defaults** — broad model family patterns (128K default)
-
-For most setups this works out of the box. The system is provider-aware — the same model can have different context limits depending on who serves it (e.g., `claude-opus-4.6` is 1M on Anthropic direct but 128K on GitHub Copilot).
-
-To set the context length explicitly, add `context_length` to your model config:
-
-
-``` prism-code
-model:
-  default: "qwen3.5:9b"
-  base_url: "http://localhost:8080/v1"
-  context_length: 131072  # tokens
-```
-
-
-For custom endpoints, you can also set context length per model:
-
-
-``` prism-code
-custom_providers:
-  - name: "My Local LLM"
-    base_url: "http://localhost:11434/v1"
-    models:
-      qwen3.5:27b:
-        context_length: 32768
-      deepseek-r1:70b:
-        context_length: 65536
-```
-
-
-`hermes model` will prompt for context length when configuring a custom endpoint. Leave it blank for auto-detection.
-
-
-- You're using Ollama with a custom `num_ctx` that's lower than the model's maximum
-- You want to limit context below the model's maximum (e.g., 8k on a 128k model to save VRAM)
-- You're running behind a proxy that doesn't expose `/v1/models`
-
-
-------------------------------------------------------------------------
-
-### Named Custom Providers<a href="#named-custom-providers" class="hash-link" aria-label="Direct link to Named Custom Providers" translate="no" title="Direct link to Named Custom Providers">​</a>
-
-If you work with multiple custom endpoints (e.g., a local dev server and a remote GPU server), you can define them as named custom providers in `config.yaml`:
-
-
-``` prism-code
-custom_providers:
-  - name: local
-    base_url: http://localhost:8080/v1
-    # api_key omitted — Hermes uses "no-key-required" for keyless local servers
-  - name: work
-    base_url: https://gpu-server.internal.corp/v1
-    api_key: corp-api-key
-    api_mode: chat_completions   # optional, auto-detected from URL
-  - name: anthropic-proxy
-    base_url: https://proxy.example.com/anthropic
-    api_key: proxy-key
-    api_mode: anthropic_messages  # for Anthropic-compatible proxies
-```
-
-
-Switch between them mid-session with the triple syntax:
-
-
-``` prism-code
-/model custom:local:qwen-2.5       # Use the "local" endpoint with qwen-2.5
-/model custom:work:llama3-70b      # Use the "work" endpoint with llama3-70b
-/model custom:anthropic-proxy:claude-sonnet-4  # Use the proxy
-```
-
-
-You can also select named custom providers from the interactive `hermes model` menu.
-
-------------------------------------------------------------------------
-
-### Choosing the Right Setup<a href="#choosing-the-right-setup" class="hash-link" aria-label="Direct link to Choosing the Right Setup" translate="no" title="Direct link to Choosing the Right Setup">​</a>
-
-| Use Case                     | Recommended                                                   |
-|------------------------------|---------------------------------------------------------------|
-| **Just want it to work**     | OpenRouter (default) or Nous Portal                           |
-| **Local models, easy setup** | Ollama                                                        |
-| **Production GPU serving**   | vLLM or SGLang                                                |
-| **Mac / no GPU**             | Ollama or llama.cpp                                           |
-| **Multi-provider routing**   | LiteLLM Proxy or OpenRouter                                   |
-| **Cost optimization**        | ClawRouter or OpenRouter with `sort: "price"`                 |
-| **Maximum privacy**          | Ollama, vLLM, or llama.cpp (fully local)                      |
-| **Enterprise / Azure**       | Azure OpenAI with custom endpoint                             |
-| **Chinese AI models**        | z.ai (GLM), Kimi/Moonshot, or MiniMax (first-class providers) |
-
-
-You can switch between providers at any time with `hermes model` — no restart required. Your conversation history, memory, and skills carry over regardless of which provider you use.
-
-
-## Optional API Keys<a href="#optional-api-keys" class="hash-link" aria-label="Direct link to Optional API Keys" translate="no" title="Direct link to Optional API Keys">​</a>
-
-| Feature                          | Provider                                                                                                                                                                                     | Env Variable                                    |
-|----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
-| Web scraping                     | <a href="https://firecrawl.dev/" target="_blank" rel="noopener noreferrer">Firecrawl</a>                                                                                                     | `FIRECRAWL_API_KEY`, `FIRECRAWL_API_URL`        |
-| Browser automation               | <a href="https://browserbase.com/" target="_blank" rel="noopener noreferrer">Browserbase</a>                                                                                                 | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID` |
-| Image generation                 | <a href="https://fal.ai/" target="_blank" rel="noopener noreferrer">FAL</a>                                                                                                                  | `FAL_KEY`                                       |
-| Premium TTS voices               | <a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">ElevenLabs</a>                                                                                                    | `ELEVENLABS_API_KEY`                            |
-| OpenAI TTS + voice transcription | <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI</a>                                                                                          | `VOICE_TOOLS_OPENAI_KEY`                        |
-| RL Training                      | <a href="https://tinker-console.thinkingmachines.ai/" target="_blank" rel="noopener noreferrer">Tinker</a> + <a href="https://wandb.ai/" target="_blank" rel="noopener noreferrer">WandB</a> | `TINKER_API_KEY`, `WANDB_API_KEY`               |
-| Cross-session user modeling      | <a href="https://honcho.dev/" target="_blank" rel="noopener noreferrer">Honcho</a>                                                                                                           | `HONCHO_API_KEY`                                |
-
-### Self-Hosting Firecrawl<a href="#self-hosting-firecrawl" class="hash-link" aria-label="Direct link to Self-Hosting Firecrawl" translate="no" title="Direct link to Self-Hosting Firecrawl">​</a>
-
-By default, Hermes uses the <a href="https://firecrawl.dev/" target="_blank" rel="noopener noreferrer">Firecrawl cloud API</a> for web search and scraping. If you prefer to run Firecrawl locally, you can point Hermes at a self-hosted instance instead. See Firecrawl's <a href="https://github.com/firecrawl/firecrawl/blob/main/SELF_HOST.md" target="_blank" rel="noopener noreferrer">SELF_HOST.md</a> for complete setup instructions.
-
-**What you get:** No API key required, no rate limits, no per-page costs, full data sovereignty.
-
-**What you lose:** The cloud version uses Firecrawl's proprietary "Fire-engine" for advanced anti-bot bypassing (Cloudflare, CAPTCHAs, IP rotation). Self-hosted uses basic fetch + Playwright, so some protected sites may fail. Search uses DuckDuckGo instead of Google.
-
-**Setup:**
-
-1.  Clone and start the Firecrawl Docker stack (5 containers: API, Playwright, Redis, RabbitMQ, PostgreSQL — requires ~4-8 GB RAM):
-
-    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
-
-    <div class="codeBlockContent_QJqH">
-
-    ``` prism-code
-    git clone https://github.com/firecrawl/firecrawl
-    cd firecrawl
-    # In .env, set: USE_DB_AUTHENTICATION=false, HOST=0.0.0.0, PORT=3002
-    docker compose up -d
-    ```
-
-    </div>
-
-    </div>
-
-2.  Point Hermes at your instance (no API key needed):
-
-    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
-
-    <div class="codeBlockContent_QJqH">
-
-    ``` prism-code
-    hermes config set FIRECRAWL_API_URL http://localhost:3002
-    ```
-
-    </div>
-
-    </div>
-
-You can also set both `FIRECRAWL_API_KEY` and `FIRECRAWL_API_URL` if your self-hosted instance has authentication enabled.
-
-## OpenRouter Provider Routing<a href="#openrouter-provider-routing" class="hash-link" aria-label="Direct link to OpenRouter Provider Routing" translate="no" title="Direct link to OpenRouter Provider Routing">​</a>
-
-When using OpenRouter, you can control how requests are routed across providers. Add a `provider_routing` section to `~/.hermes/config.yaml`:
-
-
-``` prism-code
-provider_routing:
-  sort: "throughput"          # "price" (default), "throughput", or "latency"
-  # only: ["anthropic"]      # Only use these providers
-  # ignore: ["deepinfra"]    # Skip these providers
-  # order: ["anthropic", "google"]  # Try providers in this order
-  # require_parameters: true  # Only use providers that support all request params
-  # data_collection: "deny"   # Exclude providers that may store/train on data
-```
-
-
-**Shortcuts:** Append `:nitro` to any model name for throughput sorting (e.g., `anthropic/claude-sonnet-4:nitro`), or `:floor` for price sorting.
-
-## Fallback Model<a href="#fallback-model" class="hash-link" aria-label="Direct link to Fallback Model" translate="no" title="Direct link to Fallback Model">​</a>
-
-Configure a backup provider:model that Hermes switches to automatically when your primary model fails (rate limits, server errors, auth failures):
-
-
-``` prism-code
-fallback_model:
-  provider: openrouter                    # required
-  model: anthropic/claude-sonnet-4        # required
-  # base_url: http://localhost:8000/v1    # optional, for custom endpoints
-  # api_key_env: MY_CUSTOM_KEY           # optional, env var name for custom endpoint API key
-```
-
-
-When activated, the fallback swaps the model and provider mid-session without losing your conversation. It fires **at most once** per session.
-
-Supported providers: `openrouter`, `nous`, `openai-codex`, `copilot`, `anthropic`, `huggingface`, `zai`, `kimi-coding`, `minimax`, `minimax-cn`, `custom`.
-
-
-Fallback is configured exclusively through `config.yaml` — there are no environment variables for it. For full details on when it triggers, supported providers, and how it interacts with auxiliary tasks and delegation, see [Fallback Providers](/docs/user-guide/features/fallback-providers).
-
-
-## Smart Model Routing<a href="#smart-model-routing" class="hash-link" aria-label="Direct link to Smart Model Routing" translate="no" title="Direct link to Smart Model Routing">​</a>
-
-Optional cheap-vs-strong routing lets Hermes keep your main model for complex work while sending very short/simple turns to a cheaper model.
-
-
-``` prism-code
-smart_model_routing:
-  enabled: true
-  max_simple_chars: 160
-  max_simple_words: 28
-  cheap_model:
-    provider: openrouter
-    model: google/gemini-2.5-flash
-    # base_url: http://localhost:8000/v1  # optional custom endpoint
-    # api_key_env: MY_CUSTOM_KEY          # optional env var name for that endpoint's API key
-```
-
-
-How it works:
-
-- If a turn is short, single-line, and does not look code/tool/debug heavy, Hermes may route it to `cheap_model`
-- If the turn looks complex, Hermes stays on your primary model/provider
-- If the cheap route cannot be resolved cleanly, Hermes falls back to the primary model automatically
-
-This is intentionally conservative. It is meant for quick, low-stakes turns like:
-
-- short factual questions
-- quick rewrites
-- lightweight summaries
-
-It will avoid routing prompts that look like:
-
-- coding/debugging work
-- tool-heavy requests
-- long or multi-line analysis asks
-
-Use this when you want lower latency or cost without fully changing your default model.
+For AI provider setup (OpenRouter, Anthropic, Copilot, custom endpoints, self-hosted LLMs, fallback models, etc.), see [AI Providers](/docs/integrations/providers).
 
 ## Terminal Backend Configuration<a href="#terminal-backend-configuration" class="hash-link" aria-label="Direct link to Terminal Backend Configuration" translate="no" title="Direct link to Terminal Backend Configuration">​</a>
 
@@ -801,6 +93,10 @@ terminal:
   backend: local    # local | docker | ssh | modal | daytona | singularity
   cwd: "."          # Working directory ("." = current dir for local, "/root" for containers)
   timeout: 180      # Per-command timeout in seconds
+  env_passthrough: []  # Env var names to forward to sandboxed execution (terminal + execute_code)
+  singularity_image: "docker://nikolaik/python-nodejs:python3.11-nodejs20"  # Container image for Singularity backend
+  modal_image: "nikolaik/python-nodejs:python3.11-nodejs20"                 # Container image for Modal backend
+  daytona_image: "nikolaik/python-nodejs:python3.11-nodejs20"               # Container image for Daytona backend
 ```
 
 
@@ -1107,6 +403,30 @@ memory:
 ```
 
 
+## File Read Safety<a href="#file-read-safety" class="hash-link" aria-label="Direct link to File Read Safety" translate="no" title="Direct link to File Read Safety">​</a>
+
+Controls how much content a single `read_file` call can return. Reads that exceed the limit are rejected with an error telling the agent to use `offset` and `limit` for a smaller range. This prevents a single read of a minified JS bundle or large data file from flooding the context window.
+
+
+``` prism-code
+file_read_max_chars: 100000  # default — ~25-35K tokens
+```
+
+
+Raise it if you're on a model with a large context window and frequently read big files. Lower it for small-context models to keep reads efficient:
+
+
+``` prism-code
+# Large context model (200K+)
+file_read_max_chars: 200000
+
+# Small local model (16K context)
+file_read_max_chars: 30000
+```
+
+
+The agent also deduplicates file reads automatically — if the same file region is read twice and the file hasn't changed, a lightweight stub is returned instead of re-sending the content. This resets on context compression so the agent can re-read files after their content is summarized away.
+
 ## Git Worktree Isolation<a href="#git-worktree-isolation" class="hash-link" aria-label="Direct link to Git Worktree Isolation" translate="no" title="Direct link to Git Worktree Isolation">​</a>
 
 Enable isolated git worktrees for running multiple agents in parallel on the same repo:
@@ -1144,6 +464,8 @@ All compression settings live in `config.yaml` (no environment variables).
 compression:
   enabled: true                                     # Toggle compression on/off
   threshold: 0.50                                   # Compress at this % of context limit
+  target_ratio: 0.20                                # Fraction of threshold to preserve as recent tail
+  protect_last_n: 20                                # Min recent messages to keep uncompressed
   summary_model: "google/gemini-3-flash-preview"    # Model for summarization
   summary_provider: "auto"                          # Provider: "auto", "openrouter", "nous", "codex", "main", etc.
   summary_base_url: null                            # Custom OpenAI-compatible endpoint (overrides provider)
@@ -1247,6 +569,20 @@ If auto-compression is disabled, the warning tells you context may be truncated 
 
 Context pressure is automatic — no configuration needed. It fires purely as a user-facing notification and does not modify the message stream or inject anything into the model's context.
 
+## Credential Pool Strategies<a href="#credential-pool-strategies" class="hash-link" aria-label="Direct link to Credential Pool Strategies" translate="no" title="Direct link to Credential Pool Strategies">​</a>
+
+When you have multiple API keys or OAuth tokens for the same provider, configure the rotation strategy:
+
+
+``` prism-code
+credential_pool_strategies:
+  openrouter: round_robin    # cycle through keys evenly
+  anthropic: least_used      # always pick the least-used key
+```
+
+
+Options: `fill_first` (default), `round_robin`, `least_used`, `random`. See [Credential Pools](/docs/user-guide/features/credential-pools) for full documentation.
+
 ## Auxiliary Models<a href="#auxiliary-models" class="hash-link" aria-label="Direct link to Auxiliary Models" translate="no" title="Direct link to Auxiliary Models">​</a>
 
 Hermes uses lightweight "auxiliary" models for side tasks like image analysis, web page summarization, and browser screenshot analysis. By default, these use **Gemini Flash** via auto-detection — you don't need to configure anything.
@@ -1298,13 +634,45 @@ auxiliary:
   # Context compression timeout (separate from compression.* config)
   compression:
     timeout: 120               # seconds — compression summarizes long conversations, needs more time
+
+  # Session search — summarizes past session matches
+  session_search:
+    provider: "auto"
+    model: ""
+    base_url: ""
+    api_key: ""
+    timeout: 30
+
+  # Skills hub — skill matching and search
+  skills_hub:
+    provider: "auto"
+    model: ""
+    base_url: ""
+    api_key: ""
+    timeout: 30
+
+  # MCP tool dispatch
+  mcp:
+    provider: "auto"
+    model: ""
+    base_url: ""
+    api_key: ""
+    timeout: 30
+
+  # Memory flush — summarizes conversation for persistent memory
+  flush_memories:
+    provider: "auto"
+    model: ""
+    base_url: ""
+    api_key: ""
+    timeout: 30
 ```
 
 
 Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 30s, web_extract 30s, approval 30s, compression 120s. Increase these if you use slow local models for auxiliary tasks. Vision also has a separate `download_timeout` (default 30s) for the HTTP image download — increase this for slow connections or self-hosted image servers.
 
 
-Context compression has its own top-level `compression:` block with `summary_provider`, `summary_model`, and `summary_base_url` — see [Context Compression](#context-compression) above. The fallback model uses a `fallback_model:` block — see [Fallback Model](#fallback-model) above. All three follow the same provider/model/base_url pattern.
+Context compression has its own top-level `compression:` block with `summary_provider`, `summary_model`, and `summary_base_url` — see [Context Compression](#context-compression) above. The fallback model uses a `fallback_model:` block — see [Fallback Model](/docs/integrations/providers#fallback-model). All three follow the same provider/model/base_url pattern.
 
 
 ### Changing the Vision Model<a href="#changing-the-vision-model" class="hash-link" aria-label="Direct link to Changing the Vision Model" translate="no" title="Direct link to Changing the Vision Model">​</a>
@@ -1518,6 +886,7 @@ display:
   streaming: false        # Stream tokens to terminal as they arrive (real-time output)
   background_process_notifications: all  # all | result | error | off (gateway only)
   show_cost: false        # Show estimated $ cost in the CLI status bar
+  tool_preview_length: 0  # Max chars for tool call previews (0 = no limit, show full paths/commands)
 ```
 
 
@@ -1635,13 +1004,16 @@ When enabled, responses appear token-by-token inside a streaming box. Tool calls
 ``` prism-code
 streaming:
   enabled: true           # Enable progressive message editing
+  transport: edit         # "edit" (progressive message editing) or "off"
   edit_interval: 0.3      # Seconds between message edits
   buffer_threshold: 40    # Characters before forcing an edit flush
   cursor: " ▉"            # Cursor shown during streaming
 ```
 
 
-When enabled, the bot sends a message on the first token, then progressively edits it as more tokens arrive. Platforms that don't support message editing (Signal, Email) gracefully skip streaming and deliver the final response normally.
+When enabled, the bot sends a message on the first token, then progressively edits it as more tokens arrive. Platforms that don't support message editing (Signal, Email, Home Assistant) are auto-detected on the first attempt — streaming is gracefully disabled for that session with no flood of messages.
+
+**Overflow handling:** If the streamed text exceeds the platform's message length limit (~4096 chars), the current message is finalized and a new one starts automatically.
 
 
 Streaming is disabled by default. Enable it in `~/.hermes/config.yaml` to try the streaming UX.
@@ -1711,25 +1083,6 @@ Usage: type `/status`, `/disk`, `/update`, or `/gpu` in the CLI or any messaging
 - **Type** — only `exec` is supported (runs a shell command); other types show an error
 - **Works everywhere** — CLI, Telegram, Discord, Slack, WhatsApp, Signal, Email, Home Assistant
 
-## Gateway Streaming<a href="#gateway-streaming" class="hash-link" aria-label="Direct link to Gateway Streaming" translate="no" title="Direct link to Gateway Streaming">​</a>
-
-Enable progressive token delivery on messaging platforms. When streaming is enabled, responses appear character-by-character in Telegram, Discord, and Slack via message editing, rather than waiting for the full response.
-
-
-``` prism-code
-streaming:
-  enabled: false              # Enable streaming token delivery (default: off)
-  transport: edit             # "edit" (progressive message editing) or "off"
-  edit_interval: 0.3          # Min seconds between message edits
-  buffer_threshold: 40        # Characters accumulated before forcing an edit
-  cursor: " ▉"               # Cursor character shown during streaming
-```
-
-
-**Platform support:** Telegram, Discord, and Slack support edit-based streaming. Platforms that don't support message editing (Signal, Email, Home Assistant) are auto-detected on the first attempt — streaming is gracefully disabled for that session with no flood of messages.
-
-**Overflow handling:** If the streamed text exceeds the platform's message length limit (~4096 chars), the current message is finalized and a new one starts automatically.
-
 ## Human Delay<a href="#human-delay" class="hash-link" aria-label="Direct link to Human Delay" translate="no" title="Direct link to Human Delay">​</a>
 
 Simulate human-like response pacing in messaging platforms:
@@ -1757,12 +1110,12 @@ code_execution:
 
 ## Web Search Backends<a href="#web-search-backends" class="hash-link" aria-label="Direct link to Web Search Backends" translate="no" title="Direct link to Web Search Backends">​</a>
 
-The `web_search`, `web_extract`, and `web_crawl` tools support three backend providers. Configure the backend in `config.yaml` or via `hermes tools`:
+The `web_search`, `web_extract`, and `web_crawl` tools support four backend providers. Configure the backend in `config.yaml` or via `hermes tools`:
 
 
 ``` prism-code
 web:
-  backend: firecrawl    # firecrawl | parallel | tavily
+  backend: firecrawl    # firecrawl | parallel | tavily | exa
 ```
 
 
@@ -1771,8 +1124,9 @@ web:
 | **Firecrawl** (default) | `FIRECRAWL_API_KEY` | ✔      | ✔       | ✔     |
 | **Parallel**            | `PARALLEL_API_KEY`  | ✔      | ✔       | —     |
 | **Tavily**              | `TAVILY_API_KEY`    | ✔      | ✔       | ✔     |
+| **Exa**                 | `EXA_API_KEY`       | ✔      | ✔       | —     |
 
-**Backend selection:** If `web.backend` is not set, the backend is auto-detected from available API keys. If only `TAVILY_API_KEY` is set, Tavily is used. If only `PARALLEL_API_KEY` is set, Parallel is used. Otherwise Firecrawl is the default.
+**Backend selection:** If `web.backend` is not set, the backend is auto-detected from available API keys. If only `EXA_API_KEY` is set, Exa is used. If only `TAVILY_API_KEY` is set, Tavily is used. If only `PARALLEL_API_KEY` is set, Parallel is used. Otherwise Firecrawl is the default.
 
 **Self-hosted Firecrawl:** Set `FIRECRAWL_API_URL` to point at your own instance. When a custom URL is set, the API key becomes optional (set `USE_DB_AUTHENTICATION=false` on the server to disable auth).
 
@@ -1786,11 +1140,66 @@ Configure browser automation behavior:
 ``` prism-code
 browser:
   inactivity_timeout: 120        # Seconds before auto-closing idle sessions
+  command_timeout: 30             # Timeout in seconds for browser commands (screenshot, navigate, etc.)
   record_sessions: false         # Auto-record browser sessions as WebM videos to ~/.hermes/browser_recordings/
 ```
 
 
 The browser toolset supports multiple providers. See the [Browser feature page](/docs/user-guide/features/browser) for details on Browserbase, Browser Use, and local Chrome CDP setup.
+
+## Timezone<a href="#timezone" class="hash-link" aria-label="Direct link to Timezone" translate="no" title="Direct link to Timezone">​</a>
+
+Override the server-local timezone with an IANA timezone string. Affects timestamps in logs, cron scheduling, and system prompt time injection.
+
+
+``` prism-code
+timezone: "America/New_York"   # IANA timezone (default: "" = server-local time)
+```
+
+
+Supported values: any IANA timezone identifier (e.g. `America/New_York`, `Europe/London`, `Asia/Kolkata`, `UTC`). Leave empty or omit for server-local time.
+
+## Discord<a href="#discord" class="hash-link" aria-label="Direct link to Discord" translate="no" title="Direct link to Discord">​</a>
+
+Configure Discord-specific behavior for the messaging gateway:
+
+
+``` prism-code
+discord:
+  require_mention: true          # Require @mention to respond in server channels
+  free_response_channels: ""     # Comma-separated channel IDs where bot responds without @mention
+  auto_thread: true              # Auto-create threads on @mention in channels
+```
+
+
+- `require_mention` — when `true` (default), the bot only responds in server channels when mentioned with `@BotName`. DMs always work without mention.
+- `free_response_channels` — comma-separated list of channel IDs where the bot responds to every message without requiring a mention.
+- `auto_thread` — when `true` (default), mentions in channels automatically create a thread for the conversation, keeping channels clean (similar to Slack threading).
+
+## Security<a href="#security" class="hash-link" aria-label="Direct link to Security" translate="no" title="Direct link to Security">​</a>
+
+Pre-execution security scanning and secret redaction:
+
+
+``` prism-code
+security:
+  redact_secrets: true           # Redact API key patterns in tool output and logs
+  tirith_enabled: true           # Enable Tirith security scanning for terminal commands
+  tirith_path: "tirith"          # Path to tirith binary (default: "tirith" in $PATH)
+  tirith_timeout: 5              # Seconds to wait for tirith scan before timing out
+  tirith_fail_open: true         # Allow command execution if tirith is unavailable
+  website_blocklist:             # See Website Blocklist section below
+    enabled: false
+    domains: []
+    shared_files: []
+```
+
+
+- `redact_secrets` — automatically detects and redacts patterns that look like API keys, tokens, and passwords in tool output before it enters the conversation context and logs.
+- `tirith_enabled` — when `true`, terminal commands are scanned by <a href="https://github.com/StackGuardian/tirith" target="_blank" rel="noopener noreferrer">Tirith</a> before execution to detect potentially dangerous operations.
+- `tirith_path` — path to the tirith binary. Set this if tirith is installed in a non-standard location.
+- `tirith_timeout` — maximum seconds to wait for a tirith scan. Commands proceed if the scan times out.
+- `tirith_fail_open` — when `true` (default), commands are allowed to execute if tirith is unavailable or fails. Set to `false` to block commands when tirith cannot verify them.
 
 ## Website Blocklist<a href="#website-blocklist" class="hash-link" aria-label="Direct link to Website Blocklist" translate="no" title="Direct link to Website Blocklist">​</a>
 
@@ -1847,7 +1256,7 @@ Setting `approvals.mode: off` disables all safety checks for terminal commands. 
 
 ## Checkpoints<a href="#checkpoints" class="hash-link" aria-label="Direct link to Checkpoints" translate="no" title="Direct link to Checkpoints">​</a>
 
-Automatic filesystem snapshots before destructive file operations. See the [Checkpoints feature page](/docs/user-guide/features/checkpoints) for details.
+Automatic filesystem snapshots before destructive file operations. See the [Checkpoints & Rollback](/docs/user-guide/checkpoints-and-rollback) for details.
 
 
 ``` prism-code
@@ -1937,29 +1346,6 @@ TERMINAL_CWD=/workspace                # All terminal sessions
 - <a href="#managing-configuration" class="table-of-contents__link toc-highlight">Managing Configuration</a>
 - <a href="#configuration-precedence" class="table-of-contents__link toc-highlight">Configuration Precedence</a>
 - <a href="#environment-variable-substitution" class="table-of-contents__link toc-highlight">Environment Variable Substitution</a>
-- <a href="#inference-providers" class="table-of-contents__link toc-highlight">Inference Providers</a>
-  - <a href="#anthropic-native" class="table-of-contents__link toc-highlight">Anthropic (Native)</a>
-  - <a href="#github-copilot" class="table-of-contents__link toc-highlight">GitHub Copilot</a>
-  - <a href="#first-class-chinese-ai-providers" class="table-of-contents__link toc-highlight">First-Class Chinese AI Providers</a>
-  - <a href="#hugging-face-inference-providers" class="table-of-contents__link toc-highlight">Hugging Face Inference Providers</a>
-- <a href="#custom--self-hosted-llm-providers" class="table-of-contents__link toc-highlight">Custom &amp; Self-Hosted LLM Providers</a>
-  - <a href="#general-setup" class="table-of-contents__link toc-highlight">General Setup</a>
-  - <a href="#switching-models-with-model" class="table-of-contents__link toc-highlight">Switching Models with <code>/model</code></a>
-  - <a href="#ollama--local-models-zero-config" class="table-of-contents__link toc-highlight">Ollama — Local Models, Zero Config</a>
-  - <a href="#vllm--high-performance-gpu-inference" class="table-of-contents__link toc-highlight">vLLM — High-Performance GPU Inference</a>
-  - <a href="#sglang--fast-serving-with-radixattention" class="table-of-contents__link toc-highlight">SGLang — Fast Serving with RadixAttention</a>
-  - <a href="#llamacpp--llama-server--cpu--metal-inference" class="table-of-contents__link toc-highlight">llama.cpp / llama-server — CPU &amp; Metal Inference</a>
-  - <a href="#litellm-proxy--multi-provider-gateway" class="table-of-contents__link toc-highlight">LiteLLM Proxy — Multi-Provider Gateway</a>
-  - <a href="#clawrouter--cost-optimized-routing" class="table-of-contents__link toc-highlight">ClawRouter — Cost-Optimized Routing</a>
-  - <a href="#other-compatible-providers" class="table-of-contents__link toc-highlight">Other Compatible Providers</a>
-  - <a href="#context-length-detection" class="table-of-contents__link toc-highlight">Context Length Detection</a>
-  - <a href="#named-custom-providers" class="table-of-contents__link toc-highlight">Named Custom Providers</a>
-  - <a href="#choosing-the-right-setup" class="table-of-contents__link toc-highlight">Choosing the Right Setup</a>
-- <a href="#optional-api-keys" class="table-of-contents__link toc-highlight">Optional API Keys</a>
-  - <a href="#self-hosting-firecrawl" class="table-of-contents__link toc-highlight">Self-Hosting Firecrawl</a>
-- <a href="#openrouter-provider-routing" class="table-of-contents__link toc-highlight">OpenRouter Provider Routing</a>
-- <a href="#fallback-model" class="table-of-contents__link toc-highlight">Fallback Model</a>
-- <a href="#smart-model-routing" class="table-of-contents__link toc-highlight">Smart Model Routing</a>
 - <a href="#terminal-backend-configuration" class="table-of-contents__link toc-highlight">Terminal Backend Configuration</a>
   - <a href="#backend-overview" class="table-of-contents__link toc-highlight">Backend Overview</a>
   - <a href="#local-backend" class="table-of-contents__link toc-highlight">Local Backend</a>
@@ -1974,6 +1360,7 @@ TERMINAL_CWD=/workspace                # All terminal sessions
   - <a href="#optional-mount-the-launch-directory-into-workspace" class="table-of-contents__link toc-highlight">Optional: Mount the Launch Directory into <code>/workspace</code></a>
   - <a href="#persistent-shell" class="table-of-contents__link toc-highlight">Persistent Shell</a>
 - <a href="#memory-configuration" class="table-of-contents__link toc-highlight">Memory Configuration</a>
+- <a href="#file-read-safety" class="table-of-contents__link toc-highlight">File Read Safety</a>
 - <a href="#git-worktree-isolation" class="table-of-contents__link toc-highlight">Git Worktree Isolation</a>
 - <a href="#context-compression" class="table-of-contents__link toc-highlight">Context Compression</a>
   - <a href="#full-reference" class="table-of-contents__link toc-highlight">Full reference</a>
@@ -1981,6 +1368,7 @@ TERMINAL_CWD=/workspace                # All terminal sessions
   - <a href="#how-the-three-knobs-interact" class="table-of-contents__link toc-highlight">How the three knobs interact</a>
 - <a href="#iteration-budget-pressure" class="table-of-contents__link toc-highlight">Iteration Budget Pressure</a>
 - <a href="#context-pressure-warnings" class="table-of-contents__link toc-highlight">Context Pressure Warnings</a>
+- <a href="#credential-pool-strategies" class="table-of-contents__link toc-highlight">Credential Pool Strategies</a>
 - <a href="#auxiliary-models" class="table-of-contents__link toc-highlight">Auxiliary Models</a>
   - <a href="#the-universal-config-pattern" class="table-of-contents__link toc-highlight">The universal config pattern</a>
   - <a href="#full-auxiliary-config-reference" class="table-of-contents__link toc-highlight">Full auxiliary config reference</a>
@@ -2002,11 +1390,13 @@ TERMINAL_CWD=/workspace                # All terminal sessions
 - <a href="#group-chat-session-isolation" class="table-of-contents__link toc-highlight">Group Chat Session Isolation</a>
 - <a href="#unauthorized-dm-behavior" class="table-of-contents__link toc-highlight">Unauthorized DM Behavior</a>
 - <a href="#quick-commands" class="table-of-contents__link toc-highlight">Quick Commands</a>
-- <a href="#gateway-streaming" class="table-of-contents__link toc-highlight">Gateway Streaming</a>
 - <a href="#human-delay" class="table-of-contents__link toc-highlight">Human Delay</a>
 - <a href="#code-execution" class="table-of-contents__link toc-highlight">Code Execution</a>
 - <a href="#web-search-backends" class="table-of-contents__link toc-highlight">Web Search Backends</a>
 - <a href="#browser" class="table-of-contents__link toc-highlight">Browser</a>
+- <a href="#timezone" class="table-of-contents__link toc-highlight">Timezone</a>
+- <a href="#discord" class="table-of-contents__link toc-highlight">Discord</a>
+- <a href="#security" class="table-of-contents__link toc-highlight">Security</a>
 - <a href="#website-blocklist" class="table-of-contents__link toc-highlight">Website Blocklist</a>
 - <a href="#smart-approvals" class="table-of-contents__link toc-highlight">Smart Approvals</a>
 - <a href="#checkpoints" class="table-of-contents__link toc-highlight">Checkpoints</a>

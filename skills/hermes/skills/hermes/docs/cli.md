@@ -104,6 +104,7 @@ When resuming a previous session (`hermes -c` or `hermes --resume <id>`), a "Pre
 | `Ctrl+B`                | Start/stop voice recording when voice mode is enabled (`voice.record_key`, default: `ctrl+b`) |
 | `Ctrl+C`                | Interrupt agent (double-press within 2s to force exit)                                        |
 | `Ctrl+D`                | Exit                                                                                          |
+| `Ctrl+Z`                | Suspend Hermes to background (Unix only). Run `fg` in the shell to resume.                    |
 | `Tab`                   | Accept auto-suggestion (ghost text) or autocomplete slash commands                            |
 
 ## Slash Commands<a href="#slash-commands" class="hash-link" aria-label="Direct link to Slash Commands" translate="no" title="Direct link to Slash Commands">​</a>
@@ -233,6 +234,37 @@ You can interrupt the agent at any point:
 - In-progress terminal commands are killed immediately (SIGTERM, then SIGKILL after 1s)
 - Multiple messages typed during interrupt are combined into one prompt
 
+### Busy Input Mode<a href="#busy-input-mode" class="hash-link" aria-label="Direct link to Busy Input Mode" translate="no" title="Direct link to Busy Input Mode">​</a>
+
+The `display.busy_input_mode` config key controls what happens when you press Enter while the agent is working:
+
+| Mode                    | Behavior                                                                           |
+|-------------------------|------------------------------------------------------------------------------------|
+| `"interrupt"` (default) | Your message interrupts the current operation and is processed immediately         |
+| `"queue"`               | Your message is silently queued and sent as the next turn after the agent finishes |
+
+
+``` prism-code
+# ~/.hermes/config.yaml
+display:
+  busy_input_mode: "queue"   # or "interrupt" (default)
+```
+
+
+Queue mode is useful when you want to prepare follow-up messages without accidentally canceling in-flight work. Unknown values fall back to `"interrupt"`.
+
+### Suspending to Background<a href="#suspending-to-background" class="hash-link" aria-label="Direct link to Suspending to Background" translate="no" title="Direct link to Suspending to Background">​</a>
+
+On Unix systems, press **`Ctrl+Z`** to suspend Hermes to the background — just like any terminal process. The shell prints a confirmation:
+
+
+``` prism-code
+Hermes Agent has been suspended. Run `fg` to bring Hermes Agent back.
+```
+
+
+Type `fg` in your shell to resume the session exactly where you left off. This is not supported on Windows.
+
 ## Tool Progress Display<a href="#tool-progress-display" class="hash-link" aria-label="Direct link to Tool Progress Display" translate="no" title="Direct link to Tool Progress Display">​</a>
 
 The CLI shows animated feedback as the agent works:
@@ -258,6 +290,20 @@ The CLI shows animated feedback as the agent works:
 
 
 Cycle through display modes with `/verbose`: `off → new → all → verbose`. This command can also be enabled for messaging platforms — see [configuration](/docs/user-guide/configuration#display-settings).
+
+### Tool Preview Length<a href="#tool-preview-length" class="hash-link" aria-label="Direct link to Tool Preview Length" translate="no" title="Direct link to Tool Preview Length">​</a>
+
+The `display.tool_preview_length` config key controls the maximum number of characters shown in tool call preview lines (e.g. file paths, terminal commands). The default is `0`, which means no limit — full paths and commands are shown.
+
+
+``` prism-code
+# ~/.hermes/config.yaml
+display:
+  tool_preview_length: 80   # Truncate tool previews to 80 chars (0 = no limit)
+```
+
+
+This is useful on narrow terminals or when tool arguments contain very long file paths.
 
 ## Session Management<a href="#session-management" class="hash-link" aria-label="Direct link to Session Management" translate="no" title="Direct link to Session Management">​</a>
 
@@ -403,7 +449,10 @@ hermes chat --verbose
 - <a href="#personalities" class="table-of-contents__link toc-highlight">Personalities</a>
 - <a href="#multi-line-input" class="table-of-contents__link toc-highlight">Multi-line Input</a>
 - <a href="#interrupting-the-agent" class="table-of-contents__link toc-highlight">Interrupting the Agent</a>
+  - <a href="#busy-input-mode" class="table-of-contents__link toc-highlight">Busy Input Mode</a>
+  - <a href="#suspending-to-background" class="table-of-contents__link toc-highlight">Suspending to Background</a>
 - <a href="#tool-progress-display" class="table-of-contents__link toc-highlight">Tool Progress Display</a>
+  - <a href="#tool-preview-length" class="table-of-contents__link toc-highlight">Tool Preview Length</a>
 - <a href="#session-management" class="table-of-contents__link toc-highlight">Session Management</a>
   - <a href="#resuming-sessions" class="table-of-contents__link toc-highlight">Resuming Sessions</a>
   - <a href="#session-storage" class="table-of-contents__link toc-highlight">Session Storage</a>

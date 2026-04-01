@@ -490,6 +490,7 @@ On this page
 - <a href="#models-status" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">models status</a>
 - <a href="#scanning-openrouter-free-models" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Scanning (OpenRouter free models)</a>
 - <a href="#models-registry-models-json" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Models registry (models.json)</a>
+- <a href="#related" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Related</a>
 
 
 Concepts and configuration
@@ -698,6 +699,18 @@ openclaw models status
 - SecretRef-managed provider header values are refreshed from source markers (`secretref-env:ENV_VAR_NAME` for env refs, `secretref-managed` for file/exec refs).
 - Empty or missing agent `apiKey`/`baseUrl` fall back to config `models.providers`.
 - Other provider fields are refreshed from config and normalized catalog data.
+
+
+## 
+
+
+<a href="#related" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/concepts/model-providers" class="link">Model Providers</a> — provider routing and auth
+- <a href="/concepts/model-failover" class="link">Model Failover</a> — fallback chains
+- <a href="/tools/image-generation" class="link">Image Generation</a> — image model configuration
+- <a href="/gateway/configuration-reference#agent-defaults" class="link">Configuration Reference</a> — model config keys
 
 
 <a href="/providers/models" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model Provider Quickstart</span></a><a href="/concepts/model-providers" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model Providers</span></a>

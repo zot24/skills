@@ -27,29 +27,101 @@ The security model has five layers:
 
 Before executing any command, Hermes checks it against a curated list of dangerous patterns. If a match is found, the user must explicitly approve it.
 
+### Approval Modes<a href="#approval-modes" class="hash-link" aria-label="Direct link to Approval Modes" translate="no" title="Direct link to Approval Modes">​</a>
+
+The approval system supports three modes, configured via `approvals.mode` in `~/.hermes/config.yaml`:
+
+
+``` prism-code
+approvals:
+  mode: manual    # manual | smart | off
+  timeout: 60     # seconds to wait for user response (default: 60)
+```
+
+
+| Mode                 | Behavior                                                                                                                                                                                                  |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **manual** (default) | Always prompt the user for approval on dangerous commands                                                                                                                                                 |
+| **smart**            | Use an auxiliary LLM to assess risk. Low-risk commands (e.g., `python -c "print('hello')"`) are auto-approved. Genuinely dangerous commands are auto-denied. Uncertain cases escalate to a manual prompt. |
+| **off**              | Disable all approval checks — equivalent to running with `--yolo`. All commands execute without prompts.                                                                                                  |
+
+
+Setting `approvals.mode: off` disables all safety prompts. Use only in trusted environments (CI/CD, containers, etc.).
+
+
+### YOLO Mode<a href="#yolo-mode" class="hash-link" aria-label="Direct link to YOLO Mode" translate="no" title="Direct link to YOLO Mode">​</a>
+
+YOLO mode bypasses **all** dangerous command approval prompts for the current session. It can be activated three ways:
+
+1.  **CLI flag**: Start a session with `hermes --yolo` or `hermes chat --yolo`
+2.  **Slash command**: Type `/yolo` during a session to toggle it on/off
+3.  **Environment variable**: Set `HERMES_YOLO_MODE=1`
+
+The `/yolo` command is a **toggle** — each use flips the mode on or off:
+
+
+``` prism-code
+> /yolo
+  ⚡ YOLO mode ON — all commands auto-approved. Use with caution.
+
+> /yolo
+  ⚠ YOLO mode OFF — dangerous commands will require approval.
+```
+
+
+YOLO mode is available in both CLI and gateway sessions. Internally, it sets the `HERMES_YOLO_MODE` environment variable which is checked before every command execution.
+
+
+YOLO mode disables **all** dangerous command safety checks for the session. Use only when you fully trust the commands being generated (e.g., well-tested automation scripts in disposable environments).
+
+
+### Approval Timeout<a href="#approval-timeout" class="hash-link" aria-label="Direct link to Approval Timeout" translate="no" title="Direct link to Approval Timeout">​</a>
+
+When a dangerous command prompt appears, the user has a configurable amount of time to respond. If no response is given within the timeout, the command is **denied** by default (fail-closed).
+
+Configure the timeout in `~/.hermes/config.yaml`:
+
+
+``` prism-code
+approvals:
+  timeout: 60  # seconds (default: 60)
+```
+
+
 ### What Triggers Approval<a href="#what-triggers-approval" class="hash-link" aria-label="Direct link to What Triggers Approval" translate="no" title="Direct link to What Triggers Approval">​</a>
 
 The following patterns trigger approval prompts (defined in `tools/approval.py`):
 
-| Pattern                                 | Description                                       |
-|-----------------------------------------|---------------------------------------------------|
-| `rm -r` / `rm --recursive`              | Recursive delete                                  |
-| `rm ... /`                              | Delete in root path                               |
-| `chmod 777`                             | World-writable permissions                        |
-| `mkfs`                                  | Format filesystem                                 |
-| `dd if=`                                | Disk copy                                         |
-| `DROP TABLE/DATABASE`                   | SQL DROP                                          |
-| `DELETE FROM` (without WHERE)           | SQL DELETE without WHERE                          |
-| `TRUNCATE TABLE`                        | SQL TRUNCATE                                      |
-| `> /etc/`                               | Overwrite system config                           |
-| `systemctl stop/disable/mask`           | Stop/disable system services                      |
-| `kill -9 -1`                            | Kill all processes                                |
-| `curl ... | sh`                         | Pipe remote content to shell                      |
-| `bash -c`, `python -e`                  | Shell/script execution via flags                  |
-| `find -exec rm`, `find -delete`         | Find with destructive actions                     |
-| Fork bomb patterns                      | Fork bombs                                        |
-| `pkill`/`killall` hermes/gateway        | Self-termination prevention                       |
-| `gateway run` with `&`/`disown`/`nohup` | Prevents starting gateway outside service manager |
+| Pattern                                            | Description                                                                 |
+|----------------------------------------------------|-----------------------------------------------------------------------------|
+| `rm -r` / `rm --recursive`                         | Recursive delete                                                            |
+| `rm ... /`                                         | Delete in root path                                                         |
+| `chmod 777/666` / `o+w` / `a+w`                    | World/other-writable permissions                                            |
+| `chmod --recursive` with unsafe perms              | Recursive world/other-writable (long flag)                                  |
+| `chown -R root` / `chown --recursive root`         | Recursive chown to root                                                     |
+| `mkfs`                                             | Format filesystem                                                           |
+| `dd if=`                                           | Disk copy                                                                   |
+| `> /dev/sd`                                        | Write to block device                                                       |
+| `DROP TABLE/DATABASE`                              | SQL DROP                                                                    |
+| `DELETE FROM` (without WHERE)                      | SQL DELETE without WHERE                                                    |
+| `TRUNCATE TABLE`                                   | SQL TRUNCATE                                                                |
+| `> /etc/`                                          | Overwrite system config                                                     |
+| `systemctl stop/disable/mask`                      | Stop/disable system services                                                |
+| `kill -9 -1`                                       | Kill all processes                                                          |
+| `pkill -9`                                         | Force kill processes                                                        |
+| Fork bomb patterns                                 | Fork bombs                                                                  |
+| `bash -c` / `sh -c` / `zsh -c` / `ksh -c`          | Shell command execution via `-c` flag (including combined flags like `-lc`) |
+| `python -e` / `perl -e` / `ruby -e` / `node -c`    | Script execution via `-e`/`-c` flag                                         |
+| `curl ... | sh` / `wget ... | sh`                  | Pipe remote content to shell                                                |
+| `bash <(curl ...)` / `sh <(wget ...)`              | Execute remote script via process substitution                              |
+| `tee` to `/etc/`, `~/.ssh/`, `~/.hermes/.env`      | Overwrite sensitive file via tee                                            |
+| `>` / `>>` to `/etc/`, `~/.ssh/`, `~/.hermes/.env` | Overwrite sensitive file via redirection                                    |
+| `xargs rm`                                         | xargs with rm                                                               |
+| `find -exec rm` / `find -delete`                   | Find with destructive actions                                               |
+| `cp`/`mv`/`install` to `/etc/`                     | Copy/move file into system config                                           |
+| `sed -i` / `sed --in-place` on `/etc/`             | In-place edit of system config                                              |
+| `pkill`/`killall` hermes/gateway                   | Self-termination prevention                                                 |
+| `gateway run` with `&`/`disown`/`nohup`/`setsid`   | Prevents starting gateway outside service manager                           |
 
 
 **Container bypass**: When running in `docker`, `singularity`, `modal`, or `daytona` backends, dangerous command checks are **skipped** because the container itself is the security boundary. Destructive commands inside a container can't harm the host.
@@ -531,6 +603,9 @@ This keeps the gateway's messaging connections separate from the agent's command
 
 - <a href="#overview" class="table-of-contents__link toc-highlight">Overview</a>
 - <a href="#dangerous-command-approval" class="table-of-contents__link toc-highlight">Dangerous Command Approval</a>
+  - <a href="#approval-modes" class="table-of-contents__link toc-highlight">Approval Modes</a>
+  - <a href="#yolo-mode" class="table-of-contents__link toc-highlight">YOLO Mode</a>
+  - <a href="#approval-timeout" class="table-of-contents__link toc-highlight">Approval Timeout</a>
   - <a href="#what-triggers-approval" class="table-of-contents__link toc-highlight">What Triggers Approval</a>
   - <a href="#approval-flow-cli" class="table-of-contents__link toc-highlight">Approval Flow (CLI)</a>
   - <a href="#approval-flow-gatewaymessaging" class="table-of-contents__link toc-highlight">Approval Flow (Gateway/Messaging)</a>

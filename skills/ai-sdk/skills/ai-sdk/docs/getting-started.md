@@ -171,6 +171,7 @@ You can also use [AI SDK Core](/docs/ai-sdk-core/overview) and [AI SDK UI](/docs
     - [extractJsonMiddleware](/docs/reference/ai-sdk-core/extract-json-middleware)
     - [stepCountIs](/docs/reference/ai-sdk-core/step-count-is)
     - [hasToolCall](/docs/reference/ai-sdk-core/has-tool-call)
+    - [isLoopFinished](/docs/reference/ai-sdk-core/loop-finished)
     - [simulateReadableStream](/docs/reference/ai-sdk-core/simulate-readable-stream)
     - [smoothStream](/docs/reference/ai-sdk-core/smooth-stream)
     - [generateId](/docs/reference/ai-sdk-core/generate-id)

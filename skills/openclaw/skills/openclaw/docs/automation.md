@@ -253,6 +253,16 @@ Webhooks
   </div>
 
   </div>
+- <span id="/automation/clawflow"><a href="/automation/clawflow" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">ClawFlow</span>
+
+  </div>
+
+  </div>
 - <span id="/automation/troubleshooting"><a href="/automation/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -637,7 +647,7 @@ Automation
 - `sessionKey` optional (string): The key used to identify the agent’s session. By default this field is rejected unless `hooks.allowRequestSessionKey=true`.
 - `wakeMode` optional (`now` \| `next-heartbeat`): Whether to trigger an immediate heartbeat (default `now`) or wait for the next periodic check.
 - `deliver` optional (boolean): If `true`, the agent’s response will be sent to the messaging channel. Defaults to `true`. Responses that are only heartbeat acknowledgments are automatically skipped.
-- `channel` optional (string): The messaging channel for delivery. Core channels: `last`, `whatsapp`, `telegram`, `discord`, `slack`, `signal`, `imessage`, `irc`, `googlechat`, `line`. Extension channels (plugins): `msteams`, `mattermost`, and others. Defaults to `last`.
+- `channel` optional (string): The messaging channel for delivery. Use `last` or any configured channel or plugin id, for example `discord`, `matrix`, `telegram`, or `whatsapp`. Defaults to `last`.
 - `to` optional (string): The recipient identifier for the channel (e.g., phone number for WhatsApp/Signal, chat ID for Telegram, channel ID for Discord/Slack/Mattermost (plugin), conversation ID for Microsoft Teams). Defaults to the last recipient in the main session.
 - `model` optional (string): Model override (e.g., `anthropic/claude-sonnet-4-6` or an alias). Must be in the allowed model list if restricted.
 - `thinking` optional (string): Thinking level override (e.g., `low`, `medium`, `high`).
