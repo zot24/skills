@@ -15,6 +15,26 @@ Chat with Hermes from Telegram, Discord, Slack, WhatsApp, Signal, SMS, Email, Ho
 
 For the full voice feature set — including CLI microphone mode, spoken replies in messaging, and Discord voice-channel conversations — see [Voice Mode](/docs/user-guide/features/voice-mode) and [Use Voice Mode with Hermes](/docs/guides/use-voice-mode-with-hermes).
 
+## Platform Comparison<a href="#platform-comparison" class="hash-link" aria-label="Direct link to Platform Comparison" translate="no" title="Direct link to Platform Comparison">​</a>
+
+| Platform       | Voice | Images | Files | Threads | Reactions | Typing | Streaming |
+|----------------|:-----:|:------:|:-----:|:-------:|:---------:|:------:|:---------:|
+| Telegram       |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
+| Discord        |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| Slack          |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| WhatsApp       |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| Signal         |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| SMS            |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Email          |   —   |   ✅   |  ✅   |   ✅    |     —     |   —    |     —     |
+| Home Assistant |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Mattermost     |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
+| Matrix         |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
+| DingTalk       |   —   |   —    |   —   |    —    |     —     |   ✅   |    ✅     |
+| Feishu/Lark    |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| WeCom          |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+
+**Voice** = TTS audio replies and/or voice message transcription. **Images** = send/receive images. **Files** = send/receive file attachments. **Threads** = threaded conversations. **Reactions** = emoji reactions on messages. **Typing** = typing indicator while processing. **Streaming** = progressive message updates via editing.
+
 ## Architecture<a href="#architecture" class="hash-link" aria-label="Direct link to Architecture" translate="no" title="Direct link to Architecture">​</a>
 
 Each platform adapter receives messages, routes them through a per-chat session store, and dispatches them to the AIAgent for processing. The gateway also runs the cron scheduler, ticking every 60 seconds to execute any due jobs.
@@ -341,6 +361,7 @@ Each platform has its own toolset:
 - [Webhooks](/docs/user-guide/messaging/webhooks)
 
 
+- <a href="#platform-comparison" class="table-of-contents__link toc-highlight">Platform Comparison</a>
 - <a href="#architecture" class="table-of-contents__link toc-highlight">Architecture</a>
 - <a href="#quick-setup" class="table-of-contents__link toc-highlight">Quick Setup</a>
 - <a href="#gateway-commands" class="table-of-contents__link toc-highlight">Gateway Commands</a>

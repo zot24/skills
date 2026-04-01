@@ -253,6 +253,16 @@ Skills
   </div>
 
   </div>
+- <span id="/automation/clawflow"><a href="/automation/clawflow" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">ClawFlow</span>
+
+  </div>
+
+  </div>
 - <span id="/automation/troubleshooting"><a href="/automation/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -540,6 +550,7 @@ On this page
 - <a href="#managed-skills-lifecycle" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Managed skills lifecycle</a>
 - <a href="#config-reference" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Config reference</a>
 - <a href="#looking-for-more-skills" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Looking for more skills?</a>
+- <a href="#related" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Related</a>
 
 
 Skills
@@ -610,6 +621,8 @@ Skills
 - Treat third-party skills as **untrusted code**. Read them before enabling.
 - Prefer sandboxed runs for untrusted inputs and risky tools. See <a href="/gateway/sandboxing" class="link">Sandboxing</a>.
 - Workspace and extra-dir skill discovery only accepts skill roots and `SKILL.md` files whose resolved realpath stays inside the configured root.
+- Gateway-backed skill dependency installs (`skills.install`, onboarding, and the Skills settings UI) run the built-in dangerous-code scanner before executing installer metadata. `critical` findings block by default unless the caller explicitly sets the dangerous override; suspicious findings still warn only.
+- `openclaw skills install <slug>` is different: it downloads a ClawHub skill folder into the workspace and does not use the installer-metadata path above.
 - `skills.entries.*.env` and `skills.entries.*.apiKey` inject secrets into the **host** process for that agent turn (not the sandbox). Keep secrets out of prompts and logs.
 - For a broader threat model and checklists, see <a href="/gateway/security" class="link">Security</a>.
 
@@ -825,6 +838,17 @@ total = 195 + Σ (97 + len(name_escaped) + len(description_escaped) + len(locati
 
 
 ------------------------------------------------------------------------
+
+## 
+
+
+<a href="#related" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/tools/creating-skills" class="link">Creating Skills</a> — building custom skills
+- <a href="/tools/skills-config" class="link">Skills Config</a> — skill configuration reference
+- <a href="/tools/slash-commands" class="link">Slash Commands</a> — all available slash commands
+- <a href="/tools/plugin" class="link">Plugins</a> — plugin system overview
 
 
 <a href="/plugins/architecture" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Internals</span></a><a href="/tools/creating-skills" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Creating Skills</span></a>

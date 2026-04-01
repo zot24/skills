@@ -194,9 +194,7 @@ So a server that exposes callable tools but no resources/prompts will not get th
 
 ## Per-server filtering<a href="#per-server-filtering" class="hash-link" aria-label="Direct link to Per-server filtering" translate="no" title="Direct link to Per-server filtering">​</a>
 
-This is the main feature added by the PR work.
-
-You can now control which tools each MCP server contributes to Hermes.
+You can control which tools each MCP server contributes to Hermes, allowing fine-grained management of your tool namespace.
 
 ### Disable a server entirely<a href="#disable-a-server-entirely" class="hash-link" aria-label="Direct link to Disable a server entirely" translate="no" title="Direct link to Disable a server entirely">​</a>
 
@@ -316,6 +314,14 @@ That keeps the tool list clean.
 
 Hermes discovers MCP servers at startup and registers their tools into the normal tool registry.
 
+### Dynamic Tool Discovery<a href="#dynamic-tool-discovery" class="hash-link" aria-label="Direct link to Dynamic Tool Discovery" translate="no" title="Direct link to Dynamic Tool Discovery">​</a>
+
+MCP servers can notify Hermes when their available tools change at runtime by sending a `notifications/tools/list_changed` notification. When Hermes receives this notification, it automatically re-fetches the server's tool list and updates the registry — no manual `/reload-mcp` required.
+
+This is useful for MCP servers whose capabilities change dynamically (e.g. a server that adds tools when a new database schema is loaded, or removes tools when a service goes offline).
+
+The refresh is lock-protected so rapid-fire notifications from the same server don't cause overlapping refreshes. Prompt and resource change notifications (`prompts/list_changed`, `resources/list_changed`) are received but not yet acted on.
+
 ### Reloading<a href="#reloading" class="hash-link" aria-label="Direct link to Reloading" translate="no" title="Direct link to Reloading">​</a>
 
 If you change MCP config, use:
@@ -326,7 +332,7 @@ If you change MCP config, use:
 ```
 
 
-This reloads MCP servers from config and refreshes the available tool list.
+This reloads MCP servers from config and refreshes the available tool list. For runtime tool changes pushed by the server itself, see [Dynamic Tool Discovery](#dynamic-tool-discovery) above.
 
 ### Toolsets<a href="#toolsets" class="hash-link" aria-label="Direct link to Toolsets" translate="no" title="Direct link to Toolsets">​</a>
 
@@ -462,6 +468,43 @@ Because Hermes now only registers those wrappers when both are true:
 2.  the server session actually supports the capability
 
 This is intentional and keeps the tool list honest.
+
+## MCP Sampling Support<a href="#mcp-sampling-support" class="hash-link" aria-label="Direct link to MCP Sampling Support" translate="no" title="Direct link to MCP Sampling Support">​</a>
+
+MCP servers can request LLM inference from Hermes via the `sampling/createMessage` protocol. This allows an MCP server to ask Hermes to generate text on its behalf — useful for servers that need LLM capabilities but don't have their own model access.
+
+Sampling is **enabled by default** for all MCP servers (when the MCP SDK supports it). Configure it per-server under the `sampling` key:
+
+
+``` prism-code
+mcp_servers:
+  my_server:
+    command: "my-mcp-server"
+    sampling:
+      enabled: true            # Enable sampling (default: true)
+      model: "openai/gpt-4o"  # Override model for sampling requests (optional)
+      max_tokens_cap: 4096     # Max tokens per sampling response (default: 4096)
+      timeout: 30              # Timeout in seconds per request (default: 30)
+      max_rpm: 10              # Rate limit: max requests per minute (default: 10)
+      max_tool_rounds: 5       # Max tool-use rounds in sampling loops (default: 5)
+      allowed_models: []       # Allowlist of model names the server may request (empty = any)
+      log_level: "info"        # Audit log level: debug, info, or warning (default: info)
+```
+
+
+The sampling handler includes a sliding-window rate limiter, per-request timeouts, and tool-loop depth limits to prevent runaway usage. Metrics (request count, errors, tokens used) are tracked per server instance.
+
+To disable sampling for a specific server:
+
+
+``` prism-code
+mcp_servers:
+  untrusted_server:
+    url: "https://mcp.example.com"
+    sampling:
+      enabled: false
+```
+
 
 ## Running Hermes as an MCP server<a href="#running-hermes-as-an-mcp-server" class="hash-link" aria-label="Direct link to Running Hermes as an MCP server" translate="no" title="Direct link to Running Hermes as an MCP server">​</a>
 
@@ -602,6 +645,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
 - <a href="#what-happens-if-everything-is-filtered-out" class="table-of-contents__link toc-highlight">What happens if everything is filtered out?</a>
 - <a href="#runtime-behavior" class="table-of-contents__link toc-highlight">Runtime behavior</a>
   - <a href="#discovery-time" class="table-of-contents__link toc-highlight">Discovery time</a>
+  - <a href="#dynamic-tool-discovery" class="table-of-contents__link toc-highlight">Dynamic Tool Discovery</a>
   - <a href="#reloading" class="table-of-contents__link toc-highlight">Reloading</a>
   - <a href="#toolsets" class="table-of-contents__link toc-highlight">Toolsets</a>
 - <a href="#security-model" class="table-of-contents__link toc-highlight">Security model</a>
@@ -615,6 +659,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#mcp-server-not-connecting" class="table-of-contents__link toc-highlight">MCP server not connecting</a>
   - <a href="#tools-not-appearing" class="table-of-contents__link toc-highlight">Tools not appearing</a>
   - <a href="#why-didnt-resource-or-prompt-utilities-appear" class="table-of-contents__link toc-highlight">Why didn't resource or prompt utilities appear?</a>
+- <a href="#mcp-sampling-support" class="table-of-contents__link toc-highlight">MCP Sampling Support</a>
 - <a href="#running-hermes-as-an-mcp-server" class="table-of-contents__link toc-highlight">Running Hermes as an MCP server</a>
   - <a href="#when-to-use-this" class="table-of-contents__link toc-highlight">When to use this</a>
   - <a href="#quick-start-1" class="table-of-contents__link toc-highlight">Quick start</a>

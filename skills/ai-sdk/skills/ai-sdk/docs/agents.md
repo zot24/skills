@@ -18,7 +18,7 @@ These components work together:
 The ToolLoopAgent class handles these three components. Here's an agent that uses multiple tools in a loop to accomplish a task:
 
 ```ts
-import { ToolLoopAgent, stepCountIs, tool } from 'ai';
+import { ToolLoopAgent, tool } from 'ai';
 __PROVIDER_IMPORT__;
 import { z } from 'zod';
 
@@ -46,8 +46,6 @@ const weatherAgent = new ToolLoopAgent({
       },
     }),
   },
-  // Agent's default behavior is to stop after a maximum of 20 steps
-  // stopWhen: stepCountIs(20),
 });
 
 const result = await weatherAgent.generate({

@@ -343,7 +343,7 @@ Platforms overview
 
 
 - **Local** (default): the app attaches to a running local Gateway if present; otherwise it enables the launchd service via `openclaw gateway install`.
-- **Remote**: the app connects to a Gateway over SSH/Tailscale and never starts a local process. The app starts the local **node host service** so the remote Gateway can reach this Mac. The app does not spawn the Gateway as a child process.
+- **Remote**: the app connects to a Gateway over SSH/Tailscale and never starts a local process. The app starts the local **node host service** so the remote Gateway can reach this Mac. The app does not spawn the Gateway as a child process. Gateway discovery now prefers Tailscale MagicDNS names over raw tailnet IPs, so the Mac app recovers more reliably when tailnet IPs change.
 
 ## 
 
