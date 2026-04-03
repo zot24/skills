@@ -603,6 +603,233 @@ There is no hard limit. Each profile is just a directory under `~/.hermes/profil
 
 ------------------------------------------------------------------------
 
+## Workflows & Patterns<a href="#workflows--patterns" class="hash-link" aria-label="Direct link to Workflows &amp; Patterns" translate="no" title="Direct link to Workflows &amp; Patterns">​</a>
+
+### Using different models for different tasks (multi-model workflows)<a href="#using-different-models-for-different-tasks-multi-model-workflows" class="hash-link" aria-label="Direct link to Using different models for different tasks (multi-model workflows)" translate="no" title="Direct link to Using different models for different tasks (multi-model workflows)">​</a>
+
+**Scenario:** You use GPT-5.4 as your daily driver, but Gemini or Grok writes better social media content. Manually switching models every time is tedious.
+
+**Solution: Delegation config.** Hermes can route subagents to a different model automatically. Set this in `~/.hermes/config.yaml`:
+
+
+``` prism-code
+delegation:
+  model: "google/gemini-3-flash-preview"   # subagents use this model
+  provider: "openrouter"                    # provider for subagents
+```
+
+
+Now when you tell Hermes "write me a Twitter thread about X" and it spawns a `delegate_task` subagent, that subagent runs on Gemini instead of your main model. Your primary conversation stays on GPT-5.4.
+
+You can also be explicit in your prompt: *"Delegate a task to write social media posts about our product launch. Use your subagent for the actual writing."* The agent will use `delegate_task`, which automatically picks up the delegation config.
+
+For one-off model switches without delegation, use `/model` in the CLI:
+
+
+``` prism-code
+/model google/gemini-3-flash-preview    # switch for this session
+# ... write your content ...
+/model openai/gpt-5.4                   # switch back
+```
+
+
+See [Subagent Delegation](/docs/user-guide/features/delegation) for more on how delegation works.
+
+### Running multiple agents on one WhatsApp number (per-chat binding)<a href="#running-multiple-agents-on-one-whatsapp-number-per-chat-binding" class="hash-link" aria-label="Direct link to Running multiple agents on one WhatsApp number (per-chat binding)" translate="no" title="Direct link to Running multiple agents on one WhatsApp number (per-chat binding)">​</a>
+
+**Scenario:** In OpenClaw, you had multiple independent agents bound to specific WhatsApp chats — one for a family shopping list group, another for your private chat. Can Hermes do this?
+
+**Current limitation:** Hermes profiles each require their own WhatsApp number/session. You cannot bind multiple profiles to different chats on the same WhatsApp number — the WhatsApp bridge (Baileys) uses one authenticated session per number.
+
+**Workarounds:**
+
+1.  **Use a single profile with personality switching.** Create different `AGENTS.md` context files or use the `/personality` command to change behavior per chat. The agent sees which chat it's in and can adapt.
+
+2.  **Use cron jobs for specialized tasks.** For a shopping list tracker, set up a cron job that monitors a specific chat and manages the list — no separate agent needed.
+
+3.  **Use separate numbers.** If you need truly independent agents, pair each profile with its own WhatsApp number. Virtual numbers from services like Google Voice work for this.
+
+4.  **Use Telegram or Discord instead.** These platforms support per-chat binding more naturally — each Telegram group or Discord channel gets its own session, and you can run multiple bot tokens (one per profile) on the same account.
+
+See [Profiles](/docs/user-guide/profiles) and [WhatsApp setup](/docs/user-guide/messaging/whatsapp) for more details.
+
+### Controlling what shows up in Telegram (hiding logs and reasoning)<a href="#controlling-what-shows-up-in-telegram-hiding-logs-and-reasoning" class="hash-link" aria-label="Direct link to Controlling what shows up in Telegram (hiding logs and reasoning)" translate="no" title="Direct link to Controlling what shows up in Telegram (hiding logs and reasoning)">​</a>
+
+**Scenario:** You see gateway exec logs, Hermes reasoning, and tool call details in Telegram instead of just the final output.
+
+**Solution:** The `display.tool_progress` setting in `config.yaml` controls how much tool activity is shown:
+
+
+``` prism-code
+display:
+  tool_progress: "off"   # options: off, new, all, verbose
+```
+
+
+- **`off`** — Only the final response. No tool calls, no reasoning, no logs.
+- **`new`** — Shows new tool calls as they happen (brief one-liners).
+- **`all`** — Shows all tool activity including results.
+- **`verbose`** — Full detail including tool arguments and outputs.
+
+For messaging platforms, `off` or `new` is usually what you want. After editing `config.yaml`, restart the gateway for changes to take effect.
+
+You can also toggle this per-session with the `/verbose` command (if enabled):
+
+
+``` prism-code
+display:
+  tool_progress_command: true   # enables /verbose in the gateway
+```
+
+
+### Managing skills on Telegram (slash command limit)<a href="#managing-skills-on-telegram-slash-command-limit" class="hash-link" aria-label="Direct link to Managing skills on Telegram (slash command limit)" translate="no" title="Direct link to Managing skills on Telegram (slash command limit)">​</a>
+
+**Scenario:** Telegram has a 100 slash command limit, and your skills are pushing past it. You want to disable skills you don't need on Telegram, but `hermes skills config` settings don't seem to take effect.
+
+**Solution:** Use `hermes skills config` to disable skills per-platform. This writes to `config.yaml`:
+
+
+``` prism-code
+skills:
+  disabled: []                    # globally disabled skills
+  platform_disabled:
+    telegram: [skill-a, skill-b]  # disabled only on telegram
+```
+
+
+After changing this, **restart the gateway** (`hermes gateway restart` or kill and relaunch). The Telegram bot command menu rebuilds on startup.
+
+
+Skills with very long descriptions are truncated to 40 characters in the Telegram menu to stay within payload size limits. If skills aren't appearing, it may be a total payload size issue rather than the 100 command count limit — disabling unused skills helps with both.
+
+
+### Shared thread sessions (multiple users, one conversation)<a href="#shared-thread-sessions-multiple-users-one-conversation" class="hash-link" aria-label="Direct link to Shared thread sessions (multiple users, one conversation)" translate="no" title="Direct link to Shared thread sessions (multiple users, one conversation)">​</a>
+
+**Scenario:** You have a Telegram or Discord thread where multiple people mention the bot. You want all mentions in that thread to be part of one shared conversation, not separate per-user sessions.
+
+**Current behavior:** Hermes creates sessions keyed by user ID on most platforms, so each person gets their own conversation context. This is by design for privacy and context isolation.
+
+**Workarounds:**
+
+1.  **Use Slack.** Slack sessions are keyed by thread, not by user. Multiple users in the same thread share one conversation — exactly the behavior you're describing. This is the most natural fit.
+
+2.  **Use a group chat with a single user.** If one person is the designated "operator" who relays questions, the session stays unified. Others can read along.
+
+3.  **Use a Discord channel.** Discord sessions are keyed by channel, so all users in the same channel share context. Use a dedicated channel for the shared conversation.
+
+### Exporting Hermes to another machine<a href="#exporting-hermes-to-another-machine" class="hash-link" aria-label="Direct link to Exporting Hermes to another machine" translate="no" title="Direct link to Exporting Hermes to another machine">​</a>
+
+**Scenario:** You've built up skills, cron jobs, and memories on one machine and want to move everything to a new dedicated Linux box.
+
+**Solution:**
+
+1.  Install Hermes Agent on the new machine:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+    ```
+
+    </div>
+
+    </div>
+
+2.  Copy your entire `~/.hermes/` directory **except** the `hermes-agent` subdirectory (that's the code repo — the new install has its own):
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    # On the source machine
+    rsync -av --exclude='hermes-agent' ~/.hermes/ newmachine:~/.hermes/
+    ```
+
+    </div>
+
+    </div>
+
+    Or use profile export/import:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    # On source machine
+    hermes profile export default ./hermes-backup.tar.gz
+
+    # On target machine
+    hermes profile import ./hermes-backup.tar.gz default
+    ```
+
+    </div>
+
+    </div>
+
+3.  On the new machine, run `hermes setup` to verify API keys and provider config are working. Re-authenticate any messaging platforms (especially WhatsApp, which uses QR pairing).
+
+The `~/.hermes/` directory contains everything: `config.yaml`, `.env`, `SOUL.md`, `memories/`, `skills/`, `state.db` (sessions), `cron/`, and any custom plugins. The code itself lives in `~/.hermes/hermes-agent/` and is installed fresh.
+
+### Permission denied when reloading shell after install<a href="#permission-denied-when-reloading-shell-after-install" class="hash-link" aria-label="Direct link to Permission denied when reloading shell after install" translate="no" title="Direct link to Permission denied when reloading shell after install">​</a>
+
+**Scenario:** After running the Hermes installer, `source ~/.zshrc` gives a permission denied error.
+
+**Cause:** This usually happens when `~/.zshrc` (or `~/.bashrc`) has incorrect file permissions, or when the installer couldn't write to it cleanly. It's not a Hermes-specific issue — it's a shell config permissions problem.
+
+**Solution:**
+
+
+``` prism-code
+# Check permissions
+ls -la ~/.zshrc
+
+# Fix if needed (should be -rw-r--r-- or 644)
+chmod 644 ~/.zshrc
+
+# Then reload
+source ~/.zshrc
+
+# Or just open a new terminal window — it picks up PATH changes automatically
+```
+
+
+If the installer added the PATH line but permissions are wrong, you can add it manually:
+
+
+``` prism-code
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+```
+
+
+### Error 400 on first agent run<a href="#error-400-on-first-agent-run" class="hash-link" aria-label="Direct link to Error 400 on first agent run" translate="no" title="Direct link to Error 400 on first agent run">​</a>
+
+**Scenario:** Setup completes fine, but the first chat attempt fails with HTTP 400.
+
+**Cause:** Usually a model name mismatch — the configured model doesn't exist on your provider, or the API key doesn't have access to it.
+
+**Solution:**
+
+
+``` prism-code
+# Check what model and provider are configured
+hermes config show | head -20
+
+# Re-run model selection
+hermes model
+
+# Or test with a known-good model
+hermes chat -q "hello" --model anthropic/claude-sonnet-4.6
+```
+
+
+If using OpenRouter, make sure your API key has credits. A 400 from OpenRouter often means the model requires a paid plan or the model ID has a typo.
+
+------------------------------------------------------------------------
+
 ## Still Stuck?<a href="#still-stuck" class="hash-link" aria-label="Direct link to Still Stuck?" translate="no" title="Direct link to Still Stuck?">​</a>
 
 If your issue isn't covered here:
@@ -635,6 +862,15 @@ If your issue isn't covered here:
   - <a href="#what-happens-when-i-run-hermes-update" class="table-of-contents__link toc-highlight">What happens when I run <code>hermes update</code>?</a>
   - <a href="#can-i-move-a-profile-to-a-different-machine" class="table-of-contents__link toc-highlight">Can I move a profile to a different machine?</a>
   - <a href="#how-many-profiles-can-i-run" class="table-of-contents__link toc-highlight">How many profiles can I run?</a>
+- <a href="#workflows--patterns" class="table-of-contents__link toc-highlight">Workflows &amp; Patterns</a>
+  - <a href="#using-different-models-for-different-tasks-multi-model-workflows" class="table-of-contents__link toc-highlight">Using different models for different tasks (multi-model workflows)</a>
+  - <a href="#running-multiple-agents-on-one-whatsapp-number-per-chat-binding" class="table-of-contents__link toc-highlight">Running multiple agents on one WhatsApp number (per-chat binding)</a>
+  - <a href="#controlling-what-shows-up-in-telegram-hiding-logs-and-reasoning" class="table-of-contents__link toc-highlight">Controlling what shows up in Telegram (hiding logs and reasoning)</a>
+  - <a href="#managing-skills-on-telegram-slash-command-limit" class="table-of-contents__link toc-highlight">Managing skills on Telegram (slash command limit)</a>
+  - <a href="#shared-thread-sessions-multiple-users-one-conversation" class="table-of-contents__link toc-highlight">Shared thread sessions (multiple users, one conversation)</a>
+  - <a href="#exporting-hermes-to-another-machine" class="table-of-contents__link toc-highlight">Exporting Hermes to another machine</a>
+  - <a href="#permission-denied-when-reloading-shell-after-install" class="table-of-contents__link toc-highlight">Permission denied when reloading shell after install</a>
+  - <a href="#error-400-on-first-agent-run" class="table-of-contents__link toc-highlight">Error 400 on first agent run</a>
 - <a href="#still-stuck" class="table-of-contents__link toc-highlight">Still Stuck?</a>
 
 
