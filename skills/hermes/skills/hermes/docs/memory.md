@@ -226,17 +226,20 @@ memory:
 ```
 
 
-## Honcho Integration (Cross-Session User Modeling)<a href="#honcho-integration-cross-session-user-modeling" class="hash-link" aria-label="Direct link to Honcho Integration (Cross-Session User Modeling)" translate="no" title="Direct link to Honcho Integration (Cross-Session User Modeling)">​</a>
+## External Memory Providers<a href="#external-memory-providers" class="hash-link" aria-label="Direct link to External Memory Providers" translate="no" title="Direct link to External Memory Providers">​</a>
 
-For deeper, AI-generated user understanding that works across sessions and platforms, you can enable [Honcho Memory](/docs/user-guide/features/honcho). Honcho runs alongside built-in memory in `hybrid` mode (the default) — `MEMORY.md` and `USER.md` stay as-is, and Honcho adds a persistent user modeling layer on top.
+For deeper, persistent memory that goes beyond MEMORY.md and USER.md, Hermes ships with 7 external memory provider plugins — including Honcho, OpenViking, Mem0, Hindsight, Holographic, RetainDB, and ByteRover.
+
+External providers run **alongside** built-in memory (never replacing it) and add capabilities like knowledge graphs, semantic search, automatic fact extraction, and cross-session user modeling.
 
 
 ``` prism-code
-hermes honcho setup
+hermes memory setup      # pick a provider and configure it
+hermes memory status     # check what's active
 ```
 
 
-See the [Honcho Memory](/docs/user-guide/features/honcho) docs for full configuration, tools, and CLI reference.
+See the [Memory Providers](/docs/user-guide/features/memory-providers) guide for full details on each provider, setup instructions, and comparison.
 
 
 - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How It Works</a>
@@ -257,6 +260,6 @@ See the [Honcho Memory](/docs/user-guide/features/honcho) docs for full configur
 - <a href="#session-search" class="table-of-contents__link toc-highlight">Session Search</a>
   - <a href="#session_search-vs-memory" class="table-of-contents__link toc-highlight">session_search vs memory</a>
 - <a href="#configuration" class="table-of-contents__link toc-highlight">Configuration</a>
-- <a href="#honcho-integration-cross-session-user-modeling" class="table-of-contents__link toc-highlight">Honcho Integration (Cross-Session User Modeling)</a>
+- <a href="#external-memory-providers" class="table-of-contents__link toc-highlight">External Memory Providers</a>
 
 

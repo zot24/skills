@@ -1,6 +1,6 @@
 {
   "name": "hermes",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Expert knowledge about Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
   "sources": [
     {
@@ -151,6 +151,12 @@
       "url": "https://raw.githubusercontent.com/NousResearch/hermes-agent/main/cli-config.yaml.example",
       "target": "skills/hermes/docs/config-reference.md",
       "type": "raw",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/skills/",
+      "target": "skills/hermes/docs/skills.md",
+      "type": "extract-content",
       "freshness_days": 7
     }
   ],
