@@ -9,14 +9,14 @@ Hermes Agent
 
 # Skills Hub
 
-Discover, search, and install from **638** skills across 4 registries
+Discover, search, and install from **643** skills across 4 registries
 
 
-All<span class="srcCount_nvGZ">638</span>
+All<span class="srcCount_nvGZ">643</span>
 
-Built-in<span class="srcCount_nvGZ">74</span>
+Built-in<span class="srcCount_nvGZ">77</span>
 
-Optional<span class="srcCount_nvGZ">43</span>
+Optional<span class="srcCount_nvGZ">45</span>
 
 Anthropic<span class="srcCount_nvGZ">16</span>
 
@@ -120,6 +120,33 @@ Creative
 
 
 Create hand-drawn style diagrams using Excalidraw JSON format. Generate .excalidraw files for architecture diagrams, flowcharts, sequence diagrams, concept maps, and more. Files can be opened at excalidraw.com or uploaded for shareable links.
+
+
+Creative
+
+
+### manim-video
+
+
+Production pipeline for mathematical and technical animations using Manim Community Edition. Creates 3Blue1Brown-style explainer videos, algorithm visualizations, equation derivations, architecture diagrams, and data stories. Use when users request: animated explanations, math animations, concept visualizations, algorithm walkthroughs, technical explainers, 3Blue1Brown style videos, or any programmatic animation with geometric/mathematical content.
+
+
+Creative
+
+
+### p5js
+
+
+Production pipeline for interactive and generative visual art using p5.js. Creates browser-based sketches, generative art, data visualizations, interactive experiences, 3D scenes, audio-reactive visuals, and motion graphics — exported as HTML, PNG, GIF, MP4, or SVG. Covers: 2D/3D rendering, noise and particle systems, flow fields, shaders (GLSL), pixel manipulation, kinetic typography, WebGL scenes, audio analysis, mouse/keyboard interaction, and headless high-res export. Use when users request: p5.js sketches, creative coding, generative art, interactive visualizations, canvas animations, browser-based visual art, data viz, shader effects, or any p5.js project.
+
+
+Creative
+
+
+### popular-web-designs
+
+
+54 production-quality design systems extracted from real websites. Load a template to generate HTML/CSS that matches the visual identity of sites like Stripe, Linear, Vercel, Notion, Airbnb, and more. Each template includes colors, typography, components, layout rules, and ready-to-use CSS values.
 
 
 Creative
@@ -236,7 +263,7 @@ Media
 ### youtube-content
 
 
-Fetch YouTube video transcripts and transform them into structured content (chapters, summaries, threads, blog posts).
+Fetch YouTube video transcripts and transform them into structured content (chapters, summaries, threads, blog posts). Use when the user shares a YouTube URL or video link, asks to summarize a video, requests a transcript, or wants to extract and reformat content from any YouTube video.
 
 
 Media
@@ -506,7 +533,16 @@ Research
 ### blogwatcher
 
 
-Monitor blogs and RSS/Atom feeds for updates using the blogwatcher CLI. Add blogs, scan for new articles, and track what you've read.
+Monitor blogs and RSS/Atom feeds for updates using the blogwatcher-cli tool. Add blogs, scan for new articles, track read status, and filter by category.
+
+
+Research
+
+
+### llm-wiki
+
+
+Karpathy's LLM Wiki — build and maintain a persistent, interlinked markdown knowledge base. Ingest sources, query compiled knowledge, and lint for consistency.
 
 
 Research
@@ -530,42 +566,6 @@ End-to-end pipeline for writing ML/AI research papers — from experiment design
 Research
 
 
-### xitter
-
-
-Interact with X/Twitter via the x-cli terminal client using official X API credentials. Use for posting, reading timelines, searching tweets, liking, retweeting, bookmarks, mentions, and user lookups.
-
-
-Social Media
-
-
-### code-review
-
-
-Guidelines for performing thorough code reviews with security and quality focus
-
-
-Software Dev
-
-
-### plan
-
-
-Plan mode for Hermes — inspect context, write a markdown plan into the active workspace's \`.hermes/plans/\` directory, and do not execute the work.
-
-
-Software Dev
-
-
-### requesting-code-review
-
-
-Use when completing tasks, implementing major features, or before merging. Validates work meets requirements through systematic review process.
-
-
-Software Dev
-
-
-Show more (578 remaining)
+Show more (583 remaining)
 
 

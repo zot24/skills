@@ -37,35 +37,36 @@ hermes [global-options] <command> [subcommand/options]
 
 ## Top-level commands<a href="#top-level-commands" class="hash-link" aria-label="Direct link to Top-level commands" translate="no" title="Direct link to Top-level commands">​</a>
 
-| Command                   | Purpose                                                           |
-|---------------------------|-------------------------------------------------------------------|
-| `hermes chat`             | Interactive or one-shot chat with the agent.                      |
-| `hermes model`            | Interactively choose the default provider and model.              |
-| `hermes gateway`          | Run or manage the messaging gateway service.                      |
-| `hermes setup`            | Interactive setup wizard for all or part of the configuration.    |
-| `hermes whatsapp`         | Configure and pair the WhatsApp bridge.                           |
-| `hermes login` / `logout` | Authenticate with OAuth-backed providers.                         |
-| `hermes auth`             | Manage credential pools — add, list, remove, reset, set strategy. |
-| `hermes status`           | Show agent, auth, and platform status.                            |
-| `hermes cron`             | Inspect and tick the cron scheduler.                              |
-| `hermes webhook`          | Manage dynamic webhook subscriptions for event-driven activation. |
-| `hermes doctor`           | Diagnose config and dependency issues.                            |
-| `hermes config`           | Show, edit, migrate, and query configuration files.               |
-| `hermes pairing`          | Approve or revoke messaging pairing codes.                        |
-| `hermes skills`           | Browse, install, publish, audit, and configure skills.            |
-| `hermes honcho`           | Manage Honcho cross-session memory integration.                   |
-| `hermes acp`              | Run Hermes as an ACP server for editor integration.               |
-| `hermes mcp`              | Manage MCP server configurations and run Hermes as an MCP server. |
-| `hermes plugins`          | Manage Hermes Agent plugins (install, enable, disable, remove).   |
-| `hermes tools`            | Configure enabled tools per platform.                             |
-| `hermes sessions`         | Browse, export, prune, rename, and delete sessions.               |
-| `hermes insights`         | Show token/cost/activity analytics.                               |
-| `hermes claw`             | OpenClaw migration helpers.                                       |
-| `hermes profile`          | Manage profiles — multiple isolated Hermes instances.             |
-| `hermes completion`       | Print shell completion scripts (bash/zsh).                        |
-| `hermes version`          | Show version information.                                         |
-| `hermes update`           | Pull latest code and reinstall dependencies.                      |
-| `hermes uninstall`        | Remove Hermes from the system.                                    |
+| Command                   | Purpose                                                                                                    |
+|---------------------------|------------------------------------------------------------------------------------------------------------|
+| `hermes chat`             | Interactive or one-shot chat with the agent.                                                               |
+| `hermes model`            | Interactively choose the default provider and model.                                                       |
+| `hermes gateway`          | Run or manage the messaging gateway service.                                                               |
+| `hermes setup`            | Interactive setup wizard for all or part of the configuration.                                             |
+| `hermes whatsapp`         | Configure and pair the WhatsApp bridge.                                                                    |
+| `hermes auth`             | Manage credentials — add, list, remove, reset, set strategy. Handles OAuth flows for Codex/Nous/Anthropic. |
+| `hermes login` / `logout` | **Deprecated** — use `hermes auth` instead.                                                                |
+| `hermes status`           | Show agent, auth, and platform status.                                                                     |
+| `hermes cron`             | Inspect and tick the cron scheduler.                                                                       |
+| `hermes webhook`          | Manage dynamic webhook subscriptions for event-driven activation.                                          |
+| `hermes doctor`           | Diagnose config and dependency issues.                                                                     |
+| `hermes config`           | Show, edit, migrate, and query configuration files.                                                        |
+| `hermes pairing`          | Approve or revoke messaging pairing codes.                                                                 |
+| `hermes skills`           | Browse, install, publish, audit, and configure skills.                                                     |
+| `hermes honcho`           | Manage Honcho cross-session memory integration.                                                            |
+| `hermes memory`           | Configure external memory provider.                                                                        |
+| `hermes acp`              | Run Hermes as an ACP server for editor integration.                                                        |
+| `hermes mcp`              | Manage MCP server configurations and run Hermes as an MCP server.                                          |
+| `hermes plugins`          | Manage Hermes Agent plugins (install, enable, disable, remove).                                            |
+| `hermes tools`            | Configure enabled tools per platform.                                                                      |
+| `hermes sessions`         | Browse, export, prune, rename, and delete sessions.                                                        |
+| `hermes insights`         | Show token/cost/activity analytics.                                                                        |
+| `hermes claw`             | OpenClaw migration helpers.                                                                                |
+| `hermes profile`          | Manage profiles — multiple isolated Hermes instances.                                                      |
+| `hermes completion`       | Print shell completion scripts (bash/zsh).                                                                 |
+| `hermes version`          | Show version information.                                                                                  |
+| `hermes update`           | Pull latest code and reinstall dependencies.                                                               |
+| `hermes uninstall`        | Remove Hermes from the system.                                                                             |
 
 ## `hermes chat`<a href="#hermes-chat" class="hash-link" aria-label="Direct link to hermes-chat" translate="no" title="Direct link to hermes-chat">​</a>
 
@@ -77,21 +78,22 @@ hermes chat [options]
 
 Common options:
 
-| Option                                     | Description                                                                                                                                                                      |
-|--------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `-q`, `--query "..."`                      | One-shot, non-interactive prompt.                                                                                                                                                |
-| `-m`, `--model <model>`                    | Override the model for this run.                                                                                                                                                 |
-| `-t`, `--toolsets <csv>`                   | Enable a comma-separated set of toolsets.                                                                                                                                        |
-| `--provider <provider>`                    | Force a provider: `auto`, `openrouter`, `nous`, `openai-codex`, `copilot-acp`, `copilot`, `anthropic`, `huggingface`, `zai`, `kimi-coding`, `minimax`, `minimax-cn`, `kilocode`. |
-| `-s`, `--skills <name>`                    | Preload one or more skills for the session (can be repeated or comma-separated).                                                                                                 |
-| `-v`, `--verbose`                          | Verbose output.                                                                                                                                                                  |
-| `-Q`, `--quiet`                            | Programmatic mode: suppress banner/spinner/tool previews.                                                                                                                        |
-| `--resume <session>` / `--continue [name]` | Resume a session directly from `chat`.                                                                                                                                           |
-| `--worktree`                               | Create an isolated git worktree for this run.                                                                                                                                    |
-| `--checkpoints`                            | Enable filesystem checkpoints before destructive file changes.                                                                                                                   |
-| `--yolo`                                   | Skip approval prompts.                                                                                                                                                           |
-| `--pass-session-id`                        | Pass the session ID into the system prompt.                                                                                                                                      |
-| `--source <tag>`                           | Session source tag for filtering (default: `cli`). Use `tool` for third-party integrations that should not appear in user session lists.                                         |
+| Option                                     | Description                                                                                                                                                                                                                                          |
+|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-q`, `--query "..."`                      | One-shot, non-interactive prompt.                                                                                                                                                                                                                    |
+| `-m`, `--model <model>`                    | Override the model for this run.                                                                                                                                                                                                                     |
+| `-t`, `--toolsets <csv>`                   | Enable a comma-separated set of toolsets.                                                                                                                                                                                                            |
+| `--provider <provider>`                    | Force a provider: `auto`, `openrouter`, `nous`, `openai-codex`, `copilot-acp`, `copilot`, `anthropic`, `huggingface`, `zai`, `kimi-coding`, `minimax`, `minimax-cn`, `deepseek`, `ai-gateway`, `opencode-zen`, `opencode-go`, `kilocode`, `alibaba`. |
+| `-s`, `--skills <name>`                    | Preload one or more skills for the session (can be repeated or comma-separated).                                                                                                                                                                     |
+| `-v`, `--verbose`                          | Verbose output.                                                                                                                                                                                                                                      |
+| `-Q`, `--quiet`                            | Programmatic mode: suppress banner/spinner/tool previews.                                                                                                                                                                                            |
+| `--resume <session>` / `--continue [name]` | Resume a session directly from `chat`.                                                                                                                                                                                                               |
+| `--worktree`                               | Create an isolated git worktree for this run.                                                                                                                                                                                                        |
+| `--checkpoints`                            | Enable filesystem checkpoints before destructive file changes.                                                                                                                                                                                       |
+| `--yolo`                                   | Skip approval prompts.                                                                                                                                                                                                                               |
+| `--pass-session-id`                        | Pass the session ID into the system prompt.                                                                                                                                                                                                          |
+| `--source <tag>`                           | Session source tag for filtering (default: `cli`). Use `tool` for third-party integrations that should not appear in user session lists.                                                                                                             |
+| `--max-turns <N>`                          | Maximum tool-calling iterations per conversation turn (default: 90, or `agent.max_turns` in config).                                                                                                                                                 |
 
 Examples:
 
@@ -198,26 +200,11 @@ hermes whatsapp
 
 Runs the WhatsApp pairing/setup flow, including mode selection and QR-code pairing.
 
-## `hermes login` / `hermes logout`<a href="#hermes-login--hermes-logout" class="hash-link" aria-label="Direct link to hermes-login--hermes-logout" translate="no" title="Direct link to hermes-login--hermes-logout">​</a>
+## `hermes login` / `hermes logout` *(Deprecated)*<a href="#hermes-login--hermes-logout-deprecated" class="hash-link" aria-label="Direct link to hermes-login--hermes-logout-deprecated" translate="no" title="Direct link to hermes-login--hermes-logout-deprecated">​</a>
 
 
-``` prism-code
-hermes login [--provider nous|openai-codex] [--portal-url ...] [--inference-url ...]
-hermes logout [--provider nous|openai-codex]
-```
+`hermes login` has been removed. Use `hermes auth` to manage OAuth credentials, `hermes model` to select a provider, or `hermes setup` for full interactive setup.
 
-
-`login` supports:
-
-- Nous Portal OAuth/device flow
-- OpenAI Codex OAuth/device flow
-
-Useful options for `login`:
-
-- `--no-browser`
-- `--timeout <seconds>`
-- `--ca-bundle <pem>`
-- `--insecure`
 
 ## `hermes auth`<a href="#hermes-auth" class="hash-link" aria-label="Direct link to hermes-auth" translate="no" title="Direct link to hermes-auth">​</a>
 
@@ -409,23 +396,49 @@ Notes:
 
 
 ``` prism-code
-hermes honcho <subcommand>
+hermes honcho [--target-profile NAME] <subcommand>
 ```
 
 
+Manage Honcho cross-session memory integration. This command is provided by the Honcho memory provider plugin and is only available when `memory.provider` is set to `honcho` in your config.
+
+The `--target-profile` flag lets you manage another profile's Honcho config without switching to it.
+
 Subcommands:
 
-| Subcommand | Description                                              |
-|------------|----------------------------------------------------------|
-| `setup`    | Interactive Honcho setup wizard.                         |
-| `status`   | Show current Honcho config and connection status.        |
-| `sessions` | List known Honcho session mappings.                      |
-| `map`      | Map the current directory to a Honcho session name.      |
-| `peer`     | Show or update peer names and dialectic reasoning level. |
-| `mode`     | Show or set memory mode: `hybrid`, `honcho`, or `local`. |
-| `tokens`   | Show or set token budgets for context and dialectic.     |
-| `identity` | Seed or show the AI peer identity representation.        |
-| `migrate`  | Migration guide from openclaw-honcho to Hermes Honcho.   |
+| Subcommand                 | Description                                                                                                        |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------|
+| `setup`                    | Redirects to `hermes memory setup` (unified setup path).                                                           |
+| `status [--all]`           | Show current Honcho config and connection status. `--all` shows a cross-profile overview.                          |
+| `peers`                    | Show peer identities across all profiles.                                                                          |
+| `sessions`                 | List known Honcho session mappings.                                                                                |
+| `map [name]`               | Map the current directory to a Honcho session name. Omit `name` to list current mappings.                          |
+| `peer`                     | Show or update peer names and dialectic reasoning level. Options: `--user NAME`, `--ai NAME`, `--reasoning LEVEL`. |
+| `mode [mode]`              | Show or set recall mode: `hybrid`, `context`, or `tools`. Omit to show current.                                    |
+| `tokens`                   | Show or set token budgets for context and dialectic. Options: `--context N`, `--dialectic N`.                      |
+| `identity [file] [--show]` | Seed or show the AI peer identity representation.                                                                  |
+| `enable`                   | Enable Honcho for the active profile.                                                                              |
+| `disable`                  | Disable Honcho for the active profile.                                                                             |
+| `sync`                     | Sync Honcho config to all existing profiles (creates missing host blocks).                                         |
+| `migrate`                  | Step-by-step migration guide from openclaw-honcho to Hermes Honcho.                                                |
+
+## `hermes memory`<a href="#hermes-memory" class="hash-link" aria-label="Direct link to hermes-memory" translate="no" title="Direct link to hermes-memory">​</a>
+
+
+``` prism-code
+hermes memory <subcommand>
+```
+
+
+Set up and manage external memory provider plugins. Available providers: honcho, openviking, mem0, hindsight, holographic, retaindb, byterover, supermemory. Only one external provider can be active at a time. Built-in memory (MEMORY.md/USER.md) is always active.
+
+Subcommands:
+
+| Subcommand | Description                                       |
+|------------|---------------------------------------------------|
+| `setup`    | Interactive provider selection and configuration. |
+| `status`   | Show current memory provider config.              |
+| `off`      | Disable external provider (built-in only).        |
 
 ## `hermes acp`<a href="#hermes-acp" class="hash-link" aria-label="Direct link to hermes-acp" translate="no" title="Direct link to hermes-acp">​</a>
 
@@ -609,17 +622,17 @@ hermes profile <subcommand>
 
 Manage profiles — multiple isolated Hermes instances, each with its own config, sessions, skills, and home directory.
 
-| Subcommand                              | Description                                                                                   |
-|-----------------------------------------|-----------------------------------------------------------------------------------------------|
-| `list`                                  | List all profiles.                                                                            |
-| `use <name>`                            | Set a sticky default profile.                                                                 |
-| `create <name> [--clone] [--no-alias]`  | Create a new profile. `--clone` copies config, `.env`, and `SOUL.md` from the active profile. |
-| `delete <name> [-y]`                    | Delete a profile.                                                                             |
-| `show <name>`                           | Show profile details (home directory, config, etc.).                                          |
-| `alias <name> [--remove] [--name NAME]` | Manage wrapper scripts for quick profile access.                                              |
-| `rename <old> <new>`                    | Rename a profile.                                                                             |
-| `export <name> [-o FILE]`               | Export a profile to a `.tar.gz` archive.                                                      |
-| `import <archive> [--name NAME]`        | Import a profile from a `.tar.gz` archive.                                                    |
+| Subcommand                                                                   | Description                                                                                                                                                              |
+|------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `list`                                                                       | List all profiles.                                                                                                                                                       |
+| `use <name>`                                                                 | Set a sticky default profile.                                                                                                                                            |
+| `create <name> [--clone] [--clone-all] [--clone-from <source>] [--no-alias]` | Create a new profile. `--clone` copies config, `.env`, and `SOUL.md` from the active profile. `--clone-all` copies all state. `--clone-from` specifies a source profile. |
+| `delete <name> [-y]`                                                         | Delete a profile.                                                                                                                                                        |
+| `show <name>`                                                                | Show profile details (home directory, config, etc.).                                                                                                                     |
+| `alias <name> [--remove] [--name NAME]`                                      | Manage wrapper scripts for quick profile access.                                                                                                                         |
+| `rename <old> <new>`                                                         | Rename a profile.                                                                                                                                                        |
+| `export <name> [-o FILE]`                                                    | Export a profile to a `.tar.gz` archive.                                                                                                                                 |
+| `import <archive> [--name NAME]`                                             | Import a profile from a `.tar.gz` archive.                                                                                                                               |
 
 Examples:
 
@@ -683,7 +696,7 @@ hermes completion zsh >> ~/.zshrc
 - <a href="#hermes-gateway" class="table-of-contents__link toc-highlight"><code>hermes gateway</code></a>
 - <a href="#hermes-setup" class="table-of-contents__link toc-highlight"><code>hermes setup</code></a>
 - <a href="#hermes-whatsapp" class="table-of-contents__link toc-highlight"><code>hermes whatsapp</code></a>
-- <a href="#hermes-login--hermes-logout" class="table-of-contents__link toc-highlight"><code>hermes login</code> / <code>hermes logout</code></a>
+- <a href="#hermes-login--hermes-logout-deprecated" class="table-of-contents__link toc-highlight"><code>hermes login</code> / <code>hermes logout</code> <em>(Deprecated)</em></a>
 - <a href="#hermes-auth" class="table-of-contents__link toc-highlight"><code>hermes auth</code></a>
 - <a href="#hermes-status" class="table-of-contents__link toc-highlight"><code>hermes status</code></a>
 - <a href="#hermes-cron" class="table-of-contents__link toc-highlight"><code>hermes cron</code></a>
@@ -694,6 +707,7 @@ hermes completion zsh >> ~/.zshrc
 - <a href="#hermes-pairing" class="table-of-contents__link toc-highlight"><code>hermes pairing</code></a>
 - <a href="#hermes-skills" class="table-of-contents__link toc-highlight"><code>hermes skills</code></a>
 - <a href="#hermes-honcho" class="table-of-contents__link toc-highlight"><code>hermes honcho</code></a>
+- <a href="#hermes-memory" class="table-of-contents__link toc-highlight"><code>hermes memory</code></a>
 - <a href="#hermes-acp" class="table-of-contents__link toc-highlight"><code>hermes acp</code></a>
 - <a href="#hermes-mcp" class="table-of-contents__link toc-highlight"><code>hermes mcp</code></a>
 - <a href="#hermes-plugins" class="table-of-contents__link toc-highlight"><code>hermes plugins</code></a>

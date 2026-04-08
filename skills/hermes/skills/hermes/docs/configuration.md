@@ -393,6 +393,35 @@ Commands that require `stdin_data` or sudo automatically fall back to one-shot m
 
 See [Code Execution](/docs/user-guide/features/code-execution) and the [Terminal section of the README](/docs/user-guide/features/tools) for details on each backend.
 
+## Skill Settings<a href="#skill-settings" class="hash-link" aria-label="Direct link to Skill Settings" translate="no" title="Direct link to Skill Settings">​</a>
+
+Skills can declare their own configuration settings via their SKILL.md frontmatter. These are non-secret values (paths, preferences, domain settings) stored under the `skills.config` namespace in `config.yaml`.
+
+
+``` prism-code
+skills:
+  config:
+    wiki:
+      path: ~/wiki          # Used by the llm-wiki skill
+```
+
+
+**How skill settings work:**
+
+- `hermes config migrate` scans all enabled skills, finds unconfigured settings, and offers to prompt you
+- `hermes config show` displays all skill settings under "Skill Settings" with the skill they belong to
+- When a skill loads, its resolved config values are injected into the skill context automatically
+
+**Setting values manually:**
+
+
+``` prism-code
+hermes config set skills.config.wiki.path ~/my-research-wiki
+```
+
+
+For details on declaring config settings in your own skills, see [Creating Skills — Config Settings](/docs/developer-guide/creating-skills#config-settings-configyaml).
+
 ## Memory Configuration<a href="#memory-configuration" class="hash-link" aria-label="Direct link to Memory Configuration" translate="no" title="Direct link to Memory Configuration">​</a>
 
 
@@ -601,7 +630,7 @@ Every model slot in Hermes — auxiliary tasks, compression, fallback — uses t
 
 When `base_url` is set, Hermes ignores the provider and calls that endpoint directly (using `api_key` or `OPENAI_API_KEY` for auth). When only `provider` is set, Hermes uses that provider's built-in auth and base URL.
 
-Available providers: `auto`, `openrouter`, `nous`, `codex`, `copilot`, `anthropic`, `main`, `zai`, `kimi-coding`, `minimax`, and any provider registered in the [provider registry](/docs/reference/environment-variables).
+Available providers: `auto`, `openrouter`, `nous`, `codex`, `copilot`, `anthropic`, `main`, `zai`, `kimi-coding`, `minimax`, any provider registered in the [provider registry](/docs/reference/environment-variables), or any named custom provider from your `custom_providers` list (e.g. `provider: "beans"`).
 
 ### Full auxiliary config reference<a href="#full-auxiliary-config-reference" class="hash-link" aria-label="Direct link to Full auxiliary config reference" translate="no" title="Direct link to Full auxiliary config reference">​</a>
 
@@ -623,7 +652,7 @@ auxiliary:
     model: ""                  # e.g. "google/gemini-2.5-flash"
     base_url: ""
     api_key: ""
-    timeout: 30                # seconds
+    timeout: 360               # seconds (6min) — per-attempt LLM summarization
 
   # Dangerous command approval classifier
   approval:
@@ -671,7 +700,7 @@ auxiliary:
 ```
 
 
-Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 30s, web_extract 30s, approval 30s, compression 120s. Increase these if you use slow local models for auxiliary tasks. Vision also has a separate `download_timeout` (default 30s) for the HTTP image download — increase this for slow connections or self-hosted image servers.
+Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 30s, web_extract 360s, approval 30s, compression 120s. Increase these if you use slow local models for auxiliary tasks. Vision also has a separate `download_timeout` (default 30s) for the HTTP image download — increase this for slow connections or self-hosted image servers.
 
 
 Context compression has its own top-level `compression:` block with `summary_provider`, `summary_model`, and `summary_base_url` — see [Context Compression](#context-compression) above. The fallback model uses a `fallback_model:` block — see [Fallback Model](/docs/integrations/providers#fallback-model). All three follow the same provider/model/base_url pattern.
@@ -703,7 +732,7 @@ AUXILIARY_VISION_MODEL=openai/gpt-4o
 |----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
 | `"auto"`       | Best available (default). Vision tries OpenRouter → Nous → Codex.                                                                                                                                                                | —                                      |
 | `"openrouter"` | Force OpenRouter — routes to any model (Gemini, GPT-4o, Claude, etc.)                                                                                                                                                            | `OPENROUTER_API_KEY`                   |
-| `"nous"`       | Force Nous Portal                                                                                                                                                                                                                | `hermes login`                         |
+| `"nous"`       | Force Nous Portal                                                                                                                                                                                                                | `hermes auth`                          |
 | `"codex"`      | Force Codex OAuth (ChatGPT account). Supports vision (gpt-5.3-codex).                                                                                                                                                            | `hermes model` → Codex                 |
 | `"main"`       | Use your active custom/main endpoint. This can come from `OPENAI_BASE_URL` + `OPENAI_API_KEY` or from a custom endpoint saved via `hermes model` / `config.yaml`. Works with OpenAI, local models, or any OpenAI-compatible API. | Custom endpoint credentials + base URL |
 
@@ -771,7 +800,7 @@ auxiliary:
 ```
 
 
-`provider: "main"` follows the same custom endpoint Hermes uses for normal chat. That endpoint can be set directly with `OPENAI_BASE_URL`, or saved once through `hermes model` and persisted in `config.yaml`.
+`provider: "main"` uses whatever provider Hermes uses for normal chat — whether that's a named custom provider (e.g. `beans`), a built-in provider like `openrouter`, or a legacy `OPENAI_BASE_URL` endpoint.
 
 
 If you use Codex OAuth as your main model provider, vision works automatically — no extra configuration needed. Codex is included in the auto-detection chain for vision.
@@ -879,30 +908,16 @@ display:
   tool_progress: all      # off | new | all | verbose
   tool_progress_command: false  # Enable /verbose slash command in messaging gateway
   skin: default           # Built-in or custom CLI skin (see user-guide/features/skins)
-  theme_mode: auto        # auto | light | dark — color scheme for skin-aware rendering
   personality: "kawaii"  # Legacy cosmetic field still surfaced in some summaries
   compact: false          # Compact output mode (less whitespace)
   resume_display: full    # full (show previous messages on resume) | minimal (one-liner only)
   bell_on_complete: false # Play terminal bell when agent finishes (great for long tasks)
   show_reasoning: false   # Show model reasoning/thinking above each response (toggle with /reasoning show|hide)
   streaming: false        # Stream tokens to terminal as they arrive (real-time output)
-  background_process_notifications: all  # all | result | error | off (gateway only)
   show_cost: false        # Show estimated $ cost in the CLI status bar
   tool_preview_length: 0  # Max chars for tool call previews (0 = no limit, show full paths/commands)
 ```
 
-
-### Theme mode<a href="#theme-mode" class="hash-link" aria-label="Direct link to Theme mode" translate="no" title="Direct link to Theme mode">​</a>
-
-The `theme_mode` setting controls whether skins render in light or dark mode:
-
-| Mode             | Behavior                                                                                                                              |
-|------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| `auto` (default) | Detects your terminal's background color automatically. Falls back to `dark` if detection fails.                                      |
-| `light`          | Forces light-mode skin colors. Skins that define a `colors_light` override use those colors instead of the default dark-mode palette. |
-| `dark`           | Forces dark-mode skin colors.                                                                                                         |
-
-This works with any skin — built-in or custom. Skin authors can provide `colors_light` in their skin definition for optimal light-terminal appearance.
 
 | Mode      | What you see                                   |
 |-----------|------------------------------------------------|
@@ -1363,6 +1378,7 @@ TERMINAL_CWD=/workspace                # All terminal sessions
   - <a href="#docker-credential-forwarding" class="table-of-contents__link toc-highlight">Docker Credential Forwarding</a>
   - <a href="#optional-mount-the-launch-directory-into-workspace" class="table-of-contents__link toc-highlight">Optional: Mount the Launch Directory into <code>/workspace</code></a>
   - <a href="#persistent-shell" class="table-of-contents__link toc-highlight">Persistent Shell</a>
+- <a href="#skill-settings" class="table-of-contents__link toc-highlight">Skill Settings</a>
 - <a href="#memory-configuration" class="table-of-contents__link toc-highlight">Memory Configuration</a>
 - <a href="#file-read-safety" class="table-of-contents__link toc-highlight">File Read Safety</a>
 - <a href="#git-worktree-isolation" class="table-of-contents__link toc-highlight">Git Worktree Isolation</a>
@@ -1384,7 +1400,6 @@ TERMINAL_CWD=/workspace                # All terminal sessions
 - <a href="#tool-use-enforcement" class="table-of-contents__link toc-highlight">Tool-Use Enforcement</a>
 - <a href="#tts-configuration" class="table-of-contents__link toc-highlight">TTS Configuration</a>
 - <a href="#display-settings" class="table-of-contents__link toc-highlight">Display Settings</a>
-  - <a href="#theme-mode" class="table-of-contents__link toc-highlight">Theme mode</a>
 - <a href="#privacy" class="table-of-contents__link toc-highlight">Privacy</a>
 - <a href="#speech-to-text-stt" class="table-of-contents__link toc-highlight">Speech-to-Text (STT)</a>
 - <a href="#voice-mode-cli" class="table-of-contents__link toc-highlight">Voice Mode (CLI)</a>
