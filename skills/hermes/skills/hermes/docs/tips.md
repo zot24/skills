@@ -104,9 +104,9 @@ Use `SOUL.md` for durable personality. Use `AGENTS.md` for project-specific inst
 
 Already have a `.cursorrules` or `.cursor/rules/*.mdc` file? Hermes reads those too. No need to duplicate your coding conventions — they're loaded automatically from the working directory.
 
-### Hierarchical Discovery<a href="#hierarchical-discovery" class="hash-link" aria-label="Direct link to Hierarchical Discovery" translate="no" title="Direct link to Hierarchical Discovery">​</a>
+### Discovery<a href="#discovery" class="hash-link" aria-label="Direct link to Discovery" translate="no" title="Direct link to Discovery">​</a>
 
-Hermes walks the directory tree and discovers **all** `AGENTS.md` files at every level. In a monorepo, put project-wide conventions at the root and team-specific ones in subdirectories — they're all concatenated together with path headers.
+Hermes loads the top-level `AGENTS.md` from the current working directory at session start. Subdirectory `AGENTS.md` files are discovered lazily during tool calls (via `subdirectory_hints.py`) and injected into tool results — they are not loaded upfront into the system prompt.
 
 
 Keep context files focused and concise. Every character counts against your token budget since they're injected into every single message.
@@ -268,7 +268,7 @@ GATEWAY_ALLOWED_USERS=123456789,987654321
   - <a href="#agentsmd-your-projects-brain" class="table-of-contents__link toc-highlight">AGENTS.md: Your Project's Brain</a>
   - <a href="#soulmd-customize-personality" class="table-of-contents__link toc-highlight">SOUL.md: Customize Personality</a>
   - <a href="#cursorrules-compatibility" class="table-of-contents__link toc-highlight">.cursorrules Compatibility</a>
-  - <a href="#hierarchical-discovery" class="table-of-contents__link toc-highlight">Hierarchical Discovery</a>
+  - <a href="#discovery" class="table-of-contents__link toc-highlight">Discovery</a>
 - <a href="#memory--skills" class="table-of-contents__link toc-highlight">Memory &amp; Skills</a>
   - <a href="#memory-vs-skills-what-goes-where" class="table-of-contents__link toc-highlight">Memory vs. Skills: What Goes Where</a>
   - <a href="#when-to-create-skills" class="table-of-contents__link toc-highlight">When to Create Skills</a>

@@ -71,6 +71,9 @@ hermes profile create work --clone --clone-from coder
 ```
 
 
+When Honcho is enabled, `--clone` automatically creates a dedicated AI peer for the new profile while sharing the same user workspace. Each profile builds its own observations and identity. See [Honcho -- Multi-agent / Profiles](/docs/user-guide/features/memory-providers#honcho) for details.
+
+
 ## Using profiles<a href="#using-profiles" class="hash-link" aria-label="Direct link to Using profiles" translate="no" title="Direct link to Using profiles">​</a>
 
 ### Command aliases<a href="#command-aliases" class="hash-link" aria-label="Direct link to Command aliases" translate="no" title="Direct link to Command aliases">​</a>

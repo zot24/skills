@@ -228,7 +228,7 @@ memory:
 
 ## External Memory Providers<a href="#external-memory-providers" class="hash-link" aria-label="Direct link to External Memory Providers" translate="no" title="Direct link to External Memory Providers">​</a>
 
-For deeper, persistent memory that goes beyond MEMORY.md and USER.md, Hermes ships with 7 external memory provider plugins — including Honcho, OpenViking, Mem0, Hindsight, Holographic, RetainDB, and ByteRover.
+For deeper, persistent memory that goes beyond MEMORY.md and USER.md, Hermes ships with 8 external memory provider plugins — including Honcho, OpenViking, Mem0, Hindsight, Holographic, RetainDB, ByteRover, and Supermemory.
 
 External providers run **alongside** built-in memory (never replacing it) and add capabilities like knowledge graphs, semantic search, automatic fact extraction, and cross-session user modeling.
 
