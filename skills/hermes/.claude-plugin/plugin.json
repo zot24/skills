@@ -1,0 +1,17 @@
+{
+  "name": "hermes",
+  "version": "1.0.0",
+  "description": "Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions.",
+  "skills": [
+    {
+      "name": "hermes",
+      "path": "skills/hermes/SKILL.md"
+    }
+  ],
+  "commands": [
+    {
+      "name": "hermes",
+      "path": "commands/hermes.md"
+    }
+  ]
+}
