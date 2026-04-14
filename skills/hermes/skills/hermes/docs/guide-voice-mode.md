@@ -175,6 +175,7 @@ ELEVENLABS_API_KEY=***
 - `neutts` → free local/on-device TTS
 - `elevenlabs` → best quality
 - `openai` → good middle ground
+- `mistral` → multilingual, native Opus
 
 ### If you use `hermes setup`<a href="#if-you-use-hermes-setup" class="hash-link" aria-label="Direct link to if-you-use-hermes-setup" translate="no" title="Direct link to if-you-use-hermes-setup">​</a>
 
