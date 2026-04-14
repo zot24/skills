@@ -16,6 +16,7 @@ An opinionated selection of skills for daily dev workflows.
 | [ai-sdk](./skills/ai-sdk) | Expert on AI SDK - Vercel's TypeScript toolkit for building AI applications with unified LLM API, streaming, tool calling, and agents |
 | [agent-skills](./skills/agent-skills) | Expert at the Agent Skills open format for extending AI agent capabilities - create, validate, and understand SKILL.md files |
 | [hermes](./skills/hermes) | Expert at understanding and working with Hermes Agent - its memory system, skills, cron jobs, tools, and behavioral conventions |
+| [honcho](./skills/honcho) | Expert on Honcho — AI-native memory and context platform for LLM applications with persistent memory, user modeling, and context management |
 | [safe-delete](./skills/safe-delete) | Prevents catastrophic file deletion by transforming rm commands to trash and blocking dangerous patterns like `rm -rf /` |
 | [x-engagement](./skills/x-engagement) | Crafts high-engagement X (Twitter) content using conversation hijacking, authority building, and strategic hooks |
 
@@ -93,6 +94,11 @@ Format: `/skill-name:command-name [arguments]`
 /hermes:hermes skills                    # How to create Hermes skills
 /hermes:hermes cron                      # Cron job configuration
 
+# Honcho memory platform
+/honcho:honcho quickstart                # Get started with Honcho
+/honcho:honcho context                   # Context retrieval for LLMs
+/honcho:honcho sdk                       # SDK reference
+
 # Safe delete
 /safe-delete:safe-delete enable          # Enable trash-based deletion
 /safe-delete:safe-delete status          # Check current mode
@@ -111,6 +117,8 @@ You can also just describe what you want:
 "My Telegram bot isn't receiving messages"
 "Automate browser login with agent-browser"
 "How do I use snapshots for element selection?"
+"Add persistent memory to my LLM agent with Honcho"
+"How do I get user context from Honcho for my chatbot?"
 "Write a viral X/Twitter post about AI"
 "Set up a safe delete alias so I don't accidentally delete everything"
 ```
@@ -259,6 +267,29 @@ Expert at understanding and configuring Hermes Agent:
 
 [Full documentation](./skills/hermes/README.md)
 
+### honcho
+
+Expert on Honcho — AI-native memory and context platform for LLM applications:
+
+- **quickstart** - Setup and first API calls
+- **architecture** - Core data model (workspaces, peers, sessions)
+- **context** - Retrieve context for LLM injection
+- **peers** - Working with peer representations
+- **dreaming** - Autonomous memory consolidation
+- **sdk** - Python and TypeScript SDK reference
+- **api** - Full REST API reference
+- **integrate** - Guides for Claude Code, MCP, LangGraph, Discord, Telegram, and more
+- **sync/diff** - Stay updated with upstream docs
+
+```bash
+/honcho:honcho quickstart
+/honcho:honcho context
+/honcho:honcho sdk
+/honcho:honcho integrate discord
+```
+
+[Full documentation](./skills/honcho/README.md)
+
 ### safe-delete
 
 Prevents catastrophic file deletion by intercepting dangerous rm commands:
@@ -355,7 +386,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes
+- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho
 
 ### Automated Releases (release-please)
 
@@ -404,7 +435,7 @@ SYNC_SCHEDULE: "0 6 1,15 * *"  # Cron format
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json          # Marketplace manifest (10 skills)
+│   └── marketplace.json          # Marketplace manifest (11 skills)
 ├── .github/
 │   ├── scripts/
 │   │   └── sync-skill.sh        # Generic sync script
@@ -420,6 +451,7 @@ skills/
 │   ├── ai-sdk/                  # Vercel AI SDK
 │   ├── agent-skills/            # Agent Skills specification
 │   ├── hermes/                  # Hermes Agent self-knowledge
+│   ├── honcho/                  # Honcho AI-native memory platform
 │   ├── safe-delete/             # Safe file deletion
 │   └── x-engagement/            # X/Twitter engagement
 └── README.md

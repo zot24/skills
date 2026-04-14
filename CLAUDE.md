@@ -236,40 +236,70 @@ Each skill syncs documentation from upstream sources.
 
 ### Step-by-Step
 
-1. **Create directory structure** following the standardized template above
+1. **Create directory structure** following the standardized layout:
 
-2. **Write SKILL.md** (~100 lines max):
-   - Good description with trigger keywords
-   - Quick overview and examples
-   - References to docs/ files
+   ```
+   skills/<name>/
+   ├── .claude-plugin/
+   │   └── plugin.json           # Plugin metadata (required)
+   ├── commands/
+   │   └── <name>.md             # Slash command entry point (required)
+   ├── skills/<name>/
+   │   ├── SKILL.md              # ~100 lines, summary + references (required)
+   │   └── docs/                 # Cached upstream documentation (required)
+   │       ├── <topic>.md
+   │       └── ...
+   ├── sync.json                 # Sync configuration (required)
+   ├── discover-pages.sh         # Auto-discover new upstream pages (optional)
+   ├── .gitignore                # Excludes .cache/ only (required)
+   └── README.md                 # User-facing documentation (required)
+   ```
 
-3. **Create docs/ folder** with cached upstream documentation:
+2. **Write `skills/<name>/skills/<name>/SKILL.md`** (~100 lines max):
+   - YAML frontmatter with `name`, `description` (with trigger keywords), `allowed-tools`
+   - Quick overview, code examples, and core concepts
+   - References to `docs/` files — never duplicate content
+
+3. **Create `docs/` folder** with cached upstream documentation:
    - Fetch all relevant upstream docs
    - Save as individual .md files
-   - Add source URL comment at top of each
+   - Add `<!-- Source: URL -->` comment at top of each
 
-4. **Create command file** at `commands/<skill-name>.md`
+4. **Create `commands/<name>.md`** — slash command entry point with command table
 
-5. **Configure sync.json** with all upstream sources
+5. **Create `.claude-plugin/plugin.json`** — plugin metadata with skill and command paths
 
-6. **Register in marketplace**:
+6. **Configure `sync.json`** with all upstream sources and `freshness_days`
+
+7. **(Optional) Create `discover-pages.sh`** — recommended for docs sites with `llms.txt` or a crawlable sitemap. This script auto-detects new upstream pages not yet in `sync.json`. The CI workflow calls it before sync if it exists.
+
+8. **Register the skill** (all four places):
    - Add entry to `.claude-plugin/marketplace.json`
-   - Add to `.github/workflows/sync-docs.yml` SKILLS array
-   - Update CLAUDE.md skill sources table
+   - Add to `SKILLS` array in `.github/workflows/sync-docs.yml` (if skill has upstream docs to sync)
+   - Add to skill sources table in this file (`CLAUDE.md`)
+   - Add to skills table and details section in `README.md`
 
-7. **Update README.md** with skill documentation
+> **Note**: Skills without upstream docs (e.g., `safe-delete`, `x-engagement`) don't need CI sync registration but still need all other files.
 
 ### Checklist
 
-- [ ] SKILL.md is ~100 lines (not 500+)
-- [ ] SKILL.md references docs/ files
-- [ ] docs/ folder has all upstream documentation
-- [ ] commands/<name>.md exists
-- [ ] sync.json lists all upstream sources
-- [ ] .gitignore only excludes .cache/
-- [ ] Registered in marketplace.json
-- [ ] Added to sync-docs.yml workflow
-- [ ] README.md updated
+#### Required Files
+- [ ] `skills/<name>/skills/<name>/SKILL.md` — ~100 lines, references docs/
+- [ ] `skills/<name>/skills/<name>/docs/` — Cached upstream documentation
+- [ ] `skills/<name>/commands/<name>.md` — Slash command entry point
+- [ ] `skills/<name>/sync.json` — Sync configuration (sources can be empty if no upstream)
+- [ ] `skills/<name>/.claude-plugin/plugin.json` — Plugin metadata
+- [ ] `skills/<name>/.gitignore` — Excludes `.cache/`
+- [ ] `skills/<name>/README.md` — User-facing documentation
+
+#### Optional Files
+- [ ] `skills/<name>/discover-pages.sh` — Auto-discover new upstream pages (recommended for docs sites)
+
+#### Registration Steps
+- [ ] Added to `.claude-plugin/marketplace.json`
+- [ ] Added to `SKILLS` array in `.github/workflows/sync-docs.yml` (if has upstream docs)
+- [ ] Added to skill sources table in `CLAUDE.md`
+- [ ] Added to skills table and details section in `README.md`
 
 ---
 
