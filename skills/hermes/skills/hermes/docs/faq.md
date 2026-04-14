@@ -43,6 +43,22 @@ curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scri
 ```
 
 
+### Does it work on Android / Termux?<a href="#does-it-work-on-android--termux" class="hash-link" aria-label="Direct link to Does it work on Android / Termux?" translate="no" title="Direct link to Does it work on Android / Termux?">​</a>
+
+Yes — Hermes now has a tested Termux install path for Android phones.
+
+Quick install:
+
+
+``` prism-code
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+```
+
+
+For the fully explicit manual steps, supported extras, and current limitations, see the [Termux guide](/docs/getting-started/termux).
+
+Important caveat: the full `.[all]` extra is not currently available on Android because the `voice` extra depends on `faster-whisper` → `ctranslate2`, and `ctranslate2` does not publish Android wheels. Use the tested `.[termux]` extra instead.
+
 ### Is my data sent anywhere?<a href="#is-my-data-sent-anywhere" class="hash-link" aria-label="Direct link to Is my data sent anywhere?" translate="no" title="Direct link to Is my data sent anywhere?">​</a>
 
 API calls go **only to the LLM provider you configure** (e.g., OpenRouter, your local Ollama instance). Hermes Agent does not collect telemetry, usage data, or analytics. Your conversations, memory, and skills are stored locally in `~/.hermes/`.
@@ -79,6 +95,9 @@ This works with Ollama, vLLM, llama.cpp server, SGLang, LocalAI, and others. See
 
 
 If you set a custom `num_ctx` in Ollama (e.g., `ollama run --num_ctx 16384`), make sure to set the matching context length in Hermes — Ollama's `/api/show` reports the model's *maximum* context, not the effective `num_ctx` you configured.
+
+
+Hermes auto-detects local endpoints and relaxes streaming timeouts (read timeout raised from 120s to 1800s, stale stream detection disabled). If you still hit timeouts on very large contexts, set `HERMES_STREAM_READ_TIMEOUT=1800` in your `.env`. See the [Local LLM guide](/docs/guides/local-llm-on-mac#timeouts) for details.
 
 
 ### How much does it cost?<a href="#how-much-does-it-cost" class="hash-link" aria-label="Direct link to How much does it cost?" translate="no" title="Direct link to How much does it cost?">​</a>
@@ -407,6 +426,53 @@ lsof -i :8080
 # Verify configuration
 hermes config show
 ```
+
+
+#### WSL: Gateway keeps disconnecting or `hermes gateway start` fails<a href="#wsl-gateway-keeps-disconnecting-or-hermes-gateway-start-fails" class="hash-link" aria-label="Direct link to wsl-gateway-keeps-disconnecting-or-hermes-gateway-start-fails" translate="no" title="Direct link to wsl-gateway-keeps-disconnecting-or-hermes-gateway-start-fails">​</a>
+
+**Cause:** WSL's systemd support is unreliable. Many WSL2 installations don't have systemd enabled, and even when enabled, services may not survive WSL restarts or Windows idle shutdowns.
+
+**Solution:** Use foreground mode instead of the systemd service:
+
+
+``` prism-code
+# Option 1: Direct foreground (simplest)
+hermes gateway run
+
+# Option 2: Persistent via tmux (survives terminal close)
+tmux new -s hermes 'hermes gateway run'
+# Reattach later: tmux attach -t hermes
+
+# Option 3: Background via nohup
+nohup hermes gateway run > ~/.hermes/logs/gateway.log 2>&1 &
+```
+
+
+If you want to try systemd anyway, make sure it's enabled:
+
+1.  Open `/etc/wsl.conf` (create it if it doesn't exist)
+2.  Add:
+    <div class="language-ini codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    [boot]
+    systemd=true
+    ```
+
+    </div>
+
+    </div>
+3.  From PowerShell: `wsl --shutdown`
+4.  Reopen your WSL terminal
+5.  Verify: `systemctl is-system-running` should say "running" or "degraded"
+
+
+For reliable auto-start, use Windows Task Scheduler to launch WSL + the gateway on login:
+
+1.  Create a task that runs `wsl -d Ubuntu -- bash -lc 'hermes gateway run'`
+2.  Set it to trigger on user logon
 
 
 #### macOS: Node.js / ffmpeg / other tools not found by gateway<a href="#macos-nodejs--ffmpeg--other-tools-not-found-by-gateway" class="hash-link" aria-label="Direct link to macOS: Node.js / ffmpeg / other tools not found by gateway" translate="no" title="Direct link to macOS: Node.js / ffmpeg / other tools not found by gateway">​</a>
@@ -842,6 +908,7 @@ If your issue isn't covered here:
 - <a href="#frequently-asked-questions" class="table-of-contents__link toc-highlight">Frequently Asked Questions</a>
   - <a href="#what-llm-providers-work-with-hermes" class="table-of-contents__link toc-highlight">What LLM providers work with Hermes?</a>
   - <a href="#does-it-work-on-windows" class="table-of-contents__link toc-highlight">Does it work on Windows?</a>
+  - <a href="#does-it-work-on-android--termux" class="table-of-contents__link toc-highlight">Does it work on Android / Termux?</a>
   - <a href="#is-my-data-sent-anywhere" class="table-of-contents__link toc-highlight">Is my data sent anywhere?</a>
   - <a href="#can-i-use-it-offline--with-local-models" class="table-of-contents__link toc-highlight">Can I use it offline / with local models?</a>
   - <a href="#how-much-does-it-cost" class="table-of-contents__link toc-highlight">How much does it cost?</a>

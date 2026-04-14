@@ -9,12 +9,12 @@ Hermes Agent
 
 # Skills Hub
 
-Discover, search, and install from **643** skills across 4 registries
+Discover, search, and install from **644** skills across 4 registries
 
 
-All<span class="srcCount_nvGZ">643</span>
+All<span class="srcCount_nvGZ">644</span>
 
-Built-in<span class="srcCount_nvGZ">77</span>
+Built-in<span class="srcCount_nvGZ">78</span>
 
 Optional<span class="srcCount_nvGZ">45</span>
 
@@ -120,6 +120,15 @@ Creative
 
 
 Create hand-drawn style diagrams using Excalidraw JSON format. Generate .excalidraw files for architecture diagrams, flowcharts, sequence diagrams, concept maps, and more. Files can be opened at excalidraw.com or uploaded for shareable links.
+
+
+Creative
+
+
+### ideation
+
+
+Generate project ideas through creative constraints. Use when the user says 'I want to build something', 'give me a project idea', 'I'm bored', 'what should I make', 'inspire me', or any variant of 'I have tools but no direction'. Works for code, art, hardware, writing, tools, and anything that can be made.
 
 
 Creative
@@ -470,7 +479,7 @@ MLOps
 ### google-workspace
 
 
-Gmail, Calendar, Drive, Contacts, Sheets, and Docs integration via Python. Uses OAuth2 with automatic token refresh. No external binaries needed — runs entirely with Google's Python client libraries in the Hermes venv.
+Gmail, Calendar, Drive, Contacts, Sheets, and Docs integration via gws CLI (googleworkspace/cli). Uses OAuth2 with automatic token refresh via bridge script. Requires gws binary.
 
 
 Productivity
@@ -557,15 +566,6 @@ Query Polymarket prediction market data — search markets, get prices, orderboo
 Research
 
 
-### research-paper-writing
-
-
-End-to-end pipeline for writing ML/AI research papers — from experiment design through analysis, drafting, revision, and submission. Covers NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Integrates automated experiment monitoring, statistical analysis, iterative writing, and citation verification.
-
-
-Research
-
-
-Show more (583 remaining)
+Show more (584 remaining)
 
 

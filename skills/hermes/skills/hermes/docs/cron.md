@@ -227,6 +227,8 @@ When scheduling jobs, you specify where the output goes:
 | `"dingtalk"`               | DingTalk                                            |                                |
 | `"feishu"`                 | Feishu/Lark                                         |                                |
 | `"wecom"`                  | WeCom                                               |                                |
+| `"weixin"`                 | Weixin (WeChat)                                     |                                |
+| `"bluebubbles"`            | BlueBubbles (iMessage)                              |                                |
 
 The agent's final response is automatically delivered. You do not need to call `send_message` in the cron prompt.
 
@@ -269,6 +271,29 @@ Otherwise, report the issue.
 
 
 Failed jobs always deliver regardless of the `[SILENT]` marker — only successful runs can be silenced.
+
+## Script timeout<a href="#script-timeout" class="hash-link" aria-label="Direct link to Script timeout" translate="no" title="Direct link to Script timeout">​</a>
+
+Pre-run scripts (attached via the `script` parameter) have a default timeout of 120 seconds. If your scripts need longer — for example, to include randomized delays that avoid bot-like timing patterns — you can increase this:
+
+
+``` prism-code
+# ~/.hermes/config.yaml
+cron:
+  script_timeout_seconds: 300   # 5 minutes
+```
+
+
+Or set the `HERMES_CRON_SCRIPT_TIMEOUT` environment variable. The resolution order is: env var → config.yaml → 120s default.
+
+## Provider recovery<a href="#provider-recovery" class="hash-link" aria-label="Direct link to Provider recovery" translate="no" title="Direct link to Provider recovery">​</a>
+
+Cron jobs inherit your configured fallback providers and credential pool rotation. If the primary API key is rate-limited or the provider returns an error, the cron agent can:
+
+- **Fall back to an alternate provider** if you have `fallback_providers` (or the legacy `fallback_model`) configured in `config.yaml`
+- **Rotate to the next credential** in your [credential pool](/docs/user-guide/configuration#credential-pool-strategies) for the same provider
+
+This means cron jobs that run at high frequency or during peak hours are more resilient — a single rate-limited key won't fail the entire run.
 
 ## Schedule formats<a href="#schedule-formats" class="hash-link" aria-label="Direct link to Schedule formats" translate="no" title="Direct link to Schedule formats">​</a>
 
@@ -393,6 +418,8 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
 - <a href="#delivery-options" class="table-of-contents__link toc-highlight">Delivery options</a>
   - <a href="#response-wrapping" class="table-of-contents__link toc-highlight">Response wrapping</a>
   - <a href="#silent-suppression" class="table-of-contents__link toc-highlight">Silent suppression</a>
+- <a href="#script-timeout" class="table-of-contents__link toc-highlight">Script timeout</a>
+- <a href="#provider-recovery" class="table-of-contents__link toc-highlight">Provider recovery</a>
 - <a href="#schedule-formats" class="table-of-contents__link toc-highlight">Schedule formats</a>
   - <a href="#relative-delays-one-shot" class="table-of-contents__link toc-highlight">Relative delays (one-shot)</a>
   - <a href="#intervals-recurring" class="table-of-contents__link toc-highlight">Intervals (recurring)</a>

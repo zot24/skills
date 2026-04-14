@@ -360,7 +360,11 @@ Long conversations are automatically summarized when approaching context limits:
 compression:
   enabled: true
   threshold: 0.50    # Compress at 50% of context limit by default
-  summary_model: "google/gemini-3-flash-preview"  # Model used for summarization
+
+# Summarization model configured under auxiliary:
+auxiliary:
+  compression:
+    model: "google/gemini-3-flash-preview"  # Model used for summarization
 ```
 
 

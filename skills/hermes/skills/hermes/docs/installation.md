@@ -23,6 +23,27 @@ curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scri
 ```
 
 
+### Android / Termux<a href="#android--termux" class="hash-link" aria-label="Direct link to Android / Termux" translate="no" title="Direct link to Android / Termux">​</a>
+
+Hermes now ships a Termux-aware installer path too:
+
+
+``` prism-code
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+```
+
+
+The installer detects Termux automatically and switches to a tested Android flow:
+
+- uses Termux `pkg` for system dependencies (`git`, `python`, `nodejs`, `ripgrep`, `ffmpeg`, build tools)
+- creates the virtualenv with `python -m venv`
+- exports `ANDROID_API_LEVEL` automatically for Android wheel builds
+- installs a curated `.[termux]` extra with `pip`
+- skips the untested browser / WhatsApp bootstrap by default
+
+If you want the fully explicit path, follow the dedicated [Termux guide](/docs/getting-started/termux).
+
+
 Native Windows is **not supported**. Please install <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener noreferrer">WSL2</a> and run Hermes Agent from there. The install command above works inside WSL2.
 
 
@@ -135,24 +156,28 @@ uv pip install -e "."
 **Optional extras breakdown**
 
 
-| Extra           | What it adds                                | Install command                        |
-|-----------------|---------------------------------------------|----------------------------------------|
-| `all`           | Everything below                            | `uv pip install -e ".[all]"`           |
-| `messaging`     | Telegram & Discord gateway                  | `uv pip install -e ".[messaging]"`     |
-| `cron`          | Cron expression parsing for scheduled tasks | `uv pip install -e ".[cron]"`          |
-| `cli`           | Terminal menu UI for setup wizard           | `uv pip install -e ".[cli]"`           |
-| `modal`         | Modal cloud execution backend               | `uv pip install -e ".[modal]"`         |
-| `tts-premium`   | ElevenLabs premium voices                   | `uv pip install -e ".[tts-premium]"`   |
-| `voice`         | CLI microphone input + audio playback       | `uv pip install -e ".[voice]"`         |
-| `pty`           | PTY terminal support                        | `uv pip install -e ".[pty]"`           |
-| `honcho`        | AI-native memory (Honcho integration)       | `uv pip install -e ".[honcho]"`        |
-| `mcp`           | Model Context Protocol support              | `uv pip install -e ".[mcp]"`           |
-| `homeassistant` | Home Assistant integration                  | `uv pip install -e ".[homeassistant]"` |
-| `acp`           | ACP editor integration support              | `uv pip install -e ".[acp]"`           |
-| `slack`         | Slack messaging                             | `uv pip install -e ".[slack]"`         |
-| `dev`           | pytest & test utilities                     | `uv pip install -e ".[dev]"`           |
+| Extra           | What it adds                                                                  | Install command                                                  |
+|-----------------|-------------------------------------------------------------------------------|------------------------------------------------------------------|
+| `all`           | Everything below                                                              | `uv pip install -e ".[all]"`                                     |
+| `messaging`     | Telegram, Discord & Slack gateway                                             | `uv pip install -e ".[messaging]"`                               |
+| `cron`          | Cron expression parsing for scheduled tasks                                   | `uv pip install -e ".[cron]"`                                    |
+| `cli`           | Terminal menu UI for setup wizard                                             | `uv pip install -e ".[cli]"`                                     |
+| `modal`         | Modal cloud execution backend                                                 | `uv pip install -e ".[modal]"`                                   |
+| `tts-premium`   | ElevenLabs premium voices                                                     | `uv pip install -e ".[tts-premium]"`                             |
+| `voice`         | CLI microphone input + audio playback                                         | `uv pip install -e ".[voice]"`                                   |
+| `pty`           | PTY terminal support                                                          | `uv pip install -e ".[pty]"`                                     |
+| `termux`        | Tested Android / Termux bundle (`cron`, `cli`, `pty`, `mcp`, `honcho`, `acp`) | `python -m pip install -e ".[termux]" -c constraints-termux.txt` |
+| `honcho`        | AI-native memory (Honcho integration)                                         | `uv pip install -e ".[honcho]"`                                  |
+| `mcp`           | Model Context Protocol support                                                | `uv pip install -e ".[mcp]"`                                     |
+| `homeassistant` | Home Assistant integration                                                    | `uv pip install -e ".[homeassistant]"`                           |
+| `acp`           | ACP editor integration support                                                | `uv pip install -e ".[acp]"`                                     |
+| `slack`         | Slack messaging                                                               | `uv pip install -e ".[slack]"`                                   |
+| `dev`           | pytest & test utilities                                                       | `uv pip install -e ".[dev]"`                                     |
 
 You can combine extras: `uv pip install -e ".[messaging,cron]"`
+
+
+`.[all]` is not currently available on Android because the `voice` extra pulls `faster-whisper`, which depends on `ctranslate2` wheels that are not published for Android. Use `.[termux]` for the tested mobile install path, then add individual extras only as needed.
 
 
 ### Step 4: Install Optional Submodules (if needed)<a href="#step-4-install-optional-submodules-if-needed" class="hash-link" aria-label="Direct link to Step 4: Install Optional Submodules (if needed)" translate="no" title="Direct link to Step 4: Install Optional Submodules (if needed)">​</a>
@@ -312,6 +337,7 @@ For more diagnostics, run `hermes doctor` — it will tell you exactly what's mi
 
 - <a href="#quick-install" class="table-of-contents__link toc-highlight">Quick Install</a>
   - <a href="#linux--macos--wsl2" class="table-of-contents__link toc-highlight">Linux / macOS / WSL2</a>
+  - <a href="#android--termux" class="table-of-contents__link toc-highlight">Android / Termux</a>
   - <a href="#what-the-installer-does" class="table-of-contents__link toc-highlight">What the Installer Does</a>
   - <a href="#after-installation" class="table-of-contents__link toc-highlight">After Installation</a>
 - <a href="#prerequisites" class="table-of-contents__link toc-highlight">Prerequisites</a>
