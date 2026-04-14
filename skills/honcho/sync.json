@@ -1,0 +1,567 @@
+{
+  "name": "honcho",
+  "version": "1.0.0",
+  "description": "AI-native memory and context platform for LLM applications — persistent memory, user modeling, and context management",
+  "sources": [
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/introduction/overview.md",
+      "target": "skills/honcho/docs/overview.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/introduction/quickstart.md",
+      "target": "skills/honcho/docs/quickstart.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/introduction/vibecoding.md",
+      "target": "skills/honcho/docs/vibecoding.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/core-concepts/architecture.md",
+      "target": "skills/honcho/docs/architecture.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/core-concepts/design-patterns.md",
+      "target": "skills/honcho/docs/design-patterns.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/core-concepts/reasoning.md",
+      "target": "skills/honcho/docs/reasoning.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/core-concepts/representation.md",
+      "target": "skills/honcho/docs/representation.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/storing-data.md",
+      "target": "skills/honcho/docs/storing-data.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/get-context.md",
+      "target": "skills/honcho/docs/get-context.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/chat.md",
+      "target": "skills/honcho/docs/chat.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/dreaming.md",
+      "target": "skills/honcho/docs/dreaming.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/file-uploads.md",
+      "target": "skills/honcho/docs/file-uploads.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/overview.md",
+      "target": "skills/honcho/docs/advanced-overview.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/peer-card.md",
+      "target": "skills/honcho/docs/peer-card.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/queue-status.md",
+      "target": "skills/honcho/docs/queue-status.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/reasoning-configuration.md",
+      "target": "skills/honcho/docs/reasoning-configuration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/representation-scopes.md",
+      "target": "skills/honcho/docs/representation-scopes.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/search.md",
+      "target": "skills/honcho/docs/search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/streaming-response.md",
+      "target": "skills/honcho/docs/streaming-response.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/summarizer.md",
+      "target": "skills/honcho/docs/summarizer.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/features/advanced/using-filters.md",
+      "target": "skills/honcho/docs/using-filters.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/reference/sdk.md",
+      "target": "skills/honcho/docs/sdk.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/documentation/reference/platform.md",
+      "target": "skills/honcho/docs/platform.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/introduction.md",
+      "target": "skills/honcho/docs/api/introduction.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/conclusions/create-conclusions.md",
+      "target": "skills/honcho/docs/api/conclusions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/conclusions/delete-conclusion.md",
+      "target": "skills/honcho/docs/api/conclusions-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/conclusions/list-conclusions.md",
+      "target": "skills/honcho/docs/api/conclusions-list.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/conclusions/query-conclusions.md",
+      "target": "skills/honcho/docs/api/conclusions-query.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/keys/create-key.md",
+      "target": "skills/honcho/docs/api/keys.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/messages/create-messages-for-session.md",
+      "target": "skills/honcho/docs/api/messages-create.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/messages/create-messages-with-file.md",
+      "target": "skills/honcho/docs/api/messages-file.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/messages/get-message.md",
+      "target": "skills/honcho/docs/api/messages-get.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/messages/get-messages.md",
+      "target": "skills/honcho/docs/api/messages-list.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/messages/update-message.md",
+      "target": "skills/honcho/docs/api/messages-update.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/chat.md",
+      "target": "skills/honcho/docs/api/peers-chat.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/get-or-create-peer.md",
+      "target": "skills/honcho/docs/api/peers-get-or-create.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/get-peer-card.md",
+      "target": "skills/honcho/docs/api/peers-card.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/get-peer-context.md",
+      "target": "skills/honcho/docs/api/peers-context.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/get-peers.md",
+      "target": "skills/honcho/docs/api/peers-list.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/get-representation.md",
+      "target": "skills/honcho/docs/api/peers-representation.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/get-sessions-for-peer.md",
+      "target": "skills/honcho/docs/api/peers-sessions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/search-peer.md",
+      "target": "skills/honcho/docs/api/peers-search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/set-peer-card.md",
+      "target": "skills/honcho/docs/api/peers-set-card.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/peers/update-peer.md",
+      "target": "skills/honcho/docs/api/peers-update.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/add-peers-to-session.md",
+      "target": "skills/honcho/docs/api/sessions-add-peers.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/clone-session.md",
+      "target": "skills/honcho/docs/api/sessions-clone.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/delete-session.md",
+      "target": "skills/honcho/docs/api/sessions-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/get-or-create-session.md",
+      "target": "skills/honcho/docs/api/sessions-get-or-create.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/get-peer-config.md",
+      "target": "skills/honcho/docs/api/sessions-peer-config.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/get-session-context.md",
+      "target": "skills/honcho/docs/api/sessions-context.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/get-session-peers.md",
+      "target": "skills/honcho/docs/api/sessions-peers.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/get-session-summaries.md",
+      "target": "skills/honcho/docs/api/sessions-summaries.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/get-sessions.md",
+      "target": "skills/honcho/docs/api/sessions-list.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/remove-peers-from-session.md",
+      "target": "skills/honcho/docs/api/sessions-remove-peers.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/search-session.md",
+      "target": "skills/honcho/docs/api/sessions-search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/set-peer-config.md",
+      "target": "skills/honcho/docs/api/sessions-set-peer-config.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/set-session-peers.md",
+      "target": "skills/honcho/docs/api/sessions-set-peers.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/sessions/update-session.md",
+      "target": "skills/honcho/docs/api/sessions-update.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/webhooks/delete-webhook-endpoint.md",
+      "target": "skills/honcho/docs/api/webhooks-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/webhooks/get-or-create-webhook-endpoint.md",
+      "target": "skills/honcho/docs/api/webhooks-get-or-create.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/webhooks/list-webhook-endpoints.md",
+      "target": "skills/honcho/docs/api/webhooks-list.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/webhooks/test-emit.md",
+      "target": "skills/honcho/docs/api/webhooks-test.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/workspaces/delete-workspace.md",
+      "target": "skills/honcho/docs/api/workspaces-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/workspaces/get-all-workspaces.md",
+      "target": "skills/honcho/docs/api/workspaces-list.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/workspaces/get-or-create-workspace.md",
+      "target": "skills/honcho/docs/api/workspaces-get-or-create.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/workspaces/get-queue-status.md",
+      "target": "skills/honcho/docs/api/workspaces-queue.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/workspaces/schedule-dream.md",
+      "target": "skills/honcho/docs/api/workspaces-dream.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/workspaces/search-workspace.md",
+      "target": "skills/honcho/docs/api/workspaces-search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/api-reference/endpoint/workspaces/update-workspace.md",
+      "target": "skills/honcho/docs/api/workspaces-update.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/overview.md",
+      "target": "skills/honcho/docs/guides/overview.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/discord.md",
+      "target": "skills/honcho/docs/guides/discord.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/telegram.md",
+      "target": "skills/honcho/docs/guides/telegram.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/gmail.md",
+      "target": "skills/honcho/docs/guides/gmail.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/granola.md",
+      "target": "skills/honcho/docs/guides/granola.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/claude-code.md",
+      "target": "skills/honcho/docs/guides/claude-code.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/crewai.md",
+      "target": "skills/honcho/docs/guides/crewai.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/hermes.md",
+      "target": "skills/honcho/docs/guides/hermes.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/langgraph.md",
+      "target": "skills/honcho/docs/guides/langgraph.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/mcp.md",
+      "target": "skills/honcho/docs/guides/mcp.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/n8n.md",
+      "target": "skills/honcho/docs/guides/n8n.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/openclaw.md",
+      "target": "skills/honcho/docs/guides/openclaw.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/paperclip.md",
+      "target": "skills/honcho/docs/guides/paperclip.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/reachy-mini.md",
+      "target": "skills/honcho/docs/guides/reachy-mini.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/integrations/zo-computer.md",
+      "target": "skills/honcho/docs/guides/zo-computer.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/community/agent0.md",
+      "target": "skills/honcho/docs/guides/agent0.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/community/pi-honcho-memory.md",
+      "target": "skills/honcho/docs/guides/pi.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/guides/migrations/mem0.md",
+      "target": "skills/honcho/docs/guides/mem0-migration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/contributing/self-hosting.md",
+      "target": "skills/honcho/docs/self-hosting.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/contributing/configuration.md",
+      "target": "skills/honcho/docs/configuration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/contributing/troubleshooting.md",
+      "target": "skills/honcho/docs/troubleshooting.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/contributing/guidelines.md",
+      "target": "skills/honcho/docs/contributing.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/changelog/introduction.md",
+      "target": "skills/honcho/docs/changelog.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/changelog/compatibility-guide.md",
+      "target": "skills/honcho/docs/compatibility-guide.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "All pages from docs.honcho.dev/v3/ plus changelog. Full page index available at https://docs.honcho.dev/llms.txt. The discover-pages.sh script can detect new upstream pages."
+}

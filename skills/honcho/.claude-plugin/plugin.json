@@ -1,0 +1,17 @@
+{
+  "name": "honcho",
+  "version": "1.0.0",
+  "description": "Expert on Honcho — AI-native memory and context platform for LLM applications. Persistent memory, user modeling, and context management for stateful agents.",
+  "skills": [
+    {
+      "name": "honcho",
+      "path": "skills/honcho/SKILL.md"
+    }
+  ],
+  "commands": [
+    {
+      "name": "honcho",
+      "path": "commands/honcho.md"
+    }
+  ]
+}

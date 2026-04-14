@@ -7,12 +7,12 @@ This repository contains AI agent skills for various development workflows.
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace manifest (10 skills)
+│   └── marketplace.json      # Marketplace manifest (11 skills)
 ├── .github/
 │   ├── scripts/
 │   │   └── sync-skill.sh   # Generic sync script
 │   └── workflows/
-│       ├── sync-docs.yml    # Scheduled sync workflow (all 10 skills)
+│       ├── sync-docs.yml    # Scheduled sync workflow (all 11 skills)
 │       └── release-on-merge.yml
 ├── skills/
 │   ├── umbrel-app/           # Umbrel app development
@@ -24,7 +24,8 @@ skills/
 │   ├── ai-sdk/               # Vercel AI SDK
 │   ├── safe-delete/          # Safe file deletion
 │   ├── x-engagement/         # X/Twitter engagement
-│   └── hermes/                  # Hermes Agent self-knowledge
+│   ├── hermes/               # Hermes Agent self-knowledge
+│   └── honcho/               # Honcho AI-native memory platform
 └── README.md
 ```
 
@@ -221,6 +222,7 @@ Each skill syncs documentation from upstream sources.
 | ai-sdk | https://github.com/vercel/ai + https://ai-sdk.dev/ | URL-based |
 | agent-skills | https://github.com/agentskills/agentskills + https://agentskills.io | URL-based |
 | hermes | Hermes Agent docs + operational experience | Hybrid |
+| honcho | https://docs.honcho.dev/v3/documentation | URL-based |
 
 ### When to Sync
 
