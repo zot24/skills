@@ -35,7 +35,7 @@ Models CLI
 <a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tools &amp; Plugins</a>
 
 
-<a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Models</a>
+<a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]" data-active="true">Models</a>
 
 
 <a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
@@ -113,12 +113,12 @@ Models CLI
 ##### Providers
 
 
-- <span id="/providers/anthropic"><a href="/providers/anthropic" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+- <span id="/providers/alibaba"><a href="/providers/alibaba" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Anthropic</span>
+  <span class="min-w-0 max-w-full break-words">Alibaba Model Studio</span>
 
   </div>
 
@@ -129,6 +129,46 @@ Models CLI
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words">Amazon Bedrock</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/bedrock-mantle"><a href="/providers/bedrock-mantle" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Amazon Bedrock Mantle</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/anthropic"><a href="/providers/anthropic" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Anthropic</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/arcee"><a href="/providers/arcee" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Arcee AI</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/chutes"><a href="/providers/chutes" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Chutes</span>
 
   </div>
 
@@ -153,6 +193,16 @@ Models CLI
   </div>
 
   </div>
+- <span id="/providers/comfy"><a href="/providers/comfy" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">ComfyUI</span>
+
+  </div>
+
+  </div>
 - <span id="/providers/deepgram"><a href="/providers/deepgram" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -168,7 +218,27 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Deepseek</span>
+  <span class="min-w-0 max-w-full break-words">DeepSeek</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/fal"><a href="/providers/fal" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">fal</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/fireworks"><a href="/providers/fireworks" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Fireworks</span>
 
   </div>
 
@@ -188,7 +258,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">GLM Models</span>
+  <span class="min-w-0 max-w-full break-words">GLM (Zhipu)</span>
 
   </div>
 
@@ -223,12 +293,22 @@ Models CLI
   </div>
 
   </div>
-- <span id="/providers/kilocode"><a href="/providers/kilocode" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+- <span id="/providers/inferrs"><a href="/providers/inferrs" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Kilo Gateway</span>
+  <span class="min-w-0 max-w-full break-words">inferrs</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/kilocode"><a href="/providers/kilocode" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Kilocode</span>
 
   </div>
 
@@ -239,6 +319,16 @@ Models CLI
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words">LiteLLM</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/lmstudio"><a href="/providers/lmstudio" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">LM Studio</span>
 
   </div>
 
@@ -333,12 +423,12 @@ Models CLI
   </div>
 
   </div>
-- <span id="/providers/perplexity-provider"><a href="/providers/perplexity-provider" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+- <span id="/providers/perplexity-provider"><a href="/providers/perplexity-provider" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Perplexity (Provider)</span>
+  <span class="min-w-0 max-w-full break-words">Perplexity</span>
 
   </div>
 
@@ -353,16 +443,6 @@ Models CLI
   </div>
 
   </div>
-- <span id="/providers/qwen_modelstudio"><a href="/providers/qwen_modelstudio" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Qwen / Model Studio</span>
-
-  </div>
-
-  </div>
 - <span id="/providers/qwen"><a href="/providers/qwen" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -373,12 +453,32 @@ Models CLI
   </div>
 
   </div>
+- <span id="/providers/runway"><a href="/providers/runway" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Runway</span>
+
+  </div>
+
+  </div>
 - <span id="/providers/sglang"><a href="/providers/sglang" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words">SGLang</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/stepfun"><a href="/providers/stepfun" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">StepFun</span>
 
   </div>
 
@@ -439,6 +539,16 @@ Models CLI
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words">Volcengine (Doubao)</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/vydra"><a href="/providers/vydra" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Vydra</span>
 
   </div>
 
@@ -518,7 +628,10 @@ Concepts and configuration
 
 - `agents.defaults.models` is the allowlist/catalog of models OpenClaw can use (plus aliases).
 - `agents.defaults.imageModel` is used **only when** the primary model can’t accept images.
-- `agents.defaults.imageGenerationModel` is used by the shared image-generation capability. If omitted, `image_generate` can still infer a provider default from compatible auth-backed image-generation plugins. If you set a specific provider/model, also configure that provider’s auth/API key.
+- `agents.defaults.pdfModel` is used by the `pdf` tool. If omitted, the tool falls back to `agents.defaults.imageModel`, then the resolved session/default model.
+- `agents.defaults.imageGenerationModel` is used by the shared image-generation capability. If omitted, `image_generate` can still infer an auth-backed provider default. It tries the current default provider first, then the remaining registered image-generation providers in provider-id order. If you set a specific provider/model, also configure that provider’s auth/API key.
+- `agents.defaults.musicGenerationModel` is used by the shared music-generation capability. If omitted, `music_generate` can still infer an auth-backed provider default. It tries the current default provider first, then the remaining registered music-generation providers in provider-id order. If you set a specific provider/model, also configure that provider’s auth/API key.
+- `agents.defaults.videoGenerationModel` is used by the shared video-generation capability. If omitted, `video_generate` can still infer an auth-backed provider default. It tries the current default provider first, then the remaining registered video-generation providers in provider-id order. If you set a specific provider/model, also configure that provider’s auth/API key.
 - Per-agent defaults can override `agents.defaults.model` via `agents.list[].model` plus bindings (see <a href="/concepts/multi-agent" class="link">/concepts/multi-agent</a>).
 
 ## 
@@ -550,7 +663,9 @@ openclaw onboard
 
 - `agents.defaults.model.primary` and `agents.defaults.model.fallbacks`
 - `agents.defaults.imageModel.primary` and `agents.defaults.imageModel.fallbacks`
+- `agents.defaults.pdfModel.primary` and `agents.defaults.pdfModel.fallbacks`
 - `agents.defaults.imageGenerationModel.primary` and `agents.defaults.imageGenerationModel.fallbacks`
+- `agents.defaults.videoGenerationModel.primary` and `agents.defaults.videoGenerationModel.fallbacks`
 - `agents.defaults.models` (allowlist + aliases + provider params)
 - `models.providers` (custom providers written into `models.json`)
 
@@ -594,7 +709,7 @@ Model "provider/model" is not allowed. Use /model to list available models.
 /model
 /model list
 /model 3
-/model openai/gpt-5.2
+/model openai/gpt-5.4
 /model status
 ```
 
@@ -602,10 +717,17 @@ Model "provider/model" is not allowed. Use /model to list available models.
 - `/model` (and `/model list`) is a compact, numbered picker (model family + available providers).
 - On Discord, `/model` and `/models` open an interactive picker with provider and model dropdowns plus a Submit step.
 - `/model <#>` selects from that picker.
+- `/model` persists the new session selection immediately.
+- If the agent is idle, the next run uses the new model right away.
+- If a run is already active, OpenClaw marks a live switch as pending and only restarts into the new model at a clean retry point.
+- If tool activity or reply output has already started, the pending switch can stay queued until a later retry opportunity or the next user turn.
 - `/model status` is the detailed view (auth candidates and, when configured, provider endpoint `baseUrl` + `api` mode).
 - Model refs are parsed by splitting on the **first** `/`. Use `provider/model` when typing `/model <ref>`.
 - If the model ID itself contains `/` (OpenRouter-style), you must include the provider prefix (example: `/model openrouter/moonshotai/kimi-k2`).
-- If you omit the provider, OpenClaw treats the input as an alias or a model for the **default provider** (only works when there is no `/` in the model ID).
+- If you omit the provider, OpenClaw resolves the input in this order:
+  1.  alias match
+  2.  unique configured-provider match for that exact unprefixed model id
+  3.  deprecated fallback to the configured default provider If that provider no longer exposes the configured default model, OpenClaw instead falls back to the first configured provider/model to avoid surfacing a stale removed-provider default.
 
 
 ## 
@@ -655,7 +777,7 @@ openclaw models image-fallbacks clear
 
 
 ``` shiki
-claude setup-token
+claude auth login
 openclaw models status
 ```
 
@@ -710,6 +832,8 @@ openclaw models status
 - <a href="/concepts/model-providers" class="link">Model Providers</a> — provider routing and auth
 - <a href="/concepts/model-failover" class="link">Model Failover</a> — fallback chains
 - <a href="/tools/image-generation" class="link">Image Generation</a> — image model configuration
+- <a href="/tools/music-generation" class="link">Music Generation</a> — music model configuration
+- <a href="/tools/video-generation" class="link">Video Generation</a> — video model configuration
 - <a href="/gateway/configuration-reference#agent-defaults" class="link">Configuration Reference</a> — model config keys
 
 

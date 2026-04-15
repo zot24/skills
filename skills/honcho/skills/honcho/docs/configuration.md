@@ -1,177 +1,548 @@
-<!-- Source: https://docs.honcho.dev/v3/contributing/configuration -->
+> Source: https://docs.honcho.dev/v3/contributing/configuration.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Configuration Guide
 
-## Overview
+> Complete reference for configuring Honcho providers, features, and infrastructure
 
-Honcho applies configuration settings through a priority hierarchy: environment variables override `.env` files, which override `config.toml` files, which override built-in defaults.
 
-## Configuration Loading Priority
+  Most users only need the setup from the [Self-Hosting Guide](./self-hosting#llm-setup). This page is the full reference for customizing providers, tuning features, and hardening your deployment.
 
-1. **Environment variables** (highest precedence)
+
+Honcho loads configuration in this priority order (highest wins):
+
+1. **Environment variables** (always take precedence)
 2. **`.env` file**
 3. **`config.toml` file**
-4. **Built-in defaults** (lowest precedence)
+4. **Built-in defaults**
 
-### Getting Started
+Use `.env` for secrets and overrides, `config.toml` for base settings. Or use environment variables exclusively — whatever fits your deployment. Copy the examples to get started:
 
 ```bash
 cp .env.template .env
 cp config.toml.example config.toml
 ```
 
-## Environment Variable Naming
+### Environment Variable Naming
 
-- Section-level: `{SECTION}_{KEY}` (e.g., `DB_CONNECTION_URI`)
-- App-level: `{KEY}` (e.g., `LOG_LEVEL`)
-- Nested: `{SECTION}__{NESTED}__{KEY}` with double underscores
+All config values map to environment variables:
+
+* `{SECTION}_{KEY}` for section settings (e.g., `DB_CONNECTION_URI` → `[db].CONNECTION_URI`)
+* `{KEY}` for app-level settings (e.g., `LOG_LEVEL` → `[app].LOG_LEVEL`)
+* `{SECTION}__{NESTED}__{KEY}` for deeply nested settings (double underscore, e.g., `DIALECTIC_LEVELS__minimal__PROVIDER`)
 
 ## LLM Configuration
 
-### Model Tiers
+The [Self-Hosting Guide](./self-hosting#llm-setup) covers the basic setup: one OpenAI-compatible endpoint, one model for all features. This section covers recommended model tiers, using multiple providers, and per-feature tuning.
 
-| Tier | Examples | Purpose |
-|------|----------|---------|
-| **Light** | Gemini 2.5 Flash, GLM-4.7-Flash | High-volume tasks (deriver, summary) |
-| **Medium** | Claude Haiku 4.5, Grok 4.1 Fast | Balanced reasoning (dialectic middle levels) |
-| **Heavy** | Claude Sonnet 4, GLM-5 | Complex tasks (dream, max reasoning) |
+
+  All Honcho agents (deriver, dialectic, dream) require tool calling. Your models must support the OpenAI tool calling format.
+
+
+### Choosing Models
+
+Model choice matters more for tool-use reliability than raw intelligence:
+
+| Tier       | Example models                  | Use case                                | Notes                                     |
+| ---------- | ------------------------------- | --------------------------------------- | ----------------------------------------- |
+| **Light**  | Gemini 2.5 Flash, GLM-4.7-Flash | Deriver, summary, dialectic minimal/low | High throughput, cheap, reliable tool use |
+| **Medium** | Claude Haiku 4.5, Grok 4.1 Fast | Dialectic medium/high                   | Good reasoning + tool use balance         |
+| **Heavy**  | Claude Sonnet 4, GLM-5          | Dream, dialectic max                    | Best quality for rare/complex tasks       |
+
+You can mix providers freely — for example, use Gemini for the deriver and Claude for dreaming.
 
 ### Provider Types
 
-| Provider | Connection Target | API Variable |
-|----------|-------------------|--------------|
-| `custom` | OpenAI-compatible endpoints | `LLM_OPENAI_COMPATIBLE_API_KEY` |
-| `vllm` | vLLM self-hosted | `LLM_VLLM_API_KEY` |
-| `google` | Google Gemini | `LLM_GEMINI_API_KEY` |
-| `anthropic` | Anthropic Claude | `LLM_ANTHROPIC_API_KEY` |
-| `openai` | OpenAI | `LLM_OPENAI_API_KEY` |
-| `groq` | Groq | `LLM_GROQ_API_KEY` |
+| Provider value | What it connects to                                                               | Key env var                                                        |
+| -------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `custom`       | Any OpenAI-compatible endpoint (OpenRouter, Together, Fireworks, LiteLLM, Ollama) | `LLM_OPENAI_COMPATIBLE_API_KEY` + `LLM_OPENAI_COMPATIBLE_BASE_URL` |
+| `vllm`         | vLLM self-hosted models                                                           | `LLM_VLLM_API_KEY` + `LLM_VLLM_BASE_URL`                           |
+| `google`       | Google Gemini (direct)                                                            | `LLM_GEMINI_API_KEY`                                               |
+| `anthropic`    | Anthropic Claude (direct)                                                         | `LLM_ANTHROPIC_API_KEY`                                            |
+| `openai`       | OpenAI (direct)                                                                   | `LLM_OPENAI_API_KEY`                                               |
+| `groq`         | Groq (direct)                                                                     | `LLM_GROQ_API_KEY`                                                 |
 
-### Example: OpenRouter with Tiers
+### Tiered Model Setup
+
+Once you're past initial setup, you can assign different models per feature for better cost/quality tradeoffs. This example uses OpenRouter with light/medium/heavy tiers:
 
 ```bash
 LLM_OPENAI_COMPATIBLE_BASE_URL=https://openrouter.ai/api/v1
 LLM_OPENAI_COMPATIBLE_API_KEY=sk-or-v1-...
 
+# Light tier — high throughput, cheap
 DERIVER_PROVIDER=custom
 DERIVER_MODEL=google/gemini-2.5-flash-lite
 SUMMARY_PROVIDER=custom
 SUMMARY_MODEL=google/gemini-2.5-flash
+DIALECTIC_LEVELS__minimal__PROVIDER=custom
+DIALECTIC_LEVELS__minimal__MODEL=google/gemini-2.5-flash-lite
+DIALECTIC_LEVELS__low__PROVIDER=custom
+DIALECTIC_LEVELS__low__MODEL=google/gemini-2.5-flash-lite
 
+# Medium tier — better reasoning
 DIALECTIC_LEVELS__medium__PROVIDER=custom
 DIALECTIC_LEVELS__medium__MODEL=anthropic/claude-haiku-4-5
+DIALECTIC_LEVELS__high__PROVIDER=custom
+DIALECTIC_LEVELS__high__MODEL=anthropic/claude-haiku-4-5
+DIALECTIC_LEVELS__max__PROVIDER=custom
+DIALECTIC_LEVELS__max__MODEL=anthropic/claude-haiku-4-5
 
+# Heavy tier — best quality for complex tasks
 DREAM_PROVIDER=custom
 DREAM_MODEL=anthropic/claude-sonnet-4-20250514
+DREAM_DEDUCTION_MODEL=anthropic/claude-haiku-4-5
+DREAM_INDUCTION_MODEL=anthropic/claude-haiku-4-5
 ```
 
-### Self-Hosted (vLLM/Ollama)
+### Direct Vendor Keys
+
+Instead of an OpenAI-compatible proxy, you can use vendor APIs directly. Leave `PROVIDER` overrides unset and the code defaults route per feature:
+
+```bash
+LLM_GEMINI_API_KEY=...       # deriver, summary, dialectic minimal/low
+LLM_ANTHROPIC_API_KEY=...    # dialectic medium/high/max, dream
+LLM_OPENAI_API_KEY=...       # embeddings
+```
+
+### Self-Hosted (vLLM / Ollama)
 
 ```bash
 # vLLM
 LLM_VLLM_BASE_URL=http://localhost:8000/v1
+LLM_VLLM_API_KEY=not-needed
 DERIVER_PROVIDER=vllm
+DERIVER_MODEL=your-model-name
 
-# Ollama
+# Ollama (uses custom provider)
 LLM_OPENAI_COMPATIBLE_BASE_URL=http://localhost:11434/v1
+LLM_OPENAI_COMPATIBLE_API_KEY=ollama
 DERIVER_PROVIDER=custom
+DERIVER_MODEL=llama3.3:70b
 ```
 
-### Thinking Budget (Anthropic Only)
+Set `PROVIDER` and `MODEL` for each feature the same way.
+
+### Thinking Budget
+
+Default configs use `THINKING_BUDGET_TOKENS` tuned for Anthropic models. Non-Anthropic providers don't support extended thinking and will error or silently fail. The [Self-Hosting Guide](./self-hosting#llm-setup) sets these to `0` by default. If you switch to Anthropic models, you can re-enable them:
 
 ```bash
+# Anthropic models — enable thinking
 DERIVER_THINKING_BUDGET_TOKENS=1024
+SUMMARY_THINKING_BUDGET_TOKENS=512
 DREAM_THINKING_BUDGET_TOKENS=8192
+DIALECTIC_LEVELS__medium__THINKING_BUDGET_TOKENS=1024
+DIALECTIC_LEVELS__high__THINKING_BUDGET_TOKENS=1024
 DIALECTIC_LEVELS__max__THINKING_BUDGET_TOKENS=2048
+# minimal and low stay at 0
 ```
 
-## Feature Configuration
-
-### Dialectic API
+### General LLM Settings
 
 ```bash
+LLM_DEFAULT_MAX_TOKENS=2500
+
+# Embedding provider (used when EMBED_MESSAGES=true)
+LLM_EMBEDDING_PROVIDER=openai  # Options: openai, gemini, openrouter
+
+# Tool output limits (to prevent token explosion)
+LLM_MAX_TOOL_OUTPUT_CHARS=10000  # ~2500 tokens at 4 chars/token
+LLM_MAX_MESSAGE_CONTENT_CHARS=2000  # Max chars per message in tool results
+```
+
+### Feature-Specific Model Configuration
+
+Each feature can use a different provider and model. Below are all the tuning knobs.
+
+**Dialectic API:**
+
+The Dialectic API provides theory-of-mind informed responses. It uses a tiered reasoning system with five levels:
+
+```bash
+# Global dialectic settings
 DIALECTIC_MAX_OUTPUT_TOKENS=8192
 DIALECTIC_MAX_INPUT_TOKENS=100000
 DIALECTIC_HISTORY_TOKEN_LIMIT=8192
+DIALECTIC_SESSION_HISTORY_MAX_TOKENS=4096
 ```
 
-### Deriver
+**Per-Level Configuration:**
+
+Each reasoning level has its own provider, model, and settings:
+
+```toml
+# config.toml example
+[dialectic.levels.minimal]
+PROVIDER = "google"
+MODEL = "gemini-2.5-flash-lite"
+THINKING_BUDGET_TOKENS = 0
+MAX_TOOL_ITERATIONS = 1
+MAX_OUTPUT_TOKENS = 250
+TOOL_CHOICE = "any"
+
+[dialectic.levels.low]
+PROVIDER = "google"
+MODEL = "gemini-2.5-flash-lite"
+THINKING_BUDGET_TOKENS = 0
+MAX_TOOL_ITERATIONS = 5
+TOOL_CHOICE = "any"
+
+[dialectic.levels.medium]
+PROVIDER = "anthropic"
+MODEL = "claude-haiku-4-5"
+THINKING_BUDGET_TOKENS = 1024
+MAX_TOOL_ITERATIONS = 2
+
+[dialectic.levels.high]
+PROVIDER = "anthropic"
+MODEL = "claude-haiku-4-5"
+THINKING_BUDGET_TOKENS = 1024
+MAX_TOOL_ITERATIONS = 4
+
+[dialectic.levels.max]
+PROVIDER = "anthropic"
+MODEL = "claude-haiku-4-5"
+THINKING_BUDGET_TOKENS = 2048
+MAX_TOOL_ITERATIONS = 10
+```
+
+Environment variables for nested levels use double underscores:
+
+```bash
+DIALECTIC_LEVELS__minimal__PROVIDER=google
+DIALECTIC_LEVELS__minimal__MODEL=gemini-2.5-flash-lite
+DIALECTIC_LEVELS__minimal__THINKING_BUDGET_TOKENS=0
+DIALECTIC_LEVELS__minimal__MAX_TOOL_ITERATIONS=1
+```
+
+**Deriver (Theory of Mind):**
+
+The Deriver extracts facts from messages and builds theory-of-mind representations of peers.
 
 ```bash
 DERIVER_ENABLED=true
+
+# LLM settings
 DERIVER_PROVIDER=google
 DERIVER_MODEL=gemini-2.5-flash-lite
-DERIVER_WORKERS=1
+DERIVER_MAX_OUTPUT_TOKENS=4096
+DERIVER_THINKING_BUDGET_TOKENS=1024
+DERIVER_MAX_INPUT_TOKENS=23000
+DERIVER_TEMPERATURE=  # Optional override (unset by default)
+
+# Worker settings
+DERIVER_WORKERS=1  # Increase for higher throughput
+DERIVER_POLLING_SLEEP_INTERVAL_SECONDS=1.0
+DERIVER_STALE_SESSION_TIMEOUT_MINUTES=5
+
+# Queue management
+DERIVER_QUEUE_ERROR_RETENTION_SECONDS=2592000  # 30 days
+
+# Observation settings
+DERIVER_DEDUPLICATE=true
+DERIVER_LOG_OBSERVATIONS=false
+DERIVER_WORKING_REPRESENTATION_MAX_OBSERVATIONS=100
+DERIVER_REPRESENTATION_BATCH_MAX_TOKENS=1024
 ```
 
-### Summary
+**Peer Card:**
+
+```bash
+PEER_CARD_ENABLED=true
+```
+
+**Summary Generation:**
+
+Session summaries provide compressed context for long conversations — short summaries (frequent) and long summaries (comprehensive).
 
 ```bash
 SUMMARY_ENABLED=true
+SUMMARY_PROVIDER=google
+SUMMARY_MODEL=gemini-2.5-flash
 SUMMARY_MAX_TOKENS_SHORT=1000
 SUMMARY_MAX_TOKENS_LONG=4000
+SUMMARY_THINKING_BUDGET_TOKENS=512
 SUMMARY_MESSAGES_PER_SHORT_SUMMARY=20
+SUMMARY_MESSAGES_PER_LONG_SUMMARY=60
 ```
 
-### Dream
+**Dream Processing:**
+
+Dream processing consolidates and refines peer representations during idle periods.
 
 ```bash
 DREAM_ENABLED=true
+DREAM_DOCUMENT_THRESHOLD=50
 DREAM_IDLE_TIMEOUT_MINUTES=60
 DREAM_MIN_HOURS_BETWEEN_DREAMS=8
+DREAM_ENABLED_TYPES=["omni"]
+
+# LLM settings
+DREAM_PROVIDER=anthropic
+DREAM_MODEL=claude-sonnet-4-20250514
+DREAM_MAX_OUTPUT_TOKENS=16384
+DREAM_THINKING_BUDGET_TOKENS=8192
+DREAM_MAX_TOOL_ITERATIONS=20
+DREAM_HISTORY_TOKEN_LIMIT=16384
+
+# Specialist models (use same provider as main model)
+DREAM_DEDUCTION_MODEL=claude-haiku-4-5
+DREAM_INDUCTION_MODEL=claude-haiku-4-5
 ```
 
-## Core Settings
+**Surprisal-Based Sampling (Advanced):**
+
+Optional subsystem for identifying unusual observations during dreaming:
 
 ```bash
-LOG_LEVEL=INFO
+DREAM_SURPRISAL__ENABLED=false
+DREAM_SURPRISAL__TREE_TYPE=kdtree
+DREAM_SURPRISAL__TREE_K=5
+DREAM_SURPRISAL__SAMPLING_STRATEGY=recent
+DREAM_SURPRISAL__SAMPLE_SIZE=200
+DREAM_SURPRISAL__TOP_PERCENT_SURPRISAL=0.10
+DREAM_SURPRISAL__MIN_HIGH_SURPRISAL_FOR_REPLACE=10
+DREAM_SURPRISAL__INCLUDE_LEVELS=["explicit", "deductive"]
+```
+
+## Core Configuration
+
+### Application Settings
+
+```bash
+LOG_LEVEL=INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
 SESSION_OBSERVERS_LIMIT=10
 GET_CONTEXT_MAX_TOKENS=100000
 MAX_MESSAGE_SIZE=25000
+MAX_FILE_SIZE=5242880  # 5MB
+EMBED_MESSAGES=true
+MAX_EMBEDDING_TOKENS=8192
+MAX_EMBEDDING_TOKENS_PER_REQUEST=300000
+NAMESPACE=honcho
 ```
 
-## Database
+**Optional Integrations:**
 
 ```bash
+LANGFUSE_HOST=https://cloud.langfuse.com
+LANGFUSE_PUBLIC_KEY=your-langfuse-public-key
+COLLECT_METRICS_LOCAL=false
+LOCAL_METRICS_FILE=metrics.jsonl
+REASONING_TRACES_FILE=traces.jsonl
+```
+
+### Database
+
+```bash
+# Connection (required)
 DB_CONNECTION_URI=postgresql+psycopg://postgres:postgres@localhost:5432/postgres
+
+# Pool settings
+DB_SCHEMA=public
+DB_POOL_PRE_PING=true
 DB_POOL_SIZE=10
 DB_MAX_OVERFLOW=20
+DB_POOL_TIMEOUT=30
+DB_POOL_RECYCLE=300
+DB_POOL_USE_LIFO=true
+DB_SQL_DEBUG=false
 ```
 
-## Authentication
+### Authentication
 
 ```bash
-AUTH_USE_AUTH=false
-AUTH_JWT_SECRET=your-super-secret-jwt-key
+AUTH_USE_AUTH=false  # Set to true to require JWT tokens
+AUTH_JWT_SECRET=your-super-secret-jwt-key  # Required when auth is enabled
 ```
 
-## Cache (Redis, Optional)
+Generate a secret: `python scripts/generate_jwt_secret.py`
+
+### Cache (Redis)
+
+Redis caching is optional. Honcho works without it but benefits from caching in high-traffic scenarios.
 
 ```bash
 CACHE_ENABLED=false
-CACHE_URL=redis://localhost:6379/0
+CACHE_URL=redis://localhost:6379/0?suppress=true
+CACHE_NAMESPACE=honcho
 CACHE_DEFAULT_TTL_SECONDS=300
+CACHE_DEFAULT_LOCK_TTL_SECONDS=5  # Cache stampede prevention
 ```
 
-## Vector Store
+### Webhooks
 
 ```bash
-VECTOR_STORE_TYPE=pgvector
+WEBHOOK_SECRET=your-webhook-signing-secret
+WEBHOOK_MAX_WORKSPACE_LIMIT=10
+```
+
+### Vector Store
+
+```bash
+VECTOR_STORE_TYPE=pgvector  # Options: pgvector, turbopuffer, lancedb
+VECTOR_STORE_MIGRATED=false
+VECTOR_STORE_NAMESPACE=honcho
 VECTOR_STORE_DIMENSIONS=1536
+
+# Turbopuffer-specific
+VECTOR_STORE_TURBOPUFFER_API_KEY=your-turbopuffer-api-key
+VECTOR_STORE_TURBOPUFFER_REGION=us-east-1
+
+# LanceDB-specific
+VECTOR_STORE_LANCEDB_PATH=./lancedb_data
 ```
 
 ## Monitoring
 
+### Prometheus Metrics
+
+Honcho exposes `/metrics` endpoints for scraping:
+
+* **API process**: Port 8000
+* **Deriver process**: Port 9090
+
 ```bash
 METRICS_ENABLED=false
-SENTRY_ENABLED=false
+METRICS_NAMESPACE=honcho
+```
+
+### CloudEvents Telemetry
+
+```bash
 TELEMETRY_ENABLED=false
+TELEMETRY_ENDPOINT=https://telemetry.honcho.dev/v1/events
+TELEMETRY_HEADERS='{"Authorization": "Bearer your-token"}'
+TELEMETRY_BATCH_SIZE=100
+TELEMETRY_FLUSH_INTERVAL_SECONDS=1.0
+TELEMETRY_MAX_RETRIES=3
+TELEMETRY_MAX_BUFFER_SIZE=10000
+```
+
+### Sentry
+
+```bash
+SENTRY_ENABLED=false
+SENTRY_DSN=https://your-sentry-dsn@sentry.io/project-id
+SENTRY_ENVIRONMENT=production
+SENTRY_TRACES_SAMPLE_RATE=0.1
+SENTRY_PROFILES_SAMPLE_RATE=0.1
+```
+
+## Reference config.toml
+
+A complete config.toml with all defaults. Copy and modify what you need:
+
+```toml
+[app]
+LOG_LEVEL = "INFO"
+SESSION_OBSERVERS_LIMIT = 10
+EMBED_MESSAGES = true
+NAMESPACE = "honcho"
+
+[db]
+CONNECTION_URI = "postgresql+psycopg://postgres:postgres@localhost:5432/postgres"
+POOL_SIZE = 10
+MAX_OVERFLOW = 20
+
+[auth]
+USE_AUTH = false
+
+[cache]
+ENABLED = false
+URL = "redis://localhost:6379/0?suppress=true"
+DEFAULT_TTL_SECONDS = 300
+
+[deriver]
+ENABLED = true
+WORKERS = 1
+PROVIDER = "google"
+MODEL = "gemini-2.5-flash-lite"
+
+[peer_card]
+ENABLED = true
+
+[dialectic]
+MAX_OUTPUT_TOKENS = 8192
+
+[dialectic.levels.minimal]
+PROVIDER = "google"
+MODEL = "gemini-2.5-flash-lite"
+THINKING_BUDGET_TOKENS = 0
+MAX_TOOL_ITERATIONS = 1
+
+[dialectic.levels.low]
+PROVIDER = "google"
+MODEL = "gemini-2.5-flash-lite"
+THINKING_BUDGET_TOKENS = 0
+MAX_TOOL_ITERATIONS = 5
+
+[dialectic.levels.medium]
+PROVIDER = "anthropic"
+MODEL = "claude-haiku-4-5"
+THINKING_BUDGET_TOKENS = 1024
+MAX_TOOL_ITERATIONS = 2
+
+[dialectic.levels.high]
+PROVIDER = "anthropic"
+MODEL = "claude-haiku-4-5"
+THINKING_BUDGET_TOKENS = 1024
+MAX_TOOL_ITERATIONS = 4
+
+[dialectic.levels.max]
+PROVIDER = "anthropic"
+MODEL = "claude-haiku-4-5"
+THINKING_BUDGET_TOKENS = 2048
+MAX_TOOL_ITERATIONS = 10
+
+[summary]
+ENABLED = true
+PROVIDER = "google"
+MODEL = "gemini-2.5-flash"
+
+[dream]
+ENABLED = true
+PROVIDER = "anthropic"
+MODEL = "claude-sonnet-4-20250514"
+
+[webhook]
+MAX_WORKSPACE_LIMIT = 10
+
+[metrics]
+ENABLED = false
+
+[telemetry]
+ENABLED = false
+
+[vector_store]
+TYPE = "pgvector"
+
+[sentry]
+ENABLED = false
 ```
 
 ## Database Migrations
 
 ```bash
-uv run alembic current
-uv run alembic upgrade head
-uv run alembic downgrade <rev>
+uv run alembic current          # Check status
+uv run alembic upgrade head     # Upgrade to latest
+uv run alembic downgrade <rev>  # Downgrade to specific revision
+uv run alembic revision --autogenerate -m "Description"  # Create new migration
 ```
+
+## Troubleshooting
+
+1. **Database connection errors** — Ensure `DB_CONNECTION_URI` uses `postgresql+psycopg://` prefix. Verify database is running and pgvector extension is installed.
+
+2. **Authentication issues** — Generate and set `AUTH_JWT_SECRET` when `AUTH_USE_AUTH=true`. Use `python scripts/generate_jwt_secret.py`.
+
+3. **LLM provider errors** — Verify API keys are set. Check model names match your provider's format. Ensure models support tool calling.
+
+4. **Deriver not processing** — Check logs. Increase `DERIVER_WORKERS` for throughput. Verify database and LLM connectivity.
+
+5. **Dialectic level issues** — All five levels must be configured. For Anthropic, `THINKING_BUDGET_TOKENS` must be >= 1024. For non-Anthropic providers, set to `0`. `MAX_OUTPUT_TOKENS` must exceed `THINKING_BUDGET_TOKENS`.
+
+6. **Vector store issues** — For Turbopuffer, set the API key. Check `VECTOR_STORE_DIMENSIONS` matches your embedding model.

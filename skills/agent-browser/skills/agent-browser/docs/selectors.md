@@ -11,9 +11,9 @@ Selectors
 Copy Page
 
 
-# Selectors
+# Selectors<a href="#selectors" aria-label="Link to this section">#</a>
 
-## Refs (recommended)
+## Refs (recommended)<a href="#refs-recommended" aria-label="Link to this section">#</a>
 
 Refs provide deterministic element selection from snapshots. Best for AI agents.
 
@@ -35,13 +35,13 @@ agent-browser hover @e4                   # Hover the link
 ```
 
 
-### Why refs?
+### Why refs?<a href="#why-refs" aria-label="Link to this section">#</a>
 
 - **Deterministic** - Ref points to exact element from snapshot
 - **Fast** - No DOM re-query needed
 - **AI-friendly** - LLMs can reliably parse and use refs
 
-## CSS selectors
+## CSS selectors<a href="#css-selectors" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -52,7 +52,7 @@ agent-browser click "[data-testid='submit']"
 ```
 
 
-## Text & XPath
+## Text & XPath<a href="#text-xpath" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -61,7 +61,7 @@ agent-browser click "xpath=//button[@type='submit']"
 ```
 
 
-## Semantic locators
+## Semantic locators<a href="#semantic-locators" aria-label="Link to this section">#</a>
 
 Find elements by role, label, or other semantic properties:
 

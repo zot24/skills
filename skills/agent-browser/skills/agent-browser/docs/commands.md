@@ -11,9 +11,9 @@ Commands
 Copy Page
 
 
-# Commands
+# Commands<a href="#commands" aria-label="Link to this section">#</a>
 
-## Core
+## Core<a href="#core" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -52,7 +52,7 @@ agent-browser close --all             # Close all active sessions
 ```
 
 
-## Get info
+## Get info<a href="#get-info" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -69,7 +69,7 @@ agent-browser get styles <sel>        # Get computed styles
 ```
 
 
-## Check state
+## Check state<a href="#check-state" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -79,7 +79,7 @@ agent-browser is checked <sel>        # Check if checked
 ```
 
 
-## Find elements
+## Find elements<a href="#find-elements" aria-label="Link to this section">#</a>
 
 Semantic locators with actions (`click`, `fill`, `type`, `hover`, `focus`, `check`, `uncheck`, `text`):
 
@@ -116,7 +116,7 @@ agent-browser find nth 2 ".card" hover
 ```
 
 
-## Wait
+## Wait<a href="#wait" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -132,7 +132,7 @@ agent-browser wait "#spinner" --state hidden           # Wait for element to dis
 ```
 
 
-## Downloads
+## Downloads<a href="#downloads" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -143,7 +143,7 @@ agent-browser wait --download [path]  # Wait for any download to complete
 
 Use `--download-path <dir>` (or `AGENT_BROWSER_DOWNLOAD_PATH` env) to set a default download directory. Without it, downloads go to a temporary directory that is deleted when the browser closes.
 
-## Mouse
+## Mouse<a href="#mouse" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -154,7 +154,7 @@ agent-browser mouse wheel <dy> [dx]   # Scroll wheel
 ```
 
 
-## Clipboard
+## Clipboard<a href="#clipboard" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -165,7 +165,7 @@ agent-browser clipboard paste                     # Paste from clipboard (Ctrl+V
 ```
 
 
-## Settings
+## Settings<a href="#settings" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -187,7 +187,7 @@ agent-browser --color-scheme dark open https://example.com
 ```
 
 
-## Cookies & storage
+## Cookies & storage<a href="#cookies-storage" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -204,7 +204,7 @@ agent-browser storage session         # Same for sessionStorage
 ```
 
 
-## Network
+## Network<a href="#network" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -224,7 +224,7 @@ agent-browser network har stop [output.har]    # Stop and save HAR (temp path if
 ```
 
 
-## Tabs & frames
+## Tabs & frames<a href="#tabs-frames" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -239,7 +239,7 @@ agent-browser frame main              # Back to main frame
 ```
 
 
-### Iframe support
+### Iframe support<a href="#iframe-support" aria-label="Link to this section">#</a>
 
 Iframes are detected automatically during snapshots. `Iframe` nodes are resolved and their content is inlined beneath the iframe element in the snapshot output. Refs assigned to elements inside iframes carry frame context, so `click`, `fill`, and other interactions work without manually switching frames.
 
@@ -263,7 +263,7 @@ agent-browser frame main              # Return to main frame
 
 The `frame` command accepts element refs (`@e3`), CSS selectors (`"#my-iframe"`), or frame name/URL.
 
-## Dialogs
+## Dialogs<a href="#dialogs" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -277,7 +277,7 @@ By default, `alert` and `beforeunload` dialogs are automatically accepted so the
 
 When a JavaScript dialog (`alert`, `confirm`, `prompt`) is pending, all command responses include a `warning` field with the dialog type and message.
 
-## Streaming
+## Streaming<a href="#streaming" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -290,7 +290,7 @@ agent-browser stream disable          # Stop runtime streaming and remove the .s
 
 Streaming is enabled automatically for all sessions. Use these commands to check status, re-enable on a specific port, or disable streaming.
 
-## Debug
+## Debug<a href="#debug" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -311,7 +311,7 @@ agent-browser inspect                 # Open Chrome DevTools for the active page
 ```
 
 
-## Auth vault
+## Auth vault<a href="#auth-vault" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -343,7 +343,7 @@ agent-browser auth list
 ```
 
 
-## Confirmation
+## Confirmation<a href="#confirmation" aria-label="Link to this section">#</a>
 
 When `--confirm-actions` is set, certain action categories return a `confirmation_required` response instead of executing immediately. Use `confirm` or `deny` to approve or reject the action.
 
@@ -364,7 +364,7 @@ agent-browser confirm c_8f3a1234
 ```
 
 
-## State management
+## State management<a href="#state-management" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -379,7 +379,7 @@ agent-browser state clean --older-than <days>  # Delete old states
 ```
 
 
-## Sessions
+## Sessions<a href="#sessions" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -388,18 +388,53 @@ agent-browser session list            # List active sessions
 ```
 
 
-## Dashboard
+## Chrome profiles<a href="#chrome-profiles" aria-label="Link to this section">#</a>
+
+
+``` shiki
+agent-browser profiles               # List available Chrome profiles
+agent-browser profiles --json        # List profiles as JSON
+agent-browser --profile Default open https://gmail.com  # Reuse a profile's login state
+```
+
+
+## Dashboard<a href="#dashboard" aria-label="Link to this section">#</a>
 
 
 ``` shiki
 agent-browser dashboard [start]       # Start the dashboard server (default port: 4848)
 agent-browser dashboard start --port <n>  # Start on a specific port
 agent-browser dashboard stop          # Stop the dashboard server
-agent-browser dashboard install       # Install the dashboard files
 ```
 
 
-## Navigation
+## Chat<a href="#chat" aria-label="Link to this section">#</a>
+
+Use natural language to control the browser via AI. The `chat` command translates instructions into agent-browser commands, executes them, and streams the AI response. Requires `AI_GATEWAY_API_KEY` to be set.
+
+
+``` shiki
+agent-browser chat "open google.com and search for cats"     # Single-shot instruction
+agent-browser chat                                           # Interactive REPL (type quit to exit)
+echo "summarize this page" | agent-browser chat              # Piped input
+agent-browser -q chat "summarize this page"                  # Quiet: text only, no tool calls shown
+agent-browser -v chat "fill in the login form"               # Verbose: show commands and their output
+agent-browser --model openai/gpt-4o chat "take a screenshot" # Override the default AI model
+agent-browser --json chat "open example.com"                 # Structured JSON output
+```
+
+
+Chat-specific options:
+
+
+``` shiki
+--model <name>           # AI model (or AI_GATEWAY_MODEL env, default: anthropic/claude-sonnet-4.6)
+-v, --verbose            # Show tool commands and their raw output
+-q, --quiet              # Show only the AI text response (hide tool calls)
+```
+
+
+## Navigation<a href="#navigation" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -409,7 +444,7 @@ agent-browser reload                  # Reload page
 ```
 
 
-## Global options
+## Global options<a href="#global-options" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -444,26 +479,33 @@ agent-browser reload                  # Reload page
 --action-policy <path>   # Path to action policy JSON file
 --confirm-actions <list> # Action categories requiring confirmation
 --confirm-interactive    # Interactive confirmation prompts (auto-denies if stdin is not a TTY)
+--model <name>           # AI model for chat (or AI_GATEWAY_MODEL env)
+-v, --verbose            # Show tool commands and their raw output (chat)
+-q, --quiet              # Show only AI text responses (chat)
 --config <path>          # Use a custom config file
 --debug                  # Debug output
 ```
 
 
-## Batch execution
+## Batch execution<a href="#batch-execution" aria-label="Link to this section">#</a>
 
-Execute multiple commands in a single invocation by piping a JSON array of string arrays to `batch`:
+Execute multiple commands in a single invocation. Commands can be passed as quoted arguments or piped as JSON via stdin.
 
 
 ``` shiki
+# Argument mode: each quoted argument is a full command
+agent-browser batch "open https://example.com" "snapshot -i" "screenshot"
+
+# With --bail to stop on first error
+agent-browser batch --bail "open https://example.com" "click @e1" "screenshot"
+
+# Stdin mode: pipe commands as JSON
 echo '[
   ["open", "https://example.com"],
   ["snapshot", "-i"],
   ["click", "@e1"],
   ["screenshot", "result.png"]
 ]' | agent-browser batch --json
-
-# Stop on first error
-agent-browser batch --bail < commands.json
 ```
 
 
@@ -472,7 +514,7 @@ agent-browser batch --bail < commands.json
 | `--bail` | Stop on first error (default: continue all commands) |
 | `--json` | Output results as a JSON array                       |
 
-## Command chaining
+## Command chaining<a href="#command-chaining" aria-label="Link to this section">#</a>
 
 Chain commands with `&&` in a single shell invocation. The browser persists via a background daemon, so chaining works naturally and is more efficient than separate calls:
 
@@ -486,7 +528,7 @@ agent-browser open example.com && agent-browser wait --load networkidle && agent
 
 Use `&&` when you don't need to read intermediate output. Run commands separately when you need to parse output first (e.g., snapshot to discover refs, then interact with those refs).
 
-## Local files
+## Local files<a href="#local-files" aria-label="Link to this section">#</a>
 
 Open local files (PDFs, HTML) using `file://` URLs:
 

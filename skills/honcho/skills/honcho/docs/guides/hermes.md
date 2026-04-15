@@ -1,41 +1,138 @@
-<!-- Source: https://docs.honcho.dev/v3/guides/integrations/hermes -->
+> Source: https://docs.honcho.dev/v3/guides/integrations/hermes.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Hermes Agent + Honcho
 
-## Overview
+> How Hermes Agent uses Honcho for persistent cross-session memory and user modeling
 
-Hermes Agent, an open-source tool from Nous Research featuring tool-calling and multi-platform deployment, integrates with Honcho for persistent cross-session memory and user modeling.
+[Hermes Agent](https://github.com/NousResearch/hermes-agent) is an open-source AI agent from [Nous Research](https://nousresearch.com) with tool-calling, terminal access, a skills system, and multi-platform deployment (Telegram, Discord, Slack, WhatsApp). Honcho gives Hermes persistent cross-session memory and user modeling.
 
-## Core Capabilities
+For setup, configuration, and CLI commands, see the [Hermes Agent Honcho docs](https://hermes-agent.nousresearch.com/docs/user-guide/features/honcho).
 
-1. **Context injection at prompt time** -- user information loaded before response generation
-2. **Memory persistence across sessions** -- recall of preferences and project history
-3. **Durable storage of learned facts** -- important context retained for future interactions
+## What Honcho provides
 
-## Architecture
+Honcho acts as a long-term memory and user-model layer alongside Hermes' built-in memory files (`MEMORY.md` and `USER.md`).
 
-Dual-peer model where both participants have representations:
+It gives Hermes three capabilities:
 
-- **User peer**: Derived from user messages; captures preferences and communication patterns
-- **AI peer**: Built from assistant messages; establishes the agent's knowledge base
+1. **Prompt-time context injection** -- durable context about a user loaded into the prompt before generating a response.
+2. **Cross-session continuity** -- recall of stable preferences, project history, and working context across conversations.
+3. **Durable writeback** -- stable facts learned during a conversation stored back for future turns.
 
-Both representations feed into the system prompt for contextual awareness.
+These sit alongside Hermes' local session history. Session history remembers the current conversation. Honcho remembers what should still matter later.
 
-## Available Tools
+## Dual-peer architecture
 
-| Tool | Function |
-|------|----------|
-| `honcho_profile` | Fast peer card retrieval (no LLM) |
-| `honcho_search` | Semantic search returning ranked excerpts |
-| `honcho_context` | Dialectic Q&A powered by Honcho's LLM |
-| `honcho_conclude` | Stores preferences and important context |
+Both the user and the AI agent have peer representations in Honcho:
 
-## Setup
+* **User peer**: observed from user messages. Learns preferences, goals, communication style.
+* **AI peer**: observed from assistant messages. Builds the agent's knowledge representation.
 
-Configure Honcho by running `hermes memory setup` or editing the config file with your instance URL and workspace details.
+Both representations are injected into the system prompt, giving Hermes awareness of both who it's talking to and what it knows.
 
-## Verification
+## Available tools
 
-1. Check status with `hermes memory status`
-2. Store and recall information across sessions
-3. Call Honcho tools directly through Hermes prompts
+Hermes exposes four Honcho tools to the agent:
+
+| Tool              | What it does                                                                                        |
+| ----------------- | --------------------------------------------------------------------------------------------------- |
+| `honcho_profile`  | Fast peer card retrieval (no LLM). Returns curated key facts about the user.                        |
+| `honcho_search`   | Semantic search over memory. Returns raw excerpts ranked by relevance.                              |
+| `honcho_context`  | Dialectic Q\&A powered by Honcho's LLM. Synthesizes answers from conversation history.              |
+| `honcho_conclude` | Writes durable facts to Honcho when the user states preferences, corrections, or important context. |
+
+## Running Honcho locally with Hermes
+
+Follow the [Self-Hosting Guide](/v3/contributing/self-hosting) to get Honcho running locally. Once it's up, point Hermes at your instance:
+
+```bash
+hermes memory setup  # select "honcho", enter http://localhost:8000 as the base URL
+```
+
+Or manually create/edit the config file (checked in order: `$HERMES_HOME/honcho.json` > `~/.hermes/honcho.json` > `~/.honcho/config.json`):
+
+```json
+{
+  "baseUrl": "http://localhost:8000",
+  "hosts": {
+    "hermes": {
+      "enabled": true,
+      "aiPeer": "hermes",
+      "peerName": "your-name",
+      "workspace": "hermes"
+    }
+  }
+}
+```
+
+For the full list of config fields (`recallMode`, `writeFrequency`, `sessionStrategy`, `dialecticReasoningLevel`, etc.), see the [Hermes memory provider docs](https://hermes-agent.nousresearch.com/docs/user-guide/features/memory-providers#honcho).
+
+
+  **Community quick-start**: [elkimek/honcho-self-hosted](https://github.com/elkimek/honcho-self-hosted) provides a one-command installer with pre-configured model tiers and Hermes Agent integration.
+
+
+## Verifying the integration
+
+### 1. Check status
+
+```bash
+hermes memory status
+```
+
+This should show Honcho as the active memory provider with your base URL.
+
+### 2. Store a fact and recall it across sessions
+
+In one conversation, tell Hermes something specific:
+
+```text
+My favorite programming language is Rust and I always use dark mode.
+```
+
+Start a **new session** (different thread, new CLI invocation, or a different platform). Ask:
+
+```text
+What do you know about my preferences?
+```
+
+If Hermes mentions Rust and dark mode without being told again, cross-session memory is working. The deriver processed your messages, extracted observations, and the dialectic recalled them.
+
+### 3. Test tool calling directly
+
+Ask Hermes to use a specific Honcho tool:
+
+```text
+Use your honcho_search tool to find anything you know about me.
+```
+
+If Hermes calls the tool and returns results, the full tool pipeline (API connection, vector search, embedding) is functional.
+
+## Configuration options
+
+| Field                     | Default         | Description                                                                   |
+| ------------------------- | --------------- | ----------------------------------------------------------------------------- |
+| `recallMode`              | `hybrid`        | `hybrid` (auto-inject + tools), `context` (inject only), `tools` (tools only) |
+| `writeFrequency`          | `async`         | `async`, `turn`, `session`, or integer N                                      |
+| `sessionStrategy`         | `per-directory` | `per-directory`, `per-repo`, `per-session`, `global`                          |
+| `dialecticReasoningLevel` | `low`           | `minimal`, `low`, `medium`, `high`, `max`                                     |
+| `dialecticDynamic`        | `true`          | Auto-bump reasoning level by query complexity                                 |
+| `messageMaxChars`         | `25000`         | Max chars per message (chunked if exceeded)                                   |
+
+## Next steps
+
+
+    Setup, configuration, CLI commands, and all config options.
+
+
+    Source code, installation, and full documentation.
+
+
+    Peers, sessions, and how reasoning works.
+
+
+    Full local environment setup, provider configuration, and troubleshooting.
+
+

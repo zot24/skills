@@ -41,7 +41,7 @@ Nodes
 <a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
 
 
-<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Gateway &amp; Ops</a>
+<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]" data-active="true">Gateway &amp; Ops</a>
 
 
 <a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Reference</a>
@@ -70,9 +70,17 @@ Nodes
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Security and sandboxing
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -82,9 +90,17 @@ Nodes
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Networking and discovery
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -190,9 +206,17 @@ Nodes
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Node features
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -313,7 +337,12 @@ openclaw nodes describe --node <idOrNameOrIp>
 
 
 - `nodes status` marks a node as **paired** when its device pairing role includes `node`.
-- `node.pair.*` (CLI: `openclaw nodes pending/approve/reject`) is a separate gateway-owned node pairing store; it does **not** gate the WS `connect` handshake.
+- The device pairing record is the durable approved-role contract. Token rotation stays inside that contract; it cannot upgrade a paired node into a different role that pairing approval never granted.
+- `node.pair.*` (CLI: `openclaw nodes pending/approve/reject/rename`) is a separate gateway-owned node pairing store; it does **not** gate the WS `connect` handshake.
+- Approval scope follows the pending request’s declared commands:
+  - commandless request: `operator.pairing`
+  - non-exec node commands: `operator.pairing` + `operator.write`
+  - `system.run` / `system.run.prepare` / `system.which`: `operator.pairing` + `operator.admin`
 
 ## 
 
@@ -598,6 +627,7 @@ openclaw nodes invoke --node <idOrNameOrIp> --command system.which --params '{"n
 - `system.run` returns stdout/stderr/exit code in the payload.
 - Shell execution now goes through the `exec` tool with `host=node`; `nodes` remains the direct-RPC surface for explicit node commands.
 - `nodes invoke` does not expose `system.run` or `system.run.prepare`; those stay on the exec path only.
+- The exec path prepares a canonical `systemRunPlan` before approval. Once an approval is granted, the gateway forwards that stored plan, not any later caller-edited command/cwd/session fields.
 - `system.notify` respects notification permission state on the macOS app.
 - Unrecognized node `platform` / `deviceFamily` metadata uses a conservative default allowlist that excludes `system.run` and `system.which`. If you intentionally need those commands for an unknown platform, add them explicitly via `gateway.nodes.allowCommands`.
 - `system.run` supports `--cwd`, `--env KEY=VAL`, `--command-timeout`, and `--needs-screen-recording`.

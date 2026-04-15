@@ -11,11 +11,11 @@ Streaming
 Copy Page
 
 
-# Streaming
+# Streaming<a href="#streaming" aria-label="Link to this section">#</a>
 
 Stream the browser viewport via WebSocket for live preview or "pair browsing" where a human can watch and interact alongside an AI agent.
 
-## Streaming
+## Streaming<a href="#streaming" aria-label="Link to this section">#</a>
 
 Every session automatically starts a WebSocket stream server on an OS-assigned port. The server streams viewport frames and accepts input events (mouse, keyboard, touch).
 
@@ -39,7 +39,7 @@ agent-browser stream disable           # Stop streaming for the session
 
 `stream status` returns the enabled state, active port, browser connection state, and whether screencasting is active. `stream disable` tears the server down and removes the session's `.stream` metadata file.
 
-## Runtime status response
+## Runtime status response<a href="#runtime-status-response" aria-label="Link to this section">#</a>
 
 `agent-browser stream status --json` returns data like:
 
@@ -56,17 +56,17 @@ agent-browser stream disable           # Stop streaming for the session
 
 `connected` reports whether the daemon currently has a browser attached. `screencasting` reports whether frames are actively being produced for the stream server.
 
-## Relationship to screencast commands
+## Relationship to screencast commands<a href="#relationship-to-screencast-commands" aria-label="Link to this section">#</a>
 
 `stream enable` creates the WebSocket server and keeps it available for the session. WebSocket clients then trigger live frame delivery automatically.
 
 The lower-level `screencast_start` and `screencast_stop` commands still control explicit CDP screencasts directly. Use them when you want a screencast without the WebSocket runtime server.
 
-## WebSocket protocol
+## WebSocket protocol<a href="#websocket-protocol" aria-label="Link to this section">#</a>
 
 Connect to `ws://localhost:9223` to receive frames and send input.
 
-### Frame messages
+### Frame messages<a href="#frame-messages" aria-label="Link to this section">#</a>
 
 The server sends frame messages with base64-encoded images:
 
@@ -87,7 +87,7 @@ The server sends frame messages with base64-encoded images:
 ```
 
 
-### Status messages
+### Status messages<a href="#status-messages" aria-label="Link to this section">#</a>
 
 Connection and screencast status:
 
@@ -103,11 +103,11 @@ Connection and screencast status:
 ```
 
 
-## Input injection
+## Input injection<a href="#input-injection" aria-label="Link to this section">#</a>
 
 Send input events to control the browser remotely.
 
-### Mouse events
+### Mouse events<a href="#mouse-events" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -150,7 +150,7 @@ Send input events to control the browser remotely.
 ```
 
 
-### Keyboard events
+### Keyboard events<a href="#keyboard-events" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -188,7 +188,7 @@ Send input events to control the browser remotely.
 ```
 
 
-### Touch events
+### Touch events<a href="#touch-events" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -225,7 +225,7 @@ Send input events to control the browser remotely.
 ```
 
 
-## Programmatic API
+## Programmatic API<a href="#programmatic-api" aria-label="Link to this section">#</a>
 
 For advanced use, control streaming directly via the TypeScript API:
 
@@ -279,7 +279,7 @@ await browser.stopScreencast();
 ```
 
 
-## Use cases
+## Use cases<a href="#use-cases" aria-label="Link to this section">#</a>
 
 - **Pair browsing** - Human watches and assists AI agent in real-time
 - **Remote preview** - View browser output in a separate UI

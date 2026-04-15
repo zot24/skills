@@ -11,9 +11,9 @@ Installation
 Copy Page
 
 
-# Installation
+# Installation<a href="#installation" aria-label="Link to this section">#</a>
 
-## Global installation (recommended)
+## Global installation (recommended)<a href="#global-installation-recommended" aria-label="Link to this section">#</a>
 
 Installs the native Rust binary for maximum performance:
 
@@ -26,7 +26,7 @@ agent-browser install  # Download Chrome from Chrome for Testing (first time)
 
 This is the fastest option -- commands run through the native Rust CLI directly with sub-millisecond parsing overhead.
 
-## Quick start (no install)
+## Quick start (no install)<a href="#quick-start-no-install" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -35,7 +35,7 @@ npx agent-browser open example.com
 ```
 
 
-## Project installation (local dependency)
+## Project installation (local dependency)<a href="#project-installation-local-dependency" aria-label="Link to this section">#</a>
 
 For projects that want to pin the version in `package.json`:
 
@@ -48,7 +48,7 @@ npx agent-browser install  # Download Chrome (first time)
 
 Then use via `npx` or `package.json` scripts.
 
-## Homebrew (macOS)
+## Homebrew (macOS)<a href="#homebrew-macos" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -57,7 +57,7 @@ agent-browser install  # Download Chrome (first time)
 ```
 
 
-## Cargo (Rust)
+## Cargo (Rust)<a href="#cargo-rust" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -68,7 +68,7 @@ agent-browser install  # Download Chrome (first time)
 
 Compiles from source (~2-3 min). Requires the Rust toolchain (<a href="https://rustup.rs" target="_blank" rel="noopener noreferrer">rustup.rs</a>).
 
-## From source
+## From source<a href="#from-source" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -82,7 +82,7 @@ pnpm link --global
 ```
 
 
-## Linux dependencies
+## Linux dependencies<a href="#linux-dependencies" aria-label="Link to this section">#</a>
 
 On Linux, install system dependencies:
 
@@ -92,7 +92,7 @@ agent-browser install --with-deps
 ```
 
 
-## Updating
+## Updating<a href="#updating" aria-label="Link to this section">#</a>
 
 Upgrade to the latest version:
 
@@ -104,7 +104,7 @@ agent-browser upgrade
 
 Detects your installation method (npm, Homebrew, or Cargo) and runs the appropriate update command automatically. Displays the version change on success, or informs you if you are already on the latest version.
 
-## Custom browser
+## Custom browser<a href="#custom-browser" aria-label="Link to this section">#</a>
 
 Use a custom browser executable instead of bundled Chromium:
 
@@ -122,15 +122,15 @@ AGENT_BROWSER_EXECUTABLE_PATH=/path/to/chromium agent-browser open example.com
 ```
 
 
-### Serverless example
+### Serverless example<a href="#serverless-example" aria-label="Link to this section">#</a>
 
 Use `@sparticuz/chromium` or similar to obtain a Chromium executable path, then pass it via `--executable-path` or `AGENT_BROWSER_EXECUTABLE_PATH`.
 
-## AI agent setup
+## AI agent setup<a href="#ai-agent-setup" aria-label="Link to this section">#</a>
 
 agent-browser works with any AI agent out of the box. For richer context:
 
-### AI coding assistants (recommended)
+### AI coding assistants (recommended)<a href="#ai-coding-assistants-recommended" aria-label="Link to this section">#</a>
 
 Install the skill for your AI coding assistant:
 
@@ -144,7 +144,7 @@ This works with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Goose, O
 
 > **Do not** copy `SKILL.md` from `node_modules` -- it will become stale as new features are added. Always use `npx skills add` or reference the repository version.
 
-### AGENTS.md / CLAUDE.md
+### AGENTS.md / CLAUDE.md<a href="#agentsmd-claudemd" aria-label="Link to this section">#</a>
 
 Add to your instructions file:
 

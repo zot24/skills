@@ -1,53 +1,365 @@
-<!-- Source: https://docs.honcho.dev/v3/guides/telegram -->
+> Source: https://docs.honcho.dev/v3/guides/telegram.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Telegram Bots with Honcho
 
-## Overview
+> Use Honcho to build a Telegram bot with conversational memory and context management.
 
-This guide demonstrates integrating Honcho with Telegram bots to implement conversational memory and context management. A complete example is available on [GitHub](https://github.com/plastic-labs/telegram-python-starter).
+> Example code is available on [GitHub](https://github.com/plastic-labs/telegram-python-starter)
 
-## Message Handling Architecture
+Any application interface that defines logic based on events and supports
+special commands can work easily with Honcho. Here's how to use Honcho with
+**Telegram** as an interface. If you're not familiar with Telegram bot
+development, the [python-telegram-bot](https://docs.python-telegram-bot.org/en/stable/) docs would be a good
+place to start.
 
-1. Validate the incoming message
-2. Extract and sanitize text content
-3. Retrieve or create peer and session objects
-4. Generate an LLM response
-5. Persist both user input and bot response
+## Message Handling
 
-## Key Patterns
-
-### Peer/Session Model
+Most Telegram bots have async functions that handle incoming messages. We can use Honcho to store messages by user and session based on the chat context. Take the following function definition for example:
 
 ```python
-peer = honcho_client.peer(id=user_identifier)
-session = honcho_client.session(id=chat_identifier)
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    Receive a message from Telegram and respond with a message from our LLM assistant.
+    """
+    if not validate_message(update, context):
+        return
+
+    message_text = update.effective_message.text
+    input_text = sanitize_message(message_text, context.bot.username)
+
+    # If the message is empty after sanitizing, ignore it
+    if not input_text:
+        return
+
+    peer = honcho_client.peer(id=get_peer_id_from_telegram(update))
+    session = honcho_client.session(id=str(update.effective_chat.id))
+
+    # Send typing indicator
+    await context.bot.send_chat_action(
+        chat_id=update.effective_chat.id, action="typing"
+    )
+
+    response = llm(session, input_text)
+
+    await send_telegram_message(update, context, response)
+
+    # Save both the user's message and the bot's response to the session
+    session.add_messages(
+        [
+            peer.message(input_text),
+            assistant.message(response),
+        ]
+    )
 ```
 
-Messages are persisted using `session.add_messages()` with both user and assistant message objects.
+Let's break down what this code is doing...
+
+```python
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not validate_message(update, context):
+        return
+```
+
+This is how you define a message handler in `python-telegram-bot` that processes incoming messages. We use a helper function `validate_message()` to check if the message should be processed.
+
+## Helper Functions
+
+The code uses several helper functions to keep the main logic clean and readable. Let's examine each one:
+
+### Message Validation
+
+```python
+def validate_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
+    """
+    Determine if the message is valid for the bot to respond to.
+    Return True if it is, False otherwise. The bot will respond to:
+    - Direct messages (private chats)
+    - Group messages that mention the bot or reply to it
+    - Messages that are not from the bot itself
+    """
+    message = update.effective_message
+
+    if not message or not message.text:
+        return False
+
+    # Don't respond to our own messages
+    if message.from_user.id == context.bot.id:
+        return False
+
+    # Always respond in private chats
+    if update.effective_chat.type == "private":
+        return True
+
+    # In groups, only respond if mentioned or replied to
+    if (
+        message.reply_to_message
+        and message.reply_to_message.from_user.id == context.bot.id
+    ):
+        return True
+
+    # Check if bot is mentioned
+    if message.entities:
+        for entity in message.entities:
+            if entity.type == "mention":
+                username = message.text[entity.offset : entity.offset + entity.length]
+                if username == f"@{context.bot.username}":
+                    return True
+
+    return False
+```
+
+This function centralizes all the logic for determining whether the bot should respond to a message. It handles different chat types:
+
+* **Private chats**: Always respond
+* **Group chats**: Only respond when mentioned or when replying to the bot's messages
+* **Bot prevention**: Never respond to the bot's own messages
+
+### Message Sanitization
+
+```python
+def sanitize_message(message_text: str, bot_username: str) -> str | None:
+    """Remove the bot's mention from the message content if present"""
+    content = message_text.replace(f"@{bot_username}", "").strip()
+    if not content:
+        return None
+    return content
+```
+
+This helper removes the bot's mention from the message content, leaving just the actual user input.
+
+### Peer ID Generation
+
+```python
+def get_peer_id_from_telegram(update: Update) -> str:
+    """Get a Honcho peer ID for the message author"""
+    return f"telegram_{update.effective_user.id}"
+```
+
+This creates a unique peer identifier for each Telegram user by prefixing their Telegram user ID.
 
 ### LLM Integration
 
-Uses `session.context().to_openai()` for automatic format conversion of chat history.
+```python
+def llm(session, prompt) -> str:
+    """
+    Call the LLM with the given prompt and chat history.
+
+    You should expand this function with custom logic, prompts, etc.
+    """
+    messages: list[dict[str, object]] = session.context().to_openai(
+        assistant=assistant
+    )
+    messages.append({"role": "user", "content": prompt})
+
+    try:
+        completion = openai.chat.completions.create(
+            model=MODEL_NAME,
+            messages=messages,
+        )
+        return completion.choices[0].message.content
+    except Exception as e:
+        logger.error(f"LLM error: {e}")
+        return f"Error: {e}"
+```
+
+This function handles the LLM interaction. It uses Honcho's built-in `to_openai()` method to automatically convert the session context into the format expected by OpenAI's chat completions API.
 
 ### Message Sending
 
-Handles Telegram's 4096-character limit by automatically splitting lengthy responses.
+```python
+async def send_telegram_message(
+    update: Update, context: ContextTypes.DEFAULT_TYPE, response_content: str
+):
+    """Send a message to the Telegram chat, splitting if necessary"""
+    # Telegram has a 4096 character limit, but we'll use 4000 to be safe
+    max_length = 4000
 
-## Chat Type Behavior
+    if len(response_content) <= max_length:
+        await update.effective_message.reply_text(response_content)
+    else:
+        # Split response into chunks at newlines, keeping under max_length chars
+        chunks = []
+        current_chunk = ""
 
-| Chat Type | Response Trigger | Session Scope | Memory Type |
-|-----------|------------------|---------------|------------|
-| Private | All messages | Per-user | Individual conversation history |
-| Group | Mentions/replies | Shared group | Group conversation context |
+        for line in response_content.splitlines(keepends=True):
+            if len(current_chunk) + len(line) > max_length:
+                if current_chunk:
+                    chunks.append(current_chunk)
+                current_chunk = line
+            else:
+                current_chunk += line
+
+        if current_chunk:
+            chunks.append(current_chunk)
+
+        for chunk in chunks:
+            await update.effective_message.reply_text(chunk)
+```
+
+This function handles sending messages to Telegram, automatically splitting long responses into multiple messages to stay within Telegram's 4096 character limit. It also includes a typing indicator to show the bot is processing.
+
+## Honcho Integration
+
+The new Honcho peer/session API makes integration much simpler:
+
+```python
+peer = honcho_client.peer(id=get_peer_id_from_telegram(update))
+session = honcho_client.session(id=str(update.effective_chat.id))
+```
+
+Here we create a peer object for the user and a session object using the Telegram chat ID. This automatically handles user and session management across both private chats and group conversations.
+
+```python
+# Save both the user's message and the bot's response to the session
+session.add_messages(
+    [
+        peer.message(input_text),
+        assistant.message(response),
+    ]
+)
+```
+
+After generating the response, we save both the user's input and the bot's response to the session using the `add_messages()` method. The `peer.message()` creates a message from the user, while `assistant.message()` creates a message from the assistant.
 
 ## Commands
 
-- `/dialectic`: Query conversation history through Honcho's chat API
-- `/start`: User onboarding
+Telegram bots support slash commands natively. Here's how to implement the `/dialectic` command using Honcho's dialectic feature:
 
-## Configuration
+```python
+async def dialectic_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    Handle the /dialectic command to query the Honcho Dialectic endpoint.
+    """
+    if not context.args:
+        await update.message.reply_text(
+            "Please provide a query. Usage: /dialectic <your query>"
+        )
+        return
 
-- Honcho client initialization
-- Assistant peer with observation disabled
-- OpenAI client (configurable for OpenRouter)
-- Environment variables: BOT_TOKEN, MODEL_NAME, MODEL_API_KEY
+    query = " ".join(context.args)
+
+    try:
+        peer = honcho_client.peer(id=get_peer_id_from_telegram(update))
+        session = honcho_client.session(id=str(update.effective_chat.id))
+
+        response = peer.chat(
+            query=query,
+            session_id=session.id,
+        )
+
+        if response:
+            await send_telegram_message(update, context, response)
+        else:
+            await update.message.reply_text(
+                f"I don't know anything about {update.effective_user.first_name} because we haven't talked yet!"
+            )
+    except Exception as e:
+        logger.error(f"Error calling Dialectic API: {e}")
+        await update.message.reply_text(
+            f"Sorry, there was an error processing your request: {str(e)}"
+        )
+```
+
+You can also add a `/start` command for user onboarding:
+
+```python
+async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle the /start command"""
+    await update.message.reply_text(
+        "Hello! I'm your AI assistant. You can:\n"
+        "• Chat with me directly in private messages\n"
+        "• Mention me (@username) in groups to get my attention\n"
+        "• Use /dialectic <query> to search our conversation history\n\n"
+        "Let's start chatting!"
+    )
+```
+
+## Setup and Configuration
+
+The bot requires several environment variables and setup:
+
+```python
+honcho_client = Honcho()
+assistant = honcho_client.peer(id="assistant", config={"observe_me": False})
+openai = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=MODEL_API_KEY)
+```
+
+* `honcho_client`: The main Honcho client
+* `assistant`: A peer representing the bot/assistant
+* `openai`: OpenAI client configured to use OpenRouter
+
+### Application Setup
+
+Register your handlers with the Telegram application:
+
+```python
+def main():
+    """Start the bot"""
+    if not BOT_TOKEN:
+        logger.error("BOT_TOKEN not found in environment variables")
+        return
+
+    # Create the Application
+    application = Application.builder().token(BOT_TOKEN).build()
+
+    # Add handlers
+    application.add_handler(CommandHandler("start", start_command))
+    application.add_handler(CommandHandler("dialectic", dialectic_command))
+    application.add_handler(
+        MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message)
+    )
+
+    # Start the bot
+    logger.info("Starting Telegram bot...")
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
+```
+
+## Environment Variables
+
+Your bot needs these environment variables:
+
+```env
+# Your Telegram bot token from BotFather
+BOT_TOKEN=<your-token>
+
+# AI model to use (see OpenRouter for available models)
+MODEL_NAME=<your-model>
+
+# Your OpenRouter API key
+MODEL_API_KEY=<your-openrouter-api-key>
+```
+
+## Chat Types and Behavior
+
+The bot handles different Telegram chat types intelligently:
+
+### Private Chats
+
+* **Behavior**: Responds to all messages
+* **Session ID**: Uses the private chat ID
+* **Memory**: Maintains conversation history per user
+
+### Group Chats
+
+* **Behavior**: Only responds when mentioned or replied to
+* **Session ID**: Uses the group chat ID (shared across all members)
+* **Memory**: Maintains group conversation context
+
+## Recap
+
+The new Honcho peer/session API makes Telegram bot integration much simpler and more intuitive. Key patterns we learned:
+
+* **Peer/Session Model**: Users are represented as peers, conversations as sessions
+* **Chat Type Handling**: Different validation logic for private vs group chats
+* **Automatic Context Management**: `session.context().to_openai()` automatically formats chat history
+* **Message Storage**: `session.add_messages()` stores both user and assistant messages
+* **Dialectic Queries**: `peer.chat()` enables querying conversation history
+* **Command System**: Native Telegram command support with `/start` and `/dialectic`
+* **Message Splitting**: Automatic handling of Telegram's character limits
+* **Helper Functions**: Clean code organization with focused helper functions
+
+This approach provides a clean, maintainable structure for building Telegram bots with conversational memory and context management across both private conversations and group chats.

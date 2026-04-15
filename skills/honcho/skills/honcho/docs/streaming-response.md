@@ -1,60 +1,253 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/features/advanced/streaming-response -->
+> Source: https://docs.honcho.dev/v3/documentation/features/advanced/streaming-response.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Streaming Responses
 
-## Overview
+> Using streaming responses with Honcho SDKs
 
-The Honcho SDK provides streaming functionality for AI-generated content, enabling applications to display responses as they're produced rather than waiting for completion.
+When working with AI-generated content, streaming the response as it's generated can significantly improve the user experience. Honcho provides streaming functionality in its SDKs that allows your application to display content as it's being generated, rather than waiting for the complete response.
 
-## Primary Use Cases
+## When to Use Streaming
 
-Streaming proves beneficial for:
+Streaming is particularly useful for:
 
-- Real-time chat interfaces
-- Long-form content generation
-- Applications prioritizing perceived responsiveness
-- Interactive agent experiences
-- Reducing latency for initial content delivery
+* Real-time chat interfaces
+* Long-form content generation
+* Applications where perceived speed is important
+* Interactive agent experiences
+* Reducing time-to-first-word in user interactions
 
-## Chat Endpoint Streaming
+## Streaming with the Chat Endpoint
 
-The chat endpoint enables streaming the AI's reasoning about a user in real-time.
+One of the primary use cases for streaming in Honcho is with the [chat endpoint](/v3/documentation/features/chat). This allows you to stream the AI's reasoning about a user in real-time.
 
-### Setup Requirements
+### Prerequisites
 
-Initialize the Honcho client, create peer objects representing conversation participants, establish a session, and optionally add contextual messages:
+<CodeGroup>
+  ```python Python
+  from honcho import Honcho
 
-**Python:**
-```python
-from honcho import Honcho
+  # Initialize client (using the default workspace)
+  honcho = Honcho()
 
-honcho = Honcho()
-user = honcho.peer("demo-user")
-assistant = honcho.peer("assistant")
-session = honcho.session("demo-session")
-session.add_peers([user, assistant])
-```
+  # Create or get peers
+  user = honcho.peer("demo-user")
+  assistant = honcho.peer("assistant")
 
-**TypeScript:**
-```typescript
-import { Honcho } from '@honcho-ai/sdk';
+  # Create a new session
+  session = honcho.session("demo-session")
 
-const honcho = new Honcho({});
-const user = await honcho.peer('demo-user');
-const assistant = await honcho.peer('assistant');
-const session = await honcho.session('demo-session');
-await session.addPeers([user, assistant]);
-```
+  # Add peers to the session
+  session.add_peers([user, assistant])
 
-## Implementation Patterns
+  # Store some messages for context (optional)
+  session.add_messages([
+      user.message("Hello, I'm testing the streaming functionality")
+  ])
+  ```
 
-Consider these approaches when handling streaming data:
+  ```typescript TypeScript
+  import { Honcho } from '@honcho-ai/sdk';
 
-1. **Progressive Rendering** -- Update interfaces incrementally as chunks arrive
-2. **Buffered Processing** -- Collect chunks until logical breaks occur
-3. **Token Counting** -- Monitor usage in real-time for quota-aware applications
-4. **Error Handling** -- Address interrupted stream scenarios appropriately
+  (async () => {
+      // Initialize client (using the default workspace)
+      const honcho = new Honcho({});
 
-## Performance Recommendations
+      // Create or get peers
+      const user = await honcho.peer('demo-user');
+      const assistant = await honcho.peer('assistant');
 
-Account for connection reliability, implement operation timeouts, monitor memory accumulation, and apply robust error handling for network disruptions.
+      // Create a new session
+      const session = await honcho.session('demo-session');
+
+      // Add peers to the session
+      await session.addPeers([user, assistant]);
+
+      // Store some messages for context (optional)
+      await session.addMessages([
+        user.message("Hello, I'm testing the streaming functionality")
+      ]);
+  })();
+  ```
+</CodeGroup>
+
+## Streaming from the Chat Endpoint
+
+<CodeGroup>
+  ```python Python
+  import time
+
+  # Basic streaming example
+  response_stream = user.chat("What can you tell me about this user?", stream=True)
+
+  for chunk in response_stream.iter_text():
+      print(chunk, end="", flush=True)  # Print each chunk as it arrives
+      time.sleep(0.01)  # Optional delay for demonstration
+  ```
+
+  ```typescript TypeScript
+  (async () => {
+      // Basic streaming example
+      const responseStream = await user.chat("What can you tell me about this user?", {
+        stream: true
+      });
+
+      // Process the stream
+      for await (const chunk of responseStream.iter_text()) {
+        process.stdout.write(chunk);  // Write to console without newlines
+      }
+  })();
+  ```
+</CodeGroup>
+
+## Working with Streaming Data
+
+When working with streaming responses, consider these patterns:
+
+1. **Progressive Rendering** - Update your UI as chunks arrive instead of waiting for the full response
+2. **Buffered Processing** - Accumulate chunks until a logical break (like a sentence or paragraph)
+3. **Token Counting** - Monitor token usage in real-time for applications with token limits
+4. **Error Handling** - Implement appropriate error handling for interrupted streams
+
+## Example: Restaurant Recommendation Chat
+
+<CodeGroup>
+  ```python Python
+  import asyncio
+  from honcho import Honcho
+
+  async def restaurant_recommendation_chat():
+      # Initialize client
+      honcho = Honcho()
+
+      # Create peers
+      user = honcho.peer("food-lover")
+      assistant = honcho.peer("restaurant-assistant")
+
+      # Create session
+      session = honcho.session("food-preferences-session")
+
+      # Add peers to session
+      await session.add_peers([user, assistant])
+
+      # Store multiple user messages about food preferences
+      user_messages = [
+          "I absolutely love spicy Thai food, especially curries with coconut milk.",
+          "Italian cuisine is another favorite - fresh pasta and wood-fired pizza are my weakness!",
+          "I try to eat vegetarian most of the time, but occasionally enjoy seafood.",
+          "I can't handle overly sweet desserts, but love something with dark chocolate."
+      ]
+
+      # Add the user's messages to the session
+      session_messages = [user.message(message) for message in user_messages]
+      await session.add_messages(session_messages)
+
+      # Print the user messages
+      for message in user_messages:
+          print(f"User: {message}")
+
+      # Ask for restaurant recommendations based on preferences
+      print("\nRequesting restaurant recommendations...")
+      print("Assistant: ", end="", flush=True)
+      full_response = ""
+
+      # Stream the response using the user's peer to get recommendations
+      response_stream = user.chat(
+          "Based on this user's food preferences, recommend 3 restaurants they might enjoy in the Lower East Side.",
+          stream=True,
+          session_id=session.id
+      )
+
+      for chunk in response_stream.iter_text():
+          print(chunk, end="", flush=True)
+          full_response += chunk
+          await asyncio.sleep(0.01)
+
+      # Store the assistant's complete response
+      await session.add_messages([
+          assistant.message(full_response)
+      ])
+
+  # Run the async function
+  if __name__ == "__main__":
+      asyncio.run(restaurant_recommendation_chat())
+  ```
+
+  ```typescript TypeScript
+  import { Honcho } from '@honcho-ai/sdk';
+
+  (async () => {
+      async function restaurantRecommendationChat() {
+        // Initialize client
+        const honcho = new Honcho({});
+
+        // Create peers
+        const user = await honcho.peer('food-lover');
+        const assistant = await honcho.peer('restaurant-assistant');
+
+        // Create session
+        const session = await honcho.session('food-preferences-session');
+
+        // Add peers to session
+        await session.addPeers([user, assistant]);
+
+        // Store multiple user messages about food preferences
+        const userMessages = [
+          "I absolutely love spicy Thai food, especially curries with coconut milk.",
+          "Italian cuisine is another favorite - fresh pasta and wood-fired pizza are my weakness!",
+          "I try to eat vegetarian most of the time, but occasionally enjoy seafood.",
+          "I can't handle overly sweet desserts, but love something with dark chocolate."
+        ];
+
+        // Add the user's messages to the session
+        const sessionMessages = userMessages.map(message => user.message(message));
+        await session.addMessages(sessionMessages);
+
+        // Print the user messages
+        for (const message of userMessages) {
+          console.log(`User: ${message}`);
+        }
+
+        // Ask for restaurant recommendations based on preferences
+        console.log("\nRequesting restaurant recommendations...");
+        process.stdout.write("Assistant: ");
+        let fullResponse = "";
+
+        // Stream the response using the user's peer to get recommendations
+        const responseStream = await user.chat(
+          "Based on this user's food preferences, recommend 3 restaurants they might enjoy in the Lower East Side.",
+          {
+            stream: true,
+            sessionId: session.id
+          }
+        );
+
+        for await (const chunk of responseStream.iter_text()) {
+          process.stdout.write(chunk);
+          fullResponse += chunk;
+        }
+
+        // Store the assistant's complete response
+        await session.addMessages([
+          assistant.message(fullResponse)
+        ]);
+      }
+
+      await restaurantRecommendationChat();
+  })();
+  ```
+</CodeGroup>
+
+## Performance Considerations
+
+When implementing streaming:
+
+* Consider connection stability for mobile or unreliable networks
+* Implement appropriate timeouts for stream operations
+* Be mindful of memory usage when accumulating large responses
+* Use appropriate error handling for network interruptions
+
+Streaming responses provide a more interactive and engaging user experience. By implementing streaming in your Honcho applications, you can create more responsive AI-powered features that feel natural and immediate to your users.

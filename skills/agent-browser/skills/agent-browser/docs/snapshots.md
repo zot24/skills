@@ -11,11 +11,11 @@ Snapshots
 Copy Page
 
 
-# Snapshots
+# Snapshots<a href="#snapshots" aria-label="Link to this section">#</a>
 
 The `snapshot` command returns a compact accessibility tree with refs for element interaction.
 
-## Options
+## Options<a href="#options" aria-label="Link to this section">#</a>
 
 Filter output to reduce size:
 
@@ -33,11 +33,12 @@ agent-browser snapshot -i -c -d 5         # Combine options
 | Option              | Description                                        |
 |---------------------|----------------------------------------------------|
 | `-i, --interactive` | Only interactive elements (buttons, links, inputs) |
+| `-u, --urls`        | Include href URLs for link elements                |
 | `-c, --compact`     | Remove empty structural elements                   |
 | `-d, --depth`       | Limit tree depth                                   |
 | `-s, --selector`    | Scope to CSS selector                              |
 
-## Output format
+## Output format<a href="#output-format" aria-label="Link to this section">#</a>
 
 The default text output is compact and AI-friendly:
 
@@ -52,7 +53,7 @@ agent-browser snapshot -i
 ```
 
 
-## Using refs
+## Using refs<a href="#using-refs" aria-label="Link to this section">#</a>
 
 Refs from the snapshot map directly to commands:
 
@@ -64,7 +65,7 @@ agent-browser get text @e1        # Get heading text
 ```
 
 
-## Ref lifecycle
+## Ref lifecycle<a href="#ref-lifecycle" aria-label="Link to this section">#</a>
 
 Refs are invalidated when the page changes. Always re-snapshot after navigation or DOM updates:
 
@@ -76,7 +77,7 @@ agent-browser click @e1      # Use new refs
 ```
 
 
-## Annotated screenshots
+## Annotated screenshots<a href="#annotated-screenshots" aria-label="Link to this section">#</a>
 
 For visual context alongside text snapshots, use `screenshot --annotate` to overlay numbered labels on interactive elements. Each label `[N]` maps to ref `@eN`:
 
@@ -95,7 +96,7 @@ agent-browser click @e2
 
 Annotated screenshots also cache refs, so you can interact with elements immediately. This is useful when the text snapshot is insufficient -- unlabeled icons, canvas content, or visual layout verification.
 
-## Iframes
+## Iframes<a href="#iframes" aria-label="Link to this section">#</a>
 
 Snapshots automatically detect and inline iframe content. Each `Iframe` node in the main frame is resolved and its child accessibility tree is included directly beneath it. Refs assigned to elements inside iframes carry frame context, so interactions work without switching frames first.
 
@@ -124,7 +125,7 @@ agent-browser frame main        # Return to main frame
 ```
 
 
-## Best practices
+## Best practices<a href="#best-practices" aria-label="Link to this section">#</a>
 
 1.  Use `-i` to reduce output to actionable elements
 2.  Re-snapshot after page changes to get updated refs
@@ -132,7 +133,7 @@ agent-browser frame main        # Return to main frame
 4.  Use `-d` to limit depth on complex pages
 5.  Use `screenshot --annotate` when visual context is needed alongside refs
 
-## JSON output
+## JSON output<a href="#json-output" aria-label="Link to this section">#</a>
 
 For programmatic parsing in scripts:
 

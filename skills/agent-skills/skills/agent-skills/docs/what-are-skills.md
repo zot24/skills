@@ -74,6 +74,3 @@ This simple format has some key advantages:
 * [See example skills](https://github.com/anthropics/skills) on GitHub.
 * [Read authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) for writing effective skills.
 * [Use the reference library](https://github.com/agentskills/agentskills/tree/main/skills-ref) to validate skills and generate prompt XML.
-
-
-Built with [Mintlify](https://mintlify.com).

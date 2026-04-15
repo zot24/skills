@@ -1,6 +1,6 @@
 > Source: https://raw.githubusercontent.com/vercel/ai-chatbot/main/README.md
 
-<a href="https://chat.vercel.ai/">
+<a href="https://chatbot.ai-sdk.dev/demo">
   <img alt="Chatbot" src="app/(chat)/opengraph-image.png">
   <h1 align="center">Chatbot</h1>
 </a>
@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://chatbot.dev"><strong>Read Docs</strong></a> ·
+  <a href="https://chatbot.ai-sdk.dev/docs"><strong>Read Docs</strong></a> ·
   <a href="#features"><strong>Features</strong></a> ·
   <a href="#model-providers"><strong>Model Providers</strong></a> ·
   <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·

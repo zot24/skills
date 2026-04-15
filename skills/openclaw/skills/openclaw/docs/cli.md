@@ -32,7 +32,7 @@ Agent Send
 <a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
 
 
-<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Tools &amp; Plugins</a>
+<a href="/tools" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]" data-active="true">Tools &amp; Plugins</a>
 
 
 <a href="/providers" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Models</a>
@@ -101,6 +101,28 @@ Agent Send
 
   </div>
 
+- <span id="/plugins/codex-harness"><a href="/plugins/codex-harness" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Codex Harness</span>
+
+  </div>
+
+  </div>
+
+- <span id="/plugins/webhooks"><a href="/plugins/webhooks" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Webhooks Plugin</span>
+
+  </div>
+
+  </div>
+
 - <span id="/plugins/voice-call"><a href="/plugins/voice-call" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -112,15 +134,45 @@ Agent Send
 
   </div>
 
+- <span id="/plugins/memory-wiki"><a href="/plugins/memory-wiki" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Memory Wiki</span>
+
+  </div>
+
+  </div>
+
+- <span id="/plugins/zalouser"><a href="/plugins/zalouser" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Zalo Personal Plugin</span>
+
+  </div>
+
+  </div>
+
 - <div>
 
   Building Plugins
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   SDK Reference
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -190,7 +242,7 @@ Agent Send
   </div>
 
 
-##### Automation
+##### Automation & Tasks
 
 
 - <span id="/automation"><a href="/automation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
@@ -198,27 +250,7 @@ Agent Send
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Automation Overview</span>
-
-  </div>
-
-  </div>
-- <span id="/automation/hooks"><a href="/automation/hooks" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Hooks</span>
-
-  </div>
-
-  </div>
-- <span id="/automation/standing-orders"><a href="/automation/standing-orders" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Standing Orders</span>
+  <span class="min-w-0 max-w-full break-words">Automation & Tasks</span>
 
   </div>
 
@@ -228,17 +260,7 @@ Agent Send
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Cron Jobs</span>
-
-  </div>
-
-  </div>
-- <span id="/automation/cron-vs-heartbeat"><a href="/automation/cron-vs-heartbeat" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Cron vs Heartbeat</span>
+  <span class="min-w-0 max-w-full break-words">Scheduled Tasks</span>
 
   </div>
 
@@ -253,62 +275,32 @@ Agent Send
   </div>
 
   </div>
-- <span id="/automation/clawflow"><a href="/automation/clawflow" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+- <span id="/automation/taskflow"><a href="/automation/taskflow" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">ClawFlow</span>
+  <span class="min-w-0 max-w-full break-words">Task Flow</span>
 
   </div>
 
   </div>
-- <span id="/automation/troubleshooting"><a href="/automation/troubleshooting" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+- <span id="/automation/standing-orders"><a href="/automation/standing-orders" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Automation Troubleshooting</span>
+  <span class="min-w-0 max-w-full break-words">Standing Orders</span>
 
   </div>
 
   </div>
-- <span id="/automation/webhook"><a href="/automation/webhook" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+- <span id="/automation/hooks"><a href="/automation/hooks" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Webhooks</span>
-
-  </div>
-
-  </div>
-- <span id="/automation/gmail-pubsub"><a href="/automation/gmail-pubsub" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Gmail PubSub</span>
-
-  </div>
-
-  </div>
-- <span id="/automation/poll"><a href="/automation/poll" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Polls</span>
-
-  </div>
-
-  </div>
-- <span id="/automation/auth-monitoring"><a href="/automation/auth-monitoring" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Auth Monitoring</span>
+  <span class="min-w-0 max-w-full break-words">Hooks</span>
 
   </div>
 
@@ -317,6 +309,17 @@ Agent Send
 
 ##### Tools
 
+
+- <span id="/tools/media-overview"><a href="/tools/media-overview" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Media Overview</span>
+
+  </div>
+
+  </div>
 
 - <span id="/tools/apply-patch"><a href="/tools/apply-patch" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
@@ -335,9 +338,17 @@ Agent Send
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Web Tools
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -418,6 +429,17 @@ Agent Send
 
   </div>
 
+- <span id="/tools/music-generation"><a href="/tools/music-generation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Music Generation</span>
+
+  </div>
+
+  </div>
+
 - <span id="/tools/llm-task"><a href="/tools/llm-task" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -479,6 +501,17 @@ Agent Send
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words">Thinking Levels</span>
+
+  </div>
+
+  </div>
+
+- <span id="/tools/video-generation"><a href="/tools/video-generation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words">Video Generation</span>
 
   </div>
 
@@ -678,6 +711,6 @@ openclaw agent --agent ops --message "Alert" --deliver --reply-channel telegram 
 - <a href="/concepts/session" class="link">Sessions</a> — how session keys work
 
 
-<a href="/tools/thinking" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Thinking Levels</span></a><a href="/tools/subagents" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Sub-Agents</span></a>
+<a href="/tools/video-generation" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Video Generation</span></a><a href="/tools/subagents" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Sub-Agents</span></a>
 
 

@@ -1,58 +1,307 @@
-<!-- Source: https://docs.honcho.dev/v3/guides/integrations/mcp -->
+> Source: https://docs.honcho.dev/v3/guides/integrations/mcp.md
 
-# MCP Server
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
-## Overview
+# Model Context Protocol (MCP)
 
-The Honcho Model Context Protocol server provides persistent memory and personalization capabilities to MCP-compatible AI tools.
+> Give any AI tool persistent memory with the Honcho MCP server
 
-**Server Endpoint:** `https://mcp.honcho.dev`
+The Honcho MCP server gives any MCP-compatible AI tool persistent memory and personalization. Connect it once and your AI assistant learns who you are, remembers your preferences, and gets better over time — across every conversation.
 
-An API key from app.honcho.dev is required for access.
+**Server URL:** `https://mcp.honcho.dev`
+
+
+  You'll need an API key from [app.honcho.dev](https://app.honcho.dev) to use the hosted MCP server.
+
 
 ## Client Setup
 
-### Claude Desktop
-Use npx to run `mcp-remote` with authorization headers. Config files:
-- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+Pick your client below and add the config. After adding, **restart the client fully** for changes to take effect.
 
-### Claude Code
-```bash
-claude mcp add honcho --transport http --url "https://mcp.honcho.dev"
+### Claude Desktop
+
+
+    Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+
+    Edit `%APPDATA%\Claude\claude_desktop_config.json`:
+
+
+```json
+{
+  "mcpServers": {
+    "honcho": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.honcho.dev",
+        "--header",
+        "Authorization:${AUTH_HEADER}",
+        "--header",
+        "X-Honcho-User-Name:${USER_NAME}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer hch-your-key-here",
+        "USER_NAME": "YourName"
+      }
+    }
+  }
+}
 ```
 
-### Other Clients
-- **Codex:** `~/.codex/config.toml` (stdio transport via mcp-remote bridge)
-- **Cursor:** `~/.cursor/mcp.json` (native HTTP support)
-- **Windsurf:** `~/.codeium/windsurf/mcp_config.json` (uses "serverUrl")
-- **VS Code:** `.vscode/mcp.json` or User Settings JSON
-- **Cline:** Application Support directory
-- **Zed:** `~/.config/zed/settings.json` (requires v0.214.5+)
 
-## Required Headers
+  After saving, fully quit and relaunch Claude Desktop. The Honcho tools should appear in the tool picker.
 
-| Header | Status | Purpose |
-|--------|--------|---------|
-| Authorization | Required | Bearer token format |
-| X-Honcho-User-Name | Required | Name for AI to use |
-| X-Honcho-Assistant-Name | Optional | AI peer identifier (default: "Assistant") |
-| X-Honcho-Workspace-ID | Optional | Project isolation (default: "default") |
+
+For best results, create a project and paste these [instructions](https://raw.githubusercontent.com/plastic-labs/honcho/refs/heads/main/mcp/instructions.md) into the "Project Instructions" field so Claude knows how to use the memory tools.
+
+### Claude Code
+
+```bash
+claude mcp add honcho \
+  --transport http \
+  --url "https://mcp.honcho.dev" \
+  --header "Authorization: Bearer hch-your-key-here" \
+  --header "X-Honcho-User-Name: YourName"
+```
+
+Or if you prefer the [Claude Code Honcho plugin](/v3/guides/integrations/claudecode) for a deeper integration with persistent memory, git awareness, and agent skills:
+
+```bash
+/plugin marketplace add plastic-labs/claude-honcho
+```
+
+### Codex
+
+Add to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.honcho]
+command = "npx"
+args = [
+  "mcp-remote",
+  "https://mcp.honcho.dev",
+  "--header",
+  "Authorization:Bearer hch-your-key-here",
+  "--header",
+  "X-Honcho-User-Name:YourName"
+]
+```
+
+
+  Codex only supports stdio transport, so it uses `mcp-remote` as a bridge. Restart both the Codex CLI and VS Code extension after editing.
+
+
+### Cursor
+
+Cursor supports MCP servers natively via HTTP. Add to your global config at `~/.cursor/mcp.json` or per-project at `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "honcho": {
+      "url": "https://mcp.honcho.dev",
+      "headers": {
+        "Authorization": "Bearer hch-your-key-here",
+        "X-Honcho-User-Name": "YourName"
+      }
+    }
+  }
+}
+```
+
+Alternatively, go to **Cursor Settings → MCP** and add a new HTTP server with the URL and headers above.
+
+### Windsurf
+
+Add to `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "honcho": {
+      "serverUrl": "https://mcp.honcho.dev",
+      "headers": {
+        "Authorization": "Bearer hch-your-key-here",
+        "X-Honcho-User-Name": "YourName"
+      }
+    }
+  }
+}
+```
+
+
+  Windsurf uses `serverUrl` instead of `url`.
+
+
+### VS Code (Copilot Chat)
+
+Add to your workspace `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "honcho": {
+      "type": "http",
+      "url": "https://mcp.honcho.dev",
+      "headers": {
+        "Authorization": "Bearer hch-your-key-here",
+        "X-Honcho-User-Name": "YourName"
+      }
+    }
+  }
+}
+```
+
+Or add to your User Settings JSON (`Cmd+Shift+P` → "Preferences: Open User Settings (JSON)"):
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "honcho": {
+        "type": "http",
+        "url": "https://mcp.honcho.dev",
+        "headers": {
+          "Authorization": "Bearer hch-your-key-here",
+          "X-Honcho-User-Name": "YourName"
+        }
+      }
+    }
+  }
+}
+```
+
+### Cline
+
+Cline supports remote MCP servers natively. Open Cline's MCP settings at:
+
+
+    `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
+
+
+    `%APPDATA%\Code\User\globalStorage\saoudrizwan.claude-dev\settings\cline_mcp_settings.json`
+
+
+```json
+{
+  "mcpServers": {
+    "honcho": {
+      "url": "https://mcp.honcho.dev",
+      "headers": {
+        "Authorization": "Bearer hch-your-key-here",
+        "X-Honcho-User-Name": "YourName"
+      }
+    }
+  }
+}
+```
+
+Or add it via the Cline sidebar: click the MCP Servers icon → **Configure** → **Remote Servers**.
+
+### Zed
+
+Add to `~/.config/zed/settings.json`:
+
+```json
+{
+  "context_servers": {
+    "honcho": {
+      "url": "https://mcp.honcho.dev",
+      "headers": {
+        "Authorization": "Bearer hch-your-key-here",
+        "X-Honcho-User-Name": "YourName"
+      }
+    }
+  }
+}
+```
+
+
+  Zed uses `context_servers` instead of `mcpServers`. Native HTTP support requires Zed v0.214.5 or later.
+
+
+***
+
+## Optional Configuration
+
+You can customize the assistant name and workspace ID by adding extra headers. Both are optional.
+
+| Header                    | Default       | Description                 |
+| ------------------------- | ------------- | --------------------------- |
+| `Authorization`           | *required*    | `Bearer hch-your-key-here`  |
+| `X-Honcho-User-Name`      | *required*    | What the AI should call you |
+| `X-Honcho-Assistant-Name` | `"Assistant"` | Name for the AI peer        |
+| `X-Honcho-Workspace-ID`   | `"default"`   | Isolate memory per project  |
+
+Example with all headers (Claude Desktop format):
+
+```json
+{
+  "mcpServers": {
+    "honcho": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.honcho.dev",
+        "--header",
+        "Authorization:${AUTH_HEADER}",
+        "--header",
+        "X-Honcho-User-Name:${USER_NAME}",
+        "--header",
+        "X-Honcho-Assistant-Name:${ASSISTANT_NAME}",
+        "--header",
+        "X-Honcho-Workspace-ID:${WORKSPACE_ID}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer hch-your-key-here",
+        "USER_NAME": "YourName",
+        "ASSISTANT_NAME": "Claude",
+        "WORKSPACE_ID": "my-project"
+      }
+    }
+  }
+}
+```
+
+***
 
 ## Available Tools
 
-- **Workspace**: inspect, list, search, metadata management
-- **Peer**: creation, listing, chat, card operations, context retrieval
-- **Session**: creation, listing, deletion, cloning, peer/message management
-- **Conclusions**: listing, querying, creation, deletion
-- **System**: dream scheduling, queue status monitoring
+The recommended flow for a standard conversation uses `create_session` + `add_messages_to_session` + `chat`. See the [full instructions](https://raw.githubusercontent.com/plastic-labs/honcho/refs/heads/main/mcp/instructions.md) for a complete walkthrough.
+
+**Workspace** — `inspect_workspace`, `list_workspaces`, `search`, `get_metadata`, `set_metadata`
+
+**Peers** — `create_peer`, `list_peers`, `chat`, `get_peer_card`, `set_peer_card`, `get_peer_context`, `get_representation`
+
+**Sessions** — `create_session`, `list_sessions`, `delete_session`, `clone_session`, `add_peers_to_session`, `remove_peers_from_session`, `get_session_peers`, `inspect_session`, `add_messages_to_session`, `get_session_messages`, `get_session_message`, `get_session_context`
+
+**Conclusions** — `list_conclusions`, `query_conclusions`, `create_conclusions`, `delete_conclusion`
+
+**System** — `schedule_dream`, `get_queue_status`
+
+***
+
+## Verify It Works
+
+After setup, try asking your AI assistant:
+
+> "What do you know about me?"
+
+On the first conversation there won't be much — but after a few exchanges, Honcho's background reasoning will start building a representation of you. Ask again after a couple of conversations and you'll see the difference.
+
+***
 
 ## Troubleshooting
 
-| Issue | Resolution |
-|-------|-----------|
-| Tools unavailable | Complete client restart after configuration |
-| Authentication failures | Verify API key format (starts with `hch-`) |
-| Missing npx | Install Node.js runtime |
-| No personalization data | Expected for new accounts; requires multiple conversations |
-| Connection problems | Confirm network accessibility to server endpoint |
+| Problem                             | Fix                                                                                          |
+| ----------------------------------- | -------------------------------------------------------------------------------------------- |
+| Tools don't show up                 | Make sure you fully restarted the client after adding the config.                            |
+| Authorization errors                | Check your API key at [app.honcho.dev](https://app.honcho.dev). It should start with `hch-`. |
+| `npx` not found                     | Install Node.js — your AI assistant can help with this.                                      |
+| "No personalization insights found" | Normal for new users. Honcho needs a few conversations to build context.                     |
+| Connection timeouts                 | Check that `https://mcp.honcho.dev` is accessible from your network.                         |
+
+Need help? Join us on [Discord](https://discord.gg/honcho) or open an issue on [GitHub](https://github.com/plastic-labs/honcho/tree/main/mcp).

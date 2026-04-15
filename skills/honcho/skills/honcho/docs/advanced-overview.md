@@ -1,15 +1,27 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/features/advanced/overview -->
+> Source: https://docs.honcho.dev/v3/documentation/features/advanced/overview.md
 
-# Advanced Features Overview
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
-Honcho offers advanced configuration capabilities organized into two primary categories:
+# Advanced Features
 
-## Reasoning & Memory Features
+> Advanced configuration and monitoring options for Honcho
 
-The platform includes tools for enhanced cognitive processing. Configuration options allow customization of reasoning models and behavior. Additional capabilities encompass automatic session summarization, peer profile generation through Peer Card functionality, and directional representation handling for multi-peer interactions.
+Advanced features give you fine-grained control over Honcho's behavior and implementation.
 
-The system also features autonomous memory consolidation through Dreaming and provides Queue Status monitoring to monitor background processing and reasoning tasks.
+## Reasoning & Memory
 
-## Querying & Data Features
+* [Configuration](/v3/documentation/features/advanced/reasoning-configuration) - Configure reasoning models and behavior
+* [Summarizer](/v3/documentation/features/advanced/summarizer) - Automatic session summarization
+* [Peer Card](/v3/documentation/features/advanced/peer-card) - Quick-reference profile of stable biographical facts about a peer
+* [Representation Scopes](/v3/documentation/features/advanced/representation-scopes) - Directional representations for multi-peer scenarios
+* [Dreaming](/v3/documentation/features/advanced/dreaming) - Autonomous memory consolidation and self-improvement
+* [Queue Status](/v3/documentation/features/advanced/queue-status) - Monitor background processing and reasoning tasks
 
-Data interaction capabilities include comprehensive search functionality across peers, sessions, and messages, along with advanced filtering parameters. The platform supports streaming dialectic responses in real-time and enables file ingestion into peer memory systems.
+## Querying & Data
+
+* [Search](/v3/documentation/features/advanced/search) - Search across peers, sessions, and messages
+* [Filters](/v3/documentation/features/advanced/using-filters) - Filter queries with advanced parameters
+* [Streaming Responses](/v3/documentation/features/advanced/streaming-response) - Stream dialectic responses in real-time
+* [File Uploads](/v3/documentation/features/advanced/file-uploads) - Ingest files into peer memory

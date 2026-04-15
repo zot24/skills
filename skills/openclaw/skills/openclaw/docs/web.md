@@ -41,7 +41,7 @@ WebChat
 <a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
 
 
-<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Gateway &amp; Ops</a>
+<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]" data-active="true">Gateway &amp; Ops</a>
 
 
 <a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Reference</a>
@@ -70,9 +70,17 @@ WebChat
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Security and sandboxing
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -82,9 +90,17 @@ WebChat
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Networking and discovery
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -190,9 +206,17 @@ WebChat
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Node features
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -294,7 +318,7 @@ Web interfaces
 
 1.  Start the gateway.
 2.  Open the WebChat UI (macOS/iOS app) or the Control UI chat tab.
-3.  Ensure gateway auth is configured (required by default, even on loopback).
+3.  Ensure a valid gateway auth path is configured (shared-secret by default, even on loopback).
 
 ## 
 
@@ -304,6 +328,7 @@ Web interfaces
 
 - The UI connects to the Gateway WebSocket and uses `chat.history`, `chat.send`, and `chat.inject`.
 - `chat.history` is bounded for stability: Gateway may truncate long text fields, omit heavy metadata, and replace oversized entries with `[chat.history omitted: message too large]`.
+- `chat.history` is also display-normalized: inline delivery directive tags such as `[[reply_to_*]]` and `[[audio_as_voice]]`, plain-text tool-call XML payloads (including `<tool_call>...</tool_call>`, `<function_call>...</function_call>`, `<tool_calls>...</tool_calls>`, `<function_calls>...</function_calls>`, and truncated tool-call blocks), and leaked ASCII/full-width model control tokens are stripped from visible text, and assistant entries whose whole visible text is only the exact silent token `NO_REPLY` / `no_reply` are omitted.
 - `chat.inject` appends an assistant note directly to the transcript and broadcasts it to the UI (no agent run).
 - Aborted runs can keep partial assistant output visible in the UI.
 - Gateway persists aborted partial assistant text into transcript history when buffered output exists, and marks those entries with abort metadata.
@@ -337,12 +362,13 @@ Web interfaces
 <a href="#configuration-reference-webchat" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- No dedicated `webchat.*` block. WebChat uses the gateway endpoint + auth settings below.
+- `gateway.webchat.chatHistoryMaxChars`: maximum character count for text fields in `chat.history` responses. When a transcript entry exceeds this limit, Gateway truncates long text fields and may replace oversized messages with a placeholder. Per-request `maxChars` can also be sent by the client to override this default for a single `chat.history` call.
 
 
 - `gateway.port`, `gateway.bind`: WebSocket host/port.
-- `gateway.auth.mode`, `gateway.auth.token`, `gateway.auth.password`: WebSocket auth (token/password).
-- `gateway.auth.mode: "trusted-proxy"`: reverse-proxy auth for browser clients (see <a href="/gateway/trusted-proxy-auth" class="link">Trusted Proxy Auth</a>).
+- `gateway.auth.mode`, `gateway.auth.token`, `gateway.auth.password`: shared-secret WebSocket auth.
+- `gateway.auth.allowTailscale`: browser Control UI chat tab can use Tailscale Serve identity headers when enabled.
+- `gateway.auth.mode: "trusted-proxy"`: reverse-proxy auth for browser clients behind an identity-aware **non-loopback** proxy source (see <a href="/gateway/trusted-proxy-auth" class="link">Trusted Proxy Auth</a>).
 - `gateway.remote.url`, `gateway.remote.token`, `gateway.remote.password`: remote gateway target.
 - `session.*`: session storage and main key defaults.
 

@@ -26,7 +26,7 @@ WhatsApp
 <a href="/install" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Install</a>
 
 
-<a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Channels</a>
+<a href="/channels" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]" data-active="true">Channels</a>
 
 
 <a href="/concepts/architecture" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Agents</a>
@@ -377,6 +377,7 @@ On this page
 - <a href="#personal-number-and-self-chat-behavior" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Personal-number and self-chat behavior</a>
 - <a href="#message-normalization-and-context" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Message normalization and context</a>
 - <a href="#delivery-chunking-and-media" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Delivery, chunking, and media</a>
+- <a href="#reaction-level" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Reaction level</a>
 - <a href="#acknowledgment-reactions" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Acknowledgment reactions</a>
 - <a href="#multi-account-and-credentials" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Multi-account and credentials</a>
 - <a href="#tools-actions-and-config-writes" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Tools, actions, and config writes</a>
@@ -548,6 +549,7 @@ WhatsApp Web-only channel scope
 - Status and broadcast chats are ignored (`@status`, `@broadcast`).
 - Direct chats use DM session rules (`session.dmScope`; default `main` collapses DMs to the agent main session).
 - Group sessions are isolated (`agent:<agentId>:whatsapp:group:<jid>`).
+- WhatsApp Web transport honors standard proxy environment variables on the gateway host (`HTTPS_PROXY`, `HTTP_PROXY`, `NO_PROXY` / lowercase variants). Prefer host-level proxy config over channel-specific WhatsApp proxy settings.
 
 ## 
 
@@ -738,6 +740,31 @@ Media size limits and fallback behavior
 ## 
 
 
+<a href="#reaction-level" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| Level         | Ack reactions | Agent-initiated reactions | Description                                      |
+|---------------|---------------|---------------------------|--------------------------------------------------|
+| `"off"`       | No            | No                        | No reactions at all                              |
+| `"ack"`       | Yes           | No                        | Ack reactions only (pre-reply receipt)           |
+| `"minimal"`   | Yes           | Yes (conservative)        | Ack + agent reactions with conservative guidance |
+| `"extensive"` | Yes           | Yes (encouraged)          | Ack + agent reactions with encouraged guidance   |
+
+
+``` shiki
+{
+  channels: {
+    whatsapp: {
+      reactionLevel: "ack",
+    },
+  },
+}
+```
+
+
+## 
+
+
 <a href="#acknowledgment-reactions" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
@@ -848,7 +875,7 @@ Bun runtime warning
 
 
 - access: `dmPolicy`, `allowFrom`, `groupPolicy`, `groupAllowFrom`, `groups`
-- delivery: `textChunkLimit`, `chunkMode`, `mediaMaxMb`, `sendReadReceipts`, `ackReaction`
+- delivery: `textChunkLimit`, `chunkMode`, `mediaMaxMb`, `sendReadReceipts`, `ackReaction`, `reactionLevel`
 - multi-account: `accounts.<id>.enabled`, `accounts.<id>.authDir`, account-level overrides
 - operations: `configWrites`, `debounceMs`, `web.enabled`, `web.heartbeatSeconds`, `web.reconnect.*`
 - session behavior: `session.dmScope`, `historyLimit`, `dmHistoryLimit`, `dms.<id>.historyLimit`

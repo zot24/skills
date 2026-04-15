@@ -1,233 +1,385 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/core-concepts/design-patterns -->
+> Source: https://docs.honcho.dev/v3/documentation/core-concepts/design-patterns.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Design Patterns
 
-Design your workspace, peers, and sessions for common application patterns. For users with coding agents (Claude Code, Cursor, etc.), the `/honcho-integration` skill provides interactive guidance through these design decisions.
+> Design your workspace, peers, and sessions for common application patterns
 
-## Quick Reference Table
 
-| Decision | Recommendation |
-|----------|----------------|
-| Workspace quantity | One per application; separate per-agent if hard data isolation needed |
-| Peer selection | Any entity requiring Honcho reasoning -- users, agents, NPCs, students, customers |
-| Session scope | Flexible approach -- per-conversation, per-channel, per-scene, etc. |
-| `observe_me: false` setting | Yes, for deterministic peers like assistants or bots without learning needs |
-| `observe_others` requirement | Only when different peers need distinct views of same participant; most apps use default (false) |
+  If you're using a coding agent (Claude Code, Cursor, etc.), the **`/honcho-integration` skill** walks you through these decisions interactively. It explores your codebase, interviews you about peers and sessions, and generates the integration code. The patterns below are the same ones the skill uses.
+
+
+## Quick Reference
+
+| Decision                          | Recommendation                                                                                                                                    |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| How many workspaces?              | One per application. Separate per-agent if you need hard data isolation.                                                                          |
+| Who should be a peer?             | Any entity you want Honcho to reason about — users, agents, NPCs, students, customers.                                                            |
+| How should I scope sessions?      | Flexible -- per-conversation, per-channel, per-scene, etc. See [Session Design](#session-design) below.                                           |
+| Should I set `observe_me: false`? | Yes, for any peer you don't need Honcho to build a representation of — typically assistants or bots with deterministic behavior.                  |
+| Do I need `observe_others`?       | Only when different peers  need distinct views of the same participant (e.g., games, multi-agent). Most apps can leave it at the default (false). |
 
 ## Workspace Design
 
-Workspaces serve as top-level containers with complete isolation of peers, sessions, messages, and reasoning from other workspaces.
+Workspaces are the top-level container. Everything inside a workspace (peers, sessions, messages, and all reasoning) is fully isolated from other workspaces.
 
-**Deployment patterns:**
+**One workspace per application** is the most common pattern. Use separate workspaces when you need hard isolation:
 
-| Pattern | Application |
-|---------|-------------|
-| Single workspace | Standard for most products in one environment |
-| Per-tenant | Multi-tenant SaaS requiring complete customer data separation |
+| Pattern          | When to use                                                               |
+| ---------------- | ------------------------------------------------------------------------- |
+| Single workspace | Most applications. One product, one environment.                          |
+| Per-tenant       | Multi-tenant SaaS where each customer's data must be completely isolated. |
 
-The SDK creates a workspace named `default` if no `workspace_id` is specified.
+
+  If you are using the SDK, it will create a workspace called `default` if no name is specified for `workspace_id`
+
+
+***
 
 ## Peer Design
 
-A peer represents any entity participating in sessions, with observation settings controlling reasoning scope.
+A peer is any entity that participates in a session. Observation settings control which ones Honcho reasons about.
 
-**Peer characteristics:**
+**What makes a good peer?**
 
-- Participates in sessions (users, agents, characters, NPCs)
-- Persists across multiple sessions
-- Changes over time (preferences, knowledge) or produces storable messages
+* It participates in sessions (a user, an agent, a character, an NPC)
+* It persists across sessions
+* It changes over time (preferences shift, knowledge grows), or it produces messages you want Honcho to see
 
-**Naming conventions using code examples:**
+**Naming conventions**
 
-Platform-prefixed identifiers for multi-channel applications:
-```python
-peer = honcho.peer("discord_491827364")
-peer = honcho.peer("slack_U04ABCDEF")
-```
+Give peers stable, unique identifiers scoped to your application:
 
-Application-specific user IDs:
-```python
-peer = honcho.peer("user_abc123")
-```
+<CodeGroup>
+  ```python Python
+  # Prefix with the source platform for multi-channel apps
+  peer = honcho.peer("discord_491827364")
+  peer = honcho.peer("slack_U04ABCDEF")
 
-Descriptive names for assistants:
-```python
-peer = honcho.peer("assistant")
-peer = honcho.peer("dungeon-master")
-```
+  # Use your own user IDs for backend integrations
+  peer = honcho.peer("user_abc123")
 
-**Peer Cards for multiple identities:**
+  # Use descriptive names for agents/assistants
+  peer = honcho.peer("assistant")
+  peer = honcho.peer("dungeon-master")
+  ```
 
-```python
-peer = honcho.peer("user_abc123")
-peer.set_card([
-    "Name: Alice. Also known as 'Ali' and 'A'.",
-    "College student, prefers casual tone.",
-])
-```
+  ```typescript TypeScript
+  // Prefix with the source platform for multi-channel apps
+  const peer = await honcho.peer("discord_491827364");
+  const peer = await honcho.peer("slack_U04ABCDEF");
 
-**Disabling reasoning for deterministic peers:**
+  // Use your own user IDs for backend integrations
+  const peer = await honcho.peer("user_abc123");
 
-```python
-from honcho.api_types import PeerConfig
+  // Use descriptive names for agents/assistants
+  const peer = await honcho.peer("assistant");
+  const peer = await honcho.peer("dungeon-master");
+  ```
+</CodeGroup>
 
-assistant = honcho.peer("assistant", configuration=PeerConfig(observe_me=False))
-user = honcho.peer("user-123", configuration=PeerConfig(observe_me=True))
-```
+If your Peer represents an entity that may go by multiple different names, such as nicknames indicate that in the Peer Card:
+
+<CodeGroup>
+  ```python Python
+  peer = honcho.peer("user_abc123")
+  peer.set_card([
+      "Name: Alice. Also known as 'Ali' and 'A'.",
+      "College student, prefers casual tone.",
+  ])
+  ```
+
+  ```typescript TypeScript
+  const peer = await honcho.peer("user_abc123");
+  await peer.setCard([
+      "Name: Alice. Also known as 'Ali' and 'A'.",
+      "College student, prefers casual tone.",
+  ]);
+  ```
+</CodeGroup>
+
+**When to disable reasoning**
+
+Not every peer needs a representation. Set `observe_me: false` on peers that behave deterministically.
+
+<CodeGroup>
+  ```python Python
+  from honcho.api_types import PeerConfig
+
+  # The assistant doesn't need a representation
+  assistant = honcho.peer("assistant", configuration=PeerConfig(observe_me=False))
+
+  # The user does--this is who you want to understand
+  user = honcho.peer("user-123", configuration=PeerConfig(observe_me=True))
+  ```
+
+  ```typescript TypeScript
+  const assistant = await honcho.peer("assistant", { configuration: { observeMe: false } });
+  const user = await honcho.peer("user-123", { configuration: { observeMe: true } });
+  ```
+</CodeGroup>
+
+***
 
 ## Session Design
 
-Sessions define temporal interaction boundaries, affecting summary generation and context retrieval.
+Sessions define the temporal boundaries of an interaction. How you scope sessions directly affects how summaries are generated and how context is retrieved.
 
-**Session scoping patterns:**
+**Common session patterns**
 
-| Pattern | Scope | Example |
-|---------|-------|---------|
-| Per-conversation | Each new chat thread | ChatGPT-style with separate threads |
-| Per-channel | Persistent channel or room | Discord channel, Slack thread |
-| Per-interaction | Bounded task or encounter | Support ticket, game encounter |
-| Per-import | Batch external data | Email or document import for single peer |
+| Pattern          | Session scoped to            | Example                                         |
+| ---------------- | ---------------------------- | ----------------------------------------------- |
+| Per-conversation | Each new chat thread         | ChatGPT-style UI where each thread is a session |
+| Per-channel      | A persistent channel or room | Discord channel, Slack thread                   |
+| Per-interaction  | A bounded task or encounter  | A support ticket, a game encounter              |
+| Per-import       | A batch of external data     | Importing emails or documents for a single peer |
 
-**Session lifecycle decisions:**
+**When to create new sessions vs reuse**
 
-- Create new sessions when context resets (new conversation, topic change, new day)
-- Reuse sessions when context should accumulate (ongoing channels, persistent threads)
+* **New session** when the context resets (new conversation, new day, new topic)
+* **Reuse session** when context should accumulate (ongoing channel, persistent thread)
+
+***
 
 ## Application Patterns
 
 ### AI Companions
 
-Assistants remembering users across sessions and platforms. The Honcho OpenClaw plugin demonstrates this pattern across WhatsApp, Telegram, Discord, and Slack.
+An assistant that remembers the user across sessions and platforms. The [Honcho plugin for OpenClaw](/v3/guides/integrations/openclaw) is a production example--one assistant with memory across WhatsApp, Telegram, Discord, and Slack.
 
-**Implementation example:**
+<CodeGroup>
+  ```python Python
+  from honcho import Honcho
+  from honcho.api_types import PeerConfig, SessionPeerConfig
 
-```python
-from honcho import Honcho
-from honcho.api_types import PeerConfig, SessionPeerConfig
+  honcho = Honcho(workspace_id="my-companion-app")
 
-honcho = Honcho(workspace_id="my-companion-app")
-owner = honcho.peer("owner")
-agent = honcho.peer("agent-main", configuration=PeerConfig(observe_me=False))
+  owner = honcho.peer("owner")
+  agent = honcho.peer("agent-main", configuration=PeerConfig(observe_me=False))
 
-session = honcho.session("general-discord")
-session.add_peers([
-    (owner, SessionPeerConfig(observe_me=True, observe_others=False)),
-    (agent, SessionPeerConfig(observe_me=True, observe_others=True)),
-])
+  # Session key = thread + platform → separate histories, shared user memory
+  session = honcho.session("general-discord")
+  session.add_peers([
+      (owner, SessionPeerConfig(observe_me=True, observe_others=False)),
+      (agent, SessionPeerConfig(observe_me=True, observe_others=True)),
+  ])
 
-session.add_messages([
-    owner.message("I've been stressed about the move to Portland next month"),
-    agent.message("Moving is a big deal. What's weighing on you the most?"),
-    owner.message("Honestly just leaving my friend group behind"),
-])
+  session.add_messages([
+      owner.message("I've been stressed about the move to Portland next month"),
+      agent.message("Moving is a big deal. What's weighing on you the most?"),
+      owner.message("Honestly just leaving my friend group behind"),
+  ])
 
-response = owner.chat("What's going on in this user's life right now?")
-```
+  # Query from any session or platform
+  response = owner.chat("What's going on in this user's life right now?")
+  ```
 
-**Key architectural decisions:**
+  ```typescript TypeScript
+  const honcho = new Honcho({ workspaceId: "my-companion-app" });
 
-- Session keys combine thread and platform (e.g., `general-discord`, `general-telegram`) for separate histories with shared user memory
-- Dynamic agent peers with workspace-level mapping enable agent renaming via metadata lookup
-- Subagent hierarchy allows parent agents to join child sessions as silent observers
-- Asymmetric observation: owners have default scope while agents see both perspectives
-- Subagents receive lighter context (peer card only, no session summaries)
+  const owner = await honcho.peer("owner");
+  const agent = await honcho.peer("agent-main", { configuration: { observeMe: false } });
 
-See the OpenClaw integration guide for complete plugin setup.
+  const session = await honcho.session("general-discord");
+  await session.addPeers([
+      ["owner", { observeMe: true, observeOthers: false }],
+      ["agent-main", { observeMe: true, observeOthers: true }],
+  ]);
+
+  await session.addMessages([
+      owner.message("I've been stressed about the move to Portland next month"),
+      agent.message("Moving is a big deal. What's weighing on you the most?"),
+      owner.message("Honestly just leaving my friend group behind"),
+  ]);
+
+  const response = await owner.chat("What's going on in this user's life right now?");
+  ```
+</CodeGroup>
+
+**Key decisions (from the [OpenClaw plugin](/v3/guides/integrations/openclaw)):**
+
+* **Session key = thread + platform** — `general-discord` and `general-telegram` are separate sessions but share a single owner representation, so Honcho learns from every channel
+* **Dynamic agent peers** — each agent gets its own peer (`agent-{id}`), resolved via a workspace-level map. Renaming an agent recovers the peer by metadata lookup
+* **Subagent hierarchy** — when a primary agent spawns a subagent, the parent joins the child's session as a silent observer (`observe_me: false, observe_others: true`), giving Honcho visibility into the full agent tree
+* **Asymmetric observation** — both owner and agent are observed, but with different scopes: owner has `observe_others: false` (default view), while the agent has `observe_others: true` so it can build its own representation of the owner. Subagents get lighter context (peer card only, no session summary)
+
+See the [OpenClaw integration guide](/v3/guides/integrations/openclaw) for the full plugin setup.
+
+***
 
 ### Coding Agents
 
-Coding agents maintain state across terminal restarts, editor switches, and project transitions. The Claude Code plugin exemplifies this pattern.
+Coding agents survive terminal restarts, editor switches, and project hops. The [Honcho plugin for Claude Code](/v3/guides/integrations/claude-code) is a production example of this pattern.
 
-**Implementation example:**
+<CodeGroup>
+  ```python Python
+  from honcho import Honcho
+  from honcho.api_types import PeerConfig
 
-```python
-from honcho import Honcho
-from honcho.api_types import PeerConfig
+  honcho = Honcho(workspace_id="claude_code")
 
-honcho = Honcho(workspace_id="claude_code")
-developer = honcho.peer("user")
-agent = honcho.peer("claude", configuration=PeerConfig(observe_me=False))
+  # Developer is observed; agent is not
+  developer = honcho.peer("user")
+  agent = honcho.peer("claude", configuration=PeerConfig(observe_me=False))
 
-session = honcho.session("user-honcho-repo")
-session.add_peers([developer, agent])
+  # Session per project directory -- stable across restarts
+  session = honcho.session("user-honcho-repo")
+  session.add_peers([developer, agent])
 
-session.add_messages([
-    developer.message("refactor the auth module to use dependency injection"),
-    agent.message("I'll extract the auth dependencies into a provider pattern..."),
-    developer.message("actually let's keep it simpler, just pass the config directly"),
-])
+  session.add_messages([
+      developer.message("refactor the auth module to use dependency injection"),
+      agent.message("I'll extract the auth dependencies into a provider pattern..."),
+      developer.message("actually let's keep it simpler, just pass the config directly"),
+  ])
 
-context = developer.chat("What are this developer's preferences for code architecture?")
-```
+  # In a future session, query what Honcho learned
+  context = developer.chat("What are this developer's preferences for code architecture?")
+  # Honcho knows: prefers simplicity, reverses decisions when simpler approach exists
+  ```
 
-**Key architectural decisions:**
+  ```typescript TypeScript
+  const honcho = new Honcho({ workspaceId: "claude_code" });
 
-- One workspace per tool (Claude Code and Cursor separate, with optional cross-linking)
-- Asymmetric peers: developer observed for memory formation, agent not observed but messages stored
-- Session-per-directory by default with peer-prefixed naming to prevent developer collisions
-- Filter agent messages to exclude trivial tool output, retaining substantive explanations
-- Import external data via single-peer sessions for READMEs, architecture docs, or commit history
+  const developer = await honcho.peer("user");
+  const agent = await honcho.peer("claude", { configuration: { observeMe: false } });
 
-See the Claude Code integration guide for complete plugin setup.
+  const session = await honcho.session("user-honcho-repo");
+  await session.addPeers([developer, agent]);
+
+  await session.addMessages([
+      developer.message("refactor the auth module to use dependency injection"),
+      agent.message("I'll extract the auth dependencies into a provider pattern..."),
+      developer.message("actually let's keep it simpler, just pass the config directly"),
+  ]);
+
+  const context = await developer.chat("What are this developer's preferences for code architecture?");
+  ```
+</CodeGroup>
+
+**Key decisions (from the Claude Code plugin):**
+
+* **One workspace per tool** -- Claude Code and Cursor each get their own workspace, with optional cross-linking for read access
+* **Asymmetric peers** -- developer is observed (memory formation), agent is not observed but still stores messages so Honcho sees both sides
+* **Session-per-directory** by default -- each project accumulates its own memory. Prefix with peer name (`user-honcho-repo`) so multiple developers on the same workspace don't collide. Alternative strategies: `git-branch` (session switches on branch change) or `chat-instance` (clean slate each time)
+* **Filter what you store** -- user messages go in real-time; agent messages are filtered to skip trivial tool output and keep substantive explanations
+* **Import external data** with single-peer sessions to ingest READMEs, architecture docs, or commit history into a developer's representation
+
+See the [Claude Code integration guide](/v3/guides/integrations/claude-code) for the full plugin setup.
+
+***
 
 ### Games
 
-Games require multi-peer scenarios where information asymmetry matters. NPCs should only know witnessed information, not full game state.
+Games introduce multi-peer scenarios where **information asymmetry matters**. An NPC should only know what it has witnessed, not the full game state.
 
-**Implementation example:**
+<CodeGroup>
+  ```python Python
+  from honcho import Honcho
+  from honcho.api_types import SessionPeerConfig
 
-```python
-from honcho import Honcho
-from honcho.api_types import SessionPeerConfig
+  honcho = Honcho(workspace_id="my-rpg")
 
-honcho = Honcho(workspace_id="my-rpg")
+  # Every character is a peer
+  player = honcho.peer("player-one")
+  merchant = honcho.peer("merchant-grim")
+  thief = honcho.peer("thief-shadow")
 
-player = honcho.peer("player-one")
-merchant = honcho.peer("merchant-grim")
-thief = honcho.peer("thief-shadow")
+  # Scene 1: Player talks to the merchant
+  tavern = honcho.session("tavern-scene")
+  tavern.add_peers([player, merchant])
 
-tavern = honcho.session("tavern-scene")
-tavern.add_peers([player, merchant])
-tavern.set_peer_configuration(merchant, SessionPeerConfig(observe_others=True))
+  # Enable the merchant to build its own representation of the player
+  tavern.set_peer_configuration(merchant, SessionPeerConfig(observe_others=True))
 
-tavern.add_messages([
-    player.message("I'm looking for a rare gemstone. Money is no object."),
-    merchant.message("I may know of one... but it won't come cheap."),
-])
+  tavern.add_messages([
+      player.message("I'm looking for a rare gemstone. Money is no object."),
+      merchant.message("I may know of one... but it won't come cheap."),
+  ])
 
-alley = honcho.session("dark-alley")
-alley.add_peers([player, thief])
-alley.set_peer_configuration(thief, SessionPeerConfig(observe_others=True))
+  # Scene 2: Player talks to the thief (merchant isn't here)
+  alley = honcho.session("dark-alley")
+  alley.add_peers([player, thief])
+  alley.set_peer_configuration(thief, SessionPeerConfig(observe_others=True))
 
-alley.add_messages([
-    player.message("I need that gemstone stolen from the merchant. Quietly."),
-    thief.message("Consider it done. Half up front."),
-])
+  alley.add_messages([
+      player.message("I need that gemstone stolen from the merchant. Quietly."),
+      thief.message("Consider it done. Half up front."),
+  ])
 
-merchant_view = merchant.chat("What do I know about this player?", target="player-one")
-thief_view = thief.chat("What do I know about this player?", target="player-one")
-full_view = player.chat("What is this player up to?")
-```
+  # The merchant's view of the player: wealthy buyer seeking a gemstone
+  merchant_view = merchant.chat("What do I know about this player?", target="player-one")
 
-**Key architectural decisions:**
+  # The thief's view: someone willing to steal from the merchant
+  thief_view = thief.chat("What do I know about this player?", target="player-one")
 
-- Every character (player, NPC) becomes a separate peer
-- `observe_others: true` enables NPCs to build representations based exclusively on witnessed interactions
-- Session-per-scene or session-per-encounter for interaction-specific context scoping
-- Use `target` parameter when querying for specific NPC perspectives rather than omniscient views
-- Reference Representation Scopes documentation for complete details
+  # Honcho's global view: knows both sides of the story
+  full_view = player.chat("What is this player up to?")
+  ```
+
+  ```typescript TypeScript
+  const honcho = new Honcho({ workspaceId: "my-rpg" });
+
+  const player = await honcho.peer("player-one");
+  const merchant = await honcho.peer("merchant-grim");
+  const thief = await honcho.peer("thief-shadow");
+
+  const tavern = await honcho.session("tavern-scene");
+  await tavern.addPeers([player, merchant]);
+  await tavern.setPeerConfiguration(merchant, { observeOthers: true });
+
+  await tavern.addMessages([
+      player.message("I'm looking for a rare gemstone. Money is no object."),
+      merchant.message("I may know of one... but it won't come cheap."),
+  ]);
+
+  const alley = await honcho.session("dark-alley");
+  await alley.addPeers([player, thief]);
+  await alley.setPeerConfiguration(thief, { observeOthers: true });
+
+  await alley.addMessages([
+      player.message("I need that gemstone stolen from the merchant. Quietly."),
+      thief.message("Consider it done. Half up front."),
+  ]);
+
+  const merchantView = await merchant.chat("What do I know about this player?", { target: "player-one" });
+  const thiefView = await thief.chat("What do I know about this player?", { target: "player-one" });
+  const fullView = await player.chat("What is this player up to?");
+  ```
+</CodeGroup>
+
+**Key decisions:**
+
+* Every character (player, NPC) is a peer
+* `observe_others: true` lets NPCs build their own representations of the player based only on what they've witnessed
+* Session-per-scene or session-per-encounter so context scopes to specific interactions
+* Use `target` when querying to get a specific NPC's perspective rather than Honcho's omniscient view
+* See [Representation Scopes](/v3/documentation/features/advanced/representation-scopes) for the full details
+
+***
 
 ## Common Mistakes
 
-1. **`observe_me` left enabled for assistants** -- Wastes reasoning compute on controllable, deterministic behavior
-2. **Failing to store messages** -- Honcho reasons about messages asynchronously. If you don't call `add_messages()`, there's nothing to reason about
-3. **Separate workspace per user** -- Use peers within single workspace instead; workspaces isolate applications, not users
-4. **Excessive tiny sessions** -- Summaries and `session.context()` scope to single sessions; fragmenting continuous conversations breaks context flow
-5. **Blocking on processing** -- Messages process asynchronously; avoid polling or waiting before continuing application flow
+* **Leaving `observe_me` on for assistants** -- Wastes reasoning compute on a peer you control. Deterministic behavior doesn't need to be modeled.
+* **Not storing messages** -- Honcho reasons about messages asynchronously. If you don't call `add_messages()`, there's nothing to reason about — no messages means no memory. See [Storing Data](/v3/documentation/features/storing-data) for details.
+* **Creating a new workspace per user** -- Use peers within a single workspace instead. Workspaces are for isolation between applications, not between users.
+* **Too many tiny sessions** -- Summaries and `session.context()` are scoped to a single session. If you split a continuous conversation across many sessions, context is fragmented and each session is too short to summarize. Reuse a session when context should flow continuously.
+* **Blocking on processing** -- Messages are processed asynchronously in the background. Don't poll or wait for reasoning to complete before continuing your application flow.
 
 ## Next Steps
 
-- **Get Context**: Retrieve formatted context from sessions for your LLM
-- **Chat Endpoint**: Query Honcho about peers using natural language
-- **Reasoning Configuration**: Fine-tune what gets reasoned about and how
-- **Representation Scopes**: Directional representations for multi-peer scenarios
+
+    Retrieve formatted context from sessions for your LLM
+
+
+    Query Honcho about your peers with natural language
+
+
+    Fine-tune what gets reasoned about and how
+
+
+    Directional representations for multi-peer scenarios
+
+

@@ -1,81 +1,159 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/features/advanced/queue-status -->
+> Source: https://docs.honcho.dev/v3/documentation/features/advanced/queue-status.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Queue Status
 
-## Overview
+> Learn how to check the status of Honcho's reasoning
 
-Honcho provides utilities to monitor the status of asynchronous reasoning processes. When messages are stored, background processes trigger to reason about conversations and generate insights.
+Whenever messages are stored in Honcho, background processes kick off to [reason](/v3/documentation/core-concepts/reasoning) about the conversation and generate insights.
 
-## Checking Queue Status
+Reasoning is an asynchronous process and will not immediately
+generate insights for the latest message you've sent. This is
+by design: we want to reason efficiently over batches of messages
+rather than assessing each message in a vacuum. Honcho provides
+several utilities to check the status of the queue.
 
-### Python
-```python
-from honcho import Honcho
-honcho = Honcho()
+<CodeGroup>
+  ```python Python
+  from honcho import Honcho
+  honcho = Honcho()
 
-status = honcho.queue_status()
-```
+  status = honcho.queue_status()
+  ```
 
-### TypeScript
-```typescript
-import { Honcho } from '@honcho-ai/sdk';
+  ```typescript typescript
+  import { Honcho } from '@honcho-ai/sdk';
 
-const honcho = new Honcho({});
+  const honcho = new Honcho({});
 
-const status = await honcho.queueStatus();
-```
+  const status = await honcho.queueStatus();
+  ```
+</CodeGroup>
 
-## Output Structure
+Output types
 
-### Python Response
-```python
-class QueueStatus(BaseModel):
-    completed_work_units: int
-    in_progress_work_units: int
-    pending_work_units: int
-    total_work_units: int
-    sessions: Optional[Dict[str, Sessions]] = None
-```
+<CodeGroup>
+  ```python Python
+  class QueueStatus(BaseModel):
+      completed_work_units: int
+      """Completed work units"""
 
-### TypeScript Response
-```typescript
-Promise<{
-    totalWorkUnits: number
-    completedWorkUnits: number
-    inProgressWorkUnits: number
-    pendingWorkUnits: number
-    sessions?: Record<string, QueueStatus.Sessions>
-}>
-```
+      in_progress_work_units: int
+      """Work units currently being processed"""
 
-## Work Units
+      pending_work_units: int
+      """Work units waiting to be processed"""
 
-A "work unit" combines sender identity, session, and observer parameters. Key characteristics:
+      total_work_units: int
+      """Total work units"""
 
-- Tasks within the same work unit process sequentially
-- Multiple work units process in parallel
-- Additional work units generate for observers with `observe_others=True`
+      sessions: Optional[Dict[str, Sessions]] = None
+      """Per-session status when not filtered by session"""
+  ```
 
-## Tracked Task Types
+  ```typescript TypeScript
+  Promise<{
+      totalWorkUnits: number
+      completedWorkUnits: number
+      inProgressWorkUnits: number
+      pendingWorkUnits: number
+      sessions?: Record<string, QueueStatus.Sessions>
+    }>
 
-| Task Type | Purpose |
-|-----------|---------|
-| **representation** | Memory formation and observation extraction |
-| **summary** | Session summarization at configurable intervals |
-| **dream** | Memory consolidation and improvement |
+  ```
+</CodeGroup>
 
-## Scoping Parameters
+Whenever a message is sent it will generate several tasks. These could
+be tasks such as generating insights, cleaning up a representation, summarizing
+a conversation etc. These tasks are defined based on who is sending the
+message, what session the message is in, and potentially who is observing the
+message. We call the combination of these parameters a `work_unit`
 
-Both client and session-level methods accept optional filtering:
+This has a few different implications.
 
-```python
-queue_status(
-    observer_id: str | None = None,
-    sender_id: str | None = None,
-    session_id: str | None = None,
-)
-```
+* tasks within the same work\_unit are processed sequentially, but multiple
+  work\_units will be processed in parallel
+* If local representations are turned in a Session then a message will
+  generate an additional work unit for every peer that has `observe_others=True`
 
-## Important Considerations
+### Tracked task types
 
-Do not wait for the queue to be empty. The queue is a continuous processing system -- new messages may arrive at any time. Use queue status for observability and debugging, not synchronization. Completed counts reflect items since the last cleanup cycle, not lifetime totals.
+The queue status endpoint reports on the following task types:
+
+| Task Type          | Description                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------ |
+| **representation** | Memory formation — the deriver processes messages and extracts observations about peers    |
+| **summary**        | Session summarization — creates short and long summaries at configurable message intervals |
+| **dream**          | Memory consolidation — explores and consolidates observations to improve memory quality    |
+
+Internal infrastructure tasks (such as webhook delivery, resource deletion, and
+vector reconciliation) are **not** included in queue status counts.
+
+
+  **Completed counts are not lifetime totals.** Honcho periodically cleans up
+  processed queue items to keep the queue table lean. As a result,
+  `completed_work_units` reflects items completed since the last cleanup cycle,
+  not the total number of items ever processed.
+
+
+The `queue_status` method can take additional
+parameters to scope the status to a specific work unit:
+
+<CodeGroup>
+  ```python Python
+  def queue_status(
+          self,
+          observer_id: str | None = None,
+          sender_id: str | None = None,
+          session_id: str | None = None,
+      ) -> QueueStatus:
+  ```
+
+  ```typescript TypeScript
+
+  export const QueueStatusOptionsSchema = z.object({
+    observerId: z.string().optional(),
+    senderId: z.string().optional(),
+    sessionId: z.string().optional(),
+    timeoutMs: z
+      .number()
+      .positive('Timeout must be a positive number')
+      .optional(),
+  })
+
+  ```
+</CodeGroup>
+
+Additionally, there are queue status methods available on the session objects in each of the SDKs.
+
+
+  **Do not wait for the queue to be empty.** The queue is a continuous processing system—new messages may arrive at any time, and "completion" is not a meaningful state. Design your application to work without assuming the queue will ever be fully drained. Use `queueStatus()` for observability and debugging, not for synchronization.
+
+
+Below are the function signatures for the session level queue status method:
+
+<CodeGroup>
+  ```python python
+  @validate_call
+      def queue_status(
+          self,
+          observer_id: str | None = None,
+          sender_id: str | None = None,
+      ) -> QueueStatus:
+  ```
+
+  ```typescript TypeScript
+  async queueStatus(
+      options?: Omit<QueueStatusOptions, 'sessionId'>
+    ): Promise<{
+      totalWorkUnits: number
+      completedWorkUnits: number
+      inProgressWorkUnits: number
+      pendingWorkUnits: number
+      sessions?: Record<string, QueueStatus.Sessions>
+    }>
+  ```
+</CodeGroup>

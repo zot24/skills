@@ -11,7 +11,7 @@ CDP Mode
 Copy Page
 
 
-# CDP Mode
+# CDP Mode<a href="#cdp-mode" aria-label="Link to this section">#</a>
 
 Connect to an existing browser via Chrome DevTools Protocol:
 
@@ -30,7 +30,7 @@ agent-browser --cdp 9222 snapshot
 ```
 
 
-## Remote WebSocket URLs
+## Remote WebSocket URLs<a href="#remote-websocket-urls" aria-label="Link to this section">#</a>
 
 Connect to remote browser services via WebSocket URL:
 
@@ -49,7 +49,7 @@ The `--cdp` flag accepts either:
 - A port number (e.g., `9222`) for local connections via `http://localhost:{port}`
 - A full WebSocket URL (e.g., `wss://...` or `ws://...`) for remote browser services
 
-## Auto-Connect
+## Auto-Connect<a href="#auto-connect" aria-label="Link to this section">#</a>
 
 Use `--auto-connect` to automatically discover and connect to a running Chrome instance without specifying a port:
 
@@ -76,7 +76,7 @@ This is useful when:
 - You want a zero-configuration connection to your existing browser
 - You don't want to track which port Chrome is using
 
-## Color scheme
+## Color scheme<a href="#color-scheme" aria-label="Link to this section">#</a>
 
 Use `--color-scheme` to set a persistent preference when connecting via CDP:
 
@@ -95,7 +95,7 @@ AGENT_BROWSER_COLOR_SCHEME=dark agent-browser --cdp 9222 open https://example.co
 ```
 
 
-## Use cases
+## Use cases<a href="#use-cases" aria-label="Link to this section">#</a>
 
 This enables control of:
 
@@ -105,7 +105,7 @@ This enables control of:
 - Remote browser services (via WebSocket URL)
 - Any browser exposing a CDP endpoint
 
-## Global options
+## Global options<a href="#global-options" aria-label="Link to this section">#</a>
 
 | Option                    | Description                                                                   |
 |---------------------------|-------------------------------------------------------------------------------|
@@ -127,7 +127,7 @@ This enables control of:
 | `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`)                    |
 | `--debug`                 | Debug output                                                                  |
 
-## Cloud providers
+## Cloud providers<a href="#cloud-providers" aria-label="Link to this section">#</a>
 
 Use the `-p` flag to connect to a cloud browser provider instead of launching a local browser:
 
