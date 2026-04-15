@@ -1,34 +1,55 @@
-<!-- Source: https://docs.honcho.dev/changelog/compatibility-guide -->
+> Source: https://docs.honcho.dev/changelog/compatibility-guide.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # SDK and API Compatibility Guide
 
-## Overview
+> Compatibility guide for Honcho's SDKs and API
 
-Match your Honcho SDK versions with compatible API versions. Newer SDK patch versions are always backward-compatible within the same major version.
+This guide helps you match the right SDK version to your Honcho API version. Newer SDK patch versions are always backward-compatible within the same major version — install the latest patch for your range.
 
-## Current SDK Releases
+## Current Versions
 
-**TypeScript SDK (v2.1.1)**
-```bash
-npm install @honcho-ai/sdk
-```
 
-**Python SDK (v2.1.1)**
-```bash
-pip install honcho-ai
-```
+    **Latest:** v2.1.1
 
-## Compatibility Matrix
+    ```bash
+    npm install @honcho-ai/sdk
+    ```
 
-| API Version | TypeScript | Python |
-|---|---|---|
-| v3.0.6 (Current) | v2.1.1 | v2.1.1 |
-| v3.0.5 | v2.1.0 | v2.1.0 |
-| v3.0.4-v3.0.3 | v2.1.0 | v2.1.0 |
-| v3.0.2-v3.0.0 | v2.0.0+ | v2.0.0+ |
-| v2.5.1-v2.5.0 | v1.6.0 | v1.6.0 |
-| v2.4.3-v2.4.0 | v1.5.0 | v1.5.0 |
-| v2.3.3-v2.3.0 | v1.4.0-v1.4.1 | v1.4.0-v1.4.1 |
-| v2.2.0 | v1.3.0 | v1.3.0 |
-| v2.1.1-v2.1.0 | v1.2.1 | v1.2.2 |
-| v2.0.5-v2.0.4 | v1.1.0 | v1.1.0 |
+
+    **Latest:** v2.1.1
+
+    ```bash
+    pip install honcho-ai
+    ```
+
+
+## Version Compatibility Table
+
+| Honcho API Version | TypeScript SDK | Python SDK |
+| ------------------ | -------------- | ---------- |
+| v3.0.6 (Current)   | v2.1.1         | v2.1.1     |
+| v3.0.5             | v2.1.0         | v2.1.0     |
+| v3.0.4             | v2.1.0         | v2.1.0     |
+| v3.0.3             | v2.1.0         | v2.1.0     |
+| v3.0.2             | v2.0.0+        | v2.0.0+    |
+| v3.0.1             | v2.0.0+        | v2.0.0+    |
+| v3.0.0             | v2.0.0+        | v2.0.0+    |
+| v2.5.1             | v1.6.0         | v1.6.0     |
+| v2.5.0             | v1.6.0         | v1.6.0     |
+| v2.4.3             | v1.5.0         | v1.5.0     |
+| v2.4.2             | v1.5.0         | v1.5.0     |
+| v2.4.1             | v1.5.0         | v1.5.0     |
+| v2.4.0             | v1.5.0         | v1.5.0     |
+| v2.3.3             | v1.4.1         | v1.4.1     |
+| v2.3.2             | v1.4.0         | v1.4.0     |
+| v2.3.1             | v1.4.0         | v1.4.0     |
+| v2.3.0             | v1.4.0         | v1.4.0     |
+| v2.2.0             | v1.3.0         | v1.3.0     |
+| v2.1.1             | v1.2.1         | v1.2.2     |
+| v2.1.0             | v1.2.1         | v1.2.2     |
+| v2.0.5             | v1.1.0         | v1.1.0     |
+| v2.0.4             | v1.1.0         | v1.1.0     |

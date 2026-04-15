@@ -1,162 +1,204 @@
-<!-- Source: https://docs.honcho.dev/v3/api-reference/endpoint/conclusions/ -->
+> Source: https://docs.honcho.dev/v3/api-reference/endpoint/conclusions/create-conclusions.md
 
-# Conclusions API
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
-## Create Conclusions
+# Create Conclusions
 
-**POST** `/v3/workspaces/{workspace_id}/conclusions`
+> Create one or more Conclusions.
 
-Create one or more Conclusions. Conclusions are logical certainties derived from interactions between Peers. They form the basis of a Peer's Representation.
+Conclusions are logical certainties derived from interactions between Peers. They form the basis of a Peer's Representation.
 
-### Path Parameters
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `workspace_id` | string | Yes | The workspace identifier |
+## OpenAPI
 
-### Request Body
+````yaml post /v3/workspaces/{workspace_id}/conclusions
+openapi: 3.1.0
+info:
+  title: Honcho API
+  summary: The Identity Layer for the Agentic World
+  description: >-
+    Honcho is a platform for giving agents user-centric memory and social
+    cognition.
+  contact:
+    name: Plastic Labs
+    url: https://honcho.dev/
+    email: hello@plasticlabs.ai
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.0.3
+servers:
+  - url: https://api.honcho.dev
+    description: Production SaaS Platform
+  - url: http://localhost:8000
+    description: Local Development Server
+security: []
+paths:
+  /v3/workspaces/{workspace_id}/conclusions:
+    post:
+      tags:
+        - conclusions
+      summary: Create Conclusions
+      description: >-
+        Create one or more Conclusions.
 
-```json
-{
-  "conclusions": [
-    {
-      "content": "string (1-65535 characters)",
-      "observer_id": "string (required)",
-      "observed_id": "string (required)",
-      "session_id": "string or null (optional)"
-    }
-  ]
-}
-```
 
-**Constraints:**
-- `conclusions` array: minimum 1 item, maximum 100 items
-- `content`: required, 1-65535 characters
-- `observer_id`: required (peer making the conclusion)
-- `observed_id`: required (peer conclusion is about)
-- `session_id`: optional
+        Conclusions are logical certainties derived from interactions between
+        Peers. They form the basis of a Peer's Representation.
+      operationId: create_conclusions_v3_workspaces__workspace_id__conclusions_post
+      parameters:
+        - name: workspace_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Workspace Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConclusionBatchCreate'
+              description: Batch of Conclusions to create
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Conclusion'
+                title: >-
+                  Response Create Conclusions V3 Workspaces  Workspace Id 
+                  Conclusions Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - HTTPBearer: []
+        - {}
+components:
+  schemas:
+    ConclusionBatchCreate:
+      properties:
+        conclusions:
+          items:
+            $ref: '#/components/schemas/ConclusionCreate'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Conclusions
+      type: object
+      required:
+        - conclusions
+      title: ConclusionBatchCreate
+      description: Schema for batch conclusion creation with a max of 100 conclusions.
+    Conclusion:
+      properties:
+        id:
+          type: string
+          title: Id
+        content:
+          type: string
+          title: Content
+        observer_id:
+          type: string
+          title: Observer Id
+          description: The peer who made the conclusion
+        observed_id:
+          type: string
+          title: Observed Id
+          description: The peer the conclusion is about
+        session_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Session Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+        - id
+        - content
+        - observer_id
+        - observed_id
+        - created_at
+      title: Conclusion
+      description: Conclusion response - external view of a document.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ConclusionCreate:
+      properties:
+        content:
+          type: string
+          maxLength: 65535
+          minLength: 1
+          title: Content
+        observer_id:
+          type: string
+          title: Observer Id
+          description: The peer making the conclusion
+        observed_id:
+          type: string
+          title: Observed Id
+          description: The peer the conclusion is about
+        session_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Session Id
+          description: A session ID to store the conclusion in, if specified
+      type: object
+      required:
+        - content
+        - observer_id
+        - observed_id
+      title: ConclusionCreate
+      description: Schema for creating a single conclusion.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
 
-### Response (201 Created)
-
-```json
-[
-  {
-    "id": "string",
-    "content": "string",
-    "observer_id": "string",
-    "observed_id": "string",
-    "session_id": "string or null",
-    "created_at": "ISO 8601 datetime"
-  }
-]
-```
-
----
-
-## Delete Conclusion
-
-**DELETE** `/v3/workspaces/{workspace_id}/conclusions/{conclusion_id}`
-
-Delete a single Conclusion by ID. This action cannot be undone.
-
-### Path Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `workspace_id` | string | Yes | The workspace identifier |
-| `conclusion_id` | string | Yes | The conclusion identifier |
-
-### Response (204 No Content)
-
-Successful deletion returns no response body.
-
----
-
-## List Conclusions
-
-**POST** `/v3/workspaces/{workspace_id}/conclusions/list`
-
-List Conclusions using optional filters, ordered by recency unless `reverse` is true.
-
-### Path Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `workspace_id` | string | Yes | The workspace identifier |
-
-### Query Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `reverse` | boolean | false | Reverse order of results |
-| `page` | integer | 1 | Page number (minimum: 1) |
-| `size` | integer | 50 | Page size (1-100) |
-
-### Request Body
-
-```json
-{
-  "filters": {}
-}
-```
-
-### Response (200)
-
-```json
-{
-  "items": [
-    {
-      "id": "string",
-      "content": "string",
-      "observer_id": "string",
-      "observed_id": "string",
-      "session_id": "string or null",
-      "created_at": "2024-01-01T00:00:00Z"
-    }
-  ],
-  "total": 0,
-  "page": 1,
-  "size": 50,
-  "pages": 0
-}
-```
-
----
-
-## Query Conclusions
-
-**POST** `/v3/workspaces/{workspace_id}/conclusions/query`
-
-Query Conclusions using semantic search. Use `top_k` to control the number of results.
-
-### Path Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `workspace_id` | string | Yes | The workspace identifier |
-
-### Request Body
-
-| Property | Type | Required | Default | Constraints | Description |
-|----------|------|----------|---------|-------------|-------------|
-| `query` | string | Yes | -- | -- | Semantic search query |
-| `top_k` | integer | No | 10 | min: 1, max: 100 | Number of results returned |
-| `distance` | number or null | No | null | min: 0, max: 1 | Maximum cosine distance threshold |
-| `filters` | object or null | No | null | -- | Additional filters to apply |
-
-### Response (200)
-
-Returns an array of Conclusion objects:
-
-```json
-[
-  {
-    "id": "string",
-    "content": "string",
-    "observer_id": "string",
-    "observed_id": "string",
-    "session_id": "string or null",
-    "created_at": "ISO 8601 datetime"
-  }
-]
-```
+````

@@ -1,69 +1,767 @@
-<!-- Source: https://docs.honcho.dev/v3/guides/integrations/n8n -->
+> Source: https://docs.honcho.dev/v3/guides/integrations/n8n.md
 
-# n8n Integration
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
-## Overview
+# n8n
 
-Honcho integrates with n8n through HTTP Request nodes for persistent memory across automation workflows and agents. Uses bearer token authentication with the Honcho API.
+> Connect Honcho to your n8n workflows to build intelligent automation workflows and agents that leverage persistent memory across sessions.
 
-## Key Difference from n8n Memory
+## Quick Start
 
-n8n's "memory" nodes are vector databases for RAG-style retrieval. Honcho offers richer context and reasoning -- it builds understanding of users over time, not just similarity search.
+### Prerequisites
 
-## Prerequisites
+* n8n instance (self-hosted or cloud)
+* Honcho API key ([get one here](https://app.honcho.dev))
+* Basic understanding of n8n workflows
+* Basic understanding of [Honcho architecture](/v3/documentation/core-concepts/architecture). Specifically **workspaces**, **sessions**, **peers**, and **messages**.
 
-- n8n instance (self-hosted or cloud)
-- Honcho API key from https://app.honcho.dev
-- Understanding of Honcho's core concepts: workspaces, sessions, peers, and messages
+### Before You Start
 
-## HTTP Request Node Setup
+**This integration uses HTTP Request nodes.** There's no native Honcho node for n8n yet. While this requires more setup, it gives you full control over the API and works with any n8n version.
 
-1. Add HTTP Request node from Core nodes
-2. Set Method (POST for creation, GET for retrieval)
-3. Set URL to appropriate Honcho API endpoint
-4. Select Generic Credential Type > Bearer Auth
-5. Create new credential with Honcho API key
-6. Check "Send Body" and select JSON content type
+**This tutorial is instructional, not production-ready.** We load a single Gmail message with hardcoded IDs to demonstrate the concepts clearly. See [Next Steps](#next-steps) for handling multiple messages and dynamic configurations.
 
-## Workflow Structure
+**Why Honcho over n8n's built-in memory?** n8n's "memory" nodes are vector databases for RAG-style retrieval. Honcho offers richer context and reasoning—it builds understanding of users over time, not just similarity search. [Learn more](https://blog.plasticlabs.ai/blog/Memory-as-Reasoning).
 
-### Part 1: Data Ingestion
-Manual trigger -> Workspace -> Session -> Gmail extraction -> Peer creation -> Session membership -> Message creation
+### Setting Up the HTTP Request Node
 
-### Part 2: AI Chat Interface
-Chat trigger -> Agent with LLM and Honcho tools
+The Honcho integration in n8n uses the HTTP Request node to interact with the Honcho API. Here's how to configure it:
 
-## Core API Endpoints Used
+1. Add an **HTTP Request** node to your workflow (Core > HTTP Request)
 
-**Create Workspace:** POST `https://api.honcho.dev/v3/workspaces`
-```json
-{ "id": "email-test", "metadata": {} }
+<div style={{ maxWidth: "400px" }}>
+  <Frame>
+    <img src="https://mintcdn.com/plasticlabs/2OkzIgwDi8lHS-pF/images/integrations/n8n/Http_request_core.png?fit=max&auto=format&n=2OkzIgwDi8lHS-pF&q=85&s=209924a82256e968d1c50928edaacad1" alt="Adding HTTP Request node from Core nodes" width="792" height="946" data-path="images/integrations/n8n/Http_request_core.png" />
+  </Frame>
+</div>
+
+2. Set the **Method** based on your operation (typically `POST` for creating resources, `GET` for retrieving)
+
+3. Set the **URL** to the appropriate Honcho API endpoint. For example, create workspace is `https://api.honcho.dev/v3/workspaces`
+
+4. For authentication, select **Generic Credential Type** and then **Bearer Auth**
+
+5. Click **Create New Credential** and paste your Honcho API key in the Bearer Token field
+
+<div style={{ maxWidth: "400px" }}>
+  <Frame>
+    <img src="https://mintcdn.com/plasticlabs/2OkzIgwDi8lHS-pF/images/integrations/n8n/Bearer_auth_cred.png?fit=max&auto=format&n=2OkzIgwDi8lHS-pF&q=85&s=420f5859264b4331d5fe69d476e7f756" alt="Bearer Auth credential setup in n8n" width="1764" height="1726" data-path="images/integrations/n8n/Bearer_auth_cred.png" />
+  </Frame>
+</div>
+
+6. Check **Send Body** and select **JSON** as the Body Content Type when creating resources
+
+## Step-by-Step Tutorial
+
+We'll build a workflow that ingests Gmail emails into Honcho, then uses that memory to power a conversational AI chatbot.
+
+The workflow has two parts (separated by sticky notes in the canvas):
+
+1. **Data Ingestion**: Manual trigger → Workspace → Session → Gmail → Extract Peers → Create Peers → Add to Session → Create Messages
+
+2. **AI Chat Interface**: Chat Trigger → Agent (with LLM and Honcho tools)
+
+The Agent uses Honcho's `context()` endpoint to retrieve relevant information about email conversations, enabling contextual conversations about your email data.
+
+<img src="https://mintcdn.com/plasticlabs/2OkzIgwDi8lHS-pF/images/integrations/n8n/complete_workflow.png?fit=max&auto=format&n=2OkzIgwDi8lHS-pF&q=85&s=18c4da0805aa7658dba462dea84b0ff6" alt="Complete workflow overview showing both data ingestion and chat sections" width="2266" height="1168" data-path="images/integrations/n8n/complete_workflow.png" />
+
+### Part 1: Loading Email Data into Honcho
+
+These nodes handle the initial setup and data ingestion:
+
+
+  **Pro Tip: Copy from API Playground**
+
+  The fastest way to configure any Honcho endpoint is to copy the curl command directly from the [app.honcho.dev](https://app.honcho.dev) API playground:
+
+  1. Navigate to the endpoint you want to use in the API playground
+  2. Fill in your parameters, verify the results and click **Copy as cURL**
+  3. Then in n8n use the **import cURL** button to directly import the request (be sure to verify the bearer token imported correctly)
+
+
+#### Step 1: Manual Trigger
+
+Start with a **Manual Trigger** node to execute the workflow on demand. This is useful for initial setup and testing before automating with a Gmail trigger.
+
+#### Step 2: Get or Create Workspace
+
+1. Add an **HTTP Request** node
+2. **Method**: `POST`
+3. **URL**: `https://api.honcho.dev/v3/workspaces`
+4. **Body** (JSON): `{ "id": "email-test", "metadata": {} }`
+
+
+  **Verify Your Data in Honcho**
+  As you build the data ingestion workflow, verify everything is created correctly in your [Honcho instance](https://app.honcho.dev/).
+
+
+#### Step 3: Get or Create Session
+
+1. Add another **HTTP Request** node
+2. **Method**: `POST`
+3. **URL**: `https://api.honcho.dev/v3/workspaces/{{ $('Get or Create Workspace').item.json.id }}/sessions`
+4. **Body** (JSON): `{ "id": "new_session" }`
+
+#### Step 4: Get Gmail Message
+
+1. Add a **Gmail** node
+2. **Operation**: Get
+3. **Message ID**: Your target message ID (a string of letters & numbers)
+4. Configure your Gmail OAuth2 credentials
+
+
+  **Finding the Gmail Message ID**
+  The easiest way to find a Gmail message ID is to use n8n's Gmail Get Many operation. Temporarily add it, set the limit to 1, and execute. Use the message ID in the output for the message ID field.
+
+  In this tutorial, we load in only a single message to demonstrate the workflow.
+
+
+#### Step 5: Extract Peers from Email
+
+Use native n8n nodes to extract email participants as peers:
+
+**5a. Add a Set node ("Combine Email Fields")**
+
+* Combines From, To, Cc, Bcc into an array of individual emails
+* **Field name**: `allEmails`
+* **Type**: Array
+* **Value**: `{{ [$json.From, $json.To, $json.Cc, $json.Bcc].filter(Boolean).flatMap(field => field.split(',').map(e => e.trim())).filter(Boolean) }}`
+
+**5b. Add a Split Out node**
+
+* Splits the array into individual items (one per email address)
+* **Field to Split Out**: `allEmails`
+
+**5c. Add a Set node ("Clean Names")**
+
+* Extracts the display name from each email and formats it
+* **Field name**: `name`
+* **Value**: `{{ $json.allEmails.split('<')[0].trim().replace(/ /g, '_') }}`
+
+#### Step 6: Get or Create Peer
+
+1. Add an **HTTP Request** node
+2. **Method**: `POST`
+3. **URL**: `https://api.honcho.dev/v3/workspaces/{{ $('Get or Create Workspace').item.json.id }}/peers`
+4. **Body**: `{ "id": "{{ $json.name }}" }`
+
+This creates a peer for each email participant, allowing Honcho to build understanding of each person.
+
+#### Step 7: Add Peers to Session
+
+1. Add an **HTTP Request** node
+2. **Method**: `POST`
+3. **URL**: `https://api.honcho.dev/v3/workspaces/{{ $('Get or Create Workspace').item.json.id }}/sessions/{{ $json.id }}/peers`
+4. **Body**: `{ "{{ $json.id }}": {} }`
+
+#### Step 8: Limit Node
+
+Add a **Limit** node to control the flow so the message is only added once to the session.
+
+#### Step 9: Create Message for Session
+
+1. Add an **HTTP Request** node
+2. **Method**: `POST`
+3. **URL**: `https://api.honcho.dev/v3/workspaces/{{ $('Get or Create Workspace').item.json.id }}/sessions/{{ $('Get or Create Session').item.json.id }}/messages/`
+4. **Body** (JSON): `{ "messages": [{ "content": "{{ $('Get a message').item.json.snippet }}", "peer_id": "{{ $('Get a message').item.json.From.split('<')[0].trim().replace(/ /g, '_') }}" }] }`
+
+The `peer_id` must exactly match a peer created in Step 6. The expression above uses the same cleaning logic as the Clean Names node (`split('<')[0].trim().replace(/ /g, '_')`).
+
+### Part 2: Building a Stateful AI Chatbot
+
+Now that data is loaded into Honcho, create a chat interface that leverages this memory:
+
+#### Step 1: Chat Trigger
+
+Add a **When chat message received** node (from LangChain nodes) to create an interactive chat interface.
+
+#### Step 2: AI Agent
+
+1. Add an **Agent** node (LangChain)
+2. Configure the system message:
+
+```
+You are a helpful assistant that retrieves context about email conversations.
+
+Use the Context tool to retrieve session context.
+
+Today's date: {{ $now }}
 ```
 
-**Create Session:** POST `https://api.honcho.dev/v3/workspaces/{workspace_id}/sessions`
-```json
-{ "id": "new_session" }
-```
+#### Step 3: Connect LLM
 
-**Create Peers:** POST `https://api.honcho.dev/v3/workspaces/{workspace_id}/peers`
-```json
-{ "id": "peer-name" }
-```
+Add an **OpenAI Chat Model** node (or your preferred LLM) and connect it to the Agent.
 
-**Add Peers to Session:** POST `https://api.honcho.dev/v3/workspaces/{workspace_id}/sessions/{session_id}/peers`
+#### Step 4: Add Honcho Tools
 
-**Create Messages:** POST `https://api.honcho.dev/v3/workspaces/{workspace_id}/sessions/{session_id}/messages/`
+Create an HTTP Request Tool node for Honcho's context retrieval:
 
-**Get Context:** GET `https://api.honcho.dev/v3/workspaces/{workspace_id}/sessions/{session_id}/context`
+**Context Tool:**
 
-## Quick Setup Tip
+* **Method**: `GET`
+* **URL**: `https://api.honcho.dev/v3/workspaces/email-test/sessions/new_session/context`
+* Returns formatted context for the entire session including all messages and peer interactions
 
-The fastest way to configure any Honcho endpoint is to copy the curl command directly from the app.honcho.dev API playground, then use n8n's import cURL feature.
+Connect the tool to the Agent node. The URL uses the same workspace (`email-test`) and session (`new_session`) IDs created during data ingestion.
 
-## Enhancement Ideas
+***
 
-- Replace hardcoded IDs with n8n variables
-- Load multiple messages via Gmail "Get All" operation
-- Add Gmail Trigger for real-time email ingestion
-- Implement error handling with notifications
-- Extend to other data sources (Slack, CRM, support tickets)
+## Import the Workflow
+
+Want to skip the manual setup? Import this workflow directly into n8n. In n8n, go to **Workflows** → **Import from URL** (use the raw JSON link below) or **Import from File**.
+
+[Import from URL (raw JSON)](https://raw.githubusercontent.com/plastic-labs/honcho/main/examples/n8n/n8n.json) or expand below to copy:
+
+
+  ```json
+  {
+    "name": "Honcho Empowered Email AI Agent",
+    "nodes": [
+      {
+        "parameters": {
+          "content": "## Data Ingestion\nLoads Gmail email into Honcho.\n\n**Run this section first** by clicking 'Execute workflow'.",
+          "height": 356,
+          "width": 2008
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -16,
+          -64
+        ],
+        "id": "53f767a8-8df9-4ad7-8a3d-37c145495627",
+        "name": "Sticky Note - Data Ingestion"
+      },
+      {
+        "parameters": {
+          "content": "## AI Chat With Honcho context()\nQuery your email data using natural language.\n\n**Run after data ingestion** to chat with the agent.",
+          "height": 480,
+          "width": 752
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          32,
+          464
+        ],
+        "id": "34066961-d29e-4fe8-93bf-8f7043e142b0",
+        "name": "Sticky Note - AI Chat"
+      },
+      {
+        "parameters": {
+          "model": "gpt-4o",
+          "options": {}
+        },
+        "id": "16da7a98-5622-427a-bbab-1be39f828d0b",
+        "name": "OpenAI Chat Model",
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "position": [
+          240,
+          800
+        ],
+        "typeVersion": 1,
+        "credentials": {
+          "openAiApi": {
+            "id": "qrvGphL3ydUODxQZ",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {
+            "systemMessage": "You are a helpful assistant that retrieves context about email conversations.\n\nUse the Context tool to retrieve session context.\n\nToday's date: {{ $now }}"
+          }
+        },
+        "id": "049c3c19-756c-4755-88d9-94312857d9bb",
+        "name": "AI Agent",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "position": [
+          368,
+          576
+        ],
+        "typeVersion": 1.7
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "id": "b9a2ef6a-0e81-45c9-a5ea-16e74a9aa77d",
+        "name": "When chat message received",
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "position": [
+          80,
+          576
+        ],
+        "webhookId": "c91764c2-0b51-4025-ad74-d5f44127aa5a",
+        "typeVersion": 1.1
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://api.honcho.dev/v3/workspaces/{{ $('Get or Create Workspace').item.json.id }}/peers",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "id",
+                "value": "={{ $json.name }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1296,
+          96
+        ],
+        "id": "f2e81445-a866-4d9f-9a8a-b2dc8cbaea8b",
+        "name": "Get or Create Peer",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "NbrkGo1GdYWQY3OX",
+            "name": "Bearer Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "messageId": "19b8fee837985953"
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          608,
+          96
+        ],
+        "id": "ee5d8cc7-876b-4096-b6e5-14f1b92084a6",
+        "name": "Get a message",
+        "webhookId": "4ab02540-af03-405d-a6eb-dfcaa76477fc",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "a2RvA5NMNjfOeHtd",
+            "name": "Gmail account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://api.honcho.dev/v3/workspaces/{{ $('Get or Create Workspace').item.json.id }}/sessions",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "id",
+                "value": "=new_session"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          448,
+          96
+        ],
+        "id": "eef01db2-3355-484d-97b8-34480c40fcf8",
+        "name": "Get or Create Session",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "NbrkGo1GdYWQY3OX",
+            "name": "Bearer Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          48,
+          96
+        ],
+        "id": "a9de9d8f-7911-444f-99bd-7d287f587eff",
+        "name": "When clicking 'Execute workflow'"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.honcho.dev/v3/workspaces",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "{\n  \"id\": \"email-test\",\n  \"metadata\": {}\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          240,
+          96
+        ],
+        "id": "49b91f82-1cd8-49aa-85a5-57a8ad7b5128",
+        "name": "Get or Create Workspace",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "NbrkGo1GdYWQY3OX",
+            "name": "Bearer Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "allEmails",
+                "name": "allEmails",
+                "type": "array",
+                "value": "={{ [$json.From, $json.To, $json.Cc, $json.Bcc].filter(Boolean).flatMap(field => field.split(',').map(e => e.trim())).filter(Boolean) }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          784,
+          96
+        ],
+        "id": "3eb4ce63-d95c-42d7-8a16-f35e2419d8c0",
+        "name": "Combine Email Fields"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "allEmails",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          960,
+          96
+        ],
+        "id": "4702001d-40f5-4b44-b443-6fb0b94e58a9",
+        "name": "Split Out"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "name",
+                "name": "name",
+                "type": "string",
+                "value": "={{ $json.allEmails.split('<')[0].trim().replace(/ /g, '_') }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1136,
+          96
+        ],
+        "id": "93327201-bfbe-4385-bfcd-7646f0513a62",
+        "name": "Clean Names"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://api.honcho.dev/v3/workspaces/{{ $('Get or Create Workspace').item.json.id }}/sessions/{{ $('Get or Create Session').item.json.id }}/messages/",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\"messages\": [{\"content\": \"{{ $('Get a message').item.json.snippet }}\", \"peer_id\": \"{{ $('Get a message').item.json.From.split('<')[0].trim().replace(/ /g, '_') }}\"}]}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1808,
+          96
+        ],
+        "id": "cb6732d0-e5a9-4d6e-98ef-8fe1c290740b",
+        "name": "Create Message for Session",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "NbrkGo1GdYWQY3OX",
+            "name": "Bearer Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://api.honcho.dev/v3/workspaces/{{ $('Get or Create Workspace').item.json.id }}/sessions/{{ $('Get or Create Session').item.json.id }}/peers",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\"{{ $json.id }}\": {}}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1472,
+          96
+        ],
+        "id": "3c2065b6-bd68-4698-a740-db3cd52f2267",
+        "name": "Add Peers to Session",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "NbrkGo1GdYWQY3OX",
+            "name": "Bearer Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.limit",
+        "typeVersion": 1,
+        "position": [
+          1632,
+          96
+        ],
+        "id": "d7c38f49-1a76-4a67-a540-4bec7aae1d9f",
+        "name": "Limit"
+      },
+      {
+        "parameters": {
+          "url": "https://api.honcho.dev/v3/workspaces/email-test/sessions/new_session/context",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequestTool",
+        "typeVersion": 4.3,
+        "position": [
+          656,
+          784
+        ],
+        "id": "095e62d6-aae3-4eb8-9b9c-c473bfe2716d",
+        "name": "Context",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "NbrkGo1GdYWQY3OX",
+            "name": "Bearer Auth account"
+          }
+        }
+      }
+    ],
+    "pinData": {},
+    "connections": {
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When chat message received": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking 'Execute workflow'": {
+        "main": [
+          [
+            {
+              "node": "Get or Create Workspace",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get or Create Workspace": {
+        "main": [
+          [
+            {
+              "node": "Get or Create Session",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a message": {
+        "main": [
+          [
+            {
+              "node": "Combine Email Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get or Create Session": {
+        "main": [
+          [
+            {
+              "node": "Get a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Combine Email Fields": {
+        "main": [
+          [
+            {
+              "node": "Split Out",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Out": {
+        "main": [
+          [
+            {
+              "node": "Clean Names",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Clean Names": {
+        "main": [
+          [
+            {
+              "node": "Get or Create Peer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get or Create Peer": {
+        "main": [
+          [
+            {
+              "node": "Add Peers to Session",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Add Peers to Session": {
+        "main": [
+          [
+            {
+              "node": "Limit",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Limit": {
+        "main": [
+          [
+            {
+              "node": "Create Message for Session",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Context": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "active": false,
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": false
+    },
+    "versionId": "ba0a3b77-cc19-49fd-9189-aaee65b35f99",
+    "meta": {
+      "templateCredsSetupCompleted": true,
+      "instanceId": "4e34c96e55eb26be21fa69ca62c4851a5d09b678190481f5d47c084b6b327003"
+    },
+    "id": "dKOYeEOdrZOetmFRmIAUJ",
+    "tags": []
+  }
+  ```
+
+
+  **Important:** After importing, you'll need to:
+
+  * Add your Honcho API key to the Bearer Auth credential
+  * Connect your Gmail OAuth2 credential
+  * Add your OpenAI API key (or swap for your preferred LLM)
+  * Update the Gmail Message ID in "Get a message" node
+
+  **Running the workflow:**
+
+  1. First, execute the data ingestion section (click "Execute workflow")
+  2. Then use the chat interface to query your email data
+
+
+***
+
+## Next Steps
+
+Once you have the basic workflow running, consider these enhancements:
+
+* **Dynamic IDs**: Use n8n variables instead of hardcoding `email-test` and `new_session`
+* **Chat with Peers**: Add an HTTP Request Tool for natural language queries about peer representations. Read more in the [docs](/v3/documentation/features/chat).
+* **Load more messages**: Use Gmail's "Get All" operation to load entire conversation threads
+* **Make it real-time**: Add a **Gmail Trigger** node to automatically ingest new emails as they arrive
+* **Add error handling**: Connect an **Error Trigger** node with notifications (Email, Slack) and retry logic
+* **Expand to other data sources**: Honcho works with Slack messages, CRM interactions, support tickets, and more
+
+***
+
+## Related Resources
+
+
+    Understand workspaces, sessions, peers, and messages
+
+
+    Learn about retrieving formatted conversation context
+
+

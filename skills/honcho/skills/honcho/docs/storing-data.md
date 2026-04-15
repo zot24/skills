@@ -1,47 +1,64 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/features/storing-data -->
+> Source: https://docs.honcho.dev/v3/documentation/features/storing-data.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Storing Data
 
-## Overview
+> Store Data in Honcho to Generate Memories and Insights
 
-The foundational element in Honcho's system is the `Message` object, which originates from a `Peer` and is stored within a `Session`.
+The most basic building block of Honcho's data model is the `Message` object.
+A `Message` is sent by a `Peer` and saved in a `Session`
 
-## Basic Implementation
+<CodeGroup>
+  ```python Python
+  from honcho import Honcho
 
-**Python Example:**
-```python
-from honcho import Honcho
+  honcho = Honcho()
 
-honcho = Honcho()
-peer = honcho.peer("sample-peer")
-session = honcho.session("sample-session")
-message = peer.message("Hello, world!")
-session.add_messages([message])
-```
+  peer = honcho.peer("sample-peer")
 
-**TypeScript Example:**
-```typescript
-import { Honcho } from '@honcho-ai/sdk';
+  session = honcho.session("sample-session")
 
-const honcho = new Honcho({});
-const peer = await honcho.peer('sample-peer');
-const session = await honcho.session('sample-session');
-const message = peer.message('Hello, world!');
-await session.addMessages([message]);
-```
+  message = peer.message("Hello, world!")
 
-## Automatic Processing
+  session.add_messages([message])
+  ```
 
-When you preserve a `Message` in Honcho, it will kick off a background task that looks at the new data to generate insights about the `Peer` that sent the `Message`. This automated behavior can be disabled through peer or session configuration.
+  ```typescript TypeScript
+  import { Honcho } from '@honcho-ai/sdk';
 
-## Architecture Flexibility
+  const honcho = new Honcho({});
 
-The Peer-Session-Message framework adapts to various scenarios. Some implementations use multiple sessions for a single peer, while others employ just one session across the entire application.
+  const peer = await honcho.peer('sample-peer');
 
-## Chat Bot Use Case
+  const session = await honcho.session('sample-session');
 
-For chatbot applications (like ChatGPT or Claude):
-- Create one `Peer` representing the user
-- Create another `Peer` for the AI
-- Establish a `Session` per conversation thread
-- Store `Messages` from both participants for each exchange
+  const message = peer.message('Hello, world!');
+
+  await session.addMessages([message]);
+  ```
+</CodeGroup>
+
+Once a `Message` is saved in Honcho, it will kick off a background task that
+looks at the new data to generate insights about the `Peer` that sent the `Message`
+
+This is the default behavior of Honcho and can be turned off by [configuring the
+Peer or Session](/v3/documentation/features/advanced/reasoning-configuration)
+
+This pattern of having a Peer, Session, and Messages is highly flexible and
+works for many different use cases and agent setups. Some use cases may only
+need a single Peer, but many Sessions. Others will only use a single `Session`
+for their entire app. These are flexible components that work in any situation.
+
+## Chat Bots
+
+A common use case for Honcho to is to build a chatbot like ChatGPT or Claude.
+In this case you can simply
+
+* Make a `Peer` for the User
+* Make a `Peer` for the AI
+
+Then you can make a `Session` for each thread of conversation and save
+`Messages` from the user and assistant in each turn of conversation

@@ -1,34 +1,145 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/features/advanced/dreaming -->
+> Source: https://docs.honcho.dev/v3/documentation/features/advanced/dreaming.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Dreaming
 
-## Core Concept
+> How Honcho continuously improves memory through autonomous consolidation
 
-"Dreaming" functions as an autonomous consolidation mechanism that refines peer representations by reasoning over existing conclusions. The system operates in two specialized phases:
 
-### Deduction Phase
-This stage performs logical inference to identify knowledge updates, logical implications, contradictions, and peer card updates. For example, it recognizes when employment changes from "Company A" to "Company B" and removes outdated information.
+  Dreaming is an experimental feature under active development. The scheduling heuristics, specialist behavior, and configuration options described here are subject to change as we iterate on the approach.
 
-### Induction Phase
-This stage identifies behavioral patterns across multiple conclusions, including tendencies, preferences, personality traits, and correlations. Importantly, patterns require evidence from at least two source conclusions before confirmation.
 
-## Activation Triggers
+Honcho's reasoning system extracts conclusions from every message as it arrives. Over time, this produces a large body of knowledge--some of which is redundant, outdated, or missing higher-order patterns that only become visible across many interactions. **Dreaming** is the process that addresses this: an autonomous, periodic consolidation cycle that refines the peer representation by reasoning over existing conclusions.
 
-Dreams activate automatically when three conditions align:
-- At least 50 new conclusions exist since the last dream
-- A minimum 8-hour interval has elapsed
-- Dreaming is enabled in workspace/session configuration
+Think of it like sleep for a memory system. The "waking" reasoning process captures what happened. The dreaming process reflects on what it all means.
 
-The system includes an idle timeout (default 60 minutes) that waits for user inactivity before execution, preventing consolidation during active conversations.
+## What Dreaming Does
 
-## Operational Scope
+A dream cycle runs two specialized agents in sequence:
 
-Dreams operate at the peer representation level -- specifically a (workspace, observer, observed) tuple. This scoping prevents consolidation from spanning across workspaces or different observer-observed pairs.
+### 1. Deduction
 
-## Safety Mechanisms
+The deduction specialist performs logical inference over existing conclusions. It autonomously explores the observation space and looks for:
 
-The system prevents redundant processing through concurrent dream prevention, duplicate pending dream elimination, and automatic cancellation when new messages arrive.
+* **Knowledge updates**: When the same fact has changed over time (e.g., "works at Company A" followed later by "works at Company B"), it deletes the outdated conclusion and creates a new one reflecting the current state.
+* **Logical implications**: Conclusions that follow necessarily from existing premises but weren't captured during real-time processing.
+* **Contradictions**: Conflicting conclusions that need resolution.
+* **Peer card updates**: Key biographical facts (name, location, occupation) that should be recorded on the peer card for quick access.
 
-## Configuration Options
+### 2. Induction
 
-Dreaming can be disabled at workspace or session levels through configuration, and automatically disables if reasoning itself is disabled.
+The induction specialist identifies patterns across multiple conclusions. It looks for:
+
+* **Behavioral tendencies**: Recurring behaviors observed across different contexts (e.g., "tends to reschedule meetings when stressed").
+* **Preferences**: Consistent choices that indicate underlying preferences.
+* **Personality traits**: Stable characteristics inferred from multiple data points.
+* **Correlations**: Relationships between different aspects of behavior.
+
+Inductive conclusions require evidence from at least two source conclusions--patterns need more than a single data point. Each pattern is assigned a confidence level based on the number of supporting observations.
+
+## When Dreams Are Scheduled
+
+Dreams are triggered automatically based on a set of heuristics designed to balance freshness with efficiency:
+
+### Conditions
+
+All of the following must be true for a dream to be scheduled:
+
+1. **Document threshold**: At least 50 new conclusions have been created since the last dream for that peer representation.
+2. **Minimum cooldown**: At least 8 hours have passed since the last dream for that peer representation.
+3. **Dreaming is enabled**: The workspace and/or session configuration has `dream.enabled` set to `true` (the default).
+
+### Idle timeout
+
+When the threshold conditions are met, a dream is **not** immediately executed. Instead, a timer is set (default: 60 minutes) that waits for user inactivity. If new messages arrive during the waiting period, the pending dream is cancelled and the timer resets. This prevents dreaming while the user is actively interacting, ensuring the system consolidates only after the conversation has settled.
+
+Once the idle timeout expires without interruption, the dream task is enqueued for processing.
+
+### Manual scheduling
+
+You can also trigger a dream explicitly via the API:
+
+<CodeGroup>
+  ```python Python
+  honcho.workspaces.schedule_dream(
+      observer="user-peer-name",
+      observed="user-peer-name",
+  )
+  ```
+
+  ```typescript TypeScript
+  await honcho.workspaces.scheduleDream({
+      observer: "user-peer-name",
+      observed: "user-peer-name",
+  });
+  ```
+</CodeGroup>
+
+Manual dreams bypass the threshold and cooldown checks, but are still subject to deduplication--if a dream is already pending or in progress for the same peer representation, the request is a no-op.
+
+## Scope
+
+Dreams operate at the **peer representation** level--specifically, a (workspace, observer, observed) tuple. This means:
+
+* A dream consolidates conclusions for a specific observer's view of a specific observed peer.
+* In the common case of self-observation (where the observer and observed are the same peer), the dream consolidates that peer's own representation.
+* Dreams do not span across workspaces or across different peer pairs.
+
+## Deduplication and Safety
+
+The system includes several safeguards to prevent wasted work:
+
+* **No concurrent dreams**: If a dream is already being processed for a given peer representation, a new one will not be enqueued.
+* **No duplicate pending dreams**: If a dream is already queued and waiting, a second enqueue request is skipped.
+* **Cancellation on new activity**: When new messages arrive for a peer, any pending (not yet started) dream for that peer is cancelled. This ensures the dream always runs on the most up-to-date set of conclusions.
+
+## Configuration
+
+Dreams can be enabled or disabled at the workspace or session level:
+
+<CodeGroup>
+  ```python Python
+  # Disable dreams for a workspace
+  honcho.set_configuration({
+      "dream": {"enabled": False}
+  })
+
+  # Disable dreams for a specific session
+  session = honcho.session("my-session", config={
+      "dream": {"enabled": False}
+  })
+  ```
+
+  ```typescript TypeScript
+  // Disable dreams for a workspace
+  await honcho.setConfiguration({
+      dream: { enabled: false }
+  });
+
+  // Disable dreams for a specific session
+  const session = await honcho.session("my-session", {
+      config: {
+          dream: { enabled: false }
+      }
+  });
+  ```
+</CodeGroup>
+
+Dreaming is automatically disabled if reasoning itself is disabled, since there would be no conclusions to consolidate.
+
+
+    Learn how Honcho reasons over messages to produce conclusions
+
+
+    Full configuration reference for reasoning, summaries, and dreams
+
+
+    Monitor dream tasks alongside other background processing
+
+
+    API reference for manually triggering dreams
+
+

@@ -1,34 +1,250 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/features/advanced/search -->
+> Source: https://docs.honcho.dev/v3/documentation/features/advanced/search.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Search
 
-## Overview
+> Learn how to search across workspaces, sessions, and peers to find relevant conversations and content
 
-Honcho provides search capabilities across workspaces, sessions, and peers. The feature enables discovery of relevant messages and conversations at different organizational levels.
+Honcho's search functionality allows you to find relevant messages and conversations across different scopes - from entire workspaces down to specific peers or sessions.
 
 ## Search Scopes
 
-**Workspace Search:** Query across all content including sessions, peers, and messages throughout your entire workspace.
+### Workspace Search
 
-**Session Search:** Restrict searches to a particular session's conversation history using a session object.
+Search across all content in your workspace - sessions, peers, and messages:
 
-**Peer Search:** Find all content associated with a specific peer across all their interactions.
+<CodeGroup>
+  ```python Python
+  from honcho import Honcho
 
-## Key Parameters
+  # Initialize client
+  honcho = Honcho()
 
-The `limit` parameter controls result quantity, with a default of 10 and maximum of 100 results.
+  # Search across entire workspace
+  results = honcho.search("budget planning")
 
-## Available Filters
+  # Iterate through all results
+  for result in results:
+      print(f"Found: {result}")
+  ```
 
-Searches support filtering by:
-- `session_id`: Combine peer-level searches with specific sessions
-- `created_at`: Use date ranges with `gte` and `lte` operators
-- `metadata`: Filter using custom metadata key-value pairs
+  ```typescript TypeScript
+  import { Honcho } from "@honcho-ai/sdk";
 
-## Response Structure
+  (async () => {
+      // Initialize client
+      const honcho = new Honcho({});
 
-Search returns an object with an items array containing message objects. Each message includes: id, content, peer_id, session_id, metadata, created_at, workspace_id, and token_count.
+      // Search across entire workspace
+      const results = await honcho.search("budget planning");
 
-## Implementation Notes
+      // Iterate through all results
+      for (const result of results) {
+        console.log(`Found: ${result}`);
+      }
+  })();
+  ```
+</CodeGroup>
 
-Both Python and TypeScript SDKs support search operations with similar syntax patterns. The documentation emphasizes checking for empty results and handling them gracefully before processing. Combining search with context-building enables creating context-aware applications based on historical conversation data.
+### Session Search
+
+Search within a specific session's conversation history:
+
+<CodeGroup>
+  ```python Python
+  # Create or get a session
+  session = honcho.session("team-meeting-jan")
+
+  # Search within this session only
+  results = session.search("action items")
+
+  # Process results
+  for result in results:
+      print(f"Session result: {result}")
+  ```
+
+  ```typescript TypeScript
+  (async () => {
+      // Create or get a session
+      const session = await honcho.session("team-meeting-jan");
+
+      // Search within this session only
+      const results = await session.search("action items");
+
+      // Process results
+      for (const result of results) {
+        console.log(`Session result: ${result}`);
+      }
+  })();
+  ```
+</CodeGroup>
+
+### Peer Search
+
+Search across all content associated with a specific peer:
+
+<CodeGroup>
+  ```python Python
+  # Create or get a peer
+  alice = honcho.peer("alice")
+
+  # Search across all of Alice's messages and interactions
+  results = alice.search("programming")
+
+  # View results
+  for result in results:
+      print(f"Alice's content: {result}")
+  ```
+
+  ```typescript TypeScript
+  import { Message } from "@honcho-ai/sdk";
+
+  (async () => {
+      // Create or get a peer
+      const alice = await honcho.peer("alice");
+
+      // Search across all of Alice's messages and interactions
+      const results: Message[] = await alice.search("programming");
+
+      // View results
+      for (const result of results) {
+        console.log(`Alice's content: ${result.content}`);
+      }
+  })();
+  ```
+</CodeGroup>
+
+## Filters and Limits
+
+### Get a specific number of results
+
+You can specify the number of results you want to return by passing the `limit` parameter to the search method. The default is 10 results, with a maximum of 100.
+
+<CodeGroup>
+  ```python Python
+  results = honcho.search("budget planning", limit=20)
+  ```
+
+  ```typescript TypeScript
+  (async () => {
+      const results = await honcho.search("budget planning", { limit: 20 });
+  })();
+  ```
+</CodeGroup>
+
+### Get messages from a Peer in a specific Session
+
+Combine Peer-level search with a `session_id` filter to get messages from a Peer in a specific Session.
+
+<CodeGroup>
+  ```python Python
+  my_peer = honcho.peer("my-peer")
+  my_session = honcho.session("team-meeting-jan")
+  results = my_peer.search("budget planning", filters={"session_id": my_session.id})
+  ```
+
+  ```typescript TypeScript
+  (async () => {
+      const myPeer = await honcho.peer("my-peer");
+      const mySession = await honcho.session("team-meeting-jan");
+      const results = await myPeer.search("budget planning", { filters: { session_id: mySession.id } });
+  })();
+  ```
+</CodeGroup>
+
+Search returns an object containing an `items` array of message objects:
+
+```json
+{
+  "items": [
+    {
+      "id": "<string>",
+      "content": "<string>",
+      "peer_id": "<string>",
+      "session_id": "<string>",
+      "metadata": {},
+      "created_at": "2023-11-07T05:31:56Z",
+      "workspace_id": "<string>",
+      "token_count": 123
+    }
+  ]
+}
+```
+
+### Filter results by time range
+
+<CodeGroup>
+  ```python Python
+  results = honcho.search("budget planning", filters={"created_at": {"gte": "2024-01-01", "lte": "2024-01-31"}})
+  ```
+
+  ```typescript TypeScript
+  (async () => {
+      const results = await honcho.search("budget planning", { filters: { created_at: { gte: "2024-01-01", lte: "2024-01-31" } } });
+  })();
+  ```
+</CodeGroup>
+
+### Filter results by metadata
+
+<CodeGroup>
+  ```python Python
+  results = honcho.search("budget planning", filters={"metadata": {"key": "value"}})
+  ```
+
+  ```typescript TypeScript
+  (async () => {
+      const results = await honcho.search("budget planning", { filters: { metadata: { key: "value" } } });
+  })();
+  ```
+</CodeGroup>
+
+### Best Practices
+
+### Handle Empty Results Gracefully
+
+<CodeGroup>
+  ```python Python
+  # Always check for empty results
+  results = honcho.search("very specific query")
+  result_list = list(results)
+
+  if result_list:
+      print(f"Found {len(result_list)} results")
+      for result in result_list:
+          print(f"- {result}")
+  else:
+      print("No results found - try a broader search")
+  ```
+
+  ```typescript TypeScript
+  import { Message } from "@honcho-ai/sdk";
+
+  (async () => {
+      // Always check for empty results
+      const results: Message[] = await honcho.search("very specific query");
+
+      if (results.length > 0) {
+        console.log(`Found ${results.length} results`);
+        for (const result of results) {
+          console.log(`- ${result.content}`);
+        }
+      } else {
+        console.log("No results found - try a broader search");
+      }
+  })();
+  ```
+</CodeGroup>
+
+## Conclusion
+
+Honcho's search functionality provides powerful discovery capabilities across your conversational data. By understanding how to:
+
+* Choose the appropriate search scope (workspace, session, or peer)
+* Handle paginated results effectively
+* Combine search with context building
+
+You can build applications that provide intelligent insights and context-aware responses based on historical conversations and interactions.

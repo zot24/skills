@@ -1,37 +1,53 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/features/advanced/summarizer -->
+> Source: https://docs.honcho.dev/v3/documentation/features/advanced/summarizer.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Summarizer
 
-## Overview
+> How Honcho creates summaries of conversations
 
-Honcho implements conversation summarization to efficiently prime context windows. The approach combines recent messages with compressed LLM-generated summaries of older content, addressing three key requirements: exhaustiveness, dynamic sizing, and performance.
+Almost all agents require, in addition to personalization and memory, a way to quickly prime a context window with a summary of the conversation (in Honcho, this is equivalent to a `session`). The general strategy for summarization is to combine a list of recent messages verbatim with a compressed LLM-generated summary of the older messages not included. Implementing this correctly, in such a way that the resulting context is:
 
-## Summary Creation
+* Exhaustive: the combination of recent messages and summary should cover the entire conversation
+* Dynamically sized: the tokens used on both summary and recent messages should be malleable based on desired token usage
+* Performant: while creation of the summary by LLM introduces necessary latency, this should never add latency to an arbitrary end-user request
 
-Honcho leverages its asynchronous task queue to generate summaries without adding latency to user requests. Two configurable summary types exist:
+...is a non-trivial problem. Summarization should not be necessary to re-implement for every new agent you build, so Honcho comes with a built-in solution.
 
-- **Short summaries**: Triggered every 20 messages (1000 token limit)
-- **Long summaries**: Triggered every 60 messages (4000 token limit)
+### Creating Summaries
 
-Each summary type receives the prior summary of their type plus every message after that summary, enabling recursive compression that preserves recent conversation details while covering the entire dialogue.
+Honcho already has an asynchronous task queue for the purpose of deriving facts from messages. This is the ideal place to create summaries where they won't add latency to a message. Currently, Honcho has two configurable summary types:
 
-## Summary Retrieval
+* Short summaries: by default, enqueued every 20 messages and given a token limit of 1000
+* Long summaries: by default, enqueued every 60 messages and given a token limit of 4000
 
-The `get_context` method retrieves summaries with two parameters:
+Both summaries are designed to be exhaustive: when enqueued, they are given the *prior* summary of their type plus every message after that summary. This recursive compression process naturally biases the summary towards recent messages while still covering the entire conversation.
 
-1. `summary`: Boolean flag (default: true) to include summaries
-2. `tokens`: Maximum token budget for context
+For example, if message 160 in a conversation triggers a short summary, as it would with default settings, the summary task would retrieve the prior short summary (message 140) plus messages 141-160. It would then produce a summary of messages 0-160 and store that in the short summary slot on the session. Every session has a single slot for each summary type: new summaries replace old ones.
 
-Honcho allocates 60% of the context size for recent messages and 40% for the summary. Without a token limit specified, the system automatically retrieves sufficient context for complete conversation coverage.
+It's important to keep in mind that summary tasks run in the background and are not guaranteed to complete before the next message. However, they are guaranteed to complete in order, so that if a user saves 100 messages in a single batch, the short summary will first be created for messages 0-20, then 21-40, and so on, in our desired recursive way.
 
-## Context Trade-offs
+### Retrieving Summaries
 
-Several scenarios prevent exhaustive context:
+Summaries are retrieved from the session by the [`get_context`](/v3/documentation/features/get-context) method. This method has two parameters:
 
-- When final messages exceed the token limit
-- When summaries alone surpass available tokens
-- When recent messages fill the context window
+* `summary`: A boolean indicating whether to include the summary in the return type. The default is true.
+* `tokens`: An integer indicating the maximum number of tokens to use for the context. **If not provided, `get_context` will retrieve as many tokens as are required to create exhaustive conversation coverage.**
 
-For these cases, provide a reasonable token limit. For guaranteed exhaustiveness, omit the token parameter. For recent messages only, disable summaries and set an appropriate token count.
+The return type is simply a list of recent messages and a summary if the flag is used. These two components are dynamically sized based on the token limit. Combined, they will always be below the given token limit. Honcho reserves 60% of the context size for recent messages and 40% for the summary.
 
-**Note**: Summaries generate asynchronously, so immediate availability isn't guaranteed after batch uploads.
+There's a critical trade-off to understand between exhaustiveness and token usage. Let's go through some scenarios:
+
+* If the *last message* contains more tokens than the context token limit, no summary *or* message list is possible -- both will be empty.
+
+* If the *last few messages* contain more tokens than the context token limit, no summary is possible -- the context will only contain the last 1 or 2 messages that fit in the token limit.
+
+* If the summaries contain more tokens than the context token limit, no summary is possible -- the context will only contain the X most recent messages that fit in the token limit. Note that while summaries will often be smaller than their token limits, avoiding this scenario means passing a higher token limit than the Honcho-configured summary size(s). For this reason, the default token limit for `get_context` is a few times larger than the configured long summary size.
+
+The above scenarios indicate where summarization is not possible -- therefore, the context retrieved will almost certainly **not** be exhaustive.
+
+Sometimes, gaps in context aren't an issue. In these cases, it's best to pass a reasonable token limit depending on your needs. Other cases demand exhaustive context -- don't pass a token limit and just let Honcho retrieve the ideal combination of summary and recent messages. Finally, if you don't care about the conversation at large and just want the last few messages, set `summary` to false and `tokens` to some multiple of your desired message count. Note that context messages are not paginated, so there's a hard limit on the number of messages that can be retrieved (currently 100,000 tokens).
+
+As a final note, remember that summaries are generated asynchronously and therefore may not be available immediately. If you batch-save a large number of messages, assume that summaries will not be available until those messages are processed, which can take seconds to minutes depending on the number of messages and the configured LLM provider. Exhaustive `get_context` calls performed during this time will likely just return the messages in the session.

@@ -1,46 +1,170 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/introduction/vibecoding -->
+> Source: https://docs.honcho.dev/v3/documentation/introduction/vibecoding.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Agentic Development
 
-Honcho provides tools for building persistent memory into AI agents through the Model Context Protocol (MCP) server, Claude Code integration, and agent skills for various coding assistants.
+> Agent skills, MCP server, and tools for building with Honcho
 
-## MCP Server Setup
+## MCP Server
 
-The fastest implementation path involves three steps:
+The fastest way to give any AI tool persistent memory is through the Honcho MCP server. It works with any client that supports the Model Context Protocol.
 
-1. Obtain credentials at app.honcho.dev
-2. Configure your client using the appropriate template
-3. Restart your application
+**Get started in 2 minutes:**
 
-Configuration examples are provided for Claude Desktop, Cursor, and Claude Code, each requiring an API key and optional user identifier.
+1. Get an API key at [app.honcho.dev](https://app.honcho.dev)
+2. Add the config for your client below
+3. Restart your client
+
+See the [full MCP documentation](/v3/guides/integrations/mcp) for all available tools, advanced configuration, and setup instructions for every supported client.
+
+<CodeGroup>
+  ```json Claude Desktop
+  {
+    "mcpServers": {
+      "honcho": {
+        "command": "npx",
+        "args": [
+          "mcp-remote",
+          "https://mcp.honcho.dev",
+          "--header",
+          "Authorization:${AUTH_HEADER}",
+          "--header",
+          "X-Honcho-User-Name:${USER_NAME}"
+        ],
+        "env": {
+          "AUTH_HEADER": "Bearer hch-your-key-here",
+          "USER_NAME": "YourName"
+        }
+      }
+    }
+  }
+  ```
+
+  ```json Cursor
+  {
+    "mcpServers": {
+      "honcho": {
+        "url": "https://mcp.honcho.dev",
+        "headers": {
+          "Authorization": "Bearer hch-your-key-here",
+          "X-Honcho-User-Name": "YourName"
+        }
+      }
+    }
+  }
+  ```
+
+  ```bash Claude Code
+  claude mcp add honcho \
+    --transport http \
+    --url "https://mcp.honcho.dev" \
+    --header "Authorization: Bearer hch-your-key-here" \
+    --header "X-Honcho-User-Name: YourName"
+  ```
+</CodeGroup>
+
+***
 
 ## Claude Code Plugin
 
-Developers can integrate Honcho directly into Claude Code through the marketplace:
+Use Honcho to build with Honcho! The [plugin](/v3/guides/integrations/claudecode) provides Claude Code persistent memory that survives context wipes and session restarts.
 
-```
+```bash
 /plugin marketplace add plastic-labs/claude-honcho
-/plugin install honcho@honcho
-/plugin install honcho-dev@honcho
+/plugin install honcho@honcho # Tools for Claude to use Honcho to manage its own context
+/plugin install honcho-dev@honcho # Skills to teach Claude how to integrate Honcho
 ```
 
-This approach enables persistent memory that survives context wipes and session restarts.
+The marketplace also includes all the agent skills below, so you can use `/honcho-dev:integrate` directly after installing.
+
+See the [full Claude Code integration guide](/v3/guides/integrations/claudecode) for setup details.
+
+***
 
 ## Agent Skills
 
-Installation uses npx (recommended) or manual curl-based setup. Three skills are available:
+We provide agent skills for coding assistants like Claude Code, Cursor, Windsurf, and others.
 
-**honcho-integration**: Guides new implementations by exploring codebases, conducting interviews about architecture preferences, and implementing full integration with the SDK.
+<CodeGroup>
+  ```bash Install via npx (Recommended)
+  npx skills add plastic-labs/honcho
+  ```
 
-**migrate-honcho-py / migrate-honcho-ts**: Handles version upgrades from 1.6.0 to 2.0.0+, addressing API changes like terminology shifts and method renames.
+  ```bash Install as Claude Skill Manually
+  curl -o ~/.claude/skills/honcho-integration.md https://raw.githubusercontent.com/plastic-labs/honcho/main/docs/SKILL.md
+  ```
+</CodeGroup>
 
-## Key Resources
+### Available Skills
 
-- Main documentation: https://docs.honcho.dev
-- API reference and quickstart guides available
-- GitHub repositories for Python SDK, TypeScript SDK, and starter templates
-- Discord and Telegram bot examples provided
+#### honcho-integration
 
-## Core Concept
+**For new integrations.** This skill helps you add Honcho to an existing Python or TypeScript codebase. It provides a guided, interactive experience:
 
-Honcho is an open source memory library with a managed service for building stateful agents. It processes messages through background reasoning to generate conclusions stored as queryable representations.
+1. **Explores your codebase** to understand your language, framework, and existing AI/LLM integrations
+2. **Interviews you** about which entities should be peers, your preferred integration pattern, and session structure
+3. **Implements the integration** based on your answers—installing the SDK, creating peers, configuring sessions, and wiring up the chat endpoint
+4. **Verifies the setup** to ensure everything is configured correctly
+
+Invoke with `/honcho-integration` in your coding agent.
+
+#### migrate-honcho-py / migrate-honcho-ts
+
+**For SDK upgrades.** Migrates code from v1.6.0 to v2.0.0 (required for Honcho 3.0.0+). Use when upgrading the SDK or seeing errors about removed APIs like `observations`, `Representation`, `.core`, or `get_config`.
+
+Both skills handle: terminology changes (`Observation` → `Conclusion`), `Representation` class removal, method renames, and streaming API updates.
+
+| Python                          | TypeScript                 |
+| ------------------------------- | -------------------------- |
+| `/migrate-honcho-py`            | `/migrate-honcho-ts`       |
+| `AsyncHoncho` → `.aio` accessor | `@honcho-ai/core` removal  |
+|                                 | `snake_case` → `camelCase` |
+
+***
+
+## Universal Starter Prompt
+
+```
+I want to start building with Honcho - an open source memory library for building stateful agents.
+
+## Honcho Resources
+
+**Documentation:**
+- Main docs: https://docs.honcho.dev
+- API Reference: https://docs.honcho.dev/v3/api-reference/introduction
+- Quickstart: https://docs.honcho.dev/v3/documentation/introduction/quickstart
+- Architecture: https://docs.honcho.dev/v3/documentation/core-concepts/architecture
+
+**Code & Examples:**
+- Core repo: https://github.com/plastic-labs/honcho
+- Python SDK: https://github.com/plastic-labs/honcho-python
+- TypeScript SDK: https://github.com/plastic-labs/honcho-node
+- Discord bot starter: https://github.com/plastic-labs/discord-python-starter
+- Telegram bot example: https://github.com/plastic-labs/telegram-python-starter
+
+**What Honcho Does:**
+Honcho is an open source memory library with a managed service for building stateful agents. It enables agents to build and maintain state about any entity--users, agents, groups, ideas, and more. Because it's a continual learning system, it understands entities that change over time.
+
+When you write messages to Honcho, they're stored and processed in the background. Custom reasoning models perform formal logical reasoning to generate conclusions about each peer. These conclusions are stored as representations that you can query to provide rich context for your agents.
+
+**Architecture Overview:**
+- Core primitives: Workspaces contain Peers (any entity that persists but changes) and Sessions (interaction threads between peers)
+- Peers can observe other peers in sessions (configurable with observe_me and observe_others)
+- Background reasoning processes messages to extract premises, draw conclusions, and build representations
+- Representations enable continuous improvement as new messages refine existing conclusions and scaffold new ones over time
+- Chat endpoint provides personalized responses based on learned context
+- Supports any LLM (OpenAI, Anthropic, open source)
+- Can use managed service or self-host
+
+Please assess the resources above and ask me relevant questions to help build a well-structured application using Honcho. Consider asking about:
+- What I'm trying to build
+- My technical preferences and stack
+- Whether I want to use the managed service or self-host
+- My experience level with the technologies involved
+- Specific features I need (multi-peer sessions, perspective-taking, streaming, etc.)
+
+Once you understand my needs, help me create a working implementation with proper memory and statefulness.
+```

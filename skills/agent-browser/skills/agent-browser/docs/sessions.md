@@ -11,7 +11,7 @@ Sessions
 Copy Page
 
 
-# Sessions
+# Sessions<a href="#sessions" aria-label="Link to this section">#</a>
 
 Run multiple isolated browser instances:
 
@@ -36,7 +36,7 @@ agent-browser session
 ```
 
 
-## Session isolation
+## Session isolation<a href="#session-isolation" aria-label="Link to this section">#</a>
 
 Each session has its own:
 
@@ -45,9 +45,37 @@ Each session has its own:
 - Navigation history
 - Authentication state
 
-## Persistent profiles
+## Chrome profile reuse<a href="#chrome-profile-reuse" aria-label="Link to this section">#</a>
 
-By default, browser state is lost when the browser closes. Use `--profile` to persist state across restarts:
+The simplest way to reuse your existing login state: pass a Chrome profile name to `--profile`. agent-browser copies the profile to a temp directory (read-only snapshot) and launches Chrome with your existing cookies and sessions.
+
+
+``` shiki
+# List available Chrome profiles
+agent-browser profiles
+
+# Reuse your default Chrome profile's login state
+agent-browser --profile Default open https://gmail.com
+
+# Use a named profile (by display name or directory name)
+agent-browser --profile "Work" open https://app.example.com
+
+# Or via environment variable
+AGENT_BROWSER_PROFILE=Default agent-browser open https://gmail.com
+```
+
+
+| Detail             | Description                                                              |
+|--------------------|--------------------------------------------------------------------------|
+| Supported browsers | Chrome, Chrome Canary, Chromium, Brave                                   |
+| What's copied      | Cookies, local storage, extensions state (cache dirs excluded for speed) |
+| Original profile   | Never modified (read-only snapshot)                                      |
+| Cleanup            | Temp copy deleted when browser closes                                    |
+| Windows note       | Close Chrome before using `--profile <name>` if Chrome is running        |
+
+## Persistent profiles<a href="#persistent-profiles" aria-label="Link to this section">#</a>
+
+For a custom profile directory that persists state across browser restarts, pass a path to `--profile`:
 
 
 ``` shiki
@@ -70,7 +98,7 @@ The profile directory stores:
 - Browser cache
 - Login sessions
 
-## Import auth from your browser
+## Import auth from your browser<a href="#import-auth-from-your-browser" aria-label="Link to this section">#</a>
 
 If you are already logged in to a site in Chrome, you can grab that auth state and reuse it in agent-browser. This is the fastest way to bypass login flows, OAuth, SSO, or 2FA.
 
@@ -122,7 +150,7 @@ agent-browser --session-name myapp state load ./my-auth.json
 
 State files contain session tokens in plaintext. Add them to `.gitignore` and delete when no longer needed. For encryption at rest, see <a href="#state-encryption" target="_blank" rel="noopener noreferrer">State encryption</a> below.
 
-## Session persistence
+## Session persistence<a href="#session-persistence" aria-label="Link to this section">#</a>
 
 Use `--session-name` to automatically save and restore cookies and localStorage across browser restarts:
 
@@ -142,7 +170,7 @@ agent-browser open twitter.com
 
 State files are stored in `~/.agent-browser/sessions/` and automatically loaded on daemon start.
 
-### Session name rules
+### Session name rules<a href="#session-name-rules" aria-label="Link to this section">#</a>
 
 Session names must contain only alphanumeric characters, hyphens, and underscores:
 
@@ -159,7 +187,7 @@ agent-browser --session-name "foo/bar" open example.com    # slashes
 ```
 
 
-## State encryption
+## State encryption<a href="#state-encryption" aria-label="Link to this section">#</a>
 
 Encrypt saved state files (cookies, localStorage) using AES-256-GCM:
 
@@ -179,7 +207,7 @@ agent-browser state list
 ```
 
 
-## State auto-expiration
+## State auto-expiration<a href="#state-auto-expiration" aria-label="Link to this section">#</a>
 
 Automatically delete old state files to prevent accumulation:
 
@@ -193,7 +221,7 @@ agent-browser state clean --older-than 7
 ```
 
 
-## State management commands
+## State management commands<a href="#state-management-commands" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -218,7 +246,7 @@ agent-browser state load ./backup.json
 ```
 
 
-## Authenticated sessions
+## Authenticated sessions<a href="#authenticated-sessions" aria-label="Link to this section">#</a>
 
 Use `--headers` to set HTTP headers for a specific origin:
 
@@ -243,7 +271,7 @@ Useful for:
 - **API testing** - Access protected endpoints
 - **Security** - Headers scoped to origin, not leaked
 
-## Multiple origins
+## Multiple origins<a href="#multiple-origins" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -252,7 +280,7 @@ agent-browser open api.acme.com --headers '{"Authorization": "Bearer token2"}'
 ```
 
 
-## Global headers
+## Global headers<a href="#global-headers" aria-label="Link to this section">#</a>
 
 For headers on all domains:
 
@@ -262,7 +290,7 @@ agent-browser set headers '{"X-Custom-Header": "value"}'
 ```
 
 
-## Environment variables
+## Environment variables<a href="#environment-variables" aria-label="Link to this section">#</a>
 
 | Variable                          | Description                                        |
 |-----------------------------------|----------------------------------------------------|

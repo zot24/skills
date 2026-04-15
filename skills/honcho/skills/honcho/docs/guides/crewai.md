@@ -1,44 +1,296 @@
-<!-- Source: https://docs.honcho.dev/v3/guides/integrations/crewai -->
+> Source: https://docs.honcho.dev/v3/guides/integrations/crewai.md
 
-# CrewAI Integration
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
-## Overview
+# CrewAI
 
-Integrating Honcho's persistent memory system with CrewAI's agent orchestration framework. Enables AI agents to maintain and retrieve conversation history across sessions.
+> Build AI agents with persistent memory using CrewAI and Honcho
 
-## Key Components
+Integrate Honcho with CrewAI to build AI agents that maintain memory across sessions. This guide shows you how to use Honcho's memory layer with CrewAI's agent orchestration framework.
 
-- **CrewAI**: Orchestrates agent behavior and task execution
-- **Honcho**: Manages message storage and retrieves relevant context through semantic search
 
-CrewAI automatically retrieves relevant conversation history from Honcho without needing to manually manage context, token limits, or message formatting.
+  The full code is available on [GitHub](https://github.com/plastic-labs/honcho/tree/main/examples/crewai) with examples in [Python](https://github.com/plastic-labs/honcho/tree/main/examples/crewai/python/examples)
 
-## Installation
+
+## What We're Building
+
+We'll create AI agents that remember and reason over past conversations. Here's how the pieces fit together:
+
+* **CrewAI** orchestrates agent behavior and task execution
+* **Honcho** stores messages and retrieves relevant context
+
+The key benefit: CrewAI automatically retrieves relevant conversation history from Honcho without you needing to manually manage context, token limits, or message formatting.
+
+
+  This tutorial demonstrates single-agent setup to show how Honcho integrates with CrewAI. For production applications, you can extend this to multi-agent crews with shared or individual memory using Honcho's `peer` system.
+
+
+## Setup
+
+Install required packages:
+
+<CodeGroup>
+  ```bash Python (uv)
+  uv add honcho-crewai crewai python-dotenv
+  ```
+
+  ```bash Python (pip)
+  pip install honcho-crewai crewai python-dotenv
+  ```
+</CodeGroup>
+
+Use any LLM provider for your Crew. Create a `.env` file with your API keys:
 
 ```bash
-pip install honcho-crewai crewai python-dotenv
+OPENAI_API_KEY=your_openai_key
 ```
 
-## HonchoStorage Implementation
 
-`HonchoStorage` implements CrewAI's Storage interface through three methods:
+  This tutorial uses the Honcho demo server at [https://demo.honcho.dev](https://demo.honcho.dev) which runs a small instance of Honcho on the latest version. For production, get your Honcho API key at [app.honcho.dev](https://app.honcho.dev). For local development, use `environment="local"`.
 
-- **save()** - Stores messages in Honcho sessions with peer associations
-- **search()** - Performs semantic vector search with optional filtering
-- **reset()** - Initiates new sessions for fresh conversations
 
-### Filter Syntax
+## CrewAI Honcho Storage
 
-Search supports filters for peer_id, metadata, time ranges, and complex logical operators (AND, OR, NOT).
+The `honcho_crewai` package provides `HonchoStorage`, a storage provider that implements CrewAI's `Storage` interface using Honcho's session-based memory.
 
-## Memory Integration Approaches
 
-**Automatic Memory (HonchoStorage):** CrewAI handles memory transparently; suitable for straightforward conversational workflows.
+  Before proceeding, it's important to understand Honcho's core concepts (`Peers` and `Sessions`). Review the [Honcho Architecture](/v3/documentation/core-concepts/architecture) to familiarize yourself with these primitives.
 
-**Tool-Based Memory:** Agents explicitly control when and how to query memory; ideal for multi-step reasoning and multi-agent systems.
 
-### Available Tools
+`HonchoStorage` implements CrewAI's `Storage` interface using Honcho's `peer` and `session` primitives.
 
-- **HonchoGetContextTool** - Retrieves comprehensive conversation history with token management
-- **HonchoSearchTool** - Performs targeted semantic searches
-- **HonchoDialecticTool** - Queries peer representations for preferences and characteristics
+```python
+storage = HonchoStorage(
+    user_id="demo-user",           # Required: Honcho `peer` ID for the user
+    session_id=None,               # Optional: Specific `session` ID (auto-generated UUID if None)
+    honcho_client=None,            # Optional: Pre-configured Honcho client instance
+)
+```
+
+The `HonchoStorage` class implements three key methods:
+
+* **`save()`** - Stores messages in Honcho's `session`, associating them with the appropriate `peer` (user or assistant)
+* **`search()`** - Performs semantic vector search using `session.search()` to find messages most relevant to the query. Supports optional `filters` parameter for fine-grained scoping.
+* **`reset()`** - Creates a new `session` to start fresh conversations
+
+CrewAI automatically calls these methods when agents need to store or retrieve memory, creating a seamless integration.
+
+### Search with Filters
+
+The `search()` method supports an optional `filters` parameter for fine-grained scoping of search results:
+
+```python
+# Search with peer_id filter (only messages from a specific peer)
+results = storage.search("query", filters={"peer_id": "user123"})
+
+# Search with metadata filter
+results = storage.search("query", filters={"metadata": {"priority": "high"}})
+
+# Search with time range filter
+results = storage.search("query", filters={"created_at": {"gte": "2024-01-01"}})
+
+# Complex filter with logical operators
+results = storage.search("query", filters={
+    "AND": [
+        {"peer_id": "user123"},
+        {"metadata": {"topic": "python"}}
+    ]
+})
+```
+
+For the full filter syntax including logical operators (AND, OR, NOT), comparison operators, and metadata filtering, see the [Using Filters](https://docs.honcho.dev/v3/documentation/features/advanced/using-filters) documentation.
+
+
+  For comprehensive details about CrewAI's memory system, see the [official CrewAI Memory documentation](https://docs.crewai.com/en/concepts/memory).
+
+
+Let's create a basic example showing how CrewAI agents use Honcho's memory automatically:
+
+```python Python
+from dotenv import load_dotenv
+from crewai import Agent, Task, Crew, Process
+from crewai.memory.external.external_memory import ExternalMemory
+from honcho_crewai import HonchoStorage
+
+load_dotenv()
+
+storage = HonchoStorage(user_id="simple-demo-user")
+external_memory = ExternalMemory(storage=storage)
+
+messages = [
+    ("user", "I'm learning Python programming"),
+    ("assistant", "Great! Python is an excellent language to learn."),
+    ("user", "I'm particularly interested in web development"),
+]
+
+for role, message in messages:
+    external_memory.save(message, metadata={"agent": role})
+
+agent = Agent(
+    role="Programming Mentor",
+    goal="Help users learn programming by remembering their interests and progress",
+    backstory=(
+        "You are a patient programming mentor who remembers what students "
+        "have told you about their learning journey and interests."
+    ),
+    verbose=True,
+    allow_delegation=False
+)
+
+task = Task(
+    description=(
+        "Based on what you know about the user's interests, "
+        "suggest a simple web development project they could build to practice Python."
+    ),
+    expected_output="A specific project suggestion with brief explanation",
+    agent=agent
+)
+
+crew = Crew(
+    agents=[agent],
+    tasks=[task],
+    process=Process.sequential,
+    external_memory=external_memory,
+    verbose=True
+)
+
+result = crew.kickoff()
+print(result.raw)
+```
+
+## CrewAI Tool Integration
+
+Honcho provides specialized tools that give CrewAI agents explicit control over memory retrieval:
+
+* **`HonchoGetContextTool`** - Retrieves comprehensive conversation history with token limits. Use for tasks needing broad conversation understanding.
+* **`HonchoDialecticTool`** - Queries representations about `peer`s. Use for understanding user preferences and characteristics without full message history.
+* **`HonchoSearchTool`** - Performs semantic search for specific information. Supports optional `filters` parameter for fine-grained scoping. Use for targeted queries like "what did the user say about budget?"
+
+
+  Agents can use multiple tools in sequence: search for topics, query dialectic for preferences, then get full context for generation.
+
+
+Here's an example demonstrating all three tools:
+
+```python Python
+from dotenv import load_dotenv
+from crewai import Agent, Task, Crew, Process
+from honcho import Honcho
+from honcho_crewai import (
+    HonchoGetContextTool,
+    HonchoDialecticTool,
+    HonchoSearchTool,
+)
+
+load_dotenv()
+
+honcho = Honcho()
+user_id = "demo-user-45"
+session_id = "tools-demo-session"
+
+user = honcho.peer(user_id)
+session = honcho.session(session_id)
+
+messages = [
+    "I'm planning a trip to Japan in March",
+    "I love trying authentic local cuisine, especially ramen and sushi",
+    "My budget is around $3000 for a 10-day trip",
+    "I'm interested in visiting both Tokyo and Kyoto",
+    "I prefer staying in traditional ryokans over hotels",
+]
+
+for msg in messages:
+    session.add_messages([user.message(msg)])
+
+context_tool = HonchoGetContextTool(
+    honcho=honcho, session_id=session_id, peer_id=user_id
+)
+
+dialectic_tool = HonchoDialecticTool(
+    honcho=honcho, session_id=session_id, peer_id=user_id
+)
+
+search_tool = HonchoSearchTool(honcho=honcho, session_id=session_id)
+
+# Note: The search tool supports optional filters for fine-grained scoping
+# Agents can use filters like {"peer_id": "user123"} or {"metadata": {"priority": "high"}}
+
+travel_agent = Agent(
+    role="Travel Planning Specialist",
+    goal="Create personalized travel recommendations using memory tools",
+    backstory=(
+        "You are an expert travel planner with access to conversation memory tools. "
+        "Use the tools to understand the user's preferences before making recommendations."
+    ),
+    tools=[context_tool, dialectic_tool, search_tool],
+    verbose=True,
+    allow_delegation=False
+)
+
+task = Task(
+    description=(
+        "Create a personalized 3-day Tokyo itinerary. "
+        "Use the memory tools to understand:\n"
+        "  • Food preferences (use search_tool for 'cuisine' or 'food')\n"
+        "  • Travel style and budget (use dialectic_tool to query user knowledge)\n"
+        "  • Recent context (use context_tool to get conversation history)\n"
+        "Then create a detailed plan matching their interests."
+    ),
+    expected_output=(
+        "A 3-day Tokyo itinerary with:\n"
+        "  • Daily activities matching user interests\n"
+        "  • Restaurant recommendations\n"
+        "  • Accommodation suggestions\n"
+        "  • Budget considerations"
+    ),
+    agent=travel_agent
+)
+
+crew = Crew(
+    agents=[travel_agent],
+    tasks=[task],
+    process=Process.sequential,
+    verbose=True
+)
+
+crew.kickoff()
+```
+
+## Tool-Based vs Automatic Memory
+
+**Use `HonchoStorage`** for automatic memory - CrewAI handles everything transparently. Best for simple conversational flows.
+
+**Use Honcho Tools** for strategic control - agents decide when and how to query memory. Best for multi-step reasoning, when different query types are needed, or multi-agent systems.
+
+You can combine both: automatic memory for baseline context, tools for specific queries. See the [hybrid memory example](https://github.com/plastic-labs/honcho/blob/main/examples/crewai/python/examples/hybrid_memory_example.py) for a complete implementation.
+
+
+  **Multi-Agent Memory:** Use Honcho tools with different `peer_id` values to give each agent distinct memory and identity.
+
+
+## Next Steps
+
+Now that you have a working CrewAI integration with Honcho, you can:
+
+* **Create specialized agents** with domain-specific memory and context
+* **Use CrewAI's advanced features** like hierarchical processes, tool delegation, and conditional task execution
+* **Leverage logical reasoning** via the Dialectic API for deep `peer` understanding
+* **Implement custom tools** to give agents explicit control over memory retrieval
+
+## Related Resources
+
+
+    Understand Honcho's peer-based model and core primitives
+
+
+    Learn about retrieving and formatting conversation context
+
+
+    Query `peer` representations for deeper understanding
+
+
+    Build stateful agents with LangGraph and Honcho
+
+

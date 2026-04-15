@@ -11,9 +11,9 @@ Quick Start
 Copy Page
 
 
-# Quick Start
+# Quick Start<a href="#quick-start" aria-label="Link to this section">#</a>
 
-## Core workflow
+## Core workflow<a href="#core-workflow" aria-label="Link to this section">#</a>
 
 Every browser automation follows this pattern:
 
@@ -36,7 +36,7 @@ agent-browser snapshot -i
 ```
 
 
-## Common commands
+## Common commands<a href="#common-commands" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -51,7 +51,7 @@ agent-browser close
 ```
 
 
-## Traditional selectors
+## Traditional selectors<a href="#traditional-selectors" aria-label="Link to this section">#</a>
 
 CSS selectors and semantic locators also supported:
 
@@ -63,7 +63,7 @@ agent-browser find role button click --name "Submit"
 ```
 
 
-## Headed mode
+## Headed mode<a href="#headed-mode" aria-label="Link to this section">#</a>
 
 Show browser window for debugging:
 
@@ -73,7 +73,7 @@ agent-browser open example.com --headed
 ```
 
 
-## Wait for content
+## Wait for content<a href="#wait-for-content" aria-label="Link to this section">#</a>
 
 
 ``` shiki
@@ -84,7 +84,7 @@ agent-browser wait 2000                  # Wait milliseconds
 ```
 
 
-## Command chaining
+## Command chaining<a href="#command-chaining" aria-label="Link to this section">#</a>
 
 Chain commands with `&&` in a single shell call. The browser persists via a background daemon, so chaining is safe and efficient:
 
@@ -103,7 +103,7 @@ agent-browser open example.com && agent-browser wait --load networkidle && agent
 
 Use `&&` when you don't need intermediate output. Run commands separately when you need to parse output first (e.g., snapshot to discover refs before interacting).
 
-## JSON output
+## JSON output<a href="#json-output" aria-label="Link to this section">#</a>
 
 For programmatic parsing in scripts:
 

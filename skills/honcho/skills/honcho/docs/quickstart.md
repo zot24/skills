@@ -1,104 +1,371 @@
-<!-- Source: https://docs.honcho.dev/v3/documentation/introduction/quickstart -->
+> Source: https://docs.honcho.dev/v3/documentation/introduction/quickstart.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
 
 # Quickstart
 
-Honcho enables developers to build AI agents with persistent memory capabilities. This quickstart demonstrates setting up a workspace, ingesting multi-session conversations, and querying synthesized insights about users.
+Let's get started with Honcho. In this quickstart, you will:
 
-## Prerequisites
+* Set up a workspace with peers (user and assistant)
+* Ingest messages from across multiple sessions
+* Query the reasoning Honcho produces to get synthesized insights about the user
 
-- API key from [app.honcho.dev](https://app.honcho.dev)
-- $100 free credits upon signup
-- Estimated cost for quickstart: ~$0.04
 
-## Installation
+  Running the code below requires an API key. Create and account and get your API key at [app.honcho.dev](https://app.honcho.dev) under "API KEYS".
 
-**Python:**
-```bash
-uv add honcho-ai
-# or
-pip install honcho-ai
-```
+  Every new tenant gets \$100.00 in free credits on sign up. The code below costs \~\$0.04 to run, so don't worry--still plenty of free credits for iterating.
 
-**TypeScript:**
-```bash
-npm install @honcho-ai/sdk
-yarn add @honcho-ai/sdk
-pnpm add @honcho-ai/sdk
-```
 
-## Implementation Steps
+#### 1. Install the SDK
 
-### 1. Initialize Client
+<CodeGroup>
+  ```bash Python (uv)
+  uv add honcho-ai
+  ```
 
-Python:
-```python
-from honcho import Honcho
-honcho = Honcho(workspace_id="first-honcho-test", api_key=HONCHO_API_KEY)
-```
+  ```bash Python (pip)
+  pip install honcho-ai
+  ```
 
-TypeScript:
-```typescript
-import { Honcho } from '@honcho-ai/sdk';
-const honcho = new Honcho({ 
-  workspaceId: "first-honcho-test", 
-  apiKey: HONCHO_API_KEY 
-});
-```
+  ```bash TypeScript (npm)
+  npm install @honcho-ai/sdk
+  ```
 
-### 2. Create Peers
+  ```bash TypeScript (yarn)
+  yarn add @honcho-ai/sdk
+  ```
 
-Define conversation participants:
-```python
-user = honcho.peer("user")
-assistant = honcho.peer("assistant")
-```
+  ```bash TypeScript (pnpm)
+  pnpm add @honcho-ai/sdk
+  ```
+</CodeGroup>
 
-### 3. Ingest Messages
+#### 2. Initialize the Client
 
-Load conversation data and populate sessions:
-```python
-import json
+The Honcho client is the main entry point for interacting with Honcho's API. It uses a workspace called `default` unless specified, so let's create a `first-honcho-test` workspace for this quickstart.
 
-with open("conversation.json", "r") as f:
-    data = json.load(f)
+<CodeGroup>
+  ```python Python
+  from honcho import Honcho
 
-for session_data in data["sessions"]:
-    session = honcho.session(session_data["id"])
-    session.add_peers([user, assistant])
-    
-    messages = []
-    for msg in session_data["messages"]:
-        if msg["role"] == "user":
-            messages.append(user.message(msg["content"]))
-        elif msg["role"] == "assistant":
-            messages.append(assistant.message(msg["content"]))
-    
-    session.add_messages(messages)
-```
+  # Initialize client
+  honcho = Honcho(workspace_id="first-honcho-test", api_key=HONCHO_API_KEY)
 
-### 4. Query Insights
+  ```
 
-```python
-response = user.chat("What should I know about this user? 3 sentences max")
-print(response)
-```
+  ```typescript TypeScript
+  import { Honcho } from '@honcho-ai/sdk';
 
-## Key Capabilities
+  // Initialize client
+  const honcho = new Honcho({ workspaceId: "first-honcho-test", apiKey: HONCHO_API_KEY });
+  ```
+</CodeGroup>
 
-Honcho performs reasoning to extract implicit insights. For example, it identifies user traits like "notably thoughtful about product design" and "business-minded" from conversation patterns without explicit statements.
+#### 3. Create Peers
 
-This synthesized context enables multiple downstream use cases:
-- Life coaches identifying motivation patterns
-- Productivity agents optimizing time allocation
-- Financial advisors assessing entrepreneurial readiness
+<CodeGroup>
+  ```python Python
+  user = honcho.peer("user")
+  assistant = honcho.peer("assistant")
+  ```
 
-## Performance Notes
+  ```typescript TypeScript
+  const user = await honcho.peer("user")
+  const assistant = await honcho.peer("assistant")
+  ```
+</CodeGroup>
 
-Message processing requires brief processing time. Use queue status utilities to monitor completion before querying results.
+#### 4. Add Messages to Sessions
+
+We've generated an example conversation dataset with 14 messages across 4 sessions. At a high level, the conversation contains a user chatting with an assistant to get help debugging software infrastructure problems for work *and* jam strategy on a side project they're working on. Spoiler alert--the user is way more interested in their side project.
+
+Create a file called `conversation.json` and add the content in the accordion below. Then we'll loop through the sessions and messages in that file and write them to Honcho.
+
+
+  ```json Example Conversation
+  {
+      "sessions": [
+        {
+          "id": "session_1",
+          "messages": [
+            {
+              "role": "user",
+              "content": "containers getting OOM killed in CI after someone on my team updated the base image. quick fix?"
+            },
+            {
+              "role": "assistant",
+              "content": "OOM kills after a base image update usually means the new image has higher memory requirements. Quick fix: bump the memory limit in your CI config. If you need to unblock fast, you could also pin back to the previous base image version temporarily."
+            }
+          ]
+        },
+        {
+          "id": "session_2",
+          "messages": [
+            {
+              "role": "user",
+              "content": "hey, been playing with honcho for a side project. do you know if there's a limit on how many users i can have?"
+            },
+            {
+              "role": "assistant",
+              "content": "Honcho's free tier is based on context ingested, not number of users - so you can have as many users as you want, you're just limited by how much content you're processing. What are you building?"
+            },
+            {
+              "role": "user",
+              "content": "ok so basically it's a personal finance assistant that actually remembers your situation - like it knows you're saving for a house, that you hate subscriptions, that you always regret impulse buys over $50. i've been thinking a lot about the UX, like when should it proactively bring up past context vs wait for you to ask? and how do you balance feeling \"known\" vs feeling surveilled? i have a whole notion doc on this lol"
+            },
+            {
+              "role": "assistant",
+              "content": "That's a really thoughtful approach to the personalization problem! The \"known vs surveilled\" tension is exactly right - the best experiences feel like talking to a friend who remembers, not a system that tracks. Proactive context works best when it's in service of the user's stated goals."
+            }
+          ]
+        },
+        {
+          "id": "session_3",
+          "messages": [
+            {
+              "role": "user",
+              "content": "do i need to update docker-compose too or just the CI yaml for that memory thing"
+            },
+            {
+              "role": "assistant",
+              "content": "Just the CI yaml for the memory limit - docker-compose is separate and only matters if you're hitting the same OOM issue locally."
+            },
+            {
+              "role": "user",
+              "content": "k. oh btw 3 friends are using the finance app now, they keep asking when they can pay me lol. one of them said it's the first budgeting thing that \"gets\" her"
+            },
+            {
+              "role": "assistant",
+              "content": "That's awesome - \"when can I pay you\" is the best kind of validation. And that quote about it being the first thing that \"gets\" her is exactly the value prop of personalized memory. Sounds like you're onto something real."
+            }
+          ]
+        },
+        {
+          "id": "session_4",
+          "messages": [
+            {
+              "role": "user",
+              "content": "if i wanted to charge like $5/mo for the finance app, would honcho's pricing still make sense at that price point? trying to figure out unit economics early"
+            },
+            {
+              "role": "assistant",
+              "content": "You should be fine at that price point. Unlike other memory frameworks that charge you to access your own data, Honcho only charges for the reasoning layer - ingestion and inference. Storage and retrieval are free. So your unit economics are mostly about how often you're synthesizing insights, not how much history you're keeping."
+            },
+            {
+              "role": "user",
+              "content": "ok interesting. wish i had more time to work on this"
+            },
+            {
+              "role": "assistant",
+              "content": "Yeah, sounds like you've got something worth making time for. The early traction is real."
+            }
+          ]
+        }
+      ]
+    }
+  ```
+
+
+<CodeGroup>
+  ```python Python
+  import json
+
+  # Load conversation data
+  with open("conversation.json", "r") as f:
+      data = json.load(f)
+
+  # Process each session
+  for session_data in data["sessions"]:
+      session = honcho.session(session_data["id"])
+      session.add_peers([user, assistant])
+
+      # Add messages with correct roles
+      messages = []
+      for msg in session_data["messages"]:
+          if msg["role"] == "user":
+              messages.append(user.message(msg["content"]))
+          elif msg["role"] == "assistant":
+              messages.append(assistant.message(msg["content"]))
+
+      session.add_messages(messages)
+  ```
+
+  ```typescript TypeScript
+  import * as fs from 'fs';
+
+  const data = JSON.parse(fs.readFileSync("conversation.json", "utf-8"));
+
+  for (const sessionData of data.sessions) {
+      const session = honcho.session(sessionData.id);
+      session.addPeers([user, assistant]);
+
+      const messages = sessionData.messages.map((msg: any) =>
+          msg.role === "user" ? user.message(msg.content) : assistant.message(msg.content)
+      );
+
+      session.addMessages(messages);
+  }
+  ```
+</CodeGroup>
+
+#### 5. Query for Insights
+
+Now ask Honcho what it's learned--this is where the magic happens:
+
+<CodeGroup>
+  ```python Python
+  response = user.chat("What should I know about this user? 3 sentences max")
+  print(response)
+  ```
+
+  ```typescript TypeScript
+  user.chat("What should I know about this user? 3 sentences max").then((response) => {
+    console.log(response);
+  })
+  ```
+</CodeGroup>
+
+
+  Honcho needs a short amount of time to process messages you write to it. There are several utilities to [check the status](/v3/documentation/features/advanced/queue-status) of the queue. Honcho also offers numerous ways to query reasoning to fit latency needs: see the [Get Context](/v3/documentation/features/get-context) page.
+
+
+The response will look something like this:
+
+> User is a personal finance app developer building a personalized finance assistant that's generating real demand (friends are already asking when they can pay). They're notably thoughtful about product design, carefully considering the UX balance between making users feel "known" versus "surveilled" when their app proactively surfaces remembered context like savings goals and spending regrets. They're business-minded and working through unit economics early, exploring a \$5/month subscription model with usage-based cost structure focused on insight generation frequency rather than data storage—though they wish they had more time to dedicate to the project.
+
+Honcho synthesizes signal by reasoning about the user to draw conclusions beyond what was explicitly stated. It identifies the user as "notably thoughtful about product design", "business-minded" from the discussion of unit economics, and surfaces the signal that they desire to work on the project more.
+
+This is rich personal context for domain-specific agents to do what they want with.
+
+* A life coach agent might see "they wish they had more time to dedicate to the project" and "friends are already asking when they can pay" and ask "have you thought about what it would take to go full-time?"
+* A productivity agent might see the same pattern and say "let's protect your weekend time for the finance app."
+* A financial advisor agent might see it and ask "what runway would you need to make the leap?"
+
+Honcho acts almost like a detective--it reasons about new and existing evidence in order to form conclusions that can be used to make a *case*. These conclusions wait to be composed dynamically based on how you, the ~~judge~~ developer, query it. This approach is what drives our [pareto-frontier](https://evals.honcho.dev) performance on memory benchmarks, and our custom models allow us to optimize speed and cost.
 
 ## Next Steps
 
-- Explore [Get Context](/v3/documentation/features/get-context) for agent response optimization
-- Review [Architecture](/v3/documentation/core-concepts/architecture) documentation
-- Study [Chat Endpoint](/v3/documentation/features/chat) capabilities
-- Examine [Guides](/v3/guides/overview) for integration patterns
+You just saw how Honcho reasons about data to build rich peer representations. In this quickstart, you:
+
+* Set up a workspace with peers (user and assistant)
+* Ingested messages across multiple sessions
+* Queried the reasoning to get synthesized insights about the user
+
+Here's the full working code if you want to run it yourself:
+
+
+  <CodeGroup>
+    ```python Python
+    # uv sync
+    # uv run python test.py
+
+    import json
+    import time
+    import uuid
+
+    from honcho import Honcho
+    from dotenv import load_dotenv
+
+    load_dotenv()
+
+    # Initialize Honcho client with a unique workspace
+    workspace_id = f"docs-example-{uuid.uuid4().hex[:8]}"
+    honcho = Honcho(environment="production", workspace_id=workspace_id)
+
+    # Create peers to represent the user and assistant
+    user = honcho.peer("user")
+    assistant = honcho.peer("assistant")
+
+    # Load conversation data from JSON file
+    with open("conversation.json", "r") as f:
+        conversation_data = json.load(f)
+
+    # Import historical conversation sessions
+    for session_data in conversation_data["sessions"]:
+        session = honcho.session(session_data["id"])
+        session.add_peers([user, assistant])
+
+        # Convert messages to peer messages with correct attribution
+        messages = []
+        for msg in session_data["messages"]:
+            if msg["role"] == "user":
+                messages.append(user.message(msg["content"]))
+            elif msg["role"] == "assistant":
+                messages.append(assistant.message(msg["content"]))
+
+        session.add_messages(messages)
+
+    # Query insights about the user based on conversation history
+    response = user.chat("What should I know about this user? 3 sentences max")
+    print(response)
+    ```
+
+    ```typescript Typescript
+    // npm install
+    // npx ts-node test.ts
+
+    import * as fs from 'fs';
+    import { randomUUID } from 'crypto';
+    import * as dotenv from 'dotenv';
+    import { Honcho } from '@honcho-ai/sdk';
+
+    dotenv.config();
+
+    // Initialize Honcho client with a unique workspace
+    const workspaceId = `docs-example-${randomUUID().slice(0, 8)}`;
+    const honcho = new Honcho({
+      environment: "production",
+      workspaceId,
+    });
+
+    // Create peers to represent the user and assistant
+    const user = await honcho.peer("user");
+    const assistant = await honcho.peer("assistant");
+
+    // Load conversation data from JSON file
+    const conversationData = JSON.parse(fs.readFileSync("conversation.json", "utf-8"));
+
+    // Import historical conversation sessions
+    for (const sessionData of conversationData.sessions) {
+      const session = await honcho.session(sessionData.id);
+      await session.addPeers([user, assistant]);
+
+      // Convert messages to peer messages with correct attribution
+      const messages = [];
+      for (const msg of sessionData.messages) {
+        if (msg.role === "user") {
+          messages.push(user.message(msg.content));
+        } else if (msg.role === "assistant") {
+          messages.push(assistant.message(msg.content));
+        }
+      }
+
+      await session.addMessages(messages);
+    }
+
+
+    // Query insights about the user based on conversation history
+    const response = await user.chat("What should I know about this user? 3 sentences max");
+    console.log(response);
+
+    ```
+  </CodeGroup>
+
+
+From here, you can explore how to use Honcho's features in your own applications:
+
+
+    Learn how to fetch the right context for your agent's next response
+
+
+    Deep dive into how Honcho's primitives fit together
+
+
+    Chat with Honcho about your users
+
+
+    Integration patterns and advanced use cases
+
+

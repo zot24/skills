@@ -1,6 +1,6 @@
 {
   "name": "honcho",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AI-native memory and context platform for LLM applications — persistent memory, user modeling, and context management",
   "sources": [
     {
@@ -558,6 +558,12 @@
     {
       "url": "https://docs.honcho.dev/changelog/compatibility-guide.md",
       "target": "skills/honcho/docs/compatibility-guide.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.honcho.dev/v3/contributing/license.md",
+      "target": "skills/honcho/docs/license.md",
       "type": "extract-content",
       "freshness_days": 14
     }

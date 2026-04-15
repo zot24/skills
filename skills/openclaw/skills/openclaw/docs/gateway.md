@@ -41,7 +41,7 @@ Gateway Runbook
 <a href="/platforms" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Platforms</a>
 
 
-<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Gateway &amp; Ops</a>
+<a href="/gateway" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]" data-active="true">Gateway &amp; Ops</a>
 
 
 <a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Reference</a>
@@ -70,9 +70,17 @@ Gateway Runbook
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Security and sandboxing
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -82,9 +90,17 @@ Gateway Runbook
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Networking and discovery
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -190,9 +206,17 @@ Gateway Runbook
 
   </div>
 
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
 - <div>
 
   Node features
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -262,6 +286,7 @@ On this page
 - <a href="#port-and-bind-precedence" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Port and bind precedence</a>
 - <a href="#hot-reload-modes" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Hot reload modes</a>
 - <a href="#operator-command-set" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Operator command set</a>
+- <a href="#multiple-gateways-same-host" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Multiple gateways (same host)</a>
 - <a href="#remote-access" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Remote access</a>
 - <a href="#supervision-and-service-lifecycle" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Supervision and service lifecycle</a>
 - <a href="#multiple-gateways-on-one-host" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Multiple gateways on one host</a>
@@ -365,7 +390,7 @@ openclaw channels status --probe
   - HTTP APIs, OpenAI compatible (`/v1/models`, `/v1/embeddings`, `/v1/chat/completions`, `/v1/responses`, `/tools/invoke`)
   - Control UI and hooks
 - Default bind mode: `loopback`.
-- Auth is required by default (`gateway.auth.token` / `gateway.auth.password`, or `OPENCLAW_GATEWAY_TOKEN` / `OPENCLAW_GATEWAY_PASSWORD`).
+- Auth is required by default. Shared-secret setups use `gateway.auth.token` / `gateway.auth.password` (or `OPENCLAW_GATEWAY_TOKEN` / `OPENCLAW_GATEWAY_PASSWORD`), and non-loopback reverse-proxy setups can use `gateway.auth.mode: "trusted-proxy"`.
 
 ## 
 
@@ -424,7 +449,7 @@ openclaw channels status --probe
 
 ``` shiki
 openclaw gateway status
-openclaw gateway status --deep
+openclaw gateway status --deep   # adds a system-level service scan
 openclaw gateway status --json
 openclaw gateway install
 openclaw gateway restart
@@ -433,6 +458,23 @@ openclaw secrets reload
 openclaw logs --follow
 openclaw doctor
 ```
+
+
+## 
+
+
+<a href="#multiple-gateways-same-host" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+openclaw gateway status --deep
+openclaw gateway probe
+```
+
+
+- `gateway status --deep` can report `Other gateway-like services detected (best effort)` and print cleanup hints when stale launchd/systemd/schtasks installs are still around.
+- `gateway probe` can warn about `multiple reachable gateways` when more than one target answers.
+- If that is intentional, isolate ports, config/state, and workspace roots per gateway.
 
 
 ## 
@@ -472,6 +514,16 @@ ssh -N -L 18789:127.0.0.1:18789 user@host
 
   </div>
 
+- <div id="windows-native">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" component-part="tab-button" active="false" testid="tab-Windows (native)">
+
+  Windows (native)
+
+  </div>
+
+  </div>
+
 - <div id="linux-system-service">
 
   <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" component-part="tab-button" active="false" testid="tab-Linux (system service)">
@@ -500,6 +552,34 @@ openclaw gateway status
 
 ``` shiki
 sudo loginctl enable-linger <user>
+```
+
+
+``` shiki
+[Unit]
+Description=OpenClaw Gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/openclaw gateway --port 18789
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+TimeoutStartSec=30
+SuccessExitStatus=0 143
+KillMode=control-group
+
+[Install]
+WantedBy=default.target
+```
+
+
+``` shiki
+openclaw gateway install
+openclaw gateway status --json
+openclaw gateway restart
+openclaw gateway stop
 ```
 
 
@@ -548,8 +628,9 @@ openclaw --dev status
 
 - First client frame must be `connect`.
 - Gateway returns `hello-ok` snapshot (`presence`, `health`, `stateVersion`, `uptimeMs`, limits/policy).
+- `hello-ok.features.methods` / `events` are a conservative discovery list, not a generated dump of every callable helper route.
 - Requests: `req(method, params)` → `res(ok/payload|error)`.
-- Common events: `connect.challenge`, `agent`, `chat`, `presence`, `tick`, `health`, `heartbeat`, `shutdown`.
+- Common events include `connect.challenge`, `agent`, `chat`, `session.message`, `session.tool`, `sessions.changed`, `presence`, `tick`, `health`, `heartbeat`, pairing/approval lifecycle events, and `shutdown`.
 
 
 1.  Immediate accepted ack (`status:"accepted"`)
@@ -596,12 +677,12 @@ openclaw health
 <a href="#common-failure-signatures" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Signature                                                      | Likely issue                             |
-|----------------------------------------------------------------|------------------------------------------|
-| `refusing to bind gateway ... without auth`                    | Non-loopback bind without token/password |
-| `another gateway instance is already listening` / `EADDRINUSE` | Port conflict                            |
-| `Gateway start blocked: set gateway.mode=local`                | Config set to remote mode                |
-| `unauthorized` during connect                                  | Auth mismatch between client and gateway |
+| Signature                                                      | Likely issue                                                                    |
+|----------------------------------------------------------------|---------------------------------------------------------------------------------|
+| `refusing to bind gateway ... without auth`                    | Non-loopback bind without a valid gateway auth path                             |
+| `another gateway instance is already listening` / `EADDRINUSE` | Port conflict                                                                   |
+| `Gateway start blocked: set gateway.mode=local`                | Config set to remote mode, or local-mode stamp is missing from a damaged config |
+| `unauthorized` during connect                                  | Auth mismatch between client and gateway                                        |
 
 
 ## 

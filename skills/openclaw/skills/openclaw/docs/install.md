@@ -20,7 +20,7 @@ First steps
 Getting Started
 
 
-<a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]">Get started</a>
+<a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]" data-active="true">Get started</a>
 
 
 <a href="/install" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Install</a>
@@ -291,6 +291,33 @@ openclaw dashboard
 
 
 Send your first message
+
+
+Advanced: mount a custom Control UI build
+
+
+``` shiki
+mkdir -p "$HOME/.openclaw/control-ui-custom"
+# Copy your built static files into that directory.
+```
+
+
+``` shiki
+{
+  "gateway": {
+    "controlUi": {
+      "enabled": true,
+      "root": "$HOME/.openclaw/control-ui-custom"
+    }
+  }
+}
+```
+
+
+``` shiki
+openclaw gateway restart
+openclaw dashboard
+```
 
 
 ## 

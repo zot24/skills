@@ -337,6 +337,3 @@ Consider tracking which skills have been activated in the current session. If th
 This is an advanced pattern only supported by some clients. Instead of injecting skill instructions into the main conversation, the skill is run in a **separate subagent session**. The subagent receives the skill instructions, performs the task, and returns a summary of its work to the main conversation.
 
 This pattern is useful when a skill's workflow is complex enough to benefit from a dedicated, focused session.
-
-
-Built with [Mintlify](https://mintlify.com).
