@@ -1,17 +1,5 @@
 {
   "name": "x-engagement",
-  "version": "1.0.0",
   "description": "Crafts high-engagement X (Twitter) content using conversation hijacking, authority building, and strategic hooks.",
-  "skills": [
-    {
-      "name": "x-engagement",
-      "path": "skills/x-engagement/SKILL.md"
-    }
-  ],
-  "commands": [
-    {
-      "name": "x-engagement",
-      "path": "commands/x-engagement.md"
-    }
-  ]
+  "version": "1.0.0"
 }
