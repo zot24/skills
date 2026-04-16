@@ -19,6 +19,7 @@ An opinionated selection of skills for daily dev workflows.
 | [honcho](./skills/honcho) | Expert on Honcho — AI-native memory and context platform for LLM applications with persistent memory, user modeling, and context management |
 | [safe-delete](./skills/safe-delete) | Prevents catastrophic file deletion by transforming rm commands to trash and blocking dangerous patterns like `rm -rf /` |
 | [x-engagement](./skills/x-engagement) | Crafts high-engagement X (Twitter) content using conversation hijacking, authority building, and strategic hooks |
+| [gh-issue-tracker](./skills/gh-issue-tracker) | Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues with deduplication, fingerprinting, and rate limiting |
 
 ## Installation
 
@@ -435,7 +436,7 @@ SYNC_SCHEDULE: "0 6 1,15 * *"  # Cron format
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json          # Marketplace manifest (11 skills)
+│   └── marketplace.json          # Marketplace manifest (12 skills)
 ├── .github/
 │   ├── scripts/
 │   │   └── sync-skill.sh        # Generic sync script
@@ -453,7 +454,8 @@ skills/
 │   ├── hermes/                  # Hermes Agent self-knowledge
 │   ├── honcho/                  # Honcho AI-native memory platform
 │   ├── safe-delete/             # Safe file deletion
-│   └── x-engagement/            # X/Twitter engagement
+│   ├── x-engagement/            # X/Twitter engagement
+│   └── gh-issue-tracker/        # Error tracking via GitHub Issues
 └── README.md
 ```
 
