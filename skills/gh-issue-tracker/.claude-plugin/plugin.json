@@ -1,0 +1,19 @@
+{
+  "name": "gh-issue-tracker",
+  "description": "Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues instead of SaaS. Guided setup, verification, and issue management skills.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://github.com/zot24/gh-issue-tracker",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "error-tracking",
+    "github-issues",
+    "sentry-alternative",
+    "error-reporting",
+    "deduplication",
+    "fingerprinting"
+  ]
+}
