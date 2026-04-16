@@ -47,19 +47,19 @@ Ensure `.env` is in `.gitignore`. Verify `GITHUB_TOKEN` does NOT have a `NEXT_PU
 ### Next.js App Router
 
 **Always do:**
-1. Create `instrumentation.ts` at project root — see `examples/nextjs-instrumentation/`
+1. Create `instrumentation.ts` at project root — see `https://github.com/zot24/gh-issue-tracker/tree/main/examples/nextjs-instrumentation/`
 
 **If capturing client errors (server + client architecture):**
 2. Install `zod` if not present: `npm install zod`
-3. Create `app/api/errors/capture/route.ts` — see `examples/nextjs-error-proxy/`
-4. Create `app/error.tsx` and `app/global-error.tsx` — see `examples/nextjs-error-boundaries/`
+3. Create `app/api/errors/capture/route.ts` — see `https://github.com/zot24/gh-issue-tracker/tree/main/examples/nextjs-error-proxy/`
+4. Create `app/error.tsx` and `app/global-error.tsx` — see `https://github.com/zot24/gh-issue-tracker/tree/main/examples/nextjs-error-boundaries/`
 5. Set `ALLOWED_ORIGINS` env var for production
 
 ### Express
 
 1. Import and call `init()` at app startup
 2. Add error handler middleware after all routes
-3. See `examples/express-middleware/` for the complete pattern
+3. See `https://github.com/zot24/gh-issue-tracker/tree/main/examples/express-middleware/` for the complete pattern
 
 ### Generic Node.js
 

@@ -137,7 +137,7 @@ export async function onRequestError(error: unknown) {
 }
 ```
 
-See `examples/nextjs-instrumentation/` for a complete file with inline comments.
+See `https://github.com/zot24/gh-issue-tracker/tree/main/examples/nextjs-instrumentation/` for a complete file with inline comments.
 
 #### Client error capture (Option B only)
 
@@ -145,7 +145,7 @@ See `examples/nextjs-instrumentation/` for a complete file with inline comments.
 
 Create `app/api/errors/capture/route.ts` — this is the server-side endpoint that receives browser errors and forwards them to GitHub.
 
-Copy from `examples/nextjs-error-proxy/route.ts`. Key security features:
+Copy from `https://github.com/zot24/gh-issue-tracker/tree/main/examples/nextjs-error-proxy/route.ts`. Key security features:
 - Origin allowlist (`ALLOWED_ORIGINS` env var)
 - IP-based rate limiting (5 req/hour per IP)
 - Zod schema validation
@@ -156,7 +156,7 @@ Copy from `examples/nextjs-error-proxy/route.ts`. Key security features:
 
 Create `app/error.tsx` and `app/global-error.tsx` — these are React components that catch runtime errors in the browser and POST to the proxy.
 
-Copy from `examples/nextjs-error-boundaries/`. These components:
+Copy from `https://github.com/zot24/gh-issue-tracker/tree/main/examples/nextjs-error-boundaries/`. These components:
 - Catch errors via Next.js error boundary mechanism
 - POST `{ message, stack, digest, url, boundary }` to `/api/errors/capture`
 - Display a user-friendly error page with "Try again" button
@@ -185,7 +185,7 @@ app.use((err, req, res, next) => {
 })
 ```
 
-See `examples/express-middleware/` for a complete example.
+See `https://github.com/zot24/gh-issue-tracker/tree/main/examples/express-middleware/` for a complete example.
 
 ### Generic Node.js (Option A — scripts, workers, etc.)
 
