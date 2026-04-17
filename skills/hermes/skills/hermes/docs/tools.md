@@ -36,6 +36,10 @@ High-level categories:
 
 For the authoritative code-derived registry, see [Built-in Tools Reference](/docs/reference/tools-reference) and [Toolsets Reference](/docs/reference/toolsets-reference).
 
+
+Paid <a href="https://portal.nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Portal</a> subscribers can use web search, image generation, TTS, and browser automation through the **[Tool Gateway](/docs/user-guide/features/tool-gateway)** — no separate API keys needed. Run `hermes model` to enable it, or configure individual tools with `hermes tools`.
+
+
 ## Using Toolsets<a href="#using-toolsets" class="hash-link" aria-label="Direct link to Using Toolsets" translate="no" title="Direct link to Using Toolsets">​</a>
 
 
