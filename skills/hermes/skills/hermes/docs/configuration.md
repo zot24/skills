@@ -401,8 +401,8 @@ Skills can declare their own configuration settings via their SKILL.md frontmatt
 ``` prism-code
 skills:
   config:
-    wiki:
-      path: ~/wiki          # Used by the llm-wiki skill
+    myplugin:
+      path: ~/myplugin-data   # Example — each skill defines its own keys
 ```
 
 
@@ -416,7 +416,7 @@ skills:
 
 
 ``` prism-code
-hermes config set skills.config.wiki.path ~/my-research-wiki
+hermes config set skills.config.myplugin.path ~/myplugin-data
 ```
 
 
