@@ -70,10 +70,10 @@ API keys are found in each app under **Settings → General → Security**.
 
 - **[Stack Overview](docs/stack-overview.md)** — Architecture and data flow
 - **[Docker Compose Setup](docs/docker-compose-setup.md)** — Full deployment templates
-- **[Sonarr](docs/sonarr.md)** — TV show setup and API
-- **[Radarr](docs/radarr.md)** — Movie setup and API
-- **[Lidarr](docs/lidarr.md)** — Music setup and API
-- **[Prowlarr](docs/prowlarr.md)** — Indexer management and app sync
+- **[Sonarr](docs/sonarr.md)** — Overview ([settings](docs/sonarr/settings.md), [installation](docs/sonarr/installation.md), [FAQ](docs/sonarr/faq.md), [system](docs/sonarr/system.md))
+- **[Radarr](docs/radarr.md)** — Overview ([settings](docs/radarr/settings.md), [installation](docs/radarr/installation.md), [FAQ](docs/radarr/faq.md), [quick start](docs/radarr/quick-start-guide.md))
+- **[Lidarr](docs/lidarr.md)** — Overview ([installation](docs/lidarr/installation.md), [troubleshooting](docs/lidarr/troubleshooting.md))
+- **[Prowlarr](docs/prowlarr.md)** — Overview ([installation](docs/prowlarr/installation.md), [FAQ](docs/prowlarr/faq.md), [indexers](docs/prowlarr/supported-indexers.md))
 - **[Plex](docs/plex.md)** — Media server setup and library management
 - **[Overseerr](docs/overseerr.md)** — Request management
 - **[qBittorrent](docs/qbittorrent.md)** — Download client configuration
