@@ -20,6 +20,8 @@ An opinionated selection of skills for daily dev workflows.
 | [safe-delete](./skills/safe-delete) | Prevents catastrophic file deletion by transforming rm commands to trash and blocking dangerous patterns like `rm -rf /` |
 | [x-engagement](./skills/x-engagement) | Crafts high-engagement X (Twitter) content using conversation hijacking, authority building, and strategic hooks |
 | [gh-issue-tracker](./skills/gh-issue-tracker) | Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues with deduplication, fingerprinting, and rate limiting |
+| [firecrawl](./skills/firecrawl) | Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents with clean LLM-ready output |
+| [managing-servarr](./skills/managing-servarr) | Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr |
 
 ## Installation
 
@@ -103,6 +105,18 @@ Format: `/skill-name:command-name [arguments]`
 # Safe delete
 /safe-delete:safe-delete enable          # Enable trash-based deletion
 /safe-delete:safe-delete status          # Check current mode
+
+# Firecrawl web scraping
+/firecrawl:firecrawl scrape https://example.com  # Scrape a page
+/firecrawl:firecrawl search "AI news"            # Web search
+/firecrawl:firecrawl crawl https://docs.site.com # Crawl a site
+/firecrawl:firecrawl mcp                         # MCP server setup
+
+# Media stack management
+/managing-servarr:managing-servarr setup docker      # Full Docker stack
+/managing-servarr:managing-servarr integrate         # Wire up all apps
+/managing-servarr:managing-servarr profiles          # TRaSH quality profiles
+/managing-servarr:managing-servarr remote            # Laptop→NAS setup
 ```
 
 ### Natural Language
@@ -325,6 +339,52 @@ Crafts high-engagement X (Twitter) content using strategic frameworks:
 
 [Full documentation](./skills/x-engagement/README.md)
 
+### firecrawl
+
+Expert on Firecrawl web scraping, crawling, and data extraction API:
+
+- **scrape** - Extract markdown/HTML/JSON from a single URL
+- **search** - Query-based web discovery with content extraction
+- **crawl** - Recursively gather content from entire sites
+- **map** - Discover all URLs on a website
+- **interact** - Browser automation (clicks, forms, navigation)
+- **extract** - LLM-powered structured data extraction
+- **sdk** - Node, Python, Go, Rust SDK reference
+- **mcp** - MCP server setup for Claude/Cursor
+- **sync/diff** - Stay updated with upstream docs
+
+```bash
+/firecrawl:firecrawl scrape https://example.com
+/firecrawl:firecrawl search "AI news"
+/firecrawl:firecrawl crawl https://docs.example.com
+```
+
+[Full documentation](./skills/firecrawl/README.md)
+
+### managing-servarr
+
+Deploy and manage the complete media automation stack:
+
+- **setup** - Docker Compose for full stack (9 services)
+- **configure** - App-specific configuration guides
+- **api** - API usage with curl examples for all apps
+- **integrate** - Wire up Prowlarr → *arr apps → qBittorrent → Plex
+- **profiles** - TRaSH quality profiles via Recyclarr
+- **status** - Health check all running instances
+- **troubleshoot** - Diagnose common issues
+- **add** - Add movies/shows/artists via API
+- **request** - Overseerr request workflow
+- **remote** - Laptop→NAS management patterns
+
+```bash
+/managing-servarr:managing-servarr setup docker
+/managing-servarr:managing-servarr integrate
+/managing-servarr:managing-servarr add movie "Inception"
+/managing-servarr:managing-servarr remote
+```
+
+[Full documentation](./skills/managing-servarr/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -387,7 +447,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho
+- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr
 
 ### Automated Releases (release-please)
 
@@ -436,7 +496,7 @@ SYNC_SCHEDULE: "0 6 1,15 * *"  # Cron format
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json          # Marketplace manifest (12 skills)
+│   └── marketplace.json          # Marketplace manifest (14 skills)
 ├── .github/
 │   ├── scripts/
 │   │   └── sync-skill.sh        # Generic sync script
@@ -455,7 +515,9 @@ skills/
 │   ├── honcho/                  # Honcho AI-native memory platform
 │   ├── safe-delete/             # Safe file deletion
 │   ├── x-engagement/            # X/Twitter engagement
-│   └── gh-issue-tracker/        # Error tracking via GitHub Issues
+│   ├── gh-issue-tracker/        # Error tracking via GitHub Issues
+│   ├── firecrawl/              # Firecrawl web scraping API
+│   └── managing-servarr/       # Media stack (*arr suite + Plex)
 └── README.md
 ```
 

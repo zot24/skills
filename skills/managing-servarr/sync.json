@@ -1,0 +1,81 @@
+{
+  "name": "managing-servarr",
+  "version": "1.0.0",
+  "description": "Full media stack management — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, Recyclarr",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/Sonarr/Sonarr/develop/README.md",
+      "target": "skills/managing-servarr/docs/readme-sonarr.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Radarr/Radarr/develop/README.md",
+      "target": "skills/managing-servarr/docs/readme-radarr.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Lidarr/Lidarr/develop/README.md",
+      "target": "skills/managing-servarr/docs/readme-lidarr.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Prowlarr/Prowlarr/develop/README.md",
+      "target": "skills/managing-servarr/docs/readme-prowlarr.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/recyclarr/recyclarr/master/README.md",
+      "target": "skills/managing-servarr/docs/recyclarr-config.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wiki.servarr.com/en/sonarr",
+      "target": "skills/managing-servarr/docs/sonarr.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/en/radarr",
+      "target": "skills/managing-servarr/docs/radarr.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/en/lidarr",
+      "target": "skills/managing-servarr/docs/lidarr.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/en/prowlarr",
+      "target": "skills/managing-servarr/docs/prowlarr.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/en/docker-guide",
+      "target": "skills/managing-servarr/docs/docker-compose-setup.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/en/sonarr/troubleshooting",
+      "target": "skills/managing-servarr/docs/troubleshooting.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://trash-guides.info/Sonarr/",
+      "target": "skills/managing-servarr/docs/quality-profiles.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "Wiki pages use 30-day freshness since servarr.com updates infrequently. GitHub READMEs use 14-day freshness. Some docs (stack-overview.md, api-reference.md, remote-management.md, plex.md, overseerr.md, qbittorrent.md, bazarr.md) are authored content seeded from OpenClaw skills. Use Firecrawl to scrape wiki.servarr.com for initial population."
+}
