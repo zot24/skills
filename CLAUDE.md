@@ -7,12 +7,12 @@ This repository contains AI agent skills for various development workflows.
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace manifest (11 skills)
+│   └── marketplace.json      # Marketplace manifest (14 skills)
 ├── .github/
 │   ├── scripts/
 │   │   └── sync-skill.sh   # Generic sync script
 │   └── workflows/
-│       ├── sync-docs.yml    # Scheduled sync workflow (all 11 skills)
+│       ├── sync-docs.yml    # Scheduled sync workflow (all skills)
 │       └── release-on-merge.yml
 ├── skills/
 │   ├── umbrel-app/           # Umbrel app development
@@ -25,7 +25,9 @@ skills/
 │   ├── safe-delete/          # Safe file deletion
 │   ├── x-engagement/         # X/Twitter engagement
 │   ├── hermes/               # Hermes Agent self-knowledge
-│   └── honcho/               # Honcho AI-native memory platform
+│   ├── honcho/               # Honcho AI-native memory platform
+│   ├── firecrawl/            # Firecrawl web scraping API
+│   └── managing-servarr/     # Media stack (*arr suite + Plex)
 └── README.md
 ```
 
@@ -223,6 +225,8 @@ Each skill syncs documentation from upstream sources.
 | agent-skills | https://github.com/agentskills/agentskills + https://agentskills.io | URL-based |
 | hermes | Hermes Agent docs + operational experience | Hybrid |
 | honcho | https://docs.honcho.dev/v3/documentation | URL-based |
+| firecrawl | https://docs.firecrawl.dev + https://github.com/mendableai/firecrawl | URL-based |
+| managing-servarr | https://wiki.servarr.com + https://trash-guides.info + GitHub repos | URL-based |
 
 ### When to Sync
 

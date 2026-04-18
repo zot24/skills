@@ -1,0 +1,99 @@
+{
+  "name": "firecrawl",
+  "version": "1.0.0",
+  "description": "Firecrawl — web scraping, crawling, search, and browser automation API for AI agents",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/mendableai/firecrawl/main/README.md",
+      "target": "skills/firecrawl/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/introduction",
+      "target": "skills/firecrawl/docs/quickstart.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/scrape",
+      "target": "skills/firecrawl/docs/scrape.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/search",
+      "target": "skills/firecrawl/docs/search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/crawl",
+      "target": "skills/firecrawl/docs/crawl.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/map",
+      "target": "skills/firecrawl/docs/map.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/interact",
+      "target": "skills/firecrawl/docs/interact.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/batch-scrape",
+      "target": "skills/firecrawl/docs/batch-scrape.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/agent",
+      "target": "skills/firecrawl/docs/agent.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/llm-extract",
+      "target": "skills/firecrawl/docs/extract.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/overview",
+      "target": "skills/firecrawl/docs/sdks.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/mcp-server",
+      "target": "skills/firecrawl/docs/mcp-server.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/contributing/self-host",
+      "target": "skills/firecrawl/docs/self-hosting.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/webhooks/overview",
+      "target": "skills/firecrawl/docs/webhooks.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/v2-introduction",
+      "target": "skills/firecrawl/docs/api-reference.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "Key pages from docs.firecrawl.dev. Full page index at https://docs.firecrawl.dev/llms.txt. The discover-pages.sh script detects new upstream pages."
+}

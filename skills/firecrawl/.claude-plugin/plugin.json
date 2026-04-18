@@ -1,0 +1,21 @@
+{
+  "name": "firecrawl",
+  "description": "Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents. Converts any website to clean LLM-ready data.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://firecrawl.dev/",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "firecrawl",
+    "web-scraping",
+    "crawling",
+    "search",
+    "browser-automation",
+    "llm-data",
+    "mcp-server",
+    "api"
+  ]
+}

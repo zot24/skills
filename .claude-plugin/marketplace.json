@@ -77,6 +77,18 @@
       "source": "./skills/gh-issue-tracker",
       "description": "Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues with deduplication, fingerprinting, and rate limiting",
       "version": "1.0.0"
+    },
+    {
+      "name": "firecrawl",
+      "source": "./skills/firecrawl",
+      "description": "Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents with clean LLM-ready output",
+      "version": "1.0.0"
+    },
+    {
+      "name": "managing-servarr",
+      "source": "./skills/managing-servarr",
+      "description": "Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr",
+      "version": "1.0.0"
     }
   ]
 }
