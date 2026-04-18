@@ -79,7 +79,8 @@ API keys are found in each app under **Settings → General → Security**.
 - **[qBittorrent](docs/qbittorrent.md)** — Download client configuration
 - **[Bazarr](docs/bazarr.md)** — Subtitle management
 - **[Quality Profiles](docs/quality-profiles.md)** — TRaSH Guides best practices
-- **[Recyclarr Config](docs/recyclarr-config.md)** — Recyclarr YAML reference
+- **[Recyclarr Config](docs/recyclarr-config.md)** — Recyclarr setup and guide configs
+- **[Hardlinks Guide](docs/hardlinks-guide.md)** — TRaSH folder structure for instant moves
 - **[API Reference](docs/api-reference.md)** — Shared API v3 patterns
 - **[Troubleshooting](docs/troubleshooting.md)** — Common issues and fixes
 - **[Remote Management](docs/remote-management.md)** — Laptop→NAS patterns
