@@ -1,6 +1,6 @@
 ---
 name: managing-servarr
-description: Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, Recyclarr. Use when setting up media automation, quality profiles, indexers, Docker stacks, or managing a media server. Triggers on mentions of Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, *arr, servarr, media library, quality profiles, TRaSH Guides, media server, NAS.
+description: Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Tautulli, Overseerr, qBittorrent, Jackett, Bazarr, Recyclarr. Use when setting up media automation, quality profiles, indexers, Docker stacks, or managing a media server. Triggers on mentions of Sonarr, Radarr, Lidarr, Prowlarr, Plex, Tautulli, Overseerr, Jackett, *arr, servarr, media library, quality profiles, TRaSH Guides, media server, NAS.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
@@ -19,7 +19,9 @@ The media stack follows a pipeline: **Acquire → Organize → Serve → Request
 - **qBittorrent** — Download client for torrents (port 8080)
 - **Bazarr** — Automatic subtitle downloads (port 6767)
 - **Recyclarr** — Sync TRaSH Guides quality profiles (CLI)
+- **Jackett** — Indexer proxy, alternative to Prowlarr (port 9117)
 - **Plex** — Media server for playback and transcoding (port 32400)
+- **Tautulli** — Plex monitoring, analytics, and notifications (port 8181)
 - **Overseerr** — User request management → triggers acquisition (port 5055)
 
 ## Quick Start
@@ -75,7 +77,9 @@ API keys are found in each app under **Settings → General → Security**.
 - **[Lidarr](docs/lidarr.md)** — Overview ([installation](docs/lidarr/installation.md), [troubleshooting](docs/lidarr/troubleshooting.md))
 - **[Prowlarr](docs/prowlarr.md)** — Overview ([installation](docs/prowlarr/installation.md), [FAQ](docs/prowlarr/faq.md), [indexers](docs/prowlarr/supported-indexers.md))
 - **[Plex](docs/plex.md)** — Media server setup and library management
+- **[Tautulli](docs/tautulli.md)** — Plex monitoring, analytics, notifications, API
 - **[Overseerr](docs/overseerr.md)** — Request management
+- **[Jackett](docs/jackett.md)** — Indexer proxy setup and configuration
 - **[qBittorrent](docs/qbittorrent.md)** — Download client configuration
 - **[Bazarr](docs/bazarr.md)** — Subtitle management
 - **[Quality Profiles](docs/quality-profiles.md)** — TRaSH Guides best practices
