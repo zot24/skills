@@ -24,6 +24,7 @@ An opinionated selection of skills for daily dev workflows.
 | [managing-servarr](./skills/managing-servarr) | Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr |
 | [managing-obsidian](./skills/managing-obsidian) | Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing |
 | [managing-adguard](./skills/managing-adguard) | Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation |
+| [managing-immich](./skills/managing-immich) | Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API |
 
 ## Installation
 
@@ -119,6 +120,12 @@ Format: `/skill-name:command-name [arguments]`
 /managing-servarr:managing-servarr integrate         # Wire up all apps
 /managing-servarr:managing-servarr profiles          # TRaSH quality profiles
 /managing-servarr:managing-servarr remote            # Laptop→NAS setup
+
+# Immich photo management
+/managing-immich:managing-immich setup               # Docker Compose deployment
+/managing-immich:managing-immich backup               # Database + filesystem backup
+/managing-immich:managing-immich library /mnt/photos   # External library setup
+/managing-immich:managing-immich upload /path/to/photos # CLI bulk upload
 ```
 
 ### Natural Language
@@ -387,6 +394,28 @@ Deploy and manage the complete media automation stack:
 
 [Full documentation](./skills/managing-servarr/README.md)
 
+### managing-immich
+
+Deploy and manage Immich, a self-hosted photo and video management solution:
+
+- **setup** - Docker Compose deployment guide
+- **configure** - Environment variables and settings
+- **backup** - Database and filesystem backup/restore
+- **library** - External library setup for existing photo directories
+- **upload** - CLI bulk upload with album creation
+- **api** - REST API usage with curl examples
+- **ml** - Machine learning configuration (CLIP, faces, OCR)
+- **mobile** - Mobile app setup and backup
+
+```bash
+/managing-immich:managing-immich setup
+/managing-immich:managing-immich backup
+/managing-immich:managing-immich upload /path/to/photos
+/managing-immich:managing-immich library /mnt/nas/photos
+```
+
+[Full documentation](./skills/managing-immich/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -449,7 +478,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr, managing-obsidian, managing-adguard
+- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr, managing-obsidian, managing-adguard, managing-immich
 
 ### Automated Releases (release-please)
 
@@ -521,7 +550,8 @@ skills/
 │   ├── firecrawl/              # Firecrawl web scraping API
 │   ├── managing-servarr/       # Media stack (*arr suite + Plex)
 │   ├── managing-obsidian/      # Obsidian vault management
-│   └── managing-adguard/       # AdGuard Home DNS filtering
+│   ├── managing-adguard/       # AdGuard Home DNS filtering
+│   └── managing-immich/        # Immich photo/video management
 └── README.md
 ```
 

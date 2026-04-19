@@ -1,0 +1,25 @@
+{
+  "name": "managing-immich",
+  "description": "Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, external libraries, and REST API automation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://immich.app",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "immich",
+    "photos",
+    "videos",
+    "self-hosted",
+    "google-photos",
+    "photo-management",
+    "backup",
+    "machine-learning",
+    "facial-recognition",
+    "docker",
+    "nas",
+    "media-library"
+  ]
+}
