@@ -61,7 +61,9 @@ When `sync` or `diff` is called:
 | Lidarr | 8686 | `/api/v1/` |
 | Prowlarr | 9696 | `/api/v1/` |
 | Plex | 32400 | `/library/` |
+| Tautulli | 8181 | `/api/v2/` |
 | Overseerr | 5055 | `/api/v1/` |
+| Jackett | 9117 | `/api/v2.0/` |
 | qBittorrent | 8080 | `/api/v2/` |
 | Bazarr | 6767 | `/api/` |
 
