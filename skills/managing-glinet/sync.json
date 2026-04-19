@@ -1,0 +1,98 @@
+{
+  "name": "managing-glinet",
+  "version": "1.0.0",
+  "description": "GL.iNet router management — VPN, AdGuard, DNS, multi-WAN, drop-in gateway, firewall, network modes",
+  "sources": [
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/faq/first_time_setup",
+      "target": "skills/managing-glinet/docs/first-time-setup.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/internet",
+      "target": "skills/managing-glinet/docs/internet-wan.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/wireless",
+      "target": "skills/managing-glinet/docs/wireless.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/dns",
+      "target": "skills/managing-glinet/docs/lan-dns.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/vpn_dashboard_v4.8",
+      "target": "skills/managing-glinet/docs/vpn-dashboard.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/wireguard_client",
+      "target": "skills/managing-glinet/docs/wireguard.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/tailscale",
+      "target": "skills/managing-glinet/docs/tailscale.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/adguardhome",
+      "target": "skills/managing-glinet/docs/adguardhome.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/firewall",
+      "target": "skills/managing-glinet/docs/firewall-security.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/network_mode",
+      "target": "skills/managing-glinet/docs/network-modes.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/drop-in_gateway",
+      "target": "skills/managing-glinet/docs/drop-in-gateway.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/multi-wan",
+      "target": "skills/managing-glinet/docs/multi-wan.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/clients",
+      "target": "skills/managing-glinet/docs/clients.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/network_storage",
+      "target": "skills/managing-glinet/docs/network-storage.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://docs.gl-inet.com/router/en/4/interface_guide/upgrade",
+      "target": "skills/managing-glinet/docs/administration.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    }
+  ],
+  "cache_dir": ".cache"
+}

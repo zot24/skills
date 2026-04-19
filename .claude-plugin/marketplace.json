@@ -107,6 +107,12 @@
       "source": "./skills/managing-immich",
       "description": "Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API",
       "version": "1.0.0"
+    },
+    {
+      "name": "managing-glinet",
+      "source": "./skills/managing-glinet",
+      "description": "Configure and manage GL.iNet routers — VPN (WireGuard, OpenVPN, Tailscale), AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes",
+      "version": "1.0.0"
     }
   ]
 }
