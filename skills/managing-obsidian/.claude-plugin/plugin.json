@@ -1,0 +1,23 @@
+{
+  "name": "managing-obsidian",
+  "description": "Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing. Companion to the official obsidian-skills.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://obsidian.md",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "obsidian",
+    "vault",
+    "dataview",
+    "templater",
+    "zettelkasten",
+    "para",
+    "knowledge-base",
+    "mcp",
+    "plugins",
+    "pkm"
+  ]
+}

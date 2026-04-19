@@ -27,7 +27,9 @@ skills/
 │   ├── hermes/               # Hermes Agent self-knowledge
 │   ├── honcho/               # Honcho AI-native memory platform
 │   ├── firecrawl/            # Firecrawl web scraping API
-│   └── managing-servarr/     # Media stack (*arr suite + Plex)
+│   ├── managing-servarr/     # Media stack (*arr suite + Plex)
+│   ├── managing-obsidian/    # Obsidian vault management
+│   └── managing-adguard/     # AdGuard Home DNS filtering
 └── README.md
 ```
 
@@ -227,6 +229,8 @@ Each skill syncs documentation from upstream sources.
 | honcho | https://docs.honcho.dev/v3/documentation | URL-based |
 | firecrawl | https://docs.firecrawl.dev + https://github.com/mendableai/firecrawl | URL-based |
 | managing-servarr | https://wiki.servarr.com + https://trash-guides.info + GitHub repos | URL-based |
+| managing-obsidian | https://help.obsidian.md + Dataview/Templater docs | URL-based |
+| managing-adguard | https://github.com/AdguardTeam/AdGuardHome/wiki | URL-based |
 
 ### When to Sync
 

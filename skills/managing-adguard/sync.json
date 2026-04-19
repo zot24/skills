@@ -1,0 +1,63 @@
+{
+  "name": "managing-adguard",
+  "version": "1.0.0",
+  "description": "AdGuard Home — network-wide DNS ad blocking and filtering",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/README.md",
+      "target": "skills/managing-adguard/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki",
+      "target": "skills/managing-adguard/docs/getting-started.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration",
+      "target": "skills/managing-adguard/docs/configuration.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/Docker",
+      "target": "skills/managing-adguard/docs/docker.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption",
+      "target": "skills/managing-adguard/docs/encryption.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/DHCP",
+      "target": "skills/managing-adguard/docs/dhcp.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/Clients",
+      "target": "skills/managing-adguard/docs/clients.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/FAQ",
+      "target": "skills/managing-adguard/docs/faq.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/VPS",
+      "target": "skills/managing-adguard/docs/vps.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "Wiki pages scraped from GitHub wiki. API reference and blocklists guide are authored. GitHub wiki may have issues with extract-content due to JS rendering — use Firecrawl for initial population."
+}

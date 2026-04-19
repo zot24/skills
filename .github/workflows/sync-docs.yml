@@ -62,7 +62,7 @@ jobs:
         run: |
           chmod +x .github/workflows/scripts/sync-skill.sh
 
-          SKILLS=("umbrel-app" "claude-code-expert" "openclaw" "agent-browser" "chat-sdk" "ai-sdk" "agent-skills" "hermes" "honcho" "firecrawl" "managing-servarr")
+          SKILLS=("umbrel-app" "claude-code-expert" "openclaw" "agent-browser" "chat-sdk" "ai-sdk" "agent-skills" "hermes" "honcho" "firecrawl" "managing-servarr" "managing-obsidian" "managing-adguard")
           CHANGED_SKILLS=""
           FAILED_SKILLS=""
           ALL_CHANGES=""
