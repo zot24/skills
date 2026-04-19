@@ -89,6 +89,18 @@
       "source": "./skills/managing-servarr",
       "description": "Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr",
       "version": "1.0.0"
+    },
+    {
+      "name": "managing-obsidian",
+      "source": "./skills/managing-obsidian",
+      "description": "Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing",
+      "version": "1.0.0"
+    },
+    {
+      "name": "managing-adguard",
+      "source": "./skills/managing-adguard",
+      "description": "Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation",
+      "version": "1.0.0"
     }
   ]
 }

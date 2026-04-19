@@ -1,0 +1,57 @@
+{
+  "name": "managing-obsidian",
+  "version": "1.0.0",
+  "description": "Obsidian vault management — Dataview, Templater, workflows, MCP, plugins",
+  "sources": [
+    {
+      "url": "https://blacksmithgu.github.io/obsidian-dataview/",
+      "target": "skills/managing-obsidian/docs/dataview.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://silentvoid13.github.io/Templater/",
+      "target": "skills/managing-obsidian/docs/templater.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://publish.obsidian.md/tasks/Introduction",
+      "target": "skills/managing-obsidian/docs/tasks-plugin.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://coddingtonbear.github.io/obsidian-local-rest-api/",
+      "target": "skills/managing-obsidian/docs/local-rest-api.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://help.obsidian.md/obsidian-sync/introduction-to-obsidian-sync",
+      "target": "skills/managing-obsidian/docs/sync-backup.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://help.obsidian.md/obsidian-publish/introduction-to-obsidian-publish",
+      "target": "skills/managing-obsidian/docs/publishing.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://help.obsidian.md/plugins/graph-view",
+      "target": "skills/managing-obsidian/docs/graph-analysis.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://help.obsidian.md/plugins/daily-notes",
+      "target": "skills/managing-obsidian/docs/daily-notes.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "Some docs are authored (vault-organization, mocs-guide, zettelkasten, para-method, mcp-servers, plugin-ecosystem). Dataview and Templater docs scraped via Firecrawl."
+}

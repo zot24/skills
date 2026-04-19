@@ -22,6 +22,8 @@ An opinionated selection of skills for daily dev workflows.
 | [gh-issue-tracker](./skills/gh-issue-tracker) | Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues with deduplication, fingerprinting, and rate limiting |
 | [firecrawl](./skills/firecrawl) | Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents with clean LLM-ready output |
 | [managing-servarr](./skills/managing-servarr) | Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr |
+| [managing-obsidian](./skills/managing-obsidian) | Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing |
+| [managing-adguard](./skills/managing-adguard) | Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation |
 
 ## Installation
 
@@ -447,7 +449,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr
+- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr, managing-obsidian, managing-adguard
 
 ### Automated Releases (release-please)
 
@@ -517,7 +519,9 @@ skills/
 │   ├── x-engagement/            # X/Twitter engagement
 │   ├── gh-issue-tracker/        # Error tracking via GitHub Issues
 │   ├── firecrawl/              # Firecrawl web scraping API
-│   └── managing-servarr/       # Media stack (*arr suite + Plex)
+│   ├── managing-servarr/       # Media stack (*arr suite + Plex)
+│   ├── managing-obsidian/      # Obsidian vault management
+│   └── managing-adguard/       # AdGuard Home DNS filtering
 └── README.md
 ```
 

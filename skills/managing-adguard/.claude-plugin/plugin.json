@@ -1,0 +1,22 @@
+{
+  "name": "managing-adguard",
+  "description": "Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://adguard.com/adguard-home/overview.html",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "adguard",
+    "dns",
+    "ad-blocking",
+    "filtering",
+    "dhcp",
+    "docker",
+    "self-hosted",
+    "network",
+    "privacy"
+  ]
+}
