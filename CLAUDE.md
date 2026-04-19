@@ -30,7 +30,8 @@ skills/
 │   ├── managing-servarr/     # Media stack (*arr suite + Plex)
 │   ├── managing-obsidian/    # Obsidian vault management
 │   ├── managing-adguard/     # AdGuard Home DNS filtering
-│   └── managing-immich/      # Immich photo/video management
+│   ├── managing-immich/      # Immich photo/video management
+│   └── managing-glinet/      # GL.iNet router management
 └── README.md
 ```
 
@@ -233,6 +234,7 @@ Each skill syncs documentation from upstream sources.
 | managing-obsidian | https://help.obsidian.md + Dataview/Templater docs | URL-based |
 | managing-adguard | https://github.com/AdguardTeam/AdGuardHome/wiki | URL-based |
 | managing-immich | https://docs.immich.app + https://github.com/immich-app/immich | URL-based |
+| managing-glinet | https://docs.gl-inet.com/router/en/4/ | URL-based |
 
 ### When to Sync
 

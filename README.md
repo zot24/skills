@@ -25,6 +25,7 @@ An opinionated selection of skills for daily dev workflows.
 | [managing-obsidian](./skills/managing-obsidian) | Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing |
 | [managing-adguard](./skills/managing-adguard) | Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation |
 | [managing-immich](./skills/managing-immich) | Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API |
+| [managing-glinet](./skills/managing-glinet) | Configure and manage GL.iNet routers — VPN, AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes |
 
 ## Installation
 
@@ -416,6 +417,28 @@ Deploy and manage Immich, a self-hosted photo and video management solution:
 
 [Full documentation](./skills/managing-immich/README.md)
 
+### managing-glinet
+
+Configure and manage GL.iNet routers (firmware v4.x):
+
+- **setup** - First time setup and internet configuration
+- **vpn** - WireGuard, OpenVPN, Tailscale client/server
+- **adguard** - Built-in AdGuard Home ad blocking
+- **gateway** - Drop-in gateway for existing networks
+- **dns** - Encrypted DNS (DoH, DoT, DNSCrypt)
+- **multiwan** - Failover and load balancing
+- **firewall** - Port forwarding, DMZ, access control
+- **storage** - USB/Samba/WebDAV/DLNA
+
+```bash
+/managing-glinet:managing-glinet setup
+/managing-glinet:managing-glinet vpn wireguard
+/managing-glinet:managing-glinet adguard
+/managing-glinet:managing-glinet gateway
+```
+
+[Full documentation](./skills/managing-glinet/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -478,7 +501,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr, managing-obsidian, managing-adguard, managing-immich
+- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr, managing-obsidian, managing-adguard, managing-immich, managing-glinet
 
 ### Automated Releases (release-please)
 
@@ -551,7 +574,8 @@ skills/
 │   ├── managing-servarr/       # Media stack (*arr suite + Plex)
 │   ├── managing-obsidian/      # Obsidian vault management
 │   ├── managing-adguard/       # AdGuard Home DNS filtering
-│   └── managing-immich/        # Immich photo/video management
+│   ├── managing-immich/        # Immich photo/video management
+│   └── managing-glinet/        # GL.iNet router management
 └── README.md
 ```
 

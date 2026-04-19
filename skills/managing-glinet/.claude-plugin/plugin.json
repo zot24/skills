@@ -1,0 +1,26 @@
+{
+  "name": "managing-glinet",
+  "description": "Configure and manage GL.iNet routers — VPN (WireGuard, OpenVPN, Tailscale), AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://docs.gl-inet.com/router/en/4/",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "gl-inet",
+    "glinet",
+    "router",
+    "openwrt",
+    "wireguard",
+    "vpn",
+    "adguard",
+    "tailscale",
+    "travel-router",
+    "multi-wan",
+    "drop-in-gateway",
+    "self-hosted",
+    "networking"
+  ]
+}
