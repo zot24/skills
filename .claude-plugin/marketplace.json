@@ -101,6 +101,12 @@
       "source": "./skills/managing-adguard",
       "description": "Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation",
       "version": "1.0.0"
+    },
+    {
+      "name": "managing-immich",
+      "source": "./skills/managing-immich",
+      "description": "Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API",
+      "version": "1.0.0"
     }
   ]
 }

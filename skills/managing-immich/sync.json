@@ -1,0 +1,56 @@
+{
+  "name": "managing-immich",
+  "version": "1.0.0",
+  "description": "Self-hosted photo and video management — Immich server, machine learning, mobile backup, external libraries",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/immich-app/immich/main/README.md",
+      "target": "skills/managing-immich/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.immich.app/overview/quick-start",
+      "target": "skills/managing-immich/docs/quick-start.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.immich.app/install/requirements",
+      "target": "skills/managing-immich/docs/requirements.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.immich.app/install/environment-variables",
+      "target": "skills/managing-immich/docs/environment-variables.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.immich.app/administration/backup-and-restore",
+      "target": "skills/managing-immich/docs/backup-and-restore.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.immich.app/features/libraries",
+      "target": "skills/managing-immich/docs/external-libraries.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.immich.app/features/command-line-interface",
+      "target": "skills/managing-immich/docs/cli.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.immich.app/docs/api",
+      "target": "skills/managing-immich/docs/api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache"
+}
