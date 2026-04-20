@@ -60,6 +60,10 @@ const { ok, data } = await client.getWebsites();
 - **[Implementation Patterns](docs/implementation-patterns.md)** — Forms, CTAs, sections, funnels, privacy, Next.js
 - **[Sending Stats](docs/sending-stats.md)** — Direct POST /api/send (no auth required)
 
+### Analytics & Optimization
+- **[Funnel Design](docs/funnel-design.md)** — B2C, B2B, SaaS, e-commerce, onboarding funnel templates with benchmarks
+- **[Journey Analysis](docs/journey-analysis.md)** — User journey archetypes, geographic/language variations, multi-visit patterns
+
 ### API Reference
 - **[Websites API](docs/websites-api.md)** — Website CRUD operations
 - **[Website Statistics](docs/website-stats.md)** — Metrics, pageviews, active users
