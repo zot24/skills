@@ -42,23 +42,33 @@ const { ok, data } = await client.getWebsites();
 
 **API Client Config** — Set `UMAMI_API_CLIENT_USER_ID`, `UMAMI_API_CLIENT_SECRET`, and `UMAMI_API_CLIENT_ENDPOINT` for self-hosted. Set `UMAMI_API_KEY` and `UMAMI_API_CLIENT_ENDPOINT` for Cloud.
 
-## Documentation
+## Documentation Index
 
-- **[API Client](docs/api-client.md)** — TypeScript client with all methods
-- **[Node Client](docs/node-client.md)** — Server-side tracking
+### Setup & Configuration
+- **[Installation](docs/installation.md)** — Docker, source, and cloud setup
+- **[Environment Variables](docs/environment-variables.md)** — Full configuration reference
 - **[Authentication](docs/authentication.md)** — Login, tokens, API keys
+
+### Client Libraries
+- **[API Client](docs/api-client.md)** — `@umami/api-client` TypeScript client with all methods
+- **[Node Client](docs/node-client.md)** — `@umami/node` server-side tracking
+
+### Tracking & Events
+- **[Tracker Functions](docs/tracker-functions.md)** — Client-side `umami.track()` and `umami.identify()`
+- **[Event Taxonomy](docs/event-taxonomy.md)** ��� Naming conventions, categories, central registry pattern
+- **[Auto-Enrichment](docs/auto-enrichment.md)** — Enhanced trackEvent with auto device/geo context
+- **[Implementation Patterns](docs/implementation-patterns.md)** — Forms, CTAs, sections, funnels, privacy, Next.js
+- **[Sending Stats](docs/sending-stats.md)** — Direct POST /api/send (no auth required)
+
+### API Reference
 - **[Websites API](docs/websites-api.md)** — Website CRUD operations
 - **[Website Statistics](docs/website-stats.md)** — Metrics, pageviews, active users
 - **[Events API](docs/events-api.md)** — Event tracking and data retrieval
 - **[Sessions API](docs/sessions-api.md)** — Session data and activity
-- **[Reports API](docs/reports-api.md)** — Attribution, funnel, retention, revenue
-- **[Tracker Functions](docs/tracker-functions.md)** — Client-side tracking methods
-- **[Installation](docs/installation.md)** — Docker, source, and cloud setup
-- **[Environment Variables](docs/environment-variables.md)** — Full configuration reference
-- **[Teams & Users](docs/teams-users-api.md)** — Team and user management
-- **[Realtime API](docs/realtime-api.md)** — Live visitor data
-- **[Sending Stats](docs/sending-stats.md)** — Direct POST /api/send endpoint
-- **[Admin API](docs/admin-api.md)** — Admin-only endpoints
+- **[Reports API](docs/reports-api.md)** — Attribution, funnel, retention, journey, revenue, UTM
+- **[Realtime API](docs/realtime-api.md)** — Live visitor data (30-min window)
+- **[Teams & Users](docs/teams-users-api.md)** — Team, user, and me endpoints
+- **[Admin API](docs/admin-api.md)** — Admin-only endpoints (self-hosted)
 - **[Share API](docs/share-api.md)** — Share page management
 - **[Links & Pixels](docs/links-pixels-api.md)** — URL shortening and tracking pixels
 
