@@ -64,6 +64,7 @@ const { ok, data } = await client.getWebsites();
 - **[Funnel Design](docs/funnel-design.md)** — B2C, B2B, SaaS, e-commerce, onboarding funnel templates with benchmarks
 - **[Journey Analysis](docs/journey-analysis.md)** — User journey archetypes, geographic/language variations, multi-visit patterns
 
+
 ### API Reference
 - **[Websites API](docs/websites-api.md)** — Website CRUD operations
 - **[Website Statistics](docs/website-stats.md)** — Metrics, pageviews, active users
