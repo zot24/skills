@@ -31,7 +31,8 @@ skills/
 │   ├── managing-obsidian/    # Obsidian vault management
 │   ├── managing-adguard/     # AdGuard Home DNS filtering
 │   ├── managing-immich/      # Immich photo/video management
-│   └── managing-glinet/      # GL.iNet router management
+│   ├── managing-glinet/      # GL.iNet router management
+│   └── managing-umami/       # Umami web analytics
 └── README.md
 ```
 
@@ -235,6 +236,7 @@ Each skill syncs documentation from upstream sources.
 | managing-adguard | https://github.com/AdguardTeam/AdGuardHome/wiki | URL-based |
 | managing-immich | https://docs.immich.app + https://github.com/immich-app/immich | URL-based |
 | managing-glinet | https://docs.gl-inet.com/router/en/4/ | URL-based |
+| managing-umami | https://docs.umami.is + https://github.com/umami-software/umami | URL-based |
 
 ### When to Sync
 

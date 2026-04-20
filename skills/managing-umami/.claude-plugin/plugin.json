@@ -1,0 +1,26 @@
+{
+  "name": "managing-umami",
+  "description": "Deploy, configure, and manage Umami — open-source web analytics with API client, tracker functions, event tracking, website statistics, reports, and team management.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://umami.is",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "umami",
+    "analytics",
+    "web-analytics",
+    "self-hosted",
+    "privacy",
+    "google-analytics",
+    "api-client",
+    "tracker",
+    "events",
+    "pageviews",
+    "statistics",
+    "docker",
+    "postgresql"
+  ]
+}

@@ -113,6 +113,12 @@
       "source": "./skills/managing-glinet",
       "description": "Configure and manage GL.iNet routers — VPN (WireGuard, OpenVPN, Tailscale), AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes",
       "version": "1.0.0"
+    },
+    {
+      "name": "managing-umami",
+      "source": "./skills/managing-umami",
+      "description": "Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, reports, and team management",
+      "version": "1.0.0"
     }
   ]
 }
