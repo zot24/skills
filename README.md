@@ -26,6 +26,7 @@ An opinionated selection of skills for daily dev workflows.
 | [managing-adguard](./skills/managing-adguard) | Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation |
 | [managing-immich](./skills/managing-immich) | Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API |
 | [managing-glinet](./skills/managing-glinet) | Configure and manage GL.iNet routers — VPN, AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes |
+| [managing-umami](./skills/managing-umami) | Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, and reports |
 
 ## Installation
 
@@ -439,6 +440,28 @@ Configure and manage GL.iNet routers (firmware v4.x):
 
 [Full documentation](./skills/managing-glinet/README.md)
 
+### managing-umami
+
+Deploy and manage Umami, a privacy-focused open-source web analytics platform:
+
+- **setup** — Docker Compose, source, and cloud installation
+- **api** — `@umami/api-client` TypeScript client for all endpoints
+- **track** — Client-side and server-side event tracking
+- **stats** — Website statistics, metrics, and active users
+- **reports** — Attribution, funnel, retention, journey, revenue, UTM
+- **realtime** — Live visitor data
+- **teams** — Team and user management
+
+```bash
+/managing-umami:managing-umami setup
+/managing-umami:managing-umami api getWebsites
+/managing-umami:managing-umami track purchase
+/managing-umami:managing-umami stats <websiteId>
+/managing-umami:managing-umami reports funnel
+```
+
+[Full documentation](./skills/managing-umami/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -501,7 +524,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr, managing-obsidian, managing-adguard, managing-immich, managing-glinet
+- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr, managing-obsidian, managing-adguard, managing-immich, managing-glinet, managing-umami
 
 ### Automated Releases (release-please)
 
@@ -575,7 +598,8 @@ skills/
 │   ├── managing-obsidian/      # Obsidian vault management
 │   ├── managing-adguard/       # AdGuard Home DNS filtering
 │   ├── managing-immich/        # Immich photo/video management
-│   └── managing-glinet/        # GL.iNet router management
+│   ├── managing-glinet/        # GL.iNet router management
+│   └── managing-umami/         # Umami web analytics
 └── README.md
 ```
 

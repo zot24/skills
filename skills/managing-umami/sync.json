@@ -1,0 +1,116 @@
+{
+  "name": "managing-umami",
+  "version": "1.0.0",
+  "description": "Umami open-source web analytics — API client, tracker, events, statistics, reports",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/umami-software/umami/master/README.md",
+      "target": "skills/managing-umami/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/api-client",
+      "target": "skills/managing-umami/docs/api-client.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/node-client",
+      "target": "skills/managing-umami/docs/node-client.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/authentication",
+      "target": "skills/managing-umami/docs/authentication.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/websites",
+      "target": "skills/managing-umami/docs/websites-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/website-stats",
+      "target": "skills/managing-umami/docs/website-stats.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/events",
+      "target": "skills/managing-umami/docs/events-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/sessions",
+      "target": "skills/managing-umami/docs/sessions-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/reports",
+      "target": "skills/managing-umami/docs/reports-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/realtime",
+      "target": "skills/managing-umami/docs/realtime-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/sending-stats",
+      "target": "skills/managing-umami/docs/sending-stats.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/teams",
+      "target": "skills/managing-umami/docs/teams-users-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/admin",
+      "target": "skills/managing-umami/docs/admin-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/share",
+      "target": "skills/managing-umami/docs/share-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/api/links",
+      "target": "skills/managing-umami/docs/links-pixels-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/tracker-functions",
+      "target": "skills/managing-umami/docs/tracker-functions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/install",
+      "target": "skills/managing-umami/docs/installation.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.umami.is/docs/environment-variables",
+      "target": "skills/managing-umami/docs/environment-variables.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache"
+}
