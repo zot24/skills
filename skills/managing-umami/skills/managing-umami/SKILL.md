@@ -1,6 +1,6 @@
 ---
 name: managing-umami
-description: Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker functions, event tracking, website statistics, reports, and team management. Use when setting up web analytics, tracking pageviews, or working with Umami. Triggers on mentions of Umami, web analytics, pageviews, event tracking, privacy analytics, Google Analytics alternative.
+description: Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker functions, event tracking, website statistics, reports, and team management. Includes umami-cli Rust CLI tool for terminal-based management. Use when setting up web analytics, tracking pageviews, or working with Umami. Triggers on mentions of Umami, umami-cli, web analytics, pageviews, event tracking, privacy analytics, Google Analytics alternative.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
@@ -17,10 +17,47 @@ Expert at deploying and managing Umami, a privacy-focused open-source web analyt
 - **Reports** — Attribution, funnel, retention, journey, revenue, and UTM analysis
 - **Realtime** — Live visitor data with 30-minute rolling window
 
+## CLI Tool (umami-cli)
+
+A Rust CLI for managing self-hosted Umami instances from the terminal. Covers auth, websites, stats, events, sessions, reports, realtime, teams, users, admin, shares, links, and pixels.
+
+- **GitHub**: https://github.com/zot24/umami-cli
+- **Language**: Rust (requires `cargo`)
+
+### Install globally
+
+```bash
+# From source (clone first)
+cargo install --path .
+
+# Or directly from GitHub
+cargo install --git https://github.com/zot24/umami-cli.git
+```
+
+After install, `umami-cli` is available globally via `~/.cargo/bin/`.
+
+### CLI subcommands
+
+```
+umami-cli auth       # Login, logout, verify
+umami-cli websites   # Manage websites
+umami-cli stats      # View website statistics
+umami-cli events     # Manage and track events
+umami-cli sessions   # View session data
+umami-cli reports    # Run and manage reports
+umami-cli realtime   # View realtime analytics
+umami-cli teams      # Manage teams
+umami-cli users      # User management
+umami-cli admin      # Admin operations (self-hosted only)
+umami-cli shares     # Manage share pages
+umami-cli links      # Manage tracked links
+umami-cli pixels     # Manage tracking pixels
+```
+
 ## Quick Start
 
 ```bash
-# Docker Compose (recommended)
+# Docker Compose (recommended for the Umami server)
 git clone https://github.com/umami-software/umami.git
 cd umami
 docker-compose up -d
