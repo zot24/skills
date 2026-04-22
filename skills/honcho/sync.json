@@ -130,6 +130,12 @@
       "freshness_days": 14
     },
     {
+      "url": "https://docs.honcho.dev/v3/documentation/reference/cli.md",
+      "target": "skills/honcho/docs/cli.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
       "url": "https://docs.honcho.dev/v3/documentation/reference/sdk.md",
       "target": "skills/honcho/docs/sdk.md",
       "type": "extract-content",
