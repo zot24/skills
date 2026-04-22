@@ -7,6 +7,7 @@ Expert knowledge about [Honcho](https://honcho.dev) — the AI-native memory and
 - **Core concepts**: Workspaces, peers, sessions, messages, conclusions, representations
 - **Features**: Context retrieval, chat endpoint, dreaming, search, filters, streaming
 - **API reference**: All REST endpoints for every resource type
+- **CLI**: `honcho-cli` terminal tool for inspecting and debugging workspaces
 - **SDKs**: Python and TypeScript SDK usage and examples
 - **Integrations**: Claude Code, MCP, LangGraph, CrewAI, Discord, Telegram, and more
 - **Self-hosting**: Local development setup and configuration
@@ -18,6 +19,7 @@ Expert knowledge about [Honcho](https://honcho.dev) — the AI-native memory and
 /honcho quickstart        # Get started with Honcho
 /honcho architecture      # Core data model
 /honcho context           # Using context retrieval
+/honcho cli               # CLI reference
 /honcho sdk               # SDK reference
 /honcho api sessions      # Session API endpoints
 /honcho integrate discord # Discord bot guide
