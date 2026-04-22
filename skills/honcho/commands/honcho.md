@@ -14,6 +14,7 @@ Parse the arguments to determine the action:
 | `peers` | Working with peers and representations |
 | `sessions` | Managing sessions and messages |
 | `dreaming` | Explain the dreaming/consolidation process |
+| `cli` | CLI reference — commands, flags, env vars |
 | `sdk` | SDK reference for Python and TypeScript |
 | `api <resource>` | API reference for a specific resource |
 | `integrate <platform>` | Integration guide for a platform |

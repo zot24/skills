@@ -79,6 +79,7 @@ context = honcho.workspaces.sessions.get_context(workspace.id, session.id)
 - **[Discord](docs/guides/discord.md)** / **[Telegram](docs/guides/telegram.md)** — Bot guides
 
 ### Reference
+- **[CLI Reference](docs/cli.md)** — `honcho-cli` terminal tool (`uv tool install honcho-cli`)
 - **[SDK Reference](docs/sdk.md)** — Python and TypeScript SDKs
 - **[Dashboard](docs/platform.md)** — Honcho dashboard
 - **[Self-Hosting](docs/self-hosting.md)** — Local setup
