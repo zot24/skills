@@ -11,7 +11,30 @@ On this page
 # Quickstart
 
 
-This guide walks you through installing Hermes Agent, setting up a provider, and having your first conversation. By the end, you'll know the key features and how to explore further.
+This guide gets you from zero to a working Hermes setup that survives real use. Install, choose a provider, verify a working chat, and know exactly what to do when something breaks.
+
+## Who this is for<a href="#who-this-is-for" class="hash-link" aria-label="Direct link to Who this is for" translate="no" title="Direct link to Who this is for">​</a>
+
+- Brand new and want the shortest path to a working setup
+- Switching providers and don't want to lose time to config mistakes
+- Setting up Hermes for a team, bot, or always-on workflow
+- Tired of "it installed, but it still does nothing"
+
+## The fastest path<a href="#the-fastest-path" class="hash-link" aria-label="Direct link to The fastest path" translate="no" title="Direct link to The fastest path">​</a>
+
+Pick the row that matches your goal:
+
+| Goal                                     | Do this first                          | Then do this                                            |
+|------------------------------------------|----------------------------------------|---------------------------------------------------------|
+| I just want Hermes working on my machine | `hermes setup`                         | Run a real chat and verify it responds                  |
+| I already know my provider               | `hermes model`                         | Save the config, then start chatting                    |
+| I want a bot or always-on setup          | `hermes gateway setup` after CLI works | Connect Telegram, Discord, Slack, or another platform   |
+| I want a local or self-hosted model      | `hermes model` → custom endpoint       | Verify the endpoint, model name, and context length     |
+| I want multi-provider fallback           | `hermes model` first                   | Add routing and fallback only after the base chat works |
+
+**Rule of thumb:** if Hermes cannot complete a normal chat, do not add more features yet. Get one clean conversation working first, then layer on gateway, cron, skills, voice, or routing.
+
+------------------------------------------------------------------------
 
 ## 1. Install Hermes Agent<a href="#1-install-hermes-agent" class="hash-link" aria-label="Direct link to 1. Install Hermes Agent" translate="no" title="Direct link to 1. Install Hermes Agent">​</a>
 
@@ -38,71 +61,111 @@ source ~/.bashrc   # or source ~/.zshrc
 ```
 
 
-## 2. Set Up a Provider<a href="#2-set-up-a-provider" class="hash-link" aria-label="Direct link to 2. Set Up a Provider" translate="no" title="Direct link to 2. Set Up a Provider">​</a>
+For detailed installation options, prerequisites, and troubleshooting, see the [Installation guide](/docs/getting-started/installation).
 
-The installer configures your LLM provider automatically. To change it later, use one of these commands:
+## 2. Choose a Provider<a href="#2-choose-a-provider" class="hash-link" aria-label="Direct link to 2. Choose a Provider" translate="no" title="Direct link to 2. Choose a Provider">​</a>
+
+The single most important setup step. Use `hermes model` to walk through the choice interactively:
 
 
 ``` prism-code
-hermes model       # Choose your LLM provider and model
-hermes tools       # Configure which tools are enabled
-hermes setup       # Or configure everything at once
+hermes model
 ```
 
 
-`hermes model` walks you through selecting an inference provider:
+Good defaults:
 
-| Provider                  | What it is                                                      | How to set up                                                    |
-|---------------------------|-----------------------------------------------------------------|------------------------------------------------------------------|
-| **Nous Portal**           | Subscription-based, zero-config                                 | OAuth login via `hermes model`                                   |
-| **OpenAI Codex**          | ChatGPT OAuth, uses Codex models                                | Device code auth via `hermes model`                              |
-| **Anthropic**             | Claude models directly (Pro/Max or API key)                     | `hermes model` with Claude Code auth, or an Anthropic API key    |
-| **OpenRouter**            | Multi-provider routing across many models                       | Enter your API key                                               |
-| **Z.AI**                  | GLM / Zhipu-hosted models                                       | Set `GLM_API_KEY` / `ZAI_API_KEY`                                |
-| **Kimi / Moonshot**       | Moonshot-hosted coding and chat models                          | Set `KIMI_API_KEY`                                               |
-| **Kimi / Moonshot China** | China-region Moonshot endpoint                                  | Set `KIMI_CN_API_KEY`                                            |
-| **Arcee AI**              | Trinity models                                                  | Set `ARCEEAI_API_KEY`                                            |
-| **MiniMax**               | International MiniMax endpoint                                  | Set `MINIMAX_API_KEY`                                            |
-| **MiniMax China**         | China-region MiniMax endpoint                                   | Set `MINIMAX_CN_API_KEY`                                         |
-| **Alibaba Cloud**         | Qwen models via DashScope                                       | Set `DASHSCOPE_API_KEY`                                          |
-| **Hugging Face**          | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.) | Set `HF_TOKEN`                                                   |
-| **Kilo Code**             | KiloCode-hosted models                                          | Set `KILOCODE_API_KEY`                                           |
-| **OpenCode Zen**          | Pay-as-you-go access to curated models                          | Set `OPENCODE_ZEN_API_KEY`                                       |
-| **OpenCode Go**           | \$10/month subscription for open models                         | Set `OPENCODE_GO_API_KEY`                                        |
-| **DeepSeek**              | Direct DeepSeek API access                                      | Set `DEEPSEEK_API_KEY`                                           |
-| **GitHub Copilot**        | GitHub Copilot subscription (GPT-5.x, Claude, Gemini, etc.)     | OAuth via `hermes model`, or `COPILOT_GITHUB_TOKEN` / `GH_TOKEN` |
-| **GitHub Copilot ACP**    | Copilot ACP agent backend (spawns local `copilot` CLI)          | `hermes model` (requires `copilot` CLI + `copilot login`)        |
-| **Vercel AI Gateway**     | Vercel AI Gateway routing                                       | Set `AI_GATEWAY_API_KEY`                                         |
-| **Custom Endpoint**       | VLLM, SGLang, Ollama, or any OpenAI-compatible API              | Set base URL + API key                                           |
+| Situation                             | Recommended path                                         |
+|---------------------------------------|----------------------------------------------------------|
+| Least friction                        | Nous Portal or OpenRouter                                |
+| You already have Claude or Codex auth | Anthropic or OpenAI Codex                                |
+| You want local/private inference      | Ollama or any custom OpenAI-compatible endpoint          |
+| You want multi-provider routing       | OpenRouter                                               |
+| You have a custom GPU server          | vLLM, SGLang, LiteLLM, or any OpenAI-compatible endpoint |
+
+For most first-time users: choose a provider, accept the defaults unless you know why you're changing them. The full provider catalog with env vars and setup steps lives on the [Providers](/docs/integrations/providers) page.
 
 
 Hermes Agent requires a model with at least **64,000 tokens** of context. Models with smaller windows cannot maintain enough working memory for multi-step tool-calling workflows and will be rejected at startup. Most hosted models (Claude, GPT, Gemini, Qwen, DeepSeek) meet this easily. If you're running a local model, set its context size to at least 64K (e.g. `--ctx-size 65536` for llama.cpp or `-c 65536` for Ollama).
 
 
-You can switch providers at any time with `hermes model` — no code changes, no lock-in. When configuring a custom endpoint, Hermes will prompt for the context window size and auto-detect it when possible. See [Context Length Detection](/docs/integrations/providers#context-length-detection) for details.
+You can switch providers at any time with `hermes model` — no lock-in. For a full list of all supported providers and setup details, see [AI Providers](/docs/integrations/providers).
 
 
-## 3. Start Chatting<a href="#3-start-chatting" class="hash-link" aria-label="Direct link to 3. Start Chatting" translate="no" title="Direct link to 3. Start Chatting">​</a>
+### How settings are stored<a href="#how-settings-are-stored" class="hash-link" aria-label="Direct link to How settings are stored" translate="no" title="Direct link to How settings are stored">​</a>
+
+Hermes separates secrets from normal config:
+
+- **Secrets and tokens** → `~/.hermes/.env`
+- **Non-secret settings** → `~/.hermes/config.yaml`
+
+The easiest way to set values correctly is through the CLI:
 
 
 ``` prism-code
-hermes
+hermes config set model anthropic/claude-opus-4.6
+hermes config set terminal.backend docker
+hermes config set OPENROUTER_API_KEY sk-or-...
 ```
 
 
-That's it! You'll see a welcome banner with your model, available tools, and skills. Type a message and press Enter.
+The right value goes to the right file automatically.
+
+## 3. Run Your First Chat<a href="#3-run-your-first-chat" class="hash-link" aria-label="Direct link to 3. Run Your First Chat" translate="no" title="Direct link to 3. Run Your First Chat">​</a>
 
 
 ``` prism-code
-❯ What can you help me with?
+hermes            # classic CLI
+hermes --tui      # modern TUI (recommended)
 ```
 
 
-The agent has access to tools for web search, file operations, terminal commands, and more — all out of the box.
+You'll see a welcome banner with your model, available tools, and skills. Use a prompt that's specific and easy to verify:
 
-## 4. Try Key Features<a href="#4-try-key-features" class="hash-link" aria-label="Direct link to 4. Try Key Features" translate="no" title="Direct link to 4. Try Key Features">​</a>
 
-### Ask it to use the terminal<a href="#ask-it-to-use-the-terminal" class="hash-link" aria-label="Direct link to Ask it to use the terminal" translate="no" title="Direct link to Ask it to use the terminal">​</a>
+Hermes ships with two terminal interfaces: the classic `prompt_toolkit` CLI and a newer [TUI](/docs/user-guide/tui) with modal overlays, mouse selection, and non-blocking input. Both share the same sessions, slash commands, and config — try each with `hermes` vs `hermes --tui`.
+
+
+``` prism-code
+Summarize this repo in 5 bullets and tell me what the main entrypoint is.
+```
+
+
+``` prism-code
+Check my current directory and tell me what looks like the main project file.
+```
+
+
+``` prism-code
+Help me set up a clean GitHub PR workflow for this codebase.
+```
+
+
+**What success looks like:**
+
+- The banner shows your chosen model/provider
+- Hermes replies without error
+- It can use a tool if needed (terminal, file read, web search)
+- The conversation continues normally for more than one turn
+
+If that works, you're past the hardest part.
+
+## 4. Verify Sessions Work<a href="#4-verify-sessions-work" class="hash-link" aria-label="Direct link to 4. Verify Sessions Work" translate="no" title="Direct link to 4. Verify Sessions Work">​</a>
+
+Before moving on, make sure resume works:
+
+
+``` prism-code
+hermes --continue    # Resume the most recent session
+hermes -c            # Short form
+```
+
+
+That should bring you back to the session you just had. If it doesn't, check whether you're in the same profile and whether the session actually saved. This matters later when you're juggling multiple setups or machines.
+
+## 5. Try Key Features<a href="#5-try-key-features" class="hash-link" aria-label="Direct link to 5. Try Key Features" translate="no" title="Direct link to 5. Try Key Features">​</a>
+
+### Use the terminal<a href="#use-the-terminal" class="hash-link" aria-label="Direct link to Use the terminal" translate="no" title="Direct link to Use the terminal">​</a>
 
 
 ``` prism-code
@@ -110,9 +173,9 @@ The agent has access to tools for web search, file operations, terminal commands
 ```
 
 
-The agent will run terminal commands on your behalf and show you the results.
+The agent runs terminal commands on your behalf and shows results.
 
-### Use slash commands<a href="#use-slash-commands" class="hash-link" aria-label="Direct link to Use slash commands" translate="no" title="Direct link to Use slash commands">​</a>
+### Slash commands<a href="#slash-commands" class="hash-link" aria-label="Direct link to Slash commands" translate="no" title="Direct link to Slash commands">​</a>
 
 Type `/` to see an autocomplete dropdown of all commands:
 
@@ -130,24 +193,29 @@ Press `Alt+Enter` or `Ctrl+J` to add a new line. Great for pasting code or writi
 
 ### Interrupt the agent<a href="#interrupt-the-agent" class="hash-link" aria-label="Direct link to Interrupt the agent" translate="no" title="Direct link to Interrupt the agent">​</a>
 
-If the agent is taking too long, just type a new message and press Enter — it interrupts the current task and switches to your new instructions. `Ctrl+C` also works.
+If the agent is taking too long, type a new message and press Enter — it interrupts the current task and switches to your new instructions. `Ctrl+C` also works.
 
-### Resume a session<a href="#resume-a-session" class="hash-link" aria-label="Direct link to Resume a session" translate="no" title="Direct link to Resume a session">​</a>
+## 6. Add the Next Layer<a href="#6-add-the-next-layer" class="hash-link" aria-label="Direct link to 6. Add the Next Layer" translate="no" title="Direct link to 6. Add the Next Layer">​</a>
 
-When you exit, hermes prints a resume command:
+Only after the base chat works. Pick what you need:
+
+### Bot or shared assistant<a href="#bot-or-shared-assistant" class="hash-link" aria-label="Direct link to Bot or shared assistant" translate="no" title="Direct link to Bot or shared assistant">​</a>
 
 
 ``` prism-code
-hermes --continue    # Resume the most recent session
-hermes -c            # Short form
+hermes gateway setup    # Interactive platform configuration
 ```
 
 
-## 5. Explore Further<a href="#5-explore-further" class="hash-link" aria-label="Direct link to 5. Explore Further" translate="no" title="Direct link to 5. Explore Further">​</a>
+Connect [Telegram](/docs/user-guide/messaging/telegram), [Discord](/docs/user-guide/messaging/discord), [Slack](/docs/user-guide/messaging/slack), [WhatsApp](/docs/user-guide/messaging/whatsapp), [Signal](/docs/user-guide/messaging/signal), [Email](/docs/user-guide/messaging/email), or [Home Assistant](/docs/user-guide/messaging/homeassistant).
 
-Here are some things to try next:
+### Automation and tools<a href="#automation-and-tools" class="hash-link" aria-label="Direct link to Automation and tools" translate="no" title="Direct link to Automation and tools">​</a>
 
-### Set up a sandboxed terminal<a href="#set-up-a-sandboxed-terminal" class="hash-link" aria-label="Direct link to Set up a sandboxed terminal" translate="no" title="Direct link to Set up a sandboxed terminal">​</a>
+- `hermes tools` — tune tool access per platform
+- `hermes skills` — browse and install reusable workflows
+- Cron — only after your bot or CLI setup is stable
+
+### Sandboxed terminal<a href="#sandboxed-terminal" class="hash-link" aria-label="Direct link to Sandboxed terminal" translate="no" title="Direct link to Sandboxed terminal">​</a>
 
 For safety, run the agent in a Docker container or on a remote server:
 
@@ -158,19 +226,7 @@ hermes config set terminal.backend ssh       # Remote server
 ```
 
 
-### Connect messaging platforms<a href="#connect-messaging-platforms" class="hash-link" aria-label="Direct link to Connect messaging platforms" translate="no" title="Direct link to Connect messaging platforms">​</a>
-
-Chat with Hermes from your phone or other surfaces via Telegram, Discord, Slack, WhatsApp, Signal, Email, or Home Assistant:
-
-
-``` prism-code
-hermes gateway setup    # Interactive platform configuration
-```
-
-
-### Add voice mode<a href="#add-voice-mode" class="hash-link" aria-label="Direct link to Add voice mode" translate="no" title="Direct link to Add voice mode">​</a>
-
-Want microphone input in the CLI or spoken replies in messaging?
+### Voice mode<a href="#voice-mode" class="hash-link" aria-label="Direct link to Voice mode" translate="no" title="Direct link to Voice mode">​</a>
 
 
 ``` prism-code
@@ -179,63 +235,20 @@ pip install "hermes-agent[voice]"
 ```
 
 
-Then start Hermes and enable it inside the CLI:
+Then in the CLI: `/voice on`. Press `Ctrl+B` to record. See [Voice Mode](/docs/user-guide/features/voice-mode).
 
-
-``` prism-code
-/voice on
-```
-
-
-Press `Ctrl+B` to record, or use `/voice tts` to have Hermes speak its replies. See [Voice Mode](/docs/user-guide/features/voice-mode) for the full setup across CLI, Telegram, Discord, and Discord voice channels.
-
-### Schedule automated tasks<a href="#schedule-automated-tasks" class="hash-link" aria-label="Direct link to Schedule automated tasks" translate="no" title="Direct link to Schedule automated tasks">​</a>
-
-
-``` prism-code
-❯ Every morning at 9am, check Hacker News for AI news and send me a summary on Telegram.
-```
-
-
-The agent will set up a cron job that runs automatically via the gateway.
-
-### Browse and install skills<a href="#browse-and-install-skills" class="hash-link" aria-label="Direct link to Browse and install skills" translate="no" title="Direct link to Browse and install skills">​</a>
+### Skills<a href="#skills" class="hash-link" aria-label="Direct link to Skills" translate="no" title="Direct link to Skills">​</a>
 
 
 ``` prism-code
 hermes skills search kubernetes
-hermes skills search react --source skills-sh
-hermes skills search https://mintlify.com/docs --source well-known
 hermes skills install openai/skills/k8s
-hermes skills install official/security/1password
-hermes skills install skills-sh/vercel-labs/json-render/json-render-react --force
 ```
 
 
-Tips:
+Or use `/skills` inside a chat session.
 
-- Use `--source skills-sh` to search the public `skills.sh` directory.
-- Use `--source well-known` with a docs/site URL to discover skills from `/.well-known/skills/index.json`.
-- Use `--force` only after reviewing a third-party skill. It can override non-dangerous policy blocks, but not a `dangerous` scan verdict.
-
-Or use the `/skills` slash command inside chat.
-
-### Use Hermes inside an editor via ACP<a href="#use-hermes-inside-an-editor-via-acp" class="hash-link" aria-label="Direct link to Use Hermes inside an editor via ACP" translate="no" title="Direct link to Use Hermes inside an editor via ACP">​</a>
-
-Hermes can also run as an ACP server for ACP-compatible editors like VS Code, Zed, and JetBrains:
-
-
-``` prism-code
-pip install -e '.[acp]'
-hermes acp
-```
-
-
-See [ACP Editor Integration](/docs/user-guide/features/acp) for setup details.
-
-### Try MCP servers<a href="#try-mcp-servers" class="hash-link" aria-label="Direct link to Try MCP servers" translate="no" title="Direct link to Try MCP servers">​</a>
-
-Connect to external tools via the Model Context Protocol:
+### MCP servers<a href="#mcp-servers" class="hash-link" aria-label="Direct link to MCP servers" translate="no" title="Direct link to MCP servers">​</a>
 
 
 ``` prism-code
@@ -248,6 +261,45 @@ mcp_servers:
       GITHUB_PERSONAL_ACCESS_TOKEN: "ghp_xxx"
 ```
 
+
+### Editor integration (ACP)<a href="#editor-integration-acp" class="hash-link" aria-label="Direct link to Editor integration (ACP)" translate="no" title="Direct link to Editor integration (ACP)">​</a>
+
+
+``` prism-code
+pip install -e '.[acp]'
+hermes acp
+```
+
+
+See [ACP Editor Integration](/docs/user-guide/features/acp).
+
+------------------------------------------------------------------------
+
+## Common Failure Modes<a href="#common-failure-modes" class="hash-link" aria-label="Direct link to Common Failure Modes" translate="no" title="Direct link to Common Failure Modes">​</a>
+
+These are the problems that waste the most time:
+
+| Symptom                                        | Likely cause                                                  | Fix                                                                  |
+|------------------------------------------------|---------------------------------------------------------------|----------------------------------------------------------------------|
+| Hermes opens but gives empty or broken replies | Provider auth or model selection is wrong                     | Run `hermes model` again and confirm provider, model, and auth       |
+| Custom endpoint "works" but returns garbage    | Wrong base URL, model name, or not actually OpenAI-compatible | Verify the endpoint in a separate client first                       |
+| Gateway starts but nobody can message it       | Bot token, allowlist, or platform setup is incomplete         | Re-run `hermes gateway setup` and check `hermes gateway status`      |
+| `hermes --continue` can't find old session     | Switched profiles or session never saved                      | Check `hermes sessions list` and confirm you're in the right profile |
+| Model unavailable or odd fallback behavior     | Provider routing or fallback settings are too aggressive      | Keep routing off until the base provider is stable                   |
+| `hermes doctor` flags config problems          | Config values are missing or stale                            | Fix the config, retest a plain chat before adding features           |
+
+## Recovery Toolkit<a href="#recovery-toolkit" class="hash-link" aria-label="Direct link to Recovery Toolkit" translate="no" title="Direct link to Recovery Toolkit">​</a>
+
+When something feels off, use this order:
+
+1.  `hermes doctor`
+2.  `hermes model`
+3.  `hermes setup`
+4.  `hermes sessions list`
+5.  `hermes --continue`
+6.  `hermes gateway status`
+
+That sequence gets you from "broken vibes" back to a known state fast.
 
 ------------------------------------------------------------------------
 
@@ -270,25 +322,33 @@ mcp_servers:
 - **[Configuration](/docs/user-guide/configuration)** — Customize your setup
 - **[Messaging Gateway](/docs/user-guide/messaging/)** — Connect Telegram, Discord, Slack, WhatsApp, Signal, Email, or Home Assistant
 - **[Tools & Toolsets](/docs/user-guide/features/tools)** — Explore available capabilities
+- **[AI Providers](/docs/integrations/providers)** — Full provider list and setup details
+- **[Skills System](/docs/user-guide/features/skills)** — Reusable workflows and knowledge
+- **[Tips & Best Practices](/docs/guides/tips)** — Power user tips
 
 
+- <a href="#who-this-is-for" class="table-of-contents__link toc-highlight">Who this is for</a>
+- <a href="#the-fastest-path" class="table-of-contents__link toc-highlight">The fastest path</a>
 - <a href="#1-install-hermes-agent" class="table-of-contents__link toc-highlight">1. Install Hermes Agent</a>
-- <a href="#2-set-up-a-provider" class="table-of-contents__link toc-highlight">2. Set Up a Provider</a>
-- <a href="#3-start-chatting" class="table-of-contents__link toc-highlight">3. Start Chatting</a>
-- <a href="#4-try-key-features" class="table-of-contents__link toc-highlight">4. Try Key Features</a>
-  - <a href="#ask-it-to-use-the-terminal" class="table-of-contents__link toc-highlight">Ask it to use the terminal</a>
-  - <a href="#use-slash-commands" class="table-of-contents__link toc-highlight">Use slash commands</a>
+- <a href="#2-choose-a-provider" class="table-of-contents__link toc-highlight">2. Choose a Provider</a>
+  - <a href="#how-settings-are-stored" class="table-of-contents__link toc-highlight">How settings are stored</a>
+- <a href="#3-run-your-first-chat" class="table-of-contents__link toc-highlight">3. Run Your First Chat</a>
+- <a href="#4-verify-sessions-work" class="table-of-contents__link toc-highlight">4. Verify Sessions Work</a>
+- <a href="#5-try-key-features" class="table-of-contents__link toc-highlight">5. Try Key Features</a>
+  - <a href="#use-the-terminal" class="table-of-contents__link toc-highlight">Use the terminal</a>
+  - <a href="#slash-commands" class="table-of-contents__link toc-highlight">Slash commands</a>
   - <a href="#multi-line-input" class="table-of-contents__link toc-highlight">Multi-line input</a>
   - <a href="#interrupt-the-agent" class="table-of-contents__link toc-highlight">Interrupt the agent</a>
-  - <a href="#resume-a-session" class="table-of-contents__link toc-highlight">Resume a session</a>
-- <a href="#5-explore-further" class="table-of-contents__link toc-highlight">5. Explore Further</a>
-  - <a href="#set-up-a-sandboxed-terminal" class="table-of-contents__link toc-highlight">Set up a sandboxed terminal</a>
-  - <a href="#connect-messaging-platforms" class="table-of-contents__link toc-highlight">Connect messaging platforms</a>
-  - <a href="#add-voice-mode" class="table-of-contents__link toc-highlight">Add voice mode</a>
-  - <a href="#schedule-automated-tasks" class="table-of-contents__link toc-highlight">Schedule automated tasks</a>
-  - <a href="#browse-and-install-skills" class="table-of-contents__link toc-highlight">Browse and install skills</a>
-  - <a href="#use-hermes-inside-an-editor-via-acp" class="table-of-contents__link toc-highlight">Use Hermes inside an editor via ACP</a>
-  - <a href="#try-mcp-servers" class="table-of-contents__link toc-highlight">Try MCP servers</a>
+- <a href="#6-add-the-next-layer" class="table-of-contents__link toc-highlight">6. Add the Next Layer</a>
+  - <a href="#bot-or-shared-assistant" class="table-of-contents__link toc-highlight">Bot or shared assistant</a>
+  - <a href="#automation-and-tools" class="table-of-contents__link toc-highlight">Automation and tools</a>
+  - <a href="#sandboxed-terminal" class="table-of-contents__link toc-highlight">Sandboxed terminal</a>
+  - <a href="#voice-mode" class="table-of-contents__link toc-highlight">Voice mode</a>
+  - <a href="#skills" class="table-of-contents__link toc-highlight">Skills</a>
+  - <a href="#mcp-servers" class="table-of-contents__link toc-highlight">MCP servers</a>
+  - <a href="#editor-integration-acp" class="table-of-contents__link toc-highlight">Editor integration (ACP)</a>
+- <a href="#common-failure-modes" class="table-of-contents__link toc-highlight">Common Failure Modes</a>
+- <a href="#recovery-toolkit" class="table-of-contents__link toc-highlight">Recovery Toolkit</a>
 - <a href="#quick-reference" class="table-of-contents__link toc-highlight">Quick Reference</a>
 - <a href="#next-steps" class="table-of-contents__link toc-highlight">Next Steps</a>
 

@@ -123,7 +123,7 @@ Yes. Import the `AIAgent` class and use Hermes programmatically:
 ``` prism-code
 from run_agent import AIAgent
 
-agent = AIAgent(model="openrouter/nous/hermes-3-llama-3.1-70b")
+agent = AIAgent(model="anthropic/claude-opus-4.7")
 response = agent.chat("Explain quantum computing briefly")
 ```
 
@@ -181,6 +181,37 @@ brew install python@3.12      # macOS
 
 
 The installer handles this automatically — if you see this error during manual installation, upgrade Python first.
+
+#### Terminal commands say `node: command not found` (or `nvm`, `pyenv`, `asdf`, …)<a href="#terminal-commands-say-node-command-not-found-or-nvm-pyenv-asdf-" class="hash-link" aria-label="Direct link to terminal-commands-say-node-command-not-found-or-nvm-pyenv-asdf-" translate="no" title="Direct link to terminal-commands-say-node-command-not-found-or-nvm-pyenv-asdf-">​</a>
+
+**Cause:** Hermes builds a per-session environment snapshot by running `bash -l` once at startup. A bash login shell reads `/etc/profile`, `~/.bash_profile`, and `~/.profile`, but **does not source `~/.bashrc`** — so tools that install themselves there (`nvm`, `asdf`, `pyenv`, `cargo`, custom `PATH` exports) stay invisible to the snapshot. This most commonly happens when Hermes runs under systemd or in a minimal shell where nothing has pre-loaded the interactive shell profile.
+
+**Solution:** Hermes auto-sources `~/.bashrc` by default. If that's not enough — e.g. you're a zsh user whose PATH lives in `~/.zshrc`, or you init `nvm` from a standalone file — list the extra files to source in `~/.hermes/config.yaml`:
+
+
+``` prism-code
+terminal:
+  shell_init_files:
+    - ~/.zshrc                     # zsh users: pulls zsh-managed PATH into the bash snapshot
+    - ~/.nvm/nvm.sh                # direct nvm init (works regardless of shell)
+    - /etc/profile.d/cargo.sh      # system-wide rc files
+  # When this list is set, the default ~/.bashrc auto-source is NOT added —
+  # include it explicitly if you want both:
+  #   - ~/.bashrc
+  #   - ~/.zshrc
+```
+
+
+Missing files are skipped silently. Sourcing happens in bash, so files that rely on zsh-only syntax may error — if that's a concern, source just the PATH-setting portion (e.g. nvm's `nvm.sh` directly) rather than the whole rc file.
+
+To disable the auto-source behaviour (strict login-shell semantics only):
+
+
+``` prism-code
+terminal:
+  auto_source_bashrc: false
+```
+
 
 #### `uv: command not found`<a href="#uv-command-not-found" class="hash-link" aria-label="Direct link to uv-command-not-found" translate="no" title="Direct link to uv-command-not-found">​</a>
 
@@ -277,7 +308,7 @@ Make sure the key matches the provider. An OpenAI key won't work with OpenRouter
 hermes model
 
 # Set a valid model
-hermes config set HERMES_MODEL openrouter/nous/hermes-3-llama-3.1-70b
+hermes config set HERMES_MODEL anthropic/claude-opus-4.7
 
 # Or specify per-session
 hermes chat --model openrouter/meta-llama/llama-3.1-70b-instruct
@@ -916,7 +947,7 @@ hermes config show | head -20
 hermes model
 
 # Or test with a known-good model
-hermes chat -q "hello" --model anthropic/claude-sonnet-4.6
+hermes chat -q "hello" --model anthropic/claude-opus-4.7
 ```
 
 

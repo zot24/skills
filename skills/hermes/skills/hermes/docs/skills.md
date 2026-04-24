@@ -9,14 +9,14 @@ Hermes Agent
 
 # Skills Hub
 
-Discover, search, and install from **647** skills across 4 registries
+Discover, search, and install from **652** skills across 4 registries
 
 
-All<span class="srcCount_nvGZ">647</span>
+All<span class="srcCount_nvGZ">652</span>
 
-Built-in<span class="srcCount_nvGZ">79</span>
+Built-in<span class="srcCount_nvGZ">72</span>
 
-Optional<span class="srcCount_nvGZ">47</span>
+Optional<span class="srcCount_nvGZ">59</span>
 
 Anthropic<span class="srcCount_nvGZ">16</span>
 
@@ -101,7 +101,7 @@ AI Agents
 ### architecture-diagram
 
 
-Generate professional dark-themed system architecture diagrams as standalone HTML/SVG files. Self-contained output with no external dependencies. Based on Cocoon AI's architecture-diagram-generator (MIT).
+Generate dark-themed SVG diagrams of software systems and cloud infrastructure as standalone HTML files with inline SVG graphics. Semantic component colors (cyan=frontend, emerald=backend, violet=database, amber=cloud/AWS, rose=security, orange=message bus), JetBrains Mono font, grid background. Best suited for software architecture, cloud/VPC topology, microservice maps, service-mesh diagrams, database + API layer diagrams, security groups, message buses — anything that fits a tech-infra deck with a dark aesthetic. If a more specialized diagramming skill exists for the subject (scientific, educational, hand-drawn, animated, etc.), prefer that — otherwise this skill can also serve as a general-purpose SVG diagram fallback. Based on Cocoon AI's architecture-diagram-generator (MIT).
 
 
 Creative
@@ -120,6 +120,24 @@ Creative
 
 
 Production pipeline for ASCII art video — any format. Converts video/audio/images/generative input into colored ASCII character video output (MP4, GIF, image sequence). Covers: video-to-ASCII conversion, audio-reactive music visualizers, generative ASCII art animations, hybrid video+audio reactive, text/lyrics overlays, real-time terminal rendering. Use when users request: ASCII video, text art video, terminal-style video, character art animation, retro text visualization, audio visualizer in ASCII, converting video to ASCII art, matrix-style effects, or any animated ASCII output.
+
+
+Creative
+
+
+### baoyu-comic
+
+
+Knowledge comic creator supporting multiple art styles and tones. Creates original educational comics with detailed panel layouts and sequential image generation. Use when user asks to create "知识漫画", "教育漫画", "biography comic", "tutorial comic", or "Logicomix-style comic".
+
+
+Creative
+
+
+### baoyu-infographic
+
+
+Generate professional infographics with 21 layout types and 21 visual styles. Analyzes content, recommends layout×style combinations, and generates publication-ready infographics. Use when user asks to create "infographic", "visual summary", "信息图", "可视化", or "高密度信息大图".
 
 
 Creative
@@ -156,6 +174,15 @@ Creative
 
 
 Production pipeline for interactive and generative visual art using p5.js. Creates browser-based sketches, generative art, data visualizations, interactive experiences, 3D scenes, audio-reactive visuals, and motion graphics — exported as HTML, PNG, GIF, MP4, or SVG. Covers: 2D/3D rendering, noise and particle systems, flow fields, shaders (GLSL), pixel manipulation, kinetic typography, WebGL scenes, audio analysis, mouse/keyboard interaction, and headless high-res export. Use when users request: p5.js sketches, creative coding, generative art, interactive visualizations, canvas animations, browser-based visual art, data viz, shader effects, or any p5.js project.
+
+
+Creative
+
+
+### pixel-art
+
+
+Convert images into retro pixel art with hardware-accurate palettes (NES, Game Boy, PICO-8, C64, etc.), and animate them into short videos. Presets cover arcade, SNES, and 10+ era-correct looks. Use \`clarify\` to let the user pick a style before generating.
 
 
 Creative
@@ -305,15 +332,6 @@ Expert guidance for fine-tuning LLMs with Axolotl - YAML configs, 100+ models, L
 MLOps
 
 
-### clip
-
-
-OpenAI's model connecting vision and language. Enables zero-shot image classification, image-text matching, and cross-modal retrieval. Trained on 400M image-text pairs. Use for image search, content moderation, or vision-language tasks without fine-tuning. Best for general-purpose image understanding.
-
-
-MLOps
-
-
 ### dspy
 
 
@@ -341,33 +359,6 @@ Fine-tune LLMs using reinforcement learning with TRL - SFT for instruction tunin
 MLOps
 
 
-### gguf-quantization
-
-
-GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.
-
-
-MLOps
-
-
-### grpo-rl-training
-
-
-Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training
-
-
-MLOps
-
-
-### guidance
-
-
-Control LLM output with regex and grammars, guarantee valid JSON/XML/code generation, enforce structured formats, and build multi-step workflows with Guidance - Microsoft Research's constrained generation framework
-
-
-MLOps
-
-
 ### huggingface-hub
 
 
@@ -380,16 +371,7 @@ MLOps
 ### llama-cpp
 
 
-Runs LLM inference on CPU, Apple Silicon, and consumer GPUs without NVIDIA hardware. Use for edge deployment, M1/M2/M3 Macs, AMD/Intel GPUs, or when CUDA is unavailable. Supports GGUF quantization (1.5-8 bit) for reduced memory and 4-10× speedup vs PyTorch on CPU.
-
-
-MLOps
-
-
-### modal-serverless-gpu
-
-
-Serverless GPU cloud platform for running ML workloads. Use when you need on-demand GPU access without infrastructure management, deploying ML models as APIs, or running batch jobs with automatic scaling.
+llama.cpp local GGUF inference + HF Hub model discovery.
 
 
 MLOps
@@ -413,24 +395,6 @@ Guarantee valid JSON/XML/code structure during generation, use Pydantic models f
 MLOps
 
 
-### peft-fine-tuning
-
-
-Parameter-efficient fine-tuning for LLMs using LoRA, QLoRA, and 25+ methods. Use when fine-tuning large models (7B-70B) with limited GPU memory, when you need to train \<1% of parameters with minimal accuracy loss, or for multi-adapter serving. HuggingFace's official library integrated with transformers ecosystem.
-
-
-MLOps
-
-
-### pytorch-fsdp
-
-
-Expert guidance for Fully Sharded Data Parallel training with PyTorch FSDP - parameter sharding, mixed precision, CPU offloading, FSDP2
-
-
-MLOps
-
-
 ### segment-anything-model
 
 
@@ -444,15 +408,6 @@ MLOps
 
 
 Serves LLMs with high throughput using vLLM's PagedAttention and continuous batching. Use when deploying production LLM APIs, optimizing inference latency/throughput, or serving models with limited GPU memory. Supports OpenAI-compatible endpoints, quantization (GPTQ/AWQ/FP8), and tensor parallelism.
-
-
-MLOps
-
-
-### stable-diffusion-image-generation
-
-
-State-of-the-art text-to-image generation with Stable Diffusion models via HuggingFace Diffusers. Use when generating images from text prompts, performing image-to-image translation, inpainting, or building custom diffusion pipelines.
 
 
 MLOps
@@ -476,15 +431,6 @@ Track ML experiments with automatic logging, visualize training in real-time, op
 MLOps
 
 
-### whisper
-
-
-OpenAI's general-purpose speech recognition model. Supports 99 languages, transcription, translation to English, and language identification. Six model sizes from tiny (39M params) to large (1550M params). Use for speech-to-text, podcast transcription, or multilingual audio processing. Best for robust, multilingual ASR.
-
-
-MLOps
-
-
 ### google-workspace
 
 
@@ -498,6 +444,15 @@ Productivity
 
 
 Manage Linear issues, projects, and teams via the GraphQL API. Create, update, search, and organize issues. Uses API key auth (no OAuth needed). All operations via curl — no dependencies.
+
+
+Productivity
+
+
+### maps
+
+
+Location intelligence — geocode a place, reverse-geocode coordinates, find nearby places (46 POI categories), driving/walking/cycling distance + time, turn-by-turn directions, timezone lookup, bounding box + area for a named place, and POI search within a rectangle. Uses OpenStreetMap + Overpass + OSRM. Free, no API key.
 
 
 Productivity
@@ -566,6 +521,51 @@ Karpathy's LLM Wiki — build and maintain a persistent, interlinked markdown kn
 Research
 
 
-Show more (587 remaining)
+### polymarket
+
+
+Query Polymarket prediction market data — search markets, get prices, orderbooks, and price history. Read-only via public REST APIs, no API key needed.
+
+
+Research
+
+
+### research-paper-writing
+
+
+End-to-end pipeline for writing ML/AI research papers — from experiment design through analysis, drafting, revision, and submission. Covers NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Integrates automated experiment monitoring, statistical analysis, iterative writing, and citation verification.
+
+
+Research
+
+
+### xurl
+
+
+Interact with X/Twitter via xurl, the official X API CLI. Use for posting, replying, quoting, searching, timelines, mentions, likes, reposts, bookmarks, follows, DMs, media upload, and raw v2 endpoint access.
+
+
+Social Media
+
+
+### plan
+
+
+Plan mode for Hermes — inspect context, write a markdown plan into the active workspace's \`.hermes/plans/\` directory, and do not execute the work.
+
+
+Software Dev
+
+
+### requesting-code-review
+
+
+Pre-commit verification pipeline — static security scan, baseline-aware quality gates, independent reviewer subagent, and auto-fix loop. Use after code changes and before committing, pushing, or opening a PR.
+
+
+Software Dev
+
+
+Show more (592 remaining)
 
 

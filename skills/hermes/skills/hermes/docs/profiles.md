@@ -11,11 +11,11 @@ On this page
 # Profiles: Running Multiple Agents
 
 
-Run multiple independent Hermes agents on the same machine — each with its own config, API keys, memory, sessions, skills, and gateway.
+Run multiple independent Hermes agents on the same machine — each with its own config, API keys, memory, sessions, skills, and gateway state.
 
 ## What are profiles?<a href="#what-are-profiles" class="hash-link" aria-label="Direct link to What are profiles?" translate="no" title="Direct link to What are profiles?">​</a>
 
-A profile is a fully isolated Hermes environment. Each profile gets its own directory containing its own `config.yaml`, `.env`, `SOUL.md`, memories, sessions, skills, cron jobs, and state database. Profiles let you run separate agents for different purposes — a coding assistant, a personal bot, a research agent — without any cross-contamination.
+A profile is a separate Hermes home directory. Each profile gets its own directory containing its own `config.yaml`, `.env`, `SOUL.md`, memories, sessions, skills, cron jobs, and state database. Profiles let you run separate agents for different purposes — a coding assistant, a personal bot, a research agent — without mixing up Hermes state.
 
 When you create a profile, it automatically becomes its own command. Create a profile called `coder` and you immediately have `coder chat`, `coder setup`, `coder gateway start`, etc.
 
@@ -29,7 +29,7 @@ coder chat                        # start chatting
 ```
 
 
-That's it. `coder` is now a fully independent agent. It has its own config, its own memory, its own everything.
+That's it. `coder` is now its own Hermes profile with its own config, memory, and state.
 
 ## Creating a profile<a href="#creating-a-profile" class="hash-link" aria-label="Direct link to Creating a profile" translate="no" title="Direct link to Creating a profile">​</a>
 
@@ -126,6 +126,34 @@ The CLI always shows which profile is active:
 - **Banner**: Shows `Profile: coder` on startup
 - **`hermes profile`**: Shows current profile name, path, model, gateway status
 
+## Profiles vs workspaces vs sandboxing<a href="#profiles-vs-workspaces-vs-sandboxing" class="hash-link" aria-label="Direct link to Profiles vs workspaces vs sandboxing" translate="no" title="Direct link to Profiles vs workspaces vs sandboxing">​</a>
+
+Profiles are often confused with workspaces or sandboxes, but they are different things:
+
+- A **profile** gives Hermes its own state directory: `config.yaml`, `.env`, `SOUL.md`, sessions, memory, logs, cron jobs, and gateway state.
+- A **workspace** or **working directory** is where terminal commands start. That is controlled separately by `terminal.cwd`.
+- A **sandbox** is what limits filesystem access. Profiles do **not** sandbox the agent.
+
+On the default `local` terminal backend, the agent still has the same filesystem access as your user account. A profile does not stop it from accessing folders outside the profile directory.
+
+If you want a profile to start in a specific project folder, set an explicit absolute `terminal.cwd` in that profile's `config.yaml`:
+
+
+``` prism-code
+terminal:
+  backend: local
+  cwd: /absolute/path/to/project
+```
+
+
+Using `cwd: "."` on the local backend means "the directory Hermes was launched from", not "the profile directory".
+
+Also note:
+
+- `SOUL.md` can guide the model, but it does not enforce a workspace boundary.
+- Changes to `SOUL.md` take effect cleanly on a new session. Existing sessions may still be using the old prompt state.
+- Asking the model "what directory are you in?" is not a reliable isolation test. If you need a predictable starting directory for tools, set `terminal.cwd` explicitly.
+
 ## Running gateways<a href="#running-gateways" class="hash-link" aria-label="Direct link to Running gateways" translate="no" title="Direct link to Running gateways">​</a>
 
 Each profile runs its own gateway as a separate process with its own bot token:
@@ -178,6 +206,14 @@ Each profile has its own:
 ``` prism-code
 coder config set model.model anthropic/claude-sonnet-4
 echo "You are a focused coding assistant." > ~/.hermes/profiles/coder/SOUL.md
+```
+
+
+If you want this profile to work in a specific project by default, also set its own `terminal.cwd`:
+
+
+``` prism-code
+coder config set terminal.cwd /absolute/path/to/project
 ```
 
 
@@ -239,7 +275,9 @@ Add the line to your `~/.bashrc` or `~/.zshrc` for persistent completion. Comple
 
 ## How it works<a href="#how-it-works" class="hash-link" aria-label="Direct link to How it works" translate="no" title="Direct link to How it works">​</a>
 
-Profiles use the `HERMES_HOME` environment variable. When you run `coder chat`, the wrapper script sets `HERMES_HOME=~/.hermes/profiles/coder` before launching hermes. Since 119+ files in the codebase resolve paths via `get_hermes_home()`, everything automatically scopes to the profile's directory — config, sessions, memory, skills, state database, gateway PID, logs, and cron jobs.
+Profiles use the `HERMES_HOME` environment variable. When you run `coder chat`, the wrapper script sets `HERMES_HOME=~/.hermes/profiles/coder` before launching hermes. Since 119+ files in the codebase resolve paths via `get_hermes_home()`, Hermes state automatically scopes to the profile's directory — config, sessions, memory, skills, state database, gateway PID, logs, and cron jobs.
+
+This is separate from terminal working directory. Tool execution starts from `terminal.cwd` (or the launch directory when `cwd: "."` on the local backend), not automatically from `HERMES_HOME`.
 
 The default profile is simply `~/.hermes` itself. No migration needed — existing installs work identically.
 
@@ -256,6 +294,7 @@ The default profile is simply `~/.hermes` itself. No migration needed — existi
   - <a href="#the--p-flag" class="table-of-contents__link toc-highlight">The <code>-p</code> flag</a>
   - <a href="#sticky-default-hermes-profile-use" class="table-of-contents__link toc-highlight">Sticky default (<code>hermes profile use</code>)</a>
   - <a href="#knowing-where-you-are" class="table-of-contents__link toc-highlight">Knowing where you are</a>
+- <a href="#profiles-vs-workspaces-vs-sandboxing" class="table-of-contents__link toc-highlight">Profiles vs workspaces vs sandboxing</a>
 - <a href="#running-gateways" class="table-of-contents__link toc-highlight">Running gateways</a>
   - <a href="#different-bot-tokens" class="table-of-contents__link toc-highlight">Different bot tokens</a>
   - <a href="#safety-token-locks" class="table-of-contents__link toc-highlight">Safety: token locks</a>
