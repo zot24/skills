@@ -7,7 +7,7 @@ This repository contains AI agent skills for various development workflows.
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace manifest (14 skills)
+│   └── marketplace.json      # Marketplace manifest (19 skills)
 ├── .github/
 │   ├── scripts/
 │   │   └── sync-skill.sh   # Generic sync script
@@ -27,6 +27,7 @@ skills/
 │   ├── hermes/               # Hermes Agent self-knowledge
 │   ├── honcho/               # Honcho AI-native memory platform
 │   ├── firecrawl/            # Firecrawl web scraping API
+│   ├── gh-issue-tracker/     # GitHub Issues error tracking
 │   ├── managing-servarr/     # Media stack (*arr suite + Plex)
 │   ├── managing-obsidian/    # Obsidian vault management
 │   ├── managing-adguard/     # AdGuard Home DNS filtering
@@ -231,6 +232,7 @@ Each skill syncs documentation from upstream sources.
 | hermes | Hermes Agent docs + operational experience | Hybrid |
 | honcho | https://docs.honcho.dev/v3/documentation | URL-based |
 | firecrawl | https://docs.firecrawl.dev + https://github.com/mendableai/firecrawl | URL-based |
+| gh-issue-tracker | https://github.com/zot24/gh-issue-tracker | Self-contained |
 | managing-servarr | https://wiki.servarr.com + https://trash-guides.info + GitHub repos | URL-based |
 | managing-obsidian | https://help.obsidian.md + Dataview/Templater docs | URL-based |
 | managing-adguard | https://github.com/AdguardTeam/AdGuardHome/wiki | URL-based |

@@ -58,6 +58,7 @@ skill-name/
 - **[Integration Guide](docs/integrate-skills.md)** - Add skills to your agent
 - **[Best Practices](docs/best-practices.md)** - Authoring guidelines
 - **[Examples](docs/examples.md)** - Sample skills
+- **[Audit Checklist](docs/audit-checklist.md)** - Compliance matrix spec
 
 ## Common Workflows
 
@@ -67,6 +68,9 @@ skill-name/
 3. Write clear instructions in the body
 4. Add optional scripts/, references/, assets/ as needed
 5. Validate with `skills-ref validate ./my-skill`
+
+### Audit All Skills
+Run `audit` to scan all skill directories and generate a compliance matrix showing file presence, line counts, registration status, and version consistency. See [Audit Checklist](docs/audit-checklist.md) for the full specification.
 
 ### Validate a Skill
 ```bash
