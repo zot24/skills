@@ -1,0 +1,7 @@
+{
+  "name": "gh-issue-tracker",
+  "version": "1.0.0",
+  "description": "Lightweight error tracking that creates GitHub Issues with deduplication, fingerprinting, and rate limiting",
+  "sources": [],
+  "cache_dir": ".cache"
+}

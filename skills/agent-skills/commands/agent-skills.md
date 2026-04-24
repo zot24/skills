@@ -13,6 +13,7 @@ Parse the arguments to determine the action:
 | `spec` | Show the full SKILL.md specification |
 | `example` | Show example skills |
 | `integrate` | Explain how to add skills support to an agent |
+| `audit` | Scan all skills and show compliance matrix |
 | `sync` | Check for updates to documentation |
 | `diff` | Show differences vs upstream |
 | `help` | Show available commands |
@@ -31,6 +32,13 @@ Parse the arguments to determine the action:
 4. For **validate**: Check frontmatter fields and naming conventions
 5. For **sync**: Fetch latest from agentskills.io and update docs/
 6. For **diff**: Compare current vs upstream documentation
+7. For **audit**: Read `docs/audit-checklist.md` for the full audit specification, then scan all skill directories and generate a compliance matrix showing:
+   - Required files present/missing (SKILL.md, docs/, commands/, sync.json, plugin.json, .gitignore, README.md)
+   - SKILL.md line count (flag if >150 lines)
+   - Number of docs files
+   - Registration status (marketplace.json, sync-docs.yml)
+   - Version consistency across config files
+   Output as a markdown table with checkmarks/warnings
 
 ## Quick Reference
 
