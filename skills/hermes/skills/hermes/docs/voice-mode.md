@@ -163,7 +163,7 @@ Two-stage algorithm detects when you've finished speaking:
 
 If no speech is detected at all for 15 seconds, recording stops automatically.
 
-Both `silence_threshold` and `silence_duration` are configurable in `config.yaml`.
+Both `silence_threshold` and `silence_duration` are configurable in `config.yaml`. You can also disable the record start/stop beeps with `voice.beep_enabled: false`.
 
 ### Streaming TTS<a href="#streaming-tts" class="hash-link" aria-label="Direct link to Streaming TTS" translate="no" title="Direct link to Streaming TTS">​</a>
 
@@ -421,6 +421,7 @@ voice:
   record_key: "ctrl+b"            # Key to start/stop recording
   max_recording_seconds: 120       # Maximum recording length
   auto_tts: false                  # Auto-enable TTS when voice mode starts
+  beep_enabled: true               # Play record start/stop beeps
   silence_threshold: 200           # RMS level (0-32767) below which counts as silence
   silence_duration: 3.0            # Seconds of silence before auto-stop
 
