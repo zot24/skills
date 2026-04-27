@@ -113,7 +113,7 @@ fi
 # STAGE 2: Transform rm to trash
 # ============================================================================
 
-# Check if command contains rm (but not in a different context like "perform")
+# Match rm as a standalone token (anchored on word boundary so "perform" etc. don't match)
 if [[ "$command" =~ (^|[[:space:]]|;|&&|\|\|)rm[[:space:]] ]]; then
     # Extract the rm portion and transform it
     # Handle various rm flags: -r, -f, -rf, -fr, -R, -Rf, etc.
