@@ -1,6 +1,6 @@
 {
   "name": "safe-delete",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Prevents catastrophic file deletion by transforming rm commands to trash and blocking dangerous patterns like rm -rf /",
   "keywords": [
     "safety",
