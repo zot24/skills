@@ -1,0 +1,50 @@
+name: Sync Marketplace from Plugins
+
+# Safety net for the release-please cross-package extra-files path. If a feat/fix
+# commit lands and release-please's `../../.claude-plugin/marketplace.json` write
+# silently fails, this workflow detects drift between each skill's plugin.json
+# and the marketplace entry, fixes it, and pushes back to main.
+#
+# Skips itself via `[skip ci]` to avoid recursion.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'skills/*/.claude-plugin/plugin.json'
+      - '.claude-plugin/marketplace.json'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Run sync script
+        run: |
+          chmod +x .github/workflows/scripts/sync-marketplace.sh
+          .github/workflows/scripts/sync-marketplace.sh
+
+      - name: Commit and push if drift fixed
+        run: |
+          if git diff --quiet .claude-plugin/marketplace.json; then
+            echo "No drift detected — nothing to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .claude-plugin/marketplace.json
+          git commit -m "chore: sync marketplace.json from plugin.json [skip ci]"
+          git push

@@ -102,16 +102,39 @@ jobs:
               echo "Changes detected for $SKILL"
               CHANGED_SKILLS="$CHANGED_SKILLS $SKILL"
 
-              # Patch-bump sync.json version so Claude detects the update
+              # Patch-bump version across sync.json, plugin.json, and the matching
+              # marketplace.json entry so Claude Code (and other clients) detect
+              # the update on installed skills/plugins.
               if [ -f "skills/$SKILL/sync.json" ]; then
                 CURRENT=$(jq -r '.version' "skills/$SKILL/sync.json")
                 IFS='.' read -r major minor patch <<< "$CURRENT"
                 patch=$((patch + 1))
                 NEW_VERSION="$major.$minor.$patch"
+
+                # 1. skills/<skill>/sync.json
                 tmp=$(mktemp)
                 jq --arg v "$NEW_VERSION" '.version = $v' "skills/$SKILL/sync.json" > "$tmp"
                 mv "$tmp" "skills/$SKILL/sync.json"
-                echo "Bumped $SKILL version: $CURRENT -> $NEW_VERSION"
+
+                # 2. skills/<skill>/.claude-plugin/plugin.json
+                PLUGIN_FILE="skills/$SKILL/.claude-plugin/plugin.json"
+                if [ -f "$PLUGIN_FILE" ]; then
+                  tmp=$(mktemp)
+                  jq --arg v "$NEW_VERSION" '.version = $v' "$PLUGIN_FILE" > "$tmp"
+                  mv "$tmp" "$PLUGIN_FILE"
+                fi
+
+                # 3. .claude-plugin/marketplace.json entry for this skill
+                MARKETPLACE_FILE=".claude-plugin/marketplace.json"
+                if [ -f "$MARKETPLACE_FILE" ]; then
+                  tmp=$(mktemp)
+                  jq --arg name "$SKILL" --arg v "$NEW_VERSION" \
+                    '(.plugins[] | select(.name == $name) | .version) = $v' \
+                    "$MARKETPLACE_FILE" > "$tmp"
+                  mv "$tmp" "$MARKETPLACE_FILE"
+                fi
+
+                echo "Bumped $SKILL version: $CURRENT -> $NEW_VERSION (sync.json, plugin.json, marketplace.json)"
               fi
 
               # Extract change summary for this skill
@@ -218,7 +241,7 @@ jobs:
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
           git checkout -b "$BRANCH_NAME"
-          git add skills/ CHANGELOG.md
+          git add skills/ .claude-plugin/marketplace.json CHANGELOG.md
           git commit -m "docs: sync documentation from upstream
 
           Updated skills: ${{ steps.sync.outputs.changed_skills }}

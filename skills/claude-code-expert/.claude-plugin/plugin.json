@@ -1,7 +1,7 @@
 {
   "name": "claude-code-expert",
   "description": "Comprehensive Claude Code and Anthropic ecosystem knowledge. Official patterns for creating agents, skills, hooks, commands, and MCP integrations. Auto-invokes for artifact creation and validation.",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "zot24"
   },

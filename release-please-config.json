@@ -12,44 +12,156 @@
     {"type": "chore", "section": "Maintenance", "hidden": true}
   ],
   "packages": {
-    "skills/umbrel-app": {
-      "component": "umbrel-app",
+    "skills/agent-browser": {
+      "component": "agent-browser",
       "extra-files": [
-        {
-          "type": "json",
-          "path": "sync.json",
-          "jsonpath": "$.version"
-        }
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='agent-browser')].version"}
+      ]
+    },
+    "skills/agent-skills": {
+      "component": "agent-skills",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='agent-skills')].version"}
+      ]
+    },
+    "skills/ai-sdk": {
+      "component": "ai-sdk",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='ai-sdk')].version"}
+      ]
+    },
+    "skills/chat-sdk": {
+      "component": "chat-sdk",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='chat-sdk')].version"}
       ]
     },
     "skills/claude-code-expert": {
       "component": "claude-code-expert",
       "extra-files": [
-        {
-          "type": "json",
-          "path": "sync.json",
-          "jsonpath": "$.version"
-        }
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='claude-code-expert')].version"}
+      ]
+    },
+    "skills/firecrawl": {
+      "component": "firecrawl",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='firecrawl')].version"}
+      ]
+    },
+    "skills/gh-issue-tracker": {
+      "component": "gh-issue-tracker",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='gh-issue-tracker')].version"}
+      ]
+    },
+    "skills/hermes": {
+      "component": "hermes",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='hermes')].version"}
+      ]
+    },
+    "skills/honcho": {
+      "component": "honcho",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='honcho')].version"}
+      ]
+    },
+    "skills/managing-adguard": {
+      "component": "managing-adguard",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='managing-adguard')].version"}
+      ]
+    },
+    "skills/managing-glinet": {
+      "component": "managing-glinet",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='managing-glinet')].version"}
+      ]
+    },
+    "skills/managing-immich": {
+      "component": "managing-immich",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='managing-immich')].version"}
+      ]
+    },
+    "skills/managing-obsidian": {
+      "component": "managing-obsidian",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='managing-obsidian')].version"}
+      ]
+    },
+    "skills/managing-servarr": {
+      "component": "managing-servarr",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='managing-servarr')].version"}
+      ]
+    },
+    "skills/managing-umami": {
+      "component": "managing-umami",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='managing-umami')].version"}
       ]
     },
     "skills/openclaw": {
       "component": "openclaw",
       "extra-files": [
-        {
-          "type": "json",
-          "path": "sync.json",
-          "jsonpath": "$.version"
-        }
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='openclaw')].version"}
       ]
     },
-    "skills/agent-browser": {
-      "component": "agent-browser",
+    "skills/safe-delete": {
+      "component": "safe-delete",
       "extra-files": [
-        {
-          "type": "json",
-          "path": "sync.json",
-          "jsonpath": "$.version"
-        }
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='safe-delete')].version"}
+      ]
+    },
+    "skills/umbrel-app": {
+      "component": "umbrel-app",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='umbrel-app')].version"}
+      ]
+    },
+    "skills/x-engagement": {
+      "component": "x-engagement",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"},
+        {"type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='x-engagement')].version"}
       ]
     }
   }
