@@ -72,7 +72,7 @@ if [[ "$normalized" == *"--no-preserve-root"* ]]; then
     deny "Blocked dangerous command: '--no-preserve-root' detected. This could cause catastrophic data loss."
 fi
 
-# Block rm -rf / (root directory) - must end with / or have / followed by space/end
+# Block rm -rf / (root directory) - target is '/' with optional trailing whitespace
 if [[ "$normalized" =~ rm[[:space:]]+-[rRfF]+[[:space:]]+/[[:space:]]*$ ]] || \
    [[ "$normalized" =~ rm[[:space:]]+-[rRfF]+[[:space:]]+/$ ]]; then
     deny "Blocked dangerous command: 'rm -rf /' detected. Cannot delete root directory."
