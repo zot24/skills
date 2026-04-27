@@ -1,5 +1,5 @@
 {
   "name": "honcho",
   "description": "Expert on Honcho — AI-native memory and context platform for LLM applications. Persistent memory, user modeling, and context management for stateful agents.",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

@@ -10,37 +10,37 @@
       "name": "umbrel-app",
       "source": "./skills/umbrel-app",
       "description": "Expert assistant for developing, packaging, testing, and submitting apps for umbrelOS",
-      "version": "1.0.0"
+      "version": "2.1.0"
     },
     {
       "name": "claude-code-expert",
       "source": "./skills/claude-code-expert",
       "description": "Comprehensive Claude Code and Anthropic ecosystem knowledge. Official patterns for agents, skills, hooks, commands, and MCP.",
-      "version": "1.0.0"
+      "version": "2.1.0"
     },
     {
       "name": "openclaw",
       "source": "./skills/openclaw",
       "description": "Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo)",
-      "version": "1.0.0"
+      "version": "4.0.2"
     },
     {
       "name": "agent-browser",
       "source": "./skills/agent-browser",
       "description": "Expert on agent-browser - Vercel's headless browser automation CLI for AI agents with 50+ commands, snapshots, and multi-session support",
-      "version": "1.0.0"
+      "version": "2.2.1"
     },
     {
       "name": "chat-sdk",
       "source": "./skills/chat-sdk",
       "description": "Expert on Chat SDK - Vercel's open-source template for building production-ready AI chatbots with generative UI, artifacts, and multi-provider support",
-      "version": "1.0.0"
+      "version": "1.1.1"
     },
     {
       "name": "ai-sdk",
       "source": "./skills/ai-sdk",
       "description": "Expert on AI SDK - Vercel's TypeScript toolkit for building AI applications with unified LLM API, streaming, tool calling, and agents",
-      "version": "1.0.0"
+      "version": "1.1.2"
     },
     {
       "name": "agent-skills",
@@ -64,13 +64,13 @@
       "name": "hermes",
       "source": "./skills/hermes",
       "description": "Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
-      "version": "1.0.0"
+      "version": "1.1.7"
     },
     {
       "name": "honcho",
       "source": "./skills/honcho",
       "description": "Expert on Honcho — AI-native memory and context platform for LLM applications with persistent memory, user modeling, and context management",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "gh-issue-tracker",
