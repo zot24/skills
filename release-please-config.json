@@ -5,6 +5,7 @@
   "include-v-in-tag": true,
   "tag-separator": "-",
   "separate-pull-requests": true,
+  "bootstrap-sha": "77f8e6761ca94bc4d4f53ab9247eda78595cda33",
   "changelog-sections": [
     {"type": "feat", "section": "Features"},
     {"type": "fix", "section": "Bug Fixes"},
