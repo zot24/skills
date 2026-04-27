@@ -38,13 +38,18 @@ jobs:
           echo "$prs" | jq -r '.[].number' | while read pr_number; do
             if [ -n "$pr_number" ]; then
               echo "Enabling auto-merge for PR #$pr_number"
-              gh pr merge "$pr_number" --auto --squash --repo ${{ github.repository }}
+              gh pr merge "$pr_number" --auto --squash --delete-branch --repo ${{ github.repository }}
             fi
           done
 
       # Output release info for debugging
       - name: Release info
         if: ${{ steps.release.outputs.releases_created == 'true' }}
+        env:
+          # Pass JSON via env var instead of inline interpolation. The JSON
+          # contains characters like parens (from changelog URLs) that break
+          # bash parsing when interpolated directly into a `run:` script.
+          RELEASE_OUTPUTS: ${{ toJSON(steps.release.outputs) }}
         run: |
           echo "Releases created: ${{ steps.release.outputs.releases_created }}"
-          echo "Release output: ${{ toJSON(steps.release.outputs) }}"
+          echo "Release output: $RELEASE_OUTPUTS"
