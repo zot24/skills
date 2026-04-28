@@ -1,7 +1,7 @@
 {
   "skills/agent-browser": "2.2.1",
   "skills/agent-skills": "1.2.0",
-  "skills/ai-sdk": "1.1.2",
+  "skills/ai-sdk": "1.1.3",
   "skills/chat-sdk": "1.1.1",
   "skills/claude-code-expert": "2.1.0",
   "skills/firecrawl": "1.0.0",
