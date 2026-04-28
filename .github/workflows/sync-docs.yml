@@ -242,7 +242,7 @@ jobs:
 
           git checkout -b "$BRANCH_NAME"
           git add skills/ .claude-plugin/marketplace.json CHANGELOG.md
-          git commit -m "docs: sync documentation from upstream
+          git commit -m "fix(docs): sync documentation from upstream
 
           Updated skills: ${{ steps.sync.outputs.changed_skills }}
 
@@ -273,7 +273,7 @@ jobs:
           fi
 
           gh pr create \
-            --title "docs: sync documentation ($DATE)" \
+            --title "fix(docs): sync documentation ($DATE)" \
             --body "$(cat <<EOF
           ## Summary
 
@@ -300,7 +300,10 @@ jobs:
       - name: Enable auto-merge
         if: steps.sync.outputs.has_changes == 'true' && inputs.dry_run != true
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use PAT so the auto-merge push triggers downstream workflows
+          # (release-please, sync-marketplace). GITHUB_TOKEN-driven pushes
+          # are suppressed by GitHub's anti-recursion safeguard.
+          GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           PR_NUMBER=$(gh pr list --head "${{ steps.branch.outputs.branch }}" --json number --jq '.[0].number')
 
