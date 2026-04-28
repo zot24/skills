@@ -1,6 +1,6 @@
 {
   "name": "managing-glinet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "GL.iNet router management — VPN, AdGuard, DNS, multi-WAN, drop-in gateway, firewall, network modes",
   "sources": [
     {

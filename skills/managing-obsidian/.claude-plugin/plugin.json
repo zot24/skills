@@ -1,7 +1,7 @@
 {
   "name": "managing-obsidian",
   "description": "Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing. Companion to the official obsidian-skills.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "zot24"
   },

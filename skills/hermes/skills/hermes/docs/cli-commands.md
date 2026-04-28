@@ -48,6 +48,7 @@ hermes [global-options] <command> [subcommand/options]
 | `hermes gateway`          | Run or manage the messaging gateway service.                                                               |
 | `hermes setup`            | Interactive setup wizard for all or part of the configuration.                                             |
 | `hermes whatsapp`         | Configure and pair the WhatsApp bridge.                                                                    |
+| `hermes slack`            | Slack helpers (currently: generate the app manifest with every command as a native slash).                 |
 | `hermes auth`             | Manage credentials — add, list, remove, reset, set strategy. Handles OAuth flows for Codex/Nous/Anthropic. |
 | `hermes login` / `logout` | **Deprecated** — use `hermes auth` instead.                                                                |
 | `hermes status`           | Show agent, auth, and platform status.                                                                     |
@@ -88,25 +89,25 @@ hermes chat [options]
 
 Common options:
 
-| Option                                     | Description                                                                                                                                                                                                                                                                                                                                                                                       |
-|--------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `-q`, `--query "..."`                      | One-shot, non-interactive prompt.                                                                                                                                                                                                                                                                                                                                                                 |
-| `-m`, `--model <model>`                    | Override the model for this run.                                                                                                                                                                                                                                                                                                                                                                  |
-| `-t`, `--toolsets <csv>`                   | Enable a comma-separated set of toolsets.                                                                                                                                                                                                                                                                                                                                                         |
-| `--provider <provider>`                    | Force a provider: `auto`, `openrouter`, `nous`, `openai-codex`, `copilot-acp`, `copilot`, `anthropic`, `gemini`, `google-gemini-cli`, `huggingface`, `zai`, `kimi-coding`, `kimi-coding-cn`, `minimax`, `minimax-cn`, `kilocode`, `xiaomi`, `arcee`, `alibaba`, `deepseek`, `nvidia`, `ollama-cloud`, `xai` (alias `grok`), `qwen-oauth`, `bedrock`, `opencode-zen`, `opencode-go`, `ai-gateway`. |
-| `-s`, `--skills <name>`                    | Preload one or more skills for the session (can be repeated or comma-separated).                                                                                                                                                                                                                                                                                                                  |
-| `-v`, `--verbose`                          | Verbose output.                                                                                                                                                                                                                                                                                                                                                                                   |
-| `-Q`, `--quiet`                            | Programmatic mode: suppress banner/spinner/tool previews.                                                                                                                                                                                                                                                                                                                                         |
-| `--image <path>`                           | Attach a local image to a single query.                                                                                                                                                                                                                                                                                                                                                           |
-| `--resume <session>` / `--continue [name]` | Resume a session directly from `chat`.                                                                                                                                                                                                                                                                                                                                                            |
-| `--worktree`                               | Create an isolated git worktree for this run.                                                                                                                                                                                                                                                                                                                                                     |
-| `--checkpoints`                            | Enable filesystem checkpoints before destructive file changes.                                                                                                                                                                                                                                                                                                                                    |
-| `--yolo`                                   | Skip approval prompts.                                                                                                                                                                                                                                                                                                                                                                            |
-| `--pass-session-id`                        | Pass the session ID into the system prompt.                                                                                                                                                                                                                                                                                                                                                       |
-| `--ignore-user-config`                     | Ignore `~/.hermes/config.yaml` and use built-in defaults. Credentials in `.env` are still loaded. Useful for isolated CI runs, reproducible bug reports, and third-party integrations.                                                                                                                                                                                                            |
-| `--ignore-rules`                           | Skip auto-injection of `AGENTS.md`, `SOUL.md`, `.cursorrules`, persistent memory, and preloaded skills. Combine with `--ignore-user-config` for a fully isolated run.                                                                                                                                                                                                                             |
-| `--source <tag>`                           | Session source tag for filtering (default: `cli`). Use `tool` for third-party integrations that should not appear in user session lists.                                                                                                                                                                                                                                                          |
-| `--max-turns <N>`                          | Maximum tool-calling iterations per conversation turn (default: 90, or `agent.max_turns` in config).                                                                                                                                                                                                                                                                                              |
+| Option                                     | Description                                                                                                                                                                                                                                                                                                                                                                                                               |
+|--------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-q`, `--query "..."`                      | One-shot, non-interactive prompt.                                                                                                                                                                                                                                                                                                                                                                                         |
+| `-m`, `--model <model>`                    | Override the model for this run.                                                                                                                                                                                                                                                                                                                                                                                          |
+| `-t`, `--toolsets <csv>`                   | Enable a comma-separated set of toolsets.                                                                                                                                                                                                                                                                                                                                                                                 |
+| `--provider <provider>`                    | Force a provider: `auto`, `openrouter`, `nous`, `openai-codex`, `copilot-acp`, `copilot`, `anthropic`, `gemini`, `google-gemini-cli`, `huggingface`, `zai`, `kimi-coding`, `kimi-coding-cn`, `minimax`, `minimax-cn`, `kilocode`, `xiaomi`, `arcee`, `gmi`, `alibaba`, `deepseek`, `nvidia`, `ollama-cloud`, `xai` (alias `grok`), `qwen-oauth`, `bedrock`, `opencode-zen`, `opencode-go`, `ai-gateway`, `azure-foundry`. |
+| `-s`, `--skills <name>`                    | Preload one or more skills for the session (can be repeated or comma-separated).                                                                                                                                                                                                                                                                                                                                          |
+| `-v`, `--verbose`                          | Verbose output.                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `-Q`, `--quiet`                            | Programmatic mode: suppress banner/spinner/tool previews.                                                                                                                                                                                                                                                                                                                                                                 |
+| `--image <path>`                           | Attach a local image to a single query.                                                                                                                                                                                                                                                                                                                                                                                   |
+| `--resume <session>` / `--continue [name]` | Resume a session directly from `chat`.                                                                                                                                                                                                                                                                                                                                                                                    |
+| `--worktree`                               | Create an isolated git worktree for this run.                                                                                                                                                                                                                                                                                                                                                                             |
+| `--checkpoints`                            | Enable filesystem checkpoints before destructive file changes.                                                                                                                                                                                                                                                                                                                                                            |
+| `--yolo`                                   | Skip approval prompts.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `--pass-session-id`                        | Pass the session ID into the system prompt.                                                                                                                                                                                                                                                                                                                                                                               |
+| `--ignore-user-config`                     | Ignore `~/.hermes/config.yaml` and use built-in defaults. Credentials in `.env` are still loaded. Useful for isolated CI runs, reproducible bug reports, and third-party integrations.                                                                                                                                                                                                                                    |
+| `--ignore-rules`                           | Skip auto-injection of `AGENTS.md`, `SOUL.md`, `.cursorrules`, persistent memory, and preloaded skills. Combine with `--ignore-user-config` for a fully isolated run.                                                                                                                                                                                                                                                     |
+| `--source <tag>`                           | Session source tag for filtering (default: `cli`). Use `tool` for third-party integrations that should not appear in user session lists.                                                                                                                                                                                                                                                                                  |
+| `--max-turns <N>`                          | Maximum tool-calling iterations per conversation turn (default: 90, or `agent.max_turns` in config).                                                                                                                                                                                                                                                                                                                      |
 
 Examples:
 
@@ -207,11 +208,15 @@ Use `hermes gateway run` instead of `hermes gateway start` — WSL's systemd sup
 
 
 ``` prism-code
-hermes setup [model|tts|terminal|gateway|tools|agent] [--non-interactive] [--reset]
+hermes setup [model|tts|terminal|gateway|tools|agent] [--non-interactive] [--reset] [--quick] [--reconfigure]
 ```
 
 
-Use the full wizard or jump into one section:
+**First run:** launches the first-time wizard.
+
+**Returning user (already configured):** drops straight into the full reconfigure wizard — every prompt shows your current value as its default, press Enter to keep or type a new value. No menu.
+
+Jump into one section instead of the full wizard:
 
 | Section    | Description                         |
 |------------|-------------------------------------|
@@ -223,10 +228,12 @@ Use the full wizard or jump into one section:
 
 Options:
 
-| Option              | Description                                        |
-|---------------------|----------------------------------------------------|
-| `--non-interactive` | Use defaults / environment values without prompts. |
-| `--reset`           | Reset configuration to defaults before setup.      |
+| Option              | Description                                                                                                      |
+|---------------------|------------------------------------------------------------------------------------------------------------------|
+| `--quick`           | On returning-user runs: only prompt for items that are missing or unset. Skip items you already have configured. |
+| `--non-interactive` | Use defaults / environment values without prompts.                                                               |
+| `--reset`           | Reset configuration to defaults before setup.                                                                    |
+| `--reconfigure`     | Backwards-compat alias — bare `hermes setup` on an existing install now does this by default.                    |
 
 ## `hermes whatsapp`<a href="#hermes-whatsapp" class="hash-link" aria-label="Direct link to hermes-whatsapp" translate="no" title="Direct link to hermes-whatsapp">​</a>
 
@@ -237,6 +244,27 @@ hermes whatsapp
 
 
 Runs the WhatsApp pairing/setup flow, including mode selection and QR-code pairing.
+
+## `hermes slack`<a href="#hermes-slack" class="hash-link" aria-label="Direct link to hermes-slack" translate="no" title="Direct link to hermes-slack">​</a>
+
+
+``` prism-code
+hermes slack manifest              # print manifest to stdout
+hermes slack manifest --write      # write to ~/.hermes/slack-manifest.json
+hermes slack manifest --slashes-only  # just the features.slash_commands array
+```
+
+
+Generates a Slack app manifest that registers every gateway command in `COMMAND_REGISTRY` (`/btw`, `/stop`, `/model`, …) as a first-class Slack slash command — matching Discord and Telegram parity. Paste the output into your Slack app config at <a href="https://api.slack.com/apps" target="_blank" rel="noopener noreferrer">https://api.slack.com/apps</a> → your app → **Features → App Manifest → Edit**, then **Save**. Slack prompts for reinstall if scopes or slash commands changed.
+
+| Flag                 | Default       | Purpose                                                                                      |
+|----------------------|---------------|----------------------------------------------------------------------------------------------|
+| `--write [PATH]`     | stdout        | Write to a file instead of stdout. Bare `--write` writes `$HERMES_HOME/slack-manifest.json`. |
+| `--name NAME`        | `Hermes`      | Bot display name in Slack.                                                                   |
+| `--description DESC` | default blurb | Bot description shown in the Slack app directory.                                            |
+| `--slashes-only`     | off           | Emit only `features.slash_commands` for merging into a manually-maintained manifest.         |
+
+Run `hermes slack manifest --write` again after `hermes update` to pick up any new commands.
 
 ## `hermes login` / `hermes logout` *(Deprecated)*<a href="#hermes-login--hermes-logout-deprecated" class="hash-link" aria-label="Direct link to hermes-login--hermes-logout-deprecated" translate="no" title="Direct link to hermes-login--hermes-logout-deprecated">​</a>
 
@@ -645,6 +673,8 @@ hermes skills inspect official/security/1password
 hermes skills inspect skills-sh/vercel-labs/json-render/json-render-react
 hermes skills install official/migration/openclaw-migration
 hermes skills install skills-sh/anthropics/skills/pdf --force
+hermes skills install https://sharethis.chat/SKILL.md                     # Direct URL (single-file SKILL.md)
+hermes skills install https://example.com/SKILL.md --name my-skill        # Override name when frontmatter has none
 hermes skills check
 hermes skills update
 hermes skills config
@@ -657,6 +687,7 @@ Notes:
 - `--force` does not override a `dangerous` scan verdict.
 - `--source skills-sh` searches the public `skills.sh` directory.
 - `--source well-known` lets you point Hermes at a site exposing `/.well-known/skills/index.json`.
+- Passing an `http(s)://…/*.md` URL installs a single-file SKILL.md directly. When frontmatter has no `name:` and the URL slug isn't a valid identifier, an interactive terminal prompts for a name; non-interactive surfaces (`/skills install` inside the TUI, gateway platforms) require `--name <x>` instead.
 
 ## `hermes honcho`<a href="#hermes-honcho" class="hash-link" aria-label="Direct link to hermes-honcho" translate="no" title="Direct link to hermes-honcho">​</a>
 
@@ -996,6 +1027,7 @@ hermes completion zsh >> ~/.zshrc
 - <a href="#hermes-gateway" class="table-of-contents__link toc-highlight"><code>hermes gateway</code></a>
 - <a href="#hermes-setup" class="table-of-contents__link toc-highlight"><code>hermes setup</code></a>
 - <a href="#hermes-whatsapp" class="table-of-contents__link toc-highlight"><code>hermes whatsapp</code></a>
+- <a href="#hermes-slack" class="table-of-contents__link toc-highlight"><code>hermes slack</code></a>
 - <a href="#hermes-login--hermes-logout-deprecated" class="table-of-contents__link toc-highlight"><code>hermes login</code> / <code>hermes logout</code> <em>(Deprecated)</em></a>
 - <a href="#hermes-auth" class="table-of-contents__link toc-highlight"><code>hermes auth</code></a>
 - <a href="#hermes-status" class="table-of-contents__link toc-highlight"><code>hermes status</code></a>

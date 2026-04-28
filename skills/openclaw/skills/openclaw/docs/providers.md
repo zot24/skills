@@ -58,7 +58,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Provider Directory</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Provider directory</span>
 
   </div>
 
@@ -68,7 +68,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Model Provider Quickstart</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Model provider quickstart</span>
 
   </div>
 
@@ -83,7 +83,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Models CLI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Models CLI</span>
 
   </div>
 
@@ -93,7 +93,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Model Providers</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Model providers</span>
 
   </div>
 
@@ -103,7 +103,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Model Failover</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Model failover</span>
 
   </div>
 
@@ -118,7 +118,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Alibaba Model Studio</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Alibaba Model Studio</span>
 
   </div>
 
@@ -128,7 +128,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Amazon Bedrock</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Amazon Bedrock</span>
 
   </div>
 
@@ -138,7 +138,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Amazon Bedrock Mantle</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Amazon Bedrock Mantle</span>
 
   </div>
 
@@ -148,7 +148,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Anthropic</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Anthropic</span>
 
   </div>
 
@@ -158,7 +158,17 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Arcee AI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Arcee AI</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/azure-speech"><a href="/providers/azure-speech" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Azure Speech</span>
 
   </div>
 
@@ -168,7 +178,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Chutes</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Chutes</span>
 
   </div>
 
@@ -178,7 +188,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Claude Max API Proxy</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Claude Max API proxy</span>
 
   </div>
 
@@ -188,7 +198,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Cloudflare AI Gateway</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Cloudflare AI gateway</span>
 
   </div>
 
@@ -198,7 +208,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">ComfyUI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">ComfyUI</span>
 
   </div>
 
@@ -208,7 +218,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Deepgram</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Deepgram</span>
 
   </div>
 
@@ -218,7 +228,17 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">DeepSeek</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">DeepSeek</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/elevenlabs"><a href="/providers/elevenlabs" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">ElevenLabs</span>
 
   </div>
 
@@ -228,7 +248,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">fal</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Fal</span>
 
   </div>
 
@@ -238,7 +258,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Fireworks</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Fireworks</span>
 
   </div>
 
@@ -248,7 +268,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">GitHub Copilot</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">GitHub Copilot</span>
 
   </div>
 
@@ -258,7 +278,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">GLM (Zhipu)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">GLM (Zhipu)</span>
 
   </div>
 
@@ -268,7 +288,17 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Google (Gemini)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Google (Gemini)</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/gradium"><a href="/providers/gradium" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Gradium</span>
 
   </div>
 
@@ -278,7 +308,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Groq</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Groq</span>
 
   </div>
 
@@ -288,7 +318,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Hugging Face (Inference)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Hugging Face (inference)</span>
 
   </div>
 
@@ -298,7 +328,17 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">inferrs</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Inferrs</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/inworld"><a href="/providers/inworld" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Inworld</span>
 
   </div>
 
@@ -308,7 +348,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Kilocode</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Kilocode</span>
 
   </div>
 
@@ -318,7 +358,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">LiteLLM</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">LiteLLM</span>
 
   </div>
 
@@ -328,7 +368,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">LM Studio</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">LM Studio</span>
 
   </div>
 
@@ -338,7 +378,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">MiniMax</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">MiniMax</span>
 
   </div>
 
@@ -348,7 +388,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Mistral</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Mistral</span>
 
   </div>
 
@@ -358,7 +398,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Moonshot AI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Moonshot AI</span>
 
   </div>
 
@@ -368,7 +408,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">NVIDIA</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">NVIDIA</span>
 
   </div>
 
@@ -378,7 +418,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Ollama</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Ollama</span>
 
   </div>
 
@@ -388,7 +428,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">OpenAI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenAI</span>
 
   </div>
 
@@ -398,7 +438,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">OpenCode</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenCode</span>
 
   </div>
 
@@ -408,7 +448,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">OpenCode Go</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenCode Go</span>
 
   </div>
 
@@ -418,7 +458,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">OpenRouter</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenRouter</span>
 
   </div>
 
@@ -428,7 +468,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Perplexity</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Perplexity</span>
 
   </div>
 
@@ -438,7 +478,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Qianfan</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Qianfan</span>
 
   </div>
 
@@ -448,7 +488,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Qwen</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Qwen</span>
 
   </div>
 
@@ -458,7 +498,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Runway</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Runway</span>
 
   </div>
 
@@ -468,7 +508,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">SGLang</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">SGLang</span>
 
   </div>
 
@@ -478,7 +518,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">StepFun</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">StepFun</span>
 
   </div>
 
@@ -488,7 +528,17 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Synthetic</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Synthetic</span>
+
+  </div>
+
+  </div>
+- <span id="/providers/tencent"><a href="/providers/tencent" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Tencent Cloud (TokenHub)</span>
 
   </div>
 
@@ -498,7 +548,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Together AI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Together AI</span>
 
   </div>
 
@@ -508,7 +558,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Venice AI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Venice AI</span>
 
   </div>
 
@@ -518,7 +568,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Vercel AI Gateway</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Vercel AI gateway</span>
 
   </div>
 
@@ -528,7 +578,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">vLLM</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">vLLM</span>
 
   </div>
 
@@ -538,7 +588,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Volcengine (Doubao)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Volcengine (Doubao)</span>
 
   </div>
 
@@ -548,7 +598,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Vydra</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Vydra</span>
 
   </div>
 
@@ -558,7 +608,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">xAI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">xAI</span>
 
   </div>
 
@@ -568,7 +618,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Xiaomi MiMo</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Xiaomi MiMo</span>
 
   </div>
 
@@ -578,7 +628,7 @@ Models CLI
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Z.AI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Z.AI</span>
 
   </div>
 
@@ -588,11 +638,11 @@ Models CLI
 On this page
 
 
-- <a href="#models-cli" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Models CLI</a>
 - <a href="#how-model-selection-works" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">How model selection works</a>
 - <a href="#quick-model-policy" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick model policy</a>
 - <a href="#onboarding-recommended" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Onboarding (recommended)</a>
 - <a href="#config-keys-overview" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Config keys (overview)</a>
+- <a href="#safe-allowlist-edits" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Safe allowlist edits</a>
 - <a href="#%E2%80%9Dmodel-is-not-allowed%E2%80%9D-and-why-replies-stop" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">”Model is not allowed” (and why replies stop)</a>
 - <a href="#switching-models-in-chat-%2Fmodel" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Switching models in chat (/model)</a>
 - <a href="#cli-commands" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">CLI commands</a>
@@ -607,12 +657,6 @@ Concepts and configuration
 
 
 # Models CLI
-
-
-# 
-
-
-<a href="#models-cli" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 ## 
@@ -670,6 +714,17 @@ openclaw onboard
 - `models.providers` (custom providers written into `models.json`)
 
 
+### 
+
+
+<a href="#safe-allowlist-edits" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+openclaw config set agents.defaults.models '{"openai/gpt-5.4":{}}' --strict-json --merge
+```
+
+
 ## 
 
 
@@ -716,6 +771,7 @@ Model "provider/model" is not allowed. Use /model to list available models.
 
 - `/model` (and `/model list`) is a compact, numbered picker (model family + available providers).
 - On Discord, `/model` and `/models` open an interactive picker with provider and model dropdowns plus a Submit step.
+- `/models add` is deprecated and now returns a deprecation message instead of registering models from chat.
 - `/model <#>` selects from that picker.
 - `/model` persists the new session selection immediately.
 - If the agent is idle, the next run uses the new model right away.
@@ -766,9 +822,10 @@ openclaw models image-fallbacks clear
 
 - `--all`: full catalog
 - `--local`: local providers only
-- `--provider <name>`: filter by provider
+- `--provider <id>`: filter by provider id, for example `moonshot`; display labels from interactive pickers are not accepted
 - `--plain`: one model per line
 - `--json`: machine‑readable output
+
 
 ### 
 
@@ -804,9 +861,9 @@ openclaw models status
 
 
 - OpenRouter `/models` list (filter `:free`)
-- Requires OpenRouter API key from auth profiles or `OPENROUTER_API_KEY` (see <a href="/help/environment" class="link">/environment</a>)
+- Live probes require OpenRouter API key from auth profiles or `OPENROUTER_API_KEY` (see <a href="/help/environment" class="link">/environment</a>)
 - Optional filters: `--max-age-days`, `--min-params`, `--provider`, `--max-candidates`
-- Probe controls: `--timeout`, `--concurrency`
+- Request/probe controls: `--timeout`, `--concurrency`
 
 
 ## 
@@ -830,13 +887,14 @@ openclaw models status
 
 
 - <a href="/concepts/model-providers" class="link">Model Providers</a> — provider routing and auth
+- <a href="/concepts/agent-runtimes" class="link">Agent Runtimes</a> — PI, Codex, and other agent loop runtimes
 - <a href="/concepts/model-failover" class="link">Model Failover</a> — fallback chains
 - <a href="/tools/image-generation" class="link">Image Generation</a> — image model configuration
 - <a href="/tools/music-generation" class="link">Music Generation</a> — music model configuration
 - <a href="/tools/video-generation" class="link">Video Generation</a> — video model configuration
-- <a href="/gateway/configuration-reference#agent-defaults" class="link">Configuration Reference</a> — model config keys
+- <a href="/gateway/config-agents#agent-defaults" class="link">Configuration Reference</a> — model config keys
 
 
-<a href="/providers/models" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model Provider Quickstart</span></a><a href="/concepts/model-providers" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model Providers</span></a>
+<a href="/providers/models" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model provider quickstart</span></a><a href="/concepts/model-providers" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model providers</span></a>
 
 

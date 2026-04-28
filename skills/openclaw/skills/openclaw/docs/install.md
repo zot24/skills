@@ -17,7 +17,7 @@ Search...
 First steps
 
 
-Getting Started
+Getting started
 
 
 <a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]" data-active="true">Get started</a>
@@ -58,7 +58,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">OpenClaw</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenClaw</span>
 
   </div>
 
@@ -68,7 +68,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Showcase</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Showcase</span>
 
   </div>
 
@@ -78,7 +78,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Features</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Features</span>
 
   </div>
 
@@ -93,7 +93,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Getting Started</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Getting started</span>
 
   </div>
 
@@ -103,7 +103,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Onboarding Overview</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Onboarding Overview</span>
 
   </div>
 
@@ -113,7 +113,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Onboarding: CLI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Onboarding: CLI</span>
 
   </div>
 
@@ -123,7 +123,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Onboarding: macOS App</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Onboarding: macOS App</span>
 
   </div>
 
@@ -138,7 +138,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Personal Assistant Setup</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Personal assistant setup</span>
 
   </div>
 
@@ -148,7 +148,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">CLI reference</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">CLI reference</span>
 
   </div>
 
@@ -158,7 +158,7 @@ Getting Started
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">CLI automation</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">CLI automation</span>
 
   </div>
 
@@ -168,22 +168,16 @@ Getting Started
 On this page
 
 
-- <a href="#getting-started" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Getting Started</a>
 - <a href="#what-you-need" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">What you need</a>
 - <a href="#quick-setup" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick setup</a>
 - <a href="#what-to-do-next" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">What to do next</a>
+- <a href="#related" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Related</a>
 
 
 First steps
 
 
-# Getting Started
-
-
-# 
-
-
-<a href="#getting-started" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+# Getting started
 
 
 ## 
@@ -344,6 +338,17 @@ Advanced: environment variables
 - `OPENCLAW_HOME` — home directory for internal path resolution
 - `OPENCLAW_STATE_DIR` — override the state directory
 - `OPENCLAW_CONFIG_PATH` — override the config file path
+
+
+## 
+
+
+<a href="#related" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/install" class="link">Install overview</a>
+- <a href="/channels" class="link">Channels overview</a>
+- <a href="/start/setup" class="link">Setup</a>
 
 
 <a href="/concepts/features" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Features</span></a><a href="/start/onboarding-overview" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Onboarding Overview</span></a>

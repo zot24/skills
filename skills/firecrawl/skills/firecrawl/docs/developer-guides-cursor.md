@@ -1,0 +1,103 @@
+> Source: https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/cursor.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# MCP Web Search & Scrape in Cursor
+
+> Add web scraping and search to Cursor in 2 minutes
+
+Add web scraping and search capabilities to Cursor with Firecrawl MCP.
+
+## Quick Setup
+
+### 1. Get Your API Key
+
+Sign up at [firecrawl.dev/app](https://firecrawl.dev/app) and copy your API key.
+
+### 2. Add to Cursor
+
+Open Settings (`Cmd+,`), search for "MCP", and add:
+
+```json
+{
+  "mcpServers": {
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+Replace `your_api_key_here` with your actual Firecrawl API key.
+
+### 3. Restart Cursor
+
+Done! You can now search and scrape the web from Cursor.
+
+## Quick Demo
+
+Try these in Cursor Chat (`Cmd+K`):
+
+**Search:**
+
+```
+Search for TypeScript best practices 2025
+```
+
+**Scrape:**
+
+```
+Scrape firecrawl.dev and tell me what it does
+```
+
+**Get docs:**
+
+```
+Scrape the React hooks documentation and explain useEffect
+```
+
+Cursor will automatically use Firecrawl tools.
+
+## Windows Troubleshooting
+
+If you see a `spawn npx ENOENT` or "No server info found" error on Windows, Cursor cannot find `npx` in your PATH. Try one of these fixes:
+
+**Option A: Use the full path to `npx.cmd`**
+
+Run `where npx` in Command Prompt to get the full path, then update your config:
+
+```json
+{
+  "mcpServers": {
+    "firecrawl": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+Replace the `command` path with the output from `where npx`.
+
+**Option B: Use the remote hosted URL (no Node.js required)**
+
+```json
+{
+  "mcpServers": {
+    "firecrawl": {
+      "url": "https://mcp.firecrawl.dev/YOUR-API-KEY/v2/mcp"
+    }
+  }
+}
+```
+
+Replace `YOUR-API-KEY` with your Firecrawl API key.

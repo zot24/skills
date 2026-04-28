@@ -1,0 +1,149 @@
+> Source: https://docs.firecrawl.dev/billing.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# Billing
+
+> How Firecrawl billing, credits, and plans work
+
+## Overview
+
+Firecrawl uses a **credit-based billing system**. Every API call you make consumes credits, and the number of credits consumed depends on the endpoint and options you use. You get a monthly credit allotment based on your plan, and can purchase additional credits via auto-recharge packs if you need more.
+
+For current plan pricing, visit the [Firecrawl pricing page](https://www.firecrawl.dev/pricing).
+
+## Credits
+
+Credits are the unit of usage in Firecrawl. Each plan includes a monthly credit allotment that resets at the start of each billing cycle. Different API endpoints consume different amounts of credits.
+
+### Credit costs per endpoint
+
+| Endpoint    | Credit Cost                | Notes                                                                                                                                                                                                                                                                                                |
+| ----------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Scrape**  | 1 credit / page            | Convert a single URL into clean markdown, HTML, or structured data. Additional credits apply when using scrape options (see below).                                                                                                                                                                  |
+| **Crawl**   | 1 credit / page            | Scrape an entire website by following links from a starting URL. The same per-page scrape option costs apply to each page crawled.                                                                                                                                                                   |
+| **Map**     | 1 credit / call            | Discover all URLs on a website without scraping their content.                                                                                                                                                                                                                                       |
+| **Search**  | 2 credits / 10 results     | Search the web and optionally scrape the results. Rounded up per 10 results (e.g., 11 results = 4 credits). Additional per-page scrape costs apply to each result that is scraped. Enterprise ZDR search costs 10 credits / 10 results (see [ZDR Search](/features/search#zero-data-retention-zdr)). |
+| **Browser** | 2 credits / browser minute | Interactive browser sandbox session, billed per minute.                                                                                                                                                                                                                                              |
+| **Agent**   | Dynamic                    | Autonomous web research agent. 5 daily runs free; usage-based pricing beyond that.                                                                                                                                                                                                                   |
+
+### Additional credit costs for scrape options
+
+Certain scrape options add credits on top of the base cost per page:
+
+| Option                       | Additional Cost      | Description                                                                                                  |
+| ---------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------ |
+| PDF parsing                  | +1 credit / PDF page | Extract content from PDF documents                                                                           |
+| JSON format (LLM extraction) | +4 credits / page    | Use an LLM to extract structured JSON data from the page                                                     |
+| Enhanced Mode                | +4 credits / page    | Improved scraping for pages that are difficult to access                                                     |
+| Zero Data Retention (ZDR)    | +1 credit / page     | Ensures no data is persisted beyond the request (see [Scrape ZDR](/features/scrape#zero-data-retention-zdr)) |
+
+These modifiers stack. For example, scraping a page with both JSON format and Enhanced Mode costs **1 + 4 + 4 = 9 credits** per page. These same modifiers apply to the Crawl and Search endpoints since they use scrape internally for each page.
+
+### When credits are charged
+
+Credits are charged whenever Firecrawl's infrastructure processes a request, even if the target site returns an HTTP error status code such as 403 Forbidden or 404 Not Found. This is because the scraping infrastructure (browser rendering, proxy, etc.) is fully utilized regardless of the target site's response. You can check the `metadata.statusCode` field in the API response to detect these cases and avoid retrying URLs that are consistently blocked.
+
+For **batch scrape** and **crawl** jobs, credits are billed asynchronously as each page completes processing — not when the job is submitted. This means there can be a delay between submitting a job and seeing the full credit cost reflected on your account. If a batch contains many URLs or pages are queued during high-traffic periods, credits may continue to appear minutes or hours after submission. Polling or checking batch status does not consume credits.
+
+### Tracking your usage
+
+You can monitor your credit usage in two ways:
+
+* **Dashboard**: View your current and historical usage at [firecrawl.dev/app](https://www.firecrawl.dev/app)
+* **API**: Use the [Credit Usage](/api-reference/endpoint/credit-usage) and [Credit Usage Historical](/api-reference/endpoint/credit-usage-historical) endpoints to programmatically check your usage
+
+
+  We are actively working on improvements to make credit usage easier to understand. Stay tuned for updates.
+
+
+## Plans
+
+Firecrawl offers subscription-based monthly plans. There is no pure pay-as-you-go option, but auto-recharge (described below) provides flexible scaling on top of your base plan.
+
+### Available plans
+
+| Plan         | Monthly Credits | Concurrent Browsers |
+| ------------ | --------------- | ------------------: |
+| **Free**     | 500 (one-time)  |                   2 |
+| **Hobby**    | 3,000           |                   5 |
+| **Standard** | 100,000         |                  50 |
+| **Growth**   | 500,000         |                 100 |
+
+
+  For high-volume needs beyond the Growth plan, Firecrawl offers **Scale** and **Enterprise** plans with 1M+ credits, 150+ concurrent browsers, dedicated support, SLAs, bulk discounts, zero-data retention, and SSO. Visit the [Enterprise page](https://www.firecrawl.dev/enterprise) for details.
+
+
+All paid plans are available with **monthly** or **yearly** billing. Yearly billing offers a discount compared to paying month-to-month. For current pricing on each plan, visit the [pricing page](https://www.firecrawl.dev/pricing).
+
+### Concurrent browsers
+
+Concurrent browsers represent how many web pages Firecrawl can process for you simultaneously. Your plan determines this limit. If you exceed it, additional jobs wait in a queue until a slot opens. See [Rate Limits](/rate-limits) for full details on concurrency and API rate limits.
+
+## Auto-Recharge
+
+If you occasionally need more credits than your plan includes, you can enable **auto-recharge** from the dashboard. When your remaining credits drop below a threshold, Firecrawl automatically purchases an additional credit pack and adds it to your balance. By default the threshold is **0 credits**, but you can customize it in your [billing settings](https://www.firecrawl.dev/app/settings?tab=billing) to trigger recharges earlier — for example, setting a higher threshold ensures you always have a buffer of credits available, which is useful if you run large crawls. Note that this check occurs when you make an API request — your balance will not be topped up until your next request triggers the recharge.
+
+* Auto-recharge packs are available on all paid plans
+* Pack sizes and prices vary by plan (visible on the [pricing page](https://www.firecrawl.dev/pricing))
+* You can toggle auto-recharge on or off at any time
+* Auto-recharge is limited to **4 packs per month**
+* Credits from auto-recharge packs **do not reset monthly** — they persist across billing cycles and expire after **1 year** from purchase, unlike your monthly plan credits which reset each period.
+
+Auto-recharge is best for handling occasional spikes in usage. If you find yourself consistently exceeding your plan's allotment, upgrading to a higher plan will give you better value per credit.
+
+## Coupons
+
+Firecrawl supports two types of coupons:
+
+* **Subscription coupons** apply a discount to your plan subscription (e.g. a percentage off your monthly or yearly price). These can **only** be applied during the Stripe checkout flow when you first subscribe to a paid plan or change plans. You cannot apply a subscription coupon after checkout has completed.
+* **Credit coupons** add bonus credits to your account. These can be redeemed from the **Billing** section of your dashboard at [firecrawl.dev/app/billing](https://www.firecrawl.dev/app/billing). Look for the coupon input field on the billing page to apply your code. Bonus credits from credit coupons are separate from your plan's monthly allotment and persist even if you upgrade or downgrade your plan.
+
+If you have a coupon code and are unsure which type it is, try applying it in the billing section of your dashboard first. If it is a subscription coupon, you will need to use it at the Stripe checkout page instead.
+
+## Billing Cycle
+
+* **Monthly plans**: Credits reset on your monthly renewal date
+* **Yearly plans**: You are billed annually, but credits still reset each month on your virtual monthly renewal date
+* **Unused plan credits do not roll over by default** — your monthly allotment resets each month. **Annual Scale plans roll unused plan credits over 1 month**, and **annual Enterprise plans roll them over 2 months**. Credits from auto-recharge packs are not tied to your billing cycle — they persist and expire **1 year** from the date of purchase.
+
+## Upgrading and Downgrading
+
+* **Upgrades** take effect immediately. You are billed a prorated amount for the remainder of the current billing period, and your credit allotment and limits update right away.
+* **Downgrades** are scheduled to take effect at your next renewal date. You keep your current plan's credits and limits until then.
+
+## What Happens When You Run Out of Credits
+
+If you exhaust your credit allotment and do not have auto-recharge enabled, API requests that consume credits will return an **HTTP 402 (Payment Required)** error. If you have auto-recharge enabled, usage will continue while recharge packs are purchased automatically — but if the monthly pack limit is reached or a recharge fails, your balance may go negative until the next billing cycle. To resume usage after a hard stop, you can:
+
+1. Enable auto-recharge to automatically purchase more credits
+2. Upgrade to a higher plan
+3. Wait for your credits to reset at the next billing cycle
+
+## Free Plan
+
+The Free plan provides a **one-time allotment of 500 credits** with no credit card required. These credits do not renew — once they are used up, you will need to upgrade to a paid plan to continue using Firecrawl. The Free plan also has lower rate limits and concurrency compared to paid plans (see [Rate Limits](/rate-limits)).
+
+## FAQs
+
+
+    **Plan credits** do not roll over by default — your monthly allotment resets each month. **Annual Scale plans roll unused plan credits over 1 month**, and **annual Enterprise plans roll them over 2 months**. Credits purchased through **auto-recharge packs** are not tied to your billing cycle and carry forward on any plan. Auto-recharge credits expire **1 year** from the date of purchase.
+
+
+    Check the dashboard at [firecrawl.dev/app](https://www.firecrawl.dev/app), or call the [Credit Usage API endpoint](/api-reference/endpoint/credit-usage) programmatically.
+
+
+    Credits are the billing unit for Firecrawl API calls. Tokens refer to LLM tokens used internally by endpoints like Extract and Agent. Each credit is equivalent to 15 tokens. For most users, you only need to think in terms of credits.
+
+
+    It depends on the coupon type. **Credit coupons** are applied in the Billing section of your dashboard. **Subscription coupons** (discounts on your plan price) can only be applied at the Stripe checkout page when subscribing or changing plans.
+
+
+    Reach out to [help@firecrawl.dev](mailto:help@firecrawl.dev), or visit the [Enterprise page](https://www.firecrawl.dev/enterprise) to learn more about custom plans.
+
+
+    Go to your [billing settings](https://www.firecrawl.dev/app/settings?tab=billing), click **Manage Subscriptions**, and update your billing address, company name, and VAT number in the Stripe portal. Future invoices will automatically include the updated details. If you need a past invoice regenerated with the new information, contact [help@firecrawl.dev](mailto:help@firecrawl.dev).
+
+

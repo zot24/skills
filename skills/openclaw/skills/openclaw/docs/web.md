@@ -58,7 +58,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Gateway Runbook</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Gateway runbook</span>
 
   </div>
 
@@ -66,7 +66,37 @@ WebChat
 
 - <div>
 
-  Configuration and operations
+  Configuration
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Authentication and secrets
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Health and diagnostics
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Scaling and operations
 
   </div>
 
@@ -113,7 +143,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Remote Access</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Remote access</span>
 
   </div>
 
@@ -123,7 +153,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Remote Gateway Setup</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Remote gateway setup</span>
 
   </div>
 
@@ -133,7 +163,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Tailscale</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Tailscale</span>
 
   </div>
 
@@ -148,7 +178,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Formal Verification (Security Models)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Formal verification (security models)</span>
 
   </div>
 
@@ -158,7 +188,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Threat Model (MITRE ATLAS)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Threat model (MITRE ATLAS)</span>
 
   </div>
 
@@ -168,7 +198,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Contributing to the Threat Model</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Contributing to the threat model</span>
 
   </div>
 
@@ -183,7 +213,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Nodes</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Nodes</span>
 
   </div>
 
@@ -194,7 +224,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Node Troubleshooting</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Node troubleshooting</span>
 
   </div>
 
@@ -229,7 +259,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Web</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Web</span>
 
   </div>
 
@@ -239,7 +269,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Control UI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Control UI</span>
 
   </div>
 
@@ -249,7 +279,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Dashboard</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Dashboard</span>
 
   </div>
 
@@ -259,7 +289,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">WebChat</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">WebChat</span>
 
   </div>
 
@@ -269,7 +299,7 @@ WebChat
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">TUI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">TUI</span>
 
   </div>
 
@@ -279,25 +309,19 @@ WebChat
 On this page
 
 
-- <a href="#webchat-gateway-websocket-ui" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">WebChat (Gateway WebSocket UI)</a>
 - <a href="#what-it-is" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">What it is</a>
 - <a href="#quick-start" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick start</a>
 - <a href="#how-it-works-behavior" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">How it works (behavior)</a>
 - <a href="#control-ui-agents-tools-panel" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Control UI agents tools panel</a>
 - <a href="#remote-use" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Remote use</a>
 - <a href="#configuration-reference-webchat" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Configuration reference (WebChat)</a>
+- <a href="#related" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Related</a>
 
 
 Web interfaces
 
 
 # WebChat
-
-
-# 
-
-
-<a href="#webchat-gateway-websocket-ui" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 ## 
@@ -328,7 +352,10 @@ Web interfaces
 
 - The UI connects to the Gateway WebSocket and uses `chat.history`, `chat.send`, and `chat.inject`.
 - `chat.history` is bounded for stability: Gateway may truncate long text fields, omit heavy metadata, and replace oversized entries with `[chat.history omitted: message too large]`.
-- `chat.history` is also display-normalized: inline delivery directive tags such as `[[reply_to_*]]` and `[[audio_as_voice]]`, plain-text tool-call XML payloads (including `<tool_call>...</tool_call>`, `<function_call>...</function_call>`, `<tool_calls>...</tool_calls>`, `<function_calls>...</function_calls>`, and truncated tool-call blocks), and leaked ASCII/full-width model control tokens are stripped from visible text, and assistant entries whose whole visible text is only the exact silent token `NO_REPLY` / `no_reply` are omitted.
+- `chat.history` follows the active transcript branch for modern append-only session files, so abandoned rewrite branches and superseded prompt copies are not rendered in WebChat.
+- Control UI coalesces duplicate in-flight submits for the same session, message, and attachments before generating a new `chat.send` run id; the Gateway still dedupes repeated requests that reuse the same idempotency key.
+- `chat.history` is also display-normalized: runtime-only OpenClaw context, inbound envelope wrappers, inline delivery directive tags such as `[[reply_to_*]]` and `[[audio_as_voice]]`, plain-text tool-call XML payloads (including `<tool_call>...</tool_call>`, `<function_call>...</function_call>`, `<tool_calls>...</tool_calls>`, `<function_calls>...</function_calls>`, and truncated tool-call blocks), and leaked ASCII/full-width model control tokens are stripped from visible text, and assistant entries whose whole visible text is only the exact silent token `NO_REPLY` / `no_reply` are omitted.
+- Reasoning-flagged reply payloads (`isReasoning: true`) are excluded from WebChat assistant content, transcript replay text, and audio content blocks, so thinking-only payloads do not surface as visible assistant messages or playable audio.
 - `chat.inject` appends an assistant note directly to the transcript and broadcasts it to the UI (no agent run).
 - Aborted runs can keep partial assistant output visible in the UI.
 - Gateway persists aborted partial assistant text into transcript history when buffered output exists, and marks those entries with abort metadata.
@@ -371,6 +398,15 @@ Web interfaces
 - `gateway.auth.mode: "trusted-proxy"`: reverse-proxy auth for browser clients behind an identity-aware **non-loopback** proxy source (see <a href="/gateway/trusted-proxy-auth" class="link">Trusted Proxy Auth</a>).
 - `gateway.remote.url`, `gateway.remote.token`, `gateway.remote.password`: remote gateway target.
 - `session.*`: session storage and main key defaults.
+
+## 
+
+
+<a href="#related" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/web/control-ui" class="link">Control UI</a>
+- <a href="/web/dashboard" class="link">Dashboard</a>
 
 
 <a href="/web/dashboard" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Dashboard</span></a><a href="/web/tui" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">TUI</span></a>

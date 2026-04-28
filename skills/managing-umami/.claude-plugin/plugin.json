@@ -1,7 +1,7 @@
 {
   "name": "managing-umami",
   "description": "Deploy, configure, and manage Umami — open-source web analytics with API client, tracker functions, event tracking, website statistics, reports, and team management.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "zot24"
   },

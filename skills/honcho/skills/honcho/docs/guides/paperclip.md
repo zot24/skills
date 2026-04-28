@@ -20,6 +20,7 @@ Honcho for [Paperclip](https://paperclip.ing) adds persistent Honcho memory to P
 2. Click `Install Plugin`.
 3. Enter `@honcho-ai/paperclip-honcho`.
 4. Complete the install from the Paperclip UI.
+   * Plugin download does not currently work on Windows because of a Paperclip host-side issue.
 
 ## Quick Setup
 
@@ -69,7 +70,7 @@ The integration breaks down into four parts:
 
 * **Identity and scope** - each Paperclip company maps to a Honcho workspace, agents and human actors map to peers, and issues map to sessions.
 * **What gets copied into Honcho** - issue comments and document revisions sync into Honcho, with document content sectioned and normalized message content capped before ingestion.
-* **What operators get** - operators get a plugin settings page, migration preview/status data, repair tools, and an issue-level `Memory` tab.
+* **What operators get** - operators get a plugin settings page, migration preview/status data, including a per-issue migration mapping preview, repair tools, and an issue-level `Memory` tab.
 * **What agents get** - agents get Honcho retrieval and peer-chat tools inside Paperclip.
 
 ## Operator Actions

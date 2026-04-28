@@ -14,10 +14,10 @@
 Search...
 
 
-Automation & Tasks
+Automation and tasks
 
 
-Scheduled Tasks
+Scheduled tasks
 
 
 <a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get started</a>
@@ -58,7 +58,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Tools and Plugins</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Tools and plugins</span>
 
   </div>
 
@@ -73,7 +73,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Install and Configure</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Install and Configure</span>
 
   </div>
 
@@ -84,7 +84,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Community Plugins</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Community plugins</span>
 
   </div>
 
@@ -95,7 +95,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Plugin Bundles</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Plugin bundles</span>
 
   </div>
 
@@ -106,7 +106,29 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Codex Harness</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Codex harness</span>
+
+  </div>
+
+  </div>
+
+- <span id="/plugins/codex-computer-use"><a href="/plugins/codex-computer-use" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Codex Computer Use</span>
+
+  </div>
+
+  </div>
+
+- <span id="/plugins/google-meet"><a href="/plugins/google-meet" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Google Meet plugin</span>
 
   </div>
 
@@ -117,7 +139,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Webhooks Plugin</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Webhooks plugin</span>
 
   </div>
 
@@ -128,7 +150,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Voice Call Plugin</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Voice call</span>
 
   </div>
 
@@ -139,7 +161,29 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Memory Wiki</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Memory wiki</span>
+
+  </div>
+
+  </div>
+
+- <span id="/plugins/message-presentation"><a href="/plugins/message-presentation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Message presentation</span>
+
+  </div>
+
+  </div>
+
+- <span id="/plugins/skill-workshop"><a href="/plugins/skill-workshop" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skill workshop plugin</span>
 
   </div>
 
@@ -150,7 +194,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Zalo Personal Plugin</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Zalo personal plugin</span>
 
   </div>
 
@@ -158,7 +202,7 @@ Scheduled Tasks
 
 - <div>
 
-  Building Plugins
+  Building plugins
 
   </div>
 
@@ -168,7 +212,7 @@ Scheduled Tasks
 
 - <div>
 
-  SDK Reference
+  SDK reference
 
   </div>
 
@@ -185,7 +229,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Skills</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skills</span>
 
   </div>
 
@@ -195,7 +239,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Creating Skills</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Creating skills</span>
 
   </div>
 
@@ -205,7 +249,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Skills Config</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skills config</span>
 
   </div>
 
@@ -215,7 +259,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Slash Commands</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Slash commands</span>
 
   </div>
 
@@ -225,7 +269,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">ClawHub</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">ClawHub</span>
 
   </div>
 
@@ -235,14 +279,14 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">OpenProse</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenProse</span>
 
   </div>
 
   </div>
 
 
-##### Automation & Tasks
+##### Automation and tasks
 
 
 - <span id="/automation"><a href="/automation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
@@ -250,7 +294,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Automation & Tasks</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Automation & tasks</span>
 
   </div>
 
@@ -260,7 +304,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Scheduled Tasks</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Scheduled tasks</span>
 
   </div>
 
@@ -270,7 +314,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Background Tasks</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Background tasks</span>
 
   </div>
 
@@ -280,7 +324,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Task Flow</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Task flow</span>
 
   </div>
 
@@ -290,7 +334,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Standing Orders</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Standing orders</span>
 
   </div>
 
@@ -300,7 +344,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Hooks</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Hooks</span>
 
   </div>
 
@@ -310,45 +354,14 @@ Scheduled Tasks
 ##### Tools
 
 
-- <span id="/tools/media-overview"><a href="/tools/media-overview" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Media Overview</span>
-
-  </div>
-
-  </div>
-
 - <span id="/tools/apply-patch"><a href="/tools/apply-patch" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">apply_patch Tool</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">apply_patch tool</span>
 
   </div>
-
-  </div>
-
-- <div>
-
-  Web Browser
-
-  </div>
-
-  <div class="h-[1lh] flex items-center shrink-0">
-
-  </div>
-
-- <div>
-
-  Web Tools
-
-  </div>
-
-  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -357,7 +370,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">BTW Side Questions</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">BTW side questions</span>
 
   </div>
 
@@ -368,7 +381,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Code Execution</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Code execution</span>
 
   </div>
 
@@ -379,7 +392,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Diffs</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Diffs</span>
 
   </div>
 
@@ -390,18 +403,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Elevated Mode</span>
-
-  </div>
-
-  </div>
-
-- <span id="/tools/exec"><a href="/tools/exec" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Exec Tool</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Elevated mode</span>
 
   </div>
 
@@ -412,7 +414,29 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Exec Approvals</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Exec approvals</span>
+
+  </div>
+
+  </div>
+
+- <span id="/tools/exec-approvals-advanced"><a href="/tools/exec-approvals-advanced" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Exec approvals — advanced</span>
+
+  </div>
+
+  </div>
+
+- <span id="/tools/exec"><a href="/tools/exec" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Exec tool</span>
 
   </div>
 
@@ -423,18 +447,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Image Generation</span>
-
-  </div>
-
-  </div>
-
-- <span id="/tools/music-generation"><a href="/tools/music-generation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words">Music Generation</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Image generation</span>
 
   </div>
 
@@ -445,7 +458,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">LLM Task</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">LLM task</span>
 
   </div>
 
@@ -456,18 +469,29 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Lobster</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Lobster</span>
 
   </div>
 
   </div>
 
-- <span id="/tools/loop-detection"><a href="/tools/loop-detection" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+- <span id="/tools/media-overview"><a href="/tools/media-overview" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Tool-loop detection</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Media overview</span>
+
+  </div>
+
+  </div>
+
+- <span id="/tools/music-generation"><a href="/tools/music-generation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Music generation</span>
 
   </div>
 
@@ -478,7 +502,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">PDF Tool</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">PDF tool</span>
 
   </div>
 
@@ -489,7 +513,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Reactions</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Reactions</span>
 
   </div>
 
@@ -500,7 +524,51 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Thinking Levels</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Thinking levels</span>
+
+  </div>
+
+  </div>
+
+- <span id="/tools/tokenjuice"><a href="/tools/tokenjuice" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Tokenjuice</span>
+
+  </div>
+
+  </div>
+
+- <span id="/tools/loop-detection"><a href="/tools/loop-detection" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Tool-loop detection</span>
+
+  </div>
+
+  </div>
+
+- <span id="/tools/trajectory"><a href="/tools/trajectory" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Trajectory bundles</span>
+
+  </div>
+
+  </div>
+
+- <span id="/tools/tts"><a href="/tools/tts" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Text to speech (TTS)</span>
 
   </div>
 
@@ -511,9 +579,29 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Video Generation</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Video generation</span>
 
   </div>
+
+  </div>
+
+- <div>
+
+  Web browser
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Web tools
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -526,7 +614,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Agent Send</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Agent send</span>
 
   </div>
 
@@ -536,7 +624,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Sub-Agents</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Sub-agents</span>
 
   </div>
 
@@ -546,7 +634,17 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">ACP Agents</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">ACP agents</span>
+
+  </div>
+
+  </div>
+- <span id="/tools/acp-agents-setup"><a href="/tools/acp-agents-setup" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">ACP agents — setup</span>
 
   </div>
 
@@ -556,7 +654,7 @@ Scheduled Tasks
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Multi-Agent Sandbox & Tools</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Multi-agent sandbox and tools</span>
 
   </div>
 
@@ -566,7 +664,6 @@ Scheduled Tasks
 On this page
 
 
-- <a href="#scheduled-tasks-cron" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Scheduled Tasks (Cron)</a>
 - <a href="#quick-start" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick start</a>
 - <a href="#how-cron-works" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">How cron works</a>
 - <a href="#schedule-types" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Schedule types</a>
@@ -592,20 +689,15 @@ On this page
 - <a href="#command-ladder" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Command ladder</a>
 - <a href="#cron-not-firing" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Cron not firing</a>
 - <a href="#cron-fired-but-no-delivery" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Cron fired but no delivery</a>
+- <a href="#cron-or-heartbeat-appears-to-prevent-%2Fnew-style-rollover" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Cron or heartbeat appears to prevent /new-style rollover</a>
 - <a href="#timezone-gotchas" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Timezone gotchas</a>
 - <a href="#related" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Related</a>
 
 
-Automation & Tasks
+Automation and tasks
 
 
-# Scheduled Tasks
-
-
-# 
-
-
-<a href="#scheduled-tasks-cron" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+# Scheduled tasks
 
 
 ## 
@@ -626,6 +718,7 @@ openclaw cron add \
 
 # Check your jobs
 openclaw cron list
+openclaw cron show <job-id>
 
 # See run history
 openclaw cron runs --id <job-id>
@@ -639,7 +732,9 @@ openclaw cron runs --id <job-id>
 
 
 - Cron runs **inside the Gateway** process (not inside the model).
-- Jobs persist at `~/.openclaw/cron/jobs.json` so restarts do not lose schedules.
+- Job definitions persist at `~/.openclaw/cron/jobs.json` so restarts do not lose schedules.
+- Runtime execution state persists next to it in `~/.openclaw/cron/jobs-state.json`. If you track cron definitions in git, track `jobs.json` and gitignore `jobs-state.json`.
+- After the split, older OpenClaw versions can read `jobs.json` but may treat jobs as fresh because runtime fields now live in `jobs-state.json`.
 - All cron executions create <a href="/automation/tasks" class="link">background task</a> records.
 - One-shot jobs (`--at`) auto-delete after success by default.
 - Isolated cron runs best-effort close tracked browser tabs/processes for their `cron:<jobId>` session when the run completes, so detached browser automation does not leave orphaned processes behind.
@@ -700,7 +795,7 @@ openclaw cron runs --id <job-id>
 
 1.  Gmail hook model override (when the run came from Gmail and that override is allowed)
 2.  Per-job payload `model`
-3.  Stored cron session model override
+3.  User-selected stored cron session model override
 4.  Agent/default model selection
 
 
@@ -710,11 +805,11 @@ openclaw cron runs --id <job-id>
 <a href="#delivery-and-output" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Mode       | What happens                                             |
-|------------|----------------------------------------------------------|
-| `announce` | Deliver summary to target channel (default for isolated) |
-| `webhook`  | POST finished event payload to a URL                     |
-| `none`     | Internal only, no delivery                               |
+| Mode       | What happens                                                        |
+|------------|---------------------------------------------------------------------|
+| `announce` | Fallback-deliver final text to the target if the agent did not send |
+| `webhook`  | POST finished event payload to a URL                                |
+| `none`     | No runner fallback delivery                                         |
 
 
 - `cron.failureDestination` sets a global default for failure notifications.
@@ -818,7 +913,7 @@ curl -X POST http://127.0.0.1:18789/hooks/wake \
 curl -X POST http://127.0.0.1:18789/hooks/agent \
   -H 'Authorization: Bearer SECRET' \
   -H 'Content-Type: application/json' \
-  -d '{"message":"Summarize inbox","name":"Email","model":"openai/gpt-5.4-mini"}'
+  -d '{"message":"Summarize inbox","name":"Email","model":"openai/gpt-5.4"}'
 ```
 
 
@@ -931,6 +1026,9 @@ gog gmail watch start \
 # List all jobs
 openclaw cron list
 
+# Show one job, including resolved delivery route
+openclaw cron show <jobId>
+
 # Edit a job
 openclaw cron edit <jobId> --message "Updated prompt" --model "opus"
 
@@ -1023,11 +1121,22 @@ openclaw doctor
 <a href="#cron-fired-but-no-delivery" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- Delivery mode is `none` means no external message is expected.
+- Delivery mode `none` means no runner fallback send is expected. The agent can still send directly with the `message` tool when a chat route is available.
 - Delivery target missing/invalid (`channel`/`to`) means outbound was skipped.
+- For Matrix, copied or legacy jobs with lowercased `delivery.to` room IDs can fail because Matrix room IDs are case-sensitive. Edit the job to the exact `!room:server` or `room:!room:server` value from Matrix.
 - Channel auth errors (`unauthorized`, `Forbidden`) mean delivery was blocked by credentials.
 - If the isolated run returns only the silent token (`NO_REPLY` / `no_reply`), OpenClaw suppresses direct outbound delivery and also suppresses the fallback queued summary path, so nothing is posted back to chat.
-- For cron-owned isolated jobs, do not expect the agent to use the message tool as a fallback. The runner owns final delivery; `--no-deliver` keeps it internal instead of allowing a direct send.
+- If the agent should message the user itself, check that the job has a usable route (`channel: "last"` with a previous chat, or an explicit channel/target).
+
+### 
+
+
+<a href="#cron-or-heartbeat-appears-to-prevent-/new-style-rollover" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Daily and idle reset freshness is not based on `updatedAt`; see <a href="/concepts/session#session-lifecycle" class="link">Session management</a>.
+- Cron wakeups, heartbeat runs, exec notifications, and gateway bookkeeping may update the session row for routing/status, but they do not extend `sessionStartedAt` or `lastInteractionAt`.
+- For legacy rows created before those fields existed, OpenClaw can recover `sessionStartedAt` from the transcript JSONL session header when the file is still available. Legacy idle rows without `lastInteractionAt` use that recovered start time as their idle baseline.
 
 ### 
 
@@ -1051,6 +1160,6 @@ openclaw doctor
 - <a href="/concepts/timezone" class="link">Timezone</a> — timezone configuration
 
 
-<a href="/automation" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Automation &amp; Tasks</span></a><a href="/automation/tasks" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Background Tasks</span></a>
+<a href="/automation" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Automation &amp; tasks</span></a><a href="/automation/tasks" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Background tasks</span></a>
 
 

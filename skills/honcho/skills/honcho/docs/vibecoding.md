@@ -68,6 +68,24 @@ See the [full MCP documentation](/v3/guides/integrations/mcp) for all available 
 
 ***
 
+## CLI
+
+Inspect and debug a running Honcho deployment from your terminal. The honcho CLI wraps the Python SDK with agent-friendly defaults — JSON output, structured errors, and commands for every primitive (workspaces, peers, sessions, messages, conclusions).
+
+**Get started:**
+
+```bash
+uv tool install honcho-cli
+honcho init      # configure apiKey + environmentUrl
+honcho doctor    # verify connectivity
+```
+
+The CLI also ships an agent skill. Install it with `npx skills add plastic-labs/honcho` and pick `honcho-cli` from the list.
+
+See the [full CLI reference](/v3/documentation/reference/cli) for all commands, flags, and environment variables.
+
+***
+
 ## Claude Code Plugin
 
 Use Honcho to build with Honcho! The [plugin](/v3/guides/integrations/claudecode) provides Claude Code persistent memory that survives context wipes and session restarts.
@@ -84,9 +102,21 @@ See the [full Claude Code integration guide](/v3/guides/integrations/claudecode)
 
 ***
 
+## OpenCode Plugin
+
+The [OpenCode plugin](/v3/guides/integrations/opencode) gives OpenCode sessions persistent memory that survives context wipes, session restarts, and fresh chats.
+
+```bash
+bunx @honcho-ai/opencode-honcho install
+```
+
+Then run `/honcho:setup` inside OpenCode. See the [full OpenCode integration guide](/v3/guides/integrations/opencode) for setup details.
+
+***
+
 ## Agent Skills
 
-We provide agent skills for coding assistants like Claude Code, Cursor, Windsurf, and others.
+We provide agent skills for coding assistants like Claude Code, OpenCode, Cursor, Windsurf, and others.
 
 <CodeGroup>
   ```bash Install via npx (Recommended)
@@ -110,6 +140,12 @@ We provide agent skills for coding assistants like Claude Code, Cursor, Windsurf
 4. **Verifies the setup** to ensure everything is configured correctly
 
 Invoke with `/honcho-integration` in your coding agent.
+
+#### honcho-cli
+
+**For inspection & debugging.** Teaches your coding agent the right commands and flags for the [honcho CLI](#cli) — peer memory, session context, queue status, dialectic quality.
+
+Invoke implicitly when you ask your agent to inspect a Honcho deployment.
 
 #### migrate-honcho-py / migrate-honcho-ts
 
@@ -142,6 +178,7 @@ I want to start building with Honcho - an open source memory library for buildin
 - Core repo: https://github.com/plastic-labs/honcho
 - Python SDK: https://github.com/plastic-labs/honcho-python
 - TypeScript SDK: https://github.com/plastic-labs/honcho-node
+- CLI (inspect & debug a deployment): https://github.com/plastic-labs/honcho/tree/main/honcho-cli
 - Discord bot starter: https://github.com/plastic-labs/discord-python-starter
 - Telegram bot example: https://github.com/plastic-labs/telegram-python-starter
 

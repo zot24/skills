@@ -1,110 +1,229 @@
-<!-- Source: https://docs.immich.app/install/environment-variables -->
+> Source: https://docs.immich.app/install/environment-variables
 
-# Immich Environment Variables
 
-## Docker Compose Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `IMMICH_VERSION` | Image tags | `v2` |
-| `UPLOAD_LOCATION` | Host path for uploads | — |
-| `DB_DATA_LOCATION` | Host path for Postgres database | — |
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_m5m7">Skip to main content</a>
 
-These variables are used by `docker-compose.yml` and do NOT affect containers directly.
 
-## General Variables
+On this page
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `TZ` | Timezone (IANA identifier) | — |
-| `IMMICH_ENV` | Environment setting | `production` |
-| `IMMICH_LOG_LEVEL` | Log verbosity level | `log` |
-| `IMMICH_LOG_FORMAT` | Output format (`console`, `json`) | `console` |
-| `IMMICH_MEDIA_LOCATION` | Media path inside container (do not modify) | `/data` |
-| `IMMICH_CONFIG_FILE` | Config file path | — |
-| `NO_COLOR` | Disable color-coded logs | `false` |
-| `CPU_CORES` | Available CPU cores | auto-detected |
-| `IMMICH_TRUSTED_PROXIES` | Comma-separated trusted proxy IPs | — |
-| `IMMICH_ALLOW_SETUP` | Enable admin signup endpoint | `true` |
 
-## Ports Variables
+# Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `IMMICH_HOST` | Listening host | `0.0.0.0` |
-| `IMMICH_PORT` | Listening port | `2283` (server), `3003` (ML) |
 
-## Database Variables
+To change environment variables, you must recreate the Immich containers. Just restarting the containers does not replace the environment within the container!
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `DB_URL` | Database connection URL | — |
-| `DB_HOSTNAME` | Database host | `database` |
-| `DB_PORT` | Database port | `5432` |
-| `DB_USERNAME` | Database user | `postgres` |
-| `DB_PASSWORD` | Database password | `postgres` |
-| `DB_DATABASE_NAME` | Database name | `immich` |
-| `DB_SSL_MODE` | SSL connection mode | — |
-| `DB_VECTOR_EXTENSION` | Vector extension type | auto-detected |
-| `DB_SKIP_MIGRATIONS` | Skip migrations on startup | `false` |
-| `DB_STORAGE_TYPE` | IO optimization (`SSD`, `HDD`) | `SSD` |
+In order to recreate the container using docker compose, run `docker compose up -d`. In most cases docker will recognize that the `.env` file has changed and recreate the affected containers. If this does not work, try running `docker compose up -d --force-recreate`.
 
-`DB_URL` format: `postgresql://user:password@host:port/database`
-When `DB_URL` is set, other database variables are ignored.
 
-## Redis Variables
+## Docker Compose<a href="#docker-compose" class="hash-link" aria-label="Direct link to Docker Compose" translate="no" title="Direct link to Docker Compose">​</a>
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `REDIS_URL` | Redis connection URL | — |
-| `REDIS_SOCKET` | Redis socket path | — |
-| `REDIS_HOSTNAME` | Redis host | `redis` |
-| `REDIS_PORT` | Redis port | `6379` |
-| `REDIS_USERNAME` | Redis username | — |
-| `REDIS_PASSWORD` | Redis password | — |
-| `REDIS_DBINDEX` | Redis database index | `0` |
+| Variable           | Description                     | Default | Containers               |
+|:-------------------|:--------------------------------|:-------:|:-------------------------|
+| `IMMICH_VERSION`   | Image tags                      |  `v2`   | server, machine learning |
+| `UPLOAD_LOCATION`  | Host path for uploads           |         | server                   |
+| `DB_DATA_LOCATION` | Host path for Postgres database |         | database                 |
 
-## Machine Learning Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `MACHINE_LEARNING_MODEL_TTL` | Model unload inactivity time (seconds) | `300` |
-| `MACHINE_LEARNING_MODEL_TTL_POLL_S` | TTL check interval (seconds) | `10` |
-| `MACHINE_LEARNING_CACHE_FOLDER` | Model download directory | `/cache` |
-| `MACHINE_LEARNING_REQUEST_THREADS` | Request thread pool count | CPU core count |
-| `MACHINE_LEARNING_MODEL_INTER_OP_THREADS` | Parallel model operations | `1` |
-| `MACHINE_LEARNING_MODEL_INTRA_OP_THREADS` | Threads per operation | `2` |
-| `MACHINE_LEARNING_WORKERS` | Worker process count | `1` |
-| `MACHINE_LEARNING_WORKER_TIMEOUT` | Worker unresponsiveness limit | `120` |
-| `MACHINE_LEARNING_DEVICE_IDS` | GPU device IDs | `0` |
-| `MACHINE_LEARNING_ANN` | ARM-NN hardware acceleration | `True` |
-| `MACHINE_LEARNING_RKNN` | RKNN hardware acceleration | `True` |
-| `MACHINE_LEARNING_OPENVINO_PRECISION` | OpenVINO precision mode | `FP32` |
+These environment variables are used by the `docker-compose.yml` file and do **NOT** affect the containers directly.
 
-### Model Preloading
 
-| Variable | Description |
-|----------|-------------|
-| `MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL` | CLIP textual models to preload |
-| `MACHINE_LEARNING_PRELOAD__CLIP__VISUAL` | CLIP visual models to preload |
-| `MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION` | Recognition models to preload |
-| `MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION` | Detection models to preload |
-| `MACHINE_LEARNING_PRELOAD__OCR__RECOGNITION` | OCR recognition models to preload |
-| `MACHINE_LEARNING_PRELOAD__OCR__DETECTION` | OCR detection models to preload |
+## General<a href="#general" class="hash-link" aria-label="Direct link to General" translate="no" title="Direct link to General">​</a>
 
-## Secrets (Docker Secrets / Systemd Credentials)
+| Variable                            | Description                                                                                                                                                                                                 |           Default            | Containers               | Workers            |
+|:------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------:|:-------------------------|:-------------------|
+| `TZ`                                | Timezone                                                                                                                                                                                                    |        <sup>\*1</sup>        | server                   | microservices      |
+| `IMMICH_ENV`                        | Environment (production, development)                                                                                                                                                                       |         `production`         | server, machine learning | api, microservices |
+| `IMMICH_LOG_LEVEL`                  | Log level (verbose, debug, log, warn, error)                                                                                                                                                                |            `log`             | server, machine learning | api, microservices |
+| `IMMICH_LOG_FORMAT`                 | Log output format (`console`, `json`)                                                                                                                                                                       |          `console`           | server                   | api, microservices |
+| `IMMICH_MEDIA_LOCATION`             | Media location inside the container ⚠️**You probably shouldn't set this**<sup>\*2</sup>⚠️                                                                                                                   |           `/data`            | server                   | api, microservices |
+| `IMMICH_CONFIG_FILE`                | Path to config file                                                                                                                                                                                         |                              | server                   | api, microservices |
+| `IMMICH_HELMET_FILE`                | Path to a json file with <a href="https://www.npmjs.com/package/helmet" target="_blank" rel="noopener noreferrer">helmet</a> options. Set to `false` to disable. Set to `true` to use `server/helmet.json`. |           `false`            | server                   | api, microservices |
+| `NO_COLOR`                          | Set to `true` to disable color-coded log output                                                                                                                                                             |           `false`            | server, machine learning |                    |
+| `CPU_CORES`                         | Number of cores available to the Immich server                                                                                                                                                              | auto-detected CPU core count | server                   |                    |
+| `IMMICH_API_METRICS_PORT`           | Port for the OTEL metrics                                                                                                                                                                                   |            `8081`            | server                   | api                |
+| `IMMICH_MICROSERVICES_METRICS_PORT` | Port for the OTEL metrics                                                                                                                                                                                   |            `8082`            | server                   | microservices      |
+| `IMMICH_PROCESS_INVALID_IMAGES`     | When `true`, generate thumbnails for invalid images                                                                                                                                                         |                              | server                   | microservices      |
+| `IMMICH_TRUSTED_PROXIES`            | List of comma-separated IPs set as trusted proxies                                                                                                                                                          |                              | server                   | api                |
+| `IMMICH_IGNORE_MOUNT_CHECK_ERRORS`  | See [System Integrity](/administration/system-integrity)                                                                                                                                                    |                              | server                   | api, microservices |
+| `IMMICH_ALLOW_SETUP`                | When `false` disables the `/auth/admin-sign-up` endpoint                                                                                                                                                    |            `true`            | server                   | api                |
 
-| Regular Variable | File Variable |
-|------------------|---------------|
-| `DB_HOSTNAME` | `DB_HOSTNAME_FILE` |
-| `DB_DATABASE_NAME` | `DB_DATABASE_NAME_FILE` |
-| `DB_USERNAME` | `DB_USERNAME_FILE` |
-| `DB_PASSWORD` | `DB_PASSWORD_FILE` |
-| `DB_URL` | `DB_URL_FILE` |
-| `REDIS_PASSWORD` | `REDIS_PASSWORD_FILE` |
+\*1: `TZ` should be set to a `TZ identifier` from <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List" target="_blank" rel="noopener noreferrer">this list</a>. For example, `TZ="Etc/UTC"`. `TZ` is used by `exiftool` as a fallback in case the timezone cannot be determined from the image metadata. It is also used for logfile timestamps and cron job execution.
 
-## Important Notes
+\*2: This path is where the Immich code looks for the files, which is internal to the docker container. Setting it to a path on your host will certainly break things, you should use the `UPLOAD_LOCATION` variable instead.
 
-- Environment variable changes require recreating containers: `docker compose up -d` or `docker compose up -d --force-recreate`
-- Do not modify `IMMICH_MEDIA_LOCATION` — use `UPLOAD_LOCATION` instead for host paths
-- `DB_PASSWORD` should use alphanumeric characters only (no special characters)
+## Workers<a href="#workers" class="hash-link" aria-label="Direct link to Workers" translate="no" title="Direct link to Workers">​</a>
+
+| Variable                 | Description                                                                                          | Default | Containers |
+|:-------------------------|:-----------------------------------------------------------------------------------------------------|:-------:|:-----------|
+| `IMMICH_WORKERS_INCLUDE` | Only run these workers.                                                                              |         | server     |
+| `IMMICH_WORKERS_EXCLUDE` | Do not run these workers. Matches against default workers, or `IMMICH_WORKERS_INCLUDE` if specified. |         | server     |
+
+
+Information on the current workers can be found [here](/administration/jobs-workers).
+
+
+## Ports<a href="#ports" class="hash-link" aria-label="Direct link to Ports" translate="no" title="Direct link to Ports">​</a>
+
+| Variable      | Description    |                  Default                   | Containers               |
+|:--------------|:---------------|:------------------------------------------:|:-------------------------|
+| `IMMICH_HOST` | Listening host |                 `0.0.0.0`                  | server, machine learning |
+| `IMMICH_PORT` | Listening port | `2283` (server), `3003` (machine learning) | server, machine learning |
+
+## Database<a href="#database" class="hash-link" aria-label="Direct link to Database" translate="no" title="Direct link to Database">​</a>
+
+| Variable                            | Description                                                                              |  Default   | Containers                     |
+|:------------------------------------|:-----------------------------------------------------------------------------------------|:----------:|:-------------------------------|
+| `DB_URL`                            | Database URL                                                                             |            | server                         |
+| `DB_HOSTNAME`                       | Database host                                                                            | `database` | server                         |
+| `DB_PORT`                           | Database port                                                                            |   `5432`   | server                         |
+| `DB_USERNAME`                       | Database user                                                                            | `postgres` | server, database<sup>\*1</sup> |
+| `DB_PASSWORD`                       | Database password                                                                        | `postgres` | server, database<sup>\*1</sup> |
+| `DB_DATABASE_NAME`                  | Database name                                                                            |  `immich`  | server, database<sup>\*1</sup> |
+| `DB_SSL_MODE`                       | Database SSL mode                                                                        |            | server                         |
+| `DB_VECTOR_EXTENSION`<sup>\*2</sup> | Database vector extension (one of \[`vectorchord`, `pgvector`, `pgvecto.rs`\])           |            | server                         |
+| `DB_SKIP_MIGRATIONS`                | Whether to skip running migrations on startup (one of \[`true`, `false`\])               |  `false`   | server                         |
+| `DB_STORAGE_TYPE`                   | Optimize concurrent IO on SSDs or sequential IO on HDDs (\[`SSD`, `HDD`\])<sup>\*3</sup> |   `SSD`    | database                       |
+
+\*1: The values of `DB_USERNAME`, `DB_PASSWORD`, and `DB_DATABASE_NAME` are passed to the Postgres container as the variables `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_DB` in `docker-compose.yml`.
+
+\*2: If not provided, the appropriate extension to use is auto-detected at startup by introspecting the database. When multiple extensions are installed, the order of preference is VectorChord, pgvecto.rs, pgvector.
+
+\*3: Uses either <a href="https://github.com/immich-app/base-images/blob/main/postgres/postgresql.ssd.conf" target="_blank" rel="noopener noreferrer"><code>postgresql.ssd.conf</code></a> or <a href="https://github.com/immich-app/base-images/blob/main/postgres/postgresql.hdd.conf" target="_blank" rel="noopener noreferrer"><code>postgresql.hdd.conf</code></a> which mainly controls the Postgres `effective_io_concurrency` setting to allow for concurrenct IO on SSDs and sequential IO on HDDs.
+
+
+All `DB_` variables must be provided to all Immich workers, including `api` and `microservices`.
+
+`DB_URL` must be in the format `postgresql://immichdbusername:immichdbpassword@postgreshost:postgresport/immichdatabasename`. You can require SSL by adding `?sslmode=require` to the end of the `DB_URL` string, or require SSL and skip certificate verification by adding `?sslmode=require&uselibpqcompat=true`. This allows both immich and `pg_dumpall` (the utility used for database backups) to <a href="https://github.com/brianc/node-postgres/tree/master/packages/pg-connection-string#tcp-connections" target="_blank" rel="noopener noreferrer">properly connect</a> to your database.
+
+When `DB_URL` is defined, the `DB_HOSTNAME`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD` and `DB_DATABASE_NAME` database variables are ignored.
+
+
+## Redis<a href="#redis" class="hash-link" aria-label="Direct link to Redis" translate="no" title="Direct link to Redis">​</a>
+
+| Variable         | Description    | Default | Containers |
+|:-----------------|:---------------|:-------:|:-----------|
+| `REDIS_URL`      | Redis URL      |         | server     |
+| `REDIS_SOCKET`   | Redis socket   |         | server     |
+| `REDIS_HOSTNAME` | Redis host     | `redis` | server     |
+| `REDIS_PORT`     | Redis port     | `6379`  | server     |
+| `REDIS_USERNAME` | Redis username |         | server     |
+| `REDIS_PASSWORD` | Redis password |         | server     |
+| `REDIS_DBINDEX`  | Redis DB index |   `0`   | server     |
+
+
+All `REDIS_` variables must be provided to all Immich workers, including `api` and `microservices`.
+
+`REDIS_URL` must start with `ioredis://` and then include a `base64` encoded JSON string for the configuration. More information can be found in the upstream <a href="https://ioredis.readthedocs.io/en/latest/README/#connect-to-redis" target="_blank" rel="noopener noreferrer">ioredis</a> documentation.
+
+When `REDIS_URL` or `REDIS_SOCKET` are defined, the `REDIS_HOSTNAME`, `REDIS_PORT`, `REDIS_USERNAME`, `REDIS_PASSWORD`, and `REDIS_DBINDEX` variables are ignored.
+
+
+Redis (Sentinel) URL example JSON before encoding:
+
+JSON
+
+
+``` prism-code
+{
+  "sentinels": [
+    {
+      "host": "redis-sentinel-node-0",
+      "port": 26379
+    },
+    {
+      "host": "redis-sentinel-node-1",
+      "port": 26379
+    },
+    {
+      "host": "redis-sentinel-node-2",
+      "port": 26379
+    }
+  ],
+  "name": "redis-sentinel"
+}
+```
+
+
+## Machine Learning<a href="#machine-learning" class="hash-link" aria-label="Direct link to Machine Learning" translate="no" title="Direct link to Machine Learning">​</a>
+
+| Variable                                                    | Description                                                                                                                                                    |             Default             | Containers       |
+|:------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------:|:-----------------|
+| `MACHINE_LEARNING_MODEL_TTL`                                | Inactivity time (s) before a model is unloaded (disabled if \<= 0)                                                                                             |              `300`              | machine learning |
+| `MACHINE_LEARNING_MODEL_TTL_POLL_S`                         | Interval (s) between checks for the model TTL (disabled if \<= 0)                                                                                              |              `10`               | machine learning |
+| `MACHINE_LEARNING_CACHE_FOLDER`                             | Directory where models are downloaded                                                                                                                          |            `/cache`             | machine learning |
+| `MACHINE_LEARNING_REQUEST_THREADS`<sup>\*1</sup>            | Thread count of the request thread pool (disabled if \<= 0)                                                                                                    |       number of CPU cores       | machine learning |
+| `MACHINE_LEARNING_MODEL_INTER_OP_THREADS`                   | Number of parallel model operations                                                                                                                            |               `1`               | machine learning |
+| `MACHINE_LEARNING_MODEL_INTRA_OP_THREADS`                   | Number of threads for each model operation                                                                                                                     |               `2`               | machine learning |
+| `MACHINE_LEARNING_WORKERS`<sup>\*2</sup>                    | Number of worker processes to spawn                                                                                                                            |               `1`               | machine learning |
+| `MACHINE_LEARNING_HTTP_KEEPALIVE_TIMEOUT_S`<sup>\*3</sup>   | HTTP Keep-alive time in seconds                                                                                                                                |               `2`               | machine learning |
+| `MACHINE_LEARNING_WORKER_TIMEOUT`                           | Maximum time (s) of unresponsiveness before a worker is killed                                                                                                 | `120` (`300` if using OpenVINO) | machine learning |
+| `MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL`                   | Comma-separated list of (textual) CLIP model(s) to preload and cache                                                                                           |                                 | machine learning |
+| `MACHINE_LEARNING_PRELOAD__CLIP__VISUAL`                    | Comma-separated list of (visual) CLIP model(s) to preload and cache                                                                                            |                                 | machine learning |
+| `MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION` | Comma-separated list of (recognition) facial recognition model(s) to preload and cache                                                                         |                                 | machine learning |
+| `MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION`   | Comma-separated list of (detection) facial recognition model(s) to preload and cache                                                                           |                                 | machine learning |
+| `MACHINE_LEARNING_PRELOAD__OCR__RECOGNITION`                | Comma-separated list of (recognition) OCR model(s) to preload and cache                                                                                        |                                 | machine learning |
+| `MACHINE_LEARNING_PRELOAD__OCR__DETECTION`                  | Comma-separated list of (detection) OCR model(s) to preload and cache                                                                                          |                                 | machine learning |
+| `MACHINE_LEARNING_ANN`                                      | Enable ARM-NN hardware acceleration if supported                                                                                                               |             `True`              | machine learning |
+| `MACHINE_LEARNING_ANN_FP16_TURBO`                           | Execute operations in FP16 precision: increasing speed, reducing precision (applies only to ARM-NN)                                                            |             `False`             | machine learning |
+| `MACHINE_LEARNING_ANN_TUNING_LEVEL`                         | ARM-NN GPU tuning level (1: rapid, 2: normal, 3: exhaustive)                                                                                                   |               `2`               | machine learning |
+| `MACHINE_LEARNING_DEVICE_IDS`<sup>\*4</sup>                 | Device IDs to use in multi-GPU environments                                                                                                                    |               `0`               | machine learning |
+| `MACHINE_LEARNING_MAX_BATCH_SIZE__FACIAL_RECOGNITION`       | Set the maximum number of faces that will be processed at once by the facial recognition model                                                                 |  None (`1` if using OpenVINO)   | machine learning |
+| `MACHINE_LEARNING_MAX_BATCH_SIZE__OCR`                      | Set the maximum number of boxes that will be processed at once by the OCR model                                                                                |               `6`               | machine learning |
+| `MACHINE_LEARNING_RKNN`                                     | Enable RKNN hardware acceleration if supported                                                                                                                 |             `True`              | machine learning |
+| `MACHINE_LEARNING_RKNN_THREADS`                             | How many threads of RKNN runtime should be spun up while inferencing.                                                                                          |               `1`               | machine learning |
+| `MACHINE_LEARNING_MODEL_ARENA`                              | Pre-allocates CPU memory to avoid memory fragmentation                                                                                                         |              true               | machine learning |
+| `MACHINE_LEARNING_OPENVINO_PRECISION`                       | If set to FP16, uses half-precision floating-point operations for faster inference with reduced accuracy (one of \[`FP16`, `FP32`\], applies only to OpenVINO) |             `FP32`              | machine learning |
+
+\*1: It is recommended to begin with this parameter when changing the concurrency levels of the machine learning service and then tune the other ones.
+
+\*2: Since each process duplicates models in memory, changing this is not recommended unless you have abundant memory to go around.
+
+\*3: For scenarios like HPA in K8S. <a href="https://github.com/immich-app/immich/discussions/12064" target="_blank" rel="noopener noreferrer">https://github.com/immich-app/immich/discussions/12064</a>
+
+\*4: Using multiple GPUs requires `MACHINE_LEARNING_WORKERS` to be set greater than 1. A single device is assigned to each worker in round-robin priority.
+
+
+While the `textual` model is the only one required for smart search, some users may experience slow first searches due to backups triggering loading of the other models into memory, which blocks other requests until completed. To avoid this, you can preload the other models (`visual`, `recognition`, and `detection`) if you have enough RAM to do so.
+
+Additional machine learning parameters can be tuned from the admin UI.
+
+
+## Prometheus<a href="#prometheus" class="hash-link" aria-label="Direct link to Prometheus" translate="no" title="Direct link to Prometheus">​</a>
+
+| Variable                   | Description                                                                                                           | Default | Containers | Workers            |
+|:---------------------------|:----------------------------------------------------------------------------------------------------------------------|:-------:|:-----------|:-------------------|
+| `IMMICH_TELEMETRY_INCLUDE` | Collect these telemetries. List of `host`, `api`, `io`, `repo`, `job`. Note: You can also specify `all` to enable all |         | server     | api, microservices |
+| `IMMICH_TELEMETRY_EXCLUDE` | Do not collect these telemetries. List of `host`, `api`, `io`, `repo`, `job`                                          |         | server     | api, microservices |
+
+## Secrets<a href="#secrets" class="hash-link" aria-label="Direct link to Secrets" translate="no" title="Direct link to Secrets">​</a>
+
+The following variables support reading from files, either via <a href="https://systemd.io/CREDENTIALS/" target="_blank" rel="noopener noreferrer">Systemd Credentials</a> or <a href="https://docs.docker.com/engine/swarm/secrets/" target="_blank" rel="noopener noreferrer">Docker secrets</a> for additional security.
+
+To use any of these, either set `CREDENTIALS_DIRECTORY` to a directory that contains files whose name is the “regular variable” name, and whose content is the secret. If using Docker Secrets, setting `CREDENTIALS_DIRECTORY=/run/secrets` will cause all secrets present to be used. Alternatively, replace the regular variable with the equivalent `_FILE` environment variable as below. The value of the `_FILE` variable should be set to the path of a file containing the variable value.
+
+| Regular Variable   | Equivalent Docker Secrets '\_FILE' Variable |
+|:-------------------|:--------------------------------------------|
+| `DB_HOSTNAME`      | `DB_HOSTNAME_FILE`<sup>\*1</sup>            |
+| `DB_DATABASE_NAME` | `DB_DATABASE_NAME_FILE`<sup>\*1</sup>       |
+| `DB_USERNAME`      | `DB_USERNAME_FILE`<sup>\*1</sup>            |
+| `DB_PASSWORD`      | `DB_PASSWORD_FILE`<sup>\*1</sup>            |
+| `DB_URL`           | `DB_URL_FILE`<sup>\*1</sup>                 |
+| `REDIS_PASSWORD`   | `REDIS_PASSWORD_FILE`<sup>\*2</sup>         |
+
+\*1: See the <a href="https://github.com/docker-library/docs/tree/master/postgres#docker-secrets" target="_blank" rel="noopener noreferrer">official documentation</a> for details on how to use Docker Secrets in the Postgres image.
+
+\*2: See <a href="https://github.com/docker-library/redis/issues/46#issuecomment-335326234" target="_blank" rel="noopener noreferrer">this comment</a> for an example of how to use a Docker secret for the password in the Redis container.
+
+
+- <a href="#docker-compose" class="table-of-contents__link toc-highlight">Docker Compose</a>
+- <a href="#general" class="table-of-contents__link toc-highlight">General</a>
+- <a href="#workers" class="table-of-contents__link toc-highlight">Workers</a>
+- <a href="#ports" class="table-of-contents__link toc-highlight">Ports</a>
+- <a href="#database" class="table-of-contents__link toc-highlight">Database</a>
+- <a href="#redis" class="table-of-contents__link toc-highlight">Redis</a>
+- <a href="#machine-learning" class="table-of-contents__link toc-highlight">Machine Learning</a>
+- <a href="#prometheus" class="table-of-contents__link toc-highlight">Prometheus</a>
+- <a href="#secrets" class="table-of-contents__link toc-highlight">Secrets</a>
+
+

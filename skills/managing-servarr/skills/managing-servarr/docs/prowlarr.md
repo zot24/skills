@@ -1,79 +1,53 @@
-* * *
+> Source: https://wiki.servarr.com/en/prowlarr
 
-Prowlarr
 
-Prowlarr Wiki Home
 
-* * *
+![128.png](/assets/prowlarr/logos/128.png)
 
-Page Contents
+> Prowlarr is an indexer manager/proxy built on the popular arr .net/reactjs base stack to integrate with your various PVR apps. Prowlarr supports management of both Torrent Trackers and Usenet Indexers. It integrates seamlessly with <a href="https://lazylibrarian.gitlab.io/" class="is-external-link">LazyLibrarian</a>, <a href="/lidarr" class="is-internal-link is-valid-page">Lidarr</a>, <a href="https://github.com/mylar3/mylar3" class="is-external-link">Mylar3</a>, <a href="/radarr" class="is-internal-link is-valid-page">Radarr</a>, and <a href="/sonarr" class="is-internal-link is-valid-page">Sonarr</a> offering complete management of your indexers with no per app Indexer setup required (we do it all).
 
-Getting Started
+# <a href="#getting-started" class="toc-anchor">¶</a> Getting Started
 
-User Guide
+- <a href="/prowlarr/installation" class="is-internal-link is-valid-page"><em></em> Installation Guide</a>
+- <a href="/prowlarr/quick-start-guide" class="is-internal-link is-valid-page"><em></em> Quick Start Guide</a>
+- <a href="/prowlarr/environment-variables" class="is-internal-link is-valid-page"><em></em> Environment Variables</a>
+- <a href="/prowlarr/faq" class="is-internal-link is-valid-page"><em></em> FAQ</a>
 
-Troubleshooting
+# <a href="#user-guide" class="toc-anchor">¶</a> User Guide
 
-Development
+- <a href="/prowlarr/indexers" class="is-internal-link is-valid-page"><em></em> Indexers</a>
+- <a href="/prowlarr/indexers#adding-a-custom-yml-definition" class="is-internal-link is-valid-page"><em></em> Custom Cardigann Indexer Definition</a>
+- <a href="/prowlarr/search" class="is-internal-link is-valid-page"><em></em> Search</a>
+- <a href="/prowlarr/history" class="is-internal-link is-valid-page"><em></em> History</a>
+- <a href="/prowlarr/settings" class="is-internal-link is-valid-page"><em></em> Settings</a>
+- <a href="/prowlarr/system" class="is-internal-link is-valid-page"><em></em> System</a>
+- <a href="/prowlarr/supported-indexers" class="is-internal-link is-valid-page"><em></em> Supported Indexers</a>
+- <a href="/prowlarr/custom-scripts" class="is-internal-link is-valid-page"><em></em> Custom Scripts</a>
+- <a href="/prowlarr/appdata-directory" class="is-internal-link is-valid-page"><em></em> Application Data (AppData) Directory</a>
+- <a href="/prowlarr/postgres-setup" class="is-internal-link is-valid-page"><em></em>  Configure Prowlarr with a PostgreSQL Database</a>
+- <a href="/prowlarr/supported" class="is-internal-link is-valid-page"><em></em> Supported <em>More Info Disambiguation Page</em></a>
 
-Support
+# <a href="#troubleshooting" class="toc-anchor">¶</a> Troubleshooting
 
-Links
+- <a href="/prowlarr/troubleshooting" class="is-internal-link is-valid-page"><em></em> General Troubleshooting</a>
+- <a href="/vpn" class="is-internal-link is-valid-page"><em></em> VPN Guide <em>When and how to use VPNs properly</em></a>
 
-Tags
+# <a href="#development" class="toc-anchor">¶</a> Development
 
-[prowlarr](https://wiki.servarr.com/t/prowlarr) [radarr](https://wiki.servarr.com/t/radarr) [sonarr](https://wiki.servarr.com/t/sonarr) [lidarr](https://wiki.servarr.com/t/lidarr) [readarr](https://wiki.servarr.com/t/readarr) [troubleshooting](https://wiki.servarr.com/t/troubleshooting) [installation](https://wiki.servarr.com/t/installation) [scripts](https://wiki.servarr.com/t/scripts) [postgres](https://wiki.servarr.com/t/postgres) [Pages matching tags](https://wiki.servarr.com/t/prowlarr/radarr/sonarr/lidarr/readarr/troubleshooting/installation/scripts/postgres)
+- <a href="/prowlarr/contributing" class="is-internal-link is-valid-page"><em></em> Contributing</a>
+- <a href="/prowlarr/cardigann-yml-definition" class="is-internal-link is-valid-page"><em></em> Prowlarr (Cardigann) YAML Indexer Definition</a>
+- <a href="https://prowlarr.com/docs/api/#/" class="is-external-link"><em></em> API Docs</a>
 
-Last edited by
-
-bakerboy44801
-
-09/19/2025
-
-![128.png](https://wiki.servarr.com/assets/prowlarr/logos/128.png)
-
-> Prowlarr is an indexer manager/proxy built on the popular arr .net/reactjs base stack to integrate with your various PVR apps. Prowlarr supports management of both Torrent Trackers and Usenet Indexers. It integrates seamlessly with [LazyLibrarian](https://lazylibrarian.gitlab.io/), [Lidarr](https://wiki.servarr.com/lidarr), [Mylar3](https://github.com/mylar3/mylar3), [Radarr](https://wiki.servarr.com/radarr), and [Sonarr](https://wiki.servarr.com/sonarr) offering complete management of your indexers with no per app Indexer setup required (we do it all).
-
-# [¶](https://wiki.servarr.com/en/prowlarr\#getting-started) Getting Started
-
-- [Installation Guide](https://wiki.servarr.com/prowlarr/installation)
-- [Quick Start Guide](https://wiki.servarr.com/prowlarr/quick-start-guide)
-- [Environment Variables](https://wiki.servarr.com/prowlarr/environment-variables)
-- [FAQ](https://wiki.servarr.com/prowlarr/faq)
-
-# [¶](https://wiki.servarr.com/en/prowlarr\#user-guide) User Guide
-
-- [Indexers](https://wiki.servarr.com/prowlarr/indexers)
-- [Custom Cardigann Indexer Definition](https://wiki.servarr.com/prowlarr/indexers#adding-a-custom-yml-definition)
-- [Search](https://wiki.servarr.com/prowlarr/search)
-- [History](https://wiki.servarr.com/prowlarr/history)
-- [Settings](https://wiki.servarr.com/prowlarr/settings)
-- [System](https://wiki.servarr.com/prowlarr/system)
-- [Supported Indexers](https://wiki.servarr.com/prowlarr/supported-indexers)
-- [Custom Scripts](https://wiki.servarr.com/prowlarr/custom-scripts)
-- [Application Data (AppData) Directory](https://wiki.servarr.com/prowlarr/appdata-directory)
-- [Configure Prowlarr with a PostgreSQL Database](https://wiki.servarr.com/prowlarr/postgres-setup)
-- [Supported _More Info Disambiguation Page_](https://wiki.servarr.com/prowlarr/supported)
-
-# [¶](https://wiki.servarr.com/en/prowlarr\#troubleshooting) Troubleshooting
-
-- [General Troubleshooting](https://wiki.servarr.com/prowlarr/troubleshooting)
-- [VPN Guide _When and how to use VPNs properly_](https://wiki.servarr.com/vpn)
-
-# [¶](https://wiki.servarr.com/en/prowlarr\#development) Development
-
-- [Contributing](https://wiki.servarr.com/prowlarr/contributing)
-- [Prowlarr (Cardigann) YAML Indexer Definition](https://wiki.servarr.com/prowlarr/cardigann-yml-definition)
-- [API Docs](https://prowlarr.com/docs/api/#/)
-
-# [¶](https://wiki.servarr.com/en/prowlarr\#support) Support
+# <a href="#support" class="toc-anchor">¶</a> Support
 
 Still having issues? feel free to stop by one of our support sites for extra help
 
-- [Discord _Official Prowlarr Discord_](https://prowlarr.com/discord)
+- <a href="https://prowlarr.com/discord" class="is-external-link"><em></em> Discord <em>Official Prowlarr Discord</em></a>
 
-# [¶](https://wiki.servarr.com/en/prowlarr\#links) Links
+# <a href="#links" class="toc-anchor">¶</a> Links
 
-- [prowlarr.com _Website_](https://prowlarr.com/)
-- [Donate _Donations_](https://prowlarr.com/donate)
-- [GitHub _Source Code_](https://github.com/prowlarr/prowlarr)
+- <a href="https://prowlarr.com" class="is-external-link">prowlarr.com <em>Website</em></a>
+- <a href="https://prowlarr.com/donate" class="is-external-link">Donate <em>Donations</em></a>
+- <a href="https://github.com/prowlarr/prowlarr" class="is-external-link">GitHub <em>Source Code</em></a>
+
+

@@ -17,7 +17,7 @@ Search...
 Gateway
 
 
-Gateway Runbook
+Gateway runbook
 
 
 <a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get started</a>
@@ -58,7 +58,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Gateway Runbook</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Gateway runbook</span>
 
   </div>
 
@@ -66,7 +66,37 @@ Gateway Runbook
 
 - <div>
 
-  Configuration and operations
+  Configuration
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Authentication and secrets
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Health and diagnostics
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Scaling and operations
 
   </div>
 
@@ -113,7 +143,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Remote Access</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Remote access</span>
 
   </div>
 
@@ -123,7 +153,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Remote Gateway Setup</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Remote gateway setup</span>
 
   </div>
 
@@ -133,7 +163,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Tailscale</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Tailscale</span>
 
   </div>
 
@@ -148,7 +178,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Formal Verification (Security Models)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Formal verification (security models)</span>
 
   </div>
 
@@ -158,7 +188,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Threat Model (MITRE ATLAS)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Threat model (MITRE ATLAS)</span>
 
   </div>
 
@@ -168,7 +198,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Contributing to the Threat Model</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Contributing to the threat model</span>
 
   </div>
 
@@ -183,7 +213,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Nodes</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Nodes</span>
 
   </div>
 
@@ -194,7 +224,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Node Troubleshooting</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Node troubleshooting</span>
 
   </div>
 
@@ -229,7 +259,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Web</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Web</span>
 
   </div>
 
@@ -239,7 +269,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Control UI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Control UI</span>
 
   </div>
 
@@ -249,7 +279,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Dashboard</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Dashboard</span>
 
   </div>
 
@@ -259,7 +289,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">WebChat</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">WebChat</span>
 
   </div>
 
@@ -269,7 +299,7 @@ Gateway Runbook
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">TUI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">TUI</span>
 
   </div>
 
@@ -279,7 +309,6 @@ Gateway Runbook
 On this page
 
 
-- <a href="#gateway-runbook" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Gateway runbook</a>
 - <a href="#5-minute-local-startup" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">5-minute local startup</a>
 - <a href="#runtime-model" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Runtime model</a>
 - <a href="#openai-compatible-endpoints" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">OpenAI-compatible endpoints</a>
@@ -287,10 +316,10 @@ On this page
 - <a href="#hot-reload-modes" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Hot reload modes</a>
 - <a href="#operator-command-set" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Operator command set</a>
 - <a href="#multiple-gateways-same-host" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Multiple gateways (same host)</a>
+- <a href="#voiceclaw-real-time-brain-endpoint" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">VoiceClaw real-time brain endpoint</a>
 - <a href="#remote-access" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Remote access</a>
 - <a href="#supervision-and-service-lifecycle" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Supervision and service lifecycle</a>
-- <a href="#multiple-gateways-on-one-host" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Multiple gateways on one host</a>
-- <a href="#dev-profile-quick-path" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Dev profile quick path</a>
+- <a href="#dev-profile-quick-path" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Dev profile quick path</a>
 - <a href="#protocol-quick-reference-operator-view" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Protocol quick reference (operator view)</a>
 - <a href="#operational-checks" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Operational checks</a>
 - <a href="#liveness" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Liveness</a>
@@ -298,18 +327,13 @@ On this page
 - <a href="#gap-recovery" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Gap recovery</a>
 - <a href="#common-failure-signatures" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Common failure signatures</a>
 - <a href="#safety-guarantees" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Safety guarantees</a>
+- <a href="#related" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Related</a>
 
 
 Gateway
 
 
-# Gateway Runbook
-
-
-# 
-
-
-<a href="#gateway-runbook" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+# Gateway runbook
 
 
 ## Deep troubleshooting
@@ -477,6 +501,38 @@ openclaw gateway probe
 - If that is intentional, isolate ports, config/state, and workspace roots per gateway.
 
 
+- Unique `gateway.port`
+- Unique `OPENCLAW_CONFIG_PATH`
+- Unique `OPENCLAW_STATE_DIR`
+- Unique `agents.defaults.workspace`
+
+
+``` shiki
+OPENCLAW_CONFIG_PATH=~/.openclaw/a.json OPENCLAW_STATE_DIR=~/.openclaw-a openclaw gateway --port 19001
+OPENCLAW_CONFIG_PATH=~/.openclaw/b.json OPENCLAW_STATE_DIR=~/.openclaw-b openclaw gateway --port 19002
+```
+
+
+## 
+
+
+<a href="#voiceclaw-real-time-brain-endpoint" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+OPENCLAW_CONFIG_PATH=/path/to/openclaw-realtime/openclaw.json \
+OPENCLAW_STATE_DIR=/path/to/openclaw-realtime/state \
+OPENCLAW_SKIP_CHANNELS=1 \
+GEMINI_API_KEY=... \
+openclaw gateway --port 19789
+```
+
+
+``` shiki
+ws://127.0.0.1:19789/voiceclaw/realtime
+```
+
+
 ## 
 
 
@@ -592,24 +648,6 @@ sudo systemctl enable --now openclaw-gateway[-<profile>].service
 ## 
 
 
-<a href="#multiple-gateways-on-one-host" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-- Unique `gateway.port`
-- Unique `OPENCLAW_CONFIG_PATH`
-- Unique `OPENCLAW_STATE_DIR`
-- Unique `agents.defaults.workspace`
-
-
-``` shiki
-OPENCLAW_CONFIG_PATH=~/.openclaw/a.json OPENCLAW_STATE_DIR=~/.openclaw-a openclaw gateway --port 19001
-OPENCLAW_CONFIG_PATH=~/.openclaw/b.json OPENCLAW_STATE_DIR=~/.openclaw-b openclaw gateway --port 19002
-```
-
-
-### 
-
-
 <a href="#dev-profile-quick-path" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
@@ -704,6 +742,17 @@ openclaw health
 - <a href="/gateway/health" class="link">Health</a>
 - <a href="/gateway/doctor" class="link">Doctor</a>
 - <a href="/gateway/authentication" class="link">Authentication</a>
+
+## 
+
+
+<a href="#related" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/gateway/configuration" class="link">Configuration</a>
+- <a href="/gateway/troubleshooting" class="link">Gateway troubleshooting</a>
+- <a href="/gateway/remote" class="link">Remote access</a>
+- <a href="/gateway/secrets" class="link">Secrets management</a>
 
 
 <a href="/gateway/configuration" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Configuration</span></a>

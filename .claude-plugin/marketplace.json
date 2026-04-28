@@ -22,13 +22,13 @@
       "name": "openclaw",
       "source": "./skills/openclaw",
       "description": "Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo)",
-      "version": "4.0.2"
+      "version": "4.0.3"
     },
     {
       "name": "agent-browser",
       "source": "./skills/agent-browser",
       "description": "Expert on agent-browser - Vercel's headless browser automation CLI for AI agents with 50+ commands, snapshots, and multi-session support",
-      "version": "2.2.1"
+      "version": "2.2.2"
     },
     {
       "name": "chat-sdk",
@@ -40,13 +40,13 @@
       "name": "ai-sdk",
       "source": "./skills/ai-sdk",
       "description": "Expert on AI SDK - Vercel's TypeScript toolkit for building AI applications with unified LLM API, streaming, tool calling, and agents",
-      "version": "1.1.2"
+      "version": "1.1.3"
     },
     {
       "name": "agent-skills",
       "source": "./skills/agent-skills",
       "description": "Expert at the Agent Skills open format for extending AI agent capabilities - create, validate, and understand SKILL.md files",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     {
       "name": "safe-delete",
@@ -64,13 +64,13 @@
       "name": "hermes",
       "source": "./skills/hermes",
       "description": "Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
-      "version": "1.1.7"
+      "version": "1.1.8"
     },
     {
       "name": "honcho",
       "source": "./skills/honcho",
       "description": "Expert on Honcho — AI-native memory and context platform for LLM applications with persistent memory, user modeling, and context management",
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     {
       "name": "gh-issue-tracker",
@@ -82,43 +82,43 @@
       "name": "firecrawl",
       "source": "./skills/firecrawl",
       "description": "Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents with clean LLM-ready output",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "managing-servarr",
       "source": "./skills/managing-servarr",
       "description": "Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "managing-obsidian",
       "source": "./skills/managing-obsidian",
       "description": "Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "managing-adguard",
       "source": "./skills/managing-adguard",
       "description": "Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "managing-immich",
       "source": "./skills/managing-immich",
       "description": "Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "managing-glinet",
       "source": "./skills/managing-glinet",
       "description": "Configure and manage GL.iNet routers — VPN (WireGuard, OpenVPN, Tailscale), AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "managing-umami",
       "source": "./skills/managing-umami",
       "description": "Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, reports, and team management",
-      "version": "1.0.0"
+      "version": "1.0.1"
     }
   ]
 }
