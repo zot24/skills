@@ -150,7 +150,7 @@ jobs:
 
           git checkout -b "$BRANCH_NAME"
           git add skills/hermes/
-          git commit -m "docs(hermes): sync for upstream release ${VERSION}
+          git commit -m "fix(hermes): sync for upstream release ${VERSION}
 
           Triggered by new release of NousResearch/hermes-agent ${VERSION}.
           Run ID: ${{ github.run_id }}"
@@ -165,7 +165,7 @@ jobs:
           VERSION="${{ steps.check.outputs.version }}"
 
           gh pr create \
-            --title "docs(hermes): sync for upstream release ${VERSION}" \
+            --title "fix(hermes): sync for upstream release ${VERSION}" \
             --body "## Summary
           Automated sync triggered by new release of [hermes-agent ${VERSION}](https://github.com/NousResearch/hermes-agent/releases/tag/${VERSION}).
           - Ran page discovery to catch any new docs pages
@@ -190,7 +190,10 @@ jobs:
       - name: Enable auto-merge
         if: steps.branch.outputs.branch != ''
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use PAT so the auto-merge push triggers downstream workflows
+          # (release-please, sync-marketplace). GITHUB_TOKEN-driven pushes
+          # are suppressed by GitHub's anti-recursion safeguard.
+          GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           PR_NUMBER=$(gh pr list --head "${{ steps.branch.outputs.branch }}" --json number --jq '.[0].number')
           if [ -n "$PR_NUMBER" ]; then
