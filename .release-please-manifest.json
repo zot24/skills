@@ -4,7 +4,7 @@
   "skills/ai-sdk": "1.1.2",
   "skills/chat-sdk": "1.1.1",
   "skills/claude-code-expert": "2.1.0",
-  "skills/firecrawl": "1.0.0",
+  "skills/firecrawl": "1.0.1",
   "skills/gh-issue-tracker": "1.0.0",
   "skills/hermes": "1.1.7",
   "skills/honcho": "1.0.1",
