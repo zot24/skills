@@ -4,7 +4,7 @@
   "include-component-in-tag": true,
   "include-v-in-tag": true,
   "tag-separator": "-",
-  "separate-pull-requests": true,
+  "separate-pull-requests": false,
   "bootstrap-sha": "77f8e6761ca94bc4d4f53ab9247eda78595cda33",
   "changelog-sections": [
     {"type": "feat", "section": "Features"},
