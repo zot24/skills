@@ -241,7 +241,7 @@ Contains static resources:
 
 ## Progressive disclosure
 
-Skills should be structured for efficient use of context:
+Agents load skills *progressively*, pulling in more detail only as a task calls for it. Skills should be structured to take advantage of this:
 
 1. **Metadata** (\~100 tokens): The `name` and `description` fields are loaded at startup for all skills
 2. **Instructions** (\< 5000 tokens recommended): The full `SKILL.md` body is loaded when the skill is activated

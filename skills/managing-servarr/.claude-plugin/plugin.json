@@ -1,7 +1,7 @@
 {
   "name": "managing-servarr",
   "description": "Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr. Covers Docker setup, API interaction, quality profiles, and remote NAS management.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "zot24"
   },

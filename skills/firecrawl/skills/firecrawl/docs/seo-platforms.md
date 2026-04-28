@@ -1,0 +1,65 @@
+> Source: https://docs.firecrawl.dev/use-cases/seo-platforms.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# SEO Platforms
+
+> Optimize websites for AI assistants and search engines
+
+Audit entire websites for SEO and AI readability at scale. Firecrawl extracts meta tags, header structures, internal links, and content across thousands of pages, so you can spot optimization gaps that sampling-based tools miss.
+
+## Start with a Template
+
+
+  GEO-powered SEO monitoring and multi-region rank tracking
+
+
+  **Get started with the FireGEO template.** Optimize for both search engines and AI assistants.
+
+
+## How It Works
+
+Crawl a site with Firecrawl to get structured markdown and metadata for every page. Use that output to analyze content quality, check technical SEO elements, and evaluate how well each page communicates with AI assistants.
+
+## Why SEO Platforms Choose Firecrawl
+
+### Optimize for AI discovery, not just Google
+
+Tune your clients' content for AI assistant responses alongside traditional search rankings. Firecrawl extracts the structural and semantic signals AI crawlers rely on, so you can audit pages for both Google and the new wave of AI-powered discovery.
+
+### Complete site intelligence at scale
+
+Audit entire websites instead of sampling a handful of pages. Extract meta tags, header structures, internal links, and content across thousands of pages in a single crawl, and surface optimization gaps your competitors miss.
+
+## What You Can Build
+
+* **AI Readability Audit**: Optimize for AI comprehension
+* **Content Analysis**: Structure and semantic optimization
+* **Technical SEO**: Site performance and crawlability
+* **Search Tracking**: Monitor search engine positions
+
+## FAQs
+
+
+    Firecrawl helps you structure content for optimal AI comprehension, extract semantic signals, and ensure your site follows best practices for AI discovery. This includes generating experimental formats like llms.txt (an emerging convention for AI crawler guidance).
+
+
+    Firecrawl extracts complete site structures, meta tags, headers, internal links, and content to perform comprehensive SEO audits. Identify optimization opportunities and track improvements over time.
+
+
+    Yes. Analyze competitor site structures, keyword usage, content strategies, and technical SEO implementations. Understand what's working in your industry to inform your strategy.
+
+
+    Crawl competitor sites to identify topics they cover that you don't. Extract their content categories, blog topics, and page structures to find opportunities for new content.
+
+
+    Yes. Identify broken links, track redirect chains, extract canonical tags, and monitor meta tag implementation. Regular crawls help identify technical SEO issues across your site.
+
+
+## Related Use Cases
+
+* [AI Platforms](/use-cases/ai-platforms) - Build AI-powered SEO tools
+* [Competitive Intelligence](/use-cases/competitive-intelligence) - Track competitor SEO
+* [Content Generation](/use-cases/content-generation) - Create SEO content

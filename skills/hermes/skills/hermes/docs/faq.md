@@ -706,22 +706,6 @@ No. Each profile has its own memory store, session database, and skills director
 
 `hermes update` pulls the latest code and reinstalls dependencies **once** (not per-profile). It then syncs updated skills to all profiles automatically. You only need to run `hermes update` once — it covers every profile on the machine.
 
-### Can I move a profile to a different machine?<a href="#can-i-move-a-profile-to-a-different-machine" class="hash-link" aria-label="Direct link to Can I move a profile to a different machine?" translate="no" title="Direct link to Can I move a profile to a different machine?">​</a>
-
-Yes. Export the profile to a portable archive and import it on the other machine:
-
-
-``` prism-code
-# On the source machine
-hermes profile export work ./work-backup.tar.gz
-
-# Copy the file to the target machine, then:
-hermes profile import ./work-backup.tar.gz work
-```
-
-
-The imported profile will have all config, memories, sessions, and skills from the export. You may need to update paths or re-authenticate with providers if the new machine has a different setup.
-
 ### How many profiles can I run?<a href="#how-many-profiles-can-i-run" class="hash-link" aria-label="Direct link to How many profiles can I run?" translate="no" title="Direct link to How many profiles can I run?">​</a>
 
 There is no hard limit. Each profile is just a directory under `~/.hermes/profiles/`. The practical limit depends on your disk space and how many concurrent gateways your system can handle (each gateway is a lightweight Python process). Running dozens of profiles is fine; each idle profile uses no resources.
@@ -862,7 +846,23 @@ Skills with very long descriptions are truncated to 40 characters in the Telegra
 
     </div>
 
-2.  Copy your entire `~/.hermes/` directory **except** the `hermes-agent` subdirectory (that's the code repo — the new install has its own):
+2.  On the **source machine**, create a full backup:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    hermes backup
+    ```
+
+    </div>
+
+    </div>
+
+    This creates a zip of your entire `~/.hermes/` directory — config, API keys, memories, skills, sessions, and profiles — saved to your home directory as `~/hermes-backup-<timestamp>.zip`.
+
+3.  Copy the zip to the new machine and import it:
 
     <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
 
@@ -870,34 +870,54 @@ Skills with very long descriptions are truncated to 40 characters in the Telegra
 
     ``` prism-code
     # On the source machine
-    rsync -av --exclude='hermes-agent' ~/.hermes/ newmachine:~/.hermes/
+    scp ~/hermes-backup-<timestamp>.zip newmachine:~/
+
+    # On the new machine
+    hermes import ~/hermes-backup-<timestamp>.zip
     ```
 
     </div>
 
     </div>
 
-    Or use profile export/import:
+4.  On the new machine, run `hermes setup` to verify API keys and provider config are working.
 
-    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+### Moving a single profile to another machine<a href="#moving-a-single-profile-to-another-machine" class="hash-link" aria-label="Direct link to Moving a single profile to another machine" translate="no" title="Direct link to Moving a single profile to another machine">​</a>
 
-    <div class="codeBlockContent_QJqH">
+**Scenario:** You want to move or share one specific profile — not your full installation.
 
-    ``` prism-code
-    # On source machine
-    hermes profile export default ./hermes-backup.tar.gz
 
-    # On target machine
-    hermes profile import ./hermes-backup.tar.gz default
-    ```
+``` prism-code
+# On the source machine
+hermes profile export work ./work-backup.tar.gz
 
-    </div>
+# Copy the file to the target machine, then:
+hermes profile import ./work-backup.tar.gz work
+```
 
-    </div>
 
-3.  On the new machine, run `hermes setup` to verify API keys and provider config are working. Re-authenticate any messaging platforms (especially WhatsApp, which uses QR pairing).
+The imported profile will have all config, memories, sessions, and skills from the export. You may need to update paths or re-authenticate with providers if the new machine has a different setup.
 
-The `~/.hermes/` directory contains everything: `config.yaml`, `.env`, `SOUL.md`, `memories/`, `skills/`, `state.db` (sessions), `cron/`, and any custom plugins. The code itself lives in `~/.hermes/hermes-agent/` and is installed fresh.
+### `hermes backup` vs `hermes profile export`<a href="#hermes-backup-vs-hermes-profile-export" class="hash-link" aria-label="Direct link to hermes-backup-vs-hermes-profile-export" translate="no" title="Direct link to hermes-backup-vs-hermes-profile-export">​</a>
+
+| Feature         | `hermes backup`                                 | `hermes profile export`                             |
+|:----------------|:------------------------------------------------|:----------------------------------------------------|
+| **Use Case**    | **Full machine migration**                      | **Porting/sharing a specific profile**              |
+| **Scope**       | Global (entire `~/.hermes` directory)           | Local (single profile directory)                    |
+| **Includes**    | All profiles, global config, API keys, sessions | Single profile: SOUL.md, memories, sessions, skills |
+| **Credentials** | **Included** (`.env` and `auth.json`)           | **Excluded** (stripped for safe sharing)            |
+| **Format**      | `.zip`                                          | `.tar.gz`                                           |
+
+**Manual fallback (rsync):** If you prefer to copy files directly, exclude the code repo:
+
+
+``` prism-code
+rsync -av --exclude='hermes-agent' ~/.hermes/ newmachine:~/.hermes/
+```
+
+
+`hermes backup` produces a consistent snapshot even while Hermes is actively running. The restored archive excludes machine-local runtime files like `gateway.pid` and `cron.pid`.
+
 
 ### Permission denied when reloading shell after install<a href="#permission-denied-when-reloading-shell-after-install" class="hash-link" aria-label="Direct link to Permission denied when reloading shell after install" translate="no" title="Direct link to Permission denied when reloading shell after install">​</a>
 
@@ -986,7 +1006,6 @@ If your issue isn't covered here:
   - <a href="#can-two-profiles-share-the-same-bot-token" class="table-of-contents__link toc-highlight">Can two profiles share the same bot token?</a>
   - <a href="#do-profiles-share-memory-or-sessions" class="table-of-contents__link toc-highlight">Do profiles share memory or sessions?</a>
   - <a href="#what-happens-when-i-run-hermes-update" class="table-of-contents__link toc-highlight">What happens when I run <code>hermes update</code>?</a>
-  - <a href="#can-i-move-a-profile-to-a-different-machine" class="table-of-contents__link toc-highlight">Can I move a profile to a different machine?</a>
   - <a href="#how-many-profiles-can-i-run" class="table-of-contents__link toc-highlight">How many profiles can I run?</a>
 - <a href="#workflows--patterns" class="table-of-contents__link toc-highlight">Workflows &amp; Patterns</a>
   - <a href="#using-different-models-for-different-tasks-multi-model-workflows" class="table-of-contents__link toc-highlight">Using different models for different tasks (multi-model workflows)</a>
@@ -995,6 +1014,8 @@ If your issue isn't covered here:
   - <a href="#managing-skills-on-telegram-slash-command-limit" class="table-of-contents__link toc-highlight">Managing skills on Telegram (slash command limit)</a>
   - <a href="#shared-thread-sessions-multiple-users-one-conversation" class="table-of-contents__link toc-highlight">Shared thread sessions (multiple users, one conversation)</a>
   - <a href="#exporting-hermes-to-another-machine" class="table-of-contents__link toc-highlight">Exporting Hermes to another machine</a>
+  - <a href="#moving-a-single-profile-to-another-machine" class="table-of-contents__link toc-highlight">Moving a single profile to another machine</a>
+  - <a href="#hermes-backup-vs-hermes-profile-export" class="table-of-contents__link toc-highlight"><code>hermes backup</code> vs <code>hermes profile export</code></a>
   - <a href="#permission-denied-when-reloading-shell-after-install" class="table-of-contents__link toc-highlight">Permission denied when reloading shell after install</a>
   - <a href="#error-400-on-first-agent-run" class="table-of-contents__link toc-highlight">Error 400 on first agent run</a>
 - <a href="#still-stuck" class="table-of-contents__link toc-highlight">Still Stuck?</a>

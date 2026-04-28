@@ -1,0 +1,148 @@
+> Source: https://docs.firecrawl.dev/features/document-parsing.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# Document Parsing
+
+> Learn about document parsing capabilities.
+
+Firecrawl provides powerful document parsing capabilities, allowing you to extract structured content from various document formats. This feature is particularly useful for processing files like spreadsheets, Word documents, and more.
+
+## Supported Document Formats
+
+Firecrawl currently supports the following document formats:
+
+* **Excel Spreadsheets** (`.xlsx`, `.xls`)
+  * Each worksheet is converted to an HTML table
+  * Worksheets are separated by H2 headings with the sheet name
+  * Preserves cell formatting and data types
+
+* **Word Documents** (`.docx`, `.doc`, `.odt`, `.rtf`)
+  * Extracts text content while preserving document structure
+  * Maintains headings, paragraphs, lists, and tables
+  * Preserves basic formatting and styling
+
+* **PDF Documents** (`.pdf`)
+  * Extracts text content with layout information
+  * Preserves document structure including sections and paragraphs
+  * Handles both text-based and scanned PDFs (with OCR support)
+  * Supports `mode` option to control parsing strategy: `fast` (text-only), `auto` (text with OCR fallback, default), or `ocr` (force OCR)
+  * Priced at 1 credit per-page. See [Pricing](https://firecrawl.dev/pricing) for details.
+
+### PDF Parsing Modes
+
+Use the `parsers` option to control how PDFs are processed:
+
+| Mode   | Description                                                                                                           |
+| ------ | --------------------------------------------------------------------------------------------------------------------- |
+| `auto` | Attempts fast text-based extraction first, falls back to OCR if needed. This is the default.                          |
+| `fast` | Text-based parsing only (embedded text). Fastest option, but will not extract text from scanned or image-heavy pages. |
+| `ocr`  | Forces OCR parsing on every page. Use for scanned documents or when `auto` misclassifies a page.                      |
+
+```js
+// Object syntax with mode
+parsers: [{ type: "pdf", mode: "ocr", maxPages: 20 }]
+
+// Default (auto mode)
+parsers: [{ type: "pdf" }]
+```
+
+## How to Use Document Parsing
+
+Document parsing in Firecrawl works in two ways:
+
+1. **URL-based parsing (`/v2/scrape`)**: provide a URL that points to a supported document type.
+2. **File upload parsing (`/v2/parse`)**: upload file bytes directly with `multipart/form-data`.
+
+For URL-based parsing, Firecrawl detects file type from extension or content type automatically.
+
+### Upload documents with `/v2/parse`
+
+Use `/v2/parse` when the source document is local or not publicly accessible by URL.
+
+<CodeGroup>
+  ```bash cURL
+  curl -X POST "https://api.firecrawl.dev/v2/parse" \
+    -H "Authorization: Bearer fc-YOUR-API-KEY" \
+    -F 'options={"formats":["markdown"]}' \
+    -F "file=@./document.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  ```
+
+  ```js Node
+  import Firecrawl from "@mendable/firecrawl-js";
+
+  const app = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+
+  const doc = await app.parse(
+    {
+      data: "<html><body><h1>Upload Parse</h1></body></html>",
+      filename: "upload.html",
+      contentType: "text/html",
+    },
+    { formats: ["markdown"] },
+  );
+
+  console.log(doc.markdown);
+  ```
+
+  ```python Python
+  from firecrawl import Firecrawl
+  from firecrawl.v2.types import ScrapeOptions
+
+  app = Firecrawl(api_key="fc-YOUR-API-KEY")
+  doc = app.parse(
+      b"<!DOCTYPE html><html><body><h1>Upload Parse</h1></body></html>",
+      filename="upload.html",
+      content_type="text/html",
+      options=ScrapeOptions(formats=["markdown"]),
+  )
+  print(doc.markdown)
+  ```
+</CodeGroup>
+
+### Example: Scraping an Excel File
+
+```js Node
+import Firecrawl from '@mendable/firecrawl-js';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+
+const doc = await firecrawl.scrape('https://example.com/data.xlsx');
+
+console.log(doc.markdown);
+```
+
+### Example: Scraping a Word Document
+
+```js Node
+import Firecrawl from '@mendable/firecrawl-js';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+
+const doc = await firecrawl.scrape('https://example.com/data.docx');
+
+console.log(doc.markdown);
+```
+
+## Output Format
+
+All supported document types are converted to clean, structured markdown. For example, an Excel file with multiple sheets might be converted to:
+
+```markdown
+## Sheet1
+
+| Name  | Value |
+|-------|-------|
+| Item 1 | 100   |
+| Item 2 | 200   |
+
+## Sheet2
+
+| Date       | Description  |
+|------------|--------------|
+| 2023-01-01 | First quarter|
+```
+
+> Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.

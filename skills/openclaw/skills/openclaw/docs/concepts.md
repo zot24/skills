@@ -17,7 +17,7 @@ Search...
 Fundamentals
 
 
-Agent Runtime
+Agent runtime
 
 
 <a href="/" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get started</a>
@@ -58,7 +58,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Gateway Architecture</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Gateway architecture</span>
 
   </div>
 
@@ -68,7 +68,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Agent Runtime</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Agent runtime</span>
 
   </div>
 
@@ -78,7 +78,17 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Agent Loop</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Agent loop</span>
+
+  </div>
+
+  </div>
+- <span id="/concepts/agent-runtimes"><a href="/concepts/agent-runtimes" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Agent runtimes</span>
 
   </div>
 
@@ -88,7 +98,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">System Prompt</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">System prompt</span>
 
   </div>
 
@@ -98,7 +108,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Context</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Context</span>
 
   </div>
 
@@ -108,7 +118,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Context Engine</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Context engine</span>
 
   </div>
 
@@ -118,7 +128,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Agent Workspace</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Agent workspace</span>
 
   </div>
 
@@ -128,7 +138,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">SOUL.md Personality Guide</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">SOUL.md personality guide</span>
 
   </div>
 
@@ -138,7 +148,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">OAuth</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">OAuth</span>
 
   </div>
 
@@ -148,7 +158,37 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Bootstrapping</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Bootstrapping</span>
+
+  </div>
+
+  </div>
+- <span id="/concepts/experimental-features"><a href="/concepts/experimental-features" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Experimental features</span>
+
+  </div>
+
+  </div>
+- <span id="/concepts/qa-e2e-automation"><a href="/concepts/qa-e2e-automation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">QA overview</span>
+
+  </div>
+
+  </div>
+- <span id="/concepts/qa-matrix"><a href="/concepts/qa-matrix" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Matrix QA</span>
 
   </div>
 
@@ -163,7 +203,18 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Session Management</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Session management</span>
+
+  </div>
+
+  </div>
+
+- <span id="/concepts/channel-docking"><a href="/concepts/channel-docking" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Channel docking</span>
 
   </div>
 
@@ -174,7 +225,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Session Pruning</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Session pruning</span>
 
   </div>
 
@@ -185,7 +236,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Session Tools</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Session tools</span>
 
   </div>
 
@@ -206,7 +257,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Compaction</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Compaction</span>
 
   </div>
 
@@ -221,7 +272,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Multi-Agent Routing</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Multi-agent routing</span>
 
   </div>
 
@@ -231,7 +282,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Presence</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Presence</span>
 
   </div>
 
@@ -241,7 +292,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Delegate Architecture</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Delegate architecture</span>
 
   </div>
 
@@ -256,7 +307,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Messages</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Messages</span>
 
   </div>
 
@@ -266,7 +317,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Streaming and Chunking</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Streaming and chunking</span>
 
   </div>
 
@@ -276,7 +327,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Retry Policy</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Retry policy</span>
 
   </div>
 
@@ -286,7 +337,7 @@ Agent Runtime
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Command Queue</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Command queue</span>
 
   </div>
 
@@ -296,7 +347,6 @@ Agent Runtime
 On this page
 
 
-- <a href="#agent-runtime" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Agent Runtime</a>
 - <a href="#workspace-required" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Workspace (required)</a>
 - <a href="#bootstrap-files-injected" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Bootstrap files (injected)</a>
 - <a href="#built-in-tools" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Built-in tools</a>
@@ -306,18 +356,13 @@ On this page
 - <a href="#steering-while-streaming" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Steering while streaming</a>
 - <a href="#model-refs" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Model refs</a>
 - <a href="#configuration-minimal" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Configuration (minimal)</a>
+- <a href="#related" class="break-words py-1 block hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Related</a>
 
 
 Fundamentals
 
 
-# Agent Runtime
-
-
-# 
-
-
-<a href="#agent-runtime" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+# Agent runtime
 
 
 ## 
@@ -341,7 +386,7 @@ Fundamentals
 
 
 ``` shiki
-{ agent: { skipBootstrap: true } }
+{ agents: { defaults: { skipBootstrap: true } } }
 ```
 
 
@@ -408,6 +453,17 @@ Fundamentals
 ------------------------------------------------------------------------
 
 
-<a href="/concepts/architecture" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Gateway Architecture</span></a><a href="/concepts/agent-loop" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Agent Loop</span></a>
+## 
+
+
+<a href="#related" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/concepts/agent-workspace" class="link">Agent workspace</a>
+- <a href="/concepts/multi-agent" class="link">Multi-agent routing</a>
+- <a href="/concepts/session" class="link">Session management</a>
+
+
+<a href="/concepts/architecture" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Gateway architecture</span></a><a href="/concepts/agent-loop" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Agent loop</span></a>
 
 

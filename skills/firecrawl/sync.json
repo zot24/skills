@@ -1,6 +1,6 @@
 {
   "name": "firecrawl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Firecrawl — web scraping, crawling, search, and browser automation API for AI agents",
   "sources": [
     {
@@ -90,6 +90,912 @@
     {
       "url": "https://docs.firecrawl.dev/api-reference/v2-introduction",
       "target": "skills/firecrawl/docs/api-reference.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/advanced-scraping-guide.md",
+      "target": "skills/firecrawl/docs/advanced-scraping-guide.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/activity.md",
+      "target": "skills/firecrawl/docs/api-reference-activity.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/agent-delete.md",
+      "target": "skills/firecrawl/docs/api-reference-agent-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/agent-get.md",
+      "target": "skills/firecrawl/docs/api-reference-agent-get.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/agent.md",
+      "target": "skills/firecrawl/docs/api-reference-agent.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/batch-scrape-delete.md",
+      "target": "skills/firecrawl/docs/api-reference-batch-scrape-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/batch-scrape-get-errors.md",
+      "target": "skills/firecrawl/docs/api-reference-batch-scrape-get-errors.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/batch-scrape-get.md",
+      "target": "skills/firecrawl/docs/api-reference-batch-scrape-get.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/batch-scrape.md",
+      "target": "skills/firecrawl/docs/api-reference-batch-scrape.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/browser-list.md",
+      "target": "skills/firecrawl/docs/api-reference-browser-list.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/crawl-active.md",
+      "target": "skills/firecrawl/docs/api-reference-crawl-active.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/crawl-delete.md",
+      "target": "skills/firecrawl/docs/api-reference-crawl-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/crawl-get-errors.md",
+      "target": "skills/firecrawl/docs/api-reference-crawl-get-errors.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/crawl-get.md",
+      "target": "skills/firecrawl/docs/api-reference-crawl-get.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/crawl-params-preview.md",
+      "target": "skills/firecrawl/docs/api-reference-crawl-params-preview.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/crawl-post.md",
+      "target": "skills/firecrawl/docs/api-reference-crawl-post.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/credit-usage-historical.md",
+      "target": "skills/firecrawl/docs/api-reference-credit-usage-historical.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/credit-usage.md",
+      "target": "skills/firecrawl/docs/api-reference-credit-usage.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/extract-get.md",
+      "target": "skills/firecrawl/docs/api-reference-extract-get.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/extract.md",
+      "target": "skills/firecrawl/docs/api-reference-extract.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/map.md",
+      "target": "skills/firecrawl/docs/api-reference-map.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/parse.md",
+      "target": "skills/firecrawl/docs/api-reference-parse.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/queue-status.md",
+      "target": "skills/firecrawl/docs/api-reference-queue-status.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/scrape-browser-delete.md",
+      "target": "skills/firecrawl/docs/api-reference-scrape-browser-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/scrape-execute.md",
+      "target": "skills/firecrawl/docs/api-reference-scrape-execute.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/scrape.md",
+      "target": "skills/firecrawl/docs/api-reference-scrape.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/search.md",
+      "target": "skills/firecrawl/docs/api-reference-search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/token-usage-historical.md",
+      "target": "skills/firecrawl/docs/api-reference-token-usage-historical.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/token-usage.md",
+      "target": "skills/firecrawl/docs/api-reference-token-usage.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-action.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-agent-action.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-cancelled.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-agent-cancelled.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-completed.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-agent-completed.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-failed.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-agent-failed.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-started.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-agent-started.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-batch-scrape-completed.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-batch-scrape-completed.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-batch-scrape-page.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-batch-scrape-page.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-batch-scrape-started.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-batch-scrape-started.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-crawl-completed.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-crawl-completed.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-crawl-page.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-crawl-page.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-crawl-started.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-crawl-started.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/v2-introduction.md",
+      "target": "skills/firecrawl/docs/v2-introduction.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/billing.md",
+      "target": "skills/firecrawl/docs/billing.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/contributing/guide.md",
+      "target": "skills/firecrawl/docs/guide.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/contributing/open-source-or-cloud.md",
+      "target": "skills/firecrawl/docs/open-source-or-cloud.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/contributing/self-host.md",
+      "target": "skills/firecrawl/docs/self-host.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/dashboard.md",
+      "target": "skills/firecrawl/docs/dashboard.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/common-sites/amazon.md",
+      "target": "skills/firecrawl/docs/developer-guides-amazon.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/common-sites/etsy.md",
+      "target": "skills/firecrawl/docs/developer-guides-etsy.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/common-sites/github.md",
+      "target": "skills/firecrawl/docs/developer-guides-github.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/common-sites/wikipedia.md",
+      "target": "skills/firecrawl/docs/developer-guides-wikipedia.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/cookbooks/ai-research-assistant-cookbook.md",
+      "target": "skills/firecrawl/docs/developer-guides-ai-research-assistant-cookbook.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/cookbooks/brand-style-guide-generator-cookbook.md",
+      "target": "skills/firecrawl/docs/developer-guides-brand-style-guide-generator-cookbook.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/examples.md",
+      "target": "skills/firecrawl/docs/examples.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/anthropic.md",
+      "target": "skills/firecrawl/docs/developer-guides-anthropic.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/elevenagents.md",
+      "target": "skills/firecrawl/docs/developer-guides-elevenagents.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/gemini.md",
+      "target": "skills/firecrawl/docs/developer-guides-gemini.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/google-adk.md",
+      "target": "skills/firecrawl/docs/developer-guides-google-adk.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/langchain.md",
+      "target": "skills/firecrawl/docs/developer-guides-langchain.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/langgraph.md",
+      "target": "skills/firecrawl/docs/developer-guides-langgraph.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/llamaindex.md",
+      "target": "skills/firecrawl/docs/developer-guides-llamaindex.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/mastra.md",
+      "target": "skills/firecrawl/docs/developer-guides-mastra.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/openai.md",
+      "target": "skills/firecrawl/docs/developer-guides-openai.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/vercel-ai-sdk.md",
+      "target": "skills/firecrawl/docs/developer-guides-vercel-ai-sdk.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/chatgpt.md",
+      "target": "skills/firecrawl/docs/developer-guides-chatgpt.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/claude-ai.md",
+      "target": "skills/firecrawl/docs/developer-guides-claude-ai.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/claude-code.md",
+      "target": "skills/firecrawl/docs/developer-guides-claude-code.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/cursor.md",
+      "target": "skills/firecrawl/docs/developer-guides-cursor.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/factory-ai.md",
+      "target": "skills/firecrawl/docs/developer-guides-factory-ai.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/windsurf.md",
+      "target": "skills/firecrawl/docs/developer-guides-windsurf.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/openclaw.md",
+      "target": "skills/firecrawl/docs/openclaw.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/usage-guides/choosing-the-data-extractor.md",
+      "target": "skills/firecrawl/docs/developer-guides-choosing-the-data-extractor.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/workflow-automation/dify.md",
+      "target": "skills/firecrawl/docs/developer-guides-dify.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/workflow-automation/make.md",
+      "target": "skills/firecrawl/docs/developer-guides-make.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/workflow-automation/n8n.md",
+      "target": "skills/firecrawl/docs/developer-guides-n8n.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/workflow-automation/zapier.md",
+      "target": "skills/firecrawl/docs/developer-guides-zapier.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/agent.md",
+      "target": "skills/firecrawl/docs/agent.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/batch-scrape.md",
+      "target": "skills/firecrawl/docs/batch-scrape.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/change-tracking.md",
+      "target": "skills/firecrawl/docs/change-tracking.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/crawl.md",
+      "target": "skills/firecrawl/docs/crawl.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/document-parsing.md",
+      "target": "skills/firecrawl/docs/document-parsing.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/enhanced-mode.md",
+      "target": "skills/firecrawl/docs/enhanced-mode.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/fast-scraping.md",
+      "target": "skills/firecrawl/docs/fast-scraping.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/interact.md",
+      "target": "skills/firecrawl/docs/interact.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/llm-extract.md",
+      "target": "skills/firecrawl/docs/llm-extract.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/map.md",
+      "target": "skills/firecrawl/docs/map.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/models.md",
+      "target": "skills/firecrawl/docs/models.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/proxies.md",
+      "target": "skills/firecrawl/docs/proxies.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/scrape.md",
+      "target": "skills/firecrawl/docs/scrape.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/search.md",
+      "target": "skills/firecrawl/docs/search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/introduction.md",
+      "target": "skills/firecrawl/docs/introduction.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/mcp-server.md",
+      "target": "skills/firecrawl/docs/mcp-server.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/aspnet-core.md",
+      "target": "skills/firecrawl/docs/aspnet-core.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/astro.md",
+      "target": "skills/firecrawl/docs/astro.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/aws-lambda.md",
+      "target": "skills/firecrawl/docs/aws-lambda.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/bun.md",
+      "target": "skills/firecrawl/docs/bun.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/cloudflare-workers.md",
+      "target": "skills/firecrawl/docs/cloudflare-workers.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/deno-deploy.md",
+      "target": "skills/firecrawl/docs/deno-deploy.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/django.md",
+      "target": "skills/firecrawl/docs/django.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/dotnet.md",
+      "target": "skills/firecrawl/docs/dotnet.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/elixir.md",
+      "target": "skills/firecrawl/docs/elixir.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/express.md",
+      "target": "skills/firecrawl/docs/express.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/fastapi.md",
+      "target": "skills/firecrawl/docs/fastapi.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/fastify.md",
+      "target": "skills/firecrawl/docs/fastify.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/flask.md",
+      "target": "skills/firecrawl/docs/flask.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/go.md",
+      "target": "skills/firecrawl/docs/go.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/hono.md",
+      "target": "skills/firecrawl/docs/hono.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/java.md",
+      "target": "skills/firecrawl/docs/java.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/laravel.md",
+      "target": "skills/firecrawl/docs/laravel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/mastra.md",
+      "target": "skills/firecrawl/docs/mastra.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/nestjs.md",
+      "target": "skills/firecrawl/docs/nestjs.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/nextjs.md",
+      "target": "skills/firecrawl/docs/nextjs.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/nodejs.md",
+      "target": "skills/firecrawl/docs/nodejs.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/nuxt.md",
+      "target": "skills/firecrawl/docs/nuxt.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/php.md",
+      "target": "skills/firecrawl/docs/php.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/python.md",
+      "target": "skills/firecrawl/docs/python.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/rails.md",
+      "target": "skills/firecrawl/docs/rails.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/remix.md",
+      "target": "skills/firecrawl/docs/remix.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/ruby.md",
+      "target": "skills/firecrawl/docs/ruby.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/rust.md",
+      "target": "skills/firecrawl/docs/rust.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/spring-boot.md",
+      "target": "skills/firecrawl/docs/spring-boot.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/supabase-edge-functions.md",
+      "target": "skills/firecrawl/docs/supabase-edge-functions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/sveltekit.md",
+      "target": "skills/firecrawl/docs/sveltekit.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/vercel-functions.md",
+      "target": "skills/firecrawl/docs/vercel-functions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/rate-limits.md",
+      "target": "skills/firecrawl/docs/rate-limits.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/cli.md",
+      "target": "skills/firecrawl/docs/cli.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/dotnet.md",
+      "target": "skills/firecrawl/docs/dotnet.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/elixir.md",
+      "target": "skills/firecrawl/docs/elixir.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/go.md",
+      "target": "skills/firecrawl/docs/go.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/java.md",
+      "target": "skills/firecrawl/docs/java.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/node.md",
+      "target": "skills/firecrawl/docs/node.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/overview.md",
+      "target": "skills/firecrawl/docs/overview.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/php.md",
+      "target": "skills/firecrawl/docs/php.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/python.md",
+      "target": "skills/firecrawl/docs/python.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/ruby.md",
+      "target": "skills/firecrawl/docs/ruby.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/sdks/rust.md",
+      "target": "skills/firecrawl/docs/rust.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/ai-platforms.md",
+      "target": "skills/firecrawl/docs/ai-platforms.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/competitive-intelligence.md",
+      "target": "skills/firecrawl/docs/competitive-intelligence.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/content-generation.md",
+      "target": "skills/firecrawl/docs/content-generation.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/data-migration.md",
+      "target": "skills/firecrawl/docs/data-migration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/deep-research.md",
+      "target": "skills/firecrawl/docs/deep-research.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/developers-mcp.md",
+      "target": "skills/firecrawl/docs/developers-mcp.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/investment-finance.md",
+      "target": "skills/firecrawl/docs/investment-finance.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/lead-enrichment.md",
+      "target": "skills/firecrawl/docs/lead-enrichment.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/observability.md",
+      "target": "skills/firecrawl/docs/observability.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/overview.md",
+      "target": "skills/firecrawl/docs/overview.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/product-ecommerce.md",
+      "target": "skills/firecrawl/docs/product-ecommerce.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/use-cases/seo-platforms.md",
+      "target": "skills/firecrawl/docs/seo-platforms.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/webhooks/events.md",
+      "target": "skills/firecrawl/docs/events.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/webhooks/overview.md",
+      "target": "skills/firecrawl/docs/overview.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/webhooks/security.md",
+      "target": "skills/firecrawl/docs/security.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/webhooks/testing.md",
+      "target": "skills/firecrawl/docs/testing.md",
       "type": "extract-content",
       "freshness_days": 14
     }

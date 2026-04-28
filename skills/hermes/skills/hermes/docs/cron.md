@@ -101,6 +101,41 @@ cronjob(
 
 This is useful when you want a scheduled agent to inherit reusable workflows without stuffing the full skill text into the cron prompt itself.
 
+## Running a job inside a project directory<a href="#running-a-job-inside-a-project-directory" class="hash-link" aria-label="Direct link to Running a job inside a project directory" translate="no" title="Direct link to Running a job inside a project directory">​</a>
+
+Cron jobs default to running detached from any repo — no `AGENTS.md`, `CLAUDE.md`, or `.cursorrules` is loaded, and the terminal / file / code-exec tools run from whatever working directory the gateway started in. Pass `--workdir` (CLI) or `workdir=` (tool call) to change that:
+
+
+``` prism-code
+# Standalone CLI
+hermes cron create --schedule "every 1d at 09:00" \
+  --workdir /home/me/projects/acme \
+  --prompt "Audit open PRs, summarize CI health, and post to #eng"
+```
+
+
+``` prism-code
+# From a chat, via the cronjob tool
+cronjob(
+    action="create",
+    schedule="every 1d at 09:00",
+    workdir="/home/me/projects/acme",
+    prompt="Audit open PRs, summarize CI health, and post to #eng",
+)
+```
+
+
+When `workdir` is set:
+
+- `AGENTS.md`, `CLAUDE.md`, and `.cursorrules` from that directory are injected into the system prompt (same discovery order as the interactive CLI)
+- `terminal`, `read_file`, `write_file`, `patch`, `search_files`, and `execute_code` all use that directory as their working directory (via `TERMINAL_CWD`)
+- The path must be an absolute directory that exists — relative paths and missing directories are rejected at create / update time
+- Pass `--workdir ""` (or `workdir=""` via the tool) on edit to clear it and restore the old behaviour
+
+
+Jobs with a `workdir` run sequentially on the scheduler tick, not in the parallel pool. This is deliberate — `TERMINAL_CWD` is process-global, so two workdir jobs running at the same time would corrupt each other's cwd. Workdir-less jobs still run in parallel as before.
+
+
 ## Editing jobs<a href="#editing-jobs" class="hash-link" aria-label="Direct link to Editing jobs" translate="no" title="Direct link to Editing jobs">​</a>
 
 You do not need to delete and recreate jobs just to change them.
@@ -410,6 +445,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
 - <a href="#skill-backed-cron-jobs" class="table-of-contents__link toc-highlight">Skill-backed cron jobs</a>
   - <a href="#single-skill" class="table-of-contents__link toc-highlight">Single skill</a>
   - <a href="#multiple-skills" class="table-of-contents__link toc-highlight">Multiple skills</a>
+- <a href="#running-a-job-inside-a-project-directory" class="table-of-contents__link toc-highlight">Running a job inside a project directory</a>
 - <a href="#editing-jobs" class="table-of-contents__link toc-highlight">Editing jobs</a>
   - <a href="#chat" class="table-of-contents__link toc-highlight">Chat</a>
   - <a href="#standalone-cli" class="table-of-contents__link toc-highlight">Standalone CLI</a>

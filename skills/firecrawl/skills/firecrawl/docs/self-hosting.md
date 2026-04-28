@@ -1,182 +1,700 @@
-[Skip to main content](https://docs.firecrawl.dev/contributing/self-host#content-area)
+> Source: https://docs.firecrawl.dev/contributing/self-host
 
-[Firecrawl Docs home page![light logo](https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo.png?fit=max&auto=format&n=iilnMwCX-8eR1yOO&q=85&s=c45b3c967c19a39190e76fe8e9c2ed5a)![dark logo](https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo-dark.png?fit=max&auto=format&n=iilnMwCX-8eR1yOO&q=85&s=3fee4abe033bd3c26e8ad92043a91c17)](https://firecrawl.dev/)
 
-v2
-![US](https://d3gk2c5xim1je2.cloudfront.net/flags/US.svg)
 
-English
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
+
+
+<a href="https://firecrawl.dev" class="select-none" data-state="closed" data-slot="context-menu-trigger" style="-webkit-touch-callout:none"><span class="sr-only">Firecrawl Docs home page</span><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=c45b3c967c19a39190e76fe8e9c2ed5a" class="nav-logo w-auto relative object-contain shrink-0 block dark:hidden h-6" alt="light logo" /><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo-dark.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=3fee4abe033bd3c26e8ad92043a91c17" class="nav-logo w-auto relative object-contain shrink-0 hidden dark:block h-6" alt="dark logo" /></a>
+
+
+<img src="https://d3gk2c5xim1je2.cloudfront.net/flags/US.svg" class="w-full h-full rounded-full" alt="US" />
+
 
 Search...
 
-Ctrl K
-
-Search...
-
-Navigation
 
 Contributing
 
+
 Self-hosting
 
-[Documentation](https://docs.firecrawl.dev/introduction) [SDKs](https://docs.firecrawl.dev/sdks/overview) [Integrations](https://www.firecrawl.dev/app) [API Reference](https://docs.firecrawl.dev/api-reference/v2-introduction)
 
-- [Playground](https://firecrawl.dev/playground)
-- [Blog](https://firecrawl.dev/blog)
-- [Community](https://discord.gg/firecrawl)
-- [Changelog](https://firecrawl.dev/changelog)
+<a href="/introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] text-primary dark:text-primary-light hover:text-primary dark:hover:text-primary-light" data-active="true">Documentation</a>
+
+
+<a href="/sdks/overview" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">SDKs</a>
+
+
+<a href="https://www.firecrawl.dev/app" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200" target="_blank" rel="noreferrer">Integrations</a>
+
+
+<a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
+
+
+- <a href="https://firecrawl.dev/playground" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Playground</span></a>
+- <a href="https://firecrawl.dev/blog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Blog</span></a>
+- <a href="https://discord.gg/firecrawl" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Community</span></a>
+- <a href="https://firecrawl.dev/changelog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Changelog</span></a>
+
 
 ##### Get Started
 
-- [Introduction](https://docs.firecrawl.dev/introduction)
-- [Skill + CLI](https://docs.firecrawl.dev/sdks/cli)
-- [MCP Server](https://docs.firecrawl.dev/mcp-server)
-- [Advanced Scraping Guide](https://docs.firecrawl.dev/advanced-scraping-guide)
-- Plans & Billing
+
+- <span id="/introduction"><a href="/introduction" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Introduction</span>
+
+  </div>
+
+  </div>
+
+- <span id="/sdks/cli"><a href="/sdks/cli" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skill + CLI</span>
+
+  </div>
+
+  </div>
+
+- <span id="/mcp-server"><a href="/mcp-server" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">MCP Server</span>
+
+  </div>
+
+  </div>
+
+- <span id="/advanced-scraping-guide"><a href="/advanced-scraping-guide" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Advanced Scraping Guide</span>
+
+  </div>
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Plans & Billing
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Core Endpoints
 
-- [Search](https://docs.firecrawl.dev/features/search)
-- Scrape
 
-- [Interact](https://docs.firecrawl.dev/features/interact)
+- <span id="/features/search"><a href="/features/search" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Search</span>
+
+  </div>
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Scrape
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <span id="/features/interact"><a href="/features/interact" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Interact</span>
+
+  </div>
+
+  </div>
+
 
 ##### More
 
-- [Map](https://docs.firecrawl.dev/features/map)
-- [Crawl](https://docs.firecrawl.dev/features/crawl)
-- Agent (Research Preview)
+
+- <span id="/features/map"><a href="/features/map" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Map</span>
+
+  </div>
+
+  </div>
+
+- <span id="/features/crawl"><a href="/features/crawl" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Crawl</span>
+
+  </div>
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Agent (Research Preview)
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Quickstarts
 
-- Node.js
 
-- Serverless
+- <div class="flex-1 flex items-center gap-2 justify-start">
 
-- PHP
+  Node.js
 
-- Ruby
+  </div>
 
-- Python
+  <div class="h-[1lh] flex items-center shrink-0">
 
-- [Go](https://docs.firecrawl.dev/quickstarts/go)
-- [Rust](https://docs.firecrawl.dev/quickstarts/rust)
-- [Elixir](https://docs.firecrawl.dev/quickstarts/elixir)
-- Java
+  </div>
 
-- .NET
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Serverless
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  PHP
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Ruby
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Python
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <span id="/quickstarts/go"><a href="/quickstarts/go" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Go</span>
+
+  </div>
+
+  </div>
+
+- <span id="/quickstarts/rust"><a href="/quickstarts/rust" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Rust</span>
+
+  </div>
+
+  </div>
+
+- <span id="/quickstarts/elixir"><a href="/quickstarts/elixir" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Elixir</span>
+
+  </div>
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Java
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  .NET
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Developer Guides
 
-- [OpenClaw](https://docs.firecrawl.dev/developer-guides/openclaw)
-- [Full-Stack Templates](https://docs.firecrawl.dev/developer-guides/examples)
-- Usage Guides
 
-- LLM SDKs and Frameworks
+- <span id="/developer-guides/openclaw"><a href="/developer-guides/openclaw" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
 
-- Cookbooks
+  </div>
 
-- MCP Setup Guides
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-- Common Sites
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-- Workflow Automation
+  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenClaw</span>
+
+  </div>
+
+  </div>
+
+- <span id="/developer-guides/examples"><a href="/developer-guides/examples" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Full-Stack Templates</span>
+
+  </div>
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Usage Guides
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  LLM SDKs and Frameworks
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Cookbooks
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  MCP Setup Guides
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Common Sites
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Workflow Automation
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Webhooks
 
-- [Overview](https://docs.firecrawl.dev/webhooks/overview)
-- [Event Types](https://docs.firecrawl.dev/webhooks/events)
-- [Security](https://docs.firecrawl.dev/webhooks/security)
-- [Testing](https://docs.firecrawl.dev/webhooks/testing)
+
+- <span id="/webhooks/overview"><a href="/webhooks/overview" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+- <span id="/webhooks/events"><a href="/webhooks/events" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Event Types</span>
+
+  </div>
+
+  </div>
+- <span id="/webhooks/security"><a href="/webhooks/security" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Security</span>
+
+  </div>
+
+  </div>
+- <span id="/webhooks/testing"><a href="/webhooks/testing" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Testing</span>
+
+  </div>
+
+  </div>
+
 
 ##### Use Cases
 
-- [Overview](https://docs.firecrawl.dev/use-cases/overview)
-- [AI Platforms](https://docs.firecrawl.dev/use-cases/ai-platforms)
-- [Lead Enrichment](https://docs.firecrawl.dev/use-cases/lead-enrichment)
-- [SEO Platforms](https://docs.firecrawl.dev/use-cases/seo-platforms)
-- [Deep Research](https://docs.firecrawl.dev/use-cases/deep-research)
-- View more
+
+- <span id="/use-cases/overview"><a href="/use-cases/overview" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+
+- <span id="/use-cases/ai-platforms"><a href="/use-cases/ai-platforms" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">AI Platforms</span>
+
+  </div>
+
+  </div>
+
+- <span id="/use-cases/lead-enrichment"><a href="/use-cases/lead-enrichment" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Lead Enrichment</span>
+
+  </div>
+
+  </div>
+
+- <span id="/use-cases/seo-platforms"><a href="/use-cases/seo-platforms" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">SEO Platforms</span>
+
+  </div>
+
+  </div>
+
+- <span id="/use-cases/deep-research"><a href="/use-cases/deep-research" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Deep Research</span>
+
+  </div>
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  View more
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Dashboard
 
-- [Overview](https://docs.firecrawl.dev/dashboard)
+
+- <span id="/dashboard"><a href="/dashboard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+
 
 ##### Contributing
 
-- [Open Source vs Cloud](https://docs.firecrawl.dev/contributing/open-source-or-cloud)
-- [Running Locally](https://docs.firecrawl.dev/contributing/guide)
-- [Self-hosting](https://docs.firecrawl.dev/contributing/self-host)
+
+- <span id="/contributing/open-source-or-cloud"><a href="/contributing/open-source-or-cloud" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Open Source vs Cloud</span>
+
+  </div>
+
+  </div>
+- <span id="/contributing/guide"><a href="/contributing/guide" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Running Locally</span>
+
+  </div>
+
+  </div>
+- <span id="/contributing/self-host"><a href="/contributing/self-host" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Self-hosting</span>
+
+  </div>
+
+  </div>
+
 
 On this page
 
-- [Contributor?](https://docs.firecrawl.dev/contributing/self-host#contributor)
-- [Self-hosting Firecrawl](https://docs.firecrawl.dev/contributing/self-host#self-hosting-firecrawl)
-- [Why?](https://docs.firecrawl.dev/contributing/self-host#why)
-- [Considerations](https://docs.firecrawl.dev/contributing/self-host#considerations)
-- [Steps](https://docs.firecrawl.dev/contributing/self-host#steps)
-- [Troubleshooting](https://docs.firecrawl.dev/contributing/self-host#troubleshooting)
-- [Supabase client is not configured](https://docs.firecrawl.dev/contributing/self-host#supabase-client-is-not-configured)
-- [You’re bypassing authentication](https://docs.firecrawl.dev/contributing/self-host#you%E2%80%99re-bypassing-authentication)
-- [Docker containers fail to start](https://docs.firecrawl.dev/contributing/self-host#docker-containers-fail-to-start)
-- [Connection issues with Redis](https://docs.firecrawl.dev/contributing/self-host#connection-issues-with-redis)
-- [API endpoint does not respond](https://docs.firecrawl.dev/contributing/self-host#api-endpoint-does-not-respond)
-- [Install Firecrawl on a Kubernetes Cluster (Simple Version)](https://docs.firecrawl.dev/contributing/self-host#install-firecrawl-on-a-kubernetes-cluster-simple-version)
 
-![Firecrawl](https://docs.firecrawl.dev/logo/light.svg)![Firecrawl](https://docs.firecrawl.dev/logo/dark.svg)
+- <a href="#contributor" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Contributor?</a>
+- <a href="#self-hosting-firecrawl" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Self-hosting Firecrawl</a>
+- <a href="#why" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Why?</a>
+- <a href="#considerations" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Considerations</a>
+- <a href="#steps" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Steps</a>
+- <a href="#troubleshooting" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Troubleshooting</a>
+- <a href="#supabase-client-is-not-configured" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Supabase client is not configured</a>
+- <a href="#you%E2%80%99re-bypassing-authentication" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">You’re bypassing authentication</a>
+- <a href="#docker-containers-fail-to-start" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Docker containers fail to start</a>
+- <a href="#connection-issues-with-redis" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Connection issues with Redis</a>
+- <a href="#api-endpoint-does-not-respond" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">API endpoint does not respond</a>
+- <a href="#install-firecrawl-on-a-kubernetes-cluster-simple-version" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Install Firecrawl on a Kubernetes Cluster (Simple Version)</a>
 
-### Ready to build?
 
-Start getting web data for free and scale seamlessly as your project expands. **No credit card needed.**
+Contributing
 
-[Start for free](https://www.firecrawl.dev/signin?utm_source=firecrawl_docs&utm_medium=docs_card&utm_content=start_for_free) [See our plans](https://www.firecrawl.dev/pricing?utm_source=firecrawl_docs&utm_medium=docs_card&utm_content=see_our_plans)
 
-#### [​](https://docs.firecrawl.dev/contributing/self-host\#contributor)  Contributor?
+# Self-hosting
 
-Welcome to [Firecrawl](https://firecrawl.dev/) 🔥! Here are some instructions on how to get the project locally so you can run it on your own and contribute.If you’re contributing, note that the process is similar to other open-source repos, i.e., fork Firecrawl, make changes, run tests, PR.If you have any questions or would like help getting on board, join our Discord community [here](https://discord.gg/firecrawl) for more information or submit an issue on Github [here](https://github.com/firecrawl/firecrawl/issues/new/choose)!
 
-## [​](https://docs.firecrawl.dev/contributing/self-host\#self-hosting-firecrawl)  Self-hosting Firecrawl
+Copy page
 
-Refer to [SELF\_HOST.md](https://github.com/firecrawl/firecrawl/blob/main/SELF_HOST.md) for instructions on how to run it locally.
 
-## [​](https://docs.firecrawl.dev/contributing/self-host\#why)  Why?
+Learn how to self-host Firecrawl to run on your own and contribute to the project.
 
-Self-hosting Firecrawl is particularly beneficial for organizations with stringent security policies that require data to remain within controlled environments. Here are some key reasons to consider self-hosting:
+
+Copy page
+
+
+#### 
+
+
+<a href="#contributor" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#self-hosting-firecrawl" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#why" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 - **Enhanced Security and Compliance:** By self-hosting, you ensure that all data handling and processing complies with internal and external regulations, keeping sensitive information within your secure infrastructure. Note that Firecrawl is a Mendable product and relies on SOC2 Type2 certification, which means that the platform adheres to high industry standards for managing data security.
 - **Customizable Services:** Self-hosting allows you to tailor the services, such as the Playwright service, to meet specific needs or handle particular use cases that may not be supported by the standard cloud offering.
 - **Learning and Community Contribution:** By setting up and maintaining your own instance, you gain a deeper understanding of how Firecrawl works, which can also lead to more meaningful contributions to the project.
 
-### [​](https://docs.firecrawl.dev/contributing/self-host\#considerations)  Considerations
+### 
 
-However, there are some limitations and additional responsibilities to be aware of:
 
-1. **Limited Access to Fire-engine:** Currently, self-hosted instances of Firecrawl do not have access to Fire-engine, which includes advanced features for handling IP blocks, robot detection mechanisms, and more. This means that while you can manage basic scraping tasks, more complex scenarios might require additional configuration or might not be supported.
-2. **Manual Configuration Required:** If you need to use scraping methods beyond the basic fetch and Playwright options, you will need to manually configure these in the `.env` file. This requires a deeper understanding of the technologies and might involve more setup time.
-\| Capability \| Cloud \| Self-hosting \|
-\| \-\-\- \| \-\-\- \| \-\-\- \|
-\| All API endpoints supported \| Yes \| Not always; `/agent` and `/browser` are not supported in self-hosting \|
-\| Screenshot support \| Yes \| Yes, when the Playwright service is running \|
-\| Local LLMs (e.g., Ollama) \| Not supported \| Supported via `OLLAMA_BASE_URL` (experimental) \|
+<a href="#considerations" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-Self-hosting Firecrawl is ideal for those who need full control over their scraping and data processing environments but comes with the trade-off of additional maintenance and configuration efforts.
 
-## [​](https://docs.firecrawl.dev/contributing/self-host\#steps)  Steps
+1.  **Limited Access to Fire-engine:** Currently, self-hosted instances of Firecrawl do not have access to Fire-engine, which includes advanced features for handling IP blocks, robot detection mechanisms, and more. This means that while you can manage basic scraping tasks, more complex scenarios might require additional configuration or might not be supported.
+2.  **Manual Configuration Required:** If you need to use scraping methods beyond the basic fetch and Playwright options, you will need to manually configure these in the `.env` file. This requires a deeper understanding of the technologies and might involve more setup time. \| Capability \| Cloud \| Self-hosting \| \| --- \| --- \| --- \| \| All API endpoints supported \| Yes \| Not always; `/agent` and `/browser` are not supported in self-hosting \| \| Screenshot support \| Yes \| Yes, when the Playwright service is running \| \| Local LLMs (e.g., Ollama) \| Not supported \| Supported via `OLLAMA_BASE_URL` (experimental) \|
 
-1. First, start by installing the dependencies
 
-- Docker [instructions](https://docs.docker.com/get-docker/)
+## 
 
-2. Set environment variables
 
-Create an `.env` in the root directory you can copy over the template in `apps/api/.env.example`To start, we wont set up authentication, or any optional sub services (pdf parsing, JS blocking support, AI features)
+<a href="#steps" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-```
+
+1.  First, start by installing the dependencies
+
+- Docker <a href="https://docs.docker.com/get-docker/" class="link" target="_blank" rel="noreferrer">instructions</a>
+
+2.  Set environment variables
+
+
+``` shiki
 # .env
 
 # ===== Required ENVS ======
@@ -259,7 +777,6 @@ BULL_AUTH_KEY=CHANGEME
 # ALLOW_LOCAL_WEBHOOKS=true
 ```
 
-The following AI features require an LLM provider configured (e.g., `OPENAI_API_KEY` or alternatives in the AI features section above):
 
 - JSON format on scrape
 - /extract API
@@ -267,101 +784,129 @@ The following AI features require an LLM provider configured (e.g., `OPENAI_API_
 - Branding format
 - Change tracking format
 
-3. _(Optional) Running with TypeScript Playwright Service_   - Update the `docker-compose.yml` file to change the Playwright service:
 
+3.  <span data-as="p">*(Optional) Running with TypeScript Playwright Service*</span>
+    - <span data-as="p">Update the `docker-compose.yml` file to change the Playwright service:</span>
+      <div class="code-block mt-5 mb-8 not-prose rounded-2xl relative group min-w-0 print:print-color-exact text-gray-950 dark:text-gray-50 codeblock-light border border-gray-950/10 dark:border-white/10 dark:twoslash-dark bg-transparent dark:bg-transparent" numberoflines="2" language="text">
 
+      <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
+      <div class="z-10 select-none" state="closed">
 
+      </div>
 
+      </div>
 
+      <div class="w-0 min-w-full max-w-full py-3.5 px-4 h-full dark:bg-codeblock relative text-sm leading-6 children:!my-0 children:!shadow-none children:!bg-transparent transition-[height] duration-300 ease-in-out code-block-background [&_*]:ring-0 [&_*]:outline-0 [&_*]:focus:ring-0 [&_*]:focus:outline-0 rounded-2xl bg-white overflow-x-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-black/15 hover:scrollbar-thumb-black/20 active:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/20 dark:hover:scrollbar-thumb-white/25 dark:active:scrollbar-thumb-white/25" component-part="code-block-root" tabindex="0" style="font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E">
 
+      <div class="font-mono whitespace-pre leading-6">
 
+      ``` shiki
+          build: apps/playwright-service
+      ```
 
+      </div>
 
+      </div>
 
+      <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
+      </div>
 
+      </div>
 
-        ```
-            build: apps/playwright-service
-        ```
+      <span data-as="p">TO</span>
+      <div class="code-block mt-5 mb-8 not-prose rounded-2xl relative group min-w-0 print:print-color-exact text-gray-950 dark:text-gray-50 codeblock-light border border-gray-950/10 dark:border-white/10 dark:twoslash-dark bg-transparent dark:bg-transparent" numberoflines="2" language="text">
 
+      <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
+      <div class="z-10 select-none" state="closed">
 
+      </div>
 
+      </div>
 
+      <div class="w-0 min-w-full max-w-full py-3.5 px-4 h-full dark:bg-codeblock relative text-sm leading-6 children:!my-0 children:!shadow-none children:!bg-transparent transition-[height] duration-300 ease-in-out code-block-background [&_*]:ring-0 [&_*]:outline-0 [&_*]:focus:ring-0 [&_*]:focus:outline-0 rounded-2xl bg-white overflow-x-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-black/15 hover:scrollbar-thumb-black/20 active:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/20 dark:hover:scrollbar-thumb-white/25 dark:active:scrollbar-thumb-white/25" component-part="code-block-root" tabindex="0" style="font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E">
 
+      <div class="font-mono whitespace-pre leading-6">
 
+      ``` shiki
+          build: apps/playwright-service-ts
+      ```
 
+      </div>
 
+      </div>
 
-        TO
+      <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
+      </div>
 
+      </div>
+    - <span data-as="p">Set the `PLAYWRIGHT_MICROSERVICE_URL` in your `.env` file:</span>
+      <div class="code-block mt-5 mb-8 not-prose rounded-2xl relative group min-w-0 print:print-color-exact text-gray-950 dark:text-gray-50 codeblock-light border border-gray-950/10 dark:border-white/10 dark:twoslash-dark bg-transparent dark:bg-transparent" numberoflines="2" language="text">
 
+      <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
+      <div class="z-10 select-none" state="closed">
 
+      </div>
 
+      </div>
 
+      <div class="w-0 min-w-full max-w-full py-3.5 px-4 h-full dark:bg-codeblock relative text-sm leading-6 children:!my-0 children:!shadow-none children:!bg-transparent transition-[height] duration-300 ease-in-out code-block-background [&_*]:ring-0 [&_*]:outline-0 [&_*]:focus:ring-0 [&_*]:focus:outline-0 rounded-2xl bg-white overflow-x-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-black/15 hover:scrollbar-thumb-black/20 active:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/20 dark:hover:scrollbar-thumb-white/25 dark:active:scrollbar-thumb-white/25" component-part="code-block-root" tabindex="0" style="font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E">
 
+      <div class="font-mono whitespace-pre leading-6">
 
+      ``` shiki
+      PLAYWRIGHT_MICROSERVICE_URL=http://localhost:3000/scrape
+      ```
 
+      </div>
 
+      </div>
 
+      <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
+      </div>
 
-        ```
-            build: apps/playwright-service-ts
-        ```
+      </div>
+    - <span data-as="p">Don’t forget to set the proxy server in your `.env` file as needed.</span>
+4.  <span data-as="p">Build and run the Docker containers:</span>
+    <div class="code-block mt-5 mb-8 not-prose rounded-2xl relative group min-w-0 print:print-color-exact text-gray-950 dark:text-gray-50 codeblock-light border border-gray-950/10 dark:border-white/10 dark:twoslash-dark bg-transparent dark:bg-transparent" numberoflines="2" language="shellscript">
 
-   - Set the `PLAYWRIGHT_MICROSERVICE_URL` in your `.env` file:
+    <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
+    <div class="z-10 select-none" state="closed">
 
+    </div>
 
+    </div>
 
+    <div class="w-0 min-w-full max-w-full py-3.5 px-4 h-full dark:bg-codeblock relative text-sm leading-6 children:!my-0 children:!shadow-none children:!bg-transparent transition-[height] duration-300 ease-in-out code-block-background [&_*]:ring-0 [&_*]:outline-0 [&_*]:focus:ring-0 [&_*]:focus:outline-0 rounded-2xl bg-white overflow-x-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-black/15 hover:scrollbar-thumb-black/20 active:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/20 dark:hover:scrollbar-thumb-white/25 dark:active:scrollbar-thumb-white/25" component-part="code-block-root" tabindex="0" style="font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E">
 
+    <div class="font-mono whitespace-pre leading-6">
 
+    ``` shiki
+    docker compose build
+    docker compose up
+    ```
 
+    </div>
 
+    </div>
 
+    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
+    </div>
 
+    </div>
 
 
+5.  *(Optional)* Test the API
 
-     ```
-     PLAYWRIGHT_MICROSERVICE_URL=http://localhost:3000/scrape
-     ```
 
-   - Don’t forget to set the proxy server in your `.env` file as needed.
-4. Build and run the Docker containers:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```
-docker compose build
-docker compose up
-```
-
-
-This will run a local instance of Firecrawl which can be accessed at `http://localhost:3002`.You should be able to see the Bull Queue Manager UI on `http://localhost:3002/admin/{BULL_AUTH_KEY}/queues`.
-
-5. _(Optional)_ Test the API
-
-If you’d like to test the crawl endpoint, you can run this:
-
-```
+``` shiki
 curl -X POST http://localhost:3002/v2/crawl \
     -H 'Content-Type: application/json' \
     -d '{
@@ -369,78 +914,83 @@ curl -X POST http://localhost:3002/v2/crawl \
     }'
 ```
 
-## [​](https://docs.firecrawl.dev/contributing/self-host\#troubleshooting)  Troubleshooting
 
-This section provides solutions to common issues you might encounter while setting up or running your self-hosted instance of Firecrawl.
+## 
 
-### [​](https://docs.firecrawl.dev/contributing/self-host\#supabase-client-is-not-configured)  Supabase client is not configured
 
-**Symptom:**
+<a href="#troubleshooting" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-```
+
+### 
+
+
+<a href="#supabase-client-is-not-configured" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 [YYYY-MM-DDTHH:MM:SS.SSSz]ERROR - Attempted to access Supabase client when it's not configured.
 [YYYY-MM-DDTHH:MM:SS.SSSz]ERROR - Error inserting scrape event: Error: Supabase client is not configured.
 ```
 
-**Explanation:**
-This error occurs because the Supabase client setup is not completed. You should be able to scrape and crawl with no problems. Right now it’s not possible to configure Supabase in self-hosted instances.
 
-### [​](https://docs.firecrawl.dev/contributing/self-host\#you%E2%80%99re-bypassing-authentication)  You’re bypassing authentication
+### 
 
-**Symptom:**
 
-```
+<a href="#you’re-bypassing-authentication" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 [YYYY-MM-DDTHH:MM:SS.SSSz]WARN - You're bypassing authentication
 ```
 
-**Explanation:**
-This error occurs because the Supabase client setup is not completed. You should be able to scrape and crawl with no problems. Right now it’s not possible to configure Supabase in self-hosted instances.
 
-### [​](https://docs.firecrawl.dev/contributing/self-host\#docker-containers-fail-to-start)  Docker containers fail to start
+### 
 
-**Symptom:**
-Docker containers exit unexpectedly or fail to start.**Solution:**
-Check the Docker logs for any error messages using the command:
 
-```
+<a href="#docker-containers-fail-to-start" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 docker logs [container_name]
 ```
+
 
 - Ensure all required environment variables are set correctly in the .env file.
 - Verify that all Docker services defined in docker-compose.yml are correctly configured and the necessary images are available.
 
-### [​](https://docs.firecrawl.dev/contributing/self-host\#connection-issues-with-redis)  Connection issues with Redis
+### 
 
-**Symptom:**
-Errors related to connecting to Redis, such as timeouts or “Connection refused”.**Solution:**
+
+<a href="#connection-issues-with-redis" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 - Ensure that the Redis service is up and running in your Docker environment.
-- Verify that the REDIS\_URL and REDIS\_RATE\_LIMIT\_URL in your .env file point to the correct Redis instance.
+- Verify that the REDIS_URL and REDIS_RATE_LIMIT_URL in your .env file point to the correct Redis instance.
 - Check network settings and firewall rules that may block the connection to the Redis port.
 
-### [​](https://docs.firecrawl.dev/contributing/self-host\#api-endpoint-does-not-respond)  API endpoint does not respond
+### 
 
-**Symptom:**
-API requests to the Firecrawl instance timeout or return no response.**Solution:**
+
+<a href="#api-endpoint-does-not-respond" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 - Ensure that the Firecrawl service is running by checking the Docker container status.
 - Verify that the PORT and HOST settings in your .env file are correct and that no other service is using the same port.
 - Check the network configuration to ensure that the host is accessible from the client making the API request.
 
-By addressing these common issues, you can ensure a smoother setup and operation of your self-hosted Firecrawl instance.
 
-## [​](https://docs.firecrawl.dev/contributing/self-host\#install-firecrawl-on-a-kubernetes-cluster-simple-version)  Install Firecrawl on a Kubernetes Cluster (Simple Version)
+## 
 
-Read the [examples/kubernetes-cluster-install/README.md](https://github.com/firecrawl/firecrawl/tree/main/examples/kubernetes/cluster-install#readme) for instructions on how to install Firecrawl on a Kubernetes Cluster.
 
-[Suggest edits](https://github.com/firecrawl/firecrawl-docs/edit/main/contributing/self-host.mdx) [Raise issue](https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&body=Path:%20/contributing/self-host)
+<a href="#install-firecrawl-on-a-kubernetes-cluster-simple-version" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-[Running Locally\\
-\\
-Previous](https://docs.firecrawl.dev/contributing/guide)
 
-Ctrl+I
+<a href="https://github.com/firecrawl/firecrawl-docs/edit/main/contributing/self-host.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/contributing/self-host" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
 
-Chat Widget
 
-Loading...
+<a href="/contributing/guide" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
+
+
+Running Locally
+
+

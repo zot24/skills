@@ -1,175 +1,763 @@
-[Skip to main content](https://docs.firecrawl.dev/features/llm-extract#content-area)
+> Source: https://docs.firecrawl.dev/features/llm-extract
 
-[Firecrawl Docs home page![light logo](https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo.png?fit=max&auto=format&n=iilnMwCX-8eR1yOO&q=85&s=c45b3c967c19a39190e76fe8e9c2ed5a)![dark logo](https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo-dark.png?fit=max&auto=format&n=iilnMwCX-8eR1yOO&q=85&s=3fee4abe033bd3c26e8ad92043a91c17)](https://firecrawl.dev/)
 
-v2
-![US](https://d3gk2c5xim1je2.cloudfront.net/flags/US.svg)
 
-English
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
+
+
+<a href="https://firecrawl.dev" class="select-none" data-state="closed" data-slot="context-menu-trigger" style="-webkit-touch-callout:none"><span class="sr-only">Firecrawl Docs home page</span><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=c45b3c967c19a39190e76fe8e9c2ed5a" class="nav-logo w-auto relative object-contain shrink-0 block dark:hidden h-6" alt="light logo" /><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo-dark.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=3fee4abe033bd3c26e8ad92043a91c17" class="nav-logo w-auto relative object-contain shrink-0 hidden dark:block h-6" alt="dark logo" /></a>
+
+
+<img src="https://d3gk2c5xim1je2.cloudfront.net/flags/US.svg" class="w-full h-full rounded-full" alt="US" />
+
 
 Search...
 
-Ctrl K
-
-Search...
-
-Navigation
 
 Scrape
 
+
 JSON mode - Structured result
 
-[Documentation](https://docs.firecrawl.dev/introduction) [SDKs](https://docs.firecrawl.dev/sdks/overview) [Integrations](https://www.firecrawl.dev/app) [API Reference](https://docs.firecrawl.dev/api-reference/v2-introduction)
 
-- [Playground](https://firecrawl.dev/playground)
-- [Blog](https://firecrawl.dev/blog)
-- [Community](https://discord.gg/firecrawl)
-- [Changelog](https://firecrawl.dev/changelog)
+<a href="/introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] text-primary dark:text-primary-light hover:text-primary dark:hover:text-primary-light" data-active="true">Documentation</a>
+
+
+<a href="/sdks/overview" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">SDKs</a>
+
+
+<a href="https://www.firecrawl.dev/app" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200" target="_blank" rel="noreferrer">Integrations</a>
+
+
+<a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
+
+
+- <a href="https://firecrawl.dev/playground" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Playground</span></a>
+- <a href="https://firecrawl.dev/blog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Blog</span></a>
+- <a href="https://discord.gg/firecrawl" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Community</span></a>
+- <a href="https://firecrawl.dev/changelog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Changelog</span></a>
+
 
 ##### Get Started
 
-- [Introduction](https://docs.firecrawl.dev/introduction)
-- [Skill + CLI](https://docs.firecrawl.dev/sdks/cli)
-- [MCP Server](https://docs.firecrawl.dev/mcp-server)
-- [Advanced Scraping Guide](https://docs.firecrawl.dev/advanced-scraping-guide)
-- Plans & Billing
+
+- <span id="/introduction"><a href="/introduction" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Introduction</span>
+
+  </div>
+
+  </div>
+
+- <span id="/sdks/cli"><a href="/sdks/cli" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skill + CLI</span>
+
+  </div>
+
+  </div>
+
+- <span id="/mcp-server"><a href="/mcp-server" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">MCP Server</span>
+
+  </div>
+
+  </div>
+
+- <span id="/advanced-scraping-guide"><a href="/advanced-scraping-guide" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Advanced Scraping Guide</span>
+
+  </div>
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Plans & Billing
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Core Endpoints
 
-- [Search](https://docs.firecrawl.dev/features/search)
-- Scrape
 
+- <span id="/features/search"><a href="/features/search" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
 
+  </div>
 
-  - [Scrape](https://docs.firecrawl.dev/features/scrape)
-  - [Faster Scraping](https://docs.firecrawl.dev/features/fast-scraping)
-  - [Batch Scrape](https://docs.firecrawl.dev/features/batch-scrape)
-  - [JSON mode](https://docs.firecrawl.dev/features/llm-extract)
-  - [Change Tracking](https://docs.firecrawl.dev/features/change-tracking)
-  - [Enhanced Mode](https://docs.firecrawl.dev/features/enhanced-mode)
-  - [Proxies](https://docs.firecrawl.dev/features/proxies)
-  - [Document Parsing](https://docs.firecrawl.dev/features/document-parsing)
-- [Interact](https://docs.firecrawl.dev/features/interact)
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Search</span>
+
+  </div>
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Scrape
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  - <span id="/features/scrape"><a href="/features/scrape" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
+    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+    <span class="min-w-0 max-w-full break-words hyphens-auto">Scrape</span>
+
+    </div>
+
+    </div>
+  - <span id="/features/fast-scraping"><a href="/features/fast-scraping" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
+    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+    <span class="min-w-0 max-w-full break-words hyphens-auto">Faster Scraping</span>
+
+    </div>
+
+    </div>
+  - <span id="/features/batch-scrape"><a href="/features/batch-scrape" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
+    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+    <span class="min-w-0 max-w-full break-words hyphens-auto">Batch Scrape</span>
+
+    </div>
+
+    </div>
+  - <span id="/features/llm-extract"><a href="/features/llm-extract" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1.75rem"></a></span>
+    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+    <span class="min-w-0 max-w-full break-words hyphens-auto">JSON mode</span>
+
+    </div>
+
+    </div>
+  - <span id="/features/change-tracking"><a href="/features/change-tracking" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
+    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+    <span class="min-w-0 max-w-full break-words hyphens-auto">Change Tracking</span>
+
+    </div>
+
+    </div>
+  - <span id="/features/enhanced-mode"><a href="/features/enhanced-mode" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
+    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+    <span class="min-w-0 max-w-full break-words hyphens-auto">Enhanced Mode</span>
+
+    </div>
+
+    </div>
+  - <span id="/features/proxies"><a href="/features/proxies" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
+    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+    <span class="min-w-0 max-w-full break-words hyphens-auto">Proxies</span>
+
+    </div>
+
+    </div>
+  - <span id="/features/document-parsing"><a href="/features/document-parsing" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
+    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+    <span class="min-w-0 max-w-full break-words hyphens-auto">Document Parsing</span>
+
+    </div>
+
+    </div>
+
+- <span id="/features/interact"><a href="/features/interact" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Interact</span>
+
+  </div>
+
+  </div>
+
 
 ##### More
 
-- [Map](https://docs.firecrawl.dev/features/map)
-- [Crawl](https://docs.firecrawl.dev/features/crawl)
-- Agent (Research Preview)
+
+- <span id="/features/map"><a href="/features/map" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Map</span>
+
+  </div>
+
+  </div>
+
+- <span id="/features/crawl"><a href="/features/crawl" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Crawl</span>
+
+  </div>
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Agent (Research Preview)
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Quickstarts
 
-- Node.js
 
-- Serverless
+- <div class="flex-1 flex items-center gap-2 justify-start">
 
-- PHP
+  Node.js
 
-- Ruby
+  </div>
 
-- Python
+  <div class="h-[1lh] flex items-center shrink-0">
 
-- [Go](https://docs.firecrawl.dev/quickstarts/go)
-- [Rust](https://docs.firecrawl.dev/quickstarts/rust)
-- [Elixir](https://docs.firecrawl.dev/quickstarts/elixir)
-- Java
+  </div>
 
-- .NET
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Serverless
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  PHP
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Ruby
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Python
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <span id="/quickstarts/go"><a href="/quickstarts/go" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Go</span>
+
+  </div>
+
+  </div>
+
+- <span id="/quickstarts/rust"><a href="/quickstarts/rust" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Rust</span>
+
+  </div>
+
+  </div>
+
+- <span id="/quickstarts/elixir"><a href="/quickstarts/elixir" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Elixir</span>
+
+  </div>
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Java
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  .NET
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Developer Guides
 
-- [OpenClaw](https://docs.firecrawl.dev/developer-guides/openclaw)
-- [Full-Stack Templates](https://docs.firecrawl.dev/developer-guides/examples)
-- Usage Guides
 
-- LLM SDKs and Frameworks
+- <span id="/developer-guides/openclaw"><a href="/developer-guides/openclaw" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
 
-- Cookbooks
+  </div>
 
-- MCP Setup Guides
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
-- Common Sites
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-- Workflow Automation
+  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenClaw</span>
+
+  </div>
+
+  </div>
+
+- <span id="/developer-guides/examples"><a href="/developer-guides/examples" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Full-Stack Templates</span>
+
+  </div>
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Usage Guides
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  LLM SDKs and Frameworks
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Cookbooks
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  MCP Setup Guides
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Common Sites
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex items-center gap-2 justify-start">
+
+  Workflow Automation
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Webhooks
 
-- [Overview](https://docs.firecrawl.dev/webhooks/overview)
-- [Event Types](https://docs.firecrawl.dev/webhooks/events)
-- [Security](https://docs.firecrawl.dev/webhooks/security)
-- [Testing](https://docs.firecrawl.dev/webhooks/testing)
+
+- <span id="/webhooks/overview"><a href="/webhooks/overview" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+- <span id="/webhooks/events"><a href="/webhooks/events" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Event Types</span>
+
+  </div>
+
+  </div>
+- <span id="/webhooks/security"><a href="/webhooks/security" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Security</span>
+
+  </div>
+
+  </div>
+- <span id="/webhooks/testing"><a href="/webhooks/testing" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Testing</span>
+
+  </div>
+
+  </div>
+
 
 ##### Use Cases
 
-- [Overview](https://docs.firecrawl.dev/use-cases/overview)
-- [AI Platforms](https://docs.firecrawl.dev/use-cases/ai-platforms)
-- [Lead Enrichment](https://docs.firecrawl.dev/use-cases/lead-enrichment)
-- [SEO Platforms](https://docs.firecrawl.dev/use-cases/seo-platforms)
-- [Deep Research](https://docs.firecrawl.dev/use-cases/deep-research)
-- View more
+
+- <span id="/use-cases/overview"><a href="/use-cases/overview" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+
+- <span id="/use-cases/ai-platforms"><a href="/use-cases/ai-platforms" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">AI Platforms</span>
+
+  </div>
+
+  </div>
+
+- <span id="/use-cases/lead-enrichment"><a href="/use-cases/lead-enrichment" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Lead Enrichment</span>
+
+  </div>
+
+  </div>
+
+- <span id="/use-cases/seo-platforms"><a href="/use-cases/seo-platforms" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">SEO Platforms</span>
+
+  </div>
+
+  </div>
+
+- <span id="/use-cases/deep-research"><a href="/use-cases/deep-research" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Deep Research</span>
+
+  </div>
+
+  </div>
+
+- <div class="flex-1 flex items-center gap-2 justify-start">
+
+  View more
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
 
 
 ##### Dashboard
 
-- [Overview](https://docs.firecrawl.dev/dashboard)
+
+- <span id="/dashboard"><a href="/dashboard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+
 
 ##### Contributing
 
-- [Open Source vs Cloud](https://docs.firecrawl.dev/contributing/open-source-or-cloud)
-- [Running Locally](https://docs.firecrawl.dev/contributing/guide)
-- [Self-hosting](https://docs.firecrawl.dev/contributing/self-host)
+
+- <span id="/contributing/open-source-or-cloud"><a href="/contributing/open-source-or-cloud" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Open Source vs Cloud</span>
+
+  </div>
+
+  </div>
+- <span id="/contributing/guide"><a href="/contributing/guide" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Running Locally</span>
+
+  </div>
+
+  </div>
+- <span id="/contributing/self-host"><a href="/contributing/self-host" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Self-hosting</span>
+
+  </div>
+
+  </div>
+
 
 On this page
 
-- [Scrape and extract structured data with Firecrawl](https://docs.firecrawl.dev/features/llm-extract#scrape-and-extract-structured-data-with-firecrawl)
-- [Extract structured data](https://docs.firecrawl.dev/features/llm-extract#extract-structured-data)
-- [JSON mode via /scrape](https://docs.firecrawl.dev/features/llm-extract#json-mode-via-%2Fscrape)
-- [Structured data without schema](https://docs.firecrawl.dev/features/llm-extract#structured-data-without-schema)
-- [Real-world example: Extracting company information](https://docs.firecrawl.dev/features/llm-extract#real-world-example-extracting-company-information)
-- [JSON format options](https://docs.firecrawl.dev/features/llm-extract#json-format-options)
-- [Tips for consistent extraction](https://docs.firecrawl.dev/features/llm-extract#tips-for-consistent-extraction)
 
-![Firecrawl](https://docs.firecrawl.dev/logo/light.svg)![Firecrawl](https://docs.firecrawl.dev/logo/dark.svg)
+- <a href="#scrape-and-extract-structured-data-with-firecrawl" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Scrape and extract structured data with Firecrawl</a>
+- <a href="#extract-structured-data" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Extract structured data</a>
+- <a href="#json-mode-via-%2Fscrape" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">JSON mode via /scrape</a>
+- <a href="#structured-data-without-schema" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Structured data without schema</a>
+- <a href="#real-world-example-extracting-company-information" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Real-world example: Extracting company information</a>
+- <a href="#json-format-options" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">JSON format options</a>
+- <a href="#tips-for-consistent-extraction" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Tips for consistent extraction</a>
 
-### Ready to build?
 
-Start getting web data for free and scale seamlessly as your project expands. **No credit card needed.**
+Scrape
 
-[Start for free](https://www.firecrawl.dev/signin?utm_source=firecrawl_docs&utm_medium=docs_card&utm_content=start_for_free) [See our plans](https://www.firecrawl.dev/pricing?utm_source=firecrawl_docs&utm_medium=docs_card&utm_content=see_our_plans)
 
-**v2 API Change:** JSON schema extraction is fully supported in v2, but the API format has changed. In v2, the schema is embedded directly inside the format object as `formats: [{type: "json", schema: {...}}]`. The v1 `jsonOptions` parameter no longer exists in v2.
+# JSON mode - Structured result
 
-## [​](https://docs.firecrawl.dev/features/llm-extract\#scrape-and-extract-structured-data-with-firecrawl)  Scrape and extract structured data with Firecrawl
 
-Firecrawl uses AI to get structured data from web pages in 3 steps:
+Copy page
 
-1. **Set the Schema (optional):**
-Define a JSON schema (using OpenAI’s format) to specify the data you want, or just provide a `prompt` if you don’t need a strict schema, along with the webpage URL.
-2. **Make the Request:**
-Send your URL and schema to our scrape endpoint using JSON mode. See how here:
-[Scrape Endpoint Documentation](https://docs.firecrawl.dev/api-reference/endpoint/scrape)
-3. **Get Your Data:**
-Get back clean, structured data matching your schema that you can use right away.
 
-This makes getting web data in the format you need quick and easy.
+Extract structured data from pages via LLMs
 
-## [​](https://docs.firecrawl.dev/features/llm-extract\#extract-structured-data)  Extract structured data
 
-### [​](https://docs.firecrawl.dev/features/llm-extract\#json-mode-via-/scrape)  JSON mode via /scrape
+Copy page
 
-Used to extract structured data from scraped pages.
+
+## 
+
+
+<a href="#scrape-and-extract-structured-data-with-firecrawl" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1.  <span data-as="p">**Set the Schema (optional):** Define a JSON schema (using OpenAI’s format) to specify the data you want, or just provide a `prompt` if you don’t need a strict schema, along with the webpage URL.</span>
+2.  <span data-as="p">**Make the Request:** Send your URL and schema to our scrape endpoint using JSON mode. See how here: <a href="https://docs.firecrawl.dev/api-reference/endpoint/scrape" class="link" target="_blank" rel="noreferrer">Scrape Endpoint Documentation</a></span>
+3.  <span data-as="p">**Get Your Data:** Get back clean, structured data matching your schema that you can use right away.</span>
+
+
+## 
+
+
+<a href="#extract-structured-data" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#json-mode-via-/scrape" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 Python
 
+
 Node
+
 
 cURL
 
-```
+
+``` shiki
 from firecrawl import Firecrawl
 from pydantic import BaseModel
 
@@ -183,9 +771,9 @@ class CompanyInfo(BaseModel):
 
 result = app.scrape(
     'https://firecrawl.dev',
-    formats=[{\
-      "type": "json",\
-      "schema": CompanyInfo.model_json_schema()\
+    formats=[{
+      "type": "json",
+      "schema": CompanyInfo.model_json_schema()
     }],
     only_main_content=False,
     timeout=120000
@@ -194,11 +782,8 @@ result = app.scrape(
 print(result)
 ```
 
-Output:
 
-JSON
-
-```
+``` shiki
 {
     "success": true,
     "data": {
@@ -224,26 +809,32 @@ JSON
 }
 ```
 
-### [​](https://docs.firecrawl.dev/features/llm-extract\#structured-data-without-schema)  Structured data without schema
 
-You can also extract without a schema by just passing a `prompt` to the endpoint. The llm chooses the structure of the data.
+### 
+
+
+<a href="#structured-data-without-schema" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 Python
 
+
 Node
+
 
 cURL
 
-```
+
+``` shiki
 from firecrawl import Firecrawl
 
 app = Firecrawl(api_key="fc-YOUR-API-KEY")
 
 result = app.scrape(
     'https://firecrawl.dev',
-    formats=[{\
-      "type": "json",\
-      "prompt": "Extract the company mission from the page."\
+    formats=[{
+      "type": "json",
+      "prompt": "Extract the company mission from the page."
     }],
     only_main_content=False,
     timeout=120000
@@ -252,11 +843,8 @@ result = app.scrape(
 print(result)
 ```
 
-Output:
 
-JSON
-
-```
+``` shiki
 {
     "success": true,
     "data": {
@@ -279,17 +867,23 @@ JSON
 }
 ```
 
-### [​](https://docs.firecrawl.dev/features/llm-extract\#real-world-example-extracting-company-information)  Real-world example: Extracting company information
 
-Here’s a comprehensive example extracting structured company information from a website:
+### 
+
+
+<a href="#real-world-example-extracting-company-information" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 Python
 
+
 Node
+
 
 cURL
 
-```
+
+``` shiki
 from firecrawl import Firecrawl
 from pydantic import BaseModel
 
@@ -303,20 +897,17 @@ class CompanyInfo(BaseModel):
 
 result = app.scrape(
     'https://firecrawl.dev/',
-    formats=[{\
-        "type": "json",\
-        "schema": CompanyInfo.model_json_schema()\
+    formats=[{
+        "type": "json",
+        "schema": CompanyInfo.model_json_schema()
     }]
 )
 
 print(result)
 ```
 
-Output:
 
-Output
-
-```
+``` shiki
 {
   "success": true,
   "data": {
@@ -330,20 +921,22 @@ Output
 }
 ```
 
-### [​](https://docs.firecrawl.dev/features/llm-extract\#json-format-options)  JSON format options
 
-When using JSON mode in v2, include an object in `formats` with the schema embedded directly:`formats: [{ type: 'json', schema: { ... }, prompt: '...' }]`Parameters:
+### 
+
+
+<a href="#json-format-options" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 - `schema`: JSON Schema describing the structured output you want (required for schema-based extraction).
 - `prompt`: Optional prompt to guide extraction (also used for no-schema extraction).
 
-**Important:** Unlike v1, there is no separate `jsonOptions` parameter in v2. The schema must be included directly inside the format object in the `formats` array.
 
-**HTML attributes are not available in JSON extraction.** JSON extraction works on the markdown conversion of the page, which only preserves visible text content. HTML attributes (e.g., `data-id`, custom attributes on elements) are stripped during conversion and the LLM cannot see them. If you need to extract HTML attribute values, use `rawHtml` format and parse attributes client-side, or use an `executeJavascript` action to inject attribute values into visible text before extraction.
+## 
 
-## [​](https://docs.firecrawl.dev/features/llm-extract\#tips-for-consistent-extraction)  Tips for consistent extraction
 
-If you are seeing inconsistent or incomplete results from JSON extraction, these practices can help:
+<a href="#tips-for-consistent-extraction" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 - **Keep prompts short and focused.** Long prompts with many rules increase variability. Move specific constraints (like allowed values) into the schema instead.
 - **Use concise property names.** Avoid embedding instructions or enum lists in property names. Use a short key like `"installation_type"` and put allowed values in an `enum` array.
@@ -354,9 +947,8 @@ If you are seeing inconsistent or incomplete results from JSON extraction, these
 - **Avoid `minItems`/`maxItems` on arrays.** JSON Schema validation keywords like `minItems` and `maxItems` do not control how much content the scraper collects. Setting `minItems: 20` will not make the LLM return more items — it may instead hallucinate entries to satisfy the constraint. Remove these keywords and use a `prompt` instead (e.g. `"Extract ALL reviews from the page. Do not skip any."`) to guide completeness.
 - **Use `"type": "array"` to extract lists of items.** If you need to extract multiple items (e.g. a list of people, products, or reviews), wrap them in an array property with an `items` block. Using `"type": "object"` for a list will return only a single item. See the array schema example below.
 
-**Example of a well-structured schema:**
 
-```
+``` shiki
 {
   "type": "object",
   "properties": {
@@ -377,9 +969,8 @@ If you are seeing inconsistent or incomplete results from JSON extraction, these
 }
 ```
 
-**Example of extracting a list of items:**When a page contains multiple items (e.g. team members, products, reviews), use `"type": "array"` with `"items"` to get the full list:
 
-```
+``` shiki
 {
   "type": "object",
   "properties": {
@@ -398,14 +989,22 @@ If you are seeing inconsistent or incomplete results from JSON extraction, these
 }
 ```
 
-> Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
 
-[Suggest edits](https://github.com/firecrawl/firecrawl-docs/edit/main/features/llm-extract.mdx) [Raise issue](https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&body=Path:%20/features/llm-extract)
+> <span data-as="p">Are you an AI agent that needs a Firecrawl API key? See <a href="https://www.firecrawl.dev/agent-onboarding/SKILL.md" class="link" target="_blank" rel="noreferrer">firecrawl.dev/agent-onboarding/SKILL.md</a> for automated onboarding instructions.</span>
 
-[Batch Scrape\\
-\\
-Previous](https://docs.firecrawl.dev/features/batch-scrape) [Change Tracking\\
-\\
-Next](https://docs.firecrawl.dev/features/change-tracking)
 
-Ctrl+I
+<a href="https://github.com/firecrawl/firecrawl-docs/edit/main/features/llm-extract.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/features/llm-extract" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
+
+
+<a href="/features/batch-scrape" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
+
+
+Batch Scrape
+
+
+<a href="/features/change-tracking" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
+
+
+Change Tracking
+
+

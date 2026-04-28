@@ -1,0 +1,264 @@
+> Source: https://docs.firecrawl.dev/quickstarts/php.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# PHP
+
+> Get started with Firecrawl in PHP. Scrape, search, and interact with web data using the REST API.
+
+## Prerequisites
+
+* PHP 8.0+ with cURL extension
+* A Firecrawl API key — [get one free](https://www.firecrawl.dev/app/api-keys)
+
+## Search the web
+
+Firecrawl works with PHP through the REST API using cURL.
+
+```php
+<?php
+$apiKey = getenv('FIRECRAWL_API_KEY');
+
+$ch = curl_init('https://api.firecrawl.dev/v2/search');
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $apiKey,
+        'Content-Type: application/json',
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        'query' => 'firecrawl web scraping',
+        'limit' => 5,
+    ]),
+]);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+$results = json_decode($response, true);
+foreach ($results['data']['web'] as $result) {
+    echo $result['title'] . ' - ' . $result['url'] . "\n";
+}
+```
+
+
+  ```json
+  {
+    "success": true,
+    "data": {
+      "web": [
+        {
+          "url": "https://docs.firecrawl.dev",
+          "title": "Firecrawl Documentation",
+          "markdown": "# Firecrawl\n\nFirecrawl is a web scraping API..."
+        }
+      ]
+    }
+  }
+  ```
+
+
+## Scrape a page
+
+```php
+<?php
+$ch = curl_init('https://api.firecrawl.dev/v2/scrape');
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $apiKey,
+        'Content-Type: application/json',
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        'url' => 'https://example.com',
+    ]),
+]);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+$data = json_decode($response, true);
+echo $data['data']['markdown'];
+```
+
+
+  ```json
+  {
+    "success": true,
+    "data": {
+      "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
+      "metadata": {
+        "title": "Example Domain",
+        "sourceURL": "https://example.com"
+      }
+    }
+  }
+  ```
+
+
+## Interact with a page
+
+Start a browser session, interact with the page using natural-language prompts, then close the session.
+
+### Step 1 — Scrape to start a session
+
+```php
+<?php
+$ch = curl_init('https://api.firecrawl.dev/v2/scrape');
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $apiKey,
+        'Content-Type: application/json',
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        'url' => 'https://www.amazon.com',
+        'formats' => ['markdown'],
+    ]),
+]);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+$scrapeResult = json_decode($response, true);
+$scrapeId = $scrapeResult['data']['metadata']['scrapeId'];
+echo "scrapeId: $scrapeId\n";
+```
+
+### Step 2 — Send interactions
+
+```php
+<?php
+$interactUrl = "https://api.firecrawl.dev/v2/scrape/$scrapeId/interact";
+$headers = [
+    'Authorization: Bearer ' . $apiKey,
+    'Content-Type: application/json',
+];
+
+// Search for a product
+$ch = curl_init($interactUrl);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => $headers,
+    CURLOPT_POSTFIELDS => json_encode([
+        'prompt' => 'Search for iPhone 16 Pro Max',
+    ]),
+]);
+
+$response = curl_exec($ch);
+curl_close($ch);
+echo $response . "\n";
+
+// Click on the first result
+$ch = curl_init($interactUrl);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => $headers,
+    CURLOPT_POSTFIELDS => json_encode([
+        'prompt' => 'Click on the first result and tell me the price',
+    ]),
+]);
+
+$response = curl_exec($ch);
+curl_close($ch);
+echo $response . "\n";
+```
+
+### Step 3 — Stop the session
+
+```php
+<?php
+$ch = curl_init($interactUrl);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'DELETE',
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $apiKey,
+    ],
+]);
+
+curl_exec($ch);
+curl_close($ch);
+
+echo "Session stopped\n";
+```
+
+## Reusable helper class
+
+For repeated use, wrap the API in a class:
+
+```php
+<?php
+class Firecrawl
+{
+    private string $apiKey;
+    private string $baseUrl = 'https://api.firecrawl.dev/v2';
+
+    public function __construct(string $apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
+
+    private function post(string $endpoint, array $payload): array
+    {
+        $ch = curl_init($this->baseUrl . $endpoint);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Bearer ' . $this->apiKey,
+                'Content-Type: application/json',
+            ],
+            CURLOPT_POSTFIELDS => json_encode($payload),
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode >= 400) {
+            throw new \RuntimeException("Firecrawl API error: HTTP $httpCode");
+        }
+
+        return json_decode($response, true);
+    }
+
+    public function scrape(string $url, array $options = []): array
+    {
+        return $this->post('/scrape', array_merge(['url' => $url], $options));
+    }
+
+    public function search(string $query, int $limit = 5): array
+    {
+        return $this->post('/search', ['query' => $query, 'limit' => $limit]);
+    }
+}
+
+// Usage
+$app = new Firecrawl(getenv('FIRECRAWL_API_KEY'));
+$result = $app->scrape('https://example.com');
+echo $result['data']['markdown'];
+```
+
+## Next steps
+
+
+    Search the web and get full page content
+
+
+    All scrape options including formats, actions, and proxies
+
+
+    Click, fill forms, and extract dynamic content
+
+
+    Complete REST API documentation
+
+

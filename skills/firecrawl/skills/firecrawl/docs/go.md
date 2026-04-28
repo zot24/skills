@@ -1,0 +1,269 @@
+> Source: https://docs.firecrawl.dev/quickstarts/go.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# Go
+
+> Get started with Firecrawl in Go. Scrape, search, and interact with web data using the REST API.
+
+## Prerequisites
+
+* Go 1.21+
+* A Firecrawl API key — [get one free](https://www.firecrawl.dev/app/api-keys)
+
+## Search the web
+
+Firecrawl works with Go through the REST API. Use `net/http` to make requests directly.
+
+```go
+package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"os"
+)
+
+func main() {
+	apiKey := os.Getenv("FIRECRAWL_API_KEY")
+
+	body, _ := json.Marshal(map[string]interface{}{
+		"query": "firecrawl web scraping",
+		"limit": 5,
+	})
+
+	req, _ := http.NewRequest("POST", "https://api.firecrawl.dev/v2/search", bytes.NewReader(body))
+	req.Header.Set("Authorization", "Bearer "+apiKey)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "request failed: %v\n", err)
+		os.Exit(1)
+	}
+	defer resp.Body.Close()
+
+	result, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(result))
+}
+```
+
+
+  ```json
+  {
+    "success": true,
+    "data": {
+      "web": [
+        {
+          "url": "https://docs.firecrawl.dev",
+          "title": "Firecrawl Documentation",
+          "markdown": "# Firecrawl\n\nFirecrawl is a web scraping API..."
+        }
+      ]
+    }
+  }
+  ```
+
+
+## Scrape a page
+
+```go
+body, _ := json.Marshal(map[string]string{
+	"url": "https://example.com",
+})
+
+req, _ := http.NewRequest("POST", "https://api.firecrawl.dev/v2/scrape", bytes.NewReader(body))
+req.Header.Set("Authorization", "Bearer "+apiKey)
+req.Header.Set("Content-Type", "application/json")
+
+resp, err := http.DefaultClient.Do(req)
+if err != nil {
+	fmt.Fprintf(os.Stderr, "request failed: %v\n", err)
+	os.Exit(1)
+}
+defer resp.Body.Close()
+
+result, _ := io.ReadAll(resp.Body)
+fmt.Println(string(result))
+```
+
+
+  ```json
+  {
+    "success": true,
+    "data": {
+      "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
+      "metadata": {
+        "title": "Example Domain",
+        "sourceURL": "https://example.com"
+      }
+    }
+  }
+  ```
+
+
+## Interact with a page
+
+Start a browser session, interact with the page using natural-language prompts, then close the session.
+
+### Step 1 — Scrape to start a session
+
+```go
+body, _ := json.Marshal(map[string]interface{}{
+	"url":     "https://www.amazon.com",
+	"formats": []string{"markdown"},
+})
+
+req, _ := http.NewRequest("POST", "https://api.firecrawl.dev/v2/scrape", bytes.NewReader(body))
+req.Header.Set("Authorization", "Bearer "+apiKey)
+req.Header.Set("Content-Type", "application/json")
+
+resp, err := http.DefaultClient.Do(req)
+if err != nil {
+	fmt.Fprintf(os.Stderr, "request failed: %v\n", err)
+	os.Exit(1)
+}
+defer resp.Body.Close()
+
+var scrapeResult map[string]interface{}
+json.NewDecoder(resp.Body).Decode(&scrapeResult)
+
+data := scrapeResult["data"].(map[string]interface{})
+metadata := data["metadata"].(map[string]interface{})
+scrapeId := metadata["scrapeId"].(string)
+fmt.Println("scrapeId:", scrapeId)
+```
+
+### Step 2 — Send interactions
+
+```go
+// Search for a product
+interactBody, _ := json.Marshal(map[string]string{
+	"prompt": "Search for iPhone 16 Pro Max",
+})
+
+interactURL := fmt.Sprintf("https://api.firecrawl.dev/v2/scrape/%s/interact", scrapeId)
+req, _ = http.NewRequest("POST", interactURL, bytes.NewReader(interactBody))
+req.Header.Set("Authorization", "Bearer "+apiKey)
+req.Header.Set("Content-Type", "application/json")
+
+resp, err = http.DefaultClient.Do(req)
+if err != nil {
+	fmt.Fprintf(os.Stderr, "interact failed: %v\n", err)
+	os.Exit(1)
+}
+defer resp.Body.Close()
+
+result, _ := io.ReadAll(resp.Body)
+fmt.Println(string(result))
+
+// Click on the first result
+interactBody, _ = json.Marshal(map[string]string{
+	"prompt": "Click on the first result and tell me the price",
+})
+
+req, _ = http.NewRequest("POST", interactURL, bytes.NewReader(interactBody))
+req.Header.Set("Authorization", "Bearer "+apiKey)
+req.Header.Set("Content-Type", "application/json")
+
+resp, err = http.DefaultClient.Do(req)
+if err != nil {
+	fmt.Fprintf(os.Stderr, "interact failed: %v\n", err)
+	os.Exit(1)
+}
+defer resp.Body.Close()
+
+result, _ = io.ReadAll(resp.Body)
+fmt.Println(string(result))
+```
+
+### Step 3 — Stop the session
+
+```go
+req, _ = http.NewRequest("DELETE", interactURL, nil)
+req.Header.Set("Authorization", "Bearer "+apiKey)
+
+resp, err = http.DefaultClient.Do(req)
+if err != nil {
+	fmt.Fprintf(os.Stderr, "delete failed: %v\n", err)
+	os.Exit(1)
+}
+defer resp.Body.Close()
+
+fmt.Println("Session stopped")
+```
+
+## Reusable helper
+
+For repeated use, wrap the API in a small helper:
+
+```go
+type FirecrawlClient struct {
+	APIKey  string
+	BaseURL string
+	Client  *http.Client
+}
+
+func NewFirecrawlClient(apiKey string) *FirecrawlClient {
+	return &FirecrawlClient{
+		APIKey:  apiKey,
+		BaseURL: "https://api.firecrawl.dev/v2",
+		Client:  &http.Client{},
+	}
+}
+
+func (fc *FirecrawlClient) post(endpoint string, payload interface{}) ([]byte, error) {
+	body, err := json.Marshal(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", fc.BaseURL+endpoint, bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", "Bearer "+fc.APIKey)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := fc.Client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	return io.ReadAll(resp.Body)
+}
+
+func (fc *FirecrawlClient) Scrape(url string) ([]byte, error) {
+	return fc.post("/scrape", map[string]string{"url": url})
+}
+
+func (fc *FirecrawlClient) Search(query string, limit int) ([]byte, error) {
+	return fc.post("/search", map[string]interface{}{"query": query, "limit": limit})
+}
+```
+
+
+  A [community Go SDK](https://github.com/mendableai/firecrawl-go) is available for the v1 API. See the [Go SDK docs](/sdks/go) for details.
+
+
+## Next steps
+
+
+    Search the web and get full page content
+
+
+    All scrape options including formats, actions, and proxies
+
+
+    Click, fill forms, and extract dynamic content
+
+
+    Complete REST API documentation
+
+

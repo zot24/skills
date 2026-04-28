@@ -58,7 +58,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Gateway Runbook</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Gateway runbook</span>
 
   </div>
 
@@ -66,7 +66,37 @@ Nodes
 
 - <div>
 
-  Configuration and operations
+  Configuration
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Authentication and secrets
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Health and diagnostics
+
+  </div>
+
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+- <div>
+
+  Scaling and operations
 
   </div>
 
@@ -113,7 +143,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Remote Access</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Remote access</span>
 
   </div>
 
@@ -123,7 +153,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Remote Gateway Setup</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Remote gateway setup</span>
 
   </div>
 
@@ -133,7 +163,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Tailscale</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Tailscale</span>
 
   </div>
 
@@ -148,7 +178,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Formal Verification (Security Models)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Formal verification (security models)</span>
 
   </div>
 
@@ -158,7 +188,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Threat Model (MITRE ATLAS)</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Threat model (MITRE ATLAS)</span>
 
   </div>
 
@@ -168,7 +198,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Contributing to the Threat Model</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Contributing to the threat model</span>
 
   </div>
 
@@ -183,7 +213,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Nodes</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Nodes</span>
 
   </div>
 
@@ -194,7 +224,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Node Troubleshooting</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Node troubleshooting</span>
 
   </div>
 
@@ -229,7 +259,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Web</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Web</span>
 
   </div>
 
@@ -239,7 +269,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Control UI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Control UI</span>
 
   </div>
 
@@ -249,7 +279,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">Dashboard</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Dashboard</span>
 
   </div>
 
@@ -259,7 +289,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">WebChat</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">WebChat</span>
 
   </div>
 
@@ -269,7 +299,7 @@ Nodes
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words">TUI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">TUI</span>
 
   </div>
 
@@ -279,7 +309,6 @@ Nodes
 On this page
 
 
-- <a href="#nodes" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Nodes</a>
 - <a href="#pairing-%2B-status" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Pairing + status</a>
 - <a href="#remote-node-host-system-run" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Remote node host (system.run)</a>
 - <a href="#what-runs-where" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">What runs where</a>
@@ -311,12 +340,6 @@ Nodes and media
 # Nodes
 
 
-# 
-
-
-<a href="#nodes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
 - Nodes are **peripherals**, not gateways. They don’t run the gateway service.
 - Telegram/WhatsApp/etc. messages land on the **gateway**, not on nodes.
 - Troubleshooting runbook: <a href="/nodes/troubleshooting" class="link">/nodes/troubleshooting</a>
@@ -338,7 +361,8 @@ openclaw nodes describe --node <idOrNameOrIp>
 
 - `nodes status` marks a node as **paired** when its device pairing role includes `node`.
 - The device pairing record is the durable approved-role contract. Token rotation stays inside that contract; it cannot upgrade a paired node into a different role that pairing approval never granted.
-- `node.pair.*` (CLI: `openclaw nodes pending/approve/reject/rename`) is a separate gateway-owned node pairing store; it does **not** gate the WS `connect` handshake.
+- `node.pair.*` (CLI: `openclaw nodes pending/approve/reject/remove/rename`) is a separate gateway-owned node pairing store; it does **not** gate the WS `connect` handshake.
+- `openclaw nodes remove --node <id|name|ip>` deletes stale entries from that separate gateway-owned node pairing store.
 - Approval scope follows the pending request’s declared commands:
   - commandless request: `operator.pairing`
   - non-exec node commands: `operator.pairing` + `operator.write`
@@ -408,6 +432,7 @@ openclaw node run --host 127.0.0.1 --port 18790 --display-name "Build Node"
 
 ``` shiki
 openclaw node install --host <gateway-host> --port 18789 --display-name "Build Node"
+openclaw node start
 openclaw node restart
 ```
 
@@ -695,6 +720,6 @@ openclaw node run --host <gateway-host> --port 18789
 - In remote mode, the app opens an SSH tunnel for the Gateway port and connects to `localhost`.
 
 
-<a href="/security/CONTRIBUTING-THREAT-MODEL" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Contributing to the Threat Model</span></a><a href="/nodes/troubleshooting" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Node Troubleshooting</span></a>
+<a href="/security/CONTRIBUTING-THREAT-MODEL" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Contributing to the threat model</span></a><a href="/nodes/troubleshooting" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Node troubleshooting</span></a>
 
 

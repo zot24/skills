@@ -1,6 +1,6 @@
 {
   "name": "managing-servarr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Full media stack management — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, Recyclarr",
   "sources": [
     {

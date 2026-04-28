@@ -1,0 +1,370 @@
+> Source: https://docs.firecrawl.dev/sdks/node.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# Node
+
+> Scrape, crawl, and extract structured data from websites using the Firecrawl Node SDK.
+
+Scrape single pages, crawl entire sites, and map URLs from your Node.js application. The SDK handles pagination, retries, and async job polling so you can focus on working with the returned data.
+
+## Installation
+
+Install the SDK with npm:
+
+```js Node
+# npm install @mendable/firecrawl-js
+
+import Firecrawl from '@mendable/firecrawl-js';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+```
+
+## Usage
+
+1. Get an API key from [firecrawl.dev](https://firecrawl.dev)
+2. Set the API key as an environment variable named `FIRECRAWL_API_KEY` or pass it as a parameter to the `FirecrawlApp` class.
+
+Here's an example of how to use the SDK with error handling:
+
+```js Node
+import Firecrawl from '@mendable/firecrawl-js';
+
+const firecrawl = new Firecrawl({apiKey: "fc-YOUR_API_KEY"});
+
+// Scrape a website
+const scrapeResponse = await firecrawl.scrape('https://firecrawl.dev', {
+  formats: ['markdown', 'html'],
+});
+
+console.log(scrapeResponse)
+
+// Crawl a website
+const crawlResponse = await firecrawl.crawl('https://firecrawl.dev', {
+  limit: 100,
+  scrapeOptions: {
+    formats: ['markdown', 'html'],
+  }
+});
+
+console.log(crawlResponse)
+```
+
+### Scraping a URL
+
+Scrape a single URL and get back structured page data with the `scrape` method.
+
+```js Node
+// Scrape a website:
+const scrapeResult = await firecrawl.scrape('firecrawl.dev', { formats: ['markdown', 'html'] });
+
+console.log(scrapeResult)
+```
+
+### Parsing uploaded files
+
+Use `parse` when you want to upload a local file (`html`, `pdf`, `docx`, `xlsx`, etc.) instead of scraping by URL.
+`parse` does not support `changeTracking` or browser-only options like `screenshot`, `branding`, `actions`, `waitFor`, `location`, and `mobile`.
+
+```js Node
+const parsed = await firecrawl.parse(
+  {
+    data: "<html><body><h1>Node Parse</h1></body></html>",
+    filename: "upload.html",
+    contentType: "text/html",
+  },
+  {
+    formats: ["markdown"],
+  },
+);
+
+console.log(parsed.markdown);
+```
+
+### Crawling a Website
+
+Crawl an entire website starting from a single URL with the `crawl` method. You can set a page limit, restrict to specific domains, and choose output formats. See [Pagination](#pagination) for auto and manual pagination.
+
+```js Node
+const job = await firecrawl.crawl('https://docs.firecrawl.dev', { limit: 5, pollInterval: 1, timeout: 120 });
+console.log(job.status);
+```
+
+### Sitemap-Only Crawl
+
+Use `sitemap: "only"` to crawl sitemap URLs only (the start URL is always included, and HTML link discovery is skipped).
+
+```js Node
+const job = await firecrawl.crawl('https://docs.firecrawl.dev', {
+  sitemap: 'only',
+  limit: 25,
+});
+console.log(job.status, job.data.length);
+```
+
+### Start a Crawl
+
+Start a crawl without waiting for it to finish using `startCrawl`. The method returns a job ID you can poll later. Use `crawl` instead when you want to block until completion. See [Pagination](#pagination) for paging behavior and limits.
+
+```js Node
+const { id } = await firecrawl.startCrawl('https://docs.firecrawl.dev', { limit: 10 });
+console.log(id);
+```
+
+### Checking Crawl Status
+
+Check whether a crawl is still running, completed, or failed with the `checkCrawlStatus` method. Pass the job ID returned by `startCrawl`.
+
+```js Node
+const status = await firecrawl.getCrawlStatus("<crawl-id>");
+console.log(status);
+```
+
+### Cancelling a Crawl
+
+Cancel a running crawl with the `cancelCrawl` method. Pass the job ID returned by `startCrawl`.
+
+```js Node
+const ok = await firecrawl.cancelCrawl("<crawl-id>");
+console.log("Cancelled:", ok);
+```
+
+### Mapping a Website
+
+Discover all URLs on a website with the `map` method. Pass a starting URL and get back a list of discovered pages.
+
+```js Node
+const res = await firecrawl.map('https://firecrawl.dev', { limit: 10 });
+console.log(res.links);
+```
+
+### Crawling a Website with WebSockets
+
+Stream crawl results in real time with the `crawlUrlAndWatch` method. You receive each page as it is crawled instead of waiting for the entire job to finish.
+
+```js Node
+import Firecrawl from '@mendable/firecrawl-js';
+
+const firecrawl = new Firecrawl({ apiKey: 'fc-YOUR-API-KEY' });
+
+// Start a crawl and then watch it
+const { id } = await firecrawl.startCrawl('https://mendable.ai', {
+  excludePaths: ['blog/*'],
+  limit: 5,
+});
+
+const watcher = firecrawl.watcher(id, { kind: 'crawl', pollInterval: 2, timeout: 120 });
+
+watcher.on('document', (doc) => {
+  console.log('DOC', doc);
+});
+
+watcher.on('error', (err) => {
+  console.error('ERR', err?.error || err);
+});
+
+watcher.on('done', (state) => {
+  console.log('DONE', state.status);
+});
+
+// Begin watching (WS with HTTP fallback)
+await watcher.start();
+```
+
+### Pagination
+
+Firecrawl endpoints for crawl and batch return a `next` URL when more data is available. The Node SDK auto-paginates by default and aggregates all documents; in that case `next` will be `null`. You can disable auto-pagination or set limits.
+
+#### Crawl
+
+Use the waiter method `crawl` for the simplest experience, or start a job and page manually.
+
+##### Simple crawl (auto-pagination, default)
+
+* See the default flow in [Crawling a Website](#crawling-a-website).
+
+##### Manual crawl with pagination control (single page)
+
+* Start a job, then fetch one page at a time with `autoPaginate: false`.
+
+```js Node
+const crawlStart = await firecrawl.startCrawl('https://docs.firecrawl.dev', { limit: 5 });
+const crawlJobId = crawlStart.id;
+
+const crawlSingle = await firecrawl.getCrawlStatus(crawlJobId, { autoPaginate: false });
+console.log('crawl single page:', crawlSingle.status, 'docs:', crawlSingle.data.length, 'next:', crawlSingle.next);
+```
+
+##### Manual crawl with limits (auto-pagination + early stop)
+
+* Keep auto-pagination on but stop early with `maxPages`, `maxResults`, or `maxWaitTime`.
+
+```js Node
+const crawlLimited = await firecrawl.getCrawlStatus(crawlJobId, {
+  autoPaginate: true,
+  maxPages: 2,
+  maxResults: 50,
+  maxWaitTime: 15,
+});
+console.log('crawl limited:', crawlLimited.status, 'docs:', crawlLimited.data.length, 'next:', crawlLimited.next);
+```
+
+#### Batch Scrape
+
+Use the waiter method `batchScrape`, or start a job and page manually.
+
+##### Simple batch scrape (auto-pagination, default)
+
+* See the default flow in [Batch Scrape](/features/batch-scrape).
+
+##### Manual batch scrape with pagination control (single page)
+
+* Start a job, then fetch one page at a time with `autoPaginate: false`.
+
+```js Node
+const batchStart = await firecrawl.startBatchScrape([
+  'https://docs.firecrawl.dev',
+  'https://firecrawl.dev',
+], { options: { formats: ['markdown'] } });
+const batchJobId = batchStart.id;
+
+const batchSingle = await firecrawl.getBatchScrapeStatus(batchJobId, { autoPaginate: false });
+console.log('batch single page:', batchSingle.status, 'docs:', batchSingle.data.length, 'next:', batchSingle.next);
+```
+
+##### Manual batch scrape with limits (auto-pagination + early stop)
+
+* Keep auto-pagination on but stop early with `maxPages`, `maxResults`, or `maxWaitTime`.
+
+```js Node
+const batchLimited = await firecrawl.getBatchScrapeStatus(batchJobId, {
+  autoPaginate: true,
+  maxPages: 2,
+  maxResults: 100,
+  maxWaitTime: 20,
+});
+console.log('batch limited:', batchLimited.status, 'docs:', batchLimited.data.length, 'next:', batchLimited.next);
+```
+
+## Browser
+
+Launch cloud browser sessions and execute code remotely.
+
+### Create a Session
+
+```js Node
+import Firecrawl from '@mendable/firecrawl-js';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+
+const session = await firecrawl.browser({ ttl: 600 });
+console.log(session.id);          // session ID
+console.log(session.cdpUrl);      // wss://cdp-proxy.firecrawl.dev/cdp/...
+console.log(session.liveViewUrl); // https://liveview.firecrawl.dev/...
+```
+
+### Execute Code
+
+```js Node
+const result = await firecrawl.browserExecute(session.id, {
+  code: 'await page.goto("https://news.ycombinator.com")\ntitle = await page.title()\nprint(title)',
+});
+console.log(result.result); // "Hacker News"
+```
+
+Execute JavaScript instead of Python:
+
+```js Node
+const result = await firecrawl.browserExecute(session.id, {
+  code: 'await page.goto("https://example.com"); const t = await page.title(); console.log(t);',
+  language: "node",
+});
+```
+
+Execute bash with agent-browser:
+
+```js Node
+const result = await firecrawl.browserExecute(session.id, {
+  code: "agent-browser open https://example.com && agent-browser snapshot",
+  language: "bash",
+});
+```
+
+### Profiles
+
+Save and reuse browser state (cookies, localStorage, etc.) across sessions:
+
+```js Node
+const session = await firecrawl.browser({
+  ttl: 600,
+  profile: {
+    name: "my-profile",
+    saveChanges: true,
+  },
+});
+```
+
+### Connect via CDP
+
+For full Playwright control, connect directly using the CDP URL:
+
+```js Node
+import { chromium } from "playwright";
+
+const browser = await chromium.connectOverCDP(session.cdpUrl);
+const context = browser.contexts()[0];
+const page = context.pages()[0] || await context.newPage();
+
+await page.goto("https://example.com");
+console.log(await page.title());
+
+await browser.close();
+```
+
+### List & Close Sessions
+
+```js Node
+// List active sessions
+const { sessions } = await firecrawl.listBrowsers({ status: "active" });
+for (const s of sessions) {
+  console.log(s.id, s.status, s.createdAt);
+}
+
+// Close a session
+await firecrawl.deleteBrowser(session.id);
+```
+
+### Scrape-Bound Interactive Session
+
+Use a scrape job ID to keep interacting with the replayed page context from that scrape:
+
+* `interact(jobId, {...})` runs code in the scrape-bound browser session.
+* First `interact` call auto-initializes the session from the scrape context.
+* Additional `interact` calls on the same job ID reuse that live browser state.
+* `stopInteraction(jobId)` stops the interactive session when you are done.
+
+```js Node
+const doc = await firecrawl.scrape("https://example.com", {
+  actions: [{ type: "click", selector: "a[href='/pricing']" }],
+});
+
+const scrapeJobId = doc.metadata?.scrapeId;
+if (!scrapeJobId) throw new Error("Missing scrape job id");
+
+const run = await firecrawl.interact(scrapeJobId, {
+  code: "console.log(await page.url())",
+  language: "node",
+  timeout: 60,
+});
+console.log(run.stdout);
+
+await firecrawl.stopInteraction(scrapeJobId);
+```
+
+## Error Handling
+
+The SDK throws descriptive exceptions for any errors returned by the Firecrawl API. Wrap calls in `try/catch` blocks as shown in the examples above.
+
+> Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
