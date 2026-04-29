@@ -26,13 +26,23 @@ jobs:
     steps:
       - name: Check for new release
         id: check
+        env:
+          # Authenticate to avoid the 60/hr unauthenticated rate limit on shared runners.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Fetch latest release from hermes-agent
-          LATEST=$(curl -sSL https://api.github.com/repos/NousResearch/hermes-agent/releases/latest | jq -r '.tag_name // empty')
+          # Fetch latest release from hermes-agent. Use gh API which auto-authenticates
+          # and returns a non-zero exit if the endpoint 404s (no published release yet).
+          LATEST=$(gh api repos/NousResearch/hermes-agent/releases/latest --jq '.tag_name // empty' 2>/dev/null || true)
 
           if [ -z "$LATEST" ]; then
             echo "No release found, checking tags..."
-            LATEST=$(curl -sSL https://api.github.com/repos/NousResearch/hermes-agent/tags | jq -r '.[0].name // empty')
+            # gh api returns a JSON array; guard against non-array responses (errors, empty repos).
+            TAGS_JSON=$(gh api repos/NousResearch/hermes-agent/tags 2>/dev/null || echo '[]')
+            if echo "$TAGS_JSON" | jq -e 'type == "array"' >/dev/null 2>&1; then
+              LATEST=$(echo "$TAGS_JSON" | jq -r '.[0].name // empty')
+            else
+              echo "Tags endpoint did not return an array — skipping"
+            fi
           fi
 
           if [ -z "$LATEST" ]; then
