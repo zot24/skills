@@ -64,7 +64,7 @@ Text-to-speech and speech-to-text across all messaging platforms:
 
 \| Provider \| Quality \| Cost \| API Key \| \|\|----------\|---------\|------\|---------\| \|\| **Edge TTS** (default) \| Good \| Free \| None needed \| \|\| **ElevenLabs** \| Excellent \| Paid \| `ELEVENLABS_API_KEY` \| \|\| **OpenAI TTS** \| Good \| Paid \| `VOICE_TOOLS_OPENAI_KEY` \| \|\| **MiniMax** \| Good \| Paid \| `MINIMAX_API_KEY` \| \|\| **NeuTTS** \| Good \| Free \| None needed \|
 
-Speech-to-text supports three providers: local Whisper (free, runs on-device), Groq (fast cloud), and OpenAI Whisper API. Voice message transcription works across Telegram, Discord, WhatsApp, and other messaging platforms. See [Voice & TTS](/docs/user-guide/features/tts) and [Voice Mode](/docs/user-guide/features/voice-mode) for details.
+Speech-to-text supports six providers: local faster-whisper (free, runs on-device), a local command wrapper, Groq, OpenAI Whisper API, Mistral, and xAI. Voice message transcription works across Telegram, Discord, WhatsApp, and other messaging platforms. See [Voice & TTS](/docs/user-guide/features/tts) and [Voice Mode](/docs/user-guide/features/voice-mode) for details.
 
 ## IDE & Editor Integration<a href="#ide--editor-integration" class="hash-link" aria-label="Direct link to IDE &amp; Editor Integration" translate="no" title="Direct link to IDE &amp; Editor Integration">​</a>
 
@@ -77,7 +77,7 @@ Speech-to-text supports three providers: local Whisper (free, runs on-device), G
 ## Memory & Personalization<a href="#memory--personalization" class="hash-link" aria-label="Direct link to Memory &amp; Personalization" translate="no" title="Direct link to Memory &amp; Personalization">​</a>
 
 - **[Built-in Memory](/docs/user-guide/features/memory)** — Persistent, curated memory via `MEMORY.md` and `USER.md` files. The agent maintains bounded stores of personal notes and user profile data that survive across sessions.
-- **[Memory Providers](/docs/user-guide/features/memory-providers)** — Plug in external memory backends for deeper personalization. Seven providers are supported: Honcho (dialectic reasoning), OpenViking (tiered retrieval), Mem0 (cloud extraction), Hindsight (knowledge graphs), Holographic (local SQLite), RetainDB (hybrid search), and ByteRover (CLI-based).
+- **[Memory Providers](/docs/user-guide/features/memory-providers)** — Plug in external memory backends for deeper personalization. Eight providers are supported: Honcho (dialectic reasoning), OpenViking (tiered retrieval), Mem0 (cloud extraction), Hindsight (knowledge graphs), Holographic (local SQLite), RetainDB (hybrid search), ByteRover (CLI-based), and Supermemory.
 
 ## Messaging Platforms<a href="#messaging-platforms" class="hash-link" aria-label="Direct link to Messaging Platforms" translate="no" title="Direct link to Messaging Platforms">​</a>
 
