@@ -107,10 +107,10 @@ Cron jobs default to running detached from any repo — no `AGENTS.md`, `CLAUDE.
 
 
 ``` prism-code
-# Standalone CLI
-hermes cron create --schedule "every 1d at 09:00" \
-  --workdir /home/me/projects/acme \
-  --prompt "Audit open PRs, summarize CI health, and post to #eng"
+# Standalone CLI (schedule and prompt are positional)
+hermes cron create "every 1d at 09:00" \
+  "Audit open PRs, summarize CI health, and post to #eng" \
+  --workdir /home/me/projects/acme
 ```
 
 
@@ -414,6 +414,74 @@ cronjob(action="remove", job_id="...")
 
 For `update`, pass `skills=[]` to remove all attached skills.
 
+## Toolsets available to cron jobs<a href="#toolsets-available-to-cron-jobs" class="hash-link" aria-label="Direct link to Toolsets available to cron jobs" translate="no" title="Direct link to Toolsets available to cron jobs">​</a>
+
+Cron runs each job in a fresh agent session with no chat platform attached. By default the cron agent gets **the toolset you configured for the `cron` platform in `hermes tools`** — not the CLI default, not everything under the sun.
+
+
+``` prism-code
+hermes tools
+# → pick the "cron" platform in the curses UI
+# → toggle toolsets on/off just like you would for Telegram/Discord/etc.
+```
+
+
+Tighter per-job control is available via the `enabled_toolsets` field on `cronjob.create` (or on an existing job via `cronjob.update`):
+
+
+``` prism-code
+cronjob(action="create", name="weekly-news-summary",
+        schedule="every sunday 9am",
+        enabled_toolsets=["web", "file"],      # just web + file, no terminal/browser/etc.
+        prompt="Summarize this week's AI news: ...")
+```
+
+
+When `enabled_toolsets` is set on a job it wins; otherwise the `hermes tools` cron-platform config wins; otherwise Hermes falls back to the built-in defaults. This matters for cost control: carrying `moa`, `browser`, `delegation` into every tiny "fetch news" job bloats the tool-schema prompt on every LLM call.
+
+### Skipping the agent entirely: `wakeAgent`<a href="#skipping-the-agent-entirely-wakeagent" class="hash-link" aria-label="Direct link to skipping-the-agent-entirely-wakeagent" translate="no" title="Direct link to skipping-the-agent-entirely-wakeagent">​</a>
+
+If your cron job attaches a pre-check script (via `script=`), the script can decide at runtime whether Hermes should even invoke the agent. Emit a final stdout line of the form:
+
+
+``` prism-code
+{"wakeAgent": false}
+```
+
+
+…and cron skips the agent run entirely for this tick. Useful for frequent polls (every 1–5 min) that only need to wake the LLM when state actually changed — otherwise you pay for zero-content agent turns over and over.
+
+
+``` prism-code
+# pre-check script
+import json, sys
+latest = fetch_latest_issue_count()
+prev = read_state("issue_count")
+if latest == prev:
+    print(json.dumps({"wakeAgent": False}))   # skip this tick
+    sys.exit(0)
+write_state("issue_count", latest)
+print(json.dumps({"wakeAgent": True, "context": {"new_issues": latest - prev}}))
+```
+
+
+When `wakeAgent` is omitted, the default is `true` (wake the agent as usual).
+
+### Chaining jobs: `context_from`<a href="#chaining-jobs-context_from" class="hash-link" aria-label="Direct link to chaining-jobs-context_from" translate="no" title="Direct link to chaining-jobs-context_from">​</a>
+
+A cron job can consume the most recent successful output of one or more other jobs by listing their names (or IDs) in `context_from`:
+
+
+``` prism-code
+cronjob(action="create", name="daily-digest",
+        schedule="every day 7am",
+        context_from=["ai-news-fetch", "github-prs-fetch"],
+        prompt="Write the daily digest using the outputs above.")
+```
+
+
+The referenced jobs' most recent completed outputs are injected above the prompt as context for this run. Each upstream entry must be a valid job ID or name (see `cronjob action="list"`). Note: chaining reads the *most recent completed* output — it does not wait for upstream jobs that are running in the same tick.
+
 ## Job storage<a href="#job-storage" class="hash-link" aria-label="Direct link to Job storage" translate="no" title="Direct link to Job storage">​</a>
 
 Jobs are stored in `~/.hermes/cron/jobs.json`. Output from job runs is saved to `~/.hermes/cron/output/{job_id}/{timestamp}.md`.
@@ -466,6 +534,9 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#iso-timestamps" class="table-of-contents__link toc-highlight">ISO timestamps</a>
 - <a href="#repeat-behavior" class="table-of-contents__link toc-highlight">Repeat behavior</a>
 - <a href="#managing-jobs-programmatically" class="table-of-contents__link toc-highlight">Managing jobs programmatically</a>
+- <a href="#toolsets-available-to-cron-jobs" class="table-of-contents__link toc-highlight">Toolsets available to cron jobs</a>
+  - <a href="#skipping-the-agent-entirely-wakeagent" class="table-of-contents__link toc-highlight">Skipping the agent entirely: <code>wakeAgent</code></a>
+  - <a href="#chaining-jobs-context_from" class="table-of-contents__link toc-highlight">Chaining jobs: <code>context_from</code></a>
 - <a href="#job-storage" class="table-of-contents__link toc-highlight">Job storage</a>
 - <a href="#self-contained-prompts-still-matter" class="table-of-contents__link toc-highlight">Self-contained prompts still matter</a>
 - <a href="#security" class="table-of-contents__link toc-highlight">Security</a>
