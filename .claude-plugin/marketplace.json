@@ -64,7 +64,7 @@
       "name": "hermes",
       "source": "./skills/hermes",
       "description": "Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
-      "version": "1.1.8"
+      "version": "1.1.9"
     },
     {
       "name": "honcho",
