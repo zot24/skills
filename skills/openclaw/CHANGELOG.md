@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.4](https://github.com/zot24/skills/compare/openclaw-v4.0.3...openclaw-v4.0.4) (2026-05-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#91](https://github.com/zot24/skills/issues/91)) ([914c15a](https://github.com/zot24/skills/commit/914c15af94a240d4560949189237e2d4f1f17ec6))
+
 ## [4.0.3](https://github.com/zot24/skills/compare/openclaw-v4.0.2...openclaw-v4.0.3) (2026-04-28)
 
 
