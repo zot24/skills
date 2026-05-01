@@ -223,6 +223,16 @@ Models CLI
   </div>
 
   </div>
+- <span id="/providers/deepinfra"><a href="/providers/deepinfra" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Deepinfra</span>
+
+  </div>
+
+  </div>
 - <span id="/providers/deepseek"><a href="/providers/deepseek" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -639,6 +649,7 @@ On this page
 
 
 - <a href="#how-model-selection-works" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">How model selection works</a>
+- <a href="#selection-source-and-fallback-behavior" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Selection source and fallback behavior</a>
 - <a href="#quick-model-policy" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Quick model policy</a>
 - <a href="#onboarding-recommended" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Onboarding (recommended)</a>
 - <a href="#config-keys-overview" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Config keys (overview)</a>
@@ -659,15 +670,59 @@ Concepts and configuration
 # Models CLI
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: <https://docs.openclaw.ai/llms.txt>
+>
+> Use this file to discover all available pages before exploring further.
+
+
+## Model failover
+
+
+## Model providers
+
+
+## Agent runtimes
+
+
+## Configuration reference
+
+
 ## 
 
 
 <a href="#how-model-selection-works" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-1.  **Primary** model (`agents.defaults.model.primary` or `agents.defaults.model`).
-2.  **Fallbacks** in `agents.defaults.model.fallbacks` (in order).
-3.  **Provider auth failover** happens inside a provider before moving to the next model.
+1
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Primary model
+
+
+2
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Fallbacks
+
+
+3
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Provider auth failover
+
+
+Related model surfaces
 
 
 - `agents.defaults.models` is the allowlist/catalog of models OpenClaw can use (plus aliases).
@@ -676,7 +731,21 @@ Concepts and configuration
 - `agents.defaults.imageGenerationModel` is used by the shared image-generation capability. If omitted, `image_generate` can still infer an auth-backed provider default. It tries the current default provider first, then the remaining registered image-generation providers in provider-id order. If you set a specific provider/model, also configure that provider’s auth/API key.
 - `agents.defaults.musicGenerationModel` is used by the shared music-generation capability. If omitted, `music_generate` can still infer an auth-backed provider default. It tries the current default provider first, then the remaining registered music-generation providers in provider-id order. If you set a specific provider/model, also configure that provider’s auth/API key.
 - `agents.defaults.videoGenerationModel` is used by the shared video-generation capability. If omitted, `video_generate` can still infer an auth-backed provider default. It tries the current default provider first, then the remaining registered video-generation providers in provider-id order. If you set a specific provider/model, also configure that provider’s auth/API key.
-- Per-agent defaults can override `agents.defaults.model` via `agents.list[].model` plus bindings (see <a href="/concepts/multi-agent" class="link">/concepts/multi-agent</a>).
+- Per-agent defaults can override `agents.defaults.model` via `agents.list[].model` plus bindings (see <a href="/concepts/multi-agent" class="link">Multi-agent routing</a>).
+
+
+## 
+
+
+<a href="#selection-source-and-fallback-behavior" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Configured defaults (`agents.defaults.model.primary` and agent-specific primaries) are the normal starting point and use `agents.defaults.model.fallbacks`.
+- Auto fallback selections are temporary recovery state. They are stored with `modelOverrideSource: "auto"` so later turns can keep using the fallback chain without probing a known-bad primary first.
+- User session selections are exact. `/model`, the model picker, `session_status(model=...)`, and `sessions.patch` store `modelOverrideSource: "user"`; if that selected provider/model is unreachable, OpenClaw fails visibly instead of falling through to another configured model.
+- Cron `--model` / payload `model` is a per-job primary. It still uses configured fallbacks unless the job supplies explicit payload `fallbacks` (use `fallbacks: []` for a strict cron run).
+- CLI default-model and allowlist pickers respect `models.mode: "replace"` by listing explicit `models.providers.*.models` instead of loading the full built-in catalog.
+- The Control UI model picker asks the Gateway for its configured model view: `agents.defaults.models` when present, otherwise explicit `models.providers.*.models` plus providers with usable auth. The full built-in catalog is reserved for explicit browse views such as `models.list` with `view: "all"` or `openclaw models list --all`.
 
 ## 
 
@@ -725,6 +794,9 @@ openclaw config set agents.defaults.models '{"openai/gpt-5.4":{}}' --strict-json
 ```
 
 
+Clobber protection rules
+
+
 ## 
 
 
@@ -769,21 +841,35 @@ Model "provider/model" is not allowed. Use /model to list available models.
 ```
 
 
+Picker behavior
+
+
 - `/model` (and `/model list`) is a compact, numbered picker (model family + available providers).
 - On Discord, `/model` and `/models` open an interactive picker with provider and model dropdowns plus a Submit step.
 - `/models add` is deprecated and now returns a deprecation message instead of registering models from chat.
 - `/model <#>` selects from that picker.
+
+
+Persistence and live switching
+
+
 - `/model` persists the new session selection immediately.
 - If the agent is idle, the next run uses the new model right away.
 - If a run is already active, OpenClaw marks a live switch as pending and only restarts into the new model at a clean retry point.
 - If tool activity or reply output has already started, the pending switch can stay queued until a later retry opportunity or the next user turn.
+- A user-selected `/model` ref is strict for that session: if the selected provider/model is unreachable, the reply fails visibly instead of silently answering from `agents.defaults.model.fallbacks`. This is different from configured defaults and cron job primaries, which can still use fallback chains.
 - `/model status` is the detailed view (auth candidates and, when configured, provider endpoint `baseUrl` + `api` mode).
+
+
+Ref parsing
+
+
 - Model refs are parsed by splitting on the **first** `/`. Use `provider/model` when typing `/model <ref>`.
 - If the model ID itself contains `/` (OpenRouter-style), you must include the provider prefix (example: `/model openrouter/moonshotai/kimi-k2`).
 - If you omit the provider, OpenClaw resolves the input in this order:
   1.  alias match
   2.  unique configured-provider match for that exact unprefixed model id
-  3.  deprecated fallback to the configured default provider If that provider no longer exposes the configured default model, OpenClaw instead falls back to the first configured provider/model to avoid surfacing a stale removed-provider default.
+  3.  deprecated fallback to the configured default provider — if that provider no longer exposes the configured default model, OpenClaw instead falls back to the first configured provider/model to avoid surfacing a stale removed-provider default.
 
 
 ## 
@@ -820,17 +906,65 @@ openclaw models image-fallbacks clear
 <a href="#models-list" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- `--all`: full catalog
-- `--local`: local providers only
-- `--provider <id>`: filter by provider id, for example `moonshot`; display labels from interactive pickers are not accepted
-- `--plain`: one model per line
-- `--json`: machine‑readable output
+<a href="#param-all" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--all
+
+
+boolean
+
+
+<a href="#param-local" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--local
+
+
+boolean
+
+
+<a href="#param-provider-id" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--provider \<id\>
+
+
+string
+
+
+<a href="#param-plain" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--plain
+
+
+boolean
+
+
+<a href="#param-json" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--json
+
+
+boolean
 
 
 ### 
 
 
 <a href="#models-status" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Auth and probe behavior
+
+
+- OAuth status is always shown (and included in `--json` output). If a configured provider has no credentials, `models status` prints a **Missing auth** section.
+- JSON includes `auth.oauth` (warn window + profiles) and `auth.providers` (effective auth per provider, including env-backed credentials). `auth.oauth` is auth-store profile health only; env-only providers do not appear there.
+- Use `--check` for automation (exit `1` when missing/expired, `2` when expiring).
+- Use `--probe` for live auth checks; probe rows can come from auth profiles, env credentials, or `models.json`.
+- If explicit `auth.order.<provider>` omits a stored profile, probe reports `excluded_by_auth_order` instead of trying it. If auth exists but no probeable model can be resolved for that provider, probe reports `status: no_model`.
 
 
 ``` shiki
@@ -845,13 +979,67 @@ openclaw models status
 <a href="#scanning-openrouter-free-models" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- `--no-probe`: skip live probes (metadata only)
-- `--min-params <b>`: minimum parameter size (billions)
-- `--max-age-days <days>`: skip older models
-- `--provider <name>`: provider prefix filter
-- `--max-candidates <n>`: fallback list size
-- `--set-default`: set `agents.defaults.model.primary` to the first selection
-- `--set-image`: set `agents.defaults.imageModel.primary` to the first image selection
+<a href="#param-no-probe" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--no-probe
+
+
+boolean
+
+
+<a href="#param-min-params-b" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--min-params \<b\>
+
+
+number
+
+
+<a href="#param-max-age-days-days" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--max-age-days \<days\>
+
+
+number
+
+
+<a href="#param-provider-name" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--provider \<name\>
+
+
+string
+
+
+<a href="#param-max-candidates-n" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--max-candidates \<n\>
+
+
+number
+
+
+<a href="#param-set-default" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--set-default
+
+
+boolean
+
+
+<a href="#param-set-image" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--set-image
+
+
+boolean
 
 
 1.  Image support
@@ -861,7 +1049,7 @@ openclaw models status
 
 
 - OpenRouter `/models` list (filter `:free`)
-- Live probes require OpenRouter API key from auth profiles or `OPENROUTER_API_KEY` (see <a href="/help/environment" class="link">/environment</a>)
+- Live probes require OpenRouter API key from auth profiles or `OPENROUTER_API_KEY` (see <a href="/help/environment" class="link">Environment variables</a>)
 - Optional filters: `--max-age-days`, `--min-params`, `--provider`, `--max-candidates`
 - Request/probe controls: `--timeout`, `--concurrency`
 
@@ -870,6 +1058,9 @@ openclaw models status
 
 
 <a href="#models-registry-models-json" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Merge mode precedence
 
 
 - Non-empty `baseUrl` already present in the agent `models.json` wins.
@@ -886,13 +1077,13 @@ openclaw models status
 <a href="#related" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- <a href="/concepts/model-providers" class="link">Model Providers</a> — provider routing and auth
-- <a href="/concepts/agent-runtimes" class="link">Agent Runtimes</a> — PI, Codex, and other agent loop runtimes
-- <a href="/concepts/model-failover" class="link">Model Failover</a> — fallback chains
-- <a href="/tools/image-generation" class="link">Image Generation</a> — image model configuration
-- <a href="/tools/music-generation" class="link">Music Generation</a> — music model configuration
-- <a href="/tools/video-generation" class="link">Video Generation</a> — video model configuration
-- <a href="/gateway/config-agents#agent-defaults" class="link">Configuration Reference</a> — model config keys
+- <a href="/concepts/agent-runtimes" class="link">Agent runtimes</a> — PI, Codex, and other agent loop runtimes
+- <a href="/gateway/config-agents#agent-defaults" class="link">Configuration reference</a> — model config keys
+- <a href="/tools/image-generation" class="link">Image generation</a> — image model configuration
+- <a href="/concepts/model-failover" class="link">Model failover</a> — fallback chains
+- <a href="/concepts/model-providers" class="link">Model providers</a> — provider routing and auth
+- <a href="/tools/music-generation" class="link">Music generation</a> — music model configuration
+- <a href="/tools/video-generation" class="link">Video generation</a> — video model configuration
 
 
 <a href="/providers/models" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model provider quickstart</span></a><a href="/concepts/model-providers" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Model providers</span></a>

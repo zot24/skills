@@ -54,6 +54,7 @@ hermes [global-options] <command> [subcommand/options]
 | `hermes login` / `logout` | **Deprecated** — use `hermes auth` instead.                                                                                                    |
 | `hermes status`           | Show agent, auth, and platform status.                                                                                                         |
 | `hermes cron`             | Inspect and tick the cron scheduler.                                                                                                           |
+| `hermes kanban`           | Multi-profile collaboration board (tasks, links, dispatcher).                                                                                  |
 | `hermes webhook`          | Manage dynamic webhook subscriptions for event-driven activation.                                                                              |
 | `hermes hooks`            | Inspect, approve, or remove shell-script hooks declared in `config.yaml`.                                                                      |
 | `hermes doctor`           | Diagnose config and dependency issues.                                                                                                         |
@@ -362,6 +363,40 @@ hermes cron <list|create|edit|pause|resume|run|remove|status|tick>
 | `remove`         | Delete a scheduled job.                                                                                                                            |
 | `status`         | Check whether the cron scheduler is running.                                                                                                       |
 | `tick`           | Run due jobs once and exit.                                                                                                                        |
+
+## `hermes kanban`<a href="#hermes-kanban" class="hash-link" aria-label="Direct link to hermes-kanban" translate="no" title="Direct link to hermes-kanban">​</a>
+
+
+``` prism-code
+hermes kanban <action> [options]
+```
+
+
+Multi-profile collaboration board. Tasks live in `~/.hermes/kanban.db` (WAL-mode SQLite); every profile reads and writes the same board. A `cron`-driven dispatcher (`hermes kanban dispatch`) atomically claims ready tasks and spawns the assigned profile as its own process with an isolated workspace.
+
+| Action                    | Purpose                                                                                                                                         |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| `init`                    | Create `kanban.db` if missing. Idempotent.                                                                                                      |
+| `create "<title>"`        | Create a new task. Flags: `--body`, `--assignee`, `--parent` (repeatable), `--workspace scratch|worktree|dir:<path>`, `--tenant`, `--priority`. |
+| `list` / `ls`             | List tasks. Filter with `--mine`, `--assignee`, `--status`, `--tenant`, `--archived`, `--json`.                                                 |
+| `show <id>`               | Show a task with comments and events. `--json` for machine output.                                                                              |
+| `assign <id> <profile>`   | Assign or reassign. Use `none` to unassign. Refused while task is running.                                                                      |
+| `link <parent> <child>`   | Add a dependency. Cycle-detected.                                                                                                               |
+| `unlink <parent> <child>` | Remove a dependency.                                                                                                                            |
+| `claim <id>`              | Atomically claim a ready task. Prints resolved workspace path.                                                                                  |
+| `comment <id> "<text>"`   | Append a comment. Visible to the next worker that runs the task.                                                                                |
+| `complete <id>`           | Mark task done. Flag: `--result "<summary>"` (goes into children's parent-result context).                                                      |
+| `block <id> "<reason>"`   | Mark task blocked. Also appends the reason as a comment.                                                                                        |
+| `unblock <id>`            | Return a blocked task to ready.                                                                                                                 |
+| `archive <id>`            | Hide from default list. `gc` will remove scratch workspaces.                                                                                    |
+| `tail <id>`               | Follow a task's event stream.                                                                                                                   |
+| `dispatch`                | One dispatcher pass. Flags: `--dry-run`, `--max N`, `--json`.                                                                                   |
+| `context <id>`            | Print the full context a worker would see (title + body + parent results + comments).                                                           |
+| `gc`                      | Remove scratch workspaces for archived tasks.                                                                                                   |
+
+All actions are also available as a slash command in the gateway (`/kanban …`), with the same argument surface.
+
+For the full design — comparison with Cline Kanban / Paperclip / NanoClaw / Gemini Enterprise, eight collaboration patterns, four user stories, concurrency correctness proof — see `docs/hermes-kanban-v1-spec.pdf` in the repository or the [Kanban user guide](/docs/user-guide/features/kanban).
 
 ## `hermes webhook`<a href="#hermes-webhook" class="hash-link" aria-label="Direct link to hermes-webhook" translate="no" title="Direct link to hermes-webhook">​</a>
 
@@ -1162,6 +1197,7 @@ See [Fallback Providers](/docs/user-guide/features/fallback-providers) for behav
 - <a href="#hermes-auth" class="table-of-contents__link toc-highlight"><code>hermes auth</code></a>
 - <a href="#hermes-status" class="table-of-contents__link toc-highlight"><code>hermes status</code></a>
 - <a href="#hermes-cron" class="table-of-contents__link toc-highlight"><code>hermes cron</code></a>
+- <a href="#hermes-kanban" class="table-of-contents__link toc-highlight"><code>hermes kanban</code></a>
 - <a href="#hermes-webhook" class="table-of-contents__link toc-highlight"><code>hermes webhook</code></a>
   - <a href="#hermes-webhook-subscribe" class="table-of-contents__link toc-highlight"><code>hermes webhook subscribe</code></a>
 - <a href="#hermes-doctor" class="table-of-contents__link toc-highlight"><code>hermes doctor</code></a>

@@ -1,6 +1,6 @@
 {
   "name": "firecrawl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Firecrawl — web scraping, crawling, search, and browser automation API for AI agents",
   "sources": [
     {
@@ -996,6 +996,114 @@
     {
       "url": "https://docs.firecrawl.dev/webhooks/testing.md",
       "target": "skills/firecrawl/docs/testing.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/agents/fire-1-extract.md",
+      "target": "skills/firecrawl/docs/fire-1-extract.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/agents/fire-1.md",
+      "target": "skills/firecrawl/docs/fire-1.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/ai-onboarding.md",
+      "target": "skills/firecrawl/docs/ai-onboarding.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/errors.md",
+      "target": "skills/firecrawl/docs/errors.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/lockdown.md",
+      "target": "skills/firecrawl/docs/lockdown.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/parse.md",
+      "target": "skills/firecrawl/docs/parse.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/amp.md",
+      "target": "skills/firecrawl/docs/amp.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/antigravity.md",
+      "target": "skills/firecrawl/docs/antigravity.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/autogen.md",
+      "target": "skills/firecrawl/docs/autogen.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/claude-code.md",
+      "target": "skills/firecrawl/docs/claude-code.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/codex-cli.md",
+      "target": "skills/firecrawl/docs/codex-cli.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/cursor.md",
+      "target": "skills/firecrawl/docs/cursor.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/gemini-cli.md",
+      "target": "skills/firecrawl/docs/gemini-cli.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/nous-research.md",
+      "target": "skills/firecrawl/docs/nous-research.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/openclaw.md",
+      "target": "skills/firecrawl/docs/openclaw.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/opencode.md",
+      "target": "skills/firecrawl/docs/opencode.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/openrouter.md",
+      "target": "skills/firecrawl/docs/openrouter.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/windsurf.md",
+      "target": "skills/firecrawl/docs/windsurf.md",
       "type": "extract-content",
       "freshness_days": 14
     }

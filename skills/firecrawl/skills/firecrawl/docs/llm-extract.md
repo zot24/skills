@@ -12,6 +12,8 @@
   **v2 API Change:** JSON schema extraction is fully supported in v2, but the API format has changed. In v2, the schema is embedded directly inside the format object as `formats: [{type: "json", schema: {...}}]`. The v1 `jsonOptions` parameter no longer exists in v2.
 
 
+For schema validation failures and other extraction errors, see [Errors](/api-reference/errors) — extraction-specific issues typically surface as `400` or `422` responses.
+
 ## Scrape and extract structured data with Firecrawl
 
 Firecrawl uses AI to get structured data from web pages in 3 steps:

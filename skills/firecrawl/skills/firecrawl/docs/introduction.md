@@ -8,6 +8,10 @@
 
 > Search the web, scrape any page, and interact with it — all through one API.
 
+
+  **For AI agents:** Append `.md` to any docs URL for markdown, e.g. [introduction.md](/introduction.md).
+
+
 ## Get started
 
 

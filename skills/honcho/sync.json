@@ -1,6 +1,6 @@
 {
   "name": "honcho",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AI-native memory and context platform for LLM applications — persistent memory, user modeling, and context management",
   "sources": [
     {

@@ -1,7 +1,7 @@
 {
   "name": "firecrawl",
   "description": "Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents. Converts any website to clean LLM-ready data.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "zot24"
   },

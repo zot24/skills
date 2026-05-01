@@ -32,6 +32,9 @@ Agent
 <a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
 
 
+<a href="/ai-onboarding" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">Build with AI</a>
+
+
 - <a href="https://firecrawl.dev/playground" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Playground</span></a>
 - <a href="https://firecrawl.dev/blog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Blog</span></a>
 - <a href="https://discord.gg/firecrawl" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Community</span></a>
@@ -58,6 +61,17 @@ Agent
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words hyphens-auto">Skill + CLI</span>
+
+  </div>
+
+  </div>
+
+- <span id="/ai-onboarding"><a href="/ai-onboarding" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Build with AI</span>
 
   </div>
 
@@ -146,6 +160,21 @@ Agent
 
 ##### More
 
+
+- <span id="/features/parse"><a href="/features/parse" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Parse</span>
+
+  </div>
+
+  </div>
 
 - <span id="/features/map"><a href="/features/map" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
@@ -322,21 +351,6 @@ Agent
 
 ##### Developer Guides
 
-
-- <span id="/developer-guides/openclaw"><a href="/developer-guides/openclaw" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="h-[1lh] flex items-center shrink-0">
-
-  </div>
-
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenClaw</span>
-
-  </div>
-
-  </div>
 
 - <span id="/developer-guides/examples"><a href="/developer-guides/examples" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
@@ -680,6 +694,13 @@ Gather data wherever it lives on the web.
 Copy page
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
+>
+> Use this file to discover all available pages before exploring further.
+
+
 - **No URLs Required**: Just describe what you need via `prompt` parameter. URLs are optional
 - **Deep Web Search**: Autonomously searches and navigates deep into sites to find your data
 - **Reliable and Accurate**: Works with a wide variety of queries and use cases
@@ -982,13 +1003,13 @@ print(result.data)
 <a href="#parameters" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Parameter    | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                         |
-|--------------|--------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `prompt`     | string | **Yes**  | Natural language description of the data you want to extract (max 10,000 characters)                                                                                                                                                                                                                                                                                                |
-| `model`      | string | No       | Model to use: `spark-1-mini` (default) or `spark-1-pro`                                                                                                                                                                                                                                                                                                                             |
-| `urls`       | array  | No       | Optional list of URLs to focus the extraction                                                                                                                                                                                                                                                                                                                                       |
-| `schema`     | object | No       | Optional JSON schema for structured output                                                                                                                                                                                                                                                                                                                                          |
-| `maxCredits` | number | No       | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails and **no data is returned**, though credits consumed for work performed are still charged. |
+| Parameter    | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|--------------|--------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `prompt`     | string | **Yes**  | Natural language description of the data you want to extract (max 10,000 characters)                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `model`      | string | No       | Model to use: `spark-1-mini` (default) or `spark-1-pro`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `urls`       | array  | No       | Optional list of URLs to focus the extraction                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `schema`     | object | No       | Optional JSON schema for structured output                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `maxCredits` | number | No       | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails and **no data is returned**. Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
 
 
 ## 

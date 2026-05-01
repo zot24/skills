@@ -1,7 +1,7 @@
 {
   "name": "openclaw",
   "description": "Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo)",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "author": {
     "name": "zot24"
   },

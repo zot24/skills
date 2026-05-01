@@ -193,10 +193,13 @@ By default, messaging a busy agent interrupts it. Two other modes are available:
 ``` prism-code
 display:
   busy_input_mode: steer   # or queue, or interrupt (default)
+  busy_ack_enabled: true   # set to false to suppress the ⚡/⏳/⏩ chat reply entirely
 ```
 
 
 The first time you message a busy agent on any platform, Hermes appends a one-line reminder to the busy-ack explaining the knob (`"💡 First-time tip — …"`). The reminder fires once per install — a flag under `onboarding.seen.busy_input_prompt` latches it. Delete that key to see the tip again.
+
+If you find the busy-ack noisy — especially with voice input or rapid-fire messages — set `display.busy_ack_enabled: false`. Your input is still queued/steered/interrupts as normal, only the chat reply is silenced.
 
 ## Tool Progress Notifications<a href="#tool-progress-notifications" class="hash-link" aria-label="Direct link to Tool Progress Notifications" translate="no" title="Direct link to Tool Progress Notifications">​</a>
 

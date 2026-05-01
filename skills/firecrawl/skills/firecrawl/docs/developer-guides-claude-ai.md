@@ -11,7 +11,7 @@
 Add web scraping and search capabilities to Claude.ai with Firecrawl MCP using custom connectors.
 
 
-  Looking for Claude Code setup? See the [Claude Code guide](/developer-guides/mcp-setup-guides/claude-code) instead.
+  Looking for Claude Code setup? See the [Claude Code guide](/quickstarts/claude-code) instead.
 
 
 ## Quick Setup
