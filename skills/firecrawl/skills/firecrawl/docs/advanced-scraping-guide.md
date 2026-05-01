@@ -96,11 +96,11 @@ The `formats` array controls which output types the scraper returns. Default: `[
 
 These parameters control which parts of the page appear in the output. When `onlyMainContent` is `true` (the default), boilerplate (nav, footer, etc.) is stripped. `includeTags` and `excludeTags` are applied against the original page DOM, not the post-filtered result, so your selectors should target elements as they appear in the source HTML. Set `onlyMainContent: false` to use the full page as the starting point for tag filtering.
 
-| Parameter         | Type      | Default | Description                                                                  |
-| ----------------- | --------- | ------- | ---------------------------------------------------------------------------- |
-| `onlyMainContent` | `boolean` | `true`  | Return only the main content. Set `false` for the full page.                 |
-| `includeTags`     | `array`   | —       | HTML tags, classes, or IDs to include (e.g. `["h1", "p", ".main-content"]`). |
-| `excludeTags`     | `array`   | —       | HTML tags, classes, or IDs to exclude (e.g. `["#ad", "#footer"]`).           |
+| Parameter         | Type      | Default | Description                                                                                                                            |
+| ----------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `onlyMainContent` | `boolean` | `true`  | Return only the main content. Set `false` for the full page.                                                                           |
+| `includeTags`     | `array`   | —       | CSS selectors to include — tags, classes, IDs, or attribute selectors (e.g. `["h1", "p", ".main-content", "[data-testid=\"main\"]"]`). |
+| `excludeTags`     | `array`   | —       | CSS selectors to exclude — tags, classes, IDs, or attribute selectors (e.g. `["#ad", "#footer", "[role=\"banner\"]"]`).                |
 
 ### Timing and cache
 

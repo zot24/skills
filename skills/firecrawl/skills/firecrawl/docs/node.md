@@ -15,7 +15,7 @@ Scrape single pages, crawl entire sites, and map URLs from your Node.js applicat
 Install the SDK with npm:
 
 ```js Node
-# npm install @mendable/firecrawl-js
+// npm install @mendable/firecrawl-js
 
 import Firecrawl from '@mendable/firecrawl-js';
 

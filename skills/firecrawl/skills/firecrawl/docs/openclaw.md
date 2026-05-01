@@ -1,4 +1,4 @@
-> Source: https://docs.firecrawl.dev/developer-guides/openclaw.md
+> Source: https://docs.firecrawl.dev/quickstarts/openclaw.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt

@@ -32,6 +32,9 @@ Overview
 <a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
 
 
+<a href="/ai-onboarding" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">Build with AI</a>
+
+
 - <a href="https://firecrawl.dev/playground" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Playground</span></a>
 - <a href="https://firecrawl.dev/blog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Blog</span></a>
 - <a href="https://discord.gg/firecrawl" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Community</span></a>
@@ -213,6 +216,13 @@ Firecrawl SDKs are wrappers around the Firecrawl API to help you easily search, 
 
 
 Copy page
+
+
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
+>
+> Use this file to discover all available pages before exploring further.
 
 
 ## 

@@ -167,6 +167,17 @@ Scheduled tasks
 
   </div>
 
+- <span id="/plugins/memory-lancedb"><a href="/plugins/memory-lancedb" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Memory LanceDB</span>
+
+  </div>
+
+  </div>
+
 - <span id="/plugins/message-presentation"><a href="/plugins/message-presentation" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -212,7 +223,7 @@ Scheduled tasks
 
 - <div>
 
-  SDK reference
+  Plugin SDK reference
 
   </div>
 
@@ -674,10 +685,6 @@ On this page
 - <a href="#cli-examples" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">CLI examples</a>
 - <a href="#webhooks" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Webhooks</a>
 - <a href="#authentication" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Authentication</a>
-- <a href="#post-%2Fhooks%2Fwake" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">POST /hooks/wake</a>
-- <a href="#post-%2Fhooks%2Fagent" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">POST /hooks/agent</a>
-- <a href="#mapped-hooks-post-%2Fhooks%2F%3Cname%3E" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Mapped hooks (POST /hooks/&lt;name&gt;)</a>
-- <a href="#security" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Security</a>
 - <a href="#gmail-pubsub-integration" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Gmail PubSub integration</a>
 - <a href="#wizard-setup-recommended" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Wizard setup (recommended)</a>
 - <a href="#gateway-auto-start" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Gateway auto-start</a>
@@ -687,10 +694,6 @@ On this page
 - <a href="#configuration" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Configuration</a>
 - <a href="#troubleshooting" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Troubleshooting</a>
 - <a href="#command-ladder" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Command ladder</a>
-- <a href="#cron-not-firing" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Cron not firing</a>
-- <a href="#cron-fired-but-no-delivery" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Cron fired but no delivery</a>
-- <a href="#cron-or-heartbeat-appears-to-prevent-%2Fnew-style-rollover" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Cron or heartbeat appears to prevent /new-style rollover</a>
-- <a href="#timezone-gotchas" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Timezone gotchas</a>
 - <a href="#related" class="break-words py-1 block font-medium hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Related</a>
 
 
@@ -700,14 +703,29 @@ Automation and tasks
 # Scheduled tasks
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: <https://docs.openclaw.ai/llms.txt>
+>
+> Use this file to discover all available pages before exploring further.
+
+
 ## 
 
 
 <a href="#quick-start" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
+1
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Add a one-shot reminder
+
+
 ``` shiki
-# Add a one-shot reminder
 openclaw cron add \
   --name "Reminder" \
   --at "2026-02-01T16:00:00Z" \
@@ -715,12 +733,34 @@ openclaw cron add \
   --system-event "Reminder: check the cron docs draft" \
   --wake now \
   --delete-after-run
+```
 
-# Check your jobs
+
+2
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Check your jobs
+
+
+``` shiki
 openclaw cron list
 openclaw cron show <job-id>
+```
 
-# See run history
+
+3
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+See run history
+
+
+``` shiki
 openclaw cron runs --id <job-id>
 ```
 
@@ -735,10 +775,15 @@ openclaw cron runs --id <job-id>
 - Job definitions persist at `~/.openclaw/cron/jobs.json` so restarts do not lose schedules.
 - Runtime execution state persists next to it in `~/.openclaw/cron/jobs-state.json`. If you track cron definitions in git, track `jobs.json` and gitignore `jobs-state.json`.
 - After the split, older OpenClaw versions can read `jobs.json` but may treat jobs as fresh because runtime fields now live in `jobs-state.json`.
+- When `jobs.json` is edited while the Gateway is running or stopped, OpenClaw compares the changed schedule fields with pending runtime slot metadata and clears stale `nextRunAtMs` values. Pure formatting or key-order-only rewrites preserve the pending slot.
 - All cron executions create <a href="/automation/tasks" class="link">background task</a> records.
+- On Gateway startup, overdue isolated agent-turn jobs are rescheduled out of the channel-connect window instead of replaying immediately, so Discord/Telegram startup and native-command setup stay responsive after restarts.
 - One-shot jobs (`--at`) auto-delete after success by default.
 - Isolated cron runs best-effort close tracked browser tabs/processes for their `cron:<jobId>` session when the run completes, so detached browser automation does not leave orphaned processes behind.
 - Isolated cron runs also guard against stale acknowledgement replies. If the first result is just an interim status update (`on it`, `pulling everything together`, and similar hints) and no descendant subagent run is still responsible for the final answer, OpenClaw re-prompts once for the actual result before delivery.
+- Isolated cron runs prefer structured execution-denial metadata from the embedded run, then fall back to known final summary/output markers such as `SYSTEM_RUN_DENIED` and `INVALID_REQUEST`, so a blocked command is not reported as a green run.
+- Isolated cron runs also treat run-level agent failures as job errors even when no reply payload is produced, so model/provider failures increment error counters and trigger failure notifications instead of clearing the job as successful.
+- When an isolated agent-turn job reaches `timeoutSeconds`, cron aborts the underlying agent run and gives it a short cleanup window. If the run does not drain, Gateway-owned cleanup force-clears that run’s session ownership before cron records the timeout, so queued chat work is not left behind a stale processing session.
 
 
 ## 
@@ -781,16 +826,70 @@ openclaw cron runs --id <job-id>
 | Custom session  | `session:custom-id` | Persistent named session | Workflows that build on history |
 
 
+Main session vs isolated vs custom
+
+
+What 'fresh session' means for isolated jobs
+
+
+Runtime cleanup
+
+
+Subagent and Discord delivery
+
+
 ### 
 
 
 <a href="#payload-options-for-isolated-jobs" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- `--message`: prompt text (required for isolated)
-- `--model` / `--thinking`: model and thinking level overrides
-- `--light-context`: skip workspace bootstrap file injection
-- `--tools exec,read`: restrict which tools the job can use
+<a href="#param-message" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--message
+
+
+string
+
+
+required
+
+
+<a href="#param-model" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--model
+
+
+string
+
+
+<a href="#param-thinking" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--thinking
+
+
+string
+
+
+<a href="#param-light-context" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--light-context
+
+
+boolean
+
+
+<a href="#param-tools" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+--tools
+
+
+string
 
 
 1.  Gmail hook model override (when the run came from Gmail and that override is allowed)
@@ -816,11 +915,43 @@ openclaw cron runs --id <job-id>
 - `job.delivery.failureDestination` overrides that per job.
 - If neither is set and the job already delivers via `announce`, failure notifications now fall back to that primary announce target.
 - `delivery.failureDestination` is only supported on `sessionTarget="isolated"` jobs unless the primary delivery mode is `webhook`.
+- `failureAlert.includeSkipped: true` opts a job or global cron alert policy into repeated skipped-run alerts. Skipped runs keep a separate consecutive skip counter, so they do not affect execution-error backoff.
 
 ## 
 
 
 <a href="#cli-examples" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <div id="one-shot-reminder">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-One-shot reminder">
+
+  One-shot reminder
+
+  </div>
+
+  </div>
+
+- <div id="recurring-isolated-job">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" component-part="tab-button" active="false" testid="tab-Recurring isolated job">
+
+  Recurring isolated job
+
+  </div>
+
+  </div>
+
+- <div id="model-and-thinking-override">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" component-part="tab-button" active="false" testid="tab-Model and thinking override">
+
+  Model and thinking override
+
+  </div>
+
+  </div>
 
 
 ``` shiki
@@ -886,10 +1017,7 @@ openclaw cron add \
 - `x-openclaw-token: <token>`
 
 
-### 
-
-
-<a href="#post-/hooks/wake" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+POST /hooks/wake
 
 
 ``` shiki
@@ -900,13 +1028,28 @@ curl -X POST http://127.0.0.1:18789/hooks/wake \
 ```
 
 
-- `text` (required): event description
-- `mode` (optional): `now` (default) or `next-heartbeat`
-
-### 
+<a href="#param-text" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
 
 
-<a href="#post-/hooks/agent" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+text
+
+
+string
+
+
+required
+
+
+<a href="#param-mode" class="-ml-10 flex items-center opacity-0 border-0 group-hover/param-head:opacity-100 focus:opacity-100 focus:outline-0 py-2 [.expandable-content_&amp;]:-ml-[2.1rem] group/link" aria-label="Navigate to header">​</a>
+
+
+mode
+
+
+string
+
+
+POST /hooks/agent
 
 
 ``` shiki
@@ -917,25 +1060,16 @@ curl -X POST http://127.0.0.1:18789/hooks/agent \
 ```
 
 
-### 
+Mapped hooks (POST /hooks/\<name\>)
 
 
-<a href="#mapped-hooks-post-/hooks/%3Cname%3E" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-### 
-
-
-<a href="#security" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-- Keep hook endpoints behind loopback, tailnet, or trusted reverse proxy.
 - Use a dedicated hook token; do not reuse gateway auth tokens.
 - Keep `hooks.path` on a dedicated subpath; `/` is rejected.
 - Set `hooks.allowedAgentIds` to limit explicit `agentId` routing.
 - Keep `hooks.allowRequestSessionKey=false` unless you require caller-selected sessions.
 - If you enable `hooks.allowRequestSessionKey`, also set `hooks.allowedSessionKeyPrefixes` to constrain allowed session key shapes.
 - Hook payloads are wrapped with safety boundaries by default.
+
 
 ## 
 
@@ -966,7 +1100,13 @@ openclaw webhooks gmail setup --account openclaw@gmail.com
 <a href="#manual-one-time-setup" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-1.  Select the GCP project that owns the OAuth client used by `gog`:
+1
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Select the GCP project
 
 
 ``` shiki
@@ -976,7 +1116,13 @@ gcloud services enable gmail.googleapis.com pubsub.googleapis.com
 ```
 
 
-2.  Create topic and grant Gmail push access:
+2
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Create topic and grant Gmail push access
 
 
 ``` shiki
@@ -987,7 +1133,13 @@ gcloud pubsub topics add-iam-policy-binding gog-gmail-watch \
 ```
 
 
-3.  Start the watch:
+3
+
+
+<a href="#" class="flex items-center opacity-0 border-0" aria-label="Navigate to header"></a>
+
+
+Start the watch
 
 
 ``` shiki
@@ -1052,8 +1204,11 @@ openclaw cron edit <jobId> --clear-agent
 
 - `openclaw cron add|edit --model ...` changes the job’s selected model.
 - If the model is allowed, that exact provider/model reaches the isolated agent run.
-- If it is not allowed, cron warns and falls back to the job’s agent/default model selection.
-- Configured fallback chains still apply, but a plain `--model` override with no explicit per-job fallback list no longer falls through to the agent primary as a silent extra retry target.
+- If it is not allowed or cannot be resolved, cron fails the run with an explicit validation error.
+- Configured fallback chains still apply because cron `--model` is a job primary, not a session `/model` override.
+- Payload `fallbacks` replaces configured fallbacks for that job; `fallbacks: []` disables fallback and makes the run strict.
+- A plain `--model` with no explicit or configured fallback list does not fall through to the agent primary as a silent extra retry target.
+
 
 ## 
 
@@ -1080,6 +1235,12 @@ openclaw cron edit <jobId> --clear-agent
 ```
 
 
+Retry behavior
+
+
+Maintenance
+
+
 ## 
 
 
@@ -1104,10 +1265,7 @@ openclaw doctor
 ```
 
 
-### 
-
-
-<a href="#cron-not-firing" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+Cron not firing
 
 
 - Check `cron.enabled` and `OPENCLAW_SKIP_CRON` env var.
@@ -1115,10 +1273,8 @@ openclaw doctor
 - For `cron` schedules, verify timezone (`--tz`) vs the host timezone.
 - `reason: not-due` in run output means manual run was checked with `openclaw cron run <jobId> --due` and the job was not due yet.
 
-### 
 
-
-<a href="#cron-fired-but-no-delivery" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+Cron fired but no delivery
 
 
 - Delivery mode `none` means no runner fallback send is expected. The agent can still send directly with the `message` tool when a chat route is available.
@@ -1128,25 +1284,22 @@ openclaw doctor
 - If the isolated run returns only the silent token (`NO_REPLY` / `no_reply`), OpenClaw suppresses direct outbound delivery and also suppresses the fallback queued summary path, so nothing is posted back to chat.
 - If the agent should message the user itself, check that the job has a usable route (`channel: "last"` with a previous chat, or an explicit channel/target).
 
-### 
 
-
-<a href="#cron-or-heartbeat-appears-to-prevent-/new-style-rollover" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+Cron or heartbeat appears to prevent /new-style rollover
 
 
 - Daily and idle reset freshness is not based on `updatedAt`; see <a href="/concepts/session#session-lifecycle" class="link">Session management</a>.
 - Cron wakeups, heartbeat runs, exec notifications, and gateway bookkeeping may update the session row for routing/status, but they do not extend `sessionStartedAt` or `lastInteractionAt`.
 - For legacy rows created before those fields existed, OpenClaw can recover `sessionStartedAt` from the transcript JSONL session header when the file is still available. Legacy idle rows without `lastInteractionAt` use that recovered start time as their idle baseline.
 
-### 
 
-
-<a href="#timezone-gotchas" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+Timezone gotchas
 
 
 - Cron without `--tz` uses the gateway host timezone.
 - `at` schedules without timezone are treated as UTC.
 - Heartbeat `activeHours` uses configured timezone resolution.
+
 
 ## 
 

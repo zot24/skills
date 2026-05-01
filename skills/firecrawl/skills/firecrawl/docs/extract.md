@@ -32,6 +32,9 @@ JSON mode - Structured result
 <a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
 
 
+<a href="/ai-onboarding" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">Build with AI</a>
+
+
 - <a href="https://firecrawl.dev/playground" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Playground</span></a>
 - <a href="https://firecrawl.dev/blog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Blog</span></a>
 - <a href="https://discord.gg/firecrawl" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Community</span></a>
@@ -58,6 +61,17 @@ JSON mode - Structured result
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words hyphens-auto">Skill + CLI</span>
+
+  </div>
+
+  </div>
+
+- <span id="/ai-onboarding"><a href="/ai-onboarding" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Build with AI</span>
 
   </div>
 
@@ -188,6 +202,16 @@ JSON mode - Structured result
     </div>
 
     </div>
+  - <span id="/features/lockdown"><a href="/features/lockdown" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
+    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+    <span class="min-w-0 max-w-full break-words hyphens-auto">Lockdown Mode</span>
+
+    </div>
+
+    </div>
   - <span id="/features/proxies"><a href="/features/proxies" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
     <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -227,6 +251,21 @@ JSON mode - Structured result
 
 ##### More
 
+
+- <span id="/features/parse"><a href="/features/parse" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Parse</span>
+
+  </div>
+
+  </div>
 
 - <span id="/features/map"><a href="/features/map" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
@@ -382,21 +421,6 @@ JSON mode - Structured result
 
 ##### Developer Guides
 
-
-- <span id="/developer-guides/openclaw"><a href="/developer-guides/openclaw" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="h-[1lh] flex items-center shrink-0">
-
-  </div>
-
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words hyphens-auto">OpenClaw</span>
-
-  </div>
-
-  </div>
 
 - <span id="/developer-guides/examples"><a href="/developer-guides/examples" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
@@ -723,6 +747,16 @@ Extract structured data from pages via LLMs
 
 
 Copy page
+
+
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
+>
+> Use this file to discover all available pages before exploring further.
+
+
+For schema validation failures and other extraction errors, see <a href="/api-reference/errors" class="link">Errors</a> — extraction-specific issues typically surface as `400` or `422` responses.
 
 
 ## 

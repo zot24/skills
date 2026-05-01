@@ -1,7 +1,7 @@
 {
   "name": "managing-adguard",
   "description": "Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "zot24"
   },

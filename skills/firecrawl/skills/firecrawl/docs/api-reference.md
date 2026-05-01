@@ -32,6 +32,9 @@ Introduction
 <a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] text-primary dark:text-primary-light hover:text-primary dark:hover:text-primary-light" data-active="true">API Reference</a>
 
 
+<a href="/ai-onboarding" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">Build with AI</a>
+
+
 - <a href="https://firecrawl.dev/playground" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Playground</span></a>
 - <a href="https://firecrawl.dev/blog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Blog</span></a>
 - <a href="https://discord.gg/firecrawl" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Community</span></a>
@@ -47,6 +50,16 @@ Introduction
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words hyphens-auto">Introduction</span>
+
+  </div>
+
+  </div>
+- <span id="/api-reference/errors"><a href="/api-reference/errors" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Errors</span>
 
   </div>
 
@@ -606,6 +619,13 @@ Firecrawl API Reference (v2)
 Copy page
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
+>
+> Use this file to discover all available pages before exploring further.
+
+
 ## 
 
 
@@ -684,17 +704,6 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape" \
 <a href="#response-codes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Status | Description                           |
-|--------|---------------------------------------|
-| `200`  | Request was successful.               |
-| `400`  | Invalid request parameters.           |
-| `401`  | API key is missing or invalid.        |
-| `402`  | Payment required.                     |
-| `404`  | The requested resource was not found. |
-| `429`  | Rate limit exceeded.                  |
-| `5xx`  | Server error on Firecrawl’s side.     |
-
-
 ## 
 
 
@@ -704,9 +713,9 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape" \
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/api-reference/v2-introduction.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/api-reference/v2-introduction" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
 
 
-<a href="/api-reference/endpoint/search" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
+<a href="/api-reference/errors" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
 
 
-Search
+Errors
 
 

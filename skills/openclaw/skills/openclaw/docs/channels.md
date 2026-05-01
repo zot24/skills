@@ -308,6 +308,16 @@ WhatsApp
   </div>
 
   </div>
+- <span id="/channels/yuanbao"><a href="/channels/yuanbao" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Yuanbao</span>
+
+  </div>
+
+  </div>
 - <span id="/channels/zalo"><a href="/channels/zalo" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
 
@@ -444,6 +454,13 @@ Mainstream messaging
 # WhatsApp
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: <https://docs.openclaw.ai/llms.txt>
+>
+> Use this file to discover all available pages before exploring further.
+
+
 ## 
 
 
@@ -453,7 +470,7 @@ Mainstream messaging
 - Onboarding (`openclaw onboard`) and `openclaw channels add --channel whatsapp` prompt to install the WhatsApp plugin the first time you select it.
 - `openclaw channels login --channel whatsapp` also offers the install flow when the plugin is not present yet.
 - Dev channel + git checkout: defaults to the local plugin path.
-- Stable/Beta: defaults to the npm package `@openclaw/whatsapp`.
+- Stable/Beta: uses the npm package `@openclaw/whatsapp` when a current package is published.
 
 
 ``` shiki
@@ -597,9 +614,11 @@ WhatsApp Web-only channel scope
 
 
 - Gateway owns the WhatsApp socket and reconnect loop.
-- The reconnect watchdog uses WhatsApp Web transport activity, not only inbound app-message volume, so a quiet linked-device session is not restarted solely because nobody has sent a message recently. A longer application-silence cap still forces a reconnect if transport frames keep arriving but no application messages are handled for the watchdog window.
+- The reconnect watchdog uses WhatsApp Web transport activity, not only inbound app-message volume, so a quiet linked-device session is not restarted solely because nobody has sent a message recently. A longer application-silence cap still forces a reconnect if transport frames keep arriving but no application messages are handled for the watchdog window; after a transient reconnect for a recently active session, that application-silence check uses the normal message timeout for the first recovery window.
+- Baileys socket timings are explicit under `web.whatsapp.*`: `keepAliveIntervalMs` controls WhatsApp Web application pings, `connectTimeoutMs` controls the opening handshake timeout, and `defaultQueryTimeoutMs` controls Baileys query timeouts.
 - Outbound sends require an active WhatsApp listener for the target account.
 - Status and broadcast chats are ignored (`@status`, `@broadcast`).
+- The reconnect watchdog follows WhatsApp Web transport activity, not only inbound app-message volume: quiet linked-device sessions stay up while transport frames continue, but a transport stall forces reconnect well before the later remote disconnect path.
 - Direct chats use DM session rules (`session.dmScope`; default `main` collapses DMs to the agent main session).
 - Group sessions are isolated (`agent:<agentId>:whatsapp:group:<jid>`).
 - WhatsApp Web transport honors standard proxy environment variables on the gateway host (`HTTPS_PROXY`, `HTTP_PROXY`, `NO_PROXY` / lowercase variants). Prefer host-level proxy config over channel-specific WhatsApp proxy settings.
@@ -964,6 +983,19 @@ Linked but disconnected / reconnect loop
 
 
 ``` shiki
+{
+  web: {
+    whatsapp: {
+      keepAliveIntervalMs: 15000,
+      connectTimeoutMs: 60000,
+      defaultQueryTimeoutMs: 60000,
+    },
+  },
+}
+```
+
+
+``` shiki
 openclaw doctor
 openclaw logs --follow
 ```
@@ -973,6 +1005,9 @@ QR login times out behind a proxy
 
 
 No active listener when sending
+
+
+Reply appears in transcript but not in WhatsApp
 
 
 Group messages unexpectedly ignored
@@ -1059,7 +1094,7 @@ Bun runtime warning
 - access: `dmPolicy`, `allowFrom`, `groupPolicy`, `groupAllowFrom`, `groups`
 - delivery: `textChunkLimit`, `chunkMode`, `mediaMaxMb`, `sendReadReceipts`, `ackReaction`, `reactionLevel`
 - multi-account: `accounts.<id>.enabled`, `accounts.<id>.authDir`, account-level overrides
-- operations: `configWrites`, `debounceMs`, `web.enabled`, `web.heartbeatSeconds`, `web.reconnect.*`
+- operations: `configWrites`, `debounceMs`, `web.enabled`, `web.heartbeatSeconds`, `web.reconnect.*`, `web.whatsapp.*`
 - session behavior: `session.dmScope`, `historyLimit`, `dmHistoryLimit`, `dms.<id>.historyLimit`
 - prompts: `groups.<id>.systemPrompt`, `groups["*"].systemPrompt`, `direct.<id>.systemPrompt`, `direct["*"].systemPrompt`
 

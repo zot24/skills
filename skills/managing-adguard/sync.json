@@ -1,6 +1,6 @@
 {
   "name": "managing-adguard",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "AdGuard Home — network-wide DNS ad blocking and filtering",
   "sources": [
     {

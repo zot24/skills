@@ -22,7 +22,7 @@
       "name": "openclaw",
       "source": "./skills/openclaw",
       "description": "Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo)",
-      "version": "4.0.3"
+      "version": "4.0.4"
     },
     {
       "name": "agent-browser",
@@ -64,13 +64,13 @@
       "name": "hermes",
       "source": "./skills/hermes",
       "description": "Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
-      "version": "1.1.9"
+      "version": "1.1.10"
     },
     {
       "name": "honcho",
       "source": "./skills/honcho",
       "description": "Expert on Honcho — AI-native memory and context platform for LLM applications with persistent memory, user modeling, and context management",
-      "version": "1.0.2"
+      "version": "1.0.3"
     },
     {
       "name": "gh-issue-tracker",
@@ -82,7 +82,7 @@
       "name": "firecrawl",
       "source": "./skills/firecrawl",
       "description": "Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents with clean LLM-ready output",
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     {
       "name": "managing-servarr",
@@ -100,7 +100,7 @@
       "name": "managing-adguard",
       "source": "./skills/managing-adguard",
       "description": "Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation",
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     {
       "name": "managing-immich",
@@ -112,7 +112,7 @@
       "name": "managing-glinet",
       "source": "./skills/managing-glinet",
       "description": "Configure and manage GL.iNet routers — VPN (WireGuard, OpenVPN, Tailscale), AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes",
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     {
       "name": "managing-umami",

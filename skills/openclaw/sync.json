@@ -1,6 +1,6 @@
 {
   "name": "openclaw",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "OpenClaw AI assistant framework - complete documentation",
   "cache_dir": ".cache",
   "freshness_days": 14,

@@ -124,8 +124,23 @@ components:
           type: boolean
           description: >-
             Only return the main content of the page excluding headers, navs,
-            footers, etc.
+            footers, etc. This is a deterministic HTML-level filter applied
+            before markdown is generated; no LLM is involved.
           default: true
+        onlyCleanContent:
+          type: boolean
+          description: >-
+            Beta. Run an additional LLM-based pass over the generated markdown
+            to remove residual boilerplate that `onlyMainContent` can miss
+            (cookie banners, ad blocks, social share widgets, breadcrumbs,
+            newsletter signups, comment sections, related-article lists).
+            Headings, lists, tables, code blocks, image references, and inline
+            links are preserved. Can be combined with `onlyMainContent` (the
+            most common setup) or used on its own. Skipped with a warning when
+            the markdown exceeds the cleaning model's output token limit (the
+            original markdown is preserved). Not supported on
+            zero-data-retention requests.
+          default: false
         includeTags:
           type: array
           items:
@@ -499,6 +514,19 @@ components:
             sensitive scraping (e.g. actions, headers) will force this parameter
             to be false.
           default: true
+        lockdown:
+          type: boolean
+          description: >-
+            If true, serves the request from Firecrawl's cache only and never
+            makes an outbound request to the target URL. Designed for
+            compliance-constrained or air-gapped environments where the scrape
+            request itself could leak sensitive information. On cache miss,
+            returns a 404 with error code SCRAPE_LOCKDOWN_CACHE_MISS (the URL is
+            never logged on miss). Lockdown requests are treated as zero data
+            retention. Default maxAge is extended to 2 years so existing cached
+            pages remain eligible. Billed at 5 credits on hit, 1 credit on cache
+            miss.
+          default: false
         profile:
           type: object
           description: >-

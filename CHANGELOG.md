@@ -3,6 +3,57 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-05-01] Documentation Sync
+
+**Updated skills:** openclaw hermes honcho firecrawl managing-adguard managing-glinet
+
+
+### openclaw
+Updated: install.md
+Updated: cli.md
+Updated: concepts.md
+Updated: gateway.md
+Updated: channels.md
+
+### hermes
+Updated: installation.md
+Updated: quickstart.md
+Updated: learning-path.md
+Updated: cli.md
+Updated: configuration.md
+
+### honcho
+Updated: overview.md
+Updated: quickstart.md
+Updated: vibecoding.md
+Updated: architecture.md
+Updated: design-patterns.md
+
+### firecrawl
+Updated: readme-upstream.md
+Updated: quickstart.md
+Updated: scrape.md
+Updated: search.md
+Updated: crawl.md
+
+### managing-adguard
+Updated: getting-started.md
+Updated: configuration.md
+Updated: docker.md
+Updated: encryption.md
+Updated: dhcp.md
+
+### managing-glinet
+Updated: first-time-setup.md
+Updated: internet-wan.md
+Updated: wireless.md
+Updated: lan-dns.md
+Updated: vpn-dashboard.md
+
+---
+
+
+
 ## [2026-04-28] Documentation Sync
 
 **Updated skills:** openclaw agent-browser ai-sdk agent-skills hermes honcho firecrawl managing-servarr managing-obsidian managing-adguard managing-immich managing-glinet managing-umami
