@@ -43,6 +43,24 @@ curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scri
 ```
 
 
+### I run Hermes in WSL2. What's the best way to control my normal Windows Chrome?<a href="#i-run-hermes-in-wsl2-whats-the-best-way-to-control-my-normal-windows-chrome" class="hash-link" aria-label="Direct link to I run Hermes in WSL2. What&#39;s the best way to control my normal Windows Chrome?" translate="no" title="Direct link to I run Hermes in WSL2. What&#39;s the best way to control my normal Windows Chrome?">​</a>
+
+Prefer an MCP bridge over `/browser connect`.
+
+Recommended pattern:
+
+- run Hermes inside WSL2
+- keep using your normal signed-in Chrome on Windows
+- add `chrome-devtools-mcp` as an MCP server through `cmd.exe` or `powershell.exe`
+- let Hermes use the resulting MCP browser tools
+
+This is more reliable than trying to force Hermes core browser transport to attach directly across the WSL2/Windows boundary.
+
+See:
+
+- [Use MCP with Hermes](/docs/guides/use-mcp-with-hermes#wsl2-bridge-hermes-in-wsl-to-windows-chrome)
+- [Browser Automation](/docs/user-guide/features/browser#wsl2--windows-chrome-prefer-mcp-over-browser-connect)
+
 ### Does it work on Android / Termux?<a href="#does-it-work-on-android--termux" class="hash-link" aria-label="Direct link to Does it work on Android / Termux?" translate="no" title="Direct link to Does it work on Android / Termux?">​</a>
 
 Yes — Hermes now has a tested Termux install path for Android phones.
@@ -476,8 +494,8 @@ Configure in `~/.hermes/config.yaml` under your gateway's settings. See the [Mes
 
 
 ``` prism-code
-# Install messaging dependencies
-pip install "hermes-agent[telegram]"   # or [discord], [slack], [whatsapp]
+# Install core messaging gateway dependencies
+pip install "hermes-agent[messaging]"  # Telegram, Discord, Slack, and shared gateway deps
 
 # Check for port conflicts
 lsof -i :8080
@@ -987,6 +1005,7 @@ If your issue isn't covered here:
 - <a href="#frequently-asked-questions" class="table-of-contents__link toc-highlight">Frequently Asked Questions</a>
   - <a href="#what-llm-providers-work-with-hermes" class="table-of-contents__link toc-highlight">What LLM providers work with Hermes?</a>
   - <a href="#does-it-work-on-windows" class="table-of-contents__link toc-highlight">Does it work on Windows?</a>
+  - <a href="#i-run-hermes-in-wsl2-whats-the-best-way-to-control-my-normal-windows-chrome" class="table-of-contents__link toc-highlight">I run Hermes in WSL2. What's the best way to control my normal Windows Chrome?</a>
   - <a href="#does-it-work-on-android--termux" class="table-of-contents__link toc-highlight">Does it work on Android / Termux?</a>
   - <a href="#is-my-data-sent-anywhere" class="table-of-contents__link toc-highlight">Is my data sent anywhere?</a>
   - <a href="#can-i-use-it-offline--with-local-models" class="table-of-contents__link toc-highlight">Can I use it offline / with local models?</a>

@@ -27,7 +27,8 @@ We value contributions in this order:
 
 ## Common contribution paths<a href="#common-contribution-paths" class="hash-link" aria-label="Direct link to Common contribution paths" translate="no" title="Direct link to Common contribution paths">​</a>
 
-- Building a new tool? Start with [Adding Tools](/docs/developer-guide/adding-tools)
+- Building a custom/local tool without modifying Hermes core? Start with [Build a Hermes Plugin](/docs/guides/build-a-hermes-plugin)
+- Building a new built-in core tool for Hermes itself? Start with [Adding Tools](/docs/developer-guide/adding-tools)
 - Building a new skill? Start with [Creating Skills](/docs/developer-guide/creating-skills)
 - Building a new inference provider? Start with [Adding Providers](/docs/developer-guide/adding-providers)
 
