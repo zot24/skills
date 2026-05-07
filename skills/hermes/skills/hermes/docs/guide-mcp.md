@@ -128,6 +128,91 @@ mcp_servers:
 
 This is usually the best default for sensitive systems.
 
+## WSL2: bridge Hermes in WSL to Windows Chrome<a href="#wsl2-bridge-hermes-in-wsl-to-windows-chrome" class="hash-link" aria-label="Direct link to WSL2: bridge Hermes in WSL to Windows Chrome" translate="no" title="Direct link to WSL2: bridge Hermes in WSL to Windows Chrome">​</a>
+
+This is the practical setup when:
+
+- Hermes runs inside WSL2
+- the browser you want to control is your normal signed-in Chrome on Windows
+- `/browser connect` is awkward or unreliable from WSL
+
+In this setup, Hermes does **not** connect to Chrome directly. Instead:
+
+- Hermes runs in WSL
+- Hermes starts a local stdio MCP server
+- that MCP server is launched through Windows interop (`cmd.exe` or `powershell.exe`)
+- the MCP server attaches to your live Windows Chrome session
+
+Mental model:
+
+
+``` prism-code
+Hermes (WSL) -> MCP stdio bridge -> Windows Chrome
+```
+
+
+### Why this mode is useful<a href="#why-this-mode-is-useful" class="hash-link" aria-label="Direct link to Why this mode is useful" translate="no" title="Direct link to Why this mode is useful">​</a>
+
+- you keep your real Windows browser profile, cookies, and logins
+- Hermes stays in its supported Unix environment (WSL2)
+- browser control is exposed as MCP tools instead of relying on Hermes core browser transport
+
+### Recommended server<a href="#recommended-server" class="hash-link" aria-label="Direct link to Recommended server" translate="no" title="Direct link to Recommended server">​</a>
+
+Use `chrome-devtools-mcp`.
+
+If your Windows Chrome already has live remote debugging enabled from `chrome://inspect/#remote-debugging`, add it like this from WSL:
+
+
+``` prism-code
+hermes mcp add chrome-devtools-win --command cmd.exe --args /c "npx -y chrome-devtools-mcp@latest --autoConnect --no-usage-statistics"
+```
+
+
+After saving the server:
+
+
+``` prism-code
+hermes mcp test chrome-devtools-win
+```
+
+
+Then start a fresh Hermes session or run:
+
+
+``` prism-code
+/reload-mcp
+```
+
+
+### Typical prompt<a href="#typical-prompt" class="hash-link" aria-label="Direct link to Typical prompt" translate="no" title="Direct link to Typical prompt">​</a>
+
+Once loaded, Hermes can use the MCP-prefixed browser tools directly. For example:
+
+
+``` prism-code
+调用 MCP 工具 mcp_chrome_devtools_win_list_pages，列出当前浏览器标签页。
+```
+
+
+### When `/browser connect` is the wrong tool<a href="#when-browser-connect-is-the-wrong-tool" class="hash-link" aria-label="Direct link to when-browser-connect-is-the-wrong-tool" translate="no" title="Direct link to when-browser-connect-is-the-wrong-tool">​</a>
+
+If Hermes runs in WSL and Chrome runs on Windows, `/browser connect` may fail even though Chrome is open and debuggable.
+
+Common reasons:
+
+- WSL cannot reach the same host-local endpoint Chrome exposes to Windows tools
+- newer Chrome live-debugging flows are not the same as a classic `ws://localhost:9222`
+- the browser is easier to attach to from a Windows-side helper like `chrome-devtools-mcp`
+
+In those cases, keep `/browser connect` for same-environment setups and use MCP for WSL-to-Windows browser bridging.
+
+### Known pitfalls<a href="#known-pitfalls" class="hash-link" aria-label="Direct link to Known pitfalls" translate="no" title="Direct link to Known pitfalls">​</a>
+
+- Start Hermes from a Windows-mounted path like `/mnt/c/Users/<you>` or `/mnt/c/workspace/...` when using Windows stdio executables through MCP.
+- If you start Hermes from `/root` or `/home/...`, Windows may emit a `UNC` current-directory warning before the MCP server starts.
+- If `chrome-devtools-mcp --autoConnect` times out while enumerating pages, reduce background/frozen tabs in Chrome and retry.
+
 ### Example: blacklist dangerous actions<a href="#example-blacklist-dangerous-actions" class="hash-link" aria-label="Direct link to Example: blacklist dangerous actions" translate="no" title="Direct link to Example: blacklist dangerous actions">​</a>
 
 
@@ -494,6 +579,12 @@ Not-great first servers:
 - <a href="#step-3-verify-mcp-loaded" class="table-of-contents__link toc-highlight">Step 3: verify MCP loaded</a>
 - <a href="#step-4-start-filtering-immediately" class="table-of-contents__link toc-highlight">Step 4: start filtering immediately</a>
   - <a href="#example-whitelist-only-what-you-want" class="table-of-contents__link toc-highlight">Example: whitelist only what you want</a>
+- <a href="#wsl2-bridge-hermes-in-wsl-to-windows-chrome" class="table-of-contents__link toc-highlight">WSL2: bridge Hermes in WSL to Windows Chrome</a>
+  - <a href="#why-this-mode-is-useful" class="table-of-contents__link toc-highlight">Why this mode is useful</a>
+  - <a href="#recommended-server" class="table-of-contents__link toc-highlight">Recommended server</a>
+  - <a href="#typical-prompt" class="table-of-contents__link toc-highlight">Typical prompt</a>
+  - <a href="#when-browser-connect-is-the-wrong-tool" class="table-of-contents__link toc-highlight">When <code>/browser connect</code> is the wrong tool</a>
+  - <a href="#known-pitfalls" class="table-of-contents__link toc-highlight">Known pitfalls</a>
   - <a href="#example-blacklist-dangerous-actions" class="table-of-contents__link toc-highlight">Example: blacklist dangerous actions</a>
   - <a href="#example-disable-utility-wrappers-too" class="table-of-contents__link toc-highlight">Example: disable utility wrappers too</a>
 - <a href="#what-does-filtering-actually-affect" class="table-of-contents__link toc-highlight">What does filtering actually affect?</a>

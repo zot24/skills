@@ -61,6 +61,7 @@ hermes [global-options] <command> [subcommand/options]
 | `hermes dump`             | Copy-pasteable setup summary for support/debugging.                                                                                            |
 | `hermes debug`            | Debug tools — upload logs and system info for support.                                                                                         |
 | `hermes backup`           | Back up Hermes home directory to a zip file.                                                                                                   |
+| `hermes checkpoints`      | Inspect / prune / clear `~/.hermes/checkpoints/` (the shadow store used by `/rollback`). Run with no args for a status overview.               |
 | `hermes import`           | Restore a Hermes backup from a zip file.                                                                                                       |
 | `hermes logs`             | View, tail, and filter agent/gateway/error log files.                                                                                          |
 | `hermes config`           | Show, edit, migrate, and query configuration files.                                                                                            |
@@ -368,33 +369,67 @@ hermes cron <list|create|edit|pause|resume|run|remove|status|tick>
 
 
 ``` prism-code
-hermes kanban <action> [options]
+hermes kanban [--board <slug>] <action> [options]
 ```
 
 
-Multi-profile collaboration board. Tasks live in `~/.hermes/kanban.db` (WAL-mode SQLite); every profile reads and writes the same board. A `cron`-driven dispatcher (`hermes kanban dispatch`) atomically claims ready tasks and spawns the assigned profile as its own process with an isolated workspace.
+Multi-profile, multi-project collaboration board. Each install can host many boards (one per project, repo, or domain); each board is a standalone queue with its own SQLite DB and dispatcher scope. New installs start with one board called `default`, whose DB is `~/.hermes/kanban.db` for back-compat; additional boards live at `~/.hermes/kanban/boards/<slug>/kanban.db`. The gateway-embedded dispatcher sweeps every board per tick.
 
-| Action                    | Purpose                                                                                                                                         |
-|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| `init`                    | Create `kanban.db` if missing. Idempotent.                                                                                                      |
-| `create "<title>"`        | Create a new task. Flags: `--body`, `--assignee`, `--parent` (repeatable), `--workspace scratch|worktree|dir:<path>`, `--tenant`, `--priority`. |
-| `list` / `ls`             | List tasks. Filter with `--mine`, `--assignee`, `--status`, `--tenant`, `--archived`, `--json`.                                                 |
-| `show <id>`               | Show a task with comments and events. `--json` for machine output.                                                                              |
-| `assign <id> <profile>`   | Assign or reassign. Use `none` to unassign. Refused while task is running.                                                                      |
-| `link <parent> <child>`   | Add a dependency. Cycle-detected.                                                                                                               |
-| `unlink <parent> <child>` | Remove a dependency.                                                                                                                            |
-| `claim <id>`              | Atomically claim a ready task. Prints resolved workspace path.                                                                                  |
-| `comment <id> "<text>"`   | Append a comment. Visible to the next worker that runs the task.                                                                                |
-| `complete <id>`           | Mark task done. Flag: `--result "<summary>"` (goes into children's parent-result context).                                                      |
-| `block <id> "<reason>"`   | Mark task blocked. Also appends the reason as a comment.                                                                                        |
-| `unblock <id>`            | Return a blocked task to ready.                                                                                                                 |
-| `archive <id>`            | Hide from default list. `gc` will remove scratch workspaces.                                                                                    |
-| `tail <id>`               | Follow a task's event stream.                                                                                                                   |
-| `dispatch`                | One dispatcher pass. Flags: `--dry-run`, `--max N`, `--json`.                                                                                   |
-| `context <id>`            | Print the full context a worker would see (title + body + parent results + comments).                                                           |
-| `gc`                      | Remove scratch workspaces for archived tasks.                                                                                                   |
+**Global flags (apply to every action below):**
 
-All actions are also available as a slash command in the gateway (`/kanban …`), with the same argument surface.
+| Flag             | Purpose                                                                                                                                              |
+|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `--board <slug>` | Operate on a specific board. Defaults to the current board (set via `hermes kanban boards switch`, the `HERMES_KANBAN_BOARD` env var, or `default`). |
+
+**This is the human / scripting surface.** Agent workers spawned by the dispatcher drive the board through a dedicated `kanban_*` [toolset](/docs/user-guide/features/kanban#how-workers-interact-with-the-board) (`kanban_show`, `kanban_complete`, `kanban_block`, `kanban_create`, `kanban_link`, `kanban_comment`, `kanban_heartbeat`) instead of shelling to `hermes kanban`. Workers have `HERMES_KANBAN_BOARD` pinned in their env so they physically cannot see other boards.
+
+| Action                                | Purpose                                                                                                                                                                                                                                       |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `init`                                | Create `kanban.db` if missing. Idempotent.                                                                                                                                                                                                    |
+| `boards list` / `boards ls`           | List all boards with task counts. `--json`, `--all` (include archived).                                                                                                                                                                       |
+| `boards create <slug>`                | Create a new board. Flags: `--name`, `--description`, `--icon`, `--color`, `--switch` (make active). Slug is kebab-case, auto-downcased.                                                                                                      |
+| `boards switch <slug>` / `boards use` | Persist `<slug>` as the active board (writes `~/.hermes/kanban/current`).                                                                                                                                                                     |
+| `boards show` / `boards current`      | Print the currently-active board's name, DB path, and task counts.                                                                                                                                                                            |
+| `boards rename <slug> "<name>"`       | Change a board's display name. Slug is immutable.                                                                                                                                                                                             |
+| `boards rm <slug>`                    | Archive (default) or hard-delete a board. `--delete` skips the archive step. Archived boards move to `boards/_archived/<slug>-<ts>/`. Refused for `default`.                                                                                  |
+| `create "<title>"`                    | Create a new task on the active board. Flags: `--body`, `--assignee`, `--parent` (repeatable), `--workspace scratch|worktree|dir:<path>`, `--tenant`, `--priority`, `--triage`, `--idempotency-key`, `--max-runtime`, `--skill` (repeatable). |
+| `list` / `ls`                         | List tasks on the active board. Filter with `--mine`, `--assignee`, `--status`, `--tenant`, `--archived`, `--json`.                                                                                                                           |
+| `show <id>`                           | Show a task with comments and events. `--json` for machine output.                                                                                                                                                                            |
+| `assign <id> <profile>`               | Assign or reassign. Use `none` to unassign. Refused while task is running.                                                                                                                                                                    |
+| `link <parent> <child>`               | Add a dependency. Cycle-detected. Both tasks must be on the same board.                                                                                                                                                                       |
+| `unlink <parent> <child>`             | Remove a dependency.                                                                                                                                                                                                                          |
+| `claim <id>`                          | Atomically claim a ready task. Prints resolved workspace path.                                                                                                                                                                                |
+| `comment <id> "<text>"`               | Append a comment. The next worker that claims the task reads it as part of its `kanban_show()` response.                                                                                                                                      |
+| `complete <id>`                       | Mark task done. Flags: `--result`, `--summary`, `--metadata`.                                                                                                                                                                                 |
+| `block <id> "<reason>"`               | Mark task blocked. Also appends the reason as a comment.                                                                                                                                                                                      |
+| `unblock <id>`                        | Return a blocked task to ready.                                                                                                                                                                                                               |
+| `archive <id>`                        | Hide from default list. `gc` will remove scratch workspaces.                                                                                                                                                                                  |
+| `tail <id>`                           | Follow a task's event stream.                                                                                                                                                                                                                 |
+| `dispatch`                            | One dispatcher pass on the active board. Flags: `--dry-run`, `--max N`, `--json`.                                                                                                                                                             |
+| `context <id>`                        | Print the full context a worker would see (title + body + parent results + comments).                                                                                                                                                         |
+| `gc`                                  | Remove scratch workspaces for archived tasks.                                                                                                                                                                                                 |
+
+Examples:
+
+
+``` prism-code
+# Create a second board and put a task on it without switching away.
+hermes kanban boards create atm10-server --name "ATM10 Server" --icon 🎮
+hermes kanban --board atm10-server create "Restart server" --assignee ops
+
+# Switch the active board for subsequent calls.
+hermes kanban boards switch atm10-server
+hermes kanban list                  # shows atm10-server tasks
+
+# Archive a board (recoverable) or hard-delete it.
+hermes kanban boards rm atm10-server
+hermes kanban boards rm atm10-server --delete
+```
+
+
+Board resolution order (highest precedence first): `--board <slug>` flag → `HERMES_KANBAN_BOARD` env var → `~/.hermes/kanban/current` file → `default`.
+
+All actions are also available as a slash command in the gateway (`/kanban …`), with the same argument surface — including `boards` subcommands and the `--board` flag.
 
 For the full design — comparison with Cline Kanban / Paperclip / NanoClaw / Gemini Enterprise, eight collaboration patterns, four user stories, concurrency correctness proof — see `docs/hermes-kanban-v1-spec.pdf` in the repository or the [Kanban user guide](/docs/user-guide/features/kanban).
 
@@ -423,15 +458,16 @@ hermes webhook subscribe <name> [options]
 ```
 
 
-| Option              | Description                                                                         |
-|---------------------|-------------------------------------------------------------------------------------|
-| `--prompt`          | Prompt template with `{dot.notation}` payload references.                           |
-| `--events`          | Comma-separated event types to accept (e.g. `issues,pull_request`). Empty = all.    |
-| `--description`     | Human-readable description.                                                         |
-| `--skills`          | Comma-separated skill names to load for the agent run.                              |
-| `--deliver`         | Delivery target: `log` (default), `telegram`, `discord`, `slack`, `github_comment`. |
-| `--deliver-chat-id` | Target chat/channel ID for cross-platform delivery.                                 |
-| `--secret`          | Custom HMAC secret. Auto-generated if omitted.                                      |
+| Option              | Description                                                                                                                                                        |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `--prompt`          | Prompt template with `{dot.notation}` payload references.                                                                                                          |
+| `--events`          | Comma-separated event types to accept (e.g. `issues,pull_request`). Empty = all.                                                                                   |
+| `--description`     | Human-readable description.                                                                                                                                        |
+| `--skills`          | Comma-separated skill names to load for the agent run.                                                                                                             |
+| `--deliver`         | Delivery target: `log` (default), `telegram`, `discord`, `slack`, `github_comment`.                                                                                |
+| `--deliver-chat-id` | Target chat/channel ID for cross-platform delivery.                                                                                                                |
+| `--secret`          | Custom HMAC secret. Auto-generated if omitted.                                                                                                                     |
+| `--deliver-only`    | Skip the agent — deliver the rendered `--prompt` as the literal message. Zero LLM cost, sub-second delivery. Requires `--deliver` to be a real target (not `log`). |
 
 Subscriptions persist to `~/.hermes/webhook_subscriptions.json` and are hot-reloaded by the webhook adapter without a gateway restart.
 
@@ -593,6 +629,48 @@ hermes backup --quick --label "pre-upgrade"  # Quick snapshot with label
 ```
 
 
+## `hermes checkpoints`<a href="#hermes-checkpoints" class="hash-link" aria-label="Direct link to hermes-checkpoints" translate="no" title="Direct link to hermes-checkpoints">​</a>
+
+
+``` prism-code
+hermes checkpoints [COMMAND]
+```
+
+
+Inspect and manage the shadow git store at `~/.hermes/checkpoints/` — the storage layer behind the in-session `/rollback` command. Safe to run any time; does not require the agent to be running.
+
+| Subcommand         | Description                                                                                                                       |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `status` (default) | Show total size, project count, and per-project breakdown. Bare `hermes checkpoints` is equivalent.                               |
+| `list`             | Alias for `status`.                                                                                                               |
+| `prune`            | Force a cleanup sweep — delete orphan and stale projects, GC the store, enforce the size cap. Ignores the 24h idempotency marker. |
+| `clear`            | Delete the entire checkpoint base. Irreversible; asks for confirmation unless `-f`.                                               |
+| `clear-legacy`     | Delete only the `legacy-<timestamp>/` archives produced by the v1→v2 migration.                                                   |
+
+### Options<a href="#options" class="hash-link" aria-label="Direct link to Options" translate="no" title="Direct link to Options">​</a>
+
+| Option               | Subcommand              | Description                                                                                                  |
+|----------------------|-------------------------|--------------------------------------------------------------------------------------------------------------|
+| `--limit N`          | `status`, `list`        | Max projects to list (default 20).                                                                           |
+| `--retention-days N` | `prune`                 | Drop projects whose `last_touch` is older than N days (default 7).                                           |
+| `--max-size-mb N`    | `prune`                 | After the orphan/stale pass, drop the oldest commit per project until total store size ≤ N MB (default 500). |
+| `--keep-orphans`     | `prune`                 | Skip deleting projects whose working directory no longer exists.                                             |
+| `-f`, `--force`      | `clear`, `clear-legacy` | Skip the confirmation prompt.                                                                                |
+
+### Examples<a href="#examples-2" class="hash-link" aria-label="Direct link to Examples" translate="no" title="Direct link to Examples">​</a>
+
+
+``` prism-code
+hermes checkpoints                                  # status overview
+hermes checkpoints prune --retention-days 3         # aggressive cleanup
+hermes checkpoints prune --max-size-mb 200          # tighten size cap once
+hermes checkpoints clear-legacy -f                  # drop v1 archive dirs
+hermes checkpoints clear -f                         # wipe everything
+```
+
+
+See [Checkpoints and `/rollback`](/docs/user-guide/checkpoints-and-rollback) for the full architecture and the in-session commands.
+
 ## `hermes import`<a href="#hermes-import" class="hash-link" aria-label="Direct link to hermes-import" translate="no" title="Direct link to hermes-import">​</a>
 
 
@@ -601,11 +679,24 @@ hermes import <zipfile> [options]
 ```
 
 
-Restore a previously created Hermes backup into your Hermes home directory.
+Restore a previously created Hermes backup into your Hermes home directory. All files in the archive overwrite existing files in your Hermes home; `--force` only skips the confirmation prompt that fires when the target already has a Hermes installation.
 
-| Option          | Description                                    |
-|-----------------|------------------------------------------------|
-| `-f`, `--force` | Overwrite existing files without confirmation. |
+| Option          | Description                                         |
+|-----------------|-----------------------------------------------------|
+| `-f`, `--force` | Skip the existing-installation confirmation prompt. |
+
+
+Stop the gateway before importing to avoid conflicts with running processes.
+
+
+### Examples<a href="#examples-3" class="hash-link" aria-label="Direct link to Examples" translate="no" title="Direct link to Examples">​</a>
+
+
+``` prism-code
+hermes import ~/hermes-backup-20260423.zip           # Prompts before overwriting existing config
+hermes import ~/hermes-backup-20260423.zip --force   # Overwrite without prompting
+```
+
 
 ## `hermes logs`<a href="#hermes-logs" class="hash-link" aria-label="Direct link to hermes-logs" translate="no" title="Direct link to hermes-logs">​</a>
 
@@ -625,7 +716,7 @@ View, tail, and filter Hermes log files. All logs are stored in `~/.hermes/logs/
 | `errors`          | `errors.log`  | Warnings and errors only — a filtered subset of agent.log                           |
 | `gateway`         | `gateway.log` | Messaging gateway activity — platform connections, message dispatch, webhook events |
 
-### Options<a href="#options" class="hash-link" aria-label="Direct link to Options" translate="no" title="Direct link to Options">​</a>
+### Options<a href="#options-1" class="hash-link" aria-label="Direct link to Options" translate="no" title="Direct link to Options">​</a>
 
 | Option               | Description                                                                                                                  |
 |----------------------|------------------------------------------------------------------------------------------------------------------------------|
@@ -637,7 +728,7 @@ View, tail, and filter Hermes log files. All logs are stored in `~/.hermes/logs/
 | `--since <TIME>`     | Show lines from a relative time ago: `30m`, `1h`, `2d`, etc. Supports `s` (seconds), `m` (minutes), `h` (hours), `d` (days). |
 | `--component <NAME>` | Filter by component: `gateway`, `agent`, `tools`, `cli`, `cron`.                                                             |
 
-### Examples<a href="#examples-2" class="hash-link" aria-label="Direct link to Examples" translate="no" title="Direct link to Examples">​</a>
+### Examples<a href="#examples-4" class="hash-link" aria-label="Direct link to Examples" translate="no" title="Direct link to Examples">​</a>
 
 
 ``` prism-code
@@ -726,21 +817,22 @@ hermes skills <subcommand>
 
 Subcommands:
 
-| Subcommand  | Description                                                      |
-|-------------|------------------------------------------------------------------|
-| `browse`    | Paginated browser for skill registries.                          |
-| `search`    | Search skill registries.                                         |
-| `install`   | Install a skill.                                                 |
-| `inspect`   | Preview a skill without installing it.                           |
-| `list`      | List installed skills.                                           |
-| `check`     | Check installed hub skills for upstream updates.                 |
-| `update`    | Reinstall hub skills with upstream changes when available.       |
-| `audit`     | Re-scan installed hub skills.                                    |
-| `uninstall` | Remove a hub-installed skill.                                    |
-| `publish`   | Publish a skill to a registry.                                   |
-| `snapshot`  | Export/import skill configurations.                              |
-| `tap`       | Manage custom skill sources.                                     |
-| `config`    | Interactive enable/disable configuration for skills by platform. |
+| Subcommand  | Description                                                                                                                                                 |
+|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `browse`    | Paginated browser for skill registries.                                                                                                                     |
+| `search`    | Search skill registries.                                                                                                                                    |
+| `install`   | Install a skill.                                                                                                                                            |
+| `inspect`   | Preview a skill without installing it.                                                                                                                      |
+| `list`      | List installed skills.                                                                                                                                      |
+| `check`     | Check installed hub skills for upstream updates.                                                                                                            |
+| `update`    | Reinstall hub skills with upstream changes when available.                                                                                                  |
+| `audit`     | Re-scan installed hub skills.                                                                                                                               |
+| `uninstall` | Remove a hub-installed skill.                                                                                                                               |
+| `reset`     | Un-stick a bundled skill flagged as `user_modified` by clearing its manifest entry. With `--restore`, also replaces the user copy with the bundled version. |
+| `publish`   | Publish a skill to a registry.                                                                                                                              |
+| `snapshot`  | Export/import skill configurations.                                                                                                                         |
+| `tap`       | Manage custom skill sources.                                                                                                                                |
+| `config`    | Interactive enable/disable configuration for skills by platform.                                                                                            |
 
 Common examples:
 
@@ -759,6 +851,8 @@ hermes skills install https://example.com/SKILL.md --name my-skill        # Over
 hermes skills check
 hermes skills update
 hermes skills config
+hermes skills reset google-workspace
+hermes skills reset google-workspace --restore --yes
 ```
 
 
@@ -780,15 +874,24 @@ hermes curator <subcommand>
 
 The curator is an auxiliary-model background task that periodically reviews agent-created skills, prunes stale ones, consolidates overlaps, and archives obsolete skills. Bundled and hub-installed skills are never touched. Archives are recoverable; auto-deletion never happens.
 
-| Subcommand        | Description                                          |
-|-------------------|------------------------------------------------------|
-| `status`          | Show curator status and skill stats                  |
-| `run`             | Trigger a curator review now                         |
-| `pause`           | Pause the curator until resumed                      |
-| `resume`          | Resume a paused curator                              |
-| `pin <skill>`     | Pin a skill so the curator never auto-transitions it |
-| `unpin <skill>`   | Unpin a skill                                        |
-| `restore <skill>` | Restore an archived skill                            |
+| Subcommand           | Description                                                                                                       |
+|----------------------|-------------------------------------------------------------------------------------------------------------------|
+| `status`             | Show curator status and skill stats                                                                               |
+| `run`                | Trigger a curator review now (blocks until the LLM pass finishes)                                                 |
+| `run --background`   | Start the LLM pass in a background thread and return immediately                                                  |
+| `run --dry-run`      | Preview only — produce the review report with no mutations                                                        |
+| `backup`             | Take a manual tar.gz snapshot of `~/.hermes/skills/` (curator also snapshots automatically before every real run) |
+| `rollback`           | Restore `~/.hermes/skills/` from a snapshot (defaults to newest)                                                  |
+| `rollback --list`    | List available snapshots                                                                                          |
+| `rollback --id <ts>` | Restore a specific snapshot by id                                                                                 |
+| `rollback -y`        | Skip the confirmation prompt                                                                                      |
+| `pause`              | Pause the curator until resumed                                                                                   |
+| `resume`             | Resume a paused curator                                                                                           |
+| `pin <skill>`        | Pin a skill so the curator never auto-transitions it                                                              |
+| `unpin <skill>`      | Unpin a skill                                                                                                     |
+| `restore <skill>`    | Restore an archived skill                                                                                         |
+
+On a fresh install the first scheduled pass is deferred by one full `interval_hours` (7 days by default) — the gateway will not curate immediately on the first tick after `hermes update`. Use `hermes curator run --dry-run` to preview before that happens.
 
 See [Curator](/docs/user-guide/features/curator) for behavior and config.
 
@@ -1015,7 +1118,7 @@ The migration covers 30+ categories across persona, memory, skills, model provid
 
 For the complete config key mapping, SecretRef handling details, and post-migration checklist, see the **[full migration guide](/docs/guides/migrate-from-openclaw)**.
 
-### Examples<a href="#examples-3" class="hash-link" aria-label="Direct link to Examples" translate="no" title="Direct link to Examples">​</a>
+### Examples<a href="#examples-5" class="hash-link" aria-label="Direct link to Examples" translate="no" title="Direct link to Examples">​</a>
 
 
 ``` prism-code
@@ -1161,7 +1264,7 @@ Typical session:
 2.  Use `↑`/`↓` to reorder fallbacks (first-in-list is tried first).
 3.  Press `d` to remove one.
 
-All changes persist to `fallback_providers:` under `model:` in `config.yaml`. Interacts with [Credential Pools](/docs/user-guide/features/credential-pools): pools rotate keys *within* a provider, fallbacks switch to a *different* provider entirely.
+All changes persist to the top-level `fallback_providers:` list in `config.yaml`. Interacts with [Credential Pools](/docs/user-guide/features/credential-pools): pools rotate keys *within* a provider, fallbacks switch to a *different* provider entirely.
 
 See [Fallback Providers](/docs/user-guide/features/fallback-providers) for behavior details and interaction with `fallback_model` (legacy single-fallback key).
 
@@ -1209,11 +1312,15 @@ See [Fallback Providers](/docs/user-guide/features/fallback-providers) for behav
   - <a href="#examples" class="table-of-contents__link toc-highlight">Examples</a>
 - <a href="#hermes-backup" class="table-of-contents__link toc-highlight"><code>hermes backup</code></a>
   - <a href="#examples-1" class="table-of-contents__link toc-highlight">Examples</a>
-- <a href="#hermes-import" class="table-of-contents__link toc-highlight"><code>hermes import</code></a>
-- <a href="#hermes-logs" class="table-of-contents__link toc-highlight"><code>hermes logs</code></a>
-  - <a href="#log-files" class="table-of-contents__link toc-highlight">Log files</a>
+- <a href="#hermes-checkpoints" class="table-of-contents__link toc-highlight"><code>hermes checkpoints</code></a>
   - <a href="#options" class="table-of-contents__link toc-highlight">Options</a>
   - <a href="#examples-2" class="table-of-contents__link toc-highlight">Examples</a>
+- <a href="#hermes-import" class="table-of-contents__link toc-highlight"><code>hermes import</code></a>
+  - <a href="#examples-3" class="table-of-contents__link toc-highlight">Examples</a>
+- <a href="#hermes-logs" class="table-of-contents__link toc-highlight"><code>hermes logs</code></a>
+  - <a href="#log-files" class="table-of-contents__link toc-highlight">Log files</a>
+  - <a href="#options-1" class="table-of-contents__link toc-highlight">Options</a>
+  - <a href="#examples-4" class="table-of-contents__link toc-highlight">Examples</a>
   - <a href="#filtering" class="table-of-contents__link toc-highlight">Filtering</a>
   - <a href="#log-rotation" class="table-of-contents__link toc-highlight">Log rotation</a>
 - <a href="#hermes-config" class="table-of-contents__link toc-highlight"><code>hermes config</code></a>
@@ -1231,7 +1338,7 @@ See [Fallback Providers](/docs/user-guide/features/fallback-providers) for behav
 - <a href="#hermes-insights" class="table-of-contents__link toc-highlight"><code>hermes insights</code></a>
 - <a href="#hermes-claw" class="table-of-contents__link toc-highlight"><code>hermes claw</code></a>
   - <a href="#what-gets-migrated" class="table-of-contents__link toc-highlight">What gets migrated</a>
-  - <a href="#examples-3" class="table-of-contents__link toc-highlight">Examples</a>
+  - <a href="#examples-5" class="table-of-contents__link toc-highlight">Examples</a>
 - <a href="#hermes-dashboard" class="table-of-contents__link toc-highlight"><code>hermes dashboard</code></a>
 - <a href="#hermes-profile" class="table-of-contents__link toc-highlight"><code>hermes profile</code></a>
 - <a href="#hermes-completion" class="table-of-contents__link toc-highlight"><code>hermes completion</code></a>

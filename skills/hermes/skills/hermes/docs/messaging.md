@@ -11,32 +11,34 @@ On this page
 # Messaging Gateway
 
 
-Chat with Hermes from Telegram, Discord, Slack, WhatsApp, Signal, SMS, Email, Home Assistant, Mattermost, Matrix, DingTalk, Feishu/Lark, WeCom, Weixin, BlueBubbles (iMessage), QQ, Yuanbao, or your browser. The gateway is a single background process that connects to all your configured platforms, handles sessions, runs cron jobs, and delivers voice messages.
+Chat with Hermes from Telegram, Discord, Slack, WhatsApp, Signal, SMS, Email, Home Assistant, Mattermost, Matrix, DingTalk, Feishu/Lark, WeCom, Weixin, BlueBubbles (iMessage), QQ, Yuanbao, Microsoft Teams, or your browser. The gateway is a single background process that connects to all your configured platforms, handles sessions, runs cron jobs, and delivers voice messages.
 
 For the full voice feature set — including CLI microphone mode, spoken replies in messaging, and Discord voice-channel conversations — see [Voice Mode](/docs/user-guide/features/voice-mode) and [Use Voice Mode with Hermes](/docs/guides/use-voice-mode-with-hermes).
 
 ## Platform Comparison<a href="#platform-comparison" class="hash-link" aria-label="Direct link to Platform Comparison" translate="no" title="Direct link to Platform Comparison">​</a>
 
-| Platform       | Voice | Images | Files | Threads | Reactions | Typing | Streaming |
-|----------------|:-----:|:------:|:-----:|:-------:|:---------:|:------:|:---------:|
-| Telegram       |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
-| Discord        |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| Slack          |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| WhatsApp       |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| Signal         |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| SMS            |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Email          |   —   |   ✅   |  ✅   |   ✅    |     —     |   —    |     —     |
-| Home Assistant |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Mattermost     |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
-| Matrix         |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| DingTalk       |   —   |   ✅   |  ✅   |    —    |    ✅     |   —    |    ✅     |
-| Feishu/Lark    |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| WeCom          |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| WeCom Callback |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Weixin         |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| BlueBubbles    |   —   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
-| QQ             |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
-| Yuanbao        |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| Platform        | Voice | Images | Files | Threads | Reactions | Typing | Streaming |
+|-----------------|:-----:|:------:|:-----:|:-------:|:---------:|:------:|:---------:|
+| Telegram        |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
+| Discord         |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| Slack           |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| Google Chat     |   —   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |     —     |
+| WhatsApp        |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| Signal          |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| SMS             |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Email           |   —   |   ✅   |  ✅   |   ✅    |     —     |   —    |     —     |
+| Home Assistant  |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Mattermost      |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
+| Matrix          |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| DingTalk        |   —   |   ✅   |  ✅   |    —    |    ✅     |   —    |    ✅     |
+| Feishu/Lark     |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| WeCom           |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| WeCom Callback  |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Weixin          |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| BlueBubbles     |   —   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
+| QQ              |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| Yuanbao         |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| Microsoft Teams |   —   |   ✅   |   —   |   ✅    |     —     |   ✅   |     —     |
 
 **Voice** = TTS audio replies and/or voice message transcription. **Images** = send/receive images. **Files** = send/receive file attachments. **Threads** = threaded conversations. **Reactions** = emoji reactions on messages. **Typing** = typing indicator while processing. **Streaming** = progressive message updates via editing.
 
@@ -146,6 +148,7 @@ DINGTALK_ALLOWED_USERS=user-id-1
 FEISHU_ALLOWED_USERS=ou_xxxxxxxx,ou_yyyyyyyy
 WECOM_ALLOWED_USERS=user-id-1,user-id-2
 WECOM_CALLBACK_ALLOWED_USERS=user-id-1,user-id-2
+TEAMS_ALLOWED_USERS=aad-object-id-1,aad-object-id-2
 
 # Or allow
 GATEWAY_ALLOWED_USERS=123456789,987654321
@@ -349,35 +352,38 @@ Like the Linux systemd service, each `HERMES_HOME` directory gets its own launch
 
 Each platform has its own toolset:
 
-| Platform       | Toolset                 | Capabilities                                                                                       |
-|----------------|-------------------------|----------------------------------------------------------------------------------------------------|
-| CLI            | `hermes-cli`            | Full access                                                                                        |
-| Telegram       | `hermes-telegram`       | Full tools including terminal                                                                      |
-| Discord        | `hermes-discord`        | Full tools including terminal                                                                      |
-| WhatsApp       | `hermes-whatsapp`       | Full tools including terminal                                                                      |
-| Slack          | `hermes-slack`          | Full tools including terminal                                                                      |
-| Signal         | `hermes-signal`         | Full tools including terminal                                                                      |
-| SMS            | `hermes-sms`            | Full tools including terminal                                                                      |
-| Email          | `hermes-email`          | Full tools including terminal                                                                      |
-| Home Assistant | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services) |
-| Mattermost     | `hermes-mattermost`     | Full tools including terminal                                                                      |
-| Matrix         | `hermes-matrix`         | Full tools including terminal                                                                      |
-| DingTalk       | `hermes-dingtalk`       | Full tools including terminal                                                                      |
-| Feishu/Lark    | `hermes-feishu`         | Full tools including terminal                                                                      |
-| WeCom          | `hermes-wecom`          | Full tools including terminal                                                                      |
-| WeCom Callback | `hermes-wecom-callback` | Full tools including terminal                                                                      |
-| Weixin         | `hermes-weixin`         | Full tools including terminal                                                                      |
-| BlueBubbles    | `hermes-bluebubbles`    | Full tools including terminal                                                                      |
-| QQBot          | `hermes-qqbot`          | Full tools including terminal                                                                      |
-| Yuanbao        | `hermes-yuanbao`        | Full tools including terminal                                                                      |
-| API Server     | `hermes` (default)      | Full tools including terminal                                                                      |
-| Webhooks       | `hermes-webhook`        | Full tools including terminal                                                                      |
+| Platform        | Toolset                 | Capabilities                                                                                       |
+|-----------------|-------------------------|----------------------------------------------------------------------------------------------------|
+| CLI             | `hermes-cli`            | Full access                                                                                        |
+| Telegram        | `hermes-telegram`       | Full tools including terminal                                                                      |
+| Discord         | `hermes-discord`        | Full tools including terminal                                                                      |
+| WhatsApp        | `hermes-whatsapp`       | Full tools including terminal                                                                      |
+| Slack           | `hermes-slack`          | Full tools including terminal                                                                      |
+| Google Chat     | `hermes-google-chat`    | Full tools including terminal                                                                      |
+| Signal          | `hermes-signal`         | Full tools including terminal                                                                      |
+| SMS             | `hermes-sms`            | Full tools including terminal                                                                      |
+| Email           | `hermes-email`          | Full tools including terminal                                                                      |
+| Home Assistant  | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services) |
+| Mattermost      | `hermes-mattermost`     | Full tools including terminal                                                                      |
+| Matrix          | `hermes-matrix`         | Full tools including terminal                                                                      |
+| DingTalk        | `hermes-dingtalk`       | Full tools including terminal                                                                      |
+| Feishu/Lark     | `hermes-feishu`         | Full tools including terminal                                                                      |
+| WeCom           | `hermes-wecom`          | Full tools including terminal                                                                      |
+| WeCom Callback  | `hermes-wecom-callback` | Full tools including terminal                                                                      |
+| Weixin          | `hermes-weixin`         | Full tools including terminal                                                                      |
+| BlueBubbles     | `hermes-bluebubbles`    | Full tools including terminal                                                                      |
+| QQBot           | `hermes-qqbot`          | Full tools including terminal                                                                      |
+| Yuanbao         | `hermes-yuanbao`        | Full tools including terminal                                                                      |
+| Microsoft Teams | `hermes-teams`          | Full tools including terminal                                                                      |
+| API Server      | `hermes` (default)      | Full tools including terminal                                                                      |
+| Webhooks        | `hermes-webhook`        | Full tools including terminal                                                                      |
 
 ## Next Steps<a href="#next-steps" class="hash-link" aria-label="Direct link to Next Steps" translate="no" title="Direct link to Next Steps">​</a>
 
 - [Telegram Setup](/docs/user-guide/messaging/telegram)
 - [Discord Setup](/docs/user-guide/messaging/discord)
 - [Slack Setup](/docs/user-guide/messaging/slack)
+- [Google Chat Setup](/docs/user-guide/messaging/google_chat)
 - [WhatsApp Setup](/docs/user-guide/messaging/whatsapp)
 - [Signal Setup](/docs/user-guide/messaging/signal)
 - [SMS Setup (Twilio)](/docs/user-guide/messaging/sms)
@@ -393,6 +399,7 @@ Each platform has its own toolset:
 - [BlueBubbles Setup (iMessage)](/docs/user-guide/messaging/bluebubbles)
 - [QQBot Setup](/docs/user-guide/messaging/qqbot)
 - [Yuanbao Setup](/docs/user-guide/messaging/yuanbao)
+- [Microsoft Teams Setup](/docs/user-guide/messaging/teams)
 - [Open WebUI + API Server](/docs/user-guide/messaging/open-webui)
 - [Webhooks](/docs/user-guide/messaging/webhooks)
 

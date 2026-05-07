@@ -13,6 +13,17 @@ On this page
 
 This guide gets you from zero to a working Hermes setup that survives real use. Install, choose a provider, verify a working chat, and know exactly what to do when something breaks.
 
+## Prefer to watch?<a href="#prefer-to-watch" class="hash-link" aria-label="Direct link to Prefer to watch?" translate="no" title="Direct link to Prefer to watch?">​</a>
+
+**Onchain AI Garage** put together a Masterclass walkthrough of installation, setup, and basic commands — a good companion to this page if you'd rather follow along on video. For more, see the full <a href="https://www.youtube.com/channel/UCqB1bhMwGsW-yefBxYwFCCg" target="_blank" rel="noopener noreferrer">Hermes Agent Tutorials &amp; Use Cases</a> playlist.
+
+
+# An error occurred.
+
+
+Unable to execute JavaScript.
+
+
 ## Who this is for<a href="#who-this-is-for" class="hash-link" aria-label="Direct link to Who this is for" translate="no" title="Direct link to Who this is for">​</a>
 
 - Brand new and want the shortest path to a working setup
@@ -91,6 +102,7 @@ Good defaults:
 | **MiniMax China**         | China-region MiniMax endpoint                                                                 | Set `MINIMAX_CN_API_KEY`                                                             |
 | **Alibaba Cloud**         | Qwen models via DashScope                                                                     | Set `DASHSCOPE_API_KEY`                                                              |
 | **Hugging Face**          | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.)                               | Set `HF_TOKEN`                                                                       |
+| **AWS Bedrock**           | Claude, Nova, Llama, DeepSeek via native Converse API                                         | IAM role or `aws configure` ([guide](/docs/guides/aws-bedrock))                      |
 | **Kilo Code**             | KiloCode-hosted models                                                                        | Set `KILOCODE_API_KEY`                                                               |
 | **OpenCode Zen**          | Pay-as-you-go access to curated models                                                        | Set `OPENCODE_ZEN_API_KEY`                                                           |
 | **OpenCode Go**           | \$10/month subscription for open models                                                       | Set `OPENCODE_GO_API_KEY`                                                            |
@@ -225,7 +237,7 @@ hermes gateway setup    # Interactive platform configuration
 ```
 
 
-Connect [Telegram](/docs/user-guide/messaging/telegram), [Discord](/docs/user-guide/messaging/discord), [Slack](/docs/user-guide/messaging/slack), [WhatsApp](/docs/user-guide/messaging/whatsapp), [Signal](/docs/user-guide/messaging/signal), [Email](/docs/user-guide/messaging/email), or [Home Assistant](/docs/user-guide/messaging/homeassistant).
+Connect [Telegram](/docs/user-guide/messaging/telegram), [Discord](/docs/user-guide/messaging/discord), [Slack](/docs/user-guide/messaging/slack), [WhatsApp](/docs/user-guide/messaging/whatsapp), [Signal](/docs/user-guide/messaging/signal), [Email](/docs/user-guide/messaging/email), or [Home Assistant](/docs/user-guide/messaging/homeassistant), or [Microsoft Teams](/docs/user-guide/messaging/teams).
 
 ### Automation and tools<a href="#automation-and-tools" class="hash-link" aria-label="Direct link to Automation and tools" translate="no" title="Direct link to Automation and tools">​</a>
 
@@ -338,13 +350,14 @@ That sequence gets you from "broken vibes" back to a known state fast.
 
 - **[CLI Guide](/docs/user-guide/cli)** — Master the terminal interface
 - **[Configuration](/docs/user-guide/configuration)** — Customize your setup
-- **[Messaging Gateway](/docs/user-guide/messaging/)** — Connect Telegram, Discord, Slack, WhatsApp, Signal, Email, or Home Assistant
+- **[Messaging Gateway](/docs/user-guide/messaging/)** — Connect Telegram, Discord, Slack, WhatsApp, Signal, Email, Home Assistant, Teams, and more
 - **[Tools & Toolsets](/docs/user-guide/features/tools)** — Explore available capabilities
 - **[AI Providers](/docs/integrations/providers)** — Full provider list and setup details
 - **[Skills System](/docs/user-guide/features/skills)** — Reusable workflows and knowledge
 - **[Tips & Best Practices](/docs/guides/tips)** — Power user tips
 
 
+- <a href="#prefer-to-watch" class="table-of-contents__link toc-highlight">Prefer to watch?</a>
 - <a href="#who-this-is-for" class="table-of-contents__link toc-highlight">Who this is for</a>
 - <a href="#the-fastest-path" class="table-of-contents__link toc-highlight">The fastest path</a>
 - <a href="#1-install-hermes-agent" class="table-of-contents__link toc-highlight">1. Install Hermes Agent</a>
