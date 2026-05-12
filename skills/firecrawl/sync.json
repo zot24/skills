@@ -508,12 +508,6 @@
       "freshness_days": 14
     },
     {
-      "url": "https://docs.firecrawl.dev/developer-guides/openclaw.md",
-      "target": "skills/firecrawl/docs/openclaw.md",
-      "type": "extract-content",
-      "freshness_days": 14
-    },
-    {
       "url": "https://docs.firecrawl.dev/developer-guides/usage-guides/choosing-the-data-extractor.md",
       "target": "skills/firecrawl/docs/developer-guides-choosing-the-data-extractor.md",
       "type": "extract-content",

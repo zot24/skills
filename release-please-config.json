@@ -13,6 +13,13 @@
     {"type": "chore", "section": "Maintenance", "hidden": true}
   ],
   "packages": {
+    "skills/adguard": {
+      "component": "adguard",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/agent-browser": {
       "component": "agent-browser",
       "extra-files": [
@@ -62,6 +69,13 @@
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
+    "skills/glinet": {
+      "component": "glinet",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/hermes": {
       "component": "hermes",
       "extra-files": [
@@ -76,50 +90,15 @@
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
-    "skills/managing-adguard": {
-      "component": "managing-adguard",
+    "skills/immich": {
+      "component": "immich",
       "extra-files": [
         {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
-    "skills/managing-glinet": {
-      "component": "managing-glinet",
-      "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
-      ]
-    },
-    "skills/managing-immich": {
-      "component": "managing-immich",
-      "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
-      ]
-    },
-    "skills/managing-obsidian": {
-      "component": "managing-obsidian",
-      "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
-      ]
-    },
-    "skills/managing-servarr": {
-      "component": "managing-servarr",
-      "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
-      ]
-    },
-    "skills/managing-umami": {
-      "component": "managing-umami",
-      "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
-      ]
-    },
-    "skills/openclaw": {
-      "component": "openclaw",
+    "skills/obsidian": {
+      "component": "obsidian",
       "extra-files": [
         {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
@@ -127,6 +106,20 @@
     },
     "skills/safe-delete": {
       "component": "safe-delete",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
+    "skills/servarr": {
+      "component": "servarr",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
+    "skills/umami": {
+      "component": "umami",
       "extra-files": [
         {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}

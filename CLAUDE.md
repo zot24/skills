@@ -2,12 +2,14 @@
 
 This repository contains AI agent skills for various development workflows.
 
+For day-to-day install / enable / migrate operations, use [`zskills`](https://github.com/zot24/zskills) — a Rust package manager for Claude Code skills. The `skills.toml` at the repo root is the declarative manifest for `zskills sync`.
+
 ## Project Structure
 
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace manifest (19 skills)
+│   └── marketplace.json      # Marketplace manifest
 ├── .github/
 │   ├── scripts/
 │   │   └── sync-skill.sh   # Generic sync script
@@ -17,7 +19,6 @@ skills/
 ├── skills/
 │   ├── umbrel-app/           # Umbrel app development
 │   ├── claude-code-expert/   # Claude Code knowledge base
-│   ├── openclaw/             # OpenClaw messaging framework
 │   ├── agent-browser/        # Browser automation for AI agents
 │   ├── agent-skills/         # Agent Skills format specification
 │   ├── chat-sdk/             # Vercel Chat SDK
@@ -28,12 +29,12 @@ skills/
 │   ├── honcho/               # Honcho AI-native memory platform
 │   ├── firecrawl/            # Firecrawl web scraping API
 │   ├── gh-issue-tracker/     # GitHub Issues error tracking
-│   ├── managing-servarr/     # Media stack (*arr suite + Plex)
-│   ├── managing-obsidian/    # Obsidian vault management
-│   ├── managing-adguard/     # AdGuard Home DNS filtering
-│   ├── managing-immich/      # Immich photo/video management
-│   ├── managing-glinet/      # GL.iNet router management
-│   └── managing-umami/       # Umami web analytics
+│   ├── servarr/              # Media stack (*arr suite + Plex)
+│   ├── obsidian/             # Obsidian vault management
+│   ├── adguard/              # AdGuard Home DNS filtering
+│   ├── immich/               # Immich photo/video management
+│   ├── glinet/               # GL.iNet router management
+│   └── umami/                # Umami web analytics
 └── README.md
 ```
 
@@ -224,7 +225,6 @@ Each skill syncs documentation from upstream sources.
 |-------|-----------------|-----------|
 | umbrel-app | https://github.com/getumbrel/umbrel-apps/blob/master/README.md | URL-based |
 | claude-code-expert | Multiple sources via registry.json | Registry-based |
-| openclaw | https://docs.clawd.bot/ | URL-based |
 | agent-browser | https://github.com/vercel-labs/agent-browser + https://agent-browser.dev/ | URL-based |
 | chat-sdk | https://github.com/vercel/ai-chatbot + https://chat-sdk.dev/ | URL-based |
 | ai-sdk | https://github.com/vercel/ai + https://ai-sdk.dev/ | URL-based |
@@ -233,12 +233,12 @@ Each skill syncs documentation from upstream sources.
 | honcho | https://docs.honcho.dev/v3/documentation | URL-based |
 | firecrawl | https://docs.firecrawl.dev + https://github.com/mendableai/firecrawl | URL-based |
 | gh-issue-tracker | https://github.com/zot24/gh-issue-tracker | Self-contained |
-| managing-servarr | https://wiki.servarr.com + https://trash-guides.info + GitHub repos | URL-based |
-| managing-obsidian | https://help.obsidian.md + Dataview/Templater docs | URL-based |
-| managing-adguard | https://github.com/AdguardTeam/AdGuardHome/wiki | URL-based |
-| managing-immich | https://docs.immich.app + https://github.com/immich-app/immich | URL-based |
-| managing-glinet | https://docs.gl-inet.com/router/en/4/ | URL-based |
-| managing-umami | https://docs.umami.is + https://github.com/umami-software/umami | URL-based |
+| servarr | https://wiki.servarr.com + https://trash-guides.info + GitHub repos | URL-based |
+| obsidian | https://help.obsidian.md + Dataview/Templater docs | URL-based |
+| adguard | https://github.com/AdguardTeam/AdGuardHome/wiki | URL-based |
+| immich | https://docs.immich.app + https://github.com/immich-app/immich | URL-based |
+| glinet | https://docs.gl-inet.com/router/en/4/ | URL-based |
+| umami | https://docs.umami.is + https://github.com/umami-software/umami | URL-based |
 
 ### When to Sync
 
@@ -387,7 +387,7 @@ GitHub Actions > Sync Skill Documentation > Run workflow
 
 1. Add skill name to SKILLS array in `.github/workflows/sync-docs.yml`:
    ```yaml
-   SKILLS=("umbrel-app" "claude-code-expert" "clawdbot" "agent-browser" "<new-skill>")
+   SKILLS=("umbrel-app" "claude-code-expert" "agent-browser" "<new-skill>")
    ```
 
 2. Ensure sync.json is properly configured with all sources
