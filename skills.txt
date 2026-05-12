@@ -1,0 +1,10 @@
+# source skill-name
+zot24/skills agent-browser
+zot24/skills agent-skills
+zot24/skills ai-sdk
+zot24/skills chat-sdk
+zot24/skills claude-code-expert
+zot24/skills hermes
+zot24/skills safe-delete
+zot24/skills umbrel-app
+zot24/skills x-engagement

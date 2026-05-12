@@ -10,7 +10,6 @@ An opinionated selection of skills for daily dev workflows.
 |-------|-------------|
 | [umbrel-app](./skills/umbrel-app) | Expert assistant for developing, packaging, testing, and submitting apps for umbrelOS |
 | [claude-code-expert](./skills/claude-code-expert) | Comprehensive Claude Code & Anthropic ecosystem knowledge. Official patterns for agents, skills, hooks, commands, MCP. |
-| [openclaw](./skills/openclaw) | Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo) |
 | [agent-browser](./skills/agent-browser) | Expert on agent-browser - Vercel's headless browser automation CLI for AI agents with 50+ commands, snapshots, and multi-session support |
 | [chat-sdk](./skills/chat-sdk) | Expert on Chat SDK - Vercel's open-source template for building production-ready AI chatbots with generative UI, artifacts, and multi-provider support |
 | [ai-sdk](./skills/ai-sdk) | Expert on AI SDK - Vercel's TypeScript toolkit for building AI applications with unified LLM API, streaming, tool calling, and agents |
@@ -21,39 +20,59 @@ An opinionated selection of skills for daily dev workflows.
 | [x-engagement](./skills/x-engagement) | Crafts high-engagement X (Twitter) content using conversation hijacking, authority building, and strategic hooks |
 | [gh-issue-tracker](./skills/gh-issue-tracker) | Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues with deduplication, fingerprinting, and rate limiting |
 | [firecrawl](./skills/firecrawl) | Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents with clean LLM-ready output |
-| [managing-servarr](./skills/managing-servarr) | Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr |
-| [managing-obsidian](./skills/managing-obsidian) | Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing |
-| [managing-adguard](./skills/managing-adguard) | Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation |
-| [managing-immich](./skills/managing-immich) | Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API |
-| [managing-glinet](./skills/managing-glinet) | Configure and manage GL.iNet routers — VPN, AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes |
-| [managing-umami](./skills/managing-umami) | Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, and reports |
+| [servarr](./skills/servarr) | Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr |
+| [obsidian](./skills/obsidian) | Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing |
+| [adguard](./skills/adguard) | Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation |
+| [immich](./skills/immich) | Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API |
+| [glinet](./skills/glinet) | Configure and manage GL.iNet routers — VPN, AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes |
+| [umami](./skills/umami) | Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, and reports |
 
 ## Installation
 
-### Add the Marketplace
+### Recommended: install with zskills (Rust CLI package manager)
+
+[`zskills`](https://github.com/zot24/zskills) is a Rust package manager built specifically for managing Claude Code skills — declarative install, multi-marketplace, atomic settings.json round-trip.
+
+```bash
+cargo install --git https://github.com/zot24/zskills
+
+zskills marketplace add zot24/skills
+zskills install umbrel-app servarr immich    # name resolution is unambiguous
+```
+
+Declarative `skills.toml` in any repo or in `~/.config/zskills/`:
+
+```toml
+[[skills]]
+name = "umbrel-app"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "servarr"
+marketplace = "zot24-skills"
+```
+
+```bash
+zskills sync                  # idempotent, applies the manifest
+zskills sync --dry-run        # preview changes first
+```
+
+### Inside Claude Code (built-in)
 
 ```bash
 /plugin marketplace add zot24/skills
-```
-
-### Install a Skill
-
-```bash
 /plugin install umbrel-app@zot24-skills
 ```
 
-### Or Add to Project Settings
+### Or add to project settings manually
 
-Add to your project's `.claude/settings.json`:
+`.claude/settings.json`:
 
 ```json
 {
   "extraKnownMarketplaces": {
     "zot24-skills": {
-      "source": {
-        "source": "github",
-        "repo": "zot24/skills"
-      }
+      "source": { "source": "github", "repo": "zot24/skills" }
     }
   },
   "enabledPlugins": {
@@ -76,7 +95,7 @@ Format: `/skill-name:command-name [arguments]`
 /umbrel-app:umbrel validate ./my-app      # Validate app configuration
 /umbrel-app:umbrel convert ./docker-app   # Convert Docker Compose to Umbrel
 /umbrel-app:umbrel pr ./my-app            # Generate PR submission
-/umbrel-app:umbrel debug ./my-app        # Troubleshoot issues
+/umbrel-app:umbrel debug ./my-app         # Troubleshoot issues
 
 # Claude Code expertise
 /claude-code-expert:claude create agent    # Guide for creating agents
@@ -84,18 +103,11 @@ Format: `/skill-name:command-name [arguments]`
 /claude-code-expert:claude validate ./x    # Validate against best practices
 /claude-code-expert:claude features        # Show Claude Code capabilities
 
-# OpenClaw AI assistant framework
-/openclaw:openclaw setup                  # Installation guide
-/openclaw:openclaw channel whatsapp       # Configure WhatsApp
-/openclaw:openclaw channel telegram        # Configure Telegram
-/openclaw:openclaw diagnose               # Troubleshoot issues
-/openclaw:openclaw gateway                # Gateway configuration
-
 # Agent browser automation
 /agent-browser:agent-browser open <url>    # Open a webpage
-/agent-browser:agent-browser snapshot     # Get element refs
-/agent-browser:agent-browser click @e2    # Click by ref
-/agent-browser:agent-browser screenshot   # Capture viewport
+/agent-browser:agent-browser snapshot      # Get element refs
+/agent-browser:agent-browser click @e2     # Click by ref
+/agent-browser:agent-browser screenshot    # Capture viewport
 
 # Hermes Agent
 /hermes:hermes memory                    # How Hermes memory works
@@ -118,16 +130,16 @@ Format: `/skill-name:command-name [arguments]`
 /firecrawl:firecrawl mcp                         # MCP server setup
 
 # Media stack management
-/managing-servarr:managing-servarr setup docker      # Full Docker stack
-/managing-servarr:managing-servarr integrate         # Wire up all apps
-/managing-servarr:managing-servarr profiles          # TRaSH quality profiles
-/managing-servarr:managing-servarr remote            # Laptop→NAS setup
+/servarr:servarr setup docker      # Full Docker stack
+/servarr:servarr integrate         # Wire up all apps
+/servarr:servarr profiles          # TRaSH quality profiles
+/servarr:servarr remote            # Laptop→NAS setup
 
 # Immich photo management
-/managing-immich:managing-immich setup               # Docker Compose deployment
-/managing-immich:managing-immich backup               # Database + filesystem backup
-/managing-immich:managing-immich library /mnt/photos   # External library setup
-/managing-immich:managing-immich upload /path/to/photos # CLI bulk upload
+/immich:immich setup                  # Docker Compose deployment
+/immich:immich backup                 # Database + filesystem backup
+/immich:immich library /mnt/photos    # External library setup
+/immich:immich upload /path/to/photos # CLI bulk upload
 ```
 
 ### Natural Language
@@ -139,8 +151,6 @@ You can also just describe what you want:
 "Help me package this for umbrelOS"
 "How do I create a Claude Code agent?"
 "What are the best practices for hooks?"
-"How do I set up WhatsApp with OpenClaw?"
-"My Telegram bot isn't receiving messages"
 "Automate browser login with agent-browser"
 "How do I use snapshots for element selection?"
 "Add persistent memory to my LLM agent with Honcho"
@@ -189,26 +199,6 @@ Comprehensive Claude Code and Anthropic ecosystem knowledge:
 ```
 
 [Full documentation](./skills/claude-code-expert/README.md)
-
-### openclaw
-
-Expert on OpenClaw (formerly Clawdbot) AI assistant framework:
-
-- **setup** - Installation and configuration guide
-- **channel** - Configure messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo)
-- **diagnose** - Troubleshoot common issues
-- **gateway** - Gateway configuration and remote access
-- **skills** - Create and manage OpenClaw skills
-- **memory** - Memory system configuration
-- **sync/diff** - Stay updated with upstream docs
-
-```bash
-/openclaw:openclaw setup
-/openclaw:openclaw channel whatsapp
-/openclaw:openclaw diagnose
-```
-
-[Full documentation](./skills/openclaw/README.md)
 
 ### agent-browser
 
@@ -372,7 +362,7 @@ Expert on Firecrawl web scraping, crawling, and data extraction API:
 
 [Full documentation](./skills/firecrawl/README.md)
 
-### managing-servarr
+### servarr
 
 Deploy and manage the complete media automation stack:
 
@@ -388,15 +378,15 @@ Deploy and manage the complete media automation stack:
 - **remote** - Laptop→NAS management patterns
 
 ```bash
-/managing-servarr:managing-servarr setup docker
-/managing-servarr:managing-servarr integrate
-/managing-servarr:managing-servarr add movie "Inception"
-/managing-servarr:managing-servarr remote
+/servarr:servarr setup docker
+/servarr:servarr integrate
+/servarr:servarr add movie "Inception"
+/servarr:servarr remote
 ```
 
-[Full documentation](./skills/managing-servarr/README.md)
+[Full documentation](./skills/servarr/README.md)
 
-### managing-immich
+### immich
 
 Deploy and manage Immich, a self-hosted photo and video management solution:
 
@@ -410,15 +400,15 @@ Deploy and manage Immich, a self-hosted photo and video management solution:
 - **mobile** - Mobile app setup and backup
 
 ```bash
-/managing-immich:managing-immich setup
-/managing-immich:managing-immich backup
-/managing-immich:managing-immich upload /path/to/photos
-/managing-immich:managing-immich library /mnt/nas/photos
+/immich:immich setup
+/immich:immich backup
+/immich:immich upload /path/to/photos
+/immich:immich library /mnt/nas/photos
 ```
 
-[Full documentation](./skills/managing-immich/README.md)
+[Full documentation](./skills/immich/README.md)
 
-### managing-glinet
+### glinet
 
 Configure and manage GL.iNet routers (firmware v4.x):
 
@@ -432,15 +422,15 @@ Configure and manage GL.iNet routers (firmware v4.x):
 - **storage** - USB/Samba/WebDAV/DLNA
 
 ```bash
-/managing-glinet:managing-glinet setup
-/managing-glinet:managing-glinet vpn wireguard
-/managing-glinet:managing-glinet adguard
-/managing-glinet:managing-glinet gateway
+/glinet:glinet setup
+/glinet:glinet vpn wireguard
+/glinet:glinet adguard
+/glinet:glinet gateway
 ```
 
-[Full documentation](./skills/managing-glinet/README.md)
+[Full documentation](./skills/glinet/README.md)
 
-### managing-umami
+### umami
 
 Deploy and manage Umami, a privacy-focused open-source web analytics platform:
 
@@ -453,14 +443,14 @@ Deploy and manage Umami, a privacy-focused open-source web analytics platform:
 - **teams** — Team and user management
 
 ```bash
-/managing-umami:managing-umami setup
-/managing-umami:managing-umami api getWebsites
-/managing-umami:managing-umami track purchase
-/managing-umami:managing-umami stats <websiteId>
-/managing-umami:managing-umami reports funnel
+/umami:umami setup
+/umami:umami api getWebsites
+/umami:umami track purchase
+/umami:umami stats <websiteId>
+/umami:umami reports funnel
 ```
 
-[Full documentation](./skills/managing-umami/README.md)
+[Full documentation](./skills/umami/README.md)
 
 ## Adding New Skills
 
@@ -524,7 +514,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, openclaw, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, managing-servarr, managing-obsidian, managing-adguard, managing-immich, managing-glinet, managing-umami
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami
 
 ### Automated Releases (release-please)
 
@@ -551,15 +541,6 @@ This repository uses [release-please](https://github.com/googleapis/release-plea
 - `release-please-config.json` - Release settings and package definitions
 - `.release-please-manifest.json` - Current versions for each skill
 
-**Current versions:**
-
-| Skill | Version |
-|-------|---------|
-| umbrel-app | 1.3.0 |
-| claude-code-expert | 1.0.1 |
-| openclaw | 4.0.0 |
-| agent-browser | 1.1.0 |
-
 ### Configuration
 
 Set custom schedule via repository variable:
@@ -573,33 +554,32 @@ SYNC_SCHEDULE: "0 6 1,15 * *"  # Cron format
 ```
 skills/
 ├── .claude-plugin/
-│   └── marketplace.json          # Marketplace manifest (14 skills)
+│   └── marketplace.json          # Marketplace manifest
 ├── .github/
 │   ├── scripts/
-│   │   └── sync-skill.sh        # Generic sync script
+│   │   └── sync-skill.sh         # Generic sync script
 │   └── workflows/
-│       ├── sync-docs.yml        # Scheduled sync workflow
-│       └── release-on-merge.yml # Auto-release on PR merge
+│       ├── sync-docs.yml         # Scheduled sync workflow
+│       └── release-on-merge.yml  # Auto-release on PR merge
 ├── skills/
-│   ├── umbrel-app/              # Umbrel app development
-│   ├── claude-code-expert/      # Claude Code knowledge base
-│   ├── openclaw/                # OpenClaw messaging framework
-│   ├── agent-browser/           # Browser automation for AI agents
-│   ├── chat-sdk/                # Vercel Chat SDK
-│   ├── ai-sdk/                  # Vercel AI SDK
-│   ├── agent-skills/            # Agent Skills specification
-│   ├── hermes/                  # Hermes Agent self-knowledge
-│   ├── honcho/                  # Honcho AI-native memory platform
-│   ├── safe-delete/             # Safe file deletion
-│   ├── x-engagement/            # X/Twitter engagement
-│   ├── gh-issue-tracker/        # Error tracking via GitHub Issues
-│   ├── firecrawl/              # Firecrawl web scraping API
-│   ├── managing-servarr/       # Media stack (*arr suite + Plex)
-│   ├── managing-obsidian/      # Obsidian vault management
-│   ├── managing-adguard/       # AdGuard Home DNS filtering
-│   ├── managing-immich/        # Immich photo/video management
-│   ├── managing-glinet/        # GL.iNet router management
-│   └── managing-umami/         # Umami web analytics
+│   ├── umbrel-app/               # Umbrel app development
+│   ├── claude-code-expert/       # Claude Code knowledge base
+│   ├── agent-browser/            # Browser automation for AI agents
+│   ├── chat-sdk/                 # Vercel Chat SDK
+│   ├── ai-sdk/                   # Vercel AI SDK
+│   ├── agent-skills/             # Agent Skills specification
+│   ├── hermes/                   # Hermes Agent self-knowledge
+│   ├── honcho/                   # Honcho AI-native memory platform
+│   ├── safe-delete/              # Safe file deletion
+│   ├── x-engagement/             # X/Twitter engagement
+│   ├── gh-issue-tracker/         # Error tracking via GitHub Issues
+│   ├── firecrawl/                # Firecrawl web scraping API
+│   ├── servarr/                  # Media stack (*arr suite + Plex)
+│   ├── obsidian/                 # Obsidian vault management
+│   ├── adguard/                  # AdGuard Home DNS filtering
+│   ├── immich/                   # Immich photo/video management
+│   ├── glinet/                   # GL.iNet router management
+│   └── umami/                    # Umami web analytics
 └── README.md
 ```
 

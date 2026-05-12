@@ -19,12 +19,6 @@
       "version": "2.1.0"
     },
     {
-      "name": "openclaw",
-      "source": "./skills/openclaw",
-      "description": "Expert on OpenClaw (formerly Clawdbot) - AI assistant framework connecting Claude/LLMs to messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, Teams, Google Chat, Matrix, BlueBubbles, Zalo)",
-      "version": "4.0.4"
-    },
-    {
       "name": "agent-browser",
       "source": "./skills/agent-browser",
       "description": "Expert on agent-browser - Vercel's headless browser automation CLI for AI agents with 50+ commands, snapshots, and multi-session support",
@@ -85,38 +79,38 @@
       "version": "1.0.2"
     },
     {
-      "name": "managing-servarr",
-      "source": "./skills/managing-servarr",
+      "name": "servarr",
+      "source": "./skills/servarr",
       "description": "Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr",
       "version": "1.0.1"
     },
     {
-      "name": "managing-obsidian",
-      "source": "./skills/managing-obsidian",
+      "name": "obsidian",
+      "source": "./skills/obsidian",
       "description": "Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing",
       "version": "1.0.1"
     },
     {
-      "name": "managing-adguard",
-      "source": "./skills/managing-adguard",
+      "name": "adguard",
+      "source": "./skills/adguard",
       "description": "Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation",
       "version": "1.0.2"
     },
     {
-      "name": "managing-immich",
-      "source": "./skills/managing-immich",
+      "name": "immich",
+      "source": "./skills/immich",
       "description": "Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API",
       "version": "1.0.1"
     },
     {
-      "name": "managing-glinet",
-      "source": "./skills/managing-glinet",
+      "name": "glinet",
+      "source": "./skills/glinet",
       "description": "Configure and manage GL.iNet routers — VPN (WireGuard, OpenVPN, Tailscale), AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes",
       "version": "1.0.2"
     },
     {
-      "name": "managing-umami",
-      "source": "./skills/managing-umami",
+      "name": "umami",
+      "source": "./skills/umami",
       "description": "Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, reports, and team management",
       "version": "1.0.1"
     }

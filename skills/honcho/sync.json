@@ -490,12 +490,6 @@
       "freshness_days": 14
     },
     {
-      "url": "https://docs.honcho.dev/v3/guides/integrations/openclaw.md",
-      "target": "skills/honcho/docs/guides/openclaw.md",
-      "type": "extract-content",
-      "freshness_days": 14
-    },
-    {
       "url": "https://docs.honcho.dev/v3/guides/integrations/paperclip.md",
       "target": "skills/honcho/docs/guides/paperclip.md",
       "type": "extract-content",

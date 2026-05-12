@@ -1,0 +1,77 @@
+# Daily skills manifest for `zskills sync`.
+# Install zskills: cargo install --git https://github.com/zot24/zskills
+# Apply:           zskills sync --file ./skills.toml
+
+# ─── zot24/skills marketplace ───
+
+[[skills]]
+name = "umbrel-app"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "claude-code-expert"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "agent-browser"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "chat-sdk"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "ai-sdk"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "agent-skills"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "safe-delete"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "x-engagement"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "hermes"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "honcho"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "gh-issue-tracker"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "firecrawl"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "servarr"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "obsidian"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "adguard"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "immich"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "glinet"
+marketplace = "zot24-skills"
+
+[[skills]]
+name = "umami"
+marketplace = "zot24-skills"

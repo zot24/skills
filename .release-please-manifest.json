@@ -1,4 +1,5 @@
 {
+  "skills/adguard": "1.0.2",
   "skills/agent-browser": "2.2.2",
   "skills/agent-skills": "1.2.1",
   "skills/ai-sdk": "1.1.3",
@@ -6,16 +7,14 @@
   "skills/claude-code-expert": "2.1.0",
   "skills/firecrawl": "1.0.2",
   "skills/gh-issue-tracker": "1.0.0",
+  "skills/glinet": "1.0.2",
   "skills/hermes": "1.1.11",
   "skills/honcho": "1.0.3",
-  "skills/managing-adguard": "1.0.2",
-  "skills/managing-glinet": "1.0.2",
-  "skills/managing-immich": "1.0.1",
-  "skills/managing-obsidian": "1.0.1",
-  "skills/managing-servarr": "1.0.1",
-  "skills/managing-umami": "1.0.1",
-  "skills/openclaw": "4.0.4",
+  "skills/immich": "1.0.1",
+  "skills/obsidian": "1.0.1",
   "skills/safe-delete": "1.0.2",
+  "skills/servarr": "1.0.1",
+  "skills/umami": "1.0.1",
   "skills/umbrel-app": "2.1.0",
   "skills/x-engagement": "1.0.0"
 }
