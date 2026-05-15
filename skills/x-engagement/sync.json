@@ -1,6 +1,6 @@
 {
   "name": "x-engagement",
-  "version": "2.0.0",
+  "version": "1.1.0",
   "description": "X (Twitter) engagement playbook grounded in xai-org/x-algorithm codebase - scoring signals, quality gate, dwell, follow triggers, spam detection",
   "sources": [
     {
