@@ -1,7 +1,7 @@
 > Source: https://docs.honcho.dev/v3/guides/integrations/crewai.md
 
 > ## Documentation Index
-> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
 # CrewAI
@@ -100,7 +100,7 @@ results = storage.search("query", filters={
 })
 ```
 
-For the full filter syntax including logical operators (AND, OR, NOT), comparison operators, and metadata filtering, see the [Using Filters](https://docs.honcho.dev/v3/documentation/features/advanced/using-filters) documentation.
+For the full filter syntax including logical operators (AND, OR, NOT), comparison operators, and metadata filtering, see the [Using Filters](https://honcho.dev/docs/v3/documentation/features/advanced/using-filters) documentation.
 
 
   For comprehensive details about CrewAI's memory system, see the [official CrewAI Memory documentation](https://docs.crewai.com/en/concepts/memory).

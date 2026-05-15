@@ -190,7 +190,7 @@ Overview
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Skill + CLI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skills + CLI</span>
 
   </div>
 

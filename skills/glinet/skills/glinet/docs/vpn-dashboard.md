@@ -22,6 +22,8 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
+<a href="#policy-mode" class="md-nav__link">Policy Mode</a>
+
 <a href="../vpn_dashboard_v4.9/" class="md-nav__link"><span class="md-ellipsis"> VPN Dashboard (v4.9) </span></a>
 
 <a href="../openvpn_client/" class="md-nav__link"><span class="md-ellipsis"> OpenVPN Client </span></a>
@@ -32,13 +34,14 @@ gl-inet/docs4.x
 
 <a href="../wireguard_server/" class="md-nav__link"><span class="md-ellipsis"> WireGuard Server </span></a>
 
-<a href="../tor/" class="md-nav__link"><span class="md-ellipsis"> Tor </span></a>
-
 
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 
 <a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
+
+
+<a href="#policy-mode" class="md-nav__link">Policy Mode</a>
 
 
 # VPN Dashboard (Firmware v4.8)<a href="#vpn-dashboard-firmware-v48" class="headerlink" title="Permanent link">¶</a>
@@ -96,6 +99,26 @@ It is ideal for scenarios where all client traffic is routed through a single VP
 In the following example, the router connects to an Australian server using the WireGuard protocol. All traffic from connected clients will be routed through this VPN tunnel.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/vpn_dashboard/4.8/connected-global-mode.png" class="glboxshadow" alt="connected global mode" />
+
+#### Tunnel Options<a href="#tunnel-options" class="headerlink" title="Permanent link">¶</a>
+
+You can configure advanced settings for your VPN tunnel, such as the VPN Kill Switch, IP Masquerading, and MTU.
+
+Click the gear icon in the upper right corner.
+
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/vpn_dashboard/4.8/global_mode_options1.png" class="glboxshadow" alt="global mode options" />
+
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/vpn_dashboard/4.8/global_mode_options2.png" class="glboxshadow" alt="global mode options" />
+
+- **Kill Switch**: If enabled, any traffic routed through this VPN tunnel will be automatically blocked when the VPN connection fails. If disabled, traffic will fall back to the local WAN and access the internet without going through the VPN tunnel.
+
+- **Services from GL.iNet Use VPN**: If enabled, GoodCloud, DDNS, and rtty services will transmit packets through VPN tunnels. This option is disabled by default, as these services normally require the device's real IP address to work properly.
+
+- **Allow Remote Access the LAN Subnet**: If enabled, remote access to this router and its LAN devices via VPN will be allowed. The VPN server must advertise a route to the LAN subnet of this router.
+
+- **IP Masquerading**: If enabled, the source IP addresses of LAN clients will be rewritten to the router's VPN tunnel IP. Disable this only for Site-to-Site setups where the remote peer knows your LAN subnets.
+
+- **MTU**: Short for Maximum Transmission Unit. The MTU value you set for the tunnel will override the value defined in the configuration file.
 
 ### Policy Mode<a href="#policy-mode" class="headerlink" title="Permanent link">¶</a>
 
@@ -297,7 +320,7 @@ Click and hold the three-line icon on the right to reorder the tunnels, and clic
     - If enabled, it routes unmatched or failover traffic through the local WAN.
     - If disabled, it strengthens the Kill Switch and blocks regular Internet access to prevent IP leaks.
 
-#### Tunnel Options<a href="#tunnel-options" class="headerlink" title="Permanent link">¶</a>
+#### Tunnel Options<a href="#tunnel-options_1" class="headerlink" title="Permanent link">¶</a>
 
 You can configure advanced settings for each VPN tunnel, such as the VPN Kill Switch, IP Masquerading, and MTU.
 
@@ -307,15 +330,15 @@ Click the gear icon next to a tunnel name and select **Options**.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/vpn_dashboard/4.8/tunnel_options_2.png" class="glboxshadow" alt="tunnel options" />
 
-- **Kill Switch**: If enabled, traffic matching this VPN tunnel will be blocked if the VPN connection fails unexpectedly. If disabled, such traffic will fail over to the next priority tunnel or local WAN.
+- **Kill Switch**: If enabled, any traffic routed through this VPN tunnel will be automatically blocked if the VPN connection fails. If disabled, traffic will fail over to the next priority tunnel or the local WAN.
 
 - **Services from GL.iNet Use VPN**: If enabled, GoodCloud, DDNS, and rtty services will transmit packets through VPN tunnels. This option is disabled by default, as these services normally require the device's real IP address to work properly.
 
-- **Allow Remote Access the LAN Subnet**: If enabled, remote access to this router and its LAN devices through the VPN will be allowed. It requires the VPN server to advertise a route back to its LAN subnet.
+- **Allow Remote Access the LAN Subnet**: If enabled, remote access to this router and its LAN devices via VPN will be allowed. The VPN server must advertise a route to the LAN subnet of this router.
 
 - **IP Masquerading**: If enabled, the source IP addresses of LAN clients will be rewritten to the router's VPN tunnel IP. Disable this only for Site-to-Site setups where the remote peer knows your LAN subnets.
 
-- **MTU**: The MTU value you set for the tunnel will override the MTU settings in the configuration file.
+- **MTU**: Short for Maximum Transmission Unit. The MTU value you set for the tunnel will override the value defined in the configuration file.
 
 ------------------------------------------------------------------------
 

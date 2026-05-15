@@ -60,7 +60,7 @@ Map
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Skill + CLI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skills + CLI</span>
 
   </div>
 
@@ -101,7 +101,7 @@ Map
 
 - <div class="flex-1 flex items-center gap-2 justify-start">
 
-  Plans & Billing
+  Plans and Billing
 
   </div>
 
@@ -175,7 +175,6 @@ Map
   </div>
 
   </div>
-
 - <span id="/features/map"><a href="/features/map" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
@@ -190,7 +189,6 @@ Map
   </div>
 
   </div>
-
 - <span id="/features/crawl"><a href="/features/crawl" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
@@ -203,20 +201,6 @@ Map
   <span class="min-w-0 max-w-full break-words hyphens-auto">Crawl</span>
 
   </div>
-
-  </div>
-
-- <div class="h-[1lh] flex items-center shrink-0">
-
-  </div>
-
-  <div class="flex-1 flex items-center gap-2 justify-start">
-
-  Agent (Research Preview)
-
-  </div>
-
-  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -581,7 +565,7 @@ Map
   </div>
 
 
-##### Dashboard
+##### Other
 
 
 - <span id="/dashboard"><a href="/dashboard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
@@ -590,6 +574,20 @@ Map
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+- <span id="/features/ask"><a href="/features/ask" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Debug with Ask</span>
 
   </div>
 

@@ -41,7 +41,7 @@ Before writing a long prompt explaining how to do something, check if there's al
 
 ### Multi-Line Input<a href="#multi-line-input" class="hash-link" aria-label="Direct link to Multi-Line Input" translate="no" title="Direct link to Multi-Line Input">​</a>
 
-Press **Alt+Enter** (or **Ctrl+J**) to insert a newline without sending. This lets you compose multi-line prompts, paste code blocks, or structure complex requests before hitting Enter to send.
+Press **Alt+Enter**, **Ctrl+J**, or **Shift+Enter** to insert a newline without sending. `Shift+Enter` only works when the terminal sends it as a distinct keystroke (Kitty / foot / WezTerm / Ghostty by default; iTerm2 / Alacritty / VS Code terminal once the Kitty keyboard protocol is enabled). The other two work in every terminal.
 
 ### Paste Detection<a href="#paste-detection" class="hash-link" aria-label="Direct link to Paste Detection" translate="no" title="Direct link to Paste Detection">​</a>
 

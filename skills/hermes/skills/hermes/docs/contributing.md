@@ -56,7 +56,6 @@ export VIRTUAL_ENV="$(pwd)/venv"
 
 # Install with all extras (messaging, cron, CLI menus, dev tools)
 uv pip install -e ".[all,dev]"
-uv pip install -e "./tinker-atropos"
 
 # Optional: browser tools
 npm install
@@ -108,7 +107,17 @@ pytest tests/ -v
 
 ## Cross-Platform Compatibility<a href="#cross-platform-compatibility" class="hash-link" aria-label="Direct link to Cross-Platform Compatibility" translate="no" title="Direct link to Cross-Platform Compatibility">​</a>
 
-Hermes officially supports Linux, macOS, and WSL2. Native Windows is **not supported**, but the codebase includes some defensive coding patterns to avoid hard crashes in edge cases. Key rules:
+Hermes officially supports **Linux, macOS, WSL2, and native Windows (early beta — via PowerShell install)**. Native Windows uses Git Bash (from <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">Git for Windows</a>) for shell commands. A few features require POSIX kernel primitives and are gated: the dashboard's embedded PTY terminal pane (`/chat` tab) is WSL2-only. The native-Windows path is new and moves fast — if you're doing Windows-heavy dev, expect to hit and fix rough edges.
+
+When contributing code, keep these rules in mind:
+
+- **Don't add unguarded `signal.SIGKILL` references.** It's not defined on Windows. Either route through `gateway.status.terminate_pid(pid, force=True)` (the centralized primitive that does `taskkill /T /F` on Windows and SIGKILL on POSIX), or fall back with `getattr(signal, "SIGKILL", signal.SIGTERM)`.
+- **Catch `OSError` alongside `ProcessLookupError` on `os.kill(pid, 0)` probes.** Windows raises `OSError` (WinError 87, "parameter is incorrect") for an already-gone PID instead of `ProcessLookupError`.
+- **Don't force the terminal to POSIX semantics.** `os.setsid`, `os.killpg`, `os.getpgid`, `os.fork` all raise on Windows — gate them with `if sys.platform != "win32":` or `if os.name != "nt":`.
+- **Open files with an explicit `encoding="utf-8"`.** The Python default on Windows is the system locale (often cp1252), which mojibakes or crashes on non-Latin text.
+- **Use `pathlib.Path` / `os.path.join` — never manually concat with `/`.** This matters less for strings the OS gives us back and more for strings we construct to hand to subprocesses.
+
+Key patterns:
 
 ### 1. `termios` and `fcntl` are Unix-only<a href="#1-termios-and-fcntl-are-unix-only" class="hash-link" aria-label="Direct link to 1-termios-and-fcntl-are-unix-only" translate="no" title="Direct link to 1-termios-and-fcntl-are-unix-only">​</a>
 

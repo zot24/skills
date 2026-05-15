@@ -60,7 +60,7 @@ Scrape
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Skill + CLI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skills + CLI</span>
 
   </div>
 
@@ -101,7 +101,7 @@ Scrape
 
 - <div class="flex-1 flex items-center gap-2 justify-start">
 
-  Plans & Billing
+  Plans and Billing
 
   </div>
 
@@ -266,7 +266,6 @@ Scrape
   </div>
 
   </div>
-
 - <span id="/features/map"><a href="/features/map" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
@@ -281,7 +280,6 @@ Scrape
   </div>
 
   </div>
-
 - <span id="/features/crawl"><a href="/features/crawl" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
@@ -294,20 +292,6 @@ Scrape
   <span class="min-w-0 max-w-full break-words hyphens-auto">Crawl</span>
 
   </div>
-
-  </div>
-
-- <div class="h-[1lh] flex items-center shrink-0">
-
-  </div>
-
-  <div class="flex-1 flex items-center gap-2 justify-start">
-
-  Agent (Research Preview)
-
-  </div>
-
-  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -672,7 +656,7 @@ Scrape
   </div>
 
 
-##### Dashboard
+##### Other
 
 
 - <span id="/dashboard"><a href="/dashboard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
@@ -681,6 +665,20 @@ Scrape
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+- <span id="/features/ask"><a href="/features/ask" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Debug with Ask</span>
 
   </div>
 
@@ -741,6 +739,9 @@ On this page
 - <a href="#branding-profile-structure" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Branding Profile Structure</a>
 - <a href="#combining-with-other-formats" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Combining with other formats</a>
 - <a href="#audio-extraction" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Audio extraction</a>
+- <a href="#video-extraction" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Video extraction</a>
+- <a href="#question-format" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Question format</a>
+- <a href="#highlights-format" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Highlights format</a>
 - <a href="#interacting-with-the-page-with-actions" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Interacting with the page with Actions</a>
 - <a href="#example" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Example</a>
 - <a href="#output" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Output</a>
@@ -905,6 +906,8 @@ print(doc)
 - Images (`images`) - extract all image URLs from the page
 - Branding (`branding`) - extract brand identity and design system
 - Audio (`audio`) - extract MP3 audio from supported video URLs, e.g. YouTube (returns a signed GCS URL, expires after 1 hour)
+- Video (`video`) - extract best-quality video from supported video URLs, e.g. YouTube (returns a signed GCS URL, expires after 1 hour)
+- Query (`query`, with `prompt` and optional `mode`) - ask a natural-language question about the page; the answer is returned in the `answer` field
 
 
 ## 
@@ -1242,6 +1245,93 @@ firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
 doc = firecrawl.scrape("https://www.youtube.com/watch?v=dQw4w9WgXcQ", formats=["audio"])
 print(doc.audio)  # Signed GCS URL to the MP3 file
+```
+
+
+## 
+
+
+<a href="#video-extraction" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+
+doc = firecrawl.scrape("https://www.youtube.com/watch?v=dQw4w9WgXcQ", formats=["video"])
+print(doc.video)  # Signed GCS URL to the video file
+```
+
+
+## 
+
+
+<a href="#question-format" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `question` (required for `type: "question"`): the question to answer. Maximum 10,000 characters.
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+
+doc = firecrawl.scrape(
+    "https://firecrawl.dev",
+    formats=[{"type": "question", "question": "What is Firecrawl?"}],
+)
+print(doc.answer)
+```
+
+
+## 
+
+
+<a href="#highlights-format" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `query` (required for `type: "highlights"`): the source-text selection request. Maximum 10,000 characters.
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+
+doc = firecrawl.scrape(
+    "https://firecrawl.dev",
+    formats=[{"type": "highlights", "query": "What is Firecrawl?"}],
+)
+print(doc.highlights)
 ```
 
 

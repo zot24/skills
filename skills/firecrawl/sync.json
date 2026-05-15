@@ -1,6 +1,6 @@
 {
   "name": "firecrawl",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Firecrawl — web scraping, crawling, search, and browser automation API for AI agents",
   "sources": [
     {
@@ -1098,6 +1098,30 @@
     {
       "url": "https://docs.firecrawl.dev/quickstarts/windsurf.md",
       "target": "skills/firecrawl/docs/windsurf.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/ask.md",
+      "target": "skills/firecrawl/docs/api-reference-ask.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/docs-search.md",
+      "target": "skills/firecrawl/docs/api-reference-docs-search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/ask.md",
+      "target": "skills/firecrawl/docs/ask.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/partner-integration.md",
+      "target": "skills/firecrawl/docs/partner-integration.md",
       "type": "extract-content",
       "freshness_days": 14
     }

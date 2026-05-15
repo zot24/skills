@@ -40,19 +40,19 @@ Turn public web data into structured financial signals. Firecrawl scrapes compan
 ## FAQs
 
 
-    Yes, you can monitor publicly available information about private companies from their websites, news mentions, job postings, and social media presence.
+    Yes. Monitor publicly available information from company websites, news mentions, job postings, and social media presence.
 
 
-    Firecrawl extracts data in real-time when called. Build your own monitoring system to fetch data at intervals that match your investment strategy - from minute-by-minute for critical events to daily for routine tracking.
+    Firecrawl extracts data on every call, so you always get the live page. Schedule your own monitoring at intervals that match your strategy, from minute-by-minute for critical events to daily for routine tracking.
 
 
-    Public web sources such as company websites, news sites, job boards, review sites, forums, social media, government filings, and open-access industry data.
+    Any public web source, including company websites, news sites, job boards, review sites, forums, social media, government filings, and open-access industry data.
 
 
-    Extract data from company ESG reports, sustainability pages, news mentions of environmental initiatives, and regulatory filings. Build tracking systems to identify changes in sustainability commitments or ESG-related developments.
+    Extract data from ESG reports, sustainability pages, news coverage of environmental initiatives, and regulatory filings. Re-run extractions on a schedule to flag shifts in sustainability commitments or ESG-related developments.
 
 
-    Yes. Extract recent company updates, product launches, executive changes, and industry trends before earnings calls. Combine with competitor data to anticipate questions and identify key discussion points.
+    Yes. Extract recent company updates, product launches, executive changes, and industry trends ahead of the call, then combine with competitor data to anticipate questions and identify key discussion points.
 
 
 ## Related Use Cases

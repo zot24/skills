@@ -8,6 +8,10 @@
 
 > Firecrawl API Reference (v2)
 
+
+  **For AI agents:** Use [llms.txt](/llms.txt) for a full index of all documentation.
+
+
 The Firecrawl API gives you programmatic access to web data. All endpoints share a common base URL, authentication scheme, and response format described on this page.
 
 ## Features
@@ -86,8 +90,6 @@ Firecrawl uses conventional HTTP status codes to indicate the outcome of your re
 
 See [Errors](/api-reference/errors) for the full reference, including the `error` string returned for each failure mode, retry guidance, and a copy-pasteable backoff snippet.
 
-## Rate limit
+## 429 responses
 
-The Firecrawl API enforces rate limits on all endpoints to ensure service stability. Rate limits are based on the number of requests within a specific time window.
-
-When you exceed the rate limit, the API returns a `429` status code. Back off and retry the request after a short delay.
+When you exceed your plan's rate or concurrency limits, the API returns a `429` status code. See [Rate Limits](/rate-limits) for per-plan limits and [Errors](/api-reference/errors) for retry guidance.

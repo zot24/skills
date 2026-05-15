@@ -6,6 +6,10 @@
 
 # Crawl Page
 
+> Webhook event sent for each page scraped during a crawl job.
+
+For payload examples, configuration, and retry behavior, see [Webhook Event Types](/webhooks/events#crawlpage) and [Webhook Overview](/webhooks/overview).
+
 
 ## OpenAPI
 

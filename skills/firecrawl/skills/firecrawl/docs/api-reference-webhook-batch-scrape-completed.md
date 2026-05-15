@@ -6,6 +6,10 @@
 
 # Batch Scrape Completed
 
+> Webhook event sent when all URLs in a batch scrape have been processed.
+
+For payload examples, configuration, and retry behavior, see [Webhook Event Types](/webhooks/events#batch_scrapecompleted) and [Webhook Overview](/webhooks/overview).
+
 
 ## OpenAPI
 

@@ -675,7 +675,7 @@ compression:
 # The summarization model/provider is configured under auxiliary:
 auxiliary:
   compression:
-    model: "google/gemini-3-flash-preview"          # Model for summarization
+    model: ""                                       # Empty = use main chat model. Override with e.g. "google/gemini-3-flash-preview" for cheaper/faster compression.
     provider: "auto"                                # Provider: "auto", "openrouter", "nous", "codex", "main", etc.
     base_url: null                                  # Custom OpenAI-compatible endpoint (overrides provider)
 ```
@@ -781,7 +781,7 @@ Warnings are injected into the last tool result's JSON (as a `_budget_warning` f
 ``` prism-code
 agent:
   max_turns: 90                # Max iterations per conversation turn (default: 90)
-  api_max_retries: 2           # Retries per provider before fallback engages (default: 2)
+  api_max_retries: 3           # Retries per provider before fallback engages (default: 3)
 ```
 
 
@@ -789,7 +789,7 @@ Budget pressure is enabled by default. The agent sees warnings naturally as part
 
 When the iteration budget is fully exhausted, the CLI shows a notification to the user: `⚠ Iteration budget reached (90/90) — response may be incomplete`. If the budget runs out during active work, the agent generates a summary of what was accomplished before stopping.
 
-`agent.api_max_retries` controls how many times Hermes retries a provider API call on transient errors (rate limits, connection drops, 5xx) **before** fallback-provider switching engages. The default is `2` — three attempts total, matching the OpenAI SDK default. If you have [fallback providers](/docs/user-guide/features/fallback-providers) configured and want to fail over faster, drop this to `0` so the first transient error on your primary immediately hands off to the fallback instead of churning retries against the flaky endpoint.
+`agent.api_max_retries` controls how many times Hermes retries a provider API call on transient errors (rate limits, connection drops, 5xx) **before** fallback-provider switching engages. The default is `3` — four attempts total. If you have [fallback providers](/docs/user-guide/features/fallback-providers) configured and want to fail over faster, drop this to `0` so the first transient error on your primary immediately hands off to the fallback instead of churning retries against the flaky endpoint.
 
 ### API Timeouts<a href="#api-timeouts" class="hash-link" aria-label="Direct link to API Timeouts" translate="no" title="Direct link to API Timeouts">​</a>
 
@@ -874,6 +874,7 @@ $ hermes model
 [ ] title_generation     currently: openrouter / google/gemini-3-flash-preview
 [ ] compression          currently: auto / main model
 [ ] approval             currently: auto / main model
+[ ] triage_specifier     currently: auto / main model
 ```
 
 
@@ -968,6 +969,18 @@ auxiliary:
     base_url: ""
     api_key: ""
     timeout: 30
+
+  # Kanban triage specifier — `hermes kanban specify <id>` (or the
+  # dashboard's ✨ Specify button on Triage-column cards) uses this
+  # slot to expand a one-liner into a concrete spec and promote the
+  # task to `todo`. Cheap fast models work well here; spec expansion
+  # is short and doesn't need reasoning depth.
+  triage_specifier:
+    provider: "auto"
+    model: ""
+    base_url: ""
+    api_key: ""
+    timeout: 120
 ```
 
 
@@ -1006,6 +1019,30 @@ Use `extra_body` only when your provider documents OpenAI-compatible request-bod
 
 `extra_body` is only effective when your provider actually supports the field you send. If the provider does not expose a native OpenAI-compatible reasoning-off flag, Hermes cannot synthesize one on its behalf.
 
+
+### OpenRouter routing & Pareto Code for auxiliary tasks<a href="#openrouter-routing--pareto-code-for-auxiliary-tasks" class="hash-link" aria-label="Direct link to OpenRouter routing &amp; Pareto Code for auxiliary tasks" translate="no" title="Direct link to OpenRouter routing &amp; Pareto Code for auxiliary tasks">​</a>
+
+When an auxiliary task resolves to OpenRouter (either explicitly or via `provider: "main"` while your main agent is on OpenRouter), the main agent's `provider_routing` and `openrouter.min_coding_score` settings **do not propagate** — by design, each auxiliary task is independent. To set OpenRouter provider preferences or use the [Pareto Code router](/docs/integrations/providers#openrouter-pareto-code-router) for a specific aux task, set them per-task via `extra_body`:
+
+
+``` prism-code
+auxiliary:
+  compression:
+    provider: openrouter
+    model: openrouter/pareto-code         # use the Pareto Code router for this task
+    extra_body:
+      provider:                            # OpenRouter provider routing prefs
+        order: [anthropic, google]         # try these providers in order
+        sort: throughput                   # or "price" | "latency"
+        # only: [anthropic]                # restrict to a specific provider
+        # ignore: [deepinfra]              # exclude specific providers
+      plugins:                             # OpenRouter Pareto Code router knob
+        - id: pareto-router
+          min_coding_score: 0.5            # 0.0–1.0; higher = stronger coders
+```
+
+
+The shape mirrors what OpenRouter accepts in the chat completions request body. Hermes forwards the entire `extra_body` verbatim, so any other OpenRouter request-body field documented at <a href="https://openrouter.ai/docs" target="_blank" rel="noopener noreferrer">openrouter.ai/docs</a> works the same way.
 
 ### Changing the Vision Model<a href="#changing-the-vision-model" class="hash-link" aria-label="Direct link to Changing the Vision Model" translate="no" title="Direct link to Changing the Vision Model">​</a>
 
@@ -1290,10 +1327,30 @@ display:
   streaming: false        # Stream tokens to terminal as they arrive (real-time output)
   show_cost: false        # Show estimated $ cost in the CLI status bar
   tool_preview_length: 0  # Max chars for tool call previews (0 = no limit, show full paths/commands)
-  runtime_metadata_footer: false  # Gateway: append a runtime-context footer to final replies
+  runtime_footer:         # Gateway: append a runtime-context footer to final replies
+    enabled: false
+    fields: ["model", "context_pct", "cwd"]
+  file_mutation_verifier: true    # Append an advisory footer when write_file/patch calls failed this turn
   language: en            # UI language for static messages (approval prompts, some gateway replies). en | zh | ja | de | es | fr | tr | uk
 ```
 
+
+### File-mutation verifier<a href="#file-mutation-verifier" class="hash-link" aria-label="Direct link to File-mutation verifier" translate="no" title="Direct link to File-mutation verifier">​</a>
+
+When `display.file_mutation_verifier` is `true` (default), Hermes appends a one-line advisory to the assistant's final response whenever a `write_file` or `patch` call failed during the turn and was never superseded by a successful write to the same path. This catches the "batch of parallel patches, half silently fail, model summarises success" class of over-claim without requiring you to manually run `git status` after every edit.
+
+Example footer:
+
+
+``` prism-code
+⚠️ File-mutation verifier: 3 file(s) were NOT modified this turn despite any wording above that may suggest otherwise. Run `git status` or `read_file` to confirm.
+  • concepts/automatic-organization.md — [patch] Could not find match for old_string
+  • concepts/lora.md — [patch] Could not find match for old_string
+  • concepts/rag-pipeline.md — [patch] Could not find match for old_string
+```
+
+
+Set `file_mutation_verifier: false` (or `HERMES_FILE_MUTATION_VERIFIER=0`) to suppress the footer. The verifier only fires when real failures are outstanding at turn end — a model that retries a failed patch and succeeds within the same turn will not trigger it for that file.
 
 ### UI language for static messages<a href="#ui-language-for-static-messages" class="hash-link" aria-label="Direct link to UI language for static messages" translate="no" title="Direct link to UI language for static messages">​</a>
 
@@ -1321,14 +1378,18 @@ In the CLI, cycle through these modes with `/verbose`. To use `/verbose` in mess
 
 ### Runtime-metadata footer (gateway only)<a href="#runtime-metadata-footer-gateway-only" class="hash-link" aria-label="Direct link to Runtime-metadata footer (gateway only)" translate="no" title="Direct link to Runtime-metadata footer (gateway only)">​</a>
 
-When `display.runtime_metadata_footer: true`, Hermes appends a small runtime-context footer to the **final** message of each gateway turn — same info the CLI shows in its status bar (model, session duration, tokens, cost). Off by default; opt in per-gateway if your team wants every reply to include the provenance.
+When `display.runtime_footer.enabled: true`, Hermes appends a small runtime-context footer to the **final** message of each gateway turn — same info the CLI shows in its status bar (model, context %, cwd, session duration, tokens, cost). Off by default; opt in per-gateway if your team wants every reply to include the provenance.
 
 
 ``` prism-code
 display:
-  runtime_metadata_footer: true
+  runtime_footer:
+    enabled: true
+    fields: ["model", "context_pct", "cwd"]   # any of: model, context_pct, cwd, duration, tokens, cost
 ```
 
+
+The `/footer` slash command toggles this at runtime in any session.
 
 Example footer appended to a Telegram/Discord/Slack reply:
 
@@ -1631,6 +1692,9 @@ browser:
   dialog_timeout_s: 300          # Safety auto-dismiss under must_respond (seconds)
   camofox:
     managed_persistence: false   # When true, Camofox sessions persist cookies/logins across restarts
+    user_id: ""                  # Optional externally managed Camofox userId
+    session_key: ""              # Optional session key sent when Hermes creates a tab
+    adopt_existing_tab: false    # Reuse an existing tab for this identity before creating one
 ```
 
 
@@ -1693,7 +1757,7 @@ security:
 
 
 - `redact_secrets` — when `true`, automatically detects and redacts patterns that look like API keys, tokens, and passwords in tool output before it enters the conversation context and logs. **Off by default** — enable if you commonly work with real credentials in tool output and want a safety net. Set to `true` explicitly to turn on.
-- `tirith_enabled` — when `true`, terminal commands are scanned by <a href="https://github.com/StackGuardian/tirith" target="_blank" rel="noopener noreferrer">Tirith</a> before execution to detect potentially dangerous operations.
+- `tirith_enabled` — when `true`, terminal commands are scanned by <a href="https://github.com/sheeki03/tirith" target="_blank" rel="noopener noreferrer">Tirith</a> before execution to detect potentially dangerous operations.
 - `tirith_path` — path to the tirith binary. Set this if tirith is installed in a non-standard location.
 - `tirith_timeout` — maximum seconds to wait for a tirith scan. Commands proceed if the scan times out.
 - `tirith_fail_open` — when `true` (default), commands are allowed to execute if tirith is unavailable or fails. Set to `false` to block commands when tirith cannot verify them.
@@ -1758,8 +1822,8 @@ Automatic filesystem snapshots before destructive file operations. See the [Chec
 
 ``` prism-code
 checkpoints:
-  enabled: true                  # Enable automatic checkpoints (also: hermes --checkpoints)
-  max_snapshots: 50              # Max checkpoints to keep per directory
+  enabled: false                 # Enable automatic checkpoints (also: hermes chat --checkpoints). Default: false (opt-in).
+  max_snapshots: 20              # Max checkpoints to keep per directory (default: 20)
 ```
 
 
@@ -1887,6 +1951,7 @@ TERMINAL_CWD=/workspace                # All terminal sessions
   - <a href="#the-universal-config-pattern" class="table-of-contents__link toc-highlight">The universal config pattern</a>
   - <a href="#full-auxiliary-config-reference" class="table-of-contents__link toc-highlight">Full auxiliary config reference</a>
   - <a href="#session-search-tuning" class="table-of-contents__link toc-highlight">Session Search Tuning</a>
+  - <a href="#openrouter-routing--pareto-code-for-auxiliary-tasks" class="table-of-contents__link toc-highlight">OpenRouter routing &amp; Pareto Code for auxiliary tasks</a>
   - <a href="#changing-the-vision-model" class="table-of-contents__link toc-highlight">Changing the Vision Model</a>
   - <a href="#provider-options" class="table-of-contents__link toc-highlight">Provider Options</a>
   - <a href="#common-setups-1" class="table-of-contents__link toc-highlight">Common Setups</a>
@@ -1897,6 +1962,7 @@ TERMINAL_CWD=/workspace                # All terminal sessions
   - <a href="#when-to-turn-it-on" class="table-of-contents__link toc-highlight">When to turn it on</a>
 - <a href="#tts-configuration" class="table-of-contents__link toc-highlight">TTS Configuration</a>
 - <a href="#display-settings" class="table-of-contents__link toc-highlight">Display Settings</a>
+  - <a href="#file-mutation-verifier" class="table-of-contents__link toc-highlight">File-mutation verifier</a>
   - <a href="#ui-language-for-static-messages" class="table-of-contents__link toc-highlight">UI language for static messages</a>
   - <a href="#runtime-metadata-footer-gateway-only" class="table-of-contents__link toc-highlight">Runtime-metadata footer (gateway only)</a>
   - <a href="#per-platform-progress-overrides" class="table-of-contents__link toc-highlight">Per-platform progress overrides</a>

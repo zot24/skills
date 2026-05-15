@@ -6,6 +6,10 @@
 
 # Crawl Started
 
+> Webhook event sent when a crawl job begins processing.
+
+For payload examples, configuration, and retry behavior, see [Webhook Event Types](/webhooks/events#crawlstarted) and [Webhook Overview](/webhooks/overview).
+
 
 ## OpenAPI
 

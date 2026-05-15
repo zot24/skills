@@ -1,7 +1,7 @@
 > Source: https://docs.honcho.dev/v3/contributing/self-hosting.md
 
 > ## Documentation Index
-> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
 # Local Environment Setup
@@ -410,4 +410,21 @@ The default compose file is already production-oriented — ports bound to `127.
   # Restore
   cat backup.sql | docker compose exec -T database psql -U postgres postgres
   ```
+
+## Deploying on Fly.io
+
+The API can be deployed on [Fly.io](https://fly.io). Follow the [Fly.io getting-started docs](https://fly.io/docs/getting-started/) to set up your account and install `flyctl`. A sample `fly.toml` is included in the repo for convenience.
+
+
+  The included `fly.toml` does not provision a PostgreSQL database. Stand one up separately (Fly Postgres, Supabase, Neon, or another managed provider) and set `DB_CONNECTION_URI` to point at it.
+
+
+Once `flyctl` is set up, from the repo root:
+
+```bash
+flyctl launch --no-deploy           # follow the prompts and edit as you see fit
+cat .env | flyctl secrets import    # load secrets from .env
+flyctl deploy                       # deploy
+```
+
 * Back up your `.env` or `config.toml` configuration files

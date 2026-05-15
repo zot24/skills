@@ -11,7 +11,7 @@ On this page
 # Messaging Gateway
 
 
-Chat with Hermes from Telegram, Discord, Slack, WhatsApp, Signal, SMS, Email, Home Assistant, Mattermost, Matrix, DingTalk, Feishu/Lark, WeCom, Weixin, BlueBubbles (iMessage), QQ, Yuanbao, Microsoft Teams, or your browser. The gateway is a single background process that connects to all your configured platforms, handles sessions, runs cron jobs, and delivers voice messages.
+Chat with Hermes from Telegram, Discord, Slack, WhatsApp, Signal, SMS, Email, Home Assistant, Mattermost, Matrix, DingTalk, Feishu/Lark, WeCom, Weixin, BlueBubbles (iMessage), QQ, Yuanbao, Microsoft Teams, LINE, or your browser. The gateway is a single background process that connects to all your configured platforms, handles sessions, runs cron jobs, and delivers voice messages.
 
 For the full voice feature set — including CLI microphone mode, spoken replies in messaging, and Discord voice-channel conversations — see [Voice Mode](/docs/user-guide/features/voice-mode) and [Use Voice Mode with Hermes](/docs/guides/use-voice-mode-with-hermes).
 
@@ -39,6 +39,7 @@ For the full voice feature set — including CLI microphone mode, spoken replies
 | QQ              |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
 | Yuanbao         |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
 | Microsoft Teams |   —   |   ✅   |   —   |   ✅    |     —     |   ✅   |     —     |
+| LINE            |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
 
 **Voice** = TTS audio replies and/or voice message transcription. **Images** = send/receive images. **Files** = send/receive file attachments. **Threads** = threaded conversations. **Reactions** = emoji reactions on messages. **Typing** = typing indicator while processing. **Streaming** = progressive message updates via editing.
 
@@ -75,31 +76,32 @@ hermes gateway status --system         # Linux only: inspect the system service 
 
 ## Chat Commands (Inside Messaging)<a href="#chat-commands-inside-messaging" class="hash-link" aria-label="Direct link to Chat Commands (Inside Messaging)" translate="no" title="Direct link to Chat Commands (Inside Messaging)">​</a>
 
-| Command                                 | Description                                                        |
-|-----------------------------------------|--------------------------------------------------------------------|
-| `/new` or `/reset`                      | Start a fresh conversation                                         |
-| `/model [provider:model]`               | Show or change the model (supports `provider:model` syntax)        |
-| `/personality [name]`                   | Set a personality                                                  |
-| `/retry`                                | Retry the last message                                             |
-| `/undo`                                 | Remove the last exchange                                           |
-| `/status`                               | Show session info                                                  |
-| `/stop`                                 | Stop the running agent                                             |
-| `/approve`                              | Approve a pending dangerous command                                |
-| `/deny`                                 | Reject a pending dangerous command                                 |
-| `/sethome`                              | Set this chat as the home channel                                  |
-| `/compress`                             | Manually compress conversation context                             |
-| `/title [name]`                         | Set or show the session title                                      |
-| `/resume [name]`                        | Resume a previously named session                                  |
-| `/usage`                                | Show token usage for this session                                  |
-| `/insights [days]`                      | Show usage insights and analytics                                  |
-| `/reasoning [level|show|hide]`          | Change reasoning effort or toggle reasoning display                |
-| `/voice [on|off|tts|join|leave|status]` | Control messaging voice replies and Discord voice-channel behavior |
-| `/rollback [number]`                    | List or restore filesystem checkpoints                             |
-| `/background <prompt>`                  | Run a prompt in a separate background session                      |
-| `/reload-mcp`                           | Reload MCP servers from config                                     |
-| `/update`                               | Update Hermes Agent to the latest version                          |
-| `/help`                                 | Show available commands                                            |
-| `/<skill-name>`                         | Invoke any installed skill                                         |
+| Command                                 | Description                                                                |
+|-----------------------------------------|----------------------------------------------------------------------------|
+| `/new` or `/reset`                      | Start a fresh conversation                                                 |
+| `/model [provider:model]`               | Show or change the model (supports `provider:model` syntax)                |
+| `/personality [name]`                   | Set a personality                                                          |
+| `/retry`                                | Retry the last message                                                     |
+| `/undo`                                 | Remove the last exchange                                                   |
+| `/status`                               | Show session info                                                          |
+| `/whoami`                               | Show your slash command access on this scope (admin / user / unrestricted) |
+| `/stop`                                 | Stop the running agent                                                     |
+| `/approve`                              | Approve a pending dangerous command                                        |
+| `/deny`                                 | Reject a pending dangerous command                                         |
+| `/sethome`                              | Set this chat as the home channel                                          |
+| `/compress`                             | Manually compress conversation context                                     |
+| `/title [name]`                         | Set or show the session title                                              |
+| `/resume [name]`                        | Resume a previously named session                                          |
+| `/usage`                                | Show token usage for this session                                          |
+| `/insights [days]`                      | Show usage insights and analytics                                          |
+| `/reasoning [level|show|hide]`          | Change reasoning effort or toggle reasoning display                        |
+| `/voice [on|off|tts|join|leave|status]` | Control messaging voice replies and Discord voice-channel behavior         |
+| `/rollback [number]`                    | List or restore filesystem checkpoints                                     |
+| `/background <prompt>`                  | Run a prompt in a separate background session                              |
+| `/reload-mcp`                           | Reload MCP servers from config                                             |
+| `/update`                               | Update Hermes Agent to the latest version                                  |
+| `/help`                                 | Show available commands                                                    |
+| `/<skill-name>`                         | Invoke any installed skill                                                 |
 
 ## Session Management<a href="#session-management" class="hash-link" aria-label="Direct link to Session Management" translate="no" title="Direct link to Session Management">​</a>
 
@@ -175,6 +177,35 @@ hermes pairing revoke telegram 123456789  # Remove access
 
 
 Pairing codes expire after 1 hour, are rate-limited, and use cryptographic randomness.
+
+### Slash Command Access Control<a href="#slash-command-access-control" class="hash-link" aria-label="Direct link to Slash Command Access Control" translate="no" title="Direct link to Slash Command Access Control">​</a>
+
+Once users are allowed in, you can split them into **admins** (full slash command access) and **regular users** (only the slash commands you explicitly enable). This applies per platform and per scope (DM vs group/channel) and works through the live command registry, so it covers built-in AND plugin-registered slash commands without per-feature wiring.
+
+
+``` prism-code
+gateway:
+  platforms:
+    discord:
+      extra:
+        allow_from: ["111", "222", "333"]
+        allow_admin_from: ["111"]                    # admins → all slash commands
+        user_allowed_commands: [status, model]       # what non-admins may run
+        # Optional: separate group/channel scope
+        group_allow_admin_from: ["111"]
+        group_user_allowed_commands: [status]
+```
+
+
+Behavior:
+
+- A user in `allow_admin_from` for a scope can run **every** registered slash command.
+- A user in `allow_from` but not in `allow_admin_from` can only run commands in `user_allowed_commands`, plus the always-allowed floor: `/help` and `/whoami`.
+- Plain chat is unaffected. Non-admins can still talk to the agent normally; they just can't trigger arbitrary commands.
+- **Backward compat:** if `allow_admin_from` is not set for a scope, slash gating is disabled for that scope. Existing installs keep working with no changes.
+- DM admin status does not imply group/channel admin status. Each scope has its own admin list.
+
+Use `/whoami` from any platform to see the active scope, your tier (admin / user / unrestricted), and which slash commands you can run. See the [Telegram](/docs/user-guide/messaging/telegram#slash-command-access-control) and [Discord](/docs/user-guide/messaging/discord#slash-command-access-control) pages for platform-specific examples.
 
 ## Interrupting the Agent<a href="#interrupting-the-agent" class="hash-link" aria-label="Direct link to Interrupting the Agent" translate="no" title="Direct link to Interrupting the Agent">​</a>
 
@@ -352,31 +383,31 @@ Like the Linux systemd service, each `HERMES_HOME` directory gets its own launch
 
 Each platform has its own toolset:
 
-| Platform        | Toolset                 | Capabilities                                                                                       |
-|-----------------|-------------------------|----------------------------------------------------------------------------------------------------|
-| CLI             | `hermes-cli`            | Full access                                                                                        |
-| Telegram        | `hermes-telegram`       | Full tools including terminal                                                                      |
-| Discord         | `hermes-discord`        | Full tools including terminal                                                                      |
-| WhatsApp        | `hermes-whatsapp`       | Full tools including terminal                                                                      |
-| Slack           | `hermes-slack`          | Full tools including terminal                                                                      |
-| Google Chat     | `hermes-google-chat`    | Full tools including terminal                                                                      |
-| Signal          | `hermes-signal`         | Full tools including terminal                                                                      |
-| SMS             | `hermes-sms`            | Full tools including terminal                                                                      |
-| Email           | `hermes-email`          | Full tools including terminal                                                                      |
-| Home Assistant  | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services) |
-| Mattermost      | `hermes-mattermost`     | Full tools including terminal                                                                      |
-| Matrix          | `hermes-matrix`         | Full tools including terminal                                                                      |
-| DingTalk        | `hermes-dingtalk`       | Full tools including terminal                                                                      |
-| Feishu/Lark     | `hermes-feishu`         | Full tools including terminal                                                                      |
-| WeCom           | `hermes-wecom`          | Full tools including terminal                                                                      |
-| WeCom Callback  | `hermes-wecom-callback` | Full tools including terminal                                                                      |
-| Weixin          | `hermes-weixin`         | Full tools including terminal                                                                      |
-| BlueBubbles     | `hermes-bluebubbles`    | Full tools including terminal                                                                      |
-| QQBot           | `hermes-qqbot`          | Full tools including terminal                                                                      |
-| Yuanbao         | `hermes-yuanbao`        | Full tools including terminal                                                                      |
-| Microsoft Teams | `hermes-teams`          | Full tools including terminal                                                                      |
-| API Server      | `hermes` (default)      | Full tools including terminal                                                                      |
-| Webhooks        | `hermes-webhook`        | Full tools including terminal                                                                      |
+| Platform        | Toolset                 | Capabilities                                                                                                          |
+|-----------------|-------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| CLI             | `hermes-cli`            | Full access                                                                                                           |
+| Telegram        | `hermes-telegram`       | Full tools including terminal                                                                                         |
+| Discord         | `hermes-discord`        | Full tools including terminal                                                                                         |
+| WhatsApp        | `hermes-whatsapp`       | Full tools including terminal                                                                                         |
+| Slack           | `hermes-slack`          | Full tools including terminal                                                                                         |
+| Google Chat     | `hermes-google_chat`    | Full tools including terminal                                                                                         |
+| Signal          | `hermes-signal`         | Full tools including terminal                                                                                         |
+| SMS             | `hermes-sms`            | Full tools including terminal                                                                                         |
+| Email           | `hermes-email`          | Full tools including terminal                                                                                         |
+| Home Assistant  | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services)                    |
+| Mattermost      | `hermes-mattermost`     | Full tools including terminal                                                                                         |
+| Matrix          | `hermes-matrix`         | Full tools including terminal                                                                                         |
+| DingTalk        | `hermes-dingtalk`       | Full tools including terminal                                                                                         |
+| Feishu/Lark     | `hermes-feishu`         | Full tools including terminal                                                                                         |
+| WeCom           | `hermes-wecom`          | Full tools including terminal                                                                                         |
+| WeCom Callback  | `hermes-wecom-callback` | Full tools including terminal                                                                                         |
+| Weixin          | `hermes-weixin`         | Full tools including terminal                                                                                         |
+| BlueBubbles     | `hermes-bluebubbles`    | Full tools including terminal                                                                                         |
+| QQBot           | `hermes-qqbot`          | Full tools including terminal                                                                                         |
+| Yuanbao         | `hermes-yuanbao`        | Full tools including terminal                                                                                         |
+| Microsoft Teams | `hermes-teams`          | Full tools including terminal                                                                                         |
+| API Server      | `hermes-api-server`     | Full tools (drops `clarify`, `send_message`, `text_to_speech` — programmatic access doesn't have an interactive user) |
+| Webhooks        | `hermes-webhook`        | Full tools including terminal                                                                                         |
 
 ## Next Steps<a href="#next-steps" class="hash-link" aria-label="Direct link to Next Steps" translate="no" title="Direct link to Next Steps">​</a>
 
@@ -400,6 +431,7 @@ Each platform has its own toolset:
 - [QQBot Setup](/docs/user-guide/messaging/qqbot)
 - [Yuanbao Setup](/docs/user-guide/messaging/yuanbao)
 - [Microsoft Teams Setup](/docs/user-guide/messaging/teams)
+- [Teams Meetings Pipeline](/docs/user-guide/messaging/teams-meetings)
 - [Open WebUI + API Server](/docs/user-guide/messaging/open-webui)
 - [Webhooks](/docs/user-guide/messaging/webhooks)
 
@@ -414,6 +446,7 @@ Each platform has its own toolset:
   - <a href="#reset-policies" class="table-of-contents__link toc-highlight">Reset Policies</a>
 - <a href="#security" class="table-of-contents__link toc-highlight">Security</a>
   - <a href="#dm-pairing-alternative-to-allowlists" class="table-of-contents__link toc-highlight">DM Pairing (Alternative to Allowlists)</a>
+  - <a href="#slash-command-access-control" class="table-of-contents__link toc-highlight">Slash Command Access Control</a>
 - <a href="#interrupting-the-agent" class="table-of-contents__link toc-highlight">Interrupting the Agent</a>
   - <a href="#queue-vs-interrupt-vs-steer-busy-input-mode" class="table-of-contents__link toc-highlight">Queue vs interrupt vs steer (busy-input mode)</a>
 - <a href="#tool-progress-notifications" class="table-of-contents__link toc-highlight">Tool Progress Notifications</a>

@@ -8,6 +8,11 @@
 
 > Extract structured data from pages via LLMs
 
+**Picking the right tool.** JSON mode (this page) is right when you have **one URL** and want fields from that single page.
+
+* For **anything beyond one URL** — multiple URLs, URL patterns, or agentic discovery — see [Agent](/features/agent).
+* Full comparison: [Choosing the Data Extractor](/developer-guides/usage-guides/choosing-the-data-extractor).
+
 
   **v2 API Change:** JSON schema extraction is fully supported in v2, but the API format has changed. In v2, the schema is embedded directly inside the format object as `formats: [{type: "json", schema: {...}}]`. The v1 `jsonOptions` parameter no longer exists in v2.
 

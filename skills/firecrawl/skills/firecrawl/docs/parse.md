@@ -8,8 +8,6 @@
 
 > Upload a local or non-public document and convert it into clean, LLM-ready data
 
-## Introducing /parse
-
 The `/parse` endpoint converts local or non-public documents into clean, LLM-ready data. Upload file bytes via `multipart/form-data` and get back Markdown, JSON, HTML, links, images, or a summary — with reading order and tables preserved.
 
 * Turn PDF, DOCX, XLSX, HTML, and more into Markdown or structured JSON

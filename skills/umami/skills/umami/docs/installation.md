@@ -22,6 +22,7 @@ There are several different ways to install Umami.
 - **Installing from source**: Get the code from <a href="https://github.com/umami-software/umami" rel="noreferrer noopener" target="_blank">GitHub</a> and build the application yourself.
 - **Using Docker compose**: Build your own Docker container using `docker compose`.
 - **Using a Docker image**: Download a pre-built Docker image.
+- **Using Kubernetes with HelmForge**: Deploy Umami with a third-party Helm chart maintained by the HelmForge project. See the [Running on Kubernetes with HelmForge](/docs/guides/running-on-helmforge) guide.
 
 ## <a href="#installing-from-source" class="peer" data-card="">Installing from source</a>
 

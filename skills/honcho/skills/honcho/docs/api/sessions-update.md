@@ -1,7 +1,7 @@
 > Source: https://docs.honcho.dev/v3/api-reference/endpoint/sessions/update-session.md
 
 > ## Documentation Index
-> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
 # Update Session

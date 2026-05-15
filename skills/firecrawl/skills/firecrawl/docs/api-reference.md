@@ -368,10 +368,10 @@ Introduction
   </div>
 
 
-##### Agent Endpoints
+##### Agentic Debugging Endpoints
 
 
-- <span id="/api-reference/endpoint/agent"><a href="/api-reference/endpoint/agent" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+- <span id="/api-reference/endpoint/ask"><a href="/api-reference/endpoint/ask" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
   <span class="method-nav-pill flex items-center w-8"><span class="px-1 py-0.5 rounded-md text-[0.55rem] leading-tight font-bold bg-blue-400/20 dark:bg-blue-400/20 text-blue-700 dark:text-blue-400">POST</span></span>
@@ -382,49 +382,12 @@ Introduction
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Agent</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Ask</span>
 
   </div>
 
   </div>
-- <span id="/api-reference/endpoint/agent-get"><a href="/api-reference/endpoint/agent-get" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="h-[1lh] flex items-center shrink-0">
-
-  <span class="method-nav-pill flex items-center w-8"><span class="px-1 py-0.5 rounded-md text-[0.55rem] leading-tight font-bold bg-green-400/20 dark:bg-green-400/20 text-green-700 dark:text-green-400">GET</span></span>
-
-  </div>
-
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Get Agent Status</span>
-
-  </div>
-
-  </div>
-- <span id="/api-reference/endpoint/agent-delete"><a href="/api-reference/endpoint/agent-delete" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="h-[1lh] flex items-center shrink-0">
-
-  <span class="method-nav-pill flex items-center w-8"><span class="px-1 py-0.5 rounded-md text-[0.55rem] leading-tight font-bold bg-red-400/20 dark:bg-red-400/20 text-red-700 dark:text-red-400">DEL</span></span>
-
-  </div>
-
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Cancel Agent</span>
-
-  </div>
-
-  </div>
-
-
-##### Extract Endpoints
-
-
-- <span id="/api-reference/endpoint/extract"><a href="/api-reference/endpoint/extract" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+- <span id="/api-reference/endpoint/docs-search"><a href="/api-reference/endpoint/docs-search" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
   <span class="method-nav-pill flex items-center w-8"><span class="px-1 py-0.5 rounded-md text-[0.55rem] leading-tight font-bold bg-blue-400/20 dark:bg-blue-400/20 text-blue-700 dark:text-blue-400">POST</span></span>
@@ -435,23 +398,7 @@ Introduction
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Extract</span>
-
-  </div>
-
-  </div>
-- <span id="/api-reference/endpoint/extract-get"><a href="/api-reference/endpoint/extract-get" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
-  <div class="h-[1lh] flex items-center shrink-0">
-
-  <span class="method-nav-pill flex items-center w-8"><span class="px-1 py-0.5 rounded-md text-[0.55rem] leading-tight font-bold bg-green-400/20 dark:bg-green-400/20 text-green-700 dark:text-green-400">GET</span></span>
-
-  </div>
-
-  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Get Extract Status</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Docs Search</span>
 
   </div>
 
@@ -582,13 +529,18 @@ Introduction
 
   </div>
 
-- <div class="flex-1 flex items-center gap-2 justify-start">
 
-  Agent
+##### Partner Integration
+
+
+- <span id="/partner-integration"><a href="/partner-integration" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Partner Integration API</span>
 
   </div>
-
-  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -601,7 +553,7 @@ On this page
 - <a href="#base-url" class="break-words py-1 block border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Base URL</a>
 - <a href="#authentication" class="break-words py-1 block border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Authentication</a>
 - <a href="#response-codes" class="break-words py-1 block border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Response codes</a>
-- <a href="#rate-limit" class="break-words py-1 block border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Rate limit</a>
+- <a href="#429-responses" class="break-words py-1 block border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">429 responses</a>
 
 
 Using the API
@@ -707,7 +659,7 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape" \
 ## 
 
 
-<a href="#rate-limit" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#429-responses" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/api-reference/v2-introduction.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/api-reference/v2-introduction" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>

@@ -99,19 +99,19 @@ When resuming a previous session (`hermes -c` or `hermes --resume <id>`), a "Pre
 
 ## Keybindings<a href="#keybindings" class="hash-link" aria-label="Direct link to Keybindings" translate="no" title="Direct link to Keybindings">​</a>
 
-| Key                     | Action                                                                                                                                                                       |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Enter`                 | Send message                                                                                                                                                                 |
-| `Alt+Enter` or `Ctrl+J` | New line (multi-line input)                                                                                                                                                  |
-| `Alt+V`                 | Paste an image from the clipboard when supported by the terminal                                                                                                             |
-| `Ctrl+V`                | Paste text and opportunistically attach clipboard images                                                                                                                     |
-| `Ctrl+B`                | Start/stop voice recording when voice mode is enabled (`voice.record_key`, default: `ctrl+b`)                                                                                |
-| `Ctrl+G`                | Open the current input buffer in `$EDITOR` (vim/nvim/nano/VS Code/etc.). Save and quit to send the edited text as the next prompt — ideal for long, multi-paragraph prompts. |
-| `Ctrl+X Ctrl+E`         | Emacs-style alternate binding for the external editor (same behavior as `Ctrl+G`).                                                                                           |
-| `Ctrl+C`                | Interrupt agent (double-press within 2s to force exit)                                                                                                                       |
-| `Ctrl+D`                | Exit                                                                                                                                                                         |
-| `Ctrl+Z`                | Suspend Hermes to background (Unix only). Run `fg` in the shell to resume.                                                                                                   |
-| `Tab`                   | Accept auto-suggestion (ghost text) or autocomplete slash commands                                                                                                           |
+| Key                                     | Action                                                                                                                                                                                                                                 |
+|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Enter`                                 | Send message                                                                                                                                                                                                                           |
+| `Alt+Enter`, `Ctrl+J`, or `Shift+Enter` | New line (multi-line input). `Shift+Enter` requires a terminal that distinguishes it from `Enter` — see below. On Windows Terminal, `Alt+Enter` is captured by the terminal (fullscreen toggle); use `Ctrl+Enter` or `Ctrl+J` instead. |
+| `Alt+V`                                 | Paste an image from the clipboard when supported by the terminal                                                                                                                                                                       |
+| `Ctrl+V`                                | Paste text and opportunistically attach clipboard images                                                                                                                                                                               |
+| `Ctrl+B`                                | Start/stop voice recording when voice mode is enabled (`voice.record_key`, default: `ctrl+b`)                                                                                                                                          |
+| `Ctrl+G`                                | Open the current input buffer in `$EDITOR` (vim/nvim/nano/VS Code/etc.). Save and quit to send the edited text as the next prompt — ideal for long, multi-paragraph prompts.                                                           |
+| `Ctrl+X Ctrl+E`                         | Emacs-style alternate binding for the external editor (same behavior as `Ctrl+G`).                                                                                                                                                     |
+| `Ctrl+C`                                | Interrupt agent (double-press within 2s to force exit)                                                                                                                                                                                 |
+| `Ctrl+D`                                | Exit                                                                                                                                                                                                                                   |
+| `Ctrl+Z`                                | Suspend Hermes to background (Unix only). Run `fg` in the shell to resume.                                                                                                                                                             |
+| `Tab`                                   | Accept auto-suggestion (ghost text) or autocomplete slash commands                                                                                                                                                                     |
 
 **Multiline paste preview.** When you paste a multi-line block, the CLI echoes a compact single-line preview (`[pasted: 47 lines, 1,842 chars — press Enter to send]`) instead of dumping the whole payload into the scrollback. The full content is still what gets sent; this is just display polish.
 
@@ -224,7 +224,7 @@ personalities:
 
 There are two ways to enter multi-line messages:
 
-1.  **`Alt+Enter` or `Ctrl+J`** — inserts a new line
+1.  **`Alt+Enter`, `Ctrl+J`, or `Shift+Enter`** — inserts a new line
 2.  **Backslash continuation** — end a line with `\` to continue:
 
 
@@ -235,8 +235,21 @@ There are two ways to enter multi-line messages:
 ```
 
 
-Pasting multi-line text is supported — use `Alt+Enter` or `Ctrl+J` to insert newlines, or simply paste content directly.
+Pasting multi-line text is supported — use any of the newline keys above, or simply paste content directly.
 
+
+### Shift+Enter compatibility<a href="#shiftenter-compatibility" class="hash-link" aria-label="Direct link to Shift+Enter compatibility" translate="no" title="Direct link to Shift+Enter compatibility">​</a>
+
+Most terminals send the same byte sequence for `Enter` and `Shift+Enter` by default, so applications cannot distinguish them. Hermes recognises `Shift+Enter` only when the terminal sends a distinct sequence via the <a href="https://sw.kovidgoyal.net/kitty/keyboard-protocol/" target="_blank" rel="noopener noreferrer">Kitty keyboard protocol</a> or xterm's `modifyOtherKeys` mode.
+
+| Terminal                                            | Status                                                          |
+|-----------------------------------------------------|-----------------------------------------------------------------|
+| Kitty, foot, WezTerm, Ghostty                       | Distinct `Shift+Enter` enabled by default                       |
+| iTerm2 (recent), Alacritty, VS Code terminal, Warp  | Supported once the Kitty protocol is enabled in settings        |
+| Windows Terminal Preview 1.25+                      | Supported once the Kitty protocol is enabled in settings        |
+| macOS Terminal.app, stock Windows Terminal (stable) | Not supported — `Shift+Enter` is indistinguishable from `Enter` |
+
+Where the terminal cannot distinguish them, `Alt+Enter` and `Ctrl+J` continue to work everywhere. **On Windows Terminal specifically, `Alt+Enter` is captured by the terminal (toggles fullscreen) and never reaches Hermes — use `Ctrl+Enter` (delivered as `Ctrl+J`) or `Ctrl+J` directly for a newline.**
 
 ## Interrupting the Agent<a href="#interrupting-the-agent" class="hash-link" aria-label="Direct link to Interrupting the Agent" translate="no" title="Direct link to Interrupting the Agent">​</a>
 
@@ -394,7 +407,7 @@ compression:
 # Summarization model configured under auxiliary:
 auxiliary:
   compression:
-    model: "google/gemini-3-flash-preview"  # Model used for summarization
+    model: ""  # Leave empty to use the main chat model (default). Or pin a cheap fast model, e.g. "google/gemini-3-flash-preview".
 ```
 
 
@@ -482,6 +495,7 @@ hermes chat --verbose
 - <a href="#skill-slash-commands" class="table-of-contents__link toc-highlight">Skill Slash Commands</a>
 - <a href="#personalities" class="table-of-contents__link toc-highlight">Personalities</a>
 - <a href="#multi-line-input" class="table-of-contents__link toc-highlight">Multi-line Input</a>
+  - <a href="#shiftenter-compatibility" class="table-of-contents__link toc-highlight">Shift+Enter compatibility</a>
 - <a href="#interrupting-the-agent" class="table-of-contents__link toc-highlight">Interrupting the Agent</a>
   - <a href="#busy-input-mode" class="table-of-contents__link toc-highlight">Busy Input Mode</a>
   - <a href="#suspending-to-background" class="table-of-contents__link toc-highlight">Suspending to Background</a>
