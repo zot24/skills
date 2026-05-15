@@ -60,7 +60,7 @@ Search
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Skill + CLI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skills + CLI</span>
 
   </div>
 
@@ -101,7 +101,7 @@ Search
 
 - <div class="flex-1 flex items-center gap-2 justify-start">
 
-  Plans & Billing
+  Plans and Billing
 
   </div>
 
@@ -175,7 +175,6 @@ Search
   </div>
 
   </div>
-
 - <span id="/features/map"><a href="/features/map" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
@@ -190,7 +189,6 @@ Search
   </div>
 
   </div>
-
 - <span id="/features/crawl"><a href="/features/crawl" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
@@ -203,20 +201,6 @@ Search
   <span class="min-w-0 max-w-full break-words hyphens-auto">Crawl</span>
 
   </div>
-
-  </div>
-
-- <div class="h-[1lh] flex items-center shrink-0">
-
-  </div>
-
-  <div class="flex-1 flex items-center gap-2 justify-start">
-
-  Agent (Research Preview)
-
-  </div>
-
-  <div class="h-[1lh] flex items-center shrink-0">
 
   </div>
 
@@ -581,7 +565,7 @@ Search
   </div>
 
 
-##### Dashboard
+##### Other
 
 
 - <span id="/dashboard"><a href="/dashboard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
@@ -590,6 +574,20 @@ Search
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+- <span id="/features/ask"><a href="/features/ask" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Debug with Ask</span>
 
   </div>
 
@@ -644,6 +642,9 @@ On this page
 - <a href="#github-category-search" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">GitHub Category Search</a>
 - <a href="#research-category-search" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Research Category Search</a>
 - <a href="#mixed-category-search" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Mixed Category Search</a>
+- <a href="#domain-filters" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Domain Filters</a>
+- <a href="#include-domains" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Include Domains</a>
+- <a href="#exclude-domains" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Exclude Domains</a>
 - <a href="#category-response-format" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Category Response Format</a>
 - <a href="#hd-image-search-with-size-filtering" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">HD Image Search with Size Filtering</a>
 - <a href="#search-with-content-scraping" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Search with Content Scraping</a>
@@ -874,6 +875,48 @@ curl -X POST https://api.firecrawl.dev/v2/search \
     "query": "neural networks",
     "categories": ["github", "research"],
     "limit": 15
+  }'
+```
+
+
+## 
+
+
+<a href="#domain-filters" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#include-domains" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/search \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "query": "web scraping",
+    "includeDomains": ["firecrawl.dev", "docs.firecrawl.dev"],
+    "limit": 10
+  }'
+```
+
+
+### 
+
+
+<a href="#exclude-domains" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/search \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "query": "web scraping tools",
+    "excludeDomains": ["example.com"],
+    "limit": 10
   }'
 ```
 
@@ -1270,10 +1313,10 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/features/search.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/features/search" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
 
 
-<a href="/rate-limits" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
+<a href="/partner-credits" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
 
 
-Rate Limits
+Partner Credits
 
 
 <a href="/features/scrape" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>

@@ -14,9 +14,6 @@
 Search...
 
 
-Agent (Research Preview)
-
-
 Agent
 
 
@@ -33,12 +30,6 @@ Agent
 
 
 <a href="/ai-onboarding" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">Build with AI</a>
-
-
-- <a href="https://firecrawl.dev/playground" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Playground</span></a>
-- <a href="https://firecrawl.dev/blog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Blog</span></a>
-- <a href="https://discord.gg/firecrawl" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Community</span></a>
-- <a href="https://firecrawl.dev/changelog" class="link nav-anchor pl-4 group flex items-center lg:text-sm lg:leading-6 mb-3 gap-3.5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" target="_blank" rel="noreferrer"><span>Changelog</span></a>
 
 
 ##### Get Started
@@ -60,7 +51,7 @@ Agent
 
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
-  <span class="min-w-0 max-w-full break-words hyphens-auto">Skill + CLI</span>
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Skills + CLI</span>
 
   </div>
 
@@ -101,7 +92,7 @@ Agent
 
 - <div class="flex-1 flex items-center gap-2 justify-start">
 
-  Plans & Billing
+  Plans and Billing
 
   </div>
 
@@ -175,7 +166,6 @@ Agent
   </div>
 
   </div>
-
 - <span id="/features/map"><a href="/features/map" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
@@ -190,7 +180,6 @@ Agent
   </div>
 
   </div>
-
 - <span id="/features/crawl"><a href="/features/crawl" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
   <div class="h-[1lh] flex items-center shrink-0">
 
@@ -205,41 +194,6 @@ Agent
   </div>
 
   </div>
-
-- <div class="h-[1lh] flex items-center shrink-0">
-
-  </div>
-
-  <div class="flex-1 flex items-center gap-2 justify-start">
-
-  Agent (Research Preview)
-
-  </div>
-
-  <div class="h-[1lh] flex items-center shrink-0">
-
-  </div>
-
-  - <span id="/features/agent"><a href="/features/agent" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] dark:text-primary-light dark:bg-primary-light/10" style="padding-left:1.75rem"></a></span>
-    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-    <span class="min-w-0 max-w-full break-words hyphens-auto">Agent</span>
-
-    </div>
-
-    </div>
-  - <span id="/features/models"><a href="/features/models" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1.75rem"></a></span>
-    <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
-
-    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
-
-    <span class="min-w-0 max-w-full break-words hyphens-auto">Models</span>
-
-    </div>
-
-    </div>
 
 
 ##### Quickstarts
@@ -602,7 +556,7 @@ Agent
   </div>
 
 
-##### Dashboard
+##### Other
 
 
 - <span id="/dashboard"><a href="/dashboard" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left break-words hyphens-auto rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
@@ -611,6 +565,20 @@ Agent
   <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
 
   <span class="min-w-0 max-w-full break-words hyphens-auto">Overview</span>
+
+  </div>
+
+  </div>
+- <span id="/features/ask"><a href="/features/ask" class="group flex items-start pr-3 py-1.5 cursor-pointer gap-x-3 text-left rounded-xl w-full outline-offset-[-1px] hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem"></a></span>
+  <div class="h-[1lh] flex items-center shrink-0">
+
+  </div>
+
+  <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+
+  <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 [word-break:break-word]">
+
+  <span class="min-w-0 max-w-full break-words hyphens-auto">Debug with Ask</span>
 
   </div>
 
@@ -671,15 +639,13 @@ On this page
 - <a href="#agent-vs-extract-what%E2%80%99s-improved" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Agent vs Extract: What’s Improved</a>
 - <a href="#example-use-cases" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Example Use Cases</a>
 - <a href="#csv-upload-in-agent-playground" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">CSV Upload in Agent Playground</a>
+- <a href="#troubleshooting-with-ask" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Troubleshooting with Ask</a>
 - <a href="#api-reference" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">API Reference</a>
 - <a href="#pricing" class="break-words py-1 block font-medium border-l pl-4 border-gray-950/5 dark:border-white/10 hover:border-gray-950/20 dark:hover:border-white/20 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">Pricing</a>
 - <a href="#how-agent-pricing-works" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">How Agent pricing works</a>
 - <a href="#parallel-agents-pricing" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Parallel Agents Pricing</a>
 - <a href="#getting-started" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Getting started</a>
 - <a href="#managing-costs" class="group flex items-start break-words py-1 whitespace-pre-wrap text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" style="padding-left:1rem">Managing costs</a>
-
-
-Agent (Research Preview)
 
 
 # Agent
@@ -699,6 +665,10 @@ Copy page
 > Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
 >
 > Use this file to discover all available pages before exploring further.
+
+
+- For **a single known URL**, <a href="/features/llm-extract" class="link">JSON mode on <code>/scrape</code></a> is cheaper and synchronous.
+- Full comparison: <a href="/developer-guides/usage-guides/choosing-the-data-extractor" class="link">Choosing the Data Extractor</a>.
 
 
 - **No URLs Required**: Just describe what you need via `prompt` parameter. URLs are optional
@@ -1047,6 +1017,22 @@ print(result.data)
 ## 
 
 
+<a href="#troubleshooting-with-ask" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/support/ask \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "my agent returned incomplete results"
+  }'
+```
+
+
+## 
+
+
 <a href="#api-reference" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
@@ -1098,17 +1084,5 @@ print(result.data)
 
 
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/features/agent.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/features/agent" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
-
-
-<a href="/features/crawl" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
-
-
-Crawl
-
-
-<a href="/features/models" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
-
-
-Models
 
 

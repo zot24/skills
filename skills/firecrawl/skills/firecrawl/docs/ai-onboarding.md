@@ -11,8 +11,9 @@
 If you're developing with AI, Firecrawl offers several resources to improve your experience. Firecrawl ships with **skills** — self-contained knowledge packs that AI coding agents discover and use automatically. One install command gives agents CLI tools for live web work and build skills for integrating Firecrawl into application code. Agents like Claude Code, Cursor, Antigravity, and OpenCode can self-onboard with a single command — no human setup required after the API key exists.
 
 * [Prerequisite: Create an API Key](#prerequisite-create-an-api-key)
-* [Skill + CLI](#skill-cli)
+* [Skills + CLI](#skills-cli)
 * [Using Firecrawl as a Tool](#using-firecrawl-as-a-tool)
+* [Agentic Debugging](#agentic-debugging)
 * [Firecrawl MCP Server](#firecrawl-mcp-server)
 * [Firecrawl Docs for Agents](#firecrawl-docs-for-agents)
 * [Quick Start Guides](#quick-start-guides)
@@ -21,24 +22,24 @@ If you're developing with AI, Firecrawl offers several resources to improve your
 
 ## Prerequisite: Create an API Key
 
-Currently, we require a human to create a Firecrawl account. Once you have an account, you'll need to [create an API key](https://www.firecrawl.dev/app/api-keys). With an API key, your agent can handle the rest — installing the skill, authenticating the CLI, wiring up MCP, and making calls on your behalf.
+Currently, we require a human to create a Firecrawl account. Once you have an account, you'll need to [create an API key](https://www.firecrawl.dev/app/api-keys). With an API key, your agent can handle the rest — installing the skills, authenticating the CLI, wiring up MCP, and making calls on your behalf.
 
 
   Sign up and grab an API key to start using Firecrawl.
 
 
-## Skill + CLI
+## Skills + CLI
 
-The [Firecrawl CLI](/sdks/cli) lets your agent search, scrape, crawl, extract, and drive a browser from the terminal. It's built for humans, AI agents, and CI/CD pipelines.
+The [Firecrawl CLI](/sdks/cli) lets your agent search, scrape, interact, crawl, map, extract, and run agent jobs from the terminal. It's built for humans, AI agents, and CI/CD pipelines.
 
-The Firecrawl **Skill** is a self-contained knowledge pack that AI coding agents like Claude Code, Antigravity, and OpenCode discover and use automatically. A single install command sets up everything — the CLI tools for live web work and the build skills for integrating Firecrawl into application code:
+The Firecrawl **skills** are self-contained knowledge packs that AI coding agents like Claude Code, Antigravity, and OpenCode discover and use automatically. A single install command sets up everything — the CLI tools for live web work and the build skills for integrating Firecrawl into application code:
 
 ```bash
 npx -y firecrawl-cli@latest init --all --browser
 ```
 
-* `--all` installs the Firecrawl skill to every detected AI coding agent on the machine
-* `--browser` opens the browser so the human can sign in or create an account
+* `--all` installs the Firecrawl skills to every detected AI coding agent on the machine
+* `--browser` opens the browser for Firecrawl authentication automatically
 
 After install, verify everything is working:
 
@@ -53,14 +54,15 @@ The install sets up two categories of skills that cover every way an agent uses 
 
 **CLI skills** — for live web work during an agent session:
 
-| Skill                | Purpose                                  |
-| -------------------- | ---------------------------------------- |
-| `firecrawl/cli`      | Overall CLI command workflow             |
-| `firecrawl-search`   | Search the web and discover pages        |
-| `firecrawl-scrape`   | Extract clean content from a known URL   |
-| `firecrawl-interact` | Drive a live page — clicks, forms, login |
-| `firecrawl-crawl`    | Bulk-extract content from an entire site |
-| `firecrawl-map`      | Discover all URLs on a domain            |
+| Skill                | Purpose                                           |
+| -------------------- | ------------------------------------------------- |
+| `firecrawl/cli`      | Overall CLI command workflow                      |
+| `firecrawl-search`   | Search the web and discover pages                 |
+| `firecrawl-scrape`   | Extract clean content from a known URL            |
+| `firecrawl-interact` | Interact with scraped pages using prompts or code |
+| `firecrawl-crawl`    | Bulk-extract content from an entire site          |
+| `firecrawl-map`      | Discover all URLs on a domain                     |
+| `firecrawl-agent`    | Run autonomous web data gathering with a job      |
 
 **Build skills** — for integrating Firecrawl into application code:
 
@@ -70,7 +72,7 @@ The install sets up two categories of skills that cover every way an agent uses 
 | `firecrawl-build-onboarding` | Auth and project setup                               |
 | `firecrawl-build-scrape`     | Implement scraping in app code                       |
 | `firecrawl-build-search`     | Implement search in app code                         |
-| `firecrawl-build-interact`   | Implement browser interaction in app code            |
+| `firecrawl-build-interact`   | Implement page interaction in app code               |
 | `firecrawl-build-crawl`      | Implement crawling in app code                       |
 | `firecrawl-build-map`        | Implement URL discovery in app code                  |
 
@@ -79,13 +81,15 @@ The install sets up two categories of skills that cover every way an agent uses 
 Both skill categories use the same install. The difference is what happens next:
 
 
-    Use this when you need web data during your current session — searching the web, scraping known URLs, interacting with live pages, crawling docs, or mapping a site.
+    Use this when you need web data during your current session — searching the web, scraping known URLs, interacting with scraped pages, crawling docs, mapping a site, or running an agent job.
 
     The default flow:
 
     1. Start with **search** when you need discovery
     2. Move to **scrape** when you have a URL
-    3. Use **interact** only when the page needs clicks, forms, or login
+    3. Use **interact** when the scraped page needs follow-up actions
+    4. Use **map** or **crawl** when you need many URLs or pages
+    5. Use **agent** when the task is open-ended and needs autonomous discovery
 
     ```bash
     # Search the web
@@ -101,22 +105,26 @@ Both skill categories use the same install. The difference is what happens next:
 
     Use this when you're building an application, agent, or workflow that calls the Firecrawl API from code. The build skills help with picking the right endpoint, wiring up the SDK, and running a smoke test.
 
-    The agent answers one key question — *what should Firecrawl do in the product?* — and the build skill routes to `/search`, `/scrape`, `/interact`, `/crawl`, or `/map` accordingly.
+    The agent answers one key question — *what should Firecrawl do in the product?* — and the build skills route to `/search`, `/scrape`, `/interact`, `/crawl`, `/map`, or `/agent` accordingly.
 
 
     If you prefer not to install anything, agents can call the Firecrawl REST API directly. Set the API key and hit the endpoints:
 
     * `POST https://api.firecrawl.dev/v2/search` — discover pages by query
     * `POST https://api.firecrawl.dev/v2/scrape` — extract clean markdown from a URL
-    * `POST https://api.firecrawl.dev/v2/interact` — browser actions on live pages
+    * `POST https://api.firecrawl.dev/v2/interact` — interact with a scraped page
+    * `POST https://api.firecrawl.dev/v2/crawl` — bulk-extract an entire site
+    * `POST https://api.firecrawl.dev/v2/map` — discover URLs on a domain
+    * `POST https://api.firecrawl.dev/v2/agent` — run autonomous web data gathering
 
     Auth header: `Authorization: Bearer fc-YOUR_API_KEY`
 
 
-The full skill definition is available at [`firecrawl.dev/agent-onboarding/SKILL.md`](https://www.firecrawl.dev/agent-onboarding/SKILL.md) — agents can fetch it directly for self-onboarding.
+The full onboarding definition is available at [`firecrawl.dev/agent-onboarding/SKILL.md`](https://www.firecrawl.dev/agent-onboarding/SKILL.md) — agents can fetch it directly for self-onboarding.
 
 
-  Install the CLI and skill, authenticate, and run scrape, search, crawl, extract, and browser commands from the terminal.
+  Install the CLI and skills, authenticate, and run scrape, search, crawl,
+  interact, map, extract, and agent commands from the terminal.
 
 
 ## Using Firecrawl as a Tool
@@ -196,11 +204,12 @@ Firecrawl gives agents five core tools for working with the web. Each tool maps 
     **When to use:** Site audits, finding specific pages on a large site, understanding site structure before a targeted crawl.
 
 
-    Interact gives agents control of a remote browser session. Use it when a page requires clicks, form fills, login, or any action beyond passive reading.
+    Interact lets agents continue from a scrape using prompts or code. Use it when a scraped page requires clicks, form fills, navigation, or follow-up extraction.
 
     ```bash
     # CLI
-    firecrawl interact https://example.com --instruction "Click the login button, fill in the email field"
+    firecrawl scrape https://example.com
+    firecrawl interact "Click the pricing tab and extract the plan names"
     ```
 
     ```bash
@@ -208,10 +217,10 @@ Firecrawl gives agents five core tools for working with the web. Each tool maps 
     curl -X POST https://api.firecrawl.dev/v2/interact \
       -H "Authorization: Bearer fc-YOUR_API_KEY" \
       -H "Content-Type: application/json" \
-      -d '{"url": "https://example.com", "instruction": "Click the login button"}'
+      -d '{"scrapeId": "scrape-id-from-scrape", "prompt": "Click the pricing tab and extract the plan names"}'
     ```
 
-    **When to use:** Pages behind login walls, filling out forms, navigating multi-step flows, interacting with dynamic SPAs.
+    **When to use:** Continuing from a scrape, navigating dynamic pages, filling forms, and extracting data after page actions.
 
 
 ### How agents chain tools together
@@ -220,13 +229,47 @@ Most agent workflows combine multiple tools. A typical pattern:
 
 1. **Search** to find relevant pages → get a list of URLs
 2. **Scrape** the most relevant URLs → get clean content
-3. **Interact** only if a page needs clicks or login → handle dynamic content
+3. **Interact** when the scraped page needs follow-up actions
+4. **Agent** when the task needs autonomous discovery or structured multi-page extraction
 
 For bulk work, agents use **Map** to discover URLs first, then **Crawl** or selectively **Scrape** the pages they need.
 
+## Agentic Debugging
+
+When a Firecrawl call fails or returns unexpected results, your agent doesn't have to escalate to a human. The [`/support/ask`](/api-reference/endpoint/ask) endpoint is an AI support agent built for **agent-to-agent** communication — it diagnoses issues with your jobs, account, and API usage, then returns a verified answer with machine-readable fix parameters your agent can apply directly.
+
+Wire it into your agent's error-handling flow so it can self-recover from scraping failures, crawl issues, and configuration problems — typically in 15–30 seconds, no human in the loop.
+
+### How it works
+
+1. **Your agent describes the problem** — a natural-language question describing the issue.
+2. **The support agent investigates** — it inspects job logs, account state, documentation, and source code.
+3. **The support agent validates** — when possible, it tests a fix against the live Firecrawl API (e.g., retrying a scrape with adjusted parameters).
+4. **Your agent gets a verified answer** — a prose `answer`, machine-readable `fixParameters` to apply directly, and `validation` results showing whether the fix was tested.
+
+### Example
+
+Send a question, plus an optional `rationale` to give the support agent context about what your end user is trying to accomplish:
+
+```bash
+curl -X POST https://api.firecrawl.dev/v2/support/ask \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "my crawl returned 3 pages but I expected 50",
+    "rationale": "user is on their third failed crawl attempt today"
+  }'
+```
+
+The response includes an `answer`, a `confidence` rating, optional `fixParameters` (e.g., `{"waitFor": 5000}`) your agent can pass to the next call, and `validation` showing whether the fix was tested against the live API.
+
+
+  Full request and response schema for `/support/ask`, including status codes and the feedback envelope returned when the agent gets stuck.
+
+
 ## Firecrawl MCP Server
 
-MCP is an open protocol that standardizes how applications provide context to LLMs. Among other benefits, it gives LLMs tools to act on your behalf. Our [MCP server](https://github.com/firecrawl/firecrawl-mcp-server) is open-source and covers our full API surface — search, scrape, crawl, map, extract, agent, and browser sessions.
+MCP is an open protocol that standardizes how applications provide context to LLMs. Among other benefits, it gives LLMs tools to act on your behalf. Our [MCP server](https://github.com/firecrawl/firecrawl-mcp-server) is open-source and covers our full API surface — search, scrape, interact, crawl, map, extract, and agent.
 
 Use the remote hosted URL:
 
@@ -251,7 +294,8 @@ Or add the local server to any MCP client:
 ```
 
 
-  View installation instructions for Cursor, Claude Desktop, Windsurf, VS Code, and more.
+  View installation instructions for Cursor, Claude Desktop, Windsurf, VS Code,
+  and more.
 
 
 ## Firecrawl Docs for Agents
@@ -332,10 +376,7 @@ See the full list of quickstarts (Express, NestJS, Fastify, Hono, Bun, Remix, Nu
 
 ## Agent Harnesses
 
-Firecrawl works with the runtimes and frameworks agents actually live inside — coding agents, browser agents, agent SDKs, and model aggregators. Most coding harnesses can auto-discover the Firecrawl skill via `npx -y firecrawl-cli@latest init --all`; the rest call Firecrawl as a tool over MCP or the REST API.
-
-
-    Open spec for agentic browser control with sandboxed sessions.
+Firecrawl works with the runtimes and frameworks agents actually live inside — coding agents, agent SDKs, and model aggregators. Most coding harnesses can auto-discover the Firecrawl skills via `npx -y firecrawl-cli@latest init --all --browser`; the rest call Firecrawl as a tool over MCP or the REST API.
 
 
     Anthropic's CLI — set up Firecrawl MCP in Claude Code.

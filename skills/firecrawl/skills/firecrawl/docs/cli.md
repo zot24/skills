@@ -4,25 +4,25 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Skill + CLI
+# Skills + CLI
 
-> Firecrawl Skill is an easy way for AI agents such as Claude Code, Antigravity and  OpenCode to use Firecrawl through the CLI.
+> Firecrawl skills are an easy way for AI agents such as Claude Code, Antigravity and OpenCode to use Firecrawl through the CLI.
 
-Search, scrape, and interact with the web directly from the terminal. The Firecrawl CLI works standalone or as a skill that AI coding agents like Claude Code, Antigravity, and OpenCode can discover and use automatically.
+Search, scrape, interact, crawl, map, and run agent jobs directly from the terminal. The Firecrawl CLI works standalone or with skills that AI coding agents like Claude Code, Antigravity, and OpenCode can discover and use automatically.
 
 ## Installation
 
-If you are using an AI agent like Claude Code, you can install the Firecrawl skill below and the agent will set it up for you.
+If you are using an AI agent like Claude Code, you can install the Firecrawl skills below and the agent will set them up for you.
 
 ```bash
 npx -y firecrawl-cli@latest init --all --browser
 ```
 
-* `--all` installs the Firecrawl skill to every detected AI coding agent
+* `--all` installs the Firecrawl skills to every detected AI coding agent
 * `--browser` opens the browser for Firecrawl authentication automatically
 
 
-  After installing the skill, restart your agent for it to discover the new skill.
+  After installing the skills, restart your agent for it to discover them.
 
 
 You can also manually install the Firecrawl CLI globally using npm:
@@ -95,7 +95,7 @@ firecrawl --status
 Output when ready:
 
 ```
-  🔥 firecrawl cli v1.1.1
+  🔥 firecrawl cli v1.16.2
 
   ● Authenticated via FIRECRAWL_API_KEY
   Concurrency: 0/100 jobs (parallel scrape limit)
@@ -112,7 +112,9 @@ Output when ready:
 Scrape a single URL and extract its content in various formats.
 
 
-  Use `--only-main-content` to get clean output without navigation, footers, and ads. This is recommended for most use cases where you want just the article or main page content.
+  Use `--only-main-content` to get clean output without navigation, footers, and
+  ads. This is recommended for most use cases where you want just the article or
+  main page content.
 
 
 ```bash CLI
@@ -159,6 +161,15 @@ firecrawl https://example.com --wait-for 3000
 # Take a screenshot
 firecrawl https://example.com --screenshot
 
+# Extract structured JSON with a schema
+firecrawl https://example.com --format json --schema '{"type":"object","properties":{"title":{"type":"string"}}}'
+
+# Run lightweight scrape actions before extraction
+firecrawl https://example.com --actions '[{"type":"wait","milliseconds":1000}]'
+
+# Select proxy mode
+firecrawl https://example.com --proxy basic
+
 # Include/exclude specific HTML tags
 firecrawl https://example.com --include-tags article,main
 firecrawl https://example.com --exclude-tags nav,footer
@@ -178,20 +189,26 @@ firecrawl https://example.com --timing
 
 **Available Options:**
 
-| Option                  | Short | Description                                                                                                                                                     |
-| ----------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--url <url>`           | `-u`  | URL to scrape (alternative to positional argument)                                                                                                              |
-| `--format <formats>`    | `-f`  | Output formats (comma-separated): `markdown`, `html`, `rawHtml`, `links`, `screenshot`, `json`, `images`, `summary`, `changeTracking`, `attributes`, `branding` |
-| `--html`                | `-H`  | Shortcut for `--format html`                                                                                                                                    |
-| `--only-main-content`   |       | Extract only main content                                                                                                                                       |
-| `--wait-for <ms>`       |       | Wait time in milliseconds for JS rendering                                                                                                                      |
-| `--screenshot`          |       | Take a screenshot                                                                                                                                               |
-| `--include-tags <tags>` |       | HTML tags to include (comma-separated)                                                                                                                          |
-| `--exclude-tags <tags>` |       | HTML tags to exclude (comma-separated)                                                                                                                          |
-| `--output <path>`       | `-o`  | Save output to file                                                                                                                                             |
-| `--json`                |       | Force JSON output even with single format                                                                                                                       |
-| `--pretty`              |       | Pretty print JSON output                                                                                                                                        |
-| `--timing`              |       | Show request timing and other useful information                                                                                                                |
+| Option                   | Short | Description                                                                                                                                                     |
+| ------------------------ | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--url <url>`            | `-u`  | URL to scrape (alternative to positional argument)                                                                                                              |
+| `--format <formats>`     | `-f`  | Output formats (comma-separated): `markdown`, `html`, `rawHtml`, `links`, `screenshot`, `json`, `images`, `summary`, `changeTracking`, `attributes`, `branding` |
+| `--html`                 | `-H`  | Shortcut for `--format html`                                                                                                                                    |
+| `--only-main-content`    |       | Extract only main content                                                                                                                                       |
+| `--wait-for <ms>`        |       | Wait time in milliseconds for JS rendering                                                                                                                      |
+| `--screenshot`           |       | Take a screenshot                                                                                                                                               |
+| `--full-page-screenshot` |       | Take a full page screenshot                                                                                                                                     |
+| `--include-tags <tags>`  |       | HTML tags to include (comma-separated)                                                                                                                          |
+| `--exclude-tags <tags>`  |       | HTML tags to exclude (comma-separated)                                                                                                                          |
+| `--schema <json>`        |       | JSON schema for structured extraction                                                                                                                           |
+| `--schema-file <path>`   |       | Path to JSON schema file                                                                                                                                        |
+| `--actions <json>`       |       | JSON actions array to run during scrape                                                                                                                         |
+| `--actions-file <path>`  |       | Path to JSON actions file                                                                                                                                       |
+| `--proxy <proxy>`        |       | Proxy mode for scraping (for example, `auto` or `basic`)                                                                                                        |
+| `--output <path>`        | `-o`  | Save output to file                                                                                                                                             |
+| `--json`                 |       | Force JSON output even with single format                                                                                                                       |
+| `--pretty`               |       | Pretty print JSON output                                                                                                                                        |
+| `--timing`               |       | Show request timing and other useful information                                                                                                                |
 
 ***
 
@@ -316,117 +333,35 @@ firecrawl map https://example.com --json --pretty -o urls.json
 
 ***
 
-### Browser
+### Interact
 
-Have your agents interact with the web using a secure browser sandbox.
-
-Launch cloud browser sessions and execute Python, JavaScript, or bash code remotely. Each session runs a full Chromium instance — no local browser install required. Code runs server-side with a pre-configured [Playwright](https://playwright.dev/) `page` object ready to use.
+Scrape a page, then interact with it using natural language or code. Interact uses the most recent scrape by default, or you can pass a specific scrape ID.
 
 ```bash CLI
-# Launch a cloud browser session
-firecrawl browser launch-session
+# 1. Scrape Amazon's homepage (scrape ID is saved automatically)
+firecrawl scrape https://www.amazon.com
 
-# Execute agent-browser commands (default - "agent-browser" is auto-prefixed)
-firecrawl browser execute "open https://example.com"
-firecrawl browser execute "snapshot"
-firecrawl browser execute "click @e5"
-firecrawl browser execute "scrape"
+# 2. Interact — search for a product and get its price
+firecrawl interact "Search for iPhone 16 Pro Max"
+firecrawl interact "Click on the first result and tell me the price"
 
-# Execute Playwright Python code
-firecrawl browser execute --python 'await page.goto("https://example.com")
-print(await page.title())'
-
-# Execute Playwright JavaScript code
-firecrawl browser execute --node 'await page.goto("https://example.com"); console.log(await page.title());'
-
-# List all sessions (or: list active / list destroyed)
-firecrawl browser list
-
-# Close the active session
-firecrawl browser close
+# 3. Stop the session
+firecrawl interact stop
 ```
 
-#### Browser Options
+**Available Options:**
 
-```bash CLI
-# Launch with custom TTL (10 minutes) and live view
-firecrawl browser launch-session --ttl 600 --stream
-
-# Launch with inactivity timeout
-firecrawl browser launch-session --ttl 120 --ttl-inactivity 60
-
-# agent-browser commands (default - "agent-browser" is auto-prefixed)
-firecrawl browser execute "open https://news.ycombinator.com"
-firecrawl browser execute "snapshot"
-firecrawl browser execute "click @e3"
-firecrawl browser execute "scrape"
-
-# Playwright Python - navigate, interact, extract
-firecrawl browser execute --python '
-await page.goto("https://news.ycombinator.com")
-items = await page.query_selector_all(".titleline > a")
-for item in items[:5]:
-    print(await item.text_content())
-'
-
-# Playwright JavaScript - same page object
-firecrawl browser execute --node '
-await page.goto("https://example.com");
-const title = await page.title();
-console.log(title);
-'
-
-# Explicit bash mode - runs in the sandbox
-firecrawl browser execute --bash "agent-browser snapshot"
-
-# Target a specific session
-firecrawl browser execute --session <id> --python 'print(await page.title())'
-
-# Save output to file
-firecrawl browser execute "scrape" -o result.txt
-
-# Close a specific session
-firecrawl browser close --session <id>
-
-# List sessions (all / active / destroyed)
-firecrawl browser list
-firecrawl browser list active --json
-```
-
-**Subcommands:**
-
-| Subcommand       | Description                                                                         |
-| ---------------- | ----------------------------------------------------------------------------------- |
-| `launch-session` | Launch a new cloud browser session (returns session ID, CDP URL, and live view URL) |
-| `execute <code>` | Execute Playwright Python/JS code or bash commands in a session                     |
-| `list [status]`  | List browser sessions (filter by `active` or `destroyed`)                           |
-| `close`          | Close a browser session                                                             |
-
-**Execute Options:**
-
-| Option           | Description                                                                                                                                                                                                                                                                                |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `--bash`         | Execute bash commands remotely in the sandbox (default). [agent-browser](https://github.com/vercel-labs/agent-browser) (40+ commands) is pre-installed and auto-prefixed. `CDP_URL` is auto-injected so agent-browser connects to your session automatically. Best approach for AI agents. |
-| `--python`       | Execute as Playwright Python code. A Playwright `page` object is available — use `await page.goto()`, `await page.title()`, etc.                                                                                                                                                           |
-| `--node`         | Execute as Playwright JavaScript code. Same `page` object available.                                                                                                                                                                                                                       |
-| `--session <id>` | Target a specific session (default: active session)                                                                                                                                                                                                                                        |
-
-**Launch Options:**
-
-| Option                       | Description                                                         |
-| ---------------------------- | ------------------------------------------------------------------- |
-| `--ttl <seconds>`            | Total session TTL (default: 600, range: 30–3600)                    |
-| `--ttl-inactivity <seconds>` | Auto-close after inactivity (range: 10–3600)                        |
-| `--profile <name>`           | Name for a profile (saves and reuses browser state across sessions) |
-| `--no-save-changes`          | Load existing profile data without saving changes back              |
-| `--stream`                   | Enable live view streaming                                          |
-
-**Common Options:**
-
-| Option            | Description           |
-| ----------------- | --------------------- |
-| `--output <path>` | Save output to file   |
-| `--json`          | Output as JSON format |
+| Option                 | Description                                    |
+| ---------------------- | ---------------------------------------------- |
+| `-p, --prompt <text>`  | AI prompt (alternative to positional argument) |
+| `-c, --code <code>`    | Code to execute in the live page session       |
+| `-s, --scrape-id <id>` | Scrape job ID (default: last scrape)           |
+| `--python`             | Execute code as Python/Playwright              |
+| `--node`               | Execute code as Node.js/Playwright (default)   |
+| `--bash`               | Execute code as Bash                           |
+| `--timeout <seconds>`  | Timeout in seconds (1-300, default: 30)        |
+| `--output <path>`      | Save output to file                            |
+| `--json`               | Output as JSON format                          |
 
 ***
 
@@ -476,6 +411,15 @@ firecrawl crawl https://example.com --crawl-entire-domain --wait
 # Rate limiting
 firecrawl crawl https://example.com --delay 1000 --max-concurrency 2 --wait
 
+# Pass scrape options to each crawled page
+firecrawl crawl https://example.com --scrape-options '{"formats":["markdown"],"onlyMainContent":true}'
+
+# Send crawl completion events to a webhook
+firecrawl crawl https://example.com --webhook '{"url":"https://example.com/webhook","events":["completed"]}'
+
+# Cancel an active crawl
+firecrawl crawl <job-id> --cancel
+
 # Custom polling interval and timeout
 firecrawl crawl https://example.com --wait --poll-interval 10 --timeout 300
 
@@ -485,27 +429,31 @@ firecrawl crawl https://example.com --wait --pretty -o results.json
 
 **Available Options:**
 
-| Option                      | Description                                       |
-| --------------------------- | ------------------------------------------------- |
-| `--url <url>`               | URL to crawl (alternative to positional argument) |
-| `--wait`                    | Wait for crawl to complete                        |
-| `--progress`                | Show progress indicator while waiting             |
-| `--poll-interval <seconds>` | Polling interval (default: 5)                     |
-| `--timeout <seconds>`       | Timeout when waiting                              |
-| `--status`                  | Check status of existing crawl job                |
-| `--limit <number>`          | Maximum pages to crawl                            |
-| `--max-depth <number>`      | Maximum crawl depth                               |
-| `--include-paths <paths>`   | Paths to include (comma-separated)                |
-| `--exclude-paths <paths>`   | Paths to exclude (comma-separated)                |
-| `--sitemap <mode>`          | Sitemap handling: `include`, `skip`, `only`       |
-| `--allow-subdomains`        | Include subdomains                                |
-| `--allow-external-links`    | Follow external links                             |
-| `--crawl-entire-domain`     | Crawl entire domain                               |
-| `--ignore-query-parameters` | Treat URLs with different params as same          |
-| `--delay <ms>`              | Delay between requests                            |
-| `--max-concurrency <n>`     | Maximum concurrent requests                       |
-| `--output <path>`           | Save output to file                               |
-| `--pretty`                  | Pretty print JSON output                          |
+| Option                         | Description                                       |
+| ------------------------------ | ------------------------------------------------- |
+| `--url <url>`                  | URL to crawl (alternative to positional argument) |
+| `--wait`                       | Wait for crawl to complete                        |
+| `--progress`                   | Show progress indicator while waiting             |
+| `--poll-interval <seconds>`    | Polling interval (default: 5)                     |
+| `--timeout <seconds>`          | Timeout when waiting                              |
+| `--status`                     | Check status of existing crawl job                |
+| `--limit <number>`             | Maximum pages to crawl                            |
+| `--max-depth <number>`         | Maximum crawl depth                               |
+| `--include-paths <paths>`      | Paths to include (comma-separated)                |
+| `--exclude-paths <paths>`      | Paths to exclude (comma-separated)                |
+| `--sitemap <mode>`             | Sitemap handling: `include`, `skip`, `only`       |
+| `--allow-subdomains`           | Include subdomains                                |
+| `--allow-external-links`       | Follow external links                             |
+| `--crawl-entire-domain`        | Crawl entire domain                               |
+| `--ignore-query-parameters`    | Treat URLs with different params as same          |
+| `--delay <ms>`                 | Delay between requests                            |
+| `--max-concurrency <n>`        | Maximum concurrent requests                       |
+| `--scrape-options <json>`      | JSON scrape options passed to each page           |
+| `--scrape-options-file <path>` | Path to scrape options JSON file                  |
+| `--webhook <url-or-json>`      | Webhook URL or configuration                      |
+| `--cancel`                     | Cancel an active crawl job by job ID              |
+| `--output <path>`              | Save output to file                               |
+| `--pretty`                     | Pretty print JSON output                          |
 
 ***
 
@@ -521,7 +469,7 @@ firecrawl agent "Find the top 5 AI startups and their funding amounts" --wait
 firecrawl agent "Compare pricing plans" --urls https://slack.com/pricing,https://teams.microsoft.com/pricing --wait
 
 # Use a schema for structured output
-firecrawl agent "Get company information" --urls https://example.com --schema '{"name": "string", "founded": "number"}' --wait
+firecrawl agent "Get company information" --urls https://example.com --schema '{"type":"object","properties":{"name":{"type":"string"},"founded":{"type":"number"}}}' --wait
 
 # Use schema from a file
 firecrawl agent "Get product details" --urls https://example.com --schema-file schema.json --wait
@@ -539,6 +487,12 @@ firecrawl agent "Gather contact information from company websites" --max-credits
 # Check status of an existing job
 firecrawl agent <job-id> --status
 
+# Send agent events to a webhook
+firecrawl agent "Extract product details" --urls https://example.com --webhook '{"url":"https://example.com/webhook","events":["completed","failed"]}'
+
+# Cancel an active agent job
+firecrawl agent <job-id> --cancel
+
 # Custom polling interval and timeout
 firecrawl agent "Summarize recent blog posts" --wait --poll-interval 10 --timeout 300
 
@@ -555,7 +509,9 @@ firecrawl agent "Find pricing information" --urls https://example.com --wait -o 
 | `--schema <json>`           | JSON schema for structured output (inline JSON string)                                 |
 | `--schema-file <path>`      | Path to JSON schema file for structured output                                         |
 | `--max-credits <number>`    | Maximum credits to spend (job fails if limit reached)                                  |
+| `--webhook <url-or-json>`   | Webhook URL or configuration                                                           |
 | `--status`                  | Check status of existing agent job                                                     |
+| `--cancel`                  | Cancel an active agent job by job ID                                                   |
 | `--wait`                    | Wait for agent to complete before returning results                                    |
 | `--poll-interval <seconds>` | Polling interval when waiting (default: 5)                                             |
 | `--timeout <seconds>`       | Timeout when waiting (default: no timeout)                                             |
@@ -671,29 +627,6 @@ firecrawl agent "Find the top 5 AI startups and their funding amounts" --wait
 firecrawl agent "Compare pricing plans" --urls https://slack.com/pricing,https://teams.microsoft.com/pricing --wait
 ```
 
-### Browser Automation
-
-```bash CLI
-# Launch a session, scrape a page, and close
-firecrawl browser launch-session
-firecrawl browser execute "open https://news.ycombinator.com"
-firecrawl browser execute "snapshot"
-firecrawl browser execute "scrape"
-firecrawl browser close
-
-# Use agent-browser via bash mode (default — recommended for AI agents)
-firecrawl browser launch-session
-firecrawl browser execute "open https://example.com"
-firecrawl browser execute "snapshot"
-# snapshot returns @ref IDs — use them to interact
-firecrawl browser execute "click @e5"
-firecrawl browser execute "fill @e3 'search query'"
-firecrawl browser execute "scrape"
-# Run --help to see all 40+ commands
-firecrawl browser execute --bash "agent-browser --help"
-firecrawl browser close
-```
-
 ### Combine with Other Tools
 
 ```bash CLI
@@ -727,6 +660,6 @@ export FIRECRAWL_NO_TELEMETRY=1
 
 ## Open Source
 
-The Firecrawl CLI and Skill are open source and available on GitHub: [firecrawl/cli](https://github.com/firecrawl/cli)
+The Firecrawl CLI and skills are open source and available on GitHub: [firecrawl/cli](https://github.com/firecrawl/cli)
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.

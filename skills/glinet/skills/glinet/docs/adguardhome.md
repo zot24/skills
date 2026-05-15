@@ -24,9 +24,11 @@ gl-inet/docs4.x
 
 <a href="../parental_control/" class="md-nav__link"><span class="md-ellipsis"> Parental Control </span></a>
 
+<a href="../tailscale/" class="md-nav__link"><span class="md-ellipsis"> Tailscale </span></a>
+
 <a href="../zerotier/" class="md-nav__link"><span class="md-ellipsis"> ZeroTier </span></a>
 
-<a href="../tailscale/" class="md-nav__link"><span class="md-ellipsis"> Tailscale </span></a>
+<a href="../tor/" class="md-nav__link"><span class="md-ellipsis"> Tor </span></a>
 
 <a href="../esim_management/" class="md-nav__link"><span class="md-ellipsis"> eSIM Management </span></a>
 
@@ -85,21 +87,21 @@ Toggle the switch to enable AdGuard Home and click **Apply**.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/adguard_home/apply.png" class="glboxshadow" alt="adguard home apply" />
 
-- AdGuard Home Handle Client Requests: If this option is enabled, DNS queries from client devices will be handled directly by AdGuard Home. AdGuard Home will show DNS query logs by clients, but this will cause VPN policies based on domain not to work.
+- **AdGuard Home Handle Client Requests**: If enabled, DNS queries from client devices will be processed directly by AdGuard Home. This will render domain-based VPN policies and parental control rules ineffective.
 
-This page displays statistics such as the DNS queries, blocked domains, etc, which is through the API provided by AdGuard Home.
+Once enabled, the page shows statistics including DNS queries and blocked domains via the API provided by AdGuard Home.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/adguard_home/adguardhome_web_panel.png" class="glboxshadow" alt="adguard home web panel" />
 
-Then please click **Settings Page**.
+Click **Settings Page** at the top of the page.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/adguard_home/settings_page.png" class="glboxshadow" alt="adguard home started" />
 
-It will be re-directed to the AdGuard Home's official settings page, where you can perform advanced configuration for the filter rules, etc.
+You will be redirected to the official AdGuard Home settings page to configure advanced filter rules.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/adguard_home/adguardhome_dashboard.png" class="glboxshadow" alt="adguard home settings" />
 
-If you have any questions, please visit <a href="https://adguard.com/en/support.html" target="_blank">Adguard Home Support Center</a> for further assistance.
+For any inquiries, please visit the <a href="https://adguard.com/en/support.html" target="_blank">AdGuard Home Support Center</a> for further assistance.
 
 ------------------------------------------------------------------------
 

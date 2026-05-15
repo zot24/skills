@@ -276,6 +276,26 @@ components:
               description: >-
                 Signed URL to the extracted MP3 audio file if `audio` is in
                 `formats`. The signed URL expires after 1 hour.
+            video:
+              type: string
+              nullable: true
+              description: >-
+                Signed URL to the extracted video file if `video` is in
+                `formats`. The signed URL expires after 1 hour.
+            answer:
+              type: string
+              nullable: true
+              description: >-
+                Natural-language answer to the question supplied via the
+                `question` format. Only present if a `question` format object
+                was included in `formats`.
+            highlights:
+              type: string
+              nullable: true
+              description: >-
+                Relevant source text selected by the `highlights` format. Only
+                present if a `highlights` format object was included in
+                `formats`.
             links:
               type: array
               items:

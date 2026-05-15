@@ -245,31 +245,42 @@ A file lock at `~/.hermes/cron/.tick.lock` prevents overlapping scheduler ticks 
 
 When scheduling jobs, you specify where the output goes:
 
-| Option                     | Description                                         | Example                        |
-|----------------------------|-----------------------------------------------------|--------------------------------|
-| `"origin"`                 | Back to where the job was created                   | Default on messaging platforms |
-| `"local"`                  | Save to local files only (`~/.hermes/cron/output/`) | Default on CLI                 |
-| `"telegram"`               | Telegram home channel                               | Uses `TELEGRAM_HOME_CHANNEL`   |
-| `"telegram:123456"`        | Specific Telegram chat by ID                        | Direct delivery                |
-| `"telegram:-100123:17585"` | Specific Telegram topic                             | `chat_id:thread_id` format     |
-| `"discord"`                | Discord home channel                                | Uses `DISCORD_HOME_CHANNEL`    |
-| `"discord:#engineering"`   | Specific Discord channel                            | By channel name                |
-| `"slack"`                  | Slack home channel                                  |                                |
-| `"whatsapp"`               | WhatsApp home                                       |                                |
-| `"signal"`                 | Signal                                              |                                |
-| `"matrix"`                 | Matrix home room                                    |                                |
-| `"mattermost"`             | Mattermost home channel                             |                                |
-| `"email"`                  | Email                                               |                                |
-| `"sms"`                    | SMS via Twilio                                      |                                |
-| `"homeassistant"`          | Home Assistant                                      |                                |
-| `"dingtalk"`               | DingTalk                                            |                                |
-| `"feishu"`                 | Feishu/Lark                                         |                                |
-| `"wecom"`                  | WeCom                                               |                                |
-| `"weixin"`                 | Weixin (WeChat)                                     |                                |
-| `"bluebubbles"`            | BlueBubbles (iMessage)                              |                                |
-| `"qqbot"`                  | QQ Bot (Tencent QQ)                                 |                                |
+| Option                     | Description                                                  | Example                        |
+|----------------------------|--------------------------------------------------------------|--------------------------------|
+| `"origin"`                 | Back to where the job was created                            | Default on messaging platforms |
+| `"local"`                  | Save to local files only (`~/.hermes/cron/output/`)          | Default on CLI                 |
+| `"telegram"`               | Telegram home channel                                        | Uses `TELEGRAM_HOME_CHANNEL`   |
+| `"telegram:123456"`        | Specific Telegram chat by ID                                 | Direct delivery                |
+| `"telegram:-100123:17585"` | Specific Telegram topic                                      | `chat_id:thread_id` format     |
+| `"discord"`                | Discord home channel                                         | Uses `DISCORD_HOME_CHANNEL`    |
+| `"discord:#engineering"`   | Specific Discord channel                                     | By channel name                |
+| `"slack"`                  | Slack home channel                                           |                                |
+| `"whatsapp"`               | WhatsApp home                                                |                                |
+| `"signal"`                 | Signal                                                       |                                |
+| `"matrix"`                 | Matrix home room                                             |                                |
+| `"mattermost"`             | Mattermost home channel                                      |                                |
+| `"email"`                  | Email                                                        |                                |
+| `"sms"`                    | SMS via Twilio                                               |                                |
+| `"homeassistant"`          | Home Assistant                                               |                                |
+| `"dingtalk"`               | DingTalk                                                     |                                |
+| `"feishu"`                 | Feishu/Lark                                                  |                                |
+| `"wecom"`                  | WeCom                                                        |                                |
+| `"weixin"`                 | Weixin (WeChat)                                              |                                |
+| `"bluebubbles"`            | BlueBubbles (iMessage)                                       |                                |
+| `"qqbot"`                  | QQ Bot (Tencent QQ)                                          |                                |
+| `"all"`                    | Fan out to every connected home channel                      | Resolved at fire time          |
+| `"telegram,discord"`       | Fan out to a specific set of channels                        | Comma-separated list           |
+| `"origin,all"`             | Deliver to the origin **plus** every other connected channel | Combine any tokens             |
 
 The agent's final response is automatically delivered. You do not need to call `send_message` in the cron prompt.
+
+### Routing intent (`all`)<a href="#routing-intent-all" class="hash-link" aria-label="Direct link to routing-intent-all" translate="no" title="Direct link to routing-intent-all">​</a>
+
+`all` lets you ship one cron job to every messaging channel you have configured, without having to enumerate them by name. It is **resolved at fire time**, so a job created before you wired up Telegram will pick up Telegram on the next tick after you set `TELEGRAM_HOME_CHANNEL`.
+
+Semantics: `all` expands to every platform with a configured home channel. Zero is fine; the job simply produces no delivery targets and is recorded as a delivery failure upstream.
+
+`all` composes with explicit targets. `origin,all` delivers to the origin chat *plus* every other connected home channel, de-duplicating by `(platform, chat_id, thread_id)`.
 
 ### Response wrapping<a href="#response-wrapping" class="hash-link" aria-label="Direct link to Response wrapping" translate="no" title="Direct link to Response wrapping">​</a>
 
@@ -631,6 +642,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
 - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a>
   - <a href="#gateway-scheduler-behavior" class="table-of-contents__link toc-highlight">Gateway scheduler behavior</a>
 - <a href="#delivery-options" class="table-of-contents__link toc-highlight">Delivery options</a>
+  - <a href="#routing-intent-all" class="table-of-contents__link toc-highlight">Routing intent (<code>all</code>)</a>
   - <a href="#response-wrapping" class="table-of-contents__link toc-highlight">Response wrapping</a>
   - <a href="#silent-suppression" class="table-of-contents__link toc-highlight">Silent suppression</a>
 - <a href="#script-timeout" class="table-of-contents__link toc-highlight">Script timeout</a>

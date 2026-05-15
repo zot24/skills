@@ -281,6 +281,22 @@ This is separate from terminal working directory. Tool execution starts from `te
 
 The default profile is simply `~/.hermes` itself. No migration needed — existing installs work identically.
 
+## Sharing profiles as distributions<a href="#sharing-profiles-as-distributions" class="hash-link" aria-label="Direct link to Sharing profiles as distributions" translate="no" title="Direct link to Sharing profiles as distributions">​</a>
+
+A profile you built on one machine can be packaged as a **git repository** and installed with one command on another machine — your own workstation, a teammate's laptop, or a community user's environment. The shared package includes the SOUL, config, skills, cron jobs, and MCP connections. Credentials, memories, and sessions stay per-machine.
+
+
+``` prism-code
+# Install a whole agent from a git repo
+hermes profile install github.com/you/research-bot --alias
+
+# Update later when the author ships a new version (keeps your memories + .env)
+hermes profile update research-bot
+```
+
+
+See **[Profile Distributions: Share a Whole Agent](/docs/user-guide/profile-distributions)** for the full guide — authoring, publishing, update semantics, security model, and use cases.
+
 
 - <a href="#what-are-profiles" class="table-of-contents__link toc-highlight">What are profiles?</a>
 - <a href="#quick-start" class="table-of-contents__link toc-highlight">Quick start</a>
@@ -305,5 +321,6 @@ The default profile is simply `~/.hermes` itself. No migration needed — existi
 - <a href="#deleting-a-profile" class="table-of-contents__link toc-highlight">Deleting a profile</a>
 - <a href="#tab-completion" class="table-of-contents__link toc-highlight">Tab completion</a>
 - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a>
+- <a href="#sharing-profiles-as-distributions" class="table-of-contents__link toc-highlight">Sharing profiles as distributions</a>
 
 

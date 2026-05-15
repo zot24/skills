@@ -19,7 +19,9 @@ Search
 
 The Umami tracker exposes a function that you can call on your website if you want more control over your tracking. By default everything is automatically collected, but you can disable this using `data-auto-track="false"` and sending the data yourself. See [Tracker configuration](/docs/tracker-configuration).
 
-## <a href="#functions-v200" class="peer" data-card="">Functions <code>v2.0.0</code></a>
+## <a href="#functions" class="peer" data-card="">Functions</a>
+
+`v2.0.0`
 
 <figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
@@ -45,7 +47,9 @@ umami.identify(unique_id: string, data: object);
 umami.identify(data: object);</code></pre>
 </figure>
 
-## <a href="#pageviews-v200" class="peer" data-card="">Pageviews <code>v2.0.0</code></a>
+## <a href="#pageviews" class="peer" data-card="">Pageviews</a>
+
+`v2.0.0`
 
 Track a page view.
 
@@ -82,7 +86,9 @@ The above will only send the properties `website`, `url` and `title`. If you wan
 <pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track(props =&gt; ({ ...props, url: &#39;/home&#39;, title: &#39;Home page&#39; }));</code></pre>
 </figure>
 
-## <a href="#events-v200" class="peer" data-card="">Events <code>v2.0.0</code></a>
+## <a href="#events" class="peer" data-card="">Events</a>
+
+`v2.0.0`
 
 Track an event with a given name.
 
@@ -91,7 +97,9 @@ Track an event with a given name.
 <pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track(&#39;signup-button&#39;);</code></pre>
 </figure>
 
-## <a href="#event-data-v200" class="peer" data-card="">Event Data <code>v2.0.0</code></a>
+## <a href="#event-data" class="peer" data-card="">Event Data</a>
+
+`v2.0.0`
 
 Track an event with dynamic data.
 
@@ -151,7 +159,9 @@ Pass in your own ID to identify a user.
 <pre class="min-w-full w-max *:flex *:flex-col"><code>umami.identify(&#39;unique_id&#39;);</code></pre>
 </figure>
 
-## <a href="#session-data-v2130" class="peer" data-card="">Session Data <code>v2.13.0</code></a>
+## <a href="#session-data" class="peer" data-card="">Session Data</a>
+
+`v2.13.0`
 
 Save data about the current session.
 
@@ -188,6 +198,6 @@ Next Page
 ### On this page
 
 
-<a href="#functions-v200" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Functions <code>v2.0.0</code></a><a href="#pageviews-v200" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Pageviews <code>v2.0.0</code></a><a href="#events-v200" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Events <code>v2.0.0</code></a><a href="#event-data-v200" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Event Data <code>v2.0.0</code></a><a href="#event-data-limits" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Event Data Limits</a><a href="#overriding-event-timestamps" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Overriding Event Timestamps</a><a href="#sessions" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Sessions</a><a href="#session-data-v2130" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Session Data <code>v2.13.0</code></a>
+<a href="#functions" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Functions</a><a href="#pageviews" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Pageviews</a><a href="#events" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Events</a><a href="#event-data" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Event Data</a><a href="#event-data-limits" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Event Data Limits</a><a href="#overriding-event-timestamps" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Overriding Event Timestamps</a><a href="#sessions" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Sessions</a><a href="#session-data" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Session Data</a>
 
 

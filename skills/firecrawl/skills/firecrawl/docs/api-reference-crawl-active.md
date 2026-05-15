@@ -725,6 +725,56 @@ components:
                   - audio
             required:
               - type
+          - type: object
+            title: Video
+            description: >-
+              Extract best-quality video from supported video URLs, e.g.
+              YouTube. Returns a signed GCS URL.
+            properties:
+              type:
+                type: string
+                enum:
+                  - video
+            required:
+              - type
+          - type: object
+            title: Question
+            description: >-
+              Ask a natural-language question about the page. Returns the answer
+              in the response `answer` field.
+            properties:
+              type:
+                type: string
+                enum:
+                  - question
+              question:
+                type: string
+                maxLength: 10000
+                description: >-
+                  The question to answer about the page. Maximum 10,000
+                  characters.
+            required:
+              - type
+              - question
+          - type: object
+            title: Highlights
+            description: >-
+              Find relevant source text from the page. Returns the selected text
+              in the response `highlights` field.
+            properties:
+              type:
+                type: string
+                enum:
+                  - highlights
+              query:
+                type: string
+                maxLength: 10000
+                description: >-
+                  The text-selection query to run against the page. Maximum
+                  10,000 characters.
+            required:
+              - type
+              - query
       description: >-
         Output formats to include in the response. You can specify one or more
         formats, either as strings (e.g., `'markdown'`) or as objects with

@@ -47,7 +47,7 @@ Hermes Agent includes a rich set of capabilities that extend far beyond basic ch
 - **[Memory Providers](/docs/user-guide/features/memory-providers)** — Plug in external memory backends (Honcho, OpenViking, Mem0, Hindsight, Holographic, RetainDB, ByteRover, Supermemory) for cross-session user modeling and personalization beyond the built-in memory system.
 - **[API Server](/docs/user-guide/features/api-server)** — Expose Hermes as an OpenAI-compatible HTTP endpoint. Connect any frontend that speaks the OpenAI format — Open WebUI, LobeChat, LibreChat, and more.
 - **[IDE Integration (ACP)](/docs/user-guide/features/acp)** — Use Hermes inside ACP-compatible editors such as VS Code, Zed, and JetBrains. Chat, tool activity, file diffs, and terminal commands render inside your editor.
-- **[RL Training](/docs/user-guide/features/rl-training)** — Generate trajectory data from agent sessions for reinforcement learning and model fine-tuning.
+- **[RL Training](/docs/user-guide/features/rl-training.md)** — Generate trajectory data from agent sessions for reinforcement learning and model fine-tuning.
 
 ## Customization<a href="#customization" class="hash-link" aria-label="Direct link to Customization" translate="no" title="Direct link to Customization">​</a>
 

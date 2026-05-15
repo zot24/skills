@@ -9,7 +9,7 @@ type: overview
 # Introduction
 
 
-Chat SDK is a TypeScript library for building chat bots that work across multiple platforms with a single codebase. Write your bot logic once and deploy it to Slack, Microsoft Teams, Google Chat, Discord, Telegram, GitHub, Linear, and WhatsApp.
+Chat SDK is a TypeScript library for building chat bots that work across multiple platforms with a single codebase. Write your bot logic once and deploy it to Slack, Microsoft Teams, Google Chat, Discord, Telegram, GitHub, Linear, WhatsApp, and Messenger.
 
 ## Why Chat SDK?
 
@@ -54,16 +54,17 @@ Each adapter factory auto-detects credentials from environment variables (`SLACK
 
 ## Supported platforms
 
-| Platform        | Package                  | Mentions | Reactions | Cards   | Modals | Streaming | DMs |
-| --------------- | ------------------------ | -------- | --------- | ------- | ------ | --------- | --- |
-| Slack           | `@chat-adapter/slack`    | Yes      | Yes       | Yes     | Yes    | Native    | Yes |
-| Microsoft Teams | `@chat-adapter/teams`    | Yes      | Read-only | Yes     | No     | Post+Edit | Yes |
-| Google Chat     | `@chat-adapter/gchat`    | Yes      | Yes       | Yes     | No     | Post+Edit | Yes |
-| Discord         | `@chat-adapter/discord`  | Yes      | Yes       | Yes     | No     | Post+Edit | Yes |
-| Telegram        | `@chat-adapter/telegram` | Yes      | Yes       | Partial | No     | Post+Edit | Yes |
-| GitHub          | `@chat-adapter/github`   | Yes      | Yes       | No      | No     | No        | No  |
-| Linear          | `@chat-adapter/linear`   | Yes      | Yes       | No      | No     | No        | No  |
-| WhatsApp        | `@chat-adapter/whatsapp` | N/A      | Yes       | Partial | No     | No        | Yes |
+| Platform        | Package                   | Mentions | Reactions    | Cards   | Modals | Streaming                  | DMs |
+| --------------- | ------------------------- | -------- | ------------ | ------- | ------ | -------------------------- | --- |
+| Slack           | `@chat-adapter/slack`     | Yes      | Yes          | Yes     | Yes    | Native                     | Yes |
+| Microsoft Teams | `@chat-adapter/teams`     | Yes      | Read-only    | Yes     | Yes    | Native (DMs) / Buffered    | Yes |
+| Google Chat     | `@chat-adapter/gchat`     | Yes      | Yes          | Yes     | No     | Post+Edit                  | Yes |
+| Discord         | `@chat-adapter/discord`   | Yes      | Yes          | Yes     | No     | Post+Edit                  | Yes |
+| Telegram        | `@chat-adapter/telegram`  | Yes      | Yes          | Partial | No     | Post+Edit                  | Yes |
+| GitHub          | `@chat-adapter/github`    | Yes      | Yes          | No      | No     | Buffered                   | No  |
+| Linear          | `@chat-adapter/linear`    | Yes      | Yes          | No      | No     | Agent sessions / Post+Edit | No  |
+| WhatsApp        | `@chat-adapter/whatsapp`  | N/A      | Yes          | Partial | No     | Buffered                   | Yes |
+| Messenger       | `@chat-adapter/messenger` | Yes      | Receive-only | Partial | No     | Buffered                   | Yes |
 
 ## AI coding agent support
 
@@ -90,6 +91,7 @@ The SDK is distributed as a set of packages you install based on your needs:
 | `@chat-adapter/github`        | GitHub Issues adapter                                         |
 | `@chat-adapter/linear`        | Linear Issues adapter                                         |
 | `@chat-adapter/whatsapp`      | WhatsApp Business adapter                                     |
+| `@chat-adapter/messenger`     | Facebook Messenger adapter                                    |
 | `@chat-adapter/state-redis`   | Redis state adapter (production)                              |
 | `@chat-adapter/state-ioredis` | ioredis state adapter (alternative)                           |
 | `@chat-adapter/state-pg`      | PostgreSQL state adapter (production)                         |

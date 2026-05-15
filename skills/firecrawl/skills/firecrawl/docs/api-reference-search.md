@@ -65,6 +65,32 @@ Filter search results by specific categories using the `categories` parameter:
 }
 ```
 
+## Domain Filters
+
+Use `includeDomains` to restrict results to specific domains, or `excludeDomains` to remove specific domains from the search. Domains should be hostnames only, without protocol or path.
+
+`includeDomains` and `excludeDomains` are mutually exclusive.
+
+### Include Domains Example
+
+```json
+{
+  "query": "web scraping",
+  "includeDomains": ["firecrawl.dev", "docs.firecrawl.dev"],
+  "limit": 10
+}
+```
+
+### Exclude Domains Example
+
+```json
+{
+  "query": "web scraping tools",
+  "excludeDomains": ["example.com"],
+  "limit": 10
+}
+```
+
 ### Category Response
 
 Each result includes a `category` field indicating its source:
@@ -224,6 +250,24 @@ paths:
                   description: >-
                     Categories to filter results by. Defaults to [], which means
                     results will not be filtered by any categories.
+                includeDomains:
+                  type: array
+                  items:
+                    type: string
+                    format: hostname
+                  description: >-
+                    Restricts search results to the specified domains. Domains
+                    should be hostnames only, without protocol or path. Cannot
+                    be used with excludeDomains.
+                excludeDomains:
+                  type: array
+                  items:
+                    type: string
+                    format: hostname
+                  description: >-
+                    Excludes search results from the specified domains. Domains
+                    should be hostnames only, without protocol or path. Cannot
+                    be used with includeDomains.
                 tbs:
                   type: string
                   description: >-
@@ -334,6 +378,13 @@ paths:
                                 Signed URL to the extracted MP3 audio file if
                                 `audio` is in `formats`. The signed URL expires
                                 after 1 hour.
+                            video:
+                              type: string
+                              nullable: true
+                              description: >-
+                                Signed URL to the extracted video file if
+                                `video` is in `formats`. The signed URL expires
+                                after 1 hour.
                             metadata:
                               type: object
                               properties:
@@ -433,6 +484,13 @@ paths:
                               description: >-
                                 Signed URL to the extracted MP3 audio file if
                                 `audio` is in `formats`. The signed URL expires
+                                after 1 hour.
+                            video:
+                              type: string
+                              nullable: true
+                              description: >-
+                                Signed URL to the extracted video file if
+                                `video` is in `formats`. The signed URL expires
                                 after 1 hour.
                             metadata:
                               type: object
@@ -1108,6 +1166,56 @@ components:
                   - audio
             required:
               - type
+          - type: object
+            title: Video
+            description: >-
+              Extract best-quality video from supported video URLs, e.g.
+              YouTube. Returns a signed GCS URL.
+            properties:
+              type:
+                type: string
+                enum:
+                  - video
+            required:
+              - type
+          - type: object
+            title: Question
+            description: >-
+              Ask a natural-language question about the page. Returns the answer
+              in the response `answer` field.
+            properties:
+              type:
+                type: string
+                enum:
+                  - question
+              question:
+                type: string
+                maxLength: 10000
+                description: >-
+                  The question to answer about the page. Maximum 10,000
+                  characters.
+            required:
+              - type
+              - question
+          - type: object
+            title: Highlights
+            description: >-
+              Find relevant source text from the page. Returns the selected text
+              in the response `highlights` field.
+            properties:
+              type:
+                type: string
+                enum:
+                  - highlights
+              query:
+                type: string
+                maxLength: 10000
+                description: >-
+                  The text-selection query to run against the page. Maximum
+                  10,000 characters.
+            required:
+              - type
+              - query
       description: >-
         Output formats to include in the response. You can specify one or more
         formats, either as strings (e.g., `'markdown'`) or as objects with

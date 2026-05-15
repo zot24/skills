@@ -24,8 +24,6 @@ gl-inet/docs4.x
 
 <a href="../wireguard_server/" class="md-nav__link"><span class="md-ellipsis"> WireGuard Server </span></a>
 
-<a href="../tor/" class="md-nav__link"><span class="md-ellipsis"> Tor </span></a>
-
 
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 

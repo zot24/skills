@@ -6,6 +6,10 @@
 
 # Batch Scrape Page
 
+> Webhook event sent for each URL scraped during a batch scrape job.
+
+For payload examples, configuration, and retry behavior, see [Webhook Event Types](/webhooks/events#batch_scrapepage) and [Webhook Overview](/webhooks/overview).
+
 
 ## OpenAPI
 

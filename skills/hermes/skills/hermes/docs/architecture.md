@@ -38,8 +38,8 @@ This page is the top-level map of Hermes Agent internals. Use it to orient yours
 │  ┌──────┴───────┐  ┌──────┴───────┐  ┌──────┴───────┐               │
 │  │ Compression  │  │ 3 API Modes  │  │ Tool Registry│               │
 │  │ & Caching    │  │ chat_compl.  │  │ (registry.py)│               │
-│  │              │  │ codex_resp.  │  │ 61 tools     │               │
-│  │              │  │ anthropic    │  │ 52 toolsets  │               │
+│  │              │  │ codex_resp.  │  │ 70+ tools    │               │
+│  │              │  │ anthropic    │  │ 28 toolsets  │               │
 │  └──────────────┘  └──────────────┘  └──────────────┘               │
 └─────────┴─────────────────┴─────────────────┴───────────────────────┘
            │                                    │
@@ -60,8 +60,8 @@ This page is the top-level map of Hermes Agent internals. Use it to orient yours
 
 ``` prism-code
 hermes-agent/
-├── run_agent.py              # AIAgent — core conversation loop (~13,700 lines)
-├── cli.py                    # HermesCLI — interactive terminal UI (~11,500 lines)
+├── run_agent.py              # AIAgent — core conversation loop (large file)
+├── cli.py                    # HermesCLI — interactive terminal UI (large file)
 ├── model_tools.py            # Tool discovery, schema collection, dispatch
 ├── toolsets.py               # Tool groupings and platform presets
 ├── hermes_state.py           # SQLite session/state database with FTS5
@@ -84,14 +84,14 @@ hermes-agent/
 │   └── trajectory.py         # Trajectory saving helpers
 │
 ├── hermes_cli/               # CLI subcommands and setup
-│   ├── main.py               # Entry point — all `hermes` subcommands (~10,400 lines)
+│   ├── main.py               # Entry point — all `hermes` subcommands (large file)
 │   ├── config.py             # DEFAULT_CONFIG, OPTIONAL_ENV_VARS, migration
 │   ├── commands.py           # COMMAND_REGISTRY — central slash command definitions
 │   ├── auth.py               # PROVIDER_REGISTRY, credential resolution
 │   ├── runtime_provider.py   # Provider → api_mode + credentials
 │   ├── models.py             # Model catalog, provider model lists
 │   ├── model_switch.py       # /model command logic (CLI + gateway shared)
-│   ├── setup.py              # Interactive setup wizard (~3,500 lines)
+│   ├── setup.py              # Interactive setup wizard (large file)
 │   ├── skin_engine.py        # CLI theming engine
 │   ├── skills_config.py      # hermes skills — enable/disable per platform
 │   ├── skills_hub.py         # /skills slash command
@@ -110,14 +110,14 @@ hermes-agent/
 │   ├── browser_tool.py       # 10 browser automation tools
 │   ├── code_execution_tool.py # execute_code sandbox
 │   ├── delegate_tool.py      # Subagent delegation
-│   ├── mcp_tool.py           # MCP client (~3,100 lines)
+│   ├── mcp_tool.py           # MCP client (large file)
 │   ├── credential_files.py   # File-based credential passthrough
 │   ├── env_passthrough.py    # Env var passthrough for sandboxes
 │   ├── ansi_strip.py         # ANSI escape stripping
 │   └── environments/         # Terminal backends (local, docker, ssh, modal, daytona, singularity)
 │
 ├── gateway/                  # Messaging platform gateway
-│   ├── run.py                # GatewayRunner — message dispatch (~12,200 lines)
+│   ├── run.py                # GatewayRunner — message dispatch (large file)
 │   ├── session.py            # SessionStore — conversation persistence
 │   ├── delivery.py           # Outbound message delivery
 │   ├── pairing.py            # DM pairing authorization
@@ -135,7 +135,6 @@ hermes-agent/
 ├── cron/                     # Scheduler (jobs.py, scheduler.py)
 ├── plugins/memory/           # Memory provider plugins
 ├── plugins/context_engine/   # Context engine plugins
-├── environments/             # RL training environments (Atropos)
 ├── skills/                   # Bundled skills (always available)
 ├── optional-skills/          # Official optional skills (install explicitly)
 ├── website/                  # Docusaurus documentation site
@@ -200,7 +199,6 @@ If you are new to the codebase:
 8.  **[Gateway Internals](/docs/developer-guide/gateway-internals)** — messaging platform gateway
 9.  **[Context Compression & Prompt Caching](/docs/developer-guide/context-compression-and-caching)** — compression and caching
 10. **[ACP Internals](/docs/developer-guide/acp-internals)** — IDE integration
-11. **[Environments, Benchmarks & Data Generation](/docs/developer-guide/environments)** — RL training
 
 ## Major Subsystems<a href="#major-subsystems" class="hash-link" aria-label="Direct link to Major Subsystems" translate="no" title="Direct link to Major Subsystems">​</a>
 
@@ -228,7 +226,7 @@ A shared runtime resolver used by CLI, gateway, cron, ACP, and auxiliary calls. 
 
 ### Tool System<a href="#tool-system" class="hash-link" aria-label="Direct link to Tool System" translate="no" title="Direct link to Tool System">​</a>
 
-Central tool registry (`tools/registry.py`) with 61 registered tools across 52 toolsets. Each tool file self-registers at import time. The registry handles schema collection, dispatch, availability checking, and error wrapping. Terminal tools support 7 backends (local, Docker, SSH, Daytona, Modal, Singularity, Vercel Sandbox).
+Central tool registry (`tools/registry.py`) with 70+ registered tools across ~28 toolsets. Each tool file self-registers at import time. The registry handles schema collection, dispatch, availability checking, and error wrapping. Terminal tools support 7 backends (local, Docker, SSH, Daytona, Modal, Singularity, Vercel Sandbox).
 
 → [Tools Runtime](/docs/developer-guide/tools-runtime)
 
@@ -262,11 +260,11 @@ Exposes Hermes as an editor-native agent over stdio/JSON-RPC for VS Code, Zed, a
 
 → [ACP Internals](/docs/developer-guide/acp-internals)
 
-### RL / Environments / Trajectories<a href="#rl--environments--trajectories" class="hash-link" aria-label="Direct link to RL / Environments / Trajectories" translate="no" title="Direct link to RL / Environments / Trajectories">​</a>
+### Trajectories<a href="#trajectories" class="hash-link" aria-label="Direct link to Trajectories" translate="no" title="Direct link to Trajectories">​</a>
 
-Full environment framework for evaluation and RL training. Integrates with Atropos, supports multiple tool-call parsers, and generates ShareGPT-format trajectories.
+Generates ShareGPT-format trajectories from agent sessions for training data generation.
 
-→ [Environments, Benchmarks & Data Generation](/docs/developer-guide/environments), [Trajectories & Training Format](/docs/developer-guide/trajectory-format)
+→ [Trajectories & Training Format](/docs/developer-guide/trajectory-format)
 
 ## Design Principles<a href="#design-principles" class="hash-link" aria-label="Direct link to Design Principles" translate="no" title="Direct link to Design Principles">​</a>
 
@@ -313,7 +311,7 @@ This chain means tool registration happens at import time, before any agent inst
   - <a href="#plugin-system" class="table-of-contents__link toc-highlight">Plugin System</a>
   - <a href="#cron" class="table-of-contents__link toc-highlight">Cron</a>
   - <a href="#acp-integration" class="table-of-contents__link toc-highlight">ACP Integration</a>
-  - <a href="#rl--environments--trajectories" class="table-of-contents__link toc-highlight">RL / Environments / Trajectories</a>
+  - <a href="#trajectories" class="table-of-contents__link toc-highlight">Trajectories</a>
 - <a href="#design-principles" class="table-of-contents__link toc-highlight">Design Principles</a>
 - <a href="#file-dependency-chain" class="table-of-contents__link toc-highlight">File Dependency Chain</a>
 

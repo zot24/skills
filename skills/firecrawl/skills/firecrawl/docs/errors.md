@@ -116,6 +116,6 @@ Treat the **Retryable** column as authoritative; do not infer from the HTTP stat
   ```
 </CodeGroup>
 
-## Rate limits
+## 429 responses
 
 429 responses are the most common retryable error. Per-plan rate limits and concurrency limits are documented in [Rate Limits](/rate-limits). Always honor the `Retry-After` header when present rather than retrying immediately.

@@ -18,6 +18,8 @@ gl-inet/docs4.x
 
 <a href="../warning_from_your_browser_during_setup/" class="md-nav__link"><span class="md-ellipsis"> Warning from your browser </span></a>
 
+<a href="../internet_connection_troubleshooting/" class="md-nav__link"><span class="md-ellipsis"> Internet Connection Troubleshooting FAQ </span></a>
+
 <a href="../connect_to_a_hotspot_with_captive_portal/" class="md-nav__link"><span class="md-ellipsis"> Connect to public hotspot with Captive Portal </span></a>
 
 <a href="../produce_a_wired_connection/" class="md-nav__link"><span class="md-ellipsis"> Connect Ethernet-only device to Wi-Fi </span></a>

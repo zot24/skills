@@ -16,9 +16,6 @@ Turn live website data into presentations, emails, marketing copy, and newslette
   Clone and recreate any website as a modern React app
 
 
-  **Get started with the Open Lovable template.** Transform websites into content and applications.
-
-
 ## How It Works
 
 Point Firecrawl at any URL or set of URLs. It returns clean, structured content you can pipe directly into your generation workflow.

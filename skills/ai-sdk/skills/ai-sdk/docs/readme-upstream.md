@@ -1,6 +1,6 @@
 > Source: https://raw.githubusercontent.com/vercel/ai/main/packages/ai/README.md
 
-![hero illustration](./assets/hero.gif)
+![hero illustration](https://github.com/vercel/ai/blob/HEAD/assets/hero.gif)
 
 # AI SDK
 

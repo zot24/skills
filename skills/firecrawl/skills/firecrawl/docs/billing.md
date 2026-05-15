@@ -14,6 +14,10 @@ Firecrawl uses a **credit-based billing system**. Every API call you make consum
 
 For current plan pricing, visit the [Firecrawl pricing page](https://www.firecrawl.dev/pricing).
 
+
+  All Firecrawl invoices are billed in **US Dollars (USD)**, regardless of your billing address or payment method.
+
+
 ## Credits
 
 Credits are the unit of usage in Firecrawl. Each plan includes a monthly credit allotment that resets at the start of each billing cycle. Different API endpoints consume different amounts of credits.
@@ -71,8 +75,8 @@ Firecrawl offers subscription-based monthly plans. There is no pure pay-as-you-g
 
 | Plan         | Monthly Credits | Concurrent Browsers |
 | ------------ | --------------- | ------------------: |
-| **Free**     | 500 (one-time)  |                   2 |
-| **Hobby**    | 3,000           |                   5 |
+| **Free**     | 1,000           |                   2 |
+| **Hobby**    | 5,000           |                   5 |
 | **Standard** | 100,000         |                  50 |
 | **Growth**   | 500,000         |                 100 |
 
@@ -128,7 +132,7 @@ If you exhaust your credit allotment and do not have auto-recharge enabled, API 
 
 ## Free Plan
 
-The Free plan provides a **one-time allotment of 500 credits** with no credit card required. These credits do not renew — once they are used up, you will need to upgrade to a paid plan to continue using Firecrawl. The Free plan also has lower rate limits and concurrency compared to paid plans (see [Rate Limits](/rate-limits)).
+The Free plan provides **1,000 credits per month** with no credit card required. Credits reset each month on your monthly renewal date — once they are used up, you can wait for the next reset, or upgrade to a paid plan for a higher allotment. The Free plan also has lower rate limits and concurrency compared to paid plans (see [Rate Limits](/rate-limits)).
 
 ## FAQs
 
@@ -146,6 +150,9 @@ The Free plan provides a **one-time allotment of 500 credits** with no credit ca
 
 
     Reach out to [help@firecrawl.dev](mailto:help@firecrawl.dev), or visit the [Enterprise page](https://www.firecrawl.dev/enterprise) to learn more about custom plans.
+
+
+    All Firecrawl invoices are billed in **US Dollars (USD)**, regardless of your billing address or payment method.
 
 
     Go to your [billing settings](https://www.firecrawl.dev/app/settings?tab=billing), click **Manage Subscriptions**, and update your billing address, company name, and VAT number in the Stripe portal. Future invoices will automatically include the updated details. If you need a past invoice regenerated with the new information, contact [help@firecrawl.dev](mailto:help@firecrawl.dev).

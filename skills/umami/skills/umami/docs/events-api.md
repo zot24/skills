@@ -31,7 +31,8 @@ GET /api/websites/:websiteId/event-data/events
 GET /api/websites/:websiteId/event-data/fields
 GET /api/websites/:websiteId/event-data/properties
 GET /api/websites/:websiteId/event-data/values
-GET /api/websites/:websiteId/event-data/stats</code></pre>
+GET /api/websites/:websiteId/event-data/stats
+GET /api/websites/:websiteId/event-data-pivot</code></pre>
 </figure>
 
 ------------------------------------------------------------------------
@@ -483,6 +484,47 @@ Gets aggregated website events, properties, and records within a given time rang
 ]</code></pre>
 </figure>
 
+------------------------------------------------------------------------
+
+## <a href="#get-apiwebsiteswebsiteidevent-data-pivot" class="peer" data-card="">GET /api/websites/:websiteId/event-data-pivot</a>
+
+Gets event data for a website in a pivoted format, with each row representing an event and its properties as parallel arrays.
+
+**Parameters**
+
+
+| Parameter   | Type   | Description                                                   |
+|-------------|--------|---------------------------------------------------------------|
+| `startAt`   | number | Timestamp (in ms) of starting date.                           |
+| `endAt`     | number | Timestamp (in ms) of end date.                                |
+| `eventName` | string | Event name to pivot on.                                       |
+| `page`      | number | (optional, default 1) Determines page.                        |
+| `pageSize`  | number | (optional, default 20) Determines how many results to return. |
+| `filters`   | object | Can accept filter parameters.                                 |
+
+
+**Sample response**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>{
+  &quot;data&quot;: [
+    {
+      &quot;eventId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
+      &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
+      &quot;eventName&quot;: &quot;signup&quot;,
+      &quot;urlPath&quot;: &quot;/register&quot;,
+      &quot;createdAt&quot;: &quot;2025-10-15T16:26:28Z&quot;,
+      &quot;propertyKeys&quot;: [&quot;plan&quot;, &quot;source&quot;],
+      &quot;propertyValues&quot;: [&quot;pro&quot;, &quot;organic&quot;]
+    }
+  ],
+  &quot;count&quot;: 100,
+  &quot;page&quot;: 1,
+  &quot;pageSize&quot;: 20
+}</code></pre>
+</figure>
+
 
 <a href="/docs/api/admin" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
 
@@ -504,6 +546,6 @@ Next Page
 ### On this page
 
 
-<a href="#filters" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Filters</a><a href="#get-apiwebsiteswebsiteidevents" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/events</a><a href="#get-apiwebsiteswebsiteideventsstats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/events/stats</a><a href="#get-apiwebsiteswebsiteidevent-data" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data</a><a href="#get-apiwebsiteswebsiteidevent-dataeventid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/:eventId</a><a href="#get-apiwebsiteswebsiteidevent-dataevents" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/events</a><a href="#get-apiwebsiteswebsiteidevent-datafields" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/fields</a><a href="#get-apiwebsiteswebsiteidevent-dataproperties" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/properties</a><a href="#get-apiwebsiteswebsiteidevent-datavalues" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/values</a><a href="#get-apiwebsiteswebsiteidevent-datastats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/stats</a>
+<a href="#filters" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Filters</a><a href="#get-apiwebsiteswebsiteidevents" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/events</a><a href="#get-apiwebsiteswebsiteideventsstats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/events/stats</a><a href="#get-apiwebsiteswebsiteidevent-data" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data</a><a href="#get-apiwebsiteswebsiteidevent-dataeventid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/:eventId</a><a href="#get-apiwebsiteswebsiteidevent-dataevents" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/events</a><a href="#get-apiwebsiteswebsiteidevent-datafields" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/fields</a><a href="#get-apiwebsiteswebsiteidevent-dataproperties" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/properties</a><a href="#get-apiwebsiteswebsiteidevent-datavalues" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/values</a><a href="#get-apiwebsiteswebsiteidevent-datastats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/stats</a><a href="#get-apiwebsiteswebsiteidevent-data-pivot" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data-pivot</a>
 
 

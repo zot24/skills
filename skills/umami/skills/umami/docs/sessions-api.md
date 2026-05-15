@@ -30,7 +30,9 @@ GET /api/websites/:websiteId/sessions/:sessionId
 GET /api/websites/:websiteId/sessions/:sessionId/activity
 GET /api/websites/:websiteId/sessions/:sessionId/properties
 GET /api/websites/:websiteId/session-data/properties
-GET /api/websites/:websiteId/session-data/values</code></pre>
+GET /api/websites/:websiteId/session-data/values
+GET /api/websites/:websiteId/session-data-pivot
+GET /api/websites/:websiteId/session-data/stats</code></pre>
 </figure>
 
 ------------------------------------------------------------------------
@@ -351,11 +353,12 @@ Gets session data counts by property name
 **Parameters**
 
 
-| Parameter | Type   | Description                         |
-|-----------|--------|-------------------------------------|
-| `startAt` | number | Timestamp (in ms) of starting date. |
-| `endAt`   | number | Timestamp (in ms) of end date.      |
-| `filters` | \-     | Can accept filter parameters.       |
+| Parameter      | Type   | Description                                            |
+|----------------|--------|--------------------------------------------------------|
+| `startAt`      | number | Timestamp (in ms) of starting date.                    |
+| `endAt`        | number | Timestamp (in ms) of end date.                         |
+| `propertyName` | string | (optional) Filter results to a specific property name. |
+| `filters`      | \-     | Can accept filter parameters.                          |
 
 
 **Sample response**
@@ -391,12 +394,13 @@ Gets session data counts for a given property
 **Parameters**
 
 
-| Parameter      | Type   | Description                         |
-|----------------|--------|-------------------------------------|
-| `startAt`      | number | Timestamp (in ms) of starting date. |
-| `endAt`        | number | Timestamp (in ms) of end date.      |
-| `propertyName` | string | Property name.                      |
-| `filters`      | \-     | Can accept filter parameters.       |
+| Parameter      | Type   | Description                                                             |
+|----------------|--------|-------------------------------------------------------------------------|
+| `startAt`      | number | Timestamp (in ms) of starting date.                                     |
+| `endAt`        | number | Timestamp (in ms) of end date.                                          |
+| `propertyName` | string | Property name.                                                          |
+| `dataType`     | number | (optional) Filter by data type (1=string, 2=number, 3=date, 4=boolean). |
+| `filters`      | \-     | Can accept filter parameters.                                           |
 
 
 **Sample response**
@@ -414,6 +418,88 @@ Gets session data counts for a given property
   }
 ]</code></pre>
 </figure>
+
+------------------------------------------------------------------------
+
+## <a href="#get-apiwebsiteswebsiteidsession-data-pivot" class="peer" data-card="">GET /api/websites/:websiteId/session-data-pivot</a>
+
+Gets session data in a pivoted format, with each row representing a session and its properties as parallel arrays.
+
+**Parameters**
+
+
+| Parameter      | Type   | Description                                                   |
+|----------------|--------|---------------------------------------------------------------|
+| `startAt`      | number | Timestamp (in ms) of starting date.                           |
+| `endAt`        | number | Timestamp (in ms) of end date.                                |
+| `propertyName` | string | Session property name to pivot on.                            |
+| `page`         | number | (optional, default 1) Determines page.                        |
+| `pageSize`     | number | (optional, default 20) Determines how many results to return. |
+| `filters`      | \-     | Can accept filter parameters.                                 |
+
+
+**Sample response**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>{
+  &quot;data&quot;: [
+    {
+      &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
+      &quot;distinctId&quot;: &quot;user-123&quot;,
+      &quot;createdAt&quot;: &quot;2025-10-15T16:26:28Z&quot;,
+      &quot;propertyKeys&quot;: [&quot;plan&quot;, &quot;role&quot;],
+      &quot;propertyValues&quot;: [&quot;pro&quot;, &quot;admin&quot;]
+    }
+  ],
+  &quot;count&quot;: 50,
+  &quot;page&quot;: 1,
+  &quot;pageSize&quot;: 20
+}</code></pre>
+</figure>
+
+------------------------------------------------------------------------
+
+## <a href="#get-apiwebsiteswebsiteidsession-datastats" class="peer" data-card="">GET /api/websites/:websiteId/session-data/stats</a>
+
+Gets aggregated activity statistics for sessions grouped by a given property value.
+
+**Parameters**
+
+
+| Parameter      | Type   | Description                         |
+|----------------|--------|-------------------------------------|
+| `startAt`      | number | Timestamp (in ms) of starting date. |
+| `endAt`        | number | Timestamp (in ms) of end date.      |
+| `propertyName` | string | Property name to group by.          |
+| `filters`      | \-     | Can accept filter parameters.       |
+
+
+**Sample response**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+  {
+    &quot;label&quot;: &quot;pro&quot;,
+    &quot;activity&quot;: 342,
+    &quot;sessions&quot;: 89,
+    &quot;visits&quot;: 201,
+    &quot;views&quot;: 1450,
+    &quot;events&quot;: 892
+  },
+  {
+    &quot;label&quot;: &quot;free&quot;,
+    &quot;activity&quot;: 158,
+    &quot;sessions&quot;: 44,
+    &quot;visits&quot;: 91,
+    &quot;views&quot;: 630,
+    &quot;events&quot;: 310
+  }
+]</code></pre>
+</figure>
+
+Results are ordered by `activity` descending. Maximum 100 rows returned.
 
 
 <a href="/docs/api/reports" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
@@ -436,6 +522,6 @@ Next Page
 ### On this page
 
 
-<a href="#filters" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Filters</a><a href="#get-apiwebsiteswebsiteidsessions" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions</a><a href="#get-apiwebsiteswebsiteidsessionsstats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/stats</a><a href="#get-apiwebsiteswebsiteidsessionsweekly" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/weekly</a><a href="#get-apiwebsiteswebsiteidsessionssessionid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/:sessionId</a><a href="#get-apiwebsiteswebsiteidsessionssessionidactivity" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/:sessionId/activity</a><a href="#get-apiwebsiteswebsiteidsessionssessionidproperties" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/:sessionId/properties</a><a href="#get-apiwebsiteswebsiteidsession-dataproperties" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data/properties</a><a href="#get-apiwebsiteswebsiteidsession-datavalues" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data/values</a>
+<a href="#filters" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Filters</a><a href="#get-apiwebsiteswebsiteidsessions" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions</a><a href="#get-apiwebsiteswebsiteidsessionsstats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/stats</a><a href="#get-apiwebsiteswebsiteidsessionsweekly" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/weekly</a><a href="#get-apiwebsiteswebsiteidsessionssessionid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/:sessionId</a><a href="#get-apiwebsiteswebsiteidsessionssessionidactivity" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/:sessionId/activity</a><a href="#get-apiwebsiteswebsiteidsessionssessionidproperties" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/:sessionId/properties</a><a href="#get-apiwebsiteswebsiteidsession-dataproperties" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data/properties</a><a href="#get-apiwebsiteswebsiteidsession-datavalues" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data/values</a><a href="#get-apiwebsiteswebsiteidsession-data-pivot" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data-pivot</a><a href="#get-apiwebsiteswebsiteidsession-datastats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data/stats</a>
 
 

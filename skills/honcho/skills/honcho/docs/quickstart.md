@@ -1,7 +1,7 @@
 > Source: https://docs.honcho.dev/v3/documentation/introduction/quickstart.md
 
 > ## Documentation Index
-> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
 # Quickstart
@@ -243,7 +243,7 @@ This is rich personal context for domain-specific agents to do what they want wi
 * A productivity agent might see the same pattern and say "let's protect your weekend time for the finance app."
 * A financial advisor agent might see it and ask "what runway would you need to make the leap?"
 
-Honcho acts almost like a detective--it reasons about new and existing evidence in order to form conclusions that can be used to make a *case*. These conclusions wait to be composed dynamically based on how you, the ~~judge~~ developer, query it. This approach is what drives our [pareto-frontier](https://evals.honcho.dev) performance on memory benchmarks, and our custom models allow us to optimize speed and cost.
+Honcho acts almost like a detective--it reasons about new and existing evidence in order to form conclusions that can be used to make a *case*. These conclusions wait to be composed dynamically based on how you, the ~~judge~~ developer, query it. This approach is what drives our [pareto-frontier](https://honcho.dev/evals) performance on memory benchmarks, and our custom models allow us to optimize speed and cost.
 
 ## Next Steps
 

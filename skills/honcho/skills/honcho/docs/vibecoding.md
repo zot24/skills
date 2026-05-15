@@ -1,7 +1,7 @@
 > Source: https://docs.honcho.dev/v3/documentation/introduction/vibecoding.md
 
 > ## Documentation Index
-> Fetch the complete documentation index at: https://docs.honcho.dev/llms.txt
+> Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
 # Agentic Development
@@ -169,10 +169,10 @@ I want to start building with Honcho - an open source memory library for buildin
 ## Honcho Resources
 
 **Documentation:**
-- Main docs: https://docs.honcho.dev
-- API Reference: https://docs.honcho.dev/v3/api-reference/introduction
-- Quickstart: https://docs.honcho.dev/v3/documentation/introduction/quickstart
-- Architecture: https://docs.honcho.dev/v3/documentation/core-concepts/architecture
+- Main docs: https://honcho.dev/docs
+- API Reference: https://honcho.dev/docs/v3/api-reference/introduction
+- Quickstart: https://honcho.dev/docs/v3/documentation/introduction/quickstart
+- Architecture: https://honcho.dev/docs/v3/documentation/core-concepts/architecture
 
 **Code & Examples:**
 - Core repo: https://github.com/plastic-labs/honcho

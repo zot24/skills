@@ -9,7 +9,7 @@
 > Search the web, scrape any page, and interact with it — all through one API.
 
 
-  **For AI agents:** Append `.md` to any docs URL for markdown, e.g. [introduction.md](/introduction.md).
+  **For AI agents:** Use [llms.txt](/llms.txt) for a full index of all documentation.
 
 
 ## Get started
@@ -23,14 +23,15 @@
 
 ### Use Firecrawl with AI agents (recommended)
 
-The Firecrawl skill is the fastest way for agents to discover and use Firecrawl. Without it, your agent will not know Firecrawl is available.
+The Firecrawl skills are the fastest way for agents to discover and use Firecrawl. Without them, your agent will not know Firecrawl is available.
 
 ```bash
 npx -y firecrawl-cli@latest init --all --browser
 ```
 
 
-  Restart your agent after installing the skill. See [Skill + CLI](/sdks/cli) for the full setup.
+  Restart your agent after installing the skills. See [Skills + CLI](/sdks/cli)
+  for the full setup.
 
 
 Or use the [MCP Server](/mcp-server) to connect Firecrawl directly to Claude, Cursor, Windsurf, VS Code, and other AI tools.
@@ -46,7 +47,8 @@ Or use the [MCP Server](/mcp-server) to connect Firecrawl directly to Claude, Cu
     Extract content from any URL as markdown, HTML, or structured JSON
 
 
-    Continue working with any scraped page — click, fill forms, extract dynamic content
+    Continue working with any scraped page — click, fill forms, extract dynamic
+    content
 
 
 ### Why Firecrawl?
@@ -324,6 +326,12 @@ Scrape a page, then keep working with it — click buttons, fill forms, extract 
 
 
     Autonomous web data gathering powered by AI
+
+
+    Click, fill forms, extract dynamic content
+
+
+    Async event delivery
 
 
     Managed browser sessions for interactive workflows

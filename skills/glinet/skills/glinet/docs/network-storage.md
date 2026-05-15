@@ -26,9 +26,11 @@ gl-inet/docs4.x
 
 <a href="../parental_control/" class="md-nav__link"><span class="md-ellipsis"> Parental Control </span></a>
 
+<a href="../tailscale/" class="md-nav__link"><span class="md-ellipsis"> Tailscale </span></a>
+
 <a href="../zerotier/" class="md-nav__link"><span class="md-ellipsis"> ZeroTier </span></a>
 
-<a href="../tailscale/" class="md-nav__link"><span class="md-ellipsis"> Tailscale </span></a>
+<a href="../tor/" class="md-nav__link"><span class="md-ellipsis"> Tor </span></a>
 
 <a href="../esim_management/" class="md-nav__link"><span class="md-ellipsis"> eSIM Management </span></a>
 

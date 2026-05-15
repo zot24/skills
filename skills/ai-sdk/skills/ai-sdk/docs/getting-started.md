@@ -266,7 +266,7 @@ You can also use [AI SDK Core](/docs/ai-sdk-core/overview) and [AI SDK UI](/docs
   - [Repeated assistant messages in useChat](/docs/troubleshooting/repeated-assistant-messages)
   - [onFinish not called when stream is aborted](/docs/troubleshooting/stream-abort-handling)
   - [Tool calling with structured outputs](/docs/troubleshooting/tool-calling-with-structured-outputs)
-  - [Abort breaks resumable streams](/docs/troubleshooting/abort-breaks-resumable-streams)
+  - [Abort and resumable streams](/docs/troubleshooting/abort-breaks-resumable-streams)
   - [streamText fails silently](/docs/troubleshooting/stream-text-not-working)
   - [Streaming Status Shows But No Text Appears](/docs/troubleshooting/streaming-status-delay)
   - [Stale body values with useChat](/docs/troubleshooting/use-chat-stale-body-data)
