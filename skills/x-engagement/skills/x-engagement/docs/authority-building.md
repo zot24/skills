@@ -1,4 +1,4 @@
-<!-- Source: X Engagement Playbook -->
+<!-- Source: X Engagement Playbook + xai-org/x-algorithm codebase -->
 
 # Authority Building
 
@@ -61,3 +61,48 @@ The accounts that combine:
 - **Conversation leverage** (strategic participation)
 
 ...grow the fastest.
+
+## The Highest-Value Action: Follow
+
+The scoring model assigns a weight to `follow_author` — a user following you after seeing a post. This is likely the highest per-action weight in the model because:
+
+- It's rare (most viewers don't follow from a single impression)
+- It's permanent and compounds (every future post reaches them)
+- It's a strong signal of genuine interest
+
+**Design some posts explicitly to earn follows, not just likes.**
+
+### What triggers follows
+
+- Content that makes someone think "I want to see more from this person"
+- Posts that uniquely answer a question the reader didn't know they had
+- Threads that are so useful people screenshot them — they follow so they don't miss more
+- A clear content identity: viewers should be able to predict what you'll post
+
+### Follow trigger template
+
+> [Counterintuitive thing you learned through direct experience]
+>
+> Most people [common approach]. I spent [time/money/effort] learning [specific insight].
+>
+> Here's the exact [framework/step/decision] I'd do differently:
+
+This pattern works because it signals ongoing value ("there's more where this came from").
+
+## DM Shares as an Authority Signal
+
+The algorithm separately tracks `share_via_dm` (sharing via Direct Message). DM shares are high-trust — someone actively sent your content to a specific person. This is a strong authority signal because it indicates your content is reference-quality.
+
+**Content that becomes "send this to someone who needs it" material generates disproportionate algorithm reward.**
+
+### How to write DM-shareable content
+
+- Frame insights as "this applies to someone in [specific situation]"
+- Write things that are immediately useful to someone dealing with a specific problem
+- The "I wish someone had told me this when I was starting" angle
+
+## Network Alignment
+
+The algorithm uses **MinHash Jaccard similarity** to measure how much your follower network overlaps with a potential viewer's following list. Higher overlap = your content is more likely to surface to that viewer.
+
+Practical implication: **Build an audience in communities where your target viewers are also active.** Follow, engage, and get followed back within the specific ecosystem you're trying to reach. Scattered, cross-niche followers reduce your network alignment score with any specific audience.
