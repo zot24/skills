@@ -1,7 +1,14 @@
 {
   "name": "x-engagement",
-  "version": "1.0.0",
-  "description": "X (Twitter) engagement playbook - hooks, conversation hijacking, authority building",
-  "sources": [],
+  "version": "2.0.0",
+  "description": "X (Twitter) engagement playbook grounded in xai-org/x-algorithm codebase - scoring signals, quality gate, dwell, follow triggers, spam detection",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/xai-org/x-algorithm/main/README.md",
+      "target": "skills/x-engagement/docs/x-algorithm-readme.md",
+      "type": "raw",
+      "freshness_days": 30
+    }
+  ],
   "cache_dir": ".cache"
 }
