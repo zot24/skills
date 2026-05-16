@@ -15,7 +15,9 @@ Get Hermes Agent up and running in under two minutes with the one-line installer
 
 ## Quick Install<a href="#quick-install" class="hash-link" aria-label="Direct link to Quick Install" translate="no" title="Direct link to Quick Install">​</a>
 
-### Linux / macOS / WSL2<a href="#linux--macos--wsl2" class="hash-link" aria-label="Direct link to Linux / macOS / WSL2" translate="no" title="Direct link to Linux / macOS / WSL2">​</a>
+### One-Line Installer (Linux / macOS / WSL2)<a href="#one-line-installer-linux--macos--wsl2" class="hash-link" aria-label="Direct link to One-Line Installer (Linux / macOS / WSL2)" translate="no" title="Direct link to One-Line Installer (Linux / macOS / WSL2)">​</a>
+
+For a git-based install that tracks `main` and gives you the latest changes immediately:
 
 
 ``` prism-code
@@ -91,10 +93,11 @@ The installer handles everything automatically — all dependencies (Python, Nod
 
 Where the installer puts things depends on whether you're installing as a normal user or as root:
 
-| Installer                             | Code lives at                  | `hermes` binary                 | Data directory                       |
-|---------------------------------------|--------------------------------|---------------------------------|--------------------------------------|
-| Per-user (normal)                     | `~/.hermes/hermes-agent/`      | `~/.local/bin/hermes` (symlink) | `~/.hermes/`                         |
-| Root-mode (`sudo curl … | sudo bash`) | `/usr/local/lib/hermes-agent/` | `/usr/local/bin/hermes`         | `/root/.hermes/` (or `$HERMES_HOME`) |
+| Installer                             | Code lives at                  | `hermes` binary                         | Data directory                       |
+|---------------------------------------|--------------------------------|-----------------------------------------|--------------------------------------|
+| pip install                           | Python site-packages           | `~/.local/bin/hermes` (console_scripts) | `~/.hermes/`                         |
+| Per-user (git installer)              | `~/.hermes/hermes-agent/`      | `~/.local/bin/hermes` (symlink)         | `~/.hermes/`                         |
+| Root-mode (`sudo curl … | sudo bash`) | `/usr/local/lib/hermes-agent/` | `/usr/local/bin/hermes`                 | `/root/.hermes/` (or `$HERMES_HOME`) |
 
 The root-mode **FHS layout** (`/usr/local/lib/…`, `/usr/local/bin/hermes`) matches where other system-wide developer tools land on Linux. It's useful for shared-machine deployments where one system install should serve every user. Per-user config (auth, skills, sessions) still lives under each user's `~/.hermes/` or explicit `HERMES_HOME`.
 
@@ -125,7 +128,9 @@ hermes setup          # Or run the full setup wizard to configure everything at 
 
 ## Prerequisites<a href="#prerequisites" class="hash-link" aria-label="Direct link to Prerequisites" translate="no" title="Direct link to Prerequisites">​</a>
 
-The only prerequisite is **Git**. The installer automatically handles everything else:
+**pip install:** No prerequisites beyond Python 3.11+. Everything else is handled automatically.
+
+**Git installer:** The only prerequisite is **Git**. The installer automatically handles everything else:
 
 - **uv** (fast Python package manager)
 - **Python 3.11** (via uv, no sudo needed)
@@ -234,7 +239,7 @@ For more diagnostics, run `hermes doctor` — it will tell you exactly what's mi
 
 
 - <a href="#quick-install" class="table-of-contents__link toc-highlight">Quick Install</a>
-  - <a href="#linux--macos--wsl2" class="table-of-contents__link toc-highlight">Linux / macOS / WSL2</a>
+  - <a href="#one-line-installer-linux--macos--wsl2" class="table-of-contents__link toc-highlight">One-Line Installer (Linux / macOS / WSL2)</a>
   - <a href="#windows-native-powershell--early-beta" class="table-of-contents__link toc-highlight">Windows (native, PowerShell) — Early Beta</a>
   - <a href="#android--termux" class="table-of-contents__link toc-highlight">Android / Termux</a>
   - <a href="#what-the-installer-does" class="table-of-contents__link toc-highlight">What the Installer Does</a>

@@ -81,7 +81,7 @@ It's not a coding copilot tethered to an IDE or a chatbot wrapper around a singl
 Machine-readable entry points to this documentation:
 
 - **<a href="/docs/zh-Hans/assets/files/llms-bcf65f79b33e57e6c0cce5b9627945d4.txt" target="_blank"><code>/llms.txt</code></a>** — curated index of every doc page with short descriptions. ~17 KB, safe to load into an LLM context.
-- **<a href="/docs/zh-Hans/assets/files/llms-full-aa07c31a863408f1ed500107eed1a29b.txt" target="_blank"><code>/llms-full.txt</code></a>** — every doc page concatenated into a single markdown file for one-shot ingestion. ~1.8 MB.
+- **<a href="/docs/zh-Hans/assets/files/llms-full-bab654a7749469685f2837d994ab04e9.txt" target="_blank"><code>/llms-full.txt</code></a>** — every doc page concatenated into a single markdown file for one-shot ingestion. ~1.8 MB.
 
 Both files also resolve at `/docs/llms.txt` and `/docs/llms-full.txt`. Generated fresh on every deploy.
 

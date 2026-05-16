@@ -49,7 +49,18 @@ Pick the row that matches your goal:
 
 ## 1. Install Hermes Agent<a href="#1-install-hermes-agent" class="hash-link" aria-label="Direct link to 1. Install Hermes Agent" translate="no" title="Direct link to 1. Install Hermes Agent">​</a>
 
-Run the one-line installer:
+**Option A — pip (simplest):**
+
+
+``` prism-code
+pip install hermes-agent
+hermes postinstall     # optional: installs Node.js, browser, ripgrep, ffmpeg + runs setup
+```
+
+
+PyPI releases track tagged versions (major/minor releases), not every commit on `main`. For bleeding-edge, use Option B.
+
+**Option B — git installer (tracks main branch):**
 
 
 ``` prism-code
