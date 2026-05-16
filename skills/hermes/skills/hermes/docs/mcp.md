@@ -114,17 +114,18 @@ Hermes reads MCP config from `~/.hermes/config.yaml` under `mcp_servers`.
 
 ### Common keys<a href="#common-keys" class="hash-link" aria-label="Direct link to Common keys" translate="no" title="Direct link to Common keys">​</a>
 
-| Key               | Type    | Meaning                                          |
-|-------------------|---------|--------------------------------------------------|
-| `command`         | string  | Executable for a stdio MCP server                |
-| `args`            | list    | Arguments for the stdio server                   |
-| `env`             | mapping | Environment variables passed to the stdio server |
-| `url`             | string  | HTTP MCP endpoint                                |
-| `headers`         | mapping | HTTP headers for remote servers                  |
-| `timeout`         | number  | Tool call timeout                                |
-| `connect_timeout` | number  | Initial connection timeout                       |
-| `enabled`         | bool    | If `false`, Hermes skips the server entirely     |
-| `tools`           | mapping | Per-server tool filtering and utility policy     |
+| Key                            | Type    | Meaning                                                |
+|--------------------------------|---------|--------------------------------------------------------|
+| `command`                      | string  | Executable for a stdio MCP server                      |
+| `args`                         | list    | Arguments for the stdio server                         |
+| `env`                          | mapping | Environment variables passed to the stdio server       |
+| `url`                          | string  | HTTP MCP endpoint                                      |
+| `headers`                      | mapping | HTTP headers for remote servers                        |
+| `timeout`                      | number  | Tool call timeout                                      |
+| `connect_timeout`              | number  | Initial connection timeout                             |
+| `enabled`                      | bool    | If `false`, Hermes skips the server entirely           |
+| `supports_parallel_tool_calls` | bool    | If `true`, tools from this server may run concurrently |
+| `tools`                        | mapping | Per-server tool filtering and utility policy           |
 
 ### Minimal stdio example<a href="#minimal-stdio-example" class="hash-link" aria-label="Direct link to Minimal stdio example" translate="no" title="Direct link to Minimal stdio example">​</a>
 
@@ -469,6 +470,25 @@ Because Hermes now only registers those wrappers when both are true:
 
 This is intentional and keeps the tool list honest.
 
+## Parallel Tool Calls<a href="#parallel-tool-calls" class="hash-link" aria-label="Direct link to Parallel Tool Calls" translate="no" title="Direct link to Parallel Tool Calls">​</a>
+
+By default, MCP tools run sequentially — one at a time. If your MCP server exposes tools that are safe to run concurrently (e.g. read-only queries, independent API calls), you can opt-in to parallel execution:
+
+
+``` prism-code
+mcp_servers:
+  docs:
+    command: "docs-server"
+    supports_parallel_tool_calls: true
+```
+
+
+When `supports_parallel_tool_calls` is `true`, Hermes may execute multiple tools from that server at the same time within a single tool-call batch, just like it does for built-in read-only tools (web_search, read_file, etc.).
+
+
+Only enable parallel calls for MCP servers whose tools are safe to run at the same time. If tools read and write shared state, files, databases, or external resources, review the read/write race conditions before enabling this setting.
+
+
 ## MCP Sampling Support<a href="#mcp-sampling-support" class="hash-link" aria-label="Direct link to MCP Sampling Support" translate="no" title="Direct link to MCP Sampling Support">​</a>
 
 MCP servers can request LLM inference from Hermes via the `sampling/createMessage` protocol. This allows an MCP server to ask Hermes to generate text on its behalf — useful for servers that need LLM capabilities but don't have their own model access.
@@ -659,6 +679,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#mcp-server-not-connecting" class="table-of-contents__link toc-highlight">MCP server not connecting</a>
   - <a href="#tools-not-appearing" class="table-of-contents__link toc-highlight">Tools not appearing</a>
   - <a href="#why-didnt-resource-or-prompt-utilities-appear" class="table-of-contents__link toc-highlight">Why didn't resource or prompt utilities appear?</a>
+- <a href="#parallel-tool-calls" class="table-of-contents__link toc-highlight">Parallel Tool Calls</a>
 - <a href="#mcp-sampling-support" class="table-of-contents__link toc-highlight">MCP Sampling Support</a>
 - <a href="#running-hermes-as-an-mcp-server" class="table-of-contents__link toc-highlight">Running Hermes as an MCP server</a>
   - <a href="#when-to-use-this" class="table-of-contents__link toc-highlight">When to use this</a>
