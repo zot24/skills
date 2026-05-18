@@ -178,9 +178,22 @@ hermes pairing revoke telegram 123456789  # Remove access
 
 Pairing codes expire after 1 hour, are rate-limited, and use cryptographic randomness.
 
-### Slash Command Access Control<a href="#slash-command-access-control" class="hash-link" aria-label="Direct link to Slash Command Access Control" translate="no" title="Direct link to Slash Command Access Control">​</a>
+### Admins vs Regular Users<a href="#admins-vs-regular-users" class="hash-link" aria-label="Direct link to Admins vs Regular Users" translate="no" title="Direct link to Admins vs Regular Users">​</a>
 
-Once users are allowed in, you can split them into **admins** (full slash command access) and **regular users** (only the slash commands you explicitly enable). This applies per platform and per scope (DM vs group/channel) and works through the live command registry, so it covers built-in AND plugin-registered slash commands without per-feature wiring.
+Allowlists answer "can this person reach the bot at all?" The **admin / user split** answers "now that they're in, what are they allowed to do?"
+
+Every allowed user falls into one of two tiers per scope (DM vs group/channel):
+
+- **Admin** — full access. Can run every registered slash command (built-in + plugin) and use every gated capability.
+- **Regular user** — restricted access. Can chat with the agent normally, but can only run the slash commands you explicitly enable. The always-allowed floor is `/help` and `/whoami`.
+
+The tiers are configured per platform and per scope. DM admin status does not imply group/channel admin status — each scope has its own admin list.
+
+**What the tiers gate today:** slash commands. The split runs through the live command registry, so it covers built-ins and plugin-registered commands without per-feature wiring. Plain chat is not affected — non-admins can still talk to the agent.
+
+**What may be gated in the future:** more capability surfaces (tool access, model switching, expensive operations) will hang off the same admin / user distinction as we add them. Configuring the split now means those future restrictions land cleanly without you having to re-model who's an admin.
+
+#### Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" translate="no" title="Direct link to Configuration">​</a>
 
 
 ``` prism-code
@@ -197,13 +210,9 @@ gateway:
 ```
 
 
-Behavior:
+**Backward compat:** if `allow_admin_from` is not set for a scope, the tier split is disabled for that scope and every allowed user has full access. Existing installs keep working with no changes — opt in when you want the distinction.
 
-- A user in `allow_admin_from` for a scope can run **every** registered slash command.
-- A user in `allow_from` but not in `allow_admin_from` can only run commands in `user_allowed_commands`, plus the always-allowed floor: `/help` and `/whoami`.
-- Plain chat is unaffected. Non-admins can still talk to the agent normally; they just can't trigger arbitrary commands.
-- **Backward compat:** if `allow_admin_from` is not set for a scope, slash gating is disabled for that scope. Existing installs keep working with no changes.
-- DM admin status does not imply group/channel admin status. Each scope has its own admin list.
+#### Inspecting your access<a href="#inspecting-your-access" class="hash-link" aria-label="Direct link to Inspecting your access" translate="no" title="Direct link to Inspecting your access">​</a>
 
 Use `/whoami` from any platform to see the active scope, your tier (admin / user / unrestricted), and which slash commands you can run. See the [Telegram](/docs/user-guide/messaging/telegram#slash-command-access-control) and [Discord](/docs/user-guide/messaging/discord#slash-command-access-control) pages for platform-specific examples.
 
@@ -446,7 +455,7 @@ Each platform has its own toolset:
   - <a href="#reset-policies" class="table-of-contents__link toc-highlight">Reset Policies</a>
 - <a href="#security" class="table-of-contents__link toc-highlight">Security</a>
   - <a href="#dm-pairing-alternative-to-allowlists" class="table-of-contents__link toc-highlight">DM Pairing (Alternative to Allowlists)</a>
-  - <a href="#slash-command-access-control" class="table-of-contents__link toc-highlight">Slash Command Access Control</a>
+  - <a href="#admins-vs-regular-users" class="table-of-contents__link toc-highlight">Admins vs Regular Users</a>
 - <a href="#interrupting-the-agent" class="table-of-contents__link toc-highlight">Interrupting the Agent</a>
   - <a href="#queue-vs-interrupt-vs-steer-busy-input-mode" class="table-of-contents__link toc-highlight">Queue vs interrupt vs steer (busy-input mode)</a>
 - <a href="#tool-progress-notifications" class="table-of-contents__link toc-highlight">Tool Progress Notifications</a>
