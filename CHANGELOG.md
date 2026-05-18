@@ -3,6 +3,36 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-05-18] Documentation Sync
+
+**Updated skills:** hermes firecrawl adguard
+
+
+### hermes
+Updated: installation.md
+Updated: quickstart.md
+Updated: learning-path.md
+Updated: cli.md
+Updated: configuration.md
+
+### firecrawl
+Updated: readme-upstream.md
+Updated: quickstart.md
+Updated: scrape.md
+Updated: search.md
+Updated: crawl.md
+
+### adguard
+Updated: getting-started.md
+Updated: configuration.md
+Updated: docker.md
+Updated: encryption.md
+Updated: dhcp.md
+
+---
+
+
+
 ## [2026-05-15] Documentation Sync
 
 **Updated skills:** agent-browser chat-sdk ai-sdk hermes honcho firecrawl adguard glinet umami
