@@ -23,29 +23,24 @@ Firecrawl automatically selects the best proxy based on your specified or detect
 | BR           | Brazil               | Yes                 | No                     |
 | CA           | Canada               | Yes                 | No                     |
 | CN           | China                | Yes                 | No                     |
-| CZ           | Czechia              | Yes                 | No                     |
 | DE           | Germany              | Yes                 | No                     |
-| DK           | Denmark              | Yes                 | Yes                    |
+| DK           | Denmark              | Yes                 | No                     |
 | EE           | Estonia              | Yes                 | No                     |
 | EG           | Egypt                | Yes                 | No                     |
 | ES           | Spain                | Yes                 | No                     |
 | FR           | France               | Yes                 | No                     |
 | GB           | United Kingdom       | Yes                 | No                     |
 | GR           | Greece               | Yes                 | No                     |
-| HU           | Hungary              | Yes                 | No                     |
-| ID           | Indonesia            | Yes                 | No                     |
 | IL           | Israel               | Yes                 | No                     |
 | IN           | India                | Yes                 | No                     |
 | IT           | Italy                | Yes                 | No                     |
 | JP           | Japan                | Yes                 | No                     |
 | MY           | Malaysia             | Yes                 | No                     |
-| NO           | Norway               | Yes                 | No                     |
-| PL           | Poland               | Yes                 | No                     |
+| NL           | Netherlands          | Yes                 | Yes                    |
 | PT           | Portugal             | Yes                 | No                     |
 | QA           | Qatar                | Yes                 | No                     |
-| SG           | Singapore            | Yes                 | No                     |
+| TR           | Turkey               | Yes                 | No                     |
 | US           | United States        | Yes                 | Yes                    |
-| VN           | Vietnam              | Yes                 | No                     |
 
 The list of supported proxy locations will change over time.
 
@@ -55,7 +50,7 @@ If you do not specify a proxy or location, Firecrawl will automatically use US p
 
 ## How to Specify Proxy Location
 
-You can request a specific proxy location by setting the `location.country` parameter in your request. For example, to use a Brazilian proxy, set `location.country` to `BR`.
+You can request a specific proxy location by setting the `location.country` parameter in your request. For example, to use a German proxy, set `location.country` to `DE`.
 
 For full details, see the [API reference for `location.country`](https://docs.firecrawl.dev/api-reference/endpoint/scrape#body-location).
 
@@ -102,6 +97,8 @@ For full details, see the [API reference for `location.country`](https://docs.fi
 </CodeGroup>
 
 If you request a country where a proxy is not available, Firecrawl will use the closest available region (EU or US) and set the browser location to your requested country.
+
+We highly recommend leaving `location` unspecified unless you are sure you need it.
 
 ## Proxy Types
 

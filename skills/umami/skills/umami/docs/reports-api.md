@@ -172,7 +172,7 @@ Creates a report.
 <figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
 <pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;name&quot;: &quot;Triggered Login-button &quot;,
+  &quot;name&quot;: &quot;Triggered Login-button&quot;,
   &quot;parameters&quot;: { &quot;type&quot;: &quot;event&quot;, &quot;value&quot;: &quot;login-button-header&quot; },
   &quot;type&quot;: &quot;goal&quot;,
   &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
@@ -188,7 +188,7 @@ Creates a report.
   &quot;userId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
   &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
   &quot;type&quot;: &quot;goal&quot;,
-  &quot;name&quot;: &quot;Triggered Login-button &quot;,
+  &quot;name&quot;: &quot;Triggered Login-button&quot;,
   &quot;description&quot;: &quot;&quot;,
   &quot;parameters&quot;: {
     &quot;type&quot;: &quot;event&quot;,
@@ -214,7 +214,7 @@ Gets a report by ID.
   &quot;userId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
   &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
   &quot;type&quot;: &quot;goal&quot;,
-  &quot;name&quot;: &quot;Triggered Login-button &quot;,
+  &quot;name&quot;: &quot;Triggered Login-button&quot;,
   &quot;description&quot;: &quot;&quot;,
   &quot;parameters&quot;: {
     &quot;type&quot;: &quot;event&quot;,
@@ -248,7 +248,7 @@ Updates a report.
 <figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
 <pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;name&quot;: &quot;Triggered Login-button &quot;,
+  &quot;name&quot;: &quot;Triggered Login-button&quot;,
   &quot;parameters&quot;: { &quot;type&quot;: &quot;event&quot;, &quot;value&quot;: &quot;login-button-header&quot; },
   &quot;type&quot;: &quot;goal&quot;,
   &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
@@ -264,7 +264,7 @@ Updates a report.
   &quot;userId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
   &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
   &quot;type&quot;: &quot;goal&quot;,
-  &quot;name&quot;: &quot;Triggered Login-button &quot;,
+  &quot;name&quot;: &quot;Triggered Login-button&quot;,
   &quot;description&quot;: &quot;&quot;,
   &quot;parameters&quot;: {
     &quot;type&quot;: &quot;event&quot;,
@@ -299,16 +299,16 @@ See how users engage with your marketing and what drives conversions.
 **Parameters**
 
 
-| Parameter   | Type   | Description                                      |
-|-------------|--------|--------------------------------------------------|
-| `websiteId` | string | Your website id.                                 |
-| `type`      | string | Report type (`attribution`).                     |
-| `filters`   | object | Can accept filter parameters.                    |
-| `startDate` | string | Start date.                                      |
-| `endDate`   | string | End date.                                        |
-| `model`     | string | Attribution model (`firstClick` \| `lastClick`). |
-| `type`      | string | Conversion type (`path` \| `event`).             |
-| `step`      | string | Conversion step.                                 |
+| Parameter   | Type   | Description                                        |
+|-------------|--------|----------------------------------------------------|
+| `websiteId` | string | Your website id.                                   |
+| `type`      | string | Report type (`attribution`).                       |
+| `filters`   | object | Can accept filter parameters.                      |
+| `startDate` | string | Start date.                                        |
+| `endDate`   | string | End date.                                          |
+| `model`     | string | Attribution model (`first-click` \| `last-click`). |
+| `type`      | string | Conversion type (`path` \| `event`).               |
+| `step`      | string | Conversion step.                                   |
 
 
 **Request body**
@@ -785,7 +785,7 @@ Get Core Web Vitals performance metrics for a given date range.
             &quot;p75&quot;: 1408,
             &quot;p95&quot;: 1408,
             &quot;count&quot;: 1
-        },
+        }
     ],
     &quot;pageTitles&quot;: [
         {

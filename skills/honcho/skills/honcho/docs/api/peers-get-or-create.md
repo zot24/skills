@@ -26,10 +26,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  license:
-    name: GNU Affero General Public License v3.0
-    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.0.3
+  version: 3.0.7
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -80,14 +77,13 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
       security:
         - HTTPBearer: []
-        - {}
 components:
   schemas:
     PeerCreate:
       properties:
         id:
           type: string
-          maxLength: 100
+          maxLength: 512
           minLength: 1
           pattern: ^[a-zA-Z0-9_-]+$
           title: Id

@@ -58,8 +58,8 @@ For example, with `curl` it would look like this:
 
 <figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>curl https://{yourserver}/api/websites
-   -H &quot;Accept: application/json&quot;
+<pre class="min-w-full w-max *:flex *:flex-col"><code>curl https://{yourserver}/api/websites \
+   -H &quot;Accept: application/json&quot; \
    -H &quot;Authorization: Bearer &lt;token&gt;&quot;</code></pre>
 </figure>
 

@@ -10,7 +10,7 @@
 
 Build a complete AI-powered research assistant that can scrape websites and search the web to answer questions. The assistant automatically decides when to use web scraping or search tools to gather information, then provides comprehensive answers based on collected data.
 
-<img src="https://mintcdn.com/firecrawl/GKat0bF5SiRAHSEa/images/guides/cookbooks/ai-sdk-cookbook/firecrawl-ai-sdk-chatbot.gif?s=cfcbad69aa3f087a474414c0763a260b" alt="AI research assistant chatbot interface showing real-time web scraping with Firecrawl and conversational responses powered by OpenAI" width="1044" height="716" data-path="images/guides/cookbooks/ai-sdk-cookbook/firecrawl-ai-sdk-chatbot.gif" />
+<video autoPlay muted loop playsInline src="https://mintcdn.com/firecrawl/2R2EKZFeF2zvZsk6/images/guides/cookbooks/ai-sdk-cookbook/firecrawl-ai-sdk-chatbot.mp4?fit=max&auto=format&n=2R2EKZFeF2zvZsk6&q=85&s=c4808ae7711fd41c18cfbbfba9ef1692" aria-label="AI research assistant chatbot interface showing real-time web scraping with Firecrawl and conversational responses powered by OpenAI" data-path="images/guides/cookbooks/ai-sdk-cookbook/firecrawl-ai-sdk-chatbot.mp4" />
 
 ## What You'll Build
 
@@ -80,7 +80,7 @@ An AI chat interface where users can ask questions about any topic. The AI assis
     Create the main page at `app/page.tsx` and copy the code from the Code tab below. This will be the chat interface where users interact with the AI assistant.
 
 
-        <img src="https://mintcdn.com/firecrawl/GKat0bF5SiRAHSEa/images/guides/cookbooks/ai-sdk-cookbook/firecrawl-ai-sdk-chatbot.gif?s=cfcbad69aa3f087a474414c0763a260b" alt="AI research assistant chatbot interface showing real-time web scraping with Firecrawl and conversational responses powered by OpenAI" width="1044" height="716" data-path="images/guides/cookbooks/ai-sdk-cookbook/firecrawl-ai-sdk-chatbot.gif" />
+        <video autoPlay muted loop playsInline src="https://mintcdn.com/firecrawl/2R2EKZFeF2zvZsk6/images/guides/cookbooks/ai-sdk-cookbook/firecrawl-ai-sdk-chatbot.mp4?fit=max&auto=format&n=2R2EKZFeF2zvZsk6&q=85&s=c4808ae7711fd41c18cfbbfba9ef1692" aria-label="AI research assistant chatbot interface showing real-time web scraping with Firecrawl and conversational responses powered by OpenAI" data-path="images/guides/cookbooks/ai-sdk-cookbook/firecrawl-ai-sdk-chatbot.mp4" />
 
 
         ```typescript app/page.tsx
@@ -453,7 +453,7 @@ An AI chat interface where users can ask questions about any topic. The AI assis
 
     Open [localhost:3000](http://localhost:3000) in your browser and test the basic chat functionality. The assistant should respond to messages, but won't have web scraping or search capabilities yet.
 
-    <img src="https://mintcdn.com/firecrawl/GKat0bF5SiRAHSEa/images/guides/cookbooks/ai-sdk-cookbook/simple-ai-sdk-chatbot.gif?s=dd40938ec93fd0ad13568d2825d7552d" alt="Basic AI chatbot without web scraping capabilities" width="1192" height="720" data-path="images/guides/cookbooks/ai-sdk-cookbook/simple-ai-sdk-chatbot.gif" />
+    <video autoPlay muted loop playsInline src="https://mintcdn.com/firecrawl/2R2EKZFeF2zvZsk6/images/guides/cookbooks/ai-sdk-cookbook/simple-ai-sdk-chatbot.mp4?fit=max&auto=format&n=2R2EKZFeF2zvZsk6&q=85&s=9adcf51535b3c4ada93d6b850c532010" aria-label="Basic AI chatbot without web scraping capabilities" data-path="images/guides/cookbooks/ai-sdk-cookbook/simple-ai-sdk-chatbot.mp4" />
 
 
     Now let's enhance the assistant with web scraping and search capabilities using Firecrawl.
@@ -625,7 +625,7 @@ An AI chat interface where users can ask questions about any topic. The AI assis
     npm run dev
     ```
 
-    <img src="https://mintcdn.com/firecrawl/GKat0bF5SiRAHSEa/images/guides/cookbooks/ai-sdk-cookbook/active-firecrawl-tools-ai-sdk.gif?s=015de571c2352a0cf6eb70ddb2eaec64" alt="AI chatbot with active Firecrawl tools" width="1084" height="720" data-path="images/guides/cookbooks/ai-sdk-cookbook/active-firecrawl-tools-ai-sdk.gif" />
+    <video autoPlay muted loop playsInline src="https://mintcdn.com/firecrawl/2R2EKZFeF2zvZsk6/images/guides/cookbooks/ai-sdk-cookbook/active-firecrawl-tools-ai-sdk.mp4?fit=max&auto=format&n=2R2EKZFeF2zvZsk6&q=85&s=86246b0e745ffcd4ca84aa9f6261b041" aria-label="AI chatbot with active Firecrawl tools" data-path="images/guides/cookbooks/ai-sdk-cookbook/active-firecrawl-tools-ai-sdk.mp4" />
 
     Open [localhost:3000](http://localhost:3000) and test the enhanced assistant:
 

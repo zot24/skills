@@ -1,6 +1,6 @@
 {
   "name": "chat-sdk",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Chat SDK - Vercel's open-source AI chatbot template",
   "sources": [
     {

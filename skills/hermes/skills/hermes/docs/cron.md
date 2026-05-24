@@ -139,6 +139,38 @@ When `workdir` is set:
 Jobs with a `workdir` run sequentially on the scheduler tick, not in the parallel pool. This is deliberate — `TERMINAL_CWD` is process-global, so two workdir jobs running at the same time would corrupt each other's cwd. Workdir-less jobs still run in parallel as before.
 
 
+## Running cron jobs in a specific profile<a href="#running-cron-jobs-in-a-specific-profile" class="hash-link" aria-label="Direct link to Running cron jobs in a specific profile" translate="no" title="Direct link to Running cron jobs in a specific profile">​</a>
+
+By default a cron job inherits whichever Hermes profile owned the gateway / CLI that created it. Pass `--profile <name>` (CLI) or `profile=` (cronjob tool) to re-target the job at a different profile — the scheduler resolves that profile's `HERMES_HOME`, temporarily switches into it for the duration of the run, loads its `.env` + `config.yaml`, and executes the job there:
+
+
+``` prism-code
+# Pin a job to the `night-ops` profile regardless of where it was scheduled
+hermes cron create "every 1d at 03:00" \
+  "Tail the security log and flag anomalies" \
+  --profile night-ops
+```
+
+
+``` prism-code
+# From a chat, via the cronjob tool
+cronjob(
+    action="create",
+    schedule="every 1d at 03:00",
+    prompt="Tail the security log and flag anomalies",
+    profile="night-ops",
+)
+```
+
+
+Use `--profile default` to explicitly pin to the root Hermes profile. The named profile must already exist; the scheduler refuses to create profiles on the fly. To clear a profile pin during `cron edit`, pass an empty string (`--profile ""` or `profile=""`) — the job reverts to running in whatever profile the scheduler itself is in.
+
+If the pinned profile is later deleted, the scheduler logs a warning and falls back to running the job in its current profile rather than crashing — so a stale `profile` reference never wedges a job.
+
+
+Jobs with a `profile` set also run sequentially, for the same reason as `workdir`-pinned jobs: switching `HERMES_HOME` is a process-global mutation, so two profile-pinned jobs running in parallel would race each other. Unpinned jobs still run in the normal parallel pool.
+
+
 ## Editing jobs<a href="#editing-jobs" class="hash-link" aria-label="Direct link to Editing jobs" translate="no" title="Direct link to Editing jobs">​</a>
 
 You do not need to delete and recreate jobs just to change them.
@@ -285,6 +317,17 @@ The agent's final response is automatically delivered. You do not need to call `
 Semantics: `all` expands to every platform with a configured home channel. Zero is fine; the job simply produces no delivery targets and is recorded as a delivery failure upstream.
 
 `all` composes with explicit targets. `origin,all` delivers to the origin chat *plus* every other connected home channel, de-duplicating by `(platform, chat_id, thread_id)`.
+
+### Telegram cron topic (`TELEGRAM_CRON_THREAD_ID`)<a href="#telegram-cron-topic-telegram_cron_thread_id" class="hash-link" aria-label="Direct link to telegram-cron-topic-telegram_cron_thread_id" translate="no" title="Direct link to telegram-cron-topic-telegram_cron_thread_id">​</a>
+
+When Telegram topic mode is enabled, the root DM is reserved as a system lobby — replies sent there are rebuffed with a lobby reminder and `reply_to_message_id` is dropped, so you cannot reply to a cron message that landed in the main chat.
+
+Point cron at a dedicated forum topic instead:
+
+1.  In Telegram, open the bot DM and create a topic named e.g. `Cron`. Long-press the topic header → **Copy link**; the trailing integer is the topic's `message_thread_id`.
+2.  Set `TELEGRAM_CRON_THREAD_ID=<that id>` in your `.env`.
+
+This applies only to cron deliveries. `TELEGRAM_HOME_CHANNEL_THREAD_ID` (used elsewhere, e.g. restart notifications) is unchanged. Explicit `deliver="telegram:chat_id:thread_id"` targets continue to win over the env var. Replies to cron messages now arrive in the existing topic session, so you can act on them directly.
 
 ### Response wrapping<a href="#response-wrapping" class="hash-link" aria-label="Direct link to Response wrapping" translate="no" title="Direct link to Response wrapping">​</a>
 
@@ -726,6 +769,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#single-skill" class="table-of-contents__link toc-highlight">Single skill</a>
   - <a href="#multiple-skills" class="table-of-contents__link toc-highlight">Multiple skills</a>
 - <a href="#running-a-job-inside-a-project-directory" class="table-of-contents__link toc-highlight">Running a job inside a project directory</a>
+- <a href="#running-cron-jobs-in-a-specific-profile" class="table-of-contents__link toc-highlight">Running cron jobs in a specific profile</a>
 - <a href="#editing-jobs" class="table-of-contents__link toc-highlight">Editing jobs</a>
   - <a href="#chat" class="table-of-contents__link toc-highlight">Chat</a>
   - <a href="#standalone-cli" class="table-of-contents__link toc-highlight">Standalone CLI</a>
@@ -736,6 +780,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#gateway-scheduler-behavior" class="table-of-contents__link toc-highlight">Gateway scheduler behavior</a>
 - <a href="#delivery-options" class="table-of-contents__link toc-highlight">Delivery options</a>
   - <a href="#routing-intent-all" class="table-of-contents__link toc-highlight">Routing intent (<code>all</code>)</a>
+  - <a href="#telegram-cron-topic-telegram_cron_thread_id" class="table-of-contents__link toc-highlight">Telegram cron topic (<code>TELEGRAM_CRON_THREAD_ID</code>)</a>
   - <a href="#response-wrapping" class="table-of-contents__link toc-highlight">Response wrapping</a>
   - <a href="#silent-suppression" class="table-of-contents__link toc-highlight">Silent suppression</a>
 - <a href="#script-timeout" class="table-of-contents__link toc-highlight">Script timeout</a>

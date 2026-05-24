@@ -110,12 +110,12 @@ getUserUsage(id, data) ⇒ GET /users/{id}/usage</code></pre>
 createTeam(data) ⇒ POST /teams
 joinTeam(data) ⇒ POST /teams/join
 getTeam(id) ⇒ GET /teams/{id}
-updateTeam(id) ⇒ POST /teams/{id}
+updateTeam(id, data) ⇒ POST /teams/{id}
 deleteTeam(id) ⇒ DEL /teams/{id}
 getTeamUsers(id) ⇒ GET /teams/{id}/users
-deleteTeamUser(teamId, userId): DEL /teams/{teamId}/users/{userId}
+deleteTeamUser(teamId, userId) ⇒ DEL /teams/{teamId}/users/{userId}
 getTeamWebsites(id) ⇒ GET /teams/{id}/websites
-createTeamWebsites(id, data) ⇒ GET /teams/{id}/websites
+createTeamWebsites(id, data) ⇒ POST /teams/{id}/websites
 deleteTeamWebsite(teamId, websiteId) ⇒ DEL /teams/{teamId}/websites/{websiteId}</code></pre>
 </figure>
 
@@ -132,7 +132,7 @@ getWebsiteActive(id) ⇒ GET /websites/{id}/active
 getWebsiteEvents(id, data) ⇒ GET /websites/{id}/events
 getWebsiteMetrics(id, data) ⇒ GET /websites/{id}/metrics
 getWebsitePageviews(id, data) ⇒ GET /websites/{id}/pageviews
-resetWebsite(id) ⇒ GET /websites/{id}/reset
+resetWebsite(id) ⇒ POST /websites/{id}/reset
 getWebsiteStats(id, data) ⇒ GET /websites/{id}/stats</code></pre>
 </figure>
 

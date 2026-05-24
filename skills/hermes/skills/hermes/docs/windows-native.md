@@ -28,7 +28,7 @@ Open **PowerShell** (or Windows Terminal) and run:
 
 
 ``` prism-code
-irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1 | iex
+iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1)
 ```
 
 
@@ -45,10 +45,34 @@ No admin rights required. The installer goes to `%LOCALAPPDATA%\hermes\` and add
 | Parameter     | Default                              | Purpose                                                    |
 |---------------|--------------------------------------|------------------------------------------------------------|
 | `-Branch`     | `main`                               | Clone a specific branch (useful for testing PRs)           |
+| `-Commit`     | unset                                | Pin install to a specific commit SHA (overrides `-Branch`) |
+| `-Tag`        | unset                                | Pin install to a specific git tag (e.g. `v0.14.0`)         |
 | `-NoVenv`     | off                                  | Skip venv creation (advanced — you manage Python yourself) |
 | `-SkipSetup`  | off                                  | Skip the post-install `hermes setup` wizard                |
 | `-HermesHome` | `%LOCALAPPDATA%\hermes`              | Override data directory                                    |
 | `-InstallDir` | `%LOCALAPPDATA%\hermes\hermes-agent` | Override code location                                     |
+
+The installer auto-retries flaky git fetches and strips BOM from any downloaded `install.ps1` payload, so a UTF-8 BOM picked up during HTTP transit no longer breaks the `[scriptblock]::Create((irm ...))` form.
+
+### Desktop installer (alternative)<a href="#desktop-installer-alternative" class="hash-link" aria-label="Direct link to Desktop installer (alternative)" translate="no" title="Direct link to Desktop installer (alternative)">​</a>
+
+A thin GUI installer is also available — useful if you'd rather double-click an `.exe` than open PowerShell. Download Hermes Desktop, run the installer, and on first launch the GUI calls `install.ps1` under the hood to provision Python (via `uv`), Node, PortableGit, and the rest of the dependency bootstrap described below. After the first run, the desktop app and the PowerShell-installed `hermes` CLI share the same `%LOCALAPPDATA%\hermes\hermes-agent` install and `%USERPROFILE%\.hermes` data directory — switch between the GUI and the CLI freely.
+
+Use the desktop installer when you want a familiar Windows install experience or you're handing Hermes to a non-developer; use the PowerShell one-liner when you're already in a terminal.
+
+### Dependency bootstrap (`dep_ensure`)<a href="#dependency-bootstrap-dep_ensure" class="hash-link" aria-label="Direct link to dependency-bootstrap-dep_ensure" translate="no" title="Direct link to dependency-bootstrap-dep_ensure">​</a>
+
+On first launch (and on demand when a missing tool is detected), Hermes runs a small Python bootstrapper — `hermes_cli/dep_ensure.py` — that checks for and lazily installs the non-Python dependencies it needs. On Windows, the relevant ones are:
+
+| Dependency       | Why Hermes needs it                                                                                                          |
+|------------------|------------------------------------------------------------------------------------------------------------------------------|
+| **PortableGit**  | Provides `bash.exe` for the terminal tool and `git` for in-session clones. Provisioned at install time, not by `dep_ensure`. |
+| **Node.js 22**   | Required for the browser tool (`agent-browser`), the TUI's web bridge, and the WhatsApp bridge.                              |
+| **ffmpeg**       | Audio format conversion for TTS / voice messages.                                                                            |
+| **ripgrep**      | Fast file search — falls back to `grep` if unavailable.                                                                      |
+| **npm packages** | `agent-browser`, Playwright Chromium, and any per-toolset Node deps are installed once at first browser-tool use.            |
+
+Each dep has a `shutil.which(...)`-style check; if a binary is missing and the run is interactive, `dep_ensure` offers to install it (deferring to `scripts\install.ps1 -ensure <dep>` for the actual install logic). Non-interactive runs (gateway, cron, headless desktop launches) skip the prompt and surface a clear `this feature needs <dep>` error instead.
 
 ## What the installer actually does<a href="#what-the-installer-actually-does" class="hash-link" aria-label="Direct link to What the installer actually does" translate="no" title="Direct link to What the installer actually does">​</a>
 
@@ -64,6 +88,10 @@ Top-to-bottom, in order:
 8.  **Sets `HERMES_GIT_BASH_PATH`** to the resolved `bash.exe` so Hermes finds it deterministically in fresh shells.
 9.  **Adds `%LOCALAPPDATA%\hermes\bin` to User PATH** — exposes the `hermes` command after you open a new terminal.
 10. **Runs `hermes setup`** — the normal first-run wizard (model, provider, toolsets). Skip with `-SkipSetup`.
+
+
+Native Windows is still early beta, and per-tool API key setup (Firecrawl, FAL, Browser Use, OpenAI TTS) is the highest-friction part of getting a useful agent. A [Nous Portal](/docs/user-guide/features/tool-gateway) subscription covers the model **and** all of those tools through one OAuth login. After the installer finishes, run `hermes setup --portal` to wire everything up.
+
 
 ## Feature matrix<a href="#feature-matrix" class="hash-link" aria-label="Direct link to Feature matrix" translate="no" title="Direct link to Feature matrix">​</a>
 
@@ -313,6 +341,8 @@ Consequence: any codepath that said "check if this PID is alive" via `os.kill(pi
 
 
 - <a href="#quick-install" class="table-of-contents__link toc-highlight">Quick install</a>
+  - <a href="#desktop-installer-alternative" class="table-of-contents__link toc-highlight">Desktop installer (alternative)</a>
+  - <a href="#dependency-bootstrap-dep_ensure" class="table-of-contents__link toc-highlight">Dependency bootstrap (<code>dep_ensure</code>)</a>
 - <a href="#what-the-installer-actually-does" class="table-of-contents__link toc-highlight">What the installer actually does</a>
 - <a href="#feature-matrix" class="table-of-contents__link toc-highlight">Feature matrix</a>
 - <a href="#how-hermes-runs-shell-commands-on-windows" class="table-of-contents__link toc-highlight">How Hermes runs shell commands on Windows</a>

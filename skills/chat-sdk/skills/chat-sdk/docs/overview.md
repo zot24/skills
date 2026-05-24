@@ -80,19 +80,20 @@ This gives your agent access to Chat SDK's documentation, patterns, and best pra
 
 The SDK is distributed as a set of packages you install based on your needs:
 
-| Package                       | Description                                                   |
-| ----------------------------- | ------------------------------------------------------------- |
-| `chat`                        | Core SDK with `Chat` class, types, JSX runtime, and utilities |
-| `@chat-adapter/slack`         | Slack adapter                                                 |
-| `@chat-adapter/teams`         | Microsoft Teams adapter                                       |
-| `@chat-adapter/gchat`         | Google Chat adapter                                           |
-| `@chat-adapter/discord`       | Discord adapter                                               |
-| `@chat-adapter/telegram`      | Telegram adapter                                              |
-| `@chat-adapter/github`        | GitHub Issues adapter                                         |
-| `@chat-adapter/linear`        | Linear Issues adapter                                         |
-| `@chat-adapter/whatsapp`      | WhatsApp Business adapter                                     |
-| `@chat-adapter/messenger`     | Facebook Messenger adapter                                    |
-| `@chat-adapter/state-redis`   | Redis state adapter (production)                              |
-| `@chat-adapter/state-ioredis` | ioredis state adapter (alternative)                           |
-| `@chat-adapter/state-pg`      | PostgreSQL state adapter (production)                         |
-| `@chat-adapter/state-memory`  | In-memory state adapter (development)                         |
+| Package                       | Description                                                                                                                                                                              |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `chat`                        | Core SDK with `Chat` class, types, JSX runtime, and utilities                                                                                                                            |
+| `chat/ai`                     | [AI utilities](/docs/ai) — [`createChatTools`](/docs/ai/ai-sdk-tools) for agent operations and [`toAiMessages`](/docs/ai/to-ai-messages) for converting chat history into AI SDK prompts |
+| `@chat-adapter/slack`         | Slack adapter                                                                                                                                                                            |
+| `@chat-adapter/teams`         | Microsoft Teams adapter                                                                                                                                                                  |
+| `@chat-adapter/gchat`         | Google Chat adapter                                                                                                                                                                      |
+| `@chat-adapter/discord`       | Discord adapter                                                                                                                                                                          |
+| `@chat-adapter/telegram`      | Telegram adapter                                                                                                                                                                         |
+| `@chat-adapter/github`        | GitHub Issues adapter                                                                                                                                                                    |
+| `@chat-adapter/linear`        | Linear Issues adapter                                                                                                                                                                    |
+| `@chat-adapter/whatsapp`      | WhatsApp Business adapter                                                                                                                                                                |
+| `@chat-adapter/messenger`     | Facebook Messenger adapter                                                                                                                                                               |
+| `@chat-adapter/state-redis`   | Redis state adapter (production)                                                                                                                                                         |
+| `@chat-adapter/state-ioredis` | ioredis state adapter (alternative)                                                                                                                                                      |
+| `@chat-adapter/state-pg`      | PostgreSQL state adapter (production)                                                                                                                                                    |
+| `@chat-adapter/state-memory`  | In-memory state adapter (development)                                                                                                                                                    |

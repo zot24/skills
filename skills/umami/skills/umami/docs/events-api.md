@@ -260,7 +260,7 @@ Gets event data for a website within a given time range, grouped by event.
 
 ## <a href="#get-apiwebsiteswebsiteidevent-dataeventid" class="peer" data-card="">GET /api/websites/:websiteId/event-data/:eventId</a>
 
-Gets event-data for a individual event
+Gets event-data for an individual event
 
 **Sample response**
 

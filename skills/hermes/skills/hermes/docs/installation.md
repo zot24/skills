@@ -35,7 +35,7 @@ Open PowerShell and run:
 
 
 ``` prism-code
-irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1 | iex
+iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1)
 ```
 
 
@@ -51,6 +51,8 @@ The installer handles **everything**: `uv`, Python 3.11, Node.js 22, `ripgrep`, 
 The installer also sets `HERMES_GIT_BASH_PATH` to the located `bash.exe` so Hermes resolves it deterministically in fresh shells.
 
 If you prefer WSL2, the Linux installer above works inside it; both native and WSL installs can coexist without conflict (native data lives under `%LOCALAPPDATA%\hermes`, WSL data lives under `~/.hermes`).
+
+**Desktop installer (alternative):** A thin GUI installer is also available — download Hermes Desktop, run the `.exe`, and on first launch it calls `install.ps1` under the hood to provision Python (via `uv`), Node, PortableGit, and the rest of the dependencies. The desktop app and the PowerShell-installed CLI share the same install and data directories, so you can use either or both. See the [Windows (Native) guide](/docs/user-guide/windows-native#desktop-installer-alternative) for details.
 
 ### Android / Termux<a href="#android--termux" class="hash-link" aria-label="Direct link to Android / Termux" translate="no" title="Direct link to Android / Termux">​</a>
 
@@ -122,6 +124,17 @@ hermes gateway setup  # Set up messaging platforms
 hermes config set     # Set individual config values
 hermes setup          # Or run the full setup wizard to configure everything at once
 ```
+
+
+One subscription covers 300+ models plus the [Tool Gateway](/docs/user-guide/features/tool-gateway) (web search, image generation, TTS, cloud browser). Skip the per-tool key juggling:
+
+
+``` prism-code
+hermes setup --portal
+```
+
+
+That logs you in, sets Nous as your provider, and turns on the Tool Gateway in one command.
 
 
 ------------------------------------------------------------------------
@@ -237,6 +250,10 @@ The same pattern works on Arch (the installer uses pacman with the same sudo-det
 
 For more diagnostics, run `hermes doctor` — it will tell you exactly what's missing and how to fix it.
 
+## Install method auto-detection<a href="#install-method-auto-detection" class="hash-link" aria-label="Direct link to Install method auto-detection" translate="no" title="Direct link to Install method auto-detection">​</a>
+
+Hermes auto-detects whether it was installed via `pip`, the git installer, Homebrew, or NixOS, and `hermes update` prints the matching update command for that path. There's no env var to set — the detection is based on the install layout (Python site-packages, `~/.hermes/hermes-agent/`, Homebrew prefix, or Nix store path). `hermes doctor` also surfaces the detected method under its environment summary.
+
 
 - <a href="#quick-install" class="table-of-contents__link toc-highlight">Quick Install</a>
   - <a href="#one-line-installer-linux--macos--wsl2" class="table-of-contents__link toc-highlight">One-Line Installer (Linux / macOS / WSL2)</a>
@@ -248,5 +265,6 @@ For more diagnostics, run `hermes doctor` — it will tell you exactly what's mi
 - <a href="#manual--developer-installation" class="table-of-contents__link toc-highlight">Manual / Developer Installation</a>
 - <a href="#non-sudo--system-service-user-installs" class="table-of-contents__link toc-highlight">Non-Sudo / System Service User Installs</a>
 - <a href="#troubleshooting" class="table-of-contents__link toc-highlight">Troubleshooting</a>
+- <a href="#install-method-auto-detection" class="table-of-contents__link toc-highlight">Install method auto-detection</a>
 
 

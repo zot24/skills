@@ -23,10 +23,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  license:
-    name: GNU Affero General Public License v3.0
-    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.0.3
+  version: 3.0.7
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -48,6 +45,15 @@ paths:
           schema:
             type: string
             title: Workspace Id
+        - name: reverse
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: Whether to reverse the order of results
+            default: false
+            title: Reverse
+          description: Whether to reverse the order of results
         - name: page
           in: query
           required: false
@@ -93,7 +99,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
       security:
         - HTTPBearer: []
-        - {}
 components:
   schemas:
     SessionGet:

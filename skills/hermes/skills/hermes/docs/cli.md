@@ -72,15 +72,18 @@ A persistent status bar sits above the input area, updating in real time:
 ```
 
 
-| Element     | Description                                                      |
-|-------------|------------------------------------------------------------------|
-| Model name  | Current model (truncated if longer than 26 chars)                |
-| Token count | Context tokens used / max context window                         |
-| Context bar | Visual fill indicator with color-coded thresholds                |
-| Cost        | Estimated session cost (or `n/a` for unknown/zero-priced models) |
-| Duration    | Elapsed session time                                             |
+| Element     | Description                                                                                                                                                                                                         |
+|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Model name  | Current model (truncated if longer than 26 chars)                                                                                                                                                                   |
+| Token count | Context tokens used / max context window                                                                                                                                                                            |
+| Context bar | Visual fill indicator with color-coded thresholds                                                                                                                                                                   |
+| Cost        | Estimated session cost (or `n/a` for unknown/zero-priced models)                                                                                                                                                    |
+| 🗜️ N        | **Context compression count** — how many times the running session has been auto-compressed. Appears once the first compression fires.                                                                              |
+| ▶ N         | **Active background tasks** — how many `/background` prompts are still running in the current session. Appears whenever at least one task is in flight.                                                             |
+| Duration    | Elapsed session time                                                                                                                                                                                                |
+| ⚠ YOLO      | **YOLO mode warning** — shown whenever `HERMES_YOLO_MODE` is on (either `hermes --yolo` at launch or `/yolo` toggled mid-session). Mirrors the banner-line warning so you can't forget you're in auto-approve mode. |
 
-The bar adapts to terminal width — full layout at ≥ 76 columns, compact at 52–75, minimal (model + duration only) below 52.
+The bar adapts to terminal width — full layout at ≥ 76 columns, compact at 52–75, minimal (model + duration, plus the YOLO badge when active) below 52.
 
 **Context color coding:**
 
@@ -123,18 +126,20 @@ Type `/` to see the autocomplete dropdown. Hermes supports a large set of CLI sl
 
 Common examples:
 
-| Command                | Description                                        |
-|------------------------|----------------------------------------------------|
-| `/help`                | Show command help                                  |
-| `/model`               | Show or change the current model                   |
-| `/tools`               | List currently available tools                     |
-| `/skills browse`       | Browse the skills hub and official optional skills |
-| `/background <prompt>` | Run a prompt in a separate background session      |
-| `/skin`                | Show or switch the active CLI skin                 |
-| `/voice on`            | Enable CLI voice mode (press `Ctrl+B` to record)   |
-| `/voice tts`           | Toggle spoken playback for Hermes replies          |
-| `/reasoning high`      | Increase reasoning effort                          |
-| `/title My Session`    | Name the current session                           |
+| Command                | Description                                                                                                                                                                                                                 |
+|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `/help`                | Show command help                                                                                                                                                                                                           |
+| `/model`               | Show or change the current model                                                                                                                                                                                            |
+| `/tools`               | List currently available tools                                                                                                                                                                                              |
+| `/skills browse`       | Browse the skills hub and official optional skills                                                                                                                                                                          |
+| `/background <prompt>` | Run a prompt in a separate background session                                                                                                                                                                               |
+| `/skin`                | Show or switch the active CLI skin                                                                                                                                                                                          |
+| `/voice on`            | Enable CLI voice mode (press `Ctrl+B` to record)                                                                                                                                                                            |
+| `/voice tts`           | Toggle spoken playback for Hermes replies                                                                                                                                                                                   |
+| `/reasoning high`      | Increase reasoning effort                                                                                                                                                                                                   |
+| `/title My Session`    | Name the current session                                                                                                                                                                                                    |
+| `/status`              | Show session info — model/profile/tokens/duration — followed by a local **Session recap** block (recent turn counts, top tools used, files touched, latest user prompt + assistant reply). Pure local compute; no LLM call. |
+| `/sessions`            | Open an interactive session picker right inside the classic CLI (same surface the TUI uses). Type to filter, arrow keys to navigate, Enter to resume.                                                                       |
 
 For the full built-in CLI and messaging lists, see [Slash Commands Reference](/docs/reference/slash-commands).
 

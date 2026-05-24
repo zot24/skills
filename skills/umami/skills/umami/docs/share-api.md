@@ -27,8 +27,8 @@ Operations around Share page management.
 GET /api/share/id/:shareId
 POST /api/share/id/:shareId
 DELETE /api/share/id/:shareId
-GET api/websites/:websiteId/shares
-POST api/websites/:websiteId/shares</code></pre>
+GET /api/websites/:websiteId/shares
+POST /api/websites/:websiteId/shares</code></pre>
 </figure>
 
 ------------------------------------------------------------------------
@@ -171,7 +171,7 @@ Deletes a share page.
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidshares" class="peer" data-card="">GET api/websites/:websiteId/shares</a>
+## <a href="#get-apiwebsiteswebsiteidshares" class="peer" data-card="">GET /api/websites/:websiteId/shares</a>
 
 Gets all share pages that belong to a website.
 
@@ -214,7 +214,7 @@ Gets all share pages that belong to a website.
 
 ------------------------------------------------------------------------
 
-## <a href="#post-apiwebsiteswebsiteidshares" class="peer" data-card="">POST api/websites/:websiteId/shares</a>
+## <a href="#post-apiwebsiteswebsiteidshares" class="peer" data-card="">POST /api/websites/:websiteId/shares</a>
 
 Creates a share page belonging to a website.
 
@@ -278,6 +278,6 @@ Next Page
 ### On this page
 
 
-<a href="#post-apishare" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/share</a><a href="#get-apishareidshareid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/share/id/:shareId</a><a href="#post-apishareidshareid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/share/id/:shareId</a><a href="#delete-apishareidshareid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">DELETE /api/share/id/:shareId</a><a href="#get-apiwebsiteswebsiteidshares" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET api/websites/:websiteId/shares</a><a href="#post-apiwebsiteswebsiteidshares" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST api/websites/:websiteId/shares</a>
+<a href="#post-apishare" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/share</a><a href="#get-apishareidshareid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/share/id/:shareId</a><a href="#post-apishareidshareid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/share/id/:shareId</a><a href="#delete-apishareidshareid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">DELETE /api/share/id/:shareId</a><a href="#get-apiwebsiteswebsiteidshares" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/shares</a><a href="#post-apiwebsiteswebsiteidshares" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/websites/:websiteId/shares</a>
 
 
