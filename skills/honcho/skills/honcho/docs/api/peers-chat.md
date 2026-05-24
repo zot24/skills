@@ -4,7 +4,7 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Query a Peer's representation using natural language
+# Chat
 
 > Query a Peer's representation using natural language. Performs agentic search and reasoning to comprehensively
 answer the query based on all latent knowledge gathered about the peer from their messages and conclusions.
@@ -24,10 +24,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  license:
-    name: GNU Affero General Public License v3.0
-    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.0.3
+  version: 3.0.7
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -39,7 +36,7 @@ paths:
     post:
       tags:
         - peers
-      summary: Query a Peer's representation using natural language
+      summary: Chat
       description: >-
         Query a Peer's representation using natural language. Performs agentic
         search and reasoning to comprehensively
@@ -91,7 +88,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
       security:
         - HTTPBearer: []
-        - {}
 components:
   schemas:
     DialecticOptions:

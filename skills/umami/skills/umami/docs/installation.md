@@ -95,7 +95,7 @@ To run with PM2:
 
 <figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>pnpm --global add pm2
+<pre class="min-w-full w-max *:flex *:flex-col"><code>pnpm add -g pm2
 cd umami
 pm2 start &quot;pnpm start&quot; --name umami
 pm2 startup
@@ -110,7 +110,7 @@ To build the Docker container and start up with a Postgres database, run:
 
 <figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>docker-compose up -d</code></pre>
+<pre class="min-w-full w-max *:flex *:flex-col"><code>docker compose up -d</code></pre>
 </figure>
 
 This will create a PostgreSQL database and start the Umami application on `http://localhost:3000`. The default login credentials are username **admin** and password **umami**.

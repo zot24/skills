@@ -39,7 +39,7 @@ For **Umami Cloud** send a POST to `https://cloud.umami.is/api/send`.
 | `payload.website`  | string | Website ID.                                   |
 | `payload.name`     | string | Name of the event.                            |
 | `payload.data`     | object | (optional) Additional data for the event.     |
-| `type`             | string | `event` is currently the only type available. |
+| `type`             | string | One of `event`, `identify`, or `performance`. |
 
 
 **Sample payload**
@@ -100,6 +100,53 @@ You can generate most of these values programmatically with JavaScript using the
 };</code></pre>
 </figure>
 
+## <a href="#post-apibatch" class="peer" data-card="">POST /api/batch</a>
+
+To send multiple events in a single request, POST a JSON **array** to `/api/batch`. Each element of the array has the same shape as an `/api/send` request body. Like `/api/send`, this endpoint does not require an authentication token but does require a valid `User-Agent` header.
+
+**Sample payload**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+  {
+    &quot;payload&quot;: {
+      &quot;hostname&quot;: &quot;your-hostname&quot;,
+      &quot;url&quot;: &quot;/page-1&quot;,
+      &quot;website&quot;: &quot;your-website-id&quot;,
+      &quot;name&quot;: &quot;event-name&quot;
+    },
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;payload&quot;: {
+      &quot;hostname&quot;: &quot;your-hostname&quot;,
+      &quot;url&quot;: &quot;/page-2&quot;,
+      &quot;website&quot;: &quot;your-website-id&quot;,
+      &quot;name&quot;: &quot;event-name&quot;
+    },
+    &quot;type&quot;: &quot;event&quot;
+  }
+]</code></pre>
+</figure>
+
+Each item is forwarded to `/api/send`, so all `type` values and payload fields supported there are also supported here.
+
+**Sample response**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>{
+  &quot;size&quot;: 2,
+  &quot;processed&quot;: 2,
+  &quot;errors&quot;: 0,
+  &quot;details&quot;: [],
+  &quot;cache&quot;: &quot;xxxxxxxxxxxxxxx&quot;
+}</code></pre>
+</figure>
+
+If any items fail, `errors` is the failure count and `details` lists each failure along with its `index` in the submitted array.
+
 
 <a href="/docs/api/authentication" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
 
@@ -121,6 +168,6 @@ Next Page
 ### On this page
 
 
-<a href="#post-apisend" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/send</a>
+<a href="#post-apisend" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/send</a><a href="#post-apibatch" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/batch</a>
 
 

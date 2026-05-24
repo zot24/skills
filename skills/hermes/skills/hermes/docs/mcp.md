@@ -150,6 +150,34 @@ mcp_servers:
 ```
 
 
+## Built-in presets<a href="#built-in-presets" class="hash-link" aria-label="Direct link to Built-in presets" translate="no" title="Direct link to Built-in presets">​</a>
+
+For well-known MCP servers, `hermes mcp add` accepts a `--preset` flag that fills in the transport details so you don't have to look up the command and args. The preset only supplies defaults — anything else (env vars, headers, filtering) you pass on the same command line still wins.
+
+| Preset  | What it wires up                                                                              |
+|---------|-----------------------------------------------------------------------------------------------|
+| `codex` | The Codex CLI's MCP server (`codex mcp-server` over stdio). Requires the `codex` CLI on PATH. |
+
+
+``` prism-code
+# Add Codex CLI as an MCP server in one line
+hermes mcp add codex --preset codex
+```
+
+
+That writes the equivalent of:
+
+
+``` prism-code
+mcp_servers:
+  codex:
+    command: "codex"
+    args: ["mcp-server"]
+```
+
+
+You can pick any local name (`hermes mcp add my-codex --preset codex` is fine); the preset only provides the `command`/`args` defaults.
+
 ## How Hermes registers MCP tools<a href="#how-hermes-registers-mcp-tools" class="hash-link" aria-label="Direct link to How Hermes registers MCP tools" translate="no" title="Direct link to How Hermes registers MCP tools">​</a>
 
 Hermes prefixes MCP tools so they do not collide with built-in names:
@@ -630,7 +658,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
 
 ### Current limits<a href="#current-limits" class="hash-link" aria-label="Direct link to Current limits" translate="no" title="Direct link to Current limits">​</a>
 
-- Stdio transport only (no HTTP MCP transport yet)
+- The embedded `hermes mcp serve` exposes a **stdio-only** MCP server today. If you need an HTTP MCP server, run a separate adapter — or, much more commonly, use the MCP **client** side of Hermes, which already speaks both stdio and HTTP (`url` + `headers` in `mcp_servers.yaml` / `config.yaml`; see [HTTP servers](#http-servers) above).
 - Event polling at ~200ms intervals via mtime-optimized DB polling (skips work when files are unchanged)
 - No `claude/channel` push notification protocol yet
 - Text-only sends (no media/attachment sending through `messages_send`)
@@ -652,6 +680,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#common-keys" class="table-of-contents__link toc-highlight">Common keys</a>
   - <a href="#minimal-stdio-example" class="table-of-contents__link toc-highlight">Minimal stdio example</a>
   - <a href="#minimal-http-example" class="table-of-contents__link toc-highlight">Minimal HTTP example</a>
+- <a href="#built-in-presets" class="table-of-contents__link toc-highlight">Built-in presets</a>
 - <a href="#how-hermes-registers-mcp-tools" class="table-of-contents__link toc-highlight">How Hermes registers MCP tools</a>
 - <a href="#mcp-utility-tools" class="table-of-contents__link toc-highlight">MCP utility tools</a>
   - <a href="#important" class="table-of-contents__link toc-highlight">Important</a>

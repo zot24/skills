@@ -177,11 +177,11 @@ Gets summarized website session statistics.
 }</code></pre>
 </figure>
 
-- `pageviews`: Pages hits
+- `pageviews`: Page hits
 - `visitors`: Number of unique visitors
 - `visits`: Number of unique visits
-- `bounces`: Number of visitors who only visit a single page
-- `totaltime`: Time spent on the website
+- `countries`: Number of unique countries
+- `events`: Number of events
 
 ------------------------------------------------------------------------
 
@@ -219,7 +219,7 @@ Get collected count of sessions by hour of weekday.
 
 ## <a href="#get-apiwebsiteswebsiteidsessionssessionid" class="peer" data-card="">GET /api/websites/:websiteId/sessions/:sessionId</a>
 
-Gets session details for a individual session
+Gets session details for an individual session
 
 **Sample response**
 
@@ -250,7 +250,7 @@ Gets session details for a individual session
 
 ## <a href="#get-apiwebsiteswebsiteidsessionssessionidactivity" class="peer" data-card="">GET /api/websites/:websiteId/sessions/:sessionId/activity</a>
 
-Gets session activity for a individual session
+Gets session activity for an individual session
 
 **Parameters**
 
@@ -306,7 +306,7 @@ Gets session activity for a individual session
 
 ## <a href="#get-apiwebsiteswebsiteidsessionssessionidproperties" class="peer" data-card="">GET /api/websites/:websiteId/sessions/:sessionId/properties</a>
 
-Gets session properties for a individual session
+Gets session properties for an individual session
 
 **Sample response**
 

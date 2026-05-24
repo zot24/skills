@@ -105,7 +105,7 @@ Track an event with dynamic data.
 
 <figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track(&#39;signup-button&#39;, { name: &#39;newsletter&#39;, id: 123 });</code></pre>
+<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track(&#39;signup-button&#39;, { plan: &#39;newsletter&#39;, id: 123 });</code></pre>
 </figure>
 
 When tracking events, the default properties are included in the payload. This is equivalent to running:
@@ -116,7 +116,7 @@ When tracking events, the default properties are included in the payload. This i
   ...props,
   name: &#39;signup-button&#39;,
   data: {
-    name: &#39;newsletter&#39;,
+    plan: &#39;newsletter&#39;,
     id: 123,
   },
 }));</code></pre>

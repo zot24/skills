@@ -95,6 +95,17 @@ hermes model
 ```
 
 
+One subscription covers 300+ models plus the [Tool Gateway](/docs/user-guide/features/tool-gateway) (web search, image generation, TTS, cloud browser). On a fresh install:
+
+
+``` prism-code
+hermes setup --portal
+```
+
+
+That logs you in, sets Nous as your provider, and turns on the Tool Gateway in one command.
+
+
 Good defaults:
 
 | Provider                  | What it is                                                                                    | How to set up                                                                        |

@@ -123,13 +123,13 @@ Gets events within a given time range.
 **Parameters**
 
 
-| Parameter  | Type   | Description                                       |
-|------------|--------|---------------------------------------------------|
-| `startAt`  | number | Timestamp (in ms) of starting date.               |
-| `endAt`    | number | Timestamp (in ms) of end date.                    |
-| `unit`     | string | Time unit (`year` \| `month` \| `hour` \| `day`). |
-| `timezone` | string | Timezone (ex. America/Los_Angeles).               |
-| `filters`  | object | Can accept filter parameters.                     |
+| Parameter  | Type   | Description                                                   |
+|------------|--------|---------------------------------------------------------------|
+| `startAt`  | number | Timestamp (in ms) of starting date.                           |
+| `endAt`    | number | Timestamp (in ms) of end date.                                |
+| `unit`     | string | Time unit (`year` \| `month` \| `day` \| `hour` \| `minute`). |
+| `timezone` | string | Timezone (ex. America/Los_Angeles).                           |
+| `filters`  | object | Can accept filter parameters.                                 |
 
 
 **Sample response**
@@ -328,14 +328,14 @@ Gets pageviews within a given time range.
 **Parameters**
 
 
-| Parameter  | Type   | Description                                       |
-|------------|--------|---------------------------------------------------|
-| `startAt`  | number | Timestamp (in ms) of starting date.               |
-| `endAt`    | number | Timestamp (in ms) of end date.                    |
-| `unit`     | string | Time unit (`year` \| `month` \| `hour` \| `day`). |
-| `timezone` | string | Timezone (ex. America/Los_Angeles).               |
-| `compare`  | string | (optional) Comparison period (`prev` \| `yoy`).   |
-| `filters`  | object | Can accept filter parameters.                     |
+| Parameter  | Type   | Description                                                   |
+|------------|--------|---------------------------------------------------------------|
+| `startAt`  | number | Timestamp (in ms) of starting date.                           |
+| `endAt`    | number | Timestamp (in ms) of end date.                                |
+| `unit`     | string | Time unit (`year` \| `month` \| `day` \| `hour` \| `minute`). |
+| `timezone` | string | Timezone (ex. America/Los_Angeles).                           |
+| `compare`  | string | (optional) Comparison period (`prev` \| `yoy`).               |
+| `filters`  | object | Can accept filter parameters.                                 |
 
 
 **Sample response**

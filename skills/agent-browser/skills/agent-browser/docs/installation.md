@@ -66,7 +66,7 @@ agent-browser install  # Download Chrome (first time)
 ```
 
 
-Compiles from source (~2-3 min). Requires the Rust toolchain (<a href="https://rustup.rs" target="_blank" rel="noopener noreferrer">rustup.rs</a>).
+Compiles from source (~2-3 min). Requires Node.js 24+, pnpm 11+, and the Rust toolchain (<a href="https://rustup.rs" target="_blank" rel="noopener noreferrer">rustup.rs</a>).
 
 ## From source<a href="#from-source" aria-label="Link to this section">#</a>
 

@@ -27,6 +27,9 @@ Before using voice features, make sure you have:
 The `~/.hermes/` directory and default `config.yaml` are created automatically the first time you run `hermes`. You only need to create `~/.hermes/.env` manually for API keys.
 
 
+A paid [Nous Portal](/docs/user-guide/features/tool-gateway) subscription supplies the LLM (step 2) **and** OpenAI TTS via the Tool Gateway — no separate OpenAI key needed. On a fresh install, `hermes setup --portal` wires both up at once.
+
+
 ## Overview<a href="#overview" class="hash-link" aria-label="Direct link to Overview" translate="no" title="Direct link to Overview">​</a>
 
 | Feature               | Platform          | Description                                                     |
@@ -429,6 +432,11 @@ voice:
 
 # Speech-to-Text
 stt:
+  enabled: true                     # set to false to skip auto-transcription —
+                                    # the gateway still caches the audio file and
+                                    # passes its path to the agent as part of the
+                                    # inbound message, useful for custom pipelines
+                                    # (diarization, alignment, archival, etc.)
   provider: "local"                  # "local" (free) | "groq" | "openai"
   local:
     model: "base"                    # tiny, base, small, medium, large-v3

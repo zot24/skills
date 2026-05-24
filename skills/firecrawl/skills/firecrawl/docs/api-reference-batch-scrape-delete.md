@@ -50,12 +50,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
+                  status:
                     type: string
-                    example: Batch scrape job successfully cancelled.
+                    enum:
+                      - cancelled
+                    example: cancelled
         '404':
           description: Batch scrape job not found
           content:
