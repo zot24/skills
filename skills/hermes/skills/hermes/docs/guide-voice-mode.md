@@ -15,6 +15,10 @@ This guide is the practical companion to the [Voice Mode feature reference](/doc
 
 If the feature page explains what voice mode can do, this guide shows how to actually use it well.
 
+
+[Nous Portal](/docs/integrations/nous-portal) bundles both the LLM and TTS through one OAuth — voice mode works end-to-end with no extra credentials.
+
+
 ## What voice mode is good for<a href="#what-voice-mode-is-good-for" class="hash-link" aria-label="Direct link to What voice mode is good for" translate="no" title="Direct link to What voice mode is good for">​</a>
 
 Voice mode is especially useful when:

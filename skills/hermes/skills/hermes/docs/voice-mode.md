@@ -527,6 +527,8 @@ sudo apt install portaudio19-dev  # Ubuntu
 ```
 
 
+If you are running Hermes inside Docker on a Linux desktop, the container also needs access to your host audio socket. See the [Docker audio bridge](/docs/user-guide/docker#optional-linux-desktop-audio-bridge) notes for a PulseAudio/PipeWire-compatible setup.
+
 ### Bot doesn't respond in Discord server channels<a href="#bot-doesnt-respond-in-discord-server-channels" class="hash-link" aria-label="Direct link to Bot doesn&#39;t respond in Discord server channels" translate="no" title="Direct link to Bot doesn&#39;t respond in Discord server channels">​</a>
 
 The bot requires an @mention by default in server channels. Make sure you:
