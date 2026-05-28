@@ -1,6 +1,6 @@
 {
   "name": "hermes",
-  "version": "1.1.15",
+  "version": "1.1.16",
   "description": "Expert knowledge about Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
   "sources": [
     {
@@ -204,6 +204,12 @@
     {
       "url": "https://hermes-agent.nousresearch.com/docs/ko/",
       "target": "skills/hermes/docs/ko.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/integrations/nous-portal/",
+      "target": "skills/hermes/docs/nous-portal.md",
       "type": "extract-content",
       "freshness_days": 7
     }

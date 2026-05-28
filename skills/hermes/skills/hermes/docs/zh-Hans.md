@@ -8,13 +8,13 @@
 # Hermes Agent
 
 
-The self-improving AI agent built by <a href="https://nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Research</a>. The only agent with a built-in learning loop — it creates skills from experience, improves them during use, nudges itself to persist knowledge, and builds a deepening model of who you are across sessions.
+由 <a href="https://nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Research</a> 构建的自我改进 AI 智能体。唯一内置学习循环的智能体——它从经验中创建技能，在使用过程中持续改进，主动提示自身持久化知识，并在会话间不断深化对你的建模。
 
 
-<a href="/docs/getting-started/installation" style="display:inline-block;padding:0.6rem 1.2rem;background-color:#FFD700;color:#07070d;border-radius:8px;font-weight:600;text-decoration:none">Get Started →</a><a href="https://github.com/NousResearch/hermes-agent" style="display:inline-block;padding:0.6rem 1.2rem;border:1px solid rgba(255,215,0,0.2);border-radius:8px;text-decoration:none">View on GitHub</a>
+<a href="/docs/zh-Hans/getting-started/installation" style="display:inline-block;padding:0.6rem 1.2rem;background-color:#FFD700;color:#07070d;border-radius:8px;font-weight:600;text-decoration:none">快速开始 →</a><a href="https://github.com/NousResearch/hermes-agent" style="display:inline-block;padding:0.6rem 1.2rem;border:1px solid rgba(255,215,0,0.2);border-radius:8px;text-decoration:none">在 GitHub 上查看</a>
 
 
-## Install<a href="#install" class="hash-link" aria-label="Install的直接链接" translate="no" title="Install的直接链接">​</a>
+## 安装<a href="#安装" class="hash-link" aria-label="安装的直接链接" translate="no" title="安装的直接链接">​</a>
 
 **Linux / macOS / WSL2**
 
@@ -24,7 +24,7 @@ curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scri
 ```
 
 
-**Windows (native, PowerShell)** — *early beta, [details →](/docs/zh-Hans/docs/user-guide/windows-native)*
+**Windows（原生，PowerShell）** — *早期测试版，[详情 →](/docs/zh-Hans/user-guide/windows-native)*
 
 
 ``` prism-code
@@ -32,57 +32,57 @@ iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/script
 ```
 
 
-**Android (Termux)** — same curl one-liner as Linux; the installer auto-detects Termux.
+**Android（Termux）** — 与 Linux 相同的 curl 一行命令；安装程序会自动检测 Termux。
 
-See the full **[Installation Guide](/docs/zh-Hans/docs/getting-started/installation)** for what the installer does, the per-user vs root layout, and Windows-specific notes.
+请参阅完整的 **[安装指南](/docs/zh-Hans/getting-started/installation)**，了解安装程序的具体操作、按用户与 root 的目录布局以及 Windows 相关说明。
 
-## What is Hermes Agent?<a href="#what-is-hermes-agent" class="hash-link" aria-label="What is Hermes Agent?的直接链接" translate="no" title="What is Hermes Agent?的直接链接">​</a>
+## Hermes Agent 是什么？<a href="#hermes-agent-是什么" class="hash-link" aria-label="Hermes Agent 是什么？的直接链接" translate="no" title="Hermes Agent 是什么？的直接链接">​</a>
 
-It's not a coding copilot tethered to an IDE or a chatbot wrapper around a single API. It's an **autonomous agent** that gets more capable the longer it runs. It lives wherever you put it — a \$5 VPS, a GPU cluster, or serverless infrastructure (Daytona, Modal) that costs nearly nothing when idle. Talk to it from Telegram while it works on a cloud VM you never SSH into yourself. It's not tied to your laptop.
+它不是绑定在 IDE 上的编程副驾驶，也不是对单一 API 的聊天机器人封装。它是一个**自主智能体**，运行时间越长，能力越强。它可以部署在任何地方——5 美元的 VPS、GPU 集群，或者闲置时几乎零成本的 serverless 基础设施（Daytona、Modal）。在 Telegram 上与它对话，同时让它在你从未亲自 SSH 登录的云端虚拟机上工作。它不依赖你的本地电脑。
 
-## Quick Links<a href="#quick-links" class="hash-link" aria-label="Quick Links的直接链接" translate="no" title="Quick Links的直接链接">​</a>
+## 快速链接<a href="#快速链接" class="hash-link" aria-label="快速链接的直接链接" translate="no" title="快速链接的直接链接">​</a>
 
-|                                                                                           |                                                                             |
-|-------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| 🚀 **[Installation](/docs/zh-Hans/docs/getting-started/installation)**                    | Install in 60 seconds on Linux, macOS, WSL2, or native Windows (early beta) |
-| 📖 **[Quickstart Tutorial](/docs/zh-Hans/docs/getting-started/quickstart)**               | Your first conversation and key features to try                             |
-| 🗺️ **[Learning Path](/docs/zh-Hans/docs/getting-started/learning-path)**                  | Find the right docs for your experience level                               |
-| ⚙️ **[Configuration](/docs/zh-Hans/docs/user-guide/configuration)**                       | Config file, providers, models, and options                                 |
-| 💬 **[Messaging Gateway](/docs/zh-Hans/docs/user-guide/messaging)**                       | Set up Telegram, Discord, Slack, WhatsApp, Teams, or more                   |
-| 🔧 **[Tools & Toolsets](/docs/zh-Hans/docs/user-guide/features/tools)**                   | 70+ built-in tools and how to configure them                                |
-| 🧠 **[Memory System](/docs/zh-Hans/docs/user-guide/features/memory)**                     | Persistent memory that grows across sessions                                |
-| 📚 **[Skills System](/docs/zh-Hans/docs/user-guide/features/skills)**                     | Procedural memory the agent creates and reuses                              |
-| 🔌 **[MCP Integration](/docs/zh-Hans/docs/user-guide/features/mcp)**                      | Connect to MCP servers, filter their tools, and extend Hermes safely        |
-| 🧭 **[Use MCP with Hermes](/docs/zh-Hans/docs/guides/use-mcp-with-hermes)**               | Practical MCP setup patterns, examples, and tutorials                       |
-| 🎙️ **[Voice Mode](/docs/zh-Hans/docs/user-guide/features/voice-mode)**                    | Real-time voice interaction in CLI, Telegram, Discord, and Discord VC       |
-| 🗣️ **[Use Voice Mode with Hermes](/docs/zh-Hans/docs/guides/use-voice-mode-with-hermes)** | Hands-on setup and usage patterns for Hermes voice workflows                |
-| 🎭 **[Personality & SOUL.md](/docs/zh-Hans/docs/user-guide/features/personality)**        | Define Hermes' default voice with a global SOUL.md                          |
-| 📄 **[Context Files](/docs/zh-Hans/docs/user-guide/features/context-files)**              | Project context files that shape every conversation                         |
-| 🔒 **[Security](/docs/zh-Hans/docs/user-guide/security)**                                 | Command approval, authorization, container isolation                        |
-| 💡 **[Tips & Best Practices](/docs/zh-Hans/docs/guides/tips)**                            | Quick wins to get the most out of Hermes                                    |
-| 🏗️ **[Architecture](/docs/zh-Hans/docs/developer-guide/architecture)**                    | How it works under the hood                                                 |
-| ❓ **[FAQ & Troubleshooting](/docs/zh-Hans/docs/reference/faq)**                          | Common questions and solutions                                              |
+|                                                                                    |                                                                    |
+|------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| 🚀 **[安装](/docs/zh-Hans/getting-started/installation)**                          | 在 Linux、macOS、WSL2 或原生 Windows（早期测试版）上 60 秒完成安装 |
+| 📖 **[快速入门教程](/docs/zh-Hans/getting-started/quickstart)**                    | 第一次对话及值得尝试的核心功能                                     |
+| 🗺️ **[学习路径](/docs/zh-Hans/getting-started/learning-path)**                     | 根据你的经验水平找到合适的文档                                     |
+| ⚙️ **[配置](/docs/zh-Hans/user-guide/configuration)**                              | 配置文件、提供商、模型及选项                                       |
+| 💬 **[消息网关](/docs/zh-Hans/user-guide/messaging)**                              | 配置 Telegram、Discord、Slack、WhatsApp、Teams 等平台              |
+| 🔧 **[工具与工具集](/docs/zh-Hans/user-guide/features/tools)**                     | 70+ 内置工具及其配置方式                                           |
+| 🧠 **[记忆系统](/docs/zh-Hans/user-guide/features/memory)**                        | 跨会话持续增长的持久记忆                                           |
+| 📚 **[技能系统](/docs/zh-Hans/user-guide/features/skills)**                        | 智能体创建并复用的程序性记忆                                       |
+| 🔌 **[MCP 集成](/docs/zh-Hans/user-guide/features/mcp)**                           | 连接 MCP 服务器、过滤其工具，并安全扩展 Hermes                     |
+| 🧭 **[在 Hermes 中使用 MCP](/docs/zh-Hans/guides/use-mcp-with-hermes)**            | 实用的 MCP 配置模式、示例与教程                                    |
+| 🎙️ **[语音模式](/docs/zh-Hans/user-guide/features/voice-mode)**                    | 在 CLI、Telegram、Discord 及 Discord 语音频道中进行实时语音交互    |
+| 🗣️ **[在 Hermes 中使用语音模式](/docs/zh-Hans/guides/use-voice-mode-with-hermes)** | Hermes 语音工作流的实操配置与使用模式                              |
+| 🎭 **[个性与 SOUL.md](/docs/zh-Hans/user-guide/features/personality)**             | 通过全局 SOUL.md 定义 Hermes 的默认风格                            |
+| 📄 **[上下文文件](/docs/zh-Hans/user-guide/features/context-files)**               | 影响每次对话的项目上下文文件                                       |
+| 🔒 **[安全](/docs/zh-Hans/user-guide/security)**                                   | 命令审批、授权与容器隔离                                           |
+| 💡 **[技巧与最佳实践](/docs/zh-Hans/guides/tips)**                                 | 快速上手，充分发挥 Hermes 的潜力                                   |
+| 🏗️ **[架构](/docs/zh-Hans/developer-guide/architecture)**                          | 底层工作原理                                                       |
+| ❓ **[常见问题与故障排查](/docs/zh-Hans/reference/faq)**                           | 常见问题及解决方案                                                 |
 
-## Key Features<a href="#key-features" class="hash-link" aria-label="Key Features的直接链接" translate="no" title="Key Features的直接链接">​</a>
+## 核心功能<a href="#核心功能" class="hash-link" aria-label="核心功能的直接链接" translate="no" title="核心功能的直接链接">​</a>
 
-- **A closed learning loop** — Agent-curated memory with periodic nudges, autonomous skill creation, skill self-improvement during use, FTS5 cross-session recall with LLM summarization, and <a href="https://github.com/plastic-labs/honcho" target="_blank" rel="noopener noreferrer">Honcho</a> dialectic user modeling
-- **Runs anywhere, not just your laptop** — 6 terminal backends: local, Docker, SSH, Daytona, Singularity, Modal. Daytona and Modal offer serverless persistence — your environment hibernates when idle, costing nearly nothing
-- **Lives where you do** — CLI, Telegram, Discord, Slack, WhatsApp, Signal, Matrix, Mattermost, Email, SMS, DingTalk, Feishu, WeCom, Weixin, QQ Bot, Yuanbao, BlueBubbles, Home Assistant, Microsoft Teams, Google Chat, and more — 20+ platforms from one gateway
-- **Built by model trainers** — Created by <a href="https://nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Research</a>, the lab behind Hermes, Nomos, and Psyche. Works with <a href="https://portal.nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Portal</a>, <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">OpenRouter</a>, OpenAI, or any endpoint
-- **Scheduled automations** — Built-in cron with delivery to any platform
-- **Delegates & parallelizes** — Spawn isolated subagents for parallel workstreams. Programmatic Tool Calling via `execute_code` collapses multi-step pipelines into single inference calls
-- **Open standard skills** — Compatible with <a href="https://agentskills.io" target="_blank" rel="noopener noreferrer">agentskills.io</a>. Skills are portable, shareable, and community-contributed via the Skills Hub
-- **Full web control** — Search, extract, browse, vision, image generation, TTS
-- **MCP support** — Connect to any MCP server for extended tool capabilities
-- **Research-ready** — Batch processing, trajectory export, RL training with Atropos. Built by <a href="https://nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Research</a> — the lab behind Hermes, Nomos, and Psyche models
+- **闭环学习循环** — 智能体管理的记忆，配合定期提示、自主技能创建、使用中的技能自我改进、基于 FTS5 的跨会话召回与 LLM 摘要，以及 <a href="https://github.com/plastic-labs/honcho" target="_blank" rel="noopener noreferrer">Honcho</a> 辩证式用户建模
+- **随处运行，不限于本地** — 6 种终端后端：本地、Docker、SSH、Daytona、Singularity、Modal。Daytona 和 Modal 提供 serverless 持久化——环境闲置时休眠，几乎零成本
+- **在你所在的地方** — CLI、Telegram、Discord、Slack、WhatsApp、Signal、Matrix、Mattermost、Email、SMS、DingTalk、Feishu、WeCom、Weixin、QQ Bot、Yuanbao、BlueBubbles、Home Assistant、Microsoft Teams、Google Chat 等——通过一个网关支持 20+ 平台
+- **由模型训练者构建** — 由 <a href="https://nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Research</a> 创建，该实验室是 Hermes、Nomos 和 Psyche 背后的团队。支持 <a href="https://portal.nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Portal</a>、<a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">OpenRouter</a>、OpenAI 或任意端点
+- **定时自动化** — 内置 cron，可向任意平台投递
+- **委托与并行** — 派生隔离的子智能体以并行处理多个工作流。通过 `execute_code` 实现程序化工具调用，将多步骤流水线压缩为单次推理调用
+- **开放标准技能** — 兼容 <a href="https://agentskills.io" target="_blank" rel="noopener noreferrer">agentskills.io</a>。技能可移植、可共享，并通过 Skills Hub 接受社区贡献
+- **完整的 Web 控制** — 搜索、提取、浏览、视觉、图像生成、TTS
+- **MCP 支持** — 连接任意 MCP 服务器以扩展工具能力
+- **研究就绪** — 批处理、轨迹导出、基于 Atropos 的 RL 训练。由 <a href="https://nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Research</a> 构建——该实验室是 Hermes、Nomos 和 Psyche 模型背后的团队
 
-## For LLMs and coding agents<a href="#for-llms-and-coding-agents" class="hash-link" aria-label="For LLMs and coding agents的直接链接" translate="no" title="For LLMs and coding agents的直接链接">​</a>
+## 面向 LLM 和编程智能体<a href="#面向-llm-和编程智能体" class="hash-link" aria-label="面向 LLM 和编程智能体的直接链接" translate="no" title="面向 LLM 和编程智能体的直接链接">​</a>
 
-Machine-readable entry points to this documentation:
+本文档的机器可读入口：
 
-- **<a href="/docs/zh-Hans/assets/files/llms-bcf65f79b33e57e6c0cce5b9627945d4.txt" target="_blank"><code>/llms.txt</code></a>** — curated index of every doc page with short descriptions. ~17 KB, safe to load into an LLM context.
-- **<a href="/docs/zh-Hans/assets/files/llms-full-24ad599e965236a8b2eccc695bad1cac.txt" target="_blank"><code>/llms-full.txt</code></a>** — every doc page concatenated into a single markdown file for one-shot ingestion. ~1.8 MB.
+- **<a href="/docs/zh-Hans/assets/files/llms-bcf65f79b33e57e6c0cce5b9627945d4.txt" target="_blank"><code>/llms.txt</code></a>** — 每个文档页面的精选索引，附简短描述。约 17 KB，可安全加载到 LLM 上下文中。
+- **<a href="/docs/zh-Hans/assets/files/llms-full-cc5822ac1f760ebce3174a143e7feab7.txt" target="_blank"><code>/llms-full.txt</code></a>** — 所有文档页面拼接为单一 markdown 文件，支持一次性摄取。约 1.8 MB。
 
-Both files also resolve at `/docs/llms.txt` and `/docs/llms-full.txt`. Generated fresh on every deploy.
+两个文件同样可通过 `/docs/llms.txt` 和 `/docs/llms-full.txt` 访问。每次部署时全新生成。
 
 

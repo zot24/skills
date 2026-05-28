@@ -17,6 +17,9 @@ Hermes Agent can do a lot — CLI assistant, Telegram/Discord bot, task automati
 If you haven't installed Hermes Agent yet, begin with the [Installation guide](/docs/getting-started/installation) and then run through the [Quickstart](/docs/getting-started/quickstart). Everything below assumes you have a working installation.
 
 
+First-time users almost always want `hermes setup --portal` — one OAuth covers a model plus the four Tool Gateway tools (search/image/TTS/browser). See [Nous Portal](/docs/integrations/nous-portal).
+
+
 ## How to Use This Page<a href="#how-to-use-this-page" class="hash-link" aria-label="Direct link to How to Use This Page" translate="no" title="Direct link to How to Use This Page">​</a>
 
 - **Know your level?** Jump to the [experience-level table](#by-experience-level) and follow the reading order for your tier.
@@ -25,11 +28,11 @@ If you haven't installed Hermes Agent yet, begin with the [Installation guide](/
 
 ## By Experience Level<a href="#by-experience-level" class="hash-link" aria-label="Direct link to By Experience Level" translate="no" title="Direct link to By Experience Level">​</a>
 
-| Level            | Goal                                                                               | Recommended Reading                                                                                                                                                                                                                                                            | Time Estimate |
-|------------------|------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| **Beginner**     | Get up and running, have basic conversations, use built-in tools                   | [Installation](/docs/getting-started/installation) → [Quickstart](/docs/getting-started/quickstart) → [CLI Usage](/docs/user-guide/cli) → [Configuration](/docs/user-guide/configuration)                                                                                      | ~1 hour       |
-| **Intermediate** | Set up messaging bots, use advanced features like memory, cron jobs, and skills    | [Sessions](/docs/user-guide/sessions) → [Messaging](/docs/user-guide/messaging) → [Tools](/docs/user-guide/features/tools) → [Skills](/docs/user-guide/features/skills) → [Memory](/docs/user-guide/features/memory) → [Cron](/docs/user-guide/features/cron)                  | ~2–3 hours    |
-| **Advanced**     | Build custom tools, create skills, train models with RL, contribute to the project | [Architecture](/docs/developer-guide/architecture) → [Adding Tools](/docs/developer-guide/adding-tools) → [Creating Skills](/docs/developer-guide/creating-skills) → [RL Training](/docs/user-guide/features/rl-training) → [Contributing](/docs/developer-guide/contributing) | ~4–6 hours    |
+| Level            | Goal                                                                               | Recommended Reading                                                                                                                                                                                                                                           | Time Estimate |
+|------------------|------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| **Beginner**     | Get up and running, have basic conversations, use built-in tools                   | [Installation](/docs/getting-started/installation) → [Quickstart](/docs/getting-started/quickstart) → [CLI Usage](/docs/user-guide/cli) → [Configuration](/docs/user-guide/configuration)                                                                     | ~1 hour       |
+| **Intermediate** | Set up messaging bots, use advanced features like memory, cron jobs, and skills    | [Sessions](/docs/user-guide/sessions) → [Messaging](/docs/user-guide/messaging) → [Tools](/docs/user-guide/features/tools) → [Skills](/docs/user-guide/features/skills) → [Memory](/docs/user-guide/features/memory) → [Cron](/docs/user-guide/features/cron) | ~2–3 hours    |
+| **Advanced**     | Build custom tools, create skills, train models with RL, contribute to the project | [Architecture](/docs/developer-guide/architecture) → [Adding Tools](/docs/developer-guide/adding-tools) → [Creating Skills](/docs/developer-guide/creating-skills) → [Contributing](/docs/developer-guide/contributing)                                       | ~4–6 hours    |
 
 ## By Use Case<a href="#by-use-case" class="hash-link" aria-label="Direct link to By Use Case" translate="no" title="Direct link to By Use Case">​</a>
 
@@ -101,11 +104,11 @@ For most custom tool creation, start with plugins. The [Adding Tools](/docs/deve
 
 ### "I want to train models"<a href="#i-want-to-train-models" class="hash-link" aria-label="Direct link to &quot;I want to train models&quot;" translate="no" title="Direct link to &quot;I want to train models&quot;">​</a>
 
-Use reinforcement learning to fine-tune model behavior with Hermes Agent's built-in RL training pipeline.
+Use reinforcement learning to fine-tune model behavior with Hermes Agent's RL training pipeline (powered by <a href="https://github.com/NousResearch/atropos" target="_blank" rel="noopener noreferrer">Atropos</a>).
 
 1.  [Quickstart](/docs/getting-started/quickstart)
 2.  [Configuration](/docs/user-guide/configuration)
-3.  [RL Training](/docs/user-guide/features/rl-training)
+3.  <a href="https://github.com/NousResearch/atropos" target="_blank" rel="noopener noreferrer">Atropos RL Environments</a> (external)
 4.  [Provider Routing](/docs/user-guide/features/provider-routing)
 5.  [Architecture](/docs/developer-guide/architecture)
 
@@ -141,7 +144,6 @@ Not sure what's available? Here's a quick directory of major features:
 | **Browser**          | Web browsing and scraping                                         | [Browser](/docs/user-guide/features/browser)                   |
 | **Hooks**            | Event-driven callbacks and middleware                             | [Hooks](/docs/user-guide/features/hooks)                       |
 | **Batch Processing** | Process multiple inputs in bulk                                   | [Batch Processing](/docs/user-guide/features/batch-processing) |
-| **RL Training**      | Fine-tune models with reinforcement learning                      | [RL Training](/docs/user-guide/features/rl-training)           |
 | **Provider Routing** | Route requests across multiple LLM providers                      | [Provider Routing](/docs/user-guide/features/provider-routing) |
 
 ## What to Read Next<a href="#what-to-read-next" class="hash-link" aria-label="Direct link to What to Read Next" translate="no" title="Direct link to What to Read Next">​</a>

@@ -191,8 +191,9 @@ The Portal subscription works for [cron jobs](/docs/user-guide/features/cron) an
 
 
 ``` prism-code
-hermes cron add "Daily AI news summary" "every day at 9am" \
-  "Search the web for top AI news and summarize the 5 most important stories"
+hermes cron create "every day at 9am" \
+  "Search the web for top AI news and summarize the 5 most important stories" \
+  --name "Daily AI news"
 ```
 
 

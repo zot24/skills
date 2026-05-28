@@ -64,15 +64,14 @@ See [Toolsets Reference](/docs/reference/toolsets-reference) for the full set, i
 
 The terminal tool can execute commands in different environments:
 
-| Backend          | Description                   | Use Case                                                    |
-|------------------|-------------------------------|-------------------------------------------------------------|
-| `local`          | Run on your machine (default) | Development, trusted tasks                                  |
-| `docker`         | Isolated containers           | Security, reproducibility                                   |
-| `ssh`            | Remote server                 | Sandboxing, keep agent away from its own code               |
-| `singularity`    | HPC containers                | Cluster computing, rootless                                 |
-| `modal`          | Cloud execution               | Serverless, scale                                           |
-| `daytona`        | Cloud sandbox workspace       | Persistent remote dev environments                          |
-| `vercel_sandbox` | Vercel Sandbox cloud microVM  | Cloud execution with snapshot-backed filesystem persistence |
+| Backend       | Description                   | Use Case                                      |
+|---------------|-------------------------------|-----------------------------------------------|
+| `local`       | Run on your machine (default) | Development, trusted tasks                    |
+| `docker`      | Isolated containers           | Security, reproducibility                     |
+| `ssh`         | Remote server                 | Sandboxing, keep agent away from its own code |
+| `singularity` | HPC containers                | Cluster computing, rootless                   |
+| `modal`       | Cloud execution               | Serverless, scale                             |
+| `daytona`     | Cloud sandbox workspace       | Persistent remote dev environments            |
 
 ### Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" translate="no" title="Direct link to Configuration">​</a>
 
@@ -80,7 +79,7 @@ The terminal tool can execute commands in different environments:
 ``` prism-code
 # In ~/.hermes/config.yaml
 terminal:
-  backend: local    # or: docker, ssh, singularity, modal, daytona, vercel_sandbox
+  backend: local    # or: docker, ssh, singularity, modal, daytona
   cwd: "."          # Working directory
   timeout: 180      # Command timeout in seconds
 ```
@@ -142,40 +141,6 @@ hermes config set terminal.backend modal
 ```
 
 
-### Vercel Sandbox<a href="#vercel-sandbox" class="hash-link" aria-label="Direct link to Vercel Sandbox" translate="no" title="Direct link to Vercel Sandbox">​</a>
-
-
-``` prism-code
-pip install 'hermes-agent[vercel]'
-hermes config set terminal.backend vercel_sandbox
-hermes config set terminal.vercel_runtime node24
-```
-
-
-Authenticate with all three of `VERCEL_TOKEN`, `VERCEL_PROJECT_ID`, and `VERCEL_TEAM_ID`. This access-token setup is the supported path for deployments and normal long-running Hermes processes on Render, Railway, Docker, and similar hosts. Supported runtimes are `node24`, `node22`, and `python3.13`; Hermes defaults to `/vercel/sandbox` as the remote workspace root.
-
-For one-off local development, Hermes also accepts short-lived Vercel OIDC tokens:
-
-
-``` prism-code
-VERCEL_OIDC_TOKEN="$(vc project token <project-name>)" hermes chat
-```
-
-
-From a linked Vercel project directory:
-
-
-``` prism-code
-VERCEL_OIDC_TOKEN="$(vc project token)" hermes chat
-```
-
-
-With `container_persistent: true`, Hermes uses Vercel snapshots to preserve filesystem state across sandbox recreation for the same task. This can include Hermes-synced credentials, skills, and cache files inside the sandbox. Snapshots do not preserve live processes, PID space, or the same live sandbox identity.
-
-Background terminal commands use Hermes' generic non-local process flow: spawn, poll, wait, log, and kill work through the normal process tool while the sandbox is alive, but Hermes does not provide native Vercel detached-process recovery after cleanup or restart.
-
-Leave `container_disk` unset or at the shared default `51200`; custom disk sizing is unsupported for Vercel Sandbox and will fail diagnostics/backend creation.
-
 ### Container Resources<a href="#container-resources" class="hash-link" aria-label="Direct link to Container Resources" translate="no" title="Direct link to Container Resources">​</a>
 
 Configure CPU, memory, disk, and persistence for all container backends:
@@ -183,7 +148,7 @@ Configure CPU, memory, disk, and persistence for all container backends:
 
 ``` prism-code
 terminal:
-  backend: docker  # or singularity, modal, daytona, vercel_sandbox
+  backend: docker  # or singularity, modal, daytona
   container_cpu: 1              # CPU cores (default: 1)
   container_memory: 5120        # Memory in MB (default: 5GB)
   container_disk: 51200         # Disk in MB (default: 50GB)
@@ -243,7 +208,6 @@ On messaging platforms, if sudo fails, the output includes a tip to add `SUDO_PA
   - <a href="#ssh-backend" class="table-of-contents__link toc-highlight">SSH Backend</a>
   - <a href="#singularityapptainer" class="table-of-contents__link toc-highlight">Singularity/Apptainer</a>
   - <a href="#modal-serverless-cloud" class="table-of-contents__link toc-highlight">Modal (Serverless Cloud)</a>
-  - <a href="#vercel-sandbox" class="table-of-contents__link toc-highlight">Vercel Sandbox</a>
   - <a href="#container-resources" class="table-of-contents__link toc-highlight">Container Resources</a>
   - <a href="#container-security" class="table-of-contents__link toc-highlight">Container Security</a>
 - <a href="#background-process-management" class="table-of-contents__link toc-highlight">Background Process Management</a>

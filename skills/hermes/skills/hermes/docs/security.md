@@ -36,10 +36,23 @@ The approval system supports three modes, configured via `approvals.mode` in `~/
 
 ``` prism-code
 approvals:
-  mode: manual    # manual | smart | off
-  timeout: 60     # seconds to wait for user response (default: 60)
+  mode: manual                    # manual | smart | off
+  timeout: 60                     # seconds to wait for user response (default: 60)
+  cron_mode: deny                 # deny | approve — what cron jobs do when they hit a dangerous command
+  mcp_reload_confirm: true        # /reload-mcp asks before invalidating the MCP tool cache
+  destructive_slash_confirm: true # /clear, /new, /reset, /undo prompt before discarding state
 ```
 
+
+The full set of keys:
+
+| Key                         | Default  | What it controls                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|-----------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `mode`                      | `manual` | Approval policy for dangerous shell commands — see the table below.                                                                                                                                                                                                                                                                                                                                                                        |
+| `timeout`                   | `60`     | Seconds Hermes waits for an approval reply before timing out.                                                                                                                                                                                                                                                                                                                                                                              |
+| `cron_mode`                 | `deny`   | How [cron jobs](/docs/user-guide/features/cron) behave headlessly when they trigger a dangerous-command prompt. `deny` blocks the command (the agent must find another path); `approve` auto-approves everything in cron context.                                                                                                                                                                                                          |
+| `mcp_reload_confirm`        | `true`   | When true, `/reload-mcp` asks before rebuilding the MCP tool set. Rebuilding invalidates the provider prompt cache (tool schemas live in the system prompt), so the next message re-sends full input tokens. Users who click **Always Approve** flip this key to `false`.                                                                                                                                                                  |
+| `destructive_slash_confirm` | `true`   | When true, destructive session slash commands (`/clear`, `/new`, `/reset`, `/undo`) prompt before discarding conversation state. Three-option dialog (Approve Once / Always Approve / Cancel) routed through native yes/no buttons on Telegram, Discord, and Slack; text fallback elsewhere. Users who click **Always Approve** flip this key to `false`. TUI uses its own modal overlay (set `HERMES_TUI_NO_CONFIRM=1` to opt out there). |
 
 | Mode                 | Behavior                                                                                                                                                                                                  |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -82,7 +95,7 @@ When YOLO is active, Hermes shows two persistent visual reminders so it's hard t
 YOLO mode disables **all** dangerous command safety checks for the session — **except** the hardline blocklist (see below). Use only when you fully trust the commands being generated (e.g., well-tested automation scripts in disposable environments).
 
 
-For destructive session slash commands (`/clear`, `/new` / `/reset`, `/undo`, `/exit --delete`), the CLI also prompts for confirmation before running them. See [Slash Commands — Confirmation prompts for destructive commands](/docs/reference/slash-commands#confirmation-prompts-for-destructive-commands).
+For destructive session slash commands (`/clear`, `/new` / `/reset`, `/undo`, `/quit --delete` — `/exit --delete` is an alias), the CLI also prompts for confirmation before running them. See [Slash Commands — Confirmation prompts for destructive commands](/docs/reference/slash-commands#confirmation-prompts-for-destructive-commands).
 
 ### Hardline Blocklist (Always-On Floor)<a href="#hardline-blocklist-always-on-floor" class="hash-link" aria-label="Direct link to Hardline Blocklist (Always-On Floor)" translate="no" title="Direct link to Hardline Blocklist (Always-On Floor)">​</a>
 
@@ -155,7 +168,7 @@ The following patterns trigger approval prompts (defined in `tools/approval.py`)
 | `gateway run` with `&`/`disown`/`nohup`/`setsid`   | Prevents starting gateway outside service manager                           |
 
 
-**Container bypass**: When running in `docker`, `singularity`, `modal`, `daytona`, or `vercel_sandbox` backends, dangerous command checks are **skipped** because the container itself is the security boundary. Destructive commands inside a container can't harm the host.
+**Container bypass**: When running in `docker`, `singularity`, `modal`, or `daytona` backends, dangerous command checks are **skipped** because the container itself is the security boundary. Destructive commands inside a container can't harm the host.
 
 
 ### Approval Flow (CLI)<a href="#approval-flow-cli" class="hash-link" aria-label="Direct link to Approval Flow (CLI)" translate="no" title="Direct link to Approval Flow (CLI)">​</a>
@@ -366,7 +379,7 @@ terminal:
 - **Ephemeral mode** (`container_persistent: false`): Uses tmpfs for workspace — everything is lost on cleanup
 
 
-For production gateway deployments, use `docker`, `modal`, `daytona`, or `vercel_sandbox` backend to isolate agent commands from your host system. This eliminates the need for dangerous command approval entirely.
+For production gateway deployments, use `docker`, `modal`, or `daytona` backend to isolate agent commands from your host system. This eliminates the need for dangerous command approval entirely.
 
 
 If you add names to `terminal.docker_forward_env`, those variables are intentionally injected into the container for terminal commands. This is useful for task-specific credentials like `GITHUB_TOKEN`, but it also means code running in the container can read and exfiltrate them.
@@ -374,15 +387,14 @@ If you add names to `terminal.docker_forward_env`, those variables are intention
 
 ## Terminal Backend Security Comparison<a href="#terminal-backend-security-comparison" class="hash-link" aria-label="Direct link to Terminal Backend Security Comparison" translate="no" title="Direct link to Terminal Backend Security Comparison">​</a>
 
-| Backend            | Isolation           | Dangerous Cmd Check                | Best For                                  |
-|--------------------|---------------------|------------------------------------|-------------------------------------------|
-| **local**          | None — runs on host | ✅ Yes                             | Development, trusted users                |
-| **ssh**            | Remote machine      | ✅ Yes                             | Running on a separate server              |
-| **docker**         | Container           | ❌ Skipped (container is boundary) | Production gateway                        |
-| **singularity**    | Container           | ❌ Skipped                         | HPC environments                          |
-| **modal**          | Cloud sandbox       | ❌ Skipped                         | Scalable cloud isolation                  |
-| **daytona**        | Cloud sandbox       | ❌ Skipped                         | Persistent cloud workspaces               |
-| **vercel_sandbox** | Cloud microVM       | ❌ Skipped                         | Cloud execution with snapshot persistence |
+| Backend         | Isolation           | Dangerous Cmd Check                | Best For                     |
+|-----------------|---------------------|------------------------------------|------------------------------|
+| **local**       | None — runs on host | ✅ Yes                             | Development, trusted users   |
+| **ssh**         | Remote machine      | ✅ Yes                             | Running on a separate server |
+| **docker**      | Container           | ❌ Skipped (container is boundary) | Production gateway           |
+| **singularity** | Container           | ❌ Skipped                         | HPC environments             |
+| **modal**       | Cloud sandbox       | ❌ Skipped                         | Scalable cloud isolation     |
+| **daytona**     | Cloud sandbox       | ❌ Skipped                         | Persistent cloud workspaces  |
 
 ## Environment Variable Passthrough<a href="#environment-variable-passthrough" class="hash-link" aria-label="Direct link to Environment Variable Passthrough" translate="no" title="Direct link to Environment Variable Passthrough">​</a>
 
@@ -456,7 +468,7 @@ terminal:
 ```
 
 
-Paths are relative to `~/.hermes/`. Files are mounted to `/root/.hermes/` inside the container.
+Paths are relative to `~/.hermes/`. Files are mounted to `/root/.hermes/` inside the container. This list is read by `tools/credential_files.py` (`terminal.credential_files`) — it lives under the `terminal:` block but is loaded by the credential-files module, not the core terminal backend, so it isn't part of the bundled `DEFAULT_CONFIG` snapshot.
 
 ### What Each Sandbox Filters<a href="#what-each-sandbox-filters" class="hash-link" aria-label="Direct link to What Each Sandbox Filters" translate="no" title="Direct link to What Each Sandbox Filters">​</a>
 

@@ -33,6 +33,10 @@ That's it. `coder` is now its own Hermes profile with its own config, memory, an
 
 ## Creating a profile<a href="#creating-a-profile" class="hash-link" aria-label="Direct link to Creating a profile" translate="no" title="Direct link to Creating a profile">​</a>
 
+
+Quickest setup: run `hermes setup --portal` inside the new profile to wire up models + tools at once. See [Nous Portal](/docs/integrations/nous-portal).
+
+
 ### Blank profile<a href="#blank-profile" class="hash-link" aria-label="Direct link to Blank profile" translate="no" title="Direct link to Blank profile">​</a>
 
 
@@ -203,6 +207,10 @@ assistant gateway install     # creates hermes-gateway-assistant service
 
 
 Each profile gets its own service name. They run independently.
+
+
+Per-profile gateways are supervised by <a href="https://github.com/just-containers/s6-overlay" target="_blank" rel="noopener noreferrer">s6-overlay</a> (PID 1 in the container), so `hermes profile create <name>` automatically registers an s6 service slot at `/run/service/gateway-<name>/`. `hermes -p <name> gateway start/stop/restart` dispatches to `s6-svc` instead of spawning a bare process — crashes are auto-restarted and `docker restart` preserves the previously-running set of gateways. See [Per-profile gateway supervision](/docs/user-guide/docker#per-profile-gateway-supervision) for details.
+
 
 ## Configuring profiles<a href="#configuring-profiles" class="hash-link" aria-label="Direct link to Configuring profiles" translate="no" title="Direct link to Configuring profiles">​</a>
 

@@ -15,6 +15,10 @@ Chat with Hermes from Telegram, Discord, Slack, WhatsApp, Signal, SMS, Email, Ho
 
 For the full voice feature set — including CLI microphone mode, spoken replies in messaging, and Discord voice-channel conversations — see [Voice Mode](/docs/user-guide/features/voice-mode) and [Use Voice Mode with Hermes](/docs/guides/use-voice-mode-with-hermes).
 
+
+Bots need both a model provider and tool providers (TTS, web). A [Nous Portal](/docs/integrations/nous-portal) subscription bundles all of them.
+
+
 ## Platform Comparison<a href="#platform-comparison" class="hash-link" aria-label="Direct link to Platform Comparison" translate="no" title="Direct link to Platform Comparison">​</a>
 
 | Platform        | Voice | Images | Files | Threads | Reactions | Typing | Streaming |
@@ -488,9 +492,35 @@ Scheduled auto-resume for N restart-interrupted session(s)
 
 No configuration is required. If you don't want the heads-up, set `gateway_restart_notification: false` on the platform.
 
+### Mobile-friendly progress defaults<a href="#mobile-friendly-progress-defaults" class="hash-link" aria-label="Direct link to Mobile-friendly progress defaults" translate="no" title="Direct link to Mobile-friendly progress defaults">​</a>
+
+Telegram is usually a mobile inbox, so the defaults are tuned for that surface:
+
+- **`tool_progress`** defaults to **`off`** — no per-tool breadcrumb stream filling up the chat.
+- **`busy_ack_detail`** defaults to **`off`** — busy-state acknowledgments and long-running heartbeats stay terse (no `iteration 21/60` debug detail).
+- **`interim_assistant_messages`** stays **on** — real mid-turn assistant commentary (the model literally telling you what it's about to do) is signal, not noise.
+- **`long_running_notifications`** stays **on** — a single edit-in-place "⏳ Working — N min" bubble updates every few minutes so you have a heartbeat instead of staring at `typing…` for half an hour.
+
+Opt out of either of the kept-on defaults or opt back into verbose progress per platform:
+
+
+``` prism-code
+display:
+  platforms:
+    telegram:
+      # Re-enable the tool-progress stream
+      tool_progress: new
+      # Show "iteration N/M, running: tool" in heartbeats and busy acks
+      busy_ack_detail: true
+      # Or quiet them entirely
+      interim_assistant_messages: false
+      long_running_notifications: false
+```
+
+
 ### Progress bubble cleanup (opt-in)<a href="#progress-bubble-cleanup-opt-in" class="hash-link" aria-label="Direct link to Progress bubble cleanup (opt-in)" translate="no" title="Direct link to Progress bubble cleanup (opt-in)">​</a>
 
-Tool-progress messages, the "still working…" heartbeat, and status-callback bubbles can be auto-deleted after the final response lands. Enable per-platform via `display.platforms.<platform>.cleanup_progress`:
+Tool-progress messages, the "still working…" heartbeat, and status-callback bubbles can also be auto-deleted after the final response lands. Enable per-platform via `display.platforms.<platform>.cleanup_progress`:
 
 
 ``` prism-code
@@ -560,6 +590,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
   - <a href="#where-to-look-when-a-platform-is-paused" class="table-of-contents__link toc-highlight">Where to look when a platform is paused</a>
   - <a href="#restart-notifications" class="table-of-contents__link toc-highlight">Restart notifications</a>
   - <a href="#session-resume-across-gateway-restarts" class="table-of-contents__link toc-highlight">Session resume across gateway restarts</a>
+  - <a href="#mobile-friendly-progress-defaults" class="table-of-contents__link toc-highlight">Mobile-friendly progress defaults</a>
   - <a href="#progress-bubble-cleanup-opt-in" class="table-of-contents__link toc-highlight">Progress bubble cleanup (opt-in)</a>
 - <a href="#next-steps" class="table-of-contents__link toc-highlight">Next Steps</a>
 
