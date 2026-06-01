@@ -72,7 +72,7 @@ For full details, see the [API reference for `location.country`](https://docs.fi
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 

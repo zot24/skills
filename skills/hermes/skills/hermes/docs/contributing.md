@@ -107,7 +107,7 @@ pytest tests/ -v
 
 ## Cross-Platform Compatibility<a href="#cross-platform-compatibility" class="hash-link" aria-label="Direct link to Cross-Platform Compatibility" translate="no" title="Direct link to Cross-Platform Compatibility">​</a>
 
-Hermes officially supports **Linux, macOS, WSL2, and native Windows (early beta — via PowerShell install)**. Native Windows uses Git Bash (from <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">Git for Windows</a>) for shell commands. A few features require POSIX kernel primitives and are gated: the dashboard's embedded PTY terminal pane (`/chat` tab) is WSL2-only. The native-Windows path is new and moves fast — if you're doing Windows-heavy dev, expect to hit and fix rough edges.
+Hermes officially supports **Linux, macOS, WSL2, and native Windows (via PowerShell install)**. Native Windows uses Git Bash (from <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">Git for Windows</a>) for shell commands. A few features require POSIX kernel primitives and are gated: the dashboard's embedded PTY terminal pane (`/chat` tab) is WSL2-only. If you're doing Windows-heavy dev, run the Windows-footgun lint (`scripts/check-windows-footguns.py`) before pushing.
 
 When contributing code, keep these rules in mind:
 

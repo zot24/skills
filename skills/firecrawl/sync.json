@@ -1,6 +1,6 @@
 {
   "name": "firecrawl",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Firecrawl — web scraping, crawling, search, and browser automation API for AI agents",
   "sources": [
     {
@@ -1122,6 +1122,78 @@
     {
       "url": "https://docs.firecrawl.dev/partner-integration.md",
       "target": "skills/firecrawl/docs/partner-integration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/monitor-check-get.md",
+      "target": "skills/firecrawl/docs/api-reference-monitor-check-get.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/monitor-checks-list.md",
+      "target": "skills/firecrawl/docs/api-reference-monitor-checks-list.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/monitor-create.md",
+      "target": "skills/firecrawl/docs/api-reference-monitor-create.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/monitor-delete.md",
+      "target": "skills/firecrawl/docs/api-reference-monitor-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/monitor-get.md",
+      "target": "skills/firecrawl/docs/api-reference-monitor-get.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/monitor-list.md",
+      "target": "skills/firecrawl/docs/api-reference-monitor-list.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/monitor-run.md",
+      "target": "skills/firecrawl/docs/api-reference-monitor-run.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/monitor-update.md",
+      "target": "skills/firecrawl/docs/api-reference-monitor-update.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-monitor-check-completed.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-monitor-check-completed.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/webhook-monitor-page.md",
+      "target": "skills/firecrawl/docs/api-reference-webhook-monitor-page.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/monitoring.md",
+      "target": "skills/firecrawl/docs/monitoring.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/quickstarts/vercel-marketplace.md",
+      "target": "skills/firecrawl/docs/vercel-marketplace.md",
       "type": "extract-content",
       "freshness_days": 14
     }

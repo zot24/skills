@@ -18,7 +18,7 @@
 ```bash
 npm create cloudflare@latest my-scraper
 cd my-scraper
-npm install @mendable/firecrawl-js
+npm install firecrawl
 ```
 
 Add your API key as a secret:
@@ -34,7 +34,7 @@ Create a handler that searches the web and returns results with full page conten
 Edit `src/index.ts`:
 
 ```typescript
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 export interface Env {
   FIRECRAWL_API_KEY: string;

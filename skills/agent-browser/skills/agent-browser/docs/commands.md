@@ -53,6 +53,8 @@ agent-browser close --all             # Close all active sessions
 ```
 
 
+Headless Chromium screenshots hide native scrollbars for consistent image output. Pass `--hide-scrollbars false` when launching to keep native scrollbars visible.
+
 ## Get info<a href="#get-info" aria-label="Link to this section">#</a>
 
 
@@ -556,6 +558,7 @@ agent-browser removeinitscript <identifier>       # Remove a previously register
 --proxy-bypass <hosts>   # Hosts to bypass proxy
 --ignore-https-errors    # Ignore HTTPS certificate errors
 --allow-file-access      # Allow file:// URLs to access local files (Chromium only)
+--hide-scrollbars <bool> # Hide native scrollbars in headless Chromium screenshots
 -p, --provider <name>    # Browser provider (ios, browserbase, kernel, browseruse, browserless)
 --device <name>          # iOS device name (e.g., "iPhone 15 Pro")
 --json                   # JSON output (for scripts)

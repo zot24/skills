@@ -16,7 +16,7 @@
 ## Install the SDK
 
 ```bash
-npm install @mendable/firecrawl-js
+npm install firecrawl
 ```
 
 Add your API key to `.env`:
@@ -32,7 +32,7 @@ Use Firecrawl in an `action` to handle form submissions. Create `app/routes/sear
 ```tsx
 import { json, type ActionFunctionArgs } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -69,7 +69,7 @@ Use Firecrawl in a `loader` to fetch data at request time. Create `app/routes/sc
 ```tsx
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -101,7 +101,7 @@ Use interact to control a live browser session — click buttons, fill forms, an
 ```tsx
 import { json, type ActionFunctionArgs } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

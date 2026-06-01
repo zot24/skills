@@ -6,6 +6,8 @@
 
 # Docs Search
 
+> Answer Firecrawl documentation questions using the public docs corpus.
+
 The `/support/docs-search` endpoint answers questions using Firecrawl's public documentation. Requires your Firecrawl API key. Returns a concise, docs-grounded answer with citations to the relevant documentation pages.
 
 ## Use cases
@@ -54,3 +56,121 @@ curl -X POST https://api.firecrawl.dev/v2/support/docs-search \
 For the full feature guide, see the [Ask feature documentation](/features/ask).
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+
+
+## OpenAPI
+
+````yaml /api-reference/v2-openapi.json POST /support/docs-search
+openapi: 3.0.0
+info:
+  title: Firecrawl API
+  version: v2
+  description: >-
+    API for interacting with Firecrawl services to perform web scraping and
+    crawling tasks.
+  contact:
+    name: Firecrawl Support
+    url: https://firecrawl.dev/support
+    email: support@firecrawl.dev
+servers:
+  - url: https://api.firecrawl.dev/v2
+security:
+  - bearerAuth: []
+paths:
+  /support/docs-search:
+    post:
+      tags:
+        - Support
+      summary: Search Firecrawl docs with citations
+      description: Answer Firecrawl documentation questions using the public docs corpus.
+      operationId: searchSupportDocs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupportDocsSearchRequest'
+      responses:
+        '200':
+          description: Docs-grounded answer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportDocsSearchResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportProxyErrorResponse'
+        '401':
+          description: Missing or invalid bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportProxyErrorResponse'
+        '503':
+          description: Support agent unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportProxyErrorResponse'
+        '504':
+          description: Support agent timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportProxyErrorResponse'
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    SupportDocsSearchRequest:
+      type: object
+      required:
+        - question
+      properties:
+        question:
+          type: string
+          description: Documentation question to answer.
+    SupportDocsSearchResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+        answer:
+          type: string
+          description: Concise answer grounded in Firecrawl documentation.
+        evidence:
+          type: array
+          items:
+            type: object
+            properties:
+              pathOrUrl:
+                type: string
+              reason:
+                type: string
+        usage:
+          type: object
+          properties:
+            inputTokens:
+              type: integer
+            outputTokens:
+              type: integer
+            totalTokens:
+              type: integer
+        durationMs:
+          type: integer
+          description: Total docs-search execution time in milliseconds.
+    SupportProxyErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Support proxy or upstream error code.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+````

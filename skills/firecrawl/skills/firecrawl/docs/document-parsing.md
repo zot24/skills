@@ -71,7 +71,7 @@ Use `/v2/parse` when the source document is local or not publicly accessible by 
   ```
 
   ```js Node
-  import Firecrawl from "@mendable/firecrawl-js";
+  import { Firecrawl } from "firecrawl";
 
   const app = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
@@ -105,7 +105,7 @@ Use `/v2/parse` when the source document is local or not publicly accessible by 
 ### Example: Scraping an Excel File
 
 ```js Node
-import Firecrawl from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
@@ -117,7 +117,7 @@ console.log(doc.markdown);
 ### Example: Scraping a Word Document
 
 ```js Node
-import Firecrawl from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 

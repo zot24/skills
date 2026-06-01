@@ -36,6 +36,10 @@ POST /api/reports/journey
 POST /api/reports/performance
 POST /api/reports/retention
 POST /api/reports/revenue
+GET /api/websites/:websiteId/revenue/chart
+GET /api/websites/:websiteId/revenue/stats
+GET /api/websites/:websiteId/revenue/metrics
+GET /api/websites/:websiteId/revenue/sessions
 POST /api/reports/utm</code></pre>
 </figure>
 
@@ -1145,6 +1149,165 @@ Get currency for given range. Needed for Revenue and optional in Attribution rep
 
 ------------------------------------------------------------------------
 
+## <a href="#get-apiwebsiteswebsiteidrevenuechart" class="peer" data-card="">GET /api/websites/:websiteId/revenue/chart</a>
+
+Returns revenue chart data for a given date range and currency.
+
+**Parameters**
+
+
+| Parameter  | Type   | Description                                     |
+|------------|--------|-------------------------------------------------|
+| `startAt`  | number | Start date in Unix milliseconds.                |
+| `endAt`    | number | End date in Unix milliseconds.                  |
+| `timezone` | string | Timezone (ex. America/Los_Angeles).             |
+| `currency` | string | Currency code (ISO 4217).                       |
+| `compare`  | string | (optional) Comparison period (`prev` \| `yoy`). |
+
+
+**Sample response**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+  {
+    &quot;x&quot;: &quot;revenue-demo&quot;,
+    &quot;t&quot;: &quot;2026-05-01T08:00:00Z&quot;,
+    &quot;y&quot;: 70,
+    &quot;count&quot;: 2
+  },
+  {
+    &quot;x&quot;: &quot;revenue-demo&quot;,
+    &quot;t&quot;: &quot;2026-05-01T09:00:00Z&quot;,
+    &quot;y&quot;: 40,
+    &quot;count&quot;: 2
+  }
+]</code></pre>
+</figure>
+
+------------------------------------------------------------------------
+
+## <a href="#get-apiwebsiteswebsiteidrevenuestats" class="peer" data-card="">GET /api/websites/:websiteId/revenue/stats</a>
+
+Returns revenue statistics for a given date range with optional comparison period.
+
+**Parameters**
+
+
+| Parameter  | Type   | Description                                     |
+|------------|--------|-------------------------------------------------|
+| `startAt`  | number | Start date in Unix milliseconds.                |
+| `endAt`    | number | End date in Unix milliseconds.                  |
+| `timezone` | string | Timezone (ex. America/Los_Angeles).             |
+| `currency` | string | Currency code (ISO 4217).                       |
+| `compare`  | string | (optional) Comparison period (`prev` \| `yoy`). |
+
+
+**Sample response**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>{
+  &quot;sum&quot;: 320,
+  &quot;count&quot;: 12,
+  &quot;unique_count&quot;: 12,
+  &quot;total_sessions&quot;: 1300,
+  &quot;average&quot;: 26.67,
+  &quot;arpu&quot;: 0.246,
+  &quot;comparison&quot;: {
+    &quot;sum&quot;: 2470,
+    &quot;count&quot;: 66,
+    &quot;unique_count&quot;: 66,
+    &quot;total_sessions&quot;: 2994,
+    &quot;average&quot;: 37.42,
+    &quot;arpu&quot;: 0.825
+  }
+}</code></pre>
+</figure>
+
+------------------------------------------------------------------------
+
+## <a href="#get-apiwebsiteswebsiteidrevenuemetrics" class="peer" data-card="">GET /api/websites/:websiteId/revenue/metrics</a>
+
+Returns revenue broken down by a specified dimension.
+
+**Parameters**
+
+
+| Parameter  | Type   | Description                                                        |
+|------------|--------|--------------------------------------------------------------------|
+| `startAt`  | number | Start date in Unix milliseconds.                                   |
+| `endAt`    | number | End date in Unix milliseconds.                                     |
+| `timezone` | string | Timezone (ex. America/Los_Angeles).                                |
+| `type`     | string | Breakdown type (`country` \| `region` \| `referrer` \| `channel`). |
+| `currency` | string | Currency code (ISO 4217).                                          |
+
+
+**Sample response**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+  { &quot;name&quot;: &quot;US&quot;, &quot;value&quot;: 120 },
+  { &quot;name&quot;: &quot;GB&quot;, &quot;value&quot;: 100 },
+  { &quot;name&quot;: &quot;DE&quot;, &quot;value&quot;: 60 }
+]</code></pre>
+</figure>
+
+------------------------------------------------------------------------
+
+## <a href="#get-apiwebsiteswebsiteidrevenuesessions" class="peer" data-card="">GET /api/websites/:websiteId/revenue/sessions</a>
+
+Returns a paginated list of sessions with revenue data.
+
+**Parameters**
+
+
+| Parameter  | Type   | Description                                |
+|------------|--------|--------------------------------------------|
+| `startAt`  | number | Start date in Unix milliseconds.           |
+| `endAt`    | number | End date in Unix milliseconds.             |
+| `timezone` | string | Timezone (ex. America/Los_Angeles).        |
+| `currency` | string | Currency code (ISO 4217).                  |
+| `page`     | number | (optional) Page number.                    |
+| `pageSize` | number | (optional) Number of results per page.     |
+| `search`   | string | (optional) Search term to filter sessions. |
+
+
+**Sample response**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
+      &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
+      &quot;hostname&quot;: &quot;example.com&quot;,
+      &quot;browser&quot;: &quot;Chrome&quot;,
+      &quot;os&quot;: &quot;Windows&quot;,
+      &quot;device&quot;: &quot;desktop&quot;,
+      &quot;screen&quot;: &quot;1920x1080&quot;,
+      &quot;language&quot;: &quot;en-US&quot;,
+      &quot;country&quot;: &quot;US&quot;,
+      &quot;region&quot;: &quot;US-CA&quot;,
+      &quot;city&quot;: &quot;San Francisco&quot;,
+      &quot;firstAt&quot;: &quot;2026-05-01T08:00:00Z&quot;,
+      &quot;lastAt&quot;: &quot;2026-05-01T08:15:00Z&quot;,
+      &quot;visits&quot;: 1,
+      &quot;views&quot;: 5,
+      &quot;events&quot;: 2,
+      &quot;createdAt&quot;: &quot;2026-05-01T08:00:00Z&quot;
+    }
+  ],
+  &quot;count&quot;: 1,
+  &quot;page&quot;: 1,
+  &quot;pageSize&quot;: 20
+}</code></pre>
+</figure>
+
+------------------------------------------------------------------------
+
 ## <a href="#post-apireportsutm" class="peer" data-card="">POST /api/reports/utm</a>
 
 Track your campaigns through UTM parameters.
@@ -1259,6 +1422,6 @@ Next Page
 ### On this page
 
 
-<a href="#filters" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Filters</a><a href="#get-apireports" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/reports</a><a href="#post-apireports" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports</a><a href="#get-apireportsreportid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/reports/:reportId</a><a href="#post-apireportsreportid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/:reportId</a><a href="#delete-apireportsreportid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">DELETE /api/reports/:reportId</a><a href="#post-apireportsattribution" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/attribution</a><a href="#post-apireportsbreakdown" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/breakdown</a><a href="#post-apireportsfunnel" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/funnel</a><a href="#post-apireportsgoal" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/goal</a><a href="#post-apireportsjourney" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/journey</a><a href="#post-apireportsperformance" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/performance</a><a href="#post-apireportsretention" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/retention</a><a href="#post-apireportsrevenue" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/revenue</a><a href="#post-apireportsutm" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/utm</a>
+<a href="#filters" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Filters</a><a href="#get-apireports" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/reports</a><a href="#post-apireports" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports</a><a href="#get-apireportsreportid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/reports/:reportId</a><a href="#post-apireportsreportid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/:reportId</a><a href="#delete-apireportsreportid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">DELETE /api/reports/:reportId</a><a href="#post-apireportsattribution" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/attribution</a><a href="#post-apireportsbreakdown" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/breakdown</a><a href="#post-apireportsfunnel" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/funnel</a><a href="#post-apireportsgoal" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/goal</a><a href="#post-apireportsjourney" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/journey</a><a href="#post-apireportsperformance" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/performance</a><a href="#post-apireportsretention" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/retention</a><a href="#post-apireportsrevenue" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/revenue</a><a href="#get-apiwebsiteswebsiteidrevenuechart" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/revenue/chart</a><a href="#get-apiwebsiteswebsiteidrevenuestats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/revenue/stats</a><a href="#get-apiwebsiteswebsiteidrevenuemetrics" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/revenue/metrics</a><a href="#get-apiwebsiteswebsiteidrevenuesessions" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/revenue/sessions</a><a href="#post-apireportsutm" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/reports/utm</a>
 
 

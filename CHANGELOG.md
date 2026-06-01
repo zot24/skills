@@ -3,6 +3,78 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-06-01] Documentation Sync
+
+**Updated skills:** agent-browser ai-sdk hermes honcho firecrawl servarr adguard glinet umami
+
+
+### agent-browser
+Updated: readme-upstream.md
+Updated: installation.md
+Updated: quick-start.md
+Updated: commands.md
+Updated: selectors.md
+
+### ai-sdk
+Updated: readme-upstream.md
+Updated: getting-started.md
+Updated: core-overview.md
+Updated: ui-overview.md
+Updated: tools.md
+
+### hermes
+Updated: installation.md
+Updated: quickstart.md
+Updated: learning-path.md
+Updated: cli.md
+Updated: configuration.md
+
+### honcho
+Updated: overview.md
+Updated: quickstart.md
+Updated: vibecoding.md
+Updated: architecture.md
+Updated: design-patterns.md
+
+### firecrawl
+Updated: readme-upstream.md
+Updated: quickstart.md
+Updated: scrape.md
+Updated: search.md
+Updated: crawl.md
+
+### servarr
+Updated: recyclarr-config.md
+Updated: sonarr.md
+Updated: radarr.md
+Updated: lidarr.md
+Updated: prowlarr.md
+
+### adguard
+Updated: getting-started.md
+Updated: configuration.md
+Updated: docker.md
+Updated: encryption.md
+Updated: dhcp.md
+
+### glinet
+Updated: first-time-setup.md
+Updated: internet-wan.md
+Updated: wireless.md
+Updated: lan-dns.md
+Updated: vpn-dashboard.md
+
+### umami
+Updated: readme-upstream.md
+Updated: api-client.md
+Updated: node-client.md
+Updated: authentication.md
+Updated: websites-api.md
+
+---
+
+
+
 ## [2026-05-24] Documentation Sync
 
 **Updated skills:** agent-browser chat-sdk ai-sdk agent-skills hermes honcho firecrawl adguard umami

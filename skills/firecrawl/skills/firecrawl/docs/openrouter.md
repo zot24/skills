@@ -15,7 +15,7 @@ OpenRouter's API is OpenAI-compatible, so you can use the OpenAI SDK pointed at 
 ## Setup
 
 ```bash
-npm install @mendable/firecrawl-js openai zod
+npm install firecrawl openai zod
 ```
 
 ```bash
@@ -28,10 +28,10 @@ export OPENROUTER_API_KEY=sk-or-YOUR-OPENROUTER-KEY
 This scrapes a page with Firecrawl and summarizes it with whatever model you pick from OpenRouter — here, Claude Haiku 4.5.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import OpenAI from 'openai';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const openrouter = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -59,11 +59,11 @@ Switch the `model` string to any [OpenRouter-supported model](https://openrouter
 OpenRouter supports OpenAI-style tool calls, so Firecrawl plugs in as a function the model can invoke.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import OpenAI from 'openai';
 import { z } from 'zod';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const openrouter = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   baseURL: 'https://openrouter.ai/api/v1',
@@ -107,10 +107,10 @@ if (call?.function.name === 'scrape_website') {
 
 ```python
 import os
-from firecrawl import FirecrawlApp
+from firecrawl import Firecrawl
 from openai import OpenAI
 
-firecrawl = FirecrawlApp(api_key=os.environ["FIRECRAWL_API_KEY"])
+firecrawl = Firecrawl(api_key=os.environ["FIRECRAWL_API_KEY"])
 
 openrouter = OpenAI(
     api_key=os.environ["OPENROUTER_API_KEY"],

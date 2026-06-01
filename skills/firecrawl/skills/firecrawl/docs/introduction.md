@@ -79,7 +79,7 @@ Search the web and get full page content from results in one call. See the [Sear
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
@@ -170,7 +170,7 @@ Scrape any URL and get its content in markdown, HTML, or other formats. See the 
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
@@ -252,7 +252,7 @@ Scrape a page, then keep working with it — click buttons, fill forms, extract 
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const app = new Firecrawl({ apiKey: 'fc-YOUR-API-KEY' });
 

@@ -15,7 +15,7 @@
 ## Setup
 
 ```bash
-npm install @mendable/firecrawl-js zod
+npm install firecrawl zod
 ```
 
 ## Overview
@@ -33,7 +33,7 @@ When scraping Etsy, you'll typically want to:
 Extract structured listing data using Zod schemas.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { z } from 'zod';
 
 // Define Zod schema
@@ -44,7 +44,7 @@ const ListingSchema = z.object({
     rating: z.number()
 });
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const result = await firecrawl.scrape('https://www.etsy.com/listing/1844315896/handmade-925-sterling-silver-jewelry-set', {
     formats: [{
@@ -66,9 +66,9 @@ console.log(validated);
 Find products on Etsy marketplace.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const searchResult = await firecrawl.search('handmade jewelry site:etsy.com', {
     limit: 10,
@@ -86,9 +86,9 @@ console.log(searchResult);
 Scrape a single Etsy product listing.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const result = await firecrawl.scrape('https://www.etsy.com/listing/1844315896/handmade-925-sterling-silver-jewelry-set', {
     formats: ['markdown'], // i.e. html, links, etc.
@@ -103,9 +103,9 @@ console.log(result);
 Discover all available URLs in an Etsy shop or category. Note: Map returns URLs only, without content.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const mapResult = await firecrawl.map('https://www.etsy.com/shop/YourShopName');
 
@@ -118,9 +118,9 @@ console.log(mapResult.links);
 Crawl multiple pages from Etsy shop or category.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const crawlResult = await firecrawl.crawl('https://www.etsy.com/c/jewelry', {
     limit: 10,
@@ -137,9 +137,9 @@ console.log(crawlResult.data);
 Scrape multiple Etsy listing URLs simultaneously.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 // Wait for completion
 const job = await firecrawl.batchScrape([

@@ -942,7 +942,7 @@ Available providers for auxiliary tasks: `auto`, `main`, plus any provider in th
 `xai-oauth` logs in via browser OAuth for SuperGrok and X Premium+ subscribers (no API key needed). Run `hermes model` and select **xAI Grok OAuth (SuperGrok / Premium+)** to authenticate. The same OAuth token is reused for every direct-to-xAI surface (chat, auxiliary tasks, TTS, image gen, video gen, transcription). See the [xAI Grok OAuth guide](/docs/guides/xai-grok-oauth), and if Hermes is on a remote host see [OAuth over SSH / Remote Hosts](/docs/guides/oauth-over-ssh).
 
 
-The `"main"` provider option means "use whatever provider my main agent uses" — it's only valid inside `auxiliary:`, `compression:`, and `fallback_model:` configs. It is **not** a valid value for your top-level `model.provider` setting. If you use a custom OpenAI-compatible endpoint, set `provider: custom` in your `model:` section. See [AI Providers](/docs/integrations/providers) for all main model provider options.
+The `"main"` provider option means "use whatever provider my main agent uses" — it's only valid inside `auxiliary:`, `compression:`, and primary fallback entries (`fallback_providers:` or legacy `fallback_model:`). It is **not** a valid value for your top-level `model.provider` setting. If you use a custom OpenAI-compatible endpoint, set `provider: custom` in your `model:` section. See [AI Providers](/docs/integrations/providers) for all main model provider options.
 
 
 ### Full auxiliary config reference<a href="#full-auxiliary-config-reference" class="hash-link" aria-label="Direct link to Full auxiliary config reference" translate="no" title="Direct link to Full auxiliary config reference">​</a>
@@ -1012,7 +1012,7 @@ auxiliary:
 Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 120s, web_extract 360s, approval 30s, compression 120s. Increase these if you use slow local models for auxiliary tasks. Vision also has a separate `download_timeout` (default 30s) for the HTTP image download — increase this for slow connections or self-hosted image servers.
 
 
-Context compression has its own `compression:` block for thresholds and an `auxiliary.compression:` block for model/provider settings — see [Context Compression](#context-compression) above. The fallback model uses a `fallback_model:` block — see [Fallback Model](/docs/integrations/providers#fallback-providers). All three follow the same provider/model/base_url pattern.
+Context compression has its own `compression:` block for thresholds and an `auxiliary.compression:` block for model/provider settings — see [Context Compression](#context-compression) above. The primary fallback chain uses a top-level `fallback_providers:` list — see [Fallback Providers](/docs/integrations/providers#fallback-providers). All three follow the same provider/model/base_url pattern.
 
 
 ### OpenRouter routing & Pareto Code for auxiliary tasks<a href="#openrouter-routing--pareto-code-for-auxiliary-tasks" class="hash-link" aria-label="Direct link to OpenRouter routing &amp; Pareto Code for auxiliary tasks" translate="no" title="Direct link to OpenRouter routing &amp; Pareto Code for auxiliary tasks">​</a>
@@ -1061,7 +1061,7 @@ AUXILIARY_VISION_MODEL=openai/gpt-4o
 
 ### Provider Options<a href="#provider-options" class="hash-link" aria-label="Direct link to Provider Options" translate="no" title="Direct link to Provider Options">​</a>
 
-These options apply to **auxiliary task configs** (`auxiliary:`, `compression:`, `fallback_model:`), not to your main `model.provider` setting.
+These options apply to **auxiliary task configs** (`auxiliary:`, `compression:`) and primary fallback entries (`fallback_providers:` or legacy `fallback_model:`), not to your main `model.provider` setting.
 
 | Provider          | Description                                                                                                                                                                                                                                                                                 | Requirements                                           |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
@@ -1741,7 +1741,7 @@ Pre-execution security scanning and secret redaction:
 
 ``` prism-code
 security:
-  redact_secrets: false          # Redact API key patterns in tool output and logs (off by default)
+  redact_secrets: true           # Redact API key patterns in tool output and logs (on by default)
   tirith_enabled: true           # Enable Tirith security scanning for terminal commands
   tirith_path: "tirith"          # Path to tirith binary (default: "tirith" in $PATH)
   tirith_timeout: 5              # Seconds to wait for tirith scan before timing out
@@ -1753,7 +1753,7 @@ security:
 ```
 
 
-- `redact_secrets` — when `true`, automatically detects and redacts patterns that look like API keys, tokens, and passwords in tool output before it enters the conversation context and logs. **Off by default** — enable if you commonly work with real credentials in tool output and want a safety net. Set to `true` explicitly to turn on.
+- `redact_secrets` — when `true`, automatically detects and redacts patterns that look like API keys, tokens, and passwords in tool output before it enters the conversation context and logs. **On by default**. Set to `false` explicitly only when you need raw credential-like strings for debugging or redactor development.
 - `tirith_enabled` — when `true`, terminal commands are scanned by <a href="https://github.com/sheeki03/tirith" target="_blank" rel="noopener noreferrer">Tirith</a> before execution to detect potentially dangerous operations.
 - `tirith_path` — path to the tirith binary. Set this if tirith is installed in a non-standard location.
 - `tirith_timeout` — maximum seconds to wait for a tirith scan. Commands proceed if the scan times out.
@@ -1892,20 +1892,23 @@ See also:
 
 ## Working Directory<a href="#working-directory" class="hash-link" aria-label="Direct link to Working Directory" translate="no" title="Direct link to Working Directory">​</a>
 
-| Context                                | Default                                                      |
-|----------------------------------------|--------------------------------------------------------------|
-| **CLI (`hermes`)**                     | Current directory where you run the command                  |
-| **Messaging gateway**                  | Home directory `~` (override with `MESSAGING_CWD`)           |
-| **Docker / Singularity / Modal / SSH** | User's home directory inside the container or remote machine |
+| Context                                | Default                                                                   |
+|----------------------------------------|---------------------------------------------------------------------------|
+| **CLI (`hermes`)**                     | Current directory where you run the command                               |
+| **Messaging gateway**                  | `terminal.cwd` from `~/.hermes/config.yaml`; if unset, home directory `~` |
+| **Docker / Singularity / Modal / SSH** | User's home directory inside the container or remote machine              |
 
 Override the working directory:
 
 
 ``` prism-code
-# In ~/.hermes/.env or ~/.hermes/config.yaml:
-MESSAGING_CWD=/home/myuser/projects    # Gateway sessions
-TERMINAL_CWD=/workspace                # All terminal sessions
+# In ~/.hermes/config.yaml:
+terminal:
+  cwd: /home/myuser/projects
 ```
+
+
+`MESSAGING_CWD` and direct `TERMINAL_CWD` entries in `~/.hermes/.env` are legacy compatibility fallbacks. New configurations should use `terminal.cwd`.
 
 
 - <a href="#directory-structure" class="table-of-contents__link toc-highlight">Directory Structure</a>

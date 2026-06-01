@@ -16,7 +16,7 @@
 ## Install the SDK
 
 ```bash
-npm install @mendable/firecrawl-js
+npm install firecrawl
 ```
 
 Add your API key to `.env`:
@@ -30,7 +30,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 Create a form action in `src/routes/search/+page.server.ts`:
 
 ```typescript
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 import { FIRECRAWL_API_KEY } from "$env/static/private";
 
 const firecrawl = new Firecrawl({ apiKey: FIRECRAWL_API_KEY });
@@ -69,7 +69,7 @@ Wire it up in `src/routes/search/+page.svelte`:
 Fetch data in a load function at `src/routes/scrape/+page.server.ts`:
 
 ```typescript
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 import { FIRECRAWL_API_KEY } from "$env/static/private";
 
 const firecrawl = new Firecrawl({ apiKey: FIRECRAWL_API_KEY });
@@ -103,7 +103,7 @@ Create a server endpoint at `src/routes/api/interact/+server.ts`:
 
 ```typescript
 import { json } from "@sveltejs/kit";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 import { FIRECRAWL_API_KEY } from "$env/static/private";
 
 const firecrawl = new Firecrawl({ apiKey: FIRECRAWL_API_KEY });

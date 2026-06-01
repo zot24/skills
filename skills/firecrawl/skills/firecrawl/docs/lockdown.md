@@ -54,7 +54,7 @@ Add `lockdown: true` to your scrape request.
   ```
 
   ```javascript JavaScript
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 

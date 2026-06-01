@@ -56,7 +56,7 @@ Include both `markdown` and `changeTracking` in the `formats` array. The `markdo
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 

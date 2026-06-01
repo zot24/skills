@@ -59,7 +59,7 @@ hermes -w -q "Fix issue #123"     # Single query in worktree
 
 ## Interface Layout<a href="#interface-layout" class="hash-link" aria-label="Direct link to Interface Layout" translate="no" title="Direct link to Interface Layout">​</a>
 
-<img src="/img/docs/cli-layout.svg" class="docs-terminal-figure" alt="Stylized preview of the Hermes CLI layout showing the banner, conversation area, and fixed input prompt." />
+<img src="/docs/img/docs/cli-layout.svg" class="docs-terminal-figure" alt="Stylized preview of the Hermes CLI layout showing the banner, conversation area, and fixed input prompt." />
 
 The Hermes CLI banner, conversation stream, and fixed input prompt rendered as a stable docs figure instead of fragile text art.
 

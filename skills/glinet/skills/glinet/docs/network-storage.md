@@ -26,6 +26,8 @@ gl-inet/docs4.x
 
 <a href="../parental_control/" class="md-nav__link"><span class="md-ellipsis"> Parental Control </span></a>
 
+<a href="../bark/" class="md-nav__link"><span class="md-ellipsis"> Bark </span></a>
+
 <a href="../tailscale/" class="md-nav__link"><span class="md-ellipsis"> Tailscale </span></a>
 
 <a href="../zerotier/" class="md-nav__link"><span class="md-ellipsis"> ZeroTier </span></a>

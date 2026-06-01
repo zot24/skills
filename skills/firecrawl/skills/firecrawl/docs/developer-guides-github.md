@@ -13,7 +13,7 @@ Learn how to use Firecrawl's core features to scrape GitHub repositories, issues
 ## Setup
 
 ```bash
-npm install @mendable/firecrawl-js zod
+npm install firecrawl zod
 ```
 
 ## Scrape with JSON Mode
@@ -21,10 +21,10 @@ npm install @mendable/firecrawl-js zod
 Extract structured data from repositories using Zod schemas.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { z } from 'zod';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const result = await firecrawl.scrape('https://github.com/firecrawl/firecrawl', {
     formats: [{
@@ -48,9 +48,9 @@ console.log(result.json);
 Find repositories, issues, or documentation on GitHub.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const searchResult = await firecrawl.search('machine learning site:github.com', {
     limit: 10,
@@ -68,9 +68,9 @@ console.log(searchResult);
 Scrape a single GitHub page - repository, issue, or file.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const result = await firecrawl.scrape('https://github.com/firecrawl/firecrawl', {
     formats: ['markdown'] // i.e. html, links, etc.
@@ -84,9 +84,9 @@ console.log(result);
 Discover all available URLs in a repository or documentation site. Note: Map returns URLs only, without content.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const mapResult = await firecrawl.map('https://github.com/vercel/next.js/tree/canary/docs');
 
@@ -99,9 +99,9 @@ console.log(mapResult.links);
 Crawl multiple pages from a repository or documentation.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const crawlResult = await firecrawl.crawl('https://github.com/facebook/react/wiki', {
     limit: 10,
@@ -118,9 +118,9 @@ console.log(crawlResult.data);
 Scrape multiple GitHub URLs simultaneously.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 // Wait for completion
 const job = await firecrawl.batchScrape([
@@ -147,10 +147,10 @@ console.log(job);
 Extract structured data from multiple repositories at once.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { z } from 'zod';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 // Wait for completion
 const job = await firecrawl.batchScrape([

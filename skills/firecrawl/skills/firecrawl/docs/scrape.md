@@ -130,6 +130,12 @@ print(doc)
 ```
 
 
+``` shiki
+doc = firecrawl.scrape("https://example.com/report.pdf", formats=["markdown"])
+print(doc.markdown)
+```
+
+
 ### 
 
 

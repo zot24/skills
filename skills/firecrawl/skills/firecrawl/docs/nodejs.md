@@ -16,7 +16,7 @@
 ## Install the SDK
 
 ```bash
-npm install @mendable/firecrawl-js
+npm install firecrawl
 ```
 
 ## Environment variable
@@ -34,7 +34,7 @@ const app = new Firecrawl();
 ## Search the web
 
 ```javascript
-import Firecrawl from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
 const app = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 const results = await app.search("firecrawl web scraping", { limit: 5 });

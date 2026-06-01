@@ -13,7 +13,7 @@ Integrate Firecrawl with LangChain to build AI applications powered by web data.
 ## Setup
 
 ```bash
-npm install @langchain/openai @mendable/firecrawl-js 
+npm install @langchain/openai firecrawl 
 ```
 
 Create `.env` file:
@@ -30,11 +30,11 @@ OPENAI_API_KEY=your_openai_key
 This example demonstrates a simple workflow: scrape a website and process the content using LangChain.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { ChatOpenAI } from '@langchain/openai';
 import { HumanMessage } from '@langchain/core/messages';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const chat = new ChatOpenAI({
     model: 'gpt-5-nano',
     apiKey: process.env.OPENAI_API_KEY
@@ -58,12 +58,12 @@ console.log('Summary:', response.content);
 This example shows how to build a LangChain chain to process and analyze scraped content.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { StringOutputParser } from '@langchain/core/output_parsers';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const model = new ChatOpenAI({
     model: 'gpt-5-nano',
     apiKey: process.env.OPENAI_API_KEY
@@ -96,12 +96,12 @@ console.log('Chain result:', result);
 This example demonstrates how to use LangChain's tool calling feature to let the model decide when to scrape websites.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { ChatOpenAI } from '@langchain/openai';
 import { DynamicStructuredTool } from '@langchain/core/tools';
 import { z } from 'zod';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 // Create the scraping tool
 const scrapeWebsiteTool = new DynamicStructuredTool({
@@ -136,11 +136,11 @@ console.log('Tool calls:', response.tool_calls);
 This example shows how to extract structured data using LangChain's structured output feature.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { ChatOpenAI } from '@langchain/openai';
 import { z } from 'zod';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const scrapeResult = await firecrawl.scrape('https://stripe.com', {
     formats: ['markdown']

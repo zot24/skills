@@ -18,7 +18,7 @@
 ## Install the SDK
 
 ```bash
-npm install @mendable/firecrawl-js
+npm install firecrawl
 ```
 
 ## Set your API key
@@ -34,7 +34,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 Create `src/mastra/tools/firecrawl.ts` to expose search and scrape as Mastra tools:
 
 ```typescript
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
 
