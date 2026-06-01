@@ -25,11 +25,9 @@ curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scri
 ```
 
 
-### Windows (native, PowerShell) — Early Beta<a href="#windows-native-powershell--early-beta" class="hash-link" aria-label="Direct link to Windows (native, PowerShell) — Early Beta" translate="no" title="Direct link to Windows (native, PowerShell) — Early Beta">​</a>
+### Windows (native, PowerShell)<a href="#windows-native-powershell" class="hash-link" aria-label="Direct link to Windows (native, PowerShell)" translate="no" title="Direct link to Windows (native, PowerShell)">​</a>
 
-
-Native Windows support is **early beta**. It installs and works for the common paths, but hasn't been road-tested as broadly as our POSIX installers. Please <a href="https://github.com/NousResearch/hermes-agent/issues" target="_blank" rel="noopener noreferrer">file issues</a> when you hit rough edges. For the most battle-tested setup on Windows today, use the Linux/macOS one-liner above inside **WSL2** instead.
-
+Native Windows runs Hermes without WSL — the CLI, gateway, TUI, and tools all work natively. (Both native and WSL2 installs coexist cleanly; see the feature note below for the one WSL2-only feature.) Found a bug? Please <a href="https://github.com/NousResearch/hermes-agent/issues" target="_blank" rel="noopener noreferrer">file issues</a>.
 
 Open PowerShell and run:
 
@@ -75,7 +73,7 @@ The installer detects Termux automatically and switches to a tested Android flow
 If you want the fully explicit path, follow the dedicated [Termux guide](/docs/getting-started/termux).
 
 
-Native Windows is in **early beta**. Everything except the browser-based dashboard chat terminal runs natively on Windows:
+Everything except the browser-based dashboard chat terminal runs natively on Windows:
 
 - **CLI (`hermes chat`, `hermes setup`, `hermes gateway`, …)** — native, uses your default terminal
 - **Gateway (Telegram, Discord, Slack, …)** — native, runs as a background PowerShell process
@@ -257,7 +255,7 @@ Hermes auto-detects whether it was installed via `pip`, the git installer, Homeb
 
 - <a href="#quick-install" class="table-of-contents__link toc-highlight">Quick Install</a>
   - <a href="#one-line-installer-linux--macos--wsl2" class="table-of-contents__link toc-highlight">One-Line Installer (Linux / macOS / WSL2)</a>
-  - <a href="#windows-native-powershell--early-beta" class="table-of-contents__link toc-highlight">Windows (native, PowerShell) — Early Beta</a>
+  - <a href="#windows-native-powershell" class="table-of-contents__link toc-highlight">Windows (native, PowerShell)</a>
   - <a href="#android--termux" class="table-of-contents__link toc-highlight">Android / Termux</a>
   - <a href="#what-the-installer-does" class="table-of-contents__link toc-highlight">What the Installer Does</a>
   - <a href="#after-installation" class="table-of-contents__link toc-highlight">After Installation</a>

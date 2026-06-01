@@ -28,7 +28,7 @@ To scrape a single page and get clean markdown content, use the `/scrape` endpoi
   ```
 
   ```js Node
-  // npm install @mendable/firecrawl-js
+  // npm install firecrawl
 
   import { Firecrawl } from 'firecrawl-js';
 
@@ -479,7 +479,7 @@ Use the `/v2/agent` endpoint for autonomous, multi-page data extraction. The age
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: 'fc-YOUR-API-KEY' });
 

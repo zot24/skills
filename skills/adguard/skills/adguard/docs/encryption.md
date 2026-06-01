@@ -37,39 +37,40 @@
     <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-primitives-b39ad27f3538ace3.css" />
     <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-a33d805aa3bce2cb.css" />
     <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/global-9c8f61f9f58ad7b2.css" />
-    <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/github-be05a7e2c0ccd82f.css" />
+    <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/github-d92b5e5cec2d5a81.css" />
   <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/repository-5c3491d57145b94f.css" />
 <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/wiki-be2b5f60ec131576.css" />
 
 
-  <script type="application/json" id="client-env">{"locale":"en","featureFlags":["actions_custom_images_storage_billing_ui_visibility","actions_image_version_event","actions_workflow_language_service_allow_concurrency_queue","agent_conflict_resolution","alternate_user_config_repo","arianotify_comprehensive_migration","artifact_ui_v2","billing_discount_threshold_notification","code_scanning_dfa_degraded_experience_notice","codespaces_prebuild_region_target_update","coding_agent_model_selection","coding_agent_model_selection_all_skus","comment_viewer_copy_raw_markdown","contentful_primer_code_blocks","copilot_agent_snippy","copilot_api_agentic_issue_marshal_yaml","copilot_ask_mode_dropdown","copilot_chat_attach_multiple_images","copilot_chat_category_rate_limit_messages","copilot_chat_clear_model_selection_for_default_change","copilot_chat_contextual_suggestions_updated","copilot_chat_enable_tool_call_logs","copilot_chat_input_commands","copilot_chat_opening_thread_switch","copilot_chat_prettify_pasted_code","copilot_chat_recommended_models_only","copilot_chat_reduce_quota_checks","copilot_chat_search_bar_redirect","copilot_chat_vision_in_claude","copilot_chat_vision_preview_gate","copilot_cloud_agent_always_categorize_models_in_model_picker","copilot_custom_copilots","copilot_custom_copilots_feature_preview","copilot_delete_cli_sessions","copilot_diff_explain_conversation_intent","copilot_diff_reference_context","copilot_duplicate_thread","copilot_extensions_hide_in_dotcom_chat","copilot_extensions_removal_on_marketplace","copilot_features_sql_server_logo","copilot_file_block_ref_matching","copilot_fix_failed_workflows","copilot_ftp_hyperspace_upgrade_prompt","copilot_icebreakers_experiment_dashboard","copilot_icebreakers_experiment_hyperspace","copilot_immersive_code_block_transition_wrap","copilot_immersive_embedded_deferred_payload","copilot_immersive_embedded_draggable","copilot_immersive_embedded_header_button","copilot_immersive_embedded_implicit_references","copilot_immersive_embedded_skip_copilot_api_token_for_dotcom_context","copilot_immersive_file_block_transition_open","copilot_immersive_file_preview_keep_mounted","copilot_immersive_job_result_preview","copilot_immersive_structured_model_picker","copilot_immersive_task_hyperlinking","copilot_immersive_task_within_chat_thread","copilot_mc_cli_resume_any_users_task","copilot_mission_control_agent_filtering","copilot_mission_control_agents_task_list","copilot_mission_control_always_send_integration_id","copilot_mission_control_cli_private_icon","copilot_mission_control_cli_session_status","copilot_mission_control_initial_data_spinner","copilot_mission_control_logs_incremental","copilot_mission_control_task_alive_updates","copilot_mission_control_tasks_repo_filter","copilot_org_policy_page_focus_mode","copilot_redirect_header_button_to_agents","copilot_resource_panel","copilot_scroll_preview_tabs","copilot_share_active_subthread","copilot_spaces_ga","copilot_spaces_individual_policies_ga","copilot_spaces_pagination","copilot_spark_empty_state","copilot_spark_handle_nil_friendly_name","copilot_swe_agent_hide_model_picker_if_only_auto","copilot_swe_agent_pr_comment_model_picker","copilot_swe_agent_use_subagents","copilot_task_api_github_rest_style","copilot_unconfigured_is_inherited","copilot_upgrade_freeze","copilot_usage_metrics_ga","copilot_user_can_upgrade_plan_field","copilot_workbench_slim_line_top_tabs","custom_instructions_file_references","dashboard_indexeddb_caching","dashboard_lists_max_age_filter","dashboard_universe_2025_feedback_dialog","flex_cta_groups_mvp","global_nav_react","hyperspace_2025_logged_out_batch_1","hyperspace_2025_logged_out_batch_2","hyperspace_2025_logged_out_batch_3","ipm_budget_deep_linking","ipm_global_transactional_message_agents","ipm_global_transactional_message_copilot","ipm_global_transactional_message_issues","ipm_global_transactional_message_prs","ipm_global_transactional_message_repos","ipm_global_transactional_message_spaces","issue_cca_modal_open","issue_cca_multi_assign_modal","issue_cca_visualization","issue_fields_global_search","issues_expanded_file_types","issues_lazy_load_comment_box_suggestions","issues_react_chrome_container_query_fix","issues_search_type_gql","landing_pages_ninetailed","landing_pages_web_vitals_tracking","lifecycle_label_name_updates","low_quality_classifier","marketing_pages_search_explore_provider","memex_default_issue_create_repository","memex_live_update_hovercard","memex_mwl_filter_field_delimiter","memex_remove_deprecated_type_issue","merge_status_header_feedback","notifications_menu_defer_labels","oauth_authorize_clickjacking_protection","octocaptcha_origin_optimization","prs_conversations_react","prs_css_anchor_positioning","prs_inbox_deferred_usequeries","repos_contributors_limited_default_range","rules_insights_filter_bar_created","rules_required_reviewers_block_description","sample_network_conn_type","secret_scanning_pattern_alerts_link","security_center_artifact_filters_popover","session_logs_ungroup_reasoning_text","site_features_copilot_universe","site_homepage_collaborate_video","spark_prompt_secret_scanning","spark_server_connection_status","suppress_automated_browser_vitals","viewscreen_sandbox","warn_inaccessible_attachments","web_socket_verified_fetch","webp_support","workbench_store_readonly"],"copilotApiOverrideUrl":"https://api.githubcopilot.com"}</script>
+  <script type="application/json" id="client-env">{"locale":"en","featureFlags":["actions_custom_images_storage_billing_ui_visibility","actions_image_version_event","actions_workflow_language_service_allow_concurrency_queue","agent_conflict_resolution","alternate_user_config_repo","arianotify_comprehensive_migration","artifact_ui_v2","billing_discount_threshold_notification","billing_user_level_budgets","billing_user_level_budgets_manage","code_scanning_dfa_degraded_experience_notice","codespaces_prebuild_region_target_update","coding_agent_model_selection","coding_agent_model_selection_all_skus","comment_viewer_copy_raw_markdown","contentful_form_phone_v2","contentful_primer_code_blocks","copilot_agent_snippy","copilot_api_agentic_issue_marshal_yaml","copilot_ask_mode_dropdown","copilot_automations_suggested_automations","copilot_chat_attach_multiple_images","copilot_chat_category_rate_limit_messages","copilot_chat_clear_model_selection_for_default_change","copilot_chat_contextual_suggestions_updated","copilot_chat_enable_tool_call_logs","copilot_chat_input_commands","copilot_chat_models_via_backend","copilot_chat_opening_thread_switch","copilot_chat_prettify_pasted_code","copilot_chat_recommended_models_only","copilot_chat_reduce_quota_checks","copilot_chat_search_bar_redirect","copilot_chat_structured_list_refs","copilot_chat_vision_in_claude","copilot_chat_vision_preview_gate","copilot_cli_install_cta_max_plan","copilot_cloud_agent_always_categorize_models_in_model_picker","copilot_coding_agent_tbb_quota_banner","copilot_custom_copilots","copilot_custom_copilots_feature_preview","copilot_delete_cli_sessions","copilot_diff_explain_conversation_intent","copilot_diff_reference_context","copilot_duplicate_thread","copilot_extensions_hide_in_dotcom_chat","copilot_extensions_removal_on_marketplace","copilot_features_sql_server_logo","copilot_file_block_ref_matching","copilot_fix_failed_workflows","copilot_ftp_hyperspace_upgrade_prompt","copilot_hide_hovercard","copilot_icebreakers_experiment_dashboard","copilot_icebreakers_experiment_hyperspace","copilot_immersive_code_block_transition_wrap","copilot_immersive_embedded_deferred_payload","copilot_immersive_embedded_draggable","copilot_immersive_embedded_header_button","copilot_immersive_embedded_implicit_references","copilot_immersive_embedded_skip_copilot_api_token_for_dotcom_context","copilot_immersive_file_block_transition_open","copilot_immersive_file_preview_keep_mounted","copilot_immersive_job_result_preview","copilot_immersive_structured_model_picker","copilot_immersive_task_hyperlinking","copilot_immersive_task_within_chat_thread","copilot_mc_cli_resume_any_users_task","copilot_mission_control_agent_filtering","copilot_mission_control_agents_task_list","copilot_mission_control_always_send_integration_id","copilot_mission_control_cli_private_icon","copilot_mission_control_cli_session_status","copilot_mission_control_initial_data_spinner","copilot_mission_control_logs_incremental","copilot_mission_control_task_alive_updates","copilot_mission_control_tasks_repo_filter","copilot_org_policy_page_focus_mode","copilot_redirect_header_button_to_agents","copilot_resource_panel","copilot_scroll_preview_tabs","copilot_share_active_subthread","copilot_spaces_ga","copilot_spaces_individual_policies_ga","copilot_spaces_pagination","copilot_spark_empty_state","copilot_spark_handle_nil_friendly_name","copilot_swe_agent_hide_model_picker_if_only_auto","copilot_swe_agent_pr_comment_model_picker","copilot_swe_agent_use_subagents","copilot_task_api_github_rest_style","copilot_token_based_billing","copilot_unconfigured_is_inherited","copilot_usage_metrics_ga","copilot_user_can_upgrade_plan_field","copilot_workbench_slim_line_top_tabs","copilot_workbench_ubb","create_ghas_hard_budgets","custom_instructions_file_references","dashboard_indexeddb_caching","dashboard_lists_max_age_filter","dashboard_universe_2025_feedback_dialog","flex_cta_groups_mvp","global_nav_react","hyperspace_2025_logged_out_batch_1","hyperspace_2025_logged_out_batch_2","hyperspace_2025_logged_out_batch_3","ipm_budget_deep_linking","ipm_global_transactional_message_agents","ipm_global_transactional_message_copilot","ipm_global_transactional_message_issues","ipm_global_transactional_message_prs","ipm_global_transactional_message_repos","ipm_global_transactional_message_spaces","issue_cca_modal_open","issue_cca_multi_assign_modal","issue_cca_visualization","issue_fields_global_search","issues_expanded_file_types","issues_lazy_load_comment_box_suggestions","issues_react_chrome_container_query_fix","issues_search_type_gql","landing_pages_ninetailed","landing_pages_web_vitals_tracking","lifecycle_label_name_updates","low_quality_classifier","marketing_pages_search_explore_provider","memex_default_issue_create_repository","memex_live_update_hovercard","memex_mwl_filter_field_delimiter","memex_remove_deprecated_type_issue","merge_status_header_feedback","notifications_menu_defer_labels","oauth_authorize_clickjacking_protection","octocaptcha_origin_optimization","prs_conversations_react","prs_css_anchor_positioning","repos_contributors_limited_default_range","rules_insights_filter_bar_created","rules_required_reviewers_block_description","sample_network_conn_type","secret_scanning_pattern_alerts_link","security_center_artifact_filters_popover","session_logs_ungroup_reasoning_text","site_copilot_max_plans","site_features_copilot_universe","site_homepage_collaborate_video","spark_prompt_secret_scanning","spark_server_connection_status","suppress_automated_browser_vitals","viewscreen_sandbox","warn_inaccessible_attachments","webp_support","workbench_store_readonly"],"copilotApiOverrideUrl":"https://api.githubcopilot.com"}</script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/high-contrast-cookie-c1770ba1d19e9b2c.js"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/wp-runtime-4b906aa501f3d45a.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/wp-runtime-37cda38f4fd5f17d.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/fetch-utilities-b82d70fb3b7c15af.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/78205-a328faf42e1fde9e.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/85924-1f0f5f61600f9c8e.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/34646-0b1ef764f04384f8.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/34646-b68e58c07f4b3de7.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/environment-d69fe59c085ecc72.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/runtime-helpers-6e561c87b9671d53.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/296-b57454e133edfa64.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/296-20965d7d607b213c.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/96232-069a02c82c8693ee.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/57131-79aa62319c40af83.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/816-774d14a8cd9b309c.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/79280-d76a66e0574d2c2d.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/37037-cd0fff8f542fa8f3.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/81683-58949462db0c5675.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/64458-4fb01b8fdc13f3ff.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/46740-4421ca06d57312cc.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/82097-deb8524559e82c88.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/30058-edeab9486bacdd1a.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/github-elements-aa06f97004324c94.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/element-registry-b0792d054e5da48a.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/react-core-98e4a0207211788f.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/30058-4f7b63da3786282e.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/github-elements-1208a11884f03020.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/element-registry-452a6d890876c769.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/react-core-e4c170c2bde2bd35.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/react-lib-e93338a8d08b8bb9.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/41260-0b9ff1337b067966.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/79039-f2b81734929d0b15.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/88475-92437d3f8c9a9747.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/2887-d67f71d8e1d3e1d8.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/26533-318ac47648fb7752.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/46477-596c4ee4da73ac9a.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/34771-52ff9a0204045b56.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/31606-6f583ce9bde98bfa.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/33232-a61b173cd548f3cb.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/46287-fc23b9847d26823b.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/28000-450a3042fe455862.js" defer="defer"></script>
@@ -77,8 +78,8 @@
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/55682-a358ec7c2f348fcf.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/49029-3a132de206358025.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/99328-82a96596275fbd3e.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/behaviors-8d83b013b1d5074a.js" defer="defer"></script>
-<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/react-core.5579b76113a63a86.module.css" />
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/behaviors-787090bfc35f0bd1.js" defer="defer"></script>
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/react-core.3d3963f1b5014f00.module.css" />
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/61272-d797d8a9ce83f9c1.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/notifications-global-be20ba1998b9a752.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/57639-ed467af96719bd33.js" defer="defer"></script>
@@ -88,25 +89,25 @@
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/18233-54d39c5ce7a5714c.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/diffs-cbcc81f94c429cf8.js" defer="defer"></script>
 
-  <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/primer-react-d152c207c2235650.js" defer="defer"></script>
+  <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/primer-react-c92cdf89927b6bfc.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/octicons-react-fa41822493eeb852.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/97698-c2ef7228d0c1e6c7.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/97458-20aca2fc91de9cc3.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/73694-c5efeea1f6f546c8.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/24949-7df9a84e133032e5.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/68751-3dce390992441fd6.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/26958-b75de923c35f85c1.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/437-910fdcc156bd331b.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/437-c3d500f582b41be6.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/47946-23fdc83763e837bf.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/77450-8eb9dcf12b52bf76.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/21623-6e97b7af06115048.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/37494-8ad7eb20aa952a1d.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/68469-79baed2a4e2068eb.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/68469-6b6afd19d165e707.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/33684-88b66083477394bd.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/39593-e64bd53270ed0457.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/53275-5eee1163bee6a17a.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/27562-af2d78a392f73283.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/42839-c8e49da8ee9a82a2.js" defer="defer"></script>
-<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/notifications-subscriptions-menu-0bb219ecf7ebf5c7.js" defer="defer"></script>
-<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.9f5284db9e9c869f.module.css" />
-<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/notifications-subscriptions-menu.3c1e3d1979830a28.module.css" />
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/53275-4ca8a599089bf1ef.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/83356-0512140c390b698b.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/44374-684e21b45f569f69.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/notifications-subscriptions-menu-c8426ae2cd5181e9.js" defer="defer"></script>
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.11549718be029d2a.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/notifications-subscriptions-menu.9e2451fbde05cf4d.module.css" />
 
   <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/57644-9f95edd5ba294cf9.js" defer="defer"></script>
 <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/wiki-0d0dad1d9a7dcc9c.js" defer="defer"></script>
@@ -118,13 +119,13 @@
   <meta name="route-pattern" content="/:user_id/:repository/wiki/:id(.:format)" data-turbo-transient>
   <meta name="route-controller" content="wiki" data-turbo-transient>
   <meta name="route-action" content="show" data-turbo-transient>
-  <meta name="fetch-nonce" content="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c">
+  <meta name="fetch-nonce" content="v2:291e2a28-b991-5603-db08-54cd65249624">
 
 
   <meta name="current-catalog-service-hash" content="27690012a2eb28b75d0bacab0f2c11870266e8db9e019fa71fea812b82397bd6">
 
 
-  <meta name="request-id" content="DC45:8614F:1814262:1DA3898:6A138812" data-pjax-transient="true"/><meta name="html-safe-nonce" content="9f58e3cb88733bfc8e8c0f30275502875f5dbb205a15ffc0aa35303ffd4a2d9d" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiJEQzQ1Ojg2MTRGOjE4MTQyNjI6MURBMzg5ODo2QTEzODgxMiIsInZpc2l0b3JfaWQiOiI4Mzc1NTIxNDUxMTc3MTE3NzE0IiwicmVnaW9uX2VkZ2UiOiJpYWQiLCJyZWdpb25fcmVuZGVyIjoiaWFkIn0=" data-pjax-transient="true"/><meta name="visitor-hmac" content="f4784c146c7997ccdf1d133f2357761491b5333dad5ea30125f22646effbbe8f" data-pjax-transient="true"/>
+  <meta name="request-id" content="5045:DD1B1:10CCA44D:15209855:6A1D38C7" data-pjax-transient="true"/><meta name="html-safe-nonce" content="8c8e52842739c25e2aac5f3ff541af4db349993c2eecfd6e30d3197516e80b07" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiI1MDQ1OkREMUIxOjEwQ0NBNDREOjE1MjA5ODU1OjZBMUQzOEM3IiwidmlzaXRvcl9pZCI6IjQzNDQ0MjUzMDIxODc2NTMzMTkiLCJyZWdpb25fZWRnZSI6ImlhZCIsInJlZ2lvbl9yZW5kZXIiOiJpYWQifQ==" data-pjax-transient="true"/><meta name="visitor-hmac" content="591ff47da4a82ee37c199f9ef954a956dbf6cb0e82044e64ac38595a8e6ddfe0" data-pjax-transient="true"/>
 
 
     <meta name="hovercard-subject-tag" content="repository:62712899" data-turbo-transient>
@@ -158,8 +159,8 @@
     <meta property="fb:app_id" content="1401488693436528">
     <meta name="apple-itunes-app" content="app-id=1477376905, app-argument=https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption" />
 
-      <meta name="twitter:image" content="https://opengraph.githubassets.com/e50f0bc944900e9984ec338327060423ed1633aafeba6c68c58170db621c0238/AdguardTeam/AdGuardHome" /><meta name="twitter:site" content="@github" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="Encryption" /><meta name="twitter:description" content="Network-wide ads &amp; trackers blocking DNS server. Contribute to AdguardTeam/AdGuardHome development by creating an account on GitHub." />
-  <meta property="og:image" content="https://opengraph.githubassets.com/e50f0bc944900e9984ec338327060423ed1633aafeba6c68c58170db621c0238/AdguardTeam/AdGuardHome" /><meta property="og:image:alt" content="Network-wide ads &amp; trackers blocking DNS server. Contribute to AdguardTeam/AdGuardHome development by creating an account on GitHub." /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="600" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="Encryption" /><meta property="og:url" content="https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption" /><meta property="og:description" content="Network-wide ads &amp; trackers blocking DNS server. Contribute to AdguardTeam/AdGuardHome development by creating an account on GitHub." />
+      <meta name="twitter:image" content="https://opengraph.githubassets.com/1fa39b1773660f6d233c8af765189a4cac367a623f71c9b3e713efddf38f42e3/AdguardTeam/AdGuardHome" /><meta name="twitter:site" content="@github" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="Encryption" /><meta name="twitter:description" content="Network-wide ads &amp; trackers blocking DNS server. Contribute to AdguardTeam/AdGuardHome development by creating an account on GitHub." />
+  <meta property="og:image" content="https://opengraph.githubassets.com/1fa39b1773660f6d233c8af765189a4cac367a623f71c9b3e713efddf38f42e3/AdguardTeam/AdGuardHome" /><meta property="og:image:alt" content="Network-wide ads &amp; trackers blocking DNS server. Contribute to AdguardTeam/AdGuardHome development by creating an account on GitHub." /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="600" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="Encryption" /><meta property="og:url" content="https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption" /><meta property="og:description" content="Network-wide ads &amp; trackers blocking DNS server. Contribute to AdguardTeam/AdGuardHome development by creating an account on GitHub." />
 
 
       <meta name="hostname" content="github.com">
@@ -168,10 +169,10 @@
         <meta name="expected-hostname" content="github.com">
 
 
-  <meta http-equiv="x-pjax-version" content="3f0a8017f79af7b188163a7c1387e6b11dc6680ab10c0de1f15f255133423115" data-turbo-track="reload">
+  <meta http-equiv="x-pjax-version" content="b8ccca783c9cc3500d7fcd6cf8ca03acdb80c2272e6df064ac3608cda80a8f45" data-turbo-track="reload">
   <meta http-equiv="x-pjax-csp-version" content="f53effb2a675c4091662fd06c1c9f58a7eef6c9c46c51c4f2ac6ff94d5e4967b" data-turbo-track="reload">
-  <meta http-equiv="x-pjax-css-version" content="ddbc24722ee61e5784846fc5d628020f00d106ee4905ae925a1f06df06b22761" data-turbo-track="reload">
-  <meta http-equiv="x-pjax-js-version" content="2112fc75a6efbd69c87ac4674a1e4768187ce7f0b581a05d75d8875cc4e07dac" data-turbo-track="reload">
+  <meta http-equiv="x-pjax-css-version" content="75ed22795dd7d05a40521c01884e084fb34d435b5f163faf53a37883ee7981dd" data-turbo-track="reload">
+  <meta http-equiv="x-pjax-js-version" content="4bc1f2ae06e103437254141892d473b478743ae3f3c88eedc0625290466301ff" data-turbo-track="reload">
 
   <meta name="turbo-cache-control" content="no-preview" data-turbo-transient="">
 
@@ -188,8 +189,8 @@
 
   <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
 
-    <meta name="release" content="d81e5ef035ea5218d2be3322c4950b97e6bd21fd" data-turbo-track="reload">
-  <meta name="ui-target" content="full">
+    <meta name="release" content="40d2b6e92d6674ffa42b60fe763818edbdf0bf82" data-turbo-track="reload">
+  <meta name="ui-target" content="canary-1">
 
   <link rel="mask-icon" href="https://github.githubassets.com/assets/pinned-octocat-093da3e6fa40.svg" color="#000000">
   <link rel="alternate icon" class="js-site-favicon" type="image/png" href="https://github.githubassets.com/favicons/favicon.png">
@@ -215,8 +216,8 @@
     <span style="width: 0%;" data-view-component="true" class="Progress-item progress-pjax-loader-bar left-0 top-0 color-bg-accent-emphasis"></span>
 </span>      
 
-      <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.9f5284db9e9c869f.module.css" />
-<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/keyboard-shortcuts-dialog.17facd6dcac95d36.module.css" />
+      <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.11549718be029d2a.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/keyboard-shortcuts-dialog.6cd80e3134c32137.module.css" />
 
 <react-partial
   partial-name="keyboard-shortcuts-dialog"
@@ -280,14 +281,14 @@
           </a>
               <div class="AppHeader-appearanceSettings">
     <react-partial-anchor>
-      <button data-target="react-partial-anchor.anchor" id="icon-button-283aac62-2d98-4979-976c-531e4e26bdd5" aria-labelledby="tooltip-a92e4709-9de0-4def-8e04-ccd646fbffc5" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
+      <button data-target="react-partial-anchor.anchor" id="icon-button-8afac490-4f5c-43db-871a-d84535596b8e" aria-labelledby="tooltip-99c8ed04-11f9-45ab-8592-b9be6ce39aea" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
     <path d="M15 2.75a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1 0-1.5h4a.75.75 0 0 1 .75.75Zm-8.5.75v1.25a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-1.5 0V2H1.75a.75.75 0 0 0 0 1.5H6.5Zm1.25 5.25a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5h6ZM15 8a.75.75 0 0 1-.75.75H11.5V10a.75.75 0 1 1-1.5 0V6a.75.75 0 0 1 1.5 0v1.25h2.75A.75.75 0 0 1 15 8Zm-9 5.25v-2a.75.75 0 0 0-1.5 0v1.25H1.75a.75.75 0 0 0 0 1.5H4.5v1.25a.75.75 0 0 0 1.5 0v-2Zm9 0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Z"></path>
 </svg>
-</button><tool-tip id="tooltip-a92e4709-9de0-4def-8e04-ccd646fbffc5" for="icon-button-283aac62-2d98-4979-976c-531e4e26bdd5" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
+</button><tool-tip id="tooltip-99c8ed04-11f9-45ab-8592-b9be6ce39aea" for="icon-button-8afac490-4f5c-43db-871a-d84535596b8e" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
 
       <template data-target="react-partial-anchor.template">
-        <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.9f5284db9e9c869f.module.css" />
-<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/appearance-settings.4a3ab56164bc5ef2.module.css" />
+        <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.11549718be029d2a.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/appearance-settings.ba6a7af7e4a98cd9.module.css" />
 
 <react-partial
   partial-name="appearance-settings"
@@ -311,8 +312,8 @@
 
     <div class="HeaderMenu js-header-menu height-fit position-lg-relative d-lg-flex flex-column flex-auto top-0">
       <div class="HeaderMenu-wrapper d-flex flex-column flex-self-start flex-lg-row flex-auto rounded rounded-lg-0">
-          <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.9f5284db9e9c869f.module.css" />
-<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/marketing-navigation.602eaba7f163fe85.module.css" />
+          <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.11549718be029d2a.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/marketing-navigation.b02c4a23543a2d83.module.css" />
 
 <react-partial
   partial-name="marketing-navigation"
@@ -329,7 +330,7 @@
         <div class="d-flex flex-column flex-lg-row width-full flex-justify-end flex-lg-items-center text-center tmp-mt-3 tmp-mt-lg-0 text-lg-left tmp-ml-lg-3">
 
 
-<qbsearch-input class="search-input" data-scope="repo:AdguardTeam/AdGuardHome" data-custom-scopes-path="/search/custom_scopes" data-delete-custom-scopes-csrf="Y6qxR78AcVGbk0rFfWze7UVck6KpHx13Yex9OgFBBaqOwfDAfr9caNI-bLYzca9k0wIYRbMdNxsyoDvniu5DXA" data-max-custom-scopes="10" data-header-redesign-enabled="false" data-initial-value="" data-blackbird-suggestions-path="/search/suggestions" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations" data-current-repository="AdguardTeam/AdGuardHome" data-current-org="AdguardTeam" data-current-owner="" data-logged-in="false" data-copilot-chat-enabled="false" data-nl-search-enabled="false" data-retain-scroll-position="true">
+<qbsearch-input class="search-input" data-scope="repo:AdguardTeam/AdGuardHome" data-custom-scopes-path="/search/custom_scopes" data-delete-custom-scopes-csrf="U2cI3XYi33LOFFw5w4vXYvirPTeSxMHpDIupWsyV3TKknF-36pvFgCqVZZx9hcc0xEFcYRMcuFLEfemUlaUB-g" data-max-custom-scopes="10" data-header-redesign-enabled="false" data-initial-value="" data-blackbird-suggestions-path="/search/suggestions" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations" data-current-repository="AdguardTeam/AdGuardHome" data-current-org="AdguardTeam" data-current-owner="" data-logged-in="false" data-copilot-chat-enabled="false" data-nl-search-enabled="false" data-retain-scroll-position="true">
   <div
     class="search-input-container search-with-dialog position-relative d-flex flex-row flex-items-center tmp-mr-4 rounded"
     data-action="click:qbsearch-input#searchInputContainerClicked"
@@ -393,7 +394,7 @@
           ></div>
           <div class="QueryBuilder-InputWrapper">
             <div aria-hidden="true" class="QueryBuilder-Sizer" data-target="query-builder.sizer"></div>
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-90f4593d-bc85-4a18-bf22-042e595e07a2" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-c785c830-8f19-4dec-bf61-618a6ce372e5" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -634,7 +635,7 @@
             ></ul>
 
         </div>
-      <div class="FormControl-inlineValidation" id="validation-90f4593d-bc85-4a18-bf22-042e595e07a2" hidden="hidden">
+      <div class="FormControl-inlineValidation" id="validation-c785c830-8f19-4dec-bf61-618a6ce372e5" hidden="hidden">
         <span class="FormControl-inlineValidation--visual">
           <svg aria-hidden="true" data-component="Octicon" height="12" viewBox="0 0 12 12" version="1.1" width="12" data-view-component="true" class="octicon octicon-alert-fill">
     <path d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 0 1-1.146 1.954H1.33A1.313 1.313 0 0 1 .183 9.058ZM7 7V3H5v4Zm-1 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
@@ -675,7 +676,7 @@
 
 </div>
       <scrollable-region data-labelled-by="feedback-dialog-title">
-        <div data-view-component="true" class="Overlay-body">        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="code-search-feedback-form" data-turbo="false" action="/search/feedback" accept-charset="UTF-8" method="post"><input type="hidden" data-csrf="true" name="authenticity_token" value="b88gWY0J5BVWRDgfZn25RZk/qPbB8I3I2vAre5R07dHaCmlFbTmUZfP11/i7hb7yfKShW6jEkXyyqIzbQy7fSg==" />
+        <div data-view-component="true" class="Overlay-body">        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="code-search-feedback-form" data-turbo="false" action="/search/feedback" accept-charset="UTF-8" method="post"><input type="hidden" data-csrf="true" name="authenticity_token" value="3qhzoKZrzXGkpjYcSbo5KSMeBBuMj4PxMcoE4gIdsBRUyFpmCcNENiun41T4ZLTOKWh1EWC8p25Jpyk0OCSTZQ==" />
           <p>We read every piece of feedback, and take your input very seriously.</p>
           <textarea name="feedback" class="form-control width-full mb-2" style="height: 120px" id="feedback"></textarea>
           <input name="include_email" id="include_email" aria-label="Include my email address so I can be contacted" class="form-control mr-2" type="checkbox">
@@ -713,7 +714,7 @@
         <div data-view-component="true" class="Overlay-body">        <div data-target="custom-scopes.customScopesModalDialogFlash"></div>
 
         <div hidden class="create-custom-scope-form" data-target="custom-scopes.createCustomScopeForm">
-        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="custom-scopes-dialog-form" data-turbo="false" action="/search/custom_scopes" accept-charset="UTF-8" method="post"><input type="hidden" data-csrf="true" name="authenticity_token" value="4N3TiKLoBq7PJo1Vp99lqW883Qcj/2YaesuDNV17GCEqenRIyknBE2JFOFp58g3bYXA2GO3kecpPOBP7dUvTwg==" />
+        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="custom-scopes-dialog-form" data-turbo="false" action="/search/custom_scopes" accept-charset="UTF-8" method="post"><input type="hidden" data-csrf="true" name="authenticity_token" value="dF+krFo326zdIAMu2F/rWEbCwtE1qncpF8Y4HKgrwjdgeyBC+7AXK9XRFEoyYuuKK2R6fLrA4WjoucFvjgoqPg==" />
           <div data-target="custom-scopes.customScopesModalDialogFlash"></div>
 
           <input type="hidden" id="custom_scope_id" name="custom_scope_id" data-target="custom-scopes.customScopesIdField">
@@ -731,7 +732,7 @@
                 placeholder="github-ruby"
                 required
                 maxlength="50">
-              <input type="hidden" data-csrf="true" value="dD6fy4dD4mgvgFeqJq+JmettI3W8obPUUtC6JnWhmzYXPRQhP8Vyflx7Wkd4ZXr2rQ5UPKeuWLC1p8gstTyNHg==" />
+              <input type="hidden" data-csrf="true" value="rvjH1BaIBUUFuzTUTYyGpKkfwGyYLG5NuJqWiW0HiyqnOXIQlSxUwD7GO9Qhnz9sr0zxfnk0mkKfVSWOo5Jb1A==" />
             </auto-check>
           </div>
 
@@ -793,14 +794,14 @@
 
                 <div class="AppHeader-appearanceSettings">
     <react-partial-anchor>
-      <button data-target="react-partial-anchor.anchor" id="icon-button-ae942e87-0580-4693-93f4-77b16796b51d" aria-labelledby="tooltip-cb0592bf-8485-421a-875a-68dab72b5b55" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
+      <button data-target="react-partial-anchor.anchor" id="icon-button-255e1397-04fe-4582-b49b-60d809ea3daf" aria-labelledby="tooltip-71d7472b-0f6e-4311-b993-106c7cc525eb" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
     <path d="M15 2.75a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1 0-1.5h4a.75.75 0 0 1 .75.75Zm-8.5.75v1.25a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-1.5 0V2H1.75a.75.75 0 0 0 0 1.5H6.5Zm1.25 5.25a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5h6ZM15 8a.75.75 0 0 1-.75.75H11.5V10a.75.75 0 1 1-1.5 0V6a.75.75 0 0 1 1.5 0v1.25h2.75A.75.75 0 0 1 15 8Zm-9 5.25v-2a.75.75 0 0 0-1.5 0v1.25H1.75a.75.75 0 0 0 0 1.5H4.5v1.25a.75.75 0 0 0 1.5 0v-2Zm9 0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Z"></path>
 </svg>
-</button><tool-tip id="tooltip-cb0592bf-8485-421a-875a-68dab72b5b55" for="icon-button-ae942e87-0580-4693-93f4-77b16796b51d" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
+</button><tool-tip id="tooltip-71d7472b-0f6e-4311-b993-106c7cc525eb" for="icon-button-255e1397-04fe-4582-b49b-60d809ea3daf" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
 
       <template data-target="react-partial-anchor.template">
-        <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.9f5284db9e9c869f.module.css" />
-<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/appearance-settings.4a3ab56164bc5ef2.module.css" />
+        <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.11549718be029d2a.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/appearance-settings.ba6a7af7e4a98cd9.module.css" />
 
 <react-partial
   partial-name="appearance-settings"
@@ -834,10 +835,10 @@
         <span class="js-stale-session-flash-signed-out" hidden>You signed out in another tab or window. <a class="Link--inTextBlock" href="">Reload</a> to refresh your session.</span>
         <span class="js-stale-session-flash-switched" hidden>You switched accounts on another tab or window. <a class="Link--inTextBlock" href="">Reload</a> to refresh your session.</span>
 
-    <button id="icon-button-505d6982-ab88-4c62-823f-03d5c93317c1" aria-labelledby="tooltip-1c8ff00e-4a08-4caa-8827-9b4f738dc58d" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium flash-close js-flash-close">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x Button-visual">
+    <button id="icon-button-02809b18-4cd2-47be-9474-ad937e4ed817" aria-labelledby="tooltip-801a088f-4440-4581-bdb2-fab0f8378225" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium flash-close js-flash-close">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x Button-visual">
     <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
 </svg>
-</button><tool-tip id="tooltip-1c8ff00e-4a08-4caa-8827-9b4f738dc58d" for="icon-button-505d6982-ab88-4c62-823f-03d5c93317c1" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Dismiss alert</tool-tip>
+</button><tool-tip id="tooltip-801a088f-4440-4581-bdb2-fab0f8378225" for="icon-button-02809b18-4cd2-47be-9474-ad937e4ed817" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Dismiss alert</tool-tip>
 
 
 </div>
@@ -914,7 +915,7 @@
             <a href="/login?return_to=%2FAdguardTeam%2FAdGuardHome" rel="nofollow" id="repository-details-watch-button" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="c7a7b1225bddc1b1e407154cde8f681ff2ca26a403ef917a1d9b2a7622780dc0" aria-label="You must be signed in to change notification settings" data-view-component="true" class="btn-sm btn">    <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-bell mr-2 tmp-mr-2">
     <path d="M8 16a2 2 0 0 0 1.985-1.75c.017-.137-.097-.25-.235-.25h-3.5c-.138 0-.252.113-.235.25A2 2 0 0 0 8 16ZM3 5a5 5 0 0 1 10 0v2.947c0 .05.015.098.042.139l1.703 2.555A1.519 1.519 0 0 1 13.482 13H2.518a1.516 1.516 0 0 1-1.263-2.36l1.703-2.554A.255.255 0 0 0 3 7.947Zm5-3.5A3.5 3.5 0 0 0 4.5 5v2.947c0 .346-.102.683-.294.97l-1.703 2.556a.017.017 0 0 0-.003.01l.001.006c0 .002.002.004.004.006l.006.004.007.001h10.964l.007-.001.006-.004.004-.006.001-.007a.017.017 0 0 0-.003-.01l-1.703-2.554a1.745 1.745 0 0 1-.294-.97V5A3.5 3.5 0 0 0 8 1.5Z"></path>
 </svg>Notifications
-</a>    <tool-tip id="tooltip-83b34866-e00d-43dd-a517-52c08631adb1" for="repository-details-watch-button" popover="manual" data-direction="s" data-type="description" data-view-component="true" class="sr-only position-absolute">You must be signed in to change notification settings</tool-tip>
+</a>    <tool-tip id="tooltip-c4ffe43b-050c-4404-bda4-c3c032298c43" for="repository-details-watch-button" popover="manual" data-direction="s" data-type="description" data-view-component="true" class="sr-only position-absolute">You must be signed in to change notification settings</tool-tip>
 
   </li>
 
@@ -922,7 +923,7 @@
           <a icon="repo-forked" id="fork-button" href="/login?return_to=%2FAdguardTeam%2FAdGuardHome" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:62712899,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="2ec3ce6b4aaecc1716ad4377f206e55193b228506a984d4ed55d497db84f0829" data-view-component="true" class="btn-sm btn">    <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-repo-forked mr-2 tmp-mr-2">
     <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
 </svg>Fork
-    <span id="repo-network-counter" data-pjax-replace="true" data-turbo-replace="true" title="2,352" data-view-component="true" class="Counter">2.4k</span>
+    <span id="repo-network-counter" data-pjax-replace="true" data-turbo-replace="true" title="2,370" data-view-component="true" class="Counter">2.4k</span>
 </a>
   </li>
 
@@ -932,7 +933,7 @@
     <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path>
 </svg><span data-view-component="true" class="d-inline">
           Star
-</span>          <span id="repo-stars-counter-star" aria-label="34209 users starred this repository" data-singular-suffix="user starred this repository" data-plural-suffix="users starred this repository" data-turbo-replace="true" title="34,209" data-view-component="true" class="Counter js-social-count">34.2k</span>
+</span>          <span id="repo-stars-counter-star" aria-label="34511 users starred this repository" data-singular-suffix="user starred this repository" data-plural-suffix="users starred this repository" data-turbo-replace="true" title="34,511" data-view-component="true" class="Counter js-social-count">34.5k</span>
 </a></div>
   </li>
 
@@ -966,7 +967,7 @@
     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path>
 </svg>
         <span data-content="Issues">Issues</span>
-          <span id="issues-repo-tab-count" data-pjax-replace="" data-turbo-replace="" title="1,205" data-view-component="true" class="Counter">1.2k</span>
+          <span id="issues-repo-tab-count" data-pjax-replace="" data-turbo-replace="" title="1,197" data-view-component="true" class="Counter">1.2k</span>
 
 
 </a></li>
@@ -1050,22 +1051,22 @@
 </ul>
     <div style="visibility:hidden;" data-view-component="true" class="UnderlineNav-actions js-responsive-underlinenav-overflow position-absolute pr-3 tmp-pr-3 pr-md-4 tmp-pr-md-4 pr-lg-5 tmp-pr-lg-5 right-0">      <action-menu data-select-variant="none" data-view-component="true">
   <focus-group direction="vertical" mnemonics retain>
-    <button id="action-menu-52dda8ea-b0b0-4669-8e84-8e0155c5a0e2-button" popovertarget="action-menu-52dda8ea-b0b0-4669-8e84-8e0155c5a0e2-overlay" aria-controls="action-menu-52dda8ea-b0b0-4669-8e84-8e0155c5a0e2-list" aria-haspopup="true" aria-labelledby="tooltip-5b3e8be9-cda6-4134-b9c6-9bdbdd6444f0" type="button" data-view-component="true" class="Button Button--iconOnly Button--secondary Button--medium UnderlineNav-item">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-kebab-horizontal Button-visual">
+    <button id="action-menu-bdeda594-920d-4b26-84cd-d520c23fc54f-button" popovertarget="action-menu-bdeda594-920d-4b26-84cd-d520c23fc54f-overlay" aria-controls="action-menu-bdeda594-920d-4b26-84cd-d520c23fc54f-list" aria-haspopup="true" aria-labelledby="tooltip-f15da9bc-a1ee-4205-9b39-5a0e47da3b54" type="button" data-view-component="true" class="Button Button--iconOnly Button--secondary Button--medium UnderlineNav-item">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-kebab-horizontal Button-visual">
     <path d="M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm13 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path>
 </svg>
-</button><tool-tip id="tooltip-5b3e8be9-cda6-4134-b9c6-9bdbdd6444f0" for="action-menu-52dda8ea-b0b0-4669-8e84-8e0155c5a0e2-button" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Additional navigation options</tool-tip>
+</button><tool-tip id="tooltip-f15da9bc-a1ee-4205-9b39-5a0e47da3b54" for="action-menu-bdeda594-920d-4b26-84cd-d520c23fc54f-button" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Additional navigation options</tool-tip>
 
 
-<anchored-position data-target="action-menu.overlay" id="action-menu-52dda8ea-b0b0-4669-8e84-8e0155c5a0e2-overlay" anchor="action-menu-52dda8ea-b0b0-4669-8e84-8e0155c5a0e2-button" align="start" side="outside-bottom" anchor-offset="normal" popover="auto" data-view-component="true">
+<anchored-position data-target="action-menu.overlay" id="action-menu-bdeda594-920d-4b26-84cd-d520c23fc54f-overlay" anchor="action-menu-bdeda594-920d-4b26-84cd-d520c23fc54f-button" align="start" side="outside-bottom" anchor-offset="normal" popover="auto" data-view-component="true">
   <div data-view-component="true" class="Overlay Overlay--size-auto">
 
       <div data-view-component="true" class="Overlay-body Overlay-body--paddingNone">          <action-list>
   <div data-view-component="true">
-    <ul aria-labelledby="action-menu-52dda8ea-b0b0-4669-8e84-8e0155c5a0e2-button" id="action-menu-52dda8ea-b0b0-4669-8e84-8e0155c5a0e2-list" role="menu" data-view-component="true" class="ActionListWrap--inset ActionListWrap">
+    <ul aria-labelledby="action-menu-bdeda594-920d-4b26-84cd-d520c23fc54f-button" id="action-menu-bdeda594-920d-4b26-84cd-d520c23fc54f-list" role="menu" data-view-component="true" class="ActionListWrap--inset ActionListWrap">
         <li hidden="hidden" data-menu-item="i0code-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
 
 
-    <a tabindex="-1" id="item-2314ad39-6a9e-4b19-a672-efa2c4523e5b" href="/AdguardTeam/AdGuardHome" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+    <a tabindex="-1" id="item-4e2c33a5-bb7b-4c77-96a0-92b2c74cf11f" href="/AdguardTeam/AdGuardHome" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
         <span class="ActionListItem-visual ActionListItem-visual--leading">
           <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-code">
     <path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path>
@@ -1081,7 +1082,7 @@
         <li hidden="hidden" data-menu-item="i1issues-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
 
 
-    <a tabindex="-1" id="item-a3211495-e875-452e-8975-2b45ee27eb1f" href="/AdguardTeam/AdGuardHome/issues" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+    <a tabindex="-1" id="item-b9bee337-793c-43b1-8297-4ca4d3b00468" href="/AdguardTeam/AdGuardHome/issues" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
         <span class="ActionListItem-visual ActionListItem-visual--leading">
           <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-issue-opened">
     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path>
@@ -1097,7 +1098,7 @@
         <li hidden="hidden" data-menu-item="i2pull-requests-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
 
 
-    <a tabindex="-1" id="item-e2d38525-1f0c-471d-a6ac-44d3f8ec6fe2" href="/AdguardTeam/AdGuardHome/pulls" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+    <a tabindex="-1" id="item-b21987a9-8caf-41e8-b6bd-f9e67af05407" href="/AdguardTeam/AdGuardHome/pulls" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
         <span class="ActionListItem-visual ActionListItem-visual--leading">
           <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-git-pull-request">
     <path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"></path>
@@ -1113,7 +1114,7 @@
         <li hidden="hidden" data-menu-item="i3discussions-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
 
 
-    <a tabindex="-1" id="item-0059f472-8e63-41ce-b242-edd0c421b24b" href="/AdguardTeam/AdGuardHome/discussions" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+    <a tabindex="-1" id="item-6eaa591b-5a6d-4dca-b8fe-edddafa2c289" href="/AdguardTeam/AdGuardHome/discussions" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
         <span class="ActionListItem-visual ActionListItem-visual--leading">
           <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-comment-discussion">
     <path d="M1.75 1h8.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 10.25 10H7.061l-2.574 2.573A1.458 1.458 0 0 1 2 11.543V10h-.25A1.75 1.75 0 0 1 0 8.25v-5.5C0 1.784.784 1 1.75 1ZM1.5 2.75v5.5c0 .138.112.25.25.25h1a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h3.5a.25.25 0 0 0 .25-.25v-5.5a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25Zm13 2a.25.25 0 0 0-.25-.25h-.5a.75.75 0 0 1 0-1.5h.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 14.25 12H14v1.543a1.458 1.458 0 0 1-2.487 1.03L9.22 12.28a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l2.22 2.22v-2.19a.75.75 0 0 1 .75-.75h1a.25.25 0 0 0 .25-.25Z"></path>
@@ -1129,7 +1130,7 @@
         <li hidden="hidden" data-menu-item="i4actions-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
 
 
-    <a tabindex="-1" id="item-fec04530-41ca-4162-813a-ba04a0ef4ba0" href="/AdguardTeam/AdGuardHome/actions" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+    <a tabindex="-1" id="item-1aa8907c-5e62-439b-bc54-602452db95ad" href="/AdguardTeam/AdGuardHome/actions" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
         <span class="ActionListItem-visual ActionListItem-visual--leading">
           <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-play">
     <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path>
@@ -1145,7 +1146,7 @@
         <li hidden="hidden" data-menu-item="i5projects-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
 
 
-    <a tabindex="-1" id="item-98bfff84-746a-4310-a5d2-b0b57e19805c" href="/AdguardTeam/AdGuardHome/projects" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+    <a tabindex="-1" id="item-30997bec-66a5-4186-9eb2-c2f80e56a1c7" href="/AdguardTeam/AdGuardHome/projects" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
         <span class="ActionListItem-visual ActionListItem-visual--leading">
           <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-table">
     <path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v12.5A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25ZM6.5 6.5v8h7.75a.25.25 0 0 0 .25-.25V6.5Zm8-1.5V1.75a.25.25 0 0 0-.25-.25H6.5V5Zm-13 1.5v7.75c0 .138.112.25.25.25H5v-8ZM5 5V1.5H1.75a.25.25 0 0 0-.25.25V5Z"></path>
@@ -1161,7 +1162,7 @@
         <li hidden="hidden" data-menu-item="i6wiki-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
 
 
-    <a tabindex="-1" id="item-aa92dad1-57f5-4d4c-abf4-4b2060976e92" href="/AdguardTeam/AdGuardHome/wiki" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+    <a tabindex="-1" id="item-9c8d33e0-bb9c-41ff-976c-b3c4c57b6ae9" href="/AdguardTeam/AdGuardHome/wiki" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
         <span class="ActionListItem-visual ActionListItem-visual--leading">
           <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-book">
     <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
@@ -1177,7 +1178,7 @@
         <li hidden="hidden" data-menu-item="i7security-and-quality-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
 
 
-    <a tabindex="-1" id="item-8e19487f-be2b-49a9-af5d-4ea2ff17f42f" href="/AdguardTeam/AdGuardHome/security" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+    <a tabindex="-1" id="item-dc2e32c4-ce13-4f1d-b79a-174d025b68d9" href="/AdguardTeam/AdGuardHome/security" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
         <span class="ActionListItem-visual ActionListItem-visual--leading">
           <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-shield">
     <path d="M7.467.133a1.748 1.748 0 0 1 1.066 0l5.25 1.68A1.75 1.75 0 0 1 15 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.697 1.697 0 0 1-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 0 1 1.217-1.667Zm.61 1.429a.25.25 0 0 0-.153 0l-5.25 1.68a.25.25 0 0 0-.174.238V7c0 1.358.275 2.666 1.057 3.86.784 1.194 2.121 2.34 4.366 3.297a.196.196 0 0 0 .154 0c2.245-.956 3.582-2.104 4.366-3.298C13.225 9.666 13.5 8.36 13.5 7V3.48a.251.251 0 0 0-.174-.237l-5.25-1.68ZM8.75 4.75v3a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 1 1.5 0ZM9 10.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path>
@@ -1193,7 +1194,7 @@
         <li hidden="hidden" data-menu-item="i8insights-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
 
 
-    <a tabindex="-1" id="item-4038ec55-b71a-4b51-929b-643a4e8b5671" href="/AdguardTeam/AdGuardHome/pulse" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+    <a tabindex="-1" id="item-0edf94d8-c5b1-426a-a6c5-12ca093bd205" href="/AdguardTeam/AdGuardHome/pulse" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
         <span class="ActionListItem-visual ActionListItem-visual--leading">
           <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-graph">
     <path d="M1.5 1.75V13.5h13.75a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1-.75-.75V1.75a.75.75 0 0 1 1.5 0Zm14.28 2.53-5.25 5.25a.75.75 0 0 1-1.06 0L7 7.06 4.28 9.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.25-3.25a.75.75 0 0 1 1.06 0L10 7.94l4.72-4.72a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Z"></path>
@@ -1512,10 +1513,10 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
 <div class="Box Box--condensed color-shadow-small">
   <div class="Box-header px-2 py-1 js-wiki-toggle-collapse" style="cursor: pointer">
     <h2 class="Box-title d-flex flex-items-center" id="wiki-pages-box-heading">
-      <button id="icon-button-94a43d95-fa44-4a63-bc5b-a2227a8663bd" aria-labelledby="tooltip-2507b6b1-7848-482a-b458-a64da673fc4e" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--small js-wiki-sidebar-pages-toggle-chevron ">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-triangle-down Button-visual">
+      <button id="icon-button-3e08e4a2-3ead-423f-b16c-9fc7f228edcf" aria-labelledby="tooltip-545d5b0f-4140-47ea-8af0-e471fc33328e" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--small js-wiki-sidebar-pages-toggle-chevron ">  <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-triangle-down Button-visual">
     <path d="m4.427 7.427 3.396 3.396a.25.25 0 0 0 .354 0l3.396-3.396A.25.25 0 0 0 11.396 7H4.604a.25.25 0 0 0-.177.427Z"></path>
 </svg>
-</button><tool-tip id="tooltip-2507b6b1-7848-482a-b458-a64da673fc4e" for="icon-button-94a43d95-fa44-4a63-bc5b-a2227a8663bd" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Toggle table of contents</tool-tip>
+</button><tool-tip id="tooltip-545d5b0f-4140-47ea-8af0-e471fc33328e" for="icon-button-3e08e4a2-3ead-423f-b16c-9fc7f228edcf" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Toggle table of contents</tool-tip>
 
       <span>Pages <span title="15" data-view-component="true" class="Counter Counter--primary">15</span></span>
     </h2>
@@ -1546,7 +1547,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Home-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Home/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Home/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -1586,7 +1587,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Clients-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Clients/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Clients/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -1626,7 +1627,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Comparison-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Comparison/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Comparison/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -1666,7 +1667,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Configuration-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -1706,7 +1707,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="DHCP-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/DHCP/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/DHCP/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -1746,7 +1747,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="DNSCrypt-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/DNSCrypt/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/DNSCrypt/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -1786,7 +1787,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Docker-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Docker/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Docker/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -1907,7 +1908,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="FAQ-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/FAQ/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/FAQ/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -1947,7 +1948,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Getting-Started-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Getting-Started/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Getting-Started/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -1987,7 +1988,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Hosts-Blocklists-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Hosts-Blocklists/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Hosts-Blocklists/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -2027,7 +2028,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Platforms-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Platforms/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Platforms/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -2067,7 +2068,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Raspberry-Pi-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Raspberry-Pi/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Raspberry-Pi/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -2107,7 +2108,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="Verify-Releases-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Verify-Releases/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/Verify-Releases/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>
@@ -2147,7 +2148,7 @@ Guide" → "DNS Privacy" and scroll to iOS.</li>
       </div></a>  </div>
 
   <div id="VPS-table-of-contents" class="d-none js-wiki-sidebar-toc-container">
-      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/VPS/_toc" data-nonce="v2:68a6f4de-0ad3-0832-a0b9-4db3a5ed915c" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
+      <include-fragment loading="lazy" src="https://github.com/AdguardTeam/AdGuardHome/wiki/VPS/_toc" data-nonce="v2:291e2a28-b991-5603-db08-54cd65249624" data-view-component="true" class="js-wiki-sidebar-toc-fragment">
 
 
   <div data-show-on-forbidden-error hidden>

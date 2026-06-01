@@ -13,7 +13,7 @@ Learn how to effectively scrape Wikipedia for research, knowledge extraction, an
 ## Setup
 
 ```bash
-npm install @mendable/firecrawl-js zod
+npm install firecrawl zod
 ```
 
 ## Use Cases
@@ -29,10 +29,10 @@ npm install @mendable/firecrawl-js zod
 Extract structured data from Wikipedia articles using Zod schemas.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { z } from 'zod';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const result = await firecrawl.scrape('https://en.wikipedia.org/wiki/JavaScript', {
     formats: [{
@@ -55,9 +55,9 @@ console.log(result.json);
 Find articles on Wikipedia.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const searchResult = await firecrawl.search('quantum computing site:en.wikipedia.org', {
     limit: 10,
@@ -75,9 +75,9 @@ console.log(searchResult);
 Scrape a single Wikipedia article.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const result = await firecrawl.scrape('https://en.wikipedia.org/wiki/Artificial_intelligence', {
     formats: ['markdown'], // i.e. html, links, etc.
@@ -92,9 +92,9 @@ console.log(result);
 Discover all available URLs in a Wikipedia portal or category. Note: Map returns URLs only, without content.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const mapResult = await firecrawl.map('https://en.wikipedia.org/wiki/Portal:Computer_science');
 
@@ -107,9 +107,9 @@ console.log(mapResult.links);
 Crawl multiple pages from Wikipedia documentation or categories.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const crawlResult = await firecrawl.crawl('https://en.wikipedia.org/wiki/Portal:Artificial_intelligence', {
     limit: 10,
@@ -126,9 +126,9 @@ console.log(crawlResult.data);
 Scrape multiple Wikipedia URLs simultaneously.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 // Wait for completion
 const job = await firecrawl.batchScrape([

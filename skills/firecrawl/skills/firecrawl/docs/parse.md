@@ -22,7 +22,15 @@ Use `/parse` when the source document is **a local file** or **not publicly acce
 | Source                                                           | Endpoint                                         |
 | ---------------------------------------------------------------- | ------------------------------------------------ |
 | Public URL to a document (e.g. `https://example.com/report.pdf`) | [`POST /scrape`](/api-reference/endpoint/scrape) |
-| Local file or non-public bytes (PDF, DOCX, XLSX, HTML, …)        | [`POST /parse`](/api-reference/endpoint/parse)   |
+| Local file or non-public bytes (PDF, DOCX, XLSX, HTML, ...)      | [`POST /parse`](/api-reference/endpoint/parse)   |
+
+
+  **Have a public PDF URL?** Use `/scrape` instead -- it auto-detects document types and returns clean markdown. No need for a separate PDF library.
+
+  ```python Python
+  doc = firecrawl.scrape("https://example.com/report.pdf", formats=["markdown"])
+  ```
+
 
 ## Parsing
 
@@ -46,7 +54,7 @@ Used to upload a file and receive parsed content. The request is `multipart/form
   ```
 
   ```javascript Node
-  import Firecrawl from "@mendable/firecrawl-js";
+  import { Firecrawl } from "firecrawl";
   import fs from "node:fs";
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });

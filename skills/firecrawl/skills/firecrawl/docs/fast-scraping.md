@@ -59,7 +59,7 @@ Add `maxAge` to your scrape request. Values are in milliseconds (e.g., `3600000`
   ```
 
   ```javascript JavaScript
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
@@ -140,7 +140,7 @@ The same speed benefits apply when crawling multiple pages. Use `maxAge` within 
   ```
 
   ```javascript JavaScript
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 

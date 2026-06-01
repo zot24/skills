@@ -76,7 +76,7 @@ Include this header in all API calls. You can find your API key in the [Firecraw
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 

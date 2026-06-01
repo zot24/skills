@@ -26,6 +26,8 @@ gl-inet/docs4.x
 
 <a href="../vpn_dashboard_v4.9/" class="md-nav__link"><span class="md-ellipsis"> VPN Dashboard (v4.9) </span></a>
 
+<a href="../vpn_client_profile/" class="md-nav__link"><span class="md-ellipsis"> VPN Client Profile </span></a>
+
 <a href="../openvpn_client/" class="md-nav__link"><span class="md-ellipsis"> OpenVPN Client </span></a>
 
 <a href="../openvpn_server/" class="md-nav__link"><span class="md-ellipsis"> OpenVPN Server </span></a>

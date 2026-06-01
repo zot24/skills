@@ -463,7 +463,7 @@ An AI chat interface where users can ask questions about any topic. The AI assis
     Firecrawl converts websites into LLM-ready formats with scraping and search capabilities:
 
     ```bash
-    npm i @mendable/firecrawl-js
+    npm i firecrawl
     ```
 
     ### Create the Tools File
@@ -477,11 +477,11 @@ An AI chat interface where users can ask questions about any topic. The AI assis
     Add the following code to define the web scraping and search tools:
 
     ```typescript lib/tools.ts
-    import FirecrawlApp from "@mendable/firecrawl-js";
+    import { Firecrawl } from "firecrawl";
     import { tool } from "ai";
     import { z } from "zod";
 
-    const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+    const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
     export const scrapeWebsiteTool = tool({
       description: 'Scrape content from any website URL',

@@ -16,7 +16,7 @@
 ## Setup
 
 ```bash
-npm install express @mendable/firecrawl-js
+npm install express firecrawl
 ```
 
 Add your API key to `.env`:
@@ -29,7 +29,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 ```javascript
 import express from "express";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const app = express();
 app.use(express.json());

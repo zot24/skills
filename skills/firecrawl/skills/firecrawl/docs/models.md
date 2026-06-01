@@ -83,7 +83,7 @@ Pass the `model` parameter to select which model to use:
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 

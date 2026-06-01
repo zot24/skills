@@ -16,7 +16,7 @@
 ## Install the SDK
 
 ```bash
-npm install @mendable/firecrawl-js
+npm install firecrawl
 ```
 
 Add your API key to `.env`:
@@ -31,7 +31,7 @@ Create `src/pages/api/search.ts`:
 
 ```typescript
 import type { APIRoute } from "astro";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,
@@ -50,7 +50,7 @@ Or search at request time in a server-rendered page (`src/pages/search.astro`):
 
 ```astro
 ---
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,
@@ -87,7 +87,7 @@ Create `src/pages/api/scrape.ts`:
 
 ```typescript
 import type { APIRoute } from "astro";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,
@@ -106,7 +106,7 @@ Or scrape at request time in a server-rendered page (`src/pages/scrape.astro`):
 
 ```astro
 ---
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,
@@ -135,7 +135,7 @@ Create `src/pages/api/interact.ts`:
 
 ```typescript
 import type { APIRoute } from "astro";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,

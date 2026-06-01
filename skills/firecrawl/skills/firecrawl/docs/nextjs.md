@@ -16,7 +16,7 @@
 ## Install the SDK
 
 ```bash
-npm install @mendable/firecrawl-js
+npm install firecrawl
 ```
 
 ## Set your API key
@@ -37,7 +37,7 @@ Create `app/api/search/route.ts`:
 
 ```typescript
 import { NextResponse } from "next/server";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -56,7 +56,7 @@ Create `app/actions.ts` for use from Client Components:
 ```typescript
 "use server";
 
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -74,7 +74,7 @@ Create `app/api/scrape/route.ts`:
 
 ```typescript
 import { NextResponse } from "next/server";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -91,7 +91,7 @@ export async function POST(request: Request) {
 Fetch data directly in a Server Component at `app/page.tsx`:
 
 ```tsx
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -117,7 +117,7 @@ Create `app/api/interact/route.ts`:
 
 ```typescript
 import { NextResponse } from "next/server";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

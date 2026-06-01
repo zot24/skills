@@ -16,7 +16,7 @@
 ## Install the SDK
 
 ```bash
-npm install @mendable/firecrawl-js
+npm install firecrawl
 ```
 
 Add your API key to `.env`:
@@ -31,7 +31,7 @@ Create `src/firecrawl/firecrawl.service.ts`:
 
 ```typescript
 import { Injectable } from "@nestjs/common";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 @Injectable()
 export class FirecrawlService {

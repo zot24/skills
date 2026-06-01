@@ -30,6 +30,8 @@ gl-inet/docs4.x
 
 <a href="../guest_network/" class="md-nav__link"><span class="md-ellipsis"> Guest Network </span></a>
 
+<a href="../iot_network/" class="md-nav__link"><span class="md-ellipsis"> IoT Network </span></a>
+
 <a href="../dns/" class="md-nav__link"><span class="md-ellipsis"> DNS </span></a>
 
 <a href="../ethernet_port/" class="md-nav__link"><span class="md-ellipsis"> Ethernet Port </span></a>

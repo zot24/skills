@@ -22,6 +22,9 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
+<a href="../wireless_v4.9/" class="md-nav__link"><span class="md-ellipsis"> Wireless (v4.9) </span></a>
+
+
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 

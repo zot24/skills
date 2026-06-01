@@ -6,6 +6,8 @@
 
 # Ask
 
+> Diagnose Firecrawl job, account, and API usage issues with an AI support agent.
+
 The `/support/ask` endpoint is an AI support agent that diagnoses issues with your Firecrawl jobs, account, and API usage. Send a question and receive a verified answer with actionable fix parameters — typically in 15–30 seconds.
 
 ## Designed for AI agents
@@ -58,3 +60,128 @@ curl -X POST https://api.firecrawl.dev/v2/support/ask \
 For the feature guide with integration examples, see the [Ask feature documentation](/features/ask).
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+
+
+## OpenAPI
+
+````yaml /api-reference/v2-openapi.json POST /support/ask
+openapi: 3.0.0
+info:
+  title: Firecrawl API
+  version: v2
+  description: >-
+    API for interacting with Firecrawl services to perform web scraping and
+    crawling tasks.
+  contact:
+    name: Firecrawl Support
+    url: https://firecrawl.dev/support
+    email: support@firecrawl.dev
+servers:
+  - url: https://api.firecrawl.dev/v2
+security:
+  - bearerAuth: []
+paths:
+  /support/ask:
+    post:
+      tags:
+        - Support
+      summary: Ask the Firecrawl support agent
+      description: >-
+        Diagnose Firecrawl job, account, and API usage issues with an AI support
+        agent.
+      operationId: askSupportAgent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupportAskRequest'
+      responses:
+        '200':
+          description: Support agent answer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportAskResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportProxyErrorResponse'
+        '401':
+          description: Missing or invalid bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportProxyErrorResponse'
+        '503':
+          description: Support agent unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportProxyErrorResponse'
+        '504':
+          description: Support agent timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportProxyErrorResponse'
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    SupportAskRequest:
+      type: object
+      required:
+        - question
+      additionalProperties: true
+      properties:
+        question:
+          type: string
+          description: Question or issue for the support agent to diagnose.
+        rationale:
+          type: string
+          description: Optional context about what the end user is trying to accomplish.
+    SupportAskResponse:
+      type: object
+      properties:
+        answer:
+          type: string
+          description: Diagnosis and recommended fix.
+        confidence:
+          type: string
+          enum:
+            - high
+            - medium
+            - low
+        fixParameters:
+          type: object
+          nullable: true
+          additionalProperties: true
+          description: Machine-readable API parameters that may fix the issue.
+        validation:
+          type: object
+          nullable: true
+          additionalProperties: true
+          description: Validation result when the support agent tested or attempted a fix.
+        feedback:
+          type: object
+          nullable: true
+          additionalProperties: true
+          description: Present when the support agent is blocked or needs more information.
+        durationMs:
+          type: integer
+          description: Total support-agent execution time in milliseconds.
+    SupportProxyErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Support proxy or upstream error code.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+````

@@ -28,7 +28,8 @@ POST /api/websites
 GET /api/websites/:websiteId
 POST /api/websites/:websiteId
 DELETE /api/websites/:websiteId
-POST /api/websites/:websiteId/reset</code></pre>
+POST /api/websites/:websiteId/reset
+GET /api/websites/:websiteId/recorder</code></pre>
 </figure>
 
 ------------------------------------------------------------------------
@@ -159,11 +160,26 @@ Updates a website.
 **Parameters**
 
 
-| Parameter | Type   | Description                                                              |
-|-----------|--------|--------------------------------------------------------------------------|
-| `name`    | string | The name of the website in Umami.                                        |
-| `domain`  | string | The full domain of the tracked website.                                  |
-| `shareId` | string | (optional) A unique string to enable a share URL. Set `null` to unshare. |
+| Parameter      | Type   | Description                                                              |
+|----------------|--------|--------------------------------------------------------------------------|
+| `name`         | string | The name of the website in Umami.                                        |
+| `domain`       | string | The full domain of the tracked website.                                  |
+| `shareId`      | string | (optional) A unique string to enable a share URL. Set `null` to unshare. |
+| `replayConfig` | object | (optional) Session recording and heatmap configuration.                  |
+
+
+**`replayConfig` fields**
+
+
+| Field               | Type    | Description                                          |
+|---------------------|---------|------------------------------------------------------|
+| `replayEnabled`     | boolean | Enable or disable session replay recording.          |
+| `heatmapEnabled`    | boolean | Enable or disable heatmap data collection.           |
+| `sampleRate`        | number  | Fraction of sessions to record for replay (0–1).     |
+| `heatmapSampleRate` | number  | Fraction of sessions to record for heatmaps (0–1).   |
+| `maskLevel`         | string  | PII masking level: `strict` or `moderate`.           |
+| `maxDuration`       | number  | Maximum recording duration in seconds.               |
+| `blockSelector`     | string  | CSS selector for elements to exclude from recording. |
 
 
 **Request body**
@@ -172,7 +188,11 @@ Updates a website.
 
 <pre class="min-w-full w-max *:flex *:flex-col"><code>{
   &quot;name&quot;: &quot;Test&quot;,
-  &quot;domain&quot;: &quot;domain.com&quot;
+  &quot;domain&quot;: &quot;domain.com&quot;,
+  &quot;replayConfig&quot;: {
+    &quot;replayEnabled&quot;: true,
+    &quot;sampleRate&quot;: 0.5
+  }
 }</code></pre>
 </figure>
 
@@ -188,6 +208,16 @@ Updates a website.
   &quot;resetAt&quot;: null,
   &quot;userId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
   &quot;teamId&quot;: null,
+  &quot;recorderEnabled&quot;: true,
+  &quot;replayConfig&quot;: {
+    &quot;replayEnabled&quot;: true,
+    &quot;heatmapEnabled&quot;: false,
+    &quot;sampleRate&quot;: 0.5,
+    &quot;heatmapSampleRate&quot;: 0,
+    &quot;maskLevel&quot;: &quot;moderate&quot;,
+    &quot;maxDuration&quot;: 3600,
+    &quot;blockSelector&quot;: &quot;&quot;
+  },
   &quot;createdBy&quot;: &quot;133660ed-e51c-4ed9-84aa-c86654460cae&quot;,
   &quot;createdAt&quot;: &quot;2025-10-10T22:01:06.201Z&quot;,
   &quot;updatedAt&quot;: &quot;2025-10-10T22:02:02.220Z&quot;,
@@ -225,6 +255,30 @@ Resets a website by removing all data related to the website.
 }</code></pre>
 </figure>
 
+------------------------------------------------------------------------
+
+## <a href="#get-apiwebsiteswebsiteidrecorder" class="peer" data-card="">GET /api/websites/:websiteId/recorder</a>
+
+Returns the recorder configuration for a website. Used by the tracker to initialize session replay and heatmap collection. This endpoint requires no authentication and is publicly accessible.
+
+If the website does not exist or recording is disabled, returns `{ "enabled": false }`.
+
+**Sample response**
+
+<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+
+<pre class="min-w-full w-max *:flex *:flex-col"><code>{
+  &quot;enabled&quot;: true,
+  &quot;replayEnabled&quot;: true,
+  &quot;heatmapEnabled&quot;: false,
+  &quot;sampleRate&quot;: 0.15,
+  &quot;heatmapSampleRate&quot;: 0.15,
+  &quot;maskLevel&quot;: &quot;moderate&quot;,
+  &quot;maxDuration&quot;: 300000,
+  &quot;blockSelector&quot;: &quot;&quot;
+}</code></pre>
+</figure>
+
 
 <a href="/docs/api/pixels" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
 
@@ -246,6 +300,6 @@ Next Page
 ### On this page
 
 
-<a href="#get-apiwebsites" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites</a><a href="#post-apiwebsites" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/websites</a><a href="#get-apiwebsiteswebsiteid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId</a><a href="#post-apiwebsiteswebsiteid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/websites/:websiteId</a><a href="#delete-apiwebsiteswebsiteid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">DELETE /api/websites/:websiteId</a><a href="#post-apiwebsiteswebsiteidreset" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/websites/:websiteId/reset</a>
+<a href="#get-apiwebsites" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites</a><a href="#post-apiwebsites" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/websites</a><a href="#get-apiwebsiteswebsiteid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId</a><a href="#post-apiwebsiteswebsiteid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/websites/:websiteId</a><a href="#delete-apiwebsiteswebsiteid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">DELETE /api/websites/:websiteId</a><a href="#post-apiwebsiteswebsiteidreset" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/websites/:websiteId/reset</a><a href="#get-apiwebsiteswebsiteidrecorder" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/recorder</a>
 
 

@@ -15,7 +15,7 @@
 ## Setup
 
 ```bash
-npm install @mendable/firecrawl-js zod
+npm install firecrawl zod
 ```
 
 ## Overview
@@ -33,7 +33,7 @@ When scraping Amazon, you'll typically want to:
 Extract structured product data using Zod schemas.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { z } from 'zod';
 
 // Define Zod schema
@@ -45,7 +45,7 @@ const ProductSchema = z.object({
     features: z.array(z.string())
 });
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const result = await firecrawl.scrape('https://www.amazon.com/dp/B0DZZWMB2L', {
     formats: [{
@@ -67,9 +67,9 @@ console.log(validated);
 Find products on Amazon.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const searchResult = await firecrawl.search('gaming laptop site:amazon.com', {
     limit: 10,
@@ -87,9 +87,9 @@ console.log(searchResult);
 Scrape a single Amazon product page.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const result = await firecrawl.scrape('https://www.amazon.com/ASUS-ROG-Strix-Gaming-Laptop/dp/B0DZZWMB2L', {
     formats: ['markdown'], // i.e. html, links, etc.
@@ -104,9 +104,9 @@ console.log(result);
 Discover all available URLs on Amazon product or category pages. Note: Map returns URLs only, without content.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const mapResult = await firecrawl.map('https://www.amazon.com/Best-Sellers-Electronics/zgbs/electronics');
 
@@ -119,9 +119,9 @@ console.log(mapResult.links);
 Crawl multiple pages from Amazon category or search results.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 const crawlResult = await firecrawl.crawl('https://www.amazon.com/s?k=mechanical+keyboards', {
     limit: 10,
@@ -138,9 +138,9 @@ console.log(crawlResult.data);
 Scrape multiple Amazon product URLs simultaneously.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 // Wait for completion
 const job = await firecrawl.batchScrape([

@@ -465,6 +465,37 @@ results = firecrawl.search(
 ## 
 
 
+<a href="#search-then-scrape-two-step-pattern" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+JavaScript
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+firecrawl = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+# Step 1: Search
+results = firecrawl.search("firecrawl web scraping", limit=5)
+
+# Step 2: Scrape each result URL for full content
+for item in results.web or []:
+    page = firecrawl.scrape(item.url, formats=["markdown"])
+    print(page.markdown[:200])
+```
+
+
+- **One-step** (`scrapeOptions` in search): You want content from all results. Simpler and faster.
+- **Two-step** (search then scrape): You want to filter, rank, or selectively scrape results. More flexible.
+
+
+## 
+
+
 <a href="#advanced-search-options" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
@@ -699,10 +730,10 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/features/search.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/features/search" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
 
 
-<a href="/partner-credits" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
+<a href="/features/monitoring" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
 
 
-Partner Credits
+Monitoring
 
 
 <a href="/features/scrape" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>

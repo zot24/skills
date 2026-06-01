@@ -13,7 +13,7 @@ Integrate Firecrawl with Google's Gemini for AI applications powered by web data
 ## Setup
 
 ```bash
-npm install @mendable/firecrawl-js @google/genai
+npm install firecrawl @google/genai
 ```
 
 Create `.env` file:
@@ -30,10 +30,10 @@ GEMINI_API_KEY=your_gemini_key
 This example demonstrates a simple workflow: scrape a website and summarize the content using Gemini.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { GoogleGenAI } from '@google/genai';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const scrapeResult = await firecrawl.scrape('https://firecrawl.dev', {
@@ -55,10 +55,10 @@ console.log('Summary:', response.text);
 This example shows how to analyze website content using Gemini's multi-turn conversation capabilities.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { GoogleGenAI } from '@google/genai';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const scrapeResult = await firecrawl.scrape('https://news.ycombinator.com/', {
@@ -89,10 +89,10 @@ console.log('4th and 5th Stories:', result2.text);
 This example demonstrates how to extract structured data using Gemini's JSON mode from scraped website content.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { GoogleGenAI, Type } from '@google/genai';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const scrapeResult = await firecrawl.scrape('https://stripe.com', {

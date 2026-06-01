@@ -64,7 +64,7 @@ The `/agent` endpoint is Firecrawl's most advanced offering—the successor to `
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
   import { z } from 'zod';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
@@ -174,7 +174,7 @@ The fundamental challenge with `/extract` is that you typically need to know URL
   ```
 
   ```js Node
-  import Firecrawl from '@mendable/firecrawl-js';
+  import { Firecrawl } from 'firecrawl';
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
@@ -266,7 +266,7 @@ The `/scrape` endpoint with JSON mode is the most controlled approach—it extra
   ```
 
   ```js Node
-  import Firecrawl from "@mendable/firecrawl-js";
+  import { Firecrawl } from "firecrawl";
   import { z } from "zod";
 
   const app = new Firecrawl({

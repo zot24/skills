@@ -13,7 +13,7 @@ Integrate Firecrawl with Claude to build AI applications powered by web data.
 ## Setup
 
 ```bash
-npm install @mendable/firecrawl-js @anthropic-ai/sdk zod zod-to-json-schema
+npm install firecrawl @anthropic-ai/sdk zod zod-to-json-schema
 ```
 
 Create `.env` file:
@@ -30,10 +30,10 @@ ANTHROPIC_API_KEY=your_anthropic_key
 This example demonstrates a simple workflow: scrape a website and summarize the content using Claude.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import Anthropic from '@anthropic-ai/sdk';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const scrapeResult = await firecrawl.scrape('https://firecrawl.dev', {
@@ -58,12 +58,12 @@ console.log('Response:', message);
 This example shows how to use Claude's tool use feature to let the model decide when to scrape websites based on user requests.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import { Anthropic } from '@anthropic-ai/sdk';
 import { z } from 'zod';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 
-const firecrawl = new FirecrawlApp({
+const firecrawl = new Firecrawl({
     apiKey: process.env.FIRECRAWL_API_KEY
 });
 
@@ -110,11 +110,11 @@ if (toolUse && toolUse.type === 'tool_use') {
 This example demonstrates how to use Claude to extract structured data from scraped website content.
 
 ```typescript
-import FirecrawlApp from '@mendable/firecrawl-js';
+import { Firecrawl } from 'firecrawl';
 import Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
 
-const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const CompanyInfoSchema = z.object({

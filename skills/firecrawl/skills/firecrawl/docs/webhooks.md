@@ -66,6 +66,7 @@ Copy page
 | Batch Scrape | `started`, `page`, `completed`                          |
 | Extract      | `started`, `completed`, `failed`                        |
 | Agent        | `started`, `action`, `completed`, `failed`, `cancelled` |
+| Monitor      | `check.completed`                                       |
 
 
 ## 

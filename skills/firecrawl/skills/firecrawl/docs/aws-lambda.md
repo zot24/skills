@@ -18,7 +18,7 @@
 ```bash
 mkdir firecrawl-lambda && cd firecrawl-lambda
 npm init -y
-npm install @mendable/firecrawl-js
+npm install firecrawl
 ```
 
 ## Search the web
@@ -26,7 +26,7 @@ npm install @mendable/firecrawl-js
 Create `index.mjs` with a search handler:
 
 ```javascript
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

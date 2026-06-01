@@ -16,7 +16,7 @@
 ## Setup
 
 ```bash
-npm install hono @mendable/firecrawl-js
+npm install hono firecrawl
 ```
 
 Add your API key to `.env`:
@@ -29,7 +29,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 ```typescript
 import { Hono } from "hono";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 const app = new Hono();
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
@@ -79,7 +79,7 @@ Hono runs on multiple runtimes. For Cloudflare Workers, pass the API key from th
 
 ```typescript
 import { Hono } from "hono";
-import Firecrawl from "@mendable/firecrawl-js";
+import { Firecrawl } from "firecrawl";
 
 type Bindings = { FIRECRAWL_API_KEY: string };
 const app = new Hono<{ Bindings: Bindings }>();

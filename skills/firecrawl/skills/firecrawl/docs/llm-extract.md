@@ -68,7 +68,7 @@ Used to extract structured data from scraped pages.
   ```
 
   ```js Node
-  import Firecrawl from "@mendable/firecrawl-js";
+  import { Firecrawl } from "firecrawl";
   import { z } from "zod";
 
   const app = new Firecrawl({
@@ -181,7 +181,7 @@ You can also extract without a schema by just passing a `prompt` to the endpoint
   ```
 
   ```js Node
-  import Firecrawl from "@mendable/firecrawl-js";
+  import { Firecrawl } from "firecrawl";
 
   const app = new Firecrawl({
     apiKey: "fc-YOUR_API_KEY"
@@ -265,7 +265,7 @@ Here's a comprehensive example extracting structured company information from a 
   ```
 
   ```js Node
-  import Firecrawl from "@mendable/firecrawl-js";
+  import { Firecrawl } from "firecrawl";
   import { z } from "zod";
 
   const app = new Firecrawl({
