@@ -11,78 +11,42 @@ On this page
 # Installation
 
 
-Get Hermes Agent up and running in under two minutes with the one-line installer.
+Get Hermes Agent up and running in under two minutes!
 
 ## Quick Install<a href="#quick-install" class="hash-link" aria-label="Direct link to Quick Install" translate="no" title="Direct link to Quick Install">​</a>
 
-### One-Line Installer (Linux / macOS / WSL2)<a href="#one-line-installer-linux--macos--wsl2" class="hash-link" aria-label="Direct link to One-Line Installer (Linux / macOS / WSL2)" translate="no" title="Direct link to One-Line Installer (Linux / macOS / WSL2)">​</a>
+### With the Hermes Desktop installer on macOS or Windows (recommended)<a href="#with-the-hermes-desktop-installer-on-macos-or-windows-recommended" class="hash-link" aria-label="Direct link to With the Hermes Desktop installer on macOS or Windows (recommended)" translate="no" title="Direct link to With the Hermes Desktop installer on macOS or Windows (recommended)">​</a>
 
-For a git-based install that tracks `main` and gives you the latest changes immediately:
+To easily install the command-line and desktop applications, <a href="https://hermes-agent.nousresearch.com/desktop" target="_blank" rel="noopener noreferrer">download the Hermes Desktop installer</a> from our website and run it.
 
+### Without Hermes Desktop:<a href="#without-hermes-desktop" class="hash-link" aria-label="Direct link to Without Hermes Desktop:" translate="no" title="Direct link to Without Hermes Desktop:">​</a>
 
-``` prism-code
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
-```
+For a command-line only install without Hermes Desktop, run:
 
-
-### Windows (native, PowerShell)<a href="#windows-native-powershell" class="hash-link" aria-label="Direct link to Windows (native, PowerShell)" translate="no" title="Direct link to Windows (native, PowerShell)">​</a>
-
-Native Windows runs Hermes without WSL — the CLI, gateway, TUI, and tools all work natively. (Both native and WSL2 installs coexist cleanly; see the feature note below for the one WSL2-only feature.) Found a bug? Please <a href="https://github.com/NousResearch/hermes-agent/issues" target="_blank" rel="noopener noreferrer">file issues</a>.
-
-Open PowerShell and run:
+#### Linux / macOS / WSL2 / Android (Termux)<a href="#linux--macos--wsl2--android-termux" class="hash-link" aria-label="Direct link to Linux / macOS / WSL2 / Android (Termux)" translate="no" title="Direct link to Linux / macOS / WSL2 / Android (Termux)">​</a>
 
 
 ``` prism-code
-iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1)
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
 
-The installer handles **everything**: `uv`, Python 3.11, Node.js 22, `ripgrep`, `ffmpeg`, **and a portable Git Bash** (PortableGit — a self-contained Git-for-Windows distribution that ships `bash.exe` and the full POSIX toolchain Hermes uses for shell commands; on 32-bit Windows the installer falls back to MinGit, which lacks bash and disables terminal-tool / agent-browser features). It clones the repo under `%LOCALAPPDATA%\hermes\hermes-agent`, creates a virtualenv, and adds `hermes` to your **User PATH**. Restart your terminal (or open a new PowerShell window) after the install so PATH picks up.
+#### Windows (native)<a href="#windows-native" class="hash-link" aria-label="Direct link to Windows (native)" translate="no" title="Direct link to Windows (native)">​</a>
 
-**How Git is handled:**
-
-1.  If `git` is already on your PATH, the installer uses your existing install.
-2.  Otherwise it downloads portable **PortableGit** (~50MB, from the official `git-for-windows` GitHub release) and unpacks it to `%LOCALAPPDATA%\hermes\git`. No admin rights required. Completely isolated — it won't interfere with any system Git install, broken or otherwise. (On 32-bit Windows it falls back to MinGit because PortableGit ships only 64-bit and ARM64 assets; bash-dependent Hermes features won't work on 32-bit hosts.)
-
-**Why not use winget?** Earlier designs auto-installed Git via `winget install Git.Git`, but winget fails badly when a system Git install is in a partial or broken state (exactly when users need the installer to just work). The portable Git approach sidesteps winget, the Windows installer registry, and any existing system Git entirely. If the Hermes Git install itself ever breaks, `Remove-Item %LOCALAPPDATA%\hermes\git` and re-run the installer — no system impact, no uninstall drama.
-
-The installer also sets `HERMES_GIT_BASH_PATH` to the located `bash.exe` so Hermes resolves it deterministically in fresh shells.
-
-If you prefer WSL2, the Linux installer above works inside it; both native and WSL installs can coexist without conflict (native data lives under `%LOCALAPPDATA%\hermes`, WSL data lives under `~/.hermes`).
-
-**Desktop installer (alternative):** A thin GUI installer is also available — download Hermes Desktop, run the `.exe`, and on first launch it calls `install.ps1` under the hood to provision Python (via `uv`), Node, PortableGit, and the rest of the dependencies. The desktop app and the PowerShell-installed CLI share the same install and data directories, so you can use either or both. See the [Windows (Native) guide](/docs/user-guide/windows-native#desktop-installer-alternative) for details.
-
-### Android / Termux<a href="#android--termux" class="hash-link" aria-label="Direct link to Android / Termux" translate="no" title="Direct link to Android / Termux">​</a>
-
-Hermes now ships a Termux-aware installer path too:
+Run in powershell:
 
 
 ``` prism-code
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+iex (irm https://hermes-agent.nousresearch.com/install.ps1) 
 ```
 
 
-The installer detects Termux automatically and switches to a tested Android flow:
-
-- uses Termux `pkg` for system dependencies (`git`, `python`, `nodejs`, `ripgrep`, `ffmpeg`, build tools)
-- creates the virtualenv with `python -m venv`
-- exports `ANDROID_API_LEVEL` automatically for Android wheel builds
-- prefers the broad `.[termux-all]` extra and falls back to the smaller `.[termux]` extra (and finally a base install) if the first attempt fails to compile
-- skips the untested browser / WhatsApp bootstrap by default
-
-If you want the fully explicit path, follow the dedicated [Termux guide](/docs/getting-started/termux).
+If you want to install & run Hermes Desktop after a command-line only install, simply run
 
 
-Everything except the browser-based dashboard chat terminal runs natively on Windows:
-
-- **CLI (`hermes chat`, `hermes setup`, `hermes gateway`, …)** — native, uses your default terminal
-- **Gateway (Telegram, Discord, Slack, …)** — native, runs as a background PowerShell process
-- **Cron scheduler** — native
-- **Browser tool** — native (Chromium via Node.js)
-- **MCP servers** — native (stdio and HTTP transports both supported)
-- **Dashboard `/chat` terminal pane** — **WSL2 only** (uses a POSIX PTY; native Windows has no equivalent). The rest of the dashboard (sessions, jobs, metrics) works natively — only the embedded PTY terminal tab is gated.
-
-Set `HERMES_DISABLE_WINDOWS_UTF8=1` in your environment if you hit an encoding-related bug and want to fall back to the legacy cp1252 stdio path (useful for bisecting).
+``` prism-code
+hermes desktop
+```
 
 
 ### What the Installer Does<a href="#what-the-installer-does" class="hash-link" aria-label="Direct link to What the Installer Does" translate="no" title="Direct link to What the Installer Does">​</a>
@@ -139,9 +103,7 @@ That logs you in, sets Nous as your provider, and turns on the Tool Gateway in o
 
 ## Prerequisites<a href="#prerequisites" class="hash-link" aria-label="Direct link to Prerequisites" translate="no" title="Direct link to Prerequisites">​</a>
 
-**pip install:** No prerequisites beyond Python 3.11+. Everything else is handled automatically.
-
-**Git installer:** The only prerequisite is **Git**. The installer automatically handles everything else:
+**Installer:** On non-Windows platforms, the only prerequisite is **Git**. The installer automatically handles everything else:
 
 - **uv** (fast Python package manager)
 - **Python 3.11** (via uv, no sudo needed)
@@ -193,7 +155,7 @@ Running Hermes as a dedicated unprivileged user (e.g. a `hermes` systemd service
     <div class="codeBlockContent_QJqH">
 
     ``` prism-code
-    curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+    curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
     ```
 
     </div>
@@ -207,7 +169,7 @@ Running Hermes as a dedicated unprivileged user (e.g. a `hermes` systemd service
     <div class="codeBlockContent_QJqH">
 
     ``` prism-code
-    curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash -s -- --skip-browser
+    curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --skip-browser
     ```
 
     </div>
@@ -254,9 +216,8 @@ Hermes auto-detects whether it was installed via `pip`, the git installer, Homeb
 
 
 - <a href="#quick-install" class="table-of-contents__link toc-highlight">Quick Install</a>
-  - <a href="#one-line-installer-linux--macos--wsl2" class="table-of-contents__link toc-highlight">One-Line Installer (Linux / macOS / WSL2)</a>
-  - <a href="#windows-native-powershell" class="table-of-contents__link toc-highlight">Windows (native, PowerShell)</a>
-  - <a href="#android--termux" class="table-of-contents__link toc-highlight">Android / Termux</a>
+  - <a href="#with-the-hermes-desktop-installer-on-macos-or-windows-recommended" class="table-of-contents__link toc-highlight">With the Hermes Desktop installer on macOS or Windows (recommended)</a>
+  - <a href="#without-hermes-desktop" class="table-of-contents__link toc-highlight">Without Hermes Desktop:</a>
   - <a href="#what-the-installer-does" class="table-of-contents__link toc-highlight">What the Installer Does</a>
   - <a href="#after-installation" class="table-of-contents__link toc-highlight">After Installation</a>
 - <a href="#prerequisites" class="table-of-contents__link toc-highlight">Prerequisites</a>

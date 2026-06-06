@@ -21,7 +21,7 @@ hermes setup --portal
 ```
 
 
-That single command runs the Portal OAuth, sets Nous as your inference provider in `config.yaml`, and turns on the Tool Gateway. You're ready to `hermes chat` immediately after.
+That single command runs the Portal OAuth, lets you pick a Nous model, sets Nous as your inference provider in `config.yaml`, and turns on the Tool Gateway. You're ready to `hermes chat` immediately after.
 
 Don't have a subscription yet? <a href="https://portal.nousresearch.com/manage-subscription" target="_blank" rel="noopener noreferrer">portal.nousresearch.com/manage-subscription</a> — sign up, then come back and run the command above.
 
@@ -110,9 +110,10 @@ This runs the full setup in one shot:
 
 1.  Opens your browser to portal.nousresearch.com for OAuth login
 2.  Stores the refresh token at `~/.hermes/auth.json`
-3.  Sets Nous as your inference provider in `~/.hermes/config.yaml`
-4.  Turns on the Tool Gateway (web, image, TTS, browser routing)
-5.  Returns you to your terminal ready to `hermes chat`
+3.  Lets you pick a Nous model from the curated list (or skip to keep your current one)
+4.  Sets Nous as your inference provider in `~/.hermes/config.yaml` (when you pick a model)
+5.  Turns on the Tool Gateway (web, image, TTS, browser routing)
+6.  Returns you to your terminal ready to `hermes chat`
 
 If you don't have a subscription yet, sign up at <a href="https://portal.nousresearch.com/manage-subscription" target="_blank" rel="noopener noreferrer">portal.nousresearch.com/manage-subscription</a> first.
 
@@ -144,13 +145,16 @@ If you use [Hermes profiles](/docs/user-guide/profiles), the Portal refresh toke
 
 
 ``` prism-code
-hermes portal status     # login status, subscription info, model + gateway routing
+hermes portal            # log in to Nous Portal + set it up (one-shot onboarding)
+hermes portal info       # login status, subscription info, model + gateway routing
 hermes portal tools      # detailed Tool Gateway catalog with per-tool routing
 hermes portal open       # open the subscription management page in your browser
 ```
 
 
-`hermes portal status` (or just `hermes portal`) gives you the high-level overview:
+`hermes portal` (with no subcommand) is the human-readable alias for `hermes auth add nous --type oauth` — it logs you in, lets you pick a Nous model, sets Nous as your inference provider, and offers the Tool Gateway opt-in (identical to `hermes setup --portal`, and the same Nous flow as the first-time quick setup).
+
+`hermes portal info` gives you the high-level overview:
 
 
 ``` prism-code
@@ -263,13 +267,13 @@ If the Portal invalidates the refresh token (password change, manual revoke, ses
 
 ## Troubleshooting<a href="#troubleshooting" class="hash-link" aria-label="Direct link to Troubleshooting" translate="no" title="Direct link to Troubleshooting">​</a>
 
-### `hermes portal status` shows "not logged in"<a href="#hermes-portal-status-shows-not-logged-in" class="hash-link" aria-label="Direct link to hermes-portal-status-shows-not-logged-in" translate="no" title="Direct link to hermes-portal-status-shows-not-logged-in">​</a>
+### `hermes portal info` shows "not logged in"<a href="#hermes-portal-info-shows-not-logged-in" class="hash-link" aria-label="Direct link to hermes-portal-info-shows-not-logged-in" translate="no" title="Direct link to hermes-portal-info-shows-not-logged-in">​</a>
 
 You haven't completed the OAuth flow, or your refresh token was wiped. Run:
 
 
 ``` prism-code
-hermes auth add nous --type oauth
+hermes portal
 ```
 
 
@@ -293,7 +297,7 @@ If a model is genuinely missing, <a href="https://github.com/NousResearch/hermes
 
 ### Bills not appearing on my Portal account<a href="#bills-not-appearing-on-my-portal-account" class="hash-link" aria-label="Direct link to Bills not appearing on my Portal account" translate="no" title="Direct link to Bills not appearing on my Portal account">​</a>
 
-Check `hermes portal status` first — if it shows you're using a different provider (`Model: currently openrouter` instead of `using Nous as inference provider`), your local config has drifted. Run `hermes model`, pick Nous Portal, and the next request will route through your subscription.
+Check `hermes portal info` first — if it shows you're using a different provider (`Model: currently openrouter` instead of `using Nous as inference provider`), your local config has drifted. Run `hermes model`, pick Nous Portal, and the next request will route through your subscription.
 
 ## See also<a href="#see-also" class="hash-link" aria-label="Direct link to See also" translate="no" title="Direct link to See also">​</a>
 
@@ -325,7 +329,7 @@ Check `hermes portal status` first — if it shows you're using a different prov
 - <a href="#configuration-reference" class="table-of-contents__link toc-highlight">Configuration reference</a>
 - <a href="#token-handling" class="table-of-contents__link toc-highlight">Token handling</a>
 - <a href="#troubleshooting" class="table-of-contents__link toc-highlight">Troubleshooting</a>
-  - <a href="#hermes-portal-status-shows-not-logged-in" class="table-of-contents__link toc-highlight"><code>hermes portal status</code> shows "not logged in"</a>
+  - <a href="#hermes-portal-info-shows-not-logged-in" class="table-of-contents__link toc-highlight"><code>hermes portal info</code> shows "not logged in"</a>
   - <a href="#got-a-re-authentication-required-message-mid-session" class="table-of-contents__link toc-highlight">Got a "re-authentication required" message mid-session</a>
   - <a href="#want-to-use-a-specific-provider-model-that-the-portal-doesnt-expose" class="table-of-contents__link toc-highlight">Want to use a specific provider model that the Portal doesn't expose</a>
   - <a href="#bills-not-appearing-on-my-portal-account" class="table-of-contents__link toc-highlight">Bills not appearing on my Portal account</a>

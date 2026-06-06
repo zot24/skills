@@ -67,7 +67,7 @@ See [OAuth over SSH / Remote Hosts](/docs/guides/oauth-over-ssh) for the full wa
 
 
 ``` prism-code
-hermes portal status
+hermes portal info
 ```
 
 
@@ -112,7 +112,7 @@ You should see Hermes call `web_search` (Firecrawl-backed, through the gateway) 
 
 ## 5. Pick the model you actually want<a href="#5-pick-the-model-you-actually-want" class="hash-link" aria-label="Direct link to 5. Pick the model you actually want" translate="no" title="Direct link to 5. Pick the model you actually want">​</a>
 
-The default after `hermes setup --portal` is a sensible general-purpose model, but the whole point of the subscription is access to the full catalog. Switch with `/model` mid-session:
+`hermes setup --portal` lets you pick a model during setup, but the whole point of the subscription is access to the full catalog — switch any time with `/model` mid-session:
 
 
 ``` prism-code
@@ -209,13 +209,13 @@ For team setups where multiple humans share a machine, each human has their own 
 
 ## Troubleshooting<a href="#troubleshooting" class="hash-link" aria-label="Direct link to Troubleshooting" translate="no" title="Direct link to Troubleshooting">​</a>
 
-### `hermes portal status` shows "not logged in" after `hermes setup --portal`<a href="#hermes-portal-status-shows-not-logged-in-after-hermes-setup---portal" class="hash-link" aria-label="Direct link to hermes-portal-status-shows-not-logged-in-after-hermes-setup---portal" translate="no" title="Direct link to hermes-portal-status-shows-not-logged-in-after-hermes-setup---portal">​</a>
+### `hermes portal info` shows "not logged in" after `hermes setup --portal`<a href="#hermes-portal-info-shows-not-logged-in-after-hermes-setup---portal" class="hash-link" aria-label="Direct link to hermes-portal-info-shows-not-logged-in-after-hermes-setup---portal" translate="no" title="Direct link to hermes-portal-info-shows-not-logged-in-after-hermes-setup---portal">​</a>
 
 The OAuth flow didn't complete. Re-run it:
 
 
 ``` prism-code
-hermes auth add nous --type oauth
+hermes portal
 ```
 
 
@@ -240,7 +240,7 @@ hermes model
 ```
 
 
-Re-verify with `hermes portal status`.
+Re-verify with `hermes portal info`.
 
 ### Tool Gateway tools showing partner names instead of "via Nous Portal"<a href="#tool-gateway-tools-showing-partner-names-instead-of-via-nous-portal" class="hash-link" aria-label="Direct link to Tool Gateway tools showing partner names instead of &quot;via Nous Portal&quot;" translate="no" title="Direct link to Tool Gateway tools showing partner names instead of &quot;via Nous Portal&quot;">​</a>
 
@@ -282,7 +282,7 @@ If a model is genuinely unavailable, <a href="https://github.com/NousResearch/he
 
 ### Billing not appearing on my Portal account<a href="#billing-not-appearing-on-my-portal-account" class="hash-link" aria-label="Direct link to Billing not appearing on my Portal account" translate="no" title="Direct link to Billing not appearing on my Portal account">​</a>
 
-`hermes portal status` will tell you whether you're actually routing through the Portal or some other provider. Common causes:
+`hermes portal info` will tell you whether you're actually routing through the Portal or some other provider. Common causes:
 
 - `model.provider` set to `openrouter`/`anthropic`/etc. instead of `nous`
 - An OAuth refresh failure that fell back to a different configured provider
@@ -334,7 +334,7 @@ That's the deal. If you're using more than two of those backends anyway, the sub
 - <a href="#8-optional-cron--always-on-workflows" class="table-of-contents__link toc-highlight">8. (Optional) Cron + always-on workflows</a>
 - <a href="#profiles-and-multi-user-setups" class="table-of-contents__link toc-highlight">Profiles and multi-user setups</a>
 - <a href="#troubleshooting" class="table-of-contents__link toc-highlight">Troubleshooting</a>
-  - <a href="#hermes-portal-status-shows-not-logged-in-after-hermes-setup---portal" class="table-of-contents__link toc-highlight"><code>hermes portal status</code> shows "not logged in" after <code>hermes setup --portal</code></a>
+  - <a href="#hermes-portal-info-shows-not-logged-in-after-hermes-setup---portal" class="table-of-contents__link toc-highlight"><code>hermes portal info</code> shows "not logged in" after <code>hermes setup --portal</code></a>
   - <a href="#model-currently-openrouter-or-some-other-provider-instead-of-using-nous-as-inference-provider" class="table-of-contents__link toc-highlight">"Model: currently openrouter" (or some other provider) instead of "using Nous as inference provider"</a>
   - <a href="#tool-gateway-tools-showing-partner-names-instead-of-via-nous-portal" class="table-of-contents__link toc-highlight">Tool Gateway tools showing partner names instead of "via Nous Portal"</a>
   - <a href="#re-authentication-required-mid-session" class="table-of-contents__link toc-highlight">"Re-authentication required" mid-session</a>

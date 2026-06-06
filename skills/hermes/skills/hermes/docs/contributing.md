@@ -38,7 +38,7 @@ We value contributions in this order:
 
 | Requirement      | Notes                                                                                                                    |
 |------------------|--------------------------------------------------------------------------------------------------------------------------|
-| **Git**          | With `--recurse-submodules` support, and the `git-lfs` extension installed                                               |
+| **Git**          | With the `git-lfs` extension installed                                                                                   |
 | **Python 3.11+** | uv will install it if missing                                                                                            |
 | **uv**           | Fast Python package manager (<a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer">install</a>) |
 | **Node.js 20+**  | Optional — needed for browser tools and WhatsApp bridge (matches root `package.json` engines)                            |
@@ -47,7 +47,7 @@ We value contributions in this order:
 
 
 ``` prism-code
-git clone --recurse-submodules https://github.com/NousResearch/hermes-agent.git
+git clone https://github.com/NousResearch/hermes-agent.git
 cd hermes-agent
 
 # Create venv with Python 3.11

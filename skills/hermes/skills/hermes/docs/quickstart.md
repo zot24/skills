@@ -49,30 +49,33 @@ Pick the row that matches your goal:
 
 ## 1. Install Hermes Agent<a href="#1-install-hermes-agent" class="hash-link" aria-label="Direct link to 1. Install Hermes Agent" translate="no" title="Direct link to 1. Install Hermes Agent">​</a>
 
-**Option A — pip (simplest):**
+### With the Hermes Desktop installer on macOS or Windows (recommended)<a href="#with-the-hermes-desktop-installer-on-macos-or-windows-recommended" class="hash-link" aria-label="Direct link to With the Hermes Desktop installer on macOS or Windows (recommended)" translate="no" title="Direct link to With the Hermes Desktop installer on macOS or Windows (recommended)">​</a>
+
+To easily install the command-line and desktop applications, <a href="https://hermes-agent.nousresearch.com/desktop" target="_blank" rel="noopener noreferrer">download the Hermes Desktop installer</a> from our website and run it.
+
+### Without Hermes Desktop:<a href="#without-hermes-desktop" class="hash-link" aria-label="Direct link to Without Hermes Desktop:" translate="no" title="Direct link to Without Hermes Desktop:">​</a>
+
+For a command-line only install without Hermes Desktop, run:
+
+#### Linux / macOS / WSL2 / Android (Termux)<a href="#linux--macos--wsl2--android-termux" class="hash-link" aria-label="Direct link to Linux / macOS / WSL2 / Android (Termux)" translate="no" title="Direct link to Linux / macOS / WSL2 / Android (Termux)">​</a>
 
 
 ``` prism-code
-pip install hermes-agent
-hermes postinstall     # optional: installs Node.js, browser, ripgrep, ffmpeg + runs setup
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
 
-PyPI releases track tagged versions (major/minor releases), not every commit on `main`. For bleeding-edge, use Option B.
+#### Windows (native)<a href="#windows-native" class="hash-link" aria-label="Direct link to Windows (native)" translate="no" title="Direct link to Windows (native)">​</a>
 
-**Option B — git installer (tracks main branch):**
+Run in powershell:
 
 
 ``` prism-code
-# Linux / macOS / WSL2 / Android (Termux)
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+iex (irm https://hermes-agent.nousresearch.com/install.ps1) 
 ```
 
 
 If you're installing on a phone, see the dedicated [Termux guide](/docs/getting-started/termux) for the tested manual path, supported extras, and current Android-specific limitations.
-
-
-Install <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener noreferrer">WSL2</a> first, then run the command above inside your WSL2 terminal.
 
 
 After it finishes, reload your shell:
@@ -305,14 +308,34 @@ Then in the CLI: `/voice on`. Press `Ctrl+B` to record. See [Voice Mode](/docs/u
 
 ### Skills<a href="#skills" class="hash-link" aria-label="Direct link to Skills" translate="no" title="Direct link to Skills">​</a>
 
+Skills are on-demand instruction documents that teach Hermes how to do a specific task — deploy to Kubernetes, open a GitHub PR, fine-tune a model, search for GIFs. Each is a `SKILL.md` file with a name, a description, and a step-by-step procedure. The agent reads the short descriptions for free and only loads a skill's full content when a task actually calls for it, so adding skills doesn't bloat every request.
+
+Hermes ships with a catalog of bundled skills already installed in `~/.hermes/skills/`. You can add more from the Skills Hub, or write your own.
+
+**Browse and install from the hub:**
+
 
 ``` prism-code
-hermes skills search kubernetes
-hermes skills install openai/skills/k8s
+hermes skills browse                      # list everything available
+hermes skills search kubernetes           # find skills by keyword
+hermes skills install openai/skills/k8s   # install one (runs a security scan first)
 ```
 
 
-Or use `/skills` inside a chat session.
+The install argument is a `source/path` slug from the hub — `openai/skills/k8s` means the `k8s` skill from OpenAI's catalog. `hermes skills browse` shows the exact slugs to use.
+
+**Use a skill** — every installed skill becomes a slash command automatically:
+
+
+``` prism-code
+/k8s deploy the staging manifest          # run the skill with a request
+/k8s                                       # load it and let Hermes ask what you need
+```
+
+
+This works in the CLI and in any connected messaging platform. You don't have to install everything up front — the agent picks the right bundled skill on its own during normal conversation when a task matches one.
+
+See [Skills System](/docs/user-guide/features/skills) for writing your own, external skill directories, and the full hub source list.
 
 ### MCP servers<a href="#mcp-servers" class="hash-link" aria-label="Direct link to MCP servers" translate="no" title="Direct link to MCP servers">​</a>
 
@@ -400,6 +423,8 @@ That sequence gets you from "broken vibes" back to a known state fast.
 - <a href="#who-this-is-for" class="table-of-contents__link toc-highlight">Who this is for</a>
 - <a href="#the-fastest-path" class="table-of-contents__link toc-highlight">The fastest path</a>
 - <a href="#1-install-hermes-agent" class="table-of-contents__link toc-highlight">1. Install Hermes Agent</a>
+  - <a href="#with-the-hermes-desktop-installer-on-macos-or-windows-recommended" class="table-of-contents__link toc-highlight">With the Hermes Desktop installer on macOS or Windows (recommended)</a>
+  - <a href="#without-hermes-desktop" class="table-of-contents__link toc-highlight">Without Hermes Desktop:</a>
 - <a href="#2-choose-a-provider" class="table-of-contents__link toc-highlight">2. Choose a Provider</a>
   - <a href="#how-settings-are-stored" class="table-of-contents__link toc-highlight">How settings are stored</a>
 - <a href="#3-run-your-first-chat" class="table-of-contents__link toc-highlight">3. Run Your First Chat</a>

@@ -11,7 +11,13 @@
 由 <a href="https://nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Research</a> 构建的自我改进 AI 智能体。唯一内置学习循环的智能体——它从经验中创建技能，在使用过程中持续改进，主动提示自身持久化知识，并在会话间不断深化对你的建模。
 
 
-<a href="/docs/zh-Hans/getting-started/installation" style="display:inline-block;padding:0.6rem 1.2rem;background-color:#FFD700;color:#07070d;border-radius:8px;font-weight:600;text-decoration:none">快速开始 →</a><a href="https://github.com/NousResearch/hermes-agent" style="display:inline-block;padding:0.6rem 1.2rem;border:1px solid rgba(255,215,0,0.2);border-radius:8px;text-decoration:none">在 GitHub 上查看</a>
+<a href="/docs/zh-Hans/getting-started/installation" style="display:inline-block;padding:0.6rem 1.2rem;background-color:#FFD700;color:#07070d;border-radius:8px;font-weight:600;text-decoration:none"></a>
+
+快速开始 →
+
+<a href="https://github.com/NousResearch/hermes-agent" style="display:inline-block;padding:0.6rem 1.2rem;border:1px solid rgba(255,215,0,0.2);border-radius:8px;text-decoration:none"></a>
+
+在 GitHub 上查看
 
 
 ## 安装<a href="#安装" class="hash-link" aria-label="安装的直接链接" translate="no" title="安装的直接链接">​</a>
@@ -20,7 +26,7 @@
 
 
 ``` prism-code
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
 
@@ -28,7 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scri
 
 
 ``` prism-code
-iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1)
+iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 ```
 
 
@@ -81,7 +87,7 @@ iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/script
 本文档的机器可读入口：
 
 - **<a href="/docs/zh-Hans/assets/files/llms-d4972c57170916efd83766ae50c3bb3d.txt" target="_blank"><code>/llms.txt</code></a>** — 每个文档页面的精选索引，附简短描述。约 17 KB，可安全加载到 LLM 上下文中。
-- **<a href="/docs/zh-Hans/assets/files/llms-full-af425d591bd91e3f5ffafaf5345bd21d.txt" target="_blank"><code>/llms-full.txt</code></a>** — 所有文档页面拼接为单一 markdown 文件，支持一次性摄取。约 1.8 MB。
+- **<a href="/docs/zh-Hans/assets/files/llms-full-1edd45007ed802d53db26fcab096793a.txt" target="_blank"><code>/llms-full.txt</code></a>** — 所有文档页面拼接为单一 markdown 文件，支持一次性摄取。约 1.8 MB。
 
 两个文件同样可通过 `/docs/llms.txt` 和 `/docs/llms-full.txt` 访问。每次部署时全新生成。
 
