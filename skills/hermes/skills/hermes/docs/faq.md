@@ -39,7 +39,7 @@ Set your provider with `hermes model` or by editing `~/.hermes/.env`. See the [E
 
 
 ``` prism-code
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
 
@@ -69,7 +69,7 @@ Quick install:
 
 
 ``` prism-code
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
 
@@ -256,7 +256,7 @@ source ~/.bashrc
 # If you previously installed with sudo, clean up:
 sudo rm /usr/local/bin/hermes
 # Then re-run the standard installer
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
 
@@ -857,7 +857,7 @@ Skills with very long descriptions are truncated to 40 characters in the Telegra
     <div class="codeBlockContent_QJqH">
 
     ``` prism-code
-    curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+    curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
     ```
 
     </div>

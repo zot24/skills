@@ -25,19 +25,20 @@ hermes [global-options] <command> [subcommand/options]
 
 ### Global options<a href="#global-options" class="hash-link" aria-label="Direct link to Global options" translate="no" title="Direct link to Global options">​</a>
 
-| Option                               | Description                                                                                                        |
-|--------------------------------------|--------------------------------------------------------------------------------------------------------------------|
-| `--version`, `-V`                    | Show version and exit.                                                                                             |
-| `--profile <name>`, `-p <name>`      | Select which Hermes profile to use for this invocation. Overrides the sticky default set by `hermes profile use`.  |
-| `--resume <session>`, `-r <session>` | Resume a previous session by ID or title.                                                                          |
-| `--continue [name]`, `-c [name]`     | Resume the most recent session, or the most recent session matching a title.                                       |
-| `--worktree`, `-w`                   | Start in an isolated git worktree for parallel-agent workflows.                                                    |
-| `--yolo`                             | Bypass dangerous-command approval prompts.                                                                         |
-| `--pass-session-id`                  | Include the session ID in the agent's system prompt.                                                               |
-| `--ignore-user-config`               | Ignore `~/.hermes/config.yaml` and fall back to built-in defaults. Credentials in `.env` are still loaded.         |
-| `--ignore-rules`                     | Skip auto-injection of `AGENTS.md`, `SOUL.md`, `.cursorrules`, memory, and preloaded skills.                       |
-| `--tui`                              | Launch the [TUI](/docs/user-guide/tui) instead of the classic CLI. Equivalent to `HERMES_TUI=1`.                   |
-| `--dev`                              | With `--tui`: run the TypeScript sources directly via `tsx` instead of the prebuilt bundle (for TUI contributors). |
+| Option                               | Description                                                                                                                            |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| `--version`, `-V`                    | Show version and exit.                                                                                                                 |
+| `--profile <name>`, `-p <name>`      | Select which Hermes profile to use for this invocation. Overrides the sticky default set by `hermes profile use`.                      |
+| `--resume <session>`, `-r <session>` | Resume a previous session by ID or title.                                                                                              |
+| `--continue [name]`, `-c [name]`     | Resume the most recent session, or the most recent session matching a title.                                                           |
+| `--worktree`, `-w`                   | Start in an isolated git worktree for parallel-agent workflows.                                                                        |
+| `--yolo`                             | Bypass dangerous-command approval prompts.                                                                                             |
+| `--pass-session-id`                  | Include the session ID in the agent's system prompt.                                                                                   |
+| `--ignore-user-config`               | Ignore `~/.hermes/config.yaml` and fall back to built-in defaults. Credentials in `.env` are still loaded.                             |
+| `--ignore-rules`                     | Skip auto-injection of `AGENTS.md`, `SOUL.md`, `.cursorrules`, memory, and preloaded skills.                                           |
+| `--tui`                              | Launch the [TUI](/docs/user-guide/tui) instead of the classic CLI. Equivalent to `HERMES_TUI=1`. Always wins over `display.interface`. |
+| `--cli`                              | Force the classic prompt_toolkit REPL. Use this to override `display.interface: tui` for a single invocation.                          |
+| `--dev`                              | With `--tui`: run the TypeScript sources directly via `tsx` instead of the prebuilt bundle (for TUI contributors).                     |
 
 ## Top-level commands<a href="#top-level-commands" class="hash-link" aria-label="Direct link to Top-level commands" translate="no" title="Direct link to Top-level commands">​</a>
 
@@ -899,6 +900,8 @@ View, tail, and filter Hermes log files. All logs are stored in `~/.hermes/logs/
 | `agent` (default) | `agent.log`   | All agent activity — API calls, tool dispatch, session lifecycle (INFO and above)   |
 | `errors`          | `errors.log`  | Warnings and errors only — a filtered subset of agent.log                           |
 | `gateway`         | `gateway.log` | Messaging gateway activity — platform connections, message dispatch, webhook events |
+| `gui`             | `gui.log`     | Dashboard / TUI-gateway / PTY-bridge / websocket events                             |
+| `desktop`         | `desktop.log` | Electron desktop app — boot, backend spawn output, and recent Python tracebacks     |
 
 ### Options<a href="#options-1" class="hash-link" aria-label="Direct link to Options" translate="no" title="Direct link to Options">​</a>
 
@@ -1037,22 +1040,24 @@ hermes skills <subcommand>
 
 Subcommands:
 
-| Subcommand  | Description                                                                                                                                                 |
-|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `browse`    | Paginated browser for skill registries.                                                                                                                     |
-| `search`    | Search skill registries.                                                                                                                                    |
-| `install`   | Install a skill.                                                                                                                                            |
-| `inspect`   | Preview a skill without installing it.                                                                                                                      |
-| `list`      | List installed skills.                                                                                                                                      |
-| `check`     | Check installed hub skills for upstream updates.                                                                                                            |
-| `update`    | Reinstall hub skills with upstream changes when available.                                                                                                  |
-| `audit`     | Re-scan installed hub skills.                                                                                                                               |
-| `uninstall` | Remove a hub-installed skill.                                                                                                                               |
-| `reset`     | Un-stick a bundled skill flagged as `user_modified` by clearing its manifest entry. With `--restore`, also replaces the user copy with the bundled version. |
-| `publish`   | Publish a skill to a registry.                                                                                                                              |
-| `snapshot`  | Export/import skill configurations.                                                                                                                         |
-| `tap`       | Manage custom skill sources.                                                                                                                                |
-| `config`    | Interactive enable/disable configuration for skills by platform.                                                                                            |
+| Subcommand  | Description                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `browse`    | Paginated browser for skill registries.                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `search`    | Search skill registries.                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `install`   | Install a skill.                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `inspect`   | Preview a skill without installing it.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `list`      | List installed skills.                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `check`     | Check installed hub skills for upstream updates.                                                                                                                                                                                                                                                                                                                                                                                          |
+| `update`    | Reinstall hub skills with upstream changes when available.                                                                                                                                                                                                                                                                                                                                                                                |
+| `audit`     | Re-scan installed hub skills.                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `uninstall` | Remove a hub-installed skill.                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `reset`     | Un-stick a bundled skill flagged as `user_modified` by clearing its manifest entry. With `--restore`, also replaces the user copy with the bundled version.                                                                                                                                                                                                                                                                               |
+| `opt-out`   | Stop bundled skills from being seeded into the active profile. Writes a `.no-bundled-skills` marker so the installer, `hermes update`, and any sync skip bundled-skill seeding. Safe by default — nothing on disk is touched. With `--remove`, also deletes already-present bundled skills that are **unmodified** (user-edited, hub-installed, and hand-written skills are never removed; previews and confirms first, `--yes` to skip). |
+| `opt-in`    | Undo `opt-out` by removing the `.no-bundled-skills` marker so bundled skills are seeded again on the next `hermes update`. With `--sync`, re-seed immediately.                                                                                                                                                                                                                                                                            |
+| `publish`   | Publish a skill to a registry.                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `snapshot`  | Export/import skill configurations.                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `tap`       | Manage custom skill sources.                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `config`    | Interactive enable/disable configuration for skills by platform.                                                                                                                                                                                                                                                                                                                                                                          |
 
 Common examples:
 
@@ -1073,6 +1078,9 @@ hermes skills update
 hermes skills config
 hermes skills reset google-workspace
 hermes skills reset google-workspace --restore --yes
+hermes skills opt-out                  # stop future bundled-skill seeding (nothing deleted)
+hermes skills opt-out --remove --yes   # also delete UNMODIFIED bundled skills
+hermes skills opt-in --sync            # undo: remove marker and re-seed now
 ```
 
 
@@ -1433,17 +1441,16 @@ hermes dashboard [options]
 ```
 
 
-Launch the web dashboard — a browser-based UI for managing configuration, API keys, and monitoring sessions. Requires `pip install hermes-agent[web]` (FastAPI + Uvicorn). The embedded browser Chat tab requires `--tui` plus the `pty` extra. See [Web Dashboard](/docs/user-guide/features/web-dashboard) for full documentation.
+Launch the web dashboard — a browser-based UI for managing configuration, API keys, and monitoring sessions. Requires `pip install hermes-agent[web]` (FastAPI + Uvicorn). The embedded browser Chat tab is always available and additionally needs the `pty` extra (`pip install 'hermes-agent[web,pty]'`) plus a POSIX PTY environment such as Linux, macOS, or WSL2. See [Web Dashboard](/docs/user-guide/features/web-dashboard) for full documentation.
 
-| Option       | Default     | Description                                                                                                                                                                                       |
-|--------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `--port`     | `9119`      | Port to run the web server on                                                                                                                                                                     |
-| `--host`     | `127.0.0.1` | Bind address                                                                                                                                                                                      |
-| `--no-open`  | —           | Don't auto-open the browser                                                                                                                                                                       |
-| `--tui`      | off         | Enable the in-browser Chat tab by running `hermes --tui` behind a PTY/WebSocket bridge. Requires `pip install 'hermes-agent[web,pty]'` and a POSIX PTY environment such as Linux, macOS, or WSL2. |
-| `--insecure` | off         | Allow binding to non-localhost hosts. Exposes dashboard credentials on the network; use only behind trusted network controls.                                                                     |
-| `--stop`     | —           | Stop running `hermes dashboard` processes and exit.                                                                                                                                               |
-| `--status`   | —           | List running `hermes dashboard` processes and exit.                                                                                                                                               |
+| Option       | Default     | Description                                                                                                                   |
+|--------------|-------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `--port`     | `9119`      | Port to run the web server on                                                                                                 |
+| `--host`     | `127.0.0.1` | Bind address                                                                                                                  |
+| `--no-open`  | —           | Don't auto-open the browser                                                                                                   |
+| `--insecure` | off         | Allow binding to non-localhost hosts. Exposes dashboard credentials on the network; use only behind trusted network controls. |
+| `--stop`     | —           | Stop running `hermes dashboard` processes and exit.                                                                           |
+| `--status`   | —           | List running `hermes dashboard` processes and exit.                                                                           |
 
 
 ``` prism-code
@@ -1452,9 +1459,23 @@ hermes dashboard
 
 # Custom port, no browser
 hermes dashboard --port 8080 --no-open
+```
 
-# Enable the browser Chat tab
-hermes dashboard --tui
+
+### `hermes dashboard register`<a href="#hermes-dashboard-register" class="hash-link" aria-label="Direct link to hermes-dashboard-register" translate="no" title="Direct link to hermes-dashboard-register">​</a>
+
+Register this install as a self-hosted dashboard with your Nous Portal account, so the dashboard's OAuth (Nous) auth gate can be used. Resolves your existing Nous login (run `hermes setup` first if you're not logged in), creates an OAuth client, writes `HERMES_DASHBOARD_OAUTH_CLIENT_ID` into `~/.hermes/.env`, and prints how to engage the login gate. You can also register, name, and revoke dashboards from the Portal <a href="https://portal.nousresearch.com/local-dashboards" target="_blank" rel="noopener noreferrer"><code>/local-dashboards</code></a> page.
+
+| Option           | Default        | Description                                                                                                                                |
+|------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| `--name`         | auto-generated | Human-readable label for the dashboard                                                                                                     |
+| `--redirect-uri` | —              | Public HTTPS OAuth redirect URI for an internet-facing host, e.g. `https://hermes.example.com/auth/callback`. Omit for localhost-only use. |
+
+
+``` prism-code
+hermes dashboard register
+# ✓ Registered dashboard "swift_falcon"
+# …writes HERMES_DASHBOARD_OAUTH_CLIENT_ID to ~/.hermes/.env
 ```
 
 
@@ -1634,6 +1655,7 @@ Additional behavior:
   - <a href="#what-gets-migrated" class="table-of-contents__link toc-highlight">What gets migrated</a>
   - <a href="#examples-5" class="table-of-contents__link toc-highlight">Examples</a>
 - <a href="#hermes-dashboard" class="table-of-contents__link toc-highlight"><code>hermes dashboard</code></a>
+  - <a href="#hermes-dashboard-register" class="table-of-contents__link toc-highlight"><code>hermes dashboard register</code></a>
 - <a href="#hermes-profile" class="table-of-contents__link toc-highlight"><code>hermes profile</code></a>
 - <a href="#hermes-completion" class="table-of-contents__link toc-highlight"><code>hermes completion</code></a>
 - <a href="#hermes-update" class="table-of-contents__link toc-highlight"><code>hermes update</code></a>
