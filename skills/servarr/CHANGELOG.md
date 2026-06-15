@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/zot24/skills/compare/servarr-v1.0.2...servarr-v1.0.3) (2026-06-15)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#116](https://github.com/zot24/skills/issues/116)) ([7406297](https://github.com/zot24/skills/commit/74062978533caba6a87c9738c0e95525d796bafa))
+
 ## [1.0.2](https://github.com/zot24/skills/compare/servarr-v1.0.1...servarr-v1.0.2) (2026-06-01)
 
 
