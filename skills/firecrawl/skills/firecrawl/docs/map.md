@@ -2,6 +2,13 @@
 
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: [/llms.txt](/llms.txt)
+>
+> Use this file to discover all available pages before exploring further.
+
+
 <a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
 
@@ -46,12 +53,6 @@ Input a website and get all the urls on the website - extremely fast
 
 Copy page
 
-
-> ## Documentation Index
->
-> Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
->
-> Use this file to discover all available pages before exploring further.
 
 ## 
 

@@ -537,6 +537,15 @@ components:
             pages remain eligible. Billed at 5 credits on hit, 1 credit on cache
             miss.
           default: false
+        redactPII:
+          oneOf:
+            - type: boolean
+            - $ref: '#/components/schemas/RedactPIIOptions'
+          default: false
+          description: >-
+            Redact personally identifiable information from returned markdown.
+            Pass `true` to use defaults, or an object to tune mode, entities,
+            and replacement style.
         profile:
           type: object
           description: >-
@@ -804,6 +813,49 @@ components:
         type: 'json', schema: {...} }]`.
       default:
         - markdown
+    RedactPIIOptions:
+      type: object
+      description: Tuning options for PII redaction.
+      properties:
+        mode:
+          type: string
+          enum:
+            - accurate
+            - aggressive
+            - fast
+          default: accurate
+          description: >-
+            Redaction strategy. `accurate` is model-only and optimized for
+            precision, `aggressive` increases recall with additional heuristics,
+            and `fast` uses heuristics without the model call.
+        entities:
+          type: array
+          description: >-
+            Restrict redaction to these entity buckets. If omitted, all
+            supported entities are redacted.
+          items:
+            $ref: '#/components/schemas/RedactPIIEntity'
+        replaceStyle:
+          type: string
+          enum:
+            - tag
+            - mask
+            - remove
+          default: tag
+          description: >-
+            `tag` replaces spans with placeholders like `<EMAIL>`, `mask`
+            replaces characters with `*`, and `remove` deletes the span text.
+      additionalProperties: false
+    RedactPIIEntity:
+      type: string
+      enum:
+        - PERSON
+        - EMAIL
+        - PHONE
+        - LOCATION
+        - FINANCIAL
+        - SECRET
+      description: Public PII entity buckets supported by Firecrawl redaction.
   securitySchemes:
     bearerAuth:
       type: http

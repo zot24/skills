@@ -22,7 +22,7 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="#policy-mode" class="md-nav__link">Policy Mode</a>
+<a href="#policy-mode" class="md-nav__link"><span class="md-ellipsis"> Policy Mode </span></a>
 
 <a href="../vpn_dashboard_v4.9/" class="md-nav__link"><span class="md-ellipsis"> VPN Dashboard (v4.9) </span></a>
 
@@ -43,7 +43,7 @@ gl-inet/docs4.x
 <a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
 
 
-<a href="#policy-mode" class="md-nav__link">Policy Mode</a>
+<a href="#policy-mode" class="md-nav__link"><span class="md-ellipsis"> Policy Mode </span></a>
 
 
 # VPN Dashboard (Firmware v4.8)<a href="#vpn-dashboard-firmware-v48" class="headerlink" title="Permanent link">¶</a>

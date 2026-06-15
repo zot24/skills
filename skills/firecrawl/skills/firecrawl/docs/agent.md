@@ -2,6 +2,13 @@
 
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: [/llms.txt](/llms.txt)
+>
+> Use this file to discover all available pages before exploring further.
+
+
 <a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
 
@@ -9,6 +16,9 @@
 
 
 Search...
+
+
+More
 
 
 Agent
@@ -29,6 +39,9 @@ Agent
 <a href="/ai-onboarding" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">Build with AI</a>
 
 
+More
+
+
 # Agent
 
 
@@ -39,13 +52,6 @@ Gather data wherever it lives on the web.
 
 
 Copy page
-
-
-> ## Documentation Index
->
-> Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
->
-> Use this file to discover all available pages before exploring further.
 
 
 - For **a single known URL**, <a href="/features/llm-extract" class="link">JSON mode on <code>/scrape</code></a> is cheaper and synchronous.
@@ -465,5 +471,17 @@ curl -X POST https://api.firecrawl.dev/v2/support/ask \
 
 
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/features/agent.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/features/agent" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
+
+
+<a href="/features/crawl" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
+
+
+Crawl
+
+
+<a href="/quickstarts/nodejs" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
+
+
+Node.js
 
 

@@ -142,38 +142,6 @@ When `workdir` is set:
 Jobs with a `workdir` run sequentially on the scheduler tick, not in the parallel pool. This is deliberate: the cron worker applies the job workdir through process-global terminal state, so two workdir jobs running at the same time would corrupt each other's cwd. Workdir-less jobs still run in parallel as before.
 
 
-## Running cron jobs in a specific profile<a href="#running-cron-jobs-in-a-specific-profile" class="hash-link" aria-label="Direct link to Running cron jobs in a specific profile" translate="no" title="Direct link to Running cron jobs in a specific profile">​</a>
-
-By default a cron job inherits whichever Hermes profile owned the gateway / CLI that created it. Pass `--profile <name>` (CLI) or `profile=` (cronjob tool) to re-target the job at a different profile — the scheduler resolves that profile's `HERMES_HOME`, temporarily switches into it for the duration of the run, loads its `.env` + `config.yaml`, and executes the job there:
-
-
-``` prism-code
-# Pin a job to the `night-ops` profile regardless of where it was scheduled
-hermes cron create "every 1d at 03:00" \
-  "Tail the security log and flag anomalies" \
-  --profile night-ops
-```
-
-
-``` prism-code
-# From a chat, via the cronjob tool
-cronjob(
-    action="create",
-    schedule="every 1d at 03:00",
-    prompt="Tail the security log and flag anomalies",
-    profile="night-ops",
-)
-```
-
-
-Use `--profile default` to explicitly pin to the root Hermes profile. The named profile must already exist; the scheduler refuses to create profiles on the fly. To clear a profile pin during `cron edit`, pass an empty string (`--profile ""` or `profile=""`) — the job reverts to running in whatever profile the scheduler itself is in.
-
-If the pinned profile is later deleted, the scheduler logs a warning and falls back to running the job in its current profile rather than crashing — so a stale `profile` reference never wedges a job.
-
-
-Jobs with a `profile` set also run sequentially, for the same reason as `workdir`-pinned jobs: switching `HERMES_HOME` is a process-global mutation, so two profile-pinned jobs running in parallel would race each other. Unpinned jobs still run in the normal parallel pool.
-
-
 ## Editing jobs<a href="#editing-jobs" class="hash-link" aria-label="Direct link to Editing jobs" translate="no" title="Direct link to Editing jobs">​</a>
 
 You do not need to delete and recreate jobs just to change them.
@@ -251,7 +219,7 @@ What they do:
 - `resume` — re-enable the job and compute the next future run
 - `run` — trigger the job on the next scheduler tick
 - `remove` — delete it entirely
-- `edit` — modify schedule, prompt, profile, delivery, etc.
+- `edit` — modify schedule, prompt, delivery, etc.
 
 **Name-based lookup.** All four mutating verbs (`pause`, `resume`, `run`, `remove`, `edit`) plus the agent's `cronjob` tool now accept a job **name** (case-insensitive) in place of the hex ID. The agent and CLI both prefer an exact ID match if one exists; ambiguous name matches (multiple jobs sharing the same name) are refused with the full list of candidate IDs so you can pick one explicitly. Names are not unique, so this guard is load-bearing — it prevents silently mutating the wrong job when two share a name.
 
@@ -363,7 +331,7 @@ cron:
 
 ### Silent suppression<a href="#silent-suppression" class="hash-link" aria-label="Direct link to Silent suppression" translate="no" title="Direct link to Silent suppression">​</a>
 
-If the agent's final response starts with `[SILENT]`, delivery is suppressed entirely. The output is still saved locally for audit (in `~/.hermes/cron/output/`), but no message is sent to the delivery target.
+If the agent's final response contains `[SILENT]`, delivery is suppressed entirely. The output is still saved locally for audit (in `~/.hermes/cron/output/`), but no message is sent to the delivery target.
 
 This is useful for monitoring jobs that should only report when something is wrong:
 
@@ -374,7 +342,7 @@ Otherwise, report the issue.
 ```
 
 
-Failed jobs always deliver regardless of the `[SILENT]` marker — only successful runs can be silenced.
+Failed jobs always deliver regardless of the `[SILENT]` marker — only successful runs can be silenced. For quiet monitoring jobs, prompt the agent to reply with only `[SILENT]` when there is nothing to report.
 
 ## Script timeout<a href="#script-timeout" class="hash-link" aria-label="Direct link to Script timeout" translate="no" title="Direct link to Script timeout">​</a>
 
@@ -776,7 +744,6 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#single-skill" class="table-of-contents__link toc-highlight">Single skill</a>
   - <a href="#multiple-skills" class="table-of-contents__link toc-highlight">Multiple skills</a>
 - <a href="#running-a-job-inside-a-project-directory" class="table-of-contents__link toc-highlight">Running a job inside a project directory</a>
-- <a href="#running-cron-jobs-in-a-specific-profile" class="table-of-contents__link toc-highlight">Running cron jobs in a specific profile</a>
 - <a href="#editing-jobs" class="table-of-contents__link toc-highlight">Editing jobs</a>
   - <a href="#chat" class="table-of-contents__link toc-highlight">Chat</a>
   - <a href="#standalone-cli" class="table-of-contents__link toc-highlight">Standalone CLI</a>

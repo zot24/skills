@@ -170,6 +170,9 @@ firecrawl https://example.com --actions '[{"type":"wait","milliseconds":1000}]'
 # Select proxy mode
 firecrawl https://example.com --proxy basic
 
+# Redact personally identifiable information
+firecrawl https://example.com --redact-pii
+
 # Include/exclude specific HTML tags
 firecrawl https://example.com --include-tags article,main
 firecrawl https://example.com --exclude-tags nav,footer
@@ -205,6 +208,7 @@ firecrawl https://example.com --timing
 | `--actions <json>`       |       | JSON actions array to run during scrape                                                                                                                         |
 | `--actions-file <path>`  |       | Path to JSON actions file                                                                                                                                       |
 | `--proxy <proxy>`        |       | Proxy mode for scraping (for example, `auto` or `basic`)                                                                                                        |
+| `--redact-pii`           |       | Redact personally identifiable information from returned content                                                                                                |
 | `--output <path>`        | `-o`  | Save output to file                                                                                                                                             |
 | `--json`                 |       | Force JSON output even with single format                                                                                                                       |
 | `--pretty`               |       | Pretty print JSON output                                                                                                                                        |

@@ -35,7 +35,6 @@ Firecrawl automatically selects the best proxy based on your specified or detect
 | IN           | India                | Yes                 | No                     |
 | IT           | Italy                | Yes                 | No                     |
 | JP           | Japan                | Yes                 | No                     |
-| MY           | Malaysia             | Yes                 | No                     |
 | NL           | Netherlands          | Yes                 | Yes                    |
 | PT           | Portugal             | Yes                 | No                     |
 | QA           | Qatar                | Yes                 | No                     |

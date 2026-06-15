@@ -213,6 +213,7 @@ You can also use [AI SDK Core](/docs/ai-sdk-core/overview) and [AI SDK UI](/docs
     - [AI_InvalidPromptError](/docs/reference/ai-sdk-errors/ai-invalid-prompt-error)
     - [AI_InvalidResponseDataError](/docs/reference/ai-sdk-errors/ai-invalid-response-data-error)
     - [AI_InvalidToolApprovalError](/docs/reference/ai-sdk-errors/ai-invalid-tool-approval-error)
+    - [AI_InvalidToolApprovalSignatureError](/docs/reference/ai-sdk-errors/ai-invalid-tool-approval-signature-error)
     - [AI_InvalidToolInputError](/docs/reference/ai-sdk-errors/ai-invalid-tool-input-error)
     - [AI_JSONParseError](/docs/reference/ai-sdk-errors/ai-json-parse-error)
     - [AI_LoadAPIKeyError](/docs/reference/ai-sdk-errors/ai-load-api-key-error)

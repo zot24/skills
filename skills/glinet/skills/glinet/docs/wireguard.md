@@ -85,7 +85,7 @@ Or follow the steps below to set up AzireVPN via web Admin Panel.
 
 In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **AzireVPN**.
 
-1.  Input **Username** and **Password**, then click **Save and Continue**. It will generate configuration files for each server.
+1.  Enter your AzireVPN **Username** and **Password** (i.e., the credentials you use to sign in to AzireVPN), then click **Save and Continue**. It will generate configuration files for each server.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_azirevpn/azirevpn1.png" class="glboxshadow" alt="azirevpn login" />
 
@@ -115,7 +115,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **AzireVPN**.
 
 5.  Go renew.
 
-    If you click **Go Renew**, you will be re-directed to the official website to renew your subscription.
+    If you click **Go Renew**, you will be redirected to the official website to renew your subscription.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_azirevpn/azirevpn7.png" class="glboxshadow" alt="azirevpn go renew" />
 
@@ -127,11 +127,11 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **AzireVPN**.
 
 ## Set Up Hide.me<a href="#set-up-hideme" class="headerlink" title="Permanent link">¶</a>
 
-<a href="https://www.hideipvpn.com/" target="_blank">Official Website</a>
+<a href="https://hide.me/en/" target="_blank">Official Website</a>
 
 In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Hide.me**.
 
-1.  Input **Username** and **Password**, then click **Save and Continue**. It will generate configuration files for each server.
+1.  Enter your Hide.me **Username** and **Password** (i.e., the credentials you use to sign in to Hide.me), then click **Save and Continue**. It will generate configuration files for each server.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_hidemevpn/hideme1.png" class="glboxshadow" alt="hideme login" />
 
@@ -171,7 +171,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Hide.me**.
 
 In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **IPVanish**.
 
-1.  Input **Username** and **Password**, then click **Save and Continue**. It will generate configuration files for each server.
+1.  Enter your IPVanish **Username** and **Password** (i.e., the credentials you use to sign in to IPVanish), then click **Save and Continue**. It will generate configuration files for each server.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_ipvanish/ipvanish1.png" class="glboxshadow" alt="ipvanish login" />
 
@@ -217,7 +217,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **IPVanish**.
 
 In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Mullvad**.
 
-1.  Input **Account**, then click **Save and Continue**. It will generate configuration files for each server.
+1.  Enter your Mullvad **Account** (16-digit number), then click **Save and Continue**. It will generate configuration files for each server.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_mullvad/mullvad1.png" class="glboxshadow" alt="mullvad login" />
 
@@ -253,7 +253,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Mullvad**.
 
 6.  Go renew.
 
-    If you click **Go Renew**, you will be re-directed to the official website to renew your subscription.
+    If you click **Go Renew**, you will be redirected to the official website to renew your subscription.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_mullvad/mullvad8.png" class="glboxshadow" alt="mullvad go renew" />
 
@@ -291,7 +291,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Mullvad**.
 
 2.  Log in to the router's web Admin Panel, and go to **VPN** -\> **WireGuard Client** -\> **NordVPN**.
 
-    Input **Token**, then click **Save and Continue**. It will generate configuration files for each server.
+    Enter **Token**, then click **Save and Continue**. It will generate configuration files for each server.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_nordvpn/nordvpn1.png" class="glboxshadow" alt="nordvpn login" />
 
@@ -337,7 +337,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Mullvad**.
 
 In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **PIA**.
 
-1.  Input **Username** and **Password**, then click **Save and Continue**. It will generate configuration files for each server.
+1.  Enter your PIA **Username** and **Password** (i.e., the credentials you use to sign in to PIA), then click **Save and Continue**. It will generate configuration files for each server.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_pia/pia1.png" class="glboxshadow" alt="pia login" />
 
@@ -381,9 +381,19 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **PIA**.
 
 <a href="https://billing.purevpn.com/aff.php?aff=35535" target="_blank">Official Website</a>
 
-In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **PureVPN**.
+<a href="https://purevpn.com/refer-a-friend-v2?referrer=bEZTci9KcmtQSTFPbXlPak03NWtENWZaL1BHNENlR0JOMzV6RURhWFhSOD0=" target="_blank">PureVPN 15-days free trial</a>
 
-1.  Input **Username** and **Password**, then click **Save and Continue**.
+1.  Click <a href="https://www.purevpn.com/" target="_blank">here</a> to log in to your PureVPN dashboard.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_purevpn/purevpn_login.png" class="glboxshadow" alt="purevpn login" />
+
+    After logging in, click **Subscriptions** in the left menu, scroll to the bottom to find your **credentials**. Copy the username and password for later use.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_purevpn/purevpn_credentials.png" class="glboxshadow" alt="purevpn credentials" />
+
+2.  Log in to the router's web Admin Panel, and go to **VPN** -\> **WireGuard Client** -\> **PureVPN**.
+
+    Enter the copied **Username** and **Password**, then click **Save and Continue**.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_purevpn/purevpn1.png" class="glboxshadow" alt="purevpn login" />
 
@@ -391,7 +401,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **PureVPN**.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_purevpn/purevpn2.png" class="glboxshadow" alt="purevpn config files" />
 
-2.  Start a connection.
+3.  Start a connection.
 
     Select your preferred server, and click the three-dot icon on the right to start a connection.
 
@@ -403,19 +413,19 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **PureVPN**.
 
     You can also check the VPN connection details on the **VPN Dashboard**.
 
-3.  Update servers.
+4.  Update servers.
 
     You can click **Update Servers** to obtain the latest available server list, avoiding connection failures caused by server maintenance or shutdown.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_purevpn/purevpn6.png" class="glboxshadow" alt="purevpn update servers" />
 
-4.  Edit credentials or logout.
+5.  Edit credentials or logout.
 
     Click the gear icon to edit your login credentials or log out.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_purevpn/purevpn7.png" class="glboxshadow" alt="purevpn edit credential or logout" />
 
-5.  Delete All.
+6.  Delete All.
 
     You can click **Delete All** to delete all configuration files with one click, and choose whether to delete the private and public keys simultaneously.
 
@@ -427,7 +437,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **PureVPN**.
 
 In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Surfshark**.
 
-1.  Input **Username** and **Password**, then click **Save and Continue**. It will generate configuration files for each server.
+1.  Enter your Surfshark **Username** and **Password** (i.e., the credentials you use to sign in to Surfshark), then click **Save and Continue**. It will generate configuration files for each server.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_surfshark/surfshark1.png" class="glboxshadow" alt="surfshark login" />
 
@@ -479,7 +489,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Surfshark**
 
 In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Windscribe**.
 
-1.  Input **Username** and **Password**, then click **Save and Continue**. It will generate configuration files for each server.
+1.  Enter your Windscribe **Username** and **Password** (i.e., the credentials you use to sign in to Windscribe), then click **Save and Continue**. It will generate configuration files for each server.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_windscribe/windscribe1.png" class="glboxshadow" alt="windscribe login" />
 

@@ -8,9 +8,9 @@
 
 > Everything you need to onboard your AI agent to Firecrawl.
 
-If you're developing with AI, Firecrawl offers several resources to improve your experience. Firecrawl ships with **skills** — self-contained knowledge packs that AI coding agents discover and use automatically. One install command gives agents three complete skill segments: CLI skills for live web work, build skills for integrating Firecrawl into application code, and workflow skills for producing repeatable deliverables. Agents like Claude Code, Cursor, Antigravity, and OpenCode can self-onboard with a single command — no human setup required after the API key exists.
+If you're developing with AI, Firecrawl offers several resources to improve your experience. Firecrawl ships with **skills** — self-contained knowledge packs that AI coding agents discover and use automatically. One install command gives agents three complete skill segments: CLI skills for live web work, build skills for integrating Firecrawl into application code, and workflow skills for producing repeatable deliverables. Firecrawl users can get an API key in two ways. See [Get credentials](#get-credentials) below.
 
-* [Prerequisite: Create an API Key](#prerequisite-create-an-api-key)
+* [Get credentials](#get-credentials)
 * [Skills + CLI](#skills-cli)
 * [Using Firecrawl as a Tool](#using-firecrawl-as-a-tool)
 * [Agentic Debugging](#agentic-debugging)
@@ -20,13 +20,26 @@ If you're developing with AI, Firecrawl offers several resources to improve your
 * [Agent Harnesses](#agent-harnesses)
 * [SDKs](#sdks)
 
-## Prerequisite: Create an API Key
+## Get credentials
 
-Currently, we require a human to create a Firecrawl account. Once you have an account, you'll need to [create an API key](https://www.firecrawl.dev/app/api-keys). With an API key, your agent can handle the rest — installing the skills, authenticating the CLI, wiring up MCP, and making calls on your behalf.
+Firecrawl users can get an API key in two ways. Most users should sign in through the dashboard or CLI. If your agent platform supports WorkOS ID-JAG, it can register directly with Firecrawl.
+
+**Which should I use?** Use the dashboard or CLI unless you know your platform supports WorkOS ID-JAG.
+
+**How you might arrive:**
+
+* **Docs:** you landed here. Pick the option below that matches how you can sign in.
+* **API `401`:** ID-JAG capable agents can follow the discovery flow in [`auth.md`](https://www.firecrawl.dev/auth.md) Step 1. Everyone else should use the dashboard or CLI.
+* **Direct URL:** follow [`SKILL.md`](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for browser sign-in and setup, or [`auth.md`](https://www.firecrawl.dev/auth.md) for WorkOS ID-JAG registration.
 
 
-  Sign up and grab an API key to start using Firecrawl.
+    **Default for most users.** Sign in in the browser, run CLI `--browser`, install skills and MCP, or create an API key in the dashboard.
 
+
+    **For supported agent platforms.** Use this when your platform can mint a WorkOS ID-JAG for Firecrawl. Review [Agent Auth](/ai-onboarding/agent-auth), then follow [`auth.md`](https://www.firecrawl.dev/auth.md).
+
+
+Once you have an API key, continue with [Skills + CLI](#skills-cli) below.
 
 ## Skills + CLI
 
@@ -174,7 +187,12 @@ All three skill categories use the same install. The difference is what happens 
     Auth header: `Authorization: Bearer fc-YOUR_API_KEY`
 
 
-The full onboarding definition is available at [`firecrawl.dev/agent-onboarding/SKILL.md`](https://www.firecrawl.dev/agent-onboarding/SKILL.md) — agents can fetch it directly for self-onboarding.
+The full onboarding definitions live at:
+
+* Browser sign-in, CLI setup, skills, MCP, and dashboard keys: [`firecrawl.dev/agent-onboarding/SKILL.md`](https://www.firecrawl.dev/agent-onboarding/SKILL.md)
+* Agent registration with WorkOS ID-JAG: [`firecrawl.dev/auth.md`](https://www.firecrawl.dev/auth.md)
+
+Agents can fetch either doc directly: use [`agent-onboarding/SKILL.md`](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for human-in-the-loop CLI/browser onboarding, or [`auth.md`](https://www.firecrawl.dev/auth.md) for WorkOS ID-JAG registration.
 
 
     Live web work during an agent session — search, scrape, interact, map, crawl, and run agent jobs from the terminal.
@@ -360,6 +378,9 @@ Or add the local server to any MCP client:
 ## Firecrawl Docs for Agents
 
 You can give your agent current Firecrawl docs in a context-aware way. Agents can self-onboard by pulling these resources directly — no human wiring required.
+
+
+    Start at [Get credentials](/ai-onboarding#get-credentials) to choose between dashboard/CLI setup and WorkOS ID-JAG registration. For ID-JAG registration, follow [`auth.md`](https://www.firecrawl.dev/auth.md).
 
 
     Every page has a markdown version. Append `.md` to any docs URL, or use the page action menu to copy the page as markdown.

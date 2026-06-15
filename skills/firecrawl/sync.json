@@ -1,6 +1,6 @@
 {
   "name": "firecrawl",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Firecrawl — web scraping, crawling, search, and browser automation API for AI agents",
   "sources": [
     {
@@ -1194,6 +1194,24 @@
     {
       "url": "https://docs.firecrawl.dev/quickstarts/vercel-marketplace.md",
       "target": "skills/firecrawl/docs/vercel-marketplace.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/ai-onboarding/agent-auth.md",
+      "target": "skills/firecrawl/docs/agent-auth.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/oauth.md",
+      "target": "skills/firecrawl/docs/developer-guides-oauth.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/pii-redaction.md",
+      "target": "skills/firecrawl/docs/pii-redaction.md",
       "type": "extract-content",
       "freshness_days": 14
     }

@@ -2,6 +2,13 @@
 
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: [/llms.txt](/llms.txt)
+>
+> Use this file to discover all available pages before exploring further.
+
+
 <a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
 
@@ -47,13 +54,6 @@ Interact with a page you fetched by prompting or running code.
 Copy page
 
 
-> ## Documentation Index
->
-> Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
->
-> Use this file to discover all available pages before exploring further.
-
-
 ## AI prompts
 
 
@@ -69,9 +69,9 @@ Copy page
 <a href="#how-it-works" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-1.  **Scrape** a URL with `POST /v2/scrape`. The response includes a `scrapeId` in `data.metadata.scrapeId`. Optionally pass a `profile` to persist browser state across sessions.
-2.  **Interact** by calling `POST /v2/scrape/{scrapeId}/interact` with a `prompt` or with playwright `code`. On the first call, the scraped session is resumed and you can start interacting with the page.
-3.  **Stop** the session with `DELETE /v2/scrape/{scrapeId}/interact` when you’re done.
+1.  **Scrape** a URL with `POST /v2/scrape`. The response includes a `scrapeId` in `data.metadata.scrapeId`. If you want persistent browser state, pass `profile` on this request.
+2.  **Interact** by calling `POST /v2/scrape/{scrapeId}/interact` with a `prompt` or with playwright `code`. Do not pass `profile` here; the interact session inherits the profile from the scrape job.
+3.  **Stop** the session with `DELETE /v2/scrape/{scrapeId}/interact` when you’re done. For writable profiles, changes are saved when the session stops.
 
 ## 
 
@@ -403,7 +403,38 @@ app.stop_interaction(scrape_id)
 ## 
 
 
-<a href="#persistent-profiles" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#persistent-profiles-with-scrape-+-interact" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com",
+    "formats": ["markdown"],
+    "profile": {
+      "name": "my-profile",
+      "saveChanges": true
+    }
+  }'
+
+curl -X POST "https://api.firecrawl.dev/v2/scrape/SCRAPE_ID/interact" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Click the login button"
+  }'
+
+curl -X DELETE "https://api.firecrawl.dev/v2/scrape/SCRAPE_ID/interact" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY"
+```
+
+
+1.  Create the scrape with `profile.name` and `saveChanges: true`.
+2.  Run prompt or code interactions against the returned `scrapeId`.
+3.  Stop the session to save cookies, localStorage, and other browser state.
+4.  Start a later scrape with the same `profile.name`. Use `saveChanges: false` when you only want to read existing state without writing changes back.
 
 
 Python
@@ -434,11 +465,11 @@ scrape_id = result.metadata.scrape_id
 app.interact(scrape_id, prompt="Fill in user@example.com and password, then click Login")
 app.stop_interaction(scrape_id)
 
-# Session 2: Scrape with the same profile — already logged in
+# Session 2: Scrape with the same profile in read-only mode - already logged in
 result = app.scrape(
     "https://app.example.com/dashboard",
     formats=["markdown"],
-    profile={"name": "my-app", "save_changes": True},
+    profile={"name": "my-app", "save_changes": False},
 )
 scrape_id = result.metadata.scrape_id
 
@@ -452,6 +483,59 @@ app.stop_interaction(scrape_id)
 |---------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `name`        | —       | A name for the persistent profile. Scrapes with the same name share browser state.                                                                                                                |
 | `saveChanges` | `true`  | When `true`, browser state is saved back to the profile when the interact session stops. Set to `false` to load existing data without writing — useful when you need multiple concurrent readers. |
+
+
+### 
+
+
+<a href="#validate-persistence" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+# Session 1: write browser state and save it
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com",
+    "formats": ["markdown"],
+    "profile": { "name": "profile-validation", "saveChanges": true }
+  }')
+
+SCRAPE_ID=$(echo "$RESPONSE" | jq -r ".data.metadata.scrapeId")
+
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "code": "await page.evaluate(() => { localStorage.setItem(\"firecrawlProfileCheck\", \"saved\"); document.cookie = \"firecrawl_profile_check=saved; path=/; max-age=3600\"; return localStorage.getItem(\"firecrawlProfileCheck\"); });"
+  }'
+
+curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+
+# Session 2: load the same profile in read-only mode and verify the value
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com",
+    "formats": ["markdown"],
+    "profile": { "name": "profile-validation", "saveChanges": false }
+  }')
+
+SCRAPE_ID=$(echo "$RESPONSE" | jq -r ".data.metadata.scrapeId")
+
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "code": "await page.evaluate(() => ({ localStorage: localStorage.getItem(\"firecrawlProfileCheck\"), cookie: document.cookie.includes(\"firecrawl_profile_check=saved\") }));"
+  }'
+
+curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```
 
 
 ## 

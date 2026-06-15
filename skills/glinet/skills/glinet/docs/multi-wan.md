@@ -22,9 +22,9 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="#multi-wan-method" class="md-nav__link">Multi-WAN Method</a>
+<a href="#multi-wan-method" class="md-nav__link"><span class="md-ellipsis"> Multi-WAN Method </span></a>
 
-<a href="#usage-scenarios" class="md-nav__link">Usage Scenarios</a>
+<a href="#usage-scenarios" class="md-nav__link"><span class="md-ellipsis"> Usage Scenarios </span></a>
 
 <a href="../lan/" class="md-nav__link"><span class="md-ellipsis"> LAN </span></a>
 
@@ -59,9 +59,9 @@ gl-inet/docs4.x
 <a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
 
 
-<a href="#multi-wan-method" class="md-nav__link">Multi-WAN Method</a>
+<a href="#multi-wan-method" class="md-nav__link"><span class="md-ellipsis"> Multi-WAN Method </span></a>
 
-<a href="#usage-scenarios" class="md-nav__link">Usage Scenarios</a>
+<a href="#usage-scenarios" class="md-nav__link"><span class="md-ellipsis"> Usage Scenarios </span></a>
 
 
 # Multi-WAN<a href="#multi-wan" class="headerlink" title="Permanent link">¶</a>

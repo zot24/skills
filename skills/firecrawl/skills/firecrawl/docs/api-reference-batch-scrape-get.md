@@ -106,6 +106,24 @@ components:
           type: string
           format: date-time
           description: The date and time when the batch scrape will expire.
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time when the batch scrape was started.
+        completedAt:
+          type: string
+          format: date-time
+          description: >-
+            The date and time when the batch scrape finished. Present only when
+            the batch scrape is in a terminal state (`completed`, `failed`, or
+            `cancelled`).
+        duration:
+          type: number
+          description: >-
+            Batch scrape duration in seconds. For terminal batch scrapes, this
+            is the elapsed time from `createdAt` to `completedAt`. For
+            in-progress batch scrapes, it is the elapsed time from `createdAt`
+            to now.
         next:
           type: string
           nullable: true

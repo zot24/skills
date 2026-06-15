@@ -31,21 +31,25 @@ Hermes supports multiple AI inference providers out of the box. Use `hermes mode
 
 ## Web Search Backends<a href="#web-search-backends" class="hash-link" aria-label="Direct link to Web Search Backends" translate="no" title="Direct link to Web Search Backends">​</a>
 
-The `web_search` and `web_extract` tools support four backend providers, configured via `config.yaml` or `hermes tools`:
+The `web_search` and `web_extract` tools support eight backend providers, configured via `config.yaml` or `hermes tools`:
 
-| Backend                 | Env Var             | Search | Extract | Crawl |
-|-------------------------|---------------------|--------|---------|-------|
-| **Firecrawl** (default) | `FIRECRAWL_API_KEY` | ✔      | ✔       | ✔     |
-| **Parallel**            | `PARALLEL_API_KEY`  | ✔      | ✔       | —     |
-| **Tavily**              | `TAVILY_API_KEY`    | ✔      | ✔       | ✔     |
-| **Exa**                 | `EXA_API_KEY`       | ✔      | ✔       | —     |
+| Backend                 | Env Var                | Search | Extract | Crawl |
+|-------------------------|------------------------|--------|---------|-------|
+| **Firecrawl** (default) | `FIRECRAWL_API_KEY`    | ✔      | ✔       | ✔     |
+| **SearXNG**             | `SEARXNG_URL`          | ✔      | —       | —     |
+| **Brave** (free tier)   | `BRAVE_SEARCH_API_KEY` | ✔      | —       | —     |
+| **DuckDuckGo** (ddgs)   | *(none)*               | ✔      | —       | —     |
+| **Tavily**              | `TAVILY_API_KEY`       | ✔      | ✔       | ✔     |
+| **Exa**                 | `EXA_API_KEY`          | ✔      | ✔       | —     |
+| **Parallel**            | `PARALLEL_API_KEY`     | ✔      | ✔       | —     |
+| **xAI**                 | `XAI_API_KEY`          | ✔      | —       | —     |
 
 Quick setup example:
 
 
 ``` prism-code
 web:
-  backend: firecrawl    # firecrawl | parallel | tavily | exa
+  backend: firecrawl    # firecrawl | searxng | brave-free | ddgs | tavily | exa | parallel | xai
 ```
 
 

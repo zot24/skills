@@ -65,7 +65,7 @@ hermes profile create work --clone
 ```
 
 
-Copies your current profile's `config.yaml`, `.env`, and `SOUL.md` into the new profile. Same API keys and model, but fresh sessions and memory. Edit `~/.hermes/profiles/work/.env` for different API keys, or `~/.hermes/profiles/work/SOUL.md` for a different personality.
+Copies your current profile's `config.yaml`, `.env`, `SOUL.md`, and skills into the new profile. Same API keys, model, and capabilities, but fresh sessions and memory. Edit `~/.hermes/profiles/work/.env` for different API keys, or `~/.hermes/profiles/work/SOUL.md` for a different personality.
 
 ### Clone everything (`--clone-all`)<a href="#clone-everything---clone-all" class="hash-link" aria-label="Direct link to clone-everything---clone-all" translate="no" title="Direct link to clone-everything---clone-all">​</a>
 
@@ -75,17 +75,25 @@ hermes profile create backup --clone-all
 ```
 
 
-Copies **everything** — config, API keys, personality, all memories, full session history, skills, cron jobs, plugins. A complete snapshot. Useful for backups or forking an agent that already has context.
+Copies **everything** — config, API keys, personality, all memories, skills, cron jobs, plugins. A complete working snapshot. Per-profile history is excluded (session history, `state.db`, `backups/`, `state-snapshots/`, `checkpoints/`) — these belong to the source profile and can reach tens of GB. For a full backup including history, use `hermes profile export` or `hermes backup` instead.
 
 ### Clone from a specific profile<a href="#clone-from-a-specific-profile" class="hash-link" aria-label="Direct link to Clone from a specific profile" translate="no" title="Direct link to Clone from a specific profile">​</a>
 
 
 ``` prism-code
-hermes profile create work --clone --clone-from coder
+hermes profile create work --clone-from coder
 ```
 
 
-When Honcho is enabled, `--clone` automatically creates a dedicated AI peer for the new profile while sharing the same user workspace. Each profile builds its own observations and identity. See [Honcho -- Multi-agent / Profiles](/docs/user-guide/features/memory-providers#honcho) for details.
+`--clone-from <source>` selects the source profile directly and implies a config/skills/SOUL clone. Combine it with `--clone-all` when you want a full copy of that source profile:
+
+
+``` prism-code
+hermes profile create work-backup --clone-from coder --clone-all
+```
+
+
+When Honcho is enabled, clone operations automatically create a dedicated AI peer for the new profile while sharing the same user workspace. Each profile builds its own observations and identity. See [Honcho -- Multi-agent / Profiles](/docs/user-guide/features/memory-providers#honcho) for details.
 
 
 ## Using profiles<a href="#using-profiles" class="hash-link" aria-label="Direct link to Using profiles" translate="no" title="Direct link to Using profiles">​</a>
@@ -235,6 +243,12 @@ coder config set terminal.cwd /absolute/path/to/project
 ```
 
 
+### From the dashboard<a href="#from-the-dashboard" class="hash-link" aria-label="Direct link to From the dashboard" translate="no" title="Direct link to From the dashboard">​</a>
+
+The [web dashboard](/docs/user-guide/features/web-dashboard#managing-multiple-profiles) is a machine-level surface that can manage **any** profile's config, API keys, skills, MCPs, and model via the profile switcher in its sidebar — no per-profile dashboard needed. `coder dashboard` routes to the machine dashboard with the `coder` profile preselected. The dashboard's Chat tab also follows the switcher, spawning a conversation under the selected profile's home.
+
+Note: "Set as active" on the dashboard's Profiles page is the sticky default for **future CLI/gateway runs** (same as `hermes profile use`) — to edit a profile from the dashboard, use the switcher instead.
+
 ## Updating<a href="#updating" class="hash-link" aria-label="Direct link to Updating" translate="no" title="Direct link to Updating">​</a>
 
 `hermes update` pulls code once (shared) and syncs new bundled skills to **all** profiles automatically:
@@ -297,6 +311,17 @@ Profiles use the `HERMES_HOME` environment variable. When you run `coder chat`, 
 
 This is separate from terminal working directory. Tool execution starts from `terminal.cwd` (or the launch directory when `cwd: "."` on the local backend), not automatically from `HERMES_HOME`.
 
+On host installs, tool subprocesses keep your real OS-user `HOME` by default so existing CLI credentials under `~` keep working across profiles. Profile data is isolated by `HERMES_HOME`, not by changing `HOME`. Container backends still use `{HERMES_HOME}/home` for persistent tool state, and host users who need strict per-profile tool config can opt in with `terminal.home_mode: profile`.
+
+This means two things that are easy to mix up:
+
+- `HERMES_HOME` is the profile boundary. It controls Hermes config, `.env`, memory, sessions, skills, logs, cron jobs, gateway state, and other Hermes data.
+- `HOME` is the operating-system/user home that external CLIs expect. On host installs, Hermes keeps it as the real user home by default so tools like `git`, `ssh`, `gh`, `az`, `npm`, Claude Code, and Codex find the same credentials they use in your normal shell.
+
+The tradeoff is that host profiles share normal user-level CLI state by default. If you need separate CLI identities per profile, set `terminal.home_mode: profile` in that profile's `config.yaml`. In that mode Hermes launches tool subprocesses with `HOME={HERMES_HOME}/home`; you then need to initialize or link the profile-specific `~/.ssh`, `~/.gitconfig`, `~/.config/gh`, cloud CLI auth, Claude/Codex auth, npm state, and similar files inside that profile home.
+
+Hermes also exposes `HERMES_REAL_HOME` to subprocesses so scripts can still find the actual account home when `home_mode: profile` is active.
+
 The default profile is simply `~/.hermes` itself. No migration needed — existing installs work identically.
 
 ## Sharing profiles as distributions<a href="#sharing-profiles-as-distributions" class="hash-link" aria-label="Direct link to Sharing profiles as distributions" translate="no" title="Direct link to Sharing profiles as distributions">​</a>
@@ -334,6 +359,7 @@ See **[Profile Distributions: Share a Whole Agent](/docs/user-guide/profile-dist
   - <a href="#safety-token-locks" class="table-of-contents__link toc-highlight">Safety: token locks</a>
   - <a href="#persistent-services" class="table-of-contents__link toc-highlight">Persistent services</a>
 - <a href="#configuring-profiles" class="table-of-contents__link toc-highlight">Configuring profiles</a>
+  - <a href="#from-the-dashboard" class="table-of-contents__link toc-highlight">From the dashboard</a>
 - <a href="#updating" class="table-of-contents__link toc-highlight">Updating</a>
 - <a href="#managing-profiles" class="table-of-contents__link toc-highlight">Managing profiles</a>
 - <a href="#deleting-a-profile" class="table-of-contents__link toc-highlight">Deleting a profile</a>

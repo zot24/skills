@@ -35,7 +35,17 @@ Set your provider with `hermes model` or by editing `~/.hermes/.env`. See the [E
 
 ### Does it work on Windows?<a href="#does-it-work-on-windows" class="hash-link" aria-label="Direct link to Does it work on Windows?" translate="no" title="Direct link to Does it work on Windows?">​</a>
 
-**Not natively.** Hermes Agent requires a Unix-like environment. On Windows, install <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener noreferrer">WSL2</a> and run Hermes from inside it. The standard install command works perfectly in WSL2:
+**Yes, natively.** Hermes supports native Windows via the PowerShell installer — no WSL required. Run in PowerShell:
+
+
+``` prism-code
+iex (irm https://hermes-agent.nousresearch.com/install.ps1)
+```
+
+
+The installer provisions a PortableGit that backs the terminal tool's shell. See the [Windows (Native) Guide](/docs/user-guide/windows-native) for details.
+
+WSL2 remains a fully supported alternative. To run Hermes inside WSL2, install <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener noreferrer">WSL2</a> and use the standard install command:
 
 
 ``` prism-code
@@ -718,7 +728,7 @@ No. Each messaging platform (Telegram, Discord, etc.) requires exclusive access 
 
 ### Do profiles share memory or sessions?<a href="#do-profiles-share-memory-or-sessions" class="hash-link" aria-label="Direct link to Do profiles share memory or sessions?" translate="no" title="Direct link to Do profiles share memory or sessions?">​</a>
 
-No. Each profile has its own memory store, session database, and skills directory. They are completely isolated. If you want to start a new profile with existing memories and sessions, use `hermes profile create newname --clone-all` to copy everything from the current profile.
+No. Each profile has its own memory store, session database, and skills directory. They are completely isolated. If you want to start a new profile with existing memories and sessions, use `hermes profile create newname --clone-all` to copy everything from the current profile, or add `--clone-from <profile>` to copy from a specific source profile.
 
 ### What happens when I run `hermes update`?<a href="#what-happens-when-i-run-hermes-update" class="hash-link" aria-label="Direct link to what-happens-when-i-run-hermes-update" translate="no" title="Direct link to what-happens-when-i-run-hermes-update">​</a>
 
