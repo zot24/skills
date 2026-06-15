@@ -342,7 +342,7 @@ Every container runs with these flags (defined in `tools/environments/docker.py`
 
 
 ``` prism-code
-_SECURITY_ARGS = [
+_BASE_SECURITY_ARGS = [
     "--cap-drop", "ALL",                          # Drop ALL Linux capabilities
     "--cap-add", "DAC_OVERRIDE",                  # Root can write to bind-mounted dirs
     "--cap-add", "CHOWN",                         # Package managers need file ownership
@@ -351,10 +351,11 @@ _SECURITY_ARGS = [
     "--pids-limit", "256",                         # Limit process count
     "--tmpfs", "/tmp:rw,nosuid,size=512m",         # Size-limited /tmp
     "--tmpfs", "/var/tmp:rw,noexec,nosuid,size=256m",  # No-exec /var/tmp
-    "--tmpfs", "/run:rw,noexec,nosuid,size=64m",   # No-exec /run
 ]
 ```
 
+
+`SETUID`/`SETGID` are **not** in the base list — they're added conditionally when the container starts as root and an init/entrypoint must drop privileges (the s6 privilege-drop path). They're skipped when the container already runs as a non-root `--user`. The `/run` tmpfs is also split out from the base list and mounted per-image (hardened `noexec` by default, `exec` only for s6-overlay images that exec from `/run`).
 
 ### Resource Limits<a href="#resource-limits" class="hash-link" aria-label="Direct link to Resource Limits" translate="no" title="Direct link to Resource Limits">​</a>
 

@@ -22,11 +22,11 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="#manual-dns" class="md-nav__link">Manual DNS</a>
+<a href="#manual-dns" class="md-nav__link"><span class="md-ellipsis"> Manual DNS </span></a>
 
-<a href="#dns-proxy" class="md-nav__link">DNS Proxy</a>
+<a href="#dns-proxy" class="md-nav__link"><span class="md-ellipsis"> DNS Proxy </span></a>
 
-<a href="#edit-hosts" class="md-nav__link">Edit Hosts</a>
+<a href="#edit-hosts" class="md-nav__link"><span class="md-ellipsis"> Edit Hosts </span></a>
 
 <a href="../ethernet_port/" class="md-nav__link"><span class="md-ellipsis"> Ethernet Port </span></a>
 
@@ -53,11 +53,11 @@ gl-inet/docs4.x
 <a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
 
 
-<a href="#manual-dns" class="md-nav__link">Manual DNS</a>
+<a href="#manual-dns" class="md-nav__link"><span class="md-ellipsis"> Manual DNS </span></a>
 
-<a href="#dns-proxy" class="md-nav__link">DNS Proxy</a>
+<a href="#dns-proxy" class="md-nav__link"><span class="md-ellipsis"> DNS Proxy </span></a>
 
-<a href="#edit-hosts" class="md-nav__link">Edit Hosts</a>
+<a href="#edit-hosts" class="md-nav__link"><span class="md-ellipsis"> Edit Hosts </span></a>
 
 
 # DNS<a href="#dns" class="headerlink" title="Permanent link">¶</a>

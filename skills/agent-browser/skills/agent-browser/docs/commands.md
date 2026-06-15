@@ -53,6 +53,8 @@ agent-browser close --all             # Close all active sessions
 ```
 
 
+Clicks fail before dispatch when another element covers the target's click point. The error names the covering element, for example `covered by <div#consent-banner>`. Dismiss or interact with that element, take a fresh snapshot, then retry the original action.
+
 Headless Chromium screenshots hide native scrollbars for consistent image output. Pass `--hide-scrollbars false` when launching to keep native scrollbars visible.
 
 ## Get info<a href="#get-info" aria-label="Link to this section">#</a>
@@ -103,8 +105,8 @@ agent-browser find nth <n> <sel> <action> [value]
 
 Options:
 
-- `--name <name>` -- filter role by accessible name
-- `--exact` -- require exact text match
+- `--name <name>`: filter role by accessible name
+- `--exact`: require exact text match
 
 Examples:
 
@@ -146,6 +148,8 @@ agent-browser wait --download [path]  # Wait for any download to complete
 
 Use `--download-path <dir>` (or `AGENT_BROWSER_DOWNLOAD_PATH` env) to set a default download directory. Without it, downloads go to a temporary directory that is deleted when the browser closes.
 
+See [Files & Clipboard](/files) for upload, download, local file, screenshot, PDF, and clipboard workflows.
+
 ## Mouse<a href="#mouse" aria-label="Link to this section">#</a>
 
 
@@ -167,6 +171,8 @@ agent-browser clipboard copy                      # Copy current selection (Ctrl
 agent-browser clipboard paste                     # Paste from clipboard (Ctrl+V)
 ```
 
+
+See [Files & Clipboard](/files) for clipboard, upload, download, local file, screenshot, and PDF workflows.
 
 ## Settings<a href="#settings" aria-label="Link to this section">#</a>
 
@@ -227,6 +233,8 @@ agent-browser network har start                # Start HAR recording
 agent-browser network har stop [output.har]    # Stop and save HAR (temp path if omitted)
 ```
 
+
+See [Network](/network) for pre-navigation routing, request filters, HAR export, and SSR/no-JavaScript debugging.
 
 ## Tabs & frames<a href="#tabs-frames" aria-label="Link to this section">#</a>
 
@@ -323,11 +331,13 @@ agent-browser stream disable          # Stop runtime streaming and remove the .s
 
 Streaming is enabled automatically for all sessions. Use these commands to check status, re-enable on a specific port, or disable streaming.
 
+Streaming is separate from file-based recordings. Use [Video Recording](/recording) when you need a saved WebM artifact.
+
 ## Debug<a href="#debug" aria-label="Link to this section">#</a>
 
 
 ``` shiki
-agent-browser trace start [path]      # Start trace
+agent-browser trace start             # Start trace
 agent-browser trace stop [path]       # Stop and save trace
 agent-browser profiler start          # Start Chrome DevTools profiling
 agent-browser profiler stop [path]    # Stop and save profile (.json)
@@ -344,6 +354,8 @@ agent-browser inspect                 # Open Chrome DevTools for the active page
 ```
 
 
+See [Debugging](/debugging) for console, error, dialog, trace, highlight, and DevTools workflows. See [Video Recording](/recording) for `record` workflows and [Profiler](/profiler) for performance profiles.
+
 ## Auth vault<a href="#auth-vault" aria-label="Link to this section">#</a>
 
 
@@ -358,13 +370,13 @@ agent-browser auth delete <name>         # Delete a saved profile
 
 Save options:
 
-- `--url <url>` -- login page URL (required)
-- `--username <user>` -- username (required)
-- `--password <pass>` -- password (required unless `--password-stdin`)
-- `--password-stdin` -- read password from stdin (recommended to avoid shell history exposure)
-- `--username-selector <sel>` -- custom CSS selector for username field
-- `--password-selector <sel>` -- custom CSS selector for password field
-- `--submit-selector <sel>` -- custom CSS selector for submit button
+- `--url <url>`: login page URL (required)
+- `--username <user>`: username (required)
+- `--password <pass>`: password (required unless `--password-stdin`)
+- `--password-stdin`: read password from stdin (recommended to avoid shell history exposure)
+- `--username-selector <sel>`: custom CSS selector for username field
+- `--password-selector <sel>`: custom CSS selector for password field
+- `--submit-selector <sel>`: custom CSS selector for submit button
 
 `auth login` navigates with `load` and then waits for the username/password/submit selectors to appear before interacting. This improves reliability on SPA login pages where fields render after initial page load.
 
@@ -529,6 +541,8 @@ agent-browser vitals [url] [--json]                # LCP/CLS/TTFB/FCP/INP + hydr
 
 Works on any React app (Next.js, Remix, Vite+React, CRA, TanStack Start, React Native Web, etc.). `vitals` and `pushstate` are framework-agnostic.
 
+See [React & Web Vitals](/react) for full command details and examples.
+
 ## Init scripts<a href="#init-scripts" aria-label="Link to this section">#</a>
 
 
@@ -538,6 +552,8 @@ agent-browser addinitscript <js>                  # Register at runtime (returns
 agent-browser removeinitscript <identifier>       # Remove a previously registered init script
 ```
 
+
+See [Init Scripts & Extensions](/init-scripts) for launch-time scripts, runtime scripts, built-in React DevTools, and extensions.
 
 ## Global options<a href="#global-options" aria-label="Link to this section">#</a>
 
@@ -559,7 +575,7 @@ agent-browser removeinitscript <identifier>       # Remove a previously register
 --ignore-https-errors    # Ignore HTTPS certificate errors
 --allow-file-access      # Allow file:// URLs to access local files (Chromium only)
 --hide-scrollbars <bool> # Hide native scrollbars in headless Chromium screenshots
--p, --provider <name>    # Browser provider (ios, browserbase, kernel, browseruse, browserless)
+-p, --provider <name>    # Browser provider (ios, browserbase, kernel, browseruse, browserless, agentcore)
 --device <name>          # iOS device name (e.g., "iPhone 15 Pro")
 --json                   # JSON output (for scripts)
 --annotate               # Annotated screenshot with numbered element labels
@@ -577,6 +593,9 @@ agent-browser removeinitscript <identifier>       # Remove a previously register
 --action-policy <path>   # Path to action policy JSON file
 --confirm-actions <list> # Action categories requiring confirmation
 --confirm-interactive    # Interactive confirmation prompts (auto-denies if stdin is not a TTY)
+--engine <name>          # Browser engine: chrome (default), lightpanda
+--idle-timeout <time>    # Auto-shutdown daemon after inactivity (10s, 3m, 1h, or ms)
+--no-auto-dialog         # Disable auto-accept for alert and beforeunload dialogs
 --model <name>           # AI model for chat (or AI_GATEWAY_MODEL env)
 -v, --verbose            # Show tool commands and their raw output (chat)
 -q, --quiet              # Show only AI text responses (chat)
@@ -584,6 +603,8 @@ agent-browser removeinitscript <identifier>       # Remove a previously register
 --debug                  # Debug output
 ```
 
+
+See [Configuration](/configuration) for config files and environment variables. See [Proxy](/proxy) for proxy server, bypass, and credential settings.
 
 ## Batch execution<a href="#batch-execution" aria-label="Link to this section">#</a>
 
@@ -639,6 +660,8 @@ agent-browser screenshot output.png
 
 
 The `--allow-file-access` flag enables JavaScript to access other local files. Chromium only.
+
+See [Files & Clipboard](/files) for local files, uploads, downloads, screenshots, PDFs, and clipboard workflows.
 
 
 Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>

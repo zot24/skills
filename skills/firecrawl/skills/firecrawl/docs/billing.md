@@ -46,6 +46,8 @@ Certain scrape options add credits on top of the base cost per page:
 
 These modifiers stack. For example, scraping a page with both JSON format and Enhanced Mode costs **1 + 4 + 4 = 9 credits** per page. These same modifiers apply to the Crawl and Search endpoints since they use scrape internally for each page.
 
+Requests to `x.com` and other X/Twitter URLs use the Grok API and have separate pricing. See [X (x.com) billing](#x-xcom-billing) at the bottom of this page.
+
 ### When credits are charged
 
 Credits are charged whenever Firecrawl's infrastructure processes a request, even if the target site returns an HTTP error status code such as 403 Forbidden or 404 Not Found. This is because the scraping infrastructure (browser rendering, proxy, etc.) is fully utilized regardless of the target site's response. You can check the `metadata.statusCode` field in the API response to detect these cases and avoid retrying URLs that are consistently blocked.
@@ -171,4 +173,22 @@ Firecrawl supports two types of coupons:
     2. Open the **Invoice history** tab in the Stripe portal and download the PDF for the invoice you want; Stripe re-renders it against your current billing info.
     3. If an invoice doesn't pick up the updated details, email [help@firecrawl.dev](mailto:help@firecrawl.dev) with the invoice numbers and we'll regenerate them for you.
 
+
+## X (x.com) billing
+
+Firecrawl uses the official **Grok API** from [xAI](https://x.ai/) to provide AI-powered summarization, structured extraction, and real-time access to public X content. Requests to `x.com`, `twitter.com`, and `mobile.twitter.com` profile and post URLs are handled through Grok's authorized internal tools (`x_search`, thread fetch, and web search restricted to x.com) rather than traditional web scraping.
+
+### Credit costs
+
+| Component        | Credit Cost           | Description                                        |
+| ---------------- | --------------------- | -------------------------------------------------- |
+| **Base cost**    | 1 credit / request    | Standard scrape request processing                 |
+| **Grok X Query** | +29 credits / request | Grok API usage (tokens + tool calls) for X content |
+
+For example, processing a typical post or thread request costs **30 credits** (`1` base + `29` Grok X Query) and returns Grok-generated structured data, thread context, and summaries. If JSON format (LLM extraction) is also enabled, the total is **34 credits** per request.
+
+This method complies with X's published interfaces via xAI's partnership and provides higher-quality, reasoned output instead of raw page scraping.
+
+
+  **Capabilities differ from standard scraping.** Grok returns AI-processed results, which may include summaries, key metrics, thread context, and more. For raw structured data at scale, use the [official X Enterprise API](https://developer.x.com/).
 

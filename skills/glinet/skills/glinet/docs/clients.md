@@ -22,7 +22,7 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="#remove-offline-clients" class="md-nav__link">Remove Offline Clients</a>
+<a href="#remove-offline-clients" class="md-nav__link"><span class="md-ellipsis"> Remove Offline Clients </span></a>
 
 
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
@@ -31,7 +31,7 @@ gl-inet/docs4.x
 <a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
 
 
-<a href="#remove-offline-clients" class="md-nav__link">Remove Offline Clients</a>
+<a href="#remove-offline-clients" class="md-nav__link"><span class="md-ellipsis"> Remove Offline Clients </span></a>
 
 
 # Clients<a href="#clients" class="headerlink" title="Permanent link">¶</a>

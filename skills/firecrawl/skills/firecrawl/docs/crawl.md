@@ -2,6 +2,13 @@
 
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: [/llms.txt](/llms.txt)
+>
+> Use this file to discover all available pages before exploring further.
+
+
 <a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
 
@@ -45,13 +52,6 @@ Recursively crawl a website and get content from every page
 
 
 Copy page
-
-
-> ## Documentation Index
->
-> Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
->
-> Use this file to discover all available pages before exploring further.
 
 
 - Discovers pages via sitemap and recursive link traversal
@@ -474,9 +474,9 @@ curl -X POST https://api.firecrawl.dev/v2/crawl \
 Map
 
 
-<a href="/quickstarts/nodejs" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
+<a href="/features/agent" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
 
 
-Node.js
+Agent
 
 

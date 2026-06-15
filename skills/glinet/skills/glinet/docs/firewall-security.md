@@ -77,11 +77,11 @@ Port Forwarding lets remote computers connect to a local computer or server behi
 
 To set up port forwarding, click the **Port Forwards** tab, then click **Add**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/firewall/firewall.png" class="glboxshadow" alt="firewall page" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/firewall/firewall.png" class="glboxshadow" alt="firewall page" />
 
 In the pop-up window, add a new port forward rule, and click **Apply**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/firewall/add_new_port_forward_rule.png" class="glboxshadow" alt="add new port forward rule" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/firewall/add_new_port_forward_rule.png" class="glboxshadow" alt="add new port forward rule" />
 
 **Name:** The name of the rule.
 
@@ -105,11 +105,11 @@ The router's services, such as web and FTP, requires their respective ports to b
 
 To open a port, switch to the **Open Ports on Router** tab, then click **Add**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/firewall/open_ports_on_router.png" class="glboxshadow" alt="open Ports on router" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/firewall/open_ports_on_router.png" class="glboxshadow" alt="open Ports on router" />
 
 In the pop-up window, open a new port and click **Apply**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/firewall/add_new_open_port.png" class="glboxshadow" alt="open Ports on router" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/firewall/add_new_open_port.png" class="glboxshadow" alt="open Ports on router" />
 
 **Name:** The name of the rule which can be specified by the user.
 
@@ -125,7 +125,7 @@ DMZ lets you to expose one computer to the Internet, so all inbound packets will
 
 Toggle on **Enable DMZ**. Select the internal IP address of your host device which is going to receive all the inbound packets.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/firewall/dmz.png" class="glboxshadow" alt="Port Forwards" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/firewall/dmz.png" class="glboxshadow" alt="Port Forwards" />
 
 ------------------------------------------------------------------------
 

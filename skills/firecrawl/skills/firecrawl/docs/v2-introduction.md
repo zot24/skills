@@ -59,6 +59,8 @@ Authorization: Bearer fc-YOUR-API-KEY
 
 Include this header in all API calls. You can find your API key in the [Firecrawl dashboard](https://www.firecrawl.dev/app/api-keys).
 
+If you are an agent without an API key, start with [Get credentials](/ai-onboarding#get-credentials). If your platform supports WorkOS ID-JAG, use [`auth.md`](https://www.firecrawl.dev/auth.md) for registration instructions.
+
 <CodeGroup>
   ```bash cURL
   curl -X POST "https://api.firecrawl.dev/v2/scrape" \

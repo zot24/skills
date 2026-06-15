@@ -22,7 +22,7 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="#modem-upgrade" class="md-nav__link">Modem Upgrade</a>
+<a href="#modem-upgrade" class="md-nav__link"><span class="md-ellipsis"> Modem Upgrade </span></a>
 
 <a href="../scheduled_tasks/" class="md-nav__link"><span class="md-ellipsis"> Scheduled Tasks </span></a>
 
@@ -55,7 +55,7 @@ gl-inet/docs4.x
 <a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
 
 
-<a href="#modem-upgrade" class="md-nav__link">Modem Upgrade</a>
+<a href="#modem-upgrade" class="md-nav__link"><span class="md-ellipsis"> Modem Upgrade </span></a>
 
 
 # Upgrade<a href="#upgrade" class="headerlink" title="Permanent link">¶</a>

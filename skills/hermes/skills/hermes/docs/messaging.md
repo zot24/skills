@@ -36,7 +36,7 @@ Bots need both a model provider and tool providers (TTS, web). A [Nous Portal](/
 | Matrix          |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
 | DingTalk        |   —   |   ✅   |  ✅   |    —    |    ✅     |   —    |    ✅     |
 | Feishu/Lark     |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| WeCom           |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| WeCom           |  ✅   |   ✅   |  ✅   |    —    |     —     |   —    |     —     |
 | WeCom Callback  |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
 | Weixin          |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
 | BlueBubbles     |   —   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
@@ -51,6 +51,31 @@ Bots need both a model provider and tool providers (TTS, web). A [Nous Portal](/
 ## Architecture<a href="#architecture" class="hash-link" aria-label="Direct link to Architecture" translate="no" title="Direct link to Architecture">​</a>
 
 Each platform adapter receives messages, routes them through a per-chat session store, and dispatches them to the AIAgent for processing. The gateway also runs the cron scheduler, ticking every 60 seconds to execute any due jobs.
+
+## Intentional Silence Tokens<a href="#intentional-silence-tokens" class="hash-link" aria-label="Direct link to Intentional Silence Tokens" translate="no" title="Direct link to Intentional Silence Tokens">​</a>
+
+For group chats, hooks, and automation flows, Hermes supports explicit silence tokens. If the agent's final response is exactly one supported token, the gateway suppresses outbound delivery and sends nothing to the chat.
+
+Supported tokens:
+
+- `[SILENT]`
+- `SILENT`
+- `NO_REPLY`
+- `NO REPLY`
+
+Whitespace and case are normalized, but the whole final response must be the token. A sentence like "Use `[SILENT]` when nothing changed" is delivered normally.
+
+Silence is a delivery decision only. Hermes keeps the assistant silence turn in the session transcript, so the conversation still alternates normally:
+
+
+``` prism-code
+user: side-channel chatter
+assistant: [SILENT]   # stored, not delivered
+user: next message
+```
+
+
+Failed turns still surface as errors; Hermes does not hide failures just because the text resembles a silence token.
 
 ## Quick Setup<a href="#quick-setup" class="hash-link" aria-label="Direct link to Quick Setup" translate="no" title="Direct link to Quick Setup">​</a>
 
@@ -362,6 +387,26 @@ journalctl -u hermes-gateway -f
 
 Use the user service on laptops and dev boxes. Use the system service on VPS or headless hosts that should come back at boot without relying on systemd linger.
 
+
+A system service needs root for every restart — including the automatic gateway restart at the end of `hermes update`. When `hermes update` runs as a non-root user, it tries passwordless `sudo systemctl`; if that's unavailable, it skips the restart and prints the manual `sudo systemctl restart hermes-gateway` command (it never blocks on an interactive password prompt).
+
+For a headless VM you never log into, a **user** service with lingering enabled gives you the same start-at-boot behavior with zero root involvement:
+
+
+``` prism-code
+hermes gateway install          # user service
+sudo loginctl enable-linger $USER   # one-time: start at boot, survive logout
+```
+
+
+After that, `hermes update` can restart the gateway without any privileges. If you prefer to keep the system service, either run updates with `sudo hermes update`, or grant the service account passwordless sudo for systemctl, e.g. in `sudo visudo -f /etc/sudoers.d/hermes-gateway`:
+
+
+``` prism-code
+hermes ALL=(root) NOPASSWD: /usr/bin/systemctl --no-ask-password reset-failed hermes-gateway*, /usr/bin/systemctl --no-ask-password start hermes-gateway*, /usr/bin/systemctl --no-ask-password restart hermes-gateway*
+```
+
+
 Avoid keeping both the user and system gateway units installed at once unless you really mean to. Hermes will warn if it detects both because start/stop/status behavior gets ambiguous.
 
 
@@ -397,31 +442,32 @@ Like the Linux systemd service, each `HERMES_HOME` directory gets its own launch
 
 Each platform has its own toolset:
 
-| Platform        | Toolset                 | Capabilities                                                                                                          |
-|-----------------|-------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| CLI             | `hermes-cli`            | Full access                                                                                                           |
-| Telegram        | `hermes-telegram`       | Full tools including terminal                                                                                         |
-| Discord         | `hermes-discord`        | Full tools including terminal                                                                                         |
-| WhatsApp        | `hermes-whatsapp`       | Full tools including terminal                                                                                         |
-| Slack           | `hermes-slack`          | Full tools including terminal                                                                                         |
-| Google Chat     | `hermes-google_chat`    | Full tools including terminal                                                                                         |
-| Signal          | `hermes-signal`         | Full tools including terminal                                                                                         |
-| SMS             | `hermes-sms`            | Full tools including terminal                                                                                         |
-| Email           | `hermes-email`          | Full tools including terminal                                                                                         |
-| Home Assistant  | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services)                    |
-| Mattermost      | `hermes-mattermost`     | Full tools including terminal                                                                                         |
-| Matrix          | `hermes-matrix`         | Full tools including terminal                                                                                         |
-| DingTalk        | `hermes-dingtalk`       | Full tools including terminal                                                                                         |
-| Feishu/Lark     | `hermes-feishu`         | Full tools including terminal                                                                                         |
-| WeCom           | `hermes-wecom`          | Full tools including terminal                                                                                         |
-| WeCom Callback  | `hermes-wecom-callback` | Full tools including terminal                                                                                         |
-| Weixin          | `hermes-weixin`         | Full tools including terminal                                                                                         |
-| BlueBubbles     | `hermes-bluebubbles`    | Full tools including terminal                                                                                         |
-| QQBot           | `hermes-qqbot`          | Full tools including terminal                                                                                         |
-| Yuanbao         | `hermes-yuanbao`        | Full tools including terminal                                                                                         |
-| Microsoft Teams | `hermes-teams`          | Full tools including terminal                                                                                         |
-| API Server      | `hermes-api-server`     | Full tools (drops `clarify`, `send_message`, `text_to_speech` — programmatic access doesn't have an interactive user) |
-| Webhooks        | `hermes-webhook`        | Full tools including terminal                                                                                         |
+| Platform           | Toolset                 | Capabilities                                                                                                          |
+|--------------------|-------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| CLI                | `hermes-cli`            | Full access                                                                                                           |
+| Telegram           | `hermes-telegram`       | Full tools including terminal                                                                                         |
+| Discord            | `hermes-discord`        | Full tools including terminal                                                                                         |
+| WhatsApp           | `hermes-whatsapp`       | Full tools including terminal                                                                                         |
+| WhatsApp Cloud API | `hermes-whatsapp`       | Full tools including terminal (shares toolset with the Baileys bridge)                                                |
+| Slack              | `hermes-slack`          | Full tools including terminal                                                                                         |
+| Google Chat        | `hermes-google_chat`    | Full tools including terminal                                                                                         |
+| Signal             | `hermes-signal`         | Full tools including terminal                                                                                         |
+| SMS                | `hermes-sms`            | Full tools including terminal                                                                                         |
+| Email              | `hermes-email`          | Full tools including terminal                                                                                         |
+| Home Assistant     | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services)                    |
+| Mattermost         | `hermes-mattermost`     | Full tools including terminal                                                                                         |
+| Matrix             | `hermes-matrix`         | Full tools including terminal                                                                                         |
+| DingTalk           | `hermes-dingtalk`       | Full tools including terminal                                                                                         |
+| Feishu/Lark        | `hermes-feishu`         | Full tools including terminal                                                                                         |
+| WeCom              | `hermes-wecom`          | Full tools including terminal                                                                                         |
+| WeCom Callback     | `hermes-wecom-callback` | Full tools including terminal                                                                                         |
+| Weixin             | `hermes-weixin`         | Full tools including terminal                                                                                         |
+| BlueBubbles        | `hermes-bluebubbles`    | Full tools including terminal                                                                                         |
+| QQBot              | `hermes-qqbot`          | Full tools including terminal                                                                                         |
+| Yuanbao            | `hermes-yuanbao`        | Full tools including terminal                                                                                         |
+| Microsoft Teams    | `hermes-teams`          | Full tools including terminal                                                                                         |
+| API Server         | `hermes-api-server`     | Full tools (drops `clarify`, `send_message`, `text_to_speech` — programmatic access doesn't have an interactive user) |
+| Webhooks           | `hermes-webhook`        | Full tools including terminal                                                                                         |
 
 ## Operating a multi-platform gateway<a href="#operating-a-multi-platform-gateway" class="hash-link" aria-label="Direct link to Operating a multi-platform gateway" translate="no" title="Direct link to Operating a multi-platform gateway">​</a>
 
@@ -542,6 +588,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - [Slack Setup](/docs/user-guide/messaging/slack)
 - [Google Chat Setup](/docs/user-guide/messaging/google_chat)
 - [WhatsApp Setup](/docs/user-guide/messaging/whatsapp)
+- [WhatsApp Business Cloud API Setup](/docs/user-guide/messaging/whatsapp-cloud)
 - [Signal Setup](/docs/user-guide/messaging/signal)
 - [SMS Setup (Twilio)](/docs/user-guide/messaging/sms)
 - [Email Setup](/docs/user-guide/messaging/email)
@@ -564,6 +611,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 
 - <a href="#platform-comparison" class="table-of-contents__link toc-highlight">Platform Comparison</a>
 - <a href="#architecture" class="table-of-contents__link toc-highlight">Architecture</a>
+- <a href="#intentional-silence-tokens" class="table-of-contents__link toc-highlight">Intentional Silence Tokens</a>
 - <a href="#quick-setup" class="table-of-contents__link toc-highlight">Quick Setup</a>
 - <a href="#gateway-commands" class="table-of-contents__link toc-highlight">Gateway Commands</a>
 - <a href="#chat-commands-inside-messaging" class="table-of-contents__link toc-highlight">Chat Commands (Inside Messaging)</a>

@@ -25,7 +25,7 @@ Two files make up the agent's memory:
 Both are stored in `~/.hermes/memories/` and are injected into the system prompt as a frozen snapshot at session start. The agent manages its own memory via the `memory` tool — it can add, replace, or remove entries.
 
 
-Character limits keep memory focused. When memory is full, the agent consolidates or replaces entries to make room for new information.
+Character limits keep memory focused. Memory does **not** auto-compact: when a write would exceed the limit, the `memory` tool returns an error instead of silently dropping entries. The agent then makes room itself — consolidating or removing entries in the same turn before retrying (see [What Happens When Memory is Full](#what-happens-when-memory-is-full)). Note that `replace` is also bound by the limit: swapping an entry for a longer one can still overflow, so the new content must be shortened (or another entry removed) to fit.
 
 
 ## How Memory Appears in the System Prompt<a href="#how-memory-appears-in-the-system-prompt" class="hash-link" aria-label="Direct link to How Memory Appears in the System Prompt" translate="no" title="Direct link to How Memory Appears in the System Prompt">​</a>
@@ -139,7 +139,7 @@ When you try to add an entry that would exceed the limit, the tool returns an er
 ``` prism-code
 {
   "success": false,
-  "error": "Memory at 2,100/2,200 chars. Adding this entry (250 chars) would exceed the limit. Replace or remove existing entries first.",
+  "error": "Memory at 2,100/2,200 chars. Adding this entry (250 chars) would exceed the limit. Consolidate now: use 'replace' to merge overlapping entries into shorter ones or 'remove' stale or less important entries (see current_entries below), then retry this add — all in this turn.",
   "current_entries": ["..."],
   "usage": "2,100/2,200"
 }
@@ -227,8 +227,58 @@ memory:
   user_profile_enabled: true
   memory_char_limit: 2200   # ~800 tokens
   user_char_limit: 1375     # ~500 tokens
+  write_approval: false     # false = write freely (default) | true = require approval
 ```
 
+
+## Controlling memory writes (`write_approval`)<a href="#controlling-memory-writes-write_approval" class="hash-link" aria-label="Direct link to controlling-memory-writes-write_approval" translate="no" title="Direct link to controlling-memory-writes-write_approval">​</a>
+
+By default the agent saves memory freely — including from the background self-improvement review that runs after a turn. If you'd rather approve saves first, set `memory.write_approval: true`. It's a simple on/off gate applied to **both** foreground turns and the background review:
+
+| `write_approval`  | Behaviour                                                                                                                                                                                                                                                                                                |
+|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `false` (default) | Write freely — the gate is off (the pre-gate behaviour).                                                                                                                                                                                                                                                 |
+| `true`            | Require approval before anything is saved. In the interactive CLI, foreground writes prompt you inline (entries are small enough to read in full). Everywhere else — messaging platforms, scripts, and the background self-improvement review — writes are **staged** for review with `/memory pending`. |
+
+> To turn memory off entirely (not just gate it), set `memory_enabled: false`.
+
+Review staged writes from the CLI or any messaging platform:
+
+
+``` prism-code
+/memory pending             # list staged memory writes (auto ones tagged [auto])
+/memory approve <id>        # apply one (or 'all')
+/memory reject <id>         # drop one (or 'all')
+/memory approval on         # turn the gate on (or 'off') and persist it
+```
+
+
+This is the answer to "the agent saved a wrong assumption about me": set `write_approval: true`, and every save — especially the unprompted background ones — waits for your yes/no before it ever enters your profile.
+
+## Controlling skill writes (`skills.write_approval`)<a href="#controlling-skill-writes-skillswrite_approval" class="hash-link" aria-label="Direct link to controlling-skill-writes-skillswrite_approval" translate="no" title="Direct link to controlling-skill-writes-skillswrite_approval">​</a>
+
+Skills use the same on/off gate, but the review UX differs because a `SKILL.md` is far too large to read in a chat bubble:
+
+
+``` prism-code
+skills:
+  write_approval: false     # false = write freely (default) | true = require approval
+```
+
+
+When `write_approval: true`, skill writes (create / edit / patch / write_file / delete) always **stage** regardless of origin. You review the one-line gist inline, but the full diff stays out-of-band:
+
+
+``` prism-code
+/skills pending             # list staged skill writes + a one-line gist each
+/skills diff <id>           # full unified diff (best viewed in CLI or dashboard)
+/skills approve <id>        # apply it (or 'all')
+/skills reject <id>         # drop it (or 'all')
+/skills approval on         # turn the gate on (or 'off') and persist it
+```
+
+
+On a messaging platform, approve a skill from its gist + metadata, or open `/skills diff` on the CLI / dashboard / the staged file under `~/.hermes/pending/skills/<id>.json` when you want to read the whole change. Full details in [Gating agent skill writes](/docs/user-guide/features/skills#gating-agent-skill-writes-skillswrite_approval).
 
 ## External Memory Providers<a href="#external-memory-providers" class="hash-link" aria-label="Direct link to External Memory Providers" translate="no" title="Direct link to External Memory Providers">​</a>
 
@@ -264,6 +314,8 @@ See the [Memory Providers](/docs/user-guide/features/memory-providers) guide for
 - <a href="#session-search" class="table-of-contents__link toc-highlight">Session Search</a>
   - <a href="#session_search-vs-memory" class="table-of-contents__link toc-highlight">session_search vs memory</a>
 - <a href="#configuration" class="table-of-contents__link toc-highlight">Configuration</a>
+- <a href="#controlling-memory-writes-write_approval" class="table-of-contents__link toc-highlight">Controlling memory writes (<code>write_approval</code>)</a>
+- <a href="#controlling-skill-writes-skillswrite_approval" class="table-of-contents__link toc-highlight">Controlling skill writes (<code>skills.write_approval</code>)</a>
 - <a href="#external-memory-providers" class="table-of-contents__link toc-highlight">External Memory Providers</a>
 
 

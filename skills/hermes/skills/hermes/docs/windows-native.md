@@ -21,13 +21,11 @@ If you prefer a real POSIX environment (for the dashboard's embedded terminal, `
 
 ## Quick install<a href="#quick-install" class="hash-link" aria-label="Direct link to Quick install" translate="no" title="Direct link to Quick install">​</a>
 
-<a href="https://hermes-agent.nousresearch.com/desktop" target="_blank" rel="noopener noreferrer">Download the Hermes Desktop installer</a> from our website and run it.
-
-Or, for a command-line only install, open **PowerShell** (or Windows Terminal) and run:
+Open **PowerShell** (or Windows Terminal) and run:
 
 
 ``` prism-code
-iex (irm https://hermes-agent.nousresearch.com/install.ps1)
+iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1)
 ```
 
 
@@ -37,7 +35,7 @@ No admin rights required. The installer goes to `%LOCALAPPDATA%\hermes\` and add
 
 
 ``` prism-code
-& ([scriptblock]::Create((irm https://hermes-agent.nousresearch.com/install.ps1))) -NoVenv -SkipSetup -Branch main
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1))) -NoVenv -SkipSetup -Branch main
 ```
 
 
@@ -52,6 +50,12 @@ No admin rights required. The installer goes to `%LOCALAPPDATA%\hermes\` and add
 | `-InstallDir` | `%LOCALAPPDATA%\hermes\hermes-agent` | Override code location                                     |
 
 The installer auto-retries flaky git fetches and strips BOM from any downloaded `install.ps1` payload, so a UTF-8 BOM picked up during HTTP transit no longer breaks the `[scriptblock]::Create((irm ...))` form.
+
+### Desktop installer (alternative)<a href="#desktop-installer-alternative" class="hash-link" aria-label="Direct link to Desktop installer (alternative)" translate="no" title="Direct link to Desktop installer (alternative)">​</a>
+
+A thin GUI installer is also available — useful if you'd rather double-click an `.exe` than open PowerShell. Download Hermes Desktop, run the installer, and on first launch the GUI calls `install.ps1` under the hood to provision Python (via `uv`), Node, PortableGit, and the rest of the dependency bootstrap described below. After the first run, the desktop app and the PowerShell-installed `hermes` CLI share the same `%LOCALAPPDATA%\hermes\hermes-agent` install and `%LOCALAPPDATA%\hermes` data directory — switch between the GUI and the CLI freely.
+
+Use the desktop installer when you want a familiar Windows install experience or you're handing Hermes to a non-developer; use the PowerShell one-liner when you're already in a terminal.
 
 ### Dependency bootstrap (`dep_ensure`)<a href="#dependency-bootstrap-dep_ensure" class="hash-link" aria-label="Direct link to dependency-bootstrap-dep_ensure" translate="no" title="Direct link to dependency-bootstrap-dep_ensure">​</a>
 
@@ -79,7 +83,7 @@ Top-to-bottom, in order:
 6.  **Tiered `uv pip install`** — tries `.[all]` first, falls back to progressively smaller sets (`[messaging,dashboard,ext]` → `[messaging]` → `.`) if a `git+https` dep flakes on rate-limited GitHub. Prevents "single flake drops you to a bare install" failure mode.
 7.  **Auto-installs messaging SDKs** keyed off `.env` — if `TELEGRAM_BOT_TOKEN` / `DISCORD_BOT_TOKEN` / `SLACK_BOT_TOKEN` / `SLACK_APP_TOKEN` / `WHATSAPP_ENABLED` are present, runs `python -m ensurepip --upgrade` and targeted `pip install` calls so each platform's SDK is actually importable.
 8.  **Sets `HERMES_GIT_BASH_PATH`** to the resolved `bash.exe` so Hermes finds it deterministically in fresh shells.
-9.  **Adds `%LOCALAPPDATA%\hermes\bin` to User PATH** — exposes the `hermes` command after you open a new terminal.
+9.  **Adds `%LOCALAPPDATA%\hermes\hermes-agent\venv\Scripts` to User PATH and sets `HERMES_HOME=%LOCALAPPDATA%\hermes`** — exposes the `hermes` command (and points it at your data dir) after you open a new terminal.
 10. **Runs `hermes setup`** — the normal first-run wizard (model, provider, toolsets). Skip with `-SkipSetup`.
 
 
@@ -210,17 +214,17 @@ Services require admin rights to install and tie the gateway's lifecycle to mach
 
 ## Data layout<a href="#data-layout" class="hash-link" aria-label="Direct link to Data layout" translate="no" title="Direct link to Data layout">​</a>
 
-| Path                                  | Contents                                                            |
-|---------------------------------------|---------------------------------------------------------------------|
-| `%LOCALAPPDATA%\hermes\hermes-agent\` | Git checkout + venv. Safe to `Remove-Item -Recurse` and reinstall.  |
-| `%LOCALAPPDATA%\hermes\git\`          | PortableGit (only if the installer provisioned it).                 |
-| `%LOCALAPPDATA%\hermes\node\`         | Portable Node.js (only if the installer provisioned it).            |
-| `%LOCALAPPDATA%\hermes\bin\`          | `hermes.cmd` shim, added to User PATH.                              |
-| `%USERPROFILE%\.hermes\`              | Your config, auth, skills, sessions, logs. **Survives reinstalls.** |
+| Path                                  | Contents                                                                                                                        |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `%LOCALAPPDATA%\hermes\hermes-agent\` | Git checkout + venv. `venv\Scripts\hermes.exe` is the command added to User PATH. Safe to `Remove-Item -Recurse` and reinstall. |
+| `%LOCALAPPDATA%\hermes\git\`          | PortableGit (only if the installer provisioned it).                                                                             |
+| `%LOCALAPPDATA%\hermes\node\`         | Portable Node.js (only if the installer provisioned it).                                                                        |
+| `%LOCALAPPDATA%\hermes\bin\`          | Hermes's managed `uv.exe` (the Python manager it uses for updates).                                                             |
+| `%LOCALAPPDATA%\hermes\` (root)       | Your config, auth, skills, sessions, logs (`config.yaml`, `.env`, `skills\`, `sessions\`, `logs\`, …). **Survives reinstalls.** |
 
-The split is deliberate: `%LOCALAPPDATA%\hermes` is disposable infrastructure (you can blow it away and the one-liner restores it). `%USERPROFILE%\.hermes` is your data — config, memory, skills, session history — and is identical in shape to a Linux install. Mirror it between machines and your Hermes moves with you.
+On native Windows the installer sets `HERMES_HOME=%LOCALAPPDATA%\hermes`, so your data and the disposable install live under the **same** `%LOCALAPPDATA%\hermes` root: the install/runtime is the `hermes-agent\`, `git\`, `node\`, and `bin\` subdirectories, while your data files sit directly in `%LOCALAPPDATA%\hermes`. Reinstalling only replaces the `hermes-agent\` checkout, so your data survives — but because the two share a root, **don't** `Remove-Item -Recurse %LOCALAPPDATA%\hermes` if you want to keep your data; delete the `hermes-agent\` subdirectory instead. Your data directory is identical in shape to a Linux `~/.hermes`, so you can mirror it between machines.
 
-**Override `HERMES_HOME`:** set the environment variable to point at a different data dir. Works the same as on Linux.
+**Override `HERMES_HOME`:** set the environment variable to point at a different data dir (e.g. `%USERPROFILE%\.hermes` to match a Linux/WSL layout). Works the same as on Linux.
 
 ## Browser tool<a href="#browser-tool" class="hash-link" aria-label="Direct link to Browser tool" translate="no" title="Direct link to Browser tool">​</a>
 
@@ -234,20 +238,20 @@ The browser tool uses `agent-browser` (a Node helper) to drive Chromium. On Wind
 
 ### PATH after install<a href="#path-after-install" class="hash-link" aria-label="Direct link to PATH after install" translate="no" title="Direct link to PATH after install">​</a>
 
-The installer adds `%LOCALAPPDATA%\hermes\bin` to your **User PATH** via `[Environment]::SetEnvironmentVariable`. Existing terminals don't pick this up — open a new PowerShell window (or Windows Terminal tab) after installation. Close-and-reopen, don't `$env:PATH += …` by hand unless you know what you're doing.
+The installer adds `%LOCALAPPDATA%\hermes\hermes-agent\venv\Scripts` to your **User PATH** via `[Environment]::SetEnvironmentVariable`. Existing terminals don't pick this up — open a new PowerShell window (or Windows Terminal tab) after installation. Close-and-reopen, don't `$env:PATH += …` by hand unless you know what you're doing.
 
 Verify:
 
 
 ``` prism-code
-Get-Command hermes        # should print C:\Users\<you>\AppData\Local\hermes\bin\hermes.cmd
+Get-Command hermes        # should print C:\Users\<you>\AppData\Local\hermes\hermes-agent\venv\Scripts\hermes.exe
 hermes --version
 ```
 
 
 ### Environment variables<a href="#environment-variables" class="hash-link" aria-label="Direct link to Environment variables" translate="no" title="Direct link to Environment variables">​</a>
 
-Hermes honors both `$env:X` (process-scope) and User environment variables (permanent, set in System Properties → Environment Variables). Setting API keys in `%USERPROFILE%\.hermes\.env` is the normal path — same as Linux:
+Hermes honors both `$env:X` (process-scope) and User environment variables (permanent, set in System Properties → Environment Variables). Setting API keys in `%LOCALAPPDATA%\hermes\.env` (your `HERMES_HOME`) is the normal path — same as Linux:
 
 
 ``` prism-code
@@ -278,15 +282,16 @@ hermes uninstall
 ```
 
 
-That's the clean path — removes the schtasks entry, Startup folder shortcut, `hermes.cmd` shim, deletes `%LOCALAPPDATA%\hermes\hermes-agent\`, and trims the User PATH. It leaves `%USERPROFILE%\.hermes\` alone (your config, auth, skills, sessions, logs) in case you're reinstalling.
+That's the clean path — removes the schtasks entry, Startup folder shortcut, `hermes.cmd` shim, deletes `%LOCALAPPDATA%\hermes\hermes-agent\`, and trims the User PATH. It leaves the rest of `%LOCALAPPDATA%\hermes\` alone (your config, auth, skills, sessions, logs) in case you're reinstalling.
 
 To nuke everything:
 
 
 ``` prism-code
 hermes uninstall
-Remove-Item -Recurse -Force "$env:USERPROFILE\.hermes"
 Remove-Item -Recurse -Force "$env:LOCALAPPDATA\hermes"
+# Also remove a legacy CLI/WSL data dir if you ever used one:
+Remove-Item -Recurse -Force "$env:USERPROFILE\.hermes"
 ```
 
 
@@ -304,7 +309,7 @@ Consequence: any codepath that said "check if this PID is alive" via `os.kill(pi
 
 ## Common pitfalls<a href="#common-pitfalls" class="hash-link" aria-label="Direct link to Common pitfalls" translate="no" title="Direct link to Common pitfalls">​</a>
 
-**`hermes: command not found` right after install.** Open a new PowerShell window. The installer added `%LOCALAPPDATA%\hermes\bin` to User PATH, but existing shells need to be restarted to pick it up.
+**`hermes: command not found` right after install.** Open a new PowerShell window. The installer added `%LOCALAPPDATA%\hermes\bin` to User PATH, but existing shells need to be restarted to pick it up. In the meantime you can run `& "$env:LOCALAPPDATA\hermes\bin\hermes.cmd"`.
 
 **`WinError 193: %1 is not a valid Win32 application` when running a tool.** You hit a shebang-script invocation that bypassed the `.cmd` shim. Hermes resolves commands through `shutil.which(cmd, path=local_bin)` so PATHEXT picks up `.CMD` — if you're invoking the tool via a hardcoded path instead, switch to the `.cmd` variant (e.g., `npx.cmd`, not `npx`).
 
@@ -334,6 +339,7 @@ Consequence: any codepath that said "check if this PID is alive" via `os.kill(pi
 
 
 - <a href="#quick-install" class="table-of-contents__link toc-highlight">Quick install</a>
+  - <a href="#desktop-installer-alternative" class="table-of-contents__link toc-highlight">Desktop installer (alternative)</a>
   - <a href="#dependency-bootstrap-dep_ensure" class="table-of-contents__link toc-highlight">Dependency bootstrap (<code>dep_ensure</code>)</a>
 - <a href="#what-the-installer-actually-does" class="table-of-contents__link toc-highlight">What the installer actually does</a>
 - <a href="#feature-matrix" class="table-of-contents__link toc-highlight">Feature matrix</a>

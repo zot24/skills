@@ -147,6 +147,7 @@ If you use [Hermes profiles](/docs/user-guide/profiles), the Portal refresh toke
 ``` prism-code
 hermes portal            # log in to Nous Portal + set it up (one-shot onboarding)
 hermes portal info       # login status, subscription info, model + gateway routing
+hermes portal status     # alias for `portal info`
 hermes portal tools      # detailed Tool Gateway catalog with per-tool routing
 hermes portal open       # open the subscription management page in your browser
 ```

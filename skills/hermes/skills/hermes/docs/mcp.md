@@ -235,24 +235,67 @@ Then run `hermes mcp login googledrive` — with the pre-registered client, Herm
 
 **Pitfall — config auto-reload race.** When you edit `~/.hermes/config.yaml` from inside a running Hermes session, the CLI auto-reloads MCP connections with a 30s timeout. That's not enough for an interactive OAuth flow. Add the entry, then run `hermes mcp login <server>` from a fresh terminal — it waits the full 5 minutes for you to complete auth.
 
+## mTLS / client certificates<a href="#mtls--client-certificates" class="hash-link" aria-label="Direct link to mTLS / client certificates" translate="no" title="Direct link to mTLS / client certificates">​</a>
+
+Remote HTTP MCP servers that require mutual TLS (client-certificate authentication) are supported via `client_cert` / `client_key`. Hermes passes the resolved certificate to the underlying HTTP client for the TLS handshake.
+
+`client_cert` accepts three shapes:
+
+- **A single combined PEM path** — one file holding both the certificate and the private key:
+
+
+``` prism-code
+mcp_servers:
+  internal_api:
+    url: "https://mcp.internal.example.com/mcp"
+    client_cert: "~/.certs/mcp-client.pem"
+```
+
+
+- **A `[cert, key]` 2-tuple** — certificate and key in separate files (equivalent to setting `client_cert` + `client_key`):
+
+
+``` prism-code
+mcp_servers:
+  internal_api:
+    url: "https://mcp.internal.example.com/mcp"
+    client_cert: ["~/.certs/mcp-client.crt", "~/.certs/mcp-client.key"]
+```
+
+
+- **A `[cert, key, password]` 3-tuple** — when the private key is encrypted, the third element is the key passphrase:
+
+
+``` prism-code
+mcp_servers:
+  internal_api:
+    url: "https://mcp.internal.example.com/mcp"
+    client_cert: ["~/.certs/mcp-client.crt", "~/.certs/mcp-client.key", "${MCP_KEY_PASSWORD}"]
+```
+
+
+You can also keep the cert and key fully separate via `client_cert` (combined PEM) plus an explicit `client_key`. Paths support `~` expansion; a missing file raises a clear, server-scoped error rather than an opaque TLS handshake failure.
+
 ## Basic configuration reference<a href="#basic-configuration-reference" class="hash-link" aria-label="Direct link to Basic configuration reference" translate="no" title="Direct link to Basic configuration reference">​</a>
 
 Hermes reads MCP config from `~/.hermes/config.yaml` under `mcp_servers`.
 
 ### Common keys<a href="#common-keys" class="hash-link" aria-label="Direct link to Common keys" translate="no" title="Direct link to Common keys">​</a>
 
-| Key                            | Type    | Meaning                                                |
-|--------------------------------|---------|--------------------------------------------------------|
-| `command`                      | string  | Executable for a stdio MCP server                      |
-| `args`                         | list    | Arguments for the stdio server                         |
-| `env`                          | mapping | Environment variables passed to the stdio server       |
-| `url`                          | string  | HTTP MCP endpoint                                      |
-| `headers`                      | mapping | HTTP headers for remote servers                        |
-| `timeout`                      | number  | Tool call timeout                                      |
-| `connect_timeout`              | number  | Initial connection timeout                             |
-| `enabled`                      | bool    | If `false`, Hermes skips the server entirely           |
-| `supports_parallel_tool_calls` | bool    | If `true`, tools from this server may run concurrently |
-| `tools`                        | mapping | Per-server tool filtering and utility policy           |
+| Key                            | Type           | Meaning                                                                                       |
+|--------------------------------|----------------|-----------------------------------------------------------------------------------------------|
+| `command`                      | string         | Executable for a stdio MCP server                                                             |
+| `args`                         | list           | Arguments for the stdio server                                                                |
+| `env`                          | mapping        | Environment variables passed to the stdio server                                              |
+| `url`                          | string         | HTTP MCP endpoint                                                                             |
+| `headers`                      | mapping        | HTTP headers for remote servers                                                               |
+| `client_cert`                  | string \| list | Client certificate for mTLS — a combined PEM path, or `[cert, key]` / `[cert, key, password]` |
+| `client_key`                   | string         | Client private-key PEM path (when separate from `client_cert`)                                |
+| `timeout`                      | number         | Tool call timeout                                                                             |
+| `connect_timeout`              | number         | Initial connection timeout                                                                    |
+| `enabled`                      | bool           | If `false`, Hermes skips the server entirely                                                  |
+| `supports_parallel_tool_calls` | bool           | If `true`, tools from this server may run concurrently                                        |
+| `tools`                        | mapping        | Per-server tool filtering and utility policy                                                  |
 
 ### Minimal stdio example<a href="#minimal-stdio-example" class="hash-link" aria-label="Direct link to Minimal stdio example" translate="no" title="Direct link to Minimal stdio example">​</a>
 
@@ -811,6 +854,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#stdio-servers" class="table-of-contents__link toc-highlight">Stdio servers</a>
   - <a href="#http-servers" class="table-of-contents__link toc-highlight">HTTP servers</a>
   - <a href="#oauth-authenticated-http-servers" class="table-of-contents__link toc-highlight">OAuth-authenticated HTTP servers</a>
+- <a href="#mtls--client-certificates" class="table-of-contents__link toc-highlight">mTLS / client certificates</a>
 - <a href="#basic-configuration-reference" class="table-of-contents__link toc-highlight">Basic configuration reference</a>
   - <a href="#common-keys" class="table-of-contents__link toc-highlight">Common keys</a>
   - <a href="#minimal-stdio-example" class="table-of-contents__link toc-highlight">Minimal stdio example</a>

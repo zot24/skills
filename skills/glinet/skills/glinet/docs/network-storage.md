@@ -105,11 +105,11 @@ For USB Drive, you can directly plug it into the USB port. For portable external
 
 Log in to the router's web Admin Panel and go to **APPLICATIONS** -\> **Network Storage**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/network_storage_init.png" class="glboxshadow" alt="network storage" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/network_storage_init.png" class="glboxshadow" alt="network storage" />
 
 Connect the storage device. When it is detected, the page is displayed as below.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/disk_found.png" class="glboxshadow" alt="network storage, disk found" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/disk_found.png" class="glboxshadow" alt="network storage, disk found" />
 
 ## Set Up Samba<a href="#set-up-samba" class="headerlink" title="Permanent link">¶</a>
 
@@ -117,19 +117,19 @@ Connect the storage device. When it is detected, the page is displayed as below.
 
     - Allow Access Samba from WAN: Enable it if you want the upstream devices to access Samba.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_quick_setup_share/enable_samba.png" class="glboxshadow" alt="enable samba" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_quick_setup_share/enable_samba.png" class="glboxshadow" alt="enable samba" />
 
 2.  Click **Quick Setup Share** to set the shared link.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_quick_setup_share/samba_quick_setup_share.png" class="glboxshadow" alt="samba quick setup share" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_quick_setup_share/samba_quick_setup_share.png" class="glboxshadow" alt="samba quick setup share" />
 
 3.  Add a user and click **Next**. This step will be skipped if you already have an account.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_quick_setup_share/samba_quick_setup_share_add_user.png" class="glboxshadow" alt="samba quick setup share, add a user" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_quick_setup_share/samba_quick_setup_share_add_user.png" class="glboxshadow" alt="samba quick setup share, add a user" />
 
 4.  Click the triangle icon to show all folders. Select a folder for sharing, or click the disk name (disk1_part1) if you want to share the whole disk. Then click **Next**.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_quick_setup_share/samba_quick_setup_share_add_shared_folder.png" class="glboxshadow" alt="samba quick setup share, add shared folder" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_quick_setup_share/samba_quick_setup_share_add_shared_folder.png" class="glboxshadow" alt="samba quick setup share, add shared folder" />
 
 5.  Set up the shared folder.
 
@@ -137,7 +137,7 @@ Connect the storage device. When it is detected, the page is displayed as below.
 
     The user created in the previous step will be added to **Read-Only User** by default. If you want this user to be able to write or delete files, remove it from Read-Only User and add it to **Writable User**, and click **Apply**.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_quick_setup_share/samba_quick_setup_share_shared_folder_settings.png" class="glboxshadow" alt="samba quick setup share, shared folder settings" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_quick_setup_share/samba_quick_setup_share_shared_folder_settings.png" class="glboxshadow" alt="samba quick setup share, shared folder settings" />
 
 6.  Obtain the folder access link.
 
@@ -145,7 +145,7 @@ Connect the storage device. When it is detected, the page is displayed as below.
 
     Now you can access your shared folder over Samba service via these links. Click [here](#samba-client) for details.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_quick_setup_share/samba_quick_setup_share_folder_access_link.png" class="glboxshadow" alt="samba quick setup share, folder access link" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_quick_setup_share/samba_quick_setup_share_folder_access_link.png" class="glboxshadow" alt="samba quick setup share, folder access link" />
 
     **Note:** If you enable **Allow Access Samba from WAN** and access the shared folder from upper network, please replace the router IP (default 192.168.8.1) in the access link with your router's WAN IP, which can be found on the INTERNET page of the web admin panel.
 
@@ -161,19 +161,19 @@ Connect the storage device. When it is detected, the page is displayed as below.
 
     - WebDAV Port: No need to modify the port number unless there’s a conflict. The recommended port number range is 1024 - 65535.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_quick_setup_share/enable_webdav.png" class="glboxshadow" alt="enable webdav" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_quick_setup_share/enable_webdav.png" class="glboxshadow" alt="enable webdav" />
 
 2.  Click **Quick Setup Share** to set the shared link.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_quick_setup_share/webdav_quick_setup_share.png" class="glboxshadow" alt="enable webdav" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_quick_setup_share/webdav_quick_setup_share.png" class="glboxshadow" alt="enable webdav" />
 
 3.  Add a user and click **Next**. This step will be skipped if you already have an account.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_quick_setup_share/samba_quick_setup_share_add_user.png" class="glboxshadow" alt="webdav quick setup share, add a user" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_quick_setup_share/samba_quick_setup_share_add_user.png" class="glboxshadow" alt="webdav quick setup share, add a user" />
 
 4.  Click the triangel icon to show all folders. Select a folder for sharing, or click the disk name (disk1_part1) to share the whole disk. Then click **Next**.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_quick_setup_share/samba_quick_setup_share_add_shared_folder.png" class="glboxshadow" alt="webdav quick setup share, add shared folder" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_quick_setup_share/samba_quick_setup_share_add_shared_folder.png" class="glboxshadow" alt="webdav quick setup share, add shared folder" />
 
 5.  Set up the shared folder.
 
@@ -181,7 +181,7 @@ Connect the storage device. When it is detected, the page is displayed as below.
 
     The user created in the previous step will be added to **Read-Only User** by default. If you want this user to be able to write or delete files, remove it from Read-Only User and add it to **Writable User**, and click **Apply**.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_quick_setup_share/webdav_quick_setup_share_shared_folder_settings.png" class="glboxshadow" alt="webdav quick setup share, shared folder settings" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_quick_setup_share/webdav_quick_setup_share_shared_folder_settings.png" class="glboxshadow" alt="webdav quick setup share, shared folder settings" />
 
 6.  Obtain folder access link.
 
@@ -189,7 +189,7 @@ Connect the storage device. When it is detected, the page is displayed as below.
 
     Now you can access your shared folder over WebDAV service via these links. Click [here](#webdav-client) for details.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_quick_setup_share/webdav_quick_setup_share_folder_access_link.png" class="glboxshadow" alt="webdav quick setup share, folder access link" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_quick_setup_share/webdav_quick_setup_share_folder_access_link.png" class="glboxshadow" alt="webdav quick setup share, folder access link" />
 
     **Note:** If you enabled **Allow Access WebDAV from WAN** and access the shared folder from upper network, please replace the router IP (default 192.168.8.1) in the access link with your router's WAN IP, which can be found on the INTERNET page of the web admin panel.
 
@@ -199,7 +199,7 @@ Connect the storage device. When it is detected, the page is displayed as below.
 
 Toggle on **Enable DLNA**, and click **Apply**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/enable_dlna.jpg" class="glboxshadow" alt="network storage, enable dlna" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/enable_dlna.jpg" class="glboxshadow" alt="network storage, enable dlna" />
 
 Connect your smart TV to the router, and it will find the DLNA Server.
 
@@ -215,63 +215,63 @@ Here is an example of Windows 11, which also applies to Windows 10.
 
 Open up File Explorer and then right-click on **This PC** (in the left pane). From the resulting context menu, select **Show more options** -\> **Add a network location**
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/windows11_add_network_location.png" class="glboxshadow" alt="windows 11 add network location" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/windows11_add_network_location.png" class="glboxshadow" alt="windows 11 add network location" />
 
 Click **Choose a custom network location** and then click **Next**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/windows11_add_network_location_2.png" class="glboxshadow" alt="windows 11 add network location" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/windows11_add_network_location_2.png" class="glboxshadow" alt="windows 11 add network location" />
 
 Enter the Samba access link. Then click **Next**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/windows11_add_network_location_3.png" class="glboxshadow" alt="windows 11 add network location" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/windows11_add_network_location_3.png" class="glboxshadow" alt="windows 11 add network location" />
 
 Give a name of this location. Click **Next**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/windows11_add_network_location_4.png" class="glboxshadow" alt="windows 11 add network location" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/windows11_add_network_location_4.png" class="glboxshadow" alt="windows 11 add network location" />
 
 Click **Finish**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/windows11_add_network_location_5.png" class="glboxshadow" alt="windows 11 add network location" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/windows11_add_network_location_5.png" class="glboxshadow" alt="windows 11 add network location" />
 
 If it need username and password, it will ask to enter the credential. Then click **OK**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/windows11_add_network_location_6.png" class="glboxshadow" alt="windows 11 add network location" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/windows11_add_network_location_6.png" class="glboxshadow" alt="windows 11 add network location" />
 
 
 You can access Samba by the Finder.
 
 Open up the Finder and click Go -\> Connect to Server on the menu. Copy & paste the Samba access link.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/finder_connect_to_server.png" class="glboxshadow" alt="network storage, mac os finder connect to server" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/finder_connect_to_server.png" class="glboxshadow" alt="network storage, mac os finder connect to server" />
 
 It will ask for the username and password, the username is when you setup **Shared Folder Settings**.
 
 If you set up anonymous access, please choose **Guest** in the image below.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/finder_username_password.png" class="glboxshadow" alt="network storage, mac os finder connect to server username password" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/finder_username_password.png" class="glboxshadow" alt="network storage, mac os finder connect to server username password" />
 
 Click **Continue**, it will show the Samba on the sidebar of Finder.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/finder_samba_connected.png" class="glboxshadow" alt="network storage, mac os finder samba connected" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/finder_samba_connected.png" class="glboxshadow" alt="network storage, mac os finder samba connected" />
 
 
 There are many Android apps that support Samba, here is an example of <a href="https://play.google.com/store/apps/details?id=com.cxinventor.file.explorer&amp;hl=en&amp;gl=US" target="_blank">Cx File Explorer</a>.
 
 At the home page, click **NETWORK**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/cx_file_explorer_home.png" class="glboxshadow" width="400" alt="cx file explorer home page" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/cx_file_explorer_home.png" class="glboxshadow" width="400" alt="cx file explorer home page" />
 
 Click **New Location**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/cx_file_explorer_new_location.png" class="glboxshadow" width="400" alt="cx file explorer home page" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/cx_file_explorer_new_location.png" class="glboxshadow" width="400" alt="cx file explorer home page" />
 
 Click **SMB**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/cx_file_explorer_remote.png" class="glboxshadow" width="350" alt="cx file explorer home page" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/cx_file_explorer_remote.png" class="glboxshadow" width="350" alt="cx file explorer home page" />
 
 Input the **Host**, **Username**, **Password**. If is **Anonymous Access**, please check the **Anonymous**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/cx_file_explorer_smb.png" class="glboxshadow" width="350" alt="cx file explorer home page" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/cx_file_explorer_smb.png" class="glboxshadow" width="350" alt="cx file explorer home page" />
 
 
 iOS <a href="https://apps.apple.com/us/app/files/id1232058109" target="_blank">Files</a> app support Samba, or you can use other apps, for example <a href="https://apps.apple.com/us/app/documents-file-reader-browser/id364901807" target="_blank">Documents</a>.
@@ -282,47 +282,47 @@ The next section describes how to connect to Samba using **Files** app and **Doc
 
   Open the **Files** app. It's installed by default so you should find it on your home screen. As **Files** is now a removable app, you might need to reinstall it from the App Store if it doesn't show up.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/ios15-iphone-12-pro-home-screen-search-files.jpg" class="glboxshadow" alt="search files on iphone" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/ios15-iphone-12-pro-home-screen-search-files.jpg" class="glboxshadow" alt="search files on iphone" />
 
   Make sure you're on the **Browse** tab at the bottom of the screen. Tap the "…" (three dots) icon in the top-right to display the app's context menu.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/ios_files_smb_1.png" class="glboxshadow" alt="ios files set up SMB" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/ios_files_smb_1.png" class="glboxshadow" alt="ios files set up SMB" />
 
   Tap the **Connect to Server** option near the top of the menu. On the next screen, enter your server's connection url. You can find the url in [Shared Link](#shared-link). Tap the **Next** button in the top-right to continue.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/ios_files_smb_2.png" class="glboxshadow" alt="ios files set up SMB" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/ios_files_smb_2.png" class="glboxshadow" alt="ios files set up SMB" />
 
   The following screen lets you enter authentication credentials if you'll be connecting to a protected network share. Tap **Registered User** and fill out the **Name** and **Password** fields with your Samba username and password. You can tap "Guest" instead if you enable the **Anonymous Access**.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/ios_files_smb_3.png" class="glboxshadow" alt="ios files set up SMB" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/ios_files_smb_3.png" class="glboxshadow" alt="ios files set up SMB" />
 
   Press the **Next** button in the top-right to complete the connection. Your iOS device should successfully connect to the server and display a list of available shares.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/ios_files_smb_4.png" class="glboxshadow" alt="ios files set up SMB" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/ios_files_smb_4.png" class="glboxshadow" alt="ios files set up SMB" />
 
   The Samba share will be listed at the bottom of menu, underneath the **Shared** heading.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/ios_files_smb_5.png" class="glboxshadow" alt="ios files set up SMB" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/ios_files_smb_5.png" class="glboxshadow" alt="ios files set up SMB" />
 
 - Guide of connect to Samba server by <a href="https://apps.apple.com/us/app/documents-file-reader-browser/id364901807" target="_blank">Documents</a> app.
 
   Click the plus button in the lower right corner.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/documents_1.png" class="glboxshadow" width="560" alt="documents samba" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/documents_1.png" class="glboxshadow" width="560" alt="documents samba" />
 
   Click **Add Connection**.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/documents_2.png" class="glboxshadow" width="560" alt="documents samba" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/documents_2.png" class="glboxshadow" width="560" alt="documents samba" />
 
   Click **Windows SMB**.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/documents_3.png" class="glboxshadow" width="560" alt="documents samba" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/documents_3.png" class="glboxshadow" width="560" alt="documents samba" />
 
   The **Title** is for a name of this connection. **URL** is the access link. **Login** is the username. If is anonymous access, just leave **Login** and **Password** empty.
 
   Click **Done** button to complete this setup.
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/documents_4_samba.png" class="glboxshadow" width="560" alt="documents samba" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/documents_4_samba.png" class="glboxshadow" width="560" alt="documents samba" />
 
 
 ## WebDAV Client<a href="#webdav-client" class="headerlink" title="Permanent link">¶</a>
@@ -337,7 +337,7 @@ Here is an example of RaiDrive.
 
 Click **Add**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/raidrive_add.png" class="glboxshadow" alt="RaiDrive WebDAV" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/raidrive_add.png" class="glboxshadow" alt="RaiDrive WebDAV" />
 
 In the **Storage** area, click **NAS** -\> **WebDAV**.
 
@@ -347,7 +347,7 @@ In the **Account** area, enter username and password, or check the **Anonymous**
 
 Finally, click **Connect**, it will add a X drive in the File Explorer.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/raidrive_new_drive_webdav.png" class="glboxshadow" alt="RaiDrive WebDAV" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/raidrive_new_drive_webdav.png" class="glboxshadow" alt="RaiDrive WebDAV" />
 
 
 There is a lot of app that supports WebDAV, for example <a href="https://apps.apple.com/hk/app/fe-file-explorer/id1444382558?l=en&amp;mt=12" target="_blank">FE File Explorer</a>, <a href="https://cyberduck.io/download/" target="_blank">Cyberduck</a>.
@@ -356,15 +356,15 @@ Here is an example of FE File Explorer.
 
 Click Add button.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/fe_file_explorer_add.png" class="glboxshadow" alt="FE File Explorer WebDAV" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/fe_file_explorer_add.png" class="glboxshadow" alt="FE File Explorer WebDAV" />
 
 Select **WebDAV**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/fe_file_explorer_webdav.png" class="glboxshadow" alt="FE File Explorer WebDAV" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/fe_file_explorer_webdav.png" class="glboxshadow" alt="FE File Explorer WebDAV" />
 
 Enter connection settings. If is anonymous access, just leave **User Name** and **Password** empty. Then clidk **Save & Connect**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/fe_file_explorer_webdav_connection_setting.png" class="glboxshadow" alt="FE File Explorer WebDAV" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/fe_file_explorer_webdav_connection_setting.png" class="glboxshadow" alt="FE File Explorer WebDAV" />
 
 It may has a warning says *The following secure server (null) uses an untrusted certificate. Trust this server?*, that is because it use self signed certificate, please trust it.
 
@@ -375,40 +375,40 @@ Note: Cx File Explorer doesn't support anonymous access.
 
 At the home page, click **NETWORK**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/cx_file_explorer_home.png" class="glboxshadow" width="400" alt="cx file explorer home page" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/cx_file_explorer_home.png" class="glboxshadow" width="400" alt="cx file explorer home page" />
 
 Click **New Location**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/cx_file_explorer_new_location.png" class="glboxshadow" width="400" alt="cx file explorer home page" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/cx_file_explorer_new_location.png" class="glboxshadow" width="400" alt="cx file explorer home page" />
 
 Click **WebDAV**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/samba_client/cx_file_explorer_remote.png" class="glboxshadow" width="350" alt="cx file explorer home page" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/samba_client/cx_file_explorer_remote.png" class="glboxshadow" width="350" alt="cx file explorer home page" />
 
 Input the **Host**, **Port**, **Username**, **Password**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/cx_file_explorer_webdav.png" class="glboxshadow" width="350" alt="cx file explorer home page" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/cx_file_explorer_webdav.png" class="glboxshadow" width="350" alt="cx file explorer home page" />
 
 
 There are many iOS apps that support WebDAV, here is an example of <a href="https://apps.apple.com/us/app/documents-file-reader-browser/id364901807" target="_blank">Documents</a>.
 
 Click the plus button in the lower right corner.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/documents_1.png" class="glboxshadow" width="560" alt="documents WebDAV" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/documents_1.png" class="glboxshadow" width="560" alt="documents WebDAV" />
 
 Click **Add Connection**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/documents_2.png" class="glboxshadow" width="560" alt="documents WebDAV" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/documents_2.png" class="glboxshadow" width="560" alt="documents WebDAV" />
 
 Click **WebDAV Server**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/documents_3.png" class="glboxshadow" width="560" alt="documents WebDAV" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/documents_3.png" class="glboxshadow" width="560" alt="documents WebDAV" />
 
 The **Title** is for a name of this connection. **URL** is the access link. **Login** is the username.
 
 Click **Done** button to complete this setup.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/tutorials/network_storage/webdav_client/documents_4_webdav.png" class="glboxshadow" width="560" alt="documents WebDAV" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_storage/webdav_client/documents_4_webdav.png" class="glboxshadow" width="560" alt="documents WebDAV" />
 
 
 ## Using Mobile App<a href="#using-mobile-app" class="headerlink" title="Permanent link">¶</a>

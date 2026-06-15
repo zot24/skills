@@ -131,6 +131,7 @@ Here are the capabilities of popular models:
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.1`                                   |  |  |  |  |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-codex`                               |  |  |  |  |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-chat-latest`                         |  |  |  |  |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-fable-5`                            |  |  |  |  |
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-8`                           |  |  |  |  |
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-7`                           |  |  |  |  |
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-6`                           |  |  |  |  |

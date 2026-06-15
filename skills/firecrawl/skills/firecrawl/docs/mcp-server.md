@@ -2,6 +2,13 @@
 
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: [/llms.txt](/llms.txt)
+>
+> Use this file to discover all available pages before exploring further.
+
+
 <a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
 
@@ -45,13 +52,6 @@ Use Firecrawl’s API through the Model Context Protocol
 
 
 Copy page
-
-
-> ## Documentation Index
->
-> Fetch the complete documentation index at: <https://docs.firecrawl.dev/llms.txt>
->
-> Use this file to discover all available pages before exploring further.
 
 
 ## 
@@ -317,7 +317,7 @@ See reference: <a href="https://github.com/directus/directus/issues/25906#issuec
 
 ``` shiki
 # Remote hosted URL (recommended)
-claude mcp add firecrawl --url https://mcp.firecrawl.dev/your-api-key/v2/mcp
+claude mcp add --transport http firecrawl https://mcp.firecrawl.dev/your-api-key/v2/mcp
 
 # Or run locally via npx
 claude mcp add firecrawl -e FIRECRAWL_API_KEY=your-api-key -- npx -y firecrawl-mcp
@@ -564,6 +564,18 @@ const CONFIG = {
     "includeTags": ["article", "main"],
     "excludeTags": ["nav", "footer"],
     "skipTlsVerification": false
+  }
+}
+```
+
+
+``` shiki
+{
+  "name": "firecrawl_scrape",
+  "arguments": {
+    "url": "https://example.com/contact",
+    "formats": ["markdown"],
+    "redactPII": true
   }
 }
 ```
