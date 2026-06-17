@@ -1,0 +1,77 @@
+<!-- Source: https://flueframework.com/docs/cli/logs -->
+
+## Synopsis [\#](https://flueframework.com/docs/cli/logs/\#synopsis)
+
+```
+flue logs <workflowRunId> [--server <url>] [--header 'Name: value'] [--follow|-f|--no-follow] [--since <offset>] [--types <a,b,c>] [--limit <n>] [--format <pretty|ndjson>]
+```
+
+## Description [\#](https://flueframework.com/docs/cli/logs/\#description)
+
+`flue logs` replays or follows events for one workflow run from a running Flue server. It is read-only and does not invoke work.
+
+Runs are workflow-only. Direct HTTP agent prompts and dispatched agent inputs are persistent session interactions, not runs.
+
+`flue logs` reads run events via the [Durable Streams](https://durablestreams.com/) protocol. Follow mode uses long-poll live tailing with automatic reconnection and offset-based replay. Replay mode performs a single catch-up read and exits. See [Streaming Protocol](https://flueframework.com/docs/api/streaming-protocol/) for the raw HTTP contract.
+
+`flue logs` inspects runs owned by the selected running server. It cannot inspect the private child process used by `flue run`: that one-shot process streams events directly to its command and does not publish run-inspection routes.
+
+## Arguments [\#](https://flueframework.com/docs/cli/logs/\#arguments)
+
+| Argument | Description |
+| --- | --- |
+| `<workflowRunId>` | Workflow run ID to inspect. |
+
+## Options [\#](https://flueframework.com/docs/cli/logs/\#options)
+
+| Option | Default | Description |
+| --- | --- | --- |
+| `--server <url>` | `http://127.0.0.1:3583` | Select the running Flue server base URL beneath which `/runs/<runId>` is published. May include an authored mount prefix. |
+| `--header 'Name: value'` | None | Forward a curl-style HTTP header to every request. Repeat to send multiple distinct headers. |
+| `--follow`, `-f` | Automatic | Force live event streaming. |
+| `--no-follow` | Automatic | Replay persisted events once and exit. |
+| `--since <offset>` | Beginning of history | Resume strictly after an opaque Durable Streams offset, such as the `offset` field emitted by `--format ndjson`. |
+| `--types <a,b,c>` | All event types | Emit only the selected comma-separated event types. Filtering is applied client-side. |
+| `--limit <n>` | Unlimited | Limit emitted events. Applied client-side in both replay and follow modes. |
+| `--format <pretty|ndjson>` | `pretty` | Select human-readable or line-delimited JSON output. |
+
+When neither follow option is passed, `flue logs` reads the run record from the public `GET /runs/<runId>?meta` view to determine run status: active runs are followed, terminal runs are replayed once. The record and the event stream are served by the same public `flue()` mount behind the same middleware, so no extra mount or option is required.
+
+Run routes may expose sensitive payloads, results, errors, and events. Use repeatable `--header 'Name: value'` options to forward credentials required by application-owned middleware. Use the final HTTPS URL for remote servers to avoid credential exposure via redirects. `flue logs` rejects duplicate header names and the protocol-reserved `Accept` header.
+
+Shell expansion keeps a literal token out of history:
+
+```
+flue logs run_01JX... --server https://example.com --header "Authorization: Bearer $TOKEN"
+```
+
+The expanded token may still be visible in process arguments while the command runs. Use short-lived, least-privilege credentials and masked CI variables where appropriate.
+
+## Output and exit behavior [\#](https://flueframework.com/docs/cli/logs/\#output-and-exit-behavior)
+
+`pretty` writes human-readable events to stderr. `ndjson` writes one JSON event object per stdout line, adding a per-event `offset` field, derived from the event’s `eventIndex`, that can be passed directly to `--since` to resume strictly after that event. The `offset` field is present in both replay and follow modes.
+
+Request failures exit with status `1`. A failed workflow exits with status `2` only when its failing `run_end` event is consumed. Signal interruption (Ctrl-C) exits with status `130`.
+
+## Examples [\#](https://flueframework.com/docs/cli/logs/\#examples)
+
+```
+flue logs run_01JX...
+flue logs run_01JX... --no-follow
+flue logs run_01JX... --since 0000000000000000_0000000000000025
+flue logs run_01JX... --types operation_start,operation,tool,log,run_end --format ndjson
+```
+
+See [Observability](https://flueframework.com/docs/guide/observability/) for workflow-run inspection and telemetry guidance.
+
+## Docs Navigation
+
+Current page: [flue logs](https://flueframework.com/docs/cli/logs/)
+
+### Sections
+
+- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
+- [Reference](https://flueframework.com/docs/api/agent-api/)
+- [CLI](https://flueframework.com/docs/cli/overview/)
+- [SDK](https://flueframework.com/docs/sdk/overview/)
+- [Ecosystem](https://flueframework.com/docs/ecosystem/)

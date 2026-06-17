@@ -113,6 +113,12 @@
       "source": "./skills/umami",
       "description": "Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, reports, and team management",
       "version": "1.0.4"
+    },
+    {
+      "name": "flue",
+      "source": "./skills/flue",
+      "description": "Expert on Flue — the open-source TypeScript framework for building durable, autonomous AI agents and workflows on the Pi harness. Write once, deploy anywhere, use any LLM.",
+      "version": "1.0.0"
     }
   ]
 }
