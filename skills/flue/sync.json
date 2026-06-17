@@ -1,0 +1,669 @@
+{
+  "name": "flue",
+  "version": "1.0.0",
+  "description": "Open-source TypeScript framework for building durable AI agents and workflows — built on the Pi harness, deploy anywhere, any LLM",
+  "sources": [
+    {
+      "url": "https://flueframework.com",
+      "target": "skills/flue/docs/home.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/blog/flue-1-0-beta",
+      "target": "skills/flue/docs/blog/flue-1-0-beta.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/agent-api",
+      "target": "skills/flue/docs/api/agent-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/data-persistence-api",
+      "target": "skills/flue/docs/api/data-persistence-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/discord-channel",
+      "target": "skills/flue/docs/api/discord-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/errors-reference",
+      "target": "skills/flue/docs/api/errors-reference.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/github-channel",
+      "target": "skills/flue/docs/api/github-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/google-chat-channel",
+      "target": "skills/flue/docs/api/google-chat-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/intercom-channel",
+      "target": "skills/flue/docs/api/intercom-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/linear-channel",
+      "target": "skills/flue/docs/api/linear-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/notion-channel",
+      "target": "skills/flue/docs/api/notion-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/provider-api",
+      "target": "skills/flue/docs/api/provider-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/resend-channel",
+      "target": "skills/flue/docs/api/resend-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/routing-api",
+      "target": "skills/flue/docs/api/routing-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/salesforce-marketing-cloud-channel",
+      "target": "skills/flue/docs/api/salesforce-marketing-cloud-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/sandbox-api",
+      "target": "skills/flue/docs/api/sandbox-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/shopify-channel",
+      "target": "skills/flue/docs/api/shopify-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/slack-channel",
+      "target": "skills/flue/docs/api/slack-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/stripe-channel",
+      "target": "skills/flue/docs/api/stripe-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/teams-channel",
+      "target": "skills/flue/docs/api/teams-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/telegram-channel",
+      "target": "skills/flue/docs/api/telegram-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/twilio-channel",
+      "target": "skills/flue/docs/api/twilio-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/whatsapp-channel",
+      "target": "skills/flue/docs/api/whatsapp-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/api/zendesk-channel",
+      "target": "skills/flue/docs/api/zendesk-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/add",
+      "target": "skills/flue/docs/cli/add.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/build",
+      "target": "skills/flue/docs/cli/build.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/connect",
+      "target": "skills/flue/docs/cli/connect.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/dev",
+      "target": "skills/flue/docs/cli/dev.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/docs",
+      "target": "skills/flue/docs/cli/docs.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/init",
+      "target": "skills/flue/docs/cli/init.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/logs",
+      "target": "skills/flue/docs/cli/logs.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/overview",
+      "target": "skills/flue/docs/cli/overview.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/run",
+      "target": "skills/flue/docs/cli/run.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/cli/update",
+      "target": "skills/flue/docs/cli/update.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/concepts/agents",
+      "target": "skills/flue/docs/concepts/agents.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/concepts/durable-execution",
+      "target": "skills/flue/docs/concepts/durable-execution.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem",
+      "target": "skills/flue/docs/ecosystem.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/discord",
+      "target": "skills/flue/docs/ecosystem/channels/discord.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/github",
+      "target": "skills/flue/docs/ecosystem/channels/github.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/google-chat",
+      "target": "skills/flue/docs/ecosystem/channels/google-chat.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/intercom",
+      "target": "skills/flue/docs/ecosystem/channels/intercom.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/linear",
+      "target": "skills/flue/docs/ecosystem/channels/linear.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/messenger",
+      "target": "skills/flue/docs/ecosystem/channels/messenger.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/notion",
+      "target": "skills/flue/docs/ecosystem/channels/notion.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/resend",
+      "target": "skills/flue/docs/ecosystem/channels/resend.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/salesforce-marketing-cloud",
+      "target": "skills/flue/docs/ecosystem/channels/salesforce-marketing-cloud.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/shopify",
+      "target": "skills/flue/docs/ecosystem/channels/shopify.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/slack",
+      "target": "skills/flue/docs/ecosystem/channels/slack.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/stripe",
+      "target": "skills/flue/docs/ecosystem/channels/stripe.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/teams",
+      "target": "skills/flue/docs/ecosystem/channels/teams.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/telegram",
+      "target": "skills/flue/docs/ecosystem/channels/telegram.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/twilio",
+      "target": "skills/flue/docs/ecosystem/channels/twilio.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/whatsapp",
+      "target": "skills/flue/docs/ecosystem/channels/whatsapp.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/channels/zendesk",
+      "target": "skills/flue/docs/ecosystem/channels/zendesk.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/databases/libsql",
+      "target": "skills/flue/docs/ecosystem/databases/libsql.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/databases/mongodb",
+      "target": "skills/flue/docs/ecosystem/databases/mongodb.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/databases/mysql",
+      "target": "skills/flue/docs/ecosystem/databases/mysql.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/databases/postgres",
+      "target": "skills/flue/docs/ecosystem/databases/postgres.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/databases/redis",
+      "target": "skills/flue/docs/ecosystem/databases/redis.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/databases/supabase",
+      "target": "skills/flue/docs/ecosystem/databases/supabase.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/databases/turso",
+      "target": "skills/flue/docs/ecosystem/databases/turso.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/databases/valkey",
+      "target": "skills/flue/docs/ecosystem/databases/valkey.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/aws",
+      "target": "skills/flue/docs/ecosystem/deploy/aws.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/cloudflare",
+      "target": "skills/flue/docs/ecosystem/deploy/cloudflare.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/docker",
+      "target": "skills/flue/docs/ecosystem/deploy/docker.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/fly",
+      "target": "skills/flue/docs/ecosystem/deploy/fly.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/github-actions",
+      "target": "skills/flue/docs/ecosystem/deploy/github-actions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/gitlab-ci",
+      "target": "skills/flue/docs/ecosystem/deploy/gitlab-ci.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/node",
+      "target": "skills/flue/docs/ecosystem/deploy/node.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/railway",
+      "target": "skills/flue/docs/ecosystem/deploy/railway.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/render",
+      "target": "skills/flue/docs/ecosystem/deploy/render.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/deploy/sst",
+      "target": "skills/flue/docs/ecosystem/deploy/sst.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/boxd",
+      "target": "skills/flue/docs/ecosystem/sandboxes/boxd.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/cloudflare",
+      "target": "skills/flue/docs/ecosystem/sandboxes/cloudflare.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/cloudflare-shell",
+      "target": "skills/flue/docs/ecosystem/sandboxes/cloudflare-shell.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/daytona",
+      "target": "skills/flue/docs/ecosystem/sandboxes/daytona.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/e2b",
+      "target": "skills/flue/docs/ecosystem/sandboxes/e2b.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/exedev",
+      "target": "skills/flue/docs/ecosystem/sandboxes/exedev.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/islo",
+      "target": "skills/flue/docs/ecosystem/sandboxes/islo.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/mirage",
+      "target": "skills/flue/docs/ecosystem/sandboxes/mirage.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/modal",
+      "target": "skills/flue/docs/ecosystem/sandboxes/modal.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/sandboxes/vercel",
+      "target": "skills/flue/docs/ecosystem/sandboxes/vercel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/tooling/braintrust",
+      "target": "skills/flue/docs/ecosystem/tooling/braintrust.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/tooling/opentelemetry",
+      "target": "skills/flue/docs/ecosystem/tooling/opentelemetry.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/ecosystem/tooling/sentry",
+      "target": "skills/flue/docs/ecosystem/tooling/sentry.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/getting-started/quickstart",
+      "target": "skills/flue/docs/getting-started/quickstart.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/building-agents",
+      "target": "skills/flue/docs/guide/building-agents.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/channels",
+      "target": "skills/flue/docs/guide/channels.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/database",
+      "target": "skills/flue/docs/guide/database.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/models",
+      "target": "skills/flue/docs/guide/models.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/observability",
+      "target": "skills/flue/docs/guide/observability.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/project-layout",
+      "target": "skills/flue/docs/guide/project-layout.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/react",
+      "target": "skills/flue/docs/guide/react.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/routing",
+      "target": "skills/flue/docs/guide/routing.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/sandboxes",
+      "target": "skills/flue/docs/guide/sandboxes.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/skills",
+      "target": "skills/flue/docs/guide/skills.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/subagents",
+      "target": "skills/flue/docs/guide/subagents.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/targets/cloudflare",
+      "target": "skills/flue/docs/guide/targets/cloudflare.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/targets/node",
+      "target": "skills/flue/docs/guide/targets/node.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/tools",
+      "target": "skills/flue/docs/guide/tools.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/guide/workflows",
+      "target": "skills/flue/docs/guide/workflows.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/introduction/why-flue",
+      "target": "skills/flue/docs/introduction/why-flue.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/reference/configuration",
+      "target": "skills/flue/docs/reference/configuration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/sdk/agents",
+      "target": "skills/flue/docs/sdk/agents.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/sdk/client",
+      "target": "skills/flue/docs/sdk/client.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/sdk/errors",
+      "target": "skills/flue/docs/sdk/errors.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/sdk/events",
+      "target": "skills/flue/docs/sdk/events.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/sdk/overview",
+      "target": "skills/flue/docs/sdk/overview.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/sdk/runs",
+      "target": "skills/flue/docs/sdk/runs.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://flueframework.com/docs/sdk/workflows",
+      "target": "skills/flue/docs/sdk/workflows.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "All pages crawled from flueframework.com (docs, CLI, SDK, API reference, and the deploy/channel/sandbox/database/tooling ecosystem). The discover-pages.sh script can detect new upstream pages."
+}

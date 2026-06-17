@@ -26,6 +26,7 @@ An opinionated selection of skills for daily dev workflows.
 | [immich](./skills/immich) | Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, and REST API |
 | [glinet](./skills/glinet) | Configure and manage GL.iNet routers — VPN, AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes |
 | [umami](./skills/umami) | Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, and reports |
+| [flue](./skills/flue) | Expert on Flue — the open-source TypeScript framework for building durable, autonomous AI agents and workflows on the Pi harness. Write once, deploy anywhere, use any LLM. |
 
 ## Installation
 
@@ -451,6 +452,29 @@ Deploy and manage Umami, a privacy-focused open-source web analytics platform:
 ```
 
 [Full documentation](./skills/umami/README.md)
+
+### flue
+
+Expert on Flue — the open-source TypeScript framework (by the Astro team) for building durable, autonomous AI agents and workflows on the Pi harness:
+
+- **quickstart** — Install, first agent, run locally
+- **agent** — Building agents with `createAgent` (harness-driven)
+- **workflow** — Authoring deterministic `run(...)` workflows
+- **channels** — Verified inbound provider events (Slack, GitHub, Stripe, …)
+- **cli** — `init`, `dev`, `run`, `connect`, `build`, `add`, `update`, `logs`, `docs`
+- **sdk** — `createFlueClient`, agents, workflows, runs, events
+- **api** — Agent, routing, provider, sandbox, and channel APIs
+- **deploy** — Cloudflare, AWS, Docker, Fly, Node, Railway, Render, SST, and more
+- **sync/diff** — Stay updated with upstream docs
+
+```bash
+/flue:flue quickstart
+/flue:flue agent
+/flue:flue deploy cloudflare
+/flue:flue add channel slack
+```
+
+[Full documentation](./skills/flue/README.md)
 
 ## Adding New Skills
 

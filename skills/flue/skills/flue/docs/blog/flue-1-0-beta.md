@@ -1,0 +1,186 @@
+<!-- Source: https://flueframework.com/blog/flue-1-0-beta -->
+
+**Flue 1.0 Beta is available today!** Flue’s core primitives — agents, workflows, sandboxes, channels — have come together into a cohesive story of what Flue is, why it matters, and why Flue is the best OSS framework available today for building autonomous agents and workflows with zero lock-in.
+
+New primitives include:
+
+- **[Agents & Workflows](https://flueframework.com/blog/flue-1-0-beta/#introducing-agents)** — autonomous agents + deterministic AI workflows.
+- **[Channels](https://flueframework.com/blog/flue-1-0-beta/#introducing-channels)** — drop your agents into Slack, GitHub, Linear, and more.
+- **[@flue/react](https://flueframework.com/blog/flue-1-0-beta/#introducing-fluereact)** — frontend UI for your Flue agents and workflows.
+- **[@flue/sdk](https://flueframework.com/blog/flue-1-0-beta/#introducing-fluereact)** — a revamped client for interacting with Flue.
+- **[Durable Agents](https://flueframework.com/blog/flue-1-0-beta/#building-durable-agents-with-flue)** — agents recover from downtime and resume.
+- **[Observability](https://flueframework.com/blog/flue-1-0-beta/#road-to-10)** — support for OpenTelemetry, Braintrust, Sentry, and more.
+- **[New CLI commands](https://flueframework.com/blog/flue-1-0-beta/#road-to-10)** — offline docs for your coding agents and more.
+
+**ICYMI: Flue is a TypeScript framework for building the next generation of agents.** Connect any LLM, build your agent, and deploy it anywhere. It’s all backed by a best-in-class DX, designed by the creators of [Astro](https://astro.build/).
+
+Try out Flue today. Pass along the prompt below to your coding agent to have it help scaffold your first Flue project for you:
+
+Copy Prompt
+
+“Read https://flueframework.com/start.md then help create my first agent...”
+
+Read our [Getting Started](https://flueframework.com/docs/getting-started/quickstart/) guide for full details.
+
+## Introducing: Agents [\#](https://flueframework.com/blog/flue-1-0-beta/\#introducing-agents)
+
+Flue originally launched with a simple programmable TypeScript harness, built on top of [Pi](https://pi.dev/). Flue’s deterministic approach to agent orchestration turned out to be great for background work — structured automations we now call [Workflows](https://flueframework.com/docs/guide/workflows/). Workflows are where your trusted code drives the model from start to finish:
+
+```
+// src/workflows/summarize.ts
+// HTTP - POST /workflows/summarize
+// CLI  - flue run summarize --payload='{"text": "Lorem ipsum..."}'
+
+const writer = createAgent(() => ({ model: 'anthropic/claude-sonnet-4-6' }));
+
+export async function run({ init, payload }: FlueContext) {
+	const harness = await init(writer);
+	const session = await harness.session();
+	const response = await session.prompt(`Summarize: ${payload.text}`);
+	return { summary: response.text };
+}
+```
+
+We launched Workflows back in May. But what people wanted to build with Flue was more ambitious: fully autonomous agents. Workflows gave you greater control over exact behavior and data access, but those limits came at a cost. So today we’re introducing an [Agent](https://flueframework.com/docs/guide/building-agents/) primitive for building fully stateful, autonomous agents with Flue:
+
+```
+// src/agents/triage.ts
+// HTTP - POST /agents/triage/:id
+// CLI  - flue connect triage
+
+// Expose (and protect) your agent over the internet.
+export const route = async (_c, next) => next();
+
+// Compose your agent with the context it needs to be successful.
+export default createAgent(() => ({
+	model: 'anthropic/claude-sonnet-4-6',
+	tools: [...githubTools],
+	skills: [triage, verify],
+	sandbox: local(),
+	instructions,
+}));
+```
+
+Instead of writing an exact workflow yourself, Flue agents only need _context_. Define the context — model, tools, skills, sandbox, instructions, subagents — and then watch your agent solve whatever task you give it, autonomously.
+
+Agents and workflows are two sides of the same coin. Both share a common foundational core but serve different needs:
+
+- Agents solve open-ended problems on their own.
+- Workflows run the exact steps you define.
+
+Now you can mix and match both primitives to build fully autonomous loops within your repo, company, and hosted products.
+
+## Introducing: Channels [\#](https://flueframework.com/blog/flue-1-0-beta/\#introducing-channels)
+
+[Channels](https://flueframework.com/docs/guide/channels/) connect your agents to external sources like Slack, GitHub, Linear, and more. A channel handles the incoming events and verification boilerplate so that you don’t have to.
+
+A channel lives in the `channels/` directory. Packages like `@flue/slack` and `@flue/stripe` come preconfigured to help you connect to these platforms, but you are also able to build your own custom channels if needed.
+
+Here’s an agent hooked up to answer Slack mentions. The channel verifies the event, and then dispatches the request to a new instance of the `assistant` agent:
+
+```
+// src/channels/slack.ts
+import { dispatch } from '@flue/runtime';
+import { createSlackChannel } from '@flue/slack';
+import assistant from '../agents/assistant.ts';
+
+export const channel = createSlackChannel({
+	signingSecret: process.env.SLACK_SIGNING_SECRET!,
+	async events({ payload }) {
+		const event = payload.event;
+		await dispatch(assistant, {
+			id: event.channel,
+			input: { type: 'slack.mention', text: event.text },
+		});
+	},
+});
+```
+
+The same pattern works across Flue’s growing set of first-party channels, so your agents can meet users wherever work already happens.
+
+The Flue Ecosystem [\[Browse\]](https://flueframework.com/docs/ecosystem/)
+
+[![](https://svgl.app/library/discord.svg)](https://flueframework.com/docs/ecosystem/channels/discord/ "Discord")[![](https://svgl.app/library/github_light.svg)](https://flueframework.com/docs/ecosystem/channels/github/ "GitHub")[![](https://svgl.app/library/google-chat.svg)](https://flueframework.com/docs/ecosystem/channels/google-chat/ "Google Chat")[![](https://svgl.app/library/linear.svg)](https://flueframework.com/docs/ecosystem/channels/linear/ "Linear")[![](https://svgl.app/library/microsoft-teams.svg)](https://flueframework.com/docs/ecosystem/channels/teams/ "Microsoft Teams")[![](https://svgl.app/library/notion.svg)](https://flueframework.com/docs/ecosystem/channels/notion/ "Notion")[![](https://svgl.app/library/resend-icon-white.svg)](https://flueframework.com/docs/ecosystem/channels/resend/ "Resend")[![](https://svgl.app/library/salesforce.svg)](https://flueframework.com/docs/ecosystem/channels/salesforce-marketing-cloud/ "Salesforce")[![](https://svgl.app/library/shopify.svg)](https://flueframework.com/docs/ecosystem/channels/shopify/ "Shopify")[![](https://svgl.app/library/slack.svg)](https://flueframework.com/docs/ecosystem/channels/slack/ "Slack")[![](https://svgl.app/library/stripe.svg)](https://flueframework.com/docs/ecosystem/channels/stripe/ "Stripe")[![](https://svgl.app/library/telegram.svg)](https://flueframework.com/docs/ecosystem/channels/telegram/ "Telegram")[![](https://svgl.app/library/twilio.svg)](https://flueframework.com/docs/ecosystem/channels/twilio/ "Twilio")[![](https://svgl.app/library/whatsapp-icon.svg)](https://flueframework.com/docs/ecosystem/channels/whatsapp/ "WhatsApp")
+
+## Building an AI-First Flue Ecosystem [\#](https://flueframework.com/blog/flue-1-0-beta/\#building-an-ai-first-flue-ecosystem)
+
+Until recently, extending a framework like Flue required third-party packages, multi-step guides, and rigid codemods. These tools could automate a few predetermined changes, but the difficult work still fell to you: understanding the instructions, adapting them to your project, and finishing everything the installer could not.
+
+Coding agents changed everything, so we designed Flue to take advantage. `flue add` gives your agent a Markdown blueprint with the context and instructions needed to complete an integration end-to-end. Your agent can understand the goal, work within your actual codebase, and make the project-specific decisions that a traditional installer cannot.
+
+```
+flue add channel slack
+flue add channel linear
+flue add sandbox daytona
+flue add database postgres
+flue add tooling opentelemetry
+```
+
+Choose what you need, then let your coding agent connect it intelligently to the project you already have. `flue add` works with your coding agent of choice. Upgrade an existing integration with `flue update`.
+
+It’s like [shadcn](https://ui.shadcn.com/), for your agents.
+
+## Introducing: @flue/react [\#](https://flueframework.com/blog/flue-1-0-beta/\#introducing-fluereact)
+
+`@flue/react` makes it easy to build frontend experiences around your agents. The `useFlueAgent()` and `useFlueWorkflow()` hooks stream live data straight into your React app, with no realtime plumbing required to write yourself.
+
+```
+import { createFlueClient } from '@flue/sdk';
+import { FlueProvider, useFlueAgent } from '@flue/react';
+
+// Wrap your app once:
+// <FlueProvider client={client}><Chat /></FlueProvider>
+const client = createFlueClient({ baseUrl: '/api' });
+
+function Chat() {
+	const { messages, status, sendMessage } = useFlueAgent({
+		name: 'triage',
+		id: 'ticket-8472',
+	});
+	// ...
+}
+```
+
+Flue 1.0 Beta also comes with a revamped `@flue/sdk` to talk to deployed Flue agents from anywhere: a React frontend, another service, or one-off scripts.
+
+React was our first UI library integration, but it won’t be our last. Vue and Svelte adapters are already prototyped and coming soon.
+
+## Building Durable Agents with Flue [\#](https://flueframework.com/blog/flue-1-0-beta/\#building-durable-agents-with-flue)
+
+Building a demo agent is easy. Building for production is not. Servers restart, providers time out, and eventually you’ll have to handle tool call interrupts and data loss. A durable agent is an agent that can handle all of this and recover, without losing history or making things worse.
+
+To deliver durability, we decided to lean on a foundation of battle-tested software. Flue is powered by [Vite](https://vite.dev/) for the build, [Pi](https://pi.dev/) for the harness, and [Durable Streams](https://durablestreams.com/) for the proven event transport protocol that every Flue agent speaks.
+
+Underneath it all, Flue borrows a hard-won lesson from databases and distributed systems: the source of truth is the log. Durable Streams give us a guaranteed append-only record of everything an agent sees: every human prompt, model response, and tool result is recorded to a durable, replayable stream.
+
+That’s the secret. When a process dies, another can pick up the log and continue from the last step, so a hard restart doesn’t drop your user’s conversation.
+
+Today, Flue agents scale as needed on Cloudflare. When building for Node.js, Flue still runs on a single node, but we plan to support multi-node (horizontally scaled) deployments before the stable 1.0 release.
+
+## Road to 1.0 [\#](https://flueframework.com/blog/flue-1-0-beta/\#road-to-10)
+
+We landed much, much more in 1.0 Beta than we could cover here: expanded observability, new database adapters (MySQL, Redis, MongoDB, Supabase), image inputs for agents, npm-importable skills, and new CLI commands like offline docs your coding agent can search. The full list is in the [Changelog](https://github.com/withastro/flue/blob/main/CHANGELOG.md).
+
+From here, the road to 1.0 is about polish, documentation, and listening to your feedback. There will still be the occasional breaking change, but far fewer than before. The shape of Flue is feeling solid.
+
+Flue began as the engine for AI workflows inside the Astro repo. It grew into something we think every team building agents will want, not just us. Thank you to everyone who tried the early releases and helped us figure out what Flue is!
+
+The best way to understand Flue is to build with it. Hand the prompt below to your coding agent to scaffold your first project:
+
+Copy Prompt
+
+“Read https://flueframework.com/start.md then help create my first agent...”
+
+Prefer to set things up yourself? Install the packages and initialize a project:
+
+```
+npm install @flue/runtime
+npm install -D @flue/cli
+npx flue init
+```
+
+Read the full [Quickstart](https://flueframework.com/docs/getting-started/quickstart/) for more details.
+
+**Want to help support the project?** Star us on [GitHub](https://github.com/withastro/flue), it’s the easiest way to show your support and help us grow!
+
+**Want to follow along?** Follow [@FredKSchott](https://x.com/FredKSchott) for more tips and dev updates.

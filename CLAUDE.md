@@ -34,7 +34,8 @@ skills/
 │   ├── adguard/              # AdGuard Home DNS filtering
 │   ├── immich/               # Immich photo/video management
 │   ├── glinet/               # GL.iNet router management
-│   └── umami/                # Umami web analytics
+│   ├── umami/                # Umami web analytics
+│   └── flue/                 # Flue open agent framework
 └── README.md
 ```
 
@@ -239,6 +240,7 @@ Each skill syncs documentation from upstream sources.
 | immich | https://docs.immich.app + https://github.com/immich-app/immich | URL-based |
 | glinet | https://docs.gl-inet.com/router/en/4/ | URL-based |
 | umami | https://docs.umami.is + https://github.com/umami-software/umami | URL-based |
+| flue | https://flueframework.com/docs | URL-based |
 
 ### When to Sync
 

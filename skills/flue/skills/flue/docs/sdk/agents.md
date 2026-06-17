@@ -1,0 +1,124 @@
+<!-- Source: https://flueframework.com/docs/sdk/agents -->
+
+Direct agent APIs interact with persistent agent instances. They use an agent name and instance id. Each agent instance is a single conversation. Direct agent interactions do not create workflow runs and do not emit `runId`.
+
+## `client.agents.prompt(...)` [\#](https://flueframework.com/docs/sdk/agents/\#clientagentsprompt)
+
+```
+prompt(name: string, id: string, options: AgentPromptOptions): Promise<AgentPromptResult>;
+```
+
+Sends one prompt to a persistent agent instance and waits for the terminal result. This uses `POST /agents/:name/:id?wait=result`.
+
+Waiting is best-effort and scoped to the server process that admitted the prompt; the prompt itself is a durable submission either way. If that process is interrupted before settlement, the call fails or disconnects while recovery settles the submission in the background — the outcome then appears in session history and as a `submission_settled` event on the agent stream.
+
+### `AgentPromptOptions` [\#](https://flueframework.com/docs/sdk/agents/\#agentpromptoptions)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `message` | `string` | Prompt sent to the agent instance. |
+| `images` | `AgentPromptImage[]` | Optional image attachments. Requires a vision-capable model. |
+| `signal` | `AbortSignal` | Cancel the in-flight HTTP request. |
+
+### `AgentPromptImage` [\#](https://flueframework.com/docs/sdk/agents/\#agentpromptimage)
+
+```
+interface AgentPromptImage {
+  type: 'image';
+  data: string;
+  mimeType: string;
+}
+```
+
+`data` is the base64-encoded image content and `mimeType` its media type, such as `image/png`. The server rejects images whose `data` exceeds 14 MiB of base64 characters.
+
+### `AgentPromptResult` [\#](https://flueframework.com/docs/sdk/agents/\#agentpromptresult)
+
+```
+interface AgentPromptResult extends AgentSendResult {
+  result: AgentPromptResponse;
+}
+```
+
+### `AgentPromptResponse` [\#](https://flueframework.com/docs/sdk/agents/\#agentpromptresponse)
+
+```
+interface AgentPromptResponse {
+  text: string;
+  usage: {
+    input: number;
+    output: number;
+    cacheRead: number;
+    cacheWrite: number;
+    totalTokens: number;
+    cost: {
+      input: number;
+      output: number;
+      cacheRead: number;
+      cacheWrite: number;
+      total: number;
+    };
+  };
+  model: { provider: string; id: string };
+}
+```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `text` | `string` | Assistant text returned by the prompt. |
+| `usage` | object | Aggregated token and cost usage for model work performed by the prompt. |
+| `model` | object | Model selected for the prompt’s primary turn. |
+
+## `client.agents.send(...)` [\#](https://flueframework.com/docs/sdk/agents/\#clientagentssend)
+
+```
+send(name: string, id: string, options: AgentPromptOptions): Promise<AgentSendResult>;
+```
+
+Starts one prompt without waiting for completion. This uses the default `POST /agents/:name/:id` response, which returns `202`. Use the returned `offset` with `agents.stream()` to read exactly that prompt’s events.
+
+### `AgentSendResult` [\#](https://flueframework.com/docs/sdk/agents/\#agentsendresult)
+
+```
+interface AgentSendResult {
+  streamUrl: string;
+  offset: string;
+  submissionId: string;
+}
+```
+
+Both `prompt()` and `send()` return the required `submissionId`. It correlates this direct submission with its attached agent events; workflow- and dispatch-driven activity use their existing `runId` and `dispatchId` fields instead.
+
+## `client.agents.stream(...)` [\#](https://flueframework.com/docs/sdk/agents/\#clientagentsstream)
+
+```
+stream(name: string, id: string, options?: FlueStreamOptions): FlueEventStream<AttachedAgentEvent>;
+```
+
+Streams events from an agent instance via the [Durable Streams](https://durablestreams.com/) protocol. See [Streaming Protocol](https://flueframework.com/docs/api/streaming-protocol/) for the raw HTTP contract. Returns an async iterable of typed `FlueEvent` objects.
+
+Use `offset` to control where reading begins. Pass `"-1"` for full history, `"now"` for future events only, or an offset returned by a previous read to resume from that position. A stream created before the first admitted prompt can return `404` because agent streams are created on first prompt admission.
+
+```
+for await (const event of client.agents.stream('support', 'ticket-42', {
+  offset: '-1',
+  live: true,
+})) {
+  console.log(event.type);
+  if (event.type === 'idle') break;
+}
+```
+
+See [`FlueStreamOptions`](https://flueframework.com/docs/sdk/runs/#fluestreamoptions) for available options.
+
+## Docs Navigation
+
+Current page: [client.agents](https://flueframework.com/docs/sdk/agents/)
+
+### Sections
+
+- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
+- [Reference](https://flueframework.com/docs/api/agent-api/)
+- [CLI](https://flueframework.com/docs/cli/overview/)
+- [SDK](https://flueframework.com/docs/sdk/overview/)
+- [Ecosystem](https://flueframework.com/docs/ecosystem/)
