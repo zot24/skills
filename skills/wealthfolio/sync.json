@@ -1,0 +1,237 @@
+{
+  "name": "wealthfolio",
+  "version": "1.0.0",
+  "description": "Open-source, private, local-first portfolio & net-worth tracker (desktop, mobile, self-hosted Docker)",
+  "sources": [
+    {
+      "url": "https://wealthfolio.app/docs/addons",
+      "target": "skills/wealthfolio/docs/addons.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/addons/api-reference",
+      "target": "skills/wealthfolio/docs/addons/api-reference.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/addons/getting-started",
+      "target": "skills/wealthfolio/docs/addons/getting-started.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/concepts",
+      "target": "skills/wealthfolio/docs/concepts.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/concepts/activity-types",
+      "target": "skills/wealthfolio/docs/concepts/activity-types.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/concepts/cost-basis-and-lots",
+      "target": "skills/wealthfolio/docs/concepts/cost-basis-and-lots.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/concepts/market-data-and-fx",
+      "target": "skills/wealthfolio/docs/concepts/market-data-and-fx.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/concepts/performance-metrics",
+      "target": "skills/wealthfolio/docs/concepts/performance-metrics.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/concepts/tracking-modes",
+      "target": "skills/wealthfolio/docs/concepts/tracking-modes.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/faq",
+      "target": "skills/wealthfolio/docs/faq.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/glossary",
+      "target": "skills/wealthfolio/docs/glossary.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide",
+      "target": "skills/wealthfolio/docs/guide.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/accounts",
+      "target": "skills/wealthfolio/docs/guide/accounts.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/activities",
+      "target": "skills/wealthfolio/docs/guide/activities.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/ai-assistant",
+      "target": "skills/wealthfolio/docs/guide/ai-assistant.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/allocation-targets",
+      "target": "skills/wealthfolio/docs/guide/allocation-targets.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/connect-broker-sync",
+      "target": "skills/wealthfolio/docs/guide/connect-broker-sync.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/contribution-limits",
+      "target": "skills/wealthfolio/docs/guide/contribution-limits.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/csv-import",
+      "target": "skills/wealthfolio/docs/guide/csv-import.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/custom-providers",
+      "target": "skills/wealthfolio/docs/guide/custom-providers.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/dashboards",
+      "target": "skills/wealthfolio/docs/guide/dashboards.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/data-export",
+      "target": "skills/wealthfolio/docs/guide/data-export.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/goals",
+      "target": "skills/wealthfolio/docs/guide/goals.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/health-center",
+      "target": "skills/wealthfolio/docs/guide/health-center.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/mobile",
+      "target": "skills/wealthfolio/docs/guide/mobile.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/retirement-planning",
+      "target": "skills/wealthfolio/docs/guide/retirement-planning.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/self-hosting",
+      "target": "skills/wealthfolio/docs/guide/self-hosting.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/self-hosting/configuration",
+      "target": "skills/wealthfolio/docs/guide/self-hosting/configuration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/self-hosting/coolify",
+      "target": "skills/wealthfolio/docs/guide/self-hosting/coolify.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/self-hosting/docker",
+      "target": "skills/wealthfolio/docs/guide/self-hosting/docker.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/self-hosting/docker-compose",
+      "target": "skills/wealthfolio/docs/guide/self-hosting/docker-compose.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/self-hosting/proxmox",
+      "target": "skills/wealthfolio/docs/guide/self-hosting/proxmox.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/self-hosting/reverse-proxy",
+      "target": "skills/wealthfolio/docs/guide/self-hosting/reverse-proxy.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/self-hosting/unraid",
+      "target": "skills/wealthfolio/docs/guide/self-hosting/unraid.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/settings",
+      "target": "skills/wealthfolio/docs/guide/settings.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/spending-budgets",
+      "target": "skills/wealthfolio/docs/guide/spending-budgets.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/introduction",
+      "target": "skills/wealthfolio/docs/introduction.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/quick-start",
+      "target": "skills/wealthfolio/docs/quick-start.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "All pages crawled from wealthfolio.app/docs (concepts, user guide, self-hosting, and addon development). The discover-pages.sh script can detect new upstream pages."
+}

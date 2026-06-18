@@ -27,6 +27,7 @@ An opinionated selection of skills for daily dev workflows.
 | [glinet](./skills/glinet) | Configure and manage GL.iNet routers — VPN, AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes |
 | [umami](./skills/umami) | Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, and reports |
 | [flue](./skills/flue) | Expert on Flue — the open-source TypeScript framework for building durable, autonomous AI agents and workflows on the Pi harness. Write once, deploy anywhere, use any LLM. |
+| [wealthfolio](./skills/wealthfolio) | Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development. |
 
 ## Installation
 
@@ -475,6 +476,29 @@ Expert on Flue — the open-source TypeScript framework (by the Astro team) for 
 ```
 
 [Full documentation](./skills/flue/README.md)
+
+### wealthfolio
+
+Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker):
+
+- **start** — Install & onboarding (download, accounts, first activities)
+- **concepts** — Tracking modes, activity types, cost basis & lots, performance metrics
+- **import** — CSV import: column mapping, activity types, troubleshooting
+- **guide** — Dashboards, accounts, spending & budgets, goals, retirement/FIRE, contribution limits
+- **connect** — Wealthfolio Connect broker sync & encrypted multi-device sync
+- **ai** — Local AI assistant via Ollama
+- **self-host** — Docker, Docker Compose, Unraid, Proxmox, Coolify, reverse proxy
+- **addon** — Addon development (getting started, API reference)
+- **sync/diff** — Stay updated with upstream docs
+
+```bash
+/wealthfolio:wealthfolio start
+/wealthfolio:wealthfolio import
+/wealthfolio:wealthfolio self-host docker
+/wealthfolio:wealthfolio addon getting-started
+```
+
+[Full documentation](./skills/wealthfolio/README.md)
 
 ## Adding New Skills
 
