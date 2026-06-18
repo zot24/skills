@@ -2,14 +2,14 @@
 # discover-pages.sh - Discover new docs pages not yet in sync.json
 # Usage: ./discover-pages.sh [--auto-add]
 #
-# Fetches the llms.txt index from docs.honcho.dev and compares against sync.json.
+# Fetches the llms.txt index from honcho.dev/docs and compares against sync.json.
 # Reports any pages not yet tracked. With --auto-add, adds them to sync.json.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MANIFEST="$SCRIPT_DIR/sync.json"
-BASE_URL="https://docs.honcho.dev"
+BASE_URL="https://honcho.dev/docs"
 INDEX_URL="$BASE_URL/llms.txt"
 
 AUTO_ADD=false
@@ -32,7 +32,7 @@ RAW_INDEX=$(curl -sSL "$INDEX_URL" 2>/dev/null)
 
 # Extract URLs from markdown links like [Title](URL)
 DISCOVERED_URLS=$(echo "$RAW_INDEX" | \
-    grep -oE 'https://docs\.honcho\.dev/[^)]+\.md' | \
+    grep -oE 'https://honcho\.dev/docs/[^)]+\.md' | \
     grep -v 'openapi' | \
     sort -u)
 

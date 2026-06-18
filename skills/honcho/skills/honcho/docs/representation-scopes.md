@@ -1,4 +1,4 @@
-> Source: https://docs.honcho.dev/v3/documentation/features/advanced/representation-scopes.md
+> Source: https://honcho.dev/docs/v3/documentation/features/advanced/representation-scopes.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt

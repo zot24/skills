@@ -1,4 +1,4 @@
-> Source: https://docs.honcho.dev/v3/contributing/self-hosting.md
+> Source: https://honcho.dev/docs/v3/contributing/self-hosting.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt

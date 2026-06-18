@@ -1,4 +1,4 @@
-> Source: https://docs.honcho.dev/changelog/compatibility-guide.md
+> Source: https://honcho.dev/docs/changelog/compatibility-guide.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
