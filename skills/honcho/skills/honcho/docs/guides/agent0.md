@@ -1,4 +1,4 @@
-> Source: https://docs.honcho.dev/v3/guides/community/agent0.md
+> Source: https://honcho.dev/docs/v3/guides/community/agent0.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt

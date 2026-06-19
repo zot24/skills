@@ -1,4 +1,4 @@
-> Source: https://docs.honcho.dev/v3/guides/integrations/crewai.md
+> Source: https://honcho.dev/docs/v3/guides/integrations/crewai.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt

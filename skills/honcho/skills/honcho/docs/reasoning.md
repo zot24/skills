@@ -1,4 +1,4 @@
-> Source: https://docs.honcho.dev/v3/documentation/core-concepts/reasoning.md
+> Source: https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt

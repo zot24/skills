@@ -1,4 +1,4 @@
-> Source: https://docs.honcho.dev/v3/api-reference/endpoint/messages/create-messages-with-file.md
+> Source: https://honcho.dev/docs/v3/api-reference/endpoint/messages/create-messages-with-file.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt

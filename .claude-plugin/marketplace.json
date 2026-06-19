@@ -64,7 +64,7 @@
       "name": "honcho",
       "source": "./skills/honcho",
       "description": "Expert on Honcho — AI-native memory and context platform for LLM applications with persistent memory, user modeling, and context management",
-      "version": "1.0.7"
+      "version": "1.0.8"
     },
     {
       "name": "gh-issue-tracker",
