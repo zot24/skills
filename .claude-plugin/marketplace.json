@@ -119,6 +119,12 @@
       "source": "./skills/flue",
       "description": "Expert on Flue — the open-source TypeScript framework for building durable, autonomous AI agents and workflows on the Pi harness. Write once, deploy anywhere, use any LLM.",
       "version": "1.0.0"
+    },
+    {
+      "name": "wealthfolio",
+      "source": "./skills/wealthfolio",
+      "description": "Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development.",
+      "version": "1.0.0"
     }
   ]
 }

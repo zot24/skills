@@ -1,0 +1,5 @@
+{
+  "name": "wealthfolio",
+  "description": "Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development.",
+  "version": "1.0.0"
+}

@@ -35,7 +35,8 @@ skills/
 │   ├── immich/               # Immich photo/video management
 │   ├── glinet/               # GL.iNet router management
 │   ├── umami/                # Umami web analytics
-│   └── flue/                 # Flue open agent framework
+│   ├── flue/                 # Flue open agent framework
+│   └── wealthfolio/          # Private local-first portfolio tracker
 └── README.md
 ```
 
@@ -241,6 +242,7 @@ Each skill syncs documentation from upstream sources.
 | glinet | https://docs.gl-inet.com/router/en/4/ | URL-based |
 | umami | https://docs.umami.is + https://github.com/umami-software/umami | URL-based |
 | flue | https://flueframework.com/docs | URL-based |
+| wealthfolio | https://wealthfolio.app/docs | URL-based |
 
 ### When to Sync
 

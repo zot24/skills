@@ -19,5 +19,8 @@ npm-debug.log
 # Sync reports (generated during sync)
 sync-report.txt
 
+# Firecrawl scrape cache (local scratch output)
+.firecrawl/
+
 # Claude Code local config
 .claude/
