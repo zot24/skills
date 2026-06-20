@@ -28,6 +28,8 @@ An opinionated selection of skills for daily dev workflows.
 | [umami](./skills/umami) | Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, and reports |
 | [flue](./skills/flue) | Expert on Flue — the open-source TypeScript framework for building durable, autonomous AI agents and workflows on the Pi harness. Write once, deploy anywhere, use any LLM. |
 | [wealthfolio](./skills/wealthfolio) | Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development. |
+| [1password-cli](./skills/1password-cli) | Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent. |
+| [portainerctl](./skills/portainerctl) | Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC. |
 
 ## Installation
 
@@ -499,6 +501,51 @@ Expert on Wealthfolio — the open-source, private, local-first portfolio & net-
 ```
 
 [Full documentation](./skills/wealthfolio/README.md)
+
+### 1password-cli
+
+Expert on the 1Password CLI (the `op` command) for managing 1Password from the terminal and loading secrets into scripts and CI:
+
+- **start** — Install (macOS/Windows/Linux), enable desktop-app integration, first sign-in
+- **signin** — Manual sign-in, multiple accounts, biometric unlock
+- **secrets** — Secret references (`op://vault/item/field`), `op read`
+- **run / inject** — `op run -- <cmd>` and `op inject` for env vars, `.env`, and config files
+- **item / vault** — Full CRUD for items and vaults, fields, share links, permissions
+- **service-account** — Automation/CI auth via `OP_SERVICE_ACCOUNT_TOKEN`; Connect server
+- **plugin** — Shell plugins (`op plugin`) for 80+ third-party CLIs
+- **ssh** — 1Password SSH agent, SSH keys, git commit signing
+- **sync/diff** — Stay updated with upstream docs
+
+```bash
+/1password-cli:1password-cli start
+/1password-cli:1password-cli secrets
+/1password-cli:1password-cli run
+/1password-cli:1password-cli service-account
+```
+
+[Full documentation](./skills/1password-cli/README.md)
+
+### portainerctl
+
+Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API:
+
+- **install** — Binary download / build from source; supported Portainer version
+- **auth** — API-token (PAT) auth, kubeconfig-style contexts, `PORTAINERCTL_*` env vars for CI
+- **environment** — Environments/endpoints, environment groups, tags, snapshots
+- **stack** — Deploy Compose/Swarm/Kubernetes stacks from file or Git (GitOps), lifecycle
+- **docker / kubernetes** — Containers/images/volumes/networks, Helm, kubectl & docker passthrough
+- **edge** — Edge stacks, groups, jobs, configs, update schedules
+- **admin** — Users/teams/RBAC, registries, webhooks, backups, licensing, observability
+- **sync/diff** — Stay updated with upstream README
+
+```bash
+/portainerctl:portainerctl install
+/portainerctl:portainerctl auth
+/portainerctl:portainerctl stack deploy
+/portainerctl:portainerctl environment list
+```
+
+[Full documentation](./skills/portainerctl/README.md)
 
 ## Adding New Skills
 

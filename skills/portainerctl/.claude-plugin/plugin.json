@@ -1,0 +1,5 @@
+{
+  "name": "portainerctl",
+  "description": "Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC.",
+  "version": "1.0.0"
+}
