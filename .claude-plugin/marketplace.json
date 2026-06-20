@@ -125,6 +125,18 @@
       "source": "./skills/wealthfolio",
       "description": "Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development.",
       "version": "1.0.0"
+    },
+    {
+      "name": "1password-cli",
+      "source": "./skills/1password-cli",
+      "description": "Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "portainerctl",
+      "source": "./skills/portainerctl",
+      "description": "Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC.",
+      "version": "1.0.0"
     }
   ]
 }
