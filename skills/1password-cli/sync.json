@@ -1,0 +1,135 @@
+{
+  "name": "1password-cli",
+  "version": "1.0.0",
+  "description": "1Password CLI (`op`) — terminal secrets management, secret references, op run/inject, items & vaults, service accounts, shell plugins, SSH agent",
+  "sources": [
+    {
+      "url": "https://www.1password.dev/cli/get-started/",
+      "target": "skills/1password-cli/docs/cli/get-started.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/app-integration/",
+      "target": "skills/1password-cli/docs/cli/app-integration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/sign-in-manually/",
+      "target": "skills/1password-cli/docs/cli/sign-in-manually.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/use-multiple-accounts/",
+      "target": "skills/1password-cli/docs/cli/use-multiple-accounts.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/secret-references/",
+      "target": "skills/1password-cli/docs/cli/secret-references.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/secret-reference-syntax/",
+      "target": "skills/1password-cli/docs/cli/secret-reference-syntax.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/secrets-environment-variables/",
+      "target": "skills/1password-cli/docs/cli/secrets-environment-variables.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/secrets-config-files/",
+      "target": "skills/1password-cli/docs/cli/secrets-config-files.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/item-create/",
+      "target": "skills/1password-cli/docs/cli/item-create.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/item-edit/",
+      "target": "skills/1password-cli/docs/cli/item-edit.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/item-fields/",
+      "target": "skills/1password-cli/docs/cli/item-fields.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/vault-permissions/",
+      "target": "skills/1password-cli/docs/cli/vault-permissions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/shell-plugins/",
+      "target": "skills/1password-cli/docs/cli/shell-plugins.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/ssh-keys/",
+      "target": "skills/1password-cli/docs/cli/ssh-keys.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/best-practices/",
+      "target": "skills/1password-cli/docs/cli/best-practices.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/install-server/",
+      "target": "skills/1password-cli/docs/cli/install-server.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/",
+      "target": "skills/1password-cli/docs/cli/reference.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/item/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/item.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/commands/run/",
+      "target": "skills/1password-cli/docs/cli/reference/commands/run.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/service-accounts/use-with-1password-cli/",
+      "target": "skills/1password-cli/docs/service-accounts/use-with-1password-cli.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/connect/cli/",
+      "target": "skills/1password-cli/docs/connect/cli.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "Pages crawled from 1password.dev/cli (the 1Password CLI docs; developer.1password.com/docs/cli now redirects here). Covers get-started/auth, secret references, op run/inject, items, vaults, service accounts, Connect, shell plugins, SSH, and the command reference. The discover-pages.sh script can detect new upstream /cli/ pages via the site's llms.txt and sitemap.xml."
+}
