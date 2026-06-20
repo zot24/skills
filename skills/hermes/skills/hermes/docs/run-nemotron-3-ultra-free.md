@@ -25,7 +25,7 @@ The simplest path: a one-click installer with a guided, point-and-click setup. N
 
 ### 1. Download and install<a href="#1-download-and-install" class="hash-link" aria-label="Direct link to 1. Download and install" translate="no" title="Direct link to 1. Download and install">​</a>
 
-<a href="https://hermes-agent.nousresearch.com/desktop" target="_blank" rel="noopener noreferrer">Download the Hermes Desktop installer</a> for macOS or Windows, then open it. On first launch it finishes setting itself up (usually under a minute).
+<a href="https://hermes-agent.nousresearch.com/" target="_blank" rel="noopener noreferrer">Download the Hermes Desktop installer</a> for macOS or Windows, then open it. On first launch it finishes setting itself up (usually under a minute).
 
 ### 2. Connect Nous Portal<a href="#2-connect-nous-portal" class="hash-link" aria-label="Direct link to 2. Connect Nous Portal" translate="no" title="Direct link to 2. Connect Nous Portal">​</a>
 
