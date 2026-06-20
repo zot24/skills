@@ -51,7 +51,7 @@ Pick the row that matches your goal:
 
 ### With the Hermes Desktop installer on macOS or Windows (recommended)<a href="#with-the-hermes-desktop-installer-on-macos-or-windows-recommended" class="hash-link" aria-label="Direct link to With the Hermes Desktop installer on macOS or Windows (recommended)" translate="no" title="Direct link to With the Hermes Desktop installer on macOS or Windows (recommended)">​</a>
 
-To easily install the command-line and desktop applications, <a href="https://hermes-agent.nousresearch.com/desktop" target="_blank" rel="noopener noreferrer">download the Hermes Desktop installer</a> from our website and run it.
+To easily install the command-line and desktop applications, <a href="https://hermes-agent.nousresearch.com/" target="_blank" rel="noopener noreferrer">download the Hermes Desktop installer</a> from our website and run it.
 
 ### Without Hermes Desktop:<a href="#without-hermes-desktop" class="hash-link" aria-label="Direct link to Without Hermes Desktop:" translate="no" title="Direct link to Without Hermes Desktop:">​</a>
 

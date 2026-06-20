@@ -255,6 +255,25 @@ Review staged writes from the CLI or any messaging platform:
 
 This is the answer to "the agent saved a wrong assumption about me": set `write_approval: true`, and every save — especially the unprompted background ones — waits for your yes/no before it ever enters your profile.
 
+## Background review notifications (`display.memory_notifications`)<a href="#background-review-notifications-displaymemory_notifications" class="hash-link" aria-label="Direct link to background-review-notifications-displaymemory_notifications" translate="no" title="Direct link to background-review-notifications-displaymemory_notifications">​</a>
+
+After a turn, the background self-improvement review may quietly save a memory or update a skill. By default it surfaces a short `💾 Memory updated` line in chat so you know it happened. Control how chatty that is:
+
+
+``` prism-code
+display:
+  memory_notifications: on    # off | on (default) | verbose
+```
+
+
+| Value          | Behaviour                                                                                                                           |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `off`          | No chat notification. The review still runs and still writes — you just don't see a line for it.                                    |
+| `on` (default) | Generic line, e.g. `💾 Memory updated`, `💾 Skill 'foo' patched`.                                                                   |
+| `verbose`      | Includes a compact preview of what changed, e.g. `💾 Memory ➕ User prefers terse replies` or a `"old" → "new"` skill diff snippet. |
+
+> This only governs the **gateway** chat notification. The review itself, and writes to your memory/skill stores, are unaffected by this setting. Set it per-platform via `display.platforms.<platform>.memory_notifications`.
+
 ## Controlling skill writes (`skills.write_approval`)<a href="#controlling-skill-writes-skillswrite_approval" class="hash-link" aria-label="Direct link to controlling-skill-writes-skillswrite_approval" translate="no" title="Direct link to controlling-skill-writes-skillswrite_approval">​</a>
 
 Skills use the same on/off gate, but the review UX differs because a `SKILL.md` is far too large to read in a chat bubble:
@@ -315,6 +334,7 @@ See the [Memory Providers](/docs/user-guide/features/memory-providers) guide for
   - <a href="#session_search-vs-memory" class="table-of-contents__link toc-highlight">session_search vs memory</a>
 - <a href="#configuration" class="table-of-contents__link toc-highlight">Configuration</a>
 - <a href="#controlling-memory-writes-write_approval" class="table-of-contents__link toc-highlight">Controlling memory writes (<code>write_approval</code>)</a>
+- <a href="#background-review-notifications-displaymemory_notifications" class="table-of-contents__link toc-highlight">Background review notifications (<code>display.memory_notifications</code>)</a>
 - <a href="#controlling-skill-writes-skillswrite_approval" class="table-of-contents__link toc-highlight">Controlling skill writes (<code>skills.write_approval</code>)</a>
 - <a href="#external-memory-providers" class="table-of-contents__link toc-highlight">External Memory Providers</a>
 

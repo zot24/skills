@@ -67,6 +67,9 @@ Settings are resolved in this order (highest priority first):
 Secrets (API keys, bot tokens, passwords) go in `.env`. Everything else (model, terminal backend, compression settings, memory limits, toolsets) goes in `config.yaml`. When both are set, `config.yaml` wins for non-secret settings.
 
 
+An administrator can pin specific config and secret values that a standard user cannot override, via a system-level managed directory. See [Managed Scope](/docs/user-guide/managed-scope).
+
+
 ## Environment Variable Substitution<a href="#environment-variable-substitution" class="hash-link" aria-label="Direct link to Environment Variable Substitution" translate="no" title="Direct link to Environment Variable Substitution">​</a>
 
 You can reference environment variables in `config.yaml` using `${VAR_NAME}` syntax:
@@ -646,6 +649,24 @@ memory:
 
 With `memory.write_approval: true`, memory writes need your approval before they land: interactive CLI turns prompt inline; messaging sessions and the background self-improvement review stage the write for `/memory pending` → `/memory approve <id>` / `/memory reject <id>` review. Toggle at runtime with `/memory approval on|off`. See [Controlling memory writes](/docs/user-guide/features/memory#controlling-memory-writes-write_approval).
 
+## Context File Truncation<a href="#context-file-truncation" class="hash-link" aria-label="Direct link to Context File Truncation" translate="no" title="Direct link to Context File Truncation">​</a>
+
+Controls how much content Hermes loads from each automatic context file before applying head/tail truncation. This applies to files injected into the system prompt such as `SOUL.md`, `.hermes.md`, `AGENTS.md`, `CLAUDE.md`, and `.cursorrules`. It does **not** affect the `read_file` tool.
+
+
+``` prism-code
+context_file_max_chars: 20000  # default
+```
+
+
+Raise it when you intentionally keep larger identity or project-context files and run models with enough context window to carry them:
+
+
+``` prism-code
+context_file_max_chars: 25000
+```
+
+
 ## File Read Safety<a href="#file-read-safety" class="hash-link" aria-label="Direct link to File Read Safety" translate="no" title="Direct link to File Read Safety">​</a>
 
 Controls how much content a single `read_file` call can return. Reads that exceed the limit are rejected with an error telling the agent to use `offset` and `limit` for a smaller range. This prevents a single read of a minified JS bundle or large data file from flooding the context window.
@@ -1058,6 +1079,16 @@ auxiliary:
   # Context compression timeout (separate from compression.* config)
   compression:
     timeout: 120               # seconds — compression summarizes long conversations, needs more time
+
+  # Auto-generated session titles. Empty language follows the conversation;
+  # set e.g. "English" or "Japanese" to pin titles to one language.
+  title_generation:
+    provider: "auto"
+    model: ""
+    base_url: ""
+    api_key: ""
+    timeout: 30
+    language: ""
 
   # Skills hub — skill matching and search
   skills_hub:
@@ -1988,7 +2019,7 @@ Hermes uses two different context scopes:
 - **Project context files use a priority system** — only ONE type is loaded (first match wins): `.hermes.md` → `AGENTS.md` → `CLAUDE.md` → `.cursorrules`. SOUL.md is always loaded independently.
 - **AGENTS.md** is hierarchical: if subdirectories also have AGENTS.md, all are combined.
 - Hermes automatically seeds a default `SOUL.md` if one does not already exist.
-- All loaded context files are capped at 20,000 characters with smart truncation.
+- All loaded context files are capped at `context_file_max_chars` characters (default 20,000) with smart truncation.
 
 See also:
 
@@ -2041,6 +2072,7 @@ terminal:
   - <a href="#guard-on-agent-created-skill-writes" class="table-of-contents__link toc-highlight">Guard on agent-created skill writes</a>
   - <a href="#write-approval-for-skill-writes" class="table-of-contents__link toc-highlight">Write approval for skill writes</a>
 - <a href="#memory-configuration" class="table-of-contents__link toc-highlight">Memory Configuration</a>
+- <a href="#context-file-truncation" class="table-of-contents__link toc-highlight">Context File Truncation</a>
 - <a href="#file-read-safety" class="table-of-contents__link toc-highlight">File Read Safety</a>
 - <a href="#tool-output-truncation-limits" class="table-of-contents__link toc-highlight">Tool Output Truncation Limits</a>
 - <a href="#global-toolset-disable" class="table-of-contents__link toc-highlight">Global Toolset Disable</a>

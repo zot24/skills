@@ -45,6 +45,7 @@ Bots need both a model provider and tool providers (TTS, web). A [Nous Portal](/
 | Microsoft Teams |   —   |   ✅   |   —   |   ✅    |     —     |   ✅   |     —     |
 | LINE            |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
 | ntfy            |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Raft            |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
 
 **Voice** = TTS audio replies and/or voice message transcription. **Images** = send/receive images. **Files** = send/receive file attachments. **Threads** = threaded conversations. **Reactions** = emoji reactions on messages. **Typing** = typing indicator while processing. **Streaming** = progressive message updates via editing.
 
@@ -283,8 +284,27 @@ Control how much tool activity is displayed in `~/.hermes/config.yaml`:
 display:
   tool_progress: all    # off | new | all | verbose
   tool_progress_command: false  # set to true to enable /verbose in messaging
+  # How progress is grouped on platforms that support message editing:
+  #   accumulate (default) — edit one bubble in place as tools run
+  #   separate             — send one message per tool (pre-v0.9 style; noisier)
+  # Only applies where tool_progress is already enabled.
+  tool_progress_grouping: accumulate   # accumulate | separate
 ```
 
+
+### Message timestamps in model context<a href="#message-timestamps-in-model-context" class="hash-link" aria-label="Direct link to Message timestamps in model context" translate="no" title="Direct link to Message timestamps in model context">​</a>
+
+Off by default. When enabled, Hermes prepends a human-readable timestamp (e.g. `[Tue 2026-04-28 13:40:53 CEST]`) onto each **user** message *in the model's context* so the agent knows when messages were sent — useful for temporal reasoning ("you asked this morning…", noticing a long gap). It is **not** added to assistant messages or the system prompt.
+
+
+``` prism-code
+gateway:
+  message_timestamps:
+    enabled: false   # set true to show send-times to the model
+```
+
+
+Persisted transcripts always stay clean — the timestamp is stored as message metadata regardless of this toggle, so enabling it later also surfaces send-times for past messages, and replay never accumulates duplicate prefixes.
 
 When enabled, the bot sends status messages as it works:
 
@@ -468,6 +488,7 @@ Each platform has its own toolset:
 | Microsoft Teams    | `hermes-teams`          | Full tools including terminal                                                                                         |
 | API Server         | `hermes-api-server`     | Full tools (drops `clarify`, `send_message`, `text_to_speech` — programmatic access doesn't have an interactive user) |
 | Webhooks           | `hermes-webhook`        | Full tools including terminal                                                                                         |
+| Raft               | `hermes-raft`           | Wake-only channel; agent uses Raft CLI for message I/O                                                                |
 
 ## Operating a multi-platform gateway<a href="#operating-a-multi-platform-gateway" class="hash-link" aria-label="Direct link to Operating a multi-platform gateway" translate="no" title="Direct link to Operating a multi-platform gateway">​</a>
 
@@ -606,6 +627,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - [Microsoft Teams Setup](/docs/user-guide/messaging/teams)
 - [Teams Meetings Pipeline](/docs/user-guide/messaging/teams-meetings)
 - [Open WebUI + API Server](/docs/user-guide/messaging/open-webui)
+- [Raft Setup](/docs/user-guide/messaging/raft)
 - [Webhooks](/docs/user-guide/messaging/webhooks)
 
 
@@ -624,6 +646,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - <a href="#interrupting-the-agent" class="table-of-contents__link toc-highlight">Interrupting the Agent</a>
   - <a href="#queue-vs-interrupt-vs-steer-busy-input-mode" class="table-of-contents__link toc-highlight">Queue vs interrupt vs steer (busy-input mode)</a>
 - <a href="#tool-progress-notifications" class="table-of-contents__link toc-highlight">Tool Progress Notifications</a>
+  - <a href="#message-timestamps-in-model-context" class="table-of-contents__link toc-highlight">Message timestamps in model context</a>
 - <a href="#background-sessions" class="table-of-contents__link toc-highlight">Background Sessions</a>
   - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How It Works</a>
   - <a href="#background-process-notifications" class="table-of-contents__link toc-highlight">Background Process Notifications</a>
