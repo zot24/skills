@@ -1,6 +1,6 @@
 {
   "name": "hermes",
-  "version": "1.1.22",
+  "version": "1.1.23",
   "description": "Expert knowledge about Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
   "sources": [
     {
@@ -216,6 +216,12 @@
     {
       "url": "https://hermes-agent.nousresearch.com/docs/guides/run-nemotron-3-ultra-free/",
       "target": "skills/hermes/docs/run-nemotron-3-ultra-free.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/getting-started/platform-support/",
+      "target": "skills/hermes/docs/platform-support.md",
       "type": "extract-content",
       "freshness_days": 7
     }

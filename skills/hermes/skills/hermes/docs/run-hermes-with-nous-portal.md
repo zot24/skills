@@ -286,13 +286,13 @@ If a model is genuinely unavailable, <a href="https://github.com/NousResearch/he
 
 - `model.provider` set to `openrouter`/`anthropic`/etc. instead of `nous`
 - An OAuth refresh failure that fell back to a different configured provider
-- Multiple Hermes profiles where you're using the wrong one (check `hermes profile current`)
+- Multiple Hermes profiles where you're using the wrong one (check `hermes profile list`)
 
 ### Want to revoke and start clean<a href="#want-to-revoke-and-start-clean" class="hash-link" aria-label="Direct link to Want to revoke and start clean" translate="no" title="Direct link to Want to revoke and start clean">​</a>
 
 
 ``` prism-code
-hermes auth remove nous       # wipes the local refresh token
+hermes auth logout nous       # wipes the local refresh token
 # Then re-run setup or remove the subscription from the Portal web UI
 ```
 

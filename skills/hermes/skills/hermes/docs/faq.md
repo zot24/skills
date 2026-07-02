@@ -25,7 +25,7 @@ Hermes Agent works with any OpenAI-compatible API. Supported providers include:
 - **[Nous Portal](/docs/integrations/nous-portal)** — Nous Research's subscription gateway — 300+ models plus web/image/TTS/browser through one OAuth login (recommended for newcomers)
 - **OpenAI** — GPT-5.4, GPT-5-codex, GPT-4.1, GPT-4o, etc.
 - **Anthropic** — Claude models (direct API, OAuth via `hermes auth add anthropic`, OpenRouter, or any compatible proxy)
-- **Google** — Gemini models (direct API via `gemini` provider, the `google-gemini-cli` OAuth provider, OpenRouter, or compatible proxy)
+- **Google** — Gemini models (direct API via `gemini` provider, OpenRouter, or compatible proxy)
 - **z.ai / ZhipuAI** — GLM models
 - **Kimi / Moonshot AI** — Kimi models
 - **MiniMax** — global and China endpoints
@@ -33,25 +33,9 @@ Hermes Agent works with any OpenAI-compatible API. Supported providers include:
 
 Set your provider with `hermes model` or by editing `~/.hermes/.env`. See the [Environment Variables](/docs/reference/environment-variables) reference for all provider keys.
 
-### Does it work on Windows?<a href="#does-it-work-on-windows" class="hash-link" aria-label="Direct link to Does it work on Windows?" translate="no" title="Direct link to Does it work on Windows?">​</a>
+### Does it work on Windows/Android/Termux/my plataform??<a href="#does-it-work-on-windowsandroidtermuxmy-plataform" class="hash-link" aria-label="Direct link to Does it work on Windows/Android/Termux/my plataform??" translate="no" title="Direct link to Does it work on Windows/Android/Termux/my plataform??">​</a>
 
-**Yes, natively.** Hermes supports native Windows via the PowerShell installer — no WSL required. Run in PowerShell:
-
-
-``` prism-code
-iex (irm https://hermes-agent.nousresearch.com/install.ps1)
-```
-
-
-The installer provisions a PortableGit that backs the terminal tool's shell. See the [Windows (Native) Guide](/docs/user-guide/windows-native) for details.
-
-WSL2 remains a fully supported alternative. To run Hermes inside WSL2, install <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener noreferrer">WSL2</a> and use the standard install command:
-
-
-``` prism-code
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-```
-
+See **[Platform Support](/docs/getting-started/platform-support)** for the full platform availability matrix.
 
 ### I run Hermes in WSL2. What's the best way to control my normal Windows Chrome?<a href="#i-run-hermes-in-wsl2-whats-the-best-way-to-control-my-normal-windows-chrome" class="hash-link" aria-label="Direct link to I run Hermes in WSL2. What&#39;s the best way to control my normal Windows Chrome?" translate="no" title="Direct link to I run Hermes in WSL2. What&#39;s the best way to control my normal Windows Chrome?">​</a>
 
@@ -70,22 +54,6 @@ See:
 
 - [Use MCP with Hermes](/docs/guides/use-mcp-with-hermes#wsl2-bridge-hermes-in-wsl-to-windows-chrome)
 - [Browser Automation](/docs/user-guide/features/browser#wsl2--windows-chrome-prefer-mcp-over-browser-connect)
-
-### Does it work on Android / Termux?<a href="#does-it-work-on-android--termux" class="hash-link" aria-label="Direct link to Does it work on Android / Termux?" translate="no" title="Direct link to Does it work on Android / Termux?">​</a>
-
-Yes — Hermes now has a tested Termux install path for Android phones.
-
-Quick install:
-
-
-``` prism-code
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-```
-
-
-For the fully explicit manual steps, supported extras, and current limitations, see the [Termux guide](/docs/getting-started/termux).
-
-Important caveat: the full `.[all]` extra is not currently available on Android because the `voice` extra depends on `faster-whisper` → `ctranslate2`, and `ctranslate2` does not publish Android wheels. Use the tested `.[termux]` extra instead.
 
 ### Is my data sent anywhere?<a href="#is-my-data-sent-anywhere" class="hash-link" aria-label="Direct link to Is my data sent anywhere?" translate="no" title="Direct link to Is my data sent anywhere?">​</a>
 
@@ -505,7 +473,7 @@ Configure in `~/.hermes/config.yaml` under your gateway's settings. See the [Mes
 
 ``` prism-code
 # Install core messaging gateway dependencies
-pip install "hermes-agent[messaging]"  # Telegram, Discord, Slack, and shared gateway deps
+cd ~/.hermes/hermes-agent && uv pip install -e ".[messaging]"  # Telegram, Discord, Slack, and shared gateway deps
 
 # Check for port conflicts
 lsof -i :8080
@@ -1014,9 +982,8 @@ If your issue isn't covered here:
 
 - <a href="#frequently-asked-questions" class="table-of-contents__link toc-highlight">Frequently Asked Questions</a>
   - <a href="#what-llm-providers-work-with-hermes" class="table-of-contents__link toc-highlight">What LLM providers work with Hermes?</a>
-  - <a href="#does-it-work-on-windows" class="table-of-contents__link toc-highlight">Does it work on Windows?</a>
+  - <a href="#does-it-work-on-windowsandroidtermuxmy-plataform" class="table-of-contents__link toc-highlight">Does it work on Windows/Android/Termux/my plataform??</a>
   - <a href="#i-run-hermes-in-wsl2-whats-the-best-way-to-control-my-normal-windows-chrome" class="table-of-contents__link toc-highlight">I run Hermes in WSL2. What's the best way to control my normal Windows Chrome?</a>
-  - <a href="#does-it-work-on-android--termux" class="table-of-contents__link toc-highlight">Does it work on Android / Termux?</a>
   - <a href="#is-my-data-sent-anywhere" class="table-of-contents__link toc-highlight">Is my data sent anywhere?</a>
   - <a href="#can-i-use-it-offline--with-local-models" class="table-of-contents__link toc-highlight">Can I use it offline / with local models?</a>
   - <a href="#how-much-does-it-cost" class="table-of-contents__link toc-highlight">How much does it cost?</a>

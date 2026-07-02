@@ -46,6 +46,7 @@ Bots need both a model provider and tool providers (TTS, web). A [Nous Portal](/
 | LINE            |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
 | ntfy            |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
 | Raft            |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| IRC             |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
 
 **Voice** = TTS audio replies and/or voice message transcription. **Images** = send/receive images. **Files** = send/receive file attachments. **Threads** = threaded conversations. **Reactions** = emoji reactions on messages. **Typing** = typing indicator while processing. **Streaming** = progressive message updates via editing.
 
@@ -150,6 +151,8 @@ Sessions reset based on configurable policies:
 | Idle   | 1440 min   | Reset after N minutes of inactivity |
 | Both   | (combined) | Whichever triggers first            |
 
+A live background process (started with `terminal(background=true)`) normally protects its session from resetting so output isn't lost. To stop a forgotten process — say a preview server — from pinning a session open forever, a background process older than `bg_process_max_age_hours` (default **24**) no longer blocks reset. The process is **not** killed, only ignored by the reset guard. Set it to `0` to disable the cutoff (any live process blocks reset, the old behavior), or raise it if you run legitimate multi-day jobs whose liveness should keep the conversation open.
+
 Configure per-platform overrides in `~/.hermes/gateway.json`:
 
 
@@ -193,7 +196,7 @@ GATEWAY_ALLOW_ALL_USERS=true
 
 ### DM Pairing (Alternative to Allowlists)<a href="#dm-pairing-alternative-to-allowlists" class="hash-link" aria-label="Direct link to DM Pairing (Alternative to Allowlists)" translate="no" title="Direct link to DM Pairing (Alternative to Allowlists)">​</a>
 
-Instead of manually configuring user IDs, unknown users receive a one-time pairing code when they DM the bot:
+Instead of manually configuring user IDs, unknown users receive a one-time pairing code when they DM the bot. Email is the exception: unknown email senders are ignored unless email pairing is explicitly enabled.
 
 
 ``` prism-code
@@ -408,6 +411,9 @@ journalctl -u hermes-gateway -f
 Use the user service on laptops and dev boxes. Use the system service on VPS or headless hosts that should come back at boot without relying on systemd linger.
 
 
+The unit Hermes installs already shuts the gateway down cleanly with `KillMode=mixed` + `KillSignal=SIGTERM`, and uses `Restart=always` with `RestartForceExitStatus` so updates and `/restart` respawn correctly. Do **not** add a systemd drop-in such as `ExecStopPost=/bin/kill -9 $MAINPID` — `ExecStopPost` fires on *every* stop, including clean restarts, so it `SIGKILL`s the freshly spawned instance before it stabilizes and `Restart=always` immediately respawns it. The result is an infinite restart loop (and, on Telegram, a flood of restart messages). If you've added such a drop-in, remove it: `systemctl --user edit hermes-gateway` (or `sudo systemctl edit hermes-gateway` for a system service) and delete the `ExecStopPost` line, then `systemctl --user daemon-reload`.
+
+
 A system service needs root for every restart — including the automatic gateway restart at the end of `hermes update`. When `hermes update` runs as a non-root user, it tries passwordless `sudo systemctl`; if that's unavailable, it skips the restart and prints the manual `sudo systemctl restart hermes-gateway` command (it never blocks on an interactive password prompt).
 
 For a headless VM you never log into, a **user** service with lingering enabled gives you the same start-at-boot behavior with zero root involvement:
@@ -462,33 +468,33 @@ Like the Linux systemd service, each `HERMES_HOME` directory gets its own launch
 
 Each platform has its own toolset:
 
-| Platform           | Toolset                 | Capabilities                                                                                                          |
-|--------------------|-------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| CLI                | `hermes-cli`            | Full access                                                                                                           |
-| Telegram           | `hermes-telegram`       | Full tools including terminal                                                                                         |
-| Discord            | `hermes-discord`        | Full tools including terminal                                                                                         |
-| WhatsApp           | `hermes-whatsapp`       | Full tools including terminal                                                                                         |
-| WhatsApp Cloud API | `hermes-whatsapp`       | Full tools including terminal (shares toolset with the Baileys bridge)                                                |
-| Slack              | `hermes-slack`          | Full tools including terminal                                                                                         |
-| Google Chat        | `hermes-google_chat`    | Full tools including terminal                                                                                         |
-| Signal             | `hermes-signal`         | Full tools including terminal                                                                                         |
-| SMS                | `hermes-sms`            | Full tools including terminal                                                                                         |
-| Email              | `hermes-email`          | Full tools including terminal                                                                                         |
-| Home Assistant     | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services)                    |
-| Mattermost         | `hermes-mattermost`     | Full tools including terminal                                                                                         |
-| Matrix             | `hermes-matrix`         | Full tools including terminal                                                                                         |
-| DingTalk           | `hermes-dingtalk`       | Full tools including terminal                                                                                         |
-| Feishu/Lark        | `hermes-feishu`         | Full tools including terminal                                                                                         |
-| WeCom              | `hermes-wecom`          | Full tools including terminal                                                                                         |
-| WeCom Callback     | `hermes-wecom-callback` | Full tools including terminal                                                                                         |
-| Weixin             | `hermes-weixin`         | Full tools including terminal                                                                                         |
-| BlueBubbles        | `hermes-bluebubbles`    | Full tools including terminal                                                                                         |
-| QQBot              | `hermes-qqbot`          | Full tools including terminal                                                                                         |
-| Yuanbao            | `hermes-yuanbao`        | Full tools including terminal                                                                                         |
-| Microsoft Teams    | `hermes-teams`          | Full tools including terminal                                                                                         |
-| API Server         | `hermes-api-server`     | Full tools (drops `clarify`, `send_message`, `text_to_speech` — programmatic access doesn't have an interactive user) |
-| Webhooks           | `hermes-webhook`        | Full tools including terminal                                                                                         |
-| Raft               | `hermes-raft`           | Wake-only channel; agent uses Raft CLI for message I/O                                                                |
+| Platform           | Toolset                 | Capabilities                                                                                          |
+|--------------------|-------------------------|-------------------------------------------------------------------------------------------------------|
+| CLI                | `hermes-cli`            | Full access                                                                                           |
+| Telegram           | `hermes-telegram`       | Full tools including terminal                                                                         |
+| Discord            | `hermes-discord`        | Full tools including terminal                                                                         |
+| WhatsApp           | `hermes-whatsapp`       | Full tools including terminal                                                                         |
+| WhatsApp Cloud API | `hermes-whatsapp`       | Full tools including terminal (shares toolset with the Baileys bridge)                                |
+| Slack              | `hermes-slack`          | Full tools including terminal                                                                         |
+| Google Chat        | `hermes-google_chat`    | Full tools including terminal                                                                         |
+| Signal             | `hermes-signal`         | Full tools including terminal                                                                         |
+| SMS                | `hermes-sms`            | Full tools including terminal                                                                         |
+| Email              | `hermes-email`          | Full tools including terminal                                                                         |
+| Home Assistant     | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services)    |
+| Mattermost         | `hermes-mattermost`     | Full tools including terminal                                                                         |
+| Matrix             | `hermes-matrix`         | Full tools including terminal                                                                         |
+| DingTalk           | `hermes-dingtalk`       | Full tools including terminal                                                                         |
+| Feishu/Lark        | `hermes-feishu`         | Full tools including terminal                                                                         |
+| WeCom              | `hermes-wecom`          | Full tools including terminal                                                                         |
+| WeCom Callback     | `hermes-wecom-callback` | Full tools including terminal                                                                         |
+| Weixin             | `hermes-weixin`         | Full tools including terminal                                                                         |
+| BlueBubbles        | `hermes-bluebubbles`    | Full tools including terminal                                                                         |
+| QQBot              | `hermes-qqbot`          | Full tools including terminal                                                                         |
+| Yuanbao            | `hermes-yuanbao`        | Full tools including terminal                                                                         |
+| Microsoft Teams    | `hermes-teams`          | Full tools including terminal                                                                         |
+| API Server         | `hermes-api-server`     | Full tools (drops `clarify`, `text_to_speech` — programmatic access doesn't have an interactive user) |
+| Webhooks           | `hermes-webhook`        | Full tools including terminal                                                                         |
+| Raft               | `hermes-raft`           | Wake-only channel; agent uses Raft CLI for message I/O                                                |
 
 ## Operating a multi-platform gateway<a href="#operating-a-multi-platform-gateway" class="hash-link" aria-label="Direct link to Operating a multi-platform gateway" translate="no" title="Direct link to Operating a multi-platform gateway">​</a>
 
@@ -544,6 +550,23 @@ gateway:
 
 
 Disable it on noisy or low-priority platforms while leaving it on for your primary chat. The notification is sent once per restart, regardless of how many sessions were in flight.
+
+### Typing indicators<a href="#typing-indicators" class="hash-link" aria-label="Direct link to Typing indicators" translate="no" title="Direct link to Typing indicators">​</a>
+
+While the agent is processing a message, the gateway shows a live typing status on platforms that support it — a "typing…" bubble on Telegram/Discord/Signal, or the "is thinking…" assistant status on Slack. This is controlled per-platform by the `typing_indicator` flag in `gateway-config.yaml`, which defaults to `true`:
+
+
+``` prism-code
+gateway:
+  platforms:
+    slack:
+      typing_indicator: false   # don't show "is thinking…" on Slack
+    telegram:
+      # typing_indicator omitted → defaults to true
+```
+
+
+Set `typing_indicator: false` on any platform where the indicator is unwanted. Some users find Slack's "is thinking…" status noisy (it also briefly disables the compose box while shown, since it uses Slack's Assistant API). Disabling it only suppresses the indicator — message delivery and everything else is unchanged. The flag is generic, so the same key works for every platform.
 
 ### Session resume across gateway restarts<a href="#session-resume-across-gateway-restarts" class="hash-link" aria-label="Direct link to Session resume across gateway restarts" translate="no" title="Direct link to Session resume across gateway restarts">​</a>
 
@@ -628,6 +651,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - [Teams Meetings Pipeline](/docs/user-guide/messaging/teams-meetings)
 - [Open WebUI + API Server](/docs/user-guide/messaging/open-webui)
 - [Raft Setup](/docs/user-guide/messaging/raft)
+- [IRC Setup](/docs/user-guide/messaging/irc)
 - [Webhooks](/docs/user-guide/messaging/webhooks)
 
 
@@ -660,6 +684,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
   - <a href="#automatic-circuit-breaker" class="table-of-contents__link toc-highlight">Automatic circuit breaker</a>
   - <a href="#where-to-look-when-a-platform-is-paused" class="table-of-contents__link toc-highlight">Where to look when a platform is paused</a>
   - <a href="#restart-notifications" class="table-of-contents__link toc-highlight">Restart notifications</a>
+  - <a href="#typing-indicators" class="table-of-contents__link toc-highlight">Typing indicators</a>
   - <a href="#session-resume-across-gateway-restarts" class="table-of-contents__link toc-highlight">Session resume across gateway restarts</a>
   - <a href="#mobile-friendly-progress-defaults" class="table-of-contents__link toc-highlight">Mobile-friendly progress defaults</a>
   - <a href="#progress-bubble-cleanup-opt-in" class="table-of-contents__link toc-highlight">Progress bubble cleanup (opt-in)</a>

@@ -257,7 +257,7 @@ This is the answer to "the agent saved a wrong assumption about me": set `write_
 
 ## Background review notifications (`display.memory_notifications`)<a href="#background-review-notifications-displaymemory_notifications" class="hash-link" aria-label="Direct link to background-review-notifications-displaymemory_notifications" translate="no" title="Direct link to background-review-notifications-displaymemory_notifications">​</a>
 
-After a turn, the background self-improvement review may quietly save a memory or update a skill. By default it surfaces a short `💾 Memory updated` line in chat so you know it happened. Control how chatty that is:
+After a turn, the background self-improvement review may quietly save a memory or update a skill. This is Hermes' consent-aware learning loop: repeated corrections and durable workflow lessons become compact memory entries or procedural skills, while `write_approval` can stage those writes for review before they affect future sessions. By default it surfaces a short `💾 Memory updated` line in chat so you know it happened. Control how chatty that is:
 
 
 ``` prism-code
@@ -273,6 +273,23 @@ display:
 | `verbose`      | Includes a compact preview of what changed, e.g. `💾 Memory ➕ User prefers terse replies` or a `"old" → "new"` skill diff snippet. |
 
 > This only governs the **gateway** chat notification. The review itself, and writes to your memory/skill stores, are unaffected by this setting. Set it per-platform via `display.platforms.<platform>.memory_notifications`.
+
+## Running the review on a cheaper model (`auxiliary.background_review`)<a href="#running-the-review-on-a-cheaper-model-auxiliarybackground_review" class="hash-link" aria-label="Direct link to running-the-review-on-a-cheaper-model-auxiliarybackground_review" translate="no" title="Direct link to running-the-review-on-a-cheaper-model-auxiliarybackground_review">​</a>
+
+The review runs on your **main chat model** by default, replaying the conversation — which is already warm in the prompt cache, so it's cheap cache reads. On an expensive main model you can run the review on a cheaper model instead:
+
+
+``` prism-code
+auxiliary:
+  background_review:
+    provider: openrouter
+    model: google/gemini-3-flash-preview   # auto (default) = main chat model
+```
+
+
+When you point it at a model **different** from your main one, the review runs there for substantially lower cost (~3–5× in benchmarks). Because a different model can't reuse your main model's prompt cache anyway, the fork automatically replays a compact **digest** of the conversation (recent turns verbatim + a summary of older ones) rather than the full transcript — minimizing what it writes to the new cache. Capture holds: in testing, memory capture was identical and skill capture near-identical to the main-model review.
+
+Leave it at `auto` (or set it to your main model) and nothing changes — the review keeps running on the main model with the full warm-cache replay.
 
 ## Controlling skill writes (`skills.write_approval`)<a href="#controlling-skill-writes-skillswrite_approval" class="hash-link" aria-label="Direct link to controlling-skill-writes-skillswrite_approval" translate="no" title="Direct link to controlling-skill-writes-skillswrite_approval">​</a>
 
@@ -335,6 +352,7 @@ See the [Memory Providers](/docs/user-guide/features/memory-providers) guide for
 - <a href="#configuration" class="table-of-contents__link toc-highlight">Configuration</a>
 - <a href="#controlling-memory-writes-write_approval" class="table-of-contents__link toc-highlight">Controlling memory writes (<code>write_approval</code>)</a>
 - <a href="#background-review-notifications-displaymemory_notifications" class="table-of-contents__link toc-highlight">Background review notifications (<code>display.memory_notifications</code>)</a>
+- <a href="#running-the-review-on-a-cheaper-model-auxiliarybackground_review" class="table-of-contents__link toc-highlight">Running the review on a cheaper model (<code>auxiliary.background_review</code>)</a>
 - <a href="#controlling-skill-writes-skillswrite_approval" class="table-of-contents__link toc-highlight">Controlling skill writes (<code>skills.write_approval</code>)</a>
 - <a href="#external-memory-providers" class="table-of-contents__link toc-highlight">External Memory Providers</a>
 

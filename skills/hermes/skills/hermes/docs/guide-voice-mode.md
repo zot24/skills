@@ -74,7 +74,7 @@ If that is not solid yet, fix text mode first.
 
 
 ``` prism-code
-pip install "hermes-agent[voice]"
+cd ~/.hermes/hermes-agent && uv pip install -e ".[voice]"
 ```
 
 
@@ -82,7 +82,7 @@ pip install "hermes-agent[voice]"
 
 
 ``` prism-code
-pip install "hermes-agent[messaging]"
+cd ~/.hermes/hermes-agent && uv pip install -e ".[messaging]"
 ```
 
 
@@ -90,7 +90,7 @@ pip install "hermes-agent[messaging]"
 
 
 ``` prism-code
-pip install "hermes-agent[tts-premium]"
+cd ~/.hermes/hermes-agent && uv pip install -e ".[tts-premium]"
 ```
 
 
@@ -106,7 +106,7 @@ python -m pip install -U neutts[all]
 
 
 ``` prism-code
-pip install "hermes-agent[all]"
+cd ~/.hermes/hermes-agent && uv pip install -e ".[all]"
 ```
 
 
