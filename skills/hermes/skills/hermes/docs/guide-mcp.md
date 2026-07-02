@@ -307,7 +307,65 @@ Check the local git state and summarize what changed recently.
 ```
 
 
-### Pattern 2: GitHub triage assistant<a href="#pattern-2-github-triage-assistant" class="hash-link" aria-label="Direct link to Pattern 2: GitHub triage assistant" translate="no" title="Direct link to Pattern 2: GitHub triage assistant">​</a>
+### Pattern 2: repo-native work record with Open Scaffold<a href="#pattern-2-repo-native-work-record-with-open-scaffold" class="hash-link" aria-label="Direct link to Pattern 2: repo-native work record with Open Scaffold" translate="no" title="Direct link to Pattern 2: repo-native work record with Open Scaffold">​</a>
+
+Use <a href="https://github.com/graphanov/open-scaffold" target="_blank" rel="noopener noreferrer">Open Scaffold</a> when you want Hermes to read a repository's durable AI-work record: mission, plans, evidence notes, handoff packets, and review/gate results. Hermes remains the agent; Open Scaffold remains the repo-local record.
+
+Add the server for one scaffolded repository:
+
+
+``` prism-code
+hermes mcp add open_scaffold --command npx --args -y open-scaffold@latest mcp serve --repo /absolute/path/to/repo
+hermes mcp test open_scaffold
+```
+
+
+Then keep the exposed surface read-oriented. Choose `select` in the `hermes mcp add` prompt, or edit `config.yaml` afterward:
+
+
+``` prism-code
+mcp_servers:
+  open_scaffold:
+    command: "npx"
+    args: ["-y", "open-scaffold@latest", "mcp", "serve", "--repo", "/absolute/path/to/repo"]
+    tools:
+      include:
+        - list_plans
+        - get_plan
+        - get_mission
+        - list_evidence
+        - get_evidence
+        - get_status
+        - search_plans
+        - list_amendments
+        - get_handoff
+        - analyze_loop
+        - gate_loop
+      prompts: false
+```
+
+
+Good prompts:
+
+
+``` prism-code
+Use the Open Scaffold MCP tools to compile the current handoff packet and tell me the next legal action.
+```
+
+
+``` prism-code
+Inspect the active plans and evidence notes, then say whether this repo is ready for human review or needs another attempt.
+```
+
+
+Boundary notes:
+
+- Open Scaffold MCP is local-first and read-only by default.
+- Its write tools require the server to be started with `--allow-write`; do not enable that until you explicitly want Hermes to mutate `.osc` files.
+- Open Scaffold records and gates work; it does not authorize Hermes to merge, publish, deploy, or spawn runtimes.
+- Pin `open-scaffold@<version>` instead of `@latest` if you need reproducible tool schemas.
+
+### Pattern 3: GitHub triage assistant<a href="#pattern-3-github-triage-assistant" class="hash-link" aria-label="Direct link to Pattern 3: GitHub triage assistant" translate="no" title="Direct link to Pattern 3: GitHub triage assistant">​</a>
 
 
 ``` prism-code
@@ -337,7 +395,7 @@ Search the repo for uses of _discover_and_register_server and explain how MCP to
 ```
 
 
-### Pattern 3: internal API assistant<a href="#pattern-3-internal-api-assistant" class="hash-link" aria-label="Direct link to Pattern 3: internal API assistant" translate="no" title="Direct link to Pattern 3: internal API assistant">​</a>
+### Pattern 4: internal API assistant<a href="#pattern-4-internal-api-assistant" class="hash-link" aria-label="Direct link to Pattern 4: internal API assistant" translate="no" title="Direct link to Pattern 4: internal API assistant">​</a>
 
 
 ``` prism-code
@@ -591,8 +649,9 @@ Not-great first servers:
   - <a href="#utility-wrappers-you-may-see" class="table-of-contents__link toc-highlight">Utility wrappers you may see</a>
 - <a href="#common-patterns" class="table-of-contents__link toc-highlight">Common patterns</a>
   - <a href="#pattern-1-local-project-assistant" class="table-of-contents__link toc-highlight">Pattern 1: local project assistant</a>
-  - <a href="#pattern-2-github-triage-assistant" class="table-of-contents__link toc-highlight">Pattern 2: GitHub triage assistant</a>
-  - <a href="#pattern-3-internal-api-assistant" class="table-of-contents__link toc-highlight">Pattern 3: internal API assistant</a>
+  - <a href="#pattern-2-repo-native-work-record-with-open-scaffold" class="table-of-contents__link toc-highlight">Pattern 2: repo-native work record with Open Scaffold</a>
+  - <a href="#pattern-3-github-triage-assistant" class="table-of-contents__link toc-highlight">Pattern 3: GitHub triage assistant</a>
+  - <a href="#pattern-4-internal-api-assistant" class="table-of-contents__link toc-highlight">Pattern 4: internal API assistant</a>
   - <a href="#pattern-4-documentation--knowledge-servers" class="table-of-contents__link toc-highlight">Pattern 4: documentation / knowledge servers</a>
 - <a href="#tutorial-end-to-end-setup-with-filtering" class="table-of-contents__link toc-highlight">Tutorial: end-to-end setup with filtering</a>
   - <a href="#phase-1-add-github-mcp-with-a-tight-whitelist" class="table-of-contents__link toc-highlight">Phase 1: add GitHub MCP with a tight whitelist</a>

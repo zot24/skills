@@ -13,6 +13,10 @@ On this page
 
 Get Hermes Agent up and running in under two minutes!
 
+
+For the full platform support matrix (which OSes, distribution methods, and platform-gated features are supported), see **[Platform Support](/docs/getting-started/platform-support)**.
+
+
 ## Quick Install<a href="#quick-install" class="hash-link" aria-label="Direct link to Quick Install" translate="no" title="Direct link to Quick Install">​</a>
 
 ### With the Hermes Desktop installer on macOS or Windows (recommended)<a href="#with-the-hermes-desktop-installer-on-macos-or-windows-recommended" class="hash-link" aria-label="Direct link to With the Hermes Desktop installer on macOS or Windows (recommended)" translate="no" title="Direct link to With the Hermes Desktop installer on macOS or Windows (recommended)">​</a>
@@ -57,11 +61,10 @@ The installer handles everything automatically — all dependencies (Python, Nod
 
 Where the installer puts things depends on whether you're installing as a normal user or as root:
 
-| Installer                             | Code lives at                  | `hermes` binary                         | Data directory                       |
-|---------------------------------------|--------------------------------|-----------------------------------------|--------------------------------------|
-| pip install                           | Python site-packages           | `~/.local/bin/hermes` (console_scripts) | `~/.hermes/`                         |
-| Per-user (git installer)              | `~/.hermes/hermes-agent/`      | `~/.local/bin/hermes` (symlink)         | `~/.hermes/`                         |
-| Root-mode (`sudo curl … | sudo bash`) | `/usr/local/lib/hermes-agent/` | `/usr/local/bin/hermes`                 | `/root/.hermes/` (or `$HERMES_HOME`) |
+| Installer                             | Code lives at                  | `hermes` binary                 | Data directory                       |
+|---------------------------------------|--------------------------------|---------------------------------|--------------------------------------|
+| Per-user (git installer)              | `~/.hermes/hermes-agent/`      | `~/.local/bin/hermes` (symlink) | `~/.hermes/`                         |
+| Root-mode (`sudo curl … | sudo bash`) | `/usr/local/lib/hermes-agent/` | `/usr/local/bin/hermes`         | `/root/.hermes/` (or `$HERMES_HOME`) |
 
 The root-mode **FHS layout** (`/usr/local/lib/…`, `/usr/local/bin/hermes`) matches where other system-wide developer tools land on Linux. It's useful for shared-machine deployments where one system install should serve every user. Per-user config (auth, skills, sessions) still lives under each user's `~/.hermes/` or explicit `HERMES_HOME`.
 
@@ -103,7 +106,7 @@ That logs you in, sets Nous as your provider, and turns on the Tool Gateway in o
 
 ## Prerequisites<a href="#prerequisites" class="hash-link" aria-label="Direct link to Prerequisites" translate="no" title="Direct link to Prerequisites">​</a>
 
-**Installer:** On non-Windows platforms, the only prerequisite is **Git**. The installer automatically handles everything else:
+**Installer:** On non-Windows platforms, the only prerequisite is **Git**. On Linux, also make sure `curl` and `xz-utils` are available (the installer downloads Node.js as a `.tar.xz` archive). The desktop app additionally requires `g++` (or `build-essential` on Debian/Ubuntu) to compile native modules. The installer automatically handles everything else:
 
 - **uv** (fast Python package manager)
 - **Python 3.11** (via uv, no sudo needed)
@@ -112,10 +115,10 @@ That logs you in, sets Nous as your provider, and turns on the Tool Gateway in o
 - **ffmpeg** (audio format conversion for TTS)
 
 
-You do **not** need to install Python, Node.js, ripgrep, or ffmpeg manually. The installer detects what's missing and installs it for you. Just make sure `git` is available (`git --version`).
+You do **not** need to install Python, Node.js, ripgrep, or ffmpeg manually. The installer detects what's missing and installs it for you. Just make sure `git` is available (`git --version`). On Linux, ensure `curl` and `xz-utils` are installed (`sudo apt install curl xz-utils` on Debian/Ubuntu). For the desktop app, also install `build-essential` (`sudo apt install build-essential`).
 
 
-If you use Nix (on NixOS, macOS, or Linux), there's a dedicated setup path with a Nix flake, declarative NixOS module, and optional container mode. See the **[Nix & NixOS Setup](/docs/getting-started/nix-setup)** guide.
+Nix is **no longer an explicitly supported install path** (best-effort only). If you already use Nix (on NixOS, macOS, or Linux), there's a dedicated setup path with a Nix flake, declarative NixOS module, and optional container mode. See the **[Nix & NixOS Setup](/docs/getting-started/nix-setup)** guide.
 
 
 ------------------------------------------------------------------------
