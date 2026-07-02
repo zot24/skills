@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.22](https://github.com/zot24/skills/compare/hermes-v1.1.21...hermes-v1.1.22) (2026-07-02)
+
+
+### Bug Fixes
+
+* **hermes:** sync for upstream release v2026.6.19 ([#123](https://github.com/zot24/skills/issues/123)) ([3a81fcc](https://github.com/zot24/skills/commit/3a81fcccae26c14d91bbe249e15e273527b0d86a))
+* **hermes:** sync for upstream release v2026.7.1 ([#124](https://github.com/zot24/skills/issues/124)) ([e6dd87a](https://github.com/zot24/skills/commit/e6dd87aa0dcfb68f47e5547eb134971c8491a590))
+
 ## [1.1.21](https://github.com/zot24/skills/compare/hermes-v1.1.20...hermes-v1.1.21) (2026-06-15)
 
 
