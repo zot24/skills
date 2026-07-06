@@ -50,7 +50,7 @@ EXISTING_URLS=$(jq -r '.sources[].url' "$MANIFEST" | sort -u)
 NEW_URLS=""
 while IFS= read -r url; do
     [ -z "$url" ] && continue
-    if ! echo "$EXISTING_URLS" | grep -qF "$url"; then
+    if ! echo "$EXISTING_URLS" | grep -qxF "$url"; then
         NEW_URLS="${NEW_URLS}${url}\n"
     fi
 done <<< "$DISCOVERED_URLS"
