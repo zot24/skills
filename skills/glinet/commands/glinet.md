@@ -29,8 +29,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/glinet/SKILL.md` for overview
-2. Read detailed docs in `skills/glinet/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/glinet/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/glinet/docs/` for specific topics
 3. For **setup**: Reference `docs/first-time-setup.md` and `docs/internet-wan.md`
 4. For **vpn**: Reference `docs/vpn-dashboard.md`, `docs/wireguard.md`, `docs/tailscale.md`
 5. For **adguard**: Reference `docs/adguardhome.md`

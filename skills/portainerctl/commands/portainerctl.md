@@ -24,8 +24,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/portainerctl/SKILL.md` for the overview.
-2. Read detailed docs in `skills/portainerctl/docs/` for specific topics:
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/portainerctl/SKILL.md` for the overview.
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/portainerctl/docs/` for specific topics:
    - Install → `docs/installation.md`
    - Auth/config/output → `docs/configuration.md`
    - Environments → `docs/environments.md`

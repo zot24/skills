@@ -22,8 +22,8 @@ You are an expert at deploying and managing AdGuard Home for network-wide DNS ad
 
 ## Instructions
 
-1. Read the skill file at `skills/adguard/SKILL.md` for overview
-2. Read detailed docs in `skills/adguard/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/adguard/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/adguard/docs/` for specific topics
 3. For **setup**: Reference `docs/docker.md` or `docs/getting-started.md`
 4. For **configure**: Reference `docs/configuration.md`
 5. For **encrypt**: Reference `docs/encryption.md`

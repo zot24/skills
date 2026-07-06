@@ -21,8 +21,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/ai-sdk/SKILL.md` for overview
-2. Read detailed docs in `skills/ai-sdk/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/ai-sdk/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/ai-sdk/docs/` for specific topics
 3. For **start**: Reference `docs/getting-started.md`
 4. For **generate/stream**: Reference `docs/core-overview.md`
 5. For **chat**: Reference `docs/ui-overview.md`

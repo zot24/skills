@@ -24,8 +24,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/obsidian/SKILL.md` for overview
-2. Read detailed docs in `skills/obsidian/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/obsidian/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/obsidian/docs/` for specific topics
 3. For **organize**: Reference `docs/vault-organization.md` and `docs/mocs-guide.md`
 4. For **dataview**: Reference `docs/dataview.md`
 5. For **templater**: Reference `docs/templater.md`

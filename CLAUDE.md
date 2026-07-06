@@ -11,11 +11,14 @@ skills/
 ├── .claude-plugin/
 │   └── marketplace.json      # Marketplace manifest
 ├── .github/
-│   ├── scripts/
-│   │   └── sync-skill.sh   # Generic sync script
 │   └── workflows/
-│       ├── sync-docs.yml    # Scheduled sync workflow (all skills)
-│       └── release-on-merge.yml
+│       ├── scripts/
+│       │   ├── sync-skill.sh        # Generic sync script
+│       │   └── sync-marketplace.sh  # Marketplace sync script
+│       ├── release-please.yml
+│       ├── sync-docs.yml            # Scheduled sync workflow (all skills)
+│       ├── sync-hermes-on-release.yml
+│       └── sync-marketplace.yml
 ├── skills/
 │   ├── umbrel-app/           # Umbrel app development
 │   ├── claude-code-expert/   # Claude Code knowledge base
@@ -160,8 +163,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/<skill>/SKILL.md` for overview
-2. Read detailed docs in `skills/<skill>/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/<skill>/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/<skill>/docs/` for specific topics
 3. For **sync**: Fetch latest and update docs/ files
 4. For **diff**: Compare current vs upstream
 
@@ -246,7 +249,7 @@ Each skill syncs documentation from upstream sources.
 | flue | https://flueframework.com/docs | URL-based |
 | wealthfolio | https://wealthfolio.app/docs | URL-based |
 | 1password-cli | https://www.1password.dev/cli + https://app-updates.agilebits.com/product_history/CLI2 | URL-based |
-| portainerctl | https://github.com/portainer/portainerctl | Self-contained |
+| portainerctl | https://github.com/portainer/portainerctl | URL-based |
 
 ### When to Sync
 
