@@ -48,6 +48,7 @@ Add this skill to Claude Code via the marketplace or local installation.
 - **Specification**: Full SKILL.md format reference
 - **Integration**: Guide for adding skills to your agent
 - **Best Practices**: Authoring guidelines
+- **Dual-spec coverage**: Also documents official Claude Code, Agent SDK, and Claude API skills extensions (frontmatter fields like `context: fork`, `disable-model-invocation`, `argument-hint`, dynamic context injection)
 
 ## Quick Reference
 
