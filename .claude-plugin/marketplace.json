@@ -40,7 +40,7 @@
       "name": "agent-skills",
       "source": "./skills/agent-skills",
       "description": "Expert at the Agent Skills open format for extending AI agent capabilities - create, validate, and understand SKILL.md files",
-      "version": "1.2.3"
+      "version": "1.3.0"
     },
     {
       "name": "safe-delete",
