@@ -23,8 +23,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/immich/SKILL.md` for overview
-2. Read detailed docs in `skills/immich/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/immich/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/immich/docs/` for specific topics
 3. For **setup**: Reference `docs/quick-start.md` and `docs/requirements.md`
 4. For **configure**: Reference `docs/environment-variables.md`
 5. For **backup**: Reference `docs/backup-and-restore.md`

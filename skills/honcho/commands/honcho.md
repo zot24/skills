@@ -25,10 +25,10 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/honcho/SKILL.md` for overview
-2. Read detailed docs in `skills/honcho/docs/` for specific topics
-3. For API questions, check `skills/honcho/docs/api/` for endpoint details
-4. For integration guides, check `skills/honcho/docs/guides/`
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/honcho/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/honcho/docs/` for specific topics
+3. For API questions, check `${CLAUDE_PLUGIN_ROOT}/skills/honcho/docs/api/` for endpoint details
+4. For integration guides, check `${CLAUDE_PLUGIN_ROOT}/skills/honcho/docs/guides/`
 5. For **sync**: Fetch latest from docs.honcho.dev and update docs/ files
 6. For **diff**: Compare current docs/ vs upstream
 

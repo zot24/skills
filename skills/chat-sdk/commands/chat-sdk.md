@@ -19,8 +19,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/chat-sdk/SKILL.md` for overview
-2. Read detailed docs in `skills/chat-sdk/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/chat-sdk/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/chat-sdk/docs/` for specific topics
 3. For **setup**: Reference `docs/setup.md` for installation steps
 4. For **models**: Reference `docs/models.md` for provider configuration
 5. For **artifact**: Reference `docs/artifacts.md` for creating artifacts

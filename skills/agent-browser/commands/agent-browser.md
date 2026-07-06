@@ -20,8 +20,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/agent-browser/SKILL.md` for overview
-2. Read detailed docs in `skills/agent-browser/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/agent-browser/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/agent-browser/docs/` for specific topics
 3. For **commands**: Reference `docs/commands.md` for full command list
 4. For **selectors**: Reference `docs/selectors.md` for ref, CSS, semantic patterns
 5. For **sessions**: Reference `docs/sessions.md` for multi-session workflows

@@ -23,8 +23,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/wealthfolio/SKILL.md` for the overview.
-2. Read detailed docs in `skills/wealthfolio/docs/` — the tree mirrors the upstream URL structure:
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/wealthfolio/SKILL.md` for the overview.
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/wealthfolio/docs/` — the tree mirrors the upstream URL structure:
    - Concepts → `docs/concepts/`
    - User guide → `docs/guide/`
    - Self-hosting → `docs/guide/self-hosting/`

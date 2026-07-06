@@ -25,11 +25,11 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/flue/SKILL.md` for overview
-2. Read detailed docs in `skills/flue/docs/` for specific topics (mirrors the upstream URL structure)
-3. For guides, check `skills/flue/docs/guide/`; for CLI, `skills/flue/docs/cli/`; for SDK, `skills/flue/docs/sdk/`
-4. For API questions, check `skills/flue/docs/api/`
-5. For ecosystem adapters, check `skills/flue/docs/ecosystem/{deploy,channels,sandboxes,databases,tooling}/`
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/flue/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/flue/docs/` for specific topics (mirrors the upstream URL structure)
+3. For guides, check `${CLAUDE_PLUGIN_ROOT}/skills/flue/docs/guide/`; for CLI, `${CLAUDE_PLUGIN_ROOT}/skills/flue/docs/cli/`; for SDK, `${CLAUDE_PLUGIN_ROOT}/skills/flue/docs/sdk/`
+4. For API questions, check `${CLAUDE_PLUGIN_ROOT}/skills/flue/docs/api/`
+5. For ecosystem adapters, check `${CLAUDE_PLUGIN_ROOT}/skills/flue/docs/ecosystem/{deploy,channels,sandboxes,databases,tooling}/`
 6. For **sync**: Fetch latest from flueframework.com and update docs/ files
 7. For **diff**: Compare current docs/ vs upstream
 

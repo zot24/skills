@@ -19,8 +19,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/x-engagement/SKILL.md` for overview and principles
-2. Read detailed docs in `skills/x-engagement/docs/` for specific topics:
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/x-engagement/SKILL.md` for overview and principles
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/x-engagement/docs/` for specific topics:
    - `docs/algorithm-signals.md` - Exact scoring signals from xai-org/x-algorithm codebase
    - `docs/content-quality.md` - Banger Screen quality gate, spam detection, reply scoring
    - `docs/content-strategy.md` - Hooks, clusters, dwell, author diversity

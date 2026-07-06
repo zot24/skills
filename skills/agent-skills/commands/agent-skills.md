@@ -20,8 +20,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/agent-skills/SKILL.md` for overview
-2. Read detailed docs in `skills/agent-skills/docs/` for specific topics:
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/agent-skills/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/agent-skills/docs/` for specific topics:
    - Open format (agentskills.io):
      - `specification.md` - Complete format spec
      - `what-are-skills.md` - Conceptual overview

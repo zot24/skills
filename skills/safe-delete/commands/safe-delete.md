@@ -17,8 +17,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/safe-delete/skills/safe-delete/SKILL.md` for overview
-2. Read docs in `skills/safe-delete/skills/safe-delete/docs/` for detailed information:
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/safe-delete/SKILL.md` for overview
+2. Read docs in `${CLAUDE_PLUGIN_ROOT}/skills/safe-delete/docs/` for detailed information:
    - `installation.md` - Setup instructions
    - `dangerous-patterns.md` - Full list of blocked patterns
    - `trash-alternatives.md` - trash-cli usage guide
