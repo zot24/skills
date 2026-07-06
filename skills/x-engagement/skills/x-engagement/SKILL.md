@@ -40,6 +40,7 @@ Replies are Grok-scored on a 0–3 scale. Low-follower accounts (< 1,000) face e
 - **[Conversation Tactics](docs/conversation-tactics.md)** - Reply quality scoring, spam risk, social proof facepile, thread hijacking
 - **[Authority Building](docs/authority-building.md)** - Follow triggers, DM-share signals, network alignment (Jaccard), positioning
 - **[Content Ideas](docs/content-ideas.md)** - High-performing templates ranked by algorithm signal priority
+- **[x-algorithm README (upstream)](docs/x-algorithm-readme.md)** - Cached README from xai-org/x-algorithm, the codebase the playbook is grounded in
 
 ## Quick Workflow
 

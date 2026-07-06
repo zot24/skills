@@ -250,6 +250,7 @@ Each skill syncs documentation from upstream sources.
 | wealthfolio | https://wealthfolio.app/docs | URL-based |
 | 1password-cli | https://www.1password.dev/cli + https://app-updates.agilebits.com/product_history/CLI2 | URL-based |
 | portainerctl | https://github.com/portainer/portainerctl | URL-based |
+| x-engagement | https://github.com/xai-org/x-algorithm | URL-based |
 
 ### When to Sync
 
@@ -306,7 +307,7 @@ Each skill syncs documentation from upstream sources.
    - Add to skill sources table in this file (`CLAUDE.md`)
    - Add to skills table and details section in `README.md`
 
-> **Note**: Skills without upstream docs (e.g., `safe-delete`, `x-engagement`) don't need CI sync registration but still need all other files.
+> **Note**: Skills without upstream docs (e.g., `safe-delete`) don't need CI sync registration but still need all other files.
 
 ### Checklist
 
