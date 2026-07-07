@@ -36,6 +36,10 @@ npm install -g firecrawl-cli
 
 Before using the CLI, you need to authenticate with your Firecrawl API key.
 
+
+  **Some CLI commands work without logging in.** With no API key configured, supported commands fall back to the keyless free tier — free, but rate-limited per IP. See [Rate Limits](/rate-limits#keyless-no-api-key) for the current keyless command list and caveats. [Sign up for a free key](https://firecrawl.dev) for 1,000 credits and higher limits; the CLI uses it automatically once configured.
+
+
 ### Login
 
 ```bash CLI
@@ -107,6 +111,10 @@ Output when ready:
 
 ## Commands
 
+
+  The hidden `firecrawl browser` command is deprecated for agent workflows. Use `firecrawl scrape <url>` first, then `firecrawl interact ...` with the resulting scrape session.
+
+
 ### Scrape
 
 Scrape a single URL and extract its content in various formats.
@@ -146,7 +154,7 @@ firecrawl https://example.com --format summary
 # Track changes on a page
 firecrawl https://example.com --format changeTracking
 
-# Available formats: markdown, html, rawHtml, links, screenshot, json, images, summary, changeTracking, attributes, branding
+# Available formats: markdown, html, rawHtml, links, screenshot, json, images, summary, changeTracking, attributes, branding, product
 ```
 
 #### Scrape Options

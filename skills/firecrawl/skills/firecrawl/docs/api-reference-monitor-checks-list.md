@@ -9,7 +9,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /monitor/{monitorId}/checks
+````yaml api-reference/v2-openapi.json GET /monitor/{monitorId}/checks
 openapi: 3.0.0
 info:
   title: Firecrawl API

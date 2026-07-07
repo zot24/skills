@@ -105,9 +105,11 @@ Use `/v2/parse` when the source document is local or not publicly accessible by 
 ### Example: Scraping an Excel File
 
 ```js Node
-import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
 const doc = await firecrawl.scrape('https://example.com/data.xlsx');
 
@@ -117,9 +119,11 @@ console.log(doc.markdown);
 ### Example: Scraping a Word Document
 
 ```js Node
-import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
 const doc = await firecrawl.scrape('https://example.com/data.docx');
 

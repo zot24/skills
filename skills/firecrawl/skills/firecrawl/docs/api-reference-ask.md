@@ -64,7 +64,7 @@ For the feature guide with integration examples, see the [Ask feature documentat
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json POST /support/ask
+````yaml api-reference/v2-openapi.json POST /support/ask
 openapi: 3.0.0
 info:
   title: Firecrawl API

@@ -1,42 +1,57 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/sandboxes/cloudflare -->
+> Source: https://flueframework.com/docs/ecosystem/sandboxes/cloudflare
+
+
+
+# Cloudflare Sandbox
+
+
+AI-generated, awaiting review <a href="/docs/ecosystem/sandboxes/cloudflare/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
 
 Cloudflare Sandbox uses `@cloudflare/sandbox` to provide a container-backed Linux environment to a Flue application deployed on Cloudflare. This integration is platform-native: it is not an adapter module for a Node-target application.
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare/\#quickstart)
+## Quickstart
 
 Add container-backed Linux sandbox capability to an existing Flue project with the [Cloudflare Sandbox](https://developers.cloudflare.com/sandbox) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+``` astro-code
 flue add sandbox cloudflare
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare/\#overview)
+## Overview
 
-Cloudflare Sandbox is a Cloudflare target integration rather than a generated adapter. In a Cloudflare-targeted project, the blueprint installs `@cloudflare/sandbox`; a workflow obtains the bound Durable Object with `getSandbox(...)`, wraps it with Flue’s `cloudflareSandbox(...)`, and passes that sandbox factory to a created agent.
+Cloudflare Sandbox is a Cloudflare target integration rather than a generated adapter. In a Cloudflare-targeted project, the blueprint installs `@cloudflare/sandbox`; a workflow obtains the bound Durable Object with `getSandbox(...)`, wraps it with Flue’s `cloudflareSandbox(...)`, and passes that sandbox factory to an agent definition.
 
-```
-import { createAgent, type FlueContext, type WorkflowRouteHandler } from '@flue/runtime';
+``` astro-code
+import { defineAgent, defineWorkflow, type WorkflowRouteHandler } from '@flue/runtime';
 import { cloudflareSandbox } from '@flue/runtime/cloudflare';
 import { getSandbox } from '@cloudflare/sandbox';
+import * as v from 'valibot';
+
+type Env = { Sandbox: DurableObjectNamespace };
 
 export const route: WorkflowRouteHandler = async (_c, next) => next();
 
-export async function run({ init, id, env, payload }: FlueContext<{ message: string }>) {
-  const sandbox = cloudflareSandbox(getSandbox(env.Sandbox, id));
-  const agent = createAgent(() => ({ sandbox, model: 'anthropic/claude-opus-4-7' }));
-  const harness = await init(agent);
-  const session = await harness.session();
+const agent = defineAgent<Env>(({ id, env }) => ({
+  sandbox: cloudflareSandbox(getSandbox(env.Sandbox, id)),
+  model: 'anthropic/claude-opus-4-7',
+}));
 
-  return await session.prompt(payload.message);
-}
+export default defineWorkflow({
+  agent,
+  input: v.object({ message: v.string() }),
+  async run({ harness, input }) {
+    return await (await harness.session()).prompt(input.message);
+  },
+});
 ```
 
 The blueprint also exports `Sandbox` from `<source-root>/cloudflare.ts`, adds its Durable Object binding, a new migration entry, and its container declaration to `wrangler.jsonc`, and creates a project-root `Dockerfile` whose image tag matches the installed package version. The resulting workflow runs agent shell and file operations in the container-backed sandbox identified by the workflow run id. Cloudflare’s direct delete API does not expose recursive or force controls, so `cloudflareSandbox()` rejects either option before mutation. A Node-targeted project must migrate to the Cloudflare target before using this integration.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare/\#configure)
+## Configure
 
 | Requirement | Purpose |
-| --- | --- |
+|----|----|
 | Cloudflare target | **Required** — Runs the platform-native sandbox integration. |
 | `@cloudflare/sandbox` package | **Required** — Provides the Sandbox Durable Object and RPC client. |
 | Container image | **Required** — Defines the Linux filesystem and command environment. |
@@ -46,41 +61,44 @@ The blueprint also exports `Sandbox` from `<source-root>/cloudflare.ts`, adds it
 
 Cloudflare Sandbox requires a Worker deployment, Durable Object/container configuration, and a container image. Add the dependency to a Cloudflare-targeted project and export its Durable Object class from your Cloudflare deployment module:
 
-```
+``` astro-code
 // <source-root>/cloudflare.ts
 export { Sandbox } from '@cloudflare/sandbox';
 ```
 
 Declare the sandbox binding in Wrangler configuration, then wrap the RPC stub returned by `getSandbox(...)` with `cloudflareSandbox(...)` and pass it to an agent:
 
-```
+``` astro-code
 import { getSandbox } from '@cloudflare/sandbox';
-import { createAgent } from '@flue/runtime';
+import { defineAgent } from '@flue/runtime';
 import { cloudflareSandbox } from '@flue/runtime/cloudflare';
 
 type Env = { Sandbox: DurableObjectNamespace };
 
-export default createAgent<unknown, Env>(({ id, env }) => ({
+export default defineAgent<Env>(({ id, env }) => ({
   model: 'anthropic/claude-sonnet-4-6',
   sandbox: cloudflareSandbox(getSandbox(env.Sandbox, id)),
   cwd: '/workspace',
 }));
 ```
 
-## Choose this integration when [\#](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare/\#choose-this-integration-when)
+## Choose this integration when
 
 Use Cloudflare Sandbox when an agent on Cloudflare needs git, package installation, native binaries, or other Linux tooling. Prefer Cloudflare Shell instead when a durable workspace with Workspace-oriented operations is sufficient and a Linux toolchain is unnecessary.
 
-Treat network egress, mounted data, credentials, and side effects as application security decisions. See [Sandboxes](https://flueframework.com/docs/guide/sandboxes/#remote-sandboxes) and [Deploy on Cloudflare](https://flueframework.com/docs/ecosystem/deploy/cloudflare/).
+Treat network egress, mounted data, credentials, and side effects as application security decisions. See [Sandboxes](/docs/guide/sandboxes/#remote-sandboxes) and [Deploy on Cloudflare](/docs/ecosystem/deploy/cloudflare/).
+
 
 ## Docs Navigation
 
-Current page: [Cloudflare Sandbox](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare/)
+Current page: [Cloudflare Sandbox](/docs/ecosystem/sandboxes/cloudflare/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

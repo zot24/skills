@@ -1,4 +1,12 @@
-<!-- Source: https://flueframework.com/docs/concepts/agents -->
+> Source: https://flueframework.com/docs/concepts/agents
+
+
+
+# What is an agent?
+
+
+Last updated May 29, 2026 <a href="/docs/concepts/agents/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
 
 Ask ten people what an “AI agent” is and you’ll get ten answers: a chatbot, a clever prompt, a workflow, a model with tools. But none of these fully capture it.
 
@@ -10,37 +18,37 @@ Without a harness, a model is only reachable through the individual API calls yo
 
 Flue was the first agent framework to fully embrace this new agent architecture. Flue’s built-in TypeScript harness lets you get started today building truly autonomous agents for products, background work, internal tooling and more. We believe this architecture is already defining the future of what agents can do, and we are excited to be helping to lead the charge.
 
-## What is a harness? [\#](https://flueframework.com/docs/concepts/agents/\#what-is-a-harness)
+## What is a harness?
 
 A language model does just one thing: it takes text (and sometimes images) in and produces text out. On its own it can’t remember anything once a response ends, run code, read a file, change anything in the world, or look up something that happened after its training cut off. It’s a brain in a jar — extraordinary at reasoning, with no memory, no hands, and no senses.
 
 Each piece of the harness exists to give the agent new abilities and focus:
 
-- **We want the agent to keep its work** — so we give it a _filesystem._
-- **We want the agent to act, not just describe** — so we give it _tools._
-- **We want the agent to act safely** — so those actions run in a _sandbox._
-- **We want the agent to stay sharp across long work** — so we give it _context._
-- **We want the agent to do more than one thing at a time** — so we created _subagents._
+- **We want the agent to keep its work** — so we give it a *filesystem.*
+- **We want the agent to act, not just describe** — so we give it *tools.*
+- **We want the agent to act safely** — so those actions run in a *sandbox.*
+- **We want the agent to stay sharp across long work** — so we give it *context.*
+- **We want the agent to do more than one thing at a time** — so we created *subagents.*
 
 Flue’s built-in agent harness gives you all of these pieces in TypeScript, ready to power your agents and run on the deployment target of your choice:
 
-```
+``` astro-code
 // Example: .flue/agents/triage.ts
-import { createAgent } from '@flue/runtime';
+import { defineAgent } from '@flue/runtime';
 import { local } from '@flue/runtime/node';
 
-export default createAgent(() => ({
-	model: 'anthropic/claude-sonnet-4-6',
-	instructions, // who the agent is and how it works
-	tools, // what it can do
-	skills, // expertise it can load on demand
-	sandbox: local(), // where it runs, safely
+export default defineAgent(() => ({
+ model: 'anthropic/claude-sonnet-4-6',
+ instructions, // who the agent is and how it works
+ tools, // what it can do
+ skills, // expertise it can load on demand
+ sandbox: local(), // where it runs, safely
 }));
 ```
 
 Building an agent is really less about coding and more about building up the context that you provide your agent — choosing the model, instructions, tools, skills, and environment it runs in.
 
-## Building autonomous agents [\#](https://flueframework.com/docs/concepts/agents/\#building-autonomous-agents)
+## Building autonomous agents
 
 The first agents were scripts. You’d chain a few model calls together and hardcode the steps: do this, then that, then format the result. That works for narrow, predictable tasks, but it’s brittle — the moment reality doesn’t match the script, it falls apart. The model was never really in charge; you were.
 
@@ -48,52 +56,57 @@ Tools like Claude Code and Codex flipped that around. You don’t write the step
 
 So when people say “agent” today, they usually mean this: a model given enough of a harness to pursue a goal by itself.
 
-For the people building these systems, that inverts the job. You’re no longer writing the solution — you’re setting the stage for one. You give the agent the context around a problem, connect it to the tools and data it’s allowed to use, check that the caller is who they say they are, and then hand the problem over. The answer comes from the model’s intelligence working over the context you gave it, not from logic you wrote in advance. After years of spelling out every step by hand, trusting a system to work out the _how_ on its own still feels genuinely new.
+For the people building these systems, that inverts the job. You’re no longer writing the solution — you’re setting the stage for one. You give the agent the context around a problem, connect it to the tools and data it’s allowed to use, check that the caller is who they say they are, and then hand the problem over. The answer comes from the model’s intelligence working over the context you gave it, not from logic you wrote in advance. After years of spelling out every step by hand, trusting a system to work out the *how* on its own still feels genuinely new.
 
-## Going headless [\#](https://flueframework.com/docs/concepts/agents/\#going-headless)
+## Going headless
 
 Some of the most popular agent harnesses today were designed for coding. Flue is deliberately the opposite. A Flue agent is purely headless — there’s no CLI or developer-facing product experience like Claude Code or Codex. Our JavaScript API is essential to Flue’s success, whereas for others it’s often an afterthought to their primary product. So we invest a lot of attention and care into getting it right.
 
-```
+``` astro-code
 // Compose the agent: its model, capabilities, and environment.
-const agent = createAgent(() => ({
-	model: 'anthropic/claude-sonnet-4-6',
-	tools,
-	skills,
+const agent = defineAgent(() => ({
+ model: 'anthropic/claude-sonnet-4-6',
+ tools,
+ skills,
 }));
 
-// Then drive it from your own code.
-const harness = await init(agent);
-const session = await harness.session();
-const { text } = await session.prompt('Triage this incoming issue.');
+// Bind finite orchestration to that policy.
+const workflow = defineWorkflow({
+ agent,
+ async run({ harness }) {
+     return await (await harness.session()).prompt('Triage this incoming issue.');
+ },
+});
 ```
 
 A Flue agent is **programmable**: you assemble and drive it in code, choosing its model, instructions, tools, skills, and environment, then operating it through an API instead of a chat app, or TUI, or different config files on your local machine.
 
 It’s also **headless**: it has no interface of its own. You are responsible for calling your agents — from your own code, via HTTP, or through application-owned dispatch — and building your product around it. With Flue you have maximum flexibility to build your agents and connect them to the rest of your team, company, or product however makes sense.
 
-## The sandbox [\#](https://flueframework.com/docs/concepts/agents/\#the-sandbox)
+## The sandbox
 
 For a harness to do anything beyond generate text, the agent needs a real environment to work in. That environment is the **sandbox**: the filesystem and command-execution boundary available to the agent. It is what lets an agent read and write files, run shell commands, install packages, load context such as instructions and skills from disk, and make network requests. The built-in filesystem and shell tools operate inside this boundary; custom tools you write are ordinary functions that run in your agent runtime.
 
-Out of the box, Flue provides a lightweight virtual sandbox — an in-memory filesystem and shell — so an agent has a usable environment with no setup. When you need more, you connect a different one behind the same API: direct access to the host machine, a platform-native option such as Cloudflare, or one of the popular sandbox providers. The [ecosystem](https://flueframework.com/docs/ecosystem/) lists the available sandbox adapters.
+Out of the box, Flue provides a lightweight virtual sandbox — an in-memory filesystem and shell — so an agent has a usable environment with no setup. When you need more, you connect a different one behind the same API: direct access to the host machine, a platform-native option such as Cloudflare, or one of the popular sandbox providers. The [ecosystem](/docs/ecosystem/) lists the available sandbox adapters.
 
-## Where to go next [\#](https://flueframework.com/docs/concepts/agents/\#where-to-go-next)
+## Where to go next
 
-- [Why Flue](https://flueframework.com/docs/introduction/why-flue/) — the case for building agents and workflows this way.
-- [Agents](https://flueframework.com/docs/guide/building-agents/) — defining an addressable agent, its sessions, and its runtime configuration.
-- [Workflows](https://flueframework.com/docs/guide/workflows/) — initializing an agent from code during a finite operation.
-- [Sandboxes](https://flueframework.com/docs/guide/sandboxes/), [Tools](https://flueframework.com/docs/guide/tools/), [Skills](https://flueframework.com/docs/guide/skills/), and [Subagents](https://flueframework.com/docs/guide/subagents/) — the pieces of the harness, in depth.
-- [Workflows](https://flueframework.com/docs/guide/workflows/) — bounded jobs with inspectable run history.
+- [Why Flue](/docs/introduction/why-flue/) — the case for building agents and workflows this way.
+- [Agents](/docs/guide/building-agents/) — defining an addressable agent, its sessions, and its runtime configuration.
+- [Workflows](/docs/guide/workflows/) — initializing an agent from code during a finite operation.
+- [Sandboxes](/docs/guide/sandboxes/), [Tools](/docs/guide/tools/), [Skills](/docs/guide/skills/), and [Subagents](/docs/guide/subagents/) — the pieces of the harness, in depth.
+
 
 ## Docs Navigation
 
-Current page: [What is an agent?](https://flueframework.com/docs/concepts/agents/)
+Current page: [What is an agent?](/docs/concepts/agents/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

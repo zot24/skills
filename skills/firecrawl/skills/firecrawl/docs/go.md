@@ -1,4 +1,4 @@
-> Source: https://docs.firecrawl.dev/quickstarts/go.md
+> Source: https://docs.firecrawl.dev/sdks/go.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
@@ -6,264 +6,519 @@
 
 # Go
 
-> Get started with Firecrawl in Go. Scrape, search, and interact with web data using the REST API.
+> Firecrawl Go SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
 
-## Prerequisites
+## Installation
 
-* Go 1.21+
-* A Firecrawl API key — [get one free](https://www.firecrawl.dev/app/api-keys)
+The official Go SDK is maintained in the Firecrawl monorepo at [apps/go-sdk](https://github.com/firecrawl/firecrawl/tree/main/apps/go-sdk).
 
-## Search the web
+To install the Firecrawl Go SDK, run:
 
-Firecrawl works with Go through the REST API. Use `net/http` to make requests directly.
+```bash
+go get github.com/firecrawl/firecrawl/apps/go-sdk
+```
+
+Requires Go 1.23 or later.
+
+## Usage
+
+1. Get an API key from [firecrawl.dev](https://firecrawl.dev)
+2. Set the API key as an environment variable named `FIRECRAWL_API_KEY`, or pass it with `option.WithAPIKey(...)`
+
+Here is a quick example using the current SDK API surface:
 
 ```go
 package main
 
 import (
-	"bytes"
-	"encoding/json"
+	"context"
 	"fmt"
-	"io"
-	"net/http"
-	"os"
+	"log"
+
+	firecrawl "github.com/firecrawl/firecrawl/apps/go-sdk"
+	"github.com/firecrawl/firecrawl/apps/go-sdk/option"
 )
 
 func main() {
-	apiKey := os.Getenv("FIRECRAWL_API_KEY")
+	// Create a client (reads FIRECRAWL_API_KEY from environment)
+	client, err := firecrawl.NewClient()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	body, _ := json.Marshal(map[string]interface{}{
-		"query": "firecrawl web scraping",
-		"limit": 5,
+	// Or provide the API key directly
+	client, err = firecrawl.NewClient(
+		option.WithAPIKey("fc-your-api-key"),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	ctx := context.Background()
+
+	// Scrape a single page
+	doc, err := client.Scrape(ctx, "https://firecrawl.dev", &firecrawl.ScrapeOptions{
+		Formats: []string{"markdown"},
 	})
-
-	req, _ := http.NewRequest("POST", "https://api.firecrawl.dev/v2/search", bytes.NewReader(body))
-	req.Header.Set("Authorization", "Bearer "+apiKey)
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "request failed: %v\n", err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
-	defer resp.Body.Close()
+	fmt.Println(doc.Markdown)
 
-	result, _ := io.ReadAll(resp.Body)
-	fmt.Println(string(result))
-}
-```
-
-
-  ```json
-  {
-    "success": true,
-    "data": {
-      "web": [
-        {
-          "url": "https://docs.firecrawl.dev",
-          "title": "Firecrawl Documentation",
-          "markdown": "# Firecrawl\n\nFirecrawl is a web scraping API..."
-        }
-      ]
-    }
-  }
-  ```
-
-
-## Scrape a page
-
-```go
-body, _ := json.Marshal(map[string]string{
-	"url": "https://example.com",
-})
-
-req, _ := http.NewRequest("POST", "https://api.firecrawl.dev/v2/scrape", bytes.NewReader(body))
-req.Header.Set("Authorization", "Bearer "+apiKey)
-req.Header.Set("Content-Type", "application/json")
-
-resp, err := http.DefaultClient.Do(req)
-if err != nil {
-	fmt.Fprintf(os.Stderr, "request failed: %v\n", err)
-	os.Exit(1)
-}
-defer resp.Body.Close()
-
-result, _ := io.ReadAll(resp.Body)
-fmt.Println(string(result))
-```
-
-
-  ```json
-  {
-    "success": true,
-    "data": {
-      "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
-      "metadata": {
-        "title": "Example Domain",
-        "sourceURL": "https://example.com"
-      }
-    }
-  }
-  ```
-
-
-## Interact with a page
-
-Start a browser session, interact with the page using natural-language prompts, then close the session.
-
-### Step 1 — Scrape to start a session
-
-```go
-body, _ := json.Marshal(map[string]interface{}{
-	"url":     "https://www.amazon.com",
-	"formats": []string{"markdown"},
-})
-
-req, _ := http.NewRequest("POST", "https://api.firecrawl.dev/v2/scrape", bytes.NewReader(body))
-req.Header.Set("Authorization", "Bearer "+apiKey)
-req.Header.Set("Content-Type", "application/json")
-
-resp, err := http.DefaultClient.Do(req)
-if err != nil {
-	fmt.Fprintf(os.Stderr, "request failed: %v\n", err)
-	os.Exit(1)
-}
-defer resp.Body.Close()
-
-var scrapeResult map[string]interface{}
-json.NewDecoder(resp.Body).Decode(&scrapeResult)
-
-data := scrapeResult["data"].(map[string]interface{})
-metadata := data["metadata"].(map[string]interface{})
-scrapeId := metadata["scrapeId"].(string)
-fmt.Println("scrapeId:", scrapeId)
-```
-
-### Step 2 — Send interactions
-
-```go
-// Search for a product
-interactBody, _ := json.Marshal(map[string]string{
-	"prompt": "Search for iPhone 16 Pro Max",
-})
-
-interactURL := fmt.Sprintf("https://api.firecrawl.dev/v2/scrape/%s/interact", scrapeId)
-req, _ = http.NewRequest("POST", interactURL, bytes.NewReader(interactBody))
-req.Header.Set("Authorization", "Bearer "+apiKey)
-req.Header.Set("Content-Type", "application/json")
-
-resp, err = http.DefaultClient.Do(req)
-if err != nil {
-	fmt.Fprintf(os.Stderr, "interact failed: %v\n", err)
-	os.Exit(1)
-}
-defer resp.Body.Close()
-
-result, _ := io.ReadAll(resp.Body)
-fmt.Println(string(result))
-
-// Click on the first result
-interactBody, _ = json.Marshal(map[string]string{
-	"prompt": "Click on the first result and tell me the price",
-})
-
-req, _ = http.NewRequest("POST", interactURL, bytes.NewReader(interactBody))
-req.Header.Set("Authorization", "Bearer "+apiKey)
-req.Header.Set("Content-Type", "application/json")
-
-resp, err = http.DefaultClient.Do(req)
-if err != nil {
-	fmt.Fprintf(os.Stderr, "interact failed: %v\n", err)
-	os.Exit(1)
-}
-defer resp.Body.Close()
-
-result, _ = io.ReadAll(resp.Body)
-fmt.Println(string(result))
-```
-
-### Step 3 — Stop the session
-
-```go
-req, _ = http.NewRequest("DELETE", interactURL, nil)
-req.Header.Set("Authorization", "Bearer "+apiKey)
-
-resp, err = http.DefaultClient.Do(req)
-if err != nil {
-	fmt.Fprintf(os.Stderr, "delete failed: %v\n", err)
-	os.Exit(1)
-}
-defer resp.Body.Close()
-
-fmt.Println("Session stopped")
-```
-
-## Reusable helper
-
-For repeated use, wrap the API in a small helper:
-
-```go
-type FirecrawlClient struct {
-	APIKey  string
-	BaseURL string
-	Client  *http.Client
-}
-
-func NewFirecrawlClient(apiKey string) *FirecrawlClient {
-	return &FirecrawlClient{
-		APIKey:  apiKey,
-		BaseURL: "https://api.firecrawl.dev/v2",
-		Client:  &http.Client{},
-	}
-}
-
-func (fc *FirecrawlClient) post(endpoint string, payload interface{}) ([]byte, error) {
-	body, err := json.Marshal(payload)
+	// Crawl a website
+	job, err := client.Crawl(ctx, "https://firecrawl.dev", &firecrawl.CrawlOptions{
+		Limit: firecrawl.Int(5),
+	})
 	if err != nil {
-		return nil, err
+		log.Fatal(err)
 	}
-
-	req, err := http.NewRequest("POST", fc.BaseURL+endpoint, bytes.NewReader(body))
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Set("Authorization", "Bearer "+fc.APIKey)
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := fc.Client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	return io.ReadAll(resp.Body)
-}
-
-func (fc *FirecrawlClient) Scrape(url string) ([]byte, error) {
-	return fc.post("/scrape", map[string]string{"url": url})
-}
-
-func (fc *FirecrawlClient) Search(query string, limit int) ([]byte, error) {
-	return fc.post("/search", map[string]interface{}{"query": query, "limit": limit})
+	fmt.Printf("Crawled pages: %d\n", len(job.Data))
 }
 ```
 
+### Scraping a URL
 
-  A [community Go SDK](https://github.com/mendableai/firecrawl-go) is available for the v1 API. See the [Go SDK docs](/sdks/go) for details.
+To scrape a single URL, use the `Scrape` method.
 
+```go
+doc, err := client.Scrape(ctx, "https://firecrawl.dev", &firecrawl.ScrapeOptions{
+	Formats:         []string{"markdown", "html"},
+	OnlyMainContent: firecrawl.Bool(true),
+	WaitFor:         firecrawl.Int(5000),
+})
+if err != nil {
+	log.Fatal(err)
+}
 
-## Next steps
+fmt.Println(doc.Markdown)
+fmt.Println(doc.Metadata["title"])
+```
 
+#### JSON Extraction
 
-    Search the web and get full page content
+Extract structured JSON using `JsonOptions` via the `Scrape` endpoint:
 
+```go
+doc, err := client.Scrape(ctx, "https://example.com/product", &firecrawl.ScrapeOptions{
+	Formats: []string{"json"},
+	JsonOptions: &firecrawl.JsonOptions{
+		Prompt: "Extract the product name and price",
+		Schema: map[string]interface{}{
+			"type": "object",
+			"properties": map[string]interface{}{
+				"name":  map[string]interface{}{"type": "string"},
+				"price": map[string]interface{}{"type": "number"},
+			},
+		},
+	},
+})
+if err != nil {
+	log.Fatal(err)
+}
 
-    All scrape options including formats, actions, and proxies
+fmt.Println(doc.JSON)
+```
 
+### Crawling a Website
 
-    Click, fill forms, and extract dynamic content
+To crawl a website and wait for completion, use `Crawl`.
 
+```go
+job, err := client.Crawl(ctx, "https://firecrawl.dev", &firecrawl.CrawlOptions{
+	Limit:             firecrawl.Int(50),
+	MaxDiscoveryDepth: firecrawl.Int(3),
+	ScrapeOptions: &firecrawl.ScrapeOptions{
+		Formats: []string{"markdown"},
+	},
+})
+if err != nil {
+	log.Fatal(err)
+}
 
-    Complete REST API documentation
+fmt.Printf("Status: %s\n", job.Status)
+fmt.Printf("Progress: %d/%d\n", job.Completed, job.Total)
 
+for _, page := range job.Data {
+	fmt.Println(page.Metadata["sourceURL"])
+}
+```
 
+### Start a Crawl
+
+Start a job without waiting using `StartCrawl`.
+
+```go
+resp, err := client.StartCrawl(ctx, "https://firecrawl.dev", &firecrawl.CrawlOptions{
+	Limit: firecrawl.Int(100),
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Printf("Job ID: %s\n", resp.ID)
+```
+
+### Checking Crawl Status
+
+Check crawl progress with `GetCrawlStatus`.
+
+```go
+status, err := client.GetCrawlStatus(ctx, resp.ID)
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Printf("Status: %s\n", status.Status)
+fmt.Printf("Progress: %d/%d\n", status.Completed, status.Total)
+```
+
+### Cancelling a Crawl
+
+Cancel a running crawl with `CancelCrawl`.
+
+```go
+result, err := client.CancelCrawl(ctx, resp.ID)
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Println(result)
+```
+
+### Mapping a Website
+
+Discover links on a site using `Map`.
+
+```go
+mapData, err := client.Map(ctx, "https://firecrawl.dev", &firecrawl.MapOptions{
+	Limit:             firecrawl.Int(100),
+	Search:            firecrawl.String("blog"),
+	IncludeSubdomains: firecrawl.Bool(true),
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+for _, link := range mapData.Links {
+	fmt.Println(link["url"], "-", link["title"])
+}
+```
+
+### Searching the Web
+
+Search with optional search settings using `Search`.
+
+```go
+results, err := client.Search(ctx, "firecrawl web scraping", &firecrawl.SearchOptions{
+	Limit: firecrawl.Int(10),
+	ScrapeOptions: &firecrawl.ScrapeOptions{
+		Formats: []string{"markdown"},
+	},
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+for _, result := range results.Web {
+	fmt.Println(result["title"], "-", result["url"])
+}
+```
+
+### Batch Scraping
+
+Scrape multiple URLs in parallel using `BatchScrape`.
+
+```go
+urls := []string{
+	"https://firecrawl.dev",
+	"https://firecrawl.dev/blog",
+}
+
+job, err := client.BatchScrape(ctx, urls, &firecrawl.BatchScrapeOptions{
+	ScrapeOptions: &firecrawl.ScrapeOptions{
+		Formats: []string{"markdown"},
+	},
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+for _, doc := range job.Data {
+	fmt.Println(doc.Markdown)
+}
+```
+
+### Agent
+
+Run an AI-powered agent with `Agent`.
+
+```go
+status, err := client.Agent(ctx, &firecrawl.AgentOptions{
+	Prompt: "Find the pricing plans for Firecrawl and compare them",
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Println(status.Data)
+```
+
+With a JSON schema for structured output:
+
+```go
+status, err := client.Agent(ctx, &firecrawl.AgentOptions{
+	Prompt: "Extract pricing plan details",
+	URLs:   []string{"https://firecrawl.dev"},
+	Schema: map[string]interface{}{
+		"type": "object",
+		"properties": map[string]interface{}{
+			"plans": map[string]interface{}{
+				"type": "array",
+				"items": map[string]interface{}{
+					"type": "object",
+					"properties": map[string]interface{}{
+						"name":  map[string]interface{}{"type": "string"},
+						"price": map[string]interface{}{"type": "string"},
+					},
+				},
+			},
+		},
+	},
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Println(status.Data)
+```
+
+### Usage & Metrics
+
+Check concurrency and remaining credits:
+
+```go
+concurrency, err := client.GetConcurrency(ctx)
+if err != nil {
+	log.Fatal(err)
+}
+fmt.Printf("Concurrency: %d/%d\n", concurrency.Concurrency, concurrency.MaxConcurrency)
+
+credits, err := client.GetCreditUsage(ctx)
+if err != nil {
+	log.Fatal(err)
+}
+fmt.Printf("Remaining credits: %d\n", credits.RemainingCredits)
+```
+
+## Browser
+
+The Go SDK includes Browser Sandbox helpers.
+
+### Create a Session
+
+```go
+session, err := client.Browser(ctx, &firecrawl.BrowserOptions{
+	TTL:           firecrawl.Int(300),
+	StreamWebView: firecrawl.Bool(true),
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Println(session.ID)
+fmt.Println(session.CDPUrl)
+fmt.Println(session.LiveViewURL)
+```
+
+### Execute Code
+
+```go
+result, err := client.BrowserExecute(ctx, session.ID,
+	`await page.goto("https://example.com"); console.log(await page.title());`,
+	&firecrawl.BrowserExecuteParams{
+		Language: "node",
+		Timeout:  firecrawl.Int(60),
+	},
+)
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Println(result.Stdout)
+fmt.Println(*result.ExitCode)
+```
+
+### Scrape-Bound Interactive Session
+
+Use a scrape job ID to run follow-up browser code in the same replayed context:
+
+* `Interact(...)` runs code in the scrape-bound browser session (and initializes it on first use).
+* `StopInteractiveBrowser(...)` explicitly stops the interactive session when you are done.
+
+```go
+scrapeJobID := "550e8400-e29b-41d4-a716-446655440000"
+
+execResp, err := client.Interact(ctx, scrapeJobID, "console.log(page.url())", &firecrawl.InteractParams{
+	Language: "node",
+	Timeout:  firecrawl.Int(60),
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Println(execResp.Stdout)
+
+deleteResp, err := client.StopInteractiveBrowser(ctx, scrapeJobID)
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Printf("Deleted: %v\n", deleteResp.Success)
+```
+
+### List & Close Sessions
+
+```go
+active, err := client.ListBrowsers(ctx, "active")
+if err != nil {
+	log.Fatal(err)
+}
+
+for _, s := range active.Sessions {
+	fmt.Printf("%s - %s\n", s.ID, s.Status)
+}
+
+closed, err := client.DeleteBrowser(ctx, session.ID)
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Printf("Closed: %v\n", closed.Success)
+```
+
+## Configuration
+
+`firecrawl.NewClient()` accepts functional options:
+
+| Option                     | Type             | Default                                              | Description                              |
+| -------------------------- | ---------------- | ---------------------------------------------------- | ---------------------------------------- |
+| `option.WithAPIKey`        | `string`         | `FIRECRAWL_API_KEY` env var                          | Your Firecrawl API key                   |
+| `option.WithAPIURL`        | `string`         | `https://api.firecrawl.dev` (or `FIRECRAWL_API_URL`) | API base URL                             |
+| `option.WithTimeout`       | `time.Duration`  | `5 * time.Minute`                                    | HTTP client timeout                      |
+| `option.WithMaxRetries`    | `int`            | `3`                                                  | Automatic retries for transient failures |
+| `option.WithBackoffFactor` | `float64`        | `0.5`                                                | Exponential backoff factor in seconds    |
+| `option.WithHTTPClient`    | `*http.Client`   | Built from timeout                                   | Pre-configured HTTP client instance      |
+| `option.WithHeader`        | `string, string` | —                                                    | Add an extra header to all requests      |
+
+```go
+import (
+	"net/http"
+	"time"
+
+	firecrawl "github.com/firecrawl/firecrawl/apps/go-sdk"
+	"github.com/firecrawl/firecrawl/apps/go-sdk/option"
+)
+
+client, err := firecrawl.NewClient(
+	option.WithAPIKey("fc-your-api-key"),
+	option.WithAPIURL("https://api.firecrawl.dev"),
+	option.WithTimeout(5 * time.Minute),
+	option.WithMaxRetries(3),
+	option.WithBackoffFactor(0.5),
+)
+```
+
+### Custom HTTP Client
+
+You can pass a pre-configured `*http.Client` to control transport settings, proxy configuration, TLS settings, and more. When provided, the `WithTimeout` setting is ignored in favor of the client's own configuration.
+
+```go
+import (
+	"crypto/tls"
+	"net"
+	"net/http"
+	"time"
+
+	firecrawl "github.com/firecrawl/firecrawl/apps/go-sdk"
+	"github.com/firecrawl/firecrawl/apps/go-sdk/option"
+)
+
+transport := &http.Transport{
+	TLSClientConfig: &tls.Config{MinVersion: tls.VersionTLS12},
+	DialContext: (&net.Dialer{
+		Timeout: 10 * time.Second,
+	}).DialContext,
+}
+
+custom := &http.Client{
+	Transport: transport,
+	Timeout:   60 * time.Second,
+}
+
+client, err := firecrawl.NewClient(
+	option.WithAPIKey("fc-your-api-key"),
+	option.WithHTTPClient(custom),
+)
+```
+
+## Context Support
+
+All methods accept a `context.Context` as the first argument for cancellation and deadline control:
+
+```go
+ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+defer cancel()
+
+doc, err := client.Scrape(ctx, "https://example.com", nil)
+```
+
+## Error Handling
+
+The SDK uses typed errors under the `firecrawl` package.
+
+```go
+import "errors"
+
+doc, err := client.Scrape(ctx, "https://example.com", nil)
+if err != nil {
+	var authErr *firecrawl.AuthenticationError
+	var rateErr *firecrawl.RateLimitError
+	var timeoutErr *firecrawl.JobTimeoutError
+	var fcErr *firecrawl.FirecrawlError
+
+	switch {
+	case errors.As(err, &authErr):
+		fmt.Println("Auth failed:", authErr.Message)
+	case errors.As(err, &rateErr):
+		fmt.Println("Rate limited:", rateErr.Message)
+	case errors.As(err, &timeoutErr):
+		fmt.Printf("Job %s timed out after %ds\n", timeoutErr.JobID, timeoutErr.TimeoutSeconds)
+	case errors.As(err, &fcErr):
+		fmt.Printf("Error %d: %s\n", fcErr.StatusCode, fcErr.Message)
+	default:
+		fmt.Println("Unexpected error:", err)
+	}
+}
+```
+
+### Retry Logic
+
+The SDK automatically retries transient failures:
+
+* **Retried:** 408, 409, 5xx errors, and connection failures
+* **Not retried:** 401, 429, and other 4xx errors
+* **Backoff:** Exponential backoff with configurable factor
+
+## Pointer Helpers
+
+The SDK provides convenience functions for optional pointer fields:
+
+```go
+firecrawl.Bool(true)     // *bool
+firecrawl.Int(50)        // *int
+firecrawl.Int64(1000)    // *int64
+firecrawl.String("test") // *string
+firecrawl.Float64(0.5)   // *float64
+```
+
+> Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.

@@ -1,23 +1,26 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/channels/stripe -->
+> Source: https://flueframework.com/docs/ecosystem/channels/stripe
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/channels/stripe/\#quickstart)
 
-Add verified webhook ingress and application-owned API behavior to an existing Flue project with the [Stripe](https://stripe.com/) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+# Stripe
+
+
+AI-generated, awaiting review <a href="/docs/ecosystem/channels/stripe/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/stripe" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/stripe</a>
+
+
+## Quickstart
+
+Add verified webhook ingress and application-owned API behavior to an existing Flue project with the [Stripe](https://stripe.com) blueprint. Run the following command in your terminal or coding agent of choice:
+
+``` astro-code
 flue add channel stripe
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/channels/stripe/\#overview)
+## Overview
 
-The blueprint installs `@flue/stripe`, Stripe’s official `stripe` SDK, and its
-required TypeScript peer when needed. It creates
-`<source-root>/channels/stripe.ts`, where the named `channel` export verifies
-snapshot webhook events by default and the project-owned `client` handles
-outbound API calls. Adapt the selected events, agent, and tool to the
-application.
+The blueprint installs `@flue/stripe`, Stripe’s official `stripe` SDK, and its required TypeScript peer when needed. It creates `<source-root>/channels/stripe.ts`, where the named `channel` export verifies snapshot webhook events by default and the project-owned `client` handles outbound API calls. Adapt the selected events, agent, and tool to the application.
 
-```
+``` astro-code
 import Stripe from 'stripe';
 import { createStripeChannel } from '@flue/stripe';
 import { dispatch } from '@flue/runtime';
@@ -45,39 +48,30 @@ export const channel = createStripeChannel({
 });
 ```
 
-A matching event is admitted to the billing agent identified by its Stripe
-customer. Other events receive an empty successful response. The generated
-module also defines a customer-bound retrieval tool; the blueprint wires that
-tool into the billing agent. For Cloudflare targets, the same SDK uses its Fetch
-and Web Crypto implementation.
+A matching event is admitted to the billing agent identified by its Stripe customer. Other events receive an empty successful response. The generated module also defines a customer-bound retrieval tool; the blueprint wires that tool into the billing agent. For Cloudflare targets, the same SDK uses its Fetch and Web Crypto implementation.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/channels/stripe/\#configure)
+## Configure
 
-| Variable | Purpose |
-| --- | --- |
-| `STRIPE_WEBHOOK_SECRET` | **Required** — Verifies inbound deliveries. |
-| `STRIPE_SECRET_KEY` | **Required** — Authenticates outbound SDK calls. |
+| Variable                | Purpose                                          |
+|-------------------------|--------------------------------------------------|
+| `STRIPE_WEBHOOK_SECRET` | **Required** — Verifies inbound deliveries.      |
+| `STRIPE_SECRET_KEY`     | **Required** — Authenticates outbound SDK calls. |
 
-It installs `@flue/stripe` and Stripe’s official `stripe` SDK. The SDK verifies
-inbound payloads and remains the project-owned client for outbound API calls.
-The blueprint creates `src/channels/stripe.ts` with named `channel` and `client`
-exports.
+It installs `@flue/stripe` and Stripe’s official `stripe` SDK. The SDK verifies inbound payloads and remains the project-owned client for outbound API calls. The blueprint creates `src/channels/stripe.ts` with named `channel` and `client` exports.
 
 Configure the Stripe event destination as:
 
-```
+``` astro-code
 https://example.com/channels/stripe/webhook
 ```
 
-If `flue()` is mounted beneath an outer prefix, include that prefix. Subscribe
-only to event types the application handles. Keep both credentials in the
-project’s existing secret system.
+If `flue()` is mounted beneath an outer prefix, include that prefix. Subscribe only to event types the application handles. Keep both credentials in the project’s existing secret system.
 
-## Channel module [\#](https://flueframework.com/docs/ecosystem/channels/stripe/\#channel-module)
+## Channel module
 
 Snapshot events are the default:
 
-```
+``` astro-code
 import Stripe from 'stripe';
 import { createStripeChannel } from '@flue/stripe';
 import { defineTool, dispatch } from '@flue/runtime';
@@ -121,58 +115,39 @@ export function retrieveCustomer(customerId: string) {
   return defineTool({
     name: 'retrieve_stripe_customer',
     description: 'Retrieve the Stripe customer bound to this billing agent.',
-    parameters: {
-      type: 'object',
-      properties: {},
-      additionalProperties: false,
-    },
-    async execute() {
+    async run() {
       const customer = await client.customers.retrieve(customerId);
-      return JSON.stringify(
-        'deleted' in customer
-          ? { id: customer.id, deleted: true }
-          : { id: customer.id, name: customer.name, email: customer.email },
-      );
+      return 'deleted' in customer
+        ? { id: customer.id, deleted: true }
+        : { id: customer.id, name: customer.name, email: customer.email };
     },
   });
 }
 ```
 
-`@flue/stripe` gives Stripe’s SDK the exact request bytes and
-`Stripe-Signature` header before invoking `webhook`. Returning nothing produces
-an empty `200`. A JSON-compatible value becomes the response body, and a normal
-Hono or Fetch `Response` passes through unchanged.
+`@flue/stripe` gives Stripe’s SDK the exact request bytes and `Stripe-Signature` header before invoking `webhook`. Returning nothing produces an empty `200`. A JSON-compatible value becomes the response body, and a normal Hono or Fetch `Response` passes through unchanged.
 
-The example uses a customer id as the agent instance id for one Stripe account.
-Stripe has no universal conversation identity. Choose the customer,
-subscription, account, Checkout Session, or other resource that represents the
-application’s unit of work. Connect and organization destinations should
-include the verified `event.account` or `event.context` when their resource
-namespaces require it.
+The example uses a customer id as the agent instance id for one Stripe account. Stripe has no universal conversation identity. Choose the customer, subscription, account, Checkout Session, or other resource that represents the application’s unit of work. Connect and organization destinations should include the verified `event.account` or `event.context` when their resource namespaces require it.
 
-## Bind the tool [\#](https://flueframework.com/docs/ecosystem/channels/stripe/\#bind-the-tool)
+## Bind the tool
 
-```
-import { createAgent } from '@flue/runtime';
+``` astro-code
+import { defineAgent } from '@flue/runtime';
 import { retrieveCustomer } from '../channels/stripe.ts';
 
-export default createAgent(({ id: customerId }) => ({
+export default defineAgent(({ id: customerId }) => ({
   model: 'anthropic/claude-haiku-4-5',
   tools: [retrieveCustomer(customerId)],
 }));
 ```
 
-The model can invoke the lookup but cannot select another customer, account, or
-credential. Trusted application code binds those values. The channel-agent
-import cycle is supported because both imported bindings are read only inside
-deferred callbacks or initializers.
+The model can invoke the lookup but cannot select another customer, account, or credential. Trusted application code binds those values. The channel-agent import cycle is supported because both imported bindings are read only inside deferred callbacks or initializers.
 
-## Thin event notifications [\#](https://flueframework.com/docs/ecosystem/channels/stripe/\#thin-event-notifications)
+## Thin event notifications
 
-Set `eventPayload: 'thin'` only for an event destination configured to send
-Stripe thin event notifications:
+Set `eventPayload: 'thin'` only for an event destination configured to send Stripe thin event notifications:
 
-```
+``` astro-code
 export const channel = createStripeChannel({
   client,
   webhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
@@ -186,55 +161,33 @@ export const channel = createStripeChannel({
 });
 ```
 
-The callback receives Stripe’s native
-`Stripe.V2.Core.EventNotification`. Its `fetchEvent()` and
-`fetchRelatedObject()` methods use the project-owned client and preserve Stripe
-context. Snapshot and thin destinations use different signed payload shapes;
-the package rejects a payload that does not match the configured mode.
+The callback receives Stripe’s native `Stripe.V2.Core.EventNotification`. Its `fetchEvent()` and `fetchRelatedObject()` methods use the project-owned client and preserve Stripe context. Snapshot and thin destinations use different signed payload shapes; the package rejects a payload that does not match the configured mode.
 
-## Delivery behavior [\#](https://flueframework.com/docs/ecosystem/channels/stripe/\#delivery-behavior)
+## Delivery behavior
 
-Stripe retries unsuccessful live-mode webhook deliveries for up to three days
-and sandbox deliveries three times over several hours. Ordering is not
-guaranteed and duplicate delivery is possible. Claim `event.id` in
-application-owned durable storage before dispatch when duplicate admission is
-unacceptable. Business operations should remain idempotent because separate
-Event objects can describe the same resource change.
+Stripe retries unsuccessful live-mode webhook deliveries for up to three days and sandbox deliveries three times over several hours. Ordering is not guaranteed and duplicate delivery is possible. Claim `event.id` in application-owned durable storage before dispatch when duplicate admission is unacceptable. Business operations should remain idempotent because separate Event objects can describe the same resource change.
 
-Snapshot event objects are tied to the API version selected for the event
-destination. Keep that version aligned with the installed SDK types, or narrow
-and validate resource fields in application code.
+Snapshot event objects are tied to the API version selected for the event destination. Keep that version aligned with the installed SDK types, or narrow and validate resource fields in application code.
 
-Flue forwards a verified event type that is newer than the installed Stripe
-declarations. Until the project upgrades Stripe, use
-`switch (event.type as string)` to observe that future type and treat its
-resource fields as untrusted rather than weakening the native narrowing for
-every known event.
+Flue forwards a verified event type that is newer than the installed Stripe declarations. Until the project upgrades Stripe, use `switch (event.type as string)` to observe that future type and treat its resource fields as untrusted rather than weakening the native narrowing for every known event.
 
-The official Stripe SDK selects its Fetch and Web Crypto implementation in
-Cloudflare Workers. The example executes that path in workerd with Flue’s
-required `nodejs_compat` configuration. Projects may initialize credentials
-through `process.env` or typed Worker bindings and should still verify their
-complete target build and workerd tests. Stripe’s declarations reference
-`@types/node`; that package is type-only and does not add Node code to the
-Worker bundle.
+The official Stripe SDK selects its Fetch and Web Crypto implementation in Cloudflare Workers. The example executes that path in workerd with Flue’s required `nodejs_compat` configuration. Projects may initialize credentials through `process.env` or typed Worker bindings and should still verify their complete target build and workerd tests. Stripe’s declarations reference `@types/node`; that package is type-only and does not add Node code to the Worker bundle.
 
-The channel does not register event destinations, rotate signing secrets,
-manage OAuth or API keys, deduplicate events, restore ordering, or define
-generic Stripe tools. It also does not claim support for specialized
-latency-sensitive workflows such as synchronous real-time Issuing
-authorization decisions.
+The channel does not register event destinations, rotate signing secrets, manage OAuth or API keys, deduplicate events, restore ordering, or define generic Stripe tools. It also does not claim support for specialized latency-sensitive workflows such as synchronous real-time Issuing authorization decisions.
 
-See the [`@flue/stripe` API reference](https://flueframework.com/docs/api/stripe-channel/).
+See the [`@flue/stripe` README](https://github.com/withastro/flue/tree/main/packages/stripe#readme).
+
 
 ## Docs Navigation
 
-Current page: [Stripe](https://flueframework.com/docs/ecosystem/channels/stripe/)
+Current page: [Stripe](/docs/ecosystem/channels/stripe/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

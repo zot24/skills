@@ -1,21 +1,26 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/channels/linear -->
+> Source: https://flueframework.com/docs/ecosystem/channels/linear
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/channels/linear/\#quickstart)
+
+
+# Linear
+
+
+AI-generated, awaiting review <a href="/docs/ecosystem/channels/linear/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/linear" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/linear</a>
+
+
+## Quickstart
 
 Add verified Linear resource and agent-session webhooks with project-owned outbound Linear API access to an existing Flue project with the [Linear](https://linear.app/developers) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+``` astro-code
 flue add channel linear
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/channels/linear/\#overview)
+## Overview
 
-The blueprint installs `@flue/linear` and the official `@linear/sdk`, creates a
-source-root `channels/linear.ts` module with named `channel` and project-owned
-`client` exports, and modifies the selected agent to bind the generated message
-tool.
+The blueprint installs `@flue/linear` and the official `@linear/sdk`, creates a source-root `channels/linear.ts` module with named `channel` and project-owned `client` exports, and modifies the selected agent to bind the generated message tool.
 
-```
+``` astro-code
 import { createLinearChannel } from '@flue/linear';
 import { dispatch } from '@flue/runtime';
 import { LinearClient } from '@linear/sdk';
@@ -44,36 +49,28 @@ export const channel = createLinearChannel({
 });
 ```
 
-The abridged example shows the generated comment path and omits the agent-session
-branch, reusable type guards, and message tool. Once configured, a new issue
-comment continues the agent instance for that issue or comment thread, while
-the bound SDK tool posts replies to the same Linear conversation. The official
-SDK also supports the generated agent-session path and runs with Flue’s
-`nodejs_compat` setting on Cloudflare Workers.
+The abridged example shows the generated comment path and omits the agent-session branch, reusable type guards, and message tool. Once configured, a new issue comment continues the agent instance for that issue or comment thread, while the bound SDK tool posts replies to the same Linear conversation. The official SDK also supports the generated agent-session path and runs with Flue’s `nodejs_compat` setting on Cloudflare Workers.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/channels/linear/\#configure)
+## Configure
 
 | Variable | Purpose |
-| --- | --- |
+|----|----|
 | `LINEAR_WEBHOOK_SECRET` | **Required** — Verifies inbound webhook deliveries. |
 | `LINEAR_API_KEY` | **Required** — Authenticates the example’s outbound SDK client. |
 | `LINEAR_ORGANIZATION_ID` | **Optional** — Restricts inbound deliveries to one Linear organization. |
 | `LINEAR_WEBHOOK_ID` | **Optional** — Restricts inbound deliveries to one configured webhook. |
 
-It installs `@flue/linear` for verified ingress and the official
-`@linear/sdk` for project-owned outbound API access. Linear uses that SDK in
-its own Cloudflare Workers agent example with `nodejs_compat`, which Flue’s
-Cloudflare target already enables.
+It installs `@flue/linear` for verified ingress and the official `@linear/sdk` for project-owned outbound API access. Linear uses that SDK in its own Cloudflare Workers agent example with `nodejs_compat`, which Flue’s Cloudflare target already enables.
 
 Set the webhook URL to:
 
-```
+``` astro-code
 https://example.com/channels/linear/webhook
 ```
 
-## Channel module [\#](https://flueframework.com/docs/ecosystem/channels/linear/\#channel-module)
+## Channel module
 
-```
+``` astro-code
 import {
   createLinearChannel,
   type LinearConversationRef,
@@ -81,6 +78,7 @@ import {
 } from '@flue/linear';
 import { defineTool, dispatch } from '@flue/runtime';
 import { LinearClient } from '@linear/sdk';
+import * as v from 'valibot';
 import type {
   AgentSessionEventWebhookPayload,
   EntityWebhookPayloadWithCommentData,
@@ -154,19 +152,14 @@ export function postMessage(ref: LinearConversationRef) {
   return defineTool({
     name: 'post_linear_message',
     description: 'Post to the Linear conversation bound to this agent.',
-    parameters: {
-      type: 'object',
-      properties: { text: { type: 'string', minLength: 1 } },
-      required: ['text'],
-      additionalProperties: false,
-    },
-    async execute({ text }) {
+    input: v.object({ text: v.pipe(v.string(), v.minLength(1)) }),
+    async run({ input: { text } }) {
       if (ref.type === 'agent-session') {
         const result = await client.createAgentActivity({
           agentSessionId: ref.agentSessionId,
           content: { type: 'response', body: text },
         });
-        return JSON.stringify({ success: result.success });
+        return { success: result.success };
       }
 
       const result = await client.createComment({
@@ -174,92 +167,65 @@ export function postMessage(ref: LinearConversationRef) {
         ...(ref.threadCommentId ? { parentId: ref.threadCommentId } : {}),
         body: text,
       });
-      return JSON.stringify({ success: result.success });
+      return { success: result.success };
     },
   });
 }
 ```
 
-Use `accessToken` instead of `apiKey` for an installed OAuth application.
-OAuth installation storage and organization-specific token selection remain
-application concerns.
+Use `accessToken` instead of `apiKey` for an installed OAuth application. OAuth installation storage and organization-specific token selection remain application concerns.
 
-## Bind the tool [\#](https://flueframework.com/docs/ecosystem/channels/linear/\#bind-the-tool)
+## Bind the tool
 
-```
-import { createAgent } from '@flue/runtime';
+``` astro-code
+import { defineAgent } from '@flue/runtime';
 import { channel, postMessage } from '../channels/linear.ts';
 
-export default createAgent(({ id }) => ({
+export default defineAgent(({ id }) => ({
   model: 'anthropic/claude-haiku-4-5',
   tools: [postMessage(channel.parseConversationKey(id))],
 }));
 ```
 
-Trusted code binds the organization, issue thread, or agent session. The model
-selects only message text.
+Trusted code binds the organization, issue thread, or agent session. The model selects only message text.
 
-## Resource webhooks [\#](https://flueframework.com/docs/ecosystem/channels/linear/\#resource-webhooks)
+## Resource webhooks
 
-Create a Linear webhook for the resource families the application handles,
-typically Comments, Issues, and Projects. The package verifies the exact body
-against `Linear-Signature`, rejects signed timestamps outside one minute, and
-optionally checks configured organization and webhook ids.
+Create a Linear webhook for the resource families the application handles, typically Comments, Issues, and Projects. The package verifies the exact body against `Linear-Signature`, rejects signed timestamps outside one minute, and optionally checks configured organization and webhook ids.
 
-The handler receives the provider-native `payload`, typed by Linear’s official
-`LinearWebhookPayload` union (re-exported from `@linear/sdk/webhooks`). Entity
-deliveries are discriminated on `type` (`'Comment'`, `'Issue'`, `'Project'`, …)
-and carry `action` and `data`; Flue forwards the body unmodified, including
-verified deliveries the union does not model. The union has a catch-all member
-that keeps `type` widened to `string`, so a literal `type` check alone does not
-narrow it — pair the literal with a discriminating nested field in a small
-application-side type guard (as in the channel module above).
+The handler receives the provider-native `payload`, typed by Linear’s official `LinearWebhookPayload` union (re-exported from `@linear/sdk/webhooks`). Entity deliveries are discriminated on `type` (`'Comment'`, `'Issue'`, `'Project'`, …) and carry `action` and `data`; Flue forwards the body unmodified, including verified deliveries the union does not model. The union has a catch-all member that keeps `type` widened to `string`, so a literal `type` check alone does not narrow it — pair the literal with a discriminating nested field in a small application-side type guard (as in the channel module above).
 
-The application derives conversation keys from native fields. Top-level comments
-use the issue conversation; replies pass the root comment id as
-`threadCommentId` for the nested thread.
+The application derives conversation keys from native fields. Top-level comments use the issue conversation; replies pass the root comment id as `threadCommentId` for the nested thread.
 
-## Agent sessions [\#](https://flueframework.com/docs/ecosystem/channels/linear/\#agent-sessions)
+## Agent sessions
 
-Enable Agent session events on a Linear OAuth application configured as an app
-actor. Install it with the scopes required by your operations and
-`app:mentionable` when users should mention the agent.
+Enable Agent session events on a Linear OAuth application configured as an app actor. Install it with the scopes required by your operations and `app:mentionable` when users should mention the agent.
 
-`created` events carry the `agentSession` and may include Linear’s formatted
-`promptContext`, `previousComments`, and `guidance`. `prompted` events carry the
-new `agentActivity`. The application builds a stable agent-session conversation
-key from `payload.agentSession.id`.
+`created` events carry the `agentSession` and may include Linear’s formatted `promptContext`, `previousComments`, and `guidance`. `prompted` events carry the new `agentActivity`. The application builds a stable agent-session conversation key from `payload.agentSession.id`.
 
-Linear expects the webhook response within five seconds and a new session to
-receive an activity or external URL update within ten seconds. Keep the
-verified handler focused on durable dispatch admission, then use the
-project-owned SDK client to post progress and results.
+Linear expects the webhook response within five seconds and a new session to receive an activity or external URL update within ten seconds. Keep the verified handler focused on durable dispatch admission, then use the project-owned SDK client to post progress and results.
 
-## Delivery behavior [\#](https://flueframework.com/docs/ecosystem/channels/linear/\#delivery-behavior)
+## Delivery behavior
 
-Returning nothing produces an empty `200`. Return JSON for a response body or
-use the Hono context for explicit status control. A failure or non-`200`
-response asks Linear to retry.
+Returning nothing produces an empty `200`. Return JSON for a response body or use the Hono context for explicit status control. A failure or non-`200` response asks Linear to retry.
 
-Linear treats a delivery as failed if it does not return `200` within five
-seconds, then retries after one minute, one hour, and six hours. The channel
-does not enforce a timer; admit durable work quickly (dispatch, then return) and
-rely on idempotency rather than blocking on slow work before responding.
+Linear treats a delivery as failed if it does not return `200` within five seconds, then retries after one minute, one hour, and six hours. The channel does not enforce a timer; admit durable work quickly (dispatch, then return) and rely on idempotency rather than blocking on slow work before responding.
 
-The channel requires Linear’s UUID-v4 `Linear-Delivery` header and exposes it
-for application-owned deduplication, but does not persist delivery state.
-Conversation keys validate syntax, not authorization.
+The channel requires Linear’s UUID-v4 `Linear-Delivery` header and exposes it for application-owned deduplication, but does not persist delivery state. Conversation keys validate syntax, not authorization.
 
-See the [`@flue/linear` API reference](https://flueframework.com/docs/api/linear-channel/).
+See the [`@flue/linear` README](https://github.com/withastro/flue/tree/main/packages/linear#readme).
+
 
 ## Docs Navigation
 
-Current page: [Linear](https://flueframework.com/docs/ecosystem/channels/linear/)
+Current page: [Linear](/docs/ecosystem/channels/linear/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

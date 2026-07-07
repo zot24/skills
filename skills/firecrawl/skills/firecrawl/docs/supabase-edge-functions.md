@@ -32,7 +32,6 @@ supabase secrets set FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 Edit `supabase/functions/firecrawl-search/index.ts`:
 
 ```typescript
-import Firecrawl from "npm:firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: Deno.env.get("FIRECRAWL_API_KEY"),
@@ -53,7 +52,6 @@ Deno.serve(async (req) => {
 Edit `supabase/functions/firecrawl-scrape/index.ts`:
 
 ```typescript
-import Firecrawl from "npm:firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: Deno.env.get("FIRECRAWL_API_KEY"),
@@ -74,7 +72,6 @@ Deno.serve(async (req) => {
 Edit `supabase/functions/firecrawl-interact/index.ts`:
 
 ```typescript
-import Firecrawl from "npm:firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: Deno.env.get("FIRECRAWL_API_KEY"),

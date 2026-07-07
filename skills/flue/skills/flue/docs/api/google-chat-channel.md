@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/google-chat-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/google-chat`.
 
 ## `createGoogleChatChannel()` [\#](https://flueframework.com/docs/api/google-chat-channel/\#creategooglechatchannel)

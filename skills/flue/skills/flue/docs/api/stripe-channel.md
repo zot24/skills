@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/stripe-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/stripe`.
 
 ## `createStripeChannel()` [\#](https://flueframework.com/docs/api/stripe-channel/\#createstripechannel)

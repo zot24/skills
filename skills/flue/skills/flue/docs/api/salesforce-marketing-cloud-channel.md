@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/salesforce-marketing-cloud-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/salesforce`.
 
 ## Exports [\#](https://flueframework.com/docs/api/salesforce-marketing-cloud-channel/\#exports)

@@ -28,8 +28,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ## Search the web
 
 ```javascript
-import express from "express";
-import { Firecrawl } from "firecrawl";
+
 
 const app = express();
 app.use(express.json());

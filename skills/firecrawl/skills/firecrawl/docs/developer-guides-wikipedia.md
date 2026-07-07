@@ -29,8 +29,7 @@ npm install firecrawl zod
 Extract structured data from Wikipedia articles using Zod schemas.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
-import { z } from 'zod';
+
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -55,7 +54,6 @@ console.log(result.json);
 Find articles on Wikipedia.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -75,7 +73,6 @@ console.log(searchResult);
 Scrape a single Wikipedia article.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -92,7 +89,6 @@ console.log(result);
 Discover all available URLs in a Wikipedia portal or category. Note: Map returns URLs only, without content.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -107,7 +103,6 @@ console.log(mapResult.links);
 Crawl multiple pages from Wikipedia documentation or categories.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -126,7 +121,6 @@ console.log(crawlResult.data);
 Scrape multiple Wikipedia URLs simultaneously.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

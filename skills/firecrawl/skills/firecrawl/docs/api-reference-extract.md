@@ -11,7 +11,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json POST /extract
+````yaml api-reference/v2-openapi.json POST /extract
 openapi: 3.0.0
 info:
   title: Firecrawl API
@@ -741,6 +741,24 @@ components:
                 type: string
                 enum:
                   - branding
+            required:
+              - type
+          - type: object
+            title: Product
+            properties:
+              type:
+                type: string
+                enum:
+                  - product
+            required:
+              - type
+          - type: object
+            title: Menu
+            properties:
+              type:
+                type: string
+                enum:
+                  - menu
             required:
               - type
           - type: object

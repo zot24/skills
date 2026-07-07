@@ -1,20 +1,28 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/sandboxes/boxd -->
+> Source: https://flueframework.com/docs/ecosystem/sandboxes/boxd
+
+
+
+# boxd
+
+
+Last updated May 30, 2026 <a href="/docs/ecosystem/sandboxes/boxd/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
 
 The boxd adapter adapts an already-initialized boxd `Box` from `@boxd-sh/sdk` into Flue’s sandbox interface. Use it when an agent needs a provider-backed Linux virtual machine with filesystem and shell behavior rather than the lightweight default workspace.
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/sandboxes/boxd/\#quickstart)
+## Quickstart
 
-Add provider-backed Linux VM sandbox capability to an existing Flue project with the [boxd](https://boxd.sh/) blueprint. Run the following command in your terminal or coding agent of choice:
+Add provider-backed Linux VM sandbox capability to an existing Flue project with the [boxd](https://boxd.sh) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+``` astro-code
 flue add sandbox boxd
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/sandboxes/boxd/\#overview)
+## Overview
 
 The boxd blueprint installs `@boxd-sh/sdk` when needed and creates `sandboxes/boxd.ts` in your source-root. The generated adapter accepts an application-created boxd `Box`; it does not create, retain, or delete the VM.
 
-```
+``` astro-code
 // flue-blueprint: sandbox/boxd@1
 import { createSandboxSessionEnv } from '@flue/runtime';
 import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from '@flue/runtime';
@@ -59,37 +67,40 @@ export function boxd(box: BoxdBox, options?: BoxdAdapterOptions): SandboxFactory
 
 Passing `boxd(box)` as an agent’s `sandbox` waits for that VM’s exec endpoint once, then exposes its files and Linux shell through Flue. Relative paths resolve from `/home/boxd` unless you set `cwd`; command timeouts remain in milliseconds, `stat` validates GNU metadata output, and `rm` receives the requested recursive and force flags, while VM identity, credentials, networking, persistence, and cleanup remain application-owned.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/sandboxes/boxd/\#configure)
+## Configure
 
 | Variable | Purpose |
-| --- | --- |
+|----|----|
 | `BOXD_API_KEY` | **Alternative authentication** — Authenticates with boxd when a short-lived token is not used. |
 | `BOXD_TOKEN` | **Alternative authentication** — Provides provider-supported short-lived authentication instead of `BOXD_API_KEY`. |
 
 | Requirement | Purpose |
-| --- | --- |
+|----|----|
 | One boxd credential | **Required** — Uses either `BOXD_API_KEY` or `BOXD_TOKEN`. |
 | `@boxd-sh/sdk` package | **Required** — Creates the Linux VM adapted to `SandboxFactory`. |
 | Application-owned lifecycle | **Required** — Creates, reuses, and deletes the VM. |
 
 The generated adapter expects your application to create and own the boxd VM. It does not decide VM identity, retention, or cleanup for you.
 
-## Use it when [\#](https://flueframework.com/docs/ecosystem/sandboxes/boxd/\#use-it-when)
+## Use it when
 
 Choose boxd when a task requires real Linux command behavior in an isolated provider VM, particularly where a separate VM per workspace or agent instance is part of your application design.
 
 Before reusing a VM across sessions or tenants, define identity, authorization, egress, secrets, and cleanup policies. Conversation persistence remains controlled separately by Flue session storage.
 
-See [Sandboxes](https://flueframework.com/docs/guide/sandboxes/) for execution-boundary design and [Sandbox Adapter API](https://flueframework.com/docs/api/sandbox-api/) for the adapter contract.
+See [Sandboxes](/docs/guide/sandboxes/) for execution-boundary design and [Sandbox Adapter API](/docs/api/sandbox-api/) for the adapter contract.
+
 
 ## Docs Navigation
 
-Current page: [boxd](https://flueframework.com/docs/ecosystem/sandboxes/boxd/)
+Current page: [boxd](/docs/ecosystem/sandboxes/boxd/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

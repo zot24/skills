@@ -9,7 +9,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/webhooks-openapi.json webhook monitorPage
+````yaml api-reference/webhooks-openapi.json webhook monitorPage
 openapi: 3.1.0
 info:
   title: Firecrawl Webhooks

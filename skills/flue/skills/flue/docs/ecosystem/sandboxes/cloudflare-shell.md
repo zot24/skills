@@ -1,20 +1,28 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/sandboxes/cloudflare-shell -->
+> Source: https://flueframework.com/docs/ecosystem/sandboxes/cloudflare-shell
 
-The Cloudflare Shell adapter adapts an application-owned `@cloudflare/shell``Workspace` into a Flue sandbox on the Cloudflare target. Unlike a Linux shell sandbox, it provides a durable workspace and a model-facing `code` tool that executes JavaScript against workspace state through a Worker Loader binding.
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare-shell/\#quickstart)
+
+# Cloudflare Shell
+
+
+AI-generated, awaiting review <a href="/docs/ecosystem/sandboxes/cloudflare-shell/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
+
+The Cloudflare Shell adapter adapts an application-owned `@cloudflare/shell` `Workspace` into a Flue sandbox on the Cloudflare target. Unlike a Linux shell sandbox, it provides a durable workspace and a model-facing `code` tool that executes JavaScript against workspace state through a Worker Loader binding.
+
+## Quickstart
 
 Add durable workspace sandbox capability to an existing Flue project with the [Cloudflare Shell](https://developers.cloudflare.com/workers/runtime-apis/bindings/worker-loader/) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+``` astro-code
 flue add sandbox cloudflare-shell
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare-shell/\#overview)
+## Overview
 
 The blueprint installs `@cloudflare/shell` and `@cloudflare/codemode`, creates `<source-root>/sandboxes/cloudflare-shell.ts`, and adds a Worker Loader binding to Wrangler configuration. The generated adapter exports sandbox construction and default workspace helpers; its file API retries nested writes after recursively creating a missing parent directory.
 
-```
+``` astro-code
 // flue-blueprint: sandbox/cloudflare-shell@1
 import { Workspace, WorkspaceFileSystem /* ... */ } from '@cloudflare/shell';
 import { stateTools } from '@cloudflare/shell/workers';
@@ -58,10 +66,10 @@ export function getDefaultWorkspace(): Workspace {
 
 Create a workspace, then pass it with the `worker_loaders` binding to `getShellSandbox(...)`. Agents receive durable file operations and the isolated JavaScript `code` tool; they do not receive Linux command execution. Application-specific data loading into the workspace remains application-owned.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare-shell/\#configure)
+## Configure
 
 | Requirement | Purpose |
-| --- | --- |
+|----|----|
 | Cloudflare target | **Required** — Runs the Workspace and Worker Loader integration. |
 | `@cloudflare/shell` package | **Required** — Provides the durable Workspace. |
 | `@cloudflare/codemode` package | **Required** — Provides code-oriented model operations. |
@@ -71,26 +79,29 @@ Create a workspace, then pass it with the `worker_loaders` binding to `getShellS
 
 Import the generated helpers from your project adapter file, not from `@flue/runtime/cloudflare`:
 
-```
+``` astro-code
 import { getDefaultWorkspace, getShellSandbox } from '../sandboxes/cloudflare-shell';
 ```
 
-## Choose this adapter when [\#](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare-shell/\#choose-this-adapter-when)
+## Choose this adapter when
 
 Use Cloudflare Shell when files must be stored in a durable Workspace and agent work can be expressed through Workspace operations. It is not interchangeable with a container: `harness.shell(...)` and `session.shell(...)` do not provide Linux command execution through this adapter.
 
 If the workspace should survive later user interactions, associate it with a stable addressable agent instance. A workspace created inside one workflow invocation belongs to that invocation’s owner rather than forming a shared cross-run workspace.
 
-See [Sandboxes](https://flueframework.com/docs/guide/sandboxes/) and [Deploy on Cloudflare](https://flueframework.com/docs/ecosystem/deploy/cloudflare/).
+See [Sandboxes](/docs/guide/sandboxes/) and [Deploy on Cloudflare](/docs/ecosystem/deploy/cloudflare/).
+
 
 ## Docs Navigation
 
-Current page: [Cloudflare Shell](https://flueframework.com/docs/ecosystem/sandboxes/cloudflare-shell/)
+Current page: [Cloudflare Shell](/docs/ecosystem/sandboxes/cloudflare-shell/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

@@ -1,18 +1,26 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/tooling/sentry -->
+> Source: https://flueframework.com/docs/ecosystem/tooling/sentry
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/tooling/sentry/\#quickstart)
 
-Add error reporting to an existing Flue project with the [Sentry](https://sentry.io/) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+# Sentry
+
+
+Last updated Jun 20, 2026 <a href="/docs/ecosystem/tooling/sentry/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
+
+## Quickstart
+
+Add error reporting to an existing Flue project with the [Sentry](https://sentry.io) blueprint. Run the following command in your terminal or coding agent of choice:
+
+``` astro-code
 flue add tooling sentry
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/tooling/sentry/\#overview)
+## Overview
 
 The Sentry blueprint creates a source-root `sentry.ts` and imports it once from `app.ts`. On Node.js, the core of that generated bridge looks like this:
 
-```
+``` astro-code
 import { observe } from '@flue/runtime';
 import * as Sentry from '@sentry/node';
 
@@ -21,6 +29,7 @@ Sentry.init({
   enabled: Boolean(process.env.SENTRY_DSN),
   environment: process.env.SENTRY_ENVIRONMENT ?? process.env.NODE_ENV,
   release: process.env.SENTRY_RELEASE,
+  attachStacktrace: true,
   tracesSampleRate: 0,
 });
 
@@ -45,10 +54,10 @@ function toError(value: unknown): Error {
 
 On Cloudflare, the generated `sentry.ts` contains the same observer bridge without calling `Sentry.init()`. Instead, the blueprint adds a module-local `cloudflare` extension to every discovered agent and workflow. The extension wraps the final generated Durable Object class with `instrumentDurableObjectWithSentry(...)`, while leaving the outer Worker uninstrumented.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/tooling/sentry/\#configure)
+## Configure
 
 | Variable | Purpose |
-| --- | --- |
+|----|----|
 | `SENTRY_DSN` | **Required for event delivery** — Identifies the Sentry project and permits event submission. |
 | `SENTRY_ENVIRONMENT` | **Optional** — Identifies the deployment environment in Sentry. |
 | `SENTRY_RELEASE` | **Optional** — Associates events with a deployed release. |
@@ -57,18 +66,18 @@ Only `SENTRY_DSN` is needed to deliver events. A Sentry DSN permits event submis
 
 The blueprint installs `@sentry/node` or `@sentry/cloudflare`, initializes the SDK at the appropriate runtime boundary, and adds an `observe(...)` bridge for workflow failures and explicit `ctx.log.error(...)` calls. It does not enable traces, AI metrics, or model-content export by default.
 
-See [Observability](https://flueframework.com/docs/guide/observability/#choose-an-observability-provider) to compare Sentry with OpenTelemetry and Braintrust.
+See [Observability](/docs/guide/observability/#choose-an-observability-provider) to compare Sentry with OpenTelemetry and Braintrust.
 
 The integration uses different SDKs by target:
 
 | Target | Package | Initialization |
-| --- | --- | --- |
+|----|----|----|
 | Node.js | `@sentry/node` | Module-scoped `Sentry.init(...)` in application source |
 | Cloudflare | `@sentry/cloudflare` | `instrumentDurableObjectWithSentry(...)` around each generated agent and workflow Durable Object |
 
 Do not use `@sentry/node` on Cloudflare through `nodejs_compat`.
 
-## Choose what to report [\#](https://flueframework.com/docs/ecosystem/tooling/sentry/\#choose-what-to-report)
+## Choose what to report
 
 The generated bridge reports:
 
@@ -76,28 +85,31 @@ The generated bridge reports:
 - `ctx.log.error(...)` as an exception when the log has an `error` attribute;
 - other error logs as error-level Sentry messages.
 
-Captures include relevant `flue.*` correlation tags. Workflow failures include `flue.run.id`, which can be inspected with `flue logs <runId>`. Persistent-agent captures use instance, session, operation, submission, and optional dispatch correlation instead. See [Observability](https://flueframework.com/docs/guide/observability/) for Flue’s identity and observer model.
+Captures include relevant `flue.*` correlation tags. Workflow failures include `flue.run.id`, which can be inspected with SDK `client.runs` or raw `/runs` APIs when the workflow exposes its run resources. Persistent-agent captures use instance, session, operation, submission, and optional dispatch correlation instead. See [Observability](/docs/guide/observability/) for Flue’s identity and observer model.
 
 The bridge intentionally skips failed operations and tools because those failures may be recovered and later duplicated by a fatal workflow report. It also avoids arbitrary log attributes, prompts, responses, tool arguments, and complete event payloads. Make an explicit data-handling decision before expanding that policy.
 
-## Target behavior [\#](https://flueframework.com/docs/ecosystem/tooling/sentry/\#target-behavior)
+## Target behavior
 
 On Node.js, module-scoped initialization is sufficient for the bridge’s explicit captures. Complete Sentry HTTP, database, or tracing auto-instrumentation requires Sentry’s preload setup before application imports and should be verified against the built Flue server.
 
 On Cloudflare, Flue applies a module-local `wrap` extension to the final generated Durable Object class for every instrumented agent and workflow. This preserves Flue’s routing and durability behavior while allowing Sentry to initialize from the current binding environment. The wrapper does not cover the outer Worker or an authored Hono application; add HTTP middleware separately when request instrumentation is required.
 
-## Verify [\#](https://flueframework.com/docs/ecosystem/tooling/sentry/\#verify)
+## Verify
 
 Trigger one failed workflow and one explicit error log against a non-production Sentry project. Confirm the expected `flue.*` correlation fields. On Cloudflare, exercise a wrapped agent or workflow under workerd, and verify that the application still starts without a configured DSN.
 
+
 ## Docs Navigation
 
-Current page: [Sentry](https://flueframework.com/docs/ecosystem/tooling/sentry/)
+Current page: [Sentry](/docs/ecosystem/tooling/sentry/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

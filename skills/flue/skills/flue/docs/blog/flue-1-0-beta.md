@@ -1,49 +1,59 @@
-<!-- Source: https://flueframework.com/blog/flue-1-0-beta -->
+> Source: https://flueframework.com/blog/flue-1-0-beta
+
+
+
+# Flue 1.0 Beta
+
+
+By <a href="https://x.com/FredKSchott" class="text-gray-700 underline decoration-gray-300 underline-offset-2 transition-colors hover:text-gray-950" target="_blank" rel="noopener noreferrer">Fred K. Schott</a> <span aria-hidden="true">·</span> June 16, 2026
+
 
 **Flue 1.0 Beta is available today!** Flue’s core primitives — agents, workflows, sandboxes, channels — have come together into a cohesive story of what Flue is, why it matters, and why Flue is the best OSS framework available today for building autonomous agents and workflows with zero lock-in.
 
 New primitives include:
 
-- **[Agents & Workflows](https://flueframework.com/blog/flue-1-0-beta/#introducing-agents)** — autonomous agents + deterministic AI workflows.
-- **[Channels](https://flueframework.com/blog/flue-1-0-beta/#introducing-channels)** — drop your agents into Slack, GitHub, Linear, and more.
-- **[@flue/react](https://flueframework.com/blog/flue-1-0-beta/#introducing-fluereact)** — frontend UI for your Flue agents and workflows.
-- **[@flue/sdk](https://flueframework.com/blog/flue-1-0-beta/#introducing-fluereact)** — a revamped client for interacting with Flue.
-- **[Durable Agents](https://flueframework.com/blog/flue-1-0-beta/#building-durable-agents-with-flue)** — agents recover from downtime and resume.
-- **[Observability](https://flueframework.com/blog/flue-1-0-beta/#road-to-10)** — support for OpenTelemetry, Braintrust, Sentry, and more.
-- **[New CLI commands](https://flueframework.com/blog/flue-1-0-beta/#road-to-10)** — offline docs for your coding agents and more.
+- **[Agents & Workflows](#introducing-agents)** — autonomous agents + deterministic AI workflows.
+- **[Channels](#introducing-channels)** — drop your agents into Slack, GitHub, Linear, and more.
+- **[@flue/react](#introducing-fluereact)** — frontend UI for your Flue agents and workflows.
+- **[@flue/sdk](#introducing-fluereact)** — a revamped client for interacting with Flue.
+- **[Durable Agents](#building-durable-agents-with-flue)** — agents recover from downtime and resume.
+- **[Observability](#road-to-10)** — support for OpenTelemetry, Braintrust, Sentry, and more.
+- **[New CLI commands](#road-to-10)** — offline docs for your coding agents and more.
 
 **ICYMI: Flue is a TypeScript framework for building the next generation of agents.** Connect any LLM, build your agent, and deploy it anywhere. It’s all backed by a best-in-class DX, designed by the creators of [Astro](https://astro.build/).
 
 Try out Flue today. Pass along the prompt below to your coding agent to have it help scaffold your first Flue project for you:
 
-Copy Prompt
 
-“Read https://flueframework.com/start.md then help create my first agent...”
+Read our [Getting Started](/docs/getting-started/quickstart/) guide for full details.
 
-Read our [Getting Started](https://flueframework.com/docs/getting-started/quickstart/) guide for full details.
+*Update: `flue run` can execute either an agent or workflow on Node.js or Cloudflare. The experimental interactive console now ships separately as `@flue/dev-console`.*
 
-## Introducing: Agents [\#](https://flueframework.com/blog/flue-1-0-beta/\#introducing-agents)
+## Introducing: Agents
 
-Flue originally launched with a simple programmable TypeScript harness, built on top of [Pi](https://pi.dev/). Flue’s deterministic approach to agent orchestration turned out to be great for background work — structured automations we now call [Workflows](https://flueframework.com/docs/guide/workflows/). Workflows are where your trusted code drives the model from start to finish:
+Flue originally launched with a simple programmable TypeScript harness, built on top of [Pi](https://pi.dev/). Flue’s deterministic approach to agent orchestration turned out to be great for background work — structured automations we now call [Workflows](/docs/guide/workflows/). Workflows are where your trusted code drives the model from start to finish:
 
-```
+``` astro-code
 // src/workflows/summarize.ts
 // HTTP - POST /workflows/summarize
-// CLI  - flue run summarize --payload='{"text": "Lorem ipsum..."}'
+// CLI  - flue run summarize --input='{"text": "Lorem ipsum..."}'
 
-const writer = createAgent(() => ({ model: 'anthropic/claude-sonnet-4-6' }));
+const writer = defineAgent(() => ({ model: 'anthropic/claude-sonnet-4-6' }));
 
-export async function run({ init, payload }: FlueContext) {
-	const harness = await init(writer);
-	const session = await harness.session();
-	const response = await session.prompt(`Summarize: ${payload.text}`);
-	return { summary: response.text };
-}
+export default defineWorkflow({
+ agent: writer,
+ input: v.object({ text: v.string() }),
+ async run({ harness, input }) {
+     const session = await harness.session();
+     const response = await session.prompt(`Summarize: ${input.text}`);
+     return { summary: response.text };
+ },
+});
 ```
 
-We launched Workflows back in May. But what people wanted to build with Flue was more ambitious: fully autonomous agents. Workflows gave you greater control over exact behavior and data access, but those limits came at a cost. So today we’re introducing an [Agent](https://flueframework.com/docs/guide/building-agents/) primitive for building fully stateful, autonomous agents with Flue:
+We launched Workflows back in May. But what people wanted to build with Flue was more ambitious: fully autonomous agents. Workflows gave you greater control over exact behavior and data access, but those limits came at a cost. So today we’re introducing an [Agent](/docs/guide/building-agents/) primitive for building fully stateful, autonomous agents with Flue:
 
-```
+``` astro-code
 // src/agents/triage.ts
 // HTTP - POST /agents/triage/:id
 // CLI  - flue connect triage
@@ -52,16 +62,16 @@ We launched Workflows back in May. But what people wanted to build with Flue was
 export const route = async (_c, next) => next();
 
 // Compose your agent with the context it needs to be successful.
-export default createAgent(() => ({
-	model: 'anthropic/claude-sonnet-4-6',
-	tools: [...githubTools],
-	skills: [triage, verify],
-	sandbox: local(),
-	instructions,
+export default defineAgent(() => ({
+ model: 'anthropic/claude-sonnet-4-6',
+ tools: [...githubTools],
+ skills: [triage, verify],
+ sandbox: local(),
+ instructions,
 }));
 ```
 
-Instead of writing an exact workflow yourself, Flue agents only need _context_. Define the context — model, tools, skills, sandbox, instructions, subagents — and then watch your agent solve whatever task you give it, autonomously.
+Instead of writing an exact workflow yourself, Flue agents only need *context*. Define the context — model, tools, skills, sandbox, instructions, subagents — and then watch your agent solve whatever task you give it, autonomously.
 
 Agents and workflows are two sides of the same coin. Both share a common foundational core but serve different needs:
 
@@ -70,45 +80,48 @@ Agents and workflows are two sides of the same coin. Both share a common foundat
 
 Now you can mix and match both primitives to build fully autonomous loops within your repo, company, and hosted products.
 
-## Introducing: Channels [\#](https://flueframework.com/blog/flue-1-0-beta/\#introducing-channels)
+## Introducing: Channels
 
-[Channels](https://flueframework.com/docs/guide/channels/) connect your agents to external sources like Slack, GitHub, Linear, and more. A channel handles the incoming events and verification boilerplate so that you don’t have to.
+[Channels](/docs/guide/channels/) connect your agents to external sources like Slack, GitHub, Linear, and more. A channel handles the incoming events and verification boilerplate so that you don’t have to.
 
 A channel lives in the `channels/` directory. Packages like `@flue/slack` and `@flue/stripe` come preconfigured to help you connect to these platforms, but you are also able to build your own custom channels if needed.
 
 Here’s an agent hooked up to answer Slack mentions. The channel verifies the event, and then dispatches the request to a new instance of the `assistant` agent:
 
-```
+``` astro-code
 // src/channels/slack.ts
 import { dispatch } from '@flue/runtime';
 import { createSlackChannel } from '@flue/slack';
 import assistant from '../agents/assistant.ts';
 
 export const channel = createSlackChannel({
-	signingSecret: process.env.SLACK_SIGNING_SECRET!,
-	async events({ payload }) {
-		const event = payload.event;
-		await dispatch(assistant, {
-			id: event.channel,
-			input: { type: 'slack.mention', text: event.text },
-		});
-	},
+ signingSecret: process.env.SLACK_SIGNING_SECRET!,
+ async events({ payload }) {
+     const event = payload.event;
+     await dispatch(assistant, {
+         id: event.channel,
+         input: { type: 'slack.mention', text: event.text },
+     });
+ },
 });
 ```
 
 The same pattern works across Flue’s growing set of first-party channels, so your agents can meet users wherever work already happens.
 
-The Flue Ecosystem [\[Browse\]](https://flueframework.com/docs/ecosystem/)
 
-[![](https://svgl.app/library/discord.svg)](https://flueframework.com/docs/ecosystem/channels/discord/ "Discord")[![](https://svgl.app/library/github_light.svg)](https://flueframework.com/docs/ecosystem/channels/github/ "GitHub")[![](https://svgl.app/library/google-chat.svg)](https://flueframework.com/docs/ecosystem/channels/google-chat/ "Google Chat")[![](https://svgl.app/library/linear.svg)](https://flueframework.com/docs/ecosystem/channels/linear/ "Linear")[![](https://svgl.app/library/microsoft-teams.svg)](https://flueframework.com/docs/ecosystem/channels/teams/ "Microsoft Teams")[![](https://svgl.app/library/notion.svg)](https://flueframework.com/docs/ecosystem/channels/notion/ "Notion")[![](https://svgl.app/library/resend-icon-white.svg)](https://flueframework.com/docs/ecosystem/channels/resend/ "Resend")[![](https://svgl.app/library/salesforce.svg)](https://flueframework.com/docs/ecosystem/channels/salesforce-marketing-cloud/ "Salesforce")[![](https://svgl.app/library/shopify.svg)](https://flueframework.com/docs/ecosystem/channels/shopify/ "Shopify")[![](https://svgl.app/library/slack.svg)](https://flueframework.com/docs/ecosystem/channels/slack/ "Slack")[![](https://svgl.app/library/stripe.svg)](https://flueframework.com/docs/ecosystem/channels/stripe/ "Stripe")[![](https://svgl.app/library/telegram.svg)](https://flueframework.com/docs/ecosystem/channels/telegram/ "Telegram")[![](https://svgl.app/library/twilio.svg)](https://flueframework.com/docs/ecosystem/channels/twilio/ "Twilio")[![](https://svgl.app/library/whatsapp-icon.svg)](https://flueframework.com/docs/ecosystem/channels/whatsapp/ "WhatsApp")
+The Flue Ecosystem <a href="/docs/ecosystem/" class="channel-ribbon-browse transition-colors">[Browse]</a>
 
-## Building an AI-First Flue Ecosystem [\#](https://flueframework.com/blog/flue-1-0-beta/\#building-an-ai-first-flue-ecosystem)
+
+<a href="/docs/ecosystem/channels/discord/" class="group block w-full max-w-[64px]" aria-label="Discord" title="Discord"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #5865f2"> <img src="https://svgl.app/library/discord.svg" class="object-contain h-[61%] w-[61%] brightness-0 invert" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/github/" class="group block w-full max-w-[64px]" aria-label="GitHub" title="GitHub"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #181717"> <img src="https://svgl.app/library/github_light.svg" class="object-contain h-[61%] w-[61%] brightness-0 invert" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/google-chat/" class="group block w-full max-w-[64px]" aria-label="Google Chat" title="Google Chat"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #ffffff"> <img src="https://svgl.app/library/google-chat.svg" class="object-contain h-[61%] w-[61%]" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/linear/" class="group block w-full max-w-[64px]" aria-label="Linear" title="Linear"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #181717"> <img src="https://svgl.app/library/linear.svg" class="object-contain h-[61%] w-[61%] brightness-0 invert" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/teams/" class="group block w-full max-w-[64px]" aria-label="Microsoft Teams" title="Microsoft Teams"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #ffffff"> <img src="https://svgl.app/library/microsoft-teams.svg" class="object-contain h-[61%] w-[61%]" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/notion/" class="group block w-full max-w-[64px]" aria-label="Notion" title="Notion"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #ffffff"> <img src="https://svgl.app/library/notion.svg" class="object-contain h-[61%] w-[61%]" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/resend/" class="group block w-full max-w-[64px]" aria-label="Resend" title="Resend"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #181717"> <img src="https://svgl.app/library/resend-icon-white.svg" class="object-contain h-[61%] w-[61%]" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/salesforce-marketing-cloud/" class="group block w-full max-w-[64px]" aria-label="Salesforce" title="Salesforce"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #ffffff"> <img src="https://svgl.app/library/salesforce.svg" class="object-contain h-[61%] w-[61%]" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/shopify/" class="group block w-full max-w-[64px]" aria-label="Shopify" title="Shopify"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #ffffff"> <img src="https://svgl.app/library/shopify.svg" class="object-contain h-[61%] w-[61%]" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/slack/" class="group block w-full max-w-[64px]" aria-label="Slack" title="Slack"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #ffffff"> <img src="https://svgl.app/library/slack.svg" class="object-contain h-[61%] w-[61%]" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/stripe/" class="group block w-full max-w-[64px]" aria-label="Stripe" title="Stripe"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #635bff"> <img src="https://svgl.app/library/stripe.svg" class="object-contain h-[61%] w-[61%] brightness-0 invert" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/telegram/" class="group block w-full max-w-[64px]" aria-label="Telegram" title="Telegram"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #ffffff"> <img src="https://svgl.app/library/telegram.svg" class="object-contain h-[61%] w-[61%]" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/twilio/" class="group block w-full max-w-[64px] hidden sm:block" aria-label="Twilio" title="Twilio"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #f22f46"> <img src="https://svgl.app/library/twilio.svg" class="object-contain h-[61%] w-[61%] brightness-0 invert" loading="lazy" /> </span></a> <a href="/docs/ecosystem/channels/whatsapp/" class="group block w-full max-w-[64px] hidden sm:block" aria-label="WhatsApp" title="WhatsApp"><span class="grid aspect-square place-items-center overflow-hidden rounded-[22%] border border-gray-950/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_1px_2px_rgba(17,24,39,0.12),0_4px_10px_rgba(17,24,39,0.1)] transition duration-200 group-hover:scale-105 group-hover:border-blue-600/60" style="background: #25d366"> <img src="https://svgl.app/library/whatsapp-icon.svg" class="object-contain h-[61%] w-[61%] brightness-0 invert" loading="lazy" /> </span></a>
+
+
+## Building an AI-First Flue Ecosystem
 
 Until recently, extending a framework like Flue required third-party packages, multi-step guides, and rigid codemods. These tools could automate a few predetermined changes, but the difficult work still fell to you: understanding the instructions, adapting them to your project, and finishing everything the installer could not.
 
 Coding agents changed everything, so we designed Flue to take advantage. `flue add` gives your agent a Markdown blueprint with the context and instructions needed to complete an integration end-to-end. Your agent can understand the goal, work within your actual codebase, and make the project-specific decisions that a traditional installer cannot.
 
-```
+``` astro-code
 flue add channel slack
 flue add channel linear
 flue add sandbox daytona
@@ -120,11 +133,11 @@ Choose what you need, then let your coding agent connect it intelligently to the
 
 It’s like [shadcn](https://ui.shadcn.com/), for your agents.
 
-## Introducing: @flue/react [\#](https://flueframework.com/blog/flue-1-0-beta/\#introducing-fluereact)
+## Introducing: @flue/react
 
 `@flue/react` makes it easy to build frontend experiences around your agents. The `useFlueAgent()` and `useFlueWorkflow()` hooks stream live data straight into your React app, with no realtime plumbing required to write yourself.
 
-```
+``` astro-code
 import { createFlueClient } from '@flue/sdk';
 import { FlueProvider, useFlueAgent } from '@flue/react';
 
@@ -133,11 +146,11 @@ import { FlueProvider, useFlueAgent } from '@flue/react';
 const client = createFlueClient({ baseUrl: '/api' });
 
 function Chat() {
-	const { messages, status, sendMessage } = useFlueAgent({
-		name: 'triage',
-		id: 'ticket-8472',
-	});
-	// ...
+ const { messages, status, sendMessage } = useFlueAgent({
+     name: 'triage',
+     id: 'ticket-8472',
+ });
+ // ...
 }
 ```
 
@@ -145,11 +158,11 @@ Flue 1.0 Beta also comes with a revamped `@flue/sdk` to talk to deployed Flue ag
 
 React was our first UI library integration, but it won’t be our last. Vue and Svelte adapters are already prototyped and coming soon.
 
-## Building Durable Agents with Flue [\#](https://flueframework.com/blog/flue-1-0-beta/\#building-durable-agents-with-flue)
+## Building Durable Agents with Flue
 
 Building a demo agent is easy. Building for production is not. Servers restart, providers time out, and eventually you’ll have to handle tool call interrupts and data loss. A durable agent is an agent that can handle all of this and recover, without losing history or making things worse.
 
-To deliver durability, we decided to lean on a foundation of battle-tested software. Flue is powered by [Vite](https://vite.dev/) for the build, [Pi](https://pi.dev/) for the harness, and [Durable Streams](https://durablestreams.com/) for the proven event transport protocol that every Flue agent speaks.
+To deliver durability, we decided to lean on a foundation of battle-tested software. Flue is powered by [Vite](https://vite.dev) for the build, [Pi](https://pi.dev) for the harness, and [Durable Streams](https://durablestreams.com/) for the proven event transport protocol that every Flue agent speaks.
 
 Underneath it all, Flue borrows a hard-won lesson from databases and distributed systems: the source of truth is the log. Durable Streams give us a guaranteed append-only record of everything an agent sees: every human prompt, model response, and tool result is recorded to a durable, replayable stream.
 
@@ -157,7 +170,7 @@ That’s the secret. When a process dies, another can pick up the log and contin
 
 Today, Flue agents scale as needed on Cloudflare. When building for Node.js, Flue still runs on a single node, but we plan to support multi-node (horizontally scaled) deployments before the stable 1.0 release.
 
-## Road to 1.0 [\#](https://flueframework.com/blog/flue-1-0-beta/\#road-to-10)
+## Road to 1.0
 
 We landed much, much more in 1.0 Beta than we could cover here: expanded observability, new database adapters (MySQL, Redis, MongoDB, Supabase), image inputs for agents, npm-importable skills, and new CLI commands like offline docs your coding agent can search. The full list is in the [Changelog](https://github.com/withastro/flue/blob/main/CHANGELOG.md).
 
@@ -167,20 +180,18 @@ Flue began as the engine for AI workflows inside the Astro repo. It grew into so
 
 The best way to understand Flue is to build with it. Hand the prompt below to your coding agent to scaffold your first project:
 
-Copy Prompt
-
-“Read https://flueframework.com/start.md then help create my first agent...”
 
 Prefer to set things up yourself? Install the packages and initialize a project:
 
-```
+``` astro-code
 npm install @flue/runtime
 npm install -D @flue/cli
 npx flue init
 ```
 
-Read the full [Quickstart](https://flueframework.com/docs/getting-started/quickstart/) for more details.
+Read the full [Quickstart](/docs/getting-started/quickstart/) for more details.
 
 **Want to help support the project?** Star us on [GitHub](https://github.com/withastro/flue), it’s the easiest way to show your support and help us grow!
 
 **Want to follow along?** Follow [@FredKSchott](https://x.com/FredKSchott) for more tips and dev updates.
+

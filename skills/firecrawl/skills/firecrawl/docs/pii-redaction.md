@@ -18,7 +18,10 @@ Set `redactPII: true` on a scrape request. Firecrawl redacts the generated markd
   ```python Python
   from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR_API_KEY")
+  firecrawl = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR_API_KEY",
+  )
 
   doc = firecrawl.scrape(
       "https://example.com/contact",
@@ -31,7 +34,10 @@ Set `redactPII: true` on a scrape request. Firecrawl redacts the generated markd
   ```javascript JavaScript
   import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+  const firecrawl = new Firecrawl({
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR_API_KEY",
+  });
 
   const doc = await firecrawl.scrape('https://example.com/contact', {
     redactPII: true,
@@ -41,9 +47,9 @@ Set `redactPII: true` on a scrape request. Firecrawl redacts the generated markd
   ```
 
   ```bash cURL
+  # No API key needed to get started — add -H "Authorization: Bearer fc-YOUR_API_KEY" for higher rate limits:
   curl -X POST https://api.firecrawl.dev/v2/scrape \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer fc-YOUR_API_KEY' \
     -d '{
       "url": "https://example.com/contact",
       "redactPII": true

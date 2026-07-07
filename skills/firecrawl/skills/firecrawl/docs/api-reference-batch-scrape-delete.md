@@ -11,7 +11,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json DELETE /batch/scrape/{id}
+````yaml api-reference/v2-openapi.json DELETE /batch/scrape/{id}
 openapi: 3.0.0
 info:
   title: Firecrawl API

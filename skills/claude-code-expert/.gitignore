@@ -1,2 +1,3 @@
 # Sync cache (temporary comparison files)
 .cache/
+cache/

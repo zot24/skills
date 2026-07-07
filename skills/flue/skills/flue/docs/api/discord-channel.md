@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/discord-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/discord`.
 
 ## `createDiscordChannel()` [\#](https://flueframework.com/docs/api/discord-channel/\#creatediscordchannel)

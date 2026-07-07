@@ -11,7 +11,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /batch/scrape/{id}
+````yaml api-reference/v2-openapi.json GET /batch/scrape/{id}
 openapi: 3.0.0
 info:
   title: Firecrawl API
@@ -217,6 +217,18 @@ components:
                   statusCode:
                     type: integer
                     description: The status code of the page
+                  numPages:
+                    type: integer
+                    description: >-
+                      For PDF inputs, the number of pages parsed (capped by the
+                      parsers maxPages option).
+                  totalPages:
+                    type: integer
+                    description: >-
+                      For PDF inputs, the document's true page count before any
+                      maxPages capping. Omitted when it cannot be determined; a
+                      totalPages greater than numPages indicates the result was
+                      truncated.
                   error:
                     type: string
                     nullable: true

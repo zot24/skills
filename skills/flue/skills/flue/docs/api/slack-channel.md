@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/slack-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/slack`.
 
 ## `createSlackChannel()` [\#](https://flueframework.com/docs/api/slack-channel/\#createslackchannel)

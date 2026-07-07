@@ -107,29 +107,29 @@ This enables control of:
 
 ## Global options<a href="#global-options" aria-label="Link to this section">#</a>
 
-| Option                    | Description                                                                   |
-|---------------------------|-------------------------------------------------------------------------------|
-| `--session <name>`        | Use isolated session                                                          |
-| `--profile <path>`        | Persistent browser profile directory                                          |
-| `-p <provider>`           | Cloud browser provider (`browserbase`, `browseruse`, `kernel`, `browserless`) |
-| `--headers <json>`        | HTTP headers scoped to origin                                                 |
-| `--executable-path`       | Custom browser executable                                                     |
-| `--args <args>`           | Browser launch args (comma-separated)                                         |
-| `--user-agent <ua>`       | Custom User-Agent string                                                      |
-| `--proxy <url>`           | Proxy server URL                                                              |
-| `--proxy-bypass <hosts>`  | Hosts to bypass proxy                                                         |
-| `--json`                  | JSON output for scripts                                                       |
-| `--name, -n`              | Locator name filter                                                           |
-| `--exact`                 | Exact text match                                                              |
-| `--headed`                | Show browser window                                                           |
-| `--cdp <port|url>`        | CDP connection (port or WebSocket URL)                                        |
-| `--auto-connect`          | Auto-discover and connect to running Chrome                                   |
-| `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`)                    |
-| `--debug`                 | Debug output                                                                  |
+| Option | Description |
+|----|----|
+| `--session <name>` | Use isolated session |
+| `--profile <path>` | Persistent browser profile directory |
+| `-p <provider>` | Browser provider (`browserbase`, `browseruse`, `kernel`, `browserless`, `agentcore`, or a configured `browser.provider` plugin) |
+| `--headers <json>` | HTTP headers scoped to origin |
+| `--executable-path` | Custom browser executable |
+| `--args <args>` | Browser launch args (comma-separated) |
+| `--user-agent <ua>` | Custom User-Agent string |
+| `--proxy <url>` | Proxy server URL |
+| `--proxy-bypass <hosts>` | Hosts to bypass proxy |
+| `--json` | JSON output for scripts |
+| `--name, -n` | Locator name filter |
+| `--exact` | Exact text match |
+| `--headed` | Show browser window |
+| `--cdp <port|url>` | CDP connection (port or WebSocket URL) |
+| `--auto-connect` | Auto-discover and connect to running Chrome |
+| `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`) |
+| `--debug` | Debug output |
 
 ## Cloud providers<a href="#cloud-providers" aria-label="Link to this section">#</a>
 
-Use the `-p` flag to connect to a cloud browser provider instead of launching a local browser:
+Use the `-p` flag to connect to a cloud browser provider or configured `browser.provider` plugin instead of launching a local browser:
 
 
 ``` shiki
@@ -137,7 +137,7 @@ agent-browser -p browserbase open https://example.com
 ```
 
 
-See the [Providers](/providers/browser-use) section for setup and configuration of each supported provider: [Browser Use](/providers/browser-use), [Browserbase](/providers/browserbase), [Browserless](/providers/browserless), and [Kernel](/providers/kernel).
+See the [Providers](/providers/browser-use) section for setup and configuration of each built-in provider: [Browser Use](/providers/browser-use), [Browserbase](/providers/browserbase), [Browserless](/providers/browserless), [Kernel](/providers/kernel), and [AgentCore](/providers/agentcore).
 
 
 Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>

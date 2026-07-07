@@ -6,191 +6,49 @@
 
 # Monitoring
 
-> Schedule recurring scrapes and crawls, detect content changes, and receive webhook or email notifications
+> Schedule recurring checks, detect changes, and get notified by webhook or email
 
-Firecrawl monitoring detects when content on a website changes and get notified by webhook or email. It runs recurring scrapes or crawls and compare each result against the last retained snapshot. Use monitors to track product pages, docs, blogs, changelogs, competitor sites, or any page where changes matter.
+Firecrawl monitoring runs recurring checks and notifies you or your agent when something changes or appears. Use `/monitor` to [watch known pages](/features/monitoring-page), [crawl a website on a schedule](/features/monitoring-website), or [run an always-on web search](/features/monitoring-web-scale) for new results that match a goal.
+
+All monitor types share the same workflow: choose one or more targets, set a schedule, add an optional plain-language goal, and receive webhook or email notifications when something matters. This page covers shared configuration. For target-specific setup and examples, go to the [Page](/features/monitoring-page), [Website](/features/monitoring-website), or [Entire web-scale](/features/monitoring-web-scale) monitoring page.
+
+
+    Watch one or more known URLs, diff each scrape against the last snapshot, and alert on meaningful page changes.
+
+
+    Crawl a site on a schedule, detect added, changed, or removed pages, and notify your webhook or inbox.
+
+
+    Run recurring web searches and alert when a new result appears that matches your goal.
+
 
 Each check records page-level results as `same`, `new`, `changed`, `removed`, or `error`. You can receive a webhook as each monitored page finishes, a webhook for every completed check, email summaries when changes or errors happen, or any combination of those notifications.
 
-## Create a monitor
+<div className="firecrawl-cta-box" style={{ opacity: 0.6 }}>
+  <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
+    <Icon icon="sack-dollar" color="#9ca3af" size={22} />
 
-Create a scrape monitor for one or more explicit URLs:
+    <div className="firecrawl-cta-title" style={{ margin: 0, color: "#9ca3af" }}>
+      <span>Expired: Bounty for /monitor feedback</span>
+    </div>
+  </div>
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+  <p className="firecrawl-cta-description">
+    All interviewees eligible for the bounty reward have been contacted. Keep an eye on future bounties within our docs!
+  </p>
+</div>
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+## Targets
 
-  monitor = firecrawl.create_monitor(
-      name="Hacker News AI monitor",
-      schedule={"text": "every 30 minutes", "timezone": "UTC"},
-      goal=(
-          "Alert when a new Hacker News story related to AI enters the top 10. "
-          "Ignore changes to stories that are not about AI. "
-          "Do not alert on changes outside the top 10."
-      ),
-      targets=[
-          {
-              "type": "scrape",
-              "urls": ["https://news.ycombinator.com"],
-          }
-      ],
-      notification={
-          "email": {
-              "enabled": True,
-              "recipients": ["alerts@example.com"],
-              "includeDiffs": True,
-          }
-      },
-  )
+Every monitor has one or more **targets**. The target type determines what each check does:
 
-  print(monitor.id)
-  ```
+| Target   | What it watches                  | Setup                                                         |
+| -------- | -------------------------------- | ------------------------------------------------------------- |
+| `scrape` | Known URLs you name              | [Page monitoring](/features/monitoring-page)                  |
+| `crawl`  | Every page discovered by a crawl | [Website monitoring](/features/monitoring-website)            |
+| `search` | New results across the whole web | [Entire web-scale monitoring](/features/monitoring-web-scale) |
 
-  ```js Node
-  import Firecrawl from "@mendable/firecrawl-js";
-
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
-
-  const monitor = await firecrawl.createMonitor({
-    name: "Hacker News AI monitor",
-    schedule: { text: "every 30 minutes", timezone: "UTC" },
-    goal:
-      "Alert when a new Hacker News story related to AI enters the top 10. Ignore changes to stories that are not about AI. Do not alert on changes outside the top 10.",
-    notification: {
-      email: {
-        enabled: true,
-        recipients: ["alerts@example.com"],
-        includeDiffs: true,
-      },
-    },
-    targets: [
-      {
-        type: "scrape",
-        urls: ["https://news.ycombinator.com"],
-      },
-    ],
-  });
-
-  console.log(monitor.id);
-  ```
-
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/monitor" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "name": "Hacker News AI monitor",
-      "schedule": {
-        "text": "every 30 minutes",
-        "timezone": "UTC"
-      },
-      "goal": "Alert when a new Hacker News story related to AI enters the top 10. Ignore changes to stories that are not about AI. Do not alert on changes outside the top 10.",
-      "notification": {
-        "email": {
-          "enabled": true,
-          "recipients": ["alerts@example.com"],
-          "includeDiffs": true
-        }
-      },
-      "targets": [
-        {
-          "type": "scrape",
-          "urls": ["https://news.ycombinator.com"]
-        }
-      ]
-    }'
-  ```
-</CodeGroup>
-
-Create a crawl monitor to diff every page discovered by a crawl on each check:
-
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
-
-  monitor = firecrawl.create_monitor(
-      name="Docs monitor",
-      schedule={"cron": "7-59/15 * * * *", "timezone": "UTC"},
-      goal="Notify me when docs pages add, remove, or materially change API behavior",
-      targets=[
-          {
-              "type": "crawl",
-              "url": "https://example.com/docs",
-              "crawlOptions": {
-                  "limit": 100,
-                  "maxDiscoveryDepth": 3,
-              },
-          }
-      ],
-      webhook={
-          "url": "https://example.com/webhooks/firecrawl",
-          "events": ["monitor.page", "monitor.check.completed"],
-      },
-  )
-
-  print(monitor.id)
-  ```
-
-  ```js Node
-  import Firecrawl from "@mendable/firecrawl-js";
-
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
-
-  const monitor = await firecrawl.createMonitor({
-    name: "Docs monitor",
-    schedule: { cron: "7-59/15 * * * *", timezone: "UTC" },
-    webhook: {
-      url: "https://example.com/webhooks/firecrawl",
-      events: ["monitor.page", "monitor.check.completed"],
-    },
-    goal: "Notify me when docs pages add, remove, or materially change API behavior",
-    targets: [
-      {
-        type: "crawl",
-        url: "https://example.com/docs",
-        crawlOptions: {
-          limit: 100,
-          maxDiscoveryDepth: 3,
-        },
-      },
-    ],
-  });
-
-  console.log(monitor.id);
-  ```
-
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/monitor" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "name": "Docs monitor",
-      "schedule": {
-        "cron": "7-59/15 * * * *",
-        "timezone": "UTC"
-      },
-      "webhook": {
-        "url": "https://example.com/webhooks/firecrawl",
-        "events": ["monitor.page", "monitor.check.completed"]
-      },
-      "goal": "Notify me when docs pages add, remove, or materially change API behavior",
-      "targets": [
-        {
-          "type": "crawl",
-          "url": "https://example.com/docs",
-          "crawlOptions": {
-            "limit": 100,
-            "maxDiscoveryDepth": 3
-          }
-        }
-      ]
-    }'
-  ```
-</CodeGroup>
+Each monitor accepts 1–50 targets, and you can mix target types in a single monitor. `retentionDays` defaults to `30` and can be set up to `365`.
 
 Every create call returns the new monitor with its normalized cron, computed `nextRunAt`, and `estimatedCreditsPerMonth`. When judging is enabled, `estimatedCreditsPerMonth` is an upper-bound estimate because judge credits are only charged for changed pages that are actually judged:
 
@@ -234,20 +92,16 @@ Every create call returns the new monitor with its normalized cron, computed `ne
 }
 ```
 
-You can also create monitors from the Firecrawl CLI:
-
-```bash CLI
-firecrawl monitor create --name "Hacker News AI" \
-  --schedule "every 30 minutes" \
-  --goal "Alert when a new Hacker News story related to AI enters the top 10. Ignore changes to stories that are not about AI. Do not alert on changes outside the top 10." \
-  --page https://news.ycombinator.com
-```
-
 ## Goals and judging
 
 Add a plain-language `goal` when you only want to be alerted for meaningful changes. If `goal` is present and `judgeEnabled` is omitted, Firecrawl enables judging automatically. Judging runs on changed pages and returns a `judgment` with `meaningful`, `confidence`, `reason`, and `meaningfulChanges`.
 
+How the goal is applied depends on the target: [page](/features/monitoring-page) and [website](/features/monitoring-website) monitors judge changed pages, while [entire web-scale monitors](/features/monitoring-web-scale#judging) judge each new search result.
+
 Use `judgeEnabled: false` if you want to store a goal without judging changes yet. The judge only runs when the monitor has both `judgeEnabled` and a non-empty `goal`.
+
+
+  A `goal` is required for `search` targets (entire web-scale monitoring) unless you set `judgeEnabled: false`. It is optional for `scrape` and `crawl` targets.
 
 
   Each check always charges for the underlying scrapes or crawls. If judging is enabled, the judge adds 1 credit for each changed page it validates. Checks with no changed pages do not use judge credits.
@@ -338,49 +192,15 @@ Supported natural language examples:
 * `daily at 5:30 PM`
 * `weekly`
 
-The minimum interval is 15 minutes. API responses always return the normalized cron expression. For text schedules, `timezone` controls when phrases like `daily at 9am` run. Text schedules are spread by monitor ID before they are converted to cron so many monitors do not all run at the same instant.
-
-## Targets
-
-Monitors support two target types:
-
-* `scrape`: Runs one scrape per URL in `urls`.
-* `crawl`: Runs a full crawl for `url` on each check, then diffs all discovered pages.
-
-Each monitor accepts 1-50 targets. `retentionDays` defaults to `30` and can be set up to `365`.
-
-Target scrape options are passed through to the underlying scrape jobs. Monitor-triggered scrapes default `maxAge` to `0`, so each check performs a fresh scrape unless you explicitly set a different `maxAge`.
-
-```json Scrape target
-{
-  "type": "scrape",
-  "urls": ["https://example.com/pricing"],
-  "scrapeOptions": {
-    "formats": ["markdown"],
-    "maxAge": 0
-  }
-}
-```
-
-For crawl targets, use `crawlOptions` for crawl behavior and `scrapeOptions` for each page scrape:
-
-```json Crawl target
-{
-  "type": "crawl",
-  "url": "https://example.com/docs",
-  "crawlOptions": {
-    "limit": 100,
-    "includePaths": ["/docs"]
-  },
-  "scrapeOptions": {
-    "formats": ["markdown"]
-  }
-}
-```
+The minimum interval is 5 minutes. API responses always return the normalized cron expression. For text schedules, `timezone` controls when phrases like `daily at 9am` run. Text schedules are spread by monitor ID before they are converted to cron so many monitors do not all run at the same instant.
 
 ## Change tracking
 
-By default Firecrawl diffs each page's markdown and reports `same`, `changed`, `new`, `removed`, or `error`. When you want to detect changes in **specific structured fields** (price, headline, in-stock flag, the items in a list, etc.), enable JSON-mode change tracking by adding a `changeTracking` format with `modes: ["json"]` to the target's `scrapeOptions`.
+[Page](/features/monitoring-page) and [website](/features/monitoring-website) monitors diff each page's markdown by default and report `same`, `changed`, `new`, `removed`, or `error`. When you want to detect changes in **specific structured fields** (price, headline, in-stock flag, the items in a list, etc.), enable JSON-mode change tracking by adding a `changeTracking` format with `modes: ["json"]` to the target's `scrapeOptions`.
+
+
+  Change tracking applies to `scrape` and `crawl` targets. Entire web-scale (`search`) monitors alert on new results rather than diffing known pages. See [Statuses and dedup](/features/monitoring-web-scale#statuses-and-dedup).
+
 
 ### Markdown mode (default)
 
@@ -567,7 +387,7 @@ Pass a `changeTracking` format with `modes: ["json"]` together with a JSON schem
   ```
 </CodeGroup>
 
-The diff payload looks like this — keys are JSON paths into the extraction, and each value is a `{previous, current}` pair:
+The diff payload uses JSON paths into the extraction as keys. Each value is a `{previous, current}` pair:
 
 ```json JSON-mode diff
 {
@@ -608,7 +428,7 @@ The diff payload looks like this — keys are JSON paths into the extraction, an
 
 ### Mixed mode (JSON + git-diff)
 
-If you want both surfaces — the structured per-field diff **and** the raw markdown unified diff — pass both modes:
+If you want both the structured per-field diff **and** the raw markdown unified diff, pass both modes:
 
 ```json Mixed target (JSON + git-diff)
 {
@@ -1077,14 +897,16 @@ The check detail response includes `estimatedCredits`, `actualCredits`, summary 
 
 ## Pricing
 
-Monitors don't introduce a separate per-monitor fee. Each check pays for the underlying scrape or crawl it performs, plus an optional credit per changed page when meaningful-change judging is enabled.
+Monitors don't introduce a separate per-monitor fee. Each check pays for the underlying scrape, crawl, or search it performs, plus an optional credit per changed page when meaningful-change judging is enabled.
 
-| Component                                                 | Credits                                                       |
-| --------------------------------------------------------- | ------------------------------------------------------------- |
-| Scrape monitor                                            | 1 credit per URL per check                                    |
-| Crawl monitor                                             | 1 credit per discovered page per check                        |
-| Meaningful change enabled                                 | 1 additional credit per changed page that the judge validates |
-| Format add-ons (JSON, PDF, question, enhanced mode, etc.) | Same as standalone [scrape](/features/scrape)                 |
+| Component                                                 | Credits                                                                                            |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Scrape monitor                                            | 1 credit per URL per check                                                                         |
+| Crawl monitor                                             | 1 credit per discovered page per check                                                             |
+| Web monitor                                               | 2 credits per 10 results per check                                                                 |
+| Web monitor judging                                       | 1 credit per result judged, when AI judging is enabled (covers scraping and evaluating the result) |
+| Meaningful change enabled                                 | 1 additional credit per changed page that the judge validates                                      |
+| Format add-ons (JSON, PDF, question, enhanced mode, etc.) | Same as standalone [scrape](/features/scrape)                                                      |
 
 ## API reference
 

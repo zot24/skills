@@ -15,7 +15,7 @@ We've simplified billing so that Extract now uses credits, just like all of the 
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /team/token-usage/historical
+````yaml api-reference/v2-openapi.json GET /team/token-usage/historical
 openapi: 3.0.0
 info:
   title: Firecrawl API

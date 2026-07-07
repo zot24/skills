@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -22,7 +19,7 @@ When you create a profile, it automatically becomes its own command. Create a pr
 ## Quick start<a href="#quick-start" class="hash-link" aria-label="Direct link to Quick start" translate="no" title="Direct link to Quick start">​</a>
 
 
-``` prism-code
+``` bash
 hermes profile create coder       # creates profile + "coder" command alias
 coder setup                       # configure API keys and model
 coder chat                        # start chatting
@@ -40,7 +37,7 @@ Quickest setup: run `hermes setup --portal` inside the new profile to wire up mo
 ### Blank profile<a href="#blank-profile" class="hash-link" aria-label="Direct link to Blank profile" translate="no" title="Direct link to Blank profile">​</a>
 
 
-``` prism-code
+``` bash
 hermes profile create mybot
 ```
 
@@ -50,7 +47,7 @@ Creates a fresh profile with bundled skills seeded. Run `mybot setup` to configu
 If you plan to use this profile as a kanban worker (or want the kanban orchestrator to route work to it), pass `--description "<role>"` at create time so the orchestrator knows what it's good at:
 
 
-``` prism-code
+``` bash
 hermes profile create researcher --description "Reads source code and external docs, writes findings."
 ```
 
@@ -60,7 +57,7 @@ You can also set or auto-generate the description later with `hermes profile des
 ### Clone config only (`--clone`)<a href="#clone-config-only---clone" class="hash-link" aria-label="Direct link to clone-config-only---clone" translate="no" title="Direct link to clone-config-only---clone">​</a>
 
 
-``` prism-code
+``` bash
 hermes profile create work --clone
 ```
 
@@ -70,7 +67,7 @@ Copies your current profile's `config.yaml`, `.env`, `SOUL.md`, and skills into 
 ### Clone everything (`--clone-all`)<a href="#clone-everything---clone-all" class="hash-link" aria-label="Direct link to clone-everything---clone-all" translate="no" title="Direct link to clone-everything---clone-all">​</a>
 
 
-``` prism-code
+``` bash
 hermes profile create backup --clone-all
 ```
 
@@ -80,7 +77,7 @@ Copies **everything** — config, API keys, personality, all memories, skills, c
 ### Clone from a specific profile<a href="#clone-from-a-specific-profile" class="hash-link" aria-label="Direct link to Clone from a specific profile" translate="no" title="Direct link to Clone from a specific profile">​</a>
 
 
-``` prism-code
+``` bash
 hermes profile create work --clone-from coder
 ```
 
@@ -88,7 +85,7 @@ hermes profile create work --clone-from coder
 `--clone-from <source>` selects the source profile directly and implies a config/skills/SOUL clone. Combine it with `--clone-all` when you want a full copy of that source profile:
 
 
-``` prism-code
+``` bash
 hermes profile create work-backup --clone-from coder --clone-all
 ```
 
@@ -103,7 +100,7 @@ When Honcho is enabled, clone operations automatically create a dedicated AI pee
 Every profile automatically gets a command alias at `~/.local/bin/<name>`:
 
 
-``` prism-code
+``` bash
 coder chat                    # chat with the coder agent
 coder setup                   # configure coder's settings
 coder gateway start           # start coder's gateway
@@ -120,7 +117,7 @@ The alias works with every hermes subcommand — it's just `hermes -p <name>` un
 You can also target a profile explicitly with any command:
 
 
-``` prism-code
+``` bash
 hermes -p coder chat
 hermes --profile=coder doctor
 hermes chat -p coder -q "hello"    # works in any position
@@ -130,7 +127,7 @@ hermes chat -p coder -q "hello"    # works in any position
 ### Sticky default (`hermes profile use`)<a href="#sticky-default-hermes-profile-use" class="hash-link" aria-label="Direct link to sticky-default-hermes-profile-use" translate="no" title="Direct link to sticky-default-hermes-profile-use">​</a>
 
 
-``` prism-code
+``` bash
 hermes profile use coder
 hermes chat                   # now targets coder
 hermes tools                  # configures coder's tools
@@ -161,7 +158,7 @@ On the default `local` terminal backend, the agent still has the same filesystem
 If you want a profile to start in a specific project folder, set an explicit absolute `terminal.cwd` in that profile's `config.yaml`:
 
 
-``` prism-code
+``` yaml
 terminal:
   backend: local
   cwd: /absolute/path/to/project
@@ -181,7 +178,7 @@ Also note:
 Each profile runs its own gateway as a separate process with its own bot token:
 
 
-``` prism-code
+``` bash
 coder gateway start           # starts coder's gateway
 assistant gateway start       # starts assistant's gateway (separate process)
 ```
@@ -192,7 +189,7 @@ assistant gateway start       # starts assistant's gateway (separate process)
 Each profile has its own `.env` file. Configure a different Telegram/Discord/Slack bot token in each:
 
 
-``` prism-code
+``` bash
 # Edit coder's tokens
 nano ~/.hermes/profiles/coder/.env
 
@@ -208,7 +205,7 @@ If two profiles accidentally use the same bot token, the second gateway will be 
 ### Persistent services<a href="#persistent-services" class="hash-link" aria-label="Direct link to Persistent services" translate="no" title="Direct link to Persistent services">​</a>
 
 
-``` prism-code
+``` bash
 coder gateway install         # creates hermes-gateway-coder systemd/launchd service
 assistant gateway install     # creates hermes-gateway-assistant service
 ```
@@ -229,7 +226,7 @@ Each profile has its own:
 - **`SOUL.md`** — personality and instructions
 
 
-``` prism-code
+``` bash
 coder config set model.default anthropic/claude-sonnet-4
 echo "You are a focused coding assistant." > ~/.hermes/profiles/coder/SOUL.md
 ```
@@ -238,7 +235,7 @@ echo "You are a focused coding assistant." > ~/.hermes/profiles/coder/SOUL.md
 If you want this profile to work in a specific project by default, also set its own `terminal.cwd`:
 
 
-``` prism-code
+``` bash
 coder config set terminal.cwd /absolute/path/to/project
 ```
 
@@ -254,7 +251,7 @@ Note: "Set as active" on the dashboard's Profiles page is the sticky default for
 `hermes update` pulls code once (shared) and syncs new bundled skills to **all** profiles automatically:
 
 
-``` prism-code
+``` bash
 hermes update
 # → Code updated (12 commits)
 # → Skills synced: default (up to date), coder (+2 new), assistant (+2 new)
@@ -266,7 +263,7 @@ User-modified skills are never overwritten.
 ## Managing profiles<a href="#managing-profiles" class="hash-link" aria-label="Direct link to Managing profiles" translate="no" title="Direct link to Managing profiles">​</a>
 
 
-``` prism-code
+``` bash
 hermes profile list           # show all profiles with status
 hermes profile show coder     # detailed info for one profile
 hermes profile rename coder dev-bot   # rename (updates alias + service)
@@ -278,7 +275,7 @@ hermes profile import coder.tar.gz   # import from archive
 ## Deleting a profile<a href="#deleting-a-profile" class="hash-link" aria-label="Direct link to Deleting a profile" translate="no" title="Direct link to Deleting a profile">​</a>
 
 
-``` prism-code
+``` bash
 hermes profile delete coder
 ```
 
@@ -294,7 +291,7 @@ You cannot delete the default profile (`~/.hermes`). To remove everything, use `
 ## Tab completion<a href="#tab-completion" class="hash-link" aria-label="Direct link to Tab completion" translate="no" title="Direct link to Tab completion">​</a>
 
 
-``` prism-code
+``` bash
 # Bash
 eval "$(hermes completion bash)"
 
@@ -329,7 +326,7 @@ The default profile is simply `~/.hermes` itself. No migration needed — existi
 A profile you built on one machine can be packaged as a **git repository** and installed with one command on another machine — your own workstation, a teammate's laptop, or a community user's environment. The shared package includes the SOUL, config, skills, cron jobs, and MCP connections. Credentials, memories, and sessions stay per-machine.
 
 
-``` prism-code
+``` bash
 # Install a whole agent from a git repo
 hermes profile install github.com/you/research-bot --alias
 

@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/shopify-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/shopify`.
 
 ## Exports [\#](https://flueframework.com/docs/api/shopify-channel/\#exports)

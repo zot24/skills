@@ -2,8 +2,12 @@
 # discover-pages.sh - Discover new Flue docs pages not yet in sync.json
 # Usage: ./discover-pages.sh [--auto-add]
 #
-# Fetches the llms.txt index from flueframework.com and compares against sync.json.
-# Reports any pages not yet tracked. With --auto-add, adds them to sync.json.
+# flueframework.com has no sitemap.xml or llms.txt (both 404 as of 2026-07).
+# Its docs site renders a section-scoped sub-navigation on every page (Guide,
+# Reference, CLI, SDK, Ecosystem), so visiting one representative page per
+# top-level section is enough to enumerate that section's pages without a
+# full site crawl. Reports any pages not yet tracked. With --auto-add, adds
+# them to sync.json.
 # URLs are normalized (trailing slash + optional .md suffix stripped) before comparison,
 # since sync.json tracks canonical HTML URLs.
 
@@ -12,7 +16,20 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MANIFEST="$SCRIPT_DIR/sync.json"
 BASE_URL="https://flueframework.com"
-INDEX_URL="$BASE_URL/llms.txt"
+
+# One representative page per top-level docs section; each renders that
+# section's full sub-navigation.
+HUB_PATHS=(
+    "/docs"
+    "/docs/introduction/why-flue"
+    "/docs/concepts/agents"
+    "/docs/guide/channels"
+    "/docs/api/agent-api"
+    "/docs/sdk/overview"
+    "/docs/cli/overview"
+    "/docs/ecosystem"
+    "/docs/reference/configuration"
+)
 
 AUTO_ADD=false
 [[ "${1:-}" == "--auto-add" ]] && AUTO_ADD=true
@@ -23,21 +40,32 @@ command -v curl >/dev/null || { echo "ERROR: curl is required" >&2; exit 1; }
 # Normalize a URL for comparison: strip trailing slash and a trailing .md
 normalize() { echo "$1" | sed -E 's#\.md$##; s#/$##'; }
 
-echo "Discovering docs pages from: $INDEX_URL"
+echo "Crawling docs section hubs from: $BASE_URL/docs"
 
-RAW_INDEX=$(curl -sSL "$INDEX_URL" 2>/dev/null || true)
+DISCOVERED_URLS=""
+for hub in "${HUB_PATHS[@]}"; do
+    HTML=$(curl -sSL --max-time 15 "${BASE_URL}${hub}" 2>/dev/null || true)
+    if [ -z "$HTML" ]; then
+        echo "  WARNING: could not fetch ${BASE_URL}${hub}"
+        continue
+    fi
 
-DISCOVERED_URLS=$(echo "$RAW_INDEX" | \
-    grep -oE 'https://flueframework\.com/[^)[:space:]]+' | \
-    grep -vE '\.(png|jpg|jpeg|svg|gif|webp|ico|css|js)$' | \
-    sort -u || true)
+    LINKS=$(printf '%s' "$HTML" | grep -oE 'href="/docs/[^"#]*"' | sed 's/href="//;s/"$//' \
+        | grep -vE '\.(css|js|png|jpg|jpeg|svg|gif|webp|ico|md|webmanifest)$' \
+        | sed -E 's#/$##' \
+        | sort -u)
+    DISCOVERED_URLS="${DISCOVERED_URLS}${LINKS}
+"
+done
+
+DISCOVERED_URLS=$(printf '%s\n' "$DISCOVERED_URLS" | grep -v '^$' | sed "s#^#${BASE_URL}#" | sort -u)
 
 if [ -z "$DISCOVERED_URLS" ]; then
-    echo "WARNING: No docs URLs discovered. Site may not expose llms.txt, or structure changed."
+    echo "WARNING: No docs URLs discovered. Site structure may have changed further."
     exit 1
 fi
 
-echo "Found $(echo "$DISCOVERED_URLS" | wc -l | tr -d ' ') candidate URLs in index."
+echo "Found $(echo "$DISCOVERED_URLS" | wc -l | tr -d ' ') candidate URLs across ${#HUB_PATHS[@]} section hubs."
 
 # Normalized set of URLs already tracked
 EXISTING_NORM=$(jq -r '.sources[].url' "$MANIFEST" | while IFS= read -r u; do normalize "$u"; done | sort -u)

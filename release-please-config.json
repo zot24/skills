@@ -13,6 +13,13 @@
     {"type": "chore", "section": "Maintenance", "hidden": true}
   ],
   "packages": {
+    "skills/1password-cli": {
+      "component": "1password-cli",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/adguard": {
       "component": "adguard",
       "extra-files": [
@@ -62,6 +69,13 @@
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
+    "skills/flue": {
+      "component": "flue",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/gh-issue-tracker": {
       "component": "gh-issue-tracker",
       "extra-files": [
@@ -104,6 +118,13 @@
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
+    "skills/portainerctl": {
+      "component": "portainerctl",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/safe-delete": {
       "component": "safe-delete",
       "extra-files": [
@@ -127,6 +148,13 @@
     },
     "skills/umbrel-app": {
       "component": "umbrel-app",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
+    "skills/wealthfolio": {
+      "component": "wealthfolio",
       "extra-files": [
         {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}

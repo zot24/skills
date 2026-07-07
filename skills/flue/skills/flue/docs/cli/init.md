@@ -1,30 +1,38 @@
-<!-- Source: https://flueframework.com/docs/cli/init -->
+> Source: https://flueframework.com/docs/cli/init
 
-## Synopsis [\#](https://flueframework.com/docs/cli/init/\#synopsis)
 
-```
+
+# flue init
+
+
+Last updated May 30, 2026 <a href="/docs/cli/init/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
+
+## Synopsis
+
+``` astro-code
 flue init --target <node|cloudflare> [--root <path>] [--force]
 ```
 
-## Description [\#](https://flueframework.com/docs/cli/init/\#description)
+## Description
 
 `flue init` writes a starter `flue.config.ts`. It does not create agents, workflows, or an application entrypoint.
 
-## Options [\#](https://flueframework.com/docs/cli/init/\#options)
+## Options
 
 | Option | Default | Description |
-| --- | --- | --- |
+|----|----|----|
 | `--target <node|cloudflare>` | Required | Select the target written to `flue.config.ts`. |
 | `--root <path>` | Current working directory | Select the existing directory in which to write `flue.config.ts`. |
 | `--force` | `false` | Write `flue.config.ts` when a `flue.config.*` file already exists. |
 
 Without `--force`, any existing `flue.config.*` file prevents generation. If `--force` writes `flue.config.ts` beside another supported variant, the new `.ts` file takes precedence and the existing file remains on disk.
 
-## Output [\#](https://flueframework.com/docs/cli/init/\#output)
+## Output
 
 The generated `target` value matches `--target`. For `flue init --target node`, the file is:
 
-```
+``` astro-code
 import { defineConfig } from '@flue/cli/config';
 
 export default defineConfig({
@@ -32,23 +40,26 @@ export default defineConfig({
 });
 ```
 
-## Examples [\#](https://flueframework.com/docs/cli/init/\#examples)
+## Examples
 
-```
+``` astro-code
 flue init --target node
 flue init --target cloudflare --root ./apps/assistant
 ```
 
-See [Configuration](https://flueframework.com/docs/reference/configuration/) for the complete `flue.config.ts` surface.
+See [Configuration](/docs/reference/configuration/) for the complete `flue.config.ts` surface.
+
 
 ## Docs Navigation
 
-Current page: [flue init](https://flueframework.com/docs/cli/init/)
+Current page: [flue init](/docs/cli/init/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

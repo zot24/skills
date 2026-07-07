@@ -34,9 +34,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 Create `src/mastra/tools/firecrawl.ts` to expose search and scrape as Mastra tools:
 
 ```typescript
-import { Firecrawl } from "firecrawl";
-import { createTool } from "@mastra/core/tools";
-import { z } from "zod";
+
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY! });
 
@@ -83,8 +81,7 @@ export const firecrawlScrape = createTool({
 Create `src/mastra/agents/web-agent.ts` and give it the Firecrawl tools:
 
 ```typescript
-import { Agent } from "@mastra/core/agent";
-import { firecrawlSearch, firecrawlScrape } from "../tools/firecrawl";
+
 
 export const webAgent = new Agent({
   id: "web-agent",
@@ -101,8 +98,7 @@ export const webAgent = new Agent({
 Register the agent on your Mastra instance in `src/mastra/index.ts`:
 
 ```typescript
-import { Mastra } from "@mastra/core";
-import { webAgent } from "./agents/web-agent";
+
 
 export const mastra = new Mastra({
   agents: { webAgent },

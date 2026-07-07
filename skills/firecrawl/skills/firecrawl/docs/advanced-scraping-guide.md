@@ -73,15 +73,16 @@ The `formats` array controls which output types the scraper returns. Default: `[
 
 **String formats**: pass the name directly (e.g. `"markdown"`).
 
-| Format     | Description                                                                  |
-| ---------- | ---------------------------------------------------------------------------- |
-| `markdown` | Page content converted to clean Markdown.                                    |
-| `html`     | Processed HTML with unnecessary elements removed.                            |
-| `rawHtml`  | Original HTML exactly as returned by the server.                             |
-| `links`    | All links found on the page.                                                 |
-| `images`   | All images found on the page.                                                |
-| `summary`  | An LLM-generated summary of the page content.                                |
-| `branding` | Extracts brand identity (colors, fonts, typography, spacing, UI components). |
+| Format     | Description                                                                                                                       |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `markdown` | Page content converted to clean Markdown.                                                                                         |
+| `html`     | Processed HTML with unnecessary elements removed.                                                                                 |
+| `rawHtml`  | Original HTML exactly as returned by the server.                                                                                  |
+| `links`    | All links found on the page.                                                                                                      |
+| `images`   | All images found on the page.                                                                                                     |
+| `summary`  | An LLM-generated summary of the page content.                                                                                     |
+| `branding` | Extracts brand identity (colors, fonts, typography, spacing, UI components).                                                      |
+| `product`  | Extracts a structured product (title, price, availability, images, variants) from product pages via multi-source structured data. |
 
 **Object formats**: pass an object with `type` and additional options.
 

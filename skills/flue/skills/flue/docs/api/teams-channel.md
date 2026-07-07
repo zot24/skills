@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/teams-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/teams`.
 
 ## `createTeamsChannel()` [\#](https://flueframework.com/docs/api/teams-channel/\#createteamschannel)

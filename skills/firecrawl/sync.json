@@ -202,12 +202,6 @@
       "freshness_days": 14
     },
     {
-      "url": "https://docs.firecrawl.dev/api-reference/endpoint/extract-get.md",
-      "target": "skills/firecrawl/docs/api-reference-extract-get.md",
-      "type": "extract-content",
-      "freshness_days": 14
-    },
-    {
       "url": "https://docs.firecrawl.dev/api-reference/endpoint/extract.md",
       "target": "skills/firecrawl/docs/api-reference-extract.md",
       "type": "extract-content",
@@ -484,13 +478,13 @@
       "freshness_days": 14
     },
     {
-      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/claude-code.md",
+      "url": "https://docs.firecrawl.dev/quickstarts/claude-code.md",
       "target": "skills/firecrawl/docs/developer-guides-claude-code.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/cursor.md",
+      "url": "https://docs.firecrawl.dev/quickstarts/cursor.md",
       "target": "skills/firecrawl/docs/developer-guides-cursor.md",
       "type": "extract-content",
       "freshness_days": 14
@@ -502,7 +496,7 @@
       "freshness_days": 14
     },
     {
-      "url": "https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/windsurf.md",
+      "url": "https://docs.firecrawl.dev/quickstarts/windsurf.md",
       "target": "skills/firecrawl/docs/developer-guides-windsurf.md",
       "type": "extract-content",
       "freshness_days": 14

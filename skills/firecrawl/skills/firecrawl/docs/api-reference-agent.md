@@ -11,7 +11,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json POST /agent
+````yaml api-reference/v2-openapi.json POST /agent
 openapi: 3.0.0
 info:
   title: Firecrawl API

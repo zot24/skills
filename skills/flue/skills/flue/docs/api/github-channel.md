@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/github-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/github`.
 
 ## `createGitHubChannel()` [\#](https://flueframework.com/docs/api/github-channel/\#creategithubchannel)

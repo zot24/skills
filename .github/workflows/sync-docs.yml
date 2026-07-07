@@ -110,41 +110,6 @@ jobs:
               echo "Changes detected for $SKILL"
               CHANGED_SKILLS="$CHANGED_SKILLS $SKILL"
 
-              # Patch-bump version across sync.json, plugin.json, and the matching
-              # marketplace.json entry so Claude Code (and other clients) detect
-              # the update on installed skills/plugins.
-              if [ -f "skills/$SKILL/sync.json" ]; then
-                CURRENT=$(jq -r '.version' "skills/$SKILL/sync.json")
-                IFS='.' read -r major minor patch <<< "$CURRENT"
-                patch=$((patch + 1))
-                NEW_VERSION="$major.$minor.$patch"
-
-                # 1. skills/<skill>/sync.json
-                tmp=$(mktemp)
-                jq --arg v "$NEW_VERSION" '.version = $v' "skills/$SKILL/sync.json" > "$tmp"
-                mv "$tmp" "skills/$SKILL/sync.json"
-
-                # 2. skills/<skill>/.claude-plugin/plugin.json
-                PLUGIN_FILE="skills/$SKILL/.claude-plugin/plugin.json"
-                if [ -f "$PLUGIN_FILE" ]; then
-                  tmp=$(mktemp)
-                  jq --arg v "$NEW_VERSION" '.version = $v' "$PLUGIN_FILE" > "$tmp"
-                  mv "$tmp" "$PLUGIN_FILE"
-                fi
-
-                # 3. .claude-plugin/marketplace.json entry for this skill
-                MARKETPLACE_FILE=".claude-plugin/marketplace.json"
-                if [ -f "$MARKETPLACE_FILE" ]; then
-                  tmp=$(mktemp)
-                  jq --arg name "$SKILL" --arg v "$NEW_VERSION" \
-                    '(.plugins[] | select(.name == $name) | .version) = $v' \
-                    "$MARKETPLACE_FILE" > "$tmp"
-                  mv "$tmp" "$MARKETPLACE_FILE"
-                fi
-
-                echo "Bumped $SKILL version: $CURRENT -> $NEW_VERSION (sync.json, plugin.json, marketplace.json)"
-              fi
-
               # Extract change summary for this skill
               CHANGES=$(echo "$OUTPUT" | grep -E "^\[CHANGE\]" | sed 's/\[CHANGE\] //' | head -5 || echo "Documentation updated")
               ALL_CHANGES="$ALL_CHANGES
@@ -185,39 +150,47 @@ jobs:
 
       - name: Generate job summary
         if: always()
+        env:
+          HAS_CHANGES: ${{ steps.sync.outputs.has_changes }}
+          CHANGED_SKILLS: ${{ steps.sync.outputs.changed_skills }}
+          HAS_FAILURES: ${{ steps.sync.outputs.has_failures }}
+          FAILED_SKILLS: ${{ steps.sync.outputs.failed_skills }}
+          SYNC_REPORTS: ${{ steps.sync.outputs.sync_reports }}
         run: |
           echo "## Sync Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          if [ "${{ steps.sync.outputs.has_changes }}" == "true" ]; then
+          if [ "$HAS_CHANGES" == "true" ]; then
             echo "### Changed Skills" >> $GITHUB_STEP_SUMMARY
-            echo "**${{ steps.sync.outputs.changed_skills }}**" >> $GITHUB_STEP_SUMMARY
+            echo "**$CHANGED_SKILLS**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
           else
             echo "No changes detected." >> $GITHUB_STEP_SUMMARY
           fi
 
-          if [ "${{ steps.sync.outputs.has_failures }}" == "true" ]; then
+          if [ "$HAS_FAILURES" == "true" ]; then
             echo "### ⚠️ Failed Skills" >> $GITHUB_STEP_SUMMARY
-            echo "**${{ steps.sync.outputs.failed_skills }}**" >> $GITHUB_STEP_SUMMARY
+            echo "**$FAILED_SKILLS**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
           fi
 
           echo "### Sync Reports" >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.sync.outputs.sync_reports }}" >> $GITHUB_STEP_SUMMARY
+          printf '%s\n' "$SYNC_REPORTS" >> $GITHUB_STEP_SUMMARY
 
       - name: Update CHANGELOG
         if: steps.sync.outputs.has_changes == 'true' && inputs.dry_run != true
+        env:
+          CHANGED_SKILLS: ${{ steps.sync.outputs.changed_skills }}
+          CHANGES: ${{ steps.sync.outputs.changes }}
         run: |
           DATE=$(date +%Y-%m-%d)
-          CHANGED="${{ steps.sync.outputs.changed_skills }}"
 
           # Create changelog entry
           ENTRY="## [$DATE] Documentation Sync
 
-          **Updated skills:** $CHANGED
+          **Updated skills:** $CHANGED_SKILLS
 
-          ${{ steps.sync.outputs.changes }}
+          $CHANGES
           ---
 
           "
@@ -244,6 +217,10 @@ jobs:
       - name: Create branch and commit
         if: steps.sync.outputs.has_changes == 'true' && inputs.dry_run != true
         id: branch
+        env:
+          CHANGED_SKILLS: ${{ steps.sync.outputs.changed_skills }}
+          EVENT_NAME: ${{ github.event_name }}
+          RUN_ID: ${{ github.run_id }}
         run: |
           BRANCH_NAME="sync/docs-$(date +%Y%m%d-%H%M%S)"
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
@@ -252,10 +229,10 @@ jobs:
           git add skills/ .claude-plugin/marketplace.json CHANGELOG.md
           git commit -m "fix(docs): sync documentation from upstream
 
-          Updated skills: ${{ steps.sync.outputs.changed_skills }}
+          Updated skills: ${CHANGED_SKILLS}
 
-          Triggered by: ${{ github.event_name }}
-          Run ID: ${{ github.run_id }}"
+          Triggered by: ${EVENT_NAME}
+          Run ID: ${RUN_ID}"
 
           git push origin "$BRANCH_NAME"
 
@@ -263,10 +240,19 @@ jobs:
         if: steps.sync.outputs.has_changes == 'true' && inputs.dry_run != true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGED_SKILLS: ${{ steps.sync.outputs.changed_skills }}
+          FAILED_SKILLS: ${{ steps.sync.outputs.failed_skills }}
+          CHANGES: ${{ steps.sync.outputs.changes }}
+          EVENT_NAME: ${{ github.event_name }}
+          RUN_ID: ${{ github.run_id }}
+          SERVER_URL: ${{ github.server_url }}
+          REPOSITORY: ${{ github.repository }}
+          BRANCH_NAME: ${{ steps.branch.outputs.branch }}
         run: |
-          CHANGED="${{ steps.sync.outputs.changed_skills }}"
-          FAILED="${{ steps.sync.outputs.failed_skills }}"
+          CHANGED="$CHANGED_SKILLS"
+          FAILED="$FAILED_SKILLS"
           DATE=$(date +%Y-%m-%d)
+          RUN_URL="${SERVER_URL}/${REPOSITORY}/actions/runs/${RUN_ID}"
 
           # Build failure section if needed
           FAILURE_SECTION=""
@@ -275,35 +261,34 @@ jobs:
 
           Some sources failed to sync for: **$FAILED**
 
-          See the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
+          See the [workflow run](${RUN_URL}) for details.
 
           "
           fi
 
-          gh pr create \
-            --title "fix(docs): sync documentation ($DATE)" \
-            --body "$(cat <<EOF
-          ## Summary
+          PR_BODY="## Summary
 
           Automated documentation sync for skills: **$CHANGED**
 
           ### Changes
 
-          ${{ steps.sync.outputs.changes }}
+          $CHANGES
 
           ${FAILURE_SECTION}### Details
 
-          - **Triggered by**: ${{ github.event_name }}
-          - **Run**: [#${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          - **Triggered by**: ${EVENT_NAME}
+          - **Run**: [#${RUN_ID}](${RUN_URL})
 
           ---
 
-          *This PR was automatically generated by the sync workflow.*
-          EOF
-          )" \
+          *This PR was automatically generated by the sync workflow.*"
+
+          gh pr create \
+            --title "fix(docs): sync documentation ($DATE)" \
+            --body "$PR_BODY" \
             --label "documentation,automated" \
             --base main \
-            --head "${{ steps.branch.outputs.branch }}"
+            --head "$BRANCH_NAME"
 
       - name: Enable auto-merge
         if: steps.sync.outputs.has_changes == 'true' && inputs.dry_run != true
@@ -312,8 +297,9 @@ jobs:
           # (release-please, sync-marketplace). GITHUB_TOKEN-driven pushes
           # are suppressed by GitHub's anti-recursion safeguard.
           GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
+          BRANCH_NAME: ${{ steps.branch.outputs.branch }}
         run: |
-          PR_NUMBER=$(gh pr list --head "${{ steps.branch.outputs.branch }}" --json number --jq '.[0].number')
+          PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '.[0].number')
 
           if [ -n "$PR_NUMBER" ]; then
             gh pr merge "$PR_NUMBER" --auto --squash --delete-branch

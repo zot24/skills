@@ -27,7 +27,7 @@
     {
       "name": "chat-sdk",
       "source": "./skills/chat-sdk",
-      "description": "Expert on Chat SDK - Vercel's open-source template for building production-ready AI chatbots with generative UI, artifacts, and multi-provider support",
+      "description": "Expert on Chat SDK (vercel/chat) - the unified TypeScript SDK for building chat bots and agents across Slack, Teams, Discord, Telegram, WhatsApp, and more",
       "version": "1.1.5"
     },
     {

@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/telegram-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/telegram`.
 
 ## `createTelegramChannel()` [\#](https://flueframework.com/docs/api/telegram-channel/\#createtelegramchannel)

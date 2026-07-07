@@ -10,51 +10,51 @@
       "freshness_days": 14
     },
     {
-      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki",
+      "url": "https://raw.githubusercontent.com/wiki/AdguardTeam/AdGuardHome/Home.md",
       "target": "skills/adguard/docs/getting-started.md",
-      "type": "extract-content",
+      "type": "raw",
       "freshness_days": 30
     },
     {
-      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration",
+      "url": "https://raw.githubusercontent.com/wiki/AdguardTeam/AdGuardHome/Configuration.md",
       "target": "skills/adguard/docs/configuration.md",
-      "type": "extract-content",
+      "type": "raw",
       "freshness_days": 30
     },
     {
-      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/Docker",
+      "url": "https://raw.githubusercontent.com/wiki/AdguardTeam/AdGuardHome/Docker.md",
       "target": "skills/adguard/docs/docker.md",
-      "type": "extract-content",
+      "type": "raw",
       "freshness_days": 30
     },
     {
-      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption",
+      "url": "https://raw.githubusercontent.com/wiki/AdguardTeam/AdGuardHome/Encryption.md",
       "target": "skills/adguard/docs/encryption.md",
-      "type": "extract-content",
+      "type": "raw",
       "freshness_days": 30
     },
     {
-      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/DHCP",
+      "url": "https://raw.githubusercontent.com/wiki/AdguardTeam/AdGuardHome/DHCP.md",
       "target": "skills/adguard/docs/dhcp.md",
-      "type": "extract-content",
+      "type": "raw",
       "freshness_days": 30
     },
     {
-      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/Clients",
+      "url": "https://raw.githubusercontent.com/wiki/AdguardTeam/AdGuardHome/Clients.md",
       "target": "skills/adguard/docs/clients.md",
-      "type": "extract-content",
+      "type": "raw",
       "freshness_days": 30
     },
     {
-      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/FAQ",
+      "url": "https://raw.githubusercontent.com/wiki/AdguardTeam/AdGuardHome/FAQ.md",
       "target": "skills/adguard/docs/faq.md",
-      "type": "extract-content",
+      "type": "raw",
       "freshness_days": 30
     },
     {
-      "url": "https://github.com/AdguardTeam/AdGuardHome/wiki/VPS",
+      "url": "https://raw.githubusercontent.com/wiki/AdguardTeam/AdGuardHome/VPS.md",
       "target": "skills/adguard/docs/vps.md",
-      "type": "extract-content",
+      "type": "raw",
       "freshness_days": 30
     }
   ],

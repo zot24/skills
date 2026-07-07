@@ -1,0 +1,178 @@
+> Source: https://chat-sdk.dev/adapters/official/discord.md
+
+---
+title: Discord
+description: Discord adapter with HTTP Interactions and Gateway WebSocket support.
+tagline: Create Discord bots with slash commands, threads, and rich embeds — works on serverless via a cron-driven Gateway listener.
+package: @chat-adapter/discord
+---
+
+# Discord
+
+
+## Install
+
+<PackageInstall package="@chat-adapter/discord" />
+
+## Quick start
+
+<Callout type="info">
+  The adapter auto-detects `DISCORD_BOT_TOKEN`, `DISCORD_PUBLIC_KEY`, `DISCORD_APPLICATION_ID`, and `DISCORD_MENTION_ROLE_IDS` from the environment.
+</Callout>
+
+```typescript title="lib/bot.ts" lineNumbers
+
+
+const bot = new Chat({
+  userName: "mybot",
+  adapters: {
+    discord: createDiscordAdapter(),
+  },
+});
+
+bot.onNewMention(async (thread, message) => {
+  await thread.post("Hello from Discord!");
+});
+```
+
+## Configuration
+
+<TypeTable
+  type={{
+  botToken: {
+    type: "string",
+    description: "Discord bot token. Auto-detected from `DISCORD_BOT_TOKEN`.",
+  },
+  publicKey: {
+    type: "string",
+    description:
+      "Application public key. Auto-detected from `DISCORD_PUBLIC_KEY`.",
+  },
+  applicationId: {
+    type: "string",
+    description:
+      "Discord application ID. Auto-detected from `DISCORD_APPLICATION_ID`.",
+  },
+  mentionRoleIds: {
+    type: "string[]",
+    description:
+      "Role IDs that should trigger mention handlers. Auto-detected from `DISCORD_MENTION_ROLE_IDS` (comma-separated).",
+  },
+  interactionFlags: {
+    type: "(context) => DiscordInteractionResponseFlag.Ephemeral | undefined",
+    description:
+      "Return Discord interaction flags for the initial deferred slash command response.",
+  },
+  apiUrl: {
+    type: "string",
+    description: "Override the Discord API base URL.",
+  },
+}}
+/>
+
+`botToken`, `publicKey`, and `applicationId` are required.
+
+## Interaction flags
+
+Discord slash commands are acknowledged with `DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE` before your handler posts the final response. Use the `interactionFlags` option to set Discord interaction flags on that initial deferred response.
+
+Return Discord's `EPHEMERAL` flag to make the loading state and original interaction response visible only to the user who invoked the command:
+
+```typescript
+import {
+  createDiscordAdapter,
+  DiscordInteractionResponseFlag,
+} from "@chat-adapter/discord";
+
+createDiscordAdapter({
+  interactionFlags: ({ command, interaction }) => {
+    if (
+      command === "/admin" ||
+      interaction.member?.roles.includes("1457473602180878604")
+    ) {
+      return DiscordInteractionResponseFlag.Ephemeral;
+    }
+
+    return undefined;
+  },
+});
+```
+
+The callback receives the parsed command path, flattened option text, invoking user, normalized Chat SDK channel ID, and raw Discord interaction. Later calls to `event.channel.post()` continue through the normal Discord interaction response flow. Calls to `event.channel.postEphemeral()` still use the normal Chat SDK fallback behavior.
+
+## Authentication
+
+### 1. Create the application
+
+1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) and click **New Application**.
+2. Note the **Application ID** and copy the **Public Key** from the General Information page.
+
+### 2. Create the bot
+
+1. Open **Bot** in the sidebar and click **Reset Token** to generate a bot token (you only see it once).
+2. Enable **Message Content Intent** (and **Server Members Intent** if needed).
+
+### 3. Set the interactions endpoint
+
+In **General Information**, set **Interactions Endpoint URL** to `https://your-domain.com/api/webhooks/discord`. Discord sends a PING to verify.
+
+### 4. Add the bot to your server
+
+In **OAuth2** then **URL Generator**, select scopes `bot` and `applications.commands`, pick the permissions your bot needs (Send Messages, Send Messages in Threads, Create Public Threads, Read Message History, Add Reactions, Attach Files), and use the generated URL to invite the bot.
+
+## Advanced
+
+### HTTP Interactions vs Gateway
+
+Discord has two ways to receive events:
+
+* **HTTP Interactions** — receives button clicks, slash commands, and verification pings. Works on serverless. Does **not** receive regular messages.
+* **Gateway WebSocket** — required to receive regular messages and reactions. Requires a persistent connection.
+
+In serverless environments, use a cron job to keep the Gateway connection alive.
+
+### Gateway setup for serverless
+
+```typescript title="app/api/discord/gateway/route.ts" lineNumbers
+
+
+```
+
+```json title="vercel.json" lineNumbers
+{
+  "crons": [
+    {
+      "path": "/api/discord/gateway",
+      "schedule": "*/9 * * * *"
+    }
+  ]
+}
+```
+
+This runs every 9 minutes, overlapping with the 10-minute listener duration to keep coverage continuous.
+
+### Role mentions
+
+By default, only direct user mentions (`@BotName`) trigger `onNewMention` handlers. To also trigger on role mentions:
+
+1. Create a role in your Discord server (e.g., "AI") and assign it to your bot.
+2. Copy the role ID (right-click in server settings with Developer Mode enabled).
+3. Add it to `mentionRoleIds`:
+
+```typescript
+createDiscordAdapter({
+  mentionRoleIds: ["1457473602180878604"],
+});
+```
+
+Or set `DISCORD_MENTION_ROLE_IDS` as a comma-separated string.
+
+## Feature support
+
+<FeatureSupport />
+
+## Resources
+
+* [Create a Discord support bot with Nuxt and Redis](https://vercel.com/kb/guide/create-a-discord-support-bot-with-nuxt-and-redis?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=adapter-discord\&utm_content=create-a-discord-support-bot-with-nuxt-and-redis) — Walks through building a Discord support bot with Nuxt, covering project setup, Discord app configuration, Gateway forwarding, AI-powered responses, and deployment.
+
+See all guides and templates on the [resources](/resources?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=adapter-discord\&utm_content=resources) page.

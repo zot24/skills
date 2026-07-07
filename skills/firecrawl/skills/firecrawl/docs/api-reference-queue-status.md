@@ -13,7 +13,7 @@ Metrics about your team's scrape queue.
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /team/queue-status
+````yaml api-reference/v2-openapi.json GET /team/queue-status
 openapi: 3.0.0
 info:
   title: Firecrawl API

@@ -32,8 +32,7 @@ AI_GATEWAY_API_KEY=your-key         # https://vercel.com/ai-gateway
 `FirecrawlTools()` bundles `search`, `scrape`, and `interact` by default.
 
 ```typescript
-import { generateText, stepCountIs } from 'ai';
-import { FirecrawlTools } from 'firecrawl-aisdk';
+
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -53,8 +52,7 @@ const { text } = await generateText({
 `FirecrawlTools()` gives you the default tools plus an auto-generated `systemPrompt` you can pass to `generateText`.
 
 ```typescript
-import { generateText, stepCountIs } from 'ai';
-import { FirecrawlTools } from 'firecrawl-aisdk';
+
 
 const tools = FirecrawlTools();
 
@@ -103,8 +101,7 @@ Use `formats: ['markdown']` only when you need the full page content.
 Every tool can be used directly or called with options:
 
 ```typescript
-import { generateText } from 'ai';
-import { scrape, search } from 'firecrawl-aisdk';
+
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -118,8 +115,7 @@ const customScrape = scrape({ apiKey: 'fc-custom-key', apiUrl: 'https://api.fire
 ### Search + Scrape
 
 ```typescript
-import { generateText } from 'ai';
-import { search, scrape } from 'firecrawl-aisdk';
+
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -131,8 +127,7 @@ const { text } = await generateText({
 ### Map
 
 ```typescript
-import { generateText } from 'ai';
-import { map } from 'firecrawl-aisdk';
+
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -144,8 +139,7 @@ const { text } = await generateText({
 ### Stream
 
 ```typescript
-import { streamText, stepCountIs } from 'ai';
-import { scrape } from 'firecrawl-aisdk';
+
 
 const result = streamText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -166,8 +160,7 @@ await result.fullStream;
 `interact()` creates a scrape-backed interactive session. Call `start(url)` to bootstrap a session and get a live view URL, then let the model reuse that session through the `interact` tool.
 
 ```typescript
-import { generateText, stepCountIs } from 'ai';
-import { interact, search } from 'firecrawl-aisdk';
+
 
 const interactTool = interact();
 console.log('Live view:', await interactTool.start('https://news.ycombinator.com'));
@@ -201,8 +194,7 @@ Crawl, batch scrape, and agent return a job ID. Pair them with `poll`.
 ### Crawl
 
 ```typescript
-import { generateText } from 'ai';
-import { crawl, poll } from 'firecrawl-aisdk';
+
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -214,8 +206,7 @@ const { text } = await generateText({
 ### Batch Scrape
 
 ```typescript
-import { generateText } from 'ai';
-import { batchScrape, poll } from 'firecrawl-aisdk';
+
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -229,8 +220,7 @@ const { text } = await generateText({
 Autonomous web data gathering that searches, navigates, and extracts on its own.
 
 ```typescript
-import { generateText, stepCountIs } from 'ai';
-import { agent, poll } from 'firecrawl-aisdk';
+
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -243,8 +233,7 @@ const { text } = await generateText({
 ## Logging
 
 ```typescript
-import { generateText } from 'ai';
-import { logStep, scrape, stepLogger } from 'firecrawl-aisdk';
+
 
 const logger = stepLogger();
 

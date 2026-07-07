@@ -52,12 +52,6 @@
       "freshness_days": 14
     },
     {
-      "url": "https://agent-browser.dev/agent-mode",
-      "target": "skills/agent-browser/docs/agent-mode.md",
-      "type": "extract-content",
-      "freshness_days": 14
-    },
-    {
       "url": "https://agent-browser.dev/cdp-mode",
       "target": "skills/agent-browser/docs/cdp-mode.md",
       "type": "extract-content",

@@ -28,8 +28,7 @@ export OPENROUTER_API_KEY=sk-or-YOUR-OPENROUTER-KEY
 This scrapes a page with Firecrawl and summarizes it with whatever model you pick from OpenRouter — here, Claude Haiku 4.5.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
-import OpenAI from 'openai';
+
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -59,9 +58,7 @@ Switch the `model` string to any [OpenRouter-supported model](https://openrouter
 OpenRouter supports OpenAI-style tool calls, so Firecrawl plugs in as a function the model can invoke.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
-import OpenAI from 'openai';
-import { z } from 'zod';
+
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const openrouter = new OpenAI({

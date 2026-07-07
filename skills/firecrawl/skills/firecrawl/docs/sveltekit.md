@@ -30,19 +30,11 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 Create a form action in `src/routes/search/+page.server.ts`:
 
 ```typescript
-import { Firecrawl } from "firecrawl";
-import { FIRECRAWL_API_KEY } from "$env/static/private";
+
 
 const firecrawl = new Firecrawl({ apiKey: FIRECRAWL_API_KEY });
 
-export const actions = {
-  default: async ({ request }) => {
-    const data = await request.formData();
-    const query = data.get("query") as string;
-    const results = await firecrawl.search(query, { limit: 5 });
-    return { results: (results.web || []).map((r) => ({ title: r.title, url: r.url })) };
-  },
-};
+
 ```
 
 Wire it up in `src/routes/search/+page.svelte`:
@@ -69,8 +61,7 @@ Wire it up in `src/routes/search/+page.svelte`:
 Fetch data in a load function at `src/routes/scrape/+page.server.ts`:
 
 ```typescript
-import { Firecrawl } from "firecrawl";
-import { FIRECRAWL_API_KEY } from "$env/static/private";
+
 
 const firecrawl = new Firecrawl({ apiKey: FIRECRAWL_API_KEY });
 
@@ -102,9 +93,7 @@ Display it in `src/routes/scrape/+page.svelte`:
 Create a server endpoint at `src/routes/api/interact/+server.ts`:
 
 ```typescript
-import { json } from "@sveltejs/kit";
-import { Firecrawl } from "firecrawl";
-import { FIRECRAWL_API_KEY } from "$env/static/private";
+
 
 const firecrawl = new Firecrawl({ apiKey: FIRECRAWL_API_KEY });
 

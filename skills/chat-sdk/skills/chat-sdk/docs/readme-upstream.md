@@ -1,73 +1,113 @@
-> Source: https://raw.githubusercontent.com/vercel/ai-chatbot/main/README.md
+> Source: https://raw.githubusercontent.com/vercel/chat/main/README.md
 
-<a href="https://chatbot.ai-sdk.dev/demo">
-  <img alt="Chatbot" src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Chatbot</h1>
-</a>
+# Chat SDK
 
-<p align="center">
-    Chatbot (formerly AI Chatbot) is a free, open-source template built with Next.js and the AI SDK that helps you quickly build powerful chatbot applications.
-</p>
+[![Agent Stack](https://img.shields.io/badge/Agent%20Stack-000?style=flat-square&logo=vercel&logoColor=FFF&labelColor=000&color=000)](https://vercel.com/kb/agent-stack)
+[![MIT License](https://img.shields.io/badge/License-MIT-000?style=flat-square&logo=opensourceinitiative&logoColor=white&labelColor=000&color=000)](LICENSE)
 
-<p align="center">
-  <a href="https://chatbot.ai-sdk.dev/docs"><strong>Read Docs</strong></a> ·
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#model-providers"><strong>Model Providers</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="#running-locally"><strong>Running locally</strong></a>
-</p>
-<br/>
+Unified TypeScript SDK for building chat bots across Slack, Microsoft Teams, Google Chat, Discord, Telegram, GitHub, Linear, WhatsApp, and more. **Write your bot logic once, deploy everywhere.**
+
+## Installation
+
+```bash
+npm i chat
+```
+
+Install one or more adapters for your platforms:
+
+```bash
+npm install @chat-adapter/slack @chat-adapter/teams @chat-adapter/gchat
+```
+
+## CLI
+
+Scaffold a minimal Next.js bot app with `create-chat-sdk`:
+
+```bash
+npx create-chat-sdk@latest my-bot
+```
+
+The CLI generates your `Chat` configuration, webhook route, `.env.example` file, dependencies, and optional Web adapter route from the adapter catalog. See the [CLI docs](https://chat-sdk.dev/docs/create-chat-sdk) for options and non-interactive usage.
+
+## Usage
+
+```typescript
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createRedisState } from "@chat-adapter/state-redis";
+
+const bot = new Chat({
+  userName: "mybot",
+  adapters: {
+    slack: createSlackAdapter(),
+  },
+  state: createRedisState(),
+});
+
+bot.onNewMention(async (thread) => {
+  await thread.subscribe();
+  await thread.post("Hello! I'm listening to this thread.");
+});
+
+bot.onSubscribedMessage(async (thread, message) => {
+  await thread.post(`You said: ${message.text}`);
+});
+```
+
+See the [Getting Started guide](https://chat-sdk.dev/docs/getting-started) for a full walkthrough.
+
+## Adapters
+
+Browse official, vendor-official, and community adapters on [chat-sdk.dev/adapters](https://chat-sdk.dev/adapters). Learn how to [build your own adapter](https://chat-sdk.dev/docs/contributing/building).
 
 ## Features
 
-- [Next.js](https://nextjs.org) App Router
-  - Advanced routing for seamless navigation and performance
-  - React Server Components (RSCs) and Server Actions for server-side rendering and increased performance
-- [AI SDK](https://ai-sdk.dev/docs/introduction)
-  - Unified API for generating text, structured objects, and tool calls with LLMs
-  - Hooks for building dynamic chat and generative user interfaces
-  - Supports OpenAI, Anthropic, Google, xAI, and other model providers via AI Gateway
-- [shadcn/ui](https://ui.shadcn.com)
-  - Styling with [Tailwind CSS](https://tailwindcss.com)
-  - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
-- Data Persistence
-  - [Neon Serverless Postgres](https://vercel.com/marketplace/neon) for saving chat history and user data
-  - [Vercel Blob](https://vercel.com/storage/blob) for efficient file storage
-- [Auth.js](https://authjs.dev)
-  - Simple and secure authentication
+- [**Event handlers**](https://chat-sdk.dev/docs/usage) — mentions, messages, reactions, button clicks, slash commands, modals
+- [**AI streaming**](https://chat-sdk.dev/docs/streaming) — stream LLM responses with native Slack streaming, Telegram private chat draft previews, and post+edit fallback
+- [**Cards**](https://chat-sdk.dev/docs/cards) — JSX-based interactive cards (Block Kit, Adaptive Cards, Google Chat Cards)
+- [**Actions**](https://chat-sdk.dev/docs/actions) — handle button clicks and dropdown selections
+- [**Modals**](https://chat-sdk.dev/docs/modals) — form dialogs with text inputs, dropdowns, and validation
+- [**Slash commands**](https://chat-sdk.dev/docs/slash-commands) — handle `/command` invocations
+- [**Emoji**](https://chat-sdk.dev/docs/emoji) — type-safe, cross-platform emoji with custom emoji support
+- [**File uploads**](https://chat-sdk.dev/docs/files) — send and receive file attachments
+- [**Direct messages**](https://chat-sdk.dev/docs/direct-messages) — initiate DMs programmatically
+- [**Ephemeral messages**](https://chat-sdk.dev/docs/ephemeral-messages) — user-only visible messages with DM fallback
+- [**Overlapping messages**](https://chat-sdk.dev/docs/concurrency) - burst, queue, debounce, drop, or process concurrent messages on the same thread
 
-## Model Providers
+## AI Coding Agents
 
-This template uses the [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) to access multiple AI models through a unified interface. Models are configured in `lib/ai/models.ts` with per-model provider routing. Included models: Mistral, Moonshot, DeepSeek, OpenAI, and xAI.
-
-### AI Gateway Authentication
-
-**For Vercel deployments**: Authentication is handled automatically via OIDC tokens.
-
-**For non-Vercel deployments**: You need to provide an AI Gateway API key by setting the `AI_GATEWAY_API_KEY` environment variable in your `.env.local` file.
-
-With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to direct LLM providers like [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://ai-sdk.dev/providers/ai-sdk-providers) with just a few lines of code.
-
-## Deploy Your Own
-
-You can deploy your own version of Chatbot to Vercel with one click:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/templates/next.js/chatbot)
-
-## Running locally
-
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
-
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
+If you use an AI coding agent such as OpenAI Codex, Claude Code, or Cursor, install the Chat SDK skill so it knows the SDK APIs, adapter patterns, and project conventions before writing code.
 
 ```bash
-pnpm install
-pnpm db:migrate # Setup database or apply latest database changes
-pnpm dev
+npx skills add vercel/chat
 ```
 
-Your app template should now be running on [localhost:3000](http://localhost:3000).
+The skill references bundled documentation in `node_modules/chat/docs`, plus adapter guides and starter templates in the published package.
+
+You can also install the [Vercel Plugin](https://vercel.com/plugin) for a broader agent toolkit. It includes the Chat SDK skill alongside specialist agents, slash commands, and more:
+
+```bash
+npx plugins add vercel/vercel-plugin
+```
+
+For agent-readable documentation, see [chat-sdk.dev/llms.txt](https://chat-sdk.dev/llms.txt) (page index) or [chat-sdk.dev/llms-full.txt](https://chat-sdk.dev/llms-full.txt) (full text).
+
+## Documentation
+
+Full documentation is available at [chat-sdk.dev/docs](https://chat-sdk.dev/docs) and guides are available in the [Vercel Knowledge Base](https://vercel.com/kb/chat-sdk).
+
+## Contributing
+
+See [CONTRIBUTING.md](./.github/CONTRIBUTING.md) for guidance on contributing to Chat SDK.
+
+## Support
+
+For help or questions, see [SUPPORT.md](./.github/SUPPORT.md).
+
+To report a security vulnerability, see [SECURITY.md](./.github/SECURITY.md).
+
+## License
+
+MIT
+
+[![Made by Vercel](https://img.shields.io/badge/Made%20By%20Vercel-000?style=flat-square&logo=vercel&logoColor=white&labelColor=000&color=000)](https://vercel.com)

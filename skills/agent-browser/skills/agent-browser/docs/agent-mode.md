@@ -1,4 +1,5 @@
 > Source: https://agent-browser.dev/docs/agent-mode
+> NOTE: upstream page removed; content frozen as of last sync
 
 # Agent Mode
 

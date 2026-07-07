@@ -9,7 +9,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json POST /monitor
+````yaml api-reference/v2-openapi.json POST /monitor
 openapi: 3.0.0
 info:
   title: Firecrawl API
@@ -122,7 +122,8 @@ components:
           description: >-
             Plain-language goal used to judge whether changed pages are
             meaningful. If provided and `judgeEnabled` is omitted, judging is
-            enabled automatically.
+            enabled automatically. Required (non-empty) when any target is a
+            `search` target, unless `judgeEnabled` is `false`.
         judgeEnabled:
           type: boolean
           description: >-
@@ -145,7 +146,7 @@ components:
       properties:
         cron:
           type: string
-          description: Five-field cron expression. Minimum interval is 15 minutes.
+          description: Five-field cron expression. Minimum interval is 5 minutes.
           example: '*/30 * * * *'
         text:
           type: string
@@ -254,6 +255,66 @@ components:
           required:
             - type
             - url
+        - type: object
+          title: Search target
+          description: >-
+            Runs web search queries on each check and alerts on new results that
+            match the monitor's goal. Requires a non-empty top-level `goal` on
+            the monitor unless `judgeEnabled` is `false`.
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Optional stable ID for this target. Generated if omitted.
+            type:
+              type: string
+              enum:
+                - search
+            queries:
+              type: array
+              minItems: 1
+              maxItems: 12
+              items:
+                type: string
+                minLength: 1
+                maxLength: 256
+              description: Search queries to run on each check (1-12).
+            searchWindow:
+              type: string
+              enum:
+                - 5m
+                - 15m
+                - 1h
+                - 6h
+                - 24h
+                - 7d
+              default: 24h
+              description: >-
+                Recency filter — only consider results published within this
+                window.
+            maxResults:
+              type: integer
+              minimum: 1
+              maximum: 50
+              default: 10
+              description: >-
+                Total results to evaluate per check, merged and deduped across
+                all queries (a combined cap, not per-query).
+            includeDomains:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+              description: Optional. Restrict results to these domains.
+            excludeDomains:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+              description: Optional. Drop results from these domains.
+          required:
+            - type
+            - queries
     Monitor:
       type: object
       properties:
@@ -931,6 +992,24 @@ components:
                 type: string
                 enum:
                   - branding
+            required:
+              - type
+          - type: object
+            title: Product
+            properties:
+              type:
+                type: string
+                enum:
+                  - product
+            required:
+              - type
+          - type: object
+            title: Menu
+            properties:
+              type:
+                type: string
+                enum:
+                  - menu
             required:
               - type
           - type: object

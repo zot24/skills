@@ -9,7 +9,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/webhooks-openapi.json webhook agentFailed
+````yaml api-reference/webhooks-openapi.json webhook agentFailed
 openapi: 3.1.0
 info:
   title: Firecrawl Webhooks

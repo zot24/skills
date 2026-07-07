@@ -1,23 +1,26 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/channels/zendesk -->
+> Source: https://flueframework.com/docs/ecosystem/channels/zendesk
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#quickstart)
 
-Add verified event-subscription ingress and application-owned Ticketing API behavior to an existing Flue project with the [Zendesk](https://developer.zendesk.com/) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+# Zendesk
+
+
+AI-generated, awaiting review <a href="/docs/ecosystem/channels/zendesk/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/zendesk" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/zendesk</a>
+
+
+## Quickstart
+
+Add verified event-subscription ingress and application-owned Ticketing API behavior to an existing Flue project with the [Zendesk](https://developer.zendesk.com) blueprint. Run the following command in your terminal or coding agent of choice:
+
+``` astro-code
 flue add channel zendesk
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#overview)
+## Overview
 
-The blueprint installs `@flue/zendesk` and `lossless-json`. It creates a narrow
-Fetch client at `<source-root>/zendesk-client.ts` and
-`<source-root>/channels/zendesk.ts` with named `channel` and project-owned
-`client` exports, ticket identity handling, and a ticket-bound retrieval tool.
-It wires that tool into an agent and adds Node types only when the target needs
-them; no community Zendesk SDK is installed.
+The blueprint installs `@flue/zendesk` and `lossless-json`. It creates a narrow Fetch client at `<source-root>/zendesk-client.ts` and `<source-root>/channels/zendesk.ts` with named `channel` and project-owned `client` exports, ticket identity handling, and a ticket-bound retrieval tool. It wires that tool into an agent and adds Node types only when the target needs them; no community Zendesk SDK is installed.
 
-```
+``` astro-code
 import { createZendeskChannel } from '@flue/zendesk';
 import { dispatch } from '@flue/runtime';
 import assistant from '../agents/assistant.ts';
@@ -45,20 +48,14 @@ export const channel = createZendeskChannel({
 });
 ```
 
-The abridged example omits the `ticketIdFromEvent()` helper; the complete helper
-appears in the channel module below.
+The abridged example omits the `ticketIdFromEvent()` helper; the complete helper appears in the channel module below.
 
-A matching ticket event is admitted to the agent bound to that account and
-ticket, while other verified events receive an empty successful response. The
-full generated module validates matching ticket identity in `subject` and
-`detail.id`, handles comment events, and lets the bound agent retrieve the
-current ticket through the project-owned client. That client preserves large
-Zendesk identifiers and runs in Node or Cloudflare Workers.
+A matching ticket event is admitted to the agent bound to that account and ticket, while other verified events receive an empty successful response. The full generated module validates matching ticket identity in `subject` and `detail.id`, handles comment events, and lets the bound agent retrieve the current ticket through the project-owned client. That client preserves large Zendesk identifiers and runs in Node or Cloudflare Workers.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#configure)
+## Configure
 
 | Variable | Purpose |
-| --- | --- |
+|----|----|
 | `ZENDESK_WEBHOOK_SIGNING_SECRET` | **Required** — Verifies inbound event bodies. |
 | `ZENDESK_ACCOUNT_ID` | **Required** — Restricts events and resource identity to one account. |
 | `ZENDESK_WEBHOOK_ID` | **Optional** — Restricts deliveries to one configured webhook. |
@@ -66,22 +63,19 @@ Zendesk identifiers and runs in Node or Cloudflare Workers.
 | `ZENDESK_EMAIL` | **Required** — Identifies the API-token user for Basic authentication. |
 | `ZENDESK_API_TOKEN` | **Required** — Authenticates outbound Ticketing API requests. |
 
-It installs `@flue/zendesk` and creates a channel module with named `channel`
-and project-owned `client` exports. Zendesk has no officially supported Node
-server SDK, so the blueprint uses a narrow native Fetch client instead of adding a
-community wrapper.
+It installs `@flue/zendesk` and creates a channel module with named `channel` and project-owned `client` exports. Zendesk has no officially supported Node server SDK, so the blueprint uses a narrow native Fetch client instead of adding a community wrapper.
 
 Create a JSON event-subscription webhook with:
 
-```
+``` astro-code
 https://example.com/channels/zendesk/webhook
 ```
 
 The webhook signing secret and outbound API token are separate credentials.
 
-## Channel module [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#channel-module)
+## Channel module
 
-```
+``` astro-code
 import { createZendeskChannel, type JsonValue, type ZendeskTicketRef } from '@flue/zendesk';
 import { defineTool, dispatch } from '@flue/runtime';
 import assistant from '../agents/assistant.ts';
@@ -140,13 +134,8 @@ export function retrieveTicket(ref: ZendeskTicketRef) {
   return defineTool({
     name: 'retrieve_zendesk_ticket',
     description: 'Retrieve the Zendesk ticket already bound to this agent.',
-    parameters: {
-      type: 'object',
-      properties: {},
-      additionalProperties: false,
-    },
-    async execute() {
-      return JSON.stringify(await client.getTicket(ref.ticketId));
+    async run() {
+      return client.getTicket(ref.ticketId);
     },
   });
 }
@@ -173,16 +162,13 @@ function requiredEnv(name: string): string {
 }
 ```
 
-The grouped branch handles selected ticket events while leaving the provider
-catalog open. Validate the fields consumed for every subscribed type. The
-example requires the ticket id in `subject` and `detail.id` to agree before
-using it as application identity.
+The grouped branch handles selected ticket events while leaving the provider catalog open. Validate the fields consumed for every subscribed type. The example requires the ticket id in `subject` and `detail.id` to agree before using it as application identity.
 
-## Project-owned client [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#project-owned-client)
+## Project-owned client
 
 Use the original account subdomain and bind credentials in trusted code:
 
-```
+``` astro-code
 import { isLosslessNumber, isSafeNumber, parse } from 'lossless-json';
 
 type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
@@ -276,26 +262,19 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 ```
 
-Zendesk documents API-token Basic authentication as
-`{email}/token:{api_token}`. OAuth bearer tokens are also available, but
-authorization setup, token refresh, and installation storage remain
-application-owned.
+Zendesk documents API-token Basic authentication as `{email}/token:{api_token}`. OAuth bearer tokens are also available, but authorization setup, token refresh, and installation storage remain application-owned.
 
-Do not accept an arbitrary base URL from a model or webhook field. Host-mapped
-Help Center domains do not replace the account’s original
-`<subdomain>.zendesk.com` API origin.
+Do not accept an arbitrary base URL from a model or webhook field. Host-mapped Help Center domains do not replace the account’s original `<subdomain>.zendesk.com` API origin.
 
-Install `lossless-json@4.3.0` for this client. Zendesk identifiers can exceed
-JavaScript’s safe integer range, so unsafe numeric ids remain decimal strings
-instead of being rounded.
+Install `lossless-json@4.3.0` for this client. Zendesk identifiers can exceed JavaScript’s safe integer range, so unsafe numeric ids remain decimal strings instead of being rounded.
 
-## Bind the tool [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#bind-the-tool)
+## Bind the tool
 
-```
-import { createAgent } from '@flue/runtime';
+``` astro-code
+import { defineAgent } from '@flue/runtime';
 import { channel, retrieveTicket } from '../channels/zendesk.ts';
 
-export default createAgent(({ id }) => {
+export default defineAgent(({ id }) => {
   const ticket = channel.parseTicketKey(id);
   return {
     model: 'anthropic/claude-haiku-4-5',
@@ -304,16 +283,13 @@ export default createAgent(({ id }) => {
 });
 ```
 
-The tool accepts no account, ticket id, API host, or credential from the model.
-`ticketKey()` includes account and ticket identity because Zendesk resource ids
-are account-scoped. The key remains an identifier, not an authorization
-capability.
+The tool accepts no account, ticket id, API host, or credential from the model. `ticketKey()` includes account and ticket identity because Zendesk resource ids are account-scoped. The key remains an identifier, not an authorization capability.
 
-## Verification [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#verification)
+## Verification
 
 Zendesk sends:
 
-```
+``` astro-code
 X-Zendesk-Account-Id
 X-Zendesk-Webhook-Id
 X-Zendesk-Webhook-Invocation-Id
@@ -321,28 +297,17 @@ X-Zendesk-Webhook-Signature
 X-Zendesk-Webhook-Signature-Timestamp
 ```
 
-The signature is base64 HMAC-SHA256 over the signature timestamp concatenated
-directly with the exact request body. There is no delimiter.
-`@flue/zendesk` preserves and verifies those bytes before UTF-8 decoding or
-JSON parsing.
+The signature is base64 HMAC-SHA256 over the signature timestamp concatenated directly with the exact request body. There is no delimiter. `@flue/zendesk` preserves and verifies those bytes before UTF-8 decoding or JSON parsing.
 
-The HMAC covers the timestamp and body, not the account, webhook, or invocation
-headers. The package requires those headers, checks payload `account_id`
-against the account header, and can restrict configured account and webhook
-ids. Treat header metadata as provider routing context rather than independent
-authorization.
+The HMAC covers the timestamp and body, not the account, webhook, or invocation headers. The package requires those headers, checks payload `account_id` against the account header, and can restrict configured account and webhook ids. Treat header metadata as provider routing context rather than independent authorization.
 
-Zendesk does not document a timestamp acceptance window or clock-skew rule.
-The channel exposes `delivery.signatureTimestamp` but does not invent freshness
-semantics.
+Zendesk does not document a timestamp acceptance window or clock-skew rule. The channel exposes `delivery.signatureTimestamp` but does not invent freshness semantics.
 
-## Event shape [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#event-shape)
+## Event shape
 
-The callback receives `{ c, payload, delivery }`, keeping the Flue-verified
-provider-native payload separate from the unsigned header metadata.
+The callback receives `{ c, payload, delivery }`, keeping the Flue-verified provider-native payload separate from the unsigned header metadata.
 
-`payload` is Zendesk’s own [common event envelope](https://developer.zendesk.com/api-reference/webhooks/event-types/webhook-event-types/),
-with the provider’s snake\_case field names:
+`payload` is Zendesk’s own [common event envelope](https://developer.zendesk.com/api-reference/webhooks/event-types/webhook-event-types/), with the provider’s snake_case field names:
 
 - `account_id`, normalized to a positive decimal string;
 - `id`, the provider event id;
@@ -350,74 +315,41 @@ with the provider’s snake\_case field names:
 - `subject` such as `zen:ticket:<id>`, and `time`;
 - provider-native `detail` and `event` JSON objects.
 
-An index signature forwards any authenticated future or unmodeled fields, so
-verified future event families remain observable. JSON is parsed losslessly:
-unsafe integer literals retain their exact decimal spelling as strings, and the
-top-level integer `account_id` is normalized to a decimal string.
+An index signature forwards any authenticated future or unmodeled fields, so verified future event families remain observable. JSON is parsed losslessly: unsafe integer literals retain their exact decimal spelling as strings, and the top-level integer `account_id` is normalized to a decimal string.
 
-`delivery` is the unsigned routing metadata read from the request headers:
-`webhookId`, `invocationId`, and `signatureTimestamp`. Zendesk’s HMAC does not
-cover these headers, so treat them as provider routing context, not
-authorization.
+`delivery` is the unsigned routing metadata read from the request headers: `webhookId`, `invocationId`, and `signatureTimestamp`. Zendesk’s HMAC does not cover these headers, so treat them as provider routing context, not authorization.
 
-Zendesk’s current documentation is inconsistent about ticket delivery setup:
-the event catalog and Support UI documentation list ticket subscriptions,
-while the developer webhook guide still recommends triggers or automations for
-ticket activity. Use the grouped ticket example only when the account exposes
-those event subscriptions. Custom trigger payloads are developer-authored and
-are not accepted as if they were the fixed common event envelope.
+Zendesk’s current documentation is inconsistent about ticket delivery setup: the event catalog and Support UI documentation list ticket subscriptions, while the developer webhook guide still recommends triggers or automations for ticket activity. Use the grouped ticket example only when the account exposes those event subscriptions. Custom trigger payloads are developer-authored and are not accepted as if they were the fixed common event envelope.
 
-This initial channel targets provider-defined JSON event subscriptions.
-Custom trigger and automation webhooks can use developer-authored payloads,
-other media types, and other methods, so they are not silently treated as the
-same protocol. Sunshine Conversations and Zendesk AI Agent webhooks also have
-different or incomplete authentication and delivery contracts and remain
-separate research.
+This initial channel targets provider-defined JSON event subscriptions. Custom trigger and automation webhooks can use developer-authored payloads, other media types, and other methods, so they are not silently treated as the same protocol. Sunshine Conversations and Zendesk AI Agent webhooks also have different or incomplete authentication and delivery contracts and remain separate research.
 
-## Responses and delivery [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#responses-and-delivery)
+## Responses and delivery
 
-Returning nothing produces an empty `200`. A JSON-compatible value becomes a
-JSON response. A normal Hono or Fetch `Response` passes through unchanged. A
-thrown callback or unsupported return value fails closed with retryable `409`.
+Returning nothing produces an empty `200`. A JSON-compatible value becomes a JSON response. A normal Hono or Fetch `Response` passes through unchanged. A thrown callback or unsupported return value fails closed with retryable `409`.
 
-Zendesk allows 12 seconds for the complete request. The channel does not enforce
-a deadline, because racing the callback against a timer cannot actually cancel
-JavaScript work that has already started — the timed-out work keeps running while
-a misleading failure is returned. Instead, admit durable work promptly (for
-example `dispatch(...)` then return) and rely on idempotency rather than
-blocking on slow operations before acknowledging.
+Zendesk allows 12 seconds for the complete request. The channel does not enforce a deadline, because racing the callback against a timer cannot actually cancel JavaScript work that has already started — the timed-out work keeps running while a misleading failure is returned. Instead, admit durable work promptly (for example `dispatch(...)` then return) and rely on idempotency rather than blocking on slow operations before acknowledging.
 
-Zendesk retries `409` up to three times, conditionally retries `429` and `503`
-with a short `Retry-After`, and retries timeouts up to five times. Delivery is
-best effort and may be duplicated or omitted. Persist the signed `payload.id` in
-application-owned storage when duplicate admission is unacceptable. The unsigned
-`delivery.invocationId` is useful for correlating provider attempts but is not a
-replay-resistant deduplication key. Use an exact `200` for ordinary
-acknowledgment.
+Zendesk retries `409` up to three times, conditionally retries `429` and `503` with a short `Retry-After`, and retries timeouts up to five times. Delivery is best effort and may be duplicated or omitted. Persist the signed `payload.id` in application-owned storage when duplicate admission is unacceptable. The unsigned `delivery.invocationId` is useful for correlating provider attempts but is not a replay-resistant deduplication key. Use an exact `200` for ordinary acknowledgment.
 
-## Cloudflare Workers [\#](https://flueframework.com/docs/ecosystem/channels/zendesk/\#cloudflare-workers)
+## Cloudflare Workers
 
-Ingress uses Web Crypto and standards-based Fetch APIs. The project-owned
-client uses native Fetch plus `Buffer` for documented Basic authentication.
-Both paths execute in workerd with Flue’s required `nodejs_compat`
-configuration.
+Ingress uses Web Crypto and standards-based Fetch APIs. The project-owned client uses native Fetch plus `Buffer` for documented Basic authentication. Both paths execute in workerd with Flue’s required `nodejs_compat` configuration.
 
-Test the real exported client with injected fail-closed Fetch in Node and
-workerd. Assert the exact Zendesk host, ticket path, method, and authorization
-header, and reject every unexpected destination. Create original synthetic
-events and local HMACs for ingress tests. Do not create a webhook, subscribe to
-live events, obtain a real token, or contact Zendesk.
+Test the real exported client with injected fail-closed Fetch in Node and workerd. Assert the exact Zendesk host, ticket path, method, and authorization header, and reject every unexpected destination. Create original synthetic events and local HMACs for ingress tests. Do not create a webhook, subscribe to live events, obtain a real token, or contact Zendesk.
 
-See the [`@flue/zendesk` API reference](https://flueframework.com/docs/api/zendesk-channel/).
+See the [`@flue/zendesk` README](https://github.com/withastro/flue/tree/main/packages/zendesk#readme).
+
 
 ## Docs Navigation
 
-Current page: [Zendesk](https://flueframework.com/docs/ecosystem/channels/zendesk/)
+Current page: [Zendesk](/docs/ecosystem/channels/zendesk/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

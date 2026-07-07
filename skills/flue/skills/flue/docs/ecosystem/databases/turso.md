@@ -1,18 +1,26 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/databases/turso -->
+> Source: https://flueframework.com/docs/ecosystem/databases/turso
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/databases/turso/\#quickstart)
 
-Add durable, hosted database persistence to an existing Flue project with the [Turso](https://turso.tech/) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+# Turso
+
+
+AI-generated, awaiting review <a href="/docs/ecosystem/databases/turso/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/libsql" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/libsql</a>
+
+
+## Quickstart
+
+Add durable, hosted database persistence to an existing Flue project with the [Turso](https://turso.tech) blueprint. Run the following command in your terminal or coding agent of choice:
+
+``` astro-code
 flue add database turso
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/databases/turso/\#overview)
+## Overview
 
 The Turso blueprint installs `@flue/libsql` and `@libsql/client`, creates a source-root `db.ts`, and updates existing environment documentation when the project has it. It uses the libSQL adapter with Turso’s database URL and auth token:
 
-```
+``` astro-code
 import { libsql } from '@flue/libsql';
 import { createClient, type ResultSet } from '@libsql/client';
 
@@ -34,43 +42,32 @@ export default libsql({
 });
 ```
 
-Flue discovers the adapter at build time and wires it into the generated Node server. On startup, it creates or verifies the required `flue_*` tables. Agent sessions, accepted submissions, and workflow-run records then survive process restarts in hosted Turso and can be shared across replicas; application business data remains application-owned. The blueprint applies only to Node targets because Cloudflare deployments use Durable Object SQLite instead.
+Flue discovers the adapter at build time and wires it into the generated Node server. On startup, it creates or verifies the required `flue_*` tables. Canonical agent conversations, immutable attachments, accepted submissions, and workflow history then survive process replacement in hosted Turso. Replicas may share durable state and workflow history, but each agent instance still requires one live Node owner. Application business data remains application-owned. The blueprint applies only to Node targets because Cloudflare deployments use Durable Object SQLite instead.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/databases/turso/\#configure)
+## Configure
 
-| Variable | Purpose |
-| --- | --- |
+| Variable             | Purpose                                        |
+|----------------------|------------------------------------------------|
 | `TURSO_DATABASE_URL` | **Required** — The database’s `libsql://` URL. |
-| `TURSO_AUTH_TOKEN` | **Required** — Auth token for the database. |
+| `TURSO_AUTH_TOKEN`   | **Required** — Auth token for the database.    |
 
-`createClient` reads these at runtime — they are not baked into the build. For
-local development, `flue dev --env <file>` and `flue run --env <file>` load any
-`.env`-format file. In production, supply them from your platform’s secret store.
+`createClient` reads these at runtime — they are not baked into the build. For local development, `flue dev --env <file>` and `flue run --env <file>` load any `.env`-format file. In production, supply them from your platform’s secret store.
 
-Turso is hosted, replicated libSQL. The blueprint installs `@flue/libsql` and
-the official `@libsql/client`, and writes a source-root `db.ts` that wraps the
-client with a Turso configuration — it is the **same adapter** as
-[`flue add database libsql`](https://flueframework.com/docs/ecosystem/databases/libsql/), pointed at a Turso
-database. Flue discovers `db.ts` at build time and wires it into the generated
-Node server.
+Turso is hosted, replicated libSQL. The blueprint installs `@flue/libsql` and the official `@libsql/client`, and writes a source-root `db.ts` that wraps the client with a Turso configuration — it is the **same adapter** as [`flue add database libsql`](/docs/ecosystem/databases/libsql/), pointed at a Turso database. Flue discovers `db.ts` at build time and wires it into the generated Node server.
 
-`@flue/libsql` is a **Node.js** adapter. The Cloudflare target uses Durable
-Object SQLite automatically and rejects a `db.ts` file at build time, so this
-guide applies to Node deployments. See [Database](https://flueframework.com/docs/guide/database/) for the
-full picture of how state is stored on each target.
+`@flue/libsql` is a **Node.js** adapter. The Cloudflare target uses Durable Object SQLite automatically and rejects a `db.ts` file at build time, so this guide applies to Node deployments. See [Database](/docs/guide/database/) for the full picture of how state is stored on each target.
 
-## Create a database [\#](https://flueframework.com/docs/ecosystem/databases/turso/\#create-a-database)
+## Create a database
 
-Create a database and an auth token with the
-[Turso CLI](https://docs.turso.tech/cli/introduction):
+Create a database and an auth token with the [Turso CLI](https://docs.turso.tech/cli/introduction):
 
-```
+``` astro-code
 turso db create flue-agents
 turso db show --url flue-agents      # → TURSO_DATABASE_URL (libsql://…)
 turso db tokens create flue-agents   # → TURSO_AUTH_TOKEN
 ```
 
-```
+``` astro-code
 import { libsql } from '@flue/libsql';
 import { createClient, type ResultSet } from '@libsql/client';
 
@@ -103,17 +100,13 @@ export default libsql({
 });
 ```
 
-Turso serializes writes server-side, so there is no embedded-file concurrency
-concern. The runner shape (`query`, `transaction`, `close`) and the `ResultSet`
-mapping are explained in the [libSQL guide](https://flueframework.com/docs/ecosystem/databases/libsql/).
+Turso serializes writes server-side, so there is no embedded-file concurrency concern. The runner shape (`query`, `transaction`, `close`) and the `ResultSet` mapping are explained in the [libSQL guide](/docs/ecosystem/databases/libsql/).
 
-## Embedded replicas [\#](https://flueframework.com/docs/ecosystem/databases/turso/\#embedded-replicas)
+## Embedded replicas
 
-For lower read latency, Turso supports **embedded replicas** — a local SQLite
-file kept in sync with the remote database, so reads hit local disk and writes
-forward to Turso. Point `url` at a local file and add `syncUrl`:
+For lower read latency, Turso supports **embedded replicas** — a local SQLite file kept in sync with the remote database, so reads hit local disk and writes forward to Turso. Point `url` at a local file and add `syncUrl`:
 
-```
+``` astro-code
 const client = createClient({
   url: 'file:flue-replica.db',
   syncUrl: process.env.TURSO_DATABASE_URL!,
@@ -121,48 +114,41 @@ const client = createClient({
 });
 ```
 
-The rest of the `db.ts` is unchanged. Reach for this when read latency matters;
-the plain remote client above is the default.
+The rest of the `db.ts` is unchanged. Reach for this when read latency matters; the plain remote client above is the default.
 
-## Migrations [\#](https://flueframework.com/docs/ecosystem/databases/turso/\#migrations)
+## Migrations
 
-The adapter’s `migrate()` hook runs automatically when the generated Node
-server starts. It creates Flue’s `flue_*` tables idempotently and stamps a
-schema version, so a fresh database is provisioned on first boot and an existing
-one is reused on restart. There is no separate migration command to run, and a
-database written by a newer Flue refuses to start rather than corrupting state.
+The adapter’s `migrate()` hook runs automatically when the generated Node server starts. It creates Flue’s `flue_*` tables idempotently and stamps a schema version, so a fresh database is provisioned on first boot and an existing one is reused on restart. There is no separate migration command to run, and a database written by a newer Flue refuses to start rather than corrupting state.
 
-## What gets stored [\#](https://flueframework.com/docs/ecosystem/databases/turso/\#what-gets-stored)
+## What gets stored
 
 A Flue database stores runtime state, not your whole application.
 
 | Stored by Flue | Not stored by Flue |
-| --- | --- |
-| Agent session messages and compaction state | Sandbox files and installed dependencies |
-| Accepted direct prompts and `dispatch(...)` submissions | External API side effects |
-| Workflow-run records and persisted events | Application-owned business data unless your own tools store it |
-| Run indexing for `/runs` lookups and `listRuns()` | Provider credentials or secrets |
+|----|----|
+| Canonical agent conversation streams and compaction records | Sandbox files and installed dependencies |
+| Immutable attachment payloads | External API side effects |
+| Accepted direct prompts and `dispatch(...)` submissions | Application-owned business data unless your own tools store it |
+| Workflow-run records and persisted events | Provider credentials or secrets |
+| Run indexing for `/runs` lookups and `listRuns()` |  |
 
-See [Durable Agents](https://flueframework.com/docs/concepts/durable-execution/) for how recovery uses
-submission state, and the [Data Persistence API](https://flueframework.com/docs/api/data-persistence-api/)
-for the exact adapter contract.
+See [Durable Agents](/docs/concepts/durable-execution/) for how recovery uses submission state, and the [Data Persistence API](/docs/api/data-persistence-api/) for the exact adapter contract.
 
-## When to choose Turso [\#](https://flueframework.com/docs/ecosystem/databases/turso/\#when-to-choose-turso)
+## When to choose Turso
 
-Choose Turso when you want a managed, replicated SQLite without running a
-server, and optionally embedded replicas for low-latency reads. For a local
-file or a libSQL server you operate yourself, use the same adapter via the
-[libSQL guide](https://flueframework.com/docs/ecosystem/databases/libsql/). For a multi-replica Node
-deployment on Postgres, see [`@flue/postgres`](https://flueframework.com/docs/ecosystem/databases/postgres/).
+Choose Turso when you want a managed, replicated SQLite without running a server, and optionally embedded replicas for low-latency reads. For a local file or a libSQL server you operate yourself, use the same adapter via the [libSQL guide](/docs/ecosystem/databases/libsql/). For external durable storage that supports process or host replacement, see [`@flue/postgres`](/docs/ecosystem/databases/postgres/). Node still requires one live owner per agent instance.
+
 
 ## Docs Navigation
 
-Current page: [Turso](https://flueframework.com/docs/ecosystem/databases/turso/)
+Current page: [Turso](/docs/ecosystem/databases/turso/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

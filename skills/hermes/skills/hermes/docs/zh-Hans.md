@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">跳到主要内容</a>
-
-
 # Hermes Agent
 
 
@@ -25,7 +22,7 @@
 **Linux / macOS / WSL2**
 
 
-``` prism-code
+``` bash
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
@@ -33,7 +30,7 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 **Windows（原生，PowerShell）** — *早期测试版，[详情 →](/docs/zh-Hans/user-guide/windows-native)*
 
 
-``` prism-code
+``` powershell
 iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 ```
 
@@ -48,26 +45,26 @@ iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 
 ## 快速链接<a href="#快速链接" class="hash-link" aria-label="快速链接的直接链接" translate="no" title="快速链接的直接链接">​</a>
 
-|                                                                                    |                                                                    |
-|------------------------------------------------------------------------------------|--------------------------------------------------------------------|
-| 🚀 **[安装](/docs/zh-Hans/getting-started/installation)**                          | 在 Linux、macOS、WSL2 或原生 Windows（早期测试版）上 60 秒完成安装 |
-| 📖 **[快速入门教程](/docs/zh-Hans/getting-started/quickstart)**                    | 第一次对话及值得尝试的核心功能                                     |
-| 🗺️ **[学习路径](/docs/zh-Hans/getting-started/learning-path)**                     | 根据你的经验水平找到合适的文档                                     |
-| ⚙️ **[配置](/docs/zh-Hans/user-guide/configuration)**                              | 配置文件、提供商、模型及选项                                       |
-| 💬 **[消息网关](/docs/zh-Hans/user-guide/messaging)**                              | 配置 Telegram、Discord、Slack、WhatsApp、Teams 等平台              |
-| 🔧 **[工具与工具集](/docs/zh-Hans/user-guide/features/tools)**                     | 70+ 内置工具及其配置方式                                           |
-| 🧠 **[记忆系统](/docs/zh-Hans/user-guide/features/memory)**                        | 跨会话持续增长的持久记忆                                           |
-| 📚 **[技能系统](/docs/zh-Hans/user-guide/features/skills)**                        | 智能体创建并复用的程序性记忆                                       |
-| 🔌 **[MCP 集成](/docs/zh-Hans/user-guide/features/mcp)**                           | 连接 MCP 服务器、过滤其工具，并安全扩展 Hermes                     |
-| 🧭 **[在 Hermes 中使用 MCP](/docs/zh-Hans/guides/use-mcp-with-hermes)**            | 实用的 MCP 配置模式、示例与教程                                    |
-| 🎙️ **[语音模式](/docs/zh-Hans/user-guide/features/voice-mode)**                    | 在 CLI、Telegram、Discord 及 Discord 语音频道中进行实时语音交互    |
-| 🗣️ **[在 Hermes 中使用语音模式](/docs/zh-Hans/guides/use-voice-mode-with-hermes)** | Hermes 语音工作流的实操配置与使用模式                              |
-| 🎭 **[个性与 SOUL.md](/docs/zh-Hans/user-guide/features/personality)**             | 通过全局 SOUL.md 定义 Hermes 的默认风格                            |
-| 📄 **[上下文文件](/docs/zh-Hans/user-guide/features/context-files)**               | 影响每次对话的项目上下文文件                                       |
-| 🔒 **[安全](/docs/zh-Hans/user-guide/security)**                                   | 命令审批、授权与容器隔离                                           |
-| 💡 **[技巧与最佳实践](/docs/zh-Hans/guides/tips)**                                 | 快速上手，充分发挥 Hermes 的潜力                                   |
-| 🏗️ **[架构](/docs/zh-Hans/developer-guide/architecture)**                          | 底层工作原理                                                       |
-| ❓ **[常见问题与故障排查](/docs/zh-Hans/reference/faq)**                           | 常见问题及解决方案                                                 |
+|  |  |
+|----|----|
+| 🚀 **[安装](/docs/zh-Hans/getting-started/installation)** | 在 Linux、macOS、WSL2 或原生 Windows（早期测试版）上 60 秒完成安装 |
+| 📖 **[快速入门教程](/docs/zh-Hans/getting-started/quickstart)** | 第一次对话及值得尝试的核心功能 |
+| 🗺️ **[学习路径](/docs/zh-Hans/getting-started/learning-path)** | 根据你的经验水平找到合适的文档 |
+| ⚙️ **[配置](/docs/zh-Hans/user-guide/configuration)** | 配置文件、提供商、模型及选项 |
+| 💬 **[消息网关](/docs/zh-Hans/user-guide/messaging)** | 配置 Telegram、Discord、Slack、WhatsApp、Teams 等平台 |
+| 🔧 **[工具与工具集](/docs/zh-Hans/user-guide/features/tools)** | 70+ 内置工具及其配置方式 |
+| 🧠 **[记忆系统](/docs/zh-Hans/user-guide/features/memory)** | 跨会话持续增长的持久记忆 |
+| 📚 **[技能系统](/docs/zh-Hans/user-guide/features/skills)** | 智能体创建并复用的程序性记忆 |
+| 🔌 **[MCP 集成](/docs/zh-Hans/user-guide/features/mcp)** | 连接 MCP 服务器、过滤其工具，并安全扩展 Hermes |
+| 🧭 **[在 Hermes 中使用 MCP](/docs/zh-Hans/guides/use-mcp-with-hermes)** | 实用的 MCP 配置模式、示例与教程 |
+| 🎙️ **[语音模式](/docs/zh-Hans/user-guide/features/voice-mode)** | 在 CLI、Telegram、Discord 及 Discord 语音频道中进行实时语音交互 |
+| 🗣️ **[在 Hermes 中使用语音模式](/docs/zh-Hans/guides/use-voice-mode-with-hermes)** | Hermes 语音工作流的实操配置与使用模式 |
+| 🎭 **[个性与 SOUL.md](/docs/zh-Hans/user-guide/features/personality)** | 通过全局 SOUL.md 定义 Hermes 的默认风格 |
+| 📄 **[上下文文件](/docs/zh-Hans/user-guide/features/context-files)** | 影响每次对话的项目上下文文件 |
+| 🔒 **[安全](/docs/zh-Hans/user-guide/security)** | 命令审批、授权与容器隔离 |
+| 💡 **[技巧与最佳实践](/docs/zh-Hans/guides/tips)** | 快速上手，充分发挥 Hermes 的潜力 |
+| 🏗️ **[架构](/docs/zh-Hans/developer-guide/architecture)** | 底层工作原理 |
+| ❓ **[常见问题与故障排查](/docs/zh-Hans/reference/faq)** | 常见问题及解决方案 |
 
 ## 核心功能<a href="#核心功能" class="hash-link" aria-label="核心功能的直接链接" translate="no" title="核心功能的直接链接">​</a>
 
@@ -86,8 +83,8 @@ iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 
 本文档的机器可读入口：
 
-- **<a href="/docs/zh-Hans/assets/files/llms-c03199c2b1721b8eb2141fff54dcfad5.txt" target="_blank"><code>/llms.txt</code></a>** — 每个文档页面的精选索引，附简短描述。约 17 KB，可安全加载到 LLM 上下文中。
-- **<a href="/docs/zh-Hans/assets/files/llms-full-23221f7bfd767039d8a3e5a4215c8185.txt" target="_blank"><code>/llms-full.txt</code></a>** — 所有文档页面拼接为单一 markdown 文件，支持一次性摄取。约 1.8 MB。
+- **<a href="/docs/zh-Hans/assets/files/llms-96828202fb001238524b85bb053418e2.txt" target="_blank"><code>/llms.txt</code></a>** — 每个文档页面的精选索引，附简短描述。约 17 KB，可安全加载到 LLM 上下文中。
+- **<a href="/docs/zh-Hans/assets/files/llms-full-b1fcfeeb79c89547e645f13969369e96.txt" target="_blank"><code>/llms-full.txt</code></a>** — 所有文档页面拼接为单一 markdown 文件，支持一次性摄取。约 1.8 MB。
 
 两个文件同样可通过 `/docs/llms.txt` 和 `/docs/llms-full.txt` 访问。每次部署时全新生成。
 

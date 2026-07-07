@@ -26,9 +26,7 @@ export NOUS_API_KEY=YOUR-NOUS-PORTAL-KEY
 ## Hermes + Firecrawl Tool Call
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
-import OpenAI from 'openai';
-import { z } from 'zod';
+
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

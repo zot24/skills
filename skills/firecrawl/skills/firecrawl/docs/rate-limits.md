@@ -116,6 +116,17 @@ If you require higher concurrency limits, [contact us about enterprise plans](ht
 
 Rate limits are measured in requests per minute and are primarily in place to prevent abuse. When configured correctly, your real bottleneck will be concurrent browsers. Rate limits are applied per team, so all API keys on the same team share the same rate limit counters.
 
+### Keyless (no API key)
+
+Scrape, search, interact, and parse can be used **without an API key** when the request comes from an official Firecrawl client — the [MCP server](/mcp-server), the [CLI](/sdks/cli), or an SDK. Research endpoints can also be used without an API key on Firecrawl Cloud where the research index is enabled. No other endpoints (crawl, extract, map, batch scrape, etc.) are available without a key.
+
+Keyless usage is free and capped per IP address per day by **two limits**, and exceeding either returns a `429`:
+
+* A maximum number of **requests** per day.
+* A maximum number of **credits** per day. Operations cost different amounts of credits (for example, interact and JSON extraction cost more than a basic scrape), so heavier usage reaches the credit cap sooner.
+
+[Sign up for a free API key](https://firecrawl.dev) to get 1,000 credits and higher rate limits at no cost — official clients automatically use your key once it's configured.
+
 ### Current Plans
 
 <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
@@ -211,8 +222,8 @@ The browser sandbox endpoints have per-plan rate limits that scale with your sub
     <thead>
       <tr>
         <th style={{ padding: '8px 12px', textAlign: 'left' }}>Plan</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/browser</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/browser/\{id}/execute</th>
+        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/interact</th>
+        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/interact/\{id}/execute</th>
       </tr>
     </thead>
 

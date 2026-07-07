@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -47,7 +44,7 @@ The `web_search` and `web_extract` tools support eight backend providers, config
 Quick setup example:
 
 
-``` prism-code
+``` yaml
 web:
   backend: firecrawl    # firecrawl | searxng | brave-free | ddgs | tavily | exa | parallel | xai
 ```
@@ -109,7 +106,7 @@ See the [Messaging Gateway overview](/docs/user-guide/messaging) for the platfor
 ## Plugins<a href="#plugins" class="hash-link" aria-label="Direct link to Plugins" translate="no" title="Direct link to Plugins">​</a>
 
 - **[Plugin System](/docs/user-guide/features/plugins)** — Extend Hermes with custom tools, lifecycle hooks, and CLI commands without modifying core code. Plugins are discovered from `~/.hermes/plugins/`, project-local `.hermes/plugins/`, and pip-installed entry points.
-- **[Build a Plugin](/docs/guides/build-a-hermes-plugin)** — Step-by-step guide for creating Hermes plugins with tools, hooks, and CLI commands.
+- **[Build a Plugin](/docs/developer-guide/plugins)** — Step-by-step guide for creating Hermes plugins with tools, hooks, and CLI commands.
 
 ## Training & Evaluation<a href="#training--evaluation" class="hash-link" aria-label="Direct link to Training &amp; Evaluation" translate="no" title="Direct link to Training &amp; Evaluation">​</a>
 

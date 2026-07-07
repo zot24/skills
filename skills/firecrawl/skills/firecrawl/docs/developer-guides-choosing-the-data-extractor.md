@@ -244,7 +244,10 @@ The `/scrape` endpoint with JSON mode is the most controlled approach—it extra
   from firecrawl import Firecrawl
   from pydantic import BaseModel
 
-  app = Firecrawl(api_key="fc-YOUR-API-KEY")
+  app = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR-API-KEY",
+  )
 
   class CompanyInfo(BaseModel):
       company_mission: str
@@ -270,7 +273,8 @@ The `/scrape` endpoint with JSON mode is the most controlled approach—it extra
   import { z } from "zod";
 
   const app = new Firecrawl({
-    apiKey: "fc-YOUR_API_KEY"
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR_API_KEY",
   });
 
   // Define schema to extract contents into
@@ -292,9 +296,9 @@ The `/scrape` endpoint with JSON mode is the most controlled approach—it extra
   ```
 
   ```bash cURL
+  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
   curl -X POST https://api.firecrawl.dev/v2/scrape \
       -H 'Content-Type: application/json' \
-      -H 'Authorization: Bearer YOUR_API_KEY' \
       -d '{
         "url": "https://firecrawl.dev",
         "formats": [ {

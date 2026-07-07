@@ -45,7 +45,10 @@ Add `maxAge` to your scrape request. Values are in milliseconds (e.g., `3600000`
   ```python Python
   from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR_API_KEY")
+  firecrawl = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR_API_KEY",
+  )
 
   # Use cached data if it's less than 1 hour old (3600000 ms)
   # This can be 500% faster than a fresh scrape!
@@ -61,7 +64,10 @@ Add `maxAge` to your scrape request. Values are in milliseconds (e.g., `3600000`
   ```javascript JavaScript
   import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+  const firecrawl = new Firecrawl({
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR_API_KEY",
+  });
 
   // Use cached data if it's less than 1 hour old (3600000 ms)
   // This can be 500% faster than a fresh scrape!

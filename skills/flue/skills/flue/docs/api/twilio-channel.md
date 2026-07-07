@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/twilio-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/twilio`.
 
 ## `createTwilioChannel()` [\#](https://flueframework.com/docs/api/twilio-channel/\#createtwiliochannel)

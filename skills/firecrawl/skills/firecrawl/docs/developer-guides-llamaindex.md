@@ -30,9 +30,7 @@ OPENAI_API_KEY=your_openai_key
 This example demonstrates how to use LlamaIndex with Firecrawl to crawl a website, create embeddings, and query the content using RAG.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
-import { Document, VectorStoreIndex, Settings } from 'llamaindex';
-import { OpenAI, OpenAIEmbedding } from '@llamaindex/openai';
+
 
 Settings.llm = new OpenAI({ model: "gpt-4o" });
 Settings.embedModel = new OpenAIEmbedding({ model: "text-embedding-3-small" });
