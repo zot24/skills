@@ -22,7 +22,7 @@ Give Claude Code long-term memory that survives context wipes, session restarts,
 
 Add these to your shell config (`~/.zshrc`, `~/.bashrc`, or `~/.profile`):
 
-```bash
+```bash theme={null}
 # Required
 export HONCHO_API_KEY="hch-your-api-key-here"
 
@@ -32,7 +32,7 @@ export HONCHO_PEER_NAME="$USER"           # Your name/identity
 
 Then reload your shell:
 
-```bash
+```bash theme={null}
 source ~/.zshrc  # or ~/.bashrc
 ```
 
@@ -56,7 +56,7 @@ Then install:
 
 ### Step 4: Restart Claude Code
 
-```bash
+```bash theme={null}
 # Exit Claude Code (ctrl+c or /exit)
 # Start it again
 claude
@@ -87,7 +87,7 @@ Claude will interview you about your personal preferences to kickstart a represe
 
 All configuration lives in a single global file at `~/.honcho/config.json`. You can edit it directly, use the `/honcho:config` skill interactively, or use the `set_config` MCP tool. Environment variables work for initial setup but the config file takes precedence once it exists.
 
-```jsonc
+```jsonc theme={null}
 {
   // Required
   "apiKey": "hch-v2-...",
@@ -170,7 +170,7 @@ The plugin auto-detects which tool is running it (Claude Code, Cursor, etc.) and
 
 If you use both Claude Code and Cursor, you can link them so context from one is readable in the other. Writes always stay in the current host's workspace — linking only adds read access.
 
-```jsonc
+```jsonc theme={null}
 {
   "hosts": {
     "claude_code": {
@@ -193,7 +193,7 @@ Or use `/honcho:config` and select **Workspace > Linking** to set this up intera
 
 If you want all hosts to share a single workspace (instead of per-host isolation), set `globalOverride: true` and a flat `workspace` field:
 
-```jsonc
+```jsonc theme={null}
 {
   "globalOverride": true,
   "workspace": "shared",
@@ -212,7 +212,7 @@ Multiple people can share context by pointing to the same workspace. Each person
 
 **Person A** (`~/.honcho/config.json`):
 
-```json
+```json theme={null}
 {
   "apiKey": "hch-v2-team-key...",
   "peerName": "alice",
@@ -227,7 +227,7 @@ Multiple people can share context by pointing to the same workspace. Each person
 
 **Person B** (`~/.honcho/config.json`):
 
-```json
+```json theme={null}
 {
   "apiKey": "hch-v2-team-key...",
   "peerName": "bob",
@@ -300,13 +300,13 @@ Environment variables work for initial bootstrap (before a config file exists). 
 
 Via config file:
 
-```json
+```json theme={null}
 { "endpoint": { "environment": "local" } }
 ```
 
 Or via env var:
 
-```bash
+```bash theme={null}
 export HONCHO_ENDPOINT="local"  # Uses http://localhost:8000/v3
 ```
 
@@ -328,7 +328,7 @@ Get an API key from [app.honcho.dev](https://app.honcho.dev).
 
 Navigate to Claude Desktop's custom MCP servers settings and add Honcho:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "honcho": {
@@ -352,7 +352,7 @@ Navigate to Claude Desktop's custom MCP servers settings and add Honcho:
 
 **Optional customization** — You can also set a custom assistant name and workspace ID:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "honcho": {

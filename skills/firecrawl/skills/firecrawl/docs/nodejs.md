@@ -15,7 +15,7 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
@@ -23,17 +23,18 @@ npm install firecrawl
 
 Instead of passing `apiKey` directly, set the `FIRECRAWL_API_KEY` environment variable:
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
-```javascript
+```javascript theme={null}
 const app = new Firecrawl();
 ```
 
 ## Search the web
 
-```javascript
+```javascript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const app = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 const results = await app.search("firecrawl web scraping", { limit: 5 });
@@ -45,7 +46,7 @@ for (const result of results.web) {
 
 ## Scrape a page
 
-```javascript
+```javascript theme={null}
 const result = await app.scrape("https://example.com");
 
 console.log(result.markdown);
@@ -67,7 +68,7 @@ console.log(result.markdown);
 
 Use interact to control a live browser session — click buttons, fill forms, and extract dynamic content.
 
-```javascript
+```javascript theme={null}
 const result = await app.scrape('https://www.amazon.com', { formats: ['markdown'] });
 const scrapeId = result.metadata?.scrapeId;
 

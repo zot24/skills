@@ -22,7 +22,7 @@ ValueError: Missing client for Deriver: google
 
 **Fix:** Set the API keys for your configured providers. With default configuration, you need:
 
-```bash
+```bash theme={null}
 LLM_GEMINI_API_KEY=...    # Used by deriver, summary, dialectic minimal/low
 LLM_ANTHROPIC_API_KEY=... # Used by dialectic medium/high/max, dream
 LLM_OPENAI_API_KEY=...    # Used by embeddings (when EMBED_MESSAGES=true)
@@ -40,7 +40,7 @@ ValueError: JWT_SECRET must be set if USE_AUTH is true
 
 **Fix:** Generate a secret and set it:
 
-```bash
+```bash theme={null}
 python scripts/generate_jwt_secret.py
 # Then set the output as:
 AUTH_JWT_SECRET=<generated_secret>
@@ -86,7 +86,7 @@ The `/health` endpoint is a lightweight check that confirms the server process i
 
 To verify full functionality, try creating a workspace:
 
-```bash
+```bash theme={null}
 curl -X POST http://localhost:8000/v3/workspaces \
   -H "Content-Type: application/json" \
   -d '{"name": "test"}'
@@ -115,7 +115,7 @@ Messages are stored but no observations, summaries, or representations are being
    DERIVER_WORKERS=4
    ```
 
-5. **Representation Batch Max** — By default the deriver is set to buffer its operations until there are enough tokens for a given representation in a session. This is set via the `REPRESENTATION_BATCH_MAX_TOKENS` environment variable. If you aren't seeing tasks continue it may be that the batch size is set too high or enough data hasn't flowed into to the session yet. See [token batching](/v3/documentation/core-concepts/reasoning#token-batching) for more details
+5. **Representation Batch Max** — By default the deriver buffers representation work until a session has enough tokens for that representation, set via `DERIVER_REPRESENTATION_BATCH_MAX_TOKENS`. Sub-threshold tails become eligible after `DERIVER_REPRESENTATION_BATCH_MAX_AGE_SECONDS` (default 1800 seconds), so quiet sessions eventually flush without disabling batching globally. Set the age to `0` for legacy behavior where sub-threshold tails wait indefinitely. See [token batching](/v3/documentation/core-concepts/reasoning#token-batching) for more details
 
 ## Alternative Provider Issues
 
@@ -148,7 +148,19 @@ If calls to an OpenAI-compatible proxy fail:
    DERIVER_MODEL_CONFIG__OVERRIDES__BASE_URL=http://host.docker.internal:8000/v1
    ```
 
-3. **Structured output failures** — vLLM's structured output support is limited to certain response formats. If you see JSON parsing errors, check the deriver/dream logs for the raw response.
+3. **Structured output failures** — vLLM's structured output support is limited to certain response formats. If you see JSON parsing errors, check the deriver/dream logs for the raw response. See [Deriver produces no observations](#deriver-produces-no-observations) below.
+
+### Deriver produces no observations
+
+If messages are processed (the queue drains, no errors in logs) but peers never accumulate observations — and you're using an OpenAI-compatible provider — the likely cause is that the provider doesn't support OpenAI Structured Outputs (`json_schema`). The OpenAI backend requests `json_schema` by default; providers like **Z.AI GLM** and some **Ollama/vLLM** deployments either reject it or silently ignore it and return prose, which the deriver can't parse into observations.
+
+**Fix:** set `STRUCTURED_OUTPUT_MODE=json_object` on the deriver's model config to request loose JSON mode, which injects the schema into the prompt instead:
+
+```bash theme={null}
+DERIVER_MODEL_CONFIG__STRUCTURED_OUTPUT_MODE=json_object
+```
+
+This is a per-model-config setting on the OpenAI transport; set it on whichever features use the affected provider (e.g. `DREAM_DEDUCTION_MODEL_CONFIG__STRUCTURED_OUTPUT_MODE`).
 
 ### Thinking budget errors with non-Anthropic providers
 
@@ -156,7 +168,7 @@ If you see errors like `thinking budget not supported`, `invalid parameter`, or 
 
 **Fix:** Set `*_MODEL_CONFIG__THINKING_BUDGET_TOKENS=0` for every component when using models that don't support thinking:
 
-```bash
+```bash theme={null}
 DERIVER_MODEL_CONFIG__THINKING_BUDGET_TOKENS=0
 SUMMARY_MODEL_CONFIG__THINKING_BUDGET_TOKENS=0
 DREAM_DEDUCTION_MODEL_CONFIG__THINKING_BUDGET_TOKENS=0
@@ -176,7 +188,7 @@ For OpenAI reasoning models, use `*_MODEL_CONFIG__THINKING_EFFORT` instead of `*
 
 The connection URI **must** use the `postgresql+psycopg` prefix:
 
-```bash
+```bash theme={null}
 # Correct
 DB_CONNECTION_URI=postgresql+psycopg://postgres:postgres@localhost:5432/postgres
 
@@ -187,7 +199,7 @@ DB_CONNECTION_URI=postgres://postgres:postgres@localhost:5432/postgres
 
 ### Checking migration status
 
-```bash
+```bash theme={null}
 # See current migration version
 uv run alembic current
 
@@ -212,7 +224,7 @@ Redis is used for caching when `CACHE_ENABLED=true` (default: `false`). If Redis
 
 If you see Redis connection warnings in logs but `CACHE_ENABLED=false`, they can be safely ignored. If you want caching:
 
-```bash
+```bash theme={null}
 # Start Redis via Docker
 docker run -d -p 6379:6379 redis:latest
 
@@ -231,14 +243,14 @@ The Honcho Dockerfile uses BuildKit mount syntax and creates a non-root `app` us
 
 The Dockerfile uses `RUN --mount=type=cache` which requires Docker BuildKit. If you see syntax errors during build:
 
-```bash
+```bash theme={null}
 # Ensure BuildKit is enabled
 DOCKER_BUILDKIT=1 docker compose build
 ```
 
 Or add to your Docker daemon config (`/etc/docker/daemon.json`):
 
-```json
+```json theme={null}
 { "features": { "buildkit": true } }
 ```
 
@@ -246,7 +258,7 @@ Or add to your Docker daemon config (`/etc/docker/daemon.json`):
 
 On Linux, AppArmor or SELinux can block Docker build operations and volume mounts. Symptoms include permission denied errors during `COPY`, `RUN`, or when the container tries to access mounted volumes.
 
-```bash
+```bash theme={null}
 # Check if AppArmor is blocking Docker
 sudo aa-status | grep docker
 
@@ -258,7 +270,7 @@ docker compose up -d
 
 For SELinux, add `:z` to volume mounts in `docker-compose.yml`:
 
-```yaml
+```yaml theme={null}
 volumes:
   - .:/app:z
 ```
@@ -283,7 +295,7 @@ If you see permission errors at runtime (not build time), you can either:
 
 If port 8000 is already in use:
 
-```bash
+```bash theme={null}
 # Check what's using the port
 lsof -i :8000
 
@@ -294,7 +306,7 @@ ports:
 
 ### Rebuilding after code changes
 
-```bash
+```bash theme={null}
 docker compose build --no-cache
 docker compose up -d
 ```

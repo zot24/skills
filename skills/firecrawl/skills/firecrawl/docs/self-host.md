@@ -184,7 +184,7 @@ You should be able to see the Bull Queue Manager UI on `http://localhost:3002/ad
 
 If you’d like to test the crawl endpoint, you can run this:
 
-```bash
+```bash theme={null}
 curl -X POST http://localhost:3002/v2/crawl \
     -H 'Content-Type: application/json' \
     -d '{
@@ -200,7 +200,7 @@ This section provides solutions to common issues you might encounter while setti
 
 **Symptom:**
 
-```bash
+```bash theme={null}
 [YYYY-MM-DDTHH:MM:SS.SSSz]ERROR - Attempted to access Supabase client when it's not configured.
 [YYYY-MM-DDTHH:MM:SS.SSSz]ERROR - Error inserting scrape event: Error: Supabase client is not configured.
 ```
@@ -212,7 +212,7 @@ This error occurs because the Supabase client setup is not completed. You should
 
 **Symptom:**
 
-```bash
+```bash theme={null}
 [YYYY-MM-DDTHH:MM:SS.SSSz]WARN - You're bypassing authentication
 ```
 
@@ -227,7 +227,7 @@ Docker containers exit unexpectedly or fail to start.
 **Solution:**
 Check the Docker logs for any error messages using the command:
 
-```bash
+```bash theme={null}
 docker logs [container_name]
 ```
 

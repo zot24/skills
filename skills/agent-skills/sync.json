@@ -104,6 +104,12 @@
       "target": "skills/agent-skills/docs/agent-sdk-slash-commands.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://agentskills.io/clients.md",
+      "target": "skills/agent-skills/docs/clients.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache"

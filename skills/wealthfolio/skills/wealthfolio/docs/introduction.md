@@ -1,10 +1,102 @@
 > Source: https://wealthfolio.app/docs/introduction
 
+
+
+<img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
+
+
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" loading="lazy" decoding="async" data-fetchpriority="auto" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+
+
+<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
+
+
+<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+
+
+<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+
+
+<a href="/" class="group flex select-none items-center space-x-3"><img src="https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" loading="lazy" decoding="async" data-fetchpriority="auto" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+
+
+<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
+
+
+<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+
+
+<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+
+
+<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
+
+
+#### Getting Started
+
+
+<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+
+
+#### Concepts
+
+
+<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+
+
+#### User Guide
+
+
+<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+
+
+#### Sync & AI
+
+
+<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+
+
+#### Self-Hosting
+
+
+<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+
+
+#### Addon Development
+
+
+<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+
+
+#### Reference
+
+
+<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+
+
+#### Connect
+
+
+<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
+
+
+Docs
+
+
+Wealthfolio Documentation
+
+
+# Wealthfolio Documentation
+
+Learn how to use Wealthfolio, the open-source desktop portfolio tracker.
+
+
+------------------------------------------------------------------------
+
+
 ## Introduction
-Welcome to Wealthfolio, the simple, open-source portfolio tracker that keeps your financial
-data safe. Wealthfolio is designed to provide you with straightforward tools to
-manage and grow your wealth, without the need for subscriptions, cloud storage, or complex
-spreadsheets.
+
+Welcome to Wealthfolio, the simple, open-source portfolio tracker that keeps your financial data safe. Wealthfolio is designed to provide you with straightforward tools to manage and grow your wealth, without the need for subscriptions, cloud storage, or complex spreadsheets.
 
 With Wealthfolio, you can:
 
@@ -12,76 +104,92 @@ With Wealthfolio, you can:
 - Keep your financial data **private and secure** on your local machine
 - Enjoy a **user-friendly interface** with powerful portfolio management features
 - Set and **monitor financial goals** to stay on track with your wealth-building journey
-- **Track investment income**, including dividends and interest, for a comprehensive view of your
-  returns
+- **Track investment income**, including dividends and interest, for a comprehensive view of your returns
 - Track **performance and benchmark it** against market indices
 - Track **contribution limits** for tax-advantaged accounts
-
 
 ## Available Platforms
 
 Wealthfolio is available in three forms, giving you flexibility in how you access your portfolio:
 
 
-<Card className="h-full">
-  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-foreground/10 text-foreground">
-    <Monitor className="h-5 w-5" aria-hidden="true" />
-  </div>
-  <h4 className="m-0 text-lg font-semibold">Desktop</h4>
+#### Desktop
+
+
 A fully local, optimized experience designed for your desktop.
+
 - **macOS**: Apple Silicon & Intel
 - **Windows**: x64 & ARM64
 - **Linux**: AppImage (x64 & ARM64)
-</Card>
 
-<Card className="h-full">
-  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-foreground/10 text-foreground">
-    <Smartphone className="h-5 w-5" aria-hidden="true" />
-  </div>
-  <h4 className="m-0 text-lg font-semibold">Mobile</h4>
+
+#### Mobile
+
+
 Carry your full Wealthfolio experience everywhere with a touch-first layout.
+
 - **iOS**: iPhone & iPad
 - **Android**: Coming Soon
-</Card>
 
-<Card className="h-full">
-  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-foreground/10 text-foreground">
-    <Server className="h-5 w-5" aria-hidden="true" />
-  </div>
-  <h4 className="m-0 text-lg font-semibold">Self-Hosted Web</h4>
+
+#### Self-Hosted Web
+
+
 Run the web app on your own infrastructure using Docker, then connect from any browser while keeping data on your server.
+
 - **Docker**: Compose templates & CLI-friendly deployments
 - **Access**: Browser-based experience from anywhere
-</Card>
 
 
-<Callout type="info">
 **Local & Autonomous:** Each version of Wealthfolio operates with its own local, autonomous database. Your data stays on your device (or your server for self-hosted).
 
-**Sync with Connect:** Subscribe to [Wealthfolio Connect](/connect) to keep your data in sync across all your devices with end-to-end encryption.
-</Callout>
-
-<Callout icon="💡" type="info">
-The core app uses manual entry or CSV import. For automatic broker sync, see [Wealthfolio Connect](/connect).
-</Callout>
+**Sync with Connect:** Subscribe to <a href="/connect" class="font-medium underline underline-offset-4">Wealthfolio Connect</a> to keep your data in sync across all your devices with end-to-end encryption.
 
 
+The core app uses manual entry or CSV import. For automatic broker sync, see <a href="/connect" class="font-medium underline underline-offset-4">Wealthfolio Connect</a>.
 
-<Card href="/docs/quick-start">
+
 #### Getting Started
+
 Learn how to get started with Wealthfolio.
-</Card>
 
-<Card  href="/docs/concepts/activity-types">
+
+<a href="/docs/quick-start" class="absolute inset-0"><span class="sr-only">View</span></a>
+
+
 #### Concepts
-Learn about the key concepts of Wealthfolio.
-</Card>
 
-<Card  href="/docs/guide/activities">
+Learn about the key concepts of Wealthfolio.
+
+
+<a href="/docs/concepts/activity-types" class="absolute inset-0"><span class="sr-only">View</span></a>
+
+
 #### Usage Guide
+
 Learn how to use Wealthfolio to track your investments.
-</Card>
-<Card  href="/docs/faq">
+
+
+<a href="/docs/guide/activities" class="absolute inset-0"><span class="sr-only">View</span></a>
+
+
 #### FAQ
+
 Learn how to use Wealthfolio to track your investments.
-</Card>
+
+
+<a href="/docs/faq" class="absolute inset-0"><span class="sr-only">View</span></a>
+
+
+------------------------------------------------------------------------
+
+
+<a href="/docs/quick-start" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Quick Start</a>
+
+
+On This Page
+
+- <a href="#introduction" class="inline-block no-underline text-sm text-muted-foreground">Introduction</a>
+- <a href="#available-platforms" class="inline-block no-underline text-sm text-muted-foreground">Available Platforms</a>
+
+

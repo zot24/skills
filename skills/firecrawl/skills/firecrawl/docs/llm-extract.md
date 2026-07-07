@@ -135,7 +135,7 @@ Used to extract structured data from scraped pages.
 
 Output:
 
-```json JSON
+```json JSON theme={null}
 {
     "success": true,
     "data": {
@@ -221,7 +221,7 @@ You can also extract without a schema by just passing a `prompt` to the endpoint
 
 Output:
 
-```json JSON
+```json JSON theme={null}
 {
     "success": true,
     "data": {
@@ -339,7 +339,7 @@ Here's a comprehensive example extracting structured company information from a 
 
 Output:
 
-```json Output
+```json Output theme={null}
 {
   "success": true,
   "data": {
@@ -385,7 +385,7 @@ If you are seeing inconsistent or incomplete results from JSON extraction, these
 
 **Example of a well-structured schema:**
 
-```json
+```json theme={null}
 {
   "type": "object",
   "properties": {
@@ -410,7 +410,7 @@ If you are seeing inconsistent or incomplete results from JSON extraction, these
 
 When a page contains multiple items (e.g. team members, products, reviews), use `"type": "array"` with `"items"` to get the full list:
 
-```json
+```json theme={null}
 {
   "type": "object",
   "properties": {

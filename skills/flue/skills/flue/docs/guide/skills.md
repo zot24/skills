@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/guide/skills
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Skills
@@ -81,14 +94,14 @@ If an imported skill registered on an agent and a discovered workspace skill dec
 
 Flue validates every `SKILL.md` against the [Agent Skills specification](https://agentskills.io/specification), whether the skill is imported or discovered in a workspace. The table below lists Flue’s support level for each frontmatter field:
 
-| Field | Spec | Flue support |
-|----|----|----|
-| `name` | Required | Validated: lowercase letters, numbers, and hyphens; no leading, trailing, or consecutive hyphens; at most 64 characters; must match the skill directory name. |
-| `description` | Required | Validated: non-empty, at most 1024 characters. Tells the agent what the skill does and when to use it. |
-| `license` | Optional | Accepted; informational only. |
-| `compatibility` | Optional | Accepted; at most 500 characters; informational only. |
-| `metadata` | Optional | Accepted; string-to-string mapping; not interpreted by Flue. |
-| `allowed-tools` | Optional | Accepted, not enforced. The field is experimental in the spec and support may vary between implementations; Flue does not restrict the session’s toolset. |
+| Field           | Spec     | Flue support                                                                                                                                                  |
+|-----------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `name`          | Required | Validated: lowercase letters, numbers, and hyphens; no leading, trailing, or consecutive hyphens; at most 64 characters; must match the skill directory name. |
+| `description`   | Required | Validated: non-empty, at most 1024 characters. Tells the agent what the skill does and when to use it.                                                        |
+| `license`       | Optional | Accepted; informational only.                                                                                                                                 |
+| `compatibility` | Optional | Accepted; at most 500 characters; informational only.                                                                                                         |
+| `metadata`      | Optional | Accepted; string-to-string mapping; not interpreted by Flue.                                                                                                  |
+| `allowed-tools` | Optional | Accepted, not enforced. The field is experimental in the spec and support may vary between implementations; Flue does not restrict the session’s toolset.     |
 
 Unknown frontmatter fields are ignored, so skills that carry extra host-specific fields still load. The spec’s [`skills-ref` validator](https://github.com/agentskills/agentskills/tree/main/skills-ref) flags unknown fields if you want stricter authoring checks.
 

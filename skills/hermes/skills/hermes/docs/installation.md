@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -27,7 +30,7 @@ For a command-line only install without Hermes Desktop, run:
 #### Linux / macOS / WSL2 / Android (Termux)<a href="#linux--macos--wsl2--android-termux" class="hash-link" aria-label="Direct link to Linux / macOS / WSL2 / Android (Termux)" translate="no" title="Direct link to Linux / macOS / WSL2 / Android (Termux)">​</a>
 
 
-``` bash
+``` prism-code
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
@@ -37,7 +40,7 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 Run in powershell:
 
 
-``` powershell
+``` prism-code
 iex (irm https://hermes-agent.nousresearch.com/install.ps1) 
 ```
 
@@ -45,7 +48,7 @@ iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 If you want to install & run Hermes Desktop after a command-line only install, simply run
 
 
-``` bash
+``` prism-code
 hermes desktop
 ```
 
@@ -58,10 +61,10 @@ The installer handles everything automatically — all dependencies (Python, Nod
 
 Where the installer puts things depends on whether you're installing as a normal user or as root:
 
-| Installer | Code lives at | `hermes` binary | Data directory |
-|----|----|----|----|
-| Per-user (git installer) | `~/.hermes/hermes-agent/` | `~/.local/bin/hermes` (symlink) | `~/.hermes/` |
-| Root-mode (`sudo curl … | sudo bash`) | `/usr/local/lib/hermes-agent/` | `/usr/local/bin/hermes` | `/root/.hermes/` (or `$HERMES_HOME`) |
+| Installer                             | Code lives at                  | `hermes` binary                 | Data directory                       |
+|---------------------------------------|--------------------------------|---------------------------------|--------------------------------------|
+| Per-user (git installer)              | `~/.hermes/hermes-agent/`      | `~/.local/bin/hermes` (symlink) | `~/.hermes/`                         |
+| Root-mode (`sudo curl … | sudo bash`) | `/usr/local/lib/hermes-agent/` | `/usr/local/bin/hermes`         | `/root/.hermes/` (or `$HERMES_HOME`) |
 
 The root-mode **FHS layout** (`/usr/local/lib/…`, `/usr/local/bin/hermes`) matches where other system-wide developer tools land on Linux. It's useful for shared-machine deployments where one system install should serve every user. Per-user config (auth, skills, sessions) still lives under each user's `~/.hermes/` or explicit `HERMES_HOME`.
 
@@ -70,7 +73,7 @@ The root-mode **FHS layout** (`/usr/local/lib/…`, `/usr/local/bin/hermes`) mat
 Reload your shell and start chatting:
 
 
-``` bash
+``` prism-code
 source ~/.bashrc   # or: source ~/.zshrc
 hermes             # Start chatting!
 ```
@@ -79,7 +82,7 @@ hermes             # Start chatting!
 To reconfigure individual settings later, use the dedicated commands:
 
 
-``` bash
+``` prism-code
 hermes model          # Choose your LLM provider and model
 hermes tools          # Configure which tools are enabled
 hermes gateway setup  # Set up messaging platforms
@@ -91,7 +94,7 @@ hermes setup          # Or run the full setup wizard to configure everything at 
 One subscription covers 300+ models plus the [Tool Gateway](/docs/user-guide/features/tool-gateway) (web search, image generation, TTS, cloud browser). Skip the per-tool key juggling:
 
 
-``` bash
+``` prism-code
 hermes setup --portal
 ```
 
@@ -138,7 +141,7 @@ Running Hermes as a dedicated unprivileged user (e.g. a `hermes` systemd service
 
     <div class="codeBlockContent_QJqH">
 
-    ``` bash
+    ``` prism-code
     sudo npx playwright install-deps chromium
     ```
 
@@ -154,7 +157,7 @@ Running Hermes as a dedicated unprivileged user (e.g. a `hermes` systemd service
 
     <div class="codeBlockContent_QJqH">
 
-    ``` bash
+    ``` prism-code
     curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
     ```
 
@@ -168,7 +171,7 @@ Running Hermes as a dedicated unprivileged user (e.g. a `hermes` systemd service
 
     <div class="codeBlockContent_QJqH">
 
-    ``` bash
+    ``` prism-code
     curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --skip-browser
     ```
 
@@ -182,7 +185,7 @@ Running Hermes as a dedicated unprivileged user (e.g. a `hermes` systemd service
 
     <div class="codeBlockContent_QJqH">
 
-    ``` bash
+    ``` prism-code
     # Option A — add to the service user's profile
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
@@ -202,11 +205,11 @@ The same pattern works on Arch (the installer uses pacman with the same sudo-det
 
 ## Troubleshooting<a href="#troubleshooting" class="hash-link" aria-label="Direct link to Troubleshooting" translate="no" title="Direct link to Troubleshooting">​</a>
 
-| Problem | Solution |
-|----|----|
-| `hermes: command not found` | Reload your shell (`source ~/.bashrc`) or check PATH |
-| `API key not set` | Run `hermes model` to configure your provider, or `hermes config set OPENROUTER_API_KEY your_key` |
-| Missing config after update | Run `hermes config check` then `hermes config migrate` |
+| Problem                     | Solution                                                                                          |
+|-----------------------------|---------------------------------------------------------------------------------------------------|
+| `hermes: command not found` | Reload your shell (`source ~/.bashrc`) or check PATH                                              |
+| `API key not set`           | Run `hermes model` to configure your provider, or `hermes config set OPENROUTER_API_KEY your_key` |
+| Missing config after update | Run `hermes config check` then `hermes config migrate`                                            |
 
 For more diagnostics, run `hermes doctor` — it will tell you exactly what's missing and how to fix it.
 

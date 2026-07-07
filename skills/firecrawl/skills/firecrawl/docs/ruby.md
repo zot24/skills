@@ -42,7 +42,7 @@ Requires Ruby 3.0 or later.
 
 Here is a quick example using the current SDK API surface:
 
-```ruby
+```ruby theme={null}
 require "firecrawl"
 
 client = Firecrawl::Client.from_env
@@ -65,7 +65,7 @@ puts "Crawled pages: #{job.data&.size || 0}"
 
 To scrape a single URL, use the `scrape` method.
 
-```ruby
+```ruby theme={null}
 doc = client.scrape(
   "https://firecrawl.dev",
   Firecrawl::Models::ScrapeOptions.new(
@@ -83,7 +83,7 @@ puts doc.metadata["title"]
 
 Extract structured JSON via the `scrape` endpoint by including a `json` format with a prompt and schema:
 
-```ruby
+```ruby theme={null}
 doc = client.scrape(
   "https://example.com/product",
   Firecrawl::Models::ScrapeOptions.new(
@@ -110,7 +110,7 @@ puts doc.json
 
 To crawl a website and wait for completion, use `crawl`. It auto-polls until the job finishes.
 
-```ruby
+```ruby theme={null}
 job = client.crawl(
   "https://firecrawl.dev",
   Firecrawl::Models::CrawlOptions.new(
@@ -134,7 +134,7 @@ end
 
 Start a job without waiting using `start_crawl`.
 
-```ruby
+```ruby theme={null}
 response = client.start_crawl(
   "https://firecrawl.dev",
   Firecrawl::Models::CrawlOptions.new(limit: 100)
@@ -147,7 +147,7 @@ puts "Job ID: #{response.id}"
 
 Check crawl progress with `get_crawl_status`.
 
-```ruby
+```ruby theme={null}
 status = client.get_crawl_status(response.id)
 puts "Status: #{status.status}"
 puts "Progress: #{status.completed}/#{status.total}"
@@ -157,7 +157,7 @@ puts "Progress: #{status.completed}/#{status.total}"
 
 Cancel a running crawl with `cancel_crawl`.
 
-```ruby
+```ruby theme={null}
 result = client.cancel_crawl(response.id)
 puts result
 ```
@@ -166,7 +166,7 @@ puts result
 
 Discover links on a site using `map`.
 
-```ruby
+```ruby theme={null}
 data = client.map(
   "https://firecrawl.dev",
   Firecrawl::Models::MapOptions.new(
@@ -184,7 +184,7 @@ end
 
 Search with optional settings using `search`.
 
-```ruby
+```ruby theme={null}
 results = client.search(
   "firecrawl web scraping",
   Firecrawl::Models::SearchOptions.new(limit: 10)
@@ -199,7 +199,7 @@ end
 
 Scrape multiple URLs in parallel using `batch_scrape`.
 
-```ruby
+```ruby theme={null}
 job = client.batch_scrape(
   ["https://firecrawl.dev", "https://firecrawl.dev/blog"],
   Firecrawl::Models::BatchScrapeOptions.new(
@@ -218,7 +218,7 @@ end
 
 Run an AI-powered agent with `agent`.
 
-```ruby
+```ruby theme={null}
 result = client.agent(
   Firecrawl::Models::AgentOptions.new(
     prompt: "Find the pricing plans for Firecrawl and compare them"
@@ -230,7 +230,7 @@ puts result.data
 
 With a JSON schema for structured output:
 
-```ruby
+```ruby theme={null}
 result = client.agent(
   Firecrawl::Models::AgentOptions.new(
     prompt: "Extract pricing plan details",
@@ -260,7 +260,7 @@ puts result.data
 
 Check concurrency and remaining credits:
 
-```ruby
+```ruby theme={null}
 concurrency = client.get_concurrency
 puts "Concurrency: #{concurrency.concurrency}/#{concurrency.max_concurrency}"
 
@@ -279,7 +279,7 @@ Use a scrape job ID to run follow-up browser code in the same replayed context:
 * `interact(...)` runs code in the scrape-bound browser session (and initializes it on first use).
 * `stop_interactive_browser(...)` explicitly stops the interactive session when you are done.
 
-```ruby
+```ruby theme={null}
 scrape_job_id = "550e8400-e29b-41d4-a716-446655440000"
 
 run = client.interact(
@@ -307,7 +307,7 @@ puts "Deleted: #{deleted["success"]}"
 | `max_retries`    | `Integer` | `3`                                                  | Automatic retries for transient failures |
 | `backoff_factor` | `Float`   | `0.5`                                                | Exponential backoff factor in seconds    |
 
-```ruby
+```ruby theme={null}
 client = Firecrawl::Client.new(
   api_key: "fc-your-api-key",
   api_url: "https://api.firecrawl.dev",
@@ -321,7 +321,7 @@ client = Firecrawl::Client.new(
 
 The SDK raises exceptions under the `Firecrawl` module.
 
-```ruby
+```ruby theme={null}
 begin
   doc = client.scrape("https://example.com")
 rescue Firecrawl::AuthenticationError => e

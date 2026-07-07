@@ -1,5 +1,4 @@
-<!-- Source: https://raw.githubusercontent.com/portainer/portainerctl/develop/README.md -->
-> Source: https://github.com/portainer/portainerctl/blob/develop/README.md
+> Source: https://raw.githubusercontent.com/portainer/portainerctl/develop/README.md
 
 # portainerctl
 

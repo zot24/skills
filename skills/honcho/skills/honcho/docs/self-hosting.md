@@ -46,14 +46,14 @@ If you keep the built-in defaults, you only need one API key: all text-generatio
 
 After copying `.env.template` to `.env`, the default setup is:
 
-```bash
+```bash theme={null}
 # Required for the built-in defaults
 LLM_OPENAI_API_KEY=sk-...
 ```
 
 If you want a different model or an OpenAI-compatible proxy, uncomment and edit the relevant `*_MODEL_CONFIG__TRANSPORT`, `*_MODEL_CONFIG__MODEL`, and `*_MODEL_CONFIG__OVERRIDES__BASE_URL` lines in the Deriver, Dialectic, Summary, and Dream sections. For example:
 
-```bash
+```bash theme={null}
 LLM_OPENAI_API_KEY=sk-or-v1-...
 
 DERIVER_MODEL_CONFIG__TRANSPORT=openai
@@ -76,7 +76,7 @@ The compose file is production-oriented by default (ports bound to `127.0.0.1`, 
 
 ### 1. Clone the Repository
 
-```bash
+```bash theme={null}
 git clone https://github.com/plastic-labs/honcho.git
 cd honcho
 ```
@@ -85,7 +85,7 @@ cd honcho
 
 Copy the example environment file and configure it:
 
-```bash
+```bash theme={null}
 cp .env.template .env
 ```
 
@@ -93,7 +93,7 @@ Edit `.env` and configure your LLM provider — see [LLM Setup](#llm-setup) abov
 
 ### 3. Start the Services
 
-```bash
+```bash theme={null}
 cp docker-compose.yml.example docker-compose.yml
 docker compose up -d --build
 ```
@@ -108,7 +108,7 @@ For development, uncomment the source mount and monitoring sections inside `dock
 
 Migrations run automatically on startup.
 
-```bash
+```bash theme={null}
 # Check all containers are running
 docker compose ps
 
@@ -127,7 +127,7 @@ For more control over your environment, you can set up everything manually.
 
 ### 1. Clone and Install Dependencies
 
-```bash
+```bash theme={null}
 git clone https://github.com/plastic-labs/honcho.git
 cd honcho
 
@@ -146,14 +146,14 @@ Install PostgreSQL and pgvector on your system:
 
 **macOS (using Homebrew):**
 
-```bash
+```bash theme={null}
 brew install postgresql
 brew install pgvector
 ```
 
 **Ubuntu/Debian:**
 
-```bash
+```bash theme={null}
 sudo apt update
 sudo apt install postgresql postgresql-contrib
 # Install pgvector extension (see pgvector docs for your version)
@@ -164,7 +164,7 @@ Download from [postgresql.org](https://www.postgresql.org/download/windows/)
 
 #### Option B: Docker PostgreSQL
 
-```bash
+```bash theme={null}
 docker run --name honcho-db \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=postgres \
@@ -176,7 +176,7 @@ docker run --name honcho-db \
 
 Connect to PostgreSQL and enable pgvector:
 
-```bash
+```bash theme={null}
 # Connect to PostgreSQL
 psql -U postgres
 
@@ -189,13 +189,13 @@ CREATE EXTENSION IF NOT EXISTS vector;
 
 Create a `.env` file with your settings:
 
-```bash
+```bash theme={null}
 cp .env.template .env
 ```
 
 Edit `.env` — configure your LLM provider (see [LLM Setup](#llm-setup) above) and set the database connection:
 
-```bash
+```bash theme={null}
 DB_CONNECTION_URI=postgresql+psycopg://postgres:postgres@localhost:5432/postgres
 AUTH_USE_AUTH=false
 LOG_LEVEL=DEBUG
@@ -203,14 +203,14 @@ LOG_LEVEL=DEBUG
 
 ### 5. Run Database Migrations
 
-```bash
+```bash theme={null}
 # Run migrations to create tables
 uv run alembic upgrade head
 ```
 
 ### 6. Start the Server
 
-```bash
+```bash theme={null}
 # Start the development server
 uv run fastapi dev src/main.py
 ```
@@ -221,7 +221,7 @@ The server will be available at `http://localhost:8000`.
 
 In a **separate terminal**, start the deriver background worker:
 
-```bash
+```bash theme={null}
 uv run python -m src.deriver
 ```
 
@@ -255,7 +255,7 @@ Once your Honcho server is running, verify everything is working:
 
 ### 1. Health Check
 
-```bash
+```bash theme={null}
 curl http://localhost:8000/health
 # {"status":"ok"}
 ```
@@ -266,7 +266,7 @@ Note: `/health` only confirms the process is running. It does not check database
 
 This confirms the database connection, migrations, and API are all working:
 
-```bash
+```bash theme={null}
 # Create a workspace
 curl -s -X POST http://localhost:8000/v3/workspaces \
   -H "Content-Type: application/json" \
@@ -281,7 +281,7 @@ Visit `http://localhost:8000/docs` to see the interactive API documentation.
 
 ### 4. Test with SDK
 
-```python
+```python theme={null}
 from honcho import Honcho
 
 client = Honcho(
@@ -299,7 +299,7 @@ Now that Honcho is running locally, you can connect your applications:
 
 ### Update SDK Configuration
 
-```python
+```python theme={null}
 # Python SDK
 from honcho import Honcho
 
@@ -308,7 +308,7 @@ client = Honcho(
 )
 ```
 
-```typescript
+```typescript theme={null}
 // TypeScript SDK
 import { Honcho } from '@honcho-ai/sdk';
 
@@ -421,7 +421,7 @@ The API can be deployed on [Fly.io](https://fly.io). Follow the [Fly.io getting-
 
 Once `flyctl` is set up, from the repo root:
 
-```bash
+```bash theme={null}
 flyctl launch --no-deploy           # follow the prompts and edit as you see fit
 cat .env | flyctl secrets import    # load secrets from .env
 flyctl deploy                       # deploy

@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -15,10 +18,10 @@ This guide gets you from zero to a working Hermes setup that survives real use. 
 **Onchain AI Garage** put together a Masterclass walkthrough of installation, setup, and basic commands — a good companion to this page if you'd rather follow along on video. For more, see the full <a href="https://www.youtube.com/playlist?list=PLmpUb_PWAkDxewld5ZYyKifuHxgIbiq2d" target="_blank" rel="noopener noreferrer">Hermes Agent Tutorials &amp; Use Cases</a> playlist.
 
 
-# Se produjo un error.
+# An error occurred.
 
 
-No se puede ejecutar JavaScript.
+Unable to execute JavaScript.
 
 
 ## Who this is for<a href="#who-this-is-for" class="hash-link" aria-label="Direct link to Who this is for" translate="no" title="Direct link to Who this is for">​</a>
@@ -32,13 +35,13 @@ No se puede ejecutar JavaScript.
 
 Pick the row that matches your goal:
 
-| Goal | Do this first | Then do this |
-|----|----|----|
-| I just want Hermes working on my machine | `hermes setup` | Run a real chat and verify it responds |
-| I already know my provider | `hermes model` | Save the config, then start chatting |
-| I want a bot or always-on setup | `hermes gateway setup` after CLI works | Connect Telegram, Discord, Slack, or another platform |
-| I want a local or self-hosted model | `hermes model` → custom endpoint | Verify the endpoint, model name, and context length |
-| I want multi-provider fallback | `hermes model` first | Add routing and fallback only after the base chat works |
+| Goal                                     | Do this first                          | Then do this                                            |
+|------------------------------------------|----------------------------------------|---------------------------------------------------------|
+| I just want Hermes working on my machine | `hermes setup`                         | Run a real chat and verify it responds                  |
+| I already know my provider               | `hermes model`                         | Save the config, then start chatting                    |
+| I want a bot or always-on setup          | `hermes gateway setup` after CLI works | Connect Telegram, Discord, Slack, or another platform   |
+| I want a local or self-hosted model      | `hermes model` → custom endpoint       | Verify the endpoint, model name, and context length     |
+| I want multi-provider fallback           | `hermes model` first                   | Add routing and fallback only after the base chat works |
 
 **Rule of thumb:** if Hermes cannot complete a normal chat, do not add more features yet. Get one clean conversation working first, then layer on gateway, cron, skills, voice, or routing.
 
@@ -57,7 +60,7 @@ For a command-line only install without Hermes Desktop, run:
 #### Linux / macOS / WSL2 / Android (Termux)<a href="#linux--macos--wsl2--android-termux" class="hash-link" aria-label="Direct link to Linux / macOS / WSL2 / Android (Termux)" translate="no" title="Direct link to Linux / macOS / WSL2 / Android (Termux)">​</a>
 
 
-``` bash
+``` prism-code
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
@@ -67,7 +70,7 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 Run in powershell:
 
 
-``` powershell
+``` prism-code
 iex (irm https://hermes-agent.nousresearch.com/install.ps1) 
 ```
 
@@ -78,7 +81,7 @@ If you're installing on a phone, see the dedicated [Termux guide](/docs/getting-
 After it finishes, reload your shell:
 
 
-``` bash
+``` prism-code
 source ~/.bashrc   # or source ~/.zshrc
 ```
 
@@ -90,7 +93,7 @@ For detailed installation options, prerequisites, and troubleshooting, see the [
 The single most important setup step. Use `hermes model` to walk through the choice interactively:
 
 
-``` bash
+``` prism-code
 hermes model
 ```
 
@@ -98,7 +101,7 @@ hermes model
 One subscription covers 300+ models plus the [Tool Gateway](/docs/user-guide/features/tool-gateway) (web search, image generation, TTS, cloud browser). On a fresh install:
 
 
-``` bash
+``` prism-code
 hermes setup --portal
 ```
 
@@ -117,42 +120,42 @@ Blank Slate writes an explicit `platform_toolsets.cli` list plus `agent.disabled
 
 Good defaults:
 
-| Provider | What it is | How to set up |
-|----|----|----|
-| **Nous Portal** | Subscription-based, zero-config | OAuth login via `hermes model` |
-| **OpenAI Codex** | ChatGPT OAuth, uses Codex models | Device code auth via `hermes model` |
-| **Anthropic** | Claude models directly — Max plan + extra usage credits (OAuth), or API key for pay-per-token | `hermes model` → OAuth login (requires Max + extra credits), or an Anthropic API key |
-| **OpenRouter** | Multi-provider routing across many models | Enter your API key |
-| **Z.AI** | GLM / Zhipu-hosted models | Set `GLM_API_KEY` / `ZAI_API_KEY` (also accepts `Z_AI_API_KEY`) |
-| **Kimi / Moonshot** | Moonshot-hosted coding and chat models | Set `KIMI_API_KEY` (or the Kimi-Coding-specific `KIMI_CODING_API_KEY`) |
-| **Kimi / Moonshot China** | China-region Moonshot endpoint | Set `KIMI_CN_API_KEY` |
-| **Arcee AI** | Trinity models | Set `ARCEEAI_API_KEY` |
-| **GMI Cloud** | Multi-model direct API | Set `GMI_API_KEY` |
-| **MiniMax (OAuth)** | MiniMax frontier model via browser OAuth — no API key needed (model name in `hermes_cli/models.py` may change between releases) | `hermes model` → MiniMax (OAuth) |
-| **MiniMax** | International MiniMax endpoint | Set `MINIMAX_API_KEY` |
-| **MiniMax China** | China-region MiniMax endpoint | Set `MINIMAX_CN_API_KEY` |
-| **Alibaba Cloud** | Qwen models via DashScope | Set `DASHSCOPE_API_KEY` (Qwen Coding Plan also accepts `ALIBABA_CODING_PLAN_API_KEY`) |
-| **Hugging Face** | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.) | Set `HF_TOKEN` |
-| **AWS Bedrock** | Claude, Nova, Llama, DeepSeek via native Converse API | IAM role or `aws configure` ([guide](/docs/guides/aws-bedrock)) |
-| **Azure Foundry** | Azure AI Foundry-hosted models | Set `AZURE_FOUNDRY_API_KEY` + `AZURE_FOUNDRY_BASE_URL` |
-| **Google AI Studio** | Gemini models via direct API | Set `GOOGLE_API_KEY` / `GEMINI_API_KEY` |
-| **xAI** | Grok models via direct API | Set `XAI_API_KEY` |
-| **xAI Grok OAuth** | SuperGrok / Premium+ subscription, no API key needed | `hermes model` → xAI Grok OAuth |
-| **NovitaAI** | Multi-model API gateway | Set `NOVITA_API_KEY` |
-| **StepFun** | Step Plan models | Set `STEPFUN_API_KEY` |
-| **Xiaomi MiMo** | Xiaomi-hosted models | Set `XIAOMI_API_KEY` |
-| **Tencent TokenHub** | Tencent-hosted models | Set `TOKENHUB_API_KEY` |
-| **Ollama Cloud** | Managed Ollama-hosted models | Set `OLLAMA_API_KEY` |
-| **LM Studio** | Local desktop app exposing an OpenAI-compatible API | Set `LM_API_KEY` (and `LM_BASE_URL` if non-default) |
-| **Qwen OAuth** | Qwen Portal browser OAuth — no API key needed | `hermes model` → Qwen OAuth |
-| **Kilo Code** | KiloCode-hosted models | Set `KILOCODE_API_KEY` |
-| **OpenCode Zen** | Pay-as-you-go access to curated models | Set `OPENCODE_ZEN_API_KEY` |
-| **OpenCode Go** | \$10/month subscription for open models | Set `OPENCODE_GO_API_KEY` |
-| **DeepSeek** | Direct DeepSeek API access | Set `DEEPSEEK_API_KEY` |
-| **NVIDIA NIM** | Nemotron models via build.nvidia.com or local NIM | Set `NVIDIA_API_KEY` (optional: `NVIDIA_BASE_URL`) |
-| **GitHub Copilot** | GitHub Copilot subscription (GPT-5.x, Claude, Gemini, etc.) | OAuth via `hermes model`, or `COPILOT_GITHUB_TOKEN` / `GH_TOKEN` |
-| **GitHub Copilot ACP** | Copilot ACP agent backend (spawns local `copilot` CLI) | `hermes model` (requires `copilot` CLI + `copilot login`) |
-| **Custom Endpoint** | VLLM, SGLang, Ollama, or any OpenAI-compatible API | Set base URL + API key |
+| Provider                  | What it is                                                                                                                      | How to set up                                                                         |
+|---------------------------|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| **Nous Portal**           | Subscription-based, zero-config                                                                                                 | OAuth login via `hermes model`                                                        |
+| **OpenAI Codex**          | ChatGPT OAuth, uses Codex models                                                                                                | Device code auth via `hermes model`                                                   |
+| **Anthropic**             | Claude models directly — Max plan + extra usage credits (OAuth), or API key for pay-per-token                                   | `hermes model` → OAuth login (requires Max + extra credits), or an Anthropic API key  |
+| **OpenRouter**            | Multi-provider routing across many models                                                                                       | Enter your API key                                                                    |
+| **Z.AI**                  | GLM / Zhipu-hosted models                                                                                                       | Set `GLM_API_KEY` / `ZAI_API_KEY` (also accepts `Z_AI_API_KEY`)                       |
+| **Kimi / Moonshot**       | Moonshot-hosted coding and chat models                                                                                          | Set `KIMI_API_KEY` (or the Kimi-Coding-specific `KIMI_CODING_API_KEY`)                |
+| **Kimi / Moonshot China** | China-region Moonshot endpoint                                                                                                  | Set `KIMI_CN_API_KEY`                                                                 |
+| **Arcee AI**              | Trinity models                                                                                                                  | Set `ARCEEAI_API_KEY`                                                                 |
+| **GMI Cloud**             | Multi-model direct API                                                                                                          | Set `GMI_API_KEY`                                                                     |
+| **MiniMax (OAuth)**       | MiniMax frontier model via browser OAuth — no API key needed (model name in `hermes_cli/models.py` may change between releases) | `hermes model` → MiniMax (OAuth)                                                      |
+| **MiniMax**               | International MiniMax endpoint                                                                                                  | Set `MINIMAX_API_KEY`                                                                 |
+| **MiniMax China**         | China-region MiniMax endpoint                                                                                                   | Set `MINIMAX_CN_API_KEY`                                                              |
+| **Alibaba Cloud**         | Qwen models via DashScope                                                                                                       | Set `DASHSCOPE_API_KEY` (Qwen Coding Plan also accepts `ALIBABA_CODING_PLAN_API_KEY`) |
+| **Hugging Face**          | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.)                                                                 | Set `HF_TOKEN`                                                                        |
+| **AWS Bedrock**           | Claude, Nova, Llama, DeepSeek via native Converse API                                                                           | IAM role or `aws configure` ([guide](/docs/guides/aws-bedrock))                       |
+| **Azure Foundry**         | Azure AI Foundry-hosted models                                                                                                  | Set `AZURE_FOUNDRY_API_KEY` + `AZURE_FOUNDRY_BASE_URL`                                |
+| **Google AI Studio**      | Gemini models via direct API                                                                                                    | Set `GOOGLE_API_KEY` / `GEMINI_API_KEY`                                               |
+| **xAI**                   | Grok models via direct API                                                                                                      | Set `XAI_API_KEY`                                                                     |
+| **xAI Grok OAuth**        | SuperGrok / Premium+ subscription, no API key needed                                                                            | `hermes model` → xAI Grok OAuth                                                       |
+| **NovitaAI**              | Multi-model API gateway                                                                                                         | Set `NOVITA_API_KEY`                                                                  |
+| **StepFun**               | Step Plan models                                                                                                                | Set `STEPFUN_API_KEY`                                                                 |
+| **Xiaomi MiMo**           | Xiaomi-hosted models                                                                                                            | Set `XIAOMI_API_KEY`                                                                  |
+| **Tencent TokenHub**      | Tencent-hosted models                                                                                                           | Set `TOKENHUB_API_KEY`                                                                |
+| **Ollama Cloud**          | Managed Ollama-hosted models                                                                                                    | Set `OLLAMA_API_KEY`                                                                  |
+| **LM Studio**             | Local desktop app exposing an OpenAI-compatible API                                                                             | Set `LM_API_KEY` (and `LM_BASE_URL` if non-default)                                   |
+| **Qwen OAuth**            | Qwen Portal browser OAuth — no API key needed                                                                                   | `hermes model` → Qwen OAuth                                                           |
+| **Kilo Code**             | KiloCode-hosted models                                                                                                          | Set `KILOCODE_API_KEY`                                                                |
+| **OpenCode Zen**          | Pay-as-you-go access to curated models                                                                                          | Set `OPENCODE_ZEN_API_KEY`                                                            |
+| **OpenCode Go**           | \$10/month subscription for open models                                                                                         | Set `OPENCODE_GO_API_KEY`                                                             |
+| **DeepSeek**              | Direct DeepSeek API access                                                                                                      | Set `DEEPSEEK_API_KEY`                                                                |
+| **NVIDIA NIM**            | Nemotron models via build.nvidia.com or local NIM                                                                               | Set `NVIDIA_API_KEY` (optional: `NVIDIA_BASE_URL`)                                    |
+| **GitHub Copilot**        | GitHub Copilot subscription (GPT-5.x, Claude, Gemini, etc.)                                                                     | OAuth via `hermes model`, or `COPILOT_GITHUB_TOKEN` / `GH_TOKEN`                      |
+| **GitHub Copilot ACP**    | Copilot ACP agent backend (spawns local `copilot` CLI)                                                                          | `hermes model` (requires `copilot` CLI + `copilot login`)                             |
+| **Custom Endpoint**       | VLLM, SGLang, Ollama, or any OpenAI-compatible API                                                                              | Set base URL + API key                                                                |
 
 For most first-time users: choose a provider, accept the defaults unless you know why you're changing them. The full provider catalog with env vars and setup steps lives on the [Providers](/docs/integrations/providers) page.
 
@@ -173,7 +176,7 @@ Hermes separates secrets from normal config:
 The easiest way to set values correctly is through the CLI:
 
 
-``` bash
+``` prism-code
 hermes config set model anthropic/claude-opus-4.6
 hermes config set terminal.backend docker
 hermes config set OPENROUTER_API_KEY sk-or-...
@@ -185,7 +188,7 @@ The right value goes to the right file automatically.
 ## 3. Run Your First Chat<a href="#3-run-your-first-chat" class="hash-link" aria-label="Direct link to 3. Run Your First Chat" translate="no" title="Direct link to 3. Run Your First Chat">​</a>
 
 
-``` bash
+``` prism-code
 hermes            # classic CLI
 hermes --tui      # modern TUI (recommended)
 ```
@@ -197,17 +200,17 @@ You'll see a welcome banner with your model, available tools, and skills. Use a 
 Hermes ships with two terminal interfaces: the classic `prompt_toolkit` CLI and a newer [TUI](/docs/user-guide/tui) with modal overlays, mouse selection, and non-blocking input. Both share the same sessions, slash commands, and config — try each with `hermes` vs `hermes --tui`.
 
 
-``` text
+``` prism-code
 Summarize this repo in 5 bullets and tell me what the main entrypoint is.
 ```
 
 
-``` text
+``` prism-code
 Check my current directory and tell me what looks like the main project file.
 ```
 
 
-``` text
+``` prism-code
 Help me set up a clean GitHub PR workflow for this codebase.
 ```
 
@@ -226,7 +229,7 @@ If that works, you're past the hardest part.
 Before moving on, make sure resume works:
 
 
-``` bash
+``` prism-code
 hermes --continue    # Resume the most recent session
 hermes -c            # Short form
 ```
@@ -239,7 +242,7 @@ That should bring you back to the session you just had. If it doesn't, check whe
 ### Use the terminal<a href="#use-the-terminal" class="hash-link" aria-label="Direct link to Use the terminal" translate="no" title="Direct link to Use the terminal">​</a>
 
 
-``` text
+``` prism-code
 ❯ What's my disk usage? Show the top 5 largest directories.
 ```
 
@@ -273,7 +276,7 @@ Only after the base chat works. Pick what you need:
 ### Bot or shared assistant<a href="#bot-or-shared-assistant" class="hash-link" aria-label="Direct link to Bot or shared assistant" translate="no" title="Direct link to Bot or shared assistant">​</a>
 
 
-``` bash
+``` prism-code
 hermes gateway setup    # Interactive platform configuration
 ```
 
@@ -291,7 +294,7 @@ Connect [Telegram](/docs/user-guide/messaging/telegram), [Discord](/docs/user-gu
 For safety, run the agent in a Docker container or on a remote server:
 
 
-``` bash
+``` prism-code
 hermes config set terminal.backend docker    # Docker isolation
 hermes config set terminal.backend ssh       # Remote server
 ```
@@ -300,7 +303,7 @@ hermes config set terminal.backend ssh       # Remote server
 ### Voice mode<a href="#voice-mode" class="hash-link" aria-label="Direct link to Voice mode" translate="no" title="Direct link to Voice mode">​</a>
 
 
-``` bash
+``` prism-code
 # From the Hermes install directory (the curl installer placed it at
 # ~/.hermes/hermes-agent on Linux/macOS or %LOCALAPPDATA%\hermes\hermes-agent on Windows):
 cd ~/.hermes/hermes-agent
@@ -320,7 +323,7 @@ Hermes ships with a catalog of bundled skills already installed in `~/.hermes/sk
 **Browse and install from the hub:**
 
 
-``` bash
+``` prism-code
 hermes skills browse                      # list everything available
 hermes skills search kubernetes           # find skills by keyword
 hermes skills install openai/skills/k8s   # install one (runs a security scan first)
@@ -332,7 +335,7 @@ The install argument is a `source/path` slug from the hub — `openai/skills/k8s
 **Use a skill** — every installed skill becomes a slash command automatically:
 
 
-``` bash
+``` prism-code
 /k8s deploy the staging manifest          # run the skill with a request
 /k8s                                       # load it and let Hermes ask what you need
 ```
@@ -345,7 +348,7 @@ See [Skills System](/docs/user-guide/features/skills) for writing your own, exte
 ### MCP servers<a href="#mcp-servers" class="hash-link" aria-label="Direct link to MCP servers" translate="no" title="Direct link to MCP servers">​</a>
 
 
-``` yaml
+``` prism-code
 # Add to ~/.hermes/config.yaml
 mcp_servers:
   github:
@@ -361,7 +364,7 @@ mcp_servers:
 ACP support ships with the standard `[all]` extras, so the curl installer already includes it. Just run:
 
 
-``` bash
+``` prism-code
 hermes acp
 ```
 
@@ -376,14 +379,14 @@ See [ACP Editor Integration](/docs/user-guide/features/acp).
 
 These are the problems that waste the most time:
 
-| Symptom | Likely cause | Fix |
-|----|----|----|
-| Hermes opens but gives empty or broken replies | Provider auth or model selection is wrong | Run `hermes model` again and confirm provider, model, and auth |
-| Custom endpoint "works" but returns garbage | Wrong base URL, model name, or not actually OpenAI-compatible | Verify the endpoint in a separate client first |
-| Gateway starts but nobody can message it | Bot token, allowlist, or platform setup is incomplete | Re-run `hermes gateway setup` and check `hermes gateway status` |
-| `hermes --continue` can't find old session | Switched profiles or session never saved | Check `hermes sessions list` and confirm you're in the right profile |
-| Model unavailable or odd fallback behavior | Provider routing or fallback settings are too aggressive | Keep routing off until the base provider is stable |
-| `hermes doctor` flags config problems | Config values are missing or stale | Fix the config, retest a plain chat before adding features |
+| Symptom                                        | Likely cause                                                  | Fix                                                                  |
+|------------------------------------------------|---------------------------------------------------------------|----------------------------------------------------------------------|
+| Hermes opens but gives empty or broken replies | Provider auth or model selection is wrong                     | Run `hermes model` again and confirm provider, model, and auth       |
+| Custom endpoint "works" but returns garbage    | Wrong base URL, model name, or not actually OpenAI-compatible | Verify the endpoint in a separate client first                       |
+| Gateway starts but nobody can message it       | Bot token, allowlist, or platform setup is incomplete         | Re-run `hermes gateway setup` and check `hermes gateway status`      |
+| `hermes --continue` can't find old session     | Switched profiles or session never saved                      | Check `hermes sessions list` and confirm you're in the right profile |
+| Model unavailable or odd fallback behavior     | Provider routing or fallback settings are too aggressive      | Keep routing off until the base provider is stable                   |
+| `hermes doctor` flags config problems          | Config values are missing or stale                            | Fix the config, retest a plain chat before adding features           |
 
 ## Recovery Toolkit<a href="#recovery-toolkit" class="hash-link" aria-label="Direct link to Recovery Toolkit" translate="no" title="Direct link to Recovery Toolkit">​</a>
 

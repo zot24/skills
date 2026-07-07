@@ -16,7 +16,7 @@ This catalog covers the errors most agents and clients will encounter. It is non
 
 All non-2xx responses return JSON with a top-level `success: false` and a string `error`. Some endpoints include additional fields (`details`, `code`) when more context is available.
 
-```json
+```json theme={null}
 {
   "success": false,
   "error": "Unauthorized: Invalid token",

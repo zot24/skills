@@ -37,7 +37,7 @@ Before you start contributing, please:
 
 Create a new branch for your feature or bug fix:
 
-```bash
+```bash theme={null}
 git checkout -b feature/your-feature-name
 # or
 git checkout -b fix/your-bug-fix-name
@@ -82,7 +82,7 @@ type(scope): description
 
 **Examples:**
 
-```bash
+```bash theme={null}
 git commit -m "feat(api): add new dialectic endpoint for user insights"
 git commit -m "fix(db): resolve connection pool timeout issue"
 git commit -m "docs(readme): update installation instructions"

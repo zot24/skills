@@ -17,7 +17,7 @@
 
 Add your API key to `appsettings.json`:
 
-```json
+```json theme={null}
 {
   "Firecrawl": {
     "ApiKey": "fc-YOUR-API-KEY",
@@ -28,7 +28,7 @@ Add your API key to `appsettings.json`:
 
 Or use environment variables / user secrets:
 
-```bash
+```bash theme={null}
 export Firecrawl__ApiKey=fc-YOUR-API-KEY
 ```
 
@@ -36,7 +36,7 @@ export Firecrawl__ApiKey=fc-YOUR-API-KEY
 
 Create `Services/FirecrawlService.cs`:
 
-```csharp
+```csharp theme={null}
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -120,7 +120,7 @@ public class FirecrawlService
 
 In `Program.cs`:
 
-```csharp
+```csharp theme={null}
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<FirecrawlService>();
 
@@ -153,13 +153,13 @@ record InteractRequest(string Url, string Prompt, string? FollowUp = null);
 
 ## Run it
 
-```bash
+```bash theme={null}
 dotnet run
 ```
 
 ## Test it
 
-```bash
+```bash theme={null}
 # Search the web
 curl -X POST http://localhost:5000/api/search \
   -H "Content-Type: application/json" \

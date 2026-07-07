@@ -71,13 +71,13 @@ AGENT_BROWSER_PROFILE=Default agent-browser open https://gmail.com
 ```
 
 
-| Detail | Description |
-|----|----|
-| Supported browsers | Chrome, Chrome Canary, Chromium, Brave |
-| What's copied | Cookies, local storage, extensions state (cache dirs excluded for speed) |
-| Original profile | Never modified (read-only snapshot) |
-| Cleanup | Temp copy deleted when browser closes |
-| Windows note | Close Chrome before using `--profile <name>` if Chrome is running |
+| Detail             | Description                                                              |
+|--------------------|--------------------------------------------------------------------------|
+| Supported browsers | Chrome, Chrome Canary, Chromium, Brave                                   |
+| What's copied      | Cookies, local storage, extensions state (cache dirs excluded for speed) |
+| Original profile   | Never modified (read-only snapshot)                                      |
+| Cleanup            | Temp copy deleted when browser closes                                    |
+| Windows note       | Close Chrome before using `--profile <name>` if Chrome is running        |
 
 ## Persistent profiles<a href="#persistent-profiles" aria-label="Link to this section">#</a>
 
@@ -299,18 +299,18 @@ agent-browser set headers '{"X-Custom-Header": "value"}'
 
 ## Environment variables<a href="#environment-variables" aria-label="Link to this section">#</a>
 
-| Variable | Description |
-|----|----|
-| `AGENT_BROWSER_SESSION` | Browser session ID (default: "default") |
-| `AGENT_BROWSER_NAMESPACE` | Namespace for daemon sockets and restore-state directories |
-| `AGENT_BROWSER_RESTORE` | Auto-save/load state persistence key |
-| `AGENT_BROWSER_RESTORE_SAVE` | Restore save policy: `auto`, `always`, or `never` |
-| `AGENT_BROWSER_RESTORE_CHECK_URL` | URL pattern restored state must match |
-| `AGENT_BROWSER_RESTORE_CHECK_TEXT` | Page text restored state must contain |
-| `AGENT_BROWSER_RESTORE_CHECK_FN` | JavaScript expression restored state must satisfy |
-| `AGENT_BROWSER_SESSION_NAME` | Legacy auto-save/load state persistence name |
-| `AGENT_BROWSER_ENCRYPTION_KEY` | 64-char hex key for AES-256-GCM encryption |
-| `AGENT_BROWSER_STATE_EXPIRE_DAYS` | Auto-delete states older than N days (default: 30) |
+| Variable                           | Description                                                |
+|------------------------------------|------------------------------------------------------------|
+| `AGENT_BROWSER_SESSION`            | Browser session ID (default: "default")                    |
+| `AGENT_BROWSER_NAMESPACE`          | Namespace for daemon sockets and restore-state directories |
+| `AGENT_BROWSER_RESTORE`            | Auto-save/load state persistence key                       |
+| `AGENT_BROWSER_RESTORE_SAVE`       | Restore save policy: `auto`, `always`, or `never`          |
+| `AGENT_BROWSER_RESTORE_CHECK_URL`  | URL pattern restored state must match                      |
+| `AGENT_BROWSER_RESTORE_CHECK_TEXT` | Page text restored state must contain                      |
+| `AGENT_BROWSER_RESTORE_CHECK_FN`   | JavaScript expression restored state must satisfy          |
+| `AGENT_BROWSER_SESSION_NAME`       | Legacy auto-save/load state persistence name               |
+| `AGENT_BROWSER_ENCRYPTION_KEY`     | 64-char hex key for AES-256-GCM encryption                 |
+| `AGENT_BROWSER_STATE_EXPIRE_DAYS`  | Auto-delete states older than N days (default: 30)         |
 
 
 Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>

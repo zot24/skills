@@ -18,13 +18,13 @@ Webhooks require a publicly reachable URL, so you need to expose your local serv
 
 [Cloudflare Tunnels](https://github.com/cloudflare/cloudflared/releases) provide a free way to expose your local server without opening firewall ports:
 
-```bash
+```bash theme={null}
 cloudflared tunnel --url localhost:3000
 ```
 
 You'll get a public URL like `https://abc123.trycloudflare.com`. Use this in your webhook config:
 
-```json
+```json theme={null}
 {
   "url": "https://abc123.trycloudflare.com/webhook"
 }
@@ -43,7 +43,7 @@ You'll get a public URL like `https://abc123.trycloudflare.com`. Use this in you
 
 The most common cause is using the parsed JSON body instead of the raw request body. A second cause is using the wrong secret, so confirm yours matches the value in your [account settings](https://www.firecrawl.dev/app/settings?tab=advanced).
 
-```javascript
+```javascript theme={null}
 // Wrong - using parsed body
 const signature = crypto
   .createHmac('sha256', secret)

@@ -1,0 +1,500 @@
+> Source: https://wiki.servarr.com/prowlarr/faq
+
+
+
+# <a href="#table-of-contents" class="toc-anchor">¶</a> Table of Contents
+
+- [Table of Contents](#table-of-contents)
+  - [Forced Authentication](#forced-authentication)
+    - [Authentication Method](#authentication-method)
+    - [Authentication Required](#authentication-required)
+  - [How do I reset Stats?](#how-do-i-reset-stats)
+  - [Category Not Available or Missing](#category-not-available-or-missing)
+  - [Can I add any (generic) Torrent RSS Feed?](#can-i-add-any-generic-torrent-rss-feed)
+  - [Can I add any (generic) Torznab or Newznab indexer?](#can-i-add-any-generic-torznab-or-newznab-indexer)
+  - [Can I use flaresolverr indexers?](#can-i-use-flaresolverr-indexers)
+  - [How can I add an indexer that is down or not functional?](#how-can-i-add-an-indexer-that-is-down-or-not-functional)
+  - [Prowlarr will not sync to Sonarr](#prowlarr-will-not-sync-to-sonarr)
+  - [Prowlarr will not sync X Indexer to App](#prowlarr-will-not-sync-x-indexer-to-app)
+  - [What \*Arr Indexer Settings are Compared for App Full Sync](#what-arr-indexer-settings-are-compared-for-app-full-sync)
+  - [How do I update Prowlarr?](#how-do-i-update-prowlarr)
+    - [Can I update Prowlarr inside my Docker container?](#can-i-update-prowlarr-inside-my-docker-container)
+    - [Installing a newer version](#installing-a-newer-version)
+      - [Native](#native)
+      - [Docker](#docker)
+  - [Can I switch from `nightly` back to `develop`?](#can-i-switch-from-nightly-back-to-develop)
+  - [Can I switch between branches?](#can-i-switch-between-branches)
+  - [Help, my Mac says Prowlarr cannot be opened because the developer cannot be verified](#help-my-mac-says-prowlarr-cannot-be-opened-because-the-developer-cannot-be-verified)
+  - [Help, my Mac says Prowlarr.app is damaged and can’t be opened](#help-my-mac-says-prowlarrapp-is-damaged-and-cant-be-opened)
+  - [How do I request a feature for Prowlarr?](#how-do-i-request-a-feature-for-prowlarr)
+  - [I am getting an error: Database disk image is malformed](#i-am-getting-an-error-database-disk-image-is-malformed)
+  - [I use Prowlarr on a Mac and it suddenly stopped working. What happened?](#i-use-prowlarr-on-a-mac-and-it-suddenly-stopped-working-what-happened)
+  - [How do I change from the Windows Service to a Tray App?](#how-do-i-change-from-the-windows-service-to-a-tray-app)
+  - [How do I Backup/Restore Prowlarr?](#how-do-i-backuprestore-prowlarr)
+    - [Backing up Prowlarr](#backing-up-prowlarr)
+      - [Using built-in backup](#using-built-in-backup)
+      - [Using file system directly](#using-file-system-directly)
+    - [Restoring from Backup](#restoring-from-backup)
+      - [Using zip backup](#using-zip-backup)
+      - [Using file system backup](#using-file-system-backup)
+      - [File System Restore on Synology NAS](#file-system-restore-on-synology-nas)
+  - [WebUI only Loads at localhost on Windows](#webui-only-loads-at-localhost-on-windows)
+  - [Finding Cookies](#finding-cookies)
+  - [I got a pop-up that said config.xml was corrupt, what now?](#i-got-a-pop-up-that-said-configxml-was-corrupt-what-now)
+  - [Invalid Certificate and other HTTPS or SSL issues](#invalid-certificate-and-other-https-or-ssl-issues)
+  - [Help I have locked myself out](#help-i-have-locked-myself-out)
+  - [Weird UI Issues](#weird-ui-issues)
+  - [VPNs, Jackett, and the \*ARRs](#vpns-jackett-and-the-arrs)
+    - [Use of a VPN](#use-of-a-vpn)
+  - [How do I stop the browser from launching on startup?](#how-do-i-stop-the-browser-from-launching-on-startup)
+  - [Can I easily add all indexers at once?](#can-i-easily-add-all-indexers-at-once)
+
+## <a href="#forced-authentication" class="toc-anchor">¶</a> Forced Authentication
+
+If Prowlarr is exposed so that the UI can be accessed from outside your local network then you should have some form of authentication method enabled in order to access the UI. This is also increasingly required by Trackers and Indexers.
+
+As of Prowlarr v1, Authentication is Mandatory.
+
+- `AuthenticationMethod` and `AuthenticationRequired` are mandatory required attributes in the configuration file.
+
+### <a href="#authentication-method" class="toc-anchor">¶</a> Authentication Method
+
+- `Basic` (Browser pop-up) - Basic Auth is not supported as of Prowlarr v1
+- `Forms` (Login Page) - This option will have a familiar looking login screen much like other websites have to allow you to log onto your Prowlarr. This is recommended.
+- `External` - Configurable via Config File Only
+  - Disables app authentication completely. *Use at your own risk especially if exposed to the internet* Suggested only if you use an **external authentication** such as Authelia, Authetik, NGINX Basic auth, etc. you can prevent needing to double authenticate by shutting down the app, setting `<AuthenticationMethod>External</AuthenticationMethod>` in the <a href="/prowlarr/appdata-directory" class="is-internal-link is-valid-page">config file</a>, and restarting the app. **Note that multiple `AuthenticationMethod` entries in the file are not supported and only the topmost value will be used**
+
+### <a href="#authentication-required" class="toc-anchor">¶</a> Authentication Required
+
+- If you do not expose the app externally and/or do not wish to have auth required for local (e.g. LAN) access then change in Settings =\> General Security =\> Authentication Required to `Disabled For Local Addresses`
+  - The config file equivalent of this is `<AuthenticationRequired>DisabledForLocalAddresses</AuthenticationRequired>`
+- `<AuthenticationRequired>Enabled</AuthenticationRequired>` is also a valid value
+
+## <a href="#how-do-i-reset-stats" class="toc-anchor">¶</a> How do I reset Stats
+
+- To reset your stats and clear history do the following:
+
+1.  History =\> Options
+2.  Set History Cleanup to `1`. This will keep only through yesterday's History and Stats
+3.  Navigate to System =\> Tasks
+4.  Run the `Clean Up History` Task
+5.  Run the `Housekeeping` Task
+6.  Return to History =\> Options
+7.  Set History Cleanup to your desired retention period for History and Stats
+
+## <a href="#category-not-available-or-missing" class="toc-anchor">¶</a> Category Not Available or Missing
+
+- Please note that custom/non-standard indexer specific categories are mapped to standard ones, so searching will standard ones will incorporate all custom ones. Review your specific Indexer's category mapping definition for details.
+
+## <a href="#can-i-add-any-generic-torrent-rss-feed" class="toc-anchor">¶</a> Can I add any (generic) Torrent RSS Feed
+
+Yes. Use "TorrentRSS".
+
+The following attributes are mandatory:
+
+- guid
+- title
+- infohash
+- enclosure or link
+
+The following attributes are optional, but recommended:
+
+- size
+- pubDate
+
+## <a href="#can-i-add-any-generic-torznab-or-newznab-indexer" class="toc-anchor">¶</a> Can I add any (generic) Torznab or Newznab indexer
+
+- Yes.
+- Go to `Indexers` =\> `Add Indexer` (+) =\> `Generic Torznab` or `Generic Newznab`
+
+## <a href="#can-i-use-flaresolverr-indexers" class="toc-anchor">¶</a> Can I use flaresolverr indexers
+
+- Yes.
+
+1.  Configure your flaresolverr instance by adding it as a proxy in <a href="/prowlarr/settings#indexer-proxies" class="is-internal-link is-valid-page">Settings =&gt; Indexers</a>
+2.  Add a tag to the created flaresolverr proxy
+3.  Add the same tag to your <a href="/prowlarr/indexers" class="is-internal-link is-valid-page">Indexer</a>
+
+> The tags must match & Cloudflare must be detected for Flaresolverr to be used. A Flaresolverr proxy is disabled if no tags are used.
+
+> <a href="https://trash-guides.info/Prowlarr/prowlarr-setup-flaresolverr/" class="is-external-link">See TRaSH's Guides on "How to setup Flaresolverr"</a> for more details
+
+## <a href="#how-can-i-add-an-indexer-that-is-down-or-not-functional" class="toc-anchor">¶</a> How can I add an indexer that is down or not functional
+
+- Follow the standard steps to add the indexer noting the following changes.
+- Uncheck (Disable) the `Enabled` box
+- Press `Save`
+- Press `Save` again to trigger a force save
+- Edit the Indexer (Wrench Icon)
+- Check (Enable) the `Enabled` box
+- Press `Save`
+- Press `Save` again to trigger a force save
+
+## <a href="#prowlarr-will-not-sync-to-sonarr" class="toc-anchor">¶</a> Prowlarr will not sync to Sonarr
+
+- Prowlarr only supports Sonarr v3+
+- Sonarr v2 (fka nzbdrone) is not supported by Prowlarr nor supported in general and has been end-of-life since March 2021
+
+## <a href="#prowlarr-will-not-sync-x-indexer-to-app" class="toc-anchor">¶</a> Prowlarr will not sync X Indexer to App
+
+- Prowlarr only syncs if Add and Remove or Full Sync is enabled for the app.
+- Only in instances where an App and Indexer have matching tags or no tags at all will an indexer be synced to an app
+- Indexers are synced based on the capabilities/categories they claim to support.
+  - If an indexer supports only TV categories it will not be synced to Lidarr, Radarr, and Readarr.
+- A given indexer will only be synced to Sonarr if "Supported" Categories can be selected as an advanced setting on a per app basis.
+- Indexers will not be attempted to be synced if the specific Categories supported by the Indexer are not selected in Settings =\> Application =\> {App} =\> Sync Categories (Advanced Settings) and logs will not show any indication of a sync attempt.
+- The most common cause for this is that the \*Arrs only accept indexers whose test queries return results containing at least one of the configured categories. In other words, if you're syncing to an App and your indexer's empty query does not return results with any release within the categories configured for the App then it will be unable to add the indexer to \*Arr.
+- The specific error will be an HTTP 400 from \*Arr stating `Query successful, but no results in the configured categories were returned from your indexer. This may be an issue with the indexer or your indexer category settings.`
+  - Possibly that indexer simply cannot be used with that \*Arr. This is common for attempting to use public trackers or usenet indexers with Readarr and Lidarr.
+  - Adjust the categories synced in the advanced settings for the \*Arr application within Prowlarr
+    - Note that certain Trackers - primarily "crappy" public trackers - require one to select and sync the `8000 - Other` category. This is often - but not always - noted within the Tracker's details within Prowlarr.
+  - Try again later
+  - If the issue persist you may have a corrupted database. Check your logs for instances of `Database disk image is malformed` or `Error creating main database`. See <a href="/prowlarr/faq#i-am-getting-an-error-database-disk-image-is-malformed" class="is-internal-link is-valid-page">this heading</a> for possible solutions.
+
+## <a href="#what-arr-indexer-settings-are-compared-for-app-full-sync" class="toc-anchor">¶</a> What \*Arr Indexer Settings are Compared for App Full Sync
+
+When Full Sync is enabled, Prowlarr compares the following settings between the \*Arr app and Prowlarr to determine if an indexer needs to be updated:
+
+### <a href="#sonarr" class="toc-anchor">¶</a> Sonarr
+
+| Setting                               | Description                                                 | Code Reference           |
+|---------------------------------------|-------------------------------------------------------------|--------------------------|
+| **Indexer Name**                      | The name of the indexer (with "(Prowlarr)" suffix)          | `SonarrIndexer.cs:71`    |
+| **Enable RSS**                        | Whether RSS feeds are enabled for the indexer               | `SonarrIndexer.cs:68`    |
+| **Enable Automatic Search**           | Whether automatic searches are enabled                      | `SonarrIndexer.cs:69`    |
+| **Enable Interactive Search**         | Whether interactive (manual) searches are enabled           | `SonarrIndexer.cs:70`    |
+| **Priority**                          | Indexer priority for search order                           | `SonarrIndexer.cs:73`    |
+| **Implementation**                    | Indexer protocol type (Newznab/Torznab)                     | `SonarrIndexer.cs:72`    |
+| **Base URL**                          | The base URL for the indexer API endpoint                   | `SonarrIndexer.cs:32`    |
+| **API Path**                          | The API path (typically "/api")                             | `SonarrIndexer.cs:40-42` |
+| **API Key**                           | Prowlarr's API key for authentication                       | `SonarrIndexer.cs:36-38` |
+| **Categories**                        | Supported categories mapped between Prowlarr and Sonarr     | `SonarrIndexer.cs:33`    |
+| **Anime Categories**                  | Anime-specific category mappings                            | `SonarrIndexer.cs:34`    |
+| **Anime Standard Format Search**      | Whether to use standard format for anime searches           | `SonarrIndexer.cs:44-46` |
+| **Minimum Seeders**                   | Minimum number of seeders required (torrent indexers only)  | `SonarrIndexer.cs:48-50` |
+| **Seed Ratio**                        | Seed ratio for torrent downloads                            | `SonarrIndexer.cs:60-62` |
+| **Seed Time**                         | Minimum seed time for torrents                              | `SonarrIndexer.cs:52-54` |
+| **Season Pack Seed Time**             | Seed time for season packs                                  | `SonarrIndexer.cs:56-58` |
+| **Reject Blocklisted Torrent Hashes** | Whether to reject blocklisted torrent hashes while grabbing | `SonarrIndexer.cs:64-66` |
+
+### <a href="#radarr" class="toc-anchor">¶</a> Radarr
+
+| Setting                               | Description                                                 | Code Reference           |
+|---------------------------------------|-------------------------------------------------------------|--------------------------|
+| **Indexer Name**                      | The name of the indexer (with "(Prowlarr)" suffix)          | `RadarrIndexer.cs:61`    |
+| **Enable RSS**                        | Whether RSS feeds are enabled for the indexer               | `RadarrIndexer.cs:58`    |
+| **Enable Automatic Search**           | Whether automatic searches are enabled                      | `RadarrIndexer.cs:59`    |
+| **Enable Interactive Search**         | Whether interactive (manual) searches are enabled           | `RadarrIndexer.cs:60`    |
+| **Priority**                          | Indexer priority for search order                           | `RadarrIndexer.cs:63`    |
+| **Implementation**                    | Indexer protocol type (Newznab/Torznab)                     | `RadarrIndexer.cs:62`    |
+| **Base URL**                          | The base URL for the indexer API endpoint                   | `RadarrIndexer.cs:31`    |
+| **API Path**                          | The API path (typically "/api")                             | `RadarrIndexer.cs:38-40` |
+| **API Key**                           | Prowlarr's API key for authentication                       | `RadarrIndexer.cs:34-36` |
+| **Categories**                        | Supported categories mapped between Prowlarr and Radarr     | `RadarrIndexer.cs:32`    |
+| **Minimum Seeders**                   | Minimum number of seeders required (torrent indexers only)  | `RadarrIndexer.cs:42-44` |
+| **Seed Ratio**                        | Seed ratio for torrent downloads                            | `RadarrIndexer.cs:50-52` |
+| **Seed Time**                         | Minimum seed time for torrents                              | `RadarrIndexer.cs:46-48` |
+| **Reject Blocklisted Torrent Hashes** | Whether to reject blocklisted torrent hashes while grabbing | `RadarrIndexer.cs:54-56` |
+
+### <a href="#lidarr" class="toc-anchor">¶</a> Lidarr
+
+| Setting                               | Description                                                 | Code Reference           |
+|---------------------------------------|-------------------------------------------------------------|--------------------------|
+| **Indexer Name**                      | The name of the indexer (with "(Prowlarr)" suffix)          | `LidarrIndexer.cs:65`    |
+| **Enable RSS**                        | Whether RSS feeds are enabled for the indexer               | `LidarrIndexer.cs:62`    |
+| **Enable Automatic Search**           | Whether automatic searches are enabled                      | `LidarrIndexer.cs:63`    |
+| **Enable Interactive Search**         | Whether interactive (manual) searches are enabled           | `LidarrIndexer.cs:64`    |
+| **Priority**                          | Indexer priority for search order                           | `LidarrIndexer.cs:67`    |
+| **Implementation**                    | Indexer protocol type (Newznab/Torznab)                     | `LidarrIndexer.cs:66`    |
+| **Base URL**                          | The base URL for the indexer API endpoint                   | `LidarrIndexer.cs:31`    |
+| **API Path**                          | The API path (typically "/api")                             | `LidarrIndexer.cs:38-40` |
+| **API Key**                           | Prowlarr's API key for authentication                       | `LidarrIndexer.cs:34-36` |
+| **Categories**                        | Supported categories mapped between Prowlarr and Lidarr     | `LidarrIndexer.cs:32`    |
+| **Minimum Seeders**                   | Minimum number of seeders required (torrent indexers only)  | `LidarrIndexer.cs:42-44` |
+| **Seed Ratio**                        | Seed ratio for torrent downloads                            | `LidarrIndexer.cs:54-56` |
+| **Seed Time**                         | Minimum seed time for torrents                              | `LidarrIndexer.cs:46-48` |
+| **Discography Seed Time**             | Seed time for discography downloads                         | `LidarrIndexer.cs:50-52` |
+| **Reject Blocklisted Torrent Hashes** | Whether to reject blocklisted torrent hashes while grabbing | `LidarrIndexer.cs:58-60` |
+
+With Full Sync enabled, if any of the above settings differ between the \*Arr app and Prowlarr, the indexer will be synced and updated in the \*Arr app.
+
+## <a href="#how-do-i-update-prowlarr" class="toc-anchor">¶</a> How do I update Prowlarr
+
+- Go to Settings and then the General tab and show advanced settings (use the toggle by the save button).
+
+1.  Under the Updates section change the branch name to `master`, `develop`, or `nightly`
+2.  Save
+
+*This will not install the bits from that branch immediately, it will happen during the next update.*
+
+- `master` - ![Current Master/Stable](https://img.shields.io/badge/dynamic/json?color=f5f5f5&style=flat-square&label=Master&query=%24%5B0%5D.version&url=https://prowlarr.servarr.com/v1/update/master/changes) - (Default/Stable): It has been tested by users on the develop and nightly branches and it’s not known to have any major issues. On GitHub, this is the `master` branch.
+
+- `develop` - ![Current Develop/Beta](https://img.shields.io/badge/dynamic/json?color=f5f5f5&style=flat-square&label=Develop&query=%24%5B0%5D.version&url=https://prowlarr.servarr.com/v1/update/develop/changes) - (Beta): This is the testing edge. Released after tested in nightly to ensure no immediate issues. New features and bug fixes released here first after nightly. It can be considered semi-stable, but is still `beta`.
+
+> On GitHub, this is a snapshot of the `develop` branch at a specific point in time and is tagged as pre-release.
+
+- `nightly` - ![Current Nightly/Unstable](https://img.shields.io/badge/dynamic/json?color=f5f5f5&style=flat-square&label=Nightly&query=%24%5B0%5D.version&url=https://prowlarr.servarr.com/v1/update/nightly/changes) - (Alpha/Unstable): This is the bleeding edge. It is released as soon as code is committed and passes all automated tests. This build may have not been used by us or other users yet. There is no guarantee that it will even run in some cases. This branch is only recommended for advanced users. Issues and self investigation are expected in this branch. ***Use this branch only if you know what you are doing and are willing to get your hands dirty to recover a failed update.*** This version is updated immediately.
+
+> **Warning: You may not be able to go back to `develop` after switching to this branch.** On GitHub, this is the `develop` branch.
+
+- Note: If your install is through Docker append `:latest`, `:testing`, `:develop`, or `:nightly` to the end of your container tag depending on who makes your builds.
+
+|                                                                                                          | `master` (stable) ![Current Master/Stable](https://img.shields.io/badge/dynamic/json?color=f5f5f5&style=flat-square&label=Master&query=%24%5B0%5D.version&url=https://prowlarr.servarr.com/v1/update/master/changes) | `develop` (beta) ![Current Develop/Beta](https://img.shields.io/badge/dynamic/json?color=f5f5f5&style=flat-square&label=Develop&query=%24%5B0%5D.version&url=https://prowlarr.servarr.com/v1/update/develop/changes) | `nightly` (unstable) ![Current Nightly/Alpha](https://img.shields.io/badge/dynamic/json?color=f5f5f5&style=flat-square&label=Nightly&query=%24%5B0%5D.version&url=https://prowlarr.servarr.com/v1/update/nightly/changes) |
+|----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <a href="https://hotio.dev/containers/prowlarr" class="is-external-link">hotio</a>                       | `latest`                                                                                                                                                                                                             | `testing`                                                                                                                                                                                                            | `nightly`                                                                                                                                                                                                                 |
+| <a href="https://docs.linuxserver.io/images/docker-prowlarr" class="is-external-link">LinuxServer.io</a> | `latest`                                                                                                                                                                                                             | `develop`                                                                                                                                                                                                            | `nightly`                                                                                                                                                                                                                 |
+
+### <a href="#can-i-update-prowlarr-inside-my-docker-container" class="toc-anchor">¶</a> Can I update Prowlarr inside my Docker container
+
+- *Technically, yes.* **But you absolutely should not.** It is a primary philosophy of Docker. Database issues can arise if you upgrade your installation inside to the most recent `nightly`, but then update the Docker container itself (possibly downgrading to an older version).
+
+### <a href="#installing-a-newer-version" class="toc-anchor">¶</a> Installing a newer version
+
+#### <a href="#native" class="toc-anchor">¶</a> Native
+
+1.  Go to System and then the Updates tab
+2.  Newer versions that are not yet installed will have an update button next to them, clicking that button will install the update.
+
+#### <a href="#docker" class="toc-anchor">¶</a> Docker
+
+1.  Repull your tag and update your container
+
+## <a href="#can-i-switch-from-nightly-back-to-develop" class="toc-anchor">¶</a> Can I switch from `nightly` back to `develop`
+
+- See [Can I switch between branches?](#can-i-switch-between-branches) below.
+
+## <a href="#can-i-switch-between-branches" class="toc-anchor">¶</a> Can I switch between branches
+
+- If version is identical you can switch, otherwise check with the development team to see if you can switch from `nightly` to `develop`; or `develop` to `nightly` for your given build.
+- Failure to follow these instructions may result in your Prowlarr becoming unusable or throwing errors. You have been warned
+  - The most common errors are database errors around missing columns or tables.
+
+## <a href="#help-my-mac-says-prowlarr-cannot-be-opened-because-the-developer-cannot-be-verified" class="toc-anchor">¶</a> Help, my Mac says Prowlarr cannot be opened because the developer cannot be verified
+
+- This is simple, please see the <a href="https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac" class="is-external-link">Mac help documentation</a> for more information
+- Alternatively, you may need to self-sign Prowlarr `codesign --force --deep -s - /Applications/Prowlarr.app && xattr -rd com.apple.quarantine`
+
+![faq_1_mac.png](/assets/general/faq_1_mac.png)
+
+## <a href="#help-my-mac-says-prowlarrapp-is-damaged-and-cant-be-opened" class="toc-anchor">¶</a> Help, my Mac says Prowlarr.app is damaged and can’t be opened
+
+That is either due to a corrupt download (so try again), or security issues answered just above this.
+
+## <a href="#how-do-i-request-a-feature-for-prowlarr" class="toc-anchor">¶</a> How do I request a feature for Prowlarr
+
+To request a feature for Prowlarr, first search on GitHub to ensure no similar request exists, then <a href="https://github.com/Prowlarr/Prowlarr/issues/new?assignees=&amp;labels=feature+request&amp;template=feature_request.md&amp;title=" class="is-external-link">submit a feature request on GitHub</a> to add your request.
+
+## <a href="#i-am-getting-an-error-database-disk-image-is-malformed" class="toc-anchor">¶</a> I am getting an error: Database disk image is malformed
+
+- **Errors of `Error creating log database` indicate issues with logs.db**
+  - This can quickly be resolved by renaming or removing the database. The logs database contains unimportant information regarding commands history and update install history, and Info, Warn, and Error entries
+- **Errors of `Error creating main database` or generic `database disk image is malformed` with no specified database indicate issues with prowlarr.db**
+  - Continue with the steps noted below
+- This means your SQLite database that stores most of the information for Prowlarr is corrupt. Your options are to try (a) backup(s), try recovering the existing database, try recovering the backup(s), or if all else fails starting over with a fresh new database.
+- This error may show if the database file is not writable by the user/group \*Arr is running as. Permissions being the cause will likely only be an issue for new installs, migrated installs to a new server, if you recently modified your appdata directory permissions, or if you changed the user and group \*Arr run as.
+- Your best and first option is to [try restoring from a backup](#how-do-i-backuprestore-my-prowlarr)
+- You can also try recovering your database. This is typically the only option for when this issue occurs after an update. Try the <a href="/useful-tools#recovering-a-corrupt-db" class="is-internal-link is-valid-page">sqlite3 <code>.recover</code> command</a>
+  - If your sqlite does not have `.recover` or you wish a more GUI (i.e. Windows) friendly way then follow <a href="/useful-tools#recovering-a-corrupt-db-ui" class="is-internal-link is-valid-page">our instructions on this wiki.</a>
+- Another possible cause of you getting an error with your Database is that you're placing your database on a network drive (nfs or smb or something else not local). **SQLite is designed for situations where the data and application coexist on the same machine.** Thus your \*Arr AppData Folder (/config mount for docker) MUST be on local storage. <a href="https://www.sqlite.org/draft/useovernet.html" class="is-external-link">SQLite and network drives not play nice together and will cause a malformed database eventually</a>.
+- If you are using mergerFS you need to remove `direct_io` as SQLite uses mmap which isn’t supported by `direct_io` as explained in the mergerFS <a href="https://github.com/trapexit/mergerfs#plex-doesnt-work-with-mergerfs" class="is-external-link">docs here</a>
+
+## <a href="#i-use-prowlarr-on-a-mac-and-it-suddenly-stopped-working-what-happened" class="toc-anchor">¶</a> I use Prowlarr on a Mac and it suddenly stopped working. What happened
+
+- Most likely this is due to a MacOS bug which caused the Prowlarr database to be corrupted. Please check the FAQ entry for restoring a corrupt database.
+
+## <a href="#prowlarr-wont-start-on-debian-11-or-older-systems-due-to-sqlite-version" class="toc-anchor">¶</a> Prowlarr won't start on Debian 11 or older systems due to SQLite version
+
+> This workaround is only for older end-of-standard-support systems with outdated GLIBC/SQLite versions. This is not applicable to systems with SQLite corruption issues.
+
+Prowlarr v2.1.5.5216+ uses SQLite from SourceGear.sqlite3, which requires newer GLIBC versions and may cause compatibility issues on older end-of-standard-support systems including Debian 10, Debian 11, Synology DSM, Ubuntu 18, and Ubuntu 20. If you encounter SQLite-related errors (not corruption) on these platforms, you can force Prowlarr to use your system's native SQLite library instead, which is compatible with your GLIBC version.
+
+### <a href="#solution" class="toc-anchor">¶</a> Solution
+
+Create a symlink from your system's SQLite library to the expected library name in Prowlarr's directory:
+
+``` prismjs
+# First, ensure libsqlite3-0 is installed (not just sqlite3)
+sudo apt update
+sudo apt install libsqlite3-0
+
+# Navigate to Prowlarr installation directory
+cd /opt/Prowlarr/
+
+# Backup the original bundled library
+mv libe_sqlite3.so libe_sqlite3.so.backup 2>/dev/null || true
+
+# Create symlink to system SQLite library
+# The path varies by architecture:
+# - amd64/x64: /usr/lib/x86_64-linux-gnu/libsqlite3.so.0
+# - arm64: /usr/lib/aarch64-linux-gnu/libsqlite3.so.0
+# - armhf: /usr/lib/arm-linux-gnueabihf/libsqlite3.so.0
+
+# For amd64 systems (most common):
+ln -s /usr/lib/x86_64-linux-gnu/libsqlite3.so.0 libe_sqlite3.so
+
+# For arm64 systems:
+# ln -s /usr/lib/aarch64-linux-gnu/libsqlite3.so.0 libe_sqlite3.so
+
+# For armhf systems:
+# ln -s /usr/lib/arm-linux-gnueabihf/libsqlite3.so.0 libe_sqlite3.so
+
+# Verify the symlink was created
+ls -la libe_sqlite3.so
+```
+
+After creating the symlink, restart Prowlarr. It will now use the system's SQLite library which is compatible with your GLIBC version.
+
+> **Note:** You will need to recreate this symlink after each Prowlarr update, as updates replace the application directory contents.
+
+### <a href="#when-to-use-this-workaround" class="toc-anchor">¶</a> When to use this workaround
+
+- You're running an older end-of-life system (Debian 10, Debian 11, Synology DSM, Ubuntu 18, or Ubuntu 20)
+- Prowlarr fails to start with SQLite initialization errors
+- The error is **not** related to database corruption
+- Your system's SQLite version is at least 3.9.0
+
+### <a href="#when-not-to-use-this-workaround" class="toc-anchor">¶</a> When NOT to use this workaround
+
+- You have a database corruption issue (see the section above instead)
+- You're on a modern, supported Linux distribution
+- Prowlarr starts normally
+
+## <a href="#how-do-i-change-from-the-windows-service-to-a-tray-app" class="toc-anchor">¶</a> How do I change from the Windows Service to a Tray App
+
+- Shut Prowlarr down
+- Run serviceuninstall.exe that's in the Prowlarr directory
+- Run Prowlarr.exe as an administrator once to give it proper permissions and open the firewall. Once complete, then you can close it and run it normally.
+- (Optional) Drop a shortcut to Prowlarr.exe in the startup folder to auto-start on boot.
+
+## <a href="#how-do-i-backuprestore-prowlarr" class="toc-anchor">¶</a> How do I Backup/Restore Prowlarr
+
+### <a href="#backing-up-prowlarr" class="toc-anchor">¶</a> Backing up Prowlarr
+
+#### <a href="#using-built-in-backup" class="toc-anchor">¶</a> Using built-in backup
+
+- Go to System =\> Backup in the Prowlarr UI
+- Click the Backup button
+- Download the zip after the backup is created for safekeeping
+
+#### <a href="#using-file-system-directly" class="toc-anchor">¶</a> Using file system directly
+
+- Find the location of the AppData directory for Prowlarr
+  - Via the Prowlarr UI go to System =\> About
+  - <a href="/prowlarr/appdata-directory" class="is-internal-link is-valid-page">Prowlarr Appdata Directory</a>
+- Stop Prowlarr - This will prevent the database from being corrupted
+- Copy the contents to a safe location
+
+### <a href="#restoring-from-backup" class="toc-anchor">¶</a> Restoring from Backup
+
+> Restoring to an OS that uses different paths will not work (Windows to Linux, Linux to Windows, Windows to OS X or OS X to Windows), moving between OS X and Linux may work, since both use paths containing `/` instead of `\` that Windows uses, but is not supported. You'll need to manually edit all paths in the database.
+
+#### <a href="#using-zip-backup" class="toc-anchor">¶</a> Using zip backup
+
+- Re-install Prowlarr (if applicable / not already installed)
+- Run Prowlarr
+- Navigate to System =\> Backup
+- Select Restore Backup
+- Select Choose File
+- Select your backup zip file
+- Select Restore
+
+#### <a href="#using-file-system-backup" class="toc-anchor">¶</a> Using file system backup
+
+- Re-install Prowlarr (if applicable / not already installed)
+- Find the location of the AppData directory for Prowlarr
+  - Running Prowlarr once and via the UI go to System =\> About
+  - <a href="/prowlarr/appdata-directory" class="is-internal-link is-valid-page">Prowlarr Appdata Directory</a>
+- Stop Prowlarr
+- Delete the contents of the AppData directory **(Including the .db-wal/.db-journal files if they exist)**
+- Restore from your backup
+- Start Prowlarr
+- As long as the paths are the same, everything will pick up where it left off
+
+#### <a href="#file-system-restore-on-synology-nas" class="toc-anchor">¶</a> File System Restore on Synology NAS
+
+> CAUTION: Restoring on a Synology requires knowledge of Linux and Root SSH access to the Synology Device.
+
+- Re-install Prowlarr (if applicable / not already installed)
+- Find the location of the AppData directory for Prowlarr
+  - Running Prowlarr once and via the UI go to System =\> About
+  - <a href="/prowlarr/appdata-directory" class="is-internal-link is-valid-page">Prowlarr Appdata Directory</a>
+- Stop Prowlarr
+- Connect to the Synology NAS through SSH and log in as root
+
+> On some installations, the user is different than the below commands: `chown -R sc-Prowlarr:Prowlarr *`
+
+- Execute the following commands:
+
+  ``` prismjs
+      rm -r /usr/local/Prowlarr/var/.config/Prowlarr/Prowlarr.db
+      cp -f /tmp/Prowlarr_backup/* /usr/local/Prowlarr/var/.config/Prowlarr/
+  ```
+
+- Update permissions on the files:
+
+  ``` prismjs
+      cd /usr/local/Prowlarr/var/.config/Prowlarr/
+      chown -R Prowlarr:users *
+      chmod -R 0644 *
+  ```
+
+- Start Prowlarr
+
+## <a href="#webui-only-loads-at-localhost-on-windows" class="toc-anchor">¶</a> WebUI only Loads at localhost on Windows
+
+If you can only reach your web interface at `http://localhost:9696/` or `http://127.0.0.1:9696`, you need to run Prowlarr as Administrator at least once, maybe even always.
+
+## <a href="#finding-cookies" class="toc-anchor">¶</a> Finding Cookies
+
+Some sites cannot be logged into automatically and require you to login manually then give the cookies to Prowlarr to work. <a href="/useful-tools#finding-cookies" class="is-internal-link is-valid-page">Please see this article for details.</a>
+
+## <a href="#i-got-a-pop-up-that-said-configxml-was-corrupt-what-now" class="toc-anchor">¶</a> I got a pop-up that said config.xml was corrupt, what now
+
+Prowlarr was unable to read your config file on start-up as it became corrupted somehow. In order to get Prowlarr back online, you will need to delete `.xml` in your AppData Folder, once deleted start Prowlarr and it will start on the default port (9696), you should now re-configure any settings you configured on the General Settings page.
+
+## <a href="#invalid-certificate-and-other-https-or-ssl-issues" class="toc-anchor">¶</a> Invalid Certificate and other HTTPS or SSL issues
+
+Your download client stopped working and you're getting an error like `Localhost is an invalid certificate`?
+
+Prowlarr validates SSL certificates. If there is no SSL certificate set in the download client, or you're using a self-signed https certificate without the CA certificate added to your local certificate store, then Prowlarr will refuse to connect. Free properly signed certificates are available from let's encrypt.
+
+If your download client and Prowlarr are on the same machine there is no reason to use HTTPS, so the easiest solution is to disable SSL for the connection. Most would agree it's not required on a local network either. It is possible to disable certificate validation in advanced settings if you want to keep an insecure SSL setup.
+
+## <a href="#help-i-have-locked-myself-out" class="toc-anchor">¶</a> Help I have locked myself out
+
+1.  Stop Prowlarr
+2.  Open config.xml in a text editor
+3.  Find the authentication method line - will be  
+    `<AuthenticationMethod>Basic</AuthenticationMethod>` or `<AuthenticationMethod>Forms</AuthenticationMethod>`  
+    ***(Be sure you do not have two AuthenticationMethod entries in your file!)***
+4.  Remove the entire `AuthenticationMethod` line
+5.  Start Prowlarr
+6.  Prowlarr will now be accessible without a password. When you open the Web UI, you should be prompted to set a new password and authentication method
+
+## <a href="#weird-ui-issues" class="toc-anchor">¶</a> Weird UI Issues
+
+- If you experience any weird UI issues or a certain view or sort not working, try viewing in a Chrome Incognito Window or Firefox Private Window. If it works fine there, clear your browser cache and cookies for your specific ip/domain. For more information, see the <a href="/useful-tools#clearing-cookies-and-local-storage" class="is-internal-link is-valid-page">Clear Cache Cookies and Local Storage</a> wiki article.
+
+## <a href="#vpns-jackett-and-the-arrs" class="toc-anchor">¶</a> VPNs, Jackett, and the \*ARRs
+
+> For comprehensive VPN guidance, see the dedicated <a href="/vpn" class="is-internal-link is-valid-page">VPN Guide</a> page.
+
+- Unless you're in a repressive country like China or Australia, your BitTorrent client is typically the only thing that needs to be behind a VPN. Usenet does not require VPN protection as it uses encrypted SSL connections. For most countries including the UK, using secure DNS (like Cloudflare's 1.1.1.1 or Google's 8.8.8.8) is sufficient to resolve access issues without requiring a VPN. Other \*Arr apps not connecting to trackers should not be behind a VPN. Because the VPN endpoint is shared by many users, you can and will experience rate limiting, DDOS protection, and ip bans from various services each software uses.
+
+> **To be clear it is not a matter if VPNs will cause issues with the \*Arrs, but when: image providers will block you and cloudflare is in front of most of \*Arr servers (updates, metadata, etc.) and liable to block you too**
+
+- **Many private trackers will ban you for using or accessing them (i.e. using Jackett or Prowlarr) via a VPN.**
+
+## <a href="#how-do-i-stop-the-browser-from-launching-on-startup" class="toc-anchor">¶</a> How do I stop the browser from launching on startup
+
+Depending on your OS, there are multiple possible ways.
+
+- In `Settings` =\> `General` on some OS'es, there is a checkbox to launch the browser on startup.
+- When invoking Prowlarr, you can add `-nobrowser` (\*nix) or `/nobrowser` (Windows) to the arguments.
+- Stop Prowlarr and edit the config.xml file, and change `<LaunchBrowser>True</LaunchBrowser>` to `<LaunchBrowser>False</LaunchBrowser>`.
+
+## <a href="#can-i-easily-add-all-indexers-at-once" class="toc-anchor">¶</a> Can I easily add all indexers at once
+
+No. This would not be a good thing to do, and this functionality will not be added. It is much better to choose your indexers wisely, pay attention to the stats to remove indexers that are too slow or not producing grabs. Proper pruning and maintenance of your indexers will result in much better results overall, and quicker results on searches from your apps.
+
+

@@ -41,6 +41,8 @@ TRaSH-Guides
 <a href="../File-and-Folder-Structure/Replace-copies-with-hardlinks/" class="md-nav__link"><span class="md-ellipsis"> Replace Copies With Hardlinks </span></a>
 
 
+<a href="../Downloaders/port-forwarding-troubleshooting/" class="md-nav__link"><span class="md-ellipsis"> Port Forwarding Troubleshooting </span></a>
+
 <a href="../Downloaders/3rd-party-tools/" class="md-nav__link"><span class="md-ellipsis"> 3rd Party tools </span></a>
 
 

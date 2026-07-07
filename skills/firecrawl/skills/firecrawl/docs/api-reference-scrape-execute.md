@@ -52,7 +52,7 @@ When you are done, call `DELETE /v2/scrape/{jobId}/interact` to stop the session
 
 ### Example Request (Code)
 
-```bash
+```bash theme={null}
 curl -X POST "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655440000/interact" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
   -H "Content-Type: application/json" \
@@ -65,7 +65,7 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655
 
 ### Example Response (Code)
 
-```json
+```json theme={null}
 {
   "success": true,
   "cdpUrl": "wss://browser.firecrawl.dev/...",
@@ -81,7 +81,7 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655
 
 ### Example Request (Prompt)
 
-```bash
+```bash theme={null}
 curl -X POST "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655440000/interact" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
   -H "Content-Type: application/json" \
@@ -93,7 +93,7 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655
 
 ### Example Response (Prompt)
 
-```json
+```json theme={null}
 {
   "success": true,
   "cdpUrl": "wss://browser.firecrawl.dev/...",

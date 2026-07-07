@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -67,7 +70,7 @@ Whitespace and case are normalized, but the whole final response must be the tok
 Silence is a delivery decision only. Hermes keeps the assistant silence turn in the session transcript, so the conversation still alternates normally:
 
 
-``` text
+``` prism-code
 user: side-channel chatter
 assistant: [SILENT]   # stored, not delivered
 user: next message
@@ -81,7 +84,7 @@ Failed turns still surface as errors; Hermes does not hide failures just because
 The easiest way to configure messaging platforms is the interactive wizard:
 
 
-``` bash
+``` prism-code
 hermes gateway setup        # Interactive setup for all messaging platforms
 ```
 
@@ -91,7 +94,7 @@ This walks you through configuring each platform with arrow-key selection, shows
 ## Gateway Commands<a href="#gateway-commands" class="hash-link" aria-label="Direct link to Gateway Commands" translate="no" title="Direct link to Gateway Commands">​</a>
 
 
-``` bash
+``` prism-code
 hermes gateway              # Run in foreground
 hermes gateway setup        # Configure messaging platforms interactively
 hermes gateway install      # Install as a user service (Linux) / launchd service (macOS)
@@ -105,32 +108,32 @@ hermes gateway status --system         # Linux only: inspect the system service 
 
 ## Chat Commands (Inside Messaging)<a href="#chat-commands-inside-messaging" class="hash-link" aria-label="Direct link to Chat Commands (Inside Messaging)" translate="no" title="Direct link to Chat Commands (Inside Messaging)">​</a>
 
-| Command | Description |
-|----|----|
-| `/new` or `/reset` | Start a fresh conversation |
-| `/model [provider:model]` | Show or change the model (supports `provider:model` syntax) |
-| `/personality [name]` | Set a personality |
-| `/retry` | Retry the last message |
-| `/undo` | Remove the last exchange |
-| `/status` | Show session info |
-| `/whoami` | Show your slash command access on this scope (admin / user / unrestricted) |
-| `/stop` | Stop the running agent |
-| `/approve` | Approve a pending dangerous command |
-| `/deny` | Reject a pending dangerous command |
-| `/sethome` | Set this chat as the home channel |
-| `/compress` | Manually compress conversation context |
-| `/title [name]` | Set or show the session title |
-| `/resume [name]` | Resume a previously named session |
-| `/usage` | Show token usage for this session |
-| `/insights [days]` | Show usage insights and analytics |
-| `/reasoning [level|show|hide]` | Change reasoning effort or toggle reasoning display |
-| `/voice [on|off|tts|join|leave|status]` | Control messaging voice replies and Discord voice-channel behavior |
-| `/rollback [number]` | List or restore filesystem checkpoints |
-| `/background <prompt>` | Run a prompt in a separate background session |
-| `/reload-mcp` | Reload MCP servers from config |
-| `/update` | Update Hermes Agent to the latest version |
-| `/help` | Show available commands |
-| `/<skill-name>` | Invoke any installed skill |
+| Command                                 | Description                                                                |
+|-----------------------------------------|----------------------------------------------------------------------------|
+| `/new` or `/reset`                      | Start a fresh conversation                                                 |
+| `/model [provider:model]`               | Show or change the model (supports `provider:model` syntax)                |
+| `/personality [name]`                   | Set a personality                                                          |
+| `/retry`                                | Retry the last message                                                     |
+| `/undo`                                 | Remove the last exchange                                                   |
+| `/status`                               | Show session info                                                          |
+| `/whoami`                               | Show your slash command access on this scope (admin / user / unrestricted) |
+| `/stop`                                 | Stop the running agent                                                     |
+| `/approve`                              | Approve a pending dangerous command                                        |
+| `/deny`                                 | Reject a pending dangerous command                                         |
+| `/sethome`                              | Set this chat as the home channel                                          |
+| `/compress`                             | Manually compress conversation context                                     |
+| `/title [name]`                         | Set or show the session title                                              |
+| `/resume [name]`                        | Resume a previously named session                                          |
+| `/usage`                                | Show token usage for this session                                          |
+| `/insights [days]`                      | Show usage insights and analytics                                          |
+| `/reasoning [level|show|hide]`          | Change reasoning effort or toggle reasoning display                        |
+| `/voice [on|off|tts|join|leave|status]` | Control messaging voice replies and Discord voice-channel behavior         |
+| `/rollback [number]`                    | List or restore filesystem checkpoints                                     |
+| `/background <prompt>`                  | Run a prompt in a separate background session                              |
+| `/reload-mcp`                           | Reload MCP servers from config                                             |
+| `/update`                               | Update Hermes Agent to the latest version                                  |
+| `/help`                                 | Show available commands                                                    |
+| `/<skill-name>`                         | Invoke any installed skill                                                 |
 
 ## Session Management<a href="#session-management" class="hash-link" aria-label="Direct link to Session Management" translate="no" title="Direct link to Session Management">​</a>
 
@@ -153,7 +156,7 @@ A live background process (started with `terminal(background=true)`) normally pr
 Configure per-platform overrides in `~/.hermes/gateway.json`:
 
 
-``` json
+``` prism-code
 {
   "reset_by_platform": {
     "telegram": { "mode": "idle", "idle_minutes": 240 },
@@ -168,7 +171,7 @@ Configure per-platform overrides in `~/.hermes/gateway.json`:
 **By default, the gateway denies all users who are not in an allowlist or paired via DM.** This is the safe default for a bot with terminal access.
 
 
-``` bash
+``` prism-code
 # Restrict to specific users (recommended):
 TELEGRAM_ALLOWED_USERS=123456789,987654321
 DISCORD_ALLOWED_USERS=123456789012345678
@@ -196,7 +199,7 @@ GATEWAY_ALLOW_ALL_USERS=true
 Instead of manually configuring user IDs, unknown users receive a one-time pairing code when they DM the bot. Email is the exception: unknown email senders are ignored unless email pairing is explicitly enabled.
 
 
-``` bash
+``` prism-code
 # The user sees: "Pairing code: XKGH5N7P"
 # You approve them with:
 hermes pairing approve telegram XKGH5N7P
@@ -227,7 +230,7 @@ The tiers are configured per platform and per scope. DM admin status does not im
 #### Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" translate="no" title="Direct link to Configuration">​</a>
 
 
-``` yaml
+``` prism-code
 gateway:
   platforms:
     discord:
@@ -264,7 +267,7 @@ By default, messaging a busy agent interrupts it. Two other modes are available:
 - `steer` — follow-up messages are injected into the current run via `/steer`, arriving at the agent after the next tool call. No interrupt, no new turn. Falls back to `queue` behavior if the agent hasn't started yet.
 
 
-``` yaml
+``` prism-code
 display:
   busy_input_mode: steer   # or queue, or interrupt (default)
   busy_ack_enabled: true   # set to false to suppress the ⚡/⏳/⏩ chat reply entirely
@@ -280,7 +283,7 @@ If you find the busy-ack noisy — especially with voice input or rapid-fire mes
 Control how much tool activity is displayed in `~/.hermes/config.yaml`:
 
 
-``` yaml
+``` prism-code
 display:
   tool_progress: all    # off | new | all | verbose
   tool_progress_command: false  # set to true to enable /verbose in messaging
@@ -297,7 +300,7 @@ display:
 Off by default. When enabled, Hermes prepends a human-readable timestamp (e.g. `[Tue 2026-04-28 13:40:53 CEST]`) onto each **user** message *in the model's context* so the agent knows when messages were sent — useful for temporal reasoning ("you asked this morning…", noticing a long gap). It is **not** added to assistant messages or the system prompt.
 
 
-``` yaml
+``` prism-code
 gateway:
   message_timestamps:
     enabled: false   # set true to show send-times to the model
@@ -309,7 +312,7 @@ Persisted transcripts always stay clean — the timestamp is stored as message m
 When enabled, the bot sends status messages as it works:
 
 
-``` text
+``` prism-code
 💻 `ls -la`...
 🔍 web_search...
 📄 web_extract...
@@ -322,7 +325,7 @@ When enabled, the bot sends status messages as it works:
 Run a prompt in a separate background session so the agent works on it independently while your main chat stays responsive:
 
 
-``` text
+``` prism-code
 /background Check all servers in the cluster and report any that are down
 ```
 
@@ -330,7 +333,7 @@ Run a prompt in a separate background session so the agent works on it independe
 Hermes confirms immediately:
 
 
-``` text
+``` prism-code
 🔄 Background task started: "Check all servers in the cluster..."
    Task ID: bg_143022_a1b2c3
 ```
@@ -350,23 +353,23 @@ Each `/background` prompt spawns a **separate agent instance** that runs asynchr
 When the agent running a background session uses `terminal(background=true)` to start long-running processes (servers, builds, etc.), the gateway can push status updates to your chat. Control this with `display.background_process_notifications` in `~/.hermes/config.yaml`:
 
 
-``` yaml
+``` prism-code
 display:
   background_process_notifications: all    # all | result | error | off
 ```
 
 
-| Mode | What you receive |
-|----|----|
-| `all` | Running-output updates **and** the final completion message (default) |
-| `result` | Only the final completion message (regardless of exit code) |
-| `error` | Only the final message when the exit code is non-zero |
-| `off` | No process watcher messages at all |
+| Mode     | What you receive                                                      |
+|----------|-----------------------------------------------------------------------|
+| `all`    | Running-output updates **and** the final completion message (default) |
+| `result` | Only the final completion message (regardless of exit code)           |
+| `error`  | Only the final message when the exit code is non-zero                 |
+| `off`    | No process watcher messages at all                                    |
 
 You can also set this via environment variable:
 
 
-``` bash
+``` prism-code
 HERMES_BACKGROUND_NOTIFICATIONS=result
 ```
 
@@ -387,7 +390,7 @@ Background tasks on messaging platforms are fire-and-forget — you don't need t
 ### Linux (systemd)<a href="#linux-systemd" class="hash-link" aria-label="Direct link to Linux (systemd)" translate="no" title="Direct link to Linux (systemd)">​</a>
 
 
-``` bash
+``` prism-code
 hermes gateway install               # Install as user service
 hermes gateway start                 # Start the service
 hermes gateway stop                  # Stop the service
@@ -416,7 +419,7 @@ A system service needs root for every restart — including the automatic gatewa
 For a headless VM you never log into, a **user** service with lingering enabled gives you the same start-at-boot behavior with zero root involvement:
 
 
-``` bash
+``` prism-code
 hermes gateway install          # user service
 sudo loginctl enable-linger $USER   # one-time: start at boot, survive logout
 ```
@@ -425,7 +428,7 @@ sudo loginctl enable-linger $USER   # one-time: start at boot, survive logout
 After that, `hermes update` can restart the gateway without any privileges. If you prefer to keep the system service, either run updates with `sudo hermes update`, or grant the service account passwordless sudo for systemctl, e.g. in `sudo visudo -f /etc/sudoers.d/hermes-gateway`:
 
 
-``` text
+``` prism-code
 hermes ALL=(root) NOPASSWD: /usr/bin/systemctl --no-ask-password reset-failed hermes-gateway*, /usr/bin/systemctl --no-ask-password start hermes-gateway*, /usr/bin/systemctl --no-ask-password restart hermes-gateway*
 ```
 
@@ -439,7 +442,7 @@ If you run multiple Hermes installations on the same machine (with different `HE
 ### macOS (launchd)<a href="#macos-launchd" class="hash-link" aria-label="Direct link to macOS (launchd)" translate="no" title="Direct link to macOS (launchd)">​</a>
 
 
-``` bash
+``` prism-code
 hermes gateway install               # Install as launchd agent
 hermes gateway start                 # Start the service
 hermes gateway stop                  # Stop the service
@@ -465,33 +468,33 @@ Like the Linux systemd service, each `HERMES_HOME` directory gets its own launch
 
 Each platform has its own toolset:
 
-| Platform | Toolset | Capabilities |
-|----|----|----|
-| CLI | `hermes-cli` | Full access |
-| Telegram | `hermes-telegram` | Full tools including terminal |
-| Discord | `hermes-discord` | Full tools including terminal |
-| WhatsApp | `hermes-whatsapp` | Full tools including terminal |
-| WhatsApp Cloud API | `hermes-whatsapp` | Full tools including terminal (shares toolset with the Baileys bridge) |
-| Slack | `hermes-slack` | Full tools including terminal |
-| Google Chat | `hermes-google_chat` | Full tools including terminal |
-| Signal | `hermes-signal` | Full tools including terminal |
-| SMS | `hermes-sms` | Full tools including terminal |
-| Email | `hermes-email` | Full tools including terminal |
-| Home Assistant | `hermes-homeassistant` | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services) |
-| Mattermost | `hermes-mattermost` | Full tools including terminal |
-| Matrix | `hermes-matrix` | Full tools including terminal |
-| DingTalk | `hermes-dingtalk` | Full tools including terminal |
-| Feishu/Lark | `hermes-feishu` | Full tools including terminal |
-| WeCom | `hermes-wecom` | Full tools including terminal |
-| WeCom Callback | `hermes-wecom-callback` | Full tools including terminal |
-| Weixin | `hermes-weixin` | Full tools including terminal |
-| BlueBubbles | `hermes-bluebubbles` | Full tools including terminal |
-| QQBot | `hermes-qqbot` | Full tools including terminal |
-| Yuanbao | `hermes-yuanbao` | Full tools including terminal |
-| Microsoft Teams | `hermes-teams` | Full tools including terminal |
-| API Server | `hermes-api-server` | Full tools (drops `clarify`, `text_to_speech` — programmatic access doesn't have an interactive user) |
-| Webhooks | `hermes-webhook` | Full tools including terminal |
-| Raft | `hermes-raft` | Wake-only channel; agent uses Raft CLI for message I/O |
+| Platform           | Toolset                 | Capabilities                                                                                          |
+|--------------------|-------------------------|-------------------------------------------------------------------------------------------------------|
+| CLI                | `hermes-cli`            | Full access                                                                                           |
+| Telegram           | `hermes-telegram`       | Full tools including terminal                                                                         |
+| Discord            | `hermes-discord`        | Full tools including terminal                                                                         |
+| WhatsApp           | `hermes-whatsapp`       | Full tools including terminal                                                                         |
+| WhatsApp Cloud API | `hermes-whatsapp`       | Full tools including terminal (shares toolset with the Baileys bridge)                                |
+| Slack              | `hermes-slack`          | Full tools including terminal                                                                         |
+| Google Chat        | `hermes-google_chat`    | Full tools including terminal                                                                         |
+| Signal             | `hermes-signal`         | Full tools including terminal                                                                         |
+| SMS                | `hermes-sms`            | Full tools including terminal                                                                         |
+| Email              | `hermes-email`          | Full tools including terminal                                                                         |
+| Home Assistant     | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services)    |
+| Mattermost         | `hermes-mattermost`     | Full tools including terminal                                                                         |
+| Matrix             | `hermes-matrix`         | Full tools including terminal                                                                         |
+| DingTalk           | `hermes-dingtalk`       | Full tools including terminal                                                                         |
+| Feishu/Lark        | `hermes-feishu`         | Full tools including terminal                                                                         |
+| WeCom              | `hermes-wecom`          | Full tools including terminal                                                                         |
+| WeCom Callback     | `hermes-wecom-callback` | Full tools including terminal                                                                         |
+| Weixin             | `hermes-weixin`         | Full tools including terminal                                                                         |
+| BlueBubbles        | `hermes-bluebubbles`    | Full tools including terminal                                                                         |
+| QQBot              | `hermes-qqbot`          | Full tools including terminal                                                                         |
+| Yuanbao            | `hermes-yuanbao`        | Full tools including terminal                                                                         |
+| Microsoft Teams    | `hermes-teams`          | Full tools including terminal                                                                         |
+| API Server         | `hermes-api-server`     | Full tools (drops `clarify`, `text_to_speech` — programmatic access doesn't have an interactive user) |
+| Webhooks           | `hermes-webhook`        | Full tools including terminal                                                                         |
+| Raft               | `hermes-raft`           | Wake-only channel; agent uses Raft CLI for message I/O                                                |
 
 ## Operating a multi-platform gateway<a href="#operating-a-multi-platform-gateway" class="hash-link" aria-label="Direct link to Operating a multi-platform gateway" translate="no" title="Direct link to Operating a multi-platform gateway">​</a>
 
@@ -502,7 +505,7 @@ A gateway typically runs several adapters at once (Telegram + Discord + Slack, e
 Once the gateway is running, use the `/platform` slash command from any connected CLI session or chat to inspect and steer individual adapters without restarting the whole gateway:
 
 
-``` text
+``` prism-code
 /platform list                  # show all adapters and their state
 /platform pause <name>          # stop dispatching new messages to one adapter
 /platform resume <name>         # re-enable a paused adapter
@@ -534,7 +537,7 @@ Once upstream is healthy, `/platform resume <name>` clears the breaker and re-ar
 When the gateway restarts (or is shut down with in-flight sessions), it can send a one-shot "the agent is back" / "the agent was interrupted" message to each platform's home channel. This is controlled per-platform by the `gateway_restart_notification` flag in `gateway-config.yaml`, which defaults to `true`:
 
 
-``` yaml
+``` prism-code
 gateway:
   platforms:
     telegram:
@@ -553,7 +556,7 @@ Disable it on noisy or low-priority platforms while leaving it on for your prima
 While the agent is processing a message, the gateway shows a live typing status on platforms that support it — a "typing…" bubble on Telegram/Discord/Signal, or the "is thinking…" assistant status on Slack. This is controlled per-platform by the `typing_indicator` flag in `gateway-config.yaml`, which defaults to `true`:
 
 
-``` yaml
+``` prism-code
 gateway:
   platforms:
     slack:
@@ -572,7 +575,7 @@ When the gateway shuts down with an in-flight tool call or generation, the affec
 This behaviour is on by default and is logged at gateway start:
 
 
-``` text
+``` prism-code
 Scheduled auto-resume for N restart-interrupted session(s)
 ```
 
@@ -591,7 +594,7 @@ Telegram is usually a mobile inbox, so the defaults are tuned for that surface:
 Opt out of either of the kept-on defaults or opt back into verbose progress per platform:
 
 
-``` yaml
+``` prism-code
 display:
   platforms:
     telegram:
@@ -610,7 +613,7 @@ display:
 Tool-progress messages, the "still working…" heartbeat, and status-callback bubbles can also be auto-deleted after the final response lands. Enable per-platform via `display.platforms.<platform>.cleanup_progress`:
 
 
-``` yaml
+``` prism-code
 display:
   platforms:
     telegram:

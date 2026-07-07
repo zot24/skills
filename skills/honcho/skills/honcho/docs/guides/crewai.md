@@ -39,7 +39,7 @@ Install the packages:
 
 Set your model provider keys and Honcho configuration:
 
-```bash
+```bash theme={null}
 OPENAI_API_KEY=your_openai_key
 HONCHO_API_KEY=your_honcho_key
 HONCHO_WORKSPACE_ID=crewai-demo
@@ -51,7 +51,7 @@ For local development, initialize the Honcho client with `environment="local"`.
 
 `HonchoMemoryStorage` implements CrewAI's current `StorageBackend` protocol and can be passed directly to `Memory(storage=...)`.
 
-```python
+```python theme={null}
 from crewai import Memory
 from honcho import Honcho
 from honcho_crewai import HonchoMemoryStorage
@@ -67,7 +67,7 @@ memory = Memory(storage=storage)
 
 CrewAI embeds memory records before storing them. The Honcho backend stores those records as Honcho messages, keeps CrewAI metadata in message metadata, and performs vector search over the stored embeddings.
 
-```python
+```python theme={null}
 memory.remember(
     "The user is learning Python and wants to build web applications.",
     scope="/users/user-123",
@@ -78,7 +78,7 @@ memory.remember(
 
 Use the memory instance with a crew:
 
-```python Python
+```python Python theme={null}
 from crewai import Agent, Crew, Process, Task
 
 agent = Agent(
@@ -117,7 +117,7 @@ Honcho also provides tools that let agents explicitly retrieve memory:
 * **`HonchoDialecticTool`** queries Honcho's representation of a peer.
 * **`HonchoSearchTool`** performs semantic search over session messages.
 
-```python Python
+```python Python theme={null}
 from crewai import Agent, Crew, Process, Task
 from honcho import Honcho
 from honcho_crewai import (

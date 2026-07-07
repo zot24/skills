@@ -14,7 +14,7 @@
 
 Install the extension inside pi:
 
-```bash
+```bash theme={null}
 pi install npm:@agney/pi-honcho-memory
 ```
 

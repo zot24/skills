@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_m5m7">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_ztD2">Skip to main content</a>
 
 
 On this page
@@ -22,7 +22,7 @@ Hardware and software requirements for Immich:
   - Immich runs well in a virtualized environment when running in a full virtual machine. The use of Docker in LXC containers is <a href="https://pve.proxmox.com/wiki/Linux_Container" target="_blank" rel="noopener noreferrer">not recommended</a>, but may be possible for advanced users. If you have issues, we recommend that you switch to a supported VM deployment.
 - **RAM**: Minimum 6GB, recommended 8GB.
 - **CPU**: Minimum 2 cores, recommended 4 cores.
-  - Immich runs on the `amd64` and `arm64` platforms. Since `v2.6`, the machine learning container on `amd64` requires the `>= x86-64-v2` <a href="https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels" target="_blank" rel="noopener noreferrer">microarchitecture level</a>. Most CPUs released since ~2012 support this microarchitecture. If you are using a virtual machine, ensure you have selected a <a href="https://pve.proxmox.com/pve-docs/chapter-qm.html#_qemu_cpu_types" target="_blank" rel="noopener noreferrer">supported microarchitecture</a>.
+  - Immich runs on the `amd64` and `arm64` platforms. Since `v3`, the machine learning container on `amd64` requires the `>= x86-64-v2` <a href="https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels" target="_blank" rel="noopener noreferrer">microarchitecture level</a>. Most CPUs released since ~2012 support this microarchitecture. If you are using a virtual machine, ensure you have selected a <a href="https://pve.proxmox.com/pve-docs/chapter-qm.html#_qemu_cpu_types" target="_blank" rel="noopener noreferrer">supported microarchitecture</a>. If you are unable to support this instruction set, the last version to support `x86-64-v1` is `v2.7.5`. Note that this release is no longer supported, and you must run a matching `immich-server` version.
 - **Storage**: Recommended Unix-compatible filesystem (EXT4, ZFS, APFS, etc.) with support for user/group ownership and permissions.
   - The generation of thumbnails and transcoded video can increase the size of the photo library by 10-20% on average.
 

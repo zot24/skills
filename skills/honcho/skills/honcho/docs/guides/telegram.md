@@ -20,7 +20,7 @@ place to start.
 
 Most Telegram bots have async functions that handle incoming messages. We can use Honcho to store messages by user and session based on the chat context. Take the following function definition for example:
 
-```python
+```python theme={null}
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Receive a message from Telegram and respond with a message from our LLM assistant.
@@ -58,7 +58,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 Let's break down what this code is doing...
 
-```python
+```python theme={null}
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not validate_message(update, context):
         return
@@ -72,7 +72,7 @@ The code uses several helper functions to keep the main logic clean and readable
 
 ### Message Validation
 
-```python
+```python theme={null}
 def validate_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
     """
     Determine if the message is valid for the bot to respond to.
@@ -120,7 +120,7 @@ This function centralizes all the logic for determining whether the bot should r
 
 ### Message Sanitization
 
-```python
+```python theme={null}
 def sanitize_message(message_text: str, bot_username: str) -> str | None:
     """Remove the bot's mention from the message content if present"""
     content = message_text.replace(f"@{bot_username}", "").strip()
@@ -133,7 +133,7 @@ This helper removes the bot's mention from the message content, leaving just the
 
 ### Peer ID Generation
 
-```python
+```python theme={null}
 def get_peer_id_from_telegram(update: Update) -> str:
     """Get a Honcho peer ID for the message author"""
     return f"telegram_{update.effective_user.id}"
@@ -143,7 +143,7 @@ This creates a unique peer identifier for each Telegram user by prefixing their 
 
 ### LLM Integration
 
-```python
+```python theme={null}
 def llm(session, prompt) -> str:
     """
     Call the LLM with the given prompt and chat history.
@@ -170,7 +170,7 @@ This function handles the LLM interaction. It uses Honcho's built-in `to_openai(
 
 ### Message Sending
 
-```python
+```python theme={null}
 async def send_telegram_message(
     update: Update, context: ContextTypes.DEFAULT_TYPE, response_content: str
 ):
@@ -206,14 +206,14 @@ This function handles sending messages to Telegram, automatically splitting long
 
 The new Honcho peer/session API makes integration much simpler:
 
-```python
+```python theme={null}
 peer = honcho_client.peer(id=get_peer_id_from_telegram(update))
 session = honcho_client.session(id=str(update.effective_chat.id))
 ```
 
 Here we create a peer object for the user and a session object using the Telegram chat ID. This automatically handles user and session management across both private chats and group conversations.
 
-```python
+```python theme={null}
 # Save both the user's message and the bot's response to the session
 session.add_messages(
     [
@@ -229,7 +229,7 @@ After generating the response, we save both the user's input and the bot's respo
 
 Telegram bots support slash commands natively. Here's how to implement the `/dialectic` command using Honcho's dialectic feature:
 
-```python
+```python theme={null}
 async def dialectic_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Handle the /dialectic command to query the Honcho Dialectic endpoint.
@@ -266,7 +266,7 @@ async def dialectic_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 You can also add a `/start` command for user onboarding:
 
-```python
+```python theme={null}
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle the /start command"""
     await update.message.reply_text(
@@ -282,7 +282,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 The bot requires several environment variables and setup:
 
-```python
+```python theme={null}
 honcho_client = Honcho()
 assistant = honcho_client.peer(id="assistant", config={"observe_me": False})
 openai = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=MODEL_API_KEY)
@@ -296,7 +296,7 @@ openai = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=MODEL_API_KEY)
 
 Register your handlers with the Telegram application:
 
-```python
+```python theme={null}
 def main():
     """Start the bot"""
     if not BOT_TOKEN:
@@ -322,7 +322,7 @@ def main():
 
 Your bot needs these environment variables:
 
-```env
+```env theme={null}
 # Your Telegram bot token from BotFather
 BOT_TOKEN=<your-token>
 

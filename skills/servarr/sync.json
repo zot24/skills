@@ -74,6 +74,426 @@
       "target": "skills/servarr/docs/quality-profiles.md",
       "type": "extract-content",
       "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/activity",
+      "target": "skills/servarr/docs/lidarr-activity.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/appdata-directory",
+      "target": "skills/servarr/docs/lidarr-appdata-directory.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/calendar",
+      "target": "skills/servarr/docs/lidarr-calendar.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/concepts",
+      "target": "skills/servarr/docs/lidarr-concepts.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/custom-scripts",
+      "target": "skills/servarr/docs/lidarr-custom-scripts.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/environment-variables",
+      "target": "skills/servarr/docs/lidarr-environment-variables.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/faq",
+      "target": "skills/servarr/docs/lidarr-faq.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/importing-existing-library",
+      "target": "skills/servarr/docs/lidarr-importing-existing-library.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/installation",
+      "target": "skills/servarr/docs/lidarr-installation.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/library",
+      "target": "skills/servarr/docs/lidarr-library.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/postgres-setup",
+      "target": "skills/servarr/docs/lidarr-postgres-setup.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/quick-start-guide",
+      "target": "skills/servarr/docs/lidarr-quick-start-guide.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/settings",
+      "target": "skills/servarr/docs/lidarr-settings.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/supported",
+      "target": "skills/servarr/docs/lidarr-supported.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/system",
+      "target": "skills/servarr/docs/lidarr-system.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/tips-and-tricks",
+      "target": "skills/servarr/docs/lidarr-tips-and-tricks.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/troubleshooting",
+      "target": "skills/servarr/docs/lidarr-troubleshooting.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/wanted",
+      "target": "skills/servarr/docs/lidarr-wanted.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/appdata-directory",
+      "target": "skills/servarr/docs/prowlarr-appdata-directory.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/cardigann-yml-definition",
+      "target": "skills/servarr/docs/prowlarr-cardigann-yml-definition.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/contributing",
+      "target": "skills/servarr/docs/prowlarr-contributing.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/custom-scripts",
+      "target": "skills/servarr/docs/prowlarr-custom-scripts.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/environment-variables",
+      "target": "skills/servarr/docs/prowlarr-environment-variables.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/faq",
+      "target": "skills/servarr/docs/prowlarr-faq.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/history",
+      "target": "skills/servarr/docs/prowlarr-history.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/indexers",
+      "target": "skills/servarr/docs/prowlarr-indexers.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/installation",
+      "target": "skills/servarr/docs/prowlarr-installation.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/postgres-setup",
+      "target": "skills/servarr/docs/prowlarr-postgres-setup.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/quick-start-guide",
+      "target": "skills/servarr/docs/prowlarr-quick-start-guide.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/search",
+      "target": "skills/servarr/docs/prowlarr-search.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/settings",
+      "target": "skills/servarr/docs/prowlarr-settings.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/supported",
+      "target": "skills/servarr/docs/prowlarr-supported.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/supported-indexers",
+      "target": "skills/servarr/docs/prowlarr-supported-indexers.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/system",
+      "target": "skills/servarr/docs/prowlarr-system.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/prowlarr/troubleshooting",
+      "target": "skills/servarr/docs/prowlarr-troubleshooting.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/activity",
+      "target": "skills/servarr/docs/radarr-activity.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/appdata-directory",
+      "target": "skills/servarr/docs/radarr-appdata-directory.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/calendar",
+      "target": "skills/servarr/docs/radarr-calendar.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/contributing",
+      "target": "skills/servarr/docs/radarr-contributing.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/custom-scripts",
+      "target": "skills/servarr/docs/radarr-custom-scripts.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/environment-variables",
+      "target": "skills/servarr/docs/radarr-environment-variables.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/faq",
+      "target": "skills/servarr/docs/radarr-faq.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/installation",
+      "target": "skills/servarr/docs/radarr-installation.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/library",
+      "target": "skills/servarr/docs/radarr-library.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/postgres-setup",
+      "target": "skills/servarr/docs/radarr-postgres-setup.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/quick-start-guide",
+      "target": "skills/servarr/docs/radarr-quick-start-guide.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/settings",
+      "target": "skills/servarr/docs/radarr-settings.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/supported",
+      "target": "skills/servarr/docs/radarr-supported.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/system",
+      "target": "skills/servarr/docs/radarr-system.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/tips-and-tricks",
+      "target": "skills/servarr/docs/radarr-tips-and-tricks.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/radarr/troubleshooting",
+      "target": "skills/servarr/docs/radarr-troubleshooting.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/activity",
+      "target": "skills/servarr/docs/sonarr-activity.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/appdata-directory",
+      "target": "skills/servarr/docs/sonarr-appdata-directory.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/calendar",
+      "target": "skills/servarr/docs/sonarr-calendar.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/contributing",
+      "target": "skills/servarr/docs/sonarr-contributing.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/custom-scripts",
+      "target": "skills/servarr/docs/sonarr-custom-scripts.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/environment-variables",
+      "target": "skills/servarr/docs/sonarr-environment-variables.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/faq",
+      "target": "skills/servarr/docs/sonarr-faq.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/faq-v4",
+      "target": "skills/servarr/docs/sonarr-faq-v4.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/installation",
+      "target": "skills/servarr/docs/sonarr-installation.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/library",
+      "target": "skills/servarr/docs/sonarr-library.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/postgres-setup",
+      "target": "skills/servarr/docs/sonarr-postgres-setup.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/quick-start-guide",
+      "target": "skills/servarr/docs/sonarr-quick-start-guide.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/settings",
+      "target": "skills/servarr/docs/sonarr-settings.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/supported",
+      "target": "skills/servarr/docs/sonarr-supported.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/system",
+      "target": "skills/servarr/docs/sonarr-system.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/tips-and-tricks",
+      "target": "skills/servarr/docs/sonarr-tips-and-tricks.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/troubleshooting",
+      "target": "skills/servarr/docs/sonarr-troubleshooting.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/wanted",
+      "target": "skills/servarr/docs/sonarr-wanted.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/xem-guide",
+      "target": "skills/servarr/docs/sonarr-xem-guide.md",
+      "type": "extract-content",
+      "freshness_days": 30
     }
   ],
   "cache_dir": ".cache",

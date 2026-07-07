@@ -160,7 +160,7 @@ Once files are uploaded, you can query the content using Honcho's natural langua
 
 Files with unsupported content types will raise an exception:
 
-```python
+```python theme={null}
 try:
     messages = session.upload_file(
         file=open("image.jpg", "rb"),
@@ -175,7 +175,7 @@ except Exception as e:
 
 Session uploads require a `peer_id` parameter:
 
-```python
+```python theme={null}
 # This will fail for session uploads
 try:
     messages = session.upload_file(file=file)  # Missing peer_id

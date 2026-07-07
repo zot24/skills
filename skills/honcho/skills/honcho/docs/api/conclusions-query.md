@@ -23,7 +23,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.7
+  version: 3.0.11
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -130,6 +130,19 @@ components:
             - type: string
             - type: 'null'
           title: Session Id
+        level:
+          type: string
+          enum:
+            - explicit
+            - deductive
+            - inductive
+            - contradiction
+          title: Level
+          description: >-
+            Reasoning level of the conclusion: 'explicit' (directly extracted
+            from messages) or 'deductive'/'inductive'/'contradiction' (derived
+            during dreaming).
+          default: explicit
         created_at:
           type: string
           format: date-time

@@ -14,9 +14,10 @@ Scrape single pages, crawl entire sites, and map URLs from your Node.js applicat
 
 Install the SDK with npm:
 
-```js Node
+```js Node theme={null}
 // npm install firecrawl
 
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({
   // No API key needed to get started — add one for higher rate limits:
@@ -35,7 +36,8 @@ const firecrawl = new Firecrawl({
 
 Here's an example of how to use the SDK with error handling:
 
-```js Node
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({apiKey: "fc-YOUR_API_KEY"});
 
@@ -61,7 +63,7 @@ console.log(crawlResponse)
 
 Scrape a single URL and get back structured page data with the `scrape` method.
 
-```js Node
+```js Node theme={null}
 // Scrape a website:
 const scrapeResult = await firecrawl.scrape('firecrawl.dev', { formats: ['markdown', 'html'] });
 
@@ -73,7 +75,7 @@ console.log(scrapeResult)
 Use `parse` when you want to upload a local file (`html`, `pdf`, `docx`, `xlsx`, etc.) instead of scraping by URL.
 `parse` does not support `changeTracking` or browser-only options like `screenshot`, `branding`, `actions`, `waitFor`, `location`, and `mobile`.
 
-```js Node
+```js Node theme={null}
 const parsed = await firecrawl.parse(
   {
     data: "<html><body><h1>Node Parse</h1></body></html>",
@@ -92,7 +94,7 @@ console.log(parsed.markdown);
 
 Crawl an entire website starting from a single URL with the `crawl` method. You can set a page limit, restrict to specific domains, and choose output formats. See [Pagination](#pagination) for auto and manual pagination.
 
-```js Node
+```js Node theme={null}
 const job = await firecrawl.crawl('https://docs.firecrawl.dev', { limit: 5, pollInterval: 1, timeout: 120 });
 console.log(job.status);
 ```
@@ -101,7 +103,7 @@ console.log(job.status);
 
 Use `sitemap: "only"` to crawl sitemap URLs only (the start URL is always included, and HTML link discovery is skipped).
 
-```js Node
+```js Node theme={null}
 const job = await firecrawl.crawl('https://docs.firecrawl.dev', {
   sitemap: 'only',
   limit: 25,
@@ -113,7 +115,7 @@ console.log(job.status, job.data.length);
 
 Start a crawl without waiting for it to finish using `startCrawl`. The method returns a job ID you can poll later. Use `crawl` instead when you want to block until completion. See [Pagination](#pagination) for paging behavior and limits.
 
-```js Node
+```js Node theme={null}
 const { id } = await firecrawl.startCrawl('https://docs.firecrawl.dev', { limit: 10 });
 console.log(id);
 ```
@@ -122,7 +124,7 @@ console.log(id);
 
 Check whether a crawl is still running, completed, or failed with the `checkCrawlStatus` method. Pass the job ID returned by `startCrawl`.
 
-```js Node
+```js Node theme={null}
 const status = await firecrawl.getCrawlStatus("<crawl-id>");
 console.log(status);
 ```
@@ -131,7 +133,7 @@ console.log(status);
 
 Cancel a running crawl with the `cancelCrawl` method. Pass the job ID returned by `startCrawl`.
 
-```js Node
+```js Node theme={null}
 const ok = await firecrawl.cancelCrawl("<crawl-id>");
 console.log("Cancelled:", ok);
 ```
@@ -140,7 +142,7 @@ console.log("Cancelled:", ok);
 
 Discover all URLs on a website with the `map` method. Pass a starting URL and get back a list of discovered pages.
 
-```js Node
+```js Node theme={null}
 const res = await firecrawl.map('https://firecrawl.dev', { limit: 10 });
 console.log(res.links);
 ```
@@ -149,7 +151,8 @@ console.log(res.links);
 
 Stream crawl results in real time with the `crawlUrlAndWatch` method. You receive each page as it is crawled instead of waiting for the entire job to finish.
 
-```js Node
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: 'fc-YOUR-API-KEY' });
 
@@ -193,7 +196,7 @@ Use the waiter method `crawl` for the simplest experience, or start a job and pa
 
 * Start a job, then fetch one page at a time with `autoPaginate: false`.
 
-```js Node
+```js Node theme={null}
 const crawlStart = await firecrawl.startCrawl('https://docs.firecrawl.dev', { limit: 5 });
 const crawlJobId = crawlStart.id;
 
@@ -205,7 +208,7 @@ console.log('crawl single page:', crawlSingle.status, 'docs:', crawlSingle.data.
 
 * Keep auto-pagination on but stop early with `maxPages`, `maxResults`, or `maxWaitTime`.
 
-```js Node
+```js Node theme={null}
 const crawlLimited = await firecrawl.getCrawlStatus(crawlJobId, {
   autoPaginate: true,
   maxPages: 2,
@@ -227,7 +230,7 @@ Use the waiter method `batchScrape`, or start a job and page manually.
 
 * Start a job, then fetch one page at a time with `autoPaginate: false`.
 
-```js Node
+```js Node theme={null}
 const batchStart = await firecrawl.startBatchScrape([
   'https://docs.firecrawl.dev',
   'https://firecrawl.dev',
@@ -242,7 +245,7 @@ console.log('batch single page:', batchSingle.status, 'docs:', batchSingle.data.
 
 * Keep auto-pagination on but stop early with `maxPages`, `maxResults`, or `maxWaitTime`.
 
-```js Node
+```js Node theme={null}
 const batchLimited = await firecrawl.getBatchScrapeStatus(batchJobId, {
   autoPaginate: true,
   maxPages: 2,
@@ -258,7 +261,8 @@ Launch cloud browser sessions and execute code remotely.
 
 ### Create a Session
 
-```js Node
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
@@ -270,7 +274,7 @@ console.log(session.liveViewUrl); // https://liveview.firecrawl.dev/...
 
 ### Execute Code
 
-```js Node
+```js Node theme={null}
 const result = await firecrawl.browserExecute(session.id, {
   code: 'await page.goto("https://news.ycombinator.com")\ntitle = await page.title()\nprint(title)',
 });
@@ -279,7 +283,7 @@ console.log(result.result); // "Hacker News"
 
 Execute JavaScript instead of Python:
 
-```js Node
+```js Node theme={null}
 const result = await firecrawl.browserExecute(session.id, {
   code: 'await page.goto("https://example.com"); const t = await page.title(); console.log(t);',
   language: "node",
@@ -288,7 +292,7 @@ const result = await firecrawl.browserExecute(session.id, {
 
 Execute bash with agent-browser:
 
-```js Node
+```js Node theme={null}
 const result = await firecrawl.browserExecute(session.id, {
   code: "agent-browser open https://example.com && agent-browser snapshot",
   language: "bash",
@@ -299,7 +303,7 @@ const result = await firecrawl.browserExecute(session.id, {
 
 Save and reuse browser state (cookies, localStorage, etc.) across sessions:
 
-```js Node
+```js Node theme={null}
 const session = await firecrawl.browser({
   ttl: 600,
   profile: {
@@ -313,7 +317,8 @@ const session = await firecrawl.browser({
 
 For full Playwright control, connect directly using the CDP URL:
 
-```js Node
+```js Node theme={null}
+import { chromium } from "playwright";
 
 const browser = await chromium.connectOverCDP(session.cdpUrl);
 const context = browser.contexts()[0];
@@ -327,7 +332,7 @@ await browser.close();
 
 ### List & Close Sessions
 
-```js Node
+```js Node theme={null}
 // List active sessions
 const { sessions } = await firecrawl.listBrowsers({ status: "active" });
 for (const s of sessions) {
@@ -347,7 +352,7 @@ Use a scrape job ID to keep interacting with the replayed page context from that
 * Additional `interact` calls on the same job ID reuse that live browser state.
 * `stopInteraction(jobId)` stops the interactive session when you are done.
 
-```js Node
+```js Node theme={null}
 const doc = await firecrawl.scrape("https://example.com", {
   actions: [{ type: "click", selector: "a[href='/pricing']" }],
 });

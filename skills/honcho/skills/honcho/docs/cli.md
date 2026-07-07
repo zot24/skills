@@ -22,7 +22,7 @@
 
 ## Quick Start
 
-```bash
+```bash theme={null}
 honcho init        # confirm/set apiKey + Honcho URL in ~/.honcho/config.json
 honcho doctor      # verify your config + connectivity
 honcho             # show banner + command list
@@ -47,7 +47,7 @@ The CLI shares `~/.honcho/config.json` with sibling Honcho tools. It owns only
 `apiKey` and `environmentUrl` at the top level — everything else (`hosts`,
 `sessions`, etc.) is written by other tools and left untouched on save.
 
-```json
+```json theme={null}
 {
   "apiKey": "hch-v3-...",
   "environmentUrl": "https://api.honcho.dev",
@@ -66,7 +66,7 @@ The CLI shares `~/.honcho/config.json` with sibling Honcho tools. It owns only
 Workspace, peer, and session scoping are **per-command only** — pass flags or
 `HONCHO_*` env vars on every invocation.
 
-```bash
+```bash theme={null}
 # Per-command flags
 honcho peer card -w prod -p user
 
@@ -94,7 +94,7 @@ Every command adapts its output to the context:
 
 Collection commands emit JSON arrays; single-resource commands emit JSON objects. Errors are always structured:
 
-```json
+```json theme={null}
 {
   "error": {
     "code": "PEER_NOT_FOUND",
@@ -206,7 +206,7 @@ List, search, create, and delete peer conclusions (Honcho's memory atoms).
 
 Inspect CLI configuration.
 
-```bash
+```bash theme={null}
 honcho config
 ```
 
@@ -214,7 +214,7 @@ honcho config
 
 Verify config and connectivity. Scope with -w / -p to check workspace, peer, and queue health.
 
-```bash
+```bash theme={null}
 honcho doctor
 ```
 
@@ -222,7 +222,7 @@ honcho doctor
 
 Show help message.
 
-```bash
+```bash theme={null}
 honcho help
 ```
 
@@ -234,7 +234,7 @@ Press Enter to keep the current value or type a replacement.
 Workspace / peer / session scoping is per-command via -w / -p / -s
 or HONCHO\_\* env vars — never persisted.
 
-```bash
+```bash theme={null}
 honcho init
 ```
 
@@ -732,7 +732,7 @@ When you pick up a workspace and need to orient — start broad, narrow to the p
 
 If new messages aren't producing new conclusions, work down the diagnostic ladder.
 
-```bash
+```bash theme={null}
 # Is observation enabled for this peer?
 honcho peer inspect <peer_id> --json | jq '.configuration'
 
@@ -748,7 +748,7 @@ honcho conclusion search "expected topic" --observer <peer_id> --json
 
 When an agent's responses don't reflect what you expect it to know.
 
-```bash
+```bash theme={null}
 honcho session context <session_id> --json
 honcho session summaries <session_id> --json
 honcho message list <session_id> --last 50 --json
@@ -758,7 +758,7 @@ honcho message list <session_id> --last 50 --json
 
 When `honcho peer chat` or the dialectic API is hallucinating or missing context.
 
-```bash
+```bash theme={null}
 # What does the peer card actually say?
 honcho peer card <peer_id> --json
 
@@ -773,7 +773,7 @@ honcho peer chat <peer_id> "what do you know about X?" --json
 
 Pipe commands into `jq` for inline transforms, or set `HONCHO_*` env vars for a CI/CD environment with no config file:
 
-```bash
+```bash theme={null}
 # Pipe to jq
 honcho peer list --json | jq '.[].id'
 honcho workspace inspect --json | jq '.peers'
@@ -789,7 +789,7 @@ honcho workspace list
 
 Non-interactive onboarding:
 
-```bash
+```bash theme={null}
 # Pre-seed via flags / env vars; init still prompts for anything missing
 HONCHO_API_KEY=hch-v3-xxx honcho init --base-url https://api.honcho.dev
 ```

@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/deploy/cloudflare
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Deploy to Cloudflare
@@ -468,12 +481,12 @@ For full details, see the [outbound Workers documentation](https://developers.cl
 
 ### When to use a remote sandbox
 
-| Virtual sandbox | Remote sandbox |
-|----|----|
-| Millisecond startup | Seconds to start (cached images are faster) |
-| Grep, glob, read, basic shell | Full Linux: git, Node.js, Python, browsers |
-| R2 or inline files | Real persistent filesystem |
-| High-traffic / high-scale agents | Coding agents, complex dev environments |
+| Virtual sandbox                  | Remote sandbox                              |
+|----------------------------------|---------------------------------------------|
+| Millisecond startup              | Seconds to start (cached images are faster) |
+| Grep, glob, read, basic shell    | Full Linux: git, Node.js, Python, browsers  |
+| R2 or inline files               | Real persistent filesystem                  |
+| High-traffic / high-scale agents | Coding agents, complex dev environments     |
 
 Most agents don’t need a remote sandbox. Start with a virtual sandbox and only move to a remote sandbox when you need the full environment.
 
@@ -489,11 +502,11 @@ Agent clients read materialized history or projected updates at `GET /agents/:na
 
 A deployment or code update can reset a Durable Object while an operation is running. Flue handles interrupted Cloudflare operations according to their execution model:
 
-| Operation | After interruption |
-|----|----|
-| Direct attached agent HTTP prompt | The accepted prompt remains queued independently of its transport. Flue requeues only when canonical input is provably absent, recognizes provably completed canonical output, and otherwise records a visible terminal interruption without blindly replaying provider work. No public agent run exists. |
-| Dispatched agent input | Durable delivery and internal deduplication are keyed by `dispatchId` and persisted submission state, not by a run. Direct and dispatched inputs to one agent instance share one accepted order. Reconciliation uses the same conservative replay rules. |
-| Flue workflow invocation (`202` or `?wait=result`) | Flue terminalizes the interrupted run as errored. An attached synchronous response may fail. Flue does not automatically start a replacement run. |
+| Operation                                          | After interruption                                                                                                                                                                                                                                                                                        |
+|----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Direct attached agent HTTP prompt                  | The accepted prompt remains queued independently of its transport. Flue requeues only when canonical input is provably absent, recognizes provably completed canonical output, and otherwise records a visible terminal interruption without blindly replaying provider work. No public agent run exists. |
+| Dispatched agent input                             | Durable delivery and internal deduplication are keyed by `dispatchId` and persisted submission state, not by a run. Direct and dispatched inputs to one agent instance share one accepted order. Reconciliation uses the same conservative replay rules.                                                  |
+| Flue workflow invocation (`202` or `?wait=result`) | Flue terminalizes the interrupted run as errored. An attached synchronous response may fail. Flue does not automatically start a replacement run.                                                                                                                                                         |
 
 Cloudflare direct prompts and dispatched inputs enter one SQLite-backed submission queue owned by the target agent Durable Object. The attached transport observes accepted backend work but does not own it: losing an HTTP response does not cancel the accepted submission. Agent events are durably stored and can be replayed from any offset via the Durable Streams protocol.
 

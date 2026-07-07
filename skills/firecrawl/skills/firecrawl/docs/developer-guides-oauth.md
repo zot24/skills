@@ -60,7 +60,7 @@ Any client that implements the MCP authorization spec can use the keyless endpoi
 
 The `mcp-remote` wrapper works with any client that runs a local command, including Cursor and VS Code. It performs the OAuth flow over a loopback redirect and opens your browser to authorize:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {
@@ -96,7 +96,7 @@ Firecrawl runs a standards-compliant OAuth 2.0 authorization server, so any MCP 
 
 Clients discover everything they need from the metadata document:
 
-```bash
+```bash theme={null}
 curl -s "https://www.firecrawl.dev/.well-known/oauth-authorization-server" | jq .
 ```
 

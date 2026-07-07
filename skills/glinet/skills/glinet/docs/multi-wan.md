@@ -86,7 +86,7 @@ Note
 
 2.  Models lacking USB port (e.g., GL-B3000) only support Ethernet and Repeater network access.
 
-3.  Some models support [Dual-Ethernet WAN](../dual-ethernet_wan/), which will have an additional Ethernet interface on the user interface.
+3.  Some models support [Dual-Ethernet WAN](../ethernet_port/#dual-ethernet-wan), which will have an additional Ethernet interface on the Multi-WAN page.
 
 
 ## Interface Status Track<a href="#interface-status-track" class="headerlink" title="Permanent link">¶</a>

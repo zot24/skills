@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/sdk/events
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Events and records
@@ -24,26 +37,26 @@ A `data` event carries a template-safe `name`, optional stable `id`, and JSON-co
 
 ## Run types
 
-| Type | Description |
-|----|----|
+| Type        | Description                                                                                                      |
+|-------------|------------------------------------------------------------------------------------------------------------------|
 | `RunRecord` | Persisted workflow-run record, including the workflow name, status, timestamps, input, result, and error fields. |
-| `RunStatus` | Workflow-run status: `'active'`, `'completed'`, or `'errored'`. |
+| `RunStatus` | Workflow-run status: `'active'`, `'completed'`, or `'errored'`.                                                  |
 
 ## Normalized model-turn types
 
 `turn` events keep correlation, duration, purpose, and error status at top level. Their required `request` is a `ModelRequestInfo` summary; their required `response` is a `ModelResponse`. Output, usage, finish reason, and normalized errors exist only under `response`.
 
-| Type | Description |
-|----|----|
-| `ModelRequestInput` | Model-visible system prompt, messages, and tools. |
-| `ModelRequestInfo` | Provider identity, requested model, API, and request settings. |
-| `ModelRequest` | `ModelRequestInfo` plus the full request `input`; used by `turn_request`. |
-| `ModelResponse` | Response identity, output, usage, finish reason, and normalized error. |
-| `LlmAssistantMessage` | Normalized assistant message. |
-| `LlmTextContent` | Text content. |
-| `LlmThinkingContent` | Reasoning content. |
-| `LlmToolCall` | Tool call content. |
-| `LlmTurnPurpose` | Model-turn purpose: `'agent'`, `'compaction'`, or `'compaction_prefix'`. |
+| Type                  | Description                                                               |
+|-----------------------|---------------------------------------------------------------------------|
+| `ModelRequestInput`   | Model-visible system prompt, messages, and tools.                         |
+| `ModelRequestInfo`    | Provider identity, requested model, API, and request settings.            |
+| `ModelRequest`        | `ModelRequestInfo` plus the full request `input`; used by `turn_request`. |
+| `ModelResponse`       | Response identity, output, usage, finish reason, and normalized error.    |
+| `LlmAssistantMessage` | Normalized assistant message.                                             |
+| `LlmTextContent`      | Text content.                                                             |
+| `LlmThinkingContent`  | Reasoning content.                                                        |
+| `LlmToolCall`         | Tool call content.                                                        |
+| `LlmTurnPurpose`      | Model-turn purpose: `'agent'`, `'compaction'`, or `'compaction_prefix'`.  |
 
 `request.providerId` is the provider-registration key used in model specifiers. `request.providerName` is the semantic provider identity and may differ for gateways or custom registrations.
 

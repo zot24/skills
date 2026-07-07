@@ -15,20 +15,21 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install hono firecrawl
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
 ## Search the web
 
-```typescript
-
+```typescript theme={null}
+import { Hono } from "hono";
+import { Firecrawl } from "firecrawl";
 
 const app = new Hono();
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
@@ -44,7 +45,7 @@ export default app;
 
 ## Scrape a page
 
-```typescript
+```typescript theme={null}
 app.post("/scrape", async (c) => {
   const { url } = await c.req.json();
   const result = await firecrawl.scrape(url);
@@ -56,7 +57,7 @@ app.post("/scrape", async (c) => {
 
 Use interact to control a live browser session — click buttons, fill forms, and extract dynamic content.
 
-```typescript
+```typescript theme={null}
 app.post("/interact", async (c) => {
   const { url } = await c.req.json();
 
@@ -76,8 +77,9 @@ app.post("/interact", async (c) => {
 
 Hono runs on multiple runtimes. For Cloudflare Workers, pass the API key from the environment binding:
 
-```typescript
-
+```typescript theme={null}
+import { Hono } from "hono";
+import { Firecrawl } from "firecrawl";
 
 type Bindings = { FIRECRAWL_API_KEY: string };
 const app = new Hono<{ Bindings: Bindings }>();

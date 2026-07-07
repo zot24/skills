@@ -1,5 +1,20 @@
 > Source: https://silentvoid13.github.io/Templater/
 
+
+
+- Light (default)
+- Rust
+- Coal
+- Navy
+- Ayu
+
+
+# Templater
+
+
+<a href="print.html" aria-label="Print this book" title="Print this book"><em></em></a>
+
+
 # <a href="#introduction" class="header">Introduction</a>
 
 [Templater](https://github.com/SilentVoid13/Templater) is a template language that lets you insert **variables** and **functions** results into your notes. It will also let you execute JavaScript code manipulating those variables and functions.
@@ -36,3 +51,5 @@ Will produce the following result when inserted:
 
     > Do the best you can until you know better. Then when you know better, do better.
     > &mdash; <cite>Maya Angelou</cite>
+
+

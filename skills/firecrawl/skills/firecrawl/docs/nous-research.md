@@ -14,19 +14,21 @@ Hermes models support OpenAI-compatible tool calls, so Firecrawl plugs in as a f
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install firecrawl openai zod
 ```
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 export NOUS_API_KEY=YOUR-NOUS-PORTAL-KEY
 ```
 
 ## Hermes + Firecrawl Tool Call
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import OpenAI from 'openai';
+import { z } from 'zod';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -93,7 +95,7 @@ for (const call of response.choices[0]?.message.tool_calls ?? []) {
 
 Prefer a single gateway for multiple models? Route Hermes through OpenRouter:
 
-```typescript
+```typescript theme={null}
 const client = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   baseURL: 'https://openrouter.ai/api/v1',

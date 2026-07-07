@@ -109,7 +109,7 @@ Used to perform web searches and optionally retrieve content from the results.
 
 SDKs will return the data object directly. cURL will return the complete payload.
 
-```json JSON
+```json JSON theme={null}
 {
   "success": true,
   "data": {
@@ -192,7 +192,7 @@ Filter search results by specific categories using the `categories` parameter:
 
 Search specifically within GitHub repositories:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -207,7 +207,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 
 Search academic and research websites:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -222,7 +222,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 
 Combine multiple categories in one search:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -243,7 +243,7 @@ Use `includeDomains` to restrict search results to specific domains, or `exclude
 
 ### Include Domains
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -256,7 +256,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 
 ### Exclude Domains
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -271,7 +271,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 
 Each search result includes a `category` field indicating its source:
 
-```json
+```json theme={null}
 {
   "success": true,
   "data": {
@@ -295,7 +295,7 @@ Each search result includes a `category` field indicating its source:
 
 Examples:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -306,7 +306,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
   }'
 ```
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -321,7 +321,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 
 Use images operators to find high-resolution images:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -332,7 +332,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
   }'
 ```
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -412,7 +412,7 @@ Every option in scrape endpoint is supported by this search endpoint through the
 
 ### Response with Scraped Content
 
-```json
+```json theme={null}
 {
   "success": true,
   "data": [
@@ -717,7 +717,7 @@ With end-to-end ZDR, both Firecrawl and our upstream search provider enforce zer
 * **Cost:** 10 credits per 10 results
 * **Parameter:** `enterprise: ["zdr"]`
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -735,7 +735,7 @@ With anonymized ZDR, Firecrawl enforces full zero data retention on our side. Ou
 * **Cost:** 2 credits per 10 results
 * **Parameter:** `enterprise: ["anon"]`
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
@@ -750,7 +750,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 
 If you are using search with content scraping (`scrapeOptions`), the `enterprise` parameter covers the search portion while `zeroDataRetention` in `scrapeOptions` covers the scraping portion. To get full ZDR across both, set both:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \

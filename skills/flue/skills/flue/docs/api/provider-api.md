@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/api/provider-api
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Provider API
@@ -78,16 +91,16 @@ interface HttpProviderRegistration {
 }
 ```
 
-| Property | Purpose |
-|----|----|
-| `api` | Wire protocol used for requests. Use a Pi-provided API slug or register one with `registerApiProvider()`. Required for non-catalog provider IDs; defaults to the catalog protocol. |
-| `baseUrl` | Endpoint root, such as `https://api.anthropic.com/v1`. Required for non-catalog provider IDs; defaults to the catalog endpoint. |
-| `apiKey` | Optional API key. When omitted, the underlying provider integration may use its normal environment-variable lookup. |
-| `headers` | Headers sent on outgoing requests. Merged per key over the catalog model’s headers when the provider ID hydrates from the catalog; the registration’s values win on conflict. |
-| `contextWindow` | Default context-window size for models resolved through this registration. Falls back to the catalog value for catalog models, then to `0`, meaning unknown. |
-| `maxTokens` | Default output-token limit for models resolved through this registration. Falls back to the catalog value for catalog models, then to `0`. |
-| `models` | Per-model `contextWindow` and `maxTokens` overrides keyed by model ID. Per-model values override provider-level defaults. |
-| `storeResponses` | Send `store: true` for OpenAI Responses API providers. Enable only when your application accepts the provider’s retention policy. |
+| Property         | Purpose                                                                                                                                                                            |
+|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `api`            | Wire protocol used for requests. Use a Pi-provided API slug or register one with `registerApiProvider()`. Required for non-catalog provider IDs; defaults to the catalog protocol. |
+| `baseUrl`        | Endpoint root, such as `https://api.anthropic.com/v1`. Required for non-catalog provider IDs; defaults to the catalog endpoint.                                                    |
+| `apiKey`         | Optional API key. When omitted, the underlying provider integration may use its normal environment-variable lookup.                                                                |
+| `headers`        | Headers sent on outgoing requests. Merged per key over the catalog model’s headers when the provider ID hydrates from the catalog; the registration’s values win on conflict.      |
+| `contextWindow`  | Default context-window size for models resolved through this registration. Falls back to the catalog value for catalog models, then to `0`, meaning unknown.                       |
+| `maxTokens`      | Default output-token limit for models resolved through this registration. Falls back to the catalog value for catalog models, then to `0`.                                         |
+| `models`         | Per-model `contextWindow` and `maxTokens` overrides keyed by model ID. Per-model values override provider-level defaults.                                                          |
+| `storeResponses` | Send `store: true` for OpenAI Responses API providers. Enable only when your application accepts the provider’s retention policy.                                                  |
 
 Registering a non-catalog provider ID without `api` and `baseUrl` throws a `ProviderRegistrationError`.
 

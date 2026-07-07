@@ -52,7 +52,7 @@ Each monitor accepts 1–50 targets, and you can mix target types in a single mo
 
 Every create call returns the new monitor with its normalized cron, computed `nextRunAt`, and `estimatedCreditsPerMonth`. When judging is enabled, `estimatedCreditsPerMonth` is an upper-bound estimate because judge credits are only charged for changed pages that are actually judged:
 
-```json Response
+```json Response theme={null}
 {
   "success": true,
   "data": {
@@ -111,13 +111,13 @@ Good goals are short and explicit: say what should trigger an alert, restate any
 
 For example, a monitor with this goal:
 
-```text
+```text theme={null}
 Alert when a new Hacker News story related to AI enters the top 10. Ignore changes to stories that are not about AI. Do not alert on changes outside the top 10.
 ```
 
 could produce a `monitor.page` webhook like this when a matching story enters scope:
 
-```json monitor.page
+```json monitor.page theme={null}
 {
   "success": true,
   "type": "monitor.page",
@@ -206,7 +206,7 @@ The minimum interval is 5 minutes. API responses always return the normalized cr
 
 When `scrapeOptions.formats` is just `["markdown"]`, each changed page in the check response carries a unified text diff plus a [parseDiff](https://github.com/sergeyt/parse-diff)-style AST:
 
-```json Markdown-mode diff
+```json Markdown-mode diff theme={null}
 {
   "diff": {
     "text": "--- previous\n+++ current\n@@ -1,3 +1,3 @@\n # Pricing\n-Starter — $19/mo\n+Starter — $24/mo\n",
@@ -389,7 +389,7 @@ Pass a `changeTracking` format with `modes: ["json"]` together with a JSON schem
 
 The diff payload uses JSON paths into the extraction as keys. Each value is a `{previous, current}` pair:
 
-```json JSON-mode diff
+```json JSON-mode diff theme={null}
 {
   "diff": {
     "json": {
@@ -430,7 +430,7 @@ The diff payload uses JSON paths into the extraction as keys. Each value is a `{
 
 If you want both the structured per-field diff **and** the raw markdown unified diff, pass both modes:
 
-```json Mixed target (JSON + git-diff)
+```json Mixed target (JSON + git-diff) theme={null}
 {
   "type": "scrape",
   "urls": ["https://example.com/pricing"],
@@ -463,7 +463,7 @@ If you want both the structured per-field diff **and** the raw markdown unified 
 
 The check response then contains both `diff.text` (markdown sidecar) and `diff.json` (per-field diff), along with the `snapshot.json` extraction:
 
-```json Mixed-mode diff (JSON + git-diff)
+```json Mixed-mode diff (JSON + git-diff) theme={null}
 {
   "diff": {
     "text": "--- previous\n+++ current\n@@ -1,3 +1,3 @@\n # Pricing\n-Starter — $19/mo\n+Starter — $24/mo\n",
@@ -498,7 +498,7 @@ When a monitor has a `webhook`, Firecrawl can send two monitor events:
 
 `monitor.page` includes `isMeaningful` and `judgment` when meaningful-change judging ran for a changed page.
 
-```json Webhook config
+```json Webhook config theme={null}
 {
   "webhook": {
     "url": "https://example.com/webhooks/firecrawl",
@@ -515,7 +515,7 @@ When a monitor has a `webhook`, Firecrawl can send two monitor events:
 
 `monitor.page` payload:
 
-```json monitor.page
+```json monitor.page theme={null}
 {
   "success": true,
   "type": "monitor.page",
@@ -557,7 +557,7 @@ When a monitor has a `webhook`, Firecrawl can send two monitor events:
 
 `monitor.check.completed` payload:
 
-```json monitor.check.completed
+```json monitor.check.completed theme={null}
 {
   "success": true,
   "type": "monitor.check.completed",
@@ -590,7 +590,7 @@ When a monitor has a `webhook`, Firecrawl can send two monitor events:
 
 Email summaries are sent only when a check has changed, new, removed, or errored pages.
 
-```json Email config
+```json Email config theme={null}
 {
   "notification": {
     "email": {

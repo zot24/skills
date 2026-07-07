@@ -20,7 +20,7 @@ Sign up at [firecrawl.dev/app](https://www.firecrawl.dev/app) and copy your API 
 
 OpenCode reads config from `~/.config/opencode/config.json` (global) or `./opencode.json` in your project. Add:
 
-```json
+```json theme={null}
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
@@ -39,7 +39,7 @@ Replace `fc-YOUR-API-KEY` with your Firecrawl API key.
 
 ### 3. Start OpenCode
 
-```bash
+```bash theme={null}
 opencode
 ```
 
@@ -65,7 +65,7 @@ Crawl https://example.com/blog and save each post as markdown.
 
 ## Remote Hosted URL (no Node.js required)
 
-```json
+```json theme={null}
 {
   "mcp": {
     "firecrawl": {

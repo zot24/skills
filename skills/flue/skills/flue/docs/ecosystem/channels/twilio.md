@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/channels/twilio
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Twilio
@@ -58,14 +71,14 @@ The abridged example omits the generated `postMessage()` tool and the Fetch clie
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
-| `TWILIO_ACCOUNT_SID` | **Required** — Restricts inbound requests and identifies outbound API calls. |
-| `TWILIO_AUTH_TOKEN` | **Required** — Verifies inbound signatures and authenticates API calls. |
-| `TWILIO_WEBHOOK_URL` | **Required** — Supplies the exact public URL used for signature checks. |
-| `TWILIO_PHONE_NUMBER` | **Required for an address-based destination** — Binds an address-based destination. |
-| `TWILIO_MESSAGING_SERVICE_SID` | **Required for a Messaging Service destination** — Binds a Messaging Service destination. |
-| `TWILIO_STATUS_CALLBACK_URL` | **Required when status callbacks are enabled** — Supplies the exact public status callback URL. |
+| Variable                       | Purpose                                                                                         |
+|--------------------------------|-------------------------------------------------------------------------------------------------|
+| `TWILIO_ACCOUNT_SID`           | **Required** — Restricts inbound requests and identifies outbound API calls.                    |
+| `TWILIO_AUTH_TOKEN`            | **Required** — Verifies inbound signatures and authenticates API calls.                         |
+| `TWILIO_WEBHOOK_URL`           | **Required** — Supplies the exact public URL used for signature checks.                         |
+| `TWILIO_PHONE_NUMBER`          | **Required for an address-based destination** — Binds an address-based destination.             |
+| `TWILIO_MESSAGING_SERVICE_SID` | **Required for a Messaging Service destination** — Binds a Messaging Service destination.       |
+| `TWILIO_STATUS_CALLBACK_URL`   | **Required when status callbacks are enabled** — Supplies the exact public status callback URL. |
 
 It installs `@flue/twilio` for verified ingress and creates an editable Fetch client for outbound Programmable Messaging. The official Twilio Node helper is not the canonical path because it is Node-only; the generated REST client runs in Node and workerd with Flue’s required `nodejs_compat` configuration.
 

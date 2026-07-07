@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/guide/sandboxes
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Sandboxes
@@ -83,10 +96,10 @@ A sandbox integration may expose different model-facing capabilities than the vi
 
 The sandbox controls workspace and command access. It does not determine whether a session retains conversation history. Keep these decisions separate:
 
-| Decision | Controlled by |
-|----|----|
-| Conversation history available in a later agent interaction | Canonical conversation persistence via `db.ts` or the target default. |
-| Files, installed packages, and generated artifacts available later | The sandbox or workspace lifecycle you choose. |
+| Decision                                                            | Controlled by                                                         |
+|---------------------------------------------------------------------|-----------------------------------------------------------------------|
+| Conversation history available in a later agent interaction         | Canonical conversation persistence via `db.ts` or the target default. |
+| Files, installed packages, and generated artifacts available later  | The sandbox or workspace lifecycle you choose.                        |
 | Access to repositories, APIs, credentials, and network destinations | The sandbox environment, tools, and application authorization policy. |
 
 A persisted agent conversation does not make the virtual sandbox durable. Likewise, a durable remote workspace does not by itself preserve conversation history.

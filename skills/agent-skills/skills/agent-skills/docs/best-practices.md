@@ -147,7 +147,7 @@ What works perfectly for Opus might need more detail for Haiku. If you plan to u
 
 ## Skill structure
 
-
+<Note>
   **YAML Frontmatter:** The SKILL.md frontmatter requires two fields:
 
   `name`:
@@ -165,7 +165,7 @@ What works perfectly for Opus might need more detail for Haiku. If you plan to u
   * Should describe what the Skill does and when to use it
 
   For complete Skill structure details, see the [Skills overview](/docs/en/agents-and-tools/agent-skills/overview#skill-structure).
-
+</Note>
 
 ### Naming conventions
 
@@ -204,13 +204,13 @@ Consistent naming makes it easier to:
 
 The `description` field enables Skill discovery and should include both what the Skill does and when to use it.
 
-
+<Warning>
   **Always write in third person**. The description is injected into the system prompt, and inconsistent point-of-view can cause discovery problems.
 
   * **Good:** "Processes Excel files and generates reports"
   * **Avoid:** "I can help you process Excel files"
   * **Avoid:** "You can use this to process Excel files"
-
+</Warning>
 
 **Be specific and include key terms**. Include both what the Skill does and specific triggers/contexts for when to use it.
 
@@ -994,9 +994,9 @@ When inputs can be rendered as images, have Claude analyze them:
 3. Claude can see field locations and types visually
 ````
 
-
+<Note>
   In this example, you'd need to write the `pdf_to_images.py` script.
-
+</Note>
 
 Claude's vision capabilities help understand layouts and structures.
 

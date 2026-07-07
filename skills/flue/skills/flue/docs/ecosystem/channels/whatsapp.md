@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/channels/whatsapp
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # WhatsApp
@@ -57,12 +70,12 @@ The abridged example omits the generated `conversationRef` helper and outbound m
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
-| `WHATSAPP_APP_SECRET` | **Required** — Verifies signed inbound webhook bodies. |
-| `WHATSAPP_VERIFY_TOKEN` | **Required** — Verifies Meta’s callback setup challenge. |
-| `WHATSAPP_ACCESS_TOKEN` | **Required** — Authenticates outbound Graph API calls. |
-| `WHATSAPP_PHONE_NUMBER_ID` | **Required** — Restricts handling to the configured phone number. |
+| Variable                       | Purpose                                                                      |
+|--------------------------------|------------------------------------------------------------------------------|
+| `WHATSAPP_APP_SECRET`          | **Required** — Verifies signed inbound webhook bodies.                       |
+| `WHATSAPP_VERIFY_TOKEN`        | **Required** — Verifies Meta’s callback setup challenge.                     |
+| `WHATSAPP_ACCESS_TOKEN`        | **Required** — Authenticates outbound Graph API calls.                       |
+| `WHATSAPP_PHONE_NUMBER_ID`     | **Required** — Restricts handling to the configured phone number.            |
 | `WHATSAPP_BUSINESS_ACCOUNT_ID` | **Optional** — Restricts handling by business account as application policy. |
 
 It installs `@flue/whatsapp` for verified ingress and `@kapso/whatsapp-cloud-api` for project-owned Graph API access. `@flue/whatsapp` requires Node 24 because its selected webhook type package declares that engine floor. The client is Fetch-based and runs in Node and workerd with Flue’s required `nodejs_compat` configuration.

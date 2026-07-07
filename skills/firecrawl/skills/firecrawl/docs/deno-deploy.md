@@ -17,7 +17,8 @@
 
 Create `main.ts`:
 
-```typescript
+```typescript theme={null}
+import Firecrawl from "npm:firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: Deno.env.get("FIRECRAWL_API_KEY"),
@@ -28,7 +29,7 @@ const firecrawl = new Firecrawl({
 
 Add a `/search` route that searches the web and returns results with full page content.
 
-```typescript
+```typescript theme={null}
 Deno.serve(async (req) => {
   const url = new URL(req.url);
 
@@ -46,7 +47,7 @@ Deno.serve(async (req) => {
 
 Add a `/scrape` route to extract clean markdown from any URL.
 
-```typescript
+```typescript theme={null}
 if (req.method === "POST" && url.pathname === "/scrape") {
   const { url: targetUrl } = await req.json();
   const result = await firecrawl.scrape(targetUrl);
@@ -58,7 +59,7 @@ if (req.method === "POST" && url.pathname === "/scrape") {
 
 Add an `/interact` route to control a live browser session — click buttons, fill forms, and extract dynamic content.
 
-```typescript
+```typescript theme={null}
 if (req.method === "POST" && url.pathname === "/interact") {
   const result = await firecrawl.scrape("https://www.amazon.com", {
     formats: ["markdown"],
@@ -80,7 +81,7 @@ if (req.method === "POST" && url.pathname === "/interact") {
 
 ## Run locally
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY deno run --allow-net --allow-env main.ts
 ```
 
@@ -88,19 +89,19 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY deno run --allow-net --allow-env main.ts
 
 Install the Deno Deploy CLI (`deployctl`) and deploy:
 
-```bash
+```bash theme={null}
 deployctl deploy --project=my-scraper main.ts
 ```
 
 Set the environment variable in the Deno Deploy dashboard or via CLI:
 
-```bash
+```bash theme={null}
 deployctl env set FIRECRAWL_API_KEY=fc-YOUR-API-KEY --project=my-scraper
 ```
 
 ## Test it
 
-```bash
+```bash theme={null}
 curl -X POST https://my-scraper.deno.dev/search \
   -H "Content-Type: application/json" \
   -d '{"query": "firecrawl web scraping"}'

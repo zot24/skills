@@ -12,13 +12,13 @@ Integrate Firecrawl with Mastra, the TypeScript framework for building AI agents
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install @mastra/core firecrawl zod
 ```
 
 Create `.env` file:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=your_firecrawl_key
 OPENAI_API_KEY=your_openai_key
 ```
@@ -29,8 +29,11 @@ OPENAI_API_KEY=your_openai_key
 
 This example demonstrates a complete workflow that searches, scrapes, and summarizes documentation using Firecrawl and Mastra.
 
-```typescript
-
+```typescript theme={null}
+import { createWorkflow, createStep } from "@mastra/core/workflows";
+import { z } from "zod";
+import { Firecrawl } from "firecrawl";
+import { Agent } from "@mastra/core/agent";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY || "fc-YOUR_API_KEY"
@@ -117,6 +120,37 @@ const summarizeStep = createStep({
 });
 
 // Create workflow
+export const workflow = createWorkflow({
+  id: "firecrawl-workflow",
+  inputSchema: z.object({
+    query: z.string(),
+  }),
+  outputSchema: z.object({
+    summary: z.string(),
+  }),
+  steps: [searchStep, scrapeStep, summarizeStep],
+})
+  .then(searchStep)
+  .then(scrapeStep)
+  .then(summarizeStep)
+  .commit();
+
+async function testWorkflow() {
+  const run = await workflow.createRunAsync();
+  const result = await run.start({
+    inputData: { query: "Firecrawl documentation" }
+  });
+
+  if (result.status === "success") {
+    const { summarize } = result.steps;
+
+    if (summarize.status === "success") {
+      console.log(`\n${summarize.output.summary}`);
+    }
+  } else {
+    console.error("Workflow failed:", result.status);
+  }
+}
 
 testWorkflow().catch(console.error);
 ```

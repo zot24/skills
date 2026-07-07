@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/deploy/aws
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Deploy Agents on AWS
@@ -44,12 +57,12 @@ aws ecs create-express-gateway-service \
   --monitor-resources
 ```
 
-| Concern | Express Mode |
-|----|----|
-| Image | `--primary-container image` points at the ECR repository; the **execution role** pulls it. |
+| Concern         | Express Mode                                                                                                                                                                                                                                                                                                                   |
+|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Image           | `--primary-container image` points at the ECR repository; the **execution role** pulls it.                                                                                                                                                                                                                                     |
 | Env and secrets | Plaintext vars go in `environment`. Inject secrets as a task `secrets` reference resolved by the execution role from [Secrets Manager or SSM Parameter Store](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html) — keep the provider key and `DATABASE_URL` out of the image. |
-| Health check | `--health-check-path` is the ALB target-group path. Flue does not generate one — define `/health` in `app.ts`. |
-| Scaling | `--scaling-target` sets `minTaskCount` / `maxTaskCount`; scaling tracks CPU. Keep `minTaskCount` ≥ 1 so a process is always up to hold sessions. |
+| Health check    | `--health-check-path` is the ALB target-group path. Flue does not generate one — define `/health` in `app.ts`.                                                                                                                                                                                                                 |
+| Scaling         | `--scaling-target` sets `minTaskCount` / `maxTaskCount`; scaling tracks CPU. Keep `minTaskCount` ≥ 1 so a process is always up to hold sessions.                                                                                                                                                                               |
 
 For exposed workflow runs, the ALB sits in front of long-lived `GET /runs/:runId` reads (long-poll/SSE). Raise the target group’s idle timeout, and retain the invocation’s `runId` so clients can reconnect and resume the run stream. Multiple tasks need shared Postgres for durable state and workflow history, but each agent instance must still be routed to one live task; do not round-robin the same instance. See [Workflow HTTP exports](/docs/api/workflow-api/#http-exports).
 
@@ -79,11 +92,11 @@ Restart=always
 WantedBy=multi-user.target
 ```
 
-| Concern | EC2 |
-|----|----|
+| Concern         | EC2                                                                                                                                                                               |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Env and secrets | systemd `EnvironmentFile` (mode `600`) or `docker run -e`. Pull the provider key and `DATABASE_URL` from SSM Parameter Store on boot rather than committing them to the instance. |
-| Health check | Nothing checks the process for you. If you front it with an ALB or run a watcher, point it at `/health` (define the route in `app.ts`). |
-| Port and TLS | The instance’s **security group** must open the listening port. Terminate TLS at a reverse proxy on the box (nginx / Caddy) or behind an ALB; the Node server speaks plain HTTP. |
+| Health check    | Nothing checks the process for you. If you front it with an ALB or run a watcher, point it at `/health` (define the route in `app.ts`).                                           |
+| Port and TLS    | The instance’s **security group** must open the listening port. Terminate TLS at a reverse proxy on the box (nginx / Caddy) or behind an ALB; the Node server speaks plain HTTP.  |
 
 There is no second instance to fail over to and no autoscaling — one process holds all sessions. Long-lived `GET /runs/:runId` streams work directly; if an ALB is in front, raise its idle timeout. In-memory state is lost when the process restarts; add shared Postgres before you scale past one box.
 

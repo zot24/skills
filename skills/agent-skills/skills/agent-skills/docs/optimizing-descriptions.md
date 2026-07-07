@@ -33,7 +33,7 @@ Before testing, it helps to know what a good description looks like. A few princ
 
 To test triggering, you need a set of eval queries — realistic user prompts labeled with whether they should or shouldn't trigger your skill.
 
-```json eval_queries.json
+```json eval_queries.json theme={null}
 [
   { "query": "I've got a spreadsheet in ~/data/q4_results.xlsx with revenue in col C and expenses in col D — can you add a profit margin column and highlight anything under 10%?", "should_trigger": true },
   { "query": "whats the quickest way to convert this json file to yaml", "should_trigger": false }
@@ -95,7 +95,7 @@ A should-trigger query passes if its trigger rate is above a threshold (0.5 is a
 
 With 20 queries at 3 runs each, that's 60 invocations. You'll want to script this. Here's the general structure — replace the `claude` invocation and detection logic in `check_triggered` with whatever your agent client provides:
 
-```bash
+```bash theme={null}
 #!/bin/bash
 QUERIES_FILE="${1:?Usage: $0 <queries.json>}"
 SKILL_NAME="my-skill"
@@ -178,7 +178,7 @@ Once you've selected the best description:
 
 Before and after:
 
-```yaml
+```yaml theme={null}
 # Before
 description: Process CSV files.
 

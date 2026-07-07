@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/sandboxes/cloudflare
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Cloudflare Sandbox
@@ -50,14 +63,14 @@ The blueprint also exports `Sandbox` from `<source-root>/cloudflare.ts`, adds it
 
 ## Configure
 
-| Requirement | Purpose |
-|----|----|
-| Cloudflare target | **Required** — Runs the platform-native sandbox integration. |
-| `@cloudflare/sandbox` package | **Required** — Provides the Sandbox Durable Object and RPC client. |
-| Container image | **Required** — Defines the Linux filesystem and command environment. |
-| Durable Object/container binding | **Required on Cloudflare** — Exposes the sandbox through Wrangler platform configuration; it is not an environment variable. |
-| Stable sandbox identity and retention policy | **Required** — Controls lifecycle and reuse for the application. |
-| Environment-variable credentials | **Not required** — The platform integration uses Cloudflare bindings and deployment configuration instead. |
+| Requirement                                  | Purpose                                                                                                                      |
+|----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| Cloudflare target                            | **Required** — Runs the platform-native sandbox integration.                                                                 |
+| `@cloudflare/sandbox` package                | **Required** — Provides the Sandbox Durable Object and RPC client.                                                           |
+| Container image                              | **Required** — Defines the Linux filesystem and command environment.                                                         |
+| Durable Object/container binding             | **Required on Cloudflare** — Exposes the sandbox through Wrangler platform configuration; it is not an environment variable. |
+| Stable sandbox identity and retention policy | **Required** — Controls lifecycle and reuse for the application.                                                             |
+| Environment-variable credentials             | **Not required** — The platform integration uses Cloudflare bindings and deployment configuration instead.                   |
 
 Cloudflare Sandbox requires a Worker deployment, Durable Object/container configuration, and a container image. Add the dependency to a Cloudflare-targeted project and export its Durable Object class from your Cloudflare deployment module:
 

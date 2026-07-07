@@ -74,7 +74,7 @@ Inspect and debug a running Honcho deployment from your terminal. The honcho CLI
 
 **Get started:**
 
-```bash
+```bash theme={null}
 uv tool install honcho-cli
 honcho init      # configure apiKey + environmentUrl
 honcho doctor    # verify connectivity
@@ -90,7 +90,7 @@ See the [full CLI reference](/v3/documentation/reference/cli) for all commands, 
 
 Use Honcho to build with Honcho! The [plugin](/v3/guides/integrations/claudecode) provides Claude Code persistent memory that survives context wipes and session restarts.
 
-```bash
+```bash theme={null}
 /plugin marketplace add plastic-labs/claude-honcho
 /plugin install honcho@honcho # Tools for Claude to use Honcho to manage its own context
 /plugin install honcho-dev@honcho # Skills to teach Claude how to integrate Honcho
@@ -106,7 +106,7 @@ See the [full Claude Code integration guide](/v3/guides/integrations/claudecode)
 
 The [OpenCode plugin](/v3/guides/integrations/opencode) gives OpenCode sessions persistent memory that survives context wipes, session restarts, and fresh chats.
 
-```bash
+```bash theme={null}
 bunx @honcho-ai/opencode-honcho install
 ```
 

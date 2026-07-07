@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -31,7 +34,7 @@ Before executing any command, Hermes checks it against a curated list of dangero
 The approval system supports three modes, configured via `approvals.mode` in `~/.hermes/config.yaml`:
 
 
-``` yaml
+``` prism-code
 approvals:
   mode: manual                    # manual | smart | off
   timeout: 60                     # seconds to wait for user response (default: 60)
@@ -43,19 +46,19 @@ approvals:
 
 The full set of keys:
 
-| Key | Default | What it controls |
-|----|----|----|
-| `mode` | `manual` | Approval policy for dangerous shell commands — see the table below. |
-| `timeout` | `60` | Seconds Hermes waits for an approval reply before timing out. |
-| `cron_mode` | `deny` | How [cron jobs](/docs/user-guide/features/cron) behave headlessly when they trigger a dangerous-command prompt. `deny` blocks the command (the agent must find another path); `approve` auto-approves everything in cron context. |
-| `mcp_reload_confirm` | `true` | When true, `/reload-mcp` asks before rebuilding the MCP tool set. Rebuilding invalidates the provider prompt cache (tool schemas live in the system prompt), so the next message re-sends full input tokens. Users who click **Always Approve** flip this key to `false`. |
-| `destructive_slash_confirm` | `true` | When true, destructive session slash commands (`/clear`, `/new`, `/reset`, `/undo`) prompt before discarding conversation state. Three-option dialog (Approve Once / Always Approve / Cancel) routed through native yes/no buttons on Telegram, Discord, and Slack; text fallback elsewhere. Users who click **Always Approve** flip this key to `false`. TUI uses its own modal overlay (set `HERMES_TUI_NO_CONFIRM=1` to opt out there). |
+| Key                         | Default  | What it controls                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|-----------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `mode`                      | `manual` | Approval policy for dangerous shell commands — see the table below.                                                                                                                                                                                                                                                                                                                                                                        |
+| `timeout`                   | `60`     | Seconds Hermes waits for an approval reply before timing out.                                                                                                                                                                                                                                                                                                                                                                              |
+| `cron_mode`                 | `deny`   | How [cron jobs](/docs/user-guide/features/cron) behave headlessly when they trigger a dangerous-command prompt. `deny` blocks the command (the agent must find another path); `approve` auto-approves everything in cron context.                                                                                                                                                                                                          |
+| `mcp_reload_confirm`        | `true`   | When true, `/reload-mcp` asks before rebuilding the MCP tool set. Rebuilding invalidates the provider prompt cache (tool schemas live in the system prompt), so the next message re-sends full input tokens. Users who click **Always Approve** flip this key to `false`.                                                                                                                                                                  |
+| `destructive_slash_confirm` | `true`   | When true, destructive session slash commands (`/clear`, `/new`, `/reset`, `/undo`) prompt before discarding conversation state. Three-option dialog (Approve Once / Always Approve / Cancel) routed through native yes/no buttons on Telegram, Discord, and Slack; text fallback elsewhere. Users who click **Always Approve** flip this key to `false`. TUI uses its own modal overlay (set `HERMES_TUI_NO_CONFIRM=1` to opt out there). |
 
-| Mode | Behavior |
-|----|----|
-| **manual** (default) | Always prompt the user for approval on dangerous commands |
-| **smart** | Use an auxiliary LLM to assess risk. Low-risk commands (e.g., `python -c "print('hello')"`) are auto-approved. Genuinely dangerous commands are auto-denied. Uncertain cases escalate to a manual prompt. |
-| **off** | Disable all approval checks — equivalent to running with `--yolo`. All commands execute without prompts. |
+| Mode                 | Behavior                                                                                                                                                                                                  |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **manual** (default) | Always prompt the user for approval on dangerous commands                                                                                                                                                 |
+| **smart**            | Use an auxiliary LLM to assess risk. Low-risk commands (e.g., `python -c "print('hello')"`) are auto-approved. Genuinely dangerous commands are auto-denied. Uncertain cases escalate to a manual prompt. |
+| **off**              | Disable all approval checks — equivalent to running with `--yolo`. All commands execute without prompts.                                                                                                  |
 
 
 Setting `approvals.mode: off` disables all safety prompts. Use only in trusted environments (CI/CD, containers, etc.).
@@ -72,7 +75,7 @@ YOLO mode bypasses **all** dangerous command approval prompts for the current se
 The `/yolo` command is a **toggle** — each use flips the mode on or off:
 
 
-``` text
+``` prism-code
 > /yolo
   ⚡ YOLO mode ON — all commands auto-approved. Use with caution.
 
@@ -105,13 +108,13 @@ Some commands are so catastrophic — irreversible filesystem wipes, fork bombs,
 
 The blocklist is the floor below `--yolo`. It trips **before** the approval layer even sees the command, and there's no override flag. Patterns currently covered (not exhaustive; kept in sync with `tools/approval.py::UNRECOVERABLE_BLOCKLIST`):
 
-| Pattern | Why it's hardline |
-|----|----|
-| `rm -rf /` and obvious variants | Wipes the filesystem root |
-| `rm -rf --no-preserve-root /` | The explicit "yes I mean root" variant |
-| `:(){ :|:& };:` (bash fork bomb) | Pegs the host until reboot |
-| `mkfs.*` on a mounted root device | Formats the live system |
-| `dd if=/dev/zero of=/dev/sd*` | Zeroes a physical disk |
+| Pattern                                               | Why it's hardline                                        |
+|-------------------------------------------------------|----------------------------------------------------------|
+| `rm -rf /` and obvious variants                       | Wipes the filesystem root                                |
+| `rm -rf --no-preserve-root /`                         | The explicit "yes I mean root" variant                   |
+| `:(){ :|:& };:` (bash fork bomb)                      | Pegs the host until reboot                               |
+| `mkfs.*` on a mounted root device                     | Formats the live system                                  |
+| `dd if=/dev/zero of=/dev/sd*`                         | Zeroes a physical disk                                   |
 | Piping untrusted URLs to `sh` at the rootfs top level | Remote-code-execution attack vector too broad to approve |
 
 If you hit the blocklist, the tool call returns an explanatory error to the agent and nothing runs. If a legitimate workflow needs one of these commands (you're the operator of a wipe-and-reinstall pipeline, for example), run it outside the agent.
@@ -121,7 +124,7 @@ If you hit the blocklist, the tool call returns an explanatory error to the agen
 The hardline blocklist is fixed and code-shipped. `approvals.deny` is its user-editable counterpart: a list of glob patterns that block matching terminal commands unconditionally — **before** `--yolo`, `/yolo`, and `approvals.mode: off` are consulted. Use it to run yolo-with-exceptions: "let the agent do everything, except these specific things, ever."
 
 
-``` yaml
+``` prism-code
 approvals:
   deny:
     - "git push --force*"
@@ -151,7 +154,7 @@ When a dangerous command prompt appears, the user has a configurable amount of t
 Configure the timeout in `~/.hermes/config.yaml`:
 
 
-``` yaml
+``` prism-code
 approvals:
   timeout: 60  # seconds (default: 60)
 ```
@@ -161,36 +164,36 @@ approvals:
 
 The following patterns trigger approval prompts (defined in `tools/approval.py`):
 
-| Pattern | Description |
-|----|----|
-| `rm -r` / `rm --recursive` | Recursive delete |
-| `rm ... /` | Delete in root path |
-| `chmod 777/666` / `o+w` / `a+w` | World/other-writable permissions |
-| `chmod --recursive` with unsafe perms | Recursive world/other-writable (long flag) |
-| `chown -R root` / `chown --recursive root` | Recursive chown to root |
-| `mkfs` | Format filesystem |
-| `dd if=` | Disk copy |
-| `> /dev/sd` | Write to block device |
-| `DROP TABLE/DATABASE` | SQL DROP |
-| `DELETE FROM` (without WHERE) | SQL DELETE without WHERE |
-| `TRUNCATE TABLE` | SQL TRUNCATE |
-| `> /etc/` | Overwrite system config |
-| `systemctl stop/restart/disable/mask` | Stop/restart/disable system services |
-| `kill -9 -1` | Kill all processes |
-| `pkill -9` | Force kill processes |
-| Fork bomb patterns | Fork bombs |
-| `bash -c` / `sh -c` / `zsh -c` / `ksh -c` | Shell command execution via `-c` flag (including combined flags like `-lc`) |
-| `python -e` / `perl -e` / `ruby -e` / `node -c` | Script execution via `-e`/`-c` flag |
-| `curl ... | sh` / `wget ... | sh` | Pipe remote content to shell |
-| `bash <(curl ...)` / `sh <(wget ...)` | Execute remote script via process substitution |
-| `tee` to `/etc/`, `~/.ssh/`, `~/.hermes/.env` | Overwrite sensitive file via tee |
-| `>` / `>>` to `/etc/`, `~/.ssh/`, `~/.hermes/.env` | Overwrite sensitive file via redirection |
-| `xargs rm` | xargs with rm |
-| `find -exec rm` / `find -delete` | Find with destructive actions |
-| `cp`/`mv`/`install` to `/etc/` | Copy/move file into system config |
-| `sed -i` / `sed --in-place` on `/etc/` | In-place edit of system config |
-| `pkill`/`killall` hermes/gateway | Self-termination prevention |
-| `gateway run` with `&`/`disown`/`nohup`/`setsid` | Prevents starting gateway outside service manager |
+| Pattern                                            | Description                                                                 |
+|----------------------------------------------------|-----------------------------------------------------------------------------|
+| `rm -r` / `rm --recursive`                         | Recursive delete                                                            |
+| `rm ... /`                                         | Delete in root path                                                         |
+| `chmod 777/666` / `o+w` / `a+w`                    | World/other-writable permissions                                            |
+| `chmod --recursive` with unsafe perms              | Recursive world/other-writable (long flag)                                  |
+| `chown -R root` / `chown --recursive root`         | Recursive chown to root                                                     |
+| `mkfs`                                             | Format filesystem                                                           |
+| `dd if=`                                           | Disk copy                                                                   |
+| `> /dev/sd`                                        | Write to block device                                                       |
+| `DROP TABLE/DATABASE`                              | SQL DROP                                                                    |
+| `DELETE FROM` (without WHERE)                      | SQL DELETE without WHERE                                                    |
+| `TRUNCATE TABLE`                                   | SQL TRUNCATE                                                                |
+| `> /etc/`                                          | Overwrite system config                                                     |
+| `systemctl stop/restart/disable/mask`              | Stop/restart/disable system services                                        |
+| `kill -9 -1`                                       | Kill all processes                                                          |
+| `pkill -9`                                         | Force kill processes                                                        |
+| Fork bomb patterns                                 | Fork bombs                                                                  |
+| `bash -c` / `sh -c` / `zsh -c` / `ksh -c`          | Shell command execution via `-c` flag (including combined flags like `-lc`) |
+| `python -e` / `perl -e` / `ruby -e` / `node -c`    | Script execution via `-e`/`-c` flag                                         |
+| `curl ... | sh` / `wget ... | sh`                  | Pipe remote content to shell                                                |
+| `bash <(curl ...)` / `sh <(wget ...)`              | Execute remote script via process substitution                              |
+| `tee` to `/etc/`, `~/.ssh/`, `~/.hermes/.env`      | Overwrite sensitive file via tee                                            |
+| `>` / `>>` to `/etc/`, `~/.ssh/`, `~/.hermes/.env` | Overwrite sensitive file via redirection                                    |
+| `xargs rm`                                         | xargs with rm                                                               |
+| `find -exec rm` / `find -delete`                   | Find with destructive actions                                               |
+| `cp`/`mv`/`install` to `/etc/`                     | Copy/move file into system config                                           |
+| `sed -i` / `sed --in-place` on `/etc/`             | In-place edit of system config                                              |
+| `pkill`/`killall` hermes/gateway                   | Self-termination prevention                                                 |
+| `gateway run` with `&`/`disown`/`nohup`/`setsid`   | Prevents starting gateway outside service manager                           |
 
 
 **Container bypass**: When running in `docker`, `singularity`, `modal`, or `daytona` backends, dangerous command checks are **skipped** because the container itself is the security boundary. Destructive commands inside a container can't harm the host.
@@ -201,7 +204,7 @@ The following patterns trigger approval prompts (defined in `tools/approval.py`)
 In the interactive CLI, dangerous commands show an inline approval prompt:
 
 
-``` text
+``` prism-code
   ⚠️  DANGEROUS COMMAND: recursive delete
       rm -rf /tmp/old-project
 
@@ -232,7 +235,7 @@ The `HERMES_EXEC_ASK=1` environment variable is automatically set when running t
 Commands approved with "always" are saved to `~/.hermes/config.yaml`:
 
 
-``` yaml
+``` prism-code
 # Permanently allowed dangerous command patterns
 command_allowlist:
   - rm
@@ -266,7 +269,7 @@ The `_is_user_authorized()` method checks in this order:
 Set allowed user IDs as comma-separated values in `~/.hermes/.env`:
 
 
-``` bash
+``` prism-code
 # Platform-specific allowlists
 TELEGRAM_ALLOWED_USERS=123456789,987654321
 DISCORD_ALLOWED_USERS=111222333444555666
@@ -287,7 +290,7 @@ GATEWAY_ALLOW_ALL_USERS=true
 If **no allowlists are configured** and `GATEWAY_ALLOW_ALL_USERS` is not set, **all users are denied**. The gateway logs a warning at startup:
 
 
-``` text
+``` prism-code
 No user allowlists configured. All unauthorized users will be denied.
 Set GATEWAY_ALLOW_ALL_USERS=true in ~/.hermes/.env to allow open access,
 or configure platform allowlists (e.g., TELEGRAM_ALLOWED_USERS=your_id).
@@ -308,7 +311,7 @@ For more flexible authorization, Hermes includes a code-based pairing system. In
 Control how unauthorized direct messages are handled in `~/.hermes/config.yaml`:
 
 
-``` yaml
+``` prism-code
 unauthorized_dm_behavior: pair
 
 whatsapp:
@@ -337,7 +340,7 @@ whatsapp:
 **Pairing CLI commands:**
 
 
-``` bash
+``` prism-code
 # List pending and approved users
 hermes pairing list
 
@@ -357,7 +360,7 @@ The official Docker image runs the gateway as the unprivileged `hermes` user (ui
 Always pass `-u hermes`:
 
 
-``` bash
+``` prism-code
 docker exec -u hermes hermes-agent hermes pairing approve telegram ABC12DEF
 ```
 
@@ -380,7 +383,7 @@ When using the `docker` terminal backend, Hermes applies strict security hardeni
 Every container runs with these flags (defined in `tools/environments/docker.py`):
 
 
-``` python
+``` prism-code
 _BASE_SECURITY_ARGS = [
     "--cap-drop", "ALL",                          # Drop ALL Linux capabilities
     "--cap-add", "DAC_OVERRIDE",                  # Root can write to bind-mounted dirs
@@ -401,7 +404,7 @@ _BASE_SECURITY_ARGS = [
 Container resources are configurable in `~/.hermes/config.yaml`:
 
 
-``` yaml
+``` prism-code
 terminal:
   backend: docker
   docker_image: "nikolaik/python-nodejs:python3.11-nodejs20"
@@ -427,14 +430,14 @@ If you add names to `terminal.docker_forward_env`, those variables are intention
 
 ## Terminal Backend Security Comparison<a href="#terminal-backend-security-comparison" class="hash-link" aria-label="Direct link to Terminal Backend Security Comparison" translate="no" title="Direct link to Terminal Backend Security Comparison">​</a>
 
-| Backend | Isolation | Dangerous Cmd Check | Best For |
-|----|----|----|----|
-| **local** | None — runs on host | ✅ Yes | Development, trusted users |
-| **ssh** | Remote machine | ✅ Yes | Running on a separate server |
-| **docker** | Container | ❌ Skipped (container is boundary) | Production gateway |
-| **singularity** | Container | ❌ Skipped | HPC environments |
-| **modal** | Cloud sandbox | ❌ Skipped | Scalable cloud isolation |
-| **daytona** | Cloud sandbox | ❌ Skipped | Persistent cloud workspaces |
+| Backend         | Isolation           | Dangerous Cmd Check                | Best For                     |
+|-----------------|---------------------|------------------------------------|------------------------------|
+| **local**       | None — runs on host | ✅ Yes                             | Development, trusted users   |
+| **ssh**         | Remote machine      | ✅ Yes                             | Running on a separate server |
+| **docker**      | Container           | ❌ Skipped (container is boundary) | Production gateway           |
+| **singularity** | Container           | ❌ Skipped                         | HPC environments             |
+| **modal**       | Cloud sandbox       | ❌ Skipped                         | Scalable cloud isolation     |
+| **daytona**     | Cloud sandbox       | ❌ Skipped                         | Persistent cloud workspaces  |
 
 ## Environment Variable Passthrough<a href="#environment-variable-passthrough" class="hash-link" aria-label="Direct link to Environment Variable Passthrough" translate="no" title="Direct link to Environment Variable Passthrough">​</a>
 
@@ -449,7 +452,7 @@ Two mechanisms allow specific variables through the sandbox filters:
 When a skill is loaded (via `skill_view` or the `/skill` command) and declares `required_environment_variables`, any of those vars that are actually set in the environment are automatically registered as passthrough. Missing vars (still in setup-needed state) are **not** registered.
 
 
-``` yaml
+``` prism-code
 # In a skill's SKILL.md frontmatter
 required_environment_variables:
   - name: TENOR_API_KEY
@@ -469,7 +472,7 @@ Prior to v0.5.1, Docker's `forward_env` was a separate system from the skill pas
 For env vars not declared by any skill, add them to `terminal.env_passthrough` in `config.yaml`:
 
 
-``` yaml
+``` prism-code
 terminal:
   env_passthrough:
     - MY_CUSTOM_KEY
@@ -482,7 +485,7 @@ terminal:
 Some skills need **files** (not just env vars) in the sandbox — for example, Google Workspace stores OAuth tokens as `google_token.json` under the active profile's `HERMES_HOME`. Skills declare these in frontmatter:
 
 
-``` yaml
+``` prism-code
 required_credential_files:
   - path: google_token.json
     description: Google OAuth2 token (created by setup script)
@@ -500,7 +503,7 @@ When loaded, Hermes checks if these files exist in the active profile's `HERMES_
 You can also list credential files manually in `config.yaml`:
 
 
-``` yaml
+``` prism-code
 terminal:
   credential_files:
     - google_token.json
@@ -512,13 +515,13 @@ Paths are relative to `~/.hermes/`. Files are mounted to `/root/.hermes/` inside
 
 ### What Each Sandbox Filters<a href="#what-each-sandbox-filters" class="hash-link" aria-label="Direct link to What Each Sandbox Filters" translate="no" title="Direct link to What Each Sandbox Filters">​</a>
 
-| Sandbox | Default Filter | Passthrough Override |
-|----|----|----|
-| **execute_code** | Blocks vars containing `KEY`, `TOKEN`, `SECRET`, `PASSWORD`, `CREDENTIAL`, `PASSWD`, `AUTH` in name; only allows safe-prefix vars through | ✅ Passthrough vars bypass both checks |
-| **terminal** (local) | Blocks explicit Hermes infrastructure vars (provider keys, gateway tokens, tool API keys) | ✅ Passthrough vars bypass the blocklist |
-| **terminal** (Docker) | No host env vars by default | ✅ Passthrough vars + `docker_forward_env` forwarded via `-e` |
-| **terminal** (Modal) | No host env/files by default | ✅ Credential files mounted; env passthrough via sync |
-| **MCP** | Blocks everything except safe system vars + explicitly configured `env` | ❌ Not affected by passthrough (use MCP `env` config instead) |
+| Sandbox               | Default Filter                                                                                                                            | Passthrough Override                                          |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| **execute_code**      | Blocks vars containing `KEY`, `TOKEN`, `SECRET`, `PASSWORD`, `CREDENTIAL`, `PASSWD`, `AUTH` in name; only allows safe-prefix vars through | ✅ Passthrough vars bypass both checks                        |
+| **terminal** (local)  | Blocks explicit Hermes infrastructure vars (provider keys, gateway tokens, tool API keys)                                                 | ✅ Passthrough vars bypass the blocklist                      |
+| **terminal** (Docker) | No host env vars by default                                                                                                               | ✅ Passthrough vars + `docker_forward_env` forwarded via `-e` |
+| **terminal** (Modal)  | No host env/files by default                                                                                                              | ✅ Credential files mounted; env passthrough via sync         |
+| **MCP**               | Blocks everything except safe system vars + explicitly configured `env`                                                                   | ❌ Not affected by passthrough (use MCP `env` config instead) |
 
 ### Security Considerations<a href="#security-considerations" class="hash-link" aria-label="Direct link to Security Considerations" translate="no" title="Direct link to Security Considerations">​</a>
 
@@ -537,7 +540,7 @@ MCP (Model Context Protocol) server subprocesses receive a **filtered environmen
 Only these variables are passed through from the host to MCP stdio subprocesses:
 
 
-``` text
+``` prism-code
 PATH, HOME, USER, LANG, LC_ALL, TERM, SHELL, TMPDIR
 ```
 
@@ -547,7 +550,7 @@ Plus any `XDG_*` variables. All other environment variables (API keys, tokens, s
 Variables explicitly defined in the MCP server's `env` config are passed through:
 
 
-``` yaml
+``` prism-code
 mcp_servers:
   github:
     command: "npx"
@@ -571,7 +574,7 @@ Error messages from MCP tools are sanitized before being returned to the LLM. Th
 You can restrict which websites the agent can access through its web and browser tools. This is useful for preventing the agent from accessing internal services, admin panels, or other sensitive URLs.
 
 
-``` yaml
+``` prism-code
 # In ~/.hermes/config.yaml
 security:
   website_blocklist:
@@ -606,7 +609,7 @@ SSRF protection is always active for internet-facing use and DNS failures are tr
 Some setups legitimately need private/internal URL access — home networks that resolve `home.arpa` to RFC 1918 space, LAN-only Ollama/llama.cpp endpoints, internal wikis, cloud metadata debugging, and the like. For those cases there's a global opt-out:
 
 
-``` yaml
+``` prism-code
 security:
   allow_private_urls: true   # default: false
 ```
@@ -627,7 +630,7 @@ Hermes integrates <a href="https://github.com/sheeki03/tirith" target="_blank" r
 Tirith auto-installs from GitHub releases on first use with SHA-256 checksum verification (and cosign provenance verification if cosign is available).
 
 
-``` yaml
+``` prism-code
 # In ~/.hermes/config.yaml
 security:
   tirith_enabled: true       # Enable/disable tirith scanning (default: true)
@@ -656,7 +659,7 @@ Context files (AGENTS.md, .cursorrules, SOUL.md) are scanned for prompt injectio
 Blocked files show a warning:
 
 
-``` text
+``` prism-code
 [BLOCKED: AGENTS.md contained potential prompt injection (prompt_injection). Content not loaded.]
 ```
 
@@ -679,7 +682,7 @@ Blocked files show a warning:
 ### Securing API Keys<a href="#securing-api-keys" class="hash-link" aria-label="Direct link to Securing API Keys" translate="no" title="Direct link to Securing API Keys">​</a>
 
 
-``` bash
+``` prism-code
 # Set proper permissions on the .env file
 chmod 600 ~/.hermes/.env
 
@@ -693,14 +696,14 @@ chmod 600 ~/.hermes/.env
 For maximum security, run the gateway on a separate machine or VM. Set `terminal.backend: ssh` in `config.yaml`, then provide host details via environment variables in `~/.hermes/.env`:
 
 
-``` yaml
+``` prism-code
 # ~/.hermes/config.yaml
 terminal:
   backend: ssh
 ```
 
 
-``` bash
+``` prism-code
 # ~/.hermes/.env
 TERMINAL_SSH_HOST=agent-worker.local
 TERMINAL_SSH_USER=hermes
@@ -723,7 +726,7 @@ How it runs:
 Each advisory carries a stable id. Once you have read and acted on it you can dismiss it for good:
 
 
-``` bash
+``` prism-code
 hermes doctor --ack <advisory-id>
 ```
 
@@ -749,18 +752,18 @@ How it works:
 
 Security guarantees enforced by `tools/lazy_deps.py`:
 
-| Guarantee | What it means |
-|----|----|
-| Venv-scoped only | Installs target `sys.executable` in the active venv — never the system Python |
-| PyPI by name only | Specs accept `"package>=1.0,<2"` syntax. No `--index-url`, `git+https://`, or file: paths — a malicious `config.yaml` cannot redirect the install |
-| Allowlist | Only specs that appear in the in-tree `LAZY_DEPS` map can be installed via this path. A typo in a feature name does NOT get install-anything semantics |
-| Opt-out | Set `security.allow_lazy_installs: false` to disable runtime installs entirely. Useful for restricted networks or strict security postures |
-| No silent retries | Failures surface as `FeatureUnavailable` — no caching of bad state, no retry storms |
+| Guarantee         | What it means                                                                                                                                          |
+|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Venv-scoped only  | Installs target `sys.executable` in the active venv — never the system Python                                                                          |
+| PyPI by name only | Specs accept `"package>=1.0,<2"` syntax. No `--index-url`, `git+https://`, or file: paths — a malicious `config.yaml` cannot redirect the install      |
+| Allowlist         | Only specs that appear in the in-tree `LAZY_DEPS` map can be installed via this path. A typo in a feature name does NOT get install-anything semantics |
+| Opt-out           | Set `security.allow_lazy_installs: false` to disable runtime installs entirely. Useful for restricted networks or strict security postures             |
+| No silent retries | Failures surface as `FeatureUnavailable` — no caching of bad state, no retry storms                                                                    |
 
 To disable runtime installs:
 
 
-``` yaml
+``` prism-code
 # ~/.hermes/config.yaml
 security:
   allow_lazy_installs: false

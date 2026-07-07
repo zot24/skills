@@ -20,7 +20,7 @@ Sign up at [firecrawl.dev/app](https://www.firecrawl.dev/app) and copy your API 
 
 Open Amp settings and add an MCP server. Amp accepts standard MCP config:
 
-```json
+```json theme={null}
 {
   "amp.mcpServers": {
     "firecrawl": {
@@ -56,7 +56,7 @@ Crawl https://example.com and output a site map as JSON.
 
 ## Remote Hosted URL (no Node.js required)
 
-```json
+```json theme={null}
 {
   "amp.mcpServers": {
     "firecrawl": {

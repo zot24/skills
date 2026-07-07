@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/sandboxes/exedev
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # exe.dev
@@ -79,19 +92,19 @@ Pass an SSH-reachable VM hostname or `ExeDevVm` to `exedev(...)` and assign the 
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
-| `EXE_VM_HOST` | **Required** — Identifies the exe.dev VM used to wire the sandbox adapter. |
-| `EXE_SSH_KEY` | **Optional** — Points to a private SSH key file. |
-| `SSH_AUTH_SOCK` | **Optional** — Authenticates through an SSH agent instead of `EXE_SSH_KEY`. |
+| Variable        | Purpose                                                                                       |
+|-----------------|-----------------------------------------------------------------------------------------------|
+| `EXE_VM_HOST`   | **Required** — Identifies the exe.dev VM used to wire the sandbox adapter.                    |
+| `EXE_SSH_KEY`   | **Optional** — Points to a private SSH key file.                                              |
+| `SSH_AUTH_SOCK` | **Optional** — Authenticates through an SSH agent instead of `EXE_SSH_KEY`.                   |
 | `EXE_API_TOKEN` | **Required for lifecycle examples** — Authenticates helpers that manage exe.dev VM lifecycle. |
 
-| Requirement | Purpose |
-|----|----|
-| Node.js target | **Required** — Provides the Node APIs used by the adapter and SSH client. |
-| `ssh2` package | **Required** — Provides SSH command execution and SFTP file access. |
-| Existing SSH-reachable exe.dev VM | **Required** — Supplies the remote sandbox resource. |
-| SSH configuration | **Required** — Authenticates access to the VM. |
+| Requirement                       | Purpose                                                                   |
+|-----------------------------------|---------------------------------------------------------------------------|
+| Node.js target                    | **Required** — Provides the Node APIs used by the adapter and SSH client. |
+| `ssh2` package                    | **Required** — Provides SSH command execution and SFTP file access.       |
+| Existing SSH-reachable exe.dev VM | **Required** — Supplies the remote sandbox resource.                      |
+| SSH configuration                 | **Required** — Authenticates access to the VM.                            |
 
 ## Choose this adapter when
 

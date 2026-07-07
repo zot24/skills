@@ -20,7 +20,7 @@ Sign up at [firecrawl.dev/app](https://firecrawl.dev/app) and copy your API key.
 
 Add this to your `./codeium/windsurf/model_config.json`:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {

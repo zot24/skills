@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/databases/libsql
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # libSQL
@@ -43,8 +56,8 @@ Flue discovers the adapter at build time and wires it into the generated Node se
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
+| Variable     | Purpose                                                                                      |
+|--------------|----------------------------------------------------------------------------------------------|
 | `LIBSQL_URL` | **Required** — A local file (`file:./data/flue.db`) or a libSQL server (`http://host:8080`). |
 
 `createClient` reads this at runtime — it is not baked into the build. For local development, `flue dev --env <file>` and `flue run --env <file>` load any `.env`-format file. In production, supply it from your platform’s secret store.
@@ -103,12 +116,12 @@ export default libsql({
 
 `createClient` decides where state lives — the adapter is identical across all of them:
 
-| Target | `createClient(...)` |
-|----|----|
-| Local SQLite file | `{ url: 'file:./data/flue.db' }` |
-| Self-hosted libSQL server (`sqld`) | `{ url: 'http://127.0.0.1:8080' }` |
-| Embedded replica (local file synced to a remote) | `{ url: 'file:local.db', syncUrl, authToken }` |
-| Hosted Turso | see the [Turso guide](/docs/ecosystem/databases/turso/) |
+| Target                                           | `createClient(...)`                                     |
+|--------------------------------------------------|---------------------------------------------------------|
+| Local SQLite file                                | `{ url: 'file:./data/flue.db' }`                        |
+| Self-hosted libSQL server (`sqld`)               | `{ url: 'http://127.0.0.1:8080' }`                      |
+| Embedded replica (local file synced to a remote) | `{ url: 'file:local.db', syncUrl, authToken }`          |
+| Hosted Turso                                     | see the [Turso guide](/docs/ecosystem/databases/turso/) |
 
 ### Embedded-file concurrency
 
@@ -122,25 +135,25 @@ The adapter’s `migrate()` hook runs automatically when the generated Node serv
 
 A Flue database stores runtime state, not your whole application.
 
-| Stored by Flue | Not stored by Flue |
-|----|----|
-| Canonical agent conversation streams and compaction records | Sandbox files and installed dependencies |
-| Immutable attachment payloads | External API side effects |
-| Accepted direct prompts and `dispatch(...)` submissions | Application-owned business data unless your own tools store it |
-| Workflow-run records and persisted events | Provider credentials or secrets |
-| Run indexing for `/runs` lookups and `listRuns()` |  |
+| Stored by Flue                                              | Not stored by Flue                                             |
+|-------------------------------------------------------------|----------------------------------------------------------------|
+| Canonical agent conversation streams and compaction records | Sandbox files and installed dependencies                       |
+| Immutable attachment payloads                               | External API side effects                                      |
+| Accepted direct prompts and `dispatch(...)` submissions     | Application-owned business data unless your own tools store it |
+| Workflow-run records and persisted events                   | Provider credentials or secrets                                |
+| Run indexing for `/runs` lookups and `listRuns()`           |                                                                |
 
 See [Durable Agents](/docs/concepts/durable-execution/) for how recovery uses submission state, and the [Data Persistence API](/docs/api/data-persistence-api/) for the exact adapter contract.
 
 ## When to choose libSQL
 
-| Use case | Adapter |
-|----|----|
-| Local development | `sqlite()` from `@flue/runtime/node`, or libSQL against a `file:` database |
-| Single-host Node deployment | File-backed `sqlite()` or libSQL `file:` |
-| Self-hosted SQLite over the network, or an embedded replica | `@flue/libsql` |
-| Hosted, replicated SQLite | `@flue/libsql` against [Turso](/docs/ecosystem/databases/turso/) |
-| Multi-replica Node deployment on Postgres | [`@flue/postgres`](/docs/ecosystem/databases/postgres/) |
+| Use case                                                    | Adapter                                                                    |
+|-------------------------------------------------------------|----------------------------------------------------------------------------|
+| Local development                                           | `sqlite()` from `@flue/runtime/node`, or libSQL against a `file:` database |
+| Single-host Node deployment                                 | File-backed `sqlite()` or libSQL `file:`                                   |
+| Self-hosted SQLite over the network, or an embedded replica | `@flue/libsql`                                                             |
+| Hosted, replicated SQLite                                   | `@flue/libsql` against [Turso](/docs/ecosystem/databases/turso/)           |
+| Multi-replica Node deployment on Postgres                   | [`@flue/postgres`](/docs/ecosystem/databases/postgres/)                    |
 
 libSQL is the right choice when you want SQLite’s model but reachable over the network or kept close to the app as an embedded replica. For a fully managed, replicated deployment, point the same adapter at [Turso](/docs/ecosystem/databases/turso/).
 

@@ -386,7 +386,7 @@ The `startCrawl` / `start_crawl` method returns immediately with a crawl ID. You
 
 The initial response returns the job ID:
 
-```json
+```json theme={null}
 {
   "success": true,
   "id": "123-456-789",
@@ -457,7 +457,7 @@ The watcher method provides real-time updates as pages are crawled. Start a craw
 
 You can configure webhooks to receive real-time notifications as your crawl progresses. This allows you to process pages as they are scraped instead of waiting for the entire crawl to complete.
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/crawl \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer YOUR_API_KEY' \
@@ -485,7 +485,7 @@ curl -X POST https://api.firecrawl.dev/v2/crawl \
 
 ### Payload
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "crawl.page",

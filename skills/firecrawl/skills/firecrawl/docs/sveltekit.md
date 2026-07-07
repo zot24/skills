@@ -15,13 +15,13 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,17 +29,25 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create a form action in `src/routes/search/+page.server.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
+import { FIRECRAWL_API_KEY } from "$env/static/private";
 
 const firecrawl = new Firecrawl({ apiKey: FIRECRAWL_API_KEY });
 
-
+export const actions = {
+  default: async ({ request }) => {
+    const data = await request.formData();
+    const query = data.get("query") as string;
+    const results = await firecrawl.search(query, { limit: 5 });
+    return { results: (results.web || []).map((r) => ({ title: r.title, url: r.url })) };
+  },
+};
 ```
 
 Wire it up in `src/routes/search/+page.svelte`:
 
-```svelte
+```svelte theme={null}
 <script>
   export let form;
 </script>
@@ -60,8 +68,9 @@ Wire it up in `src/routes/search/+page.svelte`:
 
 Fetch data in a load function at `src/routes/scrape/+page.server.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
+import { FIRECRAWL_API_KEY } from "$env/static/private";
 
 const firecrawl = new Firecrawl({ apiKey: FIRECRAWL_API_KEY });
 
@@ -76,7 +85,7 @@ export async function load({ url }) {
 
 Display it in `src/routes/scrape/+page.svelte`:
 
-```svelte
+```svelte theme={null}
 <script>
   export let data;
 </script>
@@ -92,8 +101,10 @@ Display it in `src/routes/scrape/+page.svelte`:
 
 Create a server endpoint at `src/routes/api/interact/+server.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { json } from "@sveltejs/kit";
+import { Firecrawl } from "firecrawl";
+import { FIRECRAWL_API_KEY } from "$env/static/private";
 
 const firecrawl = new Firecrawl({ apiKey: FIRECRAWL_API_KEY });
 

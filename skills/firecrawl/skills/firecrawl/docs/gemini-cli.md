@@ -20,7 +20,7 @@ Sign up at [firecrawl.dev/app](https://www.firecrawl.dev/app) and copy your API 
 
 Gemini CLI reads MCP config from `~/.gemini/settings.json` (global) or `.gemini/settings.json` in your project. Add:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {
@@ -38,7 +38,7 @@ Replace `fc-YOUR-API-KEY` with your Firecrawl API key.
 
 ### 3. Launch Gemini CLI
 
-```bash
+```bash theme={null}
 gemini
 ```
 
@@ -66,7 +66,7 @@ Crawl https://example.com and extract the product names from /products.
 
 ## Remote Hosted URL (no Node.js required)
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {

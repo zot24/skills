@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/sandboxes/islo
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # islo
@@ -83,16 +96,16 @@ Pass a sandbox name to `islo(...)` and assign the returned factory to an agent�
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
+| Variable       | Purpose                                                                                                                |
+|----------------|------------------------------------------------------------------------------------------------------------------------|
 | `ISLO_API_KEY` | **Alternative authentication** — Authenticates server or CI operation when existing CLI authentication is unavailable. |
 
-| Requirement | Purpose |
-|----|----|
-| Existing CLI authentication or API key | **Required** — Authenticates through the CLI session or `ISLO_API_KEY`. |
-| Node.js child-process capability | **Required** — Allows the adapter to invoke the CLI. |
-| `islo` binary on `PATH` | **Required** — Executes remote shell and file operations. |
-| Named islo sandbox | **Required** — Identifies the application- or deployment-managed sandbox. |
+| Requirement                            | Purpose                                                                   |
+|----------------------------------------|---------------------------------------------------------------------------|
+| Existing CLI authentication or API key | **Required** — Authenticates through the CLI session or `ISLO_API_KEY`.   |
+| Node.js child-process capability       | **Required** — Allows the adapter to invoke the CLI.                      |
+| `islo` binary on `PATH`                | **Required** — Executes remote shell and file operations.                 |
+| Named islo sandbox                     | **Required** — Identifies the application- or deployment-managed sandbox. |
 
 ## Choose this adapter when
 

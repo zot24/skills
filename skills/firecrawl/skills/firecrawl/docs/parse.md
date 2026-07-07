@@ -82,7 +82,7 @@ Used to upload a file and receive parsed content. The request is `multipart/form
 
 SDKs return the document object directly. cURL returns the JSON payload.
 
-```json
+```json theme={null}
 {
   "success": true,
   "data": {
@@ -122,7 +122,7 @@ SDKs return the document object directly. cURL returns the JSON payload.
 
 ### PDF parser modes
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/parse \
   -H 'Authorization: Bearer YOUR_API_KEY' \
   -F 'file=@./scan.pdf' \
@@ -137,7 +137,7 @@ curl -X POST https://api.firecrawl.dev/v2/parse \
 
 Pass a JSON schema or prompt to extract structured data directly from the document:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/parse \
   -H 'Authorization: Bearer YOUR_API_KEY' \
   -F 'file=@./invoice.pdf' \

@@ -39,7 +39,7 @@ After installation, redeploy your project so Vercel Functions and framework serv
 
 In your Vercel project, install the Firecrawl Node SDK:
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
@@ -49,8 +49,9 @@ You do not need to paste an API key into your code. Read `process.env.FIRECRAWL_
 
 Create a route handler at `app/api/scrape/route.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { NextResponse } from "next/server";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -68,7 +69,7 @@ export async function POST(request: Request) {
 
 Test the route after deployment:
 
-```bash
+```bash theme={null}
 curl -X POST https://your-project.vercel.app/api/scrape \
   -H "Content-Type: application/json" \
   -d '{"url": "https://www.firecrawl.dev"}'
@@ -78,8 +79,9 @@ curl -X POST https://your-project.vercel.app/api/scrape \
 
 Use `search` when your app needs current web results plus page content:
 
-```typescript
-
+```typescript theme={null}
+import { NextResponse } from "next/server";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -102,8 +104,9 @@ export async function POST(request: Request) {
 
 Use `interact` when your app needs to click, scroll, or fill forms before extracting content.
 
-```typescript
-
+```typescript theme={null}
+import { NextResponse } from "next/server";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -140,7 +143,7 @@ export async function POST() {
 
 If you are building an agent with the [Vercel AI SDK](/developer-guides/llm-sdks-and-frameworks/vercel-ai-sdk), install the Firecrawl AI SDK tools:
 
-```bash
+```bash theme={null}
 npm install firecrawl-aisdk ai
 ```
 
@@ -150,8 +153,9 @@ Then pass Firecrawl tools to your model. The Marketplace-installed `FIRECRAWL_AP
   The example below uses the Vercel AI Gateway model string format. Configure your AI SDK model provider or AI Gateway credentials separately.
 
 
-```typescript
-
+```typescript theme={null}
+import { generateText, stepCountIs } from "ai";
+import { FirecrawlTools } from "firecrawl-aisdk";
 
 const { text } = await generateText({
   model: "anthropic/claude-sonnet-4-5",

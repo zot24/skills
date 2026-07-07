@@ -212,6 +212,12 @@
       "target": "skills/hermes/docs/platform-support.md",
       "type": "extract-content",
       "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/skills/",
+      "target": "skills/hermes/docs/skills.md",
+      "type": "extract-content",
+      "freshness_days": 7
     }
   ],
   "cache_dir": ".cache",

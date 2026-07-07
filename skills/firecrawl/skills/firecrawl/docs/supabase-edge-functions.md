@@ -15,7 +15,7 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 supabase functions new firecrawl-search
 supabase functions new firecrawl-scrape
 supabase functions new firecrawl-interact
@@ -23,7 +23,7 @@ supabase functions new firecrawl-interact
 
 Set the secret:
 
-```bash
+```bash theme={null}
 supabase secrets set FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -31,7 +31,8 @@ supabase secrets set FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Edit `supabase/functions/firecrawl-search/index.ts`:
 
-```typescript
+```typescript theme={null}
+import Firecrawl from "npm:firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: Deno.env.get("FIRECRAWL_API_KEY"),
@@ -51,7 +52,8 @@ Deno.serve(async (req) => {
 
 Edit `supabase/functions/firecrawl-scrape/index.ts`:
 
-```typescript
+```typescript theme={null}
+import Firecrawl from "npm:firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: Deno.env.get("FIRECRAWL_API_KEY"),
@@ -71,7 +73,8 @@ Deno.serve(async (req) => {
 
 Edit `supabase/functions/firecrawl-interact/index.ts`:
 
-```typescript
+```typescript theme={null}
+import Firecrawl from "npm:firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: Deno.env.get("FIRECRAWL_API_KEY"),
@@ -101,7 +104,7 @@ Deno.serve(async (_req) => {
 
 ## Deploy
 
-```bash
+```bash theme={null}
 supabase functions deploy firecrawl-search
 supabase functions deploy firecrawl-scrape
 supabase functions deploy firecrawl-interact
@@ -109,7 +112,7 @@ supabase functions deploy firecrawl-interact
 
 ## Test it
 
-```bash
+```bash theme={null}
 curl -X POST https://<project-ref>.supabase.co/functions/v1/firecrawl-search \
   -H "Authorization: Bearer <ANON_KEY>" \
   -H "Content-Type: application/json" \

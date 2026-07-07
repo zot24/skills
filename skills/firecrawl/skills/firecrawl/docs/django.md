@@ -15,13 +15,13 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 pip install firecrawl-py
 ```
 
 Add your API key to your Django settings or environment:
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,7 +29,7 @@ export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Add search, scrape, and interact views to your Django app. In `views.py`:
 
-```python
+```python theme={null}
 import json
 import os
 from django.http import JsonResponse
@@ -90,7 +90,7 @@ def interact_stop_view(request):
 
 In `urls.py`:
 
-```python
+```python theme={null}
 from django.urls import path
 from . import views
 
@@ -105,7 +105,7 @@ urlpatterns = [
 
 ## Test it
 
-```bash
+```bash theme={null}
 python manage.py runserver
 
 # Search the web
@@ -128,7 +128,7 @@ curl -X POST http://localhost:8000/api/interact/start/ \
 
 Use Firecrawl in a Django management command for scripts and data pipelines. Create `management/commands/scrape.py`:
 
-```python
+```python theme={null}
 import os
 from django.core.management.base import BaseCommand
 from firecrawl import Firecrawl
@@ -146,7 +146,7 @@ class Command(BaseCommand):
         self.stdout.write(result.markdown)
 ```
 
-```bash
+```bash theme={null}
 python manage.py scrape https://example.com
 ```
 

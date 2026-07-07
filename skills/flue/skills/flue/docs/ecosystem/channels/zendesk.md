@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/channels/zendesk
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Zendesk
@@ -54,14 +67,14 @@ A matching ticket event is admitted to the agent bound to that account and ticke
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
-| `ZENDESK_WEBHOOK_SIGNING_SECRET` | **Required** — Verifies inbound event bodies. |
-| `ZENDESK_ACCOUNT_ID` | **Required** — Restricts events and resource identity to one account. |
-| `ZENDESK_WEBHOOK_ID` | **Optional** — Restricts deliveries to one configured webhook. |
-| `ZENDESK_SUBDOMAIN` | **Required** — Selects the account’s Ticketing API origin. |
-| `ZENDESK_EMAIL` | **Required** — Identifies the API-token user for Basic authentication. |
-| `ZENDESK_API_TOKEN` | **Required** — Authenticates outbound Ticketing API requests. |
+| Variable                         | Purpose                                                                |
+|----------------------------------|------------------------------------------------------------------------|
+| `ZENDESK_WEBHOOK_SIGNING_SECRET` | **Required** — Verifies inbound event bodies.                          |
+| `ZENDESK_ACCOUNT_ID`             | **Required** — Restricts events and resource identity to one account.  |
+| `ZENDESK_WEBHOOK_ID`             | **Optional** — Restricts deliveries to one configured webhook.         |
+| `ZENDESK_SUBDOMAIN`              | **Required** — Selects the account’s Ticketing API origin.             |
+| `ZENDESK_EMAIL`                  | **Required** — Identifies the API-token user for Basic authentication. |
+| `ZENDESK_API_TOKEN`              | **Required** — Authenticates outbound Ticketing API requests.          |
 
 It installs `@flue/zendesk` and creates a channel module with named `channel` and project-owned `client` exports. Zendesk has no officially supported Node server SDK, so the blueprint uses a narrow native Fetch client instead of adding a community wrapper.
 

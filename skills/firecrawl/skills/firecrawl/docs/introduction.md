@@ -25,7 +25,7 @@
 
 The Firecrawl skills are the fastest way for agents to discover and use Firecrawl. Without them, your agent will not know Firecrawl is available.
 
-```bash
+```bash theme={null}
 npx -y firecrawl-cli@latest init --all --browser
 ```
 

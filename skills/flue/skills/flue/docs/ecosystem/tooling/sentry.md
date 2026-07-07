@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/tooling/sentry
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Sentry
@@ -56,11 +69,11 @@ On Cloudflare, the generated `sentry.ts` contains the same observer bridge witho
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
-| `SENTRY_DSN` | **Required for event delivery** — Identifies the Sentry project and permits event submission. |
-| `SENTRY_ENVIRONMENT` | **Optional** — Identifies the deployment environment in Sentry. |
-| `SENTRY_RELEASE` | **Optional** — Associates events with a deployed release. |
+| Variable             | Purpose                                                                                       |
+|----------------------|-----------------------------------------------------------------------------------------------|
+| `SENTRY_DSN`         | **Required for event delivery** — Identifies the Sentry project and permits event submission. |
+| `SENTRY_ENVIRONMENT` | **Optional** — Identifies the deployment environment in Sentry.                               |
+| `SENTRY_RELEASE`     | **Optional** — Associates events with a deployed release.                                     |
 
 Only `SENTRY_DSN` is needed to deliver events. A Sentry DSN permits event submission but does not grant read access to project data. Keeping it in deployment configuration rather than application source makes rotation and abuse mitigation easier; use a secret or environment binding according to your project’s policy.
 
@@ -70,9 +83,9 @@ See [Observability](/docs/guide/observability/#choose-an-observability-provider)
 
 The integration uses different SDKs by target:
 
-| Target | Package | Initialization |
-|----|----|----|
-| Node.js | `@sentry/node` | Module-scoped `Sentry.init(...)` in application source |
+| Target     | Package              | Initialization                                                                                   |
+|------------|----------------------|--------------------------------------------------------------------------------------------------|
+| Node.js    | `@sentry/node`       | Module-scoped `Sentry.init(...)` in application source                                           |
 | Cloudflare | `@sentry/cloudflare` | `instrumentDurableObjectWithSentry(...)` around each generated agent and workflow Durable Object |
 
 Do not use `@sentry/node` on Cloudflare through `nodejs_compat`.

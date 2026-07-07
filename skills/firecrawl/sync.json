@@ -1208,6 +1208,84 @@
       "target": "skills/firecrawl/docs/pii-redaction.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/browser-create.md",
+      "target": "skills/firecrawl/docs/api-reference-browser-create.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/browser-delete.md",
+      "target": "skills/firecrawl/docs/api-reference-browser-delete.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/browser-execute.md",
+      "target": "skills/firecrawl/docs/api-reference-browser-execute.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/feedback.md",
+      "target": "skills/firecrawl/docs/api-reference-feedback.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/research-github-search.md",
+      "target": "skills/firecrawl/docs/api-reference-research-github-search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/research-paper.md",
+      "target": "skills/firecrawl/docs/api-reference-research-paper.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/research-related-papers.md",
+      "target": "skills/firecrawl/docs/api-reference-research-related-papers.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/research-search-papers.md",
+      "target": "skills/firecrawl/docs/api-reference-research-search-papers.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/search-feedback.md",
+      "target": "skills/firecrawl/docs/api-reference-search-feedback.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/monitoring-page.md",
+      "target": "skills/firecrawl/docs/monitoring-page.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/monitoring-web-scale.md",
+      "target": "skills/firecrawl/docs/monitoring-web-scale.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/monitoring-website.md",
+      "target": "skills/firecrawl/docs/monitoring-website.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/research.md",
+      "target": "skills/firecrawl/docs/research.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

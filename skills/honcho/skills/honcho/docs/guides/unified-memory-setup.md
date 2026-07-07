@@ -35,7 +35,7 @@ display name (which can change). Keep the display name in peer metadata instead.
 channel then naturally holds several human peers in one session, with the bot joining
 as its own peer (everyone observed on defaults):
 
-```python
+```python theme={null}
 session = honcho.session(f"discord-channel-{channel_id}")
 session.add_peers([user, assistant])  # plus any other humans in the channel
 ```
@@ -56,7 +56,7 @@ The Claude Code plugin reads its workspace and peers from `.honcho/config.json`.
 each host at the same `workspace` and use the same top-level `peerName`, so every host
 attributes you to one peer:
 
-```json .honcho/config.json
+```json .honcho/config.json theme={null}
 {
   "peerName": "your-user-id",
   "hosts": {
@@ -116,7 +116,7 @@ Attribute the messages to the peer the data is *about* — not to an agent — a
 them into a session. **How you scope that session is the main decision here**, because
 it controls when Honcho reasons over the data (more on that below).
 
-```python
+```python theme={null}
 from datetime import datetime, timezone
 
 session = honcho.session(f"email-import-{datetime.now(timezone.utc):%Y-%m-%d}")
@@ -135,16 +135,17 @@ for i in range(0, len(messages), 100):
     session.add_messages(messages[i:i + 100])
 ```
 
-Honcho only reasons over a peer once it accumulates \~1,000 tokens *within a single session*
-([token batching](/v3/documentation/core-concepts/reasoning#token-batching)). Scope
-the session to the volume you ingest:
+Honcho batches reasoning until a peer accumulates \~1,000 tokens *within a single session*,
+with a default age-based flush for quiet tails
+([token batching](/v3/documentation/core-concepts/reasoning#token-batching)). Scope the
+session to the volume you ingest:
 
 * **High-volume runs** (a day of emails, a CRM export) clear the threshold easily — a
   per-run session like `email-import-{date}` is fine.
 * **Low-volume or trickle imports** (a few short records at a time) should append to
   one **ongoing per-source session** (e.g. `email-import-gmail`), so content
-  accumulates across runs instead of fragmenting into thin sessions that each stall
-  below the threshold (nothing is lost — it just waits).
+  accumulates across runs instead of fragmenting into thin sessions that each flush
+  later with little context.
 
 The [Gmail](/v3/guides/gmail) and [Granola](/v3/guides/granola) guides are related
 import examples.

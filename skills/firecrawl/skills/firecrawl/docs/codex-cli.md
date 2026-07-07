@@ -20,7 +20,7 @@ Sign up at [firecrawl.dev/app](https://www.firecrawl.dev/app) and copy your API 
 
 Codex reads MCP server config from `~/.codex/config.toml`. Add the Firecrawl server:
 
-```toml
+```toml theme={null}
 [mcp_servers.firecrawl]
 command = "npx"
 args = ["-y", "firecrawl-mcp"]
@@ -33,13 +33,13 @@ Replace `fc-YOUR-API-KEY` with your Firecrawl API key.
 
 ### 3. Start Codex
 
-```bash
+```bash theme={null}
 codex
 ```
 
 Codex discovers the Firecrawl tools on launch. Confirm they are loaded:
 
-```bash
+```bash theme={null}
 /mcp
 ```
 
@@ -65,7 +65,7 @@ Crawl https://example.com and save the markdown for every page under /blog.
 
 If you prefer not to run `npx` locally:
 
-```toml
+```toml theme={null}
 [mcp_servers.firecrawl]
 url = "https://mcp.firecrawl.dev/fc-YOUR-API-KEY/v2/mcp"
 ```

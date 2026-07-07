@@ -63,7 +63,13 @@ The **Performance** page provides comprehensive monitoring with usage metrics, h
 
 ## 3. Manage API Keys
 
-The [API Keys](https://app.honcho.dev/api-keys) page allows you to create and manage authentication tokens for different environments. You can create admin-level keys with full instance access or scope keys to specific `Workspaces`, `Peers`, or `Sessions`.
+The [API Keys](https://app.honcho.dev/api-keys) page allows you to create and manage authentication tokens for different environments. You can create admin-level keys with full instance access or scope keys to a specific `Workspace`, `Peer`, or `Session`.
+
+Scoped keys are authorized by their narrowest claim and never widen to the whole workspace:
+
+* A **peer-scoped** key acts on its own peer, plus **read-only** access to the sessions its peer is an active member of (context, summaries, peers, its own per-session config, search, and message reads). It cannot write to those sessions or act on other peers.
+* A **session-scoped** key is confined to its own session and cannot reach peer routes.
+* Peer- and session-scoped keys **must carry their parent workspace** — creating one without a workspace is rejected.
 
 <Frame>
   <img src="https://mintcdn.com/plasticlabs/lVyHfvNDd8wveJyM/images/app-screenshots/api-keys.png?fit=max&auto=format&n=lVyHfvNDd8wveJyM&q=85&s=0ecd65b84a9a5150a943ea14bdfd8c30" alt="API Key Management Dashboard" width="1200" height="800" loading="lazy" decoding="async" fetchpriority="low" data-path="images/app-screenshots/api-keys.png" />

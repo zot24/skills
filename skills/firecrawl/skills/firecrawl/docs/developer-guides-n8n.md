@@ -108,7 +108,7 @@ If you prefer to run n8n on your own infrastructure, you can set it up quickly u
 1. Open your terminal or command prompt
 2. Create a Docker volume to persist your workflow data:
 
-```bash
+```bash theme={null}
 docker volume create n8n_data
 ```
 
@@ -116,7 +116,7 @@ This volume stores your workflows, credentials, and execution history so they pe
 
 3. Run the n8n Docker container:
 
-```bash
+```bash theme={null}
 docker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
 ```
 
@@ -365,7 +365,7 @@ This workflow uses Firecrawl's Search operation to find AI news and send formatt
    * Select "Run Once for All Items"
    * Paste this code:
 
-```javascript
+```javascript theme={null}
 const results = $input.all();
 let message = "Latest AI News:\n\n";
 
@@ -487,7 +487,7 @@ To save cookies, localStorage, and other browser state, stop the interact sessio
 
 If your installed Firecrawl n8n node version does not expose profile settings on the Scrape operation, update to the latest Firecrawl n8n node. If your n8n version supports custom request or body options for the node, you can pass the same `profile` object there:
 
-```json
+```json theme={null}
 {
   "profile": {
     "name": "my-profile",

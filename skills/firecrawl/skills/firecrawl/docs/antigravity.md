@@ -20,7 +20,7 @@ Sign up at [firecrawl.dev/app](https://www.firecrawl.dev/app) and copy your API 
 
 Open Antigravity settings (`Cmd/Ctrl + ,`), search for **MCP Servers**, and add a new server with:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {
@@ -60,7 +60,7 @@ Antigravity routes those tool calls through Firecrawl MCP automatically.
 
 ## Remote Hosted URL (no Node.js required)
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {

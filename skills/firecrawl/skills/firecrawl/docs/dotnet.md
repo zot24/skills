@@ -39,7 +39,7 @@ Requires .NET 8.0 or later.
 
 Here is a quick example using the current SDK API surface:
 
-```csharp
+```csharp theme={null}
 using Firecrawl;
 using Firecrawl.Models;
 
@@ -61,7 +61,7 @@ Console.WriteLine($"Crawled pages: {job.Data?.Count ?? 0}");
 
 To scrape a single URL, use the `ScrapeAsync` method.
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Models;
 
 var doc = await client.ScrapeAsync("https://firecrawl.dev",
@@ -80,7 +80,7 @@ Console.WriteLine(doc.Metadata?["title"]);
 
 Extract structured JSON with `JsonFormat` via the scrape endpoint:
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Models;
 
 var jsonFmt = new JsonFormat
@@ -110,7 +110,7 @@ Console.WriteLine(doc.Json);
 
 To crawl a website and wait for completion, use `CrawlAsync`. This method handles polling and pagination automatically.
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Models;
 
 var job = await client.CrawlAsync("https://firecrawl.dev",
@@ -140,7 +140,7 @@ if (job.Data != null)
 
 Start a job without waiting using `StartCrawlAsync`.
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Models;
 
 var start = await client.StartCrawlAsync("https://firecrawl.dev",
@@ -153,7 +153,7 @@ Console.WriteLine($"Job ID: {start.Id}");
 
 Check crawl progress with `GetCrawlStatusAsync`.
 
-```csharp
+```csharp theme={null}
 var status = await client.GetCrawlStatusAsync(start.Id!);
 Console.WriteLine($"Status: {status.Status}");
 Console.WriteLine($"Progress: {status.Completed}/{status.Total}");
@@ -163,7 +163,7 @@ Console.WriteLine($"Progress: {status.Completed}/{status.Total}");
 
 Cancel a running crawl with `CancelCrawlAsync`.
 
-```csharp
+```csharp theme={null}
 var result = await client.CancelCrawlAsync(start.Id!);
 Console.WriteLine(result);
 ```
@@ -172,7 +172,7 @@ Console.WriteLine(result);
 
 Discover links on a site using `MapAsync`.
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Models;
 
 var data = await client.MapAsync("https://firecrawl.dev",
@@ -195,7 +195,7 @@ if (data.Links != null)
 
 Search with optional search settings using `SearchAsync`.
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Models;
 
 var results = await client.SearchAsync("firecrawl web scraping",
@@ -218,7 +218,7 @@ if (results.Web != null)
 
 Scrape multiple URLs in parallel using `BatchScrapeAsync`. This method handles polling and pagination automatically.
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Models;
 
 var urls = new List<string>
@@ -249,7 +249,7 @@ if (job.Data != null)
 
 To ensure duplicate requests are not processed, pass an `IdempotencyKey`:
 
-```csharp
+```csharp theme={null}
 var job = await client.BatchScrapeAsync(urls,
     new BatchScrapeOptions
     {
@@ -265,7 +265,7 @@ var job = await client.BatchScrapeAsync(urls,
 
 Check concurrency and remaining credits:
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Models;
 
 var concurrency = await client.GetConcurrencyAsync();
@@ -279,7 +279,7 @@ Console.WriteLine($"Remaining credits: {credits.RemainingCredits}");
 
 All methods in the .NET SDK are async by default and return `Task<T>`. They support `CancellationToken` for cooperative cancellation.
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Models;
 
 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
@@ -307,7 +307,7 @@ The `FirecrawlClient` constructor supports the following options:
 | `backoffFactor` | `double`      | `0.5`                                                | Exponential backoff factor in seconds    |
 | `httpClient`    | `HttpClient?` | Built from `timeout`                                 | Pre-configured HttpClient instance       |
 
-```csharp
+```csharp theme={null}
 using Firecrawl;
 
 var client = new FirecrawlClient(
@@ -322,7 +322,7 @@ var client = new FirecrawlClient(
 
 You can pass a pre-configured `HttpClient` to control connection pooling, proxies, message handlers, and any other `HttpClient` feature. When provided, the `timeout` setting is ignored in favor of the client's own configuration.
 
-```csharp
+```csharp theme={null}
 using Firecrawl;
 
 var handler = new HttpClientHandler
@@ -345,7 +345,7 @@ var client = new FirecrawlClient(
 
 The SDK resolves configuration from environment variables when constructor parameters are omitted:
 
-```csharp
+```csharp theme={null}
 // Uses FIRECRAWL_API_KEY and FIRECRAWL_API_URL environment variables
 var client = new FirecrawlClient();
 ```
@@ -354,7 +354,7 @@ var client = new FirecrawlClient();
 
 The SDK throws specific exceptions under `Firecrawl.Exceptions`.
 
-```csharp
+```csharp theme={null}
 using Firecrawl.Exceptions;
 using Firecrawl.Models;
 

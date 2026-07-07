@@ -253,7 +253,7 @@ Keep your main `SKILL.md` under 500 lines. Move detailed reference material to s
 
 When referencing other files in your skill, use relative paths from the skill root:
 
-```markdown SKILL.md
+```markdown SKILL.md theme={null}
 See [the reference guide](references/REFERENCE.md) for details.
 
 Run the extraction script:
@@ -266,7 +266,7 @@ Keep file references one level deep from `SKILL.md`. Avoid deeply nested referen
 
 Use the [skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref) reference library to validate your skills:
 
-```bash
+```bash theme={null}
 skills-ref validate ./my-skill
 ```
 

@@ -15,13 +15,13 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
 Add `FIRECRAWL_API_KEY` as an environment variable in your Vercel project settings, or in `.env.local` for local development:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,7 +29,8 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create `api/search.ts` (or `app/api/search/route.ts` for Next.js):
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -47,7 +48,8 @@ export async function POST(request: Request) {
 
 Create `api/scrape.ts` (or `app/api/scrape/route.ts` for Next.js):
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -65,7 +67,8 @@ export async function POST(request: Request) {
 
 Create `api/interact.ts` (or `app/api/interact/route.ts` for Next.js):
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -92,13 +95,13 @@ export async function POST(request: Request) {
 
 ## Deploy
 
-```bash
+```bash theme={null}
 vercel deploy
 ```
 
 ## Test it
 
-```bash
+```bash theme={null}
 curl -X POST https://your-project.vercel.app/api/search \
   -H "Content-Type: application/json" \
   -d '{"query": "firecrawl web scraping"}'

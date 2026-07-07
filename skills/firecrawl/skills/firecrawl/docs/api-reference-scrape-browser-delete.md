@@ -29,14 +29,14 @@ Credits are billed based on session duration: **2 credits per browser minute**, 
 
 ### Example Request
 
-```bash
+```bash theme={null}
 curl -X DELETE "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655440000/interact" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY"
 ```
 
 ### Example Response
 
-```json
+```json theme={null}
 {
   "success": true
 }

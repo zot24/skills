@@ -14,7 +14,7 @@ The official PHP SDK is maintained in the Firecrawl monorepo at [apps/php-sdk](h
 
 To install the Firecrawl PHP SDK, add the dependency via Composer:
 
-```bash
+```bash theme={null}
 composer require firecrawl/firecrawl-sdk
 ```
 
@@ -24,13 +24,13 @@ Requires PHP 8.1 or later.
 
 The SDK includes first-class Laravel support with auto-discovery. After installing the package, publish the configuration file:
 
-```bash
+```bash theme={null}
 php artisan vendor:publish --provider="Firecrawl\Laravel\FirecrawlServiceProvider"
 ```
 
 Then add your API key to your `.env` file:
 
-```env
+```env theme={null}
 FIRECRAWL_API_KEY=fc-your-api-key
 ```
 
@@ -51,7 +51,7 @@ The following environment variables are supported:
 
 Here is a quick example using the current SDK API surface:
 
-```php
+```php theme={null}
 use Firecrawl\Client\FirecrawlClient;
 use Firecrawl\Models\CrawlOptions;
 use Firecrawl\Models\ScrapeOptions;
@@ -76,7 +76,7 @@ echo 'Crawled pages: ' . count($crawl->getData());
 
 In a Laravel application you can use the `Firecrawl` facade or dependency injection:
 
-```php
+```php theme={null}
 use Firecrawl\Client\FirecrawlClient;
 use Firecrawl\Laravel\Facades\Firecrawl;
 
@@ -102,7 +102,7 @@ class ScrapeController
 
 To scrape a single URL, use the `scrape` method.
 
-```php
+```php theme={null}
 use Firecrawl\Models\Document;
 use Firecrawl\Models\ScrapeOptions;
 
@@ -123,7 +123,7 @@ echo $doc->getMetadata()['title'] ?? '';
 
 Extract structured JSON with `JsonFormat` via the `scrape` endpoint:
 
-```php
+```php theme={null}
 use Firecrawl\Models\JsonFormat;
 use Firecrawl\Models\ScrapeOptions;
 
@@ -150,7 +150,7 @@ print_r($doc->getJson());
 
 To crawl a website and wait for completion, use `crawl`.
 
-```php
+```php theme={null}
 use Firecrawl\Models\CrawlOptions;
 use Firecrawl\Models\ScrapeOptions;
 
@@ -175,7 +175,7 @@ foreach ($job->getData() as $page) {
 
 Start a job without waiting using `startCrawl`.
 
-```php
+```php theme={null}
 use Firecrawl\Models\CrawlOptions;
 
 $start = $client->startCrawl(
@@ -190,7 +190,7 @@ echo 'Job ID: ' . $start->getId();
 
 Check crawl progress with `getCrawlStatus`.
 
-```php
+```php theme={null}
 $status = $client->getCrawlStatus($start->getId());
 echo 'Status: ' . $status->getStatus();
 echo 'Progress: ' . $status->getCompleted() . '/' . $status->getTotal();
@@ -200,7 +200,7 @@ echo 'Progress: ' . $status->getCompleted() . '/' . $status->getTotal();
 
 Cancel a running crawl with `cancelCrawl`.
 
-```php
+```php theme={null}
 $result = $client->cancelCrawl($start->getId());
 print_r($result);
 ```
@@ -209,7 +209,7 @@ print_r($result);
 
 Fetch crawl-level errors (if any) with `getCrawlErrors`.
 
-```php
+```php theme={null}
 $errors = $client->getCrawlErrors($start->getId());
 print_r($errors);
 ```
@@ -218,7 +218,7 @@ print_r($errors);
 
 Discover links on a site using `map`.
 
-```php
+```php theme={null}
 use Firecrawl\Models\MapOptions;
 
 $data = $client->map(
@@ -238,7 +238,7 @@ foreach ($data->getLinks() as $link) {
 
 Search with optional search settings using `search`.
 
-```php
+```php theme={null}
 use Firecrawl\Models\SearchOptions;
 
 $results = $client->search(
@@ -255,7 +255,7 @@ foreach ($results->getWeb() as $result) {
 
 Scrape multiple URLs in parallel using `batchScrape`.
 
-```php
+```php theme={null}
 use Firecrawl\Models\BatchScrapeOptions;
 use Firecrawl\Models\ScrapeOptions;
 
@@ -273,7 +273,7 @@ foreach ($job->getData() as $doc) {
 
 For manual async control, use `startBatchScrape`, `getBatchScrapeStatus`, and `cancelBatchScrape`:
 
-```php
+```php theme={null}
 use Firecrawl\Models\BatchScrapeOptions;
 use Firecrawl\Models\ScrapeOptions;
 
@@ -295,7 +295,7 @@ print_r($cancel);
 
 Run an AI-powered agent with `agent`.
 
-```php
+```php theme={null}
 use Firecrawl\Models\AgentOptions;
 
 $result = $client->agent(
@@ -309,7 +309,7 @@ print_r($result->getData());
 
 With a JSON schema for structured output:
 
-```php
+```php theme={null}
 use Firecrawl\Models\AgentOptions;
 
 $result = $client->agent(
@@ -339,7 +339,7 @@ print_r($result->getData());
 
 For manual async control, use `startAgent`, `getAgentStatus`, and `cancelAgent`:
 
-```php
+```php theme={null}
 use Firecrawl\Models\AgentOptions;
 
 $start = $client->startAgent(
@@ -360,7 +360,7 @@ print_r($cancel);
 
 Check concurrency and remaining credits:
 
-```php
+```php theme={null}
 use Firecrawl\Models\ConcurrencyCheck;
 use Firecrawl\Models\CreditUsage;
 
@@ -377,7 +377,7 @@ The PHP SDK includes Browser Sandbox helpers.
 
 ### Create a Session
 
-```php
+```php theme={null}
 use Firecrawl\Models\BrowserCreateResponse;
 
 $session = $client->browser(ttl: 120, activityTtl: 60, streamWebView: true);
@@ -388,7 +388,7 @@ echo $session->getLiveViewUrl();
 
 ### Execute Code
 
-```php
+```php theme={null}
 use Firecrawl\Models\BrowserExecuteResponse;
 
 $run = $client->browserExecute(
@@ -409,7 +409,7 @@ Use a scrape job ID to run follow-up browser code in the same replayed context:
 * `interact(...)` runs code in the scrape-bound browser session (and initializes it on first use).
 * `stopInteractiveBrowser(...)` explicitly stops the interactive session when you are done.
 
-```php
+```php theme={null}
 use Firecrawl\Models\BrowserExecuteResponse;
 use Firecrawl\Models\BrowserDeleteResponse;
 use Firecrawl\Models\ScrapeOptions;
@@ -439,7 +439,7 @@ echo 'Deleted: ' . ($deleted->isSuccess() ? 'true' : 'false');
 
 ### List & Close Sessions
 
-```php
+```php theme={null}
 use Firecrawl\Models\BrowserListResponse;
 use Firecrawl\Models\BrowserSession;
 
@@ -465,7 +465,7 @@ echo 'Closed: ' . ($closed->isSuccess() ? 'true' : 'false');
 | `backoffFactor`  | `float`                      | `0.5`                                                | Exponential backoff factor in seconds    |
 | `httpClient`     | `GuzzleHttp\ClientInterface` | Built from timeout                                   | Custom Guzzle-compatible HTTP client     |
 
-```php
+```php theme={null}
 use Firecrawl\Client\FirecrawlClient;
 
 $client = FirecrawlClient::create(
@@ -481,7 +481,7 @@ $client = FirecrawlClient::create(
 
 You can pass a pre-configured `GuzzleHttp\ClientInterface` implementation to control connection pooling, middleware, proxy settings, and other HTTP features. When provided, the `timeoutSeconds` setting is ignored in favor of the client's own configuration.
 
-```php
+```php theme={null}
 use Firecrawl\Client\FirecrawlClient;
 use GuzzleHttp\Client as GuzzleClient;
 
@@ -501,7 +501,7 @@ $client = FirecrawlClient::create(
 
 The SDK throws runtime exceptions under `Firecrawl\Exceptions`.
 
-```php
+```php theme={null}
 use Firecrawl\Exceptions\AuthenticationException;
 use Firecrawl\Exceptions\FirecrawlException;
 use Firecrawl\Exceptions\JobTimeoutException;

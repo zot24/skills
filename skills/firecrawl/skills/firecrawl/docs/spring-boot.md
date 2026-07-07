@@ -36,13 +36,13 @@
 
 Add your API key to `application.properties`:
 
-```properties
+```properties theme={null}
 firecrawl.api-key=${FIRECRAWL_API_KEY}
 ```
 
 Or set it as an environment variable:
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -50,8 +50,11 @@ export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create `FirecrawlConfig.java`:
 
-```java
-
+```java theme={null}
+import com.firecrawl.client.FirecrawlClient;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FirecrawlConfig {
@@ -70,8 +73,17 @@ public class FirecrawlConfig {
 
 Create `FirecrawlController.java`:
 
-```java
+```java theme={null}
+import com.firecrawl.client.FirecrawlClient;
+import com.firecrawl.models.Document;
+import com.firecrawl.models.SearchData;
+import com.firecrawl.models.SearchOptions;
+import com.firecrawl.models.ScrapeOptions;
+import com.firecrawl.models.BrowserExecuteResponse;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -120,13 +132,13 @@ public class FirecrawlController {
 
 ## Run it
 
-```bash
+```bash theme={null}
 ./gradlew bootRun
 ```
 
 ## Test it
 
-```bash
+```bash theme={null}
 # Search the web
 curl -X POST http://localhost:8080/api/search \
   -H "Content-Type: application/json" \

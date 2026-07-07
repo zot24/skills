@@ -15,13 +15,13 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,20 +29,28 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create `src/pages/api/search.ts`:
 
-```typescript
-
+```typescript theme={null}
+import type { APIRoute } from "astro";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,
 });
 
-
+export const POST: APIRoute = async ({ request }) => {
+  const { query } = await request.json();
+  const results = await firecrawl.search(query, { limit: 5 });
+  return new Response(JSON.stringify(results), {
+    headers: { "Content-Type": "application/json" },
+  });
+};
 ```
 
 Or search at request time in a server-rendered page (`src/pages/search.astro`):
 
-```astro
+```astro theme={null}
 ---
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,
@@ -77,20 +85,28 @@ if (query) {
 
 Create `src/pages/api/scrape.ts`:
 
-```typescript
-
+```typescript theme={null}
+import type { APIRoute } from "astro";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,
 });
 
-
+export const POST: APIRoute = async ({ request }) => {
+  const { url } = await request.json();
+  const result = await firecrawl.scrape(url);
+  return new Response(JSON.stringify(result), {
+    headers: { "Content-Type": "application/json" },
+  });
+};
 ```
 
 Or scrape at request time in a server-rendered page (`src/pages/scrape.astro`):
 
-```astro
+```astro theme={null}
 ---
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,
@@ -117,14 +133,35 @@ if (target) {
 
 Create `src/pages/api/interact.ts`:
 
-```typescript
-
+```typescript theme={null}
+import type { APIRoute } from "astro";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: import.meta.env.FIRECRAWL_API_KEY,
 });
 
+export const POST: APIRoute = async () => {
+  const result = await firecrawl.scrape("https://www.amazon.com", {
+    formats: ["markdown"],
+  });
 
+  const scrapeId = result.metadata?.scrapeId;
+
+  await firecrawl.interact(scrapeId, {
+    prompt: "Search for iPhone 16 Pro Max",
+  });
+
+  const response = await firecrawl.interact(scrapeId, {
+    prompt: "Click on the first result and tell me the price",
+  });
+
+  await firecrawl.stopInteraction(scrapeId);
+
+  return new Response(JSON.stringify({ output: response.output }), {
+    headers: { "Content-Type": "application/json" },
+  });
+};
 ```
 
 ## Next steps

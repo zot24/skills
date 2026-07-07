@@ -18,7 +18,7 @@ For OpenClaw's own documentation on Honcho, see the [Honcho Memory guide](https:
 
 ## Install the Plugin
 
-```bash
+```bash theme={null}
 openclaw plugins install @honcho-ai/openclaw-honcho
 openclaw honcho setup
 openclaw gateway --force
@@ -99,7 +99,7 @@ OpenClaw uses a multi-agent architecture where a primary agent can spawn **subag
 
 ## CLI Commands
 
-```bash
+```bash theme={null}
 openclaw honcho setup                           # Configure API key and migrate legacy files
 openclaw honcho status                          # Connection status
 openclaw honcho ask <question>                  # Query Honcho about the user
@@ -120,7 +120,7 @@ Run `openclaw honcho setup` to configure interactively, or set values directly i
 
 Point the plugin to your local instance and follow the [self-hosting guide](https://github.com/plastic-labs/honcho?tab=readme-ov-file#local-development) to get started:
 
-```bash
+```bash theme={null}
 openclaw honcho setup
 # Enter blank API key, set Base URL to http://localhost:8000
 ```
@@ -135,7 +135,7 @@ The plugin automatically exposes OpenClaw's `memory_search` and `memory_get` too
 
 2. Configure OpenClaw to use QMD as the memory backend in `~/.openclaw/openclaw.json`:
 
-```json
+```json theme={null}
 {
   "memory": {
     "backend": "qmd"
@@ -147,7 +147,7 @@ OpenClaw manages QMD collections automatically from your workspace memory files 
 
 3. Restart the gateway:
 
-```bash
+```bash theme={null}
 openclaw gateway restart
 ```
 

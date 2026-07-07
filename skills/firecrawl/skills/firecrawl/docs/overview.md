@@ -26,7 +26,7 @@ See [Event Types](/webhooks/events) for full payload details and examples.
 
 Add a `webhook` object to your request:
 
-```json JSON
+```json JSON theme={null}
 {
   "webhook": {
     "url": "https://your-domain.com/webhook",
@@ -49,7 +49,7 @@ Add a `webhook` object to your request:
 
 ### Crawl with Webhook
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/crawl \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer YOUR_API_KEY' \
@@ -68,7 +68,7 @@ curl -X POST https://api.firecrawl.dev/v2/crawl \
 
 ### Batch Scrape with Webhook
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/batch/scrape \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer YOUR_API_KEY' \

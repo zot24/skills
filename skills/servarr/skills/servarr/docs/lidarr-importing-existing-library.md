@@ -1,0 +1,129 @@
+> Source: https://wiki.servarr.com/lidarr/importing-existing-library
+
+
+
+# <a href="#importing-an-existing-library" class="toc-anchor">¶</a> Importing an Existing Library
+
+This page walks you through migrating an existing music library into Lidarr. It's intended for users who already have audio files on disk and want Lidarr to take over management of that library, rather than for users starting with an empty root folder.
+
+If you are setting Lidarr up for the first time and don't already have files, use the <a href="/lidarr/quick-start-guide" class="is-internal-link is-valid-page">Quick Start</a> instead. If you aren't sure whether Lidarr is a good fit for the library you have, read <a href="/lidarr/concepts#is-lidarr-right-for-your-library" class="is-internal-link is-valid-page">Concepts — Is Lidarr right for your library?</a> first; importing a library Lidarr can't model will waste a lot of time.
+
+> **The automated import runs as a background task with no cancel button, and can take hours on large libraries.** Don't add a `Root Folder` that contains existing files until you have read this page in full.
+
+## <a href="#before-you-start" class="toc-anchor">¶</a> Before you start
+
+Lidarr uses an automated process to scan a `Root Folder`, match the files it finds against MusicBrainz metadata, and add the resulting `Release Artists` and `Releases` to your library. For that to work, a few things need to be true about the library you're importing.
+
+- **Your files must match Lidarr's data model.** Lidarr manages `Releases` (albums, EPs, singles, broadcasts) attributed to a single `Release Artist`. Loose collections, multi-artist folders that aren't compilations, and libraries of DJ mixes or beat packs won't import well. See <a href="/lidarr/concepts#is-lidarr-right-for-your-library" class="is-internal-link is-valid-page">Concepts</a>.
+- **Your files must follow the artist/release folder structure.** Lidarr's scanner expects a folder structure it can map to `Release Artist` → `Release` → tracks. A single folder with thousands of files in it won't work.
+- **Your files must have tags.** Tags are what Lidarr uses to match files to MusicBrainz records. Untagged or poorly tagged files either fail to import or import against the wrong `Release`.
+
+If one or more of these isn't true today, you have two options: fix it before import, or leave the problematic portion of your library outside Lidarr and import only the parts that conform. Both are legitimate choices; see <a href="/lidarr/concepts" class="is-internal-link is-valid-page">Concepts</a>.
+
+> See the FAQ entries <a href="/lidarr/faq#how-does-lidarr-work" class="is-internal-link is-valid-page">How does Lidarr work?</a> and <a href="/lidarr/faq#how-does-lidarr-find-releases" class="is-internal-link is-valid-page">How does Lidarr find releases?</a> for the scheduling model and how Lidarr triggers searches. Lidarr doesn't continuously crawl indexers.
+
+## <a href="#preparing-your-existing-files" class="toc-anchor">¶</a> Preparing your existing files
+
+For the automated import to succeed, structure and tag your files before pointing Lidarr at them. The amount of work here depends entirely on how clean your library already is.
+
+### <a href="#folder-structure" class="toc-anchor">¶</a> Folder structure
+
+The recommended structure is:
+
+``` prismjs
+<Root Folder>/<Release Artist>/<Release>/<Track>
+```
+
+For example:
+
+``` prismjs
+/music/Bob Dylan/Blood on the Tracks/01 - Tangled Up in Blue.flac
+/music/Bob Dylan/Blood on the Tracks/02 - Simple Twist of Fate.flac
+```
+
+This layout, combined with proper tags, gives recognition rates of 95% or better in both Lidarr and most downstream media players. Flat layouts (one folder containing many releases) or grouped-by-year layouts will cause mismatches or import failures.
+
+Disc-subfolder layouts (`.../Release/CD1/...`, `.../Release/CD2/...`) are handled natively by Lidarr's grouping logic, which recognises `CD`, `Disc`, and `Disk` subfolder markers and groups them as a single release automatically. You do not need to flatten disc subfolders before importing.
+
+### <a href="#tagging" class="toc-anchor">¶</a> Tagging
+
+Tagging is where most import failures come from. Lidarr leans on MusicBrainz identifiers where they exist, and falls back to text matching on artist, album, and track fields where they don't — so the quality and consistency of your tags directly determines the quality of the import.
+
+Recommended tagging tools:
+
+- **<a href="https://picard.musicbrainz.org/" class="is-external-link">MusicBrainz Picard</a>** — the canonical MusicBrainz tagger. Writes MusicBrainz Release, Recording, and Artist IDs directly into your tags. Strongly preferred if you want the cleanest match in Lidarr.
+- **<a href="https://beets.io/" class="is-external-link">Beets</a>** — command-line, scriptable, strong at bulk cleanup and folder renaming in the same pass.
+- **MusicBee, MediaMonkey, JRiver** — GUI library managers that can batch-retag; less MusicBrainz-native than Picard but workable.
+
+Most of these tools will rename folders and restructure files at the same time as retagging, which means a single pass can fix both the structure and the tags. Associating MusicBrainz Release IDs with each file during this pass is the single biggest thing you can do to improve import accuracy.
+
+> Detailed use of Picard, Beets, and similar tools is beyond the scope of this wiki. See those projects' own documentation.
+
+## <a href="#pre-import-considerations" class="toc-anchor">¶</a> Pre-import considerations
+
+Once you have structured and tagged your files, check the following before pointing Lidarr at them. A failed import of a large library is expensive to recover from.
+
+- **System architecture.** 64-bit's strongly recommended. Large-library imports are RAM- and compute-intensive. Lidarr supports 32-bit builds but they are noticeably slower.
+- **System memory.** 4 GB minimum, 8 GB recommended. The import process plus an open browser tab will comfortably use 2–4 GB on a mid-sized library.
+- **Release size.** `Releases` with very large track or disc counts dominate import time. As a rule of thumb, pull releases over ~25 discs or ~250 tracks out of the root folder and import them manually after the bulk pass.
+- **Artists with many releases.** A single `Release Artist` with thousands of `Releases` in MusicBrainz will slow the scan substantially, even if only a handful of them are on your disk. This is rarely a blocker but is worth knowing about if the scan seems stuck on a particular artist.
+- **Time budget.** A reasonable estimate is one hour per ~500 properly tagged `Releases`, heavily dependent on disk speed, network latency to the metadata service, and system performance. Plan for an overnight run on large libraries.
+- **Metadata propagation.** If you've recently edited or added records on MusicBrainz, those changes may not have reached Lidarr's metadata source yet — propagation typically takes hours to days. See <a href="/lidarr/concepts#dependence-on-musicbrainz" class="is-internal-link is-valid-page">Concepts — Dependence on MusicBrainz</a>.
+- **Back up first.** Take a snapshot of your library (or at least of the tag state) before running the import. Lidarr doesn't rewrite tags during the import scan itself, but if you have automatic file-renaming or tag-writing enabled in settings, behaviour diverges from a read-only scan.
+
+## <a href="#begin-import" class="toc-anchor">¶</a> Begin import
+
+With files prepared and the pre-import checks done, add the library folder as a `Root Folder` to start the import. Lidarr begins scanning as soon as you save.
+
+1.  Go to **Settings → Media Management** and click **Add (+)** under **Root Folders**.
+2.  Fill in the add-root-folder dialog:
+    - **Name** — a friendly label for this root folder.
+    - **Path** — the filesystem path to the library you prepared. The Lidarr user must have read and write access.
+    - **Monitor**\* — the default monitoring option applied to each imported artist's existing releases (All, Future, Missing, Existing, Latest, First, None). This applies to every artist created by the import; you can change individual artists afterwards.
+    - **Monitor New Items**\* — controls whether future releases added to MusicBrainz for an imported artist are automatically monitored (All, None, New).
+    - **Quality Profile**\* — the default quality profile assigned to each imported artist. Used later to decide which `Releases` are cutoff-met and what Lidarr will search for.
+    - **Metadata Profile**\* — the default metadata profile. Controls which `Release` types (studio albums, EPs, singles, etc.) are visible on each imported artist.
+    - **Tags** — optional tags applied to every artist created by this import, useful for later filtering or automation rules.
+3.  Save the root folder. Lidarr begins scanning the path immediately.
+
+The asterisked fields above become the defaults for every artist the import creates. You can change them on a per-artist basis later, but it's much less work to pick the right defaults up front than to batch-update hundreds of artists afterwards. In particular, `Metadata Profile` has the biggest downstream effect — a too-narrow profile will silently hide `Releases` that exist on disk.
+
+### <a href="#what-lidarr-does-during-the-scan" class="toc-anchor">¶</a> What Lidarr does during the scan
+
+1.  Walks the root folder, building an inventory of files grouped by folder.
+2.  Reads tags from each file and groups them by `Release` (using MusicBrainz IDs where present, falling back to artist/album text matching).
+3.  For each group, queries the metadata service for the matching `Release Artist` and `Release`.
+4.  Adds the `Release Artist` to the library, then adds the matched `Releases`, then links the existing files to their `Release` tracks.
+5.  Files that don't match anything remain on disk. Lidarr doesn't add them to the library and doesn't delete them.
+
+> **You cannot stop the scan partway through.** If you realise something is wrong (wrong path, wrong metadata profile, etc.) you can either let the scan finish and clean up afterwards, or stop Lidarr and remove the root folder before restarting — but there's no in-app cancel button.
+
+### <a href="#watching-progress" class="toc-anchor">¶</a> Watching progress
+
+- **Activity → Queue** shows in-progress downloads; the import scan itself appears under **System → Tasks** → *Rescan Folders* and related tasks.
+- **System → Events** logs each `Release Artist` as it's added.
+- A busy scan will push CPU and disk I/O noticeably; this is normal. Importing against a spinning disk over SMB/NFS is the most common reason scans take many hours.
+
+## <a href="#after-import" class="toc-anchor">¶</a> After import
+
+Once the scan finishes, plan on a review pass. Even a well-prepared library will produce a small number of mismatches, and finding them early is cheaper than discovering them weeks later when Lidarr downloads the "missing" half of a mismatched `Release`.
+
+- **Check the library view** for artists with zero monitored `Releases`. Usually means the metadata profile filtered everything out; widen the profile or change it for that artist.
+- **Look for wrong-release matches.** Pick a few albums at random and verify the tracklist on the artist page matches what you have on disk. Mismatches most commonly appear with re-releases, remasters, and region-specific pressings — the text match picked a different `Release` than the one you own. Use the **Manual Import** or **Search for MusicBrainz ID** workflow to re-link.
+- **Handle skipped files.** Files that weren't imported are still on disk. If you want them managed, fix their tags (usually a Picard pass) and run *Rescan Folders* from **System → Tasks**. If you don't want them managed, leave them or move them out of the root folder.
+- **Unmonitor or remove noise.** Rip-artifact files (`folder.jpg`, `*.nfo`, stray `.txt` files) are harmless. Duplicates and pre-import backup copies are worth cleaning up now so they don't confuse later searches.
+
+## <a href="#troubleshooting" class="toc-anchor">¶</a> Troubleshooting
+
+Most import problems are MusicBrainz data problems or tag problems, not Lidarr bugs. See the <a href="/lidarr/faq" class="is-internal-link is-valid-page">FAQ</a> for specific failure modes — including artists Lidarr can't add, releases missing from MusicBrainz, and what to do when an import refuses to match a file you're sure you've tagged correctly.
+
+If a `Release` or `Release Artist` you expect is genuinely missing from MusicBrainz, you can add or correct it upstream: see <a href="https://musicbrainz.org/doc/How_to_Contribute" class="is-external-link">How To Contribute</a>. Once upstream propagation completes (hours to days), refresh the affected artist inside Lidarr and rescan.
+
+## <a href="#see-also" class="toc-anchor">¶</a> See also
+
+- <a href="/lidarr/concepts" class="is-internal-link is-valid-page">Concepts</a> — the `Release` and `Artist` model that drives import behavior
+- <a href="/lidarr/quick-start-guide" class="is-internal-link is-valid-page">Quick Start</a> — install and first download, if you don't already have a library
+- <a href="/lidarr/faq" class="is-internal-link is-valid-page">FAQ</a> — common import and metadata issues
+- <a href="/lidarr/settings" class="is-internal-link is-valid-page">Settings</a> — detailed reference for every option referenced on this page
+
+

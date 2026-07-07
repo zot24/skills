@@ -15,13 +15,13 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 pip install fastapi uvicorn firecrawl-py
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,7 +29,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create `main.py`:
 
-```python
+```python theme={null}
 import os
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -85,13 +85,13 @@ async def interact_stop(req: InteractRequest):
 
 ## Run it
 
-```bash
+```bash theme={null}
 uvicorn main:app --reload
 ```
 
 ## Test it
 
-```bash
+```bash theme={null}
 # Search the web
 curl -X POST http://localhost:8000/search \
   -H "Content-Type: application/json" \
@@ -114,7 +114,7 @@ FastAPI auto-generates interactive docs at `http://localhost:8000/docs`.
 
 For better concurrency under load, use `AsyncFirecrawl`:
 
-```python
+```python theme={null}
 from firecrawl import AsyncFirecrawl
 
 async_firecrawl = AsyncFirecrawl(api_key=os.environ["FIRECRAWL_API_KEY"])

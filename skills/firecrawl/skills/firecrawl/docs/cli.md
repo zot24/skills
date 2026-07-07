@@ -14,7 +14,7 @@ Search, scrape, interact, crawl, map, and run agent jobs directly from the termi
 
 If you are using an AI agent like Claude Code, you can install the Firecrawl skills below and the agent will set them up for you.
 
-```bash
+```bash theme={null}
 npx -y firecrawl-cli@latest init --all --browser
 ```
 
@@ -27,7 +27,7 @@ npx -y firecrawl-cli@latest init --all --browser
 
 You can also manually install the Firecrawl CLI globally using npm:
 
-```bash CLI
+```bash CLI theme={null}
 # Install globally with npm
 npm install -g firecrawl-cli
 ```
@@ -42,7 +42,7 @@ Before using the CLI, you need to authenticate with your Firecrawl API key.
 
 ### Login
 
-```bash CLI
+```bash CLI theme={null}
 # Interactive login (opens browser or prompts for API key)
 firecrawl login
 
@@ -58,14 +58,14 @@ export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 ### View Configuration
 
-```bash CLI
+```bash CLI theme={null}
 # View current configuration and authentication status
 firecrawl view-config
 ```
 
 ### Logout
 
-```bash CLI
+```bash CLI theme={null}
 # Clear stored credentials
 firecrawl logout
 ```
@@ -74,7 +74,7 @@ firecrawl logout
 
 For self-hosted Firecrawl instances or local development, use the `--api-url` option:
 
-```bash CLI
+```bash CLI theme={null}
 # Use a local Firecrawl instance (no API key required)
 firecrawl --api-url http://localhost:3002 scrape https://example.com
 
@@ -92,7 +92,7 @@ When using a custom API URL (anything other than `https://api.firecrawl.dev`), A
 
 Verify installation, authentication, and view rate limits:
 
-```bash CLI
+```bash CLI theme={null}
 firecrawl --status
 ```
 
@@ -125,7 +125,7 @@ Scrape a single URL and extract its content in various formats.
   main page content.
 
 
-```bash CLI
+```bash CLI theme={null}
 # Scrape a URL (default: markdown output)
 firecrawl https://example.com
 
@@ -138,7 +138,7 @@ firecrawl https://example.com --only-main-content
 
 #### Output Formats
 
-```bash CLI
+```bash CLI theme={null}
 # Get HTML output
 firecrawl https://example.com --html
 
@@ -159,7 +159,7 @@ firecrawl https://example.com --format changeTracking
 
 #### Scrape Options
 
-```bash CLI
+```bash CLI theme={null}
 # Extract only main content (removes navs, footers)
 firecrawl https://example.com --only-main-content
 
@@ -228,7 +228,7 @@ firecrawl https://example.com --timing
 
 Search the web and optionally scrape the results.
 
-```bash CLI
+```bash CLI theme={null}
 # Search the web
 firecrawl search "web scraping tutorials"
 
@@ -241,7 +241,7 @@ firecrawl search "machine learning" --pretty
 
 #### Search Options
 
-```bash CLI
+```bash CLI theme={null}
 # Search specific sources
 firecrawl search "AI" --sources web,news,images
 
@@ -291,7 +291,7 @@ firecrawl search "firecrawl" --pretty -o results.json
 
 Discover all URLs on a website quickly.
 
-```bash CLI
+```bash CLI theme={null}
 # Discover all URLs on a website
 firecrawl map https://example.com
 
@@ -304,7 +304,7 @@ firecrawl map https://example.com --limit 500
 
 #### Map Options
 
-```bash CLI
+```bash CLI theme={null}
 # Filter URLs by search query
 firecrawl map https://example.com --search "blog"
 
@@ -349,7 +349,7 @@ firecrawl map https://example.com --json --pretty -o urls.json
 
 Scrape a page, then interact with it using natural language or code. Interact uses the most recent scrape by default, or you can pass a specific scrape ID.
 
-```bash CLI
+```bash CLI theme={null}
 # 1. Scrape Amazon's homepage (scrape ID is saved automatically)
 firecrawl scrape https://www.amazon.com
 
@@ -381,7 +381,7 @@ firecrawl interact stop
 
 Crawl an entire website starting from a URL.
 
-```bash CLI
+```bash CLI theme={null}
 # Start a crawl (returns job ID immediately)
 firecrawl crawl https://example.com
 
@@ -394,7 +394,7 @@ firecrawl crawl https://example.com --wait --progress
 
 #### Check Crawl Status
 
-```bash CLI
+```bash CLI theme={null}
 # Check crawl status using job ID
 firecrawl crawl <job-id>
 
@@ -404,7 +404,7 @@ firecrawl crawl 550e8400-e29b-41d4-a716-446655440000
 
 #### Crawl Options
 
-```bash CLI
+```bash CLI theme={null}
 # Limit crawl depth and pages
 firecrawl crawl https://example.com --limit 100 --max-depth 3 --wait
 
@@ -473,7 +473,7 @@ firecrawl crawl https://example.com --wait --pretty -o results.json
 
 Create recurring scrapes or crawls that diff each run against the previous snapshot. Add a goal when you want Firecrawl to judge which changed pages are meaningful for your use case.
 
-```bash CLI
+```bash CLI theme={null}
 firecrawl monitor create --name "Hacker News AI" \
   --schedule "every 30 minutes" \
   --goal "Alert when a new Hacker News story related to AI enters the top 10. Ignore changes to stories that are not about AI. Do not alert on changes outside the top 10." \
@@ -481,7 +481,7 @@ firecrawl monitor create --name "Hacker News AI" \
 
 firecrawl monitor run <monitorId>
 firecrawl monitor checks <monitorId> --limit 10
-firecrawl monitor check <monitorId>  --page-status changed
+firecrawl monitor check <monitorId> <checkId> --page-status changed
 firecrawl monitor update <monitorId> \
   --goal "Alert when a new Hacker News story related to AI enters the top 10. Do not alert on changes outside the top 10."
 firecrawl monitor delete <monitorId>
@@ -514,7 +514,7 @@ Monitor goals should stay short and faithful to the user's intent: say what shou
 
 Search and gather data from the web using natural language prompts.
 
-```bash CLI
+```bash CLI theme={null}
 # Basic usage - URLs are optional
 firecrawl agent "Find the top 5 AI startups and their funding amounts" --wait
 
@@ -530,7 +530,7 @@ firecrawl agent "Get product details" --urls https://example.com --schema-file s
 
 #### Agent Options
 
-```bash CLI
+```bash CLI theme={null}
 # Use Spark 1 Pro for higher accuracy
 firecrawl agent "Competitive analysis across multiple domains" --model spark-1-pro --wait
 
@@ -577,7 +577,7 @@ firecrawl agent "Find pricing information" --urls https://example.com --wait -o 
 
 Check your team's credit balance and usage.
 
-```bash CLI
+```bash CLI theme={null}
 # View credit usage
 firecrawl credit-usage
 
@@ -591,7 +591,7 @@ firecrawl credit-usage --json --pretty
 
 Display the CLI version.
 
-```bash CLI
+```bash CLI theme={null}
 firecrawl version
 # or
 firecrawl --version
@@ -613,7 +613,7 @@ These options are available for all commands:
 
 The CLI outputs to stdout by default, making it easy to pipe or redirect:
 
-```bash CLI
+```bash CLI theme={null}
 # Pipe markdown to another command
 firecrawl https://example.com | head -50
 
@@ -629,7 +629,7 @@ firecrawl https://example.com --format markdown,links --pretty -o data.json
 * **Single format**: Outputs raw content (markdown text, HTML, etc.)
 * **Multiple formats**: Outputs JSON with all requested data
 
-```bash CLI
+```bash CLI theme={null}
 # Raw markdown output
 firecrawl https://example.com --format markdown
 
@@ -641,7 +641,7 @@ firecrawl https://example.com --format markdown,links
 
 ### Quick Scrape
 
-```bash CLI
+```bash CLI theme={null}
 # Get markdown content from a URL (use --only-main-content for clean output)
 firecrawl https://docs.firecrawl.dev --only-main-content
 
@@ -651,28 +651,28 @@ firecrawl https://example.com --html -o page.html
 
 ### Full Site Crawl
 
-```bash CLI
+```bash CLI theme={null}
 # Crawl a docs site with limits
 firecrawl crawl https://docs.example.com --limit 50 --max-depth 2 --wait --progress -o docs.json
 ```
 
 ### Site Discovery
 
-```bash CLI
+```bash CLI theme={null}
 # Find all blog posts
 firecrawl map https://example.com --search "blog" -o blog-urls.txt
 ```
 
 ### Research Workflow
 
-```bash CLI
+```bash CLI theme={null}
 # Search and scrape results for research
 firecrawl search "machine learning best practices 2024" --scrape --scrape-formats markdown --pretty
 ```
 
 ### Agent
 
-```bash CLI
+```bash CLI theme={null}
 # URLs are optional
 firecrawl agent "Find the top 5 AI startups and their funding amounts" --wait
 
@@ -682,7 +682,7 @@ firecrawl agent "Compare pricing plans" --urls https://slack.com/pricing,https:/
 
 ### Combine with Other Tools
 
-```bash CLI
+```bash CLI theme={null}
 # Extract URLs from search results
 jq -r '.data.web[].url' search-results.json
 
@@ -707,7 +707,7 @@ The CLI collects anonymous usage data during authentication to help improve the 
 
 To disable telemetry, set the environment variable:
 
-```bash CLI
+```bash CLI theme={null}
 export FIRECRAWL_NO_TELEMETRY=1
 ```
 

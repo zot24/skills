@@ -59,7 +59,7 @@ Install required packages:
 
 This tutorial uses OpenAI, but Honcho works with any LLM provider. Create a `.env` file with your API keys:
 
-```bash
+```bash theme={null}
 OPENAI_API_KEY=your_openai_key
 ```
 

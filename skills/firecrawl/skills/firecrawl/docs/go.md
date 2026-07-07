@@ -14,7 +14,7 @@ The official Go SDK is maintained in the Firecrawl monorepo at [apps/go-sdk](htt
 
 To install the Firecrawl Go SDK, run:
 
-```bash
+```bash theme={null}
 go get github.com/firecrawl/firecrawl/apps/go-sdk
 ```
 
@@ -27,7 +27,7 @@ Requires Go 1.23 or later.
 
 Here is a quick example using the current SDK API surface:
 
-```go
+```go theme={null}
 package main
 
 import (
@@ -80,7 +80,7 @@ func main() {
 
 To scrape a single URL, use the `Scrape` method.
 
-```go
+```go theme={null}
 doc, err := client.Scrape(ctx, "https://firecrawl.dev", &firecrawl.ScrapeOptions{
 	Formats:         []string{"markdown", "html"},
 	OnlyMainContent: firecrawl.Bool(true),
@@ -98,7 +98,7 @@ fmt.Println(doc.Metadata["title"])
 
 Extract structured JSON using `JsonOptions` via the `Scrape` endpoint:
 
-```go
+```go theme={null}
 doc, err := client.Scrape(ctx, "https://example.com/product", &firecrawl.ScrapeOptions{
 	Formats: []string{"json"},
 	JsonOptions: &firecrawl.JsonOptions{
@@ -123,7 +123,7 @@ fmt.Println(doc.JSON)
 
 To crawl a website and wait for completion, use `Crawl`.
 
-```go
+```go theme={null}
 job, err := client.Crawl(ctx, "https://firecrawl.dev", &firecrawl.CrawlOptions{
 	Limit:             firecrawl.Int(50),
 	MaxDiscoveryDepth: firecrawl.Int(3),
@@ -147,7 +147,7 @@ for _, page := range job.Data {
 
 Start a job without waiting using `StartCrawl`.
 
-```go
+```go theme={null}
 resp, err := client.StartCrawl(ctx, "https://firecrawl.dev", &firecrawl.CrawlOptions{
 	Limit: firecrawl.Int(100),
 })
@@ -162,7 +162,7 @@ fmt.Printf("Job ID: %s\n", resp.ID)
 
 Check crawl progress with `GetCrawlStatus`.
 
-```go
+```go theme={null}
 status, err := client.GetCrawlStatus(ctx, resp.ID)
 if err != nil {
 	log.Fatal(err)
@@ -176,7 +176,7 @@ fmt.Printf("Progress: %d/%d\n", status.Completed, status.Total)
 
 Cancel a running crawl with `CancelCrawl`.
 
-```go
+```go theme={null}
 result, err := client.CancelCrawl(ctx, resp.ID)
 if err != nil {
 	log.Fatal(err)
@@ -189,7 +189,7 @@ fmt.Println(result)
 
 Discover links on a site using `Map`.
 
-```go
+```go theme={null}
 mapData, err := client.Map(ctx, "https://firecrawl.dev", &firecrawl.MapOptions{
 	Limit:             firecrawl.Int(100),
 	Search:            firecrawl.String("blog"),
@@ -208,7 +208,7 @@ for _, link := range mapData.Links {
 
 Search with optional search settings using `Search`.
 
-```go
+```go theme={null}
 results, err := client.Search(ctx, "firecrawl web scraping", &firecrawl.SearchOptions{
 	Limit: firecrawl.Int(10),
 	ScrapeOptions: &firecrawl.ScrapeOptions{
@@ -228,7 +228,7 @@ for _, result := range results.Web {
 
 Scrape multiple URLs in parallel using `BatchScrape`.
 
-```go
+```go theme={null}
 urls := []string{
 	"https://firecrawl.dev",
 	"https://firecrawl.dev/blog",
@@ -252,7 +252,7 @@ for _, doc := range job.Data {
 
 Run an AI-powered agent with `Agent`.
 
-```go
+```go theme={null}
 status, err := client.Agent(ctx, &firecrawl.AgentOptions{
 	Prompt: "Find the pricing plans for Firecrawl and compare them",
 })
@@ -265,7 +265,7 @@ fmt.Println(status.Data)
 
 With a JSON schema for structured output:
 
-```go
+```go theme={null}
 status, err := client.Agent(ctx, &firecrawl.AgentOptions{
 	Prompt: "Extract pricing plan details",
 	URLs:   []string{"https://firecrawl.dev"},
@@ -296,7 +296,7 @@ fmt.Println(status.Data)
 
 Check concurrency and remaining credits:
 
-```go
+```go theme={null}
 concurrency, err := client.GetConcurrency(ctx)
 if err != nil {
 	log.Fatal(err)
@@ -316,7 +316,7 @@ The Go SDK includes Browser Sandbox helpers.
 
 ### Create a Session
 
-```go
+```go theme={null}
 session, err := client.Browser(ctx, &firecrawl.BrowserOptions{
 	TTL:           firecrawl.Int(300),
 	StreamWebView: firecrawl.Bool(true),
@@ -332,7 +332,7 @@ fmt.Println(session.LiveViewURL)
 
 ### Execute Code
 
-```go
+```go theme={null}
 result, err := client.BrowserExecute(ctx, session.ID,
 	`await page.goto("https://example.com"); console.log(await page.title());`,
 	&firecrawl.BrowserExecuteParams{
@@ -355,7 +355,7 @@ Use a scrape job ID to run follow-up browser code in the same replayed context:
 * `Interact(...)` runs code in the scrape-bound browser session (and initializes it on first use).
 * `StopInteractiveBrowser(...)` explicitly stops the interactive session when you are done.
 
-```go
+```go theme={null}
 scrapeJobID := "550e8400-e29b-41d4-a716-446655440000"
 
 execResp, err := client.Interact(ctx, scrapeJobID, "console.log(page.url())", &firecrawl.InteractParams{
@@ -378,7 +378,7 @@ fmt.Printf("Deleted: %v\n", deleteResp.Success)
 
 ### List & Close Sessions
 
-```go
+```go theme={null}
 active, err := client.ListBrowsers(ctx, "active")
 if err != nil {
 	log.Fatal(err)
@@ -410,7 +410,7 @@ fmt.Printf("Closed: %v\n", closed.Success)
 | `option.WithHTTPClient`    | `*http.Client`   | Built from timeout                                   | Pre-configured HTTP client instance      |
 | `option.WithHeader`        | `string, string` | —                                                    | Add an extra header to all requests      |
 
-```go
+```go theme={null}
 import (
 	"net/http"
 	"time"
@@ -432,7 +432,7 @@ client, err := firecrawl.NewClient(
 
 You can pass a pre-configured `*http.Client` to control transport settings, proxy configuration, TLS settings, and more. When provided, the `WithTimeout` setting is ignored in favor of the client's own configuration.
 
-```go
+```go theme={null}
 import (
 	"crypto/tls"
 	"net"
@@ -465,7 +465,7 @@ client, err := firecrawl.NewClient(
 
 All methods accept a `context.Context` as the first argument for cancellation and deadline control:
 
-```go
+```go theme={null}
 ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 defer cancel()
 
@@ -476,7 +476,7 @@ doc, err := client.Scrape(ctx, "https://example.com", nil)
 
 The SDK uses typed errors under the `firecrawl` package.
 
-```go
+```go theme={null}
 import "errors"
 
 doc, err := client.Scrape(ctx, "https://example.com", nil)
@@ -513,7 +513,7 @@ The SDK automatically retries transient failures:
 
 The SDK provides convenience functions for optional pointer fields:
 
-```go
+```go theme={null}
 firecrawl.Bool(true)     // *bool
 firecrawl.Int(50)        // *int
 firecrawl.Int64(1000)    // *int64

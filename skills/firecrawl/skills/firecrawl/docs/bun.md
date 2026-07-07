@@ -15,13 +15,13 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 bun add firecrawl
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,7 +29,8 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Bun has a built-in HTTP server. Create `index.ts`:
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -53,7 +54,7 @@ console.log("Server running on port 3000");
 
 Run it:
 
-```bash
+```bash theme={null}
 bun run index.ts
 ```
 
@@ -61,7 +62,7 @@ bun run index.ts
 
 Add a `/scrape` route to the same server:
 
-```typescript
+```typescript theme={null}
 if (req.method === "POST" && url.pathname === "/scrape") {
   const { url: targetUrl } = await req.json();
   const result = await firecrawl.scrape(targetUrl);
@@ -73,7 +74,7 @@ if (req.method === "POST" && url.pathname === "/scrape") {
 
 Use interact to control a live browser session — click buttons, fill forms, and extract dynamic content.
 
-```typescript
+```typescript theme={null}
 if (req.method === "POST" && url.pathname === "/interact") {
   const { url: targetUrl } = await req.json();
 
@@ -93,14 +94,15 @@ if (req.method === "POST" && url.pathname === "/interact") {
 
 Use Firecrawl in a standalone Bun script:
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
 
 const app = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const results = await app.search("firecrawl web scraping", { limit: 5 });
 console.log(results);
 ```
 
-```bash
+```bash theme={null}
 bun run search.ts
 ```
 

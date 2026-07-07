@@ -12,13 +12,13 @@ Integrate Firecrawl with OpenAI to build AI applications powered by web data.
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install firecrawl openai zod
 ```
 
 Create `.env` file:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=your_firecrawl_key
 OPENAI_API_KEY=your_openai_key
 ```
@@ -29,8 +29,9 @@ OPENAI_API_KEY=your_openai_key
 
 This example demonstrates a simple workflow: scrape a website and summarize the content using an OpenAI model.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import OpenAI from 'openai';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -57,8 +58,10 @@ console.log('Summary:', completion.choices[0]?.message.content);
 
 This example shows how to use OpenAI's function calling feature to let the model decide when to scrape websites based on user requests.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import OpenAI from 'openai';
+import { z } from 'zod';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -128,8 +131,10 @@ if (message?.tool_calls && message.tool_calls.length > 0) {
 
 This example demonstrates how to use OpenAI models with structured outputs to extract specific data from scraped content.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import OpenAI from 'openai';
+import { z } from 'zod';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -178,8 +183,9 @@ console.log('Validated company info:', companyInfo);
 
 This example combines Firecrawl's search capabilities with OpenAI model analysis to find and summarize information from multiple sources.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import OpenAI from 'openai';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -209,7 +215,8 @@ console.log('Analysis:', analysis.choices[0]?.message?.content);
 
 This example shows how to use OpenAI's Responses API with Firecrawl configured as an MCP (Model Context Protocol) server.
 
-```typescript
+```typescript theme={null}
+import OpenAI from 'openai';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 

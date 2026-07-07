@@ -46,7 +46,7 @@ Break free from this cycle. Honcho is a general solution to context engineering,
 
 Honcho has four storage primitives that work together:
 
-```mermaid
+```mermaid theme={null}
  graph LR
       W[Workspaces] -->|have| P[Peers]
       W -->|have| S[Sessions]

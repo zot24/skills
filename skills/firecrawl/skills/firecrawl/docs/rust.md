@@ -14,7 +14,7 @@ The official Rust SDK is maintained in the Firecrawl monorepo at [apps/rust-sdk]
 
 To install the Firecrawl Rust SDK, add the dependency from [crates.io](https://crates.io/crates/firecrawl):
 
-```toml
+```toml theme={null}
 [dependencies]
 firecrawl = "2"
 tokio = { version = "1", features = ["full"] }
@@ -23,7 +23,7 @@ serde_json = "1"
 
 Or install via Cargo:
 
-```bash
+```bash theme={null}
 cargo add firecrawl
 cargo add tokio --features full
 cargo add serde_json
@@ -38,7 +38,7 @@ Requires Rust 1.70 or later.
 
 Scrape a page and print its markdown:
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, ScrapeOptions, Format};
 
 #[tokio::main]
@@ -64,7 +64,7 @@ The sections below cover crawling, mapping, searching, and the other SDK methods
 
 To scrape a single URL, use the `scrape` method.
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, ScrapeOptions, Format};
 
 let doc = client.scrape(
@@ -87,7 +87,7 @@ if let Some(meta) = &doc.metadata {
 
 Extract structured JSON using `scrape_with_schema`:
 
-```rust
+```rust theme={null}
 use firecrawl::Client;
 use serde_json::json;
 
@@ -110,7 +110,7 @@ println!("{}", serde_json::to_string_pretty(&data)?);
 
 Or configure JSON extraction via `ScrapeOptions` directly:
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, ScrapeOptions, Format, JsonOptions};
 use serde_json::json;
 
@@ -144,7 +144,7 @@ Use `parse` to upload a local file (`.html`, `.htm`, `.pdf`, `.docx`, `.doc`, `.
 
 Build a `ParseFile` from in-memory bytes or directly from a path:
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, ParseFile, ParseFormat, ParseOptions};
 
 #[tokio::main]
@@ -171,7 +171,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 Or read the file from disk and omit the options:
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, ParseFile};
 
 let client = Client::new("fc-YOUR-API-KEY")?;
@@ -213,7 +213,7 @@ Supported fields (all optional, camelCase on the wire):
 
 To crawl a website and wait for completion, use `crawl`.
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, CrawlOptions, ScrapeOptions, Format};
 
 let job = client.crawl(
@@ -243,7 +243,7 @@ for page in &job.data {
 
 Start a job without waiting using `start_crawl`.
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, CrawlOptions};
 
 let start = client.start_crawl(
@@ -261,7 +261,7 @@ println!("Job ID: {}", start.id);
 
 Check crawl progress with `get_crawl_status`.
 
-```rust
+```rust theme={null}
 let status = client.get_crawl_status(&start.id).await?;
 println!("Status: {:?}", status.status);
 println!("Progress: {}/{}", status.completed, status.total);
@@ -271,7 +271,7 @@ println!("Progress: {}/{}", status.completed, status.total);
 
 Cancel a running crawl with `cancel_crawl`.
 
-```rust
+```rust theme={null}
 let result = client.cancel_crawl(&start.id).await?;
 println!("{:?}", result);
 ```
@@ -280,7 +280,7 @@ println!("{:?}", result);
 
 Retrieve errors from a crawl job with `get_crawl_errors`.
 
-```rust
+```rust theme={null}
 let errors = client.get_crawl_errors(&start.id).await?;
 println!("{:?}", errors);
 ```
@@ -289,7 +289,7 @@ println!("{:?}", errors);
 
 Discover links on a site using `map`.
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, MapOptions};
 
 let response = client.map(
@@ -308,7 +308,7 @@ for link in &response.links {
 
 For a simpler result with just URLs, use `map_urls`:
 
-```rust
+```rust theme={null}
 let urls = client.map_urls("https://firecrawl.dev", None).await?;
 for url in &urls {
     println!("{}", url);
@@ -319,7 +319,7 @@ for url in &urls {
 
 Search with optional settings using `search`.
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, SearchOptions};
 
 let results = client.search(
@@ -346,7 +346,7 @@ if let Some(web) = results.data.web {
 
 For a convenience method that returns scraped documents directly:
 
-```rust
+```rust theme={null}
 let docs = client.search_and_scrape("firecrawl web scraping", 5).await?;
 for doc in &docs {
     println!("{}", doc.markdown.as_deref().unwrap_or(""));
@@ -357,7 +357,7 @@ for doc in &docs {
 
 Scrape multiple URLs in parallel using `batch_scrape`.
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, BatchScrapeOptions, ScrapeOptions, Format};
 
 let urls = vec![
@@ -385,7 +385,7 @@ for doc in &job.data {
 
 Run an AI-powered agent with `agent`.
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, AgentOptions};
 
 let result = client.agent(
@@ -400,7 +400,7 @@ println!("{:?}", result.data);
 
 With a JSON schema for structured output:
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, AgentOptions, AgentModel};
 use serde::Deserialize;
 use serde_json::json;
@@ -452,7 +452,7 @@ Use a scrape job ID to run follow-up browser code in the same context:
 * `interact(...)` runs code or prompts in the scrape-bound browser session.
 * `stop_interaction(...)` stops the interactive session when you are done.
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, ScrapeExecuteOptions, ScrapeExecuteLanguage};
 
 let scrape_job_id = "550e8400-e29b-41d4-a716-446655440000";
@@ -492,7 +492,7 @@ client.stop_interaction(scrape_job_id).await?;
 | `Client::new(api_key)`                     | Create a client for the Firecrawl cloud service (`https://api.firecrawl.dev`) |
 | `Client::new_selfhosted(api_url, api_key)` | Create a client for a self-hosted Firecrawl instance                          |
 
-```rust
+```rust theme={null}
 use firecrawl::Client;
 
 // Cloud service
@@ -515,11 +515,11 @@ let client = Client::new_selfhosted(
 
 Set the `FIRECRAWL_API_KEY` environment variable instead of passing the key directly:
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
-```rust
+```rust theme={null}
 let api_key = std::env::var("FIRECRAWL_API_KEY")
     .expect("FIRECRAWL_API_KEY must be set");
 let client = Client::new(api_key)?;
@@ -529,7 +529,7 @@ let client = Client::new(api_key)?;
 
 Synchronous methods (`crawl`, `batch_scrape`, `agent`) poll until completion. You can customize the poll interval via the options struct:
 
-```rust
+```rust theme={null}
 use firecrawl::CrawlOptions;
 
 let options = CrawlOptions {
@@ -543,7 +543,7 @@ let options = CrawlOptions {
 
 The SDK uses the `FirecrawlError` enum, which implements `Error`, `Debug`, and `Display`. All methods return `Result<T, FirecrawlError>`.
 
-```rust
+```rust theme={null}
 use firecrawl::{Client, FirecrawlError};
 
 match client.scrape("https://example.com", None).await {

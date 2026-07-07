@@ -26,7 +26,7 @@ Why formal logic specifically? LLMs are uniquely well-suited for this reasoning 
 
 Here's an example of a data structure the reasoning models generate:
 
-```json
+```json theme={null}
 {
     "explicit": [
         {
@@ -54,6 +54,8 @@ Here's an example of a data structure the reasoning models generate:
 The explicit reasoning model ([Neuromancer XR](https://blog.plasticlabs.ai/research/Introducing-Neuromancer-XR)) outputs its "thinking" followed by things that were explicitly stated, which serve as premises to scaffold deductive conclusions. It's on top of this reasoning foundation that further reasoning is scaffolded. Currently that includes peer cards (key biographical information about the peer), consolidation (identifying redundant or contradictory information), induction (pattern recognition across multiple messages), and abduction (inferring the simplest explanations for observed behavior).
 
 The reasoning that Honcho does is something we're constantly iterating and improving on. Our goal is simple--provide the richest, most relevant context in the fastest, cheapest way possible in order to simulate statefulness in whatever setting you need.
+
+Two components produce this logic: the **Deriver** extracts explicit and deductive conclusions from incoming messages as they arrive, and the **Dreamer** periodically revisits stored conclusions to consolidate them and draw inductive conclusions across patterns spanning multiple messages. See [Architecture](/v3/documentation/core-concepts/architecture) for how these fit into the request/background split.
 
 ## How It Works
 

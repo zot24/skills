@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -35,7 +38,7 @@ Cron-run sessions cannot recursively create more cron jobs. Hermes disables cron
 ### In chat with `/cron`<a href="#in-chat-with-cron" class="hash-link" aria-label="Direct link to in-chat-with-cron" translate="no" title="Direct link to in-chat-with-cron">​</a>
 
 
-``` bash
+``` prism-code
 /cron add 30m "Remind me to check the build"
 /cron add "every 2h" "Check server status"
 /cron add "every 1h" "Summarize new feed items" --skill blogwatcher
@@ -46,7 +49,7 @@ Cron-run sessions cannot recursively create more cron jobs. Hermes disables cron
 ### From the standalone CLI<a href="#from-the-standalone-cli" class="hash-link" aria-label="Direct link to From the standalone CLI" translate="no" title="Direct link to From the standalone CLI">​</a>
 
 
-``` bash
+``` prism-code
 hermes cron create "every 2h" "Check server status"
 hermes cron create "every 1h" "Summarize new feed items" --skill blogwatcher
 hermes cron create "every 1h" "Use both skills and combine the result" \
@@ -61,7 +64,7 @@ hermes cron create "every 1h" "Use both skills and combine the result" \
 Ask Hermes normally:
 
 
-``` text
+``` prism-code
 Every morning at 9am, check Hacker News for AI news and send me a summary on Telegram.
 ```
 
@@ -75,7 +78,7 @@ A cron job can load one or more skills before it runs the prompt.
 ### Single skill<a href="#single-skill" class="hash-link" aria-label="Direct link to Single skill" translate="no" title="Direct link to Single skill">​</a>
 
 
-``` python
+``` prism-code
 cronjob(
     action="create",
     skill="blogwatcher",
@@ -91,7 +94,7 @@ cronjob(
 Skills are loaded in order. The prompt becomes the task instruction layered on top of those skills.
 
 
-``` python
+``` prism-code
 cronjob(
     action="create",
     skills=["blogwatcher", "maps"],
@@ -109,7 +112,7 @@ This is useful when you want a scheduled agent to inherit reusable workflows wit
 Cron jobs default to running detached from any repo — no `AGENTS.md`, `CLAUDE.md`, or `.cursorrules` is loaded, and the terminal / file / code-exec tools run from whatever working directory the gateway started in. Pass `--workdir` (CLI) or `workdir=` (tool call) to change that:
 
 
-``` bash
+``` prism-code
 # Standalone CLI (schedule and prompt are positional)
 hermes cron create "every 1d at 09:00" \
   "Audit open PRs, summarize CI health, and post to #eng" \
@@ -117,7 +120,7 @@ hermes cron create "every 1d at 09:00" \
 ```
 
 
-``` python
+``` prism-code
 # From a chat, via the cronjob tool
 cronjob(
     action="create",
@@ -150,7 +153,7 @@ The `<job_id>` placeholder below (and in [Lifecycle actions](#lifecycle-actions)
 ### Chat<a href="#chat" class="hash-link" aria-label="Direct link to Chat" translate="no" title="Direct link to Chat">​</a>
 
 
-``` bash
+``` prism-code
 /cron edit <job_id> --schedule "every 4h"
 /cron edit <job_id> --prompt "Use the revised task"
 /cron edit <job_id> --skill blogwatcher --skill maps
@@ -162,7 +165,7 @@ The `<job_id>` placeholder below (and in [Lifecycle actions](#lifecycle-actions)
 ### Standalone CLI<a href="#standalone-cli" class="hash-link" aria-label="Direct link to Standalone CLI" translate="no" title="Direct link to Standalone CLI">​</a>
 
 
-``` bash
+``` prism-code
 hermes cron edit <job_id> --schedule "every 4h"
 hermes cron edit <job_id> --prompt "Use the revised task"
 hermes cron edit <job_id> --skill blogwatcher --skill maps
@@ -186,7 +189,7 @@ Cron jobs now have a fuller lifecycle than just create/remove.
 ### Chat<a href="#chat-1" class="hash-link" aria-label="Direct link to Chat" translate="no" title="Direct link to Chat">​</a>
 
 
-``` bash
+``` prism-code
 /cron list
 /cron pause <job_id>
 /cron resume <job_id>
@@ -198,7 +201,7 @@ Cron jobs now have a fuller lifecycle than just create/remove.
 ### Standalone CLI<a href="#standalone-cli-1" class="hash-link" aria-label="Direct link to Standalone CLI" translate="no" title="Direct link to Standalone CLI">​</a>
 
 
-``` bash
+``` prism-code
 hermes cron list
 hermes cron pause <job_id_or_name>
 hermes cron resume <job_id_or_name>
@@ -225,7 +228,7 @@ What they do:
 **Cron execution is handled by the gateway daemon.** The gateway ticks the scheduler every 60 seconds, running any due jobs in isolated agent sessions.
 
 
-``` bash
+``` prism-code
 hermes gateway install     # Install as a user service
 sudo hermes gateway install --system   # Linux: boot-time system service for servers
 hermes gateway             # Or run in foreground
@@ -253,32 +256,32 @@ A file lock at `~/.hermes/cron/.tick.lock` prevents overlapping scheduler ticks 
 
 When scheduling jobs, you specify where the output goes:
 
-| Option | Description | Example |
-|----|----|----|
-| `"origin"` | Back to where the job was created | Default on messaging platforms |
-| `"local"` | Save to local files only (`~/.hermes/cron/output/`) | Default on CLI |
-| `"telegram"` | Telegram home channel | Uses `TELEGRAM_HOME_CHANNEL` |
-| `"telegram:123456"` | Specific Telegram chat by ID | Direct delivery |
-| `"telegram:-100123:17585"` | Specific Telegram topic | `chat_id:thread_id` format |
-| `"discord"` | Discord home channel | Uses `DISCORD_HOME_CHANNEL` |
-| `"discord:#engineering"` | Specific Discord channel | By channel name |
-| `"slack"` | Slack home channel |  |
-| `"whatsapp"` | WhatsApp home |  |
-| `"signal"` | Signal |  |
-| `"matrix"` | Matrix home room |  |
-| `"mattermost"` | Mattermost home channel |  |
-| `"email"` | Email |  |
-| `"sms"` | SMS via Twilio |  |
-| `"homeassistant"` | Home Assistant |  |
-| `"dingtalk"` | DingTalk |  |
-| `"feishu"` | Feishu/Lark |  |
-| `"wecom"` | WeCom |  |
-| `"weixin"` | Weixin (WeChat) |  |
-| `"bluebubbles"` | BlueBubbles (iMessage) |  |
-| `"qqbot"` | QQ Bot (Tencent QQ) |  |
-| `"all"` | Fan out to every connected home channel | Resolved at fire time |
-| `"telegram,discord"` | Fan out to a specific set of channels | Comma-separated list |
-| `"origin,all"` | Deliver to the origin **plus** every other connected channel | Combine any tokens |
+| Option                     | Description                                                  | Example                        |
+|----------------------------|--------------------------------------------------------------|--------------------------------|
+| `"origin"`                 | Back to where the job was created                            | Default on messaging platforms |
+| `"local"`                  | Save to local files only (`~/.hermes/cron/output/`)          | Default on CLI                 |
+| `"telegram"`               | Telegram home channel                                        | Uses `TELEGRAM_HOME_CHANNEL`   |
+| `"telegram:123456"`        | Specific Telegram chat by ID                                 | Direct delivery                |
+| `"telegram:-100123:17585"` | Specific Telegram topic                                      | `chat_id:thread_id` format     |
+| `"discord"`                | Discord home channel                                         | Uses `DISCORD_HOME_CHANNEL`    |
+| `"discord:#engineering"`   | Specific Discord channel                                     | By channel name                |
+| `"slack"`                  | Slack home channel                                           |                                |
+| `"whatsapp"`               | WhatsApp home                                                |                                |
+| `"signal"`                 | Signal                                                       |                                |
+| `"matrix"`                 | Matrix home room                                             |                                |
+| `"mattermost"`             | Mattermost home channel                                      |                                |
+| `"email"`                  | Email                                                        |                                |
+| `"sms"`                    | SMS via Twilio                                               |                                |
+| `"homeassistant"`          | Home Assistant                                               |                                |
+| `"dingtalk"`               | DingTalk                                                     |                                |
+| `"feishu"`                 | Feishu/Lark                                                  |                                |
+| `"wecom"`                  | WeCom                                                        |                                |
+| `"weixin"`                 | Weixin (WeChat)                                              |                                |
+| `"bluebubbles"`            | BlueBubbles (iMessage)                                       |                                |
+| `"qqbot"`                  | QQ Bot (Tencent QQ)                                          |                                |
+| `"all"`                    | Fan out to every connected home channel                      | Resolved at fire time          |
+| `"telegram,discord"`       | Fan out to a specific set of channels                        | Comma-separated list           |
+| `"origin,all"`             | Deliver to the origin **plus** every other connected channel | Combine any tokens             |
 
 The agent's final response is automatically delivered to the configured `deliver:` target — the agent does not send messages itself, so there is nothing to call in the cron prompt.
 
@@ -306,7 +309,7 @@ This applies only to cron deliveries. `TELEGRAM_HOME_CHANNEL_THREAD_ID` (used el
 By default, delivered cron output is wrapped with a header and footer so the recipient knows it came from a scheduled task:
 
 
-``` text
+``` prism-code
 Cronjob Response: Morning feeds
 -------------
 
@@ -319,7 +322,7 @@ Note: The agent cannot see this message, and therefore cannot respond to it.
 To deliver the raw agent output without the wrapper, set `cron.wrap_response` to `false`:
 
 
-``` yaml
+``` prism-code
 # ~/.hermes/config.yaml
 cron:
   wrap_response: false
@@ -333,7 +336,7 @@ By default a cron delivery is fire-and-forget: the message is sent, but it does 
 Opt-in, **default off**. Enable globally in config, or per-job via the `cronjob` tool's `attach_to_session` (which overrides the global setting for that one job):
 
 
-``` yaml
+``` prism-code
 # ~/.hermes/config.yaml
 cron:
   mirror_delivery: false   # set true to make cron deliveries continuable
@@ -352,7 +355,7 @@ Only the origin chat is ever touched: fan-out / broadcast targets (`all`, explic
 The thread-preferred behaviour above mints a dedicated thread on every delivery. If you'd rather have a continuable job land **flat in the channel timeline** — no thread — set the Slack **continuable surface** to `in_channel`:
 
 
-``` yaml
+``` prism-code
 # ~/.hermes/config.yaml
 slack:
   cron_continuable_surface: in_channel   # default: thread
@@ -387,7 +390,7 @@ If the agent's final response contains `[SILENT]`, delivery is suppressed entire
 This is useful for monitoring jobs that should only report when something is wrong:
 
 
-``` text
+``` prism-code
 Check if nginx is running. If everything is healthy, respond with only [SILENT].
 Otherwise, report the issue.
 ```
@@ -400,7 +403,7 @@ Failed jobs always deliver regardless of the `[SILENT]` marker — only successf
 Pre-run scripts (attached via the `script` parameter) have a default timeout of 3600 seconds (1 hour). This bounds the **script only** — skill-based / LLM-driven jobs run on a separate inactivity budget and are not capped by this value. If your scripts need a different limit, you can change it:
 
 
-``` yaml
+``` prism-code
 # ~/.hermes/config.yaml
 cron:
   script_timeout_seconds: 1800   # 30 minutes
@@ -414,7 +417,7 @@ Or set the `HERMES_CRON_SCRIPT_TIMEOUT` environment variable. The resolution ord
 For recurring jobs that don't need LLM reasoning — classic watchdogs, disk/memory alerts, heartbeats, CI pings — pass `no_agent=True` at creation time. The scheduler runs your script on schedule and delivers its stdout directly, skipping the agent entirely:
 
 
-``` bash
+``` prism-code
 hermes cron create "every 5m" \
   --no-agent \
   --script memory-watchdog.sh \
@@ -438,7 +441,7 @@ Semantics:
 The `cronjob` tool's schema exposes `no_agent` to Hermes directly, so you can describe a watchdog in chat and let the agent wire it up:
 
 
-``` text
+``` prism-code
 Ping me on Telegram if RAM is over 85%, every 5 minutes.
 ```
 
@@ -446,7 +449,7 @@ Ping me on Telegram if RAM is over 85%, every 5 minutes.
 Hermes will write the check script to `~/.hermes/scripts/` via `write_file`, then call:
 
 
-``` python
+``` prism-code
 cronjob(action="create", schedule="every 5m",
         script="memory-watchdog.sh", no_agent=True,
         deliver="telegram", name="memory-watchdog")
@@ -462,7 +465,7 @@ See the [Script-Only Cron Jobs guide](/docs/guides/cron-script-only) for worked 
 Cron jobs run in isolated sessions with no memory of previous runs. But sometimes one job's output is exactly what the next job needs. The `context_from` parameter wires that connection automatically — Job B's prompt gets Job A's most recent output prepended as context at runtime.
 
 
-``` python
+``` prism-code
 # Job 1: Collect raw data
 cronjob(
     action="create",
@@ -530,7 +533,7 @@ The agent's final response is automatically delivered to the job's `deliver:` ta
 ### Relative delays (one-shot)<a href="#relative-delays-one-shot" class="hash-link" aria-label="Direct link to Relative delays (one-shot)" translate="no" title="Direct link to Relative delays (one-shot)">​</a>
 
 
-``` text
+``` prism-code
 30m     → Run once in 30 minutes
 2h      → Run once in 2 hours
 1d      → Run once in 1 day
@@ -540,7 +543,7 @@ The agent's final response is automatically delivered to the job's `deliver:` ta
 ### Intervals (recurring)<a href="#intervals-recurring" class="hash-link" aria-label="Direct link to Intervals (recurring)" translate="no" title="Direct link to Intervals (recurring)">​</a>
 
 
-``` text
+``` prism-code
 every 30m    → Every 30 minutes
 every 2h     → Every 2 hours
 every 1d     → Every day
@@ -550,7 +553,7 @@ every 1d     → Every day
 ### Cron expressions<a href="#cron-expressions" class="hash-link" aria-label="Direct link to Cron expressions" translate="no" title="Direct link to Cron expressions">​</a>
 
 
-``` text
+``` prism-code
 0 9 * * *       → Daily at 9:00 AM
 0 9 * * 1-5     → Weekdays at 9:00 AM
 0 */6 * * *     → Every 6 hours
@@ -562,7 +565,7 @@ every 1d     → Every day
 ### ISO timestamps<a href="#iso-timestamps" class="hash-link" aria-label="Direct link to ISO timestamps" translate="no" title="Direct link to ISO timestamps">​</a>
 
 
-``` text
+``` prism-code
 2026-03-15T09:00:00    → One-time at March 15, 2026 9:00 AM
 ```
 
@@ -578,7 +581,7 @@ every 1d     → Every day
 You can override it:
 
 
-``` python
+``` prism-code
 cronjob(
     action="create",
     prompt="...",
@@ -593,7 +596,7 @@ cronjob(
 The agent-facing API is one tool:
 
 
-``` python
+``` prism-code
 cronjob(action="create", ...)
 cronjob(action="list")
 cronjob(action="update", job_id="...")
@@ -611,7 +614,7 @@ For `update`, pass `skills=[]` to remove all attached skills.
 Cron runs each job in a fresh agent session with no chat platform attached. By default the cron agent gets **the toolset you configured for the `cron` platform in `hermes tools`** — not the CLI default, not everything under the sun.
 
 
-``` bash
+``` prism-code
 hermes tools
 # → pick the "cron" platform in the curses UI
 # → toggle toolsets on/off just like you would for Telegram/Discord/etc.
@@ -621,7 +624,7 @@ hermes tools
 Tighter per-job control is available via the `enabled_toolsets` field on `cronjob.create` (or on an existing job via `cronjob.update`):
 
 
-``` text
+``` prism-code
 cronjob(action="create", name="weekly-news-summary",
         schedule="every sunday 9am",
         enabled_toolsets=["web", "file"],      # just web + file, no terminal/browser/etc.
@@ -636,7 +639,7 @@ When `enabled_toolsets` is set on a job it wins; otherwise the `hermes tools` cr
 If your cron job attaches a pre-check script (via `script=`), the script can decide at runtime whether Hermes should even invoke the agent. Emit a final stdout line of the form:
 
 
-``` text
+``` prism-code
 {"wakeAgent": false}
 ```
 
@@ -644,7 +647,7 @@ If your cron job attaches a pre-check script (via `script=`), the script can dec
 …and cron skips the agent run entirely for this tick. Useful for frequent polls (every 1–5 min) that only need to wake the LLM when state actually changed — otherwise you pay for zero-content agent turns over and over.
 
 
-``` python
+``` prism-code
 # pre-check script
 import json, sys
 latest = fetch_latest_issue_count()
@@ -666,7 +669,7 @@ The `wakeAgent` gate gives you a \$0 way to decide whether a scheduled job shoul
 **File-change gate** — only run when a watched file has new content since the last successful tick. The scheduler records each job's `last_run_at`; compare it against the file's mtime.
 
 
-``` bash
+``` prism-code
 #!/bin/bash
 # ~/.hermes/scripts/feed-changed.sh
 FEED="$HOME/data/feed.json"
@@ -683,7 +686,7 @@ fi
 ```
 
 
-``` text
+``` prism-code
 cronjob(action="create", name="process-feed",
         schedule="every 30m",
         script="feed-changed.sh",
@@ -694,7 +697,7 @@ cronjob(action="create", name="process-feed",
 **External-flag gate** — only run when some other process has signalled readiness (e.g. a deploy hook drops a file, a CI job sets a value in your state store).
 
 
-``` bash
+``` prism-code
 #!/bin/bash
 # ~/.hermes/scripts/flag-ready.sh
 if test -f /tmp/new-data-ready; then
@@ -706,7 +709,7 @@ fi
 ```
 
 
-``` text
+``` prism-code
 cronjob(action="create", name="nightly-analysis",
         schedule="0 9 * * *",
         script="flag-ready.sh",
@@ -717,7 +720,7 @@ cronjob(action="create", name="nightly-analysis",
 **SQL-count gate** — only run when there are new rows to process in your own database. The script can also pass the count through to the agent via `context`, so the agent knows how much it's looking at without re-querying.
 
 
-``` python
+``` prism-code
 #!/usr/bin/env python
 # ~/.hermes/scripts/new-rows.py
 import json, sqlite3
@@ -732,7 +735,7 @@ else:
 ```
 
 
-``` text
+``` prism-code
 cronjob(action="create", name="summarize-new-msgs",
         schedule="every 2h",
         script="new-rows.py",
@@ -753,7 +756,7 @@ Credit: this recipe set was prompted by @iankar8's exploration in <a href="https
 A cron job can consume the most recent successful output of one or more other jobs by listing their names (or IDs) in `context_from`:
 
 
-``` text
+``` prism-code
 cronjob(action="create", name="daily-digest",
         schedule="every day 7am",
         context_from=["ai-news-fetch", "github-prs-fetch"],

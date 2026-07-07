@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/databases/mysql
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # MySQL
@@ -47,8 +60,8 @@ Flue discovers the adapter at build time and wires it into the generated Node se
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
+| Variable    | Purpose                                                                     |
+|-------------|-----------------------------------------------------------------------------|
 | `MYSQL_URL` | **Required** — MySQL connection string, supplied by your database provider. |
 
 The driver reads this value at runtime. Supply it through your platform’s secret store, never commit it, and configure `mysql2` TLS options when your provider requires them. For local development, `flue dev --env <file>` and `flue run --env <file>` load any `.env`-format file.
@@ -108,13 +121,13 @@ The adapter’s `migrate()` hook runs automatically when the generated Node serv
 
 A Flue database stores runtime state, not your whole application.
 
-| Stored by Flue | Not stored by Flue |
-|----|----|
+| Stored by Flue                                              | Not stored by Flue                       |
+|-------------------------------------------------------------|------------------------------------------|
 | Canonical agent conversation streams and compaction records | Sandbox files and installed dependencies |
-| Immutable attachment payloads | External API side effects |
-| Accepted direct prompts and `dispatch(...)` submissions | Application-owned business data |
-| Durable submission claims and leases | Provider credentials or secrets |
-| Workflow-run records, persisted events, and run indexes |  |
+| Immutable attachment payloads                               | External API side effects                |
+| Accepted direct prompts and `dispatch(...)` submissions     | Application-owned business data          |
+| Durable submission claims and leases                        | Provider credentials or secrets          |
+| Workflow-run records, persisted events, and run indexes     |                                          |
 
 See [Durable Agents](/docs/concepts/durable-execution/) for recovery behavior and the [Data Persistence API](/docs/api/data-persistence-api/) for the adapter contract.
 

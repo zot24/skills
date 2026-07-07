@@ -12,13 +12,13 @@ This guide shows how to integrate Firecrawl with LangGraph to build AI agent wor
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install @langchain/langgraph @langchain/openai firecrawl
 ```
 
 Create `.env` file:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=your_firecrawl_key
 OPENAI_API_KEY=your_openai_key
 ```
@@ -29,8 +29,10 @@ OPENAI_API_KEY=your_openai_key
 
 This example demonstrates a basic LangGraph workflow that scrapes a website and analyzes the content.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { ChatOpenAI } from '@langchain/openai';
+import { StateGraph, MessagesAnnotation, START, END } from '@langchain/langgraph';
 
 // Initialize Firecrawl
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
@@ -83,8 +85,10 @@ console.log(JSON.stringify(result, null, 2));
 
 This example demonstrates a more complex workflow that scrapes multiple URLs and processes them.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { ChatOpenAI } from '@langchain/openai';
+import { StateGraph, Annotation, START, END } from '@langchain/langgraph';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const llm = new ChatOpenAI({ model: "gpt-5-nano", apiKey: process.env.OPENAI_API_KEY });

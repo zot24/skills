@@ -30,11 +30,11 @@ You need a PostgreSQL database initialized with the schema at `apps/nuq-postgres
 
 With Docker running, build and start the container:
 
-```bash
+```bash theme={null}
 docker build -t nuq-postgres apps/nuq-postgres
 ```
 
-```bash
+```bash theme={null}
 docker run --name nuqdb \
   -e POSTGRES_PASSWORD=postgres \
   -p 5433:5432 \
@@ -46,13 +46,13 @@ docker run --name nuqdb \
 
 Copy the template to create your `.env` file in the `apps/api/` directory:
 
-```bash
+```bash theme={null}
 cp apps/api/.env.example apps/api/.env
 ```
 
 For a minimal local setup without authentication or optional sub-services (PDF parsing, JS blocking, AI features), use the following configuration:
 
-```bash apps/api/.env
+```bash apps/api/.env theme={null}
 # ===== Required =====
 NUM_WORKERS_PER_QUEUE=8
 PORT=3002
@@ -84,7 +84,7 @@ NUQ_DATABASE_URL=postgres://postgres:postgres@localhost:5433/postgres
 
 From the `apps/api/` directory, install packages with pnpm:
 
-```bash
+```bash theme={null}
 cd apps/api
 pnpm install
 ```
@@ -97,7 +97,7 @@ You need three terminal sessions running simultaneously: Redis, the API server, 
 
 Start the Redis server from anywhere in the project:
 
-```bash
+```bash theme={null}
 redis-server
 ```
 
@@ -105,7 +105,7 @@ redis-server
 
 Navigate to `apps/api/` and start the service:
 
-```bash
+```bash theme={null}
 pnpm start
 ```
 
@@ -119,7 +119,7 @@ This starts the API server and the workers responsible for processing crawl jobs
 
 Verify the server is running with a health check:
 
-```bash
+```bash theme={null}
 curl -X GET http://localhost:3002/test
 ```
 
@@ -127,7 +127,7 @@ This should return `Hello, world!`.
 
 To test the crawl endpoint:
 
-```bash
+```bash theme={null}
 curl -X POST http://localhost:3002/v1/crawl \
   -H 'Content-Type: application/json' \
   -d '{
@@ -143,7 +143,7 @@ For a simpler setup, Docker Compose runs all services (Redis, API server, and wo
 2. Copy `.env.example` to `.env` in the `apps/api/` directory and configure as needed.
 3. From the project root, run:
 
-```bash
+```bash theme={null}
 docker compose up
 ```
 
@@ -153,6 +153,6 @@ This starts all services automatically in the correct configuration.
 
 Run the test suite with:
 
-```bash
+```bash theme={null}
 npm run test:snips
 ```

@@ -16,7 +16,7 @@ Every function has a bang (`!`) variant that raises on error instead of returnin
 
 Add `firecrawl` to your list of dependencies in `mix.exs` and configure your API key:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 # Add to mix.exs
 {:firecrawl, "~> 1.0"}
 
@@ -26,7 +26,7 @@ config :firecrawl, api_key: "fc-YOUR-API-KEY"
 
 Or pass the API key per-request:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 Firecrawl.scrape_and_extract_from_url([url: "https://example.com"], api_key: "fc-YOUR-API-KEY")
 ```
 
@@ -35,7 +35,7 @@ Firecrawl.scrape_and_extract_from_url([url: "https://example.com"], api_key: "fc
 1. Get an API key from [firecrawl.dev](https://firecrawl.dev)
 2. Set the API key in your application config or pass it as an option to any function.
 
-```elixir Elixir
+```elixir Elixir theme={null}
 # Scrape a website:
 {:ok, scrape_result} = Firecrawl.scrape_and_extract_from_url(
   url: "https://firecrawl.dev",
@@ -58,7 +58,7 @@ IO.inspect(crawl_result.body)
 
 Scrape a single URL with `scrape_and_extract_from_url`. It returns the page content as structured data, including markdown, metadata, and any other formats you request.
 
-```elixir Elixir
+```elixir Elixir theme={null}
 # Scrape a website:
 {:ok, result} = Firecrawl.scrape_and_extract_from_url(url: "https://firecrawl.dev", formats: ["markdown", "html"])
 IO.inspect(result.body)
@@ -68,7 +68,7 @@ IO.inspect(result.body)
 
 To crawl a website, use `crawl_urls`. It takes the starting URL and optional parameters such as page limit, allowed domains, and output format.
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, result} = Firecrawl.crawl_urls(url: "https://docs.firecrawl.dev", limit: 5)
 IO.inspect(result.body)
 ```
@@ -77,7 +77,7 @@ IO.inspect(result.body)
 
 Start a crawl job and get back the job ID without blocking:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, job} = Firecrawl.crawl_urls(url: "https://docs.firecrawl.dev", limit: 10)
 crawl_id = job.body["id"]
 IO.puts(crawl_id)
@@ -87,7 +87,7 @@ IO.puts(crawl_id)
 
 Check the status of a crawl job with `get_crawl_status`:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, status} = Firecrawl.get_crawl_status("<crawl-id>")
 IO.inspect(status.body)
 ```
@@ -96,7 +96,7 @@ IO.inspect(status.body)
 
 Cancel a crawl job with `cancel_crawl`:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, result} = Firecrawl.cancel_crawl("<crawl-id>")
 IO.puts("Cancelled: #{inspect(result.body)}")
 ```
@@ -105,7 +105,7 @@ IO.puts("Cancelled: #{inspect(result.body)}")
 
 Use `map_urls` to generate a list of URLs from a website:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, result} = Firecrawl.map_urls(url: "https://firecrawl.dev", limit: 10)
 IO.inspect(result.body)
 ```
@@ -114,7 +114,7 @@ IO.inspect(result.body)
 
 Search the web and optionally scrape results:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, result} = Firecrawl.search_and_scrape(query: "firecrawl web scraping", limit: 5)
 IO.inspect(result.body["data"]["web"])
 ```
@@ -123,7 +123,7 @@ IO.inspect(result.body["data"]["web"])
 
 Scrape multiple URLs in a single batch job:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, result} = Firecrawl.scrape_and_extract_from_urls(
   urls: ["https://firecrawl.dev", "https://docs.firecrawl.dev"],
   formats: ["markdown"]
@@ -135,7 +135,7 @@ IO.inspect(result.body)
 
 Start an agentic data extraction task:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, job} = Firecrawl.start_agent(
   prompt: "Extract all product names and prices",
   urls: ["https://example.com/products"]
@@ -153,7 +153,7 @@ Launch cloud browser sessions and execute code remotely.
 
 ### Create a Session
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, session} = Firecrawl.create_browser_session(ttl: 600)
 session_id = session.body["id"]
 cdp_url = session.body["cdpUrl"]
@@ -162,7 +162,7 @@ live_view_url = session.body["liveViewUrl"]
 
 ### Execute Code
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, result} = Firecrawl.execute_browser_code(session_id,
   code: ~s(await page.goto("https://news.ycombinator.com")\ntitle = await page.title()\nprint(title)),
   language: "python"
@@ -174,7 +174,7 @@ IO.inspect(result.body)
 
 Save and reuse browser state (cookies, localStorage, etc.) across sessions:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, session} = Firecrawl.create_browser_session(
   ttl: 600,
   profile: [
@@ -186,7 +186,7 @@ Save and reuse browser state (cookies, localStorage, etc.) across sessions:
 
 ### List & Close Sessions
 
-```elixir Elixir
+```elixir Elixir theme={null}
 # List active sessions
 {:ok, sessions} = Firecrawl.list_browser_sessions(status: "active")
 IO.inspect(sessions.body)
@@ -199,7 +199,7 @@ IO.inspect(sessions.body)
 
 To use a self-hosted Firecrawl instance, pass the `base_url` option:
 
-```elixir Elixir
+```elixir Elixir theme={null}
 {:ok, result} = Firecrawl.scrape_and_extract_from_url(
   [url: "https://example.com"],
   base_url: "https://your-instance.com/v2"
@@ -210,7 +210,7 @@ To use a self-hosted Firecrawl instance, pass the `base_url` option:
 
 Non-bang functions return `{:ok, response}` or `{:error, exception}`. Bang variants raise on error. NimbleOptions validates all parameters before the request is sent, catching typos, missing required fields, and type errors immediately.
 
-```elixir Elixir
+```elixir Elixir theme={null}
 case Firecrawl.scrape_and_extract_from_url(url: "https://example.com") do
   {:ok, response} -> IO.inspect(response.body)
   {:error, error} -> IO.puts("Error: #{Exception.message(error)}")

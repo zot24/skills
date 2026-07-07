@@ -1,0 +1,356 @@
+> Source: https://wiki.servarr.com/prowlarr/system
+
+
+
+# <a href="#table-of-contents" class="toc-anchor">¶</a> Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Status](#status)
+  - [Health](#health)
+    - [System Warnings](#system-warnings)
+      - [Branch is not a valid release branch](#branch-is-not-a-valid-release-branch)
+      - [Currently installed SQLite version is not supported](#currently-installed-sqlite-version-is-not-supported)
+      - [New update is available](#new-update-is-available)
+      - [Cannot install update because startup folder is not writable by the user](#cannot-install-update-because-startup-folder-is-not-writable-by-the-user)
+      - [Updating will not be possible to prevent deleting AppData on Update](#updating-will-not-be-possible-to-prevent-deleting-appdata-on-update)
+      - [Branch is for a previous version](#branch-is-for-a-previous-version)
+      - [Could not connect to signalR](#could-not-connect-to-signalr)
+      - [Failed to resolve the IP Address for the Configured Proxy Host](#failed-to-resolve-the-ip-address-for-the-configured-proxy-host)
+      - [Proxy Failed Test](#proxy-failed-test)
+      - [System Time is off by more than 1 day](#system-time-is-off-by-more-than-1-day)
+      - [Invalid API Key](#invalid-api-key)
+    - [Download Clients](#download-clients)
+      - [Download clients are unavailable due to failures](#download-clients-are-unavailable-due-to-failures)
+    - [Indexers](#indexers)
+      - [Indexers Have No Definition](#indexers-have-no-definition)
+      - [Indexers are Obsolete](#indexers-are-obsolete)
+        - [Obsolete due to Code Changes](#obsolete-due-to-code-changes)
+        - [Obsolete due to Site Removals](#obsolete-due-to-site-removals)
+      - [No indexers are enabled](#no-indexers-are-enabled)
+      - [Indexers are unavailable due to failures](#indexers-are-unavailable-due-to-failures)
+      - [Indexers are unavailable due to failures for more than 6 hours](#indexers-are-unavailable-due-to-failures-for-more-than-6-hours)
+      - [Indexer VIP Expiring](#indexer-vip-expiring)
+      - [Indexer VIP Expired](#indexer-vip-expired)
+      - [Indexers with invalid download clients](#indexers-with-invalid-download-clients)
+    - [Indexer Proxies](#indexer-proxies)
+      - [Indexer proxies are unavailable due to failures](#indexer-proxies-are-unavailable-due-to-failures)
+    - [Applications](#applications)
+      - [Applications are unavailable due to failures](#applications-are-unavailable-due-to-failures)
+      - [Applications are unavailable due to failures for more than 6 hours](#applications-are-unavailable-due-to-failures-for-more-than-6-hours)
+    - [Notifications](#notifications)
+      - [Notifications are unavailable due to failures](#notifications-are-unavailable-due-to-failures)
+  - [Disk Space](#disk-space)
+  - [About](#about)
+  - [More Info](#more-info)
+- [Tasks](#tasks)
+  - [Scheduled](#scheduled)
+  - [Queue](#queue)
+- [Backup](#backup)
+- [Updates](#updates)
+- [Events](#events)
+- [Log Files](#log-files)
+
+# <a href="#status" class="toc-anchor">¶</a> Status
+
+## <a href="#health" class="toc-anchor">¶</a> Health
+
+This page contains a list of health checks errors. These health checks are periodically performed performed by Prowlarr and on certain events. The resulting warnings and errors are listed here to give advice on how to resolve them.
+
+### <a href="#system-warnings" class="toc-anchor">¶</a> System Warnings
+
+#### <a href="#branch-is-not-a-valid-release-branch" class="toc-anchor">¶</a> Branch is not a valid release branch
+
+- The branch you have set is not a valid release branch. You will not receive updates. Please change to one of the <a href="/prowlarr/faq#how-do-i-update-prowlarr" class="is-internal-link is-valid-page">current release branches</a>.
+
+#### <a href="#currently-installed-sqlite-version-is-not-supported" class="toc-anchor">¶</a> Currently installed SQLite version is not supported
+
+- Prowlarr stores its data in an SQLite database. The SQLite3 library installed on your system is too old. Prowlarr requires at least version 3.9.0. Note that Prowlarr uses `libSQLite3.so` which may or may not be contained in a SQLite3 upgrade package.
+
+#### <a href="#new-update-is-available" class="toc-anchor">¶</a> New update is available
+
+- Rejoice, the developers have released a new update. This generally means awesome new features and squashed piles of bugs (right?). Apparently you don’t have Auto-Updating enabled, so you’ll have to figure out how to update on your platform. Pressing the Install button on the System =\> Updates page is probably a good starting point.
+
+> This warning will not appear if your current version is less than 14 days old
+
+> If your installed version is more than 180 days old, this escalates from a Warning to an Error.
+
+#### <a href="#cannot-install-update-because-startup-folder-is-not-writable-by-the-user" class="toc-anchor">¶</a> Cannot install update because startup folder is not writable by the user
+
+- This means Prowlarr will be unable to update itself. You’ll have to update Prowlarr manually or set the permissions on Prowlarr’s Startup directory (the installation directory) to allow Prowlarr to update itself.
+
+#### <a href="#updating-will-not-be-possible-to-prevent-deleting-appdata-on-update" class="toc-anchor">¶</a> Updating will not be possible to prevent deleting AppData on Update
+
+- Prowlarr detected that AppData folder for your Operating System is located inside the directory that contains the Prowlarr binaries. Normally it would be C:\ProgramData for Windows and, ~/.config for linux.
+
+- Please look at System =\> Info to see the current AppData & Startup directories.
+
+- This means Prowlarr will be unable to update itself without risking data-loss.
+
+- If you’re on linux, you’ll probably have to change the home directory for the user that is running Prowlarr and copy the current contents of the ~/.config/Prowlarr directory to preserve your database.
+
+#### <a href="#branch-is-for-a-previous-version" class="toc-anchor">¶</a> Branch is for a previous version
+
+- The update branch setup in Settings/General is for a previous version of Prowlarr, therefore the instance will not see correct update information in the System/Updates feed and may not receive new updates when released.
+
+#### <a href="#could-not-connect-to-signalr" class="toc-anchor">¶</a> Could not connect to signalR
+
+- signalR drives the dynamic UI updates, so if your browser cannot connect to signalR on your server you won’t see any real time updates in the UI.
+
+- The most common occurrence of this is use of a reverse proxy or cloudflare
+
+  - Cloudflare needs websockets enabled.
+  - Nginx requires the following addition to the location block for the app:
+
+``` prismjs
+ proxy_http_version 1.1;
+ proxy_set_header Upgrade $http_upgrade;
+ proxy_set_header Connection $http_connection;
+```
+
+> Make sure you do not include proxy_set_header Connection "Upgrade"; as suggested by the nginx documentation. THIS WILL NOT WORK  
+> See <a href="https://github.com/aspnet/AspNetCore/issues/17081" class="is-external-link">https://github.com/aspnet/AspNetCore/issues/17081</a>
+
+- For Apache2 reverse proxy, you need to enable the following modules: proxy, proxy_http, and proxy_wstunnel. Then, add this websocket tunnel directive to your vhost configuration:
+
+``` prismjs
+RewriteEngine On
+RewriteCond %{HTTP:Upgrade} =websocket [NC]
+RewriteRule /(.*) ws://127.0.0.1:9696/$1 [P,L]
+```
+
+If you have a reverse proxy under a subdirectory, the RewriteRule should include your basepath e.g.
+
+``` prismjs
+RewriteRule /prowlarr/(.*) ws://127.0.0.1:9696/prowlarr/$1 [P,L]
+```
+
+If Prowlarr is not running on the same machine as your reverse proxy. Replace 127.0.0.1 with the appropriate IP address/DNS name of your Prowlarr app.
+
+- For Caddy (V1) use this:
+
+> Note: you will also need to add the websocket directive to your prowlarr configuration
+
+``` prismjs
+ proxy /prowlarr 127.0.0.1:9696 {
+     websocket
+     transparent
+ }
+```
+
+#### <a href="#failed-to-resolve-the-ip-address-for-the-configured-proxy-host" class="toc-anchor">¶</a> Failed to resolve the IP Address for the Configured Proxy Host
+
+- Review your proxy settings and ensure they are accurate
+- Ensure your proxy is up, running, and accessible
+
+#### <a href="#proxy-failed-test" class="toc-anchor">¶</a> Proxy Failed Test
+
+- Your configured proxy failed to test successfully, review the HTTP error provided and/or check logs for more details.
+
+#### <a href="#system-time-is-off-by-more-than-1-day" class="toc-anchor">¶</a> System Time is off by more than 1 day
+
+- System time is off by more than 1 day. Scheduled tasks may not run correctly until the time is corrected
+- Review your system time and ensure it is synced to an authoritative time server and accurate
+
+#### <a href="#invalid-api-key" class="toc-anchor">¶</a> Invalid API Key
+
+- Your Prowlarr API key is shorter than the required minimum of 20 characters. Update your API key in Settings or the config file to be at least 20 characters long.
+
+### <a href="#download-clients" class="toc-anchor">¶</a> Download Clients
+
+#### <a href="#download-clients-are-unavailable-due-to-failures" class="toc-anchor">¶</a> Download clients are unavailable due to failures
+
+- One or more of your download clients is not responding to requests made by Prowlarr. Therefore Prowlarr has decided to temporarily stop querying the download client on its normal cycle. However, Prowlarr will continue to attempt to send downloads to the client, but will in all likelihood fail.
+- You should inspect System=\>Logs to see what the reason is for the failures.
+- If you no longer use this download client, disable it in Prowlarr to prevent the errors.
+
+### <a href="#indexers" class="toc-anchor">¶</a> Indexers
+
+#### <a href="#indexers-have-no-definition" class="toc-anchor">¶</a> Indexers Have No Definition
+
+- Your indexer(s) do not have (an) existing definition (file) this is typically due to your indexer being no longer supported and removed or the Cardigann YML definition no longer is accessible.
+
+> <a href="https://github.com/Prowlarr/Indexers/pull/481#issue-2483856081" class="is-external-link">YGG Users Click Here</a>
+
+#### <a href="#indexers-are-obsolete" class="toc-anchor">¶</a> Indexers are Obsolete
+
+- Your indexer(s)'s definition is obsolete and out of date. This has one of two causes which are noted below
+
+##### <a href="#obsolete-due-to-code-changes" class="toc-anchor">¶</a> Obsolete due to Code Changes
+
+- Due to code changes the indexer(s) noted is/are obsolete as currently configured. Remove and Re-add the indexer to Prowlarr to resolve.
+- This is typically caused by converting APIs or from YML to C# or vice versa.
+
+##### <a href="#obsolete-due-to-site-removals" class="toc-anchor">¶</a> Obsolete due to Site Removals
+
+- Certain sites may be requested to be removed from Prowlarr or Jackett. These may then be marked as Obsolete.
+  - <a href="https://github.com/Prowlarr/Prowlarr/issues/573" class="is-external-link">TVVault</a> in <a href="https://github.com/Prowlarr/Prowlarr/pull/700" class="is-external-link">Prowlarr #700</a>
+  - Audiobookbay has requested that Prowlarr not access their API
+  - Ebookbay has requested that Prowlarr not access their API
+  - Rarbg has <a href="https://torrentfreak.com/iconic-torrent-site-rarbg-shuts-down-all-content-releases-stop-230531/" class="is-external-link">shutdown effective 2023-05-31</a>
+
+#### <a href="#no-indexers-are-enabled" class="toc-anchor">¶</a> No indexers are enabled
+
+- Prowlarr requires indexers to be able to discover new releases. Please read the wiki instructions how to add indexers.
+
+#### <a href="#indexers-are-unavailable-due-to-failures" class="toc-anchor">¶</a> Indexers are unavailable due to failures
+
+- (An) Error(s) occur(s) while Prowlarr tried to use one of your indexers. To limit retries, Prowlarr will not use the indexer for an increasing amount of time (up to 24h).
+- Check Events and filter for Warnings to get a quick idea of what issues have occurred historically
+- This mechanism is triggered if Prowlarr was unable to get a response from the indexer (could be caused DNS, proxy/vpn connection, authentication, or an indexer issue), or unable to fetch the nzb/torrent file from the indexer. Please inspect the logs to determine what kind of error causes the problem.
+- You can prevent the warning by disabling the affected indexer.
+- Run the Test on the indexer to force Prowlarr to recheck the indexer, please note that the Health Check warning will not always disappear immediately.
+
+#### <a href="#indexers-are-unavailable-due-to-failures-for-more-than-6-hours" class="toc-anchor">¶</a> Indexers are unavailable due to failures for more than 6 hours
+
+- One or more of your indexers has been continuously unavailable for more than 6 hours. Prowlarr will continue to back off retries for the affected indexer(s).
+- Check Events and filter for Warnings to get a quick idea of what issues have occurred historically.
+- Please inspect the logs to determine what kind of error causes the problem.
+- You can prevent the warning by disabling the affected indexer.
+
+#### <a href="#indexer-vip-expiring" class="toc-anchor">¶</a> Indexer VIP Expiring
+
+- Your VIP subscription or benefits to your indexer expire within the next 7 days or less based on the expiration date you configured for your indexer in Prowlarr.
+
+#### <a href="#indexer-vip-expired" class="toc-anchor">¶</a> Indexer VIP Expired
+
+- Your VIP subscription or benefits to your indexer have expired based on the expiration date you configured into for indexer in Prowlarr.
+
+#### <a href="#indexers-with-invalid-download-clients" class="toc-anchor">¶</a> Indexers with invalid download clients
+
+- One or more of your indexers is configured with a download client that is either disabled or no longer exists. Check Settings =\> Download Clients and update or remove the download client assignment on the affected indexer(s).
+
+### <a href="#indexer-proxies" class="toc-anchor">¶</a> Indexer Proxies
+
+#### <a href="#indexer-proxies-are-unavailable-due-to-failures" class="toc-anchor">¶</a> Indexer proxies are unavailable due to failures
+
+- One or more of your configured indexer proxies is failing its test. Check Settings =\> Indexer Proxies and verify that the proxy configuration is correct and the proxy is reachable.
+- You can prevent the warning by disabling the affected proxy.
+
+### <a href="#applications" class="toc-anchor">¶</a> Applications
+
+#### <a href="#applications-are-unavailable-due-to-failures" class="toc-anchor">¶</a> Applications are unavailable due to failures
+
+- (An) Error(s) occur(s) while Prowlarr tried to use one of your applications. To limit retries, Prowlarr will not use the application for an increasing amount of time (up to 24h).
+- This mechanism is triggered if Prowlarr was unable to get a response from the application (could be dns, connection, authentication, or application issue). Please inspect the logs to determine what kind of error causes the problem.
+- Check Events and filter for Warnings to get a quick idea of what issues have occurred historically
+- Prowlarr will be unable to sync to the application and it is more than likely the application will be unable to use Prowlarr's indexers.
+- You can prevent the warning by disabling the affected application.
+- Run the Test on the application to force Prowlarr to recheck the application, please note that the Health Check warning will not always disappear immediately.
+
+#### <a href="#applications-are-unavailable-due-to-failures-for-more-than-6-hours" class="toc-anchor">¶</a> Applications are unavailable due to failures for more than 6 hours
+
+- One or more of your applications has been continuously unavailable for more than 6 hours. Prowlarr will be unable to sync indexers to the affected application(s).
+- Check Events and filter for Warnings to get a quick idea of what issues have occurred historically.
+- Please inspect the logs to determine what kind of error causes the problem.
+- You can prevent the warning by disabling the affected application.
+
+### <a href="#notifications" class="toc-anchor">¶</a> Notifications
+
+#### <a href="#notifications-are-unavailable-due-to-failures" class="toc-anchor">¶</a> Notifications are unavailable due to failures
+
+- One or more of your configured notifications is failing. Prowlarr will temporarily back off sending notifications to the affected notification provider(s).
+- Please inspect the logs to determine what kind of error causes the problem.
+- You can prevent the warning by disabling the affected notification.
+
+## <a href="#disk-space" class="toc-anchor">¶</a> Disk Space
+
+This section will show you available disk space  
+In docker this can be tricky as it will typically show you the available space within your Docker image
+
+## <a href="#about" class="toc-anchor">¶</a> About
+
+This will tell you about your current install of Prowlarr
+
+## <a href="#more-info" class="toc-anchor">¶</a> More Info
+
+Home Page: Prowlarr's home page  
+Wiki: You're here already  
+Reddit: r/prowlarr  
+Discord: Join our discord  
+Donations: If you're feeling generous and would like to donate click here  
+Donations to Sonarr: If you're feeling generous and would like to donate to the project that started it all click here  
+Source: GitHub  
+Feature Requests: Got a great idea drop it here
+
+# <a href="#tasks" class="toc-anchor">¶</a> Tasks
+
+## <a href="#scheduled" class="toc-anchor">¶</a> Scheduled
+
+This page lists all scheduled tasks that Prowlarr runs
+
+- Application Check Update - This will run every on the displayed schedule in the UI, checking to see if Prowlarr is on the most current version then triggering the update script to update Prowlarr. Settings=\> Update
+
+> Note: If on Docker this will not update your container as a new image will need to be downloaded.
+
+- Backup - This will run a backup of your Prowlarr's database on a set schedule more details on this can be found here. More information about backups can be found System =\> Backups.
+- Check Health - Check Health will run on the displayed schedule in the UI checking the overall health of your Prowlarr. To see a list of possible health related issues see the Wiki Entry on Health Checks.
+- Clean Up History - This will clean up history records on the configured schedule. History retention is configured in Settings =\> General.
+- Housekeeping - On the displayed schedule in the UI this will dust out all the cobwebs, sweeps and vacuums the floors, mops, shines, and even makes nice neat little folded notes just for you. But does not take out the trash. That it just was not paid enough for.
+- Messaging Cleanup - On the displayed schedule in the UI this cleans up those messages that appear in the bottom left corner of Prowlarr
+- Refresh Indexer Definitions - Downloads and refreshes Cardigann/YML indexer definitions from the Prowlarr Indexers repository.
+- Sync Application Indexers - Syncs the indexer list in Prowlarr to all configured applications (e.g. Sonarr, Radarr, Lidarr).
+
+> All these tasks can be ran manually outside their scheduled times by hitting the icon to the far right of each of the tasks.
+
+## <a href="#queue" class="toc-anchor">¶</a> Queue
+
+The queue will show you upcoming tasks as well as a history of recently ran tasks as well as how long those tasks took.
+
+# <a href="#backup" class="toc-anchor">¶</a> Backup
+
+> This section will be more tailored to the buttons and overall point of the page.  
+> However, if you're looking for how to back/restore your Prowlarr instance <a href="/prowlarr/faq" class="is-internal-link is-valid-page">see our FAQ</a>.
+
+Within the Backup section you will be presented with previous backups (unless you have a fresh install that hasn't made any backups).
+
+Here you will have two options at the top of the screen
+
+- Backup Now - This option will trigger a manual backup of your Prowlarr's database
+- Restore Backup - This will open a new screen to restore from a previous backup  
+  By selecting Choose File this will prompt your browser to open a dialog box to restore from a Prowlarr Zip backup
+
+Finally if you have any previous backups and would like to download them from Prowlarr to be placed in a non standard location you simply can select one of these files to download them  
+Off to the right of each of the previous download you have two options.
+
+- One - To restore from a previous backup - This will open a new window to confirm you want to restore from this backup
+- Two - To delete a previous backup
+
+# <a href="#updates" class="toc-anchor">¶</a> Updates
+
+The update screen will show the past 5 updates that have been made as well as the current version you are on.  
+This page will also display the update notes from the Developers telling you what has been fixed or added to Prowlarr (Rejoice!)
+
+> A Maintenance Release contains bug fixes and other various improvements. Take a look at the commit history for specifics.
+
+# <a href="#events" class="toc-anchor">¶</a> Events
+
+The events tab will show you what has been happening within your Prowlarr. This can be used to diagnose some light issues. However, this does not replace Trace Logs discussed in Logging. Events are the equivalent of INFO Logs.
+
+- Components - This column will tell you what component within Prowlarr has been triggered
+- Message - This column will tell you what message as been sent from the component from the previous column.
+- Gear Icon - This option will allow you to change how many Components/Messages are displayed per page (Default is 50)
+- Options at the top of the page
+  - Refresh - This option will refresh the current page, pulling a new events log
+  - Clear - This will clear the current events log allowing you to start from fresh
+
+# <a href="#log-files" class="toc-anchor">¶</a> Log Files
+
+This page will allow you to download and see what current log files are available for Prowlarr
+
+On the top row there are several options to allow you to control your log files.
+
+- The top row on the far left there is a dropdown that will allow you to switch from Log files and Updater Log Files
+  - Log Files - The bread and butter of any support issue more on log files can be found here.
+  - Updater Log Files - This will show the log files associated with Prowlarr's updater script
+
+> If you're on docker this will be empty as you should be updating by downloading a new docker image
+
+- Refresh - This will refresh the current page and display any newly created logs
+- Delete - This will clear all logs allowing you to start from fresh
+- File Name - This will display the file name associated with the log
+- Last Written - This is the local time that this particular log file was written to.
+  - Prowlarr uses rolling log files limited to 1MB each. The current log file is always prowlarr.txt, for the the other files prowlarr.0.txt is the next newest (the higher the number the older it is) up to 51 log files total. This log file contains `fatal`, `error`, `warn`, and `info` entries.
+  - When Debug log level is enabled, additional prowlarr.debug.txt rolling log files will be present, up to 51 files. This log files contains `fatal`, `error`, `warn`, `info`, and `debug` entries. It usually covers a ~40h period.
+  - When Trace log level is enabled, additional prowlarr.trace.txt rolling log files will be present, up to 51 files. This log files contains `fatal`, `error`, `warn`, `info`, `debug`, and `trace` entries. Due to trace verbosity it only covers a couple of hours at most.
+
+

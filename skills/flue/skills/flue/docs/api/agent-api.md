@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/api/agent-api
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Agent API
@@ -78,36 +91,36 @@ Throws when the profile contains unknown fields, invalid capabilities, duplicate
 
 #### `AgentProfile`
 
-| Field | Type | Description |
-|----|----|----|
-| `name` | `string` | Profile name. Required when selecting this profile with `session.task()`. |
-| `description` | `string` | Human-readable profile description. |
-| `model` | `string` | Default model specifier. |
-| `instructions` | `string` | Instructions prepended to discovered workspace context. |
-| `skills` | `Skill[]` | Registered skills available to initialized sessions. |
-| `tools` | `ToolDefinition[]` | Custom model-callable tools available to initialized sessions. |
-| `actions` | `ActionDefinition[]` | Reusable Actions exposed to the model as framework-managed tools. |
-| `subagents` | `AgentProfile[]` | Named profiles available for delegated `session.task()` operations. |
-| `thinkingLevel` | `ThinkingLevel` | Default reasoning effort. Individual operations may override this value. |
-| `compaction` | `false | CompactionConfig` | Automatic conversation-compaction configuration. `false` disables threshold compaction; overflow recovery and explicit `session.compact()` calls still compact when needed. |
-| `durability` | `DurabilityConfig` | Durability configuration for durable agent submissions. Controls recovery attempt limits and submission timeouts. Rejected on subagent profiles. |
+| Field           | Type                       | Description                                                                                                                                                                 |
+|-----------------|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `name`          | `string`                   | Profile name. Required when selecting this profile with `session.task()`.                                                                                                   |
+| `description`   | `string`                   | Human-readable profile description.                                                                                                                                         |
+| `model`         | `string`                   | Default model specifier.                                                                                                                                                    |
+| `instructions`  | `string`                   | Instructions prepended to discovered workspace context.                                                                                                                     |
+| `skills`        | `Skill[]`                  | Registered skills available to initialized sessions.                                                                                                                        |
+| `tools`         | `ToolDefinition[]`         | Custom model-callable tools available to initialized sessions.                                                                                                              |
+| `actions`       | `ActionDefinition[]`       | Reusable Actions exposed to the model as framework-managed tools.                                                                                                           |
+| `subagents`     | `AgentProfile[]`           | Named profiles available for delegated `session.task()` operations.                                                                                                         |
+| `thinkingLevel` | `ThinkingLevel`            | Default reasoning effort. Individual operations may override this value.                                                                                                    |
+| `compaction`    | `false | CompactionConfig` | Automatic conversation-compaction configuration. `false` disables threshold compaction; overflow recovery and explicit `session.compact()` calls still compact when needed. |
+| `durability`    | `DurabilityConfig`         | Durability configuration for durable agent submissions. Controls recovery attempt limits and submission timeouts. Rejected on subagent profiles.                            |
 
 When a profile is selected as a subagent with `session.task()`, it is self-contained: `instructions`, `tools`, `skills`, and `subagents` apply only as declared on the profile (omitted means none), while `model`, `thinkingLevel`, and `compaction` inherit from the parent as defaults. See [Subagents](/docs/guide/subagents/#configuration-inheritance).
 
 #### `DurabilityConfig`
 
-| Field | Type | Default | Description |
-|----|----|----|----|
-| `maxAttempts` | `number` | `10` | Maximum total attempts before the submission is terminalized as failed. The initial run counts as the first attempt; each interruption that requires a new attempt consumes another. |
-| `timeoutMs` | `number` | `3600000` | Maximum wall-clock milliseconds for a single submission. Submissions exceeding this limit are aborted and settled as failed. Set higher for long-running agents (e.g. `21_600_000` for a 6-hour agent). The timeout is checked cooperatively at turn boundaries, not preemptively during provider calls. |
+| Field         | Type     | Default   | Description                                                                                                                                                                                                                                                                                              |
+|---------------|----------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `maxAttempts` | `number` | `10`      | Maximum total attempts before the submission is terminalized as failed. The initial run counts as the first attempt; each interruption that requires a new attempt consumes another.                                                                                                                     |
+| `timeoutMs`   | `number` | `3600000` | Maximum wall-clock milliseconds for a single submission. Submissions exceeding this limit are aborted and settled as failed. Set higher for long-running agents (e.g. `21_600_000` for a 6-hour agent). The timeout is checked cooperatively at turn boundaries, not preemptively during provider calls. |
 
 #### `CompactionConfig`
 
-| Field | Type | Default | Description |
-|----|----|----|----|
-| `reserveTokens` | `number` | model-aware; capped at `20000` | Token headroom reserved before automatic compaction. Smaller model output limits and small context windows reduce this default. |
-| `keepRecentTokens` | `number` | `8000` | Recent tokens preserved unsummarized after compaction. |
-| `model` | `string` | session model | Model specifier override used for compaction summaries. |
+| Field              | Type     | Default                        | Description                                                                                                                     |
+|--------------------|----------|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `reserveTokens`    | `number` | model-aware; capped at `20000` | Token headroom reserved before automatic compaction. Smaller model output limits and small context windows reduce this default. |
+| `keepRecentTokens` | `number` | `8000`                         | Recent tokens preserved unsummarized after compaction.                                                                          |
+| `model`            | `string` | session model                  | Model specifier override used for compaction summaries.                                                                         |
 
 #### `Skill`
 
@@ -143,13 +156,13 @@ Validates a custom model-callable tool and returns a frozen definition. Tool nam
 
 #### `ToolDefinition`
 
-| Field | Type | Description |
-|----|----|----|
-| `name` | `string` | Tool name. Must be unique across active built-in and custom tools. |
-| `description` | `string` | Tells the model when and how to use this tool. |
-| `input` | `ToolInputSchema` | Optional top-level Valibot object schema. |
-| `output` | `ToolOutputSchema` | Optional Valibot schema for typed, validated output. |
-| `run` | `({ input, signal }) => value | Promise` | Receives parsed input when declared and an optional `AbortSignal`. Returns JSON-compatible structured data. |
+| Field         | Type                                     | Description                                                                                                 |
+|---------------|------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| `name`        | `string`                                 | Tool name. Must be unique across active built-in and custom tools.                                          |
+| `description` | `string`                                 | Tells the model when and how to use this tool.                                                              |
+| `input`       | `ToolInputSchema`                        | Optional top-level Valibot object schema.                                                                   |
+| `output`      | `ToolOutputSchema`                       | Optional Valibot schema for typed, validated output.                                                        |
+| `run`         | `({ input, signal }) => value | Promise` | Receives parsed input when declared and an optional `AbortSignal`. Returns JSON-compatible structured data. |
 
 ``` astro-code
 import { defineTool } from '@flue/runtime';
@@ -182,15 +195,15 @@ Adapted tool names use `mcp__<server>__<tool>`. Unsupported characters are repla
 
 #### `McpServerOptions`
 
-| Field | Type | Default | Description |
-|----|----|----|----|
-| `url` | `string | URL` | — | MCP server endpoint. |
-| `transport` | `'streamable-http' | 'sse'` | `'streamable-http'` | Remote MCP transport. Use `'sse'` for legacy servers. |
-| `headers` | `HeadersInit` | — | Headers merged into MCP transport requests. |
-| `requestInit` | `RequestInit` | — | Additional MCP transport request configuration. |
-| `fetch` | `typeof fetch` | — | Custom fetch implementation used by the MCP transport. |
-| `timeoutMs` | `number` | `60000` | Per-request timeout in milliseconds for MCP requests. |
-| `resetTimeoutOnProgress` | `boolean` | `false` | Reset the per-request timeout whenever the server sends a progress notification. |
+| Field                    | Type                        | Default             | Description                                                                      |
+|--------------------------|-----------------------------|---------------------|----------------------------------------------------------------------------------|
+| `url`                    | `string | URL`              | —                   | MCP server endpoint.                                                             |
+| `transport`              | `'streamable-http' | 'sse'` | `'streamable-http'` | Remote MCP transport. Use `'sse'` for legacy servers.                            |
+| `headers`                | `HeadersInit`               | —                   | Headers merged into MCP transport requests.                                      |
+| `requestInit`            | `RequestInit`               | —                   | Additional MCP transport request configuration.                                  |
+| `fetch`                  | `typeof fetch`              | —                   | Custom fetch implementation used by the MCP transport.                           |
+| `timeoutMs`              | `number`                    | `60000`             | Per-request timeout in milliseconds for MCP requests.                            |
+| `resetTimeoutOnProgress` | `boolean`                   | `false`             | Reset the per-request timeout whenever the server sends a progress notification. |
 
 #### `McpServerConnection`
 
@@ -231,21 +244,21 @@ The initializer runs whenever a runner initializes a root harness from the agent
 
 #### `AgentRuntimeConfig`
 
-| Field | Type | Description |
-|----|----|----|
-| `description` | `string` | Optional organizational metadata describing what this agent does. Overrides the profile description when set. Per-initialization metadata only — for a static description that surfaces in the deployment manifest and `listAgents()`, use the module-level `description` export instead. |
-| `profile` | `AgentProfile` | Reusable baseline profile. Agent-definition fields replace or extend profile values. |
-| `model` | `string` | Default model specifier. |
-| `instructions` | `string` | Instructions prepended to discovered workspace context. |
-| `skills` | `Skill[]` | Additional registered skills available to initialized sessions. |
-| `tools` | `ToolDefinition[]` | Additional custom model-callable tools available to initialized sessions. |
-| `actions` | `ActionDefinition[]` | Additional reusable Actions exposed as framework-managed model tools. |
-| `subagents` | `AgentProfile[]` | Additional named profiles available for delegated `session.task()` operations. |
-| `thinkingLevel` | `ThinkingLevel` | Default reasoning effort. Individual operations may override this value. |
-| `compaction` | `false | CompactionConfig` | Automatic conversation-compaction configuration. `false` disables threshold compaction; overflow recovery and explicit `session.compact()` calls still compact when needed. |
-| `durability` | `DurabilityConfig` | Durability configuration for durable agent submissions. Controls recovery attempt limits and submission timeouts. |
-| `cwd` | `string` | Working directory inside the initialized sandbox. |
-| `sandbox` | `SandboxFactory` | Sandbox factory used to construct the initialized environment. Omit for the default in-memory sandbox; use `bash(...)` to wrap a custom just-bash factory (`BashFactory`). See [Sandboxes](/docs/guide/sandboxes/). |
+| Field           | Type                       | Description                                                                                                                                                                                                                                                                               |
+|-----------------|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `description`   | `string`                   | Optional organizational metadata describing what this agent does. Overrides the profile description when set. Per-initialization metadata only — for a static description that surfaces in the deployment manifest and `listAgents()`, use the module-level `description` export instead. |
+| `profile`       | `AgentProfile`             | Reusable baseline profile. Agent-definition fields replace or extend profile values.                                                                                                                                                                                                      |
+| `model`         | `string`                   | Default model specifier.                                                                                                                                                                                                                                                                  |
+| `instructions`  | `string`                   | Instructions prepended to discovered workspace context.                                                                                                                                                                                                                                   |
+| `skills`        | `Skill[]`                  | Additional registered skills available to initialized sessions.                                                                                                                                                                                                                           |
+| `tools`         | `ToolDefinition[]`         | Additional custom model-callable tools available to initialized sessions.                                                                                                                                                                                                                 |
+| `actions`       | `ActionDefinition[]`       | Additional reusable Actions exposed as framework-managed model tools.                                                                                                                                                                                                                     |
+| `subagents`     | `AgentProfile[]`           | Additional named profiles available for delegated `session.task()` operations.                                                                                                                                                                                                            |
+| `thinkingLevel` | `ThinkingLevel`            | Default reasoning effort. Individual operations may override this value.                                                                                                                                                                                                                  |
+| `compaction`    | `false | CompactionConfig` | Automatic conversation-compaction configuration. `false` disables threshold compaction; overflow recovery and explicit `session.compact()` calls still compact when needed.                                                                                                               |
+| `durability`    | `DurabilityConfig`         | Durability configuration for durable agent submissions. Controls recovery attempt limits and submission timeouts.                                                                                                                                                                         |
+| `cwd`           | `string`                   | Working directory inside the initialized sandbox.                                                                                                                                                                                                                                         |
+| `sandbox`       | `SandboxFactory`           | Sandbox factory used to construct the initialized environment. Omit for the default in-memory sandbox; use `bash(...)` to wrap a custom just-bash factory (`BashFactory`). See [Sandboxes](/docs/guide/sandboxes/).                                                                       |
 
 #### `AgentDefinition`
 
@@ -275,13 +288,13 @@ interface DispatchReceipt {
 
 Accepts input for asynchronous delivery to a continuing agent instance. The agent-definition overload requires a value default-exported by one discovered `agents/<name>.ts` module. The named overload selects a discovered agent module by name.
 
-| Field | Description |
-|----|----|
-| `agent` | Discovered agent module name for the named overload. |
-| `id` | Target agent instance id. |
-| `input` | Required JSON-like input. Use `null` for an intentional empty value. Flue snapshots it when accepted. |
-| `dispatchId` | Generated delivery identifier returned in the receipt. This is not a workflow `runId`. |
-| `acceptedAt` | ISO timestamp assigned when dispatch admission begins. |
+| Field        | Description                                                                                           |
+|--------------|-------------------------------------------------------------------------------------------------------|
+| `agent`      | Discovered agent module name for the named overload.                                                  |
+| `id`         | Target agent instance id.                                                                             |
+| `input`      | Required JSON-like input. Use `null` for an intentional empty value. Flue snapshots it when accepted. |
+| `dispatchId` | Generated delivery identifier returned in the receipt. This is not a workflow `runId`.                |
+| `acceptedAt` | ISO timestamp assigned when dispatch admission begins.                                                |
 
 `await dispatch(...)` resolves when the current runtime accepts and queues the input. It does not wait for model processing, tool calls, or an agent reply. Dispatched activity belongs to the continuing agent instance: it does not create workflow-run history and does not appear in SDK `client.runs` or raw `/runs` APIs.
 
@@ -379,14 +392,14 @@ Runs a model operation with a text instruction.
 
 #### `PromptOptions`
 
-| Field | Type | Description |
-|----|----|----|
-| `result` | Valibot schema | Require validated structured data and resolve with `response.data`. |
-| `tools` | `ToolDefinition[]` | Additional custom model-callable tools for this operation. |
-| `model` | `string` | Model specifier override for this operation. |
-| `thinkingLevel` | `ThinkingLevel` | Reasoning-effort override for this operation. |
-| `signal` | `AbortSignal` | Cancel this operation. |
-| `images` | `PromptImage[]` | Images attached to the user message. Requires a vision-capable model. |
+| Field           | Type               | Description                                                           |
+|-----------------|--------------------|-----------------------------------------------------------------------|
+| `result`        | Valibot schema     | Require validated structured data and resolve with `response.data`.   |
+| `tools`         | `ToolDefinition[]` | Additional custom model-callable tools for this operation.            |
+| `model`         | `string`           | Model specifier override for this operation.                          |
+| `thinkingLevel` | `ThinkingLevel`    | Reasoning-effort override for this operation.                         |
+| `signal`        | `AbortSignal`      | Cancel this operation.                                                |
+| `images`        | `PromptImage[]`    | Images attached to the user message. Requires a vision-capable model. |
 
 #### `PromptImage`
 
@@ -460,15 +473,15 @@ Opaque imported packaged-skill reference accepted by `session.skill()`. Import a
 
 #### `SkillOptions`
 
-| Field | Type | Description |
-|----|----|----|
-| `args` | `Record<string, unknown>` | Arguments included with the skill instruction. |
-| `result` | Valibot schema | Require validated structured data and resolve with `response.data`. |
-| `tools` | `ToolDefinition[]` | Additional custom model-callable tools for this operation. |
-| `model` | `string` | Model specifier override for this operation. |
-| `thinkingLevel` | `ThinkingLevel` | Reasoning-effort override for this operation. |
-| `signal` | `AbortSignal` | Cancel this operation. |
-| `images` | `PromptImage[]` | Images attached to the skill’s user message. Requires a vision-capable model. |
+| Field           | Type                      | Description                                                                   |
+|-----------------|---------------------------|-------------------------------------------------------------------------------|
+| `args`          | `Record<string, unknown>` | Arguments included with the skill instruction.                                |
+| `result`        | Valibot schema            | Require validated structured data and resolve with `response.data`.           |
+| `tools`         | `ToolDefinition[]`        | Additional custom model-callable tools for this operation.                    |
+| `model`         | `string`                  | Model specifier override for this operation.                                  |
+| `thinkingLevel` | `ThinkingLevel`           | Reasoning-effort override for this operation.                                 |
+| `signal`        | `AbortSignal`             | Cancel this operation.                                                        |
+| `images`        | `PromptImage[]`           | Images attached to the skill’s user message. Requires a vision-capable model. |
 
 ### `session.task(...)`
 
@@ -480,16 +493,16 @@ Delegates work to a detached child session. Pass `options.agent` to select a nam
 
 #### `TaskOptions`
 
-| Field | Type | Description |
-|----|----|----|
-| `agent` | `string` | Named subagent profile selected for this delegated task. |
-| `result` | Valibot schema | Require validated structured data and resolve with `response.data`. |
-| `tools` | `ToolDefinition[]` | Additional custom model-callable tools for this operation. |
-| `model` | `string` | Model specifier override for this operation. |
-| `thinkingLevel` | `ThinkingLevel` | Reasoning-effort override for this operation. |
-| `cwd` | `string` | Working directory for the detached task session. Defaults to the parent session cwd. |
-| `signal` | `AbortSignal` | Cancel this task. |
-| `images` | `PromptImage[]` | Images attached to the task’s initial user message. Requires a vision-capable model. |
+| Field           | Type               | Description                                                                          |
+|-----------------|--------------------|--------------------------------------------------------------------------------------|
+| `agent`         | `string`           | Named subagent profile selected for this delegated task.                             |
+| `result`        | Valibot schema     | Require validated structured data and resolve with `response.data`.                  |
+| `tools`         | `ToolDefinition[]` | Additional custom model-callable tools for this operation.                           |
+| `model`         | `string`           | Model specifier override for this operation.                                         |
+| `thinkingLevel` | `ThinkingLevel`    | Reasoning-effort override for this operation.                                        |
+| `cwd`           | `string`           | Working directory for the detached task session. Defaults to the parent session cwd. |
+| `signal`        | `AbortSignal`      | Cancel this task.                                                                    |
+| `images`        | `PromptImage[]`    | Images attached to the task’s initial user message. Requires a vision-capable model. |
 
 ### `session.shell(...)`
 
@@ -501,12 +514,12 @@ Runs a shell command and records its command exchange in conversation state.
 
 #### `ShellOptions`
 
-| Field | Type | Description |
-|----|----|----|
-| `env` | `Record<string, string>` | Environment variables supplied to the command. |
-| `cwd` | `string` | Working directory supplied to the command. |
-| `timeoutMs` | `number` | Wall-clock deadline in milliseconds, forwarded to the sandbox adapter’s native timeout. |
-| `signal` | `AbortSignal` | Cancel this operation. |
+| Field       | Type                     | Description                                                                             |
+|-------------|--------------------------|-----------------------------------------------------------------------------------------|
+| `env`       | `Record<string, string>` | Environment variables supplied to the command.                                          |
+| `cwd`       | `string`                 | Working directory supplied to the command.                                              |
+| `timeoutMs` | `number`                 | Wall-clock deadline in milliseconds, forwarded to the sandbox adapter’s native timeout. |
+| `signal`    | `AbortSignal`            | Cancel this operation.                                                                  |
 
 #### `ShellResult`
 

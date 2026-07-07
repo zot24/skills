@@ -22,7 +22,7 @@ Integrate Firecrawl with OpenClaw to give your agents the ability to scrape, sea
 
 Tell your agent to install the Firecrawl CLI, authenticate and initialize the skill with this command:
 
-```bash
+```bash theme={null}
 npx -y firecrawl-cli init --browser --all
 ```
 
@@ -31,7 +31,7 @@ npx -y firecrawl-cli init --browser --all
 
 or install everything seperately:
 
-```bash
+```bash theme={null}
 npm install -g firecrawl-cli
 firecrawl init skills
 firecrawl login --browser
@@ -41,7 +41,7 @@ export FIRECRAWL_API_KEY="fc-YOUR-API-KEY"
 
 Verify everything is set up correctly:
 
-```bash
+```bash theme={null}
 firecrawl --status
 ```
 
@@ -53,13 +53,13 @@ firecrawl --status
 
 Scrape a single page and extract its content:
 
-```bash
+```bash theme={null}
 firecrawl https://example.com --only-main-content
 ```
 
 Get specific formats:
 
-```bash
+```bash theme={null}
 firecrawl https://example.com --format markdown,links --pretty
 ```
 
@@ -67,7 +67,7 @@ firecrawl https://example.com --format markdown,links --pretty
 
 Search the web and optionally scrape the results:
 
-```bash
+```bash theme={null}
 firecrawl search "latest AI funding rounds 2025" --limit 10
 
 # Search and scrape the results
@@ -78,7 +78,7 @@ firecrawl search "OpenClaw documentation" --scrape --scrape-formats markdown
 
 Launch a remote browser session for interactive automation. Each session runs in an isolated sandbox — no local Chromium install required. `agent-browser` is pre-installed with 40+ commands.
 
-```bash
+```bash theme={null}
 # Shorthand: auto-launches a session if none is active
 firecrawl browser "open https://news.ycombinator.com"
 firecrawl browser "snapshot"
@@ -88,7 +88,7 @@ firecrawl browser close
 
 Interact with page elements using refs from the snapshot:
 
-```bash
+```bash theme={null}
 firecrawl browser "open https://example.com"
 firecrawl browser "snapshot"
 # snapshot returns @ref IDs — use them to interact

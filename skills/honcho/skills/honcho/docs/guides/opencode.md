@@ -26,13 +26,13 @@ Give OpenCode long-term memory that survives context wipes, session restarts, an
 
 Install the plugin:
 
-```bash
+```bash theme={null}
 opencode plugin "@honcho-ai/opencode-honcho" --global
 ```
 
 To update an existing plugin install:
 
-```bash
+```bash theme={null}
 opencode plugin "@honcho-ai/opencode-honcho" --force
 ```
 
@@ -65,7 +65,7 @@ OpenCode:
 
 Configuration lives in a single shared file at `~/.honcho/config.json`, shared with other Honcho hosts (Claude Code, Cursor, etc.). OpenCode reads and writes this file directly, and OpenCode-specific defaults live under `hosts.opencode`. Edit the file direct or use `/honcho:config` to change it via OpenCode's chat, or call the `honcho_set_config` tool for other settings.
 
-```jsonc
+```jsonc theme={null}
 {
   "apiKey": "hch-...",
   "peerName": "alice",
@@ -161,7 +161,7 @@ Because `~/.honcho/config.json` is shared across Honcho hosts, teammates can col
 
 **Alice** (`~/.honcho/config.json`):
 
-```json
+```json theme={null}
 {
   "apiKey": "hch-team-key...",
   "peerName": "alice",
@@ -173,7 +173,7 @@ Because `~/.honcho/config.json` is shared across Honcho hosts, teammates can col
 
 **Bob** (`~/.honcho/config.json`):
 
-```json
+```json theme={null}
 {
   "apiKey": "hch-team-key...",
   "peerName": "bob",

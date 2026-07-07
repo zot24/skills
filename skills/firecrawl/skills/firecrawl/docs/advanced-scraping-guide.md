@@ -59,7 +59,7 @@ Firecrawl supports PDFs. Use the `parsers` option (e.g., `parsers: ["pdf"]`) whe
 
 `{ type: "pdf" }` and `"pdf"` both default to `mode: "auto"`.
 
-```json
+```json theme={null}
 "parsers": [{ "type": "pdf", "mode": "fast", "maxPages": 50 }]
 ```
 
@@ -162,7 +162,7 @@ For region-specific sites, combine with `location` and a mobile screenshot to ve
 
 If the site still serves a desktop layout despite `mobile: true`, add a mobile User-Agent via `headers`:
 
-```json
+```json theme={null}
 {
   "headers": {
     "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
@@ -194,7 +194,7 @@ These parameters control which parts of the page appear in the output. When `onl
 | --------- | ------- | --------- | -------------------------------------------------------------------------------- |
 | `parsers` | `array` | `["pdf"]` | Controls PDF processing. `[]` to skip parsing and return base64 (1 credit flat). |
 
-```json
+```json theme={null}
 { "type": "pdf", "mode": "fast" | "auto" | "ocr", "maxPages": 10 }
 ```
 
@@ -295,7 +295,7 @@ Run browser actions before scraping. This is useful for dynamic content, navigat
 
 **Taking a screenshot:**
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/scrape \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer fc-YOUR-API-KEY' \
@@ -311,7 +311,7 @@ curl -X POST https://api.firecrawl.dev/v2/scrape \
 
 **Clicking multiple elements:**
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/scrape \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer fc-YOUR-API-KEY' \
@@ -327,7 +327,7 @@ curl -X POST https://api.firecrawl.dev/v2/scrape \
 
 **Generating a PDF:**
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/scrape \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer fc-YOUR-API-KEY' \
@@ -341,7 +341,7 @@ curl -X POST https://api.firecrawl.dev/v2/scrape \
 
 **Executing JavaScript (e.g. extracting embedded page data):**
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/scrape \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer fc-YOUR-API-KEY' \
@@ -360,7 +360,7 @@ The return value of each `executeJavascript` action is captured in the `actions.
 
 The following request combines multiple scrape options:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/scrape \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer fc-YOUR-API-KEY' \
@@ -512,7 +512,7 @@ Use the `/v2/agent` endpoint for autonomous, multi-page data extraction. The age
 
 Poll `GET /v2/agent/{jobId}` to check progress. The response `status` field will be `"processing"`, `"completed"`, or `"failed"`.
 
-```bash cURL
+```bash cURL theme={null}
 curl -X GET https://api.firecrawl.dev/v2/agent/YOUR-JOB-ID \
   -H 'Authorization: Bearer fc-YOUR-API-KEY'
 ```
@@ -523,7 +523,7 @@ The Python and Node SDKs also provide a convenience method (`firecrawl.agent()`)
 
 To crawl multiple pages, use the `/v2/crawl` endpoint. The crawl runs asynchronously and returns a job ID. Use the `limit` parameter to control how many pages are crawled. If omitted, the crawl will process up to 10,000 pages.
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/crawl \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer fc-YOUR-API-KEY' \
@@ -535,7 +535,7 @@ curl -X POST https://api.firecrawl.dev/v2/crawl \
 
 ### Response
 
-```json
+```json theme={null}
 { "id": "1234-5678-9101" }
 ```
 
@@ -543,7 +543,7 @@ curl -X POST https://api.firecrawl.dev/v2/crawl \
 
 Use the job ID to check the status of a crawl and retrieve its results.
 
-```bash cURL
+```bash cURL theme={null}
 curl -X GET https://api.firecrawl.dev/v2/crawl/1234-5678-9101 \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer fc-YOUR-API-KEY'
@@ -555,7 +555,7 @@ If the content is larger than 10MB or the crawl job is still running, the respon
 
 You can provide a natural-language `prompt` to let Firecrawl derive crawl settings. Preview them first:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/crawl/params-preview \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer fc-YOUR-API-KEY' \
@@ -608,7 +608,7 @@ When using the `/v2/crawl` endpoint, you can customize crawling behavior with th
 
 ### Crawl example
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/crawl \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer fc-YOUR-API-KEY' \
@@ -625,7 +625,7 @@ curl -X POST https://api.firecrawl.dev/v2/crawl \
 
 The `/v2/map` endpoint identifies URLs related to a given website.
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/map \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer fc-YOUR-API-KEY' \

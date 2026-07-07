@@ -60,7 +60,7 @@ ElevenLabs will connect to the server and list the available tools (scrape, sear
 
 In the **Agent** tab, add instructions to the **System prompt** so the agent knows when to use Firecrawl. For example:
 
-```text
+```text theme={null}
 You are a helpful research assistant. When the user asks about a website,
 a company, or any topic that requires up-to-date information, use the
 Firecrawl tools to search the web or scrape the relevant page, then
@@ -146,7 +146,7 @@ Create a tool that searches the web and returns results with scraped content.
 
 In the **Agent** tab, update the **System prompt**:
 
-```text
+```text theme={null}
 You are a knowledgeable assistant with access to web tools.
 
 - Use `scrape_website` when the user gives you a specific URL to read.

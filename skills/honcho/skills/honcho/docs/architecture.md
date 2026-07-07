@@ -14,7 +14,7 @@ Honcho is memory infrastructure that continuously [*reasons*](/v3/documentation/
 
 Honcho has a hierarchical data model centered around the entities below.
 
-```mermaid
+```mermaid theme={null}
  graph LR
       W[Workspaces] -->|have| P[Peers]
       W -->|have| S[Sessions]
@@ -78,6 +78,20 @@ When you need context from Honcho, you query through the "Chat" endpoint or "Get
 <img src="https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/architecture.png?fit=max&auto=format&n=Pwe1D9IEDkAtnMKn&q=85&s=8be3896689d78b60a46c501529d32267" alt="Honcho Architecture" width="1203" height="845" data-path="images/architecture.png" />
 
 The diagram above shows how agents write messages to Honcho, which triggers reasoning that updates peer representations. Agents can then query representations to get additional context for their next response. Black arrows represent read/write of regular data (messages, storage), while red arrows represent read/write of reasoned-over data (logic, peer representations).
+
+### Under the Hood: Write, Reasoning, and Query Paths
+
+Honcho runs as two cooperating processes: an **API server** that handles requests and enqueues background work, and a **worker** that consumes that work off the queue. This split is what keeps the write path fast--your request never waits on an LLM call.
+
+<img src="https://mintcdn.com/plasticlabs/qjcsnDqFA7-efarp/images/honcho-system-diagram.png?fit=max&auto=format&n=qjcsnDqFA7-efarp&q=85&s=163754c1a0038feeea6a6d6f8a35d5a1" alt="Honcho Detailed Internals" width="6034" height="5088" data-path="images/honcho-system-diagram.png" />
+
+**Write path (synchronous).** A message is stored and a reasoning task is enqueued in the same request; the API returns immediately. Nothing about the reasoning that follows blocks the caller.
+
+**Deriver + Summarizer (async, per-message).** The worker picks up queued tasks in small batches. The Deriver reads new messages and extracts conclusions about the peer--explicit statements and direct deductions. In parallel, the Summarizer periodically rolls up recent messages into short- and long-form session summaries. Both run per-message (well, per-batch) rather than on a schedule.
+
+**Dreamer (periodic).** On a schedule (or triggered on demand), the Dreamer revisits existing conclusions to consolidate and deepen them: removing redundant or stale ones, drawing inductive conclusions across patterns that span multiple messages, and updating peer cards--compact biographical summaries of a peer. This is where memory gets richer over time, not just larger.
+
+**Query path (Dialectic).** A `chat()` call spawns a Dialectic agent that answers your question by exploring memory--searching conclusions semantically, pulling supporting messages, and tracing a conclusion back to the premises it was drawn from--before synthesizing a grounded answer. This all happens inline during the request, since answering well is worth the latency that write-path reasoning is designed to avoid.
 
 ## Configuration & Extensibility
 

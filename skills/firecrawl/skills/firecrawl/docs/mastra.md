@@ -17,7 +17,7 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
@@ -25,7 +25,7 @@ npm install firecrawl
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -33,8 +33,10 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create `src/mastra/tools/firecrawl.ts` to expose search and scrape as Mastra tools:
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
+import { createTool } from "@mastra/core/tools";
+import { z } from "zod";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY! });
 
@@ -80,8 +82,9 @@ export const firecrawlScrape = createTool({
 
 Create `src/mastra/agents/web-agent.ts` and give it the Firecrawl tools:
 
-```typescript
-
+```typescript theme={null}
+import { Agent } from "@mastra/core/agent";
+import { firecrawlSearch, firecrawlScrape } from "../tools/firecrawl";
 
 export const webAgent = new Agent({
   id: "web-agent",
@@ -97,8 +100,9 @@ export const webAgent = new Agent({
 
 Register the agent on your Mastra instance in `src/mastra/index.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { Mastra } from "@mastra/core";
+import { webAgent } from "./agents/web-agent";
 
 export const mastra = new Mastra({
   agents: { webAgent },
@@ -109,7 +113,7 @@ export const mastra = new Mastra({
 
 Run the dev server and open [Mastra Studio](https://mastra.ai/docs/studio/overview):
 
-```bash
+```bash theme={null}
 mastra dev
 ```
 
@@ -122,7 +126,7 @@ Open the **Web Agent** and try prompts like:
 
 If you run Firecrawl locally, set `FIRECRAWL_API_URL` and pass `apiUrl` to the client:
 
-```typescript
+```typescript theme={null}
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY!,
   apiUrl: process.env.FIRECRAWL_API_URL,

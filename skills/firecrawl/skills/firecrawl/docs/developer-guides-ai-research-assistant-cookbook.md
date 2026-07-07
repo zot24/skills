@@ -697,7 +697,8 @@ Each tool follows the same pattern: define a schema with Zod, implement the exec
 
 Swap OpenAI for another provider:
 
-```typescript
+```typescript theme={null}
+import { anthropic } from "@ai-sdk/anthropic";
 
 const result = streamText({
   model: anthropic("claude-4.5-sonnet"),

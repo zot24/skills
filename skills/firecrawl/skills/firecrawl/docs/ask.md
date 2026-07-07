@@ -27,7 +27,7 @@ Firecrawl `/support/ask` is an AI support agent exposed as an API. Describe your
 
 ### Debug a failing crawl
 
-```bash
+```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v2/support/ask \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
   -H "Content-Type: application/json" \
@@ -38,7 +38,7 @@ curl -X POST https://api.firecrawl.dev/v2/support/ask \
 
 ### Search the docs
 
-```bash
+```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v2/support/docs-search \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
   -H "Content-Type: application/json" \
@@ -62,7 +62,7 @@ The key design pattern: call `/support/ask` when your Firecrawl API call fails o
 
 ### Python example
 
-```python
+```python theme={null}
 import requests
 
 FIRECRAWL_API_KEY = "fc-YOUR_API_KEY"
@@ -97,7 +97,7 @@ print(result["confidence"])     # "high", "medium", or "low"
 
 ### Node.js example
 
-```javascript
+```javascript theme={null}
 async function diagnoseFirecrawlIssue(question, rationale) {
   const response = await fetch(
     "https://api.firecrawl.dev/v2/support/ask",
@@ -125,7 +125,7 @@ console.log(result.fixParameters);
 
 ### Agent retry pattern
 
-```python
+```python theme={null}
 from firecrawl import Firecrawl
 
 client = Firecrawl(api_key="fc-YOUR_API_KEY")
@@ -168,7 +168,7 @@ if not doc.markdown or len(doc.markdown) < 100:
 
 ### `/support/ask` response
 
-```json
+```json theme={null}
 {
   "requestId": "req_...",
   "answer": "<2-4 sentence prose diagnosis of the issue plus the recommended fix.>",
@@ -188,7 +188,7 @@ The actual `answer`, `fixParameters`, and `validation.evidence` are produced per
 
 ### `/support/docs-search` response
 
-```json
+```json theme={null}
 {
   "requestId": "req_...",
   "answer": "The signature is sent in the X-Firecrawl-Signature header...",

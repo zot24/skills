@@ -25,7 +25,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.7
+  version: 3.0.11
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform

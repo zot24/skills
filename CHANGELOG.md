@@ -3,6 +3,122 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-07-07] Documentation Sync
+
+**Updated skills:** umbrel-app claude-code-expert agent-browser ai-sdk agent-skills hermes honcho firecrawl servarr obsidian immich glinet umami flue wealthfolio 1password-cli portainerctl
+
+
+### umbrel-app
+Updated: readme-upstream.md
+Updated: umbrel-core.md
+Updated: community-template.md
+
+### claude-code-expert
+
+
+### agent-browser
+Updated: readme-upstream.md
+Updated: installation.md
+Updated: quick-start.md
+Updated: commands.md
+Updated: selectors.md
+
+### ai-sdk
+Updated: readme-upstream.md
+Updated: getting-started.md
+Updated: core-overview.md
+Updated: ui-overview.md
+Updated: tools.md
+
+### agent-skills
+Updated: readme-upstream.md
+Updated: specification.md
+Updated: what-are-skills.md
+Updated: integrate-skills.md
+Updated: skill-creation-quickstart.md
+
+### hermes
+Updated: installation.md
+Updated: quickstart.md
+Updated: learning-path.md
+Updated: cli.md
+Updated: configuration.md
+
+### honcho
+Updated: overview.md
+Updated: quickstart.md
+Updated: vibecoding.md
+Updated: architecture.md
+Updated: design-patterns.md
+
+### firecrawl
+Updated: readme-upstream.md
+Updated: quickstart.md
+Updated: scrape.md
+Updated: search.md
+Updated: crawl.md
+
+### servarr
+Updated: recyclarr-config.md
+Updated: sonarr.md
+Updated: radarr.md
+Updated: lidarr.md
+Updated: prowlarr.md
+
+### obsidian
+Updated: dataview.md
+Updated: templater.md
+Updated: local-rest-api.md
+
+### immich
+Updated: readme-upstream.md
+Updated: quick-start.md
+Updated: requirements.md
+Updated: environment-variables.md
+Updated: backup-and-restore.md
+
+### glinet
+Updated: first-time-setup.md
+Updated: internet-wan.md
+Updated: wireless.md
+Updated: lan-dns.md
+Updated: vpn-dashboard.md
+
+### umami
+Updated: readme-upstream.md
+Updated: api-client.md
+Updated: node-client.md
+Updated: authentication.md
+Updated: websites-api.md
+
+### flue
+Updated: home.md
+Updated: flue-1-0-beta.md
+Updated: agent-api.md
+Updated: data-persistence-api.md
+Updated: errors-reference.md
+
+### wealthfolio
+Updated: addons.md
+Updated: api-reference.md
+Updated: getting-started.md
+Updated: concepts.md
+Updated: activity-types.md
+
+### 1password-cli
+Updated: get-started.md
+Updated: app-integration.md
+Updated: sign-in-manually.md
+Updated: use-multiple-accounts.md
+Updated: secret-references.md
+
+### portainerctl
+Updated: readme-upstream.md
+
+---
+
+
+
 ## [2026-06-15] Documentation Sync
 
 **Updated skills:** agent-browser chat-sdk ai-sdk agent-skills hermes honcho firecrawl servarr adguard glinet
