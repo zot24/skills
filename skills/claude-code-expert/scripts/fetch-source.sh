@@ -175,6 +175,11 @@ main() {
 
     # Fetch the content
     if fetch_url "$url" "$output"; then
+        # Convert HTML to markdown if needed (no-op for non-HTML content)
+        local converted="${output}.converted"
+        html_to_markdown "$output" "$converted"
+        mv "$converted" "$output"
+
         # Add metadata header
         add_metadata "$output" "$url"
 
