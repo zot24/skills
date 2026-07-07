@@ -301,11 +301,13 @@ Each skill syncs documentation from upstream sources.
 
 7. **(Optional) Create `discover-pages.sh`** — recommended for docs sites with `llms.txt` or a crawlable sitemap. This script auto-detects new upstream pages not yet in `sync.json`. The CI workflow calls it before sync if it exists.
 
-8. **Register the skill** (all four places):
+8. **Register the skill** (all six places):
    - Add entry to `.claude-plugin/marketplace.json`
    - Add to `SKILLS` array in `.github/workflows/sync-docs.yml` (if skill has upstream docs to sync)
    - Add to skill sources table in this file (`CLAUDE.md`)
    - Add to skills table and details section in `README.md`
+   - Add entry to `skills.toml` (zskills install manifest)
+   - Add package stanza to `release-please-config.json` and version key to `.release-please-manifest.json`
 
 > **Note**: Skills without upstream docs (e.g., `safe-delete`) don't need CI sync registration but still need all other files.
 
@@ -328,6 +330,8 @@ Each skill syncs documentation from upstream sources.
 - [ ] Added to `SKILLS` array in `.github/workflows/sync-docs.yml` (if has upstream docs)
 - [ ] Added to skill sources table in `CLAUDE.md`
 - [ ] Added to skills table and details section in `README.md`
+- [ ] Added to `skills.toml`
+- [ ] Added to `release-please-config.json` and `.release-please-manifest.json`
 
 ---
 
