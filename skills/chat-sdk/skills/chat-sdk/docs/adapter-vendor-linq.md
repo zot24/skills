@@ -1,0 +1,103 @@
+> Source: https://chat-sdk.dev/adapters/vendor-official/linq.md
+
+---
+title: Linq
+description: iMessage and SMS adapter for Chat SDK, built and maintained by Linq. Send and receive texts, media, and tapback reactions over Apple Messages and SMS, with HMAC-verified webhooks and stable threading.
+tagline: Bots that text over iMessage and SMS through Linq — DMs and group chats, media both ways, and native tapback reactions, mapping Linq chats to the Chat SDK thread/message/reaction model.
+package: @linqapp/chat-sdk-adapter
+---
+
+# Linq
+
+
+## Install
+
+<PackageInstall package="@linqapp/chat-sdk-adapter" />
+
+## Quick start
+
+```typescript title="lib/bot.ts" lineNumbers
+
+
+/>
+
+## Platform setup
+
+1. Create a Linq account and copy your **API key**. For testing, the [Linq CLI](https://www.npmjs.com/package/@linqapp/cli) provisions a sandbox number: `linq signup --phone <your cell>`.
+2. Create a **webhook subscription** pointing at the route that forwards to `bot.webhooks.linq`, and subscribe to:
+   * `message.received`
+   * `reaction.added`
+   * `reaction.removed`
+3. Copy the **signing secret** returned by the subscription into `signingSecret`.
+
+Other event types are acknowledged with a `200` and ignored.
+
+## Webhook events
+
+| Event              | Role                               |
+| ------------------ | ---------------------------------- |
+| `message.received` | Drives Chat SDK message processing |
+| `reaction.added`   | Drives reaction handlers           |
+| `reaction.removed` | Drives reaction handlers           |
+
+```typescript title="app/api/webhooks/linq/route.ts" lineNumbers
+
+
+```
+
+Requests are verified with HMAC-SHA256 and a replay-window check before dispatch; an invalid or stale signature returns **401**. Passing `waitUntil` lets work continue after the response is sent in serverless environments like Vercel.
+
+## Thread IDs
+
+Thread IDs are stable and always take the form `linq:{chatId}`, so a conversation maps to the same Chat SDK thread whether it first arrives via webhook or API.
+
+### `encodeThreadId`
+
+```typescript
+adapter.encodeThreadId(data: { chatId: string; isGroup?: boolean }): string;
+```
+
+```typescript
+const encoded = adapter.encodeThreadId({ chatId: "3caaf1a0-ef9f-46e0-8c22-31e82c8514dc" });
+// "linq:3caaf1a0-ef9f-46e0-8c22-31e82c8514dc"
+```
+
+### `decodeThreadId`
+
+```typescript
+adapter.decodeThreadId(threadId: string): { chatId: string; isGroup?: boolean };
+```
+
+Group vs. DM identity is tracked internally from webhook payloads; legacy `linq:{chatId}:group` / `linq:{chatId}:dm` IDs still decode.
+
+## Message format
+
+Outbound markdown is rendered to plain text — Linq delivers message text as-is (iMessage has no markdown). Inbound text is parsed to the Chat SDK AST, with URLs surfaced as link previews.
+
+## Reactions
+
+Standard iMessage tapbacks map to normalized Chat SDK emoji in both directions:
+
+| Linq tapback | Chat SDK emoji |
+| ------------ | -------------- |
+| `like`       | `thumbs_up`    |
+| `dislike`    | `thumbs_down`  |
+| `love`       | `heart`        |
+| `laugh`      | `laugh`        |
+| `emphasize`  | `exclamation`  |
+| `question`   | `question`     |
+
+Custom emoji reactions pass through the default emoji resolver (e.g. `👍` → `thumbs_up`), falling back to the raw emoji for anything unmapped. Sticker reactions have no Chat SDK equivalent and are skipped.
+
+## Attachments
+
+Inbound media (images, audio, files) arrives as Chat SDK attachments with downloadable data. Outbound `attachments` and `files` are sent as Linq media parts: a public HTTPS URL under 10 MB is sent by reference, while raw bytes, non-HTTPS URLs, and files up to 100 MB are pre-uploaded. Messages can be media-only.
+
+## Examples
+
+* [Adapter source and README](https://github.com/linq-team/linq-chat-sdk/tree/main/packages/adapter-linq)
+* [Example app](https://github.com/linq-team/linq-chat-sdk/tree/main/apps/api) — one AI bot running across Linq, Telegram, and WhatsApp from a single set of handlers.
+
+## Feature support
+
+<FeatureSupport />

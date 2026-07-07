@@ -233,7 +233,7 @@ Each skill syncs documentation from upstream sources.
 | umbrel-app | https://github.com/getumbrel/umbrel-apps/blob/master/README.md | URL-based |
 | claude-code-expert | Multiple sources via registry.json | Registry-based |
 | agent-browser | https://github.com/vercel-labs/agent-browser + https://agent-browser.dev/ | URL-based |
-| chat-sdk | https://github.com/vercel/ai-chatbot + https://chat-sdk.dev/ | URL-based |
+| chat-sdk | https://chat-sdk.dev/docs + https://github.com/vercel/chat | URL-based |
 | ai-sdk | https://github.com/vercel/ai + https://ai-sdk.dev/ | URL-based |
 | agent-skills | https://github.com/agentskills/agentskills + https://agentskills.io | URL-based |
 | hermes | Hermes Agent docs + operational experience | Hybrid |

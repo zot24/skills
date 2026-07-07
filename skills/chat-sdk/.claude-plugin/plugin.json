@@ -1,21 +1,21 @@
 {
   "name": "chat-sdk",
-  "description": "Expert assistant for building AI chatbot applications with Vercel's Chat SDK. Covers setup, architecture, customization, artifacts, and deployment.",
+  "description": "Expert at Chat SDK (vercel/chat) - the unified TypeScript SDK for building chat bots and agents across Slack, Microsoft Teams, Google Chat, Discord, Telegram, WhatsApp, and more.",
   "version": "1.1.4",
   "author": {
     "name": "zot24"
   },
-  "homepage": "https://chat-sdk.dev/",
+  "homepage": "https://chat-sdk.dev",
   "repository": "https://github.com/zot24/skills",
   "license": "MIT",
   "keywords": [
     "chat-sdk",
-    "ai-chatbot",
-    "nextjs",
-    "vercel",
-    "ai-sdk",
-    "generative-ui",
-    "artifacts",
-    "chatgpt-clone"
+    "chat-bots",
+    "slack",
+    "teams",
+    "discord",
+    "telegram",
+    "adapters",
+    "typescript"
   ]
 }

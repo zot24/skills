@@ -1,54 +1,486 @@
 {
   "name": "chat-sdk",
   "version": "1.1.4",
-  "description": "Chat SDK - Vercel's open-source AI chatbot template",
+  "description": "Chat SDK - unified TypeScript SDK for building chat bots and agents across Slack, Teams, Discord, Telegram, WhatsApp, and more (vercel/chat)",
   "sources": [
     {
-      "url": "https://raw.githubusercontent.com/vercel/ai-chatbot/main/README.md",
-      "target": "skills/chat-sdk/docs/readme-upstream.md",
-      "type": "raw",
+      "url": "https://chat-sdk.dev/adapters/community/baileys.md",
+      "target": "skills/chat-sdk/docs/adapter-community-baileys.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/blooio.md",
+      "target": "skills/chat-sdk/docs/adapter-community-blooio.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/cloudflare-do.md",
+      "target": "skills/chat-sdk/docs/adapter-community-cloudflare-do.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/mattermost.md",
+      "target": "skills/chat-sdk/docs/adapter-community-mattermost.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/mysql.md",
+      "target": "skills/chat-sdk/docs/adapter-community-mysql.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/webex.md",
+      "target": "skills/chat-sdk/docs/adapter-community-webex.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/weixin.md",
+      "target": "skills/chat-sdk/docs/adapter-community-weixin.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/zalo.md",
+      "target": "skills/chat-sdk/docs/adapter-community-zalo.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/discord.md",
+      "target": "skills/chat-sdk/docs/adapter-discord.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/gchat.md",
+      "target": "skills/chat-sdk/docs/adapter-gchat.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/github.md",
+      "target": "skills/chat-sdk/docs/adapter-github.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/ioredis.md",
+      "target": "skills/chat-sdk/docs/adapter-ioredis.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/linear.md",
+      "target": "skills/chat-sdk/docs/adapter-linear.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/memory.md",
+      "target": "skills/chat-sdk/docs/adapter-memory.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/messenger.md",
+      "target": "skills/chat-sdk/docs/adapter-messenger.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/postgres.md",
+      "target": "skills/chat-sdk/docs/adapter-postgres.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/redis.md",
+      "target": "skills/chat-sdk/docs/adapter-redis.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/slack.md",
+      "target": "skills/chat-sdk/docs/adapter-slack.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/teams.md",
+      "target": "skills/chat-sdk/docs/adapter-teams.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/telegram.md",
+      "target": "skills/chat-sdk/docs/adapter-telegram.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/twilio.md",
+      "target": "skills/chat-sdk/docs/adapter-twilio.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/web.md",
+      "target": "skills/chat-sdk/docs/adapter-web.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/whatsapp.md",
+      "target": "skills/chat-sdk/docs/adapter-whatsapp.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/agentphone.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-agentphone.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/kapso.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-kapso.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/lark.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-lark.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/linq.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-linq.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/liveblocks.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-liveblocks.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/matrix.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-matrix.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/novu.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-novu.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/resend.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-resend.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/sendblue.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-sendblue.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/velt.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-velt.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/zernio.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-zernio.md",
+      "type": "extract-content",
       "freshness_days": 14
     },
     {
       "url": "https://chat-sdk.dev/docs.md",
-      "target": "skills/chat-sdk/docs/overview.md",
+      "target": "skills/chat-sdk/docs/introduction.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://chat-sdk.dev/docs/setup.md",
-      "target": "skills/chat-sdk/docs/setup.md",
+      "url": "https://chat-sdk.dev/docs/actions.md",
+      "target": "skills/chat-sdk/docs/actions.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://chat-sdk.dev/docs/architecture.md",
-      "target": "skills/chat-sdk/docs/architecture.md",
+      "url": "https://chat-sdk.dev/docs/adapters.md",
+      "target": "skills/chat-sdk/docs/adapters.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://chat-sdk.dev/docs/customization/models-and-providers.md",
-      "target": "skills/chat-sdk/docs/models-and-providers.md",
+      "url": "https://chat-sdk.dev/docs/ai.md",
+      "target": "skills/chat-sdk/docs/ai.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://chat-sdk.dev/docs/customization/artifacts.md",
-      "target": "skills/chat-sdk/docs/artifacts.md",
+      "url": "https://chat-sdk.dev/docs/ai/ai-sdk-tools.md",
+      "target": "skills/chat-sdk/docs/ai-ai-sdk-tools.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://chat-sdk.dev/docs/customization/theming.md",
-      "target": "skills/chat-sdk/docs/theming.md",
+      "url": "https://chat-sdk.dev/docs/ai/to-ai-messages.md",
+      "target": "skills/chat-sdk/docs/ai-to-ai-messages.md",
       "type": "extract-content",
       "freshness_days": 14
     },
     {
-      "url": "https://chat-sdk.dev/docs/deploying.md",
-      "target": "skills/chat-sdk/docs/deployment.md",
+      "url": "https://chat-sdk.dev/docs/ai/types.md",
+      "target": "skills/chat-sdk/docs/ai-types.md",
       "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api.md",
+      "target": "skills/chat-sdk/docs/api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/cards.md",
+      "target": "skills/chat-sdk/docs/api-cards.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/channel.md",
+      "target": "skills/chat-sdk/docs/api-channel.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/chat.md",
+      "target": "skills/chat-sdk/docs/api-chat.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/markdown.md",
+      "target": "skills/chat-sdk/docs/api-markdown.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/message.md",
+      "target": "skills/chat-sdk/docs/api-message.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/modals.md",
+      "target": "skills/chat-sdk/docs/api-modals.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/postable-message.md",
+      "target": "skills/chat-sdk/docs/api-postable-message.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/thread.md",
+      "target": "skills/chat-sdk/docs/api-thread.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/transcripts.md",
+      "target": "skills/chat-sdk/docs/api-transcripts.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/cards.md",
+      "target": "skills/chat-sdk/docs/cards.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/concurrency.md",
+      "target": "skills/chat-sdk/docs/concurrency.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/contributing/building.md",
+      "target": "skills/chat-sdk/docs/contributing-building.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/contributing/documenting.md",
+      "target": "skills/chat-sdk/docs/contributing-documenting.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/contributing/publishing.md",
+      "target": "skills/chat-sdk/docs/contributing-publishing.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/contributing/testing.md",
+      "target": "skills/chat-sdk/docs/contributing-testing.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/conversation-history.md",
+      "target": "skills/chat-sdk/docs/conversation-history.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/create-chat-sdk.md",
+      "target": "skills/chat-sdk/docs/create-chat-sdk.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/direct-messages.md",
+      "target": "skills/chat-sdk/docs/direct-messages.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/emoji.md",
+      "target": "skills/chat-sdk/docs/emoji.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/ephemeral-messages.md",
+      "target": "skills/chat-sdk/docs/ephemeral-messages.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/error-handling.md",
+      "target": "skills/chat-sdk/docs/error-handling.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/files.md",
+      "target": "skills/chat-sdk/docs/files.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/getting-started.md",
+      "target": "skills/chat-sdk/docs/getting-started.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/handling-events.md",
+      "target": "skills/chat-sdk/docs/handling-events.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/modals.md",
+      "target": "skills/chat-sdk/docs/modals.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/platform-adapters.md",
+      "target": "skills/chat-sdk/docs/platform-adapters.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/posting-messages.md",
+      "target": "skills/chat-sdk/docs/posting-messages.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/slack-primitives.md",
+      "target": "skills/chat-sdk/docs/slack-primitives.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/slash-commands.md",
+      "target": "skills/chat-sdk/docs/slash-commands.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/state-adapters.md",
+      "target": "skills/chat-sdk/docs/state-adapters.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/streaming.md",
+      "target": "skills/chat-sdk/docs/streaming.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/subject.md",
+      "target": "skills/chat-sdk/docs/subject.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/teams-primitives.md",
+      "target": "skills/chat-sdk/docs/teams-primitives.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/testing.md",
+      "target": "skills/chat-sdk/docs/testing.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/threads-messages-channels.md",
+      "target": "skills/chat-sdk/docs/threads-messages-channels.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/usage.md",
+      "target": "skills/chat-sdk/docs/usage.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/sitemap.md",
+      "target": "skills/chat-sdk/docs/sitemap.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/vercel/chat/main/README.md",
+      "target": "skills/chat-sdk/docs/readme-upstream.md",
+      "type": "raw",
       "freshness_days": 14
     }
   ],

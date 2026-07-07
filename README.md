@@ -11,7 +11,7 @@ An opinionated selection of skills for daily dev workflows.
 | [umbrel-app](./skills/umbrel-app) | Expert assistant for developing, packaging, testing, and submitting apps for umbrelOS |
 | [claude-code-expert](./skills/claude-code-expert) | Comprehensive Claude Code & Anthropic ecosystem knowledge. Official patterns for agents, skills, hooks, commands, MCP. |
 | [agent-browser](./skills/agent-browser) | Expert on agent-browser - Vercel's headless browser automation CLI for AI agents with 50+ commands, snapshots, and multi-session support |
-| [chat-sdk](./skills/chat-sdk) | Expert on Chat SDK - Vercel's open-source template for building production-ready AI chatbots with generative UI, artifacts, and multi-provider support |
+| [chat-sdk](./skills/chat-sdk) | Expert on Chat SDK (vercel/chat) - the unified TypeScript SDK for building chat bots and agents across Slack, Teams, Discord, Telegram, WhatsApp, and more |
 | [ai-sdk](./skills/ai-sdk) | Expert on AI SDK - Vercel's TypeScript toolkit for building AI applications with unified LLM API, streaming, tool calling, and agents |
 | [agent-skills](./skills/agent-skills) | Expert at the Agent Skills open format for extending AI agent capabilities - create, validate, and understand SKILL.md files |
 | [hermes](./skills/hermes) | Expert at understanding and working with Hermes Agent - its memory system, skills, cron jobs, tools, and behavioral conventions |
@@ -227,13 +227,12 @@ Expert on Vercel's browser automation CLI for AI agents:
 
 ### chat-sdk
 
-Expert on Vercel's Chat SDK for building production-ready AI chatbots:
+Expert on Chat SDK (`vercel/chat`), the unified TypeScript SDK for multi-platform chat bots:
 
-- **setup** - Installation and project scaffolding
-- **providers** - Configure OpenAI, Anthropic, Google, and other LLM providers
-- **ui** - Build generative UI with artifacts
-- **streaming** - Implement streaming responses
-- **tools** - Define and use tools with LLMs
+- **overview** - Introduction, core concepts, and getting started
+- **adapters** - Platform adapters for Slack, Teams, Discord, Telegram, WhatsApp, and more
+- **ai** - AI streaming, AI SDK tools, and message conversion
+- **api** - Look up Chat/Thread/Channel/Message API reference
 - **sync/diff** - Stay updated with upstream docs
 
 [Full documentation](./skills/chat-sdk/README.md)
