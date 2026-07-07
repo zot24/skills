@@ -1,5 +1,5 @@
 {
   "name": "1password-cli",
   "description": "Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent.",
-  "version": "1.0.0"
+  "version": "1.1.0"
 }

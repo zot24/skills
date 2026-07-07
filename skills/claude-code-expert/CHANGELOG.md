@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.2](https://github.com/zot24/skills/compare/claude-code-expert-v2.1.1...claude-code-expert-v2.1.2) (2026-07-07)
+
+
+### Bug Fixes
+
+* **claude-code-expert:** gitignore cache, fix set -e arithmetic, enable HTML conversion, drop stray doc ([1afcb79](https://github.com/zot24/skills/commit/1afcb798607ba269f87f1e5169e9c366528b21a6))
+* repair 36 broken sources, harden workflows, consolidate versioning, repurpose chat-sdk for vercel/chat ([9f337ca](https://github.com/zot24/skills/commit/9f337ca8ffc4257a3dc949b8a0b47c3149f615f2))
+
 ## [2.1.1](https://github.com/zot24/skills/compare/claude-code-expert-v2.1.0...claude-code-expert-v2.1.1) (2026-07-07)
 
 

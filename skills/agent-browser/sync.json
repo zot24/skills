@@ -1,6 +1,6 @@
 {
   "name": "agent-browser",
-  "version": "2.2.7",
+  "version": "2.2.8",
   "description": "Browser automation CLI for AI agents - Vercel Labs",
   "sources": [
     {
