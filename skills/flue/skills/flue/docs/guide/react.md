@@ -1,16 +1,24 @@
-<!-- Source: https://flueframework.com/docs/guide/react -->
+> Source: https://flueframework.com/docs/guide/react
+
+
+
+# React
+
+
+AI-generated, awaiting review <a href="/docs/guide/react/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
 
 `@flue/react` turns Flue’s durable event streams into live React state. Use `useFlueAgent()` for a continuing conversation with an agent instance and `useFlueWorkflow()` to observe a finite workflow run. HTTP requests, authentication, and stream transport remain in `@flue/sdk`.
 
-## Set up React [\#](https://flueframework.com/docs/guide/react/\#set-up-react)
+## Set up React
 
 Install both packages, create one SDK client, and provide it to your application:
 
-```
+``` astro-code
 pnpm add @flue/react @flue/sdk
 ```
 
-```
+``` astro-code
 import { FlueProvider } from '@flue/react';
 import { createFlueClient } from '@flue/sdk';
 import { createRoot } from 'react-dom/client';
@@ -25,13 +33,13 @@ createRoot(document.getElementById('root')!).render(
 );
 ```
 
-Configure authentication, headers, and custom `fetch` behavior on the client. The agent and workflow modules used below must export `route`; mounting `flue()` alone does not expose them. See [Routing](https://flueframework.com/docs/guide/routing/) to expose and protect the Flue API, including cross-origin applications.
+Configure authentication, headers, and custom `fetch` behavior on the client. The agent and workflow modules used below must export `route`; mounting `flue()` alone does not expose them. See [Routing](/docs/guide/routing/) to expose and protect the Flue API, including cross-origin applications.
 
-## Build an agent conversation [\#](https://flueframework.com/docs/guide/react/\#build-an-agent-conversation)
+## Build an agent conversation
 
 An agent instance is identified by its agent name and instance ID. The hook reconstructs its transcript from durable events, then follows new events:
 
-```
+``` astro-code
 import { useFlueAgent } from '@flue/react';
 import { useState } from 'react';
 
@@ -75,17 +83,17 @@ export function Chat({ conversationId }: { conversationId: string }) {
 }
 ```
 
-`sendMessage()` adds the user message immediately and resolves when the server admits the prompt, not when generation finishes. The stream then reconciles that optimistic message with its durable copy. Use `status` to distinguish connection, submission, streaming, and error states.
+`sendMessage()` adds the user message immediately and resolves when the server admits the prompt, not when generation finishes. The stream then reconciles that optimistic message with its durable copy without changing its transcript position. Use `status` to distinguish connection, submission, streaming, and error states. `historyReady` becomes `true` once the requested durable history has loaded as one coherent snapshot; it remains `true` through later live reconnects.
 
-Messages use a parts-based shape for text, reasoning, tool activity, and images. This shape mirrors AI SDK v5 `UIMessage`, but `@flue/react` neither depends on `ai` at runtime nor implements its transport protocol.
+Messages are Flue-owned `FlueConversationMessage` values with a parts-based shape: `text`, `reasoning`, `dynamic-tool`, and `file`. Validated structured tool output is preserved on the `dynamic-tool` part’s `output`, so applications can render custom tool interfaces without a separate data-event channel. These are Flue’s own types — they are not AI SDK types, and `@flue/react` neither depends on `ai` at runtime nor implements its transport protocol. Durable file attachments project as `file` parts carrying media type only; historical bytes are not served, so render uploads optimistically from local data.
 
-By default, the hook rebuilds a transcript from the latest 100 server events rather than browser storage. Pass `history: 'all'` when the complete transcript is required. Streaming deltas provide best-effort live progress, while `message_end` supplies the authoritative completed assistant message. If the hook attaches after generation starts, earlier partial output may be absent until `message_end` arrives. This delivery behavior does not affect the runtime’s internal interrupted-turn recovery.
+The hook uses the SDK’s materialized `agents.observe()` layer: it loads the complete canonical snapshot, publishes it atomically in durable order, and continues from that exact checkpoint through reconnects and canonical resets. Consumers do not need to coordinate the snapshot and live updates or sort `messages`. Observation follows live updates with Durable Streams long-polling. For a single point-in-time read with no live updates, call `client.agents.history()` directly instead. Partial text and reasoning are best-effort while streaming; the completed canonical assistant message is authoritative.
 
-## Observe a workflow run [\#](https://flueframework.com/docs/guide/react/\#observe-a-workflow-run)
+## Observe a workflow run
 
 Workflow invocation and observation are separate. Invoke the workflow with the SDK, retain its `runId`, and pass that ID to `useFlueWorkflow()`:
 
-```
+``` astro-code
 import { useFlueClient, useFlueWorkflow } from '@flue/react';
 import { useState } from 'react';
 
@@ -96,7 +104,7 @@ export function Report() {
 
   async function generate() {
     const invocation = await flue.workflows.invoke('weekly-report', {
-      payload: { week: 'current' },
+      input: { week: 'current' },
     });
     setRunId(invocation.runId);
   }
@@ -119,22 +127,25 @@ The hook replays the complete run before following live events, so it can attach
 
 Transport failures reconnect from the last durable checkpoint. A workflow failure instead produces the terminal `errored` status; observation that ends without a terminal workflow event becomes `disconnected`.
 
-## Rendering and deferred identity [\#](https://flueframework.com/docs/guide/react/\#rendering-and-deferred-identity)
+## Rendering and deferred identity
 
 During server rendering, both hooks return empty, idle state and open no connections. The SDK client still needs an absolute `baseUrl` when it is created on the server; relative paths such as `/api` are browser-only. An omitted agent `id` or workflow `runId` also leaves the hook dormant while routing or application data resolves the identity.
 
-## API reference [\#](https://flueframework.com/docs/guide/react/\#api-reference)
+## API reference
 
 See the [`@flue/react` package README](https://github.com/withastro/flue/tree/main/packages/react#readme) for complete options, result types, statuses, and message-part types.
 
+
 ## Docs Navigation
 
-Current page: [React](https://flueframework.com/docs/guide/react/)
+Current page: [React](/docs/guide/react/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

@@ -1,8 +1,16 @@
-<!-- Source: https://flueframework.com/docs/sdk/overview -->
+> Source: https://flueframework.com/docs/sdk/overview
+
+
+
+# SDK overview
+
+
+Last updated Jun 20, 2026 <a href="/docs/sdk/overview/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
 
 The client SDK is exported from `@flue/sdk`. Use it from applications that consume deployed Flue agents and workflows.
 
-```
+``` astro-code
 import { createFlueClient } from '@flue/sdk';
 
 const client = createFlueClient({
@@ -11,31 +19,34 @@ const client = createFlueClient({
 });
 ```
 
-## Client [\#](https://flueframework.com/docs/sdk/overview/\#client)
+## Client
 
-[`createFlueClient(...)`](https://flueframework.com/docs/sdk/client/) configures access to a deployed Flue application.
+[`createFlueClient(...)`](/docs/sdk/client/) configures access to a deployed Flue application.
 
-## API namespaces [\#](https://flueframework.com/docs/sdk/overview/\#api-namespaces)
+## API namespaces
 
-- [`client.agents`](https://flueframework.com/docs/sdk/agents/) invokes persistent agent instances and streams their events.
-- [`client.workflows`](https://flueframework.com/docs/sdk/workflows/) starts workflow runs.
-- [`client.runs`](https://flueframework.com/docs/sdk/runs/) inspects and streams workflow runs.
+- [`client.agents`](/docs/sdk/agents/) invokes persistent agent instances and streams their events.
+- [`client.workflows`](/docs/sdk/workflows/) starts workflow runs.
+- [`client.runs`](/docs/sdk/runs/) inspects and streams runs exposed by their owning workflows.
 
-Deployment-wide listing (all runs, all agents) is a server-side concern: compose your own endpoints from the `listRuns()`, `getRun()`, and `listAgents()` primitives exported by `@flue/runtime`. See [compose your own admin endpoints](https://flueframework.com/docs/api/routing-api/#compose-your-own-admin-endpoints).
+Deployment-wide listing (all runs, all agents) is a server-side concern: compose your own endpoints from the `listRuns()`, `getRun()`, and `listAgents()` primitives exported by `@flue/runtime`. See [compose your own admin endpoints](/docs/api/routing-api/#compose-your-own-admin-endpoints).
 
-## Shared types [\#](https://flueframework.com/docs/sdk/overview/\#shared-types)
+## Shared types
 
-- [Events and records](https://flueframework.com/docs/sdk/events/) describes observable events, records, and normalized model-turn data.
-- [Errors](https://flueframework.com/docs/sdk/errors/) describes HTTP and stream errors.
+- [Events and records](/docs/sdk/events/) describes observable events, records, and normalized model-turn data.
+- [Errors](/docs/sdk/errors/) describes HTTP and stream errors.
+
 
 ## Docs Navigation
 
-Current page: [SDK overview](https://flueframework.com/docs/sdk/overview/)
+Current page: [SDK overview](/docs/sdk/overview/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

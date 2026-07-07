@@ -1,20 +1,28 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/sandboxes/exedev -->
+> Source: https://flueframework.com/docs/ecosystem/sandboxes/exedev
+
+
+
+# exe.dev
+
+
+Last updated May 30, 2026 <a href="/docs/ecosystem/sandboxes/exedev/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
 
 The exe.dev adapter adapts an existing exe.dev VM into Flue’s sandbox interface using SSH for commands and SFTP for files. Because it depends on Node.js APIs and `ssh2`, use it with the Node target rather than a Cloudflare Worker target.
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/sandboxes/exedev/\#quickstart)
+## Quickstart
 
-Add SSH-backed sandbox capability to an existing Flue project with the [exe.dev](https://exe.dev/) blueprint. Run the following command in your terminal or coding agent of choice:
+Add SSH-backed sandbox capability to an existing Flue project with the [exe.dev](https://exe.dev) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+``` astro-code
 flue add sandbox exedev
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/sandboxes/exedev/\#overview)
+## Overview
 
 The blueprint installs `ssh2` and its TypeScript declarations, then creates `sandboxes/exedev.ts` in your source-root. The generated Node adapter uses SSH and SFTP for an existing VM and also exports optional helpers for explicit VM creation, cloning, readiness checks, and deletion.
 
-```
+``` astro-code
 // flue-blueprint: sandbox/exedev@1
 import { createSandboxSessionEnv } from '@flue/runtime';
 import type { FileStat, SandboxApi, SandboxFactory, SessionEnv } from '@flue/runtime';
@@ -69,38 +77,41 @@ export function exedev(vm: ExeDevVm | string, options?: ExeDevAdapterOptions): S
 
 Pass an SSH-reachable VM hostname or `ExeDevVm` to `exedev(...)` and assign the returned factory to an agent’s `sandbox` property. Flue uses the detected remote home directory when available; `timeoutMs` remains in milliseconds and closes the SSH command stream at the deadline, returning exit code 124. File removal uses SFTP directly, so recursive and force options are rejected before mutation rather than emulated with a one-off shell command.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/sandboxes/exedev/\#configure)
+## Configure
 
 | Variable | Purpose |
-| --- | --- |
+|----|----|
 | `EXE_VM_HOST` | **Required** — Identifies the exe.dev VM used to wire the sandbox adapter. |
 | `EXE_SSH_KEY` | **Optional** — Points to a private SSH key file. |
 | `SSH_AUTH_SOCK` | **Optional** — Authenticates through an SSH agent instead of `EXE_SSH_KEY`. |
 | `EXE_API_TOKEN` | **Required for lifecycle examples** — Authenticates helpers that manage exe.dev VM lifecycle. |
 
 | Requirement | Purpose |
-| --- | --- |
+|----|----|
 | Node.js target | **Required** — Provides the Node APIs used by the adapter and SSH client. |
 | `ssh2` package | **Required** — Provides SSH command execution and SFTP file access. |
 | Existing SSH-reachable exe.dev VM | **Required** — Supplies the remote sandbox resource. |
 | SSH configuration | **Required** — Authenticates access to the VM. |
 
-## Choose this adapter when [\#](https://flueframework.com/docs/ecosystem/sandboxes/exedev/\#choose-this-adapter-when)
+## Choose this adapter when
 
 Use exe.dev when a Node-hosted Flue application should operate inside a VM you reach through SSH/SFTP. The adapter blueprint includes optional lifecycle helpers, but the sandbox adapter itself is designed around a VM your application owns.
 
 Treat SSH keys and provider tokens as server-side secrets. Decide whether agent instances share or allocate VMs, and clean up application-owned VMs according to your retention policy.
 
-See [Deploy on Node.js](https://flueframework.com/docs/ecosystem/deploy/node/), [Sandboxes](https://flueframework.com/docs/guide/sandboxes/), and [Sandbox Adapter API](https://flueframework.com/docs/api/sandbox-api/).
+See [Deploy on Node.js](/docs/ecosystem/deploy/node/), [Sandboxes](/docs/guide/sandboxes/), and [Sandbox Adapter API](/docs/api/sandbox-api/).
+
 
 ## Docs Navigation
 
-Current page: [exe.dev](https://flueframework.com/docs/ecosystem/sandboxes/exedev/)
+Current page: [exe.dev](/docs/ecosystem/sandboxes/exedev/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

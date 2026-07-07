@@ -1,14 +1,22 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/deploy/docker -->
+> Source: https://flueframework.com/docs/ecosystem/deploy/docker
 
-Package the Flue Node.js build as a container image that runs on any platform that takes one. For the underlying build and runtime behavior, see [Deploy Agents on Node.js](https://flueframework.com/docs/ecosystem/deploy/node/).
+
+
+# Deploy Agents with Docker
+
+
+Last updated Jun 20, 2026 <a href="/docs/ecosystem/deploy/docker/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
+
+Package the Flue Node.js build as a container image that runs on any platform that takes one. For the underlying build and runtime behavior, see [Deploy Agents on Node.js](/docs/ecosystem/deploy/node/).
 
 Flue’s Node target is a long-running HTTP server, not a function. The container must stay up to hold agent sessions and serve streamed responses; deploy it as a service, not a scale-to-zero invocation.
 
-## Dockerfile [\#](https://flueframework.com/docs/ecosystem/deploy/docker/\#dockerfile)
+## Dockerfile
 
 A multi-stage build keeps the runtime image lean: compile the Node target in the first stage, ship only production dependencies and `dist/` in the second.
 
-```
+``` astro-code
 # syntax=docker/dockerfile:1
 
 FROM node:22-slim AS build
@@ -36,29 +44,29 @@ The official `node` images ship a non-root `node` user (uid 1000); `USER node` d
 
 The server binds `PORT` (default `3000`; this image sets `8080`). Match it to whatever your platform expects.
 
-## Build and run [\#](https://flueframework.com/docs/ecosystem/deploy/docker/\#build-and-run)
+## Build and run
 
-```
+``` astro-code
 docker build -t flue-agents .
 docker run --init -p 8080:8080 -e ANTHROPIC_API_KEY=sk-... flue-agents
 ```
 
-## Environment and secrets [\#](https://flueframework.com/docs/ecosystem/deploy/docker/\#environment-and-secrets)
+## Environment and secrets
 
 The built server reads only the environment supplied when the container starts — it does not load `.env`. Pass your model provider key (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, …) and an optional `MODEL_SPECIFIER` at run time, and inject them through your platform’s secret store rather than baking them into the image:
 
-```
+``` astro-code
 docker run --init -p 8080:8080 \
   -e MODEL_SPECIFIER=anthropic/claude-sonnet-4-6 \
   -e ANTHROPIC_API_KEY=sk-... \
   flue-agents
 ```
 
-## Persistence [\#](https://flueframework.com/docs/ecosystem/deploy/docker/\#persistence)
+## Persistence
 
-Without a `db.ts` adapter the server keeps agent sessions, accepted submissions, and workflow-run records in process-local memory — they are lost when the container restarts or redeploys, and they are not shared across replicas. For durable state, or to run more than one instance, add a [`PersistenceAdapter`](https://flueframework.com/docs/guide/database/) backed by a Postgres reachable from the container:
+Without a `db.ts` adapter the server keeps canonical agent conversations, attachments, accepted submissions, and workflow-run records in process-local memory, so a restart or redeploy loses them. Add a Postgres-backed [`PersistenceAdapter`](/docs/guide/database/) for replacement recovery and shared workflow history. Multiple replicas must still route each agent instance to one live owner; shared storage does not enable active-active same-instance execution:
 
-```
+``` astro-code
 import { postgres } from '@flue/postgres';
 
 export default postgres(process.env.DATABASE_URL!);
@@ -66,27 +74,30 @@ export default postgres(process.env.DATABASE_URL!);
 
 Flue discovers `db.ts` at build time and wires it into the generated server. Provide `DATABASE_URL` as an environment variable like any other secret.
 
-## Health and streaming [\#](https://flueframework.com/docs/ecosystem/deploy/docker/\#health-and-streaming)
+## Health and streaming
 
 Flue does not generate a health endpoint. If your platform health-checks the container, define the route it expects (commonly `/health`) in your `app.ts`.
 
-Streamed agent and workflow responses use long-lived `GET /runs/:runId` connections (long-poll / SSE). Make sure the platform’s request and idle-connection timeouts allow them, or have clients read stream coordinates from the `202` admission response and reconnect.
+Exposed workflow runs use long-lived `GET /runs/:runId` reads (long-poll/SSE). Ensure the platform’s request and idle-connection timeouts allow them. Workflow admission returns `runId`; clients can reconnect to that run and resume with a stream offset. Agent admission returns `streamUrl`, `offset`, and `submissionId`. See [Streaming Protocol](/docs/api/streaming-protocol/).
 
-## References [\#](https://flueframework.com/docs/ecosystem/deploy/docker/\#references)
+## References
 
 - [Docker — Containerize a Node.js application](https://docs.docker.com/guides/nodejs/containerize/) (official): multi-stage builds, `.dockerignore`, `EXPOSE`/`PORT`.
 - [Node.js Docker — Best Practices](https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md) (official): `NODE_ENV=production`, non-root `node` user, `--init`/tini for PID-1 signal handling.
 - [Docker run reference — init process](https://docs.docker.com/engine/reference/run/#specify-an-init-process) (official): the `--init` flag.
 - [Snyk — 10 best practices to containerize Node.js with Docker](https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/): non-root `USER`, exec-form `CMD`, graceful shutdown.
 
+
 ## Docs Navigation
 
-Current page: [Deploy Agents with Docker](https://flueframework.com/docs/ecosystem/deploy/docker/)
+Current page: [Deploy Agents with Docker](/docs/ecosystem/deploy/docker/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/intercom-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/intercom`.
 
 ## Exports [\#](https://flueframework.com/docs/api/intercom-channel/\#exports)

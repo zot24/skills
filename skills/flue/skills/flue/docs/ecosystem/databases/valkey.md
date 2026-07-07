@@ -1,25 +1,28 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/databases/valkey -->
+> Source: https://flueframework.com/docs/ecosystem/databases/valkey
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/databases/valkey/\#quickstart)
 
-Add durable, shared state to an existing Flue project with the [Valkey](https://valkey.io/) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+# Valkey
+
+
+AI-generated, awaiting review <a href="/docs/ecosystem/databases/valkey/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/redis" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/redis</a>
+
+
+## Quickstart
+
+Add durable, shared state to an existing Flue project with the [Valkey](https://valkey.io) blueprint. Run the following command in your terminal or coding agent of choice:
+
+``` astro-code
 flue add database valkey
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/databases/valkey/\#overview)
+## Overview
 
-The Valkey blueprint installs `@flue/redis` and the official Redis `redis`
-client, creates a `db.ts` in the project’s source-root, and follows the
-project’s existing secret convention for `VALKEY_URL`. It does not modify
-deployment configuration because persistence and recovery settings remain
-owned by the Valkey deployment.
+The Valkey blueprint installs `@flue/redis` and the official Redis `redis` client, creates a `db.ts` in the project’s source-root, and follows the project’s existing secret convention for `VALKEY_URL`. It does not modify deployment configuration because persistence and recovery settings remain owned by the Valkey deployment.
 
-The primary generated adapter connects the client and translates Flue database
-operations into Redis-protocol commands supported by Valkey:
+The primary generated adapter connects the client and translates Flue database operations into Redis-protocol commands supported by Valkey:
 
-```
+``` astro-code
 import { redis } from '@flue/redis';
 import { createClient } from 'redis';
 
@@ -33,37 +36,23 @@ export default redis({
 });
 ```
 
-This abridged excerpt omits the generated pipeline helper, which batches
-commands and rejects any `Error` result. Flue discovers the adapter during a
-Node build, checks and migrates its Valkey namespace at server startup, and
-persists agent sessions, accepted submissions, workflow runs, and event streams
-so that they survive Flue process restarts. Durability across Valkey server loss
-depends on the deployment’s AOF or snapshot configuration.
+This abridged excerpt omits the generated pipeline helper, which batches commands and rejects any `Error` result. Flue discovers the adapter during a Node build, checks and migrates its Valkey namespace at server startup, and persists canonical agent conversations, immutable attachments, accepted submissions, workflow runs, and event streams so that they survive Flue process restarts. Durability across Valkey server loss depends on the deployment’s AOF or snapshot configuration.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/databases/valkey/\#configure)
+## Configure
 
 | Variable | Purpose |
-| --- | --- |
+|----|----|
 | `VALKEY_URL` | **Required** — Connection URL for a persistent standalone or single-shard Valkey deployment. |
 
-The blueprint installs `@flue/redis` and the official Redis `redis`
-(node-redis) client, then writes a source-root `db.ts`. Valkey implements the
-Redis protocol and commands this adapter uses. This support is specific to
-Valkey and does not imply that every Redis-compatible provider is supported.
+The blueprint installs `@flue/redis` and the official Redis `redis` (node-redis) client, then writes a source-root `db.ts`. Valkey implements the Redis protocol and commands this adapter uses. This support is specific to Valkey and does not imply that every Redis-compatible provider is supported.
 
-This is a **Node.js** adapter. The Cloudflare target uses Durable Object SQLite
-and rejects `db.ts`.
+This is a **Node.js** adapter. The Cloudflare target uses Durable Object SQLite and rejects `db.ts`.
 
-Set `VALKEY_URL` to a persistent standalone Valkey server or managed
-single-shard endpoint. Valkey Cluster and cache-only configurations are
-unsupported. Configure `maxmemory-policy noeviction`, plus AOF with an explicit
-fsync policy and/or durable snapshots appropriate to your recovery objective.
-`noeviction` avoids silent eviction; it does not make acknowledged writes
-durable across server loss.
+Set `VALKEY_URL` to a persistent standalone Valkey server or managed single-shard endpoint. Valkey Cluster and cache-only configurations are unsupported. Configure `maxmemory-policy noeviction`, plus AOF with an explicit fsync policy and/or durable snapshots appropriate to your recovery objective. `noeviction` avoids silent eviction; it does not make acknowledged writes durable across server loss.
 
 The canonical runner uses node-redis over Valkey’s Redis protocol:
 
-```
+``` astro-code
 import { redis } from '@flue/redis';
 import { createClient } from 'redis';
 
@@ -88,44 +77,33 @@ export default redis({
 });
 ```
 
-## Inspection and isolation [\#](https://flueframework.com/docs/ecosystem/databases/valkey/\#inspection-and-isolation)
+## Inspection and isolation
 
-At startup, `inspectServer` uses `CONFIG GET`, falling back to `INFO`, to verify
-that Cluster is disabled and the eviction policy is `noeviction`. Startup fails
-when either requirement cannot be verified. Set `inspectServer: false` only when
-a managed single-shard provider denies both commands and you have independently
-verified the configuration.
+At startup, `inspectServer` uses `CONFIG GET`, falling back to `INFO`, to verify that Cluster is disabled and the eviction policy is `noeviction`. Startup fails when either requirement cannot be verified. Set `inspectServer: false` only when a managed single-shard provider denies both commands and you have independently verified the configuration.
 
-Use a dedicated Valkey database or pass a stable, unique `keyPrefix` as the
-adapter’s second argument. The default is `flue`. Changing it selects a separate
-namespace; it does not move existing keys.
+Use a dedicated Valkey database or pass a stable, unique `keyPrefix` as the adapter’s second argument. The default is `flue`. Changing it selects a separate namespace; it does not move existing keys.
 
-## Migrations and stored data [\#](https://flueframework.com/docs/ecosystem/databases/valkey/\#migrations-and-stored-data)
+## Migrations and stored data
 
-Flue runs `migrate()` at startup. It initializes schema-version metadata
-idempotently and refuses data from an unsupported newer schema; there is no
-separate migration command.
+Flue runs `migrate()` at startup. It initializes schema-version metadata idempotently and refuses data from an unsupported newer schema; there is no separate migration command.
 
-Valkey stores session messages and compaction state, accepted prompts and
-dispatches, recovery journals, workflow runs and indexes, and persisted event
-streams. It does not store sandbox files, external API side effects, secrets, or
-application business data.
+Valkey stores append-only canonical conversation records and compaction facts, immutable attachment payloads, accepted prompts and dispatches, recovery claims and leases, workflow runs and indexes, and persisted event streams. It does not store session transcript snapshots, sandbox files, external API side effects, secrets, or application business data.
 
-## Verify durability [\#](https://flueframework.com/docs/ecosystem/databases/valkey/\#verify-durability)
+## Verify durability
 
-Build the Node target, start it against a throwaway correctly configured Valkey,
-create state, restart Flue, and confirm the state reloads. Separately test the
-chosen AOF or snapshot recovery procedure: restarting Flue does not prove that
-Valkey survives server loss.
+Build the Node target, start it against a throwaway correctly configured Valkey, create state, restart Flue, and confirm the state reloads. Separately test the chosen AOF or snapshot recovery procedure: restarting Flue does not prove that Valkey survives server loss.
+
 
 ## Docs Navigation
 
-Current page: [Valkey](https://flueframework.com/docs/ecosystem/databases/valkey/)
+Current page: [Valkey](/docs/ecosystem/databases/valkey/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

@@ -1,28 +1,36 @@
-<!-- Source: https://flueframework.com/docs/sdk/agents -->
+> Source: https://flueframework.com/docs/sdk/agents
 
-Direct agent APIs interact with persistent agent instances. They use an agent name and instance id. Each agent instance is a single conversation. Direct agent interactions do not create workflow runs and do not emit `runId`.
 
-## `client.agents.prompt(...)` [\#](https://flueframework.com/docs/sdk/agents/\#clientagentsprompt)
 
-```
+# client.agents
+
+
+AI-generated, awaiting review <a href="/docs/sdk/agents/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
+
+Direct agent APIs interact with persistent agent instances by agent name and instance id, addressing that instance’s default conversation. Direct agent interactions do not create workflow runs and do not emit `runId`.
+
+## `client.agents.prompt(...)`
+
+``` astro-code
 prompt(name: string, id: string, options: AgentPromptOptions): Promise<AgentPromptResult>;
 ```
 
 Sends one prompt to a persistent agent instance and waits for the terminal result. This uses `POST /agents/:name/:id?wait=result`.
 
-Waiting is best-effort and scoped to the server process that admitted the prompt; the prompt itself is a durable submission either way. If that process is interrupted before settlement, the call fails or disconnects while recovery settles the submission in the background — the outcome then appears in session history and as a `submission_settled` event on the agent stream.
+The prompt is a durable submission. If the request disconnects before settlement, recovery continues in the background and the result remains available from the agent conversation.
 
-### `AgentPromptOptions` [\#](https://flueframework.com/docs/sdk/agents/\#agentpromptoptions)
+### `AgentPromptOptions`
 
 | Field | Type | Description |
-| --- | --- | --- |
+|----|----|----|
 | `message` | `string` | Prompt sent to the agent instance. |
 | `images` | `AgentPromptImage[]` | Optional image attachments. Requires a vision-capable model. |
 | `signal` | `AbortSignal` | Cancel the in-flight HTTP request. |
 
-### `AgentPromptImage` [\#](https://flueframework.com/docs/sdk/agents/\#agentpromptimage)
+### `AgentPromptImage`
 
-```
+``` astro-code
 interface AgentPromptImage {
   type: 'image';
   data: string;
@@ -32,17 +40,17 @@ interface AgentPromptImage {
 
 `data` is the base64-encoded image content and `mimeType` its media type, such as `image/png`. The server rejects images whose `data` exceeds 14 MiB of base64 characters.
 
-### `AgentPromptResult` [\#](https://flueframework.com/docs/sdk/agents/\#agentpromptresult)
+### `AgentPromptResult`
 
-```
+``` astro-code
 interface AgentPromptResult extends AgentSendResult {
   result: AgentPromptResponse;
 }
 ```
 
-### `AgentPromptResponse` [\#](https://flueframework.com/docs/sdk/agents/\#agentpromptresponse)
+### `AgentPromptResponse`
 
-```
+``` astro-code
 interface AgentPromptResponse {
   text: string;
   usage: {
@@ -64,22 +72,22 @@ interface AgentPromptResponse {
 ```
 
 | Field | Type | Description |
-| --- | --- | --- |
+|----|----|----|
 | `text` | `string` | Assistant text returned by the prompt. |
 | `usage` | object | Aggregated token and cost usage for model work performed by the prompt. |
 | `model` | object | Model selected for the prompt’s primary turn. |
 
-## `client.agents.send(...)` [\#](https://flueframework.com/docs/sdk/agents/\#clientagentssend)
+## `client.agents.send(...)`
 
-```
+``` astro-code
 send(name: string, id: string, options: AgentPromptOptions): Promise<AgentSendResult>;
 ```
 
-Starts one prompt without waiting for completion. This uses the default `POST /agents/:name/:id` response, which returns `202`. Use the returned `offset` with `agents.stream()` to read exactly that prompt’s events.
+Starts one prompt without waiting for completion. This uses the default `POST /agents/:name/:id` response, which returns `202`. Pass the result to `agents.wait()` to await settlement, or observe the conversation with `agents.observe()`.
 
-### `AgentSendResult` [\#](https://flueframework.com/docs/sdk/agents/\#agentsendresult)
+### `AgentSendResult`
 
-```
+``` astro-code
 interface AgentSendResult {
   streamUrl: string;
   offset: string;
@@ -87,38 +95,70 @@ interface AgentSendResult {
 }
 ```
 
-Both `prompt()` and `send()` return the required `submissionId`. It correlates this direct submission with its attached agent events; workflow- and dispatch-driven activity use their existing `runId` and `dispatchId` fields instead.
+Both `prompt()` and `send()` return the required `submissionId`, which identifies the durable direct submission.
 
-## `client.agents.stream(...)` [\#](https://flueframework.com/docs/sdk/agents/\#clientagentsstream)
+## `client.agents.abort(...)`
 
+``` astro-code
+abort(name: string, id: string, options?: { signal?: AbortSignal }): Promise<AgentAbortResult>;
 ```
-stream(name: string, id: string, options?: FlueStreamOptions): FlueEventStream<AttachedAgentEvent>;
-```
 
-Streams events from an agent instance via the [Durable Streams](https://durablestreams.com/) protocol. See [Streaming Protocol](https://flueframework.com/docs/api/streaming-protocol/) for the raw HTTP contract. Returns an async iterable of typed `FlueEvent` objects.
+Aborts all in-flight and queued durable work for an agent instance — the submission it is currently running and anything queued behind it. This uses `POST /agents/:name/:id/abort`.
 
-Use `offset` to control where reading begins. Pass `"-1"` for full history, `"now"` for future events only, or an offset returned by a previous read to resume from that position. A stream created before the first admitted prompt can return `404` because agent streams are created on first prompt admission.
+Abort records a durable intent and returns once it is recorded; settlement happens asynchronously. The aborted work settles to a distinct **aborted** terminal outcome rather than a failure: a `submission_aborted` entry is written to the conversation (visible via `observe()`/`history()`), and a pending `wait()`/`prompt()` rejects with `SubmissionAbortedError` (`type: 'submission_aborted'`). Work that has already completed is not affected — an abort that loses the race to a finished response settles as completed.
 
-```
-for await (const event of client.agents.stream('support', 'ticket-42', {
-  offset: '-1',
-  live: true,
-})) {
-  console.log(event.type);
-  if (event.type === 'idle') break;
+### `AgentAbortResult`
+
+``` astro-code
+interface AgentAbortResult {
+  aborted: boolean;
 }
 ```
 
-See [`FlueStreamOptions`](https://flueframework.com/docs/sdk/runs/#fluestreamoptions) for available options.
+`aborted` is `true` when there was in-flight or queued work that is now being aborted, and `false` when the instance was idle.
+
+## `client.agents.observe(...)`
+
+``` astro-code
+observe(name: string, id: string, options?: AgentConversationObserveOptions): AgentConversationObservation;
+```
+
+Observes one materialized conversation across initial history catch-up, live updates, reconnects, and canonical resets. This is the default API for applications that retain conversation state.
+
+``` astro-code
+const conversation = client.agents.observe('support', 'ticket-42', {
+  live: 'sse',
+});
+
+const unsubscribe = conversation.subscribe(() => {
+  const snapshot = conversation.getSnapshot();
+  render(snapshot.conversation?.messages ?? []);
+});
+```
+
+`getSnapshot()` returns the materialized `FlueConversationState`, its safe resume offset, the current phase, and any transport error. Call `refresh()` after creating an agent instance that was previously absent, and `close()` when observation is no longer needed.
+
+The observed conversation is a `FlueConversationState` of `FlueConversationMessage` values. Each message has clean, render-ready parts (`text`, `reasoning`, `dynamic-tool`, `file`); streaming assembly is handled internally, so a `text` part is always `{ type, text, state }`. Structured tool output appears on the `dynamic-tool` part’s `output`.
+
+## `client.agents.history(...)`
+
+``` astro-code
+history(name: string, id: string, options?: FlueConversationHistoryOptions): Promise<FlueConversationSnapshot>;
+```
+
+Returns one materialized conversation snapshot. The snapshot includes its opaque stream `offset`; historical token deltas are already reduced into complete message parts. Use `observe()` for live state — it performs the snapshot-to-live handoff and reduction for you. The snapshot is materialized by the API on demand and is not a persisted replay cache.
+
 
 ## Docs Navigation
 
-Current page: [client.agents](https://flueframework.com/docs/sdk/agents/)
+Current page: [client.agents](/docs/sdk/agents/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/resend-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/resend`.
 
 ## Exports [\#](https://flueframework.com/docs/api/resend-channel/\#exports)

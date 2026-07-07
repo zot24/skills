@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/cli/logs -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 ## Synopsis [\#](https://flueframework.com/docs/cli/logs/\#synopsis)
 
 ```

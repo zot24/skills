@@ -1,22 +1,26 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/channels/teams -->
+> Source: https://flueframework.com/docs/ecosystem/channels/teams
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/channels/teams/\#quickstart)
+
+
+# Microsoft Teams
+
+
+AI-generated, awaiting review <a href="/docs/ecosystem/channels/teams/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/teams" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/teams</a>
+
+
+## Quickstart
 
 Add authenticated Microsoft Teams Bot Connector activities and project-owned outbound messaging to an existing Flue project with the [Microsoft Teams](https://www.microsoft.com/microsoft-teams) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+``` astro-code
 flue add channel teams
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/channels/teams/\#overview)
+## Overview
 
-The blueprint installs `@flue/teams`, creates a source-root
-`lib/teams-client.ts` Fetch client and `channels/teams.ts` channel module, and
-modifies the selected agent to bind the generated message tool. The Fetch client
-handles OAuth token exchange and Bot Connector requests without adding
-Microsoft’s Node-oriented hosting SDKs.
+The blueprint installs `@flue/teams`, creates a source-root `lib/teams-client.ts` Fetch client and `channels/teams.ts` channel module, and modifies the selected agent to bind the generated message tool. The Fetch client handles OAuth token exchange and Bot Connector requests without adding Microsoft’s Node-oriented hosting SDKs.
 
-```
+``` astro-code
 import { dispatch } from '@flue/runtime';
 import { createTeamsChannel } from '@flue/teams';
 import assistant from '../agents/assistant.ts';
@@ -40,42 +44,34 @@ export const channel = createTeamsChannel({
 });
 ```
 
-The abridged example omits the generated client and message tool. Once
-configured, a text activity continues the agent instance for its verified Teams
-conversation, and the bound tool can post a reply to the same Connector service
-URL and thread. The generated Fetch client runs on Node and Cloudflare Workers.
+The abridged example omits the generated client and message tool. Once configured, a text activity continues the agent instance for its verified Teams conversation, and the bound tool can post a reply to the same Connector service URL and thread. The generated Fetch client runs on Node and Cloudflare Workers.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/channels/teams/\#configure)
+## Configure
 
 | Variable | Purpose |
-| --- | --- |
+|----|----|
 | `TEAMS_APP_ID` | **Required** — Constrains the inbound JWT audience. |
 | `TEAMS_TENANT_ID` | **Required** — Constrains activity tenant identity. |
 | `TEAMS_APP_PASSWORD` | **Required** — Authenticates outbound OAuth requests. |
 
-It installs `@flue/teams` for authenticated Bot Connector ingress and creates a
-project-owned Fetch client for outbound messages.
+It installs `@flue/teams` for authenticated Bot Connector ingress and creates a project-owned Fetch client for outbound messages.
 
-Microsoft’s current JavaScript Agents and Teams SDKs declare Node runtimes and
-use Node-oriented authentication or hosting packages. The blueprint uses the same
-documented OAuth client-credentials and Bot Connector REST protocols directly
-through Fetch so the integration runs on Node and Cloudflare Workers.
+Microsoft’s current JavaScript Agents and Teams SDKs declare Node runtimes and use Node-oriented authentication or hosting packages. The blueprint uses the same documented OAuth client-credentials and Bot Connector REST protocols directly through Fetch so the integration runs on Node and Cloudflare Workers.
 
 Set the Azure Bot messaging endpoint to:
 
-```
+``` astro-code
 https://example.com/channels/teams/activities
 ```
 
-Teams bots receive channel messages when mentioned by default. Configure the
-appropriate Teams resource-specific consent permissions when the application
-must receive all channel or group-chat messages.
+Teams bots receive channel messages when mentioned by default. Configure the appropriate Teams resource-specific consent permissions when the application must receive all channel or group-chat messages.
 
-## Channel module [\#](https://flueframework.com/docs/ecosystem/channels/teams/\#channel-module)
+## Channel module
 
-```
+``` astro-code
 import { defineTool, dispatch } from '@flue/runtime';
 import { createTeamsChannel, type TeamsConversationRef } from '@flue/teams';
+import * as v from 'valibot';
 import assistant from '../agents/assistant.ts';
 import { createTeamsClient } from '../lib/teams-client.ts';
 
@@ -119,61 +115,40 @@ export function postMessage(ref: TeamsConversationRef) {
   return defineTool({
     name: 'post_teams_message',
     description: 'Post to the Microsoft Teams conversation bound to this agent.',
-    parameters: {
-      type: 'object',
-      properties: { text: { type: 'string', minLength: 1 } },
-      required: ['text'],
-      additionalProperties: false,
-    },
-    async execute({ text }) {
+    input: v.object({ text: v.pipe(v.string(), v.minLength(1)) }),
+    async run({ input: { text } }) {
       const result = await client.postMessage(ref, text);
-      return JSON.stringify({ activityId: result.id });
+      return { activityId: result.id };
     },
   });
 }
 ```
 
-The generated `lib/teams-client.ts` exchanges the application credentials for a
-Bot Connector token, caches it until shortly before expiry, and sends message
-activities through the verified destination’s Connector service URL.
+The generated `lib/teams-client.ts` exchanges the application credentials for a Bot Connector token, caches it until shortly before expiry, and sends message activities through the verified destination’s Connector service URL.
 
-The callback receives the provider-native Bot Framework `Activity`, re-exported
-from `botframework-schema`. Switch on the native `activity.type` (`message`,
-`conversationUpdate`, `invoke`, `messageReaction`, and other Bot Framework
-types) and read Microsoft’s documented field names. Call
-`channel.destination(activity)` to derive the canonical routing identity when
-you need to address a reply. Return nothing for an empty `200`, return JSON for
-a provider body, or use the Hono context for explicit status control.
+The callback receives the provider-native Bot Framework `Activity`, re-exported from `botframework-schema`. Switch on the native `activity.type` (`message`, `conversationUpdate`, `invoke`, `messageReaction`, and other Bot Framework types) and read Microsoft’s documented field names. Call `channel.destination(activity)` to derive the canonical routing identity when you need to address a reply. Return nothing for an empty `200`, return JSON for a provider body, or use the Hono context for explicit status control.
 
-Azure Bot Service holds the inbound request open with a real response window, so
-admit durable work quickly — `dispatch(...)` the activity and return, then rely
-on idempotency rather than blocking the response on long-running work. `invoke`
-activities expect a JSON acknowledgement body, and the Bot Connector retries on
-any non-2xx response, so return a 2xx once the work is safely admitted.
+Azure Bot Service holds the inbound request open with a real response window, so admit durable work quickly — `dispatch(...)` the activity and return, then rely on idempotency rather than blocking the response on long-running work. `invoke` activities expect a JSON acknowledgement body, and the Bot Connector retries on any non-2xx response, so return a 2xx once the work is safely admitted.
 
-## Bind the tool [\#](https://flueframework.com/docs/ecosystem/channels/teams/\#bind-the-tool)
+## Bind the tool
 
-```
-import { createAgent } from '@flue/runtime';
+``` astro-code
+import { defineAgent } from '@flue/runtime';
 import { channel, postMessage } from '../channels/teams.ts';
 
-export default createAgent(({ id }) => ({
+export default defineAgent(({ id }) => ({
   model: 'anthropic/claude-haiku-4-5',
   tools: [postMessage(channel.parseConversationKey(id))],
 }));
 ```
 
-The model selects only message text. Trusted code binds the tenant, Connector
-service URL, conversation, bot account, and channel thread.
+The model selects only message text. Trusted code binds the tenant, Connector service URL, conversation, bot account, and channel thread.
 
-Conversation keys validate syntax, not authorization. Keep this agent
-dispatch-only, or independently authorize caller-selected instance ids before
-using them for outbound requests.
+Conversation keys validate syntax, not authorization. Keep this agent dispatch-only, or independently authorize caller-selected instance ids before using them for outbound requests.
 
-## Authentication [\#](https://flueframework.com/docs/ecosystem/channels/teams/\#authentication)
+## Authentication
 
-`@flue/teams` verifies the Bot Connector bearer token before invoking the
-handler. It checks:
+`@flue/teams` verifies the Bot Connector bearer token before invoking the handler. It checks:
 
 - the Microsoft OpenID signing key and `RS256` signature;
 - issuer, application audience, and expiration;
@@ -181,23 +156,23 @@ handler. It checks:
 - the activity’s exact `serviceUrl` against the signed token claim;
 - the host conversation and channel tenant against `TEAMS_TENANT_ID`.
 
-The defaults target Microsoft’s public cloud. Supported sovereign deployments
-can provide their documented OpenID metadata URL, token issuer, and OAuth
-authority.
+The defaults target Microsoft’s public cloud. Supported sovereign deployments can provide their documented OpenID metadata URL, token issuer, and OAuth authority.
 
-The package does not deduplicate activity ids. Claim them in application-owned
-durable storage before dispatch when duplicate admission is unacceptable.
+The package does not deduplicate activity ids. Claim them in application-owned durable storage before dispatch when duplicate admission is unacceptable.
 
-See the [`@flue/teams` API reference](https://flueframework.com/docs/api/teams-channel/).
+See the [`@flue/teams` README](https://github.com/withastro/flue/tree/main/packages/teams#readme).
+
 
 ## Docs Navigation
 
-Current page: [Microsoft Teams](https://flueframework.com/docs/ecosystem/channels/teams/)
+Current page: [Microsoft Teams](/docs/ecosystem/channels/teams/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

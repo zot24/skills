@@ -1,30 +1,39 @@
-<!-- Source: https://flueframework.com/docs/api/agent-api -->
+> Source: https://flueframework.com/docs/api/agent-api
+
+
+
+# Agent API
+
+
+Last updated Jun 21, 2026 <a href="/docs/api/agent-api/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+
 
 The agent API is exported from `@flue/runtime`.
 
-```
+``` astro-code
 import {
   FlueError,
   ResultUnavailableError,
   ToolInputValidationError,
+  ToolLegacyDefinitionError,
+  ToolOutputSerializationError,
+  ToolOutputValidationError,
   bash,
   connectMcpServer,
-  createAgent,
+  defineAgent,
   defineAgentProfile,
   defineTool,
   dispatch,
-  type AgentCreateContext,
+  type AgentInitializerContext,
   type AgentDispatchRequest,
-  type AgentHarnessOptions,
   type AgentProfile,
   type AgentRuntimeConfig,
   type BashFactory,
   type CallHandle,
   type CompactionConfig,
-  type CreatedAgent,
+  type AgentDefinition,
   type DispatchReceipt,
   type FileStat,
-  type FlueContext,
   type FlueFs,
   type FlueHarness,
   type FlueLogger,
@@ -47,58 +56,62 @@ import {
   type SkillReference,
   type TaskOptions,
   type ThinkingLevel,
-  type ToolArgs,
+  type ToolContext,
   type ToolDefinition,
-  type ToolParameters,
+  type ToolInput,
+  type ToolInputSchema,
+  type ToolOutput,
+  type ToolOutputSchema,
   type ToolValidationIssue,
 } from '@flue/runtime';
 ```
 
-## `defineAgentProfile(...)` [\#](https://flueframework.com/docs/api/agent-api/\#defineagentprofile)
+## `defineAgentProfile(...)`
 
-```
+``` astro-code
 function defineAgentProfile(profile: AgentProfile): AgentProfile;
 ```
 
-Validates and returns a reusable agent profile. Use profiles as the baseline for a created agent or as named subagents available to `session.task()`.
+Validates and returns a reusable agent profile. Use profiles as the baseline for an agent definition or as named subagents available to `session.task()`.
 
 Throws when the profile contains unknown fields, invalid capabilities, duplicate capability names, or circular subagents.
 
-#### `AgentProfile` [\#](https://flueframework.com/docs/api/agent-api/\#agentprofile)
+#### `AgentProfile`
 
 | Field | Type | Description |
-| --- | --- | --- |
+|----|----|----|
 | `name` | `string` | Profile name. Required when selecting this profile with `session.task()`. |
 | `description` | `string` | Human-readable profile description. |
-| `model` | `string | false` | Default model specifier. Set to `false` to require call-level model selection. |
+| `model` | `string` | Default model specifier. |
 | `instructions` | `string` | Instructions prepended to discovered workspace context. |
 | `skills` | `Skill[]` | Registered skills available to initialized sessions. |
 | `tools` | `ToolDefinition[]` | Custom model-callable tools available to initialized sessions. |
+| `actions` | `ActionDefinition[]` | Reusable Actions exposed to the model as framework-managed tools. |
 | `subagents` | `AgentProfile[]` | Named profiles available for delegated `session.task()` operations. |
 | `thinkingLevel` | `ThinkingLevel` | Default reasoning effort. Individual operations may override this value. |
 | `compaction` | `false | CompactionConfig` | Automatic conversation-compaction configuration. `false` disables threshold compaction; overflow recovery and explicit `session.compact()` calls still compact when needed. |
 | `durability` | `DurabilityConfig` | Durability configuration for durable agent submissions. Controls recovery attempt limits and submission timeouts. Rejected on subagent profiles. |
 
-When a profile is selected as a subagent with `session.task()`, it is self-contained: `instructions`, `tools`, `skills`, and `subagents` apply only as declared on the profile (omitted means none), while `model`, `thinkingLevel`, and `compaction` inherit from the parent as defaults. See [Subagents](https://flueframework.com/docs/guide/subagents/#configuration-inheritance).
+When a profile is selected as a subagent with `session.task()`, it is self-contained: `instructions`, `tools`, `skills`, and `subagents` apply only as declared on the profile (omitted means none), while `model`, `thinkingLevel`, and `compaction` inherit from the parent as defaults. See [Subagents](/docs/guide/subagents/#configuration-inheritance).
 
-#### `DurabilityConfig` [\#](https://flueframework.com/docs/api/agent-api/\#durabilityconfig)
+#### `DurabilityConfig`
 
 | Field | Type | Default | Description |
-| --- | --- | --- | --- |
+|----|----|----|----|
 | `maxAttempts` | `number` | `10` | Maximum total attempts before the submission is terminalized as failed. The initial run counts as the first attempt; each interruption that requires a new attempt consumes another. |
 | `timeoutMs` | `number` | `3600000` | Maximum wall-clock milliseconds for a single submission. Submissions exceeding this limit are aborted and settled as failed. Set higher for long-running agents (e.g. `21_600_000` for a 6-hour agent). The timeout is checked cooperatively at turn boundaries, not preemptively during provider calls. |
 
-#### `CompactionConfig` [\#](https://flueframework.com/docs/api/agent-api/\#compactionconfig)
+#### `CompactionConfig`
 
 | Field | Type | Default | Description |
-| --- | --- | --- | --- |
+|----|----|----|----|
 | `reserveTokens` | `number` | model-aware; capped at `20000` | Token headroom reserved before automatic compaction. Smaller model output limits and small context windows reduce this default. |
 | `keepRecentTokens` | `number` | `8000` | Recent tokens preserved unsummarized after compaction. |
 | `model` | `string` | session model | Model specifier override used for compaction summaries. |
 
-#### `Skill` [\#](https://flueframework.com/docs/api/agent-api/\#skill)
+#### `Skill`
 
-```
+``` astro-code
 type Skill =
   | SkillReference
   | {
@@ -107,53 +120,70 @@ type Skill =
     };
 ```
 
-Skill metadata registered with an agent, harness, or profile. Imported `SkillReference` values bundle application-owned skill content. Inline metadata adds only a named catalog entry; it does not package or inject an instruction body. Initialization rejects a registered skill whose name collides with a workspace-discovered skill. See [Skills](https://flueframework.com/docs/guide/skills/).
+Skill metadata registered with an agent, harness, or profile. Imported `SkillReference` values bundle application-owned skill content. Inline metadata adds only a named catalog entry; it does not package or inject an instruction body. Initialization rejects a registered skill whose name collides with a workspace-discovered skill. See [Skills](/docs/guide/skills/).
 
-## `defineTool(...)` [\#](https://flueframework.com/docs/api/agent-api/\#definetool)
+## `defineTool(...)`
 
+``` astro-code
+function defineTool<
+  TInput extends ToolInputSchema | undefined = undefined,
+  TOutput extends ToolOutputSchema | undefined = undefined,
+>(options: {
+  name: string;
+  description: string;
+  input?: TInput;
+  output?: TOutput;
+  run: ToolDefinition<TInput, TOutput>['run'];
+}): ToolDefinition<TInput, TOutput>;
 ```
-function defineTool<TParams extends ToolParameters>(tool: ToolDefinition<TParams>): ToolDefinition;
-```
 
-Validates a custom model-callable tool and returns a shallow-frozen, normalized copy.
+Validates a custom model-callable tool and returns a frozen definition. Tool names are checked for collisions with other active tools when a session assembles its tool list.
 
-Valibot `parameters` are converted to plain JSON Schema once at definition time, and `execute` is wrapped so model-supplied arguments are parsed against the schema before the callback runs. A validation failure throws `ToolInputValidationError`, which the agent loop returns to the model as an error tool result so it can retry with corrected arguments; `meta.issues` carries the failures as `ToolValidationIssue` values in [Standard Schema](https://standardschema.dev/)’s issues shape. Tool names are checked for collisions with other active tools when a session assembles its tool list.
+`input` and `output` are optional Valibot schemas. `input` must be a top-level object schema. Model-supplied input is validated and parsed before `run` receives it; validation failures become tool errors so the model can retry. When present, `output` validates and parses the returned value. Structured output is snapshotted as JSON-compatible data and JSON-stringified for the model. Without an `output` schema, returning `undefined` sends `null` to the model.
 
-#### `ToolDefinition` [\#](https://flueframework.com/docs/api/agent-api/\#tooldefinition)
+#### `ToolDefinition`
 
 | Field | Type | Description |
-| --- | --- | --- |
+|----|----|----|
 | `name` | `string` | Tool name. Must be unique across active built-in and custom tools. |
 | `description` | `string` | Tells the model when and how to use this tool. |
-| `parameters` | `ToolParameters` | Valibot object schema (`v.object({ ... })`), or a raw JSON Schema object for schemas produced elsewhere (e.g. MCP). |
-| `execute` | `(args: ToolArgs<TParams>, signal?: AbortSignal) => Promise<string>` | Receives the parsed, typed arguments (the schema’s `v.InferOutput`). Returns text sent back to the model. Thrown errors become tool errors. |
+| `input` | `ToolInputSchema` | Optional top-level Valibot object schema. |
+| `output` | `ToolOutputSchema` | Optional Valibot schema for typed, validated output. |
+| `run` | `({ input, signal }) => value | Promise` | Receives parsed input when declared and an optional `AbortSignal`. Returns JSON-compatible structured data. |
 
-```
+``` astro-code
 import { defineTool } from '@flue/runtime';
 import * as v from 'valibot';
 
 const lookupPolicy = defineTool({
   name: 'lookup_policy',
   description: 'Read one approved policy by topic.',
-  parameters: v.object({ topic: v.string() }),
-  execute: async ({ topic }) => readPolicy(topic),
+  input: v.object({ topic: v.string() }),
+  output: v.object({ title: v.string(), body: v.string() }),
+  async run({ input, signal }) {
+    return readPolicy(input.topic, { signal });
+  },
 });
 ```
 
-## `connectMcpServer(...)` [\#](https://flueframework.com/docs/api/agent-api/\#connectmcpserver)
+### Breaking migration
 
-```
+The old `parameters` and `execute` markers now throw when a tool is defined. Rename `parameters` to `input`, rename `execute(args, signal)` to `run({ input, signal })`, and return structured JSON-compatible data directly instead of calling `JSON.stringify(...)`. Add `output` when the returned shape should be typed and validated.
+
+## `connectMcpServer(...)`
+
+``` astro-code
 function connectMcpServer(name: string, options: McpServerOptions): Promise<McpServerConnection>;
 ```
 
-Connects to a remote MCP server and adapts its listed tools into ordinary Flue tool definitions.
+Connects to a remote MCP server and returns its listed tools as Flue tool definitions ready to pass directly in `tools` arrays.
 
-Adapted tool names use `mcp__<server>__<tool>`. Unsupported characters are replaced with underscores, and duplicate adapted names are rejected. Close the returned connection when its tools are no longer needed.
+Adapted tool names use `mcp__<server>__<tool>`. Unsupported characters are replaced with underscores, and duplicate adapted names are rejected. Do not wrap these tools with `defineTool()`. Close the returned connection when its tools are no longer needed.
 
-#### `McpServerOptions` [\#](https://flueframework.com/docs/api/agent-api/\#mcpserveroptions)
+#### `McpServerOptions`
 
 | Field | Type | Default | Description |
-| --- | --- | --- | --- |
+|----|----|----|----|
 | `url` | `string | URL` | — | MCP server endpoint. |
 | `transport` | `'streamable-http' | 'sse'` | `'streamable-http'` | Remote MCP transport. Use `'sse'` for legacy servers. |
 | `headers` | `HeadersInit` | — | Headers merged into MCP transport requests. |
@@ -162,9 +192,9 @@ Adapted tool names use `mcp__<server>__<tool>`. Unsupported characters are repla
 | `timeoutMs` | `number` | `60000` | Per-request timeout in milliseconds for MCP requests. |
 | `resetTimeoutOnProgress` | `boolean` | `false` | Reset the per-request timeout whenever the server sends a progress notification. |
 
-#### `McpServerConnection` [\#](https://flueframework.com/docs/api/agent-api/\#mcpserverconnection)
+#### `McpServerConnection`
 
-```
+``` astro-code
 interface McpServerConnection {
   name: string;
   tools: ToolDefinition[];
@@ -172,59 +202,59 @@ interface McpServerConnection {
 }
 ```
 
-| Field | Description |
-| --- | --- |
-| `name` | Server name supplied to `connectMcpServer()`. |
-| `tools` | MCP tools adapted into ordinary Flue tool definitions. |
-| `close()` | Close the underlying MCP client connection. |
+| Field     | Description                                         |
+|-----------|-----------------------------------------------------|
+| `name`    | Server name supplied to `connectMcpServer()`.       |
+| `tools`   | MCP tools ready to pass directly in `tools` arrays. |
+| `close()` | Close the underlying MCP client connection.         |
 
-## `createAgent(...)` [\#](https://flueframework.com/docs/api/agent-api/\#createagent)
+## `defineAgent(...)`
 
-```
-function createAgent<TPayload = unknown, TEnv = Record<string, any>>(
+``` astro-code
+function defineAgent<TEnv = Record<string, any>>(
   initialize: (
-    context: AgentCreateContext<TPayload, TEnv>,
+    context: AgentInitializerContext<TEnv>,
   ) => AgentRuntimeConfig | Promise<AgentRuntimeConfig>,
-): CreatedAgent<TPayload, TEnv>;
+): AgentDefinition<TEnv>;
 ```
 
-Creates an agent initializer. Default-export the returned value from an `agents/<name>.ts` module to define an addressable agent, or pass it to `ctx.init()` inside a workflow.
+Defines an agent initializer. Default-export the returned value from an `agents/<name>.ts` module to define an addressable agent, or bind it to a Workflow Definition.
 
-The initializer runs whenever the runtime initializes a harness from the created agent: when a workflow calls `ctx.init()`, and when the runtime prepares an addressable agent interaction. Do not treat it as a one-time constructor for a persistent agent instance id. Return a runtime config object with `model: '<provider>/<model>'`, `model: false`, or a profile with its own model field.
+The initializer runs whenever a runner initializes a root harness from the agent definition. Do not treat it as a one-time constructor for a persistent agent instance id. Return a runtime config object with `model: '<provider>/<model>'` or a profile with its own model field.
 
-#### `AgentCreateContext` [\#](https://flueframework.com/docs/api/agent-api/\#agentcreatecontext)
+#### `AgentInitializerContext`
+
+| Field | Type     | Description                                            |
+|-------|----------|--------------------------------------------------------|
+| `id`  | `string` | Agent instance ID or workflow run ID.                  |
+| `env` | `TEnv`   | Platform environment bindings supplied by the runtime. |
+
+#### `AgentRuntimeConfig`
 
 | Field | Type | Description |
-| --- | --- | --- |
-| `id` | `string` | Agent instance id, or workflow run id when initialized with `ctx.init()`. |
-| `env` | `TEnv` | Platform environment bindings supplied by the runtime. |
-| `payload` | `TPayload | undefined` | Workflow payload when initialized with `ctx.init()`; otherwise `undefined`. |
-
-#### `AgentRuntimeConfig` [\#](https://flueframework.com/docs/api/agent-api/\#agentruntimeconfig)
-
-| Field | Type | Description |
-| --- | --- | --- |
+|----|----|----|
 | `description` | `string` | Optional organizational metadata describing what this agent does. Overrides the profile description when set. Per-initialization metadata only — for a static description that surfaces in the deployment manifest and `listAgents()`, use the module-level `description` export instead. |
-| `profile` | `AgentProfile` | Reusable baseline profile. Created-agent fields replace or extend profile values. |
-| `model` | `string | false` | Default model specifier. Set to `false` to require call-level model selection. |
+| `profile` | `AgentProfile` | Reusable baseline profile. Agent-definition fields replace or extend profile values. |
+| `model` | `string` | Default model specifier. |
 | `instructions` | `string` | Instructions prepended to discovered workspace context. |
 | `skills` | `Skill[]` | Additional registered skills available to initialized sessions. |
 | `tools` | `ToolDefinition[]` | Additional custom model-callable tools available to initialized sessions. |
+| `actions` | `ActionDefinition[]` | Additional reusable Actions exposed as framework-managed model tools. |
 | `subagents` | `AgentProfile[]` | Additional named profiles available for delegated `session.task()` operations. |
 | `thinkingLevel` | `ThinkingLevel` | Default reasoning effort. Individual operations may override this value. |
 | `compaction` | `false | CompactionConfig` | Automatic conversation-compaction configuration. `false` disables threshold compaction; overflow recovery and explicit `session.compact()` calls still compact when needed. |
 | `durability` | `DurabilityConfig` | Durability configuration for durable agent submissions. Controls recovery attempt limits and submission timeouts. |
 | `cwd` | `string` | Working directory inside the initialized sandbox. |
-| `sandbox` | `SandboxFactory` | Sandbox factory used to construct the initialized environment. Omit for the default in-memory sandbox; use `bash(...)` to wrap a custom just-bash factory (`BashFactory`). See [Sandboxes](https://flueframework.com/docs/guide/sandboxes/). |
+| `sandbox` | `SandboxFactory` | Sandbox factory used to construct the initialized environment. Omit for the default in-memory sandbox; use `bash(...)` to wrap a custom just-bash factory (`BashFactory`). See [Sandboxes](/docs/guide/sandboxes/). |
 
-#### `CreatedAgent` [\#](https://flueframework.com/docs/api/agent-api/\#createdagent)
+#### `AgentDefinition`
 
-`CreatedAgent` is the opaque initializer value returned by `createAgent()`.
+`AgentDefinition` is the opaque initializer value returned by `defineAgent()`.
 
-## `dispatch(...)` [\#](https://flueframework.com/docs/api/agent-api/\#dispatch)
+## `dispatch(...)`
 
-```
-function dispatch(agent: CreatedAgent, request: AgentDispatchRequest): Promise<DispatchReceipt>;
+``` astro-code
+function dispatch(agent: AgentDefinition, request: AgentDispatchRequest): Promise<DispatchReceipt>;
 
 function dispatch(request: NamedAgentDispatchRequest): Promise<DispatchReceipt>;
 
@@ -243,92 +273,33 @@ interface DispatchReceipt {
 }
 ```
 
-Accepts input for asynchronous delivery to a continuing agent instance. The created-agent overload requires a value default-exported by one discovered `agents/<name>.ts` module. The named overload selects a discovered agent module by name.
+Accepts input for asynchronous delivery to a continuing agent instance. The agent-definition overload requires a value default-exported by one discovered `agents/<name>.ts` module. The named overload selects a discovered agent module by name.
 
 | Field | Description |
-| --- | --- |
+|----|----|
 | `agent` | Discovered agent module name for the named overload. |
 | `id` | Target agent instance id. |
-| `input` | Required JSON-like payload. Use `null` for an intentional empty payload. Flue snapshots it when accepted. |
+| `input` | Required JSON-like input. Use `null` for an intentional empty value. Flue snapshots it when accepted. |
 | `dispatchId` | Generated delivery identifier returned in the receipt. This is not a workflow `runId`. |
 | `acceptedAt` | ISO timestamp assigned when dispatch admission begins. |
 
-`await dispatch(...)` resolves when the current runtime accepts and queues the input. It does not wait for model processing, tool calls, or an agent reply. Dispatched activity belongs to the continuing agent instance: it does not create workflow-run history and does not appear in `/runs` or `flue logs`.
+`await dispatch(...)` resolves when the current runtime accepts and queues the input. It does not wait for model processing, tool calls, or an agent reply. Dispatched activity belongs to the continuing agent instance: it does not create workflow-run history and does not appear in SDK `client.runs` or raw `/runs` APIs.
 
-Delivery durability depends on the generated target. Node uses a process-lifetime in-memory queue by default; with a durable `db.ts` adapter, dispatches survive restarts and are reconciled on the replacement process. Cloudflare durably admits delivery to the target agent Durable Object, orders it with direct prompts, and reconciles interruptions conservatively. Both targets retry only when replay safety is provable; external effects still require application-level idempotency. See [Durable Agents](https://flueframework.com/docs/concepts/durable-execution/) for recovery details, and [Deploy Agents on Node.js](https://flueframework.com/docs/ecosystem/deploy/node/) and [Deploy Agents on Cloudflare](https://flueframework.com/docs/ecosystem/deploy/cloudflare/) for target-specific setup.
+Delivery durability depends on the generated target. Node uses a process-lifetime in-memory queue by default; with a durable `db.ts` adapter, dispatches survive restarts and are reconciled on the replacement process. Cloudflare durably admits delivery to the target agent Durable Object, orders it with direct prompts, and reconciles interruptions conservatively. Both targets retry only when replay safety is provable; external effects still require application-level idempotency. See [Durable Agents](/docs/concepts/durable-execution/) for recovery details, and [Deploy Agents on Node.js](/docs/ecosystem/deploy/node/) and [Deploy Agents on Cloudflare](/docs/ecosystem/deploy/cloudflare/) for target-specific setup.
 
-## `FlueContext` [\#](https://flueframework.com/docs/api/agent-api/\#fluecontext)
+## Agent
 
-```
-interface FlueContext<TPayload = unknown, TEnv = Record<string, any>> {
-  readonly id: string;
-  readonly payload: TPayload;
-  readonly env: TEnv;
-  readonly req: Request | undefined;
-  readonly log: FlueLogger;
-  init(agent: CreatedAgent<TPayload, TEnv>, options?: AgentHarnessOptions): Promise<FlueHarness>;
-}
-```
+An agent definition is the opaque value returned by `defineAgent()`. Default-export it from `agents/<name>.ts` to make persistent instances addressable, or bind it to a workflow as execution policy. Workflow runners initialize their harness automatically.
 
-The execution context passed to workflow handlers. Pass type parameters to type `payload` and `env` (for example, the `Env` interface generated by `wrangler types`). The typing is compile-time only — there is no runtime validation of `payload`.
+## Harness
 
-| Member | Type | Description |
-| --- | --- | --- |
-| `id` | `string` | Workflow run/instance id, or the stable agent instance id during agent processing. |
-| `payload` | `TPayload` | The invocation payload, snapshotted when the invocation is accepted. |
-| `env` | `TEnv` | Platform env bindings: `process.env` on Node.js, the Worker env on Cloudflare. |
-| `req` | `Request | undefined` | The standard Fetch `Request` for the current invocation. See [`ctx.req`](https://flueframework.com/docs/api/agent-api/#ctxreq) below. |
-| `log` | `FlueLogger` | Emit observable structured log events. See [`ctx.log`](https://flueframework.com/docs/api/agent-api/#ctxlog) below. |
-| `init` | function | Initialize a created agent for this invocation. See [`ctx.init(...)`](https://flueframework.com/docs/api/agent-api/#ctxinit) below. |
+A harness is an initialized agent environment supplied by the active runner. Actions receive it as `context.harness`; application code does not name or initialize workflow harnesses.
 
-### `ctx.req` [\#](https://flueframework.com/docs/api/agent-api/\#ctxreq)
+#### `FlueHarness`
 
-The standard Fetch `Request` for the current invocation. Use it to read headers (`req.headers.get('authorization')`), method, URL, and the raw body (`req.text()` / `req.json()` / `req.arrayBuffer()` / `req.formData()`) — useful for things like HMAC signature verification over the request bytes.
+Initialized agent environment for sessions and workspace operations.
 
-Body access is single-use, like any standard `Request`: once you call a body-reading method, calling another will throw. Use `req.clone()` if you need to read it more than once.
-
-`req` is `undefined` when the handler is invoked outside an HTTP context. Durable or recovered processing may receive a synthetic internal request instead of the original caller request, so authenticate and capture required transport metadata before durable admission; do not assume later processing retains the original headers, cookies, query parameters, URL, or body.
-
-For the client IP, parse the platform header yourself — `req.headers.get('cf-connecting-ip')` on Cloudflare, or `req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()` behind a trusted proxy on Node.js. Don’t trust headers you don’t control.
-
-### `ctx.log` [\#](https://flueframework.com/docs/api/agent-api/\#ctxlog)
-
-```
-interface FlueLogger {
-  info(message: string, attributes?: Record<string, unknown>): void;
-  warn(message: string, attributes?: Record<string, unknown>): void;
-  error(message: string, attributes?: Record<string, unknown>): void;
-}
-```
-
-Emits observable structured log events with optional structured attributes. Log events are persisted in a run stream only during a workflow run. See [Observability](https://flueframework.com/docs/guide/observability/).
-
-### `ctx.init(...)` [\#](https://flueframework.com/docs/api/agent-api/\#ctxinit)
-
-`ctx.init()` initializes a created agent for one workflow invocation. Each harness name may be initialized once per context. The default harness name is `'default'`.
-
-#### `AgentHarnessOptions` [\#](https://flueframework.com/docs/api/agent-api/\#agentharnessoptions)
-
-| Field | Type | Default | Description |
-| --- | --- | --- | --- |
-| `name` | `string` | `'default'` | Harness name. |
-| `tools` | `ToolDefinition[]` | — | Additional custom model-callable tools available to initialized sessions. |
-| `skills` | `Skill[]` | — | Additional registered skills available to initialized sessions. |
-| `subagents` | `AgentProfile[]` | — | Additional named profiles available for delegated `session.task()` operations. |
-
-## Agent [\#](https://flueframework.com/docs/api/agent-api/\#agent)
-
-A created agent is the value returned by `createAgent()`. Addressable agents are default-exported from `agents/<name>.ts`. Workflows initialize a created agent with `ctx.init()`.
-
-## Harness [\#](https://flueframework.com/docs/api/agent-api/\#harness)
-
-A harness is an initialized agent environment returned by `ctx.init()`.
-
-#### `FlueHarness` [\#](https://flueframework.com/docs/api/agent-api/\#flueharness)
-
-Initialized agent environment returned by `ctx.init()`.
-
-```
+``` astro-code
 interface FlueHarness {
   readonly name: string;
   session(name?: string): Promise<FlueSession>;
@@ -338,61 +309,53 @@ interface FlueHarness {
 }
 ```
 
-### `harness.session(...)` [\#](https://flueframework.com/docs/api/agent-api/\#harnesssession)
+### `harness.session(...)`
 
-```
+``` astro-code
 session(name?: string): Promise<FlueSession>;
 ```
 
 Gets or creates a session in this harness. Defaults to the `'default'` session. Names beginning with `task:` are reserved for framework-owned detached task sessions.
 
-### `harness.sessions.get(...)` [\#](https://flueframework.com/docs/api/agent-api/\#harnesssessionsget)
+### `harness.sessions.get(...)`
 
-```
+``` astro-code
 get(name?: string): Promise<FlueSession>;
 ```
 
 Loads an existing session. Defaults to `'default'`. Rejects with `SessionNotFoundError` if it does not exist.
 
-### `harness.sessions.create(...)` [\#](https://flueframework.com/docs/api/agent-api/\#harnesssessionscreate)
+### `harness.sessions.create(...)`
 
-```
+``` astro-code
 create(name?: string): Promise<FlueSession>;
 ```
 
 Creates a new session. Defaults to `'default'`. Rejects with `SessionAlreadyExistsError` if it already exists.
 
-### `harness.sessions.delete(...)` [\#](https://flueframework.com/docs/api/agent-api/\#harnesssessionsdelete)
+### `harness.shell(...)`
 
-```
-delete(name?: string): Promise<void>;
-```
-
-Deletes a session’s stored conversation state. Defaults to `'default'`. No-op when missing. Rejects with `SessionBusyError` if the open session has an active operation. It also rejects while the session has accepted durable submissions queued or running. Session-management requests for one name are applied in request order.
-
-### `harness.shell(...)` [\#](https://flueframework.com/docs/api/agent-api/\#harnessshell)
-
-```
+``` astro-code
 shell(command: string, options?: ShellOptions): CallHandle<ShellResult>;
 ```
 
 Runs a shell command in the harness sandbox without recording it in a conversation.
 
-### `harness.fs` [\#](https://flueframework.com/docs/api/agent-api/\#harnessfs)
+### `harness.fs`
 
-- **Type:**`FlueFs`
+- **Type:** `FlueFs`
 
 Reads and writes files in the harness sandbox without recording them in a conversation.
 
-## Session [\#](https://flueframework.com/docs/api/agent-api/\#session)
+## Session
 
 A session is named conversation state inside a harness. A session runs one active `prompt`, `skill`, `task`, `shell`, or `compact` operation at a time. Use separate named sessions for parallel conversation branches.
 
-#### `FlueSession` [\#](https://flueframework.com/docs/api/agent-api/\#fluesession)
+#### `FlueSession`
 
 Named conversation state inside a harness.
 
-```
+``` astro-code
 interface FlueSession {
   readonly name: string;
   prompt(text: string, options?: PromptOptions): CallHandle<PromptResponse>;
@@ -401,24 +364,23 @@ interface FlueSession {
   shell(command: string, options?: ShellOptions): CallHandle<ShellResult>;
   readonly fs: FlueFs;
   compact(): Promise<void>;
-  delete(): Promise<void>;
 }
 ```
 
 The `prompt()`, `skill()`, and `task()` signatures above omit structured-result overloads. Pass a Valibot schema as `options.result` to resolve with validated `response.data`.
 
-### `session.prompt(...)` [\#](https://flueframework.com/docs/api/agent-api/\#sessionprompt)
+### `session.prompt(...)`
 
-```
+``` astro-code
 prompt(text: string, options?: PromptOptions): CallHandle<PromptResponse>;
 ```
 
 Runs a model operation with a text instruction.
 
-#### `PromptOptions` [\#](https://flueframework.com/docs/api/agent-api/\#promptoptions)
+#### `PromptOptions`
 
 | Field | Type | Description |
-| --- | --- | --- |
+|----|----|----|
 | `result` | Valibot schema | Require validated structured data and resolve with `response.data`. |
 | `tools` | `ToolDefinition[]` | Additional custom model-callable tools for this operation. |
 | `model` | `string` | Model specifier override for this operation. |
@@ -426,9 +388,9 @@ Runs a model operation with a text instruction.
 | `signal` | `AbortSignal` | Cancel this operation. |
 | `images` | `PromptImage[]` | Images attached to the user message. Requires a vision-capable model. |
 
-#### `PromptImage` [\#](https://flueframework.com/docs/api/agent-api/\#promptimage)
+#### `PromptImage`
 
-```
+``` astro-code
 type PromptImage = {
   type: 'image';
   data: string;
@@ -438,9 +400,9 @@ type PromptImage = {
 
 The selected model must support image input.
 
-#### `PromptResponse` [\#](https://flueframework.com/docs/api/agent-api/\#promptresponse)
+#### `PromptResponse`
 
-```
+``` astro-code
 interface PromptResponse {
   text: string;
   usage: PromptUsage;
@@ -448,13 +410,13 @@ interface PromptResponse {
 }
 ```
 
-#### `PromptUsage` [\#](https://flueframework.com/docs/api/agent-api/\#promptusage)
+#### `PromptUsage`
 
 Aggregated token and cost usage for model work performed by one operation. Tool use, result retries, and automatic compaction may cause one operation to include multiple model turns.
 
-#### `PromptModel` [\#](https://flueframework.com/docs/api/agent-api/\#promptmodel)
+#### `PromptModel`
 
-```
+``` astro-code
 interface PromptModel {
   provider: string;
   id: string;
@@ -463,9 +425,9 @@ interface PromptModel {
 
 Model selected for the operation’s primary turn.
 
-#### `PromptResultResponse` [\#](https://flueframework.com/docs/api/agent-api/\#promptresultresponse)
+#### `PromptResultResponse`
 
-```
+``` astro-code
 interface PromptResultResponse<T> {
   data: T;
   usage: PromptUsage;
@@ -475,17 +437,17 @@ interface PromptResultResponse<T> {
 
 A structured-result operation throws `ResultUnavailableError` when the agent cannot produce validated data.
 
-### `session.skill(...)` [\#](https://flueframework.com/docs/api/agent-api/\#sessionskill)
+### `session.skill(...)`
 
-```
+``` astro-code
 skill(skill: SkillReference | string, options?: SkillOptions): CallHandle<PromptResponse>;
 ```
 
 Runs a registered skill. Pass `options.result` to require validated structured data instead of freeform text.
 
-#### `SkillReference` [\#](https://flueframework.com/docs/api/agent-api/\#skillreference)
+#### `SkillReference`
 
-```
+``` astro-code
 interface SkillReference {
   readonly __flueSkillReference: true;
   readonly id: string;
@@ -496,10 +458,10 @@ interface SkillReference {
 
 Opaque imported packaged-skill reference accepted by `session.skill()`. Import a `SKILL.md` value rather than constructing one manually.
 
-#### `SkillOptions` [\#](https://flueframework.com/docs/api/agent-api/\#skilloptions)
+#### `SkillOptions`
 
 | Field | Type | Description |
-| --- | --- | --- |
+|----|----|----|
 | `args` | `Record<string, unknown>` | Arguments included with the skill instruction. |
 | `result` | Valibot schema | Require validated structured data and resolve with `response.data`. |
 | `tools` | `ToolDefinition[]` | Additional custom model-callable tools for this operation. |
@@ -508,18 +470,18 @@ Opaque imported packaged-skill reference accepted by `session.skill()`. Import a
 | `signal` | `AbortSignal` | Cancel this operation. |
 | `images` | `PromptImage[]` | Images attached to the skill’s user message. Requires a vision-capable model. |
 
-### `session.task(...)` [\#](https://flueframework.com/docs/api/agent-api/\#sessiontask)
+### `session.task(...)`
 
-```
+``` astro-code
 task(text: string, options?: TaskOptions): CallHandle<PromptResponse>;
 ```
 
-Delegates work to a detached child session. Pass `options.agent` to select a named subagent profile and `options.result` to require validated data. Completed child history remains parent-owned until the parent session is deleted or application-owned retention removes it.
+Delegates work to a detached child session. Pass `options.agent` to select a named subagent profile and `options.result` to require validated data.
 
-#### `TaskOptions` [\#](https://flueframework.com/docs/api/agent-api/\#taskoptions)
+#### `TaskOptions`
 
 | Field | Type | Description |
-| --- | --- | --- |
+|----|----|----|
 | `agent` | `string` | Named subagent profile selected for this delegated task. |
 | `result` | Valibot schema | Require validated structured data and resolve with `response.data`. |
 | `tools` | `ToolDefinition[]` | Additional custom model-callable tools for this operation. |
@@ -529,26 +491,26 @@ Delegates work to a detached child session. Pass `options.agent` to select a nam
 | `signal` | `AbortSignal` | Cancel this task. |
 | `images` | `PromptImage[]` | Images attached to the task’s initial user message. Requires a vision-capable model. |
 
-### `session.shell(...)` [\#](https://flueframework.com/docs/api/agent-api/\#sessionshell)
+### `session.shell(...)`
 
-```
+``` astro-code
 shell(command: string, options?: ShellOptions): CallHandle<ShellResult>;
 ```
 
 Runs a shell command and records its command exchange in conversation state.
 
-#### `ShellOptions` [\#](https://flueframework.com/docs/api/agent-api/\#shelloptions)
+#### `ShellOptions`
 
 | Field | Type | Description |
-| --- | --- | --- |
+|----|----|----|
 | `env` | `Record<string, string>` | Environment variables supplied to the command. |
 | `cwd` | `string` | Working directory supplied to the command. |
 | `timeoutMs` | `number` | Wall-clock deadline in milliseconds, forwarded to the sandbox adapter’s native timeout. |
 | `signal` | `AbortSignal` | Cancel this operation. |
 
-#### `ShellResult` [\#](https://flueframework.com/docs/api/agent-api/\#shellresult)
+#### `ShellResult`
 
-```
+``` astro-code
 interface ShellResult {
   stdout: string;
   stderr: string;
@@ -556,31 +518,23 @@ interface ShellResult {
 }
 ```
 
-### `session.fs` [\#](https://flueframework.com/docs/api/agent-api/\#sessionfs)
+### `session.fs`
 
-- **Type:**`FlueFs`
+- **Type:** `FlueFs`
 
 Reads and writes files in the session sandbox without recording them in the conversation transcript.
 
-### `session.compact()` [\#](https://flueframework.com/docs/api/agent-api/\#sessioncompact)
+### `session.compact()`
 
-```
+``` astro-code
 compact(): Promise<void>;
 ```
 
 Triggers conversation compaction immediately. Resolves without work when there is nothing to compact. Rejects when summarization fails or is aborted. Rejects with `SessionBusyError` if another operation is active on the session.
 
-### `session.delete()` [\#](https://flueframework.com/docs/api/agent-api/\#sessiondelete)
+#### `CallHandle<T>`
 
-```
-delete(): Promise<void>;
-```
-
-Deletes this session’s stored conversation state. Rejects with `SessionBusyError` while an operation is active. It also rejects while accepted durable submissions are queued or running for the session. Once deletion starts, the session is unusable and concurrent calls share the same deletion work.
-
-#### `CallHandle<T>` [\#](https://flueframework.com/docs/api/agent-api/\#callhandlet)
-
-```
+``` astro-code
 interface CallHandle<T> extends Promise<T> {
   readonly signal: AbortSignal;
   abort(reason?: unknown): void;
@@ -589,11 +543,11 @@ interface CallHandle<T> extends Promise<T> {
 
 `prompt()`, `skill()`, `task()`, and `shell()` return awaitable call handles. Retain the handle when application code needs to cancel in-flight work. Aborting rejects the awaited operation with an `AbortError` (`DOMException`). Pass `options.signal` to merge an external abort signal with the handle’s signal.
 
-Other session failures reject with typed `FlueError` subclasses such as `SessionBusyError`, `SkillNotRegisteredError`, and `ModelNotConfiguredError`, all importable from `@flue/runtime`. See the [Errors Reference](https://flueframework.com/docs/api/errors-reference/) for the full vocabulary.
+Other session failures reject with typed `FlueError` subclasses such as `SessionBusyError`, `SkillNotRegisteredError`, and `SubagentNotDeclaredError`, all importable from `@flue/runtime`. See the [Errors Reference](/docs/api/errors-reference/) for the full vocabulary.
 
-#### `FlueFs` [\#](https://flueframework.com/docs/api/agent-api/\#fluefs)
+#### `FlueFs`
 
-```
+``` astro-code
 interface FlueFs {
   readFile(path: string): Promise<string>;
   readFileBuffer(path: string): Promise<Uint8Array>;
@@ -610,9 +564,9 @@ Paths may be absolute or relative. Relative paths use the configured `cwd`, or t
 
 `writeFile()` creates missing parent directories automatically, in every sandbox mode — no prior `mkdir()` is needed before writing to a nested path.
 
-#### `FileStat` [\#](https://flueframework.com/docs/api/agent-api/\#filestat)
+#### `FileStat`
 
-```
+``` astro-code
 interface FileStat {
   isFile: boolean;
   isDirectory: boolean;
@@ -624,14 +578,17 @@ interface FileStat {
 
 `isSymbolicLink`, `size`, and `mtime` are omitted when the sandbox adapter’s provider does not expose them.
 
+
 ## Docs Navigation
 
-Current page: [Agent API](https://flueframework.com/docs/api/agent-api/)
+Current page: [Agent API](/docs/api/agent-api/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+

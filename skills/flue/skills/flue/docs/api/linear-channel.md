@@ -1,5 +1,7 @@
 <!-- Source: https://flueframework.com/docs/api/linear-channel -->
 
+> NOTE: upstream page removed; content frozen as of last sync
+
 Import from `@flue/linear`.
 
 ## `createLinearChannel()` [\#](https://flueframework.com/docs/api/linear-channel/\#createlinearchannel)

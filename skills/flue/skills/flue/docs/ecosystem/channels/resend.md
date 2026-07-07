@@ -1,18 +1,26 @@
-<!-- Source: https://flueframework.com/docs/ecosystem/channels/resend -->
+> Source: https://flueframework.com/docs/ecosystem/channels/resend
 
-## Quickstart [\#](https://flueframework.com/docs/ecosystem/channels/resend/\#quickstart)
 
-Add verified webhook ingress and application-owned email behavior to an existing Flue project with the [Resend](https://resend.com/) blueprint. Run the following command in your terminal or coding agent of choice:
 
-```
+# Resend
+
+
+AI-generated, awaiting review <a href="/docs/ecosystem/channels/resend/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/resend" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/resend</a>
+
+
+## Quickstart
+
+Add verified webhook ingress and application-owned email behavior to an existing Flue project with the [Resend](https://resend.com) blueprint. Run the following command in your terminal or coding agent of choice:
+
+``` astro-code
 flue add channel resend
 ```
 
-## Overview [\#](https://flueframework.com/docs/ecosystem/channels/resend/\#overview)
+## Overview
 
 The Resend blueprint installs `@flue/resend` and the official `resend` SDK, adds the SDK’s declaration-only development dependencies, and creates `channels/resend.ts` in the source-root. It also updates the selected agent to bind a message-retrieval tool to the verified inbound email.
 
-```
+``` astro-code
 import { createResendChannel } from '@flue/resend';
 import { dispatch } from '@flue/runtime';
 import { Resend } from 'resend';
@@ -42,33 +50,28 @@ export const channel = createResendChannel({
 
 The abridged example omits the generated local email-id helpers and `retrieveReceivedEmail()` tool. The complete blueprint binds that tool in the agent module, so a verified `email.received` event starts a message-scoped agent instance that can retrieve the full email through the project-owned client. Receiving-domain setup, webhook registration, attachment retrieval, outbound mail, and reply policy remain application-owned.
 
-## Configure [\#](https://flueframework.com/docs/ecosystem/channels/resend/\#configure)
+## Configure
 
-| Variable | Purpose |
-| --- | --- |
-| `RESEND_WEBHOOK_SECRET` | **Required** — Verifies inbound deliveries. |
-| `RESEND_API_KEY` | **Required** — Authenticates outbound SDK calls. |
+| Variable                | Purpose                                          |
+|-------------------------|--------------------------------------------------|
+| `RESEND_WEBHOOK_SECRET` | **Required** — Verifies inbound deliveries.      |
+| `RESEND_API_KEY`        | **Required** — Authenticates outbound SDK calls. |
 
-It installs `@flue/resend` and the official `resend@6.12.4` SDK. The blueprint
-creates a channel module with named `channel` and project-owned `client`
-exports.
+It installs `@flue/resend` and the official `resend@6.12.4` SDK. The blueprint creates a channel module with named `channel` and project-owned `client` exports.
 
 Configure the webhook URL as:
 
-```
+``` astro-code
 https://example.com/channels/resend/webhook
 ```
 
 The webhook secret and outbound API key are separate credentials.
 
-The SDK’s public declarations reference `Buffer` and React email types. Add
-`@types/node` and `@types/react` as development dependencies. Both are
-declaration-only requirements and add no Node or React runtime code to a Worker
-bundle.
+The SDK’s public declarations reference `Buffer` and React email types. Add `@types/node` and `@types/react` as development dependencies. Both are declaration-only requirements and add no Node or React runtime code to a Worker bundle.
 
-## Channel module [\#](https://flueframework.com/docs/ecosystem/channels/resend/\#channel-module)
+## Channel module
 
-```
+``` astro-code
 import { createResendChannel } from '@flue/resend';
 import { defineTool, dispatch } from '@flue/runtime';
 import { Resend } from 'resend';
@@ -112,15 +115,10 @@ export function retrieveReceivedEmail(emailId: string) {
   return defineTool({
     name: 'retrieve_resend_email',
     description: 'Retrieve the complete inbound email already bound to this agent.',
-    parameters: {
-      type: 'object',
-      properties: {},
-      additionalProperties: false,
-    },
-    async execute() {
+    async run() {
       const result = await client.emails.receiving.get(emailId);
       if (result.error) throw new Error(result.error.message);
-      return JSON.stringify(result.data);
+      return result.data;
     },
   });
 }
@@ -140,42 +138,27 @@ export function emailIdFromInstanceId(id: string): string {
 }
 ```
 
-`@flue/resend` gives `client.webhooks.verify()` the exact request body and the
-signed `svix-id`, `svix-timestamp`, and `svix-signature` values before invoking
-`webhook`. Returning nothing produces an empty `200`. A JSON-compatible value
-becomes the response body, and a normal Hono or Fetch `Response` passes through
-unchanged. Resend retries every status other than `200`, so return a non-`200`
-response only when redelivery is intentional.
+`@flue/resend` gives `client.webhooks.verify()` the exact request body and the signed `svix-id`, `svix-timestamp`, and `svix-signature` values before invoking `webhook`. Returning nothing produces an empty `200`. A JSON-compatible value becomes the response body, and a normal Hono or Fetch `Response` passes through unchanged. Resend retries every status other than `200`, so return a non-`200` response only when redelivery is intentional.
 
-Every verified delivery is the official `WebhookEventPayload` union, forwarded
-verbatim. Each event keeps its provider-native `event.type`, `created_at`, and
-`data` fields, including event types newer than your installed `resend`
-version. The channel never wraps events in a `type: 'unknown'` envelope, so
-`switch (event.type)` narrows the modeled variants and a `default` branch
-handles anything your SDK predates.
+Every verified delivery is the official `WebhookEventPayload` union, forwarded verbatim. Each event keeps its provider-native `event.type`, `created_at`, and `data` fields, including event types newer than your installed `resend` version. The channel never wraps events in a `type: 'unknown'` envelope, so `switch (event.type)` narrows the modeled variants and a `default` branch handles anything your SDK predates.
 
-## Retrieve message content [\#](https://flueframework.com/docs/ecosystem/channels/resend/\#retrieve-message-content)
+## Retrieve message content
 
-The `email.received` webhook includes routing metadata and attachment
-descriptors. Retrieve the full body, headers, and current attachment metadata
-later through the project-owned client:
+The `email.received` webhook includes routing metadata and attachment descriptors. Retrieve the full body, headers, and current attachment metadata later through the project-owned client:
 
-```
+``` astro-code
 const email = await client.emails.receiving.get(emailId);
 ```
 
-Use `client.emails.receiving.attachments` to obtain signed download URLs when
-attachment content is needed. Fetch only the content authorized for the
-current application action, and decide separately what may enter model context
-or durable storage.
+Use `client.emails.receiving.attachments` to obtain signed download URLs when attachment content is needed. Fetch only the content authorized for the current application action, and decide separately what may enter model context or durable storage.
 
-## Bind the tool [\#](https://flueframework.com/docs/ecosystem/channels/resend/\#bind-the-tool)
+## Bind the tool
 
-```
-import { createAgent } from '@flue/runtime';
+``` astro-code
+import { defineAgent } from '@flue/runtime';
 import { emailIdFromInstanceId, retrieveReceivedEmail } from '../channels/resend.ts';
 
-export default createAgent(({ id }) => {
+export default defineAgent(({ id }) => {
   const emailId = emailIdFromInstanceId(id);
   return {
     model: 'anthropic/claude-haiku-4-5',
@@ -184,54 +167,37 @@ export default createAgent(({ id }) => {
 });
 ```
 
-The model can retrieve only the email already bound by trusted application
-code. Outbound send, forward, or reply tools should likewise bind credentials,
-sender identity, recipients, and message policy outside model-selected
-arguments.
+The model can retrieve only the email already bound by trusted application code. Outbound send, forward, or reply tools should likewise bind credentials, sender identity, recipients, and message policy outside model-selected arguments.
 
-The `resend-email:` id is an application convention for one inbound message.
-The package does not expose a conversation helper because Resend’s
-`message_id` identifies one message rather than a stable thread root. Define
-and persist any reply-grouping policy in application code.
+The `resend-email:` id is an application convention for one inbound message. The package does not expose a conversation helper because Resend’s `message_id` identifies one message rather than a stable thread root. Define and persist any reply-grouping policy in application code.
 
-## Delivery behavior [\#](https://flueframework.com/docs/ecosystem/channels/resend/\#delivery-behavior)
+## Delivery behavior
 
-Resend delivery is at least once and ordering is not guaranteed. `delivery.id`
-comes from the `svix-id` Resend documents for deduplication. Claim it in
-application-owned durable storage before dispatch when duplicate admission is
-unacceptable.
+Resend delivery is at least once and ordering is not guaranteed. `delivery.id` comes from the `svix-id` Resend documents for deduplication. Claim it in application-owned durable storage before dispatch when duplicate admission is unacceptable.
 
-The channel is stateless. It does not register webhooks, manage receiving
-domains or MX records, store credentials, deduplicate deliveries, restore
-ordering, persist messages, retrieve bodies or attachments automatically, or
-send replies.
+The channel is stateless. It does not register webhooks, manage receiving domains or MX records, store credentials, deduplicate deliveries, restore ordering, persist messages, retrieve bodies or attachments automatically, or send replies.
 
-## Cloudflare Workers [\#](https://flueframework.com/docs/ecosystem/channels/resend/\#cloudflare-workers)
+## Cloudflare Workers
 
-The official `resend@6.12.4` client and webhook verifier execute in Node and
-workerd with Flue’s required `nodejs_compat` configuration. Cloudflare projects
-may initialize secrets through `process.env` or typed Worker bindings, then
-should verify their complete Worker build.
+The official `resend@6.12.4` client and webhook verifier execute in Node and workerd with Flue’s required `nodejs_compat` configuration. Cloudflare projects may initialize secrets through `process.env` or typed Worker bindings, then should verify their complete Worker build.
 
-Test ingress with original synthetic bodies and locally generated Svix-format
-HMAC signatures over the exact bytes. Test the real client against a local
-fake `baseUrl` and a Fetch stub that rejects unexpected destinations. Exercise
-both paths in Node and workerd; tests should never contact Resend.
+Test ingress with original synthetic bodies and locally generated Svix-format HMAC signatures over the exact bytes. Test the real client against a local fake `baseUrl` and a Fetch stub that rejects unexpected destinations. Exercise both paths in Node and workerd; tests should never contact Resend.
 
-Receiving-domain configuration, webhook registration, API keys, signing-secret
-rotation, deduplication, persistence, outbound mail, and reply behavior remain
-application-owned.
+Receiving-domain configuration, webhook registration, API keys, signing-secret rotation, deduplication, persistence, outbound mail, and reply behavior remain application-owned.
 
-See the [`@flue/resend` API reference](https://flueframework.com/docs/api/resend-channel/).
+See the [`@flue/resend` README](https://github.com/withastro/flue/tree/main/packages/resend#readme).
+
 
 ## Docs Navigation
 
-Current page: [Resend](https://flueframework.com/docs/ecosystem/channels/resend/)
+Current page: [Resend](/docs/ecosystem/channels/resend/)
 
 ### Sections
 
-- [Guide](https://flueframework.com/docs/getting-started/quickstart/)
-- [Reference](https://flueframework.com/docs/api/agent-api/)
-- [CLI](https://flueframework.com/docs/cli/overview/)
-- [SDK](https://flueframework.com/docs/sdk/overview/)
-- [Ecosystem](https://flueframework.com/docs/ecosystem/)
+- [Guide](/docs/getting-started/quickstart/)
+- [Reference](/docs/api/agent-api/)
+- [CLI](/docs/cli/overview/)
+- [SDK](/docs/sdk/overview/)
+- [Ecosystem](/docs/ecosystem/)
+
+
