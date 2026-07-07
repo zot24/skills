@@ -12,14 +12,14 @@ package: chat-adapter-mattermost
 
 ## Install
 
-<PackageInstall package="chat-adapter-mattermost chat" />
 
 Requires Node.js 20+ and a Mattermost server with a bot account.
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMattermostAdapter } from "chat-adapter-mattermost";
 
 const adapter = createMattermostAdapter({
   baseUrl: process.env.MATTERMOST_BASE_URL,
@@ -84,4 +84,4 @@ const adapter = createMattermostAdapter();
 
 ## Feature support
 
-<FeatureSupport />
+

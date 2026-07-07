@@ -12,12 +12,13 @@ package: @larksuite/vercel-chat-adapter
 
 ## Install
 
-<PackageInstall package="@larksuite/vercel-chat-adapter" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createLarkAdapter } from "@larksuite/vercel-chat-adapter";
 
 const bot = new Chat({
   userName: "mybot",
@@ -81,30 +82,6 @@ Grab the app's `client_id` and `client_secret` and pass them as `appId` / `appSe
 
 ## Configuration
 
-<TypeTable
-  type={{
-  appId: {
-    type: "string",
-    description:
-      "Lark app ID. Auto-detected from `LARK_APP_ID` when omitted.",
-  },
-  appSecret: {
-    type: "string",
-    description:
-      "Lark app secret. Auto-detected from `LARK_APP_SECRET` when omitted.",
-  },
-  userName: {
-    type: "string",
-    description:
-      "Bot display name. Defaults to `LARK_BOT_USERNAME` or `\"bot\"`.",
-  },
-  logger: {
-    type: "Logger",
-    description:
-      "Chat SDK-compatible logger. Defaults to `ConsoleLogger(\"info\", \"lark\")`.",
-  },
-}}
-/>
 
 ### Environment variables
 
@@ -174,4 +151,4 @@ The following operations are not supported and throw `NotImplementedError`:
 
 ## Feature support
 
-<FeatureSupport />
+

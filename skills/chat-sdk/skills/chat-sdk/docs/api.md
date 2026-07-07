@@ -12,7 +12,7 @@ type: overview
 Complete API reference for the `chat` package. All exports are available from the top-level import:
 
 ```typescript
-
+import { Chat, root, paragraph, text, Card, Button, emoji } from "chat";
 ```
 
 ## Core

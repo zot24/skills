@@ -30,9 +30,9 @@ Chat SDK ships with Vercel-maintained adapters for Slack, Teams, Google Chat, Di
 | Vendor official | Built and maintained by the platform company itself | Resend building a Resend adapter |
 | Community       | Built by third-party developers                     | Any open-source adapter          |
 
-<Callout type="warn">
+
   The `@chat-adapter/` npm scope is reserved for official adapters. Publish your adapter under your own scope or as an unscoped package.
-</Callout>
+
 
 #### Qualifications for vendor official tier
 
@@ -41,9 +41,9 @@ Chat SDK ships with Vercel-maintained adapters for Slack, Teams, Google Chat, Di
 * Documentation of the adapter in primary vendor docs.
 * Announcement of the adapter in blog post or changelog and social media.
 
-<Callout type="info">
+
   Vendor-official adapters should include a Chat SDK docs PR that adds the adapter to the vendor-official listing and the [`chat/adapters` catalog](/docs/adapters#adapter-catalog-chatadapters). Include the package name, peer dependencies, environment variables, credential modes, and any constructor-only config so setup UIs and onboarding tools can discover the adapter without importing its package.
-</Callout>
+
 
 ## Project setup
 
@@ -105,6 +105,7 @@ Key points:
 ### tsup.config.ts
 
 ```typescript title="tsup.config.ts" lineNumbers
+import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: ["src/index.ts"],
@@ -139,6 +140,7 @@ export default defineConfig({
 ### vitest.config.ts
 
 ```typescript title="vitest.config.ts" lineNumbers
+import { defineProject } from "vitest/config";
 
 export default defineProject({
   test: {
@@ -209,7 +211,9 @@ import type {
   ThreadInfo,
   WebhookOptions,
 } from "chat";
-
+import { ConsoleLogger, Message } from "chat";
+import { MatrixFormatConverter } from "./format-converter";
+import type { MatrixAdapterConfig, MatrixThreadId } from "./types";
 
 export class MatrixAdapter implements Adapter<MatrixThreadId, unknown> {
   readonly name = "matrix";
@@ -439,10 +443,36 @@ Discord's adapter is a good reference — it joins the action ID and value with 
 const DISCORD_CUSTOM_ID_DELIMITER = "\n";
 const DISCORD_CUSTOM_ID_MAX_LENGTH = 100;
 
+export function encodeDiscordCustomId(
+  actionId: string,
+  value?: string
+): string {
+  if (value == null || value === "") {
+    validateLength(actionId);
+    return actionId;
+  }
+  const encoded = `${actionId}${DISCORD_CUSTOM_ID_DELIMITER}${value}`;
+  validateLength(encoded);
+  return encoded;
+}
 
+export function decodeDiscordCustomId(customId: string): {
+  actionId: string;
+  value: string | undefined;
+} {
+  const idx = customId.indexOf(DISCORD_CUSTOM_ID_DELIMITER);
+  if (idx === -1) {
+    return { actionId: customId, value: undefined };
+  }
+  // Use the FIRST delimiter only — values may legitimately contain "\n".
+  return {
+    actionId: customId.slice(0, idx),
+    value: customId.slice(idx + 1),
+  };
+}
 ```
 
-<Callout type="info">
+
   Platform button-data limits are the main constraint to plan for. Discord's
   `custom_id` is 100 chars; Telegram's `callback_data` is 64 bytes. The SDK's
   callback token is fixed at 21 chars (`__cb:` + 16 hex), so the worst-case
@@ -450,7 +480,7 @@ const DISCORD_CUSTOM_ID_MAX_LENGTH = 100;
   encoded string exceeds the platform limit, throw a `ValidationError` from
   `@chat-adapter/shared` so the host app fails fast at post time rather than
   silently truncating.
-</Callout>
+
 
 Modals with `callbackUrl` are handled entirely inside the SDK via stored modal context — your adapter does not need any special handling. Just call `chat.processModalSubmit(event, contextId, { waitUntil })` from your webhook handler and the SDK will POST to the modal's `callbackUrl` (using `waitUntil` if you provide it, so the response is not blocked).
 
@@ -538,6 +568,7 @@ import {
   paragraph,
   root,
 } from "chat";
+import type { AdapterPostableMessage } from "chat";
 
 export class MatrixFormatConverter extends BaseFormatConverter {
   /**
@@ -604,8 +635,38 @@ Implement only the methods your platform supports. The SDK gracefully handles mi
 Export a factory function that creates your adapter with environment variable fallbacks:
 
 ```typescript title="src/factory.ts" lineNumbers
+import { ConsoleLogger } from "chat";
+import type { Logger } from "chat";
+import { ValidationError } from "@chat-adapter/shared";
+import { MatrixAdapter } from "./adapter";
+import type { MatrixAdapterConfig } from "./types";
 
+export function createMatrixAdapter(
+  config?: Partial<MatrixAdapterConfig> & { logger?: Logger }
+): MatrixAdapter {
+  const homeserverUrl =
+    config?.homeserverUrl ?? process.env.MATRIX_HOMESERVER_URL;
+  const accessToken =
+    config?.accessToken ?? process.env.MATRIX_ACCESS_TOKEN;
 
+  if (!homeserverUrl) {
+    throw new ValidationError(
+      "Matrix homeserver URL is required. Pass it in config or set MATRIX_HOMESERVER_URL."
+    );
+  }
+  if (!accessToken) {
+    throw new ValidationError(
+      "Matrix access token is required. Pass it in config or set MATRIX_ACCESS_TOKEN."
+    );
+  }
+
+  return new MatrixAdapter({
+    homeserverUrl,
+    accessToken,
+    userName: config?.userName,
+    logger: config?.logger,
+  });
+}
 ```
 
 Then export both the class and factory from your entry point:

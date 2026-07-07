@@ -23,7 +23,10 @@ Bots that hold context across a user's conversations need somewhere to store it.
 You opt in by setting two fields on `ChatConfig`:
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createDiscordAdapter } from "@chat-adapter/discord";
+import { createRedisState } from "@chat-adapter/state-redis";
 
 const bot = new Chat({
   userName: "mybot",

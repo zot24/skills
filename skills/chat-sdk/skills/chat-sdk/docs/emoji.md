@@ -14,6 +14,7 @@ The `emoji` helper provides cross-platform emoji that automatically convert to t
 ## Usage
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { emoji } from "chat";
 
 await thread.post(`${emoji.thumbs_up} Great job!`);
 // Slack: ":+1: Great job!"
@@ -58,6 +59,7 @@ For a one-off custom emoji, use `emoji.custom("name")`.
 For workspace-specific emoji with full type safety, use `createEmoji()`:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { createEmoji } from "chat";
 
 const myEmoji = createEmoji({
   unicorn: { slack: "unicorn_face", gchat: "🦄" },

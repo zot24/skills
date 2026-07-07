@@ -12,12 +12,13 @@ package: @agentphone/chat-sdk-adapter
 
 ## Install
 
-<PackageInstall package="@agentphone/chat-sdk-adapter chat" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { MemoryStateAdapter } from "@chat-adapter/state-memory";
+import { createAgentPhoneAdapter } from "@agentphone/chat-sdk-adapter";
 
 const agentphone = createAgentPhoneAdapter({
   // apiKey: "...",          // or set AGENTPHONE_API_KEY
@@ -46,30 +47,6 @@ Point your AgentPhone webhook to your server's webhook endpoint. The adapter ver
 
 ## Configuration
 
-<TypeTable
-  type={{
-  apiKey: {
-    type: "string",
-    description: "AgentPhone API key. Required. Auto-detected from `AGENTPHONE_API_KEY`.",
-  },
-  agentId: {
-    type: "string",
-    description: "Agent ID to send messages from. Required. Auto-detected from `AGENTPHONE_AGENT_ID`.",
-  },
-  webhookSecret: {
-    type: "string",
-    description: "Webhook signing secret for HMAC-SHA256 verification. Auto-detected from `AGENTPHONE_WEBHOOK_SECRET`.",
-  },
-  apiUrl: {
-    type: "string",
-    description: "API base URL. Defaults to `https://api.agentphone.ai`.",
-  },
-  userName: {
-    type: "string",
-    description: "Bot display name. Auto-detected from `BOT_USERNAME`. Defaults to `bot`.",
-  },
-}}
-/>
 
 ### Environment variables
 
@@ -149,4 +126,4 @@ SMS and voice have inherent platform constraints:
 
 ## Feature support
 
-<FeatureSupport />
+

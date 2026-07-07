@@ -61,9 +61,9 @@ Before publishing, verify your `package.json` meets these requirements:
 | Unscoped   | `chat-adapter-matrix`           | Most community adapters                                    |
 | Scoped     | `@your-org/chat-adapter-matrix` | Optional — if you prefer publishing under your org's scope |
 
-<Callout type="warn">
+
   The `@chat-adapter/` npm scope is reserved for Vercel-maintained adapters. Do not publish under this scope.
-</Callout>
+
 
 ## Build and verify
 
@@ -171,9 +171,9 @@ Community adapters can be listed on the [Adapters](https://chat-sdk.dev/adapters
 
 ### Pin your README to a commit or tag
 
-<Callout type="warn">
+
   The `readme` field **must** reference a specific commit SHA or tag — not a branch name like `main`.
-</Callout>
+
 
 The docs site re-renders on every deploy, so an unpinned `readme` would serve whatever currently sits at your default branch — including edits made after the listing PR was reviewed. Pinning freezes the rendered content at the state we approved; new content goes live through a follow-up PR that bumps the ref.
 

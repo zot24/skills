@@ -12,14 +12,39 @@ package: @linqapp/chat-sdk-adapter
 
 ## Install
 
-<PackageInstall package="@linqapp/chat-sdk-adapter" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createLinqAdapter } from "@linqapp/chat-sdk-adapter";
 
+export const bot = new Chat({
+  userName: "Linq Bot",
+  adapters: {
+    linq: createLinqAdapter({
+      apiKey: process.env.LINQ_API_KEY,
+      signingSecret: process.env.LINQ_WEBHOOK_SECRET,
+    }),
+  },
+  state: createMemoryState(),
+});
 
-/>
+bot.onDirectMessage(async (thread, message) => {
+  await thread.subscribe();
+  await thread.post(`You said: ${message.text}`);
+});
+
+bot.onReaction(["thumbs_up"], async (event) => {
+  await event.thread.post("Appreciate the tapback 🫡");
+});
+```
+
+The adapter maps a Linq chat to a Chat SDK thread, a text to a message, and an iMessage tapback to a reaction, so the rest of the Chat SDK API (subscriptions, handlers, posts, reactions) works exactly the same as with any other adapter.
+
+## Configuration
+
 
 ## Platform setup
 
@@ -41,8 +66,16 @@ Other event types are acknowledged with a `200` and ignored.
 | `reaction.removed` | Drives reaction handlers           |
 
 ```typescript title="app/api/webhooks/linq/route.ts" lineNumbers
+import { after } from "next/server";
+import { bot } from "@/lib/bot";
 
+export const runtime = "nodejs"; // raw body + crypto; not edge
 
+export async function POST(request: Request) {
+  return bot.webhooks.linq(request, {
+    waitUntil: (task) => after(() => task),
+  });
+}
 ```
 
 Requests are verified with HMAC-SHA256 and a replay-window check before dispatch; an invalid or stale signature returns **401**. Passing `waitUntil` lets work continue after the response is sent in serverless environments like Vercel.
@@ -100,4 +133,4 @@ Inbound media (images, audio, files) arrives as Chat SDK attachments with downlo
 
 ## Feature support
 
-<FeatureSupport />
+

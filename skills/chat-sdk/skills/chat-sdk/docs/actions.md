@@ -83,6 +83,7 @@ bot.onAction("report", async (event) => {
 Use `event.openModal()` to open a [modal](/docs/modals) in response to a button click:
 
 ```tsx title="lib/bot.tsx" lineNumbers
+import { Modal, TextInput, Select, SelectOption } from "chat";
 
 bot.onAction("feedback", async (event) => {
   await event.openModal(
@@ -97,10 +98,10 @@ bot.onAction("feedback", async (event) => {
 });
 ```
 
-<Callout type="info">
+
   Modals are currently supported on Slack and Teams. Other platforms will receive a no-op
   or fallback behavior.
-</Callout>
+
 
 ## Callback URLs
 
@@ -112,7 +113,7 @@ bot.onNewMention(async (thread) => {
   const denyUrl = "https://example.com/webhook/deny";
 
   await thread.post(
-
+    <Card title="Deploy v2.4.1?">
       <Actions>
         <Button callbackUrl={approveUrl} id="approve" style="primary">
           Approve
@@ -121,7 +122,7 @@ bot.onNewMention(async (thread) => {
           Deny
         </Button>
       </Actions>
-
+    </Card>
   );
 });
 ```
@@ -142,12 +143,12 @@ The POST body sent to the `callbackUrl`:
 
 If the button also has a `value` prop, it is included in the payload as `"value"`.
 
-<Callout type="info">
+
   Platform limits apply to encoded button data. Discord's `custom_id` has a 100
   character limit - if the action ID plus callback token exceed this, posting
   the card throws a `ValidationError`. Telegram's `callback_data` has a 64 byte
   limit - buttons that exceed this will throw a `ValidationError`. Keep action
   IDs short when using `callbackUrl` on these platforms.
-</Callout>
+
 
 For modals, see [callbackUrl on modals](/docs/modals#callback-urls).

@@ -12,16 +12,16 @@ package: @chat-adapter/telegram
 
 ## Install
 
-<PackageInstall package="@chat-adapter/telegram" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET_TOKEN`, and `TELEGRAM_BOT_USERNAME` from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createTelegramAdapter } from "@chat-adapter/telegram";
 
 const bot = new Chat({
   userName: "mybot",
@@ -36,6 +36,7 @@ bot.onNewMention(async (thread, message) => {
 ```
 
 ```typescript title="app/api/webhooks/telegram/route.ts" lineNumbers
+import { bot } from "@/lib/bot";
 
 export async function POST(request: Request): Promise<Response> {
   return bot.webhooks.telegram(request);
@@ -55,40 +56,6 @@ curl -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/setWebhook" \
 
 ## Configuration
 
-<TypeTable
-  type={{
-  botToken: {
-    type: "string",
-    description: "Telegram bot token. Auto-detected from `TELEGRAM_BOT_TOKEN`.",
-  },
-  secretToken: {
-    type: "string",
-    description:
-      "Optional webhook secret. Auto-detected from `TELEGRAM_WEBHOOK_SECRET_TOKEN`.",
-  },
-  mode: {
-    type: '"auto" | "webhook" | "polling"',
-    default: '"auto"',
-    description:
-      "Adapter mode. `auto` uses webhooks on serverless and polling everywhere else.",
-  },
-  longPolling: {
-    type: "LongPollingOptions",
-    description:
-      "Long polling tuning. Fields: `timeout`, `limit`, `allowedUpdates`, `deleteWebhook`, `dropPendingUpdates`, `retryDelayMs`.",
-  },
-  userName: {
-    type: "string",
-    description:
-      "Bot username for mention detection. Auto-detected from `TELEGRAM_BOT_USERNAME` or `getMe`.",
-  },
-  apiUrl: {
-    type: "string",
-    description:
-      "Override the Telegram API base URL. Auto-detected from `TELEGRAM_API_BASE_URL`.",
-  },
-}}
-/>
 
 `botToken` is required — either via config or env var.
 
@@ -105,7 +72,9 @@ Create a bot via [BotFather](https://t.me/BotFather):
 ### Polling for local development
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createTelegramAdapter } from "@chat-adapter/telegram";
+import { createMemoryState } from "@chat-adapter/state-memory";
 
 const telegram = createTelegramAdapter({
   mode: "polling",
@@ -151,4 +120,4 @@ Pass `{ raw: "..." }` only if you need to ship a fully pre-escaped MarkdownV2 st
 
 ## Feature support
 
-<FeatureSupport />
+

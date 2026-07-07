@@ -12,16 +12,16 @@ package: @chat-adapter/twilio
 
 ## Install
 
-<PackageInstall package="@chat-adapter/twilio" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`, and `TWILIO_MESSAGING_SERVICE_SID` from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { createTwilioAdapter } from "@chat-adapter/twilio";
+import { Chat } from "chat";
 
 const bot = new Chat({
   userName: "mybot",
@@ -36,6 +36,7 @@ bot.onDirectMessage(async (thread, message) => {
 ```
 
 ```typescript title="app/api/webhooks/twilio/route.ts" lineNumbers
+import { bot } from "@/lib/bot";
 
 export async function POST(request: Request): Promise<Response> {
   return bot.webhooks.twilio(request);
@@ -50,48 +51,6 @@ https://your-domain.com/api/webhooks/twilio
 
 ## Configuration
 
-<TypeTable
-  type={{
-  accountSid: {
-    type: "string | (() => string | Promise<string>)",
-    description:
-      "Twilio Account SID. Auto-detected from `TWILIO_ACCOUNT_SID`.",
-  },
-  authToken: {
-    type: "string | (() => string | Promise<string>)",
-    description:
-      "Twilio Auth Token for API calls and webhook verification. Auto-detected from `TWILIO_AUTH_TOKEN`.",
-  },
-  phoneNumber: {
-    type: "string",
-    description:
-      "Default sender phone number for `openDM`. Auto-detected from `TWILIO_PHONE_NUMBER`.",
-  },
-  messagingServiceSid: {
-    type: "string",
-    description:
-      "Default Messaging Service SID for `openDM`. Auto-detected from `TWILIO_MESSAGING_SERVICE_SID`.",
-  },
-  webhookUrl: {
-    type: "string | ((request: Request) => string | Promise<string>)",
-    description:
-      "Public webhook URL to use for Twilio signature validation when the runtime request URL differs from the URL configured in Twilio.",
-  },
-  webhookVerifier: {
-    type: "(request: Request, body: string) => boolean | string | Promise<boolean | string>",
-    description:
-      "Custom verifier for runtimes that terminate or transform Twilio requests before they reach the adapter.",
-  },
-  statusCallbackUrl: {
-    type: "string",
-    description: "Optional status callback URL for outbound messages.",
-  },
-  apiUrl: {
-    type: "string",
-    description: "Override the Twilio API base URL.",
-  },
-}}
-/>
 
 ## Authentication
 
@@ -150,8 +109,10 @@ await bot.adapters.twilio.postMessage(threadId, "hello");
 The package includes runtime-light subpaths for apps that only need Twilio primitives:
 
 ```typescript title="twilio-primitives.ts" lineNumbers
-
-
+import { sendTwilioMessage } from "@chat-adapter/twilio/api";
+import { truncateTwilioText } from "@chat-adapter/twilio/format";
+import { gatherSpeechTwilioResponse } from "@chat-adapter/twilio/voice";
+import { readTwilioWebhook } from "@chat-adapter/twilio/webhook";
 ```
 
 These subpaths do not import the full Chat SDK adapter or the `twilio` npm package.
@@ -165,6 +126,7 @@ import {
   gatherSpeechTwilioResponse,
   parseTwilioVoiceCall,
 } from "@chat-adapter/twilio/voice";
+import { verifyTwilioRequest } from "@chat-adapter/twilio/webhook";
 
 export async function POST(request: Request): Promise<Response> {
   const verified = await verifyTwilioRequest(request);
@@ -193,4 +155,4 @@ For live calls, `updateTwilioCall()` in `@chat-adapter/twilio/api` can post repl
 
 ## Feature support
 
-<FeatureSupport />
+

@@ -17,20 +17,21 @@ related:
 Convert an array of [`Message`](/docs/api/message) objects into the `{ role, content }[]` format expected by the AI SDK. The output is structurally compatible with AI SDK's `ModelMessage[]`.
 
 ```typescript
-
+import { toAiMessages } from "chat/ai";
 ```
 
-<Callout>
+
   `toAiMessages` is also re-exported from the main `chat` entrypoint
   for backwards compatibility (with a `@deprecated` JSDoc hint), but
   new code should import it from [`chat/ai`](/docs/ai) alongside
   [`createChatTools`](/docs/ai/ai-sdk-tools) and the rest of the AI
   utilities.
-</Callout>
+
 
 ## Usage
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { toAiMessages } from "chat/ai";
 
 bot.onSubscribedMessage(async (thread, message) => {
   const result = await thread.adapter.fetchMessages(thread.id, { limit: 20 });
@@ -51,40 +52,9 @@ function toAiMessages(
 
 ### Parameters
 
-<TypeTable
-  type={{
-  messages: {
-    description: 'Array of Chat SDK Message objects. Works with FetchResult.messages, thread.recentMessages, or any collected iterable.',
-    type: 'Message[]',
-  },
-  options: {
-    description: 'Optional configuration.',
-    type: 'ToAiMessagesOptions',
-    default: '{}',
-  },
-}}
-/>
 
 ### Options
 
-<TypeTable
-  type={{
-  includeNames: {
-    description: 'Prefix user messages with [username]: for multi-user context.',
-    type: 'boolean',
-    default: 'false',
-  },
-  transformMessage: {
-    description: 'Transform or filter each message after default processing. Return null to skip the message.',
-    type: '(aiMessage: AiMessage, source: Message) => AiMessage | null | Promise<AiMessage | null>',
-  },
-  onUnsupportedAttachment: {
-    description: 'Called when an attachment type is not supported (video, audio).',
-    type: '(attachment: Attachment, message: Message) => void',
-    default: 'console.warn',
-  },
-}}
-/>
 
 ### Returns
 
@@ -202,6 +172,6 @@ const history = await toAiMessages(result.messages, {
 | `audio` | Any                                                                                                                                         | Skipped (triggers `onUnsupportedAttachment`) |
 | `file`  | Other (e.g. `application/pdf`)                                                                                                              | Silently skipped                             |
 
-<Callout type="info">
+
   Attachments require `fetchData()` to be available on the attachment object. Attachments without `fetchData()` are silently skipped.
-</Callout>
+

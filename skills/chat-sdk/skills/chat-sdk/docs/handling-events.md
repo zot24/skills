@@ -89,9 +89,9 @@ bot.onSubscribedMessage(async (thread, message) => {
 });
 ```
 
-<Callout type="info">
+
   Messages sent by the bot itself do not trigger this handler. You don't need to filter out your own messages.
-</Callout>
+
 
 ### When to use
 
@@ -102,6 +102,7 @@ bot.onSubscribedMessage(async (thread, message) => {
 ### Example: Conversational AI with history
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { toAiMessages } from "chat/ai";
 
 bot.onSubscribedMessage(async (thread, message) => {
   await thread.startTyping();
@@ -217,6 +218,7 @@ bot.onNewMessage(/\b(outage|down|incident|p[01])\b/i, async (thread, message) =>
 `onReaction` fires when users add or remove emoji reactions to messages. You can handle all reactions or filter by specific emoji.
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { emoji } from "chat";
 
 // Handle specific emoji
 bot.onReaction(["thumbs_up", "heart"], async (event) => {

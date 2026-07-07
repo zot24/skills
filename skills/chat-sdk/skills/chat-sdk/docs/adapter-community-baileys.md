@@ -10,24 +10,24 @@ package: chat-adapter-baileys
 # Baileys (WhatsApp)
 
 
-<Callout type="warn">
   This adapter uses Baileys, a third-party unofficial WhatsApp Web API. It is **not** an official WhatsApp/Meta API and may break when WhatsApp changes internal protocols. WhatsApp may also suspend or ban numbers/accounts that use unofficial automation. Use at your own risk and evaluate compliance requirements before production use.
-</Callout>
+
 
 ## Install
 
-<PackageInstall package="chat-adapter-baileys baileys chat @chat-adapter/state-memory" />
 
 Optional — for terminal QR rendering during development:
 
-<PackageInstall package="qrcode" />
 
 ## Quick start
 
 The setup has six steps: prepare auth, create the adapter, create the `Chat` instance, register handlers, initialize, then connect. **Always register handlers before connecting** — messages can arrive as soon as `connect()` is called.
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { useMultiFileAuthState } from "baileys";
+import { createBaileysAdapter } from "chat-adapter-baileys";
 
 const { state, saveCreds } = await useMultiFileAuthState("./auth_info");
 
@@ -143,6 +143,7 @@ All handlers receive messages from both accounts. The thread ID prefix (`baileys
 `BaileysAdapter` exposes extra methods for WhatsApp features that have no Chat SDK equivalent. Branch on platform with `isBaileysAdapter()` when other adapters are also registered:
 
 ```typescript
+import { isBaileysAdapter } from "chat-adapter-baileys";
 
 bot.onSubscribedMessage(async (thread, message) => {
   const adapter = thread.adapter;
@@ -163,6 +164,7 @@ bot.onSubscribedMessage(async (thread, message) => {
 Use `requireBaileysAdapter()` when the handler must run on WhatsApp:
 
 ```typescript
+import { requireBaileysAdapter } from "chat-adapter-baileys";
 
 bot.onSubscribedMessage(async (thread, message) => {
   const wa = requireBaileysAdapter(thread);
@@ -190,4 +192,4 @@ bot.onSubscribedMessage(async (thread, message) => {
 
 ## Feature support
 
-<FeatureSupport />
+

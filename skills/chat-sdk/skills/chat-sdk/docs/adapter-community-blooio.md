@@ -12,12 +12,12 @@ package: chat-adapter-blooio
 
 ## Install
 
-<PackageInstall package="chat-adapter-blooio" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createBlooioAdapter } from "chat-adapter-blooio";
 
 const chat = new Chat({
   userName: "my-bot",
@@ -55,6 +55,7 @@ Point your Blooio webhook URL at your server. The adapter handles these event ty
 * `message.reaction` — tapback reactions on messages
 
 ```typescript title="app/api/webhooks/blooio/route.ts" lineNumbers
+import { chat } from "@/lib/bot";
 
 export async function POST(request: Request) {
   await chat.initialize();
@@ -92,6 +93,7 @@ await chat.send("blooio", threadId, "Hello from the bot!");
 Send media via `sendMediaMessage`:
 
 ```typescript
+import type { BlooioAdapter } from "chat-adapter-blooio";
 
 const adapter = chat.getAdapter("blooio") as BlooioAdapter;
 await adapter.sendMediaMessage(
@@ -131,6 +133,7 @@ Unlike some platforms, Blooio supports **removing** reactions too.
 Send read receipts for a conversation:
 
 ```typescript
+import type { BlooioAdapter } from "chat-adapter-blooio";
 
 const adapter = chat.getAdapter("blooio") as BlooioAdapter;
 await adapter.markRead(threadId);
@@ -190,4 +193,4 @@ Use `encodeThreadId` / `decodeThreadId` to work with them programmatically.
 
 ## Feature support
 
-<FeatureSupport />
+

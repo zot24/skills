@@ -12,16 +12,16 @@ package: @chat-adapter/discord
 
 ## Install
 
-<PackageInstall package="@chat-adapter/discord" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `DISCORD_BOT_TOKEN`, `DISCORD_PUBLIC_KEY`, `DISCORD_APPLICATION_ID`, and `DISCORD_MENTION_ROLE_IDS` from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createDiscordAdapter } from "@chat-adapter/discord";
 
 const bot = new Chat({
   userName: "mybot",
@@ -37,38 +37,6 @@ bot.onNewMention(async (thread, message) => {
 
 ## Configuration
 
-<TypeTable
-  type={{
-  botToken: {
-    type: "string",
-    description: "Discord bot token. Auto-detected from `DISCORD_BOT_TOKEN`.",
-  },
-  publicKey: {
-    type: "string",
-    description:
-      "Application public key. Auto-detected from `DISCORD_PUBLIC_KEY`.",
-  },
-  applicationId: {
-    type: "string",
-    description:
-      "Discord application ID. Auto-detected from `DISCORD_APPLICATION_ID`.",
-  },
-  mentionRoleIds: {
-    type: "string[]",
-    description:
-      "Role IDs that should trigger mention handlers. Auto-detected from `DISCORD_MENTION_ROLE_IDS` (comma-separated).",
-  },
-  interactionFlags: {
-    type: "(context) => DiscordInteractionResponseFlag.Ephemeral | undefined",
-    description:
-      "Return Discord interaction flags for the initial deferred slash command response.",
-  },
-  apiUrl: {
-    type: "string",
-    description: "Override the Discord API base URL.",
-  },
-}}
-/>
 
 `botToken`, `publicKey`, and `applicationId` are required.
 
@@ -134,8 +102,34 @@ In serverless environments, use a cron job to keep the Gateway connection alive.
 ### Gateway setup for serverless
 
 ```typescript title="app/api/discord/gateway/route.ts" lineNumbers
+import { after } from "next/server";
+import { bot } from "@/lib/bot";
 
+export const maxDuration = 800;
 
+export async function GET(request: Request): Promise<Response> {
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) {
+    return new Response("CRON_SECRET not configured", { status: 500 });
+  }
+
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${cronSecret}`) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  const durationMs = 600 * 1000;
+  const webhookUrl = `https://${process.env.VERCEL_URL}/api/webhooks/discord`;
+
+  await bot.initialize();
+  const discord = bot.getAdapter("discord");
+  return discord.startGatewayListener(
+    { waitUntil: (task) => after(() => task) },
+    durationMs,
+    undefined,
+    webhookUrl
+  );
+}
 ```
 
 ```json title="vercel.json" lineNumbers
@@ -169,7 +163,6 @@ Or set `DISCORD_MENTION_ROLE_IDS` as a comma-separated string.
 
 ## Feature support
 
-<FeatureSupport />
 
 ## Resources
 

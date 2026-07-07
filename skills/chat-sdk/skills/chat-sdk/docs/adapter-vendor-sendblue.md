@@ -16,14 +16,15 @@ Sendblue maintains this adapter as Chat SDK and the Sendblue API evolve. For acc
 
 ## Install
 
-<PackageInstall package="chat-adapter-sendblue chat @chat-adapter/state-memory" />
 
 The adapter uses the official Sendblue TypeScript SDK under the hood. For production, use a persistent state adapter such as `@chat-adapter/state-redis` instead of in-memory state.
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createSendblueAdapter } from "chat-adapter-sendblue";
+import { createMemoryState } from "@chat-adapter/state-memory";
 
 const chat = new Chat({
   userName: "imessage-bot",
@@ -73,6 +74,7 @@ createSendblueAdapter({
 Create a webhook route and forward incoming Sendblue requests to Chat SDK:
 
 ```typescript title="app/api/webhooks/sendblue/route.ts" lineNumbers
+import { chat } from "@/lib/bot";
 
 export async function POST(request: Request) {
   await chat.initialize();
@@ -110,6 +112,7 @@ await thread.post("Hello from Sendblue via Chat SDK.");
 Inbound media URLs from Sendblue are parsed into Chat SDK attachment objects. To send media, use Sendblue's `media_url` parameter through the underlying SDK:
 
 ```typescript
+import type { SendblueAdapter } from "chat-adapter-sendblue";
 
 const adapter = chat.getAdapter("sendblue") as SendblueAdapter;
 const sdk = adapter.getSdk();
@@ -213,4 +216,4 @@ Use `encodeThreadId` / `decodeThreadId` to work with them programmatically.
 
 ## Feature support
 
-<FeatureSupport />
+

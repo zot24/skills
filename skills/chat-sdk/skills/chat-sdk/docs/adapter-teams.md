@@ -12,16 +12,16 @@ package: @chat-adapter/teams
 
 ## Install
 
-<PackageInstall package="@chat-adapter/teams" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `TEAMS_APP_ID`, `TEAMS_APP_PASSWORD`, and `TEAMS_APP_TENANT_ID` from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createTeamsAdapter } from "@chat-adapter/teams";
 
 const bot = new Chat({
   userName: "mybot",
@@ -39,43 +39,6 @@ bot.onNewMention(async (thread, message) => {
 
 ## Configuration
 
-<TypeTable
-  type={{
-  appId: {
-    type: "string",
-    description: "Azure Bot App ID. Auto-detected from `TEAMS_APP_ID`.",
-  },
-  appPassword: {
-    type: "string",
-    description:
-      "Azure Bot App Password. Auto-detected from `TEAMS_APP_PASSWORD`.",
-  },
-  federated: {
-    type: "FederatedConfig",
-    description: "Federated (workload identity) authentication config.",
-  },
-  appType: {
-    type: '"MultiTenant" | "SingleTenant"',
-    default: '"MultiTenant"',
-    description: "App tenancy mode.",
-  },
-  appTenantId: {
-    type: "string",
-    description:
-      "Azure AD Tenant ID. Auto-detected from `TEAMS_APP_TENANT_ID`. Required when `appType` is `SingleTenant`.",
-  },
-  userName: {
-    type: "string",
-    default: '"bot"',
-    description: "Bot display name.",
-  },
-  apiUrl: {
-    type: "string",
-    description:
-      "Override the Teams API base URL (e.g. for GCC-High or sovereign-cloud deployments). Auto-detected from `TEAMS_API_URL`.",
-  },
-}}
-/>
 
 `appId` is required. Exactly one authentication method (`appPassword` or `federated`) must be provided.
 
@@ -97,9 +60,9 @@ teams status
 teams app create --name "My Bot" --endpoint "https://your-domain.com/api/webhooks/teams" --env .env
 ```
 
-<Callout type="info">
+
   For local development, use a tunnel (e.g. [devtunnel](https://learn.microsoft.com/en-us/azure/developer/dev-tunnels/), ngrok) to expose your local server.
-</Callout>
+
 
 Credentials (`CLIENT_ID`, `CLIENT_SECRET`, `TENANT_ID`) are written to `.env`. Rename them to match the adapter:
 
@@ -202,4 +165,4 @@ Run `teams app doctor <appId>` to diagnose common issues — bot registration, A
 
 ## Feature support
 
-<FeatureSupport />
+

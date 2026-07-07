@@ -18,6 +18,7 @@ Modals open form dialogs in response to button clicks or [slash commands](/docs/
 Modals are opened from [action handlers](/docs/actions) or [slash command handlers](/docs/slash-commands) using `event.openModal()`:
 
 ```tsx title="lib/bot.tsx" lineNumbers
+import { Modal, TextInput, Select, SelectOption } from "chat";
 
 bot.onAction("feedback", async (event) => {
   await event.openModal(
@@ -108,6 +109,7 @@ A dropdown that loads its options dynamically from a handler as the user types. 
 Register the loader with `onOptionsLoad`:
 
 ```tsx title="lib/bot.tsx" lineNumbers
+import { ExternalSelect, Modal } from "chat";
 
 bot.onAction("assign", async (event) => {
   await event.openModal(
@@ -154,13 +156,12 @@ bot.onOptionsLoad("assignee", async (event) => {
 
 Slack limits: max 100 groups, max 100 options per group, group label max 75 characters.
 
-<Callout type="warn">
-  Slack requires a response within 3 seconds for options requests. The adapter caps the loader at \~2.5s and returns an empty result on timeout — keep your loader fast (cache, prefetch, or narrow the query server-side).
-</Callout>
 
-<Callout type="info">
+  Slack requires a response within 3 seconds for options requests. The adapter caps the loader at \~2.5s and returns an empty result on timeout — keep your loader fast (cache, prefetch, or narrow the query server-side).
+
+
   **Slack setup:** `ExternalSelect` uses Slack's `block_suggestion` payload, which is dispatched to the **Options Load URL**. In your [Slack app settings](https://api.slack.com/apps) go to **Interactivity & Shortcuts** → **Select Menus** and set the **Options Load URL** to the same endpoint as your Interactivity Request URL (e.g. `https://your-domain.com/api/webhooks/slack`). Without this, typing into an external select will silently return no results.
-</Callout>
+
 
 ### RadioSelect
 

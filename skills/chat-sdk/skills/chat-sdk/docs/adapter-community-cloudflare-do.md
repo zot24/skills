@@ -12,12 +12,13 @@ package: chat-state-cloudflare-do
 
 ## Install
 
-<PackageInstall package="chat chat-state-cloudflare-do" />
 
 ## Quick start
 
 ```typescript title="src/index.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { ChatStateDO, createCloudflareState } from "chat-state-cloudflare-do";
 
 // Re-export the Durable Object class so Cloudflare can find it.
 export { ChatStateDO };
@@ -61,6 +62,7 @@ new_sqlite_classes = ["ChatStateDO"]
 ## Environment type
 
 ```typescript title="src/env.d.ts"
+import type { ChatStateDO } from "chat-state-cloudflare-do";
 
 interface Env {
   CHAT_STATE: DurableObjectNamespace<ChatStateDO>;
@@ -69,28 +71,6 @@ interface Env {
 
 ## Configuration
 
-<TypeTable
-  type={{
-  namespace: {
-    type: "DurableObjectNamespace<ChatStateDO>",
-    description:
-      "Durable Object namespace binding from your wrangler config. Required.",
-  },
-  name: {
-    type: "string",
-    default: '"default"',
-    description: "Name for the DO instance.",
-  },
-  shardKey: {
-    type: "(threadId: string) => string",
-    description: "Function to derive a shard name from a thread ID.",
-  },
-  locationHint: {
-    type: "DurableObjectLocationHint",
-    description: "Location hint for DO placement.",
-  },
-}}
-/>
 
 ## Sharding
 
@@ -147,4 +127,4 @@ Each method call creates a fresh DO stub. Stubs are cheap (just a JS object) and
 
 ## Feature support
 
-<FeatureSupport />
+

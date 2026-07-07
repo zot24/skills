@@ -12,7 +12,6 @@ package: chat-adapter-weixin
 
 ## Install
 
-<PackageInstall package="chat-adapter-weixin chat @chat-adapter/state-memory" />
 
 The Weixin adapter requires a [state adapter](/docs/state-adapters). It stores the
 long-polling cursor, per-user context tokens, dedupe markers, and thread history
@@ -22,7 +21,9 @@ through Chat SDK's `StateAdapter`. Any state adapter works — the example uses
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createWeixinAdapter } from "chat-adapter-weixin";
 
 const bot = new Chat({
   userName: "mybot",
@@ -83,57 +84,6 @@ resulting token through environment variables or your secret manager.
 
 All options are auto-detected from environment variables when not provided.
 
-<TypeTable
-  type={{
-  accountId: {
-    type: "string",
-    description:
-      "iLink bot account ID. Auto-detected from `WEIXIN_ACCOUNT_ID`. Required at runtime.",
-  },
-  token: {
-    type: "string",
-    description:
-      "iLink bot token. Auto-detected from `WEIXIN_BOT_TOKEN`. Required at runtime.",
-  },
-  baseUrl: {
-    type: "string",
-    default: '"https://ilinkai.weixin.qq.com"',
-    description: "iLink API base URL. Auto-detected from `WEIXIN_BASE_URL`.",
-  },
-  cdnBaseUrl: {
-    type: "string",
-    default: '"https://novac2c.cdn.weixin.qq.com/c2c"',
-    description:
-      "CDN base URL for media downloads. Auto-detected from `WEIXIN_CDN_BASE_URL`.",
-  },
-  userName: {
-    type: "string",
-    default: '"weixin-bot"',
-    description:
-      "Bot display name. Auto-detected from `WEIXIN_BOT_USERNAME`.",
-  },
-  botType: {
-    type: "string",
-    default: '"3"',
-    description: "iLink bot type. Auto-detected from `WEIXIN_BOT_TYPE`.",
-  },
-  routeTag: {
-    type: "string | number",
-    description:
-      "Optional routing tag forwarded to the iLink API. Auto-detected from `WEIXIN_ROUTE_TAG`.",
-  },
-  polling: {
-    type: "WeixinPollingConfig",
-    description:
-      "Long-polling tuning: `enabled`, `longPollTimeoutMs`, `retryDelayMs`, `backoffDelayMs`, `maxConsecutiveFailures`.",
-  },
-  logger: {
-    type: "Logger",
-    default: "ConsoleLogger",
-    description: "Custom logger instance.",
-  },
-}}
-/>
 
 ## Thread ID format
 
@@ -163,4 +113,4 @@ returns `true`.
 
 ## Feature support
 
-<FeatureSupport />
+

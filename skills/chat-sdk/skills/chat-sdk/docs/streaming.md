@@ -18,6 +18,7 @@ Chat SDK accepts any `AsyncIterable<string>` as a message, enabling real-time st
 Pass an AI SDK `fullStream` or `textStream` directly to `thread.post()`:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { ToolLoopAgent } from "ai";
 
 const agent = new ToolLoopAgent({
   model: "anthropic/claude-4.5-sonnet",
@@ -118,6 +119,7 @@ This happens transparently — no configuration needed.
 For Slack native streams and Linear agent-session streams, you can yield `StreamChunk` objects alongside plain text for rich progress updates:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import type { StreamChunk } from "chat";
 
 const stream = (async function* () {
   yield { type: "markdown_text", text: "Searching..." } satisfies StreamChunk;
@@ -160,6 +162,7 @@ await thread.post(stream);
 Wrap a stream in a `StreamingPlan` to pass platform-specific options through `thread.post()` without dropping down to `adapter.stream()` directly:
 
 ```typescript
+import { StreamingPlan } from "chat";
 
 const planned = new StreamingPlan(stream, {
   groupTasks: "plan",         // Slack: render task cards as a single grouped block
@@ -183,6 +186,7 @@ Adapters without structured chunk support extract text from `markdown_text` chun
 Use `endWith` on `StreamingPlan` to attach Block Kit elements to the final message. This is useful for adding action buttons after a streamed response completes:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { StreamingPlan } from "chat";
 
 const planned = new StreamingPlan(textStream, {
   endWith: [
@@ -205,6 +209,7 @@ await thread.post(planned);
 For step-by-step task progress that lives outside an LLM stream, post a `Plan` directly. `Plan` is a `PostableObject` you can mutate after posting — every mutation re-renders the block in place.
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { Plan } from "chat";
 
 const plan = new Plan({ initialMessage: "Researching options..." });
 await thread.post(plan);
@@ -246,6 +251,7 @@ Combine message history with streaming for multi-turn AI conversations.
 Use [`toAiMessages()`](/docs/ai/to-ai-messages) to convert chat messages into the `{ role, content }` format expected by AI SDKs:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { toAiMessages } from "chat/ai";
 
 bot.onSubscribedMessage(async (thread, message) => {
   // Fetch recent messages for context

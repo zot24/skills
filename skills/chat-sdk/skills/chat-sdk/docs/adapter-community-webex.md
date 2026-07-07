@@ -12,12 +12,12 @@ package: @bitbasti/chat-adapter-webex
 
 ## Install
 
-<PackageInstall package="chat @bitbasti/chat-adapter-webex" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createWebexAdapter } from "@bitbasti/chat-adapter-webex";
 
 const bot = new Chat({
   userName: "mybot",
@@ -45,40 +45,6 @@ bot.onNewMention(async (thread, message) => {
 
 ## Configuration
 
-<TypeTable
-  type={{
-  botToken: {
-    type: "string",
-    description: "Bot access token. Auto-detected from `WEBEX_BOT_TOKEN`.",
-  },
-  webhookSecret: {
-    type: "string",
-    description:
-      "Shared secret for verifying webhook signatures. Auto-detected from `WEBEX_WEBHOOK_SECRET`.",
-  },
-  baseUrl: {
-    type: "string",
-    default: '"https://webexapis.com/v1"',
-    description: "Webex API base URL.",
-  },
-  userName: {
-    type: "string",
-    default: '"webex-bot"',
-    description:
-      "Bot display name. Overridden by the bot's Webex profile on initialization.",
-  },
-  botUserId: {
-    type: "string",
-    description:
-      "Webex person ID of the bot. Skips the `/people/me` call when provided.",
-  },
-  logger: {
-    type: "Logger",
-    default: "ConsoleLogger",
-    description: "Custom logger instance.",
-  },
-}}
-/>
 
 ## Platform setup
 
@@ -114,4 +80,4 @@ See the [Webex Webhooks Guide](https://developer.webex.com/messaging/docs/api/gu
 
 ## Feature support
 
-<FeatureSupport />
+

@@ -12,7 +12,7 @@ type: reference
 Card components render natively on each platform — Block Kit on Slack, Adaptive Cards on Teams, Embeds on Discord, and Google Chat Cards.
 
 ```typescript
-
+import { Card, Text, CardLink, Button, Actions, Section, Fields, Field, Divider, Image, LinkButton, Table } from "chat";
 ```
 
 All components support both function-call and JSX syntax. Function-call syntax is recommended for better type inference.
@@ -29,26 +29,6 @@ Card({
 })
 ```
 
-<TypeTable
-  type={{
-  title: {
-    description: 'Card title.',
-    type: 'string',
-  },
-  subtitle: {
-    description: 'Card subtitle.',
-    type: 'string',
-  },
-  imageUrl: {
-    description: 'Header image URL.',
-    type: 'string',
-  },
-  children: {
-    description: 'Card content elements.',
-    type: 'CardChild[]',
-  },
-}}
-/>
 
 ## Text
 
@@ -60,18 +40,6 @@ Text("Important", { style: "bold" })
 Text("Subtle note", { style: "muted" })
 ```
 
-<TypeTable
-  type={{
-  content: {
-    description: 'Text content (first argument).',
-    type: 'string',
-  },
-  'options.style': {
-    description: 'Text style.',
-    type: '"plain" | "bold" | "muted"',
-  },
-}}
-/>
 
 ## Button
 
@@ -82,35 +50,6 @@ Button({ id: "approve", label: "Approve", style: "primary" })
 Button({ id: "delete", label: "Delete", style: "danger", value: "item-123" })
 ```
 
-<TypeTable
-  type={{
-  id: {
-    description: 'Unique action ID for callback routing.',
-    type: 'string',
-  },
-  label: {
-    description: 'Button label text.',
-    type: 'string',
-  },
-  style: {
-    description: 'Visual style.',
-    type: '"primary" | "danger" | "default"',
-  },
-  value: {
-    description: 'Optional payload sent with the action callback.',
-    type: 'string',
-  },
-  actionType: {
-    description: 'Hints to adapters like Teams that this button will open a modal via event.openModal().',
-    type: '"action" | "modal"',
-    default: '"action"',
-  },
-  callbackUrl: {
-    description: 'URL to POST action data to when this button is clicked.',
-    type: 'string',
-  },
-}}
-/>
 
 ## CardLink
 
@@ -120,18 +59,6 @@ Inline hyperlink rendered as text. Can be placed directly in a card alongside ot
 CardLink({ url: "https://example.com", label: "Visit Site" })
 ```
 
-<TypeTable
-  type={{
-  url: {
-    description: 'URL to link to.',
-    type: 'string',
-  },
-  label: {
-    description: 'Link label text.',
-    type: 'string',
-  },
-}}
-/>
 
 ## LinkButton
 
@@ -144,26 +71,6 @@ LinkButton({ url: "https://example.com", label: "View Docs" })
 LinkButton({ id: "view_docs", url: "https://example.com", label: "View Docs" })
 ```
 
-<TypeTable
-  type={{
-  id: {
-    description: 'Optional action identifier emitted by platforms that report link clicks.',
-    type: 'string',
-  },
-  url: {
-    description: 'URL to open when clicked.',
-    type: 'string',
-  },
-  label: {
-    description: 'Button label text.',
-    type: 'string',
-  },
-  style: {
-    description: 'Visual style.',
-    type: '"primary" | "danger" | "default"',
-  },
-}}
-/>
 
 ## Actions
 
@@ -203,18 +110,6 @@ Fields([
 
 A single key-value pair. Must be used inside `Fields`.
 
-<TypeTable
-  type={{
-  label: {
-    description: 'Field label.',
-    type: 'string',
-  },
-  value: {
-    description: 'Field value.',
-    type: 'string',
-  },
-}}
-/>
 
 ## Image
 
@@ -224,18 +119,6 @@ Embeds an image in the card.
 Image({ url: "https://example.com/screenshot.png", alt: "Screenshot" })
 ```
 
-<TypeTable
-  type={{
-  url: {
-    description: 'Image URL.',
-    type: 'string',
-  },
-  alt: {
-    description: 'Alt text for accessibility.',
-    type: 'string',
-  },
-}}
-/>
 
 ## Table
 
@@ -251,22 +134,6 @@ Table({
 })
 ```
 
-<TypeTable
-  type={{
-  headers: {
-    description: 'Column header labels.',
-    type: 'string[]',
-  },
-  rows: {
-    description: 'Data rows (each row is an array of cell strings).',
-    type: 'string[][]',
-  },
-  align: {
-    description: 'Column alignment.',
-    type: '"left" | "center" | "right"[]',
-  },
-}}
-/>
 
 On platforms with native table support (Teams, GitHub, Linear), tables render as formatted tables. On other platforms (Slack, Google Chat, Discord, Telegram), tables render as padded ASCII text.
 
