@@ -1,164 +1,259 @@
-<!-- Source: https://www.1password.dev/cli/secret-reference-syntax/ -->
+> Source: https://www.1password.dev/cli/secret-reference-syntax/
 
-# Secret Reference Syntax
 
-## Overview
 
-Secret reference URIs point to secrets stored in your 1Password account using vault, item, section, and field names (or unique identifiers).
+Concepts
 
-**Basic syntax:**
-```
+
+# Secret reference syntax
+
+
+Copy page
+
+
+Copy page
+
+
+``` shiki
 op://<vault-name>/<item-name>/[section-name/]<field-name>
 ```
 
-Secret references eliminate plaintext secret exposure and automatically reflect updates made in your 1Password account.
 
-## Supported Platforms
+## 
 
-You can use secret references with:
 
-- **1Password CLI** – Load secrets into environment variables, configuration files, and scripts
-- **1Password SDKs** – Programmatically access secrets via Go, JavaScript, and Python
-- **Secrets Automation** – Secure your secrets management workflows
-- **VS Code** – Create, preview, and read secret references while coding
-- **1Password Integrations** – Access secrets in Kubernetes, CircleCI, GitHub Actions, Jenkins, Terraform, Pulumi, Postman, and more
+<a href="#get-secret-references" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-## Getting Secret References
 
-### Desktop App Method
+### 
 
-After enabling CLI integration:
-1. Open the item containing your secret
-2. Select the dropdown next to the field
-3. Click **Copy Secret Reference**
 
-### VS Code Method
+<a href="#with-the-1password-desktop-app" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-1. Open the Command Palette
-2. Enter `1Password: Get from 1Password`
-3. Specify the item name or ID
-4. Select your desired field
 
-### CLI Method
+1.  Open the item where the secret you want to reference is stored.
+2.  Select next to the field that contains the secret you want to reference, then select **Copy Secret Reference**.
 
-```shell
-op item get GitHub --format json --fields username | jq .reference
-```
 
-This returns: `"op://development/GitHub/username"`
+### 
 
-To retrieve all field references:
-```shell
+
+<a href="#with-1password-for-vs-code" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1.  Open the **<a href="https://code.visualstudio.com/api/ux-guidelines/command-palette" class="link" target="_blank" rel="noreferrer">Command Palette</a>** .
+2.  Enter `1Password: Get from 1Password`.
+3.  Enter the item name or ID.
+4.  Select the field to use.
+
+### 
+
+
+<a href="#with-1password-cli" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Example JSON output
+
+
+``` shiki
 op item get GitHub --format json
 ```
 
-## Syntax Rules
 
-### Supported Characters
+``` shiki
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "wendy_appleseed@agilebits.com",
+      "reference": "op://development/GitHub/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "GADbhK6MjNZrRftGMqto",
+      "entropy": 115.5291519165039,
+      "reference": "op://development/GitHub/password",
+      "password_details": {
+        "entropy": 115,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://development/GitHub/notesPlain"
+    },
+    {
+      "id": "5ni6bw735myujqe4elwbzuf2ee",
+      "section": {
+        "id": "hv46kvrohfj75q6g45km2uultq",
+        "label": "credentials"
+      },
+      "type": "CONCEALED",
+      "label": "personal_token",
+      "value": "ghp_WzgPAEutsFRZH9uxWYtw",
+      "reference": "op://development/GitHub/credentials/personal_token"
+    }
+  ]
+}
+```
 
-Secret references are case-insensitive and support:
-- Alphanumeric characters (a-z, A-Z, 0-9)
-- Hyphens, underscores, periods, and whitespace
 
-**Note:** Whitespace-containing references require quotation marks:
-```shell
+## 
+
+
+<a href="#syntax-rules" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#supported-characters" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- alphanumeric characters (`a-z`, `A-Z`, `0-9`)
+- `-`, `_`, `.` and the whitespace character
+
+
+``` shiki
 op read "op://development/aws/Access Keys/access_key_id"
 ```
 
-Unsupported characters require using the field's unique identifier instead of its name.
 
-### File Attachments
+### 
 
-Reference files using the file name as the field:
-```
+
+<a href="#file-attachments" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 op://vault-name/item-name/[section-name/]file-name
 ```
 
-### Environment Variables
 
-Use variables within secret references to switch between secret sets:
+### 
 
-```
+
+<a href="#externally-set-variables" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 MYSQL_DATABASE = "op://$APP_ENV/mysql/database"
 MYSQL_USERNAME = "op://$APP_ENV/mysql/username"
 MYSQL_PASSWORD = "op://$APP_ENV/mysql/password"
 ```
 
-Set `APP_ENV` to `dev` or `prod` to load the appropriate secrets.
 
-## Query Parameters
+### 
 
-### Attribute Parameter
 
-Retrieve metadata about fields and file attachments:
+<a href="#field-and-file-metadata-attributes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-```
+
+#### 
+
+
+<a href="#attribute-parameter" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 op://<vault>/<item>[/<section>]/<field-name>?attribute=<attribute-value>
 ```
 
-**Field attributes:**
-- `type` – The field's type
-- `value` – The field's content
-- `id` – The field's unique identifier
-- `purpose` – Built-in field designation (username, password, or notes)
-- `otp` – Generate one-time password codes
 
-**File attachment attributes:**
-- `type` – The file's type
-- `content` – The file's content
-- `size` – File attachment size
-- `id` – The file's unique identifier
-- `name` – The file's name
-
-**Examples:**
-
-Generate an OTP code:
-```shell
-op read "op://development/GitHub/Security/one-time password?attribute=otp"
-```
-Returns: `359836`
-
-Retrieve field type:
-```shell
-op read "op://Personal/aws/access credentials/username?attribute=type"
-```
-Returns: `string`
-
-Get file name:
-```shell
-op read "op://app-infra/ssh/key.pem?attribute=name"
-```
-Returns: `key.pem`
-
-### SSH Format Parameter
-
-Retrieve SSH private keys in OpenSSH format:
-
-```shell
-op read "op://Private/ssh keys/ssh key/private key?ssh-format=openssh"
+``` shiki
+op://<vault>/<item>[/<section>]/<file-name>?attribute=<attribute-value>
 ```
 
-## Examples
 
-### Field Inside a Section
+| Attribute | Definition |
+|----|----|
+| `type` | The field’s type |
+| `value` | The field’s content |
+| `id` | The field’s unique identifier |
+| `purpose` | The designation of a built-in field (can be “username”, “password”, or “notes”) |
+| `otp` | Use with one-time password fields to generate a one-time password code |
 
-```
+
+| Attribute | Definition                              |
+|-----------|-----------------------------------------|
+| `type`    | The field’s type                        |
+| `content` | The file attachment’s content           |
+| `size`    | The size of the file attachment         |
+| `id`      | The file attachment’s unique identifier |
+| `name`    | The name of the file attachment         |
+
+
+#### 
+
+
+<a href="#ssh-format-parameter" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
+<a href="#secret-reference-examples" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#a-field-inside-a-section" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 op://Management/PagerDuty/Admin/email
 ```
 
-Breakdown:
-- `Management` = vault
-- `PagerDuty` = item
-- `Admin` = section
-- `email` = field
 
-### Field Without a Section
+- `Management` refers to the vault where the item is saved
+- `PagerDuty` refers to the item
+- `Admin` refers to the section where the field is a part of
+- `email` refers to the field where the secret you want to reference is located
 
-```
+
+### 
+
+
+<a href="#a-field-without-a-section" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 op://dev/Stripe/publishable-key
 ```
 
-Breakdown:
-- `dev` = vault
-- `Stripe` = item
-- `publishable-key` = field
+
+- `dev` refers to the vault where the item is saved
+- `Stripe` refers to the item
+- `publishable-key` refers to the field where the secret you want to reference is located
+
+
+## 
+
+
+<a href="#learn-more" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/cli/secret-references" class="link">Use secret references with 1Password CLI</a>
+- <a href="/sdks" class="link">Get started with 1Password SDKs</a>
+- <a href="/cli/secrets-config-files" class="link">Load secrets into config files</a>
+- <a href="/cli/secrets-environment-variables" class="link">Load secrets into the environment</a>
+- <a href="/cli/secrets-template-syntax" class="link">Template syntax</a>
+- <a href="/get-started/secure-developer-secrets" class="link">Workflow: Secure your developer secrets</a>
+
+
+Was this page helpful?
+
+
+<a href="/cli/item-template-json" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Item JSON template</span></a><a href="/cli/secrets-template-syntax" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Template syntax</span></a>
+
+

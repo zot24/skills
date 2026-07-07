@@ -1,123 +1,388 @@
-<!-- Source: https://www.1password.dev/cli/app-integration/ -->
+> Source: https://www.1password.dev/cli/app-integration/
 
-# Use the 1Password Desktop App to Sign In to 1Password CLI
 
-## Overview
 
-The 1Password desktop app integration enables you to authenticate the CLI using methods like fingerprint, face recognition, Apple Watch, Windows Hello PIN, or your device password. This approach tracks recent CLI activity and allows seamless access to accounts already configured in your app.
+Sign in
 
-## Requirements
 
-**Mac**: 1Password subscription and 1Password for Mac
+# Use the 1Password desktop app to sign in to 1Password CLI
 
-**Windows**: 1Password subscription and 1Password for Windows
 
-**Linux**: 1Password subscription, 1Password for Linux, PolKit (typically pre-installed), and an active PolKit authentication agent
+Copy page
 
-## Configuration Steps
 
-### Enable the App Integration
+Copy page
 
-**Mac**:
-1. Open and unlock 1Password
-2. Select your account/collection at the sidebar top
-3. Navigate to Settings > Developer
-4. Select "Integrate with 1Password CLI"
-5. Optionally enable Touch ID for fingerprint authentication
 
-**Windows**:
-1. Open and unlock 1Password
-2. Select your account/collection at the sidebar top
-3. Enable Windows Hello in the app
-4. Go to Settings > Developer
-5. Select "Integrate with 1Password CLI"
+- Seamlessly sign to the 1Password accounts you’ve added to the app in your terminal.
+- Authenticate 1Password CLI the same way you unlock your device, like with your fingerprint, face, Apple Watch, Windows Hello PIN, or device user password.
+- Track recent 1Password CLI activity from your 1Password app.
 
-**Linux**:
-1. Open and unlock 1Password
-2. Select your account/collection at the sidebar top
-3. Go to Settings > Security
-4. Enable "Unlock using system authentication"
-5. Navigate to Settings > Developer
-6. Select "Integrate with 1Password CLI"
+## 
 
-### Sign In
 
-After enabling integration, run any CLI command. You'll receive an authentication prompt. For example:
+<a href="#requirements" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-```shell
+
+- <div id="mac">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" data-component-part="tab-button" data-active="true" data-testid="tab-Mac">
+
+  Mac
+
+  </div>
+
+  </div>
+
+- <div id="windows">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Windows">
+
+  Windows
+
+  </div>
+
+  </div>
+
+- <div id="linux">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Linux">
+
+  Linux
+
+  </div>
+
+  </div>
+
+
+- <a href="https://1password.com/pricing/password-manager" class="link" target="_blank" rel="noreferrer">1Password subscription</a>
+- <a href="https://1password.com/downloads/mac" class="link" target="_blank" rel="noreferrer">1Password for Mac</a>
+
+
+- <a href="https://1password.com/pricing/password-manager" class="link" target="_blank" rel="noreferrer">1Password subscription</a>
+- <a href="https://1password.com/downloads/windows" class="link" target="_blank" rel="noreferrer">1Password for Windows</a>
+
+
+- <a href="https://1password.com/pricing/password-manager" class="link" target="_blank" rel="noreferrer">1Password subscription</a>
+- <a href="https://1password.com/downloads/linux" class="link" target="_blank" rel="noreferrer">1Password for Linux</a>
+- <a href="https://gitlab.freedesktop.org/polkit/polkit" class="link" target="_blank" rel="noreferrer">PolKit</a> (included in many popular distributions)
+- A PolKit authentication agent running
+
+
+## 
+
+
+<a href="#set-up-the-app-integration" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#step-1-turn-on-the-app-integration" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <div id="mac-2">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" data-component-part="tab-button" data-active="true" data-testid="tab-Mac">
+
+  Mac
+
+  </div>
+
+  </div>
+
+- <div id="windows-2">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Windows">
+
+  Windows
+
+  </div>
+
+  </div>
+
+- <div id="linux-2">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Linux">
+
+  Linux
+
+  </div>
+
+  </div>
+
+
+1.  Open and unlock the <a href="https://1password.com/downloads/" class="link" target="_blank" rel="noreferrer">1Password app</a>.
+2.  Select your account or collection at the top of the sidebar.
+3.  Navigate to **Settings** \> **<a href="onepassword://settings/developers" class="link" target="_blank" rel="noreferrer">Developer</a>**.
+4.  Select **Integrate with 1Password CLI**.
+5.  If you want to authenticate 1Password CLI with your fingerprint, turn on **<a href="https://support.1password.com/touch-id-mac/" class="link" target="_blank" rel="noreferrer">Touch ID</a>** in the app.
+
+
+1.  Open and unlock the <a href="https://1password.com/downloads/" class="link" target="_blank" rel="noreferrer">1Password app</a>.
+2.  Select your account or collection at the top of the sidebar.
+3.  Turn on **<a href="https://support.1password.com/windows-hello/" class="link" target="_blank" rel="noreferrer">Windows Hello</a>** in the app.
+4.  Navigate to **Settings** \> **<a href="onepassword://settings/developers" class="link" target="_blank" rel="noreferrer">Developer</a>**.
+5.  Select **Integrate with 1Password CLI**.
+
+
+1.  Open and unlock the <a href="https://1password.com/downloads/" class="link" target="_blank" rel="noreferrer">1Password app</a>.
+2.  Select your account or collection at the top of the sidebar.
+3.  Navigate to **Settings** \> **<a href="onepassword://settings/security" class="link" target="_blank" rel="noreferrer">Security</a>**.
+4.  Turn on **<a href="https://support.1password.com/system-authentication-linux/" class="link" target="_blank" rel="noreferrer">Unlock using system authentication</a>**.
+5.  Navigate to **Settings** \> **<a href="onepassword://settings/developers" class="link" target="_blank" rel="noreferrer">Developer</a>**.
+6.  Select **Integrate with 1Password CLI**.
+
+
+### 
+
+
+<a href="#step-2-enter-any-command-to-sign-in" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 op vault list
 ```
 
-## Multiple Account Management
 
-Run `op signin` to select from accounts added to your desktop app. Use arrow keys to navigate:
+#### 
 
-```shell
-op signin
-```
 
-Alternatively, use the `--account` flag per command:
+<a href="#if-you-have-multiple-accounts" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-```shell
+
+``` shiki
 op vault ls --account my.1password.com
 ```
 
-Or set the `OP_ACCOUNT` environment variable to your account's sign-in address or ID.
 
-## Clean Previous Account Configuration
+### 
 
-If you previously added account details manually and want to use only the app integration:
 
-```shell
+<a href="#optional-remove-previously-added-account-details" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `~/.op/config`
+- `~/.config/op/config`
+- `~/.config/.op/config`
+
+
+``` shiki
 op account forget --all
 ```
 
-Your configuration file is located at `~/.op/config`, `~/.config/op/config`, or `~/.config/.op/config`.
 
-## Toggle Biometric Unlock
+### 
 
-**Enable integration**:
-- Bash/Zsh/sh: `export OP_BIOMETRIC_UNLOCK_ENABLED=true`
-- Fish: `set -x OP_BIOMETRIC_UNLOCK_ENABLED true`
-- PowerShell: `$Env:OP_BIOMETRIC_UNLOCK_ENABLED = "true"`
 
-**Disable integration**:
-- Bash/Zsh/sh: `export OP_BIOMETRIC_UNLOCK_ENABLED=false`
-- Fish: `set -x OP_BIOMETRIC_UNLOCK_ENABLED false`
-- PowerShell: `$Env:OP_BIOMETRIC_UNLOCK_ENABLED = "false"`
+<a href="#optional-set-the-biometric-unlock-environment-variable" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-## Activity Tracking
 
-Access your CLI activity log by:
-1. Opening and unlocking the 1Password desktop app
-2. Selecting Developer in the sidebar
-3. Selecting "View CLI"
+Bash, Zsh, sh
 
-The activity table shows recent commands, timestamps, applications, and accessed accounts. Activity data is encrypted locally; older entries are purged regularly. Disable tracking by turning off "Record and display activity" in Developer settings.
 
-## Troubleshooting
+fish
 
-**Account not listed in `op signin`**: The command returns accounts added to your desktop app. To use a new account, add it to the app first via account settings.
 
-**Connection errors** ("connectionreset" or connection failure):
+PowerShell
 
-- *Mac*: Verify "Allow in background" is enabled in System Settings > General > Login Items for 1Password. Update to the latest version, restart the app. For versions 8.10.12 and earlier, ensure the CLI binary is in `/usr/local/bin/`.
-- *Windows*: Update to the latest version and restart the app.
-- *Linux*: Update to the latest version and restart the app.
 
-**"LostConnectionToApp" error during authentication**:
+``` shiki
+export OP_BIOMETRIC_UNLOCK_ENABLED=true
+```
 
-- *Mac*: Enable "Keep 1Password in the menu bar" via Settings > General.
-- *Windows*: Enable "Keep 1Password in the notification area" via Settings > General.
-- *Linux*: Enable "Keep 1Password in the system tray" via Settings > General.
 
-**Missing expected authentication method**:
+Bash, Zsh, sh
 
-- *Mac*: Set up Touch ID or Apple Watch unlock in the app.
-- *Windows*: Set up Windows Hello unlock in the app.
-- *Linux*: Configure system authentication and update your login method to use fingerprint or biometrics instead of your password.
 
-## Additional Resources
+fish
 
-- [Use Multiple 1Password Accounts with CLI](/cli/use-multiple-accounts/)
-- [1Password App Integration Security](/cli/app-integration-security/)
+
+PowerShell
+
+
+``` shiki
+export OP_BIOMETRIC_UNLOCK_ENABLED=false
+```
+
+
+## 
+
+
+<a href="#track-1password-cli-activity" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1.  Open and unlock the 1Password desktop app.
+2.  Select **Developer** in the sidebar.
+3.  Select **View CLI**.
+
+
+## 
+
+
+<a href="#troubleshooting" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#if-op-signin-doesn’t-list-your-account" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#if-you-see-a-connection-error" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <div id="mac-3">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" data-component-part="tab-button" data-active="true" data-testid="tab-Mac">
+
+  Mac
+
+  </div>
+
+  </div>
+
+- <div id="windows-3">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Windows">
+
+  Windows
+
+  </div>
+
+  </div>
+
+- <div id="linux-3">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Linux">
+
+  Linux
+
+  </div>
+
+  </div>
+
+
+1.  Make sure you’re using the latest version of the 1Password desktop app.
+2.  Restart the app.
+
+
+1.  Make sure you’re using the latest version of the 1Password desktop app.
+2.  Restart the app.
+
+
+1.  Make sure you’re using the latest version of the 1Password desktop app.
+2.  Restart the app.
+
+
+- <div id="mac-4">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" data-component-part="tab-button" data-active="true" data-testid="tab-Mac">
+
+  Mac
+
+  </div>
+
+  </div>
+
+- <div id="windows-4">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Windows">
+
+  Windows
+
+  </div>
+
+  </div>
+
+- <div id="linux-4">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Linux">
+
+  Linux
+
+  </div>
+
+  </div>
+
+
+1.  Open and unlock the 1Password desktop app.
+2.  Select your account or collection at the top of the sidebar.
+3.  Select **Settings** \> **General**.
+4.  Make sure “Keep 1Password in the menu bar” is selected.
+
+
+1.  Open and unlock the 1Password desktop app.
+2.  Select your account or collection at the top of the sidebar.
+3.  Select **Settings** \> **General**.
+4.  Make sure “Keep 1Password in the notification area” is selected.
+
+
+1.  Open and unlock the 1Password desktop app.
+2.  Select your account or collection at the top of the sidebar.
+3.  Select **Settings** \> **General**.
+4.  Make sure “Keep 1Password in the system tray” is selected.
+
+
+### 
+
+
+<a href="#if-you-aren’t-prompted-to-authenticate-with-your-preferred-method" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <div id="mac-5">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" data-component-part="tab-button" data-active="true" data-testid="tab-Mac">
+
+  Mac
+
+  </div>
+
+  </div>
+
+- <div id="windows-5">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Windows">
+
+  Windows
+
+  </div>
+
+  </div>
+
+- <div id="linux-5">
+
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-Linux">
+
+  Linux
+
+  </div>
+
+  </div>
+
+
+1.  Make sure you’ve set up <a href="https://support.1password.com/system-authentication-linux/" class="link" target="_blank" rel="noreferrer">system authentication</a> to unlock 1Password on your Linux computer.
+2.  Update the authentication method in your Linux settings to use a <a href="https://help.ubuntu.com/stable/ubuntu-help/session-fingerprint.html.en" class="link" target="_blank" rel="noreferrer">fingerprint</a> or other biometrics instead of your Linux user password.
+
+
+## 
+
+
+<a href="#learn-more" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/cli/use-multiple-accounts" class="link">Use multiple 1Password accounts with 1Password CLI</a>
+- <a href="https://support.1password.com/add-account/" class="link" target="_blank" rel="noreferrer">Add accounts to the 1Password app</a>
+- <a href="/cli/app-integration-security" class="link">1Password app integration security</a>
+- <a href="/get-started/developer-quickstart" class="link">Developer quickstart</a>
+
+
+Was this page helpful?
+
+
+<a href="/cli/config-directories" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Set configuration directories</span></a><a href="/cli/sign-in-manually" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Sign in manually</span></a>
+
+

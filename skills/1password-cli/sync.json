@@ -128,6 +128,240 @@
       "target": "skills/1password-cli/docs/connect/cli.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/app-integration-security/",
+      "target": "skills/1password-cli/docs/cli/app-integration-security.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/config-directories/",
+      "target": "skills/1password-cli/docs/cli/config-directories.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/environment-variables/",
+      "target": "skills/1password-cli/docs/cli/environment-variables.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/grant-revoke-vault-permissions/",
+      "target": "skills/1password-cli/docs/cli/grant-revoke-vault-permissions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/item-template-json/",
+      "target": "skills/1password-cli/docs/cli/item-template-json.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/provision-users/",
+      "target": "skills/1password-cli/docs/cli/provision-users.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/recover-users/",
+      "target": "skills/1password-cli/docs/cli/recover-users.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/commands/completion/",
+      "target": "skills/1password-cli/docs/cli/reference/commands/completion.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/commands/inject/",
+      "target": "skills/1password-cli/docs/cli/reference/commands/inject.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/commands/read/",
+      "target": "skills/1password-cli/docs/cli/reference/commands/read.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/commands/signin/",
+      "target": "skills/1password-cli/docs/cli/reference/commands/signin.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/commands/signout/",
+      "target": "skills/1password-cli/docs/cli/reference/commands/signout.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/commands/update/",
+      "target": "skills/1password-cli/docs/cli/reference/commands/update.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/commands/whoami/",
+      "target": "skills/1password-cli/docs/cli/reference/commands/whoami.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/account/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/account.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/connect/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/connect.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/document/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/document.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/environment/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/environment.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/events-api/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/events-api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/group/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/group.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/plugin/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/plugin.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/service-account/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/service-account.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/user/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/user.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/vault/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/vault.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/update/",
+      "target": "skills/1password-cli/docs/cli/reference/update.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/scripts/",
+      "target": "skills/1password-cli/docs/cli/scripts.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/secrets-scripts/",
+      "target": "skills/1password-cli/docs/cli/secrets-scripts.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/secrets-template-syntax/",
+      "target": "skills/1password-cli/docs/cli/secrets-template-syntax.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/sign-in-sso/",
+      "target": "skills/1password-cli/docs/cli/sign-in-sso.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/sign-in-sso-azure/",
+      "target": "skills/1password-cli/docs/cli/sign-in-sso-azure.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/uninstall/",
+      "target": "skills/1password-cli/docs/cli/uninstall.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/upgrade/",
+      "target": "skills/1password-cli/docs/cli/upgrade.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/use-cases/",
+      "target": "skills/1password-cli/docs/cli/use-cases.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/user-states/",
+      "target": "skills/1password-cli/docs/cli/user-states.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/verify/",
+      "target": "skills/1password-cli/docs/cli/verify.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/service-accounts/get-started/",
+      "target": "skills/1password-cli/docs/service-accounts/get-started.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/service-accounts/manage-service-accounts/",
+      "target": "skills/1password-cli/docs/service-accounts/manage-service-accounts.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/service-accounts/rate-limits/",
+      "target": "skills/1password-cli/docs/service-accounts/rate-limits.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/service-accounts/security/",
+      "target": "skills/1password-cli/docs/service-accounts/security.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

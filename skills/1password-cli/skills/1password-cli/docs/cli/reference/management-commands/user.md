@@ -1,0 +1,320 @@
+> Source: https://www.1password.dev/cli/reference/management-commands/user/
+
+
+
+Management commands
+
+
+# user
+
+
+Copy page
+
+
+Copy page
+
+
+### 
+
+
+<a href="#subcommands" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="#user-confirm" class="link">user confirm</a>: Confirm a user
+- <a href="#user-delete" class="link">user delete</a>: Remove a user and all their data from the account
+- <a href="#user-edit" class="link">user edit</a>: Edit a user’s name or Travel Mode status
+- <a href="#user-get" class="link">user get</a>: Get details about a user
+- <a href="#user-list" class="link">user list</a>: List users
+- <a href="#user-provision" class="link">user provision</a>: Provision a user in the authenticated account
+- <a href="#user-reactivate" class="link">user reactivate</a>: Reactivate a suspended user
+- <a href="#user-recovery" class="link">user recovery</a>: Manage user recovery in your 1Password account
+- <a href="#user-suspend" class="link">user suspend</a>: Suspend a user
+
+## 
+
+
+<a href="#user-confirm" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user confirm [{ <email> | <name> | <userID> | - }] [flags]
+```
+
+
+### 
+
+
+<a href="#flags" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+--all    Confirm all unconfirmed users.
+```
+
+
+### 
+
+
+<a href="#examples" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user confirm "Wendy Appleseed"
+```
+
+
+``` shiki
+op user confirm "wendy.appleseed@example.com"
+```
+
+
+## 
+
+
+<a href="#user-delete" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user delete [{ <email> | <name> | <userID> | - }] [flags]
+```
+
+
+## 
+
+
+<a href="#user-edit" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user edit [{ <email> | <name> | <userID> | - }] [flags]
+```
+
+
+### 
+
+
+<a href="#flags-2" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+--name string          Set the user's name.
+--travel-mode on|off   Turn Travel Mode on or off for the user. (default off)
+```
+
+
+## 
+
+
+<a href="#user-get" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user get [{ <email> | <name> | <userID> | --me | - }] [flags]
+```
+
+
+### 
+
+
+<a href="#flags-3" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+--fingerprint   Get the user's public key fingerprint.
+--me            Get the authenticated user's details.
+--public-key    Get the user's public key.
+```
+
+
+#### 
+
+
+<a href="#use-standard-input-to-specify-objects" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#examples-2" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user get "Wendy Appleseed"
+```
+
+
+``` shiki
+op user get wendy.appleseed@example.com
+```
+
+
+``` shiki
+op user list --format=json | op user get -
+```
+
+
+``` shiki
+op user list --group "Frontend Developers" --format=json | op user get - --publickey
+```
+
+
+``` shiki
+op user list --vault Staging --format=json | op user get -
+```
+
+
+## 
+
+
+<a href="#user-list" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user list [flags]
+```
+
+
+### 
+
+
+<a href="#flags-4" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+--group group   List users who belong to a group.
+--vault vault   List users who have direct access to vault.
+```
+
+
+### 
+
+
+<a href="#examples-3" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user list --format=json | op user get -
+```
+
+
+``` shiki
+op user list --group "Frontend Developers" --format=json | op user get - --publickey
+```
+
+
+``` shiki
+op user list --vault Staging --format=json | op user get -
+```
+
+
+## 
+
+
+<a href="#user-provision" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user provision [flags]
+```
+
+
+### 
+
+
+<a href="#flags-5" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+--email string      Provide the user's email address.
+--language string   Provide the user's account language. (default "en")
+--name string       Provide the user's name.
+```
+
+
+### 
+
+
+<a href="#examples-4" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user provision --name "Wendy Appleseed" --email "wendy.appleseed@example.com"
+```
+
+
+## 
+
+
+<a href="#user-reactivate" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user reactivate [{ <email> | <name> | <userID> | - }] [flags]
+```
+
+
+## 
+
+
+<a href="#user-recovery" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#subcommands-2" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="#user-recovery-begin" class="link">user recovery begin</a>: Begin recovery for users in your 1Password account
+
+## 
+
+
+<a href="#user-recovery-begin" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user recovery begin [ { <email> | <name> | <userID> } ] [flags]
+```
+
+
+### 
+
+
+<a href="#examples-5" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user recovery begin ZMAE4RTRONHN7LGELNYYO373KM WHPOFIMMYFFITBVTOTZUR3R324
+```
+
+
+## 
+
+
+<a href="#user-suspend" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+op user suspend [{ <email> | <name> | <userID> | - }] [flags]
+```
+
+
+### 
+
+
+<a href="#flags-6" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+--deauthorize-devices-after duration   Deauthorize the user's devices after a time
+                                        (rounded down to seconds).
+```
+
+
+Was this page helpful?
+
+
+<a href="/cli/reference/management-commands/service-account" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">service-account</span></a><a href="/cli/reference/management-commands/vault" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">vault</span></a>
+
+
