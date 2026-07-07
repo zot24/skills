@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/zot24/skills/compare/1password-cli-v1.1.0...1password-cli-v1.1.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* **1password-cli:** sync newly discovered pages with redaction ([58ef712](https://github.com/zot24/skills/commit/58ef712f7381e4a7f4589b318245dfce981dffdf))
+* **ci:** redact secret-shaped strings from synced docs ([c4b1ce3](https://github.com/zot24/skills/commit/c4b1ce3ffab059b58820c65c07ecf7d896bcb283))
+
 ## [1.1.0](https://github.com/zot24/skills/compare/1password-cli-v1.0.0...1password-cli-v1.1.0) (2026-07-07)
 
 
