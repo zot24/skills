@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.5](https://github.com/zot24/skills/compare/umami-v1.0.4...umami-v1.0.5) (2026-07-07)
+
+
+### Bug Fixes
+
+* **commands:** use ${CLAUDE_PLUGIN_ROOT} paths in all command files, correct CLAUDE.md ([62c0feb](https://github.com/zot24/skills/commit/62c0feb31364c1be05c7b42edb8f9751b9f3567c))
+* repair sync script, rebuild agent-skills with official Anthropic docs, fix command paths, sync hygiene ([61449aa](https://github.com/zot24/skills/commit/61449aa775d0b59ce99ccd78a5fa2967f9d9b76d))
+
 ## [1.0.4](https://github.com/zot24/skills/compare/umami-v1.0.3...umami-v1.0.4) (2026-06-01)
 
 
