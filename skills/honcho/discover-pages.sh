@@ -28,7 +28,7 @@ fi
 echo "Discovering docs pages from: $INDEX_URL"
 
 # Fetch the llms.txt index and extract all doc URLs
-RAW_INDEX=$(curl -sSL "$INDEX_URL" 2>/dev/null)
+RAW_INDEX=$(curl -sSL "$INDEX_URL" 2>/dev/null || true)
 
 # Extract URLs from markdown links like [Title](URL)
 DISCOVERED_URLS=$(echo "$RAW_INDEX" | \
@@ -49,7 +49,7 @@ EXISTING_URLS=$(jq -r '.sources[].url' "$MANIFEST" | sort -u)
 # Find new pages not in sync.json
 NEW_URLS=""
 while IFS= read -r url; do
-    if ! echo "$EXISTING_URLS" | grep -qF "$url"; then
+    if ! echo "$EXISTING_URLS" | grep -qxF "$url"; then
         NEW_URLS="${NEW_URLS}${url}\n"
     fi
 done <<< "$DISCOVERED_URLS"

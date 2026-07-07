@@ -28,7 +28,7 @@ fi
 echo "Discovering docs pages from: $DOCS_URL"
 
 # Fetch the docs index and extract all /docs/ links from navigation
-RAW_HTML=$(curl -sSL "$DOCS_URL" 2>/dev/null)
+RAW_HTML=$(curl -sSL "$DOCS_URL" 2>/dev/null || true)
 
 # Extract unique /docs/ paths from href attributes
 DISCOVERED_PATHS=$(echo "$RAW_HTML" | \
@@ -54,7 +54,7 @@ EXISTING_URLS=$(jq -r '.sources[].url' "$MANIFEST" | sed 's:/*$:/:' | sort -u)
 NEW_PAGES=""
 while IFS= read -r path; do
     full_url="${BASE_URL}${path}"
-    if ! echo "$EXISTING_URLS" | grep -qF "$full_url"; then
+    if ! echo "$EXISTING_URLS" | grep -qxF "$full_url"; then
         NEW_PAGES="${NEW_PAGES}${path}\n"
     fi
 done <<< "$DISCOVERED_PATHS"
