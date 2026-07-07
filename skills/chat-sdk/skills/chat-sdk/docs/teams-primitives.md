@@ -28,16 +28,17 @@ Use the low-level Teams subpaths when your app already owns routing, state, sess
 | `@chat-adapter/teams/cards`   | Runtime-free conversion from simple card objects and input requests to Adaptive Cards      |
 | `@chat-adapter/teams/modals`  | Runtime-free Task Module Adaptive Card helpers and submit parsing                          |
 
-<Callout type="warning">
+
   The webhook subpath parses Activities only. It does not verify Microsoft Bot Framework JWTs. For production request validation, use `createTeamsAdapter` or the Microsoft Teams SDK request pipeline before handing the Activity to these helpers.
-</Callout>
+
 
 ## Webhooks
 
 Teams sends Bot Framework Activity JSON. `readTeamsWebhook` reads the request body and classifies the Activity, but it intentionally does not perform JWT validation.
 
 ```typescript title="app/api/teams/route.ts" lineNumbers
-
+import { postTeamsMessage } from "@chat-adapter/teams/api";
+import { readTeamsWebhook } from "@chat-adapter/teams/webhook";
 
 export async function POST(request: Request) {
   const payload = await readTeamsWebhook(request, {
@@ -144,6 +145,7 @@ Use `accessToken` in `credentials` when your runtime already owns Microsoft toke
 The Graph subpath reads Teams history with explicit Graph IDs. Unlike `TeamsAdapter`, it does not use the adapter state cache to infer `teamId`, `channelId`, or `chatId`.
 
 ```typescript
+import { listTeamsChannelMessages } from "@chat-adapter/teams/graph";
 
 const messages = await listTeamsChannelMessages({
   channelId: "19:channel@thread.tacv2",
@@ -189,6 +191,7 @@ import {
   cardToAdaptiveCard,
   cardToTeamsFallbackText,
 } from "@chat-adapter/teams/cards";
+import { postTeamsMessage } from "@chat-adapter/teams/api";
 
 const card = {
   children: [

@@ -12,15 +12,37 @@ package: @zernio/chat-sdk-adapter
 
 ## Install
 
-<PackageInstall package="@zernio/chat-sdk-adapter chat @chat-adapter/state-memory" />
 
 For production, swap `@chat-adapter/state-memory` for a persistent state adapter such as `@chat-adapter/state-redis` or `@chat-adapter/state-pg`. See [State Adapters](/docs/state-adapters) for all options.
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createZernioAdapter } from "@zernio/chat-sdk-adapter";
 
+export const bot = new Chat({
+  userName: "pizza-bot",
+  adapters: {
+    zernio: createZernioAdapter(),
+  },
+  state: createMemoryState(),
+});
 
+// Pattern is a RegExp — `/.*/ ` matches every message.
+bot.onNewMessage(/.*/, async (thread, message) => {
+  const platform = (message.raw as { platform: string }).platform;
+  await thread.post(`Hello from ${platform}!`);
+});
+```
+
+```typescript title="app/api/chat-webhook/route.ts" lineNumbers
+import { bot } from "@/lib/bot";
+
+export async function POST(request: Request) {
+  return bot.webhooks.zernio(request);
+}
 ```
 
 ## Why Zernio
@@ -41,6 +63,7 @@ Even with native Chat SDK adapters for each platform, shipping a multi-platform 
 ### Explicit configuration
 
 ```typescript
+import { createZernioAdapter } from "@zernio/chat-sdk-adapter";
 
 const adapter = createZernioAdapter({
   apiKey: "your-api-key",
@@ -86,6 +109,7 @@ Thread IDs follow the format `zernio:{accountId}:{conversationId}`:
 * For comments: `zernio:{accountId}:comment:{postId}`
 
 ```typescript
+import { ZernioAdapter } from "@zernio/chat-sdk-adapter";
 
 const adapter = new ZernioAdapter({ apiKey: "..." });
 const { accountId, conversationId } = adapter.decodeThreadId(threadId);
@@ -111,6 +135,7 @@ const { accountId, conversationId } = adapter.decodeThreadId(threadId);
 The adapter maps Chat SDK `Card` elements to native platform formats instead of falling back to plain text:
 
 ```typescript
+import { Actions, Button, Card, CardText, LinkButton } from "chat";
 
 await thread.post(
   Card({
@@ -133,6 +158,7 @@ Renders as an interactive card on Facebook, Instagram, Telegram, and WhatsApp. F
 A card `Select` or `RadioSelect` maps to a WhatsApp **interactive list** (it can't coexist with reply buttons, so the list takes precedence):
 
 ```typescript
+import { Actions, Card, Select, SelectOption } from "chat";
 
 await thread.post(
   Card({
@@ -158,6 +184,7 @@ await thread.post(
 WhatsApp-only message types that don't map to a Chat SDK card are sent through the exported `ZernioApiClient`, used alongside the adapter. Decode a thread ID to get the `accountId` and `conversationId`:
 
 ```typescript
+import { ZernioApiClient } from "@zernio/chat-sdk-adapter";
 
 const client = new ZernioApiClient(process.env.ZERNIO_API_KEY!, "https://zernio.com/api");
 const { accountId, conversationId } = adapter.decodeThreadId(threadId);
@@ -232,7 +259,8 @@ const threadId = await adapter.openConversation({
 Stream AI responses using the post+edit pattern — `thread.post()` accepts an `AsyncIterable<string>`, so you can pass the `textStream` from `streamText` directly:
 
 ```typescript
-
+import { openai } from "@ai-sdk/openai";
+import { streamText } from "ai";
 
 bot.onNewMessage(/.*/, async (thread, message) => {
   const result = streamText({
@@ -278,6 +306,7 @@ bot.onNewMessage(/.*/, async (thread, message) => {
 The adapter ships a standalone REST client for direct Zernio API calls:
 
 ```typescript
+import { ZernioApiClient } from "@zernio/chat-sdk-adapter";
 
 const client = new ZernioApiClient("your-api-key", "https://zernio.com/api");
 
@@ -310,6 +339,7 @@ It also exposes the WhatsApp rich sends shown above (`sendInteractive`, `sendLoc
 The adapter automatically verifies webhook signatures when `webhookSecret` is configured. You can also call the verifier directly:
 
 ```typescript
+import { verifyWebhookSignature } from "@zernio/chat-sdk-adapter";
 
 const isValid = verifyWebhookSignature(rawBody, signature, secret);
 ```
@@ -328,4 +358,4 @@ The adapter maps Zernio API errors to standard Chat SDK error classes:
 
 ## Feature support
 
-<FeatureSupport />
+

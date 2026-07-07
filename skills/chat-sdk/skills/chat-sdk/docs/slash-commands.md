@@ -84,6 +84,7 @@ bot.onSlashCommand("/greet", async (event) => {
 Use `event.openModal()` to open a [modal](/docs/modals) in response to a slash command:
 
 ```tsx title="lib/bot.tsx" lineNumbers
+import { Modal, TextInput, Select, SelectOption } from "chat";
 
 bot.onSlashCommand("/feedback", async (event) => {
   const result = await event.openModal(
@@ -102,9 +103,9 @@ bot.onSlashCommand("/feedback", async (event) => {
 });
 ```
 
-<Callout type="info">
+
   When a modal is opened from a slash command, the submit handler receives `relatedChannel` instead of `relatedThread`. Use this to post back to the channel where the command was invoked.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onModalSubmit("feedback_form", async (event) => {

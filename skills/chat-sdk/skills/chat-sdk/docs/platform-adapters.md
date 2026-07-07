@@ -27,56 +27,56 @@ Ready to build your own? Follow the [building](/docs/contributing/building) guid
 | Feature            | [Slack](/adapters/slack) | [Teams](/adapters/teams)         | [Google Chat](/adapters/gchat) | [Discord](/adapters/discord) | [Telegram](/adapters/telegram)   | [GitHub](/adapters/github) | [Linear](/adapters/linear)          | [WhatsApp](/adapters/whatsapp) | [Messenger](/adapters/messenger) |
 | ------------------ | ------------------------ | -------------------------------- | ------------------------------ | ---------------------------- | -------------------------------- | -------------------------- | ----------------------------------- | ------------------------------ | -------------------------------- |
 | Post message       |                 |                         |                       |                     |                         |                   |                            |                       |                         |
-| Edit message       |                 |                         |                       |                     |                         |                   | <Warn /> Partial                    | <Cross />                      | <Cross />                        |
-| Delete message     |                 |                         |                       |                     |                         |                   | <Warn /> Partial                    | <Cross />                      | <Cross />                        |
-| File uploads       |                 |                         | <Cross />                      |                     | <Warn /> Single file/media       | <Cross />                  | <Cross />                           |  Images, audio, docs  | <Cross />                        |
-| Streaming          |  Native         | <Warn /> Native (DMs) / Buffered | <Warn /> Post+Edit             | <Warn /> Post+Edit           | <Warn /> Rich drafts / Post+Edit | <Warn /> Buffered          | <Warn /> Agent sessions / Post+Edit | <Warn /> Buffered              | <Warn /> Buffered                |
-| Scheduled messages |  Native         | <Cross />                        | <Cross />                      | <Cross />                    | <Cross />                        | <Cross />                  | <Cross />                           | <Cross />                      | <Cross />                        |
+| Edit message       |                 |                         |                       |                     |                         |                   |  Partial                    |                       |                         |
+| Delete message     |                 |                         |                       |                     |                         |                   |  Partial                    |                       |                         |
+| File uploads       |                 |                         |                       |                     |  Single file/media       |                   |                            |  Images, audio, docs  |                         |
+| Streaming          |  Native         |  Native (DMs) / Buffered |  Post+Edit             |  Post+Edit           |  Rich drafts / Post+Edit |  Buffered          |  Agent sessions / Post+Edit |  Buffered              |  Buffered                |
+| Scheduled messages |  Native         |                         |                       |                     |                         |                   |                            |                       |                         |
 
 ### Rich content
 
 | Feature         | Slack               | Teams          | Google Chat       | Discord       | Telegram                               | GitHub        | Linear        | WhatsApp                      | Messenger                |
 | --------------- | ------------------- | -------------- | ----------------- | ------------- | -------------------------------------- | ------------- | ------------- | ----------------------------- | ------------------------ |
 | Card format     | Block Kit           | Adaptive Cards | Google Chat Cards | Embeds        | Markdown + inline keyboard buttons     | GFM Markdown  | Markdown      | WhatsApp templates            | Generic/Button Templates |
-| Buttons         |            |       |          |      | <Warn /> Inline keyboard callbacks     | <Cross />     | <Cross />     |  Interactive replies | <Warn /> Max 3, postback |
-| Link buttons    |            |       |          |      | <Warn /> Inline keyboard URLs          | <Cross />     | <Cross />     | <Cross />                     |                 |
-| Select menus    |            | <Cross />      |          | <Cross />     | <Cross />                              | <Cross />     | <Cross />     | <Cross />                     | <Cross />                |
-| Tables          |  Block Kit |  GFM  | <Warn /> ASCII    |  GFM | <Warn /> Native messages / ASCII cards |  GFM |  GFM | <Cross />                     | <Warn /> ASCII           |
-| Fields          |            |       |          |      |                               |      |      | <Warn /> Template variables   | <Warn /> ASCII           |
-| Images in cards |            |       |          |      | <Cross />                              |      | <Cross />     |                      |                 |
-| Modals          |            |       | <Cross />         | <Cross />     | <Cross />                              | <Cross />     | <Cross />     | <Cross />                     | <Cross />                |
+| Buttons         |            |       |          |      |  Inline keyboard callbacks     |      |      |  Interactive replies |  Max 3, postback |
+| Link buttons    |            |       |          |      |  Inline keyboard URLs          |      |      |                      |                 |
+| Select menus    |            |       |          |      |                               |      |      |                      |                 |
+| Tables          |  Block Kit |  GFM  |  ASCII    |  GFM |  Native messages / ASCII cards |  GFM |  GFM |                      |  ASCII           |
+| Fields          |            |       |          |      |                               |      |      |  Template variables   |  ASCII           |
+| Images in cards |            |       |          |      |                               |      |      |                      |                 |
+| Modals          |            |       |          |      |                               |      |      |                      |                 |
 
 ### Conversations
 
 | Feature                                                                                  | Slack            | Teams           | Google Chat      | Discord   | Telegram            | GitHub    | Linear                  | WhatsApp  | Messenger |
 | ---------------------------------------------------------------------------------------- | ---------------- | --------------- | ---------------- | --------- | ------------------- | --------- | ----------------------- | --------- | --------- |
-| Slash commands                                                                           |         | <Cross />       | <Cross />        |  | <Cross />           | <Cross /> | <Cross />               | <Cross /> | <Cross /> |
-| Mentions                                                                                 |         |        |         |  |            |  |                | <Cross /> |  |
-| Add reactions                                                                            |         | <Cross />       |         |  |            |  |                |  | <Cross /> |
-| Remove reactions                                                                         |         | <Cross />       |         |  |            | <Warn />  | <Warn />                |  | <Cross /> |
-| Typing indicator                                                                         |         |        | <Cross />        |  |            | <Cross /> | <Warn /> Agent sessions | <Warn />  |  |
-| DMs                                                                                      |         |        |         |  |            | <Cross /> | <Cross />               |  |  |
-| Ephemeral messages                                                                       |  Native | <Cross />       |  Native | <Cross /> | <Cross />           | <Cross /> | <Cross />               | <Cross /> | <Cross /> |
-| User lookup ([`getUser`](/docs/api/chat#getuser))                                        |         | <Warn /> Cached | <Warn /> Cached  |  | <Warn /> Seen users |  |                | <Cross /> | <Cross /> |
-| Parent subject ([`message.subject`](/docs/subject))                                      | <Cross />        | <Cross />       | <Cross />        | <Cross /> | <Cross />           |  |                | <Cross /> | <Cross /> |
-| Native client ([`.webClient` / `.octokit` / `.linearClient`](/docs/api/chat#getadapter)) |         | <Cross />       | <Cross />        | <Cross /> | <Cross />           |  |                | <Cross /> | <Cross /> |
+| Slash commands                                                                           |         |        |         |  |            |  |                |  |  |
+| Mentions                                                                                 |         |        |         |  |            |  |                |  |  |
+| Add reactions                                                                            |         |        |         |  |            |  |                |  |  |
+| Remove reactions                                                                         |         |        |         |  |            |   |                 |  |  |
+| Typing indicator                                                                         |         |        |         |  |            |  |  Agent sessions |   |  |
+| DMs                                                                                      |         |        |         |  |            |  |                |  |  |
+| Ephemeral messages                                                                       |  Native |        |  Native |  |            |  |                |  |  |
+| User lookup ([`getUser`](/docs/api/chat#getuser))                                        |         |  Cached |  Cached  |  |  Seen users |  |                |  |  |
+| Parent subject ([`message.subject`](/docs/subject))                                      |         |        |         |  |            |  |                |  |  |
+| Native client ([`.webClient` / `.octokit` / `.linearClient`](/docs/api/chat#getadapter)) |         |        |         |  |            |  |                |  |  |
 | Custom API endpoint (`apiUrl`)                                                           |         |        |         |  |            |  |                |  |  |
 
 ### Message history
 
 | Feature                | Slack     | Teams     | Google Chat | Discord   | Telegram        | GitHub    | Linear    | WhatsApp                           | Messenger                          |
 | ---------------------- | --------- | --------- | ----------- | --------- | --------------- | --------- | --------- | ---------------------------------- | ---------------------------------- |
-| Fetch messages         |  |  |    |  | <Warn /> Cached |  |  | <Warn /> Cached sent messages only | <Warn /> Cached sent messages only |
-| Fetch single message   |  | <Cross /> | <Cross />   | <Cross /> | <Warn /> Cached | <Cross /> | <Cross /> | <Cross />                          | <Warn /> Cached                    |
+| Fetch messages         |  |  |    |  |  Cached |  |  |  Cached sent messages only |  Cached sent messages only |
+| Fetch single message   |  |  |    |  |  Cached |  |  |                           |  Cached                    |
 | Fetch thread info      |  |  |    |  |        |  |  |                           |                           |
-| Fetch channel messages |  |  |    |  | <Warn /> Cached |  | <Cross /> | <Cross />                          | <Warn /> Cached                    |
-| List threads           |  |  |    |  | <Cross />       |  | <Cross /> | <Cross />                          | <Cross />                          |
-| Fetch channel info     |  |  |    |  |        |  | <Cross /> | <Cross />                          |                           |
-| Post channel message   |  |  |    |  |        | <Cross /> | <Cross /> |                           |                           |
+| Fetch channel messages |  |  |    |  |  Cached |  |  |                           |  Cached                    |
+| List threads           |  |  |    |  |        |  |  |                           |                           |
+| Fetch channel info     |  |  |    |  |        |  |  |                           |                           |
+| Post channel message   |  |  |    |  |        |  |  |                           |                           |
 
-<Callout type="info">
-  <Warn /> indicates partial support. The feature works with limitations. See individual adapter pages for details.
-</Callout>
+
+   indicates partial support. The feature works with limitations. See individual adapter pages for details.
+
 
 ## How adapters work
 
@@ -92,7 +92,11 @@ Each adapter implements a standard interface that the `Chat` class uses to route
 Register multiple [adapters](/adapters) and your event handlers work across all of them:
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createTeamsAdapter } from "@chat-adapter/teams";
+import { createGoogleChatAdapter } from "@chat-adapter/gchat";
+import { createRedisState } from "@chat-adapter/state-redis";
 
 const bot = new Chat({
   userName: "mybot",
@@ -113,9 +117,9 @@ bot.onNewMention(async (thread) => {
 
 Each adapter auto-detects credentials from environment variables, so you only need to pass config when overriding defaults.
 
-<Callout type="info">
+
   The examples above use Redis for state. See [State Adapters](/docs/state-adapters) for all available options.
-</Callout>
+
 
 Each adapter creates a webhook handler accessible via `bot.webhooks.<name>`.
 
@@ -124,7 +128,8 @@ Each adapter creates a webhook handler accessible via `bot.webhooks.<name>`.
 Each official adapter exposes its extension surface as `protected` members so you can subclass it to override or extend platform-specific behavior without forking the package. Use this when you need to handle a payload type the built-in adapter doesn't cover, intercept verification, or wrap an existing handler.
 
 ```typescript title="lib/custom-telegram.ts" lineNumbers
-
+import { TelegramAdapter, type TelegramUpdate } from "@chat-adapter/telegram";
+import type { WebhookOptions } from "chat";
 
 export class CustomTelegramAdapter extends TelegramAdapter {
   protected override processUpdate(
@@ -143,6 +148,6 @@ export class CustomTelegramAdapter extends TelegramAdapter {
 
 Construct your subclass anywhere you'd construct the base adapter, for example, `adapters: { telegram: new CustomTelegramAdapter({ ... }) }`. Members marked `private` intentionally remain inaccessible. If you find a hook you need that isn't `protected`, please open an issue.
 
-<Callout type="warn">
+
   The `protected` extension surface is intentionally broader than the public API but is not yet considered fully stable. Method signatures may evolve in minor releases as we learn from real-world subclasses. Pin the adapter version you build against, watch the changelog for the affected adapter, and prefer overriding the smallest hook that solves your problem so upgrades stay easy. If you rely on a particular hook, please open an issue so we can promote it to a stable, documented extension point.
-</Callout>
+

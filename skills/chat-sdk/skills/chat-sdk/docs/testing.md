@@ -30,6 +30,7 @@ pnpm add -D @chat-adapter/tests
 Auto-register all matchers by adding the package's setup file to your Vitest config:
 
 ```typescript title="vitest.config.ts" lineNumbers
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
@@ -41,7 +42,7 @@ export default defineConfig({
 Without the setup file, register matchers manually:
 
 ```typescript
-
+import { matchers } from "@chat-adapter/tests/matchers";
 expect.extend(matchers);
 ```
 
@@ -85,7 +86,9 @@ Text-pattern matchers extract a comparable string from `AdapterPostableMessage` 
 When you're building a bot on top of Chat SDK, the kit lets you exercise your handlers without a real Slack/Teams/etc. webhook on the wire:
 
 ```typescript title="bot.test.ts"
-
+import { describe, expect, it } from "vitest";
+import { Chat } from "chat";
+import { createMockAdapter, createMockState } from "@chat-adapter/tests";
 
 describe("bot handlers", () => {
   it("replies with a greeting on mention", async () => {
@@ -114,7 +117,9 @@ describe("bot handlers", () => {
 When you're building a custom `Adapter`, the kit gives you a `ChatInstance` mock you can hand to your adapter and assert that webhooks route through the right `process*` hook with the right normalized payload:
 
 ```typescript title="adapter.test.ts"
-
+import { describe, expect, it } from "vitest";
+import { createMockChatInstance } from "@chat-adapter/tests";
+import { MyAdapter } from "./adapter";
 
 describe("MyAdapter.handleWebhook", () => {
   it("dispatches incoming messages through processMessage", async () => {

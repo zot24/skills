@@ -12,7 +12,6 @@ package: @novu/chat-sdk-adapter
 
 ## Install
 
-<PackageInstall package="@novu/chat-sdk-adapter chat @chat-adapter/state-memory" />
 
 ## Quick start
 
@@ -21,7 +20,9 @@ package: @novu/chat-sdk-adapter
 3. **Setup a channel** — run `npx novu connect --runtime chat-sdk` and pick Slack, Email, Telegram, WhatsApp, or Microsoft Teams.
 
 ```typescript
-
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createNovuAdapter } from "@novu/chat-sdk-adapter";
 
 const novu = createNovuAdapter();
 
@@ -64,23 +65,6 @@ Everything below is what you'd otherwise build and maintain against each platfor
 
 Set via the environment (the CLI writes these for you) or pass them to `createNovuAdapter({ ... })`:
 
-<TypeTable
-  type={{
-  secretKey: {
-    type: "string",
-    description: "Novu API key — authorizes replies and verifies the inbound HMAC. Set automatically by `npx novu connect`. Falls back to `NOVU_SECRET_KEY`.",
-  },
-  agentIdentifier: {
-    type: "string",
-    description: "Your bridge agent ID — set automatically by `npx novu connect`. Falls back to `NOVU_AGENT_IDENTIFIER`.",
-  },
-  apiBaseUrl: {
-    type: "string",
-    default: '"https://api.novu.co"',
-    description: "API base URL. Falls back to `NOVU_API_BASE_URL`.",
-  },
-}}
-/>
 
 ### Environment variables
 
@@ -95,6 +79,7 @@ Set via the environment (the CLI writes these for you) or pass them to `createNo
 Inside any handler, `getNovuContext(thread)` unlocks Novu-native data:
 
 ```typescript
+import { getNovuContext } from "@novu/chat-sdk-adapter";
 
 chat.onSubscribedMessage(async (thread, message) => {
   const ctx = getNovuContext(thread);
@@ -116,6 +101,7 @@ Your agent can push notifications outside an active conversation by triggering a
 By default, the trigger targets the subscriber on the current conversation. Pass explicit recipients to notify someone else or a topic:
 
 ```typescript
+import { getNovuContext } from "@novu/chat-sdk-adapter";
 
 chat.onSubscribedMessage(async (thread, message) => {
   const ctx = getNovuContext(thread);
@@ -207,4 +193,4 @@ Handler coverage: `onNewMention`, `onSubscribedMessage`, `onAction` (button clic
 
 ## Feature support
 
-<FeatureSupport />
+

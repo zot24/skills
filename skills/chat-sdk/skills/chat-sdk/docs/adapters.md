@@ -26,6 +26,7 @@ Ready to build your own? Follow the [building](/docs/contributing/building) guid
 The `chat/adapters` subpath is a static catalog of official and vendor-official adapters. It imports no adapter packages, so you can use it from setup screens, build scripts, or onboarding flows without pulling in Slack, Teams, Redis, or other platform SDKs.
 
 ```typescript title="scripts/list-adapters.ts" lineNumbers
+import { ADAPTER_NAMES, getAdapter } from "chat/adapters";
 
 for (const slug of ADAPTER_NAMES) {
   const adapter = getAdapter(slug);
@@ -36,6 +37,7 @@ for (const slug of ADAPTER_NAMES) {
 Use the env helpers when you need to show setup instructions or inject secrets for one adapter:
 
 ```typescript lineNumbers
+import { getAdapter, getSecretEnvVars } from "chat/adapters";
 
 const slack = getAdapter("slack");
 const secrets = getSecretEnvVars("slack").map((envVar) => envVar.key);
@@ -58,101 +60,6 @@ Each adapter entry includes an `env` spec:
 
 The main `CatalogAdapter` metadata shape is:
 
-<TypeTable
-  type={{
-  slug: {
-    type: "string",
-    description: "Stable catalog slug. Matches the key in `ADAPTERS`.",
-  },
-  name: {
-    type: "string",
-    description: "Display name.",
-  },
-  description: {
-    type: "string",
-    description: "One-line summary of what the adapter connects to.",
-  },
-  packageName: {
-    type: "string",
-    description: "NPM package that provides the adapter implementation.",
-  },
-  type: {
-    type: '"platform" | "state"',
-    description: "Whether the adapter connects to a platform or stores Chat SDK state.",
-  },
-  group: {
-    type: '"official" | "vendor-official"',
-    description: "Catalog group used by the docs adapter listing.",
-  },
-  peerDeps: {
-    type: "readonly string[]",
-    description: "Runtime packages the adapter expects the consuming app to provide or install alongside it.",
-  },
-  env: {
-    type: "AdapterEnvSpec",
-    description: "Environment variables and constructor-only configuration.",
-  },
-}}
-/>
-
-<TypeTable
-  type={{
-  required: {
-    type: "readonly EnvVar[]",
-    description: "Variables needed regardless of credential mode.",
-  },
-  credentialModes: {
-    type: "readonly EnvGroup[]",
-    description: "Mutually exclusive credential groups. A caller usually satisfies exactly one group.",
-  },
-  optional: {
-    type: "readonly EnvVar[]",
-    description: "Optional environment variables that tune behavior.",
-  },
-  config: {
-    type: "readonly string[]",
-    description: "Constructor options that have no environment-variable equivalent.",
-  },
-  notes: {
-    type: "string",
-    description: "Additional caveats that do not fit the structured fields.",
-  },
-}}
-/>
-
-<TypeTable
-  type={{
-  label: {
-    type: "string",
-    description: "Human-readable name for this credential mode.",
-  },
-  vars: {
-    type: "readonly EnvVar[]",
-    description: "Variables that together satisfy this mode.",
-  },
-}}
-/>
-
-<TypeTable
-  type={{
-  key: {
-    type: "string",
-    description: "Canonical environment variable name.",
-  },
-  description: {
-    type: "string",
-    description: "Short description of what the value configures.",
-  },
-  secret: {
-    type: "boolean",
-    description: "Whether the value should be masked in logs and setup UIs.",
-  },
-  aliases: {
-    type: "readonly string[]",
-    description: "Alternative variable names accepted for the same value.",
-  },
-}}
-/>
 
 ### Helpers
 

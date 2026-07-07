@@ -23,26 +23,6 @@ const channel = chat.channel("slack:C123ABC");
 
 ## Properties
 
-<TypeTable
-  type={{
-  id: {
-    description: 'Channel ID (e.g., "slack:C123ABC", "gchat:spaces/ABC123").',
-    type: 'string',
-  },
-  name: {
-    description: 'Channel name (e.g., "#general"). Null until fetchMetadata() is called.',
-    type: 'string | null',
-  },
-  adapter: {
-    description: 'The platform adapter this channel belongs to.',
-    type: 'Adapter',
-  },
-  isDM: {
-    description: 'Whether this is a direct message conversation.',
-    type: 'boolean',
-  },
-}}
-/>
 
 ## Channel ID format
 
@@ -77,26 +57,6 @@ for await (const thread of channel.threads()) {
 
 ### ThreadSummary
 
-<TypeTable
-  type={{
-  id: {
-    description: 'Full thread ID.',
-    type: 'string',
-  },
-  rootMessage: {
-    description: 'The first message of the thread.',
-    type: 'Message',
-  },
-  replyCount: {
-    description: 'Number of replies (if available).',
-    type: 'number | undefined',
-  },
-  lastReplyAt: {
-    description: 'Timestamp of most recent reply.',
-    type: 'Date | undefined',
-  },
-}}
-/>
 
 ## post
 
@@ -135,30 +95,6 @@ console.log(info.name, info.memberCount);
 
 ### ChannelInfo
 
-<TypeTable
-  type={{
-  id: {
-    description: 'Channel ID.',
-    type: 'string',
-  },
-  name: {
-    description: 'Channel name.',
-    type: 'string | undefined',
-  },
-  isDM: {
-    description: 'Whether this is a direct message.',
-    type: 'boolean | undefined',
-  },
-  memberCount: {
-    description: 'Number of members in the channel.',
-    type: 'number | undefined',
-  },
-  metadata: {
-    description: 'Platform-specific metadata.',
-    type: 'Record<string, unknown>',
-  },
-}}
-/>
 
 ## state
 

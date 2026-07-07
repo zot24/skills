@@ -12,16 +12,16 @@ package: @chat-adapter/github
 
 ## Install
 
-<PackageInstall package="@chat-adapter/github" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects credentials from `GITHUB_TOKEN` (or `GITHUB_APP_ID`/`GITHUB_PRIVATE_KEY`), `GITHUB_WEBHOOK_SECRET`, and `GITHUB_BOT_USERNAME`.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createGitHubAdapter } from "@chat-adapter/github";
 
 const bot = new Chat({
   userName: "my-bot",
@@ -37,45 +37,6 @@ bot.onNewMention(async (thread, message) => {
 
 ## Configuration
 
-<TypeTable
-  type={{
-  token: {
-    type: "string",
-    description:
-      "Personal Access Token. Auto-detected from `GITHUB_TOKEN`.",
-  },
-  appId: {
-    type: "string | number",
-    description: "GitHub App ID. Auto-detected from `GITHUB_APP_ID`.",
-  },
-  privateKey: {
-    type: "string",
-    description:
-      "GitHub App private key (PEM). Auto-detected from `GITHUB_PRIVATE_KEY`.",
-  },
-  installationId: {
-    type: "number",
-    description:
-      "Installation ID. Omit for multi-tenant setups so the adapter resolves it from each webhook.",
-  },
-  webhookSecret: {
-    type: "string",
-    description:
-      "Webhook secret. Auto-detected from `GITHUB_WEBHOOK_SECRET`.",
-  },
-  userName: {
-    type: "string",
-    default: '"github-bot"',
-    description:
-      "Bot username for @mention detection. Auto-detected from `GITHUB_BOT_USERNAME`.",
-  },
-  apiUrl: {
-    type: "string",
-    description:
-      "Override the GitHub API base URL (e.g. for GitHub Enterprise Server).",
-  },
-}}
-/>
 
 Either `token` or `appId`+`privateKey` is required, plus `webhookSecret`.
 
@@ -205,7 +166,6 @@ GitHub App webhooks are configured during app creation — make sure to select `
 
 ## Feature support
 
-<FeatureSupport />
 
 ## Resources
 

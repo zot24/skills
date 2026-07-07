@@ -12,12 +12,13 @@ package: @veltdev/chat-sdk-adapter
 
 ## Install
 
-<PackageInstall package="@veltdev/chat-sdk-adapter" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createVeltAdapter, type VeltAdapter } from "@veltdev/chat-sdk-adapter";
 
 const bot = new Chat<{ velt: VeltAdapter }>({
   userName: "Velt Bot",
@@ -41,57 +42,6 @@ The adapter maps Velt documents to Chat SDK channels, comment annotations to Cha
 
 ## Configuration
 
-<TypeTable
-  type={{
-  apiKey: {
-    type: "string",
-    description: "Velt API key for REST API calls. Falls back to `VELT_API_KEY`.",
-  },
-  webhookSecret: {
-    type: "string",
-    description:
-      "Webhook signing secret. Advanced (v2) uses the Svix-style `whsec_...`; Basic (v1) uses the Console auth token. Falls back to `VELT_WEBHOOK_SECRET`.",
-  },
-  botUserId: {
-    type: "string",
-    description:
-      "User ID the bot posts, edits, and reacts as. Add it to your Velt organization so it is @-mentionable.",
-  },
-  botUserName: {
-    type: "string",
-    description: "Display name for the bot, used for @-mention detection.",
-  },
-  authToken: {
-    type: "string",
-    description:
-      "Velt auth token (`x-velt-auth-token`). If omitted, the adapter generates one for `botUserId` and refreshes it. Falls back to `VELT_AUTH_TOKEN`.",
-  },
-  organizationId: {
-    type: "string",
-    description:
-      "Default organization id; used to scope generated tokens and as a webhook fallback. Falls back to `VELT_ORGANIZATION_ID`.",
-  },
-  webhookVersion: {
-    type: '"v2" | "v1"',
-    default: '"v2"',
-    description: "Which Velt webhook system to verify. Advanced (v2) by default.",
-  },
-  resolveUsers: {
-    type: "(args: { userIds: string[] }) => Promise<UserInfo[]>",
-    description:
-      "Resolves user IDs to display info for @mentions and authors. Return one entry per input id in order, or `undefined` to skip.",
-  },
-  selfHostingConfig: {
-    type: "VeltSelfHostingConfig",
-    description:
-      "Enables reaction writes (`addReaction` / `removeReaction`) via a self-hosted reactions service. The managed Velt backend has no reaction-write API.",
-  },
-  logger: {
-    type: "Logger",
-    description: "Chat SDK–compatible logger. Defaults to a no-op.",
-  },
-}}
-/>
 
 ## Platform setup
 
@@ -116,8 +66,16 @@ Point your Velt webhook URL at the route that forwards requests to `bot.webhooks
 | `comment.reaction_delete` | Drives reaction handlers           |
 
 ```typescript title="app/api/webhooks/velt/route.ts" lineNumbers
+import { after } from "next/server";
+import { bot } from "@/lib/bot";
 
+export const runtime = "nodejs"; // raw body + crypto; not edge
 
+export async function POST(request: Request) {
+  return bot.webhooks.velt(request, {
+    waitUntil: (task) => after(() => task),
+  });
+}
 ```
 
 Velt has two webhook systems and the adapter verifies both: **Advanced (v2)** with Svix-style HMAC-SHA256 (`whsec_...`, default) and **Basic (v1)** with an `Authorization: Basic <token>` header (set `webhookVersion: "v1"`). Invalid requests return **401**. Passing `waitUntil` lets work continue after the response is sent in serverless environments like Vercel.
@@ -181,4 +139,4 @@ Reading reactions (`onReaction`) works on all Velt plans.
 
 ## Feature support
 
-<FeatureSupport />
+

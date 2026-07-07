@@ -25,6 +25,7 @@ import {
 The chat package re-exports mdast's union and content types so adapters and downstream code can build exhaustively-typed AST walkers without depending on `mdast` directly:
 
 ```typescript
+import type { Nodes, Root, Content } from "chat";
 
 function render(node: Nodes): string {
   switch (node.type) {
@@ -50,14 +51,6 @@ root([
 ])
 ```
 
-<TypeTable
-  type={{
-  children: {
-    description: 'Top-level content nodes (paragraphs, code blocks, blockquotes, lists).',
-    type: 'Content[]',
-  },
-}}
-/>
 
 ### paragraph
 
@@ -115,18 +108,6 @@ Fenced code block with optional language.
 codeBlock("const x = 1;", "typescript")
 ```
 
-<TypeTable
-  type={{
-  value: {
-    description: 'Code content.',
-    type: 'string',
-  },
-  lang: {
-    description: 'Language identifier for syntax highlighting.',
-    type: 'string | undefined',
-  },
-}}
-/>
 
 ### link
 
@@ -137,22 +118,6 @@ link("https://example.com", [text("click here")])
 link("https://example.com", [text("click here")], "tooltip title")
 ```
 
-<TypeTable
-  type={{
-  url: {
-    description: 'Link URL.',
-    type: 'string',
-  },
-  children: {
-    description: 'Link text content.',
-    type: 'Content[]',
-  },
-  title: {
-    description: 'Optional tooltip text.',
-    type: 'string | undefined',
-  },
-}}
-/>
 
 ### blockquote
 
@@ -248,6 +213,7 @@ const value = getNodeValue(node);       // string | undefined
 Render an mdast `Table` node as a padded ASCII table string. Used by adapters that lack native table support (Google Chat, Discord, Telegram).
 
 ```typescript
+import { parseMarkdown, tableToAscii, isTableNode } from "chat";
 
 const ast = parseMarkdown("| Name | Role |\n|------|------|\n| Alice | Engineer |");
 // Find the table node and convert it
@@ -266,6 +232,7 @@ Alice | Engineer
 Render a table from headers and string row arrays as a padded ASCII table. Used for card `TableElement` fallback rendering.
 
 ```typescript
+import { tableElementToAscii } from "chat";
 
 const ascii = tableElementToAscii(
   ["Name", "Age", "Role"],
@@ -293,10 +260,9 @@ The SDK uses mdast as the canonical format and each adapter converts it to the p
 | Tables        | Native (markdown\_text) | Native GFM      | ASCII fallback            |
 | Mentions      | `<@USER>`               | `<at>name</at>` | `<users/{id}>`            |
 
-<Callout type="info">
-  Slack accepts standard markdown via the `markdown_text` field on `chat.postMessage` and friends, so the SDK passes markdown through directly. Incoming Slack messages still arrive as legacy mrkdwn (`*bold*`, `<url|text>`) and are parsed transparently. If you need to send mrkdwn yourself, use `{ raw: "..." }`.
-</Callout>
 
-<Callout type="info">
+  Slack accepts standard markdown via the `markdown_text` field on `chat.postMessage` and friends, so the SDK passes markdown through directly. Incoming Slack messages still arrive as legacy mrkdwn (`*bold*`, `<url|text>`) and are parsed transparently. If you need to send mrkdwn yourself, use `{ raw: "..." }`.
+
+
   You don't need to worry about these differences when using the SDK — the AST builders and `parseMarkdown` handle conversion automatically. This table is useful if you're working with `raw` platform payloads or debugging formatting issues.
-</Callout>
+

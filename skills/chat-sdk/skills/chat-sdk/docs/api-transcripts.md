@@ -12,7 +12,7 @@ type: reference
 `bot.transcripts` provides per-user message persistence keyed by a stable cross-platform identifier. See the [Conversation history](/docs/conversation-history) guide for usage patterns.
 
 ```typescript
-
+import { Chat } from "chat";
 ```
 
 ## Configuration
@@ -21,24 +21,6 @@ type: reference
 
 ### ChatConfig.transcripts
 
-<TypeTable
-  type={{
-  retention: {
-    description: 'List TTL, refreshed on every append. Accepts ms or a duration string ("45s", "30m", "6h", "7d"). Omit for no expiry.',
-    type: 'number | DurationString | undefined',
-  },
-  maxPerUser: {
-    description: 'Hard cap per user. Older entries are evicted on append.',
-    type: 'number',
-    default: '200',
-  },
-  storeFormatted: {
-    description: 'Persist the mdast `formatted` field alongside `text`. Off by default to keep storage small.',
-    type: 'boolean',
-    default: 'false',
-  },
-}}
-/>
 
 ### ChatConfig.identity
 
@@ -50,22 +32,6 @@ Called once per inbound message during dispatch. The result is attached to the `
 
 #### IdentityContext
 
-<TypeTable
-  type={{
-  adapter: {
-    description: 'Adapter name (e.g. "slack", "discord").',
-    type: 'string',
-  },
-  author: {
-    description: 'Message author info.',
-    type: 'Author',
-  },
-  message: {
-    description: 'The inbound message.',
-    type: 'Message',
-  },
-}}
-/>
 
 ## Methods
 
@@ -87,37 +53,9 @@ When `message` is a `Message`, `userKey` is read from the instance. If it's `und
 
 #### AppendInput
 
-<TypeTable
-  type={{
-  role: {
-    description: 'Role tag for the entry.',
-    type: '"user" | "assistant" | "system"',
-  },
-  text: {
-    description: 'Plain-text body.',
-    type: 'string',
-  },
-  formatted: {
-    description: 'Optional mdast AST. Only stored when `transcripts.storeFormatted` is true.',
-    type: 'FormattedContent | undefined',
-  },
-  platformMessageId: {
-    description: 'Platform-native message ID, when known.',
-    type: 'string | undefined',
-  },
-}}
-/>
 
 #### AppendOptions
 
-<TypeTable
-  type={{
-  userKey: {
-    description: 'Required when appending an `AppendInput` (assistant or system role); ignored when appending a `Message`.',
-    type: 'string | undefined',
-  },
-}}
-/>
 
 ### list
 
@@ -129,31 +67,6 @@ list(query: ListQuery): Promise<TranscriptEntry[]>;
 
 #### ListQuery
 
-<TypeTable
-  type={{
-  userKey: {
-    description: 'Cross-platform user key.',
-    type: 'string',
-  },
-  limit: {
-    description: 'Maximum entries returned. Cannot exceed `maxPerUser` because that is the storage cap.',
-    type: 'number',
-    default: '50',
-  },
-  platforms: {
-    description: 'Filter to a subset of adapter names.',
-    type: 'string[] | undefined',
-  },
-  threadId: {
-    description: 'Filter to a single thread.',
-    type: 'string | undefined',
-  },
-  roles: {
-    description: 'Filter to specific roles.',
-    type: '("user" | "assistant" | "system")[] | undefined',
-  },
-}}
-/>
 
 ### count
 
@@ -175,46 +88,6 @@ Wipes every entry stored under the user key. Returns the count that was removed.
 
 Returned by `append` and `list`.
 
-<TypeTable
-  type={{
-  id: {
-    description: 'UUID assigned by the SDK at append time.',
-    type: 'string',
-  },
-  userKey: {
-    description: 'Cross-platform user key from the IdentityResolver.',
-    type: 'string',
-  },
-  role: {
-    description: 'Role tag.',
-    type: '"user" | "assistant" | "system"',
-  },
-  text: {
-    description: 'Plain-text body — canonical for prompt building.',
-    type: 'string',
-  },
-  formatted: {
-    description: 'mdast AST. Only present when `transcripts.storeFormatted` is true.',
-    type: 'FormattedContent | undefined',
-  },
-  platform: {
-    description: 'Originating adapter name.',
-    type: 'string',
-  },
-  threadId: {
-    description: 'Originating thread ID.',
-    type: 'string',
-  },
-  platformMessageId: {
-    description: 'Platform-native message ID, when known.',
-    type: 'string | undefined',
-  },
-  timestamp: {
-    description: 'ms-since-epoch, set at append time on the SDK side.',
-    type: 'number',
-  },
-}}
-/>
 
 ## Storage
 

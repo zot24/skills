@@ -12,12 +12,11 @@ type: overview
 The `chat/ai` subpath is the home for AI utilities that ship with Chat SDK.
 
 ```ts
-
+import { createChatTools, toAiMessages } from "chat/ai";
 ```
 
 Add the optional peers if you don't already have them:
 
-<PackageInstall package="ai zod" />
 
 ## What's included
 
@@ -32,7 +31,9 @@ Add the optional peers if you don't already have them:
 A Chat SDK bot wired to a tool-calling agent usually looks like this:
 
 ```typescript title="lib/agent.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createChatTools, toAiMessages } from "chat/ai";
+import { ToolLoopAgent } from "ai";
 
 const chat = new Chat({ /* adapters, state, ... */ });
 

@@ -12,7 +12,7 @@ type: reference
 The `Chat` class coordinates adapters, state, and event handlers. Create one instance and register handlers for different event types.
 
 ```typescript
-
+import { Chat } from "chat";
 ```
 
 ## Constructor
@@ -21,37 +21,6 @@ The `Chat` class coordinates adapters, state, and event handlers. Create one ins
 const bot = new Chat(config);
 ```
 
-<TypeTable
-  type={{
-  userName: {
-    description: 'Default bot username across all adapters.',
-    type: 'string',
-  },
-  adapters: {
-    description: 'Map of adapter name to adapter instance.',
-    type: 'Record<string, Adapter>',
-  },
-  dedupeTtlMs: {
-    description: 'TTL for message deduplication entries in milliseconds. Increase if webhook cold starts cause platform retries after the default window.',
-    type: 'number',
-    default: '300000',
-  },
-  state: {
-    description: 'State adapter for subscriptions, locking, and caching.',
-    type: 'StateAdapter',
-  },
-  logger: {
-    description: 'Logger instance or log level. Defaults to ConsoleLogger("info") if omitted.',
-    type: 'Logger | "debug" | "info" | "warn" | "error" | "silent"',
-    default: 'ConsoleLogger("info")',
-  },
-  streamingUpdateIntervalMs: {
-    description: 'Throttle interval for fallback streaming (post + edit) in milliseconds.',
-    type: 'number',
-    default: '500',
-  },
-}}
-/>
 
 ## Event handlers
 
@@ -66,18 +35,6 @@ bot.onNewMention(async (thread, message) => {
 });
 ```
 
-<TypeTable
-  type={{
-  thread: {
-    description: 'The thread where the mention occurred.',
-    type: 'Thread',
-  },
-  message: {
-    description: 'The message that contains the @-mention.',
-    type: 'Message',
-  },
-}}
-/>
 
 ### onDirectMessage
 
@@ -89,22 +46,6 @@ bot.onDirectMessage(async (thread, message, channel) => {
 });
 ```
 
-<TypeTable
-  type={{
-  thread: {
-    description: 'The DM thread where the message occurred.',
-    type: 'Thread',
-  },
-  message: {
-    description: 'The direct message.',
-    type: 'Message',
-  },
-  channel: {
-    description: 'The DM channel.',
-    type: 'Channel',
-  },
-}}
-/>
 
 ### onSubscribedMessage
 
@@ -129,24 +70,13 @@ bot.onNewMessage(/^!help/i, async (thread, message) => {
 });
 ```
 
-<TypeTable
-  type={{
-  pattern: {
-    description: 'Regular expression to match against message text.',
-    type: 'RegExp',
-  },
-  handler: {
-    description: 'Handler called when the pattern matches.',
-    type: '(thread: Thread, message: Message) => Promise<void>',
-  },
-}}
-/>
 
 ### onReaction
 
 Fires when a user adds or removes an emoji reaction.
 
 ```typescript
+import { emoji } from "chat";
 
 // Filter to specific emoji
 bot.onReaction([emoji.thumbs_up, emoji.heart], async (event) => {
@@ -159,38 +89,6 @@ bot.onReaction([emoji.thumbs_up, emoji.heart], async (event) => {
 bot.onReaction(async (event) => { /* ... */ });
 ```
 
-<TypeTable
-  type={{
-  'event.emoji': {
-    description: 'Normalized emoji value (supports === comparison).',
-    type: 'EmojiValue',
-  },
-  'event.rawEmoji': {
-    description: 'Platform-specific emoji string.',
-    type: 'string',
-  },
-  'event.added': {
-    description: 'true if added, false if removed.',
-    type: 'boolean',
-  },
-  'event.user': {
-    description: 'The user who reacted.',
-    type: 'Author',
-  },
-  'event.thread': {
-    description: 'The thread where the reaction occurred.',
-    type: 'Thread',
-  },
-  'event.message': {
-    description: 'The message that was reacted to (if available).',
-    type: 'Message | undefined',
-  },
-  'event.messageId': {
-    description: 'The message ID that was reacted to.',
-    type: 'string',
-  },
-}}
-/>
 
 ### onAction
 
@@ -211,34 +109,6 @@ bot.onAction(["approve", "reject"], async (event) => { /* ... */ });
 bot.onAction(async (event) => { /* ... */ });
 ```
 
-<TypeTable
-  type={{
-  'event.actionId': {
-    description: 'Action ID from the button or select.',
-    type: 'string',
-  },
-  'event.value': {
-    description: 'Optional payload value from the button.',
-    type: 'string | undefined',
-  },
-  'event.user': {
-    description: 'User who triggered the action.',
-    type: 'Author',
-  },
-  'event.thread': {
-    description: 'The thread containing the card, or null for view-based actions.',
-    type: 'Thread | null',
-  },
-  'event.triggerId': {
-    description: 'Trigger ID for opening modals (platform-specific, may expire quickly).',
-    type: 'string | undefined',
-  },
-  'event.openModal': {
-    description: 'Open a modal form in response to this action.',
-    type: '(modal: ModalElement | CardJSXElement) => Promise<{ viewId: string } | undefined>',
-  },
-}}
-/>
 
 ### onModalSubmit
 
@@ -253,38 +123,6 @@ bot.onModalSubmit("feedback", async (event) => {
 });
 ```
 
-<TypeTable
-  type={{
-  'event.callbackId': {
-    description: 'The callback ID specified when the modal was created.',
-    type: 'string',
-  },
-  'event.values': {
-    description: 'Form field values keyed by input ID.',
-    type: 'Record<string, string>',
-  },
-  'event.user': {
-    description: 'User who submitted the modal.',
-    type: 'Author',
-  },
-  'event.relatedThread': {
-    description: 'The thread where the modal was triggered from (if available).',
-    type: 'Thread | undefined',
-  },
-  'event.relatedMessage': {
-    description: 'The message containing the action that opened the modal.',
-    type: 'SentMessage | undefined',
-  },
-  'event.relatedChannel': {
-    description: 'The channel where the modal was triggered from (available when opened via slash commands).',
-    type: 'Channel | undefined',
-  },
-  'event.privateMetadata': {
-    description: 'Arbitrary string passed through the modal lifecycle.',
-    type: 'string | undefined',
-  },
-}}
-/>
 
 Returns `ModalResponse | undefined` to control the modal after submission:
 
@@ -307,30 +145,6 @@ bot.onOptionsLoad("assignee", async (event) => {
 
 Return an array of `OptionsLoadGroup` (`{ label, options }[]`) instead of a flat array to render grouped headers (e.g. "Recent" / "All"). Slack limits: max 100 groups, max 100 options per group.
 
-<TypeTable
-  type={{
-  'event.actionId': {
-    description: 'The id of the select requesting options (matches the id passed to bot.onOptionsLoad).',
-    type: 'string',
-  },
-  'event.query': {
-    description: 'The text the user has typed so far.',
-    type: 'string',
-  },
-  'event.user': {
-    description: 'The user requesting options.',
-    type: 'Author',
-  },
-  'event.adapter': {
-    description: 'The adapter that received this event.',
-    type: 'Adapter',
-  },
-  'event.raw': {
-    description: 'Raw platform-specific payload.',
-    type: 'unknown',
-  },
-}}
-/>
 
 ### onSlashCommand
 
@@ -353,42 +167,6 @@ bot.onSlashCommand(async (event) => {
 });
 ```
 
-<TypeTable
-  type={{
-  'event.command': {
-    description: 'The command name (e.g., "/status").',
-    type: 'string',
-  },
-  'event.text': {
-    description: 'Arguments after the command.',
-    type: 'string',
-  },
-  'event.user': {
-    description: 'The user who invoked the command.',
-    type: 'Author',
-  },
-  'event.channel': {
-    description: 'The channel where the command was invoked.',
-    type: 'Channel',
-  },
-  'event.triggerId': {
-    description: 'Trigger ID for opening modals (time-limited).',
-    type: 'string | undefined',
-  },
-  'event.openModal': {
-    description: 'Open a modal form in response to this command.',
-    type: '(modal: ModalElement | CardJSXElement) => Promise<{ viewId: string } | undefined>',
-  },
-  'event.adapter': {
-    description: 'The platform adapter.',
-    type: 'Adapter',
-  },
-  'event.raw': {
-    description: 'Platform-specific raw payload.',
-    type: 'unknown',
-  },
-}}
-/>
 
 ### onModalClose
 
@@ -411,34 +189,6 @@ bot.onAssistantThreadStarted(async (event) => {
 });
 ```
 
-<TypeTable
-  type={{
-  'event.threadId': {
-    description: 'Encoded thread ID.',
-    type: 'string',
-  },
-  'event.userId': {
-    description: 'The user who opened the thread.',
-    type: 'string',
-  },
-  'event.channelId': {
-    description: 'The DM channel ID.',
-    type: 'string',
-  },
-  'event.threadTs': {
-    description: 'Thread timestamp.',
-    type: 'string',
-  },
-  'event.context': {
-    description: 'Context about where the thread was opened (channel, team, enterprise, entry point).',
-    type: 'AssistantThreadContext',
-  },
-  'event.adapter': {
-    description: 'The platform adapter.',
-    type: 'Adapter',
-  },
-}}
-/>
 
 ### onAssistantContextChanged
 
@@ -467,22 +217,6 @@ bot.onAppHomeOpened(async (event) => {
 });
 ```
 
-<TypeTable
-  type={{
-  'event.userId': {
-    description: 'The user who opened the Home tab.',
-    type: 'string',
-  },
-  'event.channelId': {
-    description: 'The channel ID associated with the Home tab.',
-    type: 'string',
-  },
-  'event.adapter': {
-    description: 'The platform adapter.',
-    type: 'Adapter',
-  },
-}}
-/>
 
 ## Utility methods
 
@@ -528,17 +262,16 @@ const { data: pulls } = await github.rest.pulls.list({
 
 The client uses the credentials from your adapter config. For multi-tenant / multi-workspace adapters (Slack, Linear, GitHub), it returns the client bound to the credentials for the current webhook request context.
 
-<Callout type="info">
-  The previous `.client` getter still works on all three adapters as a deprecated alias for `.webClient` / `.linearClient` / `.octokit`.
-</Callout>
 
-<Callout type="warn">
+  The previous `.client` getter still works on all three adapters as a deprecated alias for `.webClient` / `.linearClient` / `.octokit`.
+
+
   Multi-tenant adapters (GitHub App without a fixed installation ID, Linear with per-org OAuth, Slack in multi-workspace mode) require a webhook handler context to resolve credentials when the native client getter is accessed. Calling it outside a handler throws.
 
   For Slack, you can also bind a token explicitly outside a webhook with `adapter.withBotToken(token, () => adapter.webClient.…)` — useful for cron jobs or workflows. The same pattern is required when `botToken` is configured as an async resolver function, since `.webClient` resolves the token synchronously.
 
   Single-tenant adapters (PAT, API key, static `botToken` string, or a synchronous `botToken` resolver) work anywhere.
-</Callout>
+
 
 | Adapter | Getter          | Type                              |
 | ------- | --------------- | --------------------------------- |
@@ -573,36 +306,7 @@ console.log(user?.fullName); // "Alice Smith"
 const user = await bot.getUser(message.author);
 ```
 
-<TypeTable
-  type={{
-  userId: {
-    description: 'Platform-specific user ID.',
-    type: 'string',
-  },
-  userName: {
-    description: 'Username/handle.',
-    type: 'string',
-  },
-  fullName: {
-    description: 'Display name / full name.',
-    type: 'string',
-  },
-  isBot: {
-    description: 'Whether the user is a bot.',
-    type: 'boolean',
-  },
-  email: {
-    description: 'Email address (requires scopes on some platforms).',
-    type: 'string | undefined',
-  },
-  avatarUrl: {
-    description: 'Profile image URL.',
-    type: 'string | undefined',
-  },
-}}
-/>
 
-<Callout type="info">
   **Per-platform constraints:**
 
   * **Slack** — requires both `users:read` and `users:read.email` scopes (the email scope must be granted at OAuth install time).
@@ -614,7 +318,7 @@ const user = await bot.getUser(message.author);
   * **Linear** — full profile (incl. email + avatar) for any active workspace member.
 
   Fields that aren't available return `undefined`. Numeric user IDs (Discord/Telegram/GitHub) can be ambiguous when multiple of those adapters are registered — `bot.getUser` throws a `ChatError` with code `AMBIGUOUS_USER_ID` in that case. Pass an `Author` from a message handler (which already carries the adapter), or call the adapter directly (`adapter.getUser(userId)`).
-</Callout>
+
 
 `bot.getUser` throws a `ChatError` in three cases. Handle them if your bot runs on multiple platforms:
 
@@ -625,6 +329,7 @@ const user = await bot.getUser(message.author);
 | `UNKNOWN_USER_ID_FORMAT` | The `userId` string doesn't match any registered platform's ID format                        |
 
 ```typescript
+import { ChatError } from "chat";
 
 try {
   const user = await bot.getUser(userId);
@@ -689,6 +394,7 @@ await data.thread.post("Hello from workflow!");
 There is also a standalone `reviver` export that works without a `Chat` instance. This is useful in Vercel Workflow functions where importing the full Chat instance (with its adapter dependencies) is not possible:
 
 ```typescript
+import { reviver } from "chat";
 
 const data = JSON.parse(payload, reviver) as { thread: Thread; message: Message };
 ```

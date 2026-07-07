@@ -38,15 +38,16 @@ Or use a per-file pragma:
 ## Basic card
 
 ```tsx title="lib/bot.tsx" lineNumbers
+import { Card, CardText, Button, Actions } from "chat";
 
 await thread.post(
-
-    Your order has been received!
+  <Card title="Order #1234">
+    <CardText>Your order has been received!</CardText>
     <Actions>
       <Button id="approve" style="primary">Approve</Button>
       <Button id="reject" style="danger">Reject</Button>
     </Actions>
-
+  </Card>
 );
 ```
 
@@ -57,8 +58,9 @@ await thread.post(
 The top-level container. Accepts `title` and optional `subtitle`.
 
 ```tsx title="lib/bot.tsx" lineNumbers
-
-
+<Card title="My Card" subtitle="Optional subtitle">
+  {/* children */}
+</Card>
 ```
 
 ### CardText
@@ -66,13 +68,13 @@ The top-level container. Accepts `title` and optional `subtitle`.
 Renders formatted text. Supports a subset of markdown.
 
 ```tsx title="lib/bot.tsx" lineNumbers
-**Bold** and _italic_ text
-Bold section header
+<CardText>**Bold** and _italic_ text</CardText>
+<CardText style="bold">Bold section header</CardText>
 ```
 
-<Callout type="info">
+
   Use `CardText` instead of `Text` when using JSX to avoid conflicts with React's built-in types.
-</Callout>
+
 
 ### Section
 
@@ -80,7 +82,7 @@ Groups related content together.
 
 ```tsx title="lib/bot.tsx" lineNumbers
 <Section>
-  Section content here
+  <CardText>Section content here</CardText>
 </Section>
 ```
 
@@ -129,18 +131,18 @@ Optional `callbackUrl` causes the action data to be POSTed to a URL when clicked
 Inline hyperlink rendered as text. Unlike `LinkButton` (which must be inside `Actions`), `CardLink` can be placed directly in a card alongside other content.
 
 ```tsx title="lib/bot.tsx"
-
+<CardLink url="https://example.com/order/1234" label="View order details" />
 ```
 
 Or with children as the label:
 
 ```tsx title="lib/bot.tsx"
-Read the docs
+<CardLink url="https://example.com/docs">Read the docs</CardLink>
 ```
 
-<Callout type="info">
+
   `CardLink` renders as a platform-native link: `<url|label>` on Slack, `[label](url)` on Teams/Discord/GitHub/Linear, and `<a href>` on Google Chat.
-</Callout>
+
 
 ### LinkButton
 
@@ -205,13 +207,23 @@ Radio button group for mutually exclusive choices.
 Structured data display with column headers and rows. Renders as a native table on platforms that support it (Teams, GitHub, Linear) and as padded ASCII text elsewhere.
 
 ```tsx title="lib/bot.tsx" lineNumbers
-
+<Table
+  headers={["Name", "Age", "Role"]}
+  rows={[
+    ["Alice", "30", "Engineer"],
+    ["Bob", "25", "Designer"],
+  ]}
+/>
 ```
 
 Optional column alignment:
 
 ```tsx title="lib/bot.tsx"
-
+<Table
+  headers={["Name", "Amount"]}
+  rows={[["Alice", "$100"], ["Bob", "$200"]]}
+  align={["left", "right"]}
+/>
 ```
 
 ### Image
@@ -227,9 +239,9 @@ Embeds an image in the card.
 A visual separator between sections.
 
 ```tsx title="lib/bot.tsx" lineNumbers
-Above the line
+<CardText>Above the line</CardText>
 <Divider />
-Below the line
+<CardText>Below the line</CardText>
 ```
 
 ## Full example
@@ -242,17 +254,17 @@ import {
 } from "chat";
 
 await thread.post(
-
+  <Card title="User Profile" subtitle="Account details">
     <Image url="https://example.com/avatar.png" alt="User avatar" />
     <Fields>
       <Field label="Name" value="Jane Smith" />
       <Field label="Role" value="Engineer" />
       <Field label="Team" value="Platform" />
     </Fields>
-    View full profile
+    <CardLink url="https://example.com/profile/123">View full profile</CardLink>
     <Divider />
     <Section>
-      Select an action below to manage this profile.
+      <CardText>Select an action below to manage this profile.</CardText>
     </Section>
     <Actions>
       <Select id="role" label="Change Role" placeholder="Select role">
@@ -264,6 +276,6 @@ await thread.post(
       <Button id="deactivate" style="danger">Deactivate</Button>
       <LinkButton url="https://example.com/profile/123">View Full Profile</LinkButton>
     </Actions>
-
+  </Card>
 );
 ```

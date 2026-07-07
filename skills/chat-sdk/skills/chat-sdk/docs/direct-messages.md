@@ -59,9 +59,9 @@ const dmThread = await bot.openDM("U1234567890"); // Slack
 | `users/...`     | Google Chat         |
 | Numeric ID      | Discord or Telegram |
 
-<Callout type="info">
+
   Numeric IDs can be ambiguous when multiple numeric-ID adapters are registered. For platforms whose user IDs are not globally distinguishable, call the adapter directly and wrap the returned thread ID with `bot.thread()`.
-</Callout>
+
 
 ```typescript title="lib/bot.ts"
 const threadId = await bot.getAdapter("whatsapp").openDM("15551234567");

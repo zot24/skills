@@ -58,7 +58,8 @@ A minimal working example that developers can copy-paste. Include the factory fu
 ## Usage
 
 ```typescript
-
+import { Chat } from "chat";
+import { createMatrixAdapter } from "chat-adapter-matrix";
 
 const bot = new Chat({
   userName: "mybot",
@@ -158,9 +159,9 @@ export interface MatrixAdapterConfig {
 }
 ```
 
-<Callout type="info">
+
   TSDoc comments on exported interfaces and functions appear in IDE tooltips and generated `.d.ts` files. Keep them concise and factual.
-</Callout>
+
 
 ### What not to document
 

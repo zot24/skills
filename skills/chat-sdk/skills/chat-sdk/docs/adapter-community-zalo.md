@@ -12,12 +12,12 @@ package: chat-adapter-zalo
 
 ## Install
 
-<PackageInstall package="chat-adapter-zalo chat @chat-adapter/shared" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createZaloAdapter } from "chat-adapter-zalo";
 
 const bot = new Chat({
   userName: "mybot",
@@ -59,31 +59,6 @@ Copy these values from the dashboard:
 
 All options are auto-detected from environment variables when not provided.
 
-<TypeTable
-  type={{
-  botToken: {
-    type: "string",
-    description:
-      "Zalo bot token. Auto-detected from `ZALO_BOT_TOKEN`. Required at runtime.",
-  },
-  webhookSecret: {
-    type: "string",
-    description:
-      "Secret token for webhook verification. Auto-detected from `ZALO_WEBHOOK_SECRET`. Required at runtime.",
-  },
-  userName: {
-    type: "string",
-    default: '"zalo-bot"',
-    description:
-      "Bot display name. Auto-detected from `ZALO_BOT_USERNAME` when omitted.",
-  },
-  logger: {
-    type: "Logger",
-    default: 'ConsoleLogger("info")',
-    description: "Logger instance.",
-  },
-}}
-/>
 
 ## Environment variables
 
@@ -96,6 +71,7 @@ ZALO_BOT_USERNAME=mybot           # Optional, defaults to "zalo-bot"
 ## Webhook setup
 
 ```typescript title="app/api/webhooks/zalo/route.ts" lineNumbers
+import { bot } from "@/lib/bot";
 
 export async function POST(request: Request) {
   return bot.webhooks.zalo(request);
@@ -141,4 +117,4 @@ The `chatId` is the conversation ID from the Zalo webhook payload. For group cha
 
 ## Feature support
 
-<FeatureSupport />
+

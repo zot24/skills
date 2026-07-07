@@ -73,12 +73,12 @@ Cards work with ephemeral messages too:
 ```tsx title="lib/bot.tsx" lineNumbers
 await thread.postEphemeral(
   event.user,
-
-    Only you can see this card.
+  <Card title="Ephemeral Card">
+    <CardText>Only you can see this card.</CardText>
     <Actions>
       <Button id="open_modal" style="primary">Open Modal</Button>
     </Actions>
-  ,
+  </Card>,
   { fallbackToDM: true }
 );
 ```

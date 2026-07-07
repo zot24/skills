@@ -77,9 +77,9 @@ bot.onSubscribedMessage(async (thread) => {
 });
 ```
 
-<Callout type="warn">
+
   Each call fetches the full message history to find all participants. On threads with long history this makes multiple API calls to the platform. Consider checking `message.author` against a known set before calling `getParticipants()` on every incoming message.
-</Callout>
+
 
 ### Typing indicator
 
@@ -87,9 +87,9 @@ bot.onSubscribedMessage(async (thread) => {
 await thread.startTyping();
 ```
 
-<Callout type="info">
+
   Not all platforms support typing indicators. The call is a no-op on unsupported platforms. See the [adapter feature matrix](/docs/platform-adapters) for details.
-</Callout>
+
 
 ### Message history
 
@@ -153,9 +153,9 @@ const scheduled = await thread.schedule("Reminder: standup in 5 minutes!", {
 await scheduled.cancel();
 ```
 
-<Callout type="info">
+
   Scheduled messages are currently only supported by the Slack adapter. Other adapters throw `NotImplementedError`. See the [feature matrix](/docs/platform-adapters) for details.
-</Callout>
+
 
 ## Messages
 
@@ -284,6 +284,7 @@ const bot = new Chat({
 });
 
 // Or use a custom ConsoleLogger for child loggers
+import { ConsoleLogger } from "chat";
 
 const logger = new ConsoleLogger("info");
 const bot = new Chat({

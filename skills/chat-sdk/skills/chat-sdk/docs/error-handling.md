@@ -14,7 +14,7 @@ prerequisites:
 The SDK provides typed error classes for common failure scenarios. All errors are importable from the `chat` package.
 
 ```typescript
-
+import { ChatError, RateLimitError, NotImplementedError, LockError } from "chat";
 ```
 
 ## Error types
@@ -35,28 +35,13 @@ Base error class for all SDK errors. Every error below extends `ChatError`. The 
 | `NOT_IMPLEMENTED`        | Any platform call              | The adapter doesn't implement this feature; see `NotImplementedError` below            |
 | `LOCK_FAILED`            | Inbound message routing        | Distributed lock was busy; see `LockError` below                                       |
 
-<TypeTable
-  type={{
-  message: {
-    description: 'Human-readable error message.',
-    type: 'string',
-  },
-  code: {
-    description: 'Machine-readable error code (see table above).',
-    type: 'string',
-  },
-  cause: {
-    description: 'Original error that caused this one.',
-    type: 'unknown | undefined',
-  },
-}}
-/>
 
 ### RateLimitError
 
 Thrown when a platform API returns a 429 response. The `retryAfterMs` property tells you how long to wait before retrying.
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { RateLimitError } from "chat";
 
 try {
   await thread.post("Hello!");
@@ -67,24 +52,13 @@ try {
 }
 ```
 
-<TypeTable
-  type={{
-  code: {
-    description: 'Always "RATE_LIMITED".',
-    type: 'string',
-  },
-  retryAfterMs: {
-    description: 'Milliseconds to wait before retrying.',
-    type: 'number | undefined',
-  },
-}}
-/>
 
 ### NotImplementedError
 
 Thrown when you call a feature that a platform doesn't support. For example, calling `addReaction()` on Teams or `schedule()` on adapters without native scheduling support.
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { NotImplementedError } from "chat";
 
 try {
   await thread.addReaction(emoji.thumbs_up);
@@ -95,18 +69,6 @@ try {
 }
 ```
 
-<TypeTable
-  type={{
-  code: {
-    description: 'Always "NOT_IMPLEMENTED".',
-    type: 'string',
-  },
-  feature: {
-    description: 'Name of the unsupported feature.',
-    type: 'string | undefined',
-  },
-}}
-/>
 
 See the [feature matrix](/docs/platform-adapters) for which features are supported on each platform.
 
@@ -114,14 +76,6 @@ See the [feature matrix](/docs/platform-adapters) for which features are support
 
 Thrown when the SDK fails to acquire a distributed lock on a thread (used to prevent concurrent processing of messages in the same thread). You can control this behavior with the [`onLockConflict`](/docs/usage#configuration-options) option — set it to `'force'` to release the existing lock instead of throwing.
 
-<TypeTable
-  type={{
-  code: {
-    description: 'Always "LOCK_FAILED".',
-    type: 'string',
-  },
-}}
-/>
 
 ## Adapter errors
 
@@ -141,6 +95,7 @@ Adapters also throw specialized errors from the `@chat-adapter/shared` package:
 Use `instanceof` to handle specific error types:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { RateLimitError, NotImplementedError } from "chat";
 
 bot.onNewMention(async (thread, message) => {
   try {
