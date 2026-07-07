@@ -115,7 +115,7 @@ missing_sources() {
     for post in "claude-code-best-practices" "building-agents-sdk" "agent-skills"; do
         if [[ ! -f "$CACHE_DIR/blog/${post}.md" ]]; then
             echo -e "${RED}Missing: Blog - $post${NC}"
-            ((missing++))
+            missing=$((missing + 1))
         fi
     done
 
@@ -123,14 +123,14 @@ missing_sources() {
     for doc in "hooks" "sub-agents" "skills" "mcp"; do
         if [[ ! -f "$CACHE_DIR/docs/code-claude-com/${doc}.md" ]]; then
             echo -e "${RED}Missing: Docs - $doc${NC}"
-            ((missing++))
+            missing=$((missing + 1))
         fi
     done
 
     # Check release notes
     if [[ ! -f "$CACHE_DIR/docs/anthropic/release-notes/claude-code.md" ]]; then
         echo -e "${RED}Missing: Release Notes${NC}"
-        ((missing++))
+        missing=$((missing + 1))
     fi
 
     if [[ $missing -eq 0 ]]; then
