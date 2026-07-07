@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.24](https://github.com/zot24/skills/compare/hermes-v1.1.23...hermes-v1.1.24) (2026-07-07)
+
+
+### Bug Fixes
+
+* **hermes,honcho:** exact-match URL dedup and curl-failure guard in discovery ([ed9d8d4](https://github.com/zot24/skills/commit/ed9d8d4a850e56d0738b6d23bb2435a0a30d361b))
+* **hermes:** drop dead docs/ko/ source and duplicate docs/skills/ source ([cbb0e37](https://github.com/zot24/skills/commit/cbb0e37c71a1343b02cc3d399ed7c94d54ae9e3c))
+* repair 36 broken sources, harden workflows, consolidate versioning, repurpose chat-sdk for vercel/chat ([9f337ca](https://github.com/zot24/skills/commit/9f337ca8ffc4257a3dc949b8a0b47c3149f615f2))
+
 ## [1.1.23](https://github.com/zot24/skills/compare/hermes-v1.1.22...hermes-v1.1.23) (2026-07-07)
 
 

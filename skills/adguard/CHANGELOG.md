@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.9](https://github.com/zot24/skills/compare/adguard-v1.0.8...adguard-v1.0.9) (2026-07-07)
+
+
+### Bug Fixes
+
+* **adguard:** source wiki docs from raw markdown instead of HTML pages ([2c9aa75](https://github.com/zot24/skills/commit/2c9aa7526b1d2782f3fc4516d6b65a4b78d70409))
+* repair 36 broken sources, harden workflows, consolidate versioning, repurpose chat-sdk for vercel/chat ([9f337ca](https://github.com/zot24/skills/commit/9f337ca8ffc4257a3dc949b8a0b47c3149f615f2))
+
 ## [1.0.8](https://github.com/zot24/skills/compare/adguard-v1.0.7...adguard-v1.0.8) (2026-07-07)
 
 

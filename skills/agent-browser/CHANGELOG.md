@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.8](https://github.com/zot24/skills/compare/agent-browser-v2.2.7...agent-browser-v2.2.8) (2026-07-07)
+
+
+### Bug Fixes
+
+* **agent-browser:** repair broken upstream source ([fe31229](https://github.com/zot24/skills/commit/fe31229aa99fa1c23157bff81058b2efb2421a08))
+* repair 36 broken sources, harden workflows, consolidate versioning, repurpose chat-sdk for vercel/chat ([9f337ca](https://github.com/zot24/skills/commit/9f337ca8ffc4257a3dc949b8a0b47c3149f615f2))
+
 ## [2.2.7](https://github.com/zot24/skills/compare/agent-browser-v2.2.6...agent-browser-v2.2.7) (2026-07-07)
 
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.5](https://github.com/zot24/skills/compare/servarr-v1.0.4...servarr-v1.0.5) (2026-07-07)
+
+
+### Bug Fixes
+
+* repair 36 broken sources, harden workflows, consolidate versioning, repurpose chat-sdk for vercel/chat ([9f337ca](https://github.com/zot24/skills/commit/9f337ca8ffc4257a3dc949b8a0b47c3149f615f2))
+* **servarr:** repair discovery crawler regex for restructured wiki paths ([b2e083d](https://github.com/zot24/skills/commit/b2e083da9e802692245bbbfec870e91fc2206d71))
+
 ## [1.0.4](https://github.com/zot24/skills/compare/servarr-v1.0.3...servarr-v1.0.4) (2026-07-07)
 
 

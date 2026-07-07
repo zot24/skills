@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.9](https://github.com/zot24/skills/compare/firecrawl-v1.0.8...firecrawl-v1.0.9) (2026-07-07)
+
+
+### Bug Fixes
+
+* **firecrawl:** repair broken upstream sources ([18aaa2f](https://github.com/zot24/skills/commit/18aaa2f37ce2b674697f9bf2a0b6612897e4e7c0))
+* repair 36 broken sources, harden workflows, consolidate versioning, repurpose chat-sdk for vercel/chat ([9f337ca](https://github.com/zot24/skills/commit/9f337ca8ffc4257a3dc949b8a0b47c3149f615f2))
+
 ## [1.0.8](https://github.com/zot24/skills/compare/firecrawl-v1.0.7...firecrawl-v1.0.8) (2026-07-07)
 
 
