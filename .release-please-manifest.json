@@ -4,7 +4,7 @@
   "skills/agent-browser": "2.2.8",
   "skills/agent-skills": "1.3.0",
   "skills/ai-sdk": "1.1.8",
-  "skills/chat-sdk": "2.0.0",
+  "skills/chat-sdk": "2.0.1",
   "skills/claude-code-expert": "2.1.2",
   "skills/firecrawl": "1.0.9",
   "skills/flue": "1.1.0",

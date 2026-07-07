@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.1](https://github.com/zot24/skills/compare/chat-sdk-v2.0.0...chat-sdk-v2.0.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* **ci:** fence-aware MDX stripping in doc extractor; tolerate marketplace version lag in Validate ([e24d5eb](https://github.com/zot24/skills/commit/e24d5eb83a2baac7d6dd273b5fccee29b9e78f73))
+* **ci:** strip Fumadocs MDX components in extract_content; re-sync chat-sdk docs ([a1b6f2f](https://github.com/zot24/skills/commit/a1b6f2fe2ff55d290c13239f49cfad023c5c3343))
+
 ## [2.0.0](https://github.com/zot24/skills/compare/chat-sdk-v1.1.5...chat-sdk-v2.0.0) (2026-07-07)
 
 
