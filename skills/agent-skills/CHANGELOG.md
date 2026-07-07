@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/zot24/skills/compare/agent-skills-v1.2.3...agent-skills-v1.3.0) (2026-07-07)
+
+
+### Features
+
+* **agent-skills:** sync official Anthropic skills docs and fix stale upstream paths ([d101085](https://github.com/zot24/skills/commit/d1010858b5db437d093cd8072de02e5a027a2593))
+
+
+### Bug Fixes
+
+* **commands:** use ${CLAUDE_PLUGIN_ROOT} paths in all command files, correct CLAUDE.md ([62c0feb](https://github.com/zot24/skills/commit/62c0feb31364c1be05c7b42edb8f9751b9f3567c))
+* repair sync script, rebuild agent-skills with official Anthropic docs, fix command paths, sync hygiene ([61449aa](https://github.com/zot24/skills/commit/61449aa775d0b59ce99ccd78a5fa2967f9d9b76d))
+
 ## [1.2.3](https://github.com/zot24/skills/compare/agent-skills-v1.2.2...agent-skills-v1.2.3) (2026-06-15)
 
 

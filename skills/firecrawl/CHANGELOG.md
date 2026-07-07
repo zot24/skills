@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.8](https://github.com/zot24/skills/compare/firecrawl-v1.0.7...firecrawl-v1.0.8) (2026-07-07)
+
+
+### Bug Fixes
+
+* **commands:** use ${CLAUDE_PLUGIN_ROOT} paths in all command files, correct CLAUDE.md ([62c0feb](https://github.com/zot24/skills/commit/62c0feb31364c1be05c7b42edb8f9751b9f3567c))
+* **firecrawl,servarr:** exact-match URL dedup ([9ac8aac](https://github.com/zot24/skills/commit/9ac8aacb304885fb263e20df5c01fc6e65b034c1))
+* repair sync script, rebuild agent-skills with official Anthropic docs, fix command paths, sync hygiene ([61449aa](https://github.com/zot24/skills/commit/61449aa775d0b59ce99ccd78a5fa2967f9d9b76d))
+
 ## [1.0.7](https://github.com/zot24/skills/compare/firecrawl-v1.0.6...firecrawl-v1.0.7) (2026-06-15)
 
 
