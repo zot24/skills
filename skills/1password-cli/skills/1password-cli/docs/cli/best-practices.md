@@ -1,33 +1,40 @@
-<!-- Source: https://www.1password.dev/cli/best-practices/ -->
+> Source: https://www.1password.dev/cli/best-practices/
 
-# 1Password CLI Best Practices
 
-## Overview
 
-1Password CLI brings command-line access to 1Password capabilities. The documentation recommends several key practices for secure and effective usage.
+Reference
 
-## Key Recommendations
 
-### Keep Software Current
+# 1Password CLI best practices
 
-Maintain up-to-date installations by regularly checking for available updates using the `op update` command. This helps ensure access to security patches and new features.
 
-### Apply Least Privilege Principles
+Copy page
 
-Service Accounts enable restricted access to specific items needed for particular tasks. Best practice involves:
-- Using dedicated vaults scoped to service accounts
-- Limiting vault access to only what's necessary
-- Avoiding over-provisioning permissions
 
-The documentation references NIST's principle of least privilege and points to additional resources on managing group and vault permissions.
+Copy page
 
-### Secure Secret Creation
 
-When using `op item create` to generate items containing sensitive data, employ JSON template files rather than entering values directly in commands. This approach helps protect sensitive information during item creation workflows, since command arguments can be visible to other processes on the machine.
+### 
 
-### Other Tips
 
-- Use unique IDs instead of names in scripts and automation — they're more stable and reduce the number of API requests (important for service-account rate limits).
-- Use `op run` (which masks secrets in output by default) rather than printing secrets directly.
-- Delete files produced by `op inject --out-file` once they're no longer needed.
-- Assume processes run by the same user can read each other's environment; be cautious passing secrets as environment variables.
+<a href="#use-the-latest-version-of-1password-cli" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#apply-the-principle-of-least-privilege-to-your-infrastructure-secrets" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#use-template-files-when-creating-items-that-contain-sensitive-values" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Was this page helpful?
+
+
+<a href="/cli/reference" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Overview</span></a><a href="/cli/reference/management-commands/account" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">account</span></a>
+
+

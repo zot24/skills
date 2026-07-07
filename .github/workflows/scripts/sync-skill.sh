@@ -183,6 +183,25 @@ fetch_with_retry() {
     return 1
 }
 
+# Redact secret-shaped strings from fetched content so upstream example
+# credentials never land in git (GitHub push protection rejects them and
+# they read as real secrets). Patterns are conservative: long, prefixed
+# token formats only — never prose.
+redact_secrets() {
+    local file="$1"
+    perl -pi -e '
+        # 1Password service account tokens (ops_ + base64url JWT-ish blob)
+        s/\bops_eyJ[A-Za-z0-9+\/=._-]{20,}/ops_eyJ...EXAMPLE-TOKEN-REDACTED/g;
+        # GitHub tokens (classic + fine-grained)
+        s/\bgh[pousr]_[A-Za-z0-9]{30,}/gh_...EXAMPLE-TOKEN-REDACTED/g;
+        s/\bgithub_pat_[A-Za-z0-9_]{30,}/github_pat_...EXAMPLE-TOKEN-REDACTED/g;
+        # AWS access key ids
+        s/\bAKIA[0-9A-Z]{16}\b/AKIA...EXAMPLE-KEY-REDACTED/g;
+        # Slack tokens
+        s/\bxox[baprs]-[A-Za-z0-9-]{20,}/xox...EXAMPLE-TOKEN-REDACTED/g;
+    ' "$file"
+}
+
 # Extract content from HTML using pandoc, or clean up markdown
 extract_content() {
     local input_file="$1"
@@ -331,6 +350,11 @@ fetch_url_source() {
             extract_content "$temp_file" "$temp_converted"
             mv "$temp_converted" "$temp_file"
         fi
+
+        # Redact secret-shaped strings before validation/caching (applies to
+        # both raw and extract-content types; must run unconditionally since
+        # tokens can live inside fenced code blocks too).
+        redact_secrets "$temp_file"
 
         # Validate content
         if ! validate_content "$temp_file" "$source_type"; then

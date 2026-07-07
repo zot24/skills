@@ -1,16 +1,20 @@
-<!-- Source: https://www.1password.dev/cli/install-server/ -->
+> Source: https://www.1password.dev/cli/install-server/
 
-# Install 1Password CLI on a Server
 
-For headless servers and CI runners, install 1Password CLI directly and authenticate with a service account token (`OP_SERVICE_ACCOUNT_TOKEN`) or a Connect server (`OP_CONNECT_HOST` / `OP_CONNECT_TOKEN`).
 
-## Installation Methods
+Install
 
-### Linux Installation
 
-For Linux `amd64` systems, use this command to install 1Password CLI:
+# Install 1Password CLI on a server
 
-```shell
+
+Copy page
+
+
+Copy page
+
+
+``` shiki
 ARCH="amd64"; \
     OP_VERSION="v$(curl https://app-updates.agilebits.com/check/1/0/CLI2/en/2.0.0/N -s | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')"; \
     curl -sSfo op.zip \
@@ -19,22 +23,30 @@ ARCH="amd64"; \
     && rm op.zip
 ```
 
-### Docker Installation
 
-Pull the official 1Password CLI 2 Docker image:
-
-```shell
+``` shiki
 docker pull 1password/op:2
 ```
 
-To integrate the CLI into a Dockerfile:
 
-```dockerfile
+``` shiki
 COPY --from=1password/op:2 /usr/local/bin/op /usr/local/bin/op
 ```
 
-## Additional Resources
 
-- [Install 1Password CLI on your machine](/cli/get-started/#step-1-install-1password-cli)
-- [Use service accounts with 1Password CLI](/service-accounts/use-with-1password-cli/)
-- [Use 1Password CLI with a Connect server](/connect/cli/)
+## 
+
+
+<a href="#learn-more" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/cli/get-started#step-1-install-1password-cli" class="link">Install 1Password CLI on your machine</a>
+- <a href="/get-started/developer-quickstart" class="link">Developer quickstart</a>
+
+
+Was this page helpful?
+
+
+<a href="/cli/verify" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Verify installer</span></a><a href="/cli/config-directories" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Set configuration directories</span></a>
+
+
