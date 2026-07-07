@@ -21,8 +21,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill at `skills/claude-code-expert/SKILL.md` for complete guidance
-2. Read detailed docs in `skills/claude-code-expert/docs/` for specific topics
+1. Read the skill at `${CLAUDE_PLUGIN_ROOT}/skills/claude-code-expert/SKILL.md` for complete guidance
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/claude-code-expert/docs/` for specific topics
 3. For **patterns**: Reference `docs/patterns/` for creation guides
 4. For **validation**: Reference `docs/validation/` for quality checklists
 5. For **features**: Reference `docs/features/` for capability guides

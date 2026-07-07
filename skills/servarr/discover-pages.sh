@@ -75,7 +75,7 @@ NEW_PAGES=""
 while IFS= read -r path; do
     [ -z "$path" ] && continue
     full_url="${BASE_URL}${path}"
-    if ! echo "$EXISTING_URLS" | grep -qF "$full_url"; then
+    if ! echo "$EXISTING_URLS" | grep -qxF "$full_url"; then
         NEW_PAGES="${NEW_PAGES}${path}\n"
     fi
 done <<< "$ALL_DISCOVERED"

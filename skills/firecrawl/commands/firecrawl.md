@@ -23,8 +23,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/firecrawl/SKILL.md` for overview
-2. Read detailed docs in `skills/firecrawl/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/firecrawl/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/firecrawl/docs/` for specific topics
 3. For **scrape**: Reference `docs/scrape.md`
 4. For **search**: Reference `docs/search.md`
 5. For **crawl**: Reference `docs/crawl.md`

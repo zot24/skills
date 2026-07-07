@@ -20,13 +20,30 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/agent-skills/SKILL.md` for overview
-2. Read detailed docs in `skills/agent-skills/docs/` for specific topics:
-   - `specification.md` - Complete format spec
-   - `what-are-skills.md` - Conceptual overview
-   - `integrate-skills.md` - Integration guide
-   - `best-practices.md` - Authoring guidelines
-   - `examples.md` - Sample skills
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/agent-skills/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/agent-skills/docs/` for specific topics:
+   - Open format (agentskills.io):
+     - `specification.md` - Complete format spec
+     - `what-are-skills.md` - Conceptual overview
+     - `integrate-skills.md` - Integration guide
+     - `skill-creation-quickstart.md` - First skill walkthrough
+     - `skill-creation-best-practices.md` - Authoring guidelines
+     - `using-scripts.md` - Bundling executable code
+     - `evaluating-skills.md` - Testing skill quality
+     - `optimizing-descriptions.md` - Trigger-accuracy tuning
+     - `readme-upstream.md` - Raw repository README
+   - Official Anthropic:
+     - `claude-code-skills.md` - Frontmatter reference, invocation control, subagent execution, dynamic context
+     - `agent-sdk-skills.md` - Using skills with the Agent SDK
+     - `agent-sdk-slash-commands.md` - Custom commands in the SDK
+     - `anthropic-overview.md` - Agent Skills on the Claude API/platform
+     - `anthropic-api-quickstart.md` - First skill via the API
+     - `best-practices.md` - Anthropic's authoring guidance
+     - `anthropic-enterprise.md` - Enterprise skill management
+     - `anthropic-api-skills-guide.md` - Build-with-Claude skills guide
+   - Internal:
+     - `examples.md` - Sample skills
+     - `audit-checklist.md` - Compliance matrix spec
 
 3. For **create**: Generate skill directory with proper structure
 4. For **validate**: Check frontmatter fields and naming conventions

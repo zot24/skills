@@ -1,4 +1,4 @@
-> Source: https://agentskills.io/integrate-skills.md
+> Source: https://agentskills.io/client-implementation/adding-skills-support.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://agentskills.io/llms.txt

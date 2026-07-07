@@ -24,8 +24,8 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/servarr/SKILL.md` for overview
-2. Read detailed docs in `skills/servarr/docs/` for specific topics
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/servarr/SKILL.md` for overview
+2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/servarr/docs/` for specific topics
 3. For **setup**: Reference `docs/docker-compose-setup.md` and `docs/stack-overview.md`
 4. For **configure**: Reference the app-specific doc (e.g., `docs/sonarr.md`)
 5. For **api**: Reference `docs/api-reference.md` and app-specific docs

@@ -12,7 +12,7 @@ This skill activates when the user asks about:
 
 ## How to Answer
 
-Use the SKILL.md at `skills/hermes-self-knowledge/SKILL.md` for accurate technical details about:
+Use the SKILL.md at `${CLAUDE_PLUGIN_ROOT}/skills/hermes/SKILL.md` for accurate technical details about:
 - Memory system (dual-store, Honcho integration, instruction capture)
 - Skills system (creation, triggering, categories)
 - Cron jobs (schedule formats, delivery, scheduler architecture)

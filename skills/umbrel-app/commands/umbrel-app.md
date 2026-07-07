@@ -19,7 +19,7 @@ Parse the arguments to determine the action:
 
 ## Instructions
 
-1. Read the skill file at `skills/umbrel-app/SKILL.md` for detailed instructions
+1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/umbrel-app/SKILL.md` for detailed instructions
 2. For **scaffold**: Ask for app details, then generate all required files
 3. For **validate**: Check for 20+ common issues and report findings
 4. For **convert**: Analyze existing docker-compose and transform it

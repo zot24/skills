@@ -193,7 +193,14 @@ extract_content() {
         # Already markdown - just clean up minor artifacts
         local temp_clean
         temp_clean=$(mktemp)
-        perl -pe '
+        perl -0777 -pe '
+            # Strip MDX component definitions: export const/function ... up to a
+            # line consisting of closing braces/brackets at column 0
+            s/^export\s+(?:const|function)\s+\w+.*?^[\}\]]+;?\s*$//gms;
+            # Strip MDX import lines
+            s/^import\s+.*?;\s*$//gm;
+            # Strip MDX comments like {/* ... */}
+            s/\{\/\*.*?\*\/\}//gs;
             # Strip Mintlify-specific tags like <Tip>, <Warning>, etc.
             s/<\/?(?:Tip|Warning|Note|Info|Check|Accordion|AccordionGroup|Card|CardGroup|Steps|Step|Tabs|Tab)[^>]*>//gi;
             # Strip code block theme annotations
@@ -440,29 +447,6 @@ sync_registry() {
     fi
 }
 
-# Update sync.json version (patch bump)
-bump_version() {
-    local current_version
-    current_version=$(jq -r '.version' "$MANIFEST")
-    local major minor patch
-
-    IFS='.' read -r major minor patch <<< "$current_version"
-    patch=$((patch + 1))
-    local new_version="$major.$minor.$patch"
-
-    if [ "$DRY_RUN" = "true" ]; then
-        log_info "Would bump version: $current_version -> $new_version"
-    else
-        local temp
-        temp=$(mktemp)
-        jq --arg v "$new_version" '.version = $v' "$MANIFEST" > "$temp"
-        mv "$temp" "$MANIFEST"
-        log_info "Bumped version: $current_version -> $new_version"
-    fi
-
-    echo "$new_version"
-}
-
 # Generate sync summary
 generate_summary() {
     if [ ! -f "$SYNC_REPORT" ]; then
@@ -477,12 +461,12 @@ generate_summary() {
 
     while IFS='|' read -r url status code timestamp; do
         [[ "$url" =~ ^# ]] && continue
-        ((total++))
+        total=$((total + 1))
         case "$status" in
-            SUCCESS) ((success++)) ;;
-            FAILED) ((failed++)) ;;
-            SKIPPED) ((skipped++)) ;;
-            INVALID) ((invalid++)) ;;
+            SUCCESS) success=$((success + 1)) ;;
+            FAILED) failed=$((failed + 1)) ;;
+            SKIPPED) skipped=$((skipped + 1)) ;;
+            INVALID) invalid=$((invalid + 1)) ;;
         esac
     done < "$SYNC_REPORT"
 
