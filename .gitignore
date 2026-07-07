@@ -24,3 +24,6 @@ sync-report.txt
 
 # Claude Code local config
 .claude/
+
+# Advisor plans (local-only audit trail)
+plans/
