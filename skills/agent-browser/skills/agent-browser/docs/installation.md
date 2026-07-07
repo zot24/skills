@@ -92,6 +92,8 @@ agent-browser install --with-deps
 ```
 
 
+This exits nonzero if the package manager cannot install every required browser library.
+
 ## Updating<a href="#updating" aria-label="Link to this section">#</a>
 
 Upgrade to the latest version:
@@ -119,25 +121,25 @@ agent-browser doctor --json              # Structured output
 
 It checks:
 
-| Category    | What it checks                                                                                                                                                                  |
-|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Environment | CLI version, platform, home directory, state and socket dirs, free disk space                                                                                                   |
-| Chrome      | Chrome install path and version, cache dir, Puppeteer fallback, user-data dir and profile count, optional `lightpanda` engine                                                   |
-| Daemons     | Running daemons per session, stale `.sock` / `.pid` / `.version` / `.stream` files (auto-cleaned), version mismatch with the CLI, dashboard process liveness                    |
-| Config      | `~/.agent-browser/config.json`, `./agent-browser.json`, and any file at `AGENT_BROWSER_CONFIG` parse as valid JSON                                                              |
-| Security    | Encryption key env var or `~/.agent-browser/.encryption-key` (with 0600 permissions on unix), state file count and age vs `AGENT_BROWSER_STATE_EXPIRE_DAYS`, action policy file |
-| Providers   | Env vars for Browserless, Browserbase, Browser Use, Kernel, AgentCore (AWS creds), Appium (for `--provider ios`), and `AI_GATEWAY_API_KEY` for chat                             |
-| Network     | Reachability of the Chrome for Testing CDN, AI Gateway (if configured), and any currently selected provider endpoint (skipped under `--offline`)                                |
-| Launch test | Spawns a scratch session, launches headless Chrome, navigates to `about:blank`, then closes. Measures wall time (skipped under `--quick`)                                       |
+| Category | What it checks |
+|----|----|
+| Environment | CLI version, platform, home directory, state and socket dirs, free disk space |
+| Chrome | Chrome install path and version, cache dir, Puppeteer fallback, user-data dir and profile count, optional `lightpanda` engine |
+| Daemons | Running daemons per session, stale `.sock` / `.pid` / `.version` / `.stream` files (auto-cleaned), version mismatch with the CLI, dashboard process liveness |
+| Config | `~/.agent-browser/config.json`, `./agent-browser.json`, and any file at `AGENT_BROWSER_CONFIG` parse as valid JSON |
+| Security | Encryption key env var or `~/.agent-browser/.encryption-key` (with 0600 permissions on unix), state file count and age vs `AGENT_BROWSER_STATE_EXPIRE_DAYS`, action policy file |
+| Providers | Env vars for Browserless, Browserbase, Browser Use, Kernel, AgentCore (AWS creds), Appium (for `--provider ios`), and `AI_GATEWAY_API_KEY` for chat |
+| Network | Reachability of the Chrome for Testing CDN, AI Gateway (if configured), and any currently selected provider endpoint (skipped under `--offline`) |
+| Launch test | Spawns a scratch session, launches headless Chrome, navigates to `about:blank`, then closes. Measures wall time (skipped under `--quick`) |
 
 Stale sidecar files are always cleaned. Destructive actions are opt-in via `--fix`:
 
-| Check                      | What `--fix` does                                                                                        |
-|----------------------------|----------------------------------------------------------------------------------------------------------|
-| Chrome missing             | Runs `agent-browser install`                                                                             |
-| Version-mismatched daemons | Sends `close` to each and cleans files                                                                   |
-| Old state files            | Deletes state files older than `AGENT_BROWSER_STATE_EXPIRE_DAYS` (default 30)                            |
-| Missing encryption key     | Generates a new key at `~/.agent-browser/.encryption-key` (0600, unix); never overwrites an existing key |
+| Check | What `--fix` does |
+|----|----|
+| Chrome missing | Runs `agent-browser install` |
+| Version-mismatched daemons | Sends `close` to each and cleans files |
+| Old state files | Deletes state files older than `AGENT_BROWSER_STATE_EXPIRE_DAYS` (default 30) |
+| Missing encryption key | Generates a new key at `~/.agent-browser/.encryption-key` (0600, unix); never overwrites an existing key |
 
 Exit code is `0` if all checks pass (warnings are fine), `1` if any fail.
 
