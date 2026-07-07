@@ -1,101 +1,72 @@
 ---
 name: chat-sdk
-description: Expert on Vercel's Chat SDK for building production-ready AI chatbots. Use when user wants to build chatbot apps, add generative UI, create artifacts, or deploy AI chat interfaces. Triggers on mentions of chat-sdk, ai-chatbot, chatgpt clone, vercel chat, generative ui.
+description: Expert at Chat SDK (vercel/chat) - the unified TypeScript SDK for building chat bots and agents across Slack, Microsoft Teams, Google Chat, Discord, Telegram, WhatsApp, and more. Use when building multi-platform bots, chat adapters, JSX cards, modals, slash commands, or AI streaming to chat platforms. Triggers on mentions of Chat SDK, chat bots, Slack bot, Teams bot, Discord bot, chat adapters.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
 # Chat SDK Skill
 
-Expert at building AI chatbot applications with Vercel's Chat SDK.
+Expert at building multi-platform chat bots and agents with Chat SDK (`vercel/chat`).
 
 ## Overview
 
-**Chat SDK** is a free, open-source template for building production-ready chatbots:
-- Built on Next.js App Router with AI SDK integration
-- Generative UI for dynamic, interactive interfaces
-- Custom artifacts for specialized workspaces
-- In-browser code execution via WASM/pyodide
-- Auth, persistence, multimodal support, and shareable chats
-- One-click Vercel deployment
+**Chat SDK** is a TypeScript library for building chat bots that run across multiple platforms from a single codebase:
+- Single codebase deployed to Slack, Teams, Google Chat, Discord, Telegram, GitHub, Linear, WhatsApp, Messenger, and more
+- Type-safe platform adapters with auto-detected credentials
+- Event-driven handlers for mentions, messages, reactions, button clicks, slash commands, and modals
+- Thread subscriptions for multi-turn conversations
+- Rich UI via JSX cards, buttons, and modals rendered natively per platform
+- First-class AI streaming support and serverless-ready distributed state (Redis, ioredis, Postgres, MySQL, Durable Objects)
 
 ## Quick Start
 
-```bash
-# Clone and setup
-npx create-next-app --example https://github.com/vercel/ai-chatbot my-chatbot
-cd my-chatbot
+```typescript
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createRedisState } from "@chat-adapter/redis";
 
-# Install and configure
-pnpm install
-cp .env.example .env.local
-# Add your API keys to .env.local
+const bot = new Chat({
+  userName: "mybot",
+  adapters: {
+    slack: createSlackAdapter(), // auto-detects SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET
+  },
+  state: createRedisState(), // auto-detects REDIS_URL
+});
 
-# Database setup
-pnpm db:migrate
-
-# Run development server
-pnpm dev
+bot.onNewMention(async (thread) => {
+  await thread.subscribe();
+  await thread.post("Hello! I'm listening to this thread.");
+});
 ```
 
 ## Core Concepts
 
-### AI SDK Integration
-Uses unified API for text generation, structured objects, and tool calls:
-```typescript
-import { generateText } from 'ai';
-import { xai } from '@ai-sdk/xai';
-
-const { text } = await generateText({
-  model: xai('grok-2-vision-1212'),
-  prompt: 'Hello!',
-});
-```
-
-### Model Providers
-Default: AI SDK Gateway with xAI (grok-2-vision-1212). Switch providers easily:
-- OpenAI, Anthropic, Google, xAI, and more via unified gateway
-- Configure in `lib/ai/models.ts`
-
-### Generative UI
-Dynamic interfaces that adapt to conversation context beyond text.
+- **Chat** — the main entry point that coordinates adapters and routes events to handlers
+- **Adapters** — platform-specific implementations handling webhook parsing, message formatting, and API calls (official, vendor-official, and community adapters)
+- **State** — a pluggable persistence layer for thread subscriptions, distributed locking, and dedup (memory, Redis, ioredis, Postgres, MySQL, Durable Objects)
 
 ## Documentation
 
-For detailed information, see the reference documentation:
+**Getting started & usage**: [Introduction](docs/introduction.md), [Getting Started](docs/getting-started.md), [CLI](docs/create-chat-sdk.md), [Creating a Chat Instance](docs/usage.md), [Threads/Messages/Channels](docs/threads-messages-channels.md), [Handling Events](docs/handling-events.md), [Posting Messages](docs/posting-messages.md), [Error Handling](docs/error-handling.md), [Testing](docs/testing.md)
 
-- **[Overview](docs/overview.md)** - Feature summary and doc structure
-- **[Setup](docs/setup.md)** - Installation and configuration
-- **[Architecture](docs/architecture.md)** - Project structure and components
-- **[Models and Providers](docs/models-and-providers.md)** - AI providers and configuration
-- **[Artifacts](docs/artifacts.md)** - Custom workspaces and tools
-- **[Theming](docs/theming.md)** - Customizing appearance
-- **[Deployment](docs/deployment.md)** - Vercel and self-hosting
-- **[Upstream README](docs/readme-upstream.md)** - Full original documentation
+**AI**: [Overview](docs/ai.md), [AI SDK Tools](docs/ai-ai-sdk-tools.md), [toAiMessages](docs/ai-to-ai-messages.md), [Types](docs/ai-types.md)
 
-## Common Workflows
+**Adapters**: [Overview](docs/adapters.md), [Platform Adapters](docs/platform-adapters.md), [Slack Low-Level APIs](docs/slack-primitives.md), [Teams Low-Level APIs](docs/teams-primitives.md), [State Adapters](docs/state-adapters.md)
 
-### Add New AI Provider
-```typescript
-// lib/ai/models.ts
-import { anthropic } from '@ai-sdk/anthropic';
+**Messaging & interactivity**: [Streaming](docs/streaming.md), [Direct Messages](docs/direct-messages.md), [Ephemeral Messages](docs/ephemeral-messages.md), [File Uploads](docs/files.md), [Conversation History](docs/conversation-history.md), [Cards](docs/cards.md), [Modals](docs/modals.md), [Actions](docs/actions.md), [Slash Commands](docs/slash-commands.md), [Emoji](docs/emoji.md), [Overlapping Messages](docs/concurrency.md)
 
-export const models = {
-  'claude-3': anthropic('claude-3-5-sonnet-20241022'),
-};
-```
+**API reference**: [Overview](docs/api.md), [Chat](docs/api-chat.md), [Thread](docs/api-thread.md), [Channel](docs/api-channel.md), [Message](docs/api-message.md), [Cards](docs/api-cards.md), [Modals](docs/api-modals.md), [Markdown](docs/api-markdown.md), [Transcripts](docs/api-transcripts.md)
 
-### Create Custom Artifact
-See `docs/artifacts.md` for creating interactive workspaces.
+**Contributing**: [Building an adapter](docs/contributing-building.md), [Testing adapters](docs/contributing-testing.md), [Publishing](docs/contributing-publishing.md)
 
-### Deploy to Vercel
-```bash
-vercel deploy
-```
+**Adapters catalog**: official adapters cached as `docs/adapter-<name>.md` (slack, teams, gchat, discord, telegram, github, linear, whatsapp, twilio, messenger, web, memory, redis, ioredis, postgres), vendor-official adapters as `docs/adapter-vendor-<name>.md` (liveblocks, resend, novu, sendblue, zernio, matrix, agentphone, lark, velt, kapso, linq), and community adapters as `docs/adapter-community-<name>.md` (webex, baileys, blooio, zalo, mattermost, weixin, cloudflare-do, mysql).
+
+- **[Upstream README](docs/readme-upstream.md)** - Full repository README
 
 ## Upstream Sources
 
-- **Repository**: https://github.com/vercel/ai-chatbot
-- **Documentation**: https://chat-sdk.dev/
+- **Repository**: https://github.com/vercel/chat
+- **Documentation**: https://chat-sdk.dev
 
 ## Sync & Update
 
