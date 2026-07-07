@@ -113,9 +113,9 @@ const bot = new Chat({
 });
 ```
 
-<Callout type="info">
+
   WhatsApp and Telegram adapters default to `lockScope: "channel"`, so debounce applies to the entire conversation — not just a single thread.
-</Callout>
+
 
 **Flow:**
 
@@ -167,9 +167,9 @@ const bot = new Chat({
 | `debounceMs`      | debounce, burst        | `1500`          | Debounce window in milliseconds                                                  |
 | `maxConcurrent`   | concurrent             | `Infinity`      | Max concurrent handlers per thread                                               |
 
-<Callout type="warn">
+
   `maxConcurrent` only applies to the `concurrent` strategy. Pairing it with any other strategy logs a warning and the value is ignored. Setting `maxConcurrent` to a value less than `1` throws at construction time — `0` would deadlock the strategy and is rejected up front.
-</Callout>
+
 
 ## MessageContext
 

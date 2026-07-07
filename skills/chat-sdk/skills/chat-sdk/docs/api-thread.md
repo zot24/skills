@@ -13,34 +13,6 @@ A `Thread` is provided to your event handlers and represents a conversation thre
 
 ## Properties
 
-<TypeTable
-  type={{
-  id: {
-    description: 'Full thread ID in adapter:channel:thread format.',
-    type: 'string',
-  },
-  channelId: {
-    description: 'Channel/conversation ID.',
-    type: 'string',
-  },
-  adapter: {
-    description: 'The platform adapter this thread belongs to.',
-    type: 'Adapter',
-  },
-  isDM: {
-    description: 'Whether this is a direct message conversation.',
-    type: 'boolean',
-  },
-  channel: {
-    description: 'The Channel containing this thread.',
-    type: 'Channel',
-  },
-  recentMessages: {
-    description: 'Cached messages from the webhook payload.',
-    type: 'Message[]',
-  },
-}}
-/>
 
 ## post
 
@@ -87,22 +59,6 @@ await thread.postEphemeral(userId, "Only you can see this", {
 });
 ```
 
-<TypeTable
-  type={{
-  user: {
-    description: 'User ID string or Author object.',
-    type: 'string | Author',
-  },
-  message: {
-    description: 'Message content (streaming not supported).',
-    type: 'AdapterPostableMessage | CardJSXElement',
-  },
-  'options.fallbackToDM': {
-    description: 'If true, falls back to DM when native ephemeral is not supported. If false, returns null.',
-    type: 'boolean',
-  },
-}}
-/>
 
 **Returns:** `Promise<EphemeralMessage | null>`
 
@@ -123,9 +79,9 @@ await scheduled.cancel();
 
 **Returns:** `Promise<ScheduledMessage>`
 
-<Callout type="warn">
+
   Streaming and file uploads are not supported in scheduled messages.
-</Callout>
+
 
 ## getParticipants
 
@@ -145,9 +101,9 @@ if (participants.length > 1) {
 }
 ```
 
-<Callout type="warn">
+
   Each call fetches the full message history to find all participants. On threads with long history this makes multiple API calls to the platform. Consider checking `message.author` against a known set before calling `getParticipants()` on every incoming message.
-</Callout>
+
 
 ## subscribe / unsubscribe
 
@@ -250,52 +206,8 @@ Under the hood, the reviver calls `ThreadImpl.fromJSON()` and `Message.fromJSON(
 
 Returned by `thread.schedule()` and `channel.schedule()`.
 
-<TypeTable
-  type={{
-  scheduledMessageId: {
-    description: 'Platform-specific scheduled message ID.',
-    type: 'string',
-  },
-  channelId: {
-    description: 'Channel ID where the message will be posted.',
-    type: 'string',
-  },
-  postAt: {
-    description: 'When the message will be sent.',
-    type: 'Date',
-  },
-  raw: {
-    description: 'Platform-specific raw response.',
-    type: 'unknown',
-  },
-  'cancel()': {
-    description: 'Cancel the scheduled message before it is sent.',
-    type: '() => Promise<void>',
-  },
-}}
-/>
 
 ## SentMessage
 
 Returned by `thread.post()`. Extends `Message` with mutation methods.
 
-<TypeTable
-  type={{
-  'edit(newContent)': {
-    description: 'Edit this message.',
-    type: '(content: string | PostableMessage | CardJSXElement) => Promise<SentMessage>',
-  },
-  'delete()': {
-    description: 'Delete this message.',
-    type: '() => Promise<void>',
-  },
-  'addReaction(emoji)': {
-    description: 'Add a reaction to this message.',
-    type: '(emoji: EmojiValue | string) => Promise<void>',
-  },
-  'removeReaction(emoji)': {
-    description: 'Remove a reaction from this message.',
-    type: '(emoji: EmojiValue | string) => Promise<void>',
-  },
-}}
-/>

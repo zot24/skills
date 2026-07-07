@@ -36,22 +36,6 @@ Explicit raw text — behaves the same as a plain string.
 await thread.post({ raw: "Hello world" });
 ```
 
-<TypeTable
-  type={{
-  raw: {
-    description: 'Text passed through as-is to the platform.',
-    type: 'string',
-  },
-  attachments: {
-    description: 'Typed media attachments for adapters that support outgoing attachments.',
-    type: 'Attachment[]',
-  },
-  files: {
-    description: 'Files to upload.',
-    type: 'FileUpload[]',
-  },
-}}
-/>
 
 ## PostableMarkdown
 
@@ -61,56 +45,26 @@ Markdown converted to each platform's native format.
 await thread.post({ markdown: "**Bold** and _italic_" });
 ```
 
-<TypeTable
-  type={{
-  markdown: {
-    description: 'Markdown text, converted to platform format via mdast.',
-    type: 'string',
-  },
-  attachments: {
-    description: 'Typed media attachments for adapters that support outgoing attachments.',
-    type: 'Attachment[]',
-  },
-  files: {
-    description: 'Files to upload.',
-    type: 'FileUpload[]',
-  },
-}}
-/>
 
 ## PostableAst
 
 mdast AST converted to each platform's native format. See [Markdown](/docs/api/markdown) for builder functions.
 
 ```typescript
+import { root, paragraph, text, strong } from "chat";
 
 await thread.post({
   ast: root([paragraph([strong([text("Hello")])])]),
 });
 ```
 
-<TypeTable
-  type={{
-  ast: {
-    description: 'mdast AST root node.',
-    type: 'Root',
-  },
-  attachments: {
-    description: 'Typed media attachments for adapters that support outgoing attachments.',
-    type: 'Attachment[]',
-  },
-  files: {
-    description: 'Files to upload.',
-    type: 'FileUpload[]',
-  },
-}}
-/>
 
 ## PostableCard
 
 Rich card with interactive elements. See [Cards](/docs/api/cards) for components.
 
 ```typescript
+import { Card, Text } from "chat";
 
 await thread.post(Card({ title: "Hello", children: [Text("World")] }));
 ```
@@ -124,28 +78,13 @@ await thread.post({
 });
 ```
 
-<TypeTable
-  type={{
-  card: {
-    description: 'Rich card element.',
-    type: 'CardElement',
-  },
-  fallbackText: {
-    description: 'Plain text fallback for clients that cannot render cards.',
-    type: 'string | undefined',
-  },
-  files: {
-    description: 'Files to upload.',
-    type: 'FileUpload[]',
-  },
-}}
-/>
 
 ## Plan
 
 A `Plan` is a step-by-step task list that mutates after posting. Each `addTask` / `updateTask` / `complete` call re-renders the same message in place. See [Plan API](/docs/streaming#plan-api) for full usage.
 
 ```typescript
+import { Plan } from "chat";
 
 const plan = new Plan({ initialMessage: "Researching options..." });
 await thread.post(plan);
@@ -160,6 +99,7 @@ Adapters that don't support `PostableObject` editing render the plan as fallback
 Wraps an async iterable with platform-specific streaming options. Use this when you need to pass options like task grouping or stop blocks through `thread.post()`. See [Streaming with options](/docs/streaming#streaming-with-options).
 
 ```typescript
+import { StreamingPlan } from "chat";
 
 const planned = new StreamingPlan(stream, {
   groupTasks: "plan",
@@ -170,23 +110,6 @@ const planned = new StreamingPlan(stream, {
 await thread.post(planned);
 ```
 
-<TypeTable
-  type={{
-  groupTasks: {
-    description: 'Slack: render task_update chunks as `"plan"` (single grouped block) or `"timeline"` (inline cards, default).',
-    type: '"plan" | "timeline" | undefined',
-  },
-  endWith: {
-    description: 'Slack: Block Kit elements appended when the stream stops (e.g. retry / feedback buttons).',
-    type: 'unknown[] | undefined',
-  },
-  updateIntervalMs: {
-    description: 'Post+edit adapters: minimum interval between update cycles in ms.',
-    type: 'number | undefined',
-    default: '500',
-  },
-}}
-/>
 
 ## AsyncIterable (streaming)
 
@@ -211,19 +134,3 @@ When using `fullStream`, the SDK auto-detects `text-delta` and `finish-step` eve
 
 Used in the `files` field of any structured message format.
 
-<TypeTable
-  type={{
-  data: {
-    description: 'Binary file data.',
-    type: 'Buffer | Blob | ArrayBuffer',
-  },
-  filename: {
-    description: 'Filename.',
-    type: 'string',
-  },
-  mimeType: {
-    description: 'MIME type (inferred from filename if not provided).',
-    type: 'string | undefined',
-  },
-}}
-/>

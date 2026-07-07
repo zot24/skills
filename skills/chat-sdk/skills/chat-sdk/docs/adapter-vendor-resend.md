@@ -12,12 +12,13 @@ package: @resend/chat-sdk-adapter
 
 ## Install
 
-<PackageInstall package="@resend/chat-sdk-adapter chat @chat-adapter/shared" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createResendAdapter } from "@resend/chat-sdk-adapter";
 
 const resend = createResendAdapter({
   fromAddress: "bot@yourdomain.com",
@@ -48,28 +49,6 @@ Forward Resend webhooks to your server's webhook endpoint — the adapter verifi
 
 ## Configuration
 
-<TypeTable
-  type={{
-  fromAddress: {
-    type: "string",
-    description: "Sender email address. Required.",
-  },
-  fromName: {
-    type: "string",
-    description: "Display name used in the From header.",
-  },
-  apiKey: {
-    type: "string",
-    description:
-      "Resend API key. Auto-detected from `RESEND_API_KEY` when omitted.",
-  },
-  webhookSecret: {
-    type: "string",
-    description:
-      "Webhook signing secret. Auto-detected from `RESEND_WEBHOOK_SECRET` when omitted.",
-  },
-}}
-/>
 
 ### Environment variables
 
@@ -144,4 +123,4 @@ Official docs are available at [resend.com/docs/chat-sdk](https://resend.com/doc
 
 ## Feature support
 
-<FeatureSupport />
+

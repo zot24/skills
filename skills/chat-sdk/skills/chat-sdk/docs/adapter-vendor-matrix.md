@@ -14,14 +14,15 @@ package: @beeper/chat-adapter-matrix
 
 Requires Node.js 22+.
 
-<PackageInstall package="@beeper/chat-adapter-matrix" />
 
 ## Quick start
 
 `createMatrixAdapter()` reads its configuration from environment variables when called without arguments.
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createMatrixAdapter } from "@beeper/chat-adapter-matrix";
 
 const matrix = createMatrixAdapter();
 
@@ -52,6 +53,7 @@ The standard Chat SDK building blocks — [Threads](/docs/threads-messages-chann
 Use a long-lived access token from your Matrix homeserver:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { createMatrixAdapter } from "@beeper/chat-adapter-matrix";
 
 createMatrixAdapter({
   baseURL: process.env.MATRIX_BASE_URL,
@@ -158,7 +160,9 @@ When you call `createMatrixAdapter()` with no arguments, the adapter reads only 
 For production, pair the adapter with a durable state adapter such as Redis:
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createRedisState } from "@chat-adapter/state-redis";
+import { createMatrixAdapter } from "@beeper/chat-adapter-matrix";
 
 const matrix = createMatrixAdapter({
   baseURL: process.env.MATRIX_BASE_URL,
@@ -213,4 +217,4 @@ The adapter implements the standard fetch surface:
 
 ## Feature support
 
-<FeatureSupport />
+

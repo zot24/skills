@@ -12,7 +12,6 @@ package: @chat-adapter/web
 
 ## Install
 
-<PackageInstall package="@chat-adapter/web ai" />
 
 Then install the framework package that matches your UI:
 
@@ -25,8 +24,35 @@ Then install the framework package that matches your UI:
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { Chat } from "chat";
+import { createWebAdapter } from "@chat-adapter/web";
+import { createMemoryState } from "@chat-adapter/state-memory";
 
+export const bot = new Chat({
+  userName: "mybot",
+  adapters: {
+    web: createWebAdapter({
+      userName: "mybot",
+      getUser: (req) => ({ id: getUserIdFromCookie(req) }),
+    }),
+  },
+  state: createMemoryState(),
+});
 
+bot.onDirectMessage(async (thread, message) => {
+  await thread.post(`You said: ${message.text}`);
+});
+```
+
+```typescript title="app/api/chat/route.ts" lineNumbers
+import { after } from "next/server";
+import { bot } from "@/lib/bot";
+
+export async function POST(request: Request): Promise<Response> {
+  return bot.webhooks.web(request, {
+    waitUntil: (task) => after(() => task),
+  });
+}
 ```
 
 <CodeBlockTabs defaultValue="react">
@@ -97,35 +123,6 @@ Then install the framework package that matches your UI:
 
 ## Configuration
 
-<TypeTable
-  type={{
-  userName: {
-    type: "string",
-    description:
-      "Bot username. Required by Chat SDK for mention detection and to seed the bot identity for assistant messages.",
-  },
-  getUser: {
-    type: "(request: Request) => WebUser | null | Promise<WebUser | null>",
-    description:
-      "Resolves the user from the inbound HTTP request. Returning `null` produces HTTP 401. This is the security boundary for the Web adapter.",
-  },
-  persistMessageHistory: {
-    type: "boolean",
-    default: "true",
-    description:
-      "Persist incoming message history in the configured state adapter. Set to `false` only if your handler re-derives history from the request body.",
-  },
-  threadIdFor: {
-    type: "({ user, conversationId }) => string",
-    description:
-      "Override how thread ids are derived. Default: `web:{user.id}:{conversationId}`.",
-  },
-  logger: {
-    type: "Logger",
-    description: 'Defaults to `ConsoleLogger("info")`.',
-  },
-}}
-/>
 
 ## Authentication
 
@@ -191,6 +188,7 @@ adapter.decodeThreadId("web:u1:abc");
 `thread.post` accepts an `AsyncIterable<string | StreamChunk>` and pumps deltas straight onto the SSE response — no edit loop, no rate limiting. Plays nicely with `streamText` from the AI SDK:
 
 ```typescript
+import { streamText } from "ai";
 
 bot.onDirectMessage(async (thread, message) => {
   const result = streamText({ model, prompt: message.text });
@@ -211,6 +209,7 @@ The Web adapter speaks the AI SDK UI message stream protocol, so React, Vue, and
 **React** — `@chat-adapter/web/react` ships a thin convenience wrapper preconfigured with `DefaultChatTransport`. It accepts a few extra options on top of the standard `@ai-sdk/react` API:
 
 ```tsx
+import { useChat } from "@chat-adapter/web/react";
 
 const { messages, sendMessage, status, stop, regenerate } = useChat({
   api: "/api/chat",
@@ -232,6 +231,7 @@ For advanced configuration, use `@ai-sdk/react`'s `useChat` directly — there's
 
 ```vue
 <script setup lang="ts">
+import { useChat } from "@chat-adapter/web/vue";
 
 const chat = useChat({ api: "/api/chat", threadId: "support-1" });
 </script>
@@ -265,4 +265,4 @@ Unlike the React wrapper which wraps `@ai-sdk/react`'s `useChat` hook and return
 
 ## Feature support
 
-<FeatureSupport />
+

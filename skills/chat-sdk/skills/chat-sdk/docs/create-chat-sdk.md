@@ -58,9 +58,9 @@ The CLI will generate your `Chat` configuration, webhook route, `.env.example` f
   </CodeBlockTab>
 </CodeBlockTabs>
 
-<Callout type="info">
+
   `create-chat-sdk` automatically detects when it is being run by Cursor, Claude Code, or another coding agent. In agent environments, pass at least one platform adapter with `--adapter`; the state adapter defaults to `memory`. The CLI runs non-interactively and uses `my-bot` when no project name is provided. Pass `--interactive` to force prompts.
-</Callout>
+
 
 ## Non-interactive usage
 
@@ -70,9 +70,9 @@ Pass platform and state adapters with `--adapter`:
 npm create chat-sdk@latest -- my-bot --adapter slack redis -y
 ```
 
-<Callout type="warn">
+
   With npm, the `--` separator is required because npm consumes flags before it (`-y` is npm's own `--yes`) instead of forwarding them to the CLI. `pnpm create` and `yarn create` forward flags without it.
-</Callout>
+
 
 The interactive prompt lists official adapters by default. Pass `--vendor` to list only vendor-official adapters instead. Automation and coding agents can install any CLI-supported official or vendor adapter directly with `--adapter`.
 

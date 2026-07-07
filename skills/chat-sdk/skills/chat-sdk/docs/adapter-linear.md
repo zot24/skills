@@ -12,16 +12,16 @@ package: @chat-adapter/linear
 
 ## Install
 
-<PackageInstall package="@chat-adapter/linear" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects credentials from `LINEAR_API_KEY`, `LINEAR_ACCESS_TOKEN`, `LINEAR_CLIENT_CREDENTIALS_*`, or `LINEAR_CLIENT_ID`/`LINEAR_CLIENT_SECRET`, plus `LINEAR_WEBHOOK_SECRET` and `LINEAR_BOT_USERNAME`.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createLinearAdapter } from "@chat-adapter/linear";
 
 const bot = new Chat({
   userName: "my-bot",
@@ -39,61 +39,6 @@ By default, the adapter runs in `mode: "comments"` and treats `Comment` webhooks
 
 ## Configuration
 
-<TypeTable
-  type={{
-  apiKey: {
-    type: "string",
-    description:
-      "Personal API key. Auto-detected from `LINEAR_API_KEY`.",
-  },
-  accessToken: {
-    type: "string",
-    description:
-      "Pre-obtained OAuth access token. Auto-detected from `LINEAR_ACCESS_TOKEN`.",
-  },
-  clientId: {
-    type: "string",
-    description:
-      "Multi-tenant OAuth client ID. Auto-detected from `LINEAR_CLIENT_ID`.",
-  },
-  clientSecret: {
-    type: "string",
-    description:
-      "Multi-tenant OAuth client secret. Auto-detected from `LINEAR_CLIENT_SECRET`.",
-  },
-  encryptionKey: {
-    type: "string",
-    description:
-      "AES-256-GCM key for encrypting stored OAuth tokens. Auto-detected from `LINEAR_ENCRYPTION_KEY`.",
-  },
-  clientCredentials: {
-    type: "ClientCredentialsConfig",
-    description:
-      "Single-tenant client credentials config (`clientId`, `clientSecret`, optional `scopes`).",
-  },
-  mode: {
-    type: '"comments" | "agent-sessions"',
-    default: '"comments"',
-    description:
-      "Inbound webhook handling mode. Use `agent-sessions` for app-actor installs.",
-  },
-  webhookSecret: {
-    type: "string",
-    description:
-      "Webhook signing secret. Auto-detected from `LINEAR_WEBHOOK_SECRET`.",
-  },
-  userName: {
-    type: "string",
-    default: '"linear-bot"',
-    description: "Bot display name. Auto-detected from `LINEAR_BOT_USERNAME`.",
-  },
-  apiUrl: {
-    type: "string",
-    description:
-      "Override the Linear GraphQL API base URL.",
-  },
-}}
-/>
 
 One of `apiKey`, `accessToken`, top-level `clientId`/`clientSecret`, or `clientCredentials` is required, plus `webhookSecret`.
 
@@ -212,9 +157,9 @@ API key, access token, and single-tenant client-credentials modes return the sam
 
 ### Webhook setup
 
-<Callout type="warn">
+
   Webhook management requires workspace admin access. If you don't see the API settings page, ask a workspace admin.
-</Callout>
+
 
 1. Go to **Settings then API** then click **Create webhook**.
 2. Set the URL to `https://your-domain.com/api/webhooks/linear`.
@@ -237,4 +182,4 @@ When a user writes a comment, the bot replies within the same comment thread.
 
 ## Feature support
 
-<FeatureSupport />
+

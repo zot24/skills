@@ -12,16 +12,16 @@ package: @chat-adapter/slack
 
 ## Install
 
-<PackageInstall package="@chat-adapter/slack" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `SLACK_BOT_TOKEN` and `SLACK_SIGNING_SECRET` from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
 
 const bot = new Chat({
   userName: "mybot",
@@ -37,71 +37,6 @@ bot.onNewMention(async (thread, message) => {
 
 ## Configuration
 
-<TypeTable
-  type={{
-  botToken: {
-    type: "string | () => string | Promise<string>",
-    description:
-      "Bot token (`xoxb-...`) or a resolver function for rotation / lazy fetch. Auto-detected from `SLACK_BOT_TOKEN`.",
-  },
-  signingSecret: {
-    type: "string",
-    description:
-      "Signing secret for webhook verification. Auto-detected from `SLACK_SIGNING_SECRET`.",
-  },
-  webhookVerifier: {
-    type: "(request, body) => unknown | Promise<unknown>",
-    description:
-      "Custom verifier used in place of `signingSecret`. Returning a string substitutes the verified body downstream.",
-  },
-  mode: {
-    type: '"webhook" | "socket"',
-    default: '"webhook"',
-    description: "Connection mode.",
-  },
-  appToken: {
-    type: "string",
-    description:
-      "App-level token (`xapp-...`) for socket mode. Auto-detected from `SLACK_APP_TOKEN`.",
-  },
-  clientId: {
-    type: "string",
-    description:
-      "App client ID for multi-workspace OAuth. Auto-detected from `SLACK_CLIENT_ID`.",
-  },
-  clientSecret: {
-    type: "string",
-    description:
-      "App client secret for multi-workspace OAuth. Auto-detected from `SLACK_CLIENT_SECRET`.",
-  },
-  encryptionKey: {
-    type: "string",
-    description:
-      "AES-256-GCM key for encrypting stored tokens. Auto-detected from `SLACK_ENCRYPTION_KEY`.",
-  },
-  installationKeyPrefix: {
-    type: "string",
-    default: '"slack:installation"',
-    description:
-      "Prefix for the state key used to store workspace installations. Full key is `{prefix}:{teamId}` (or `{prefix}:{enterpriseId}` for org-wide installs).",
-  },
-  installationProvider: {
-    type: "{ getInstallation(installationId, isEnterpriseInstall) }",
-    description:
-      "External installation lookup. When set, bypasses the internal state adapter for token resolution. Read-only — manage your own writes externally.",
-  },
-  apiUrl: {
-    type: "string",
-    description:
-      "Override the Slack Web API base URL (e.g. for GovSlack or a self-hosted gateway).",
-  },
-  webClientOptions: {
-    type: 'Omit<WebClientOptions, "slackApiUrl">',
-    description:
-      "Options forwarded to Slack WebClient instances. Supports settings such as retryConfig, per-request timeout, and rejectRateLimitedCalls.",
-  },
-}}
-/>
 
 `signingSecret` is required for webhook mode (or supply a `webhookVerifier`). `appToken` is required for socket mode.
 
@@ -125,7 +60,8 @@ const bot = new Chat({
 For apps installed across multiple Slack workspaces, omit `botToken` and provide OAuth credentials. The adapter resolves tokens dynamically from your state adapter using the `team_id` (or `enterprise_id` for Enterprise Grid org-wide installs):
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createRedisState } from "@chat-adapter/state-redis";
 
 const slackAdapter = createSlackAdapter({
   clientId: process.env.SLACK_CLIENT_ID!,
@@ -146,6 +82,7 @@ When you pass any auth-related config (like `clientId`), the adapter won't fall 
 Point your Slack OAuth redirect URL to a route that calls `handleOAuthCallback`:
 
 ```typescript title="app/api/slack/oauth/route.ts" lineNumbers
+import { slackAdapter } from "@/lib/bot";
 
 export async function GET(request: Request) {
   const { teamId } = await slackAdapter.handleOAuthCallback(request, {
@@ -331,8 +268,28 @@ Socket mode is not compatible with multi-workspace OAuth.
 Socket mode requires a persistent WebSocket. The adapter provides a forwarding mechanism — a cron job starts a transient socket listener that acks events and forwards them as HTTP requests to your existing webhook endpoint:
 
 ```typescript title="app/api/slack/socket-mode/route.ts" lineNumbers
+import { after } from "next/server";
+import { bot } from "@/lib/bot";
 
+export const maxDuration = 800;
 
+export async function GET(request: Request) {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  await bot.initialize();
+  const slack = bot.getAdapter("slack");
+  const webhookUrl = `https://${process.env.VERCEL_URL}/api/webhooks/slack`;
+
+  return slack.startSocketModeListener(
+    { waitUntil: (task: Promise<unknown>) => after(() => task) },
+    600_000,
+    undefined,
+    webhookUrl
+  );
+}
 ```
 
 ```json title="vercel.json"
@@ -391,6 +348,7 @@ settings:
 When streaming in an assistant thread, attach Block Kit elements to the final message via `StreamingPlan`'s `endWith` option:
 
 ```typescript
+import { StreamingPlan } from "chat";
 
 await thread.post(
   new StreamingPlan(textStream, {
@@ -408,7 +366,6 @@ await thread.post(
 
 ## Feature support
 
-<FeatureSupport />
 
 ## Resources
 

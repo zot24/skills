@@ -194,6 +194,10 @@ extract_content() {
         local temp_clean
         temp_clean=$(mktemp)
         perl -0777 -pe '
+            # Protect fenced code blocks from all stripping below: legitimate
+            # code samples may contain JSX tags that collide with component
+            # names (e.g. Chat SDK <Card>). Swap fences for placeholders first.
+            my @f; s/(^```.*?^```[ \t]*$)/push @f, $1; "\x00F".$#f."\x00"/gmse;
             # Strip MDX component definitions: export const/function ... up to a
             # line consisting of closing braces/brackets at column 0
             s/^export\s+(?:const|function)\s+\w+.*?^[\}\]]+;?\s*$//gms;
@@ -202,9 +206,15 @@ extract_content() {
             # Strip MDX comments like {/* ... */}
             s/\{\/\*.*?\*\/\}//gs;
             # Strip Mintlify-specific tags like <Tip>, <Warning>, etc.
-            s/<\/?(?:Tip|Warning|Note|Info|Check|Accordion|AccordionGroup|Card|CardGroup|Steps|Step|Tabs|Tab)[^>]*>//gi;
+            s/<\/?(?:Tip|Warning|Note|Info|Check|Accordion|AccordionGroup|Card|CardGroup|Steps|Step|Tabs|Tab|Callout|PackageInstall|FeatureSupport|Warn|Cross)[^>]*>//gi;
+            # Strip Fumadocs <TypeTable> blocks: multi-line self-closing components
+            # with nested {{ }} props that can contain a closing angle bracket
+            # (e.g. arrow function types), which defeats the [^>]* pattern above.
+            s/^<TypeTable\b.*?^\/>\s*$//gms;
             # Strip code block theme annotations
             s/\s+theme=\{null\}//g;
+            # Restore protected fenced code blocks
+            s/\x00F(\d+)\x00/$f[$1]/ge;
         ' "$input_file" | \
         # Collapse 3+ blank lines to 2
         awk '

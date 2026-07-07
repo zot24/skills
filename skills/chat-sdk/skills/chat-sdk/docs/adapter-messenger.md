@@ -12,16 +12,16 @@ package: @chat-adapter/messenger
 
 ## Install
 
-<PackageInstall package="@chat-adapter/messenger" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `FACEBOOK_APP_SECRET`, `FACEBOOK_PAGE_ACCESS_TOKEN`, `FACEBOOK_VERIFY_TOKEN`, and `FACEBOOK_BOT_USERNAME` from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMessengerAdapter } from "@chat-adapter/messenger";
 
 const bot = new Chat({
   userName: "mybot",
@@ -36,6 +36,7 @@ bot.onDirectMessage(async (thread, message) => {
 ```
 
 ```typescript title="app/api/webhooks/messenger/route.ts" lineNumbers
+import { bot } from "@/lib/bot";
 
 export async function GET(request: Request) {
   return bot.webhooks.messenger(request);
@@ -48,34 +49,6 @@ export async function POST(request: Request) {
 
 ## Configuration
 
-<TypeTable
-  type={{
-  appSecret: {
-    type: "string",
-    description:
-      "App secret for `X-Hub-Signature-256` verification. Auto-detected from `FACEBOOK_APP_SECRET`.",
-  },
-  pageAccessToken: {
-    type: "string",
-    description:
-      "Page access token. Auto-detected from `FACEBOOK_PAGE_ACCESS_TOKEN`.",
-  },
-  verifyToken: {
-    type: "string",
-    description:
-      "Webhook verification secret. Auto-detected from `FACEBOOK_VERIFY_TOKEN`.",
-  },
-  userName: {
-    type: "string",
-    default: '"messenger-bot"',
-    description: "Bot username. Auto-detected from `FACEBOOK_BOT_USERNAME`.",
-  },
-  apiUrl: {
-    type: "string",
-    description: "Override the Meta Graph API base URL.",
-  },
-}}
-/>
 
 ## Authentication
 
@@ -139,4 +112,4 @@ Example: `messenger:27161130920158013`.
 
 ## Feature support
 
-<FeatureSupport />
+

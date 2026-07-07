@@ -12,16 +12,16 @@ package: @chat-adapter/gchat
 
 ## Install
 
-<PackageInstall package="@chat-adapter/gchat" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `GOOGLE_CHAT_CREDENTIALS` (or `GOOGLE_CHAT_USE_ADC`) from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createGoogleChatAdapter } from "@chat-adapter/gchat";
 
 const bot = new Chat({
   userName: "mybot",
@@ -37,44 +37,6 @@ bot.onNewMention(async (thread, message) => {
 
 ## Configuration
 
-<TypeTable
-  type={{
-  credentials: {
-    type: "ServiceAccountCredentials",
-    description:
-      "Service account credentials JSON. Auto-detected from `GOOGLE_CHAT_CREDENTIALS`.",
-  },
-  useApplicationDefaultCredentials: {
-    type: "boolean",
-    description:
-      "Use Application Default Credentials. Auto-detected from `GOOGLE_CHAT_USE_ADC`.",
-  },
-  pubsubTopic: {
-    type: "string",
-    description:
-      "Pub/Sub topic for Workspace Events. Auto-detected from `GOOGLE_CHAT_PUBSUB_TOPIC`.",
-  },
-  pubsubAudience: {
-    type: "string",
-    description:
-      "Expected JWT audience for Pub/Sub webhook verification.",
-  },
-  googleChatProjectNumber: {
-    type: "string",
-    description:
-      "GCP project number for direct webhook JWT verification.",
-  },
-  impersonateUser: {
-    type: "string",
-    description:
-      "User email for domain-wide delegation. Required for fetching message history and DMs.",
-  },
-  apiUrl: {
-    type: "string",
-    description: "Override the Google Chat API base URL.",
-  },
-}}
-/>
 
 One of `googleChatProjectNumber`, `pubsubAudience`, or `disableSignatureVerification: true` is required — the constructor throws otherwise. Configure the verifier(s) for each transport you actually receive.
 
@@ -92,9 +54,9 @@ One of `googleChatProjectNumber`, `pubsubAudience`, or `disableSignatureVerifica
 3. Click **Add Key** then **Create new key** then **JSON**.
 4. Copy the JSON to `GOOGLE_CHAT_CREDENTIALS`.
 
-<Callout type="warn">
+
   If your organization has the `iam.disableServiceAccountKeyCreation` constraint enabled, you need to relax it or add a project exception under **IAM & Admin** then **Organization Policies**.
-</Callout>
+
 
 ### 3. Configure the Chat app
 
@@ -160,4 +122,4 @@ If you only configure `googleChatProjectNumber`, incoming Pub/Sub-shaped request
 
 ## Feature support
 
-<FeatureSupport />
+

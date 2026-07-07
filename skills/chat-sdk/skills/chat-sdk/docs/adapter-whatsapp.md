@@ -12,16 +12,16 @@ package: @chat-adapter/whatsapp
 
 ## Install
 
-<PackageInstall package="@chat-adapter/whatsapp" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_APP_SECRET`, `WHATSAPP_PHONE_NUMBER_ID`, and `WHATSAPP_VERIFY_TOKEN` from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createWhatsAppAdapter } from "@chat-adapter/whatsapp";
 
 const bot = new Chat({
   userName: "mybot",
@@ -36,6 +36,7 @@ bot.onNewMention(async (thread, message) => {
 ```
 
 ```typescript title="app/api/webhooks/whatsapp/route.ts" lineNumbers
+import { bot } from "@/lib/bot";
 
 export async function GET(request: Request) {
   return bot.webhooks.whatsapp(request);
@@ -48,43 +49,6 @@ export async function POST(request: Request) {
 
 ## Configuration
 
-<TypeTable
-  type={{
-  accessToken: {
-    type: "string",
-    description: "Meta access token. Auto-detected from `WHATSAPP_ACCESS_TOKEN`.",
-  },
-  appSecret: {
-    type: "string",
-    description:
-      "App secret for webhook verification. Auto-detected from `WHATSAPP_APP_SECRET`.",
-  },
-  phoneNumberId: {
-    type: "string",
-    description:
-      "Bot's phone number ID. Auto-detected from `WHATSAPP_PHONE_NUMBER_ID`.",
-  },
-  verifyToken: {
-    type: "string",
-    description:
-      "Webhook verification secret. Auto-detected from `WHATSAPP_VERIFY_TOKEN`.",
-  },
-  apiVersion: {
-    type: "string",
-    default: '"v21.0"',
-    description: "Graph API version.",
-  },
-  userName: {
-    type: "string",
-    default: '"whatsapp-bot"',
-    description: "Bot username for self-message detection.",
-  },
-  apiUrl: {
-    type: "string",
-    description: "Override the Meta Graph API base URL.",
-  },
-}}
-/>
 
 ## Authentication
 
@@ -140,4 +104,4 @@ Outgoing messages longer than 4096 characters are automatically chunked.
 
 ## Feature support
 
-<FeatureSupport />
+

@@ -12,12 +12,12 @@ package: @chat-adapter/state-ioredis
 
 ## Install
 
-<PackageInstall package="@chat-adapter/state-ioredis" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createIoRedisState } from "@chat-adapter/state-ioredis";
 
 const bot = new Chat({
   userName: "mybot",
@@ -28,24 +28,6 @@ const bot = new Chat({
 
 ## Configuration
 
-<TypeTable
-  type={{
-  url: {
-    type: "string",
-    description: "Redis connection URL. Required if `client` is not provided.",
-  },
-  client: {
-    type: "Redis",
-    description:
-      "An existing `ioredis` client instance. Use this for Cluster, Sentinel, or shared connection setups.",
-  },
-  keyPrefix: {
-    type: "string",
-    default: '"chat-sdk"',
-    description: "Prefix applied to every key written by the adapter.",
-  },
-}}
-/>
 
 Either `url` or `client` is required.
 
@@ -54,7 +36,8 @@ Either `url` or `client` is required.
 ### Using an existing client
 
 ```typescript title="lib/state.ts" lineNumbers
-
+import Redis from "ioredis";
+import { createIoRedisState } from "@chat-adapter/state-ioredis";
 
 const client = new Redis("redis://localhost:6379");
 
@@ -85,4 +68,4 @@ Use [`@chat-adapter/state-redis`](/adapters/official/redis) when:
 
 ## Feature support
 
-<FeatureSupport />
+

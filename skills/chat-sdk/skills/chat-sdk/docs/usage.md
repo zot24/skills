@@ -20,7 +20,9 @@ The `Chat` class is the main entry point for your bot. It coordinates adapters, 
 ## Basic setup
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createRedisState } from "@chat-adapter/state-redis";
 
 const bot = new Chat({
   userName: "mybot",
@@ -36,9 +38,9 @@ bot.onNewMention(async (thread) => {
 });
 ```
 
-<Callout type="info">
+
   This example uses Redis. Chat SDK also supports [PostgreSQL](/adapters/official/postgres) and [ioredis](/adapters/official/ioredis) as production state adapters. See [State Adapters](/docs/state-adapters) for all options.
-</Callout>
+
 
 Each adapter factory auto-detects credentials from environment variables (`SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, `REDIS_URL`, etc.), so you can get started with zero config. Pass explicit values to override. For setup UIs and build scripts, the [`chat/adapters` catalog](/docs/adapters#adapter-catalog-chatadapters) lists official and vendor-official adapter env specs without importing adapter packages.
 
@@ -47,7 +49,11 @@ Each adapter factory auto-detects credentials from environment variables (`SLACK
 Register multiple [adapters](/adapters) to deploy your bot across platforms simultaneously:
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createTeamsAdapter } from "@chat-adapter/teams";
+import { createDiscordAdapter } from "@chat-adapter/discord";
+import { createRedisState } from "@chat-adapter/state-redis";
 
 const bot = new Chat({
   userName: "mybot",
@@ -81,6 +87,7 @@ Your event handlers work identically across all registered adapters — the SDK 
 Use `getAdapter` to access platform-specific APIs when you need functionality beyond the unified interface:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import type { SlackAdapter } from "@chat-adapter/slack";
 
 const slack = bot.getAdapter("slack") as SlackAdapter;
 await slack.setSuggestedPrompts(channelId, threadTs, [
@@ -105,11 +112,13 @@ See [`getAdapter`](/docs/api/chat#getadapter) for multi-tenant constraints.
 The `webhooks` property provides type-safe handlers for each registered adapter. Wire these up to your HTTP framework's routes:
 
 ```typescript title="app/api/webhooks/slack/route.ts" lineNumbers
+import { bot } from "@/lib/bot";
 
 export const POST = bot.webhooks.slack;
 ```
 
 ```typescript title="app/api/webhooks/teams/route.ts" lineNumbers
+import { bot } from "@/lib/bot";
 
 export const POST = bot.webhooks.teams;
 ```
@@ -138,6 +147,7 @@ export default bot;
 ```
 
 ```typescript title="lib/utils.ts" lineNumbers
+import { Chat } from "chat";
 
 const bot = Chat.getSingleton();
 ```

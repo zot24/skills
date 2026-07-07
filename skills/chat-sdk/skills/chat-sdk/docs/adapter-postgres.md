@@ -12,16 +12,16 @@ package: @chat-adapter/state-pg
 
 ## Install
 
-<PackageInstall package="@chat-adapter/state-pg" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `POSTGRES_URL` (or `DATABASE_URL`) from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createPostgresState } from "@chat-adapter/state-pg";
 
 const bot = new Chat({
   userName: "mybot",
@@ -34,29 +34,6 @@ The adapter creates its tables on `connect()` if they don't already exist.
 
 ## Configuration
 
-<TypeTable
-  type={{
-  url: {
-    type: "string",
-    description:
-      "Postgres connection URL. Auto-detected from `POSTGRES_URL` or `DATABASE_URL`.",
-  },
-  client: {
-    type: "pg.Pool",
-    description: "An existing `pg.Pool` instance.",
-  },
-  keyPrefix: {
-    type: "string",
-    default: '"chat-sdk"',
-    description: "Prefix applied to every row written by the adapter.",
-  },
-  logger: {
-    type: "Logger",
-    description:
-      'Logger instance. Defaults to `ConsoleLogger("info").child("postgres")`.',
-  },
-}}
-/>
 
 Either `url`, `POSTGRES_URL`/`DATABASE_URL`, or `client` is required.
 
@@ -65,7 +42,8 @@ Either `url`, `POSTGRES_URL`/`DATABASE_URL`, or `client` is required.
 ### Using an existing pool
 
 ```typescript title="lib/state.ts" lineNumbers
-
+import pg from "pg";
+import { createPostgresState } from "@chat-adapter/state-pg";
 
 const client = new pg.Pool({ connectionString: process.env.POSTGRES_URL! });
 export const state = createPostgresState({ client });
@@ -102,4 +80,4 @@ DELETE FROM chat_state_queues WHERE expires_at <= now();
 
 ## Feature support
 
-<FeatureSupport />
+

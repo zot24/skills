@@ -19,9 +19,9 @@ Chat SDK adapters are the trust boundary between your application and a platform
 
 All adapters in this repo use [vitest](https://vitest.dev) with `@vitest/coverage-v8`. Community adapters should follow the same convention.
 
-<Callout type="info">
+
   This page covers the hand-rolled patterns used inside this repo's `packages/`. If you're testing a bot or a custom adapter as a **consumer** of Chat SDK, use [`@chat-adapter/tests`](/docs/testing) — it ships factories and Vitest matchers that cover most of these patterns in a few lines.
-</Callout>
+
 
 ## Unit tests
 
@@ -30,7 +30,8 @@ All adapters in this repo use [vitest](https://vitest.dev) with `@vitest/coverag
 Verify that the factory validates config, reads environment variables, and sets defaults.
 
 ```typescript title="src/factory.test.ts" lineNumbers
-
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { createMatrixAdapter } from "./factory";
 
 describe("createMatrixAdapter", () => {
   const originalEnv = process.env;
@@ -80,7 +81,8 @@ describe("createMatrixAdapter", () => {
 Verify that `encodeThreadId` and `decodeThreadId` roundtrip consistently and reject invalid formats.
 
 ```typescript title="src/thread-id.test.ts" lineNumbers
-
+import { describe, it, expect } from "vitest";
+import { MatrixAdapter } from "./adapter";
 
 const adapter = new MatrixAdapter({
   homeserverUrl: "https://matrix.example.com",
@@ -121,7 +123,8 @@ describe("thread ID encoding", () => {
 Test the three key scenarios: missing headers, invalid signature, and valid signature.
 
 ```typescript title="src/webhook.test.ts" lineNumbers
-
+import { describe, it, expect } from "vitest";
+import { MatrixAdapter } from "./adapter";
 
 const adapter = new MatrixAdapter({
   homeserverUrl: "https://matrix.example.com",
@@ -165,7 +168,8 @@ describe("handleWebhook", () => {
 Cover the main message types: plain text, bot messages, DMs, edited messages, attachments, and formatted text.
 
 ```typescript title="src/parse-message.test.ts" lineNumbers
-
+import { describe, it, expect } from "vitest";
+import { MatrixAdapter } from "./adapter";
 
 const adapter = new MatrixAdapter({
   homeserverUrl: "https://matrix.example.com",
@@ -209,7 +213,8 @@ describe("parseMessage", () => {
 Test `toAst()` and `fromAst()` for each node type your platform supports, plus `renderPostable()` for all message variants.
 
 ```typescript title="src/format-converter.test.ts" lineNumbers
-
+import { describe, it, expect } from "vitest";
+import { MatrixFormatConverter } from "./format-converter";
 
 const converter = new MatrixFormatConverter();
 
@@ -265,7 +270,9 @@ Integration tests wire your adapter into a full `Chat` instance and verify end-t
 Create a factory that sets up the full test environment:
 
 ```typescript title="src/test-utils.ts" lineNumbers
-
+import { Chat, type Message, type Thread, type ActionEvent, type ReactionEvent } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createMatrixAdapter } from "./factory";
 
 interface CapturedMessages {
   mentionMessage: Message | null;
@@ -293,6 +300,75 @@ function createWaitUntilTracker(): WaitUntilTracker {
   };
 }
 
+export function createMatrixTestContext(handlers: {
+  onMention?: (thread: Thread, message: Message) => void | Promise<void>;
+  onSubscribed?: (thread: Thread, message: Message) => void | Promise<void>;
+  onAction?: (event: ActionEvent) => void | Promise<void>;
+  onReaction?: (event: ReactionEvent) => void | Promise<void>;
+}) {
+  const adapter = createMatrixAdapter({
+    homeserverUrl: "https://matrix.example.com",
+    accessToken: "syt_test_token",
+  });
+
+  const state = createMemoryState();
+  const chat = new Chat({
+    userName: "matrix-bot",
+    adapters: { matrix: adapter },
+    state,
+    logger: "error",
+  });
+
+  const captured: CapturedMessages = {
+    mentionMessage: null,
+    mentionThread: null,
+    followUpMessage: null,
+    followUpThread: null,
+  };
+
+  if (handlers.onMention) {
+    const handler = handlers.onMention;
+    chat.onNewMention(async (thread, message) => {
+      captured.mentionMessage = message;
+      captured.mentionThread = thread;
+      await handler(thread, message);
+    });
+  }
+
+  if (handlers.onSubscribed) {
+    const handler = handlers.onSubscribed;
+    chat.onSubscribedMessage(async (thread, message) => {
+      captured.followUpMessage = message;
+      captured.followUpThread = thread;
+      await handler(thread, message);
+    });
+  }
+
+  if (handlers.onAction) {
+    chat.onAction(handlers.onAction);
+  }
+
+  if (handlers.onReaction) {
+    chat.onReaction(handlers.onReaction);
+  }
+
+  const tracker = createWaitUntilTracker();
+
+  return {
+    chat,
+    adapter,
+    state,
+    tracker,
+    captured,
+    sendWebhook: async (fixture: unknown) => {
+      const request = createSignedMatrixRequest(fixture); // Your signing helper
+      await chat.webhooks.matrix(request, {
+        waitUntil: tracker.waitUntil,
+      });
+      await tracker.waitForAll();
+    },
+  };
+}
 
 function createSignedMatrixRequest(payload: unknown): Request {
   const body = JSON.stringify(payload);
@@ -318,7 +394,8 @@ function computeSignature(body: string): string {
 Use the test context to verify the full message flow:
 
 ```typescript title="src/integration.test.ts" lineNumbers
-
+import { describe, it, expect } from "vitest";
+import { createMatrixTestContext } from "./test-utils";
 
 describe("Matrix adapter integration", () => {
   it("handles mention → subscribe → follow-up flow", async () => {
@@ -404,7 +481,9 @@ pnpm recording:export session-<id>
 5. **Write replay tests** — Use the fixtures in your test context:
 
 ```typescript title="src/replay.test.ts" lineNumbers
-
+import { describe, it, expect } from "vitest";
+import fixture from "../fixtures/replay/matrix-mention.json";
+import { createMatrixTestContext } from "./test-utils";
 
 describe("replay: mention flow", () => {
   it("handles recorded mention interaction", async () => {

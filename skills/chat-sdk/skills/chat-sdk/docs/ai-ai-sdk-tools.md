@@ -25,26 +25,28 @@ Write operations require user approval out of the box, toggle them globally or p
 The tools live in the [`chat/ai`](/docs/ai) subpath of the core `chat` package:
 
 ```ts
-
+import { createChatTools } from "chat/ai";
 ```
 
 `ai` and `zod` are optional peer dependencies — install them if you haven't already:
 
-<PackageInstall package="ai zod" />
 
-<Callout>
   Pair `createChatTools` with [`toAiMessages`](/docs/ai/to-ai-messages)
   to feed prior thread history into the agent before it picks a tool.
   Both ship from the same `chat/ai` subpath, which keeps the optional
   `ai` / `zod` peer deps out of bundles that don't import them.
-</Callout>
+
 
 ## Quick start
 
 Pass your `Chat` instance and the tools you want into any AI SDK call:
 
 ```typescript title="lib/agent.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createChatTools } from "chat/ai";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { generateText } from "ai";
 
 const chat = new Chat({
   userName: "mybot",
@@ -126,6 +128,7 @@ Read tools (`fetchMessages`, `fetchThread`, `getChannelInfo`, …) and the `star
 Each tool is also exported as a standalone factory you can hand to `tools` directly:
 
 ```typescript title="lib/agent.ts" lineNumbers
+import { fetchMessages, postMessage, addReaction } from "chat/ai";
 
 const tools = {
   fetchMessages: fetchMessages(chat),
@@ -141,6 +144,7 @@ Useful when you want a small, targeted toolset without going through `createChat
 Customize any AI SDK [`tool()`](https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling) property per tool, keyed by tool name:
 
 ```typescript
+import type { ChatToolName, ToolOverrides } from "chat/ai";
 
 createChatTools({
   chat,

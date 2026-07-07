@@ -12,14 +12,14 @@ package: chat-state-mysql
 
 ## Install
 
-<PackageInstall package="chat chat-state-mysql" />
 
 ## Quick start
 
 `createMySqlState()` auto-detects `MYSQL_URL` (or `DATABASE_URL`), so you can call it with no arguments:
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMySqlState } from "chat-state-mysql";
 
 const bot = new Chat({
   userName: "mybot",
@@ -41,6 +41,7 @@ const state = createMySqlState({
 ### Using an existing client
 
 ```typescript
+import mysql from "mysql2/promise";
 
 const client = mysql.createPool(process.env.MYSQL_URL);
 const state = createMySqlState({ client });
@@ -48,30 +49,6 @@ const state = createMySqlState({ client });
 
 ## Configuration
 
-<TypeTable
-  type={{
-  url: {
-    type: "string",
-    description:
-      "MySQL connection URL. Auto-detected from `MYSQL_URL` or `DATABASE_URL` when omitted.",
-  },
-  client: {
-    type: "mysql.Pool",
-    description:
-      "Existing `mysql2/promise` Pool instance to reuse instead of creating a new one.",
-  },
-  keyPrefix: {
-    type: "string",
-    default: '"chat-sdk"',
-    description: "Prefix for all state rows.",
-  },
-  logger: {
-    type: "Logger",
-    default: 'ConsoleLogger("info").child("mysql")',
-    description: "Logger instance.",
-  },
-}}
-/>
 
 Either `url`, the `MYSQL_URL` / `DATABASE_URL` env var, or `client` is required.
 
@@ -114,4 +91,4 @@ DELETE FROM chat_state_queues WHERE expires_at <= CURRENT_TIMESTAMP(3);
 
 ## Feature support
 
-<FeatureSupport />
+

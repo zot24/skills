@@ -12,16 +12,37 @@ package: @kapso/chat-adapter
 
 ## Install
 
-<PackageInstall package="@kapso/chat-adapter chat" />
 
 Install a durable Chat SDK state adapter for production. The examples below use `@chat-adapter/state-memory` for local development.
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
+import { createKapsoAdapter } from "@kapso/chat-adapter";
 
+export const bot = new Chat({
+  userName: "support",
+  state: createMemoryState(),
+  adapters: {
+    kapso: createKapsoAdapter({
+      kapsoApiKey: process.env.KAPSO_API_KEY,
+      phoneNumberId: process.env.KAPSO_PHONE_NUMBER_ID,
+      webhookSecret: process.env.KAPSO_WEBHOOK_SECRET,
+    }),
+  },
+});
 
-/>
+bot.onDirectMessage(async (thread, message) => {
+  await thread.post(`You said: ${message.text}`);
+});
+```
+
+Kapso webhooks are direct-message conversations. Replies, cards, files, reactions, and history calls use the same Chat SDK `Thread` and `Message` APIs as the official adapters.
+
+## Configuration
+
 
 ### Environment variables
 
@@ -46,6 +67,7 @@ Install a durable Chat SDK state adapter for production. The examples below use 
 Kapso sends platform webhooks as `POST` requests. Forward the raw `Request` to Chat SDK:
 
 ```typescript title="app/api/webhooks/kapso/route.ts" lineNumbers
+import { bot } from "@/lib/bot";
 
 export async function POST(request: Request): Promise<Response> {
   return bot.webhooks.kapso(request);
@@ -69,6 +91,7 @@ bot.onDirectMessage(async (thread, message) => {
 Start a WhatsApp conversation from your app with `openDM()`:
 
 ```typescript
+import type { KapsoAdapter } from "@kapso/chat-adapter";
 
 const adapter = bot.getAdapter("kapso") as KapsoAdapter;
 const threadId = await adapter.openDM("15551234567");
@@ -82,6 +105,7 @@ await thread.post("Hello from Kapso.");
 Chat SDK card buttons render as WhatsApp reply buttons.
 
 ```tsx
+import { Actions, Button, Card } from "chat";
 
 await thread.post(
   Card({
@@ -103,6 +127,7 @@ WhatsApp supports up to 3 reply buttons. Button labels must be 1-20 characters, 
 Send files through Chat SDK:
 
 ```typescript
+import { readFile } from "node:fs/promises";
 
 await thread.post({
   markdown: "Here is the receipt.",
@@ -162,4 +187,4 @@ const decoded = adapter.decodeThreadId(threadId);
 
 ## Feature support
 
-<FeatureSupport />
+

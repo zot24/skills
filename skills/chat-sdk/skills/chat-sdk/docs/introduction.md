@@ -32,7 +32,9 @@ Chat SDK has three core concepts:
 3. **State** — a pluggable persistence layer for thread subscriptions and distributed locking
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createSlackAdapter } from "@chat-adapter/slack";
+import { createRedisState } from "@chat-adapter/state-redis";
 
 const bot = new Chat({
   userName: "mybot",

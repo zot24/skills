@@ -10,18 +10,17 @@ package: @chat-adapter/state-memory
 # Memory
 
 
-<Callout type="warn">
   The memory adapter is for local development and testing only. State is lost on restart, and distributed locks don't work across multiple instances. Use [`@chat-adapter/state-redis`](/adapters/official/redis), [`@chat-adapter/state-ioredis`](/adapters/official/ioredis), or [`@chat-adapter/state-pg`](/adapters/official/postgres) in production.
-</Callout>
+
 
 ## Install
 
-<PackageInstall package="@chat-adapter/state-memory" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
 
 const bot = new Chat({
   userName: "mybot",
@@ -40,4 +39,4 @@ const bot = new Chat({
 
 ## Feature support
 
-<FeatureSupport />
+

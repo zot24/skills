@@ -12,16 +12,16 @@ package: @chat-adapter/state-redis
 
 ## Install
 
-<PackageInstall package="@chat-adapter/state-redis" />
 
 ## Quick start
 
-<Callout type="info">
+
   The adapter auto-detects `REDIS_URL` from the environment.
-</Callout>
+
 
 ```typescript title="lib/bot.ts" lineNumbers
-
+import { Chat } from "chat";
+import { createRedisState } from "@chat-adapter/state-redis";
 
 const bot = new Chat({
   userName: "mybot",
@@ -32,30 +32,6 @@ const bot = new Chat({
 
 ## Configuration
 
-<TypeTable
-  type={{
-  url: {
-    type: "string",
-    description:
-      "Redis connection URL. Auto-detected from `REDIS_URL` if not provided.",
-  },
-  client: {
-    type: "RedisClient",
-    description:
-      "An existing `redis` client instance. Use this if you already manage the connection elsewhere.",
-  },
-  keyPrefix: {
-    type: "string",
-    default: '"chat-sdk"',
-    description: "Prefix applied to every key written by the adapter.",
-  },
-  logger: {
-    type: "Logger",
-    description:
-      "Logger instance. Defaults to `ConsoleLogger(\"info\")`.",
-  },
-}}
-/>
 
 Either `url`, the `REDIS_URL` env var, or `client` is required.
 
@@ -64,7 +40,8 @@ Either `url`, the `REDIS_URL` env var, or `client` is required.
 ### Using an existing client
 
 ```typescript title="lib/state.ts" lineNumbers
-
+import { createClient } from "redis";
+import { createRedisState } from "@chat-adapter/state-redis";
 
 const client = createClient({ url: "redis://localhost:6379" });
 await client.connect();
@@ -101,4 +78,4 @@ For serverless deployments (Vercel, AWS Lambda), use a serverless-compatible Red
 
 ## Feature support
 
-<FeatureSupport />
+

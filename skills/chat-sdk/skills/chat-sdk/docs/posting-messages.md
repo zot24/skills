@@ -44,6 +44,7 @@ Under the hood, the SDK parses the markdown into an mdast AST, then each adapter
 For programmatic control over message formatting, use the mdast AST builder functions exported from `chat`. This is the recommended approach for most use cases — it gives you fine-grained control without the overhead of card rendering.
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { root, paragraph, text, strong, link } from "chat";
 
 await thread.post({
   ast: root([
@@ -76,6 +77,7 @@ await thread.post({
 You can also parse a markdown string into an AST, manipulate it, then send it:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { parseMarkdown, stringifyMarkdown } from "chat";
 
 const ast = parseMarkdown("**Hello** world");
 // Manipulate the AST...
@@ -91,6 +93,7 @@ When you need interactive elements like buttons, dropdowns, or structured layout
 Use the function-call API for type-safe card construction:
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { Card, Text, Actions, Button } from "chat";
 
 await thread.post(
   Card({
@@ -120,21 +123,22 @@ You can also use JSX if you configure the `chat` JSX runtime:
 ```
 
 ```tsx title="lib/bot.tsx"
+import { Card, CardText, Actions, Button } from "chat";
 
 await thread.post(
-
-    Your order has been received!
+  <Card title="Order #1234">
+    <CardText>Your order has been received!</CardText>
     <Actions>
       <Button id="approve" style="primary">Approve</Button>
       <Button id="reject" style="danger">Reject</Button>
     </Actions>
-
+  </Card>
 );
 ```
 
-<Callout type="warn">
+
   The JSX syntax requires `jsxImportSource: "chat"` in your `tsconfig.json` (or a per-file `/** @jsxImportSource chat */` pragma). Without this, TypeScript won't recognize the card JSX types. If you run into type issues with JSX, use the function-call syntax instead — it produces the same output with better type inference.
-</Callout>
+
 
 See the [Cards](/docs/cards) page for the full list of card components.
 
@@ -143,6 +147,7 @@ See the [Cards](/docs/cards) page for the full list of card components.
 Pass an AI SDK stream to `thread.post()` to stream a message in real time. The SDK uses platform-native streaming where available and falls back to post-then-edit or buffered delivery depending on the platform.
 
 ```typescript title="lib/bot.ts" lineNumbers
+import { ToolLoopAgent } from "ai";
 
 const agent = new ToolLoopAgent({ model, instructions: "You are a helpful assistant." });
 const result = await agent.stream({ prompt: message.text });

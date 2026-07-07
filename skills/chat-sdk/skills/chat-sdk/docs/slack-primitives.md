@@ -26,9 +26,9 @@ Use the low-level Slack subpaths when your app already owns routing, state, sess
 | `@chat-adapter/slack/api`     | Fetch-based Slack Web API calls, thread replies, views, and files without `@slack/web-api`                   |
 | `@chat-adapter/slack/blocks`  | Runtime-free conversion from simple card objects and input requests to Slack Block Kit                       |
 
-<Callout type="info">
+
   These subpaths are for custom runtimes. If you want Chat SDK to handle webhook routing, state, subscriptions, and platform normalization, use `createSlackAdapter` from `@chat-adapter/slack`.
-</Callout>
+
 
 ## Webhooks
 
@@ -39,6 +39,7 @@ import {
   parseSlackWebhookBody,
   verifySlackRequest,
 } from "@chat-adapter/slack/webhook";
+import { postSlackMessage } from "@chat-adapter/slack/api";
 
 export async function POST(request: Request) {
   const body = await verifySlackRequest(request, {
@@ -72,6 +73,7 @@ export async function POST(request: Request) {
 If you do not need direct access to the verified raw body, `readSlackWebhook` combines verification and parsing:
 
 ```typescript
+import { readSlackWebhook } from "@chat-adapter/slack/webhook";
 
 const payload = await readSlackWebhook(request, {
   signingSecret: process.env.SLACK_SIGNING_SECRET!,
@@ -179,6 +181,7 @@ await sendSlackResponseUrl("https://hooks.slack.com/actions/T/1/abc", {
 Use `callSlackApi` when you need a Slack method that does not have a helper yet:
 
 ```typescript
+import { callSlackApi } from "@chat-adapter/slack/api";
 
 const result = await callSlackApi(
   "reactions.add",
@@ -194,6 +197,7 @@ The subpath also includes `postSlackEphemeral`, `deleteSlackMessage`, `resolveSl
 Use `fetchSlackThreadReplies` when a custom runtime needs to refresh a thread with [`conversations.replies`](https://docs.slack.dev/reference/methods/conversations.replies/):
 
 ```typescript
+import { fetchSlackThreadReplies } from "@chat-adapter/slack/api";
 
 const replies = await fetchSlackThreadReplies({
   channel: payload.continuation.channelId,
@@ -206,6 +210,7 @@ const replies = await fetchSlackThreadReplies({
 Use `openSlackView` to open a modal from an interaction `trigger_id`:
 
 ```typescript
+import { openSlackView } from "@chat-adapter/slack/api";
 
 await openSlackView({
   token: process.env.SLACK_BOT_TOKEN!,
@@ -223,6 +228,7 @@ await openSlackView({
 [Slack's current external upload flow](https://docs.slack.dev/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay) uses `files.getUploadURLExternal`, then uploads bytes to the returned URL, then calls `files.completeUploadExternal`.
 
 ```typescript
+import { uploadSlackFiles } from "@chat-adapter/slack/api";
 
 await uploadSlackFiles(
   [{ data: new Uint8Array([1, 2, 3]), filename: "report.txt" }],
@@ -247,6 +253,7 @@ import {
   cardToSlackBlocks,
   cardToSlackFallbackText,
 } from "@chat-adapter/slack/blocks";
+import { postSlackMessage } from "@chat-adapter/slack/api";
 
 const card = {
   children: [
@@ -280,6 +287,7 @@ import {
   inputRequestToSlackBlocks,
   parseSlackInputResponse,
 } from "@chat-adapter/slack/blocks";
+import { postSlackMessage } from "@chat-adapter/slack/api";
 
 await postSlackMessage({
   blocks: inputRequestToSlackBlocks({

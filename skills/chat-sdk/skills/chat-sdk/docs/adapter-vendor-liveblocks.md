@@ -12,13 +12,12 @@ package: @liveblocks/chat-sdk-adapter
 
 ## Install
 
-<PackageInstall package="@liveblocks/chat-sdk-adapter" />
 
 ## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
-
-
+import { Chat } from "chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
 import {
   createLiveblocksAdapter,
   type LiveblocksAdapter,
@@ -47,44 +46,6 @@ The adapter maps Liveblocks rooms to Chat SDK channels, comment threads to Chat 
 
 ## Configuration
 
-<TypeTable
-  type={{
-  apiKey: {
-    type: "string",
-    description: "Liveblocks secret key (`sk_...`) for REST API calls.",
-  },
-  webhookSecret: {
-    type: "string",
-    description:
-      "Webhook signing secret (`whsec_...`) from the Liveblocks dashboard.",
-  },
-  botUserId: {
-    type: "string",
-    description:
-      "User ID used when the bot creates, edits, or reacts to comments. Must match your app's user identifiers.",
-  },
-  botUserName: {
-    type: "string",
-    default: '"liveblocks-bot"',
-    description: "Display name for the bot.",
-  },
-  resolveUsers: {
-    type: "(args: { userIds: string[] }) => Promise<UserInfo[]>",
-    description:
-      "Resolves user IDs for @mentions. Return one entry per input id in order, or `undefined` to skip.",
-  },
-  resolveGroupsInfo: {
-    type: "(args: { groupIds: string[] }) => Promise<GroupInfo[]>",
-    description:
-      "Resolves group IDs for @mentions. Same ordering rules as `resolveUsers`.",
-  },
-  logger: {
-    type: "Logger",
-    default: 'ConsoleLogger("info")',
-    description: "Chat SDK–compatible logger.",
-  },
-}}
-/>
 
 Resolver return types follow the `@liveblocks/core` user and group metadata shapes (`U["info"]`, `DGI`).
 
@@ -136,7 +97,8 @@ Supported Liveblocks webhook types:
 | `commentReactionRemoved` | Drives reaction handlers           |
 
 ```typescript title="app/api/webhooks/liveblocks/route.ts" lineNumbers
-
+import { after } from "next/server";
+import { bot } from "@/lib/bot";
 
 export async function POST(request: Request) {
   return bot.webhooks.liveblocks(request, {
@@ -199,7 +161,6 @@ await thread.adapter.addReaction(thread.id, message.id, "thumbs_up");
 
 ## Feature support
 
-<FeatureSupport />
 
 ## Resources
 
