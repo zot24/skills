@@ -42,17 +42,20 @@ for APP in "${APPS[@]}"; do
         continue
     fi
 
-    # Extract unique /en/<app>/ links from navigation
+    # Extract unique <app>/ links from navigation, accepting both the legacy
+    # /en/<app>/... form and the current bare /<app>/... form
     PATHS=$(echo "$RAW_HTML" | \
-        grep -oE "href=\"(/en/${APP}/[^\"#]+)\"" | \
-        sed 's/href="//;s/"$//' | \
+        grep -oE "href=\"(/en)?/${APP}/[^\"#]+\"" | \
+        sed 's/href="//;s/"$//;s:^/en/:/:' | \
         grep -vE '\.(css|js|ico|png|jpg|svg)$' | \
-        sort -u)
+        sort -u || true)
 
     if [ -n "$PATHS" ]; then
         COUNT=$(echo "$PATHS" | wc -l | tr -d ' ')
         echo "  Found $COUNT pages for $APP"
         ALL_DISCOVERED="${ALL_DISCOVERED}${PATHS}\n"
+    else
+        echo "  WARNING: No pages found for $APP (page may have been removed from wiki)"
     fi
 done
 
@@ -103,8 +106,8 @@ if [ "$AUTO_ADD" = "true" ]; then
 
         full_url="${BASE_URL}${path}"
 
-        # Generate target filename: /en/sonarr/settings -> sonarr-settings.md
-        filename=$(echo "$path" | sed 's:^/en/::;s:/*$::' | tr '/' '-')
+        # Generate target filename: /sonarr/settings (or legacy /en/sonarr/settings) -> sonarr-settings.md
+        filename=$(echo "$path" | sed 's:^/en/::;s:^/::;s:/*$::' | tr '/' '-')
         target="skills/servarr/docs/${filename}.md"
 
         tmp=$(mktemp)
