@@ -35,7 +35,7 @@ Firecrawl sends webhook events at each stage of a job's lifecycle, so you can tr
 
 All webhook events share this structure:
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "crawl.page",
@@ -60,7 +60,7 @@ All webhook events share this structure:
 
 Sent when the crawl job begins processing.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "crawl.started",
@@ -74,7 +74,7 @@ Sent when the crawl job begins processing.
 
 Sent for each page scraped. The `data` array contains the page content and metadata.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "crawl.page",
@@ -105,7 +105,7 @@ Sent for each page scraped. The `data` array contains the page content and metad
 
 Sent when the crawl job finishes and all pages have been processed.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "crawl.completed",
@@ -121,7 +121,7 @@ Sent when the crawl job finishes and all pages have been processed.
 
 Sent when the batch scrape job begins processing.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "batch_scrape.started",
@@ -135,7 +135,7 @@ Sent when the batch scrape job begins processing.
 
 Sent for each URL scraped. The `data` array contains the page content and metadata.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "batch_scrape.page",
@@ -166,7 +166,7 @@ Sent for each URL scraped. The `data` array contains the page content and metada
 
 Sent when all URLs in the batch have been processed.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "batch_scrape.completed",
@@ -182,7 +182,7 @@ Sent when all URLs in the batch have been processed.
 
 Sent as each monitored page scrape finishes. This event is emitted from the scrape worker path, so it arrives before the full monitor check is reconciled.
 
-```json monitor.page
+```json monitor.page theme={null}
 {
   "success": true,
   "type": "monitor.page",
@@ -226,7 +226,7 @@ Sent as each monitored page scrape finishes. This event is emitted from the scra
 
 Sent when a monitor check finishes. The `data` object contains check status and summary counts. Page-level results are only sent through `monitor.page` events or returned from the monitor check API.
 
-```json monitor.check.completed
+```json monitor.check.completed theme={null}
 {
   "success": true,
   "type": "monitor.check.completed",
@@ -261,7 +261,7 @@ Sent when a monitor check finishes. The `data` object contains check status and 
 
 Sent when the extract job begins processing.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "extract.started",
@@ -275,7 +275,7 @@ Sent when the extract job begins processing.
 
 Sent when extraction finishes successfully. The `data` array contains the extracted data and usage info.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "extract.completed",
@@ -301,7 +301,7 @@ Sent when extraction finishes successfully. The `data` array contains the extrac
 
 Sent when extraction fails. The `error` field contains the failure reason.
 
-```json
+```json theme={null}
 {
   "success": false,
   "type": "extract.failed",
@@ -318,7 +318,7 @@ Sent when extraction fails. The `error` field contains the failure reason.
 
 Sent when the agent job begins processing.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "agent.started",
@@ -332,7 +332,7 @@ Sent when the agent job begins processing.
 
 Sent after each tool execution (scrape, search, etc.).
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "agent.action",
@@ -360,7 +360,7 @@ Sent after each tool execution (scrape, search, etc.).
 
 Sent when the agent finishes successfully. The `data` array contains the extracted data and total credits used.
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "agent.completed",
@@ -383,7 +383,7 @@ Sent when the agent finishes successfully. The `data` array contains the extract
 
 Sent when the agent encounters an error. The `error` field contains the failure reason.
 
-```json
+```json theme={null}
 {
   "success": false,
   "type": "agent.failed",
@@ -402,7 +402,7 @@ Sent when the agent encounters an error. The `error` field contains the failure 
 
 Sent when the agent job is cancelled by the user.
 
-```json
+```json theme={null}
 {
   "success": false,
   "type": "agent.cancelled",
@@ -420,7 +420,7 @@ Sent when the agent job is cancelled by the user.
 
 By default, you receive all events. To subscribe to specific events only, use the `events` array in your webhook config:
 
-```json
+```json theme={null}
 {
   "url": "https://your-app.com/webhook",
   "events": ["completed", "failed"]

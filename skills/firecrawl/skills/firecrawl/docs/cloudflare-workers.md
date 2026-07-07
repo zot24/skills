@@ -15,7 +15,7 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm create cloudflare@latest my-scraper
 cd my-scraper
 npm install firecrawl
@@ -23,7 +23,7 @@ npm install firecrawl
 
 Add your API key as a secret:
 
-```bash
+```bash theme={null}
 wrangler secret put FIRECRAWL_API_KEY
 ```
 
@@ -33,7 +33,8 @@ Create a handler that searches the web and returns results with full page conten
 
 Edit `src/index.ts`:
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
 
 export interface Env {
   FIRECRAWL_API_KEY: string;
@@ -59,7 +60,7 @@ export default {
 
 Add a `/scrape` route to extract clean markdown from any URL.
 
-```typescript
+```typescript theme={null}
 if (request.method === "POST" && url.pathname === "/scrape") {
   const { url: targetUrl } = (await request.json()) as { url: string };
   const result = await firecrawl.scrape(targetUrl);
@@ -71,7 +72,7 @@ if (request.method === "POST" && url.pathname === "/scrape") {
 
 Add an `/interact` route to control a live browser session — click buttons, fill forms, and extract dynamic content.
 
-```typescript
+```typescript theme={null}
 if (request.method === "POST" && url.pathname === "/interact") {
   const result = await firecrawl.scrape("https://www.amazon.com", {
     formats: ["markdown"],
@@ -92,13 +93,13 @@ if (request.method === "POST" && url.pathname === "/interact") {
 
 ## Deploy
 
-```bash
+```bash theme={null}
 wrangler deploy
 ```
 
 ## Test it
 
-```bash
+```bash theme={null}
 curl -X POST https://my-scraper.<your-subdomain>.workers.dev/search \
   -H "Content-Type: application/json" \
   -d '{"query": "firecrawl web scraping"}'

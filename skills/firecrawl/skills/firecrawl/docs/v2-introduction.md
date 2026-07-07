@@ -45,7 +45,7 @@ The Firecrawl API gives you programmatic access to web data. All endpoints share
 
 All requests use the following base URL:
 
-```bash
+```bash theme={null}
 https://api.firecrawl.dev
 ```
 
@@ -53,7 +53,7 @@ https://api.firecrawl.dev
 
 Every request requires an `Authorization` header with your API key:
 
-```bash
+```bash theme={null}
 Authorization: Bearer fc-YOUR-API-KEY
 ```
 

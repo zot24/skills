@@ -15,20 +15,21 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install express firecrawl
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
 ## Search the web
 
-```javascript
-
+```javascript theme={null}
+import express from "express";
+import { Firecrawl } from "firecrawl";
 
 const app = express();
 app.use(express.json());
@@ -50,7 +51,7 @@ app.listen(3000, () => console.log("Server running on port 3000"));
 
 ## Scrape a page
 
-```javascript
+```javascript theme={null}
 app.post("/scrape", async (req, res) => {
   try {
     const { url } = req.body;
@@ -66,7 +67,7 @@ app.post("/scrape", async (req, res) => {
 
 Use interact to control a live browser session — click buttons, fill forms, and extract dynamic content.
 
-```javascript
+```javascript theme={null}
 app.post("/interact", async (req, res) => {
   try {
     const { url } = req.body;
@@ -88,7 +89,7 @@ app.post("/interact", async (req, res) => {
 
 ## Test it
 
-```bash
+```bash theme={null}
 curl -X POST http://localhost:3000/search \
   -H "Content-Type: application/json" \
   -d '{"query": "firecrawl web scraping"}'

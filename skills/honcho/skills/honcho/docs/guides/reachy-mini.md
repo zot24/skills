@@ -31,11 +31,11 @@ When a user returns days later, the robot remembers their name, interests, and p
 
 ## Setup
 
-```bash
+```bash theme={null}
 pip install reachy-mini honcho-ai openai python-dotenv numpy scipy mediapipe face-recognition
 ```
 
-```bash
+```bash theme={null}
 export OPENAI_API_KEY=your_openai_key
 export HONCHO_API_KEY=your_honcho_key  # get at app.honcho.dev
 ```
@@ -54,7 +54,7 @@ Honcho (memory + reasoning per user)
 
 Initialize Honcho with a robot peer (not observed) and dynamic user peers (observed):
 
-```python
+```python theme={null}
 from honcho import Honcho
 from honcho.api_types import PeerConfig
 
@@ -73,7 +73,7 @@ session = await honcho.aio.session(f"chat-{user_id}")
 
 Store messages in the background without blocking the voice loop:
 
-```python
+```python theme={null}
 # Queue messages async - doesn't block audio playback
 await session.aio.add_messages(user_peer.message(transcript))
 await session.aio.add_messages(robot_peer.message(response))
@@ -89,7 +89,7 @@ The robot calls Honcho mid-conversation via OpenAI function calling — fast eno
 | `create_conclusion` | Save important facts to long-term memory           |
 | `see`               | Capture and analyze camera feed                    |
 
-```python
+```python theme={null}
 # Recall - ask Honcho's dialectic API (returns in ~200-500ms)
 result = await user_peer.aio.chat(
     "What do I know about this user?",
@@ -112,7 +112,7 @@ Face recognition identifies returning users. When a new face is detected, the ag
 3. Fetches a briefing from Honcho's dialectic API
 4. Reconnects OpenAI with fresh context and triggers a greeting
 
-```python
+```python theme={null}
 # Get briefing when user is recognized
 briefing = await user_peer.aio.chat(
     "What should I know about this user? Name, interests, recent topics.",
@@ -123,7 +123,7 @@ briefing = await user_peer.aio.chat(
 
 ## System Prompt
 
-```python
+```python theme={null}
 SYSTEM_PROMPT = """You are Reachy, a friendly robot. Keep responses concise.
 
 You have a recall tool for memory. ALWAYS use it before claiming you don't
@@ -132,7 +132,7 @@ know something about the user. Never say "Nice to meet you" if you've met before
 
 ## Run
 
-```bash
+```bash theme={null}
 uv run python main.py
 ```
 

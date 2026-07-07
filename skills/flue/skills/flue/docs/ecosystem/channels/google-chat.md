@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/channels/google-chat
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Google Chat
@@ -58,14 +71,14 @@ An authenticated message is admitted to the agent bound to its Google Chat space
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
-| `GOOGLE_CHAT_APP_URL` | **Required for interaction endpoint-URL authentication** — Exact public interaction endpoint used as the Google OIDC token audience. |
-| `GOOGLE_CHAT_PUBSUB_SUBSCRIPTION` | **Required for Workspace Events** — Exact `projects/<project>/subscriptions/<subscription>` resource required in the push body. |
-| `GOOGLE_CHAT_PUBSUB_AUDIENCE` | **Required for Workspace Events** — Exact audience configured on the authenticated Pub/Sub push subscription. |
-| `GOOGLE_CHAT_PUBSUB_SERVICE_ACCOUNT` | **Required for Workspace Events** — Verifies the service-account identity in the Pub/Sub push OIDC token. |
-| `GOOGLE_CHAT_CLIENT_EMAIL` | **Required for outbound API calls** — Identifies the service account used to request a `chat.bot` access token. |
-| `GOOGLE_CHAT_PRIVATE_KEY` | **Required for outbound API calls** — Signs the service-account JWT assertion used for the OAuth token exchange. |
+| Variable                             | Purpose                                                                                                                              |
+|--------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `GOOGLE_CHAT_APP_URL`                | **Required for interaction endpoint-URL authentication** — Exact public interaction endpoint used as the Google OIDC token audience. |
+| `GOOGLE_CHAT_PUBSUB_SUBSCRIPTION`    | **Required for Workspace Events** — Exact `projects/<project>/subscriptions/<subscription>` resource required in the push body.      |
+| `GOOGLE_CHAT_PUBSUB_AUDIENCE`        | **Required for Workspace Events** — Exact audience configured on the authenticated Pub/Sub push subscription.                        |
+| `GOOGLE_CHAT_PUBSUB_SERVICE_ACCOUNT` | **Required for Workspace Events** — Verifies the service-account identity in the Pub/Sub push OIDC token.                            |
+| `GOOGLE_CHAT_CLIENT_EMAIL`           | **Required for outbound API calls** — Identifies the service account used to request a `chat.bot` access token.                      |
+| `GOOGLE_CHAT_PRIVATE_KEY`            | **Required for outbound API calls** — Signs the service-account JWT assertion used for the OAuth token exchange.                     |
 
 The blueprint installs and configures `@flue/google-chat` for authenticated inbound requests and `jose` for a project-owned outbound Fetch client. After running the command, you will have a new `src/channels/google-chat.ts` module exporting `channel`, `client`, and an application-owned message tool.
 
@@ -83,10 +96,10 @@ For Workspace Events, the audience and service-account email must match the Pub/
 
 ## Supported Webhooks
 
-| Google surface | Webhook path |
-|----|----|
-| [Google Chat interaction events](https://developers.google.com/workspace/chat/receive-respond-interactions) | `/channels/google-chat/interactions` |
-| [Google Workspace Events for Google Chat](https://developers.google.com/workspace/events/guides/events-chat) | `/channels/google-chat/events` |
+| Google surface                                                                                               | Webhook path                         |
+|--------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| [Google Chat interaction events](https://developers.google.com/workspace/chat/receive-respond-interactions)  | `/channels/google-chat/interactions` |
+| [Google Workspace Events for Google Chat](https://developers.google.com/workspace/events/guides/events-chat) | `/channels/google-chat/events`       |
 
 Configure only the surfaces your application handles. Omitting `interactions` or `workspaceEvents` from `createGoogleChatChannel()` omits its route.
 

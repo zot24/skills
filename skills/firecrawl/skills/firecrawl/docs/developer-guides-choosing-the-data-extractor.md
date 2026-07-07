@@ -391,7 +391,7 @@ If you're currently using `/extract`, migration is straightforward:
 
 **Before (extract):**
 
-```python
+```python theme={null}
 result = app.extract(
     urls=["https://example.com/*"],
     prompt="Extract product information",
@@ -401,7 +401,7 @@ result = app.extract(
 
 **After (agent):**
 
-```python
+```python theme={null}
 result = app.agent(
     urls=["https://example.com"],  # Optional - can omit entirely
     prompt="Extract product information from example.com",

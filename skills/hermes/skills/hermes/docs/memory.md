@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -14,10 +17,10 @@ Hermes Agent has bounded, curated memory that persists across sessions. This let
 
 Two files make up the agent's memory:
 
-| File | Purpose | Char Limit |
-|----|----|----|
+| File          | Purpose                                                                 | Char Limit                |
+|---------------|-------------------------------------------------------------------------|---------------------------|
 | **MEMORY.md** | Agent's personal notes — environment facts, conventions, things learned | 2,200 chars (~800 tokens) |
-| **USER.md** | User profile — your preferences, communication style, expectations | 1,375 chars (~500 tokens) |
+| **USER.md**   | User profile — your preferences, communication style, expectations      | 1,375 chars (~500 tokens) |
 
 Both are stored in `~/.hermes/memories/` and are injected into the system prompt as a frozen snapshot at session start. The agent manages its own memory via the `memory` tool — it can add, replace, or remove entries.
 
@@ -30,7 +33,7 @@ Character limits keep memory focused. Memory does **not** auto-compact: when a w
 At the start of every session, memory entries are loaded from disk and rendered into the system prompt as a frozen block:
 
 
-``` text
+``` prism-code
 ══════════════════════════════════════════════
 MEMORY (your personal notes) [67% — 1,474/2,200 chars]
 ══════════════════════════════════════════════
@@ -66,7 +69,7 @@ There is no `read` action — memory content is automatically injected into the 
 The `replace` and `remove` actions use short unique substring matching — you don't need the full entry text. The `old_text` parameter just needs to be a unique substring that identifies exactly one entry:
 
 
-``` python
+``` prism-code
 # If memory contains "User prefers dark mode in all editors"
 memory(action="replace", target="memory",
        old_text="dark mode",
@@ -133,7 +136,7 @@ Memory has strict character limits to keep system prompts bounded:
 When you try to add an entry that would exceed the limit, the tool returns an error:
 
 
-``` json
+``` prism-code
 {
   "success": false,
   "error": "Memory at 2,100/2,200 chars. Adding this entry (250 chars) would exceed the limit. Consolidate now: use 'replace' to merge overlapping entries into shorter ones or 'remove' stale or less important entries (see current_entries below), then retry this add — all in this turn.",
@@ -157,7 +160,7 @@ The agent should then:
 **Compact, information-dense entries work best:**
 
 
-``` text
+``` prism-code
 # Good: Packs multiple related facts
 User runs macOS 14 Sonoma, uses Homebrew, has Docker Desktop and Podman. Shell: zsh with oh-my-zsh. Editor: VS Code with Vim keybindings.
 
@@ -194,7 +197,7 @@ Beyond MEMORY.md and USER.md, the agent can search its past conversations using 
 - The agent can also scroll forward/backward inside any session it finds
 
 
-``` bash
+``` prism-code
 hermes sessions list    # Browse past sessions
 ```
 
@@ -203,21 +206,21 @@ See [Session Search Tool](/docs/user-guide/sessions#session-search-tool) for the
 
 ### session_search vs memory<a href="#session_search-vs-memory" class="hash-link" aria-label="Direct link to session_search vs memory" translate="no" title="Direct link to session_search vs memory">​</a>
 
-| Feature | Persistent Memory | Session Search |
-|----|----|----|
-| **Capacity** | ~1,300 tokens total | Unlimited (all sessions) |
-| **Speed** | Instant (in system prompt) | ~20ms FTS5 query, ~1ms scroll |
-| **Cost** | Token cost in every prompt | Free — no LLM calls |
-| **Use case** | Key facts always available | Finding specific past conversations |
-| **Management** | Manually curated by agent | Automatic — all sessions stored |
-| **Token cost** | Fixed per session (~1,300 tokens) | On-demand (searched when needed) |
+| Feature        | Persistent Memory                 | Session Search                      |
+|----------------|-----------------------------------|-------------------------------------|
+| **Capacity**   | ~1,300 tokens total               | Unlimited (all sessions)            |
+| **Speed**      | Instant (in system prompt)        | ~20ms FTS5 query, ~1ms scroll       |
+| **Cost**       | Token cost in every prompt        | Free — no LLM calls                 |
+| **Use case**   | Key facts always available        | Finding specific past conversations |
+| **Management** | Manually curated by agent         | Automatic — all sessions stored     |
+| **Token cost** | Fixed per session (~1,300 tokens) | On-demand (searched when needed)    |
 
 **Memory** is for critical facts that should always be in context. **Session search** is for "did we discuss X last week?" queries where the agent needs to recall specifics from past conversations.
 
 ## Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" translate="no" title="Direct link to Configuration">​</a>
 
 
-``` yaml
+``` prism-code
 # In ~/.hermes/config.yaml
 memory:
   memory_enabled: true
@@ -232,17 +235,17 @@ memory:
 
 By default the agent saves memory freely — including from the background self-improvement review that runs after a turn. If you'd rather approve saves first, set `memory.write_approval: true`. It's a simple on/off gate applied to **both** foreground turns and the background review:
 
-| `write_approval` | Behaviour |
-|----|----|
-| `false` (default) | Write freely — the gate is off (the pre-gate behaviour). |
-| `true` | Require approval before anything is saved. In the interactive CLI, foreground writes prompt you inline (entries are small enough to read in full). Everywhere else — messaging platforms, scripts, and the background self-improvement review — writes are **staged** for review with `/memory pending`. |
+| `write_approval`  | Behaviour                                                                                                                                                                                                                                                                                                |
+|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `false` (default) | Write freely — the gate is off (the pre-gate behaviour).                                                                                                                                                                                                                                                 |
+| `true`            | Require approval before anything is saved. In the interactive CLI, foreground writes prompt you inline (entries are small enough to read in full). Everywhere else — messaging platforms, scripts, and the background self-improvement review — writes are **staged** for review with `/memory pending`. |
 
 > To turn memory off entirely (not just gate it), set `memory_enabled: false`.
 
 Review staged writes from the CLI or any messaging platform:
 
 
-``` text
+``` prism-code
 /memory pending             # list staged memory writes (auto ones tagged [auto])
 /memory approve <id>        # apply one (or 'all')
 /memory reject <id>         # drop one (or 'all')
@@ -257,17 +260,17 @@ This is the answer to "the agent saved a wrong assumption about me": set `write_
 After a turn, the background self-improvement review may quietly save a memory or update a skill. This is Hermes' consent-aware learning loop: repeated corrections and durable workflow lessons become compact memory entries or procedural skills, while `write_approval` can stage those writes for review before they affect future sessions. By default it surfaces a short `💾 Memory updated` line in chat so you know it happened. Control how chatty that is:
 
 
-``` yaml
+``` prism-code
 display:
   memory_notifications: on    # off | on (default) | verbose
 ```
 
 
-| Value | Behaviour |
-|----|----|
-| `off` | No chat notification. The review still runs and still writes — you just don't see a line for it. |
-| `on` (default) | Generic line, e.g. `💾 Memory updated`, `💾 Skill 'foo' patched`. |
-| `verbose` | Includes a compact preview of what changed, e.g. `💾 Memory ➕ User prefers terse replies` or a `"old" → "new"` skill diff snippet. |
+| Value          | Behaviour                                                                                                                           |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `off`          | No chat notification. The review still runs and still writes — you just don't see a line for it.                                    |
+| `on` (default) | Generic line, e.g. `💾 Memory updated`, `💾 Skill 'foo' patched`.                                                                   |
+| `verbose`      | Includes a compact preview of what changed, e.g. `💾 Memory ➕ User prefers terse replies` or a `"old" → "new"` skill diff snippet. |
 
 > This only governs the **gateway** chat notification. The review itself, and writes to your memory/skill stores, are unaffected by this setting. Set it per-platform via `display.platforms.<platform>.memory_notifications`.
 
@@ -276,7 +279,7 @@ display:
 The review runs on your **main chat model** by default, replaying the conversation — which is already warm in the prompt cache, so it's cheap cache reads. On an expensive main model you can run the review on a cheaper model instead:
 
 
-``` yaml
+``` prism-code
 auxiliary:
   background_review:
     provider: openrouter
@@ -293,7 +296,7 @@ Leave it at `auto` (or set it to your main model) and nothing changes — the re
 Skills use the same on/off gate, but the review UX differs because a `SKILL.md` is far too large to read in a chat bubble:
 
 
-``` yaml
+``` prism-code
 skills:
   write_approval: false     # false = write freely (default) | true = require approval
 ```
@@ -302,7 +305,7 @@ skills:
 When `write_approval: true`, skill writes (create / edit / patch / write_file / delete) always **stage** regardless of origin. You review the one-line gist inline, but the full diff stays out-of-band:
 
 
-``` text
+``` prism-code
 /skills pending             # list staged skill writes + a one-line gist each
 /skills diff <id>           # full unified diff (best viewed in CLI or dashboard)
 /skills approve <id>        # apply it (or 'all')
@@ -320,7 +323,7 @@ For deeper, persistent memory that goes beyond MEMORY.md and USER.md, Hermes shi
 External providers run **alongside** built-in memory (never replacing it) and add capabilities like knowledge graphs, semantic search, automatic fact extraction, and cross-session user modeling.
 
 
-``` bash
+``` prism-code
 hermes memory setup      # pick a provider and configure it
 hermes memory status     # check what's active
 ```

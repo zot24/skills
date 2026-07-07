@@ -41,7 +41,7 @@ Use the `parsers` option to control how PDFs are processed:
 | `fast` | Text-based parsing only (embedded text). Fastest option, but will not extract text from scanned or image-heavy pages. |
 | `ocr`  | Forces OCR parsing on every page. Use for scanned documents or when `auto` misclassifies a page.                      |
 
-```js
+```js theme={null}
 // Object syntax with mode
 parsers: [{ type: "pdf", mode: "ocr", maxPages: 20 }]
 
@@ -104,7 +104,8 @@ Use `/v2/parse` when the source document is local or not publicly accessible by 
 
 ### Example: Scraping an Excel File
 
-```js Node
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({
   // No API key needed to get started — add one for higher rate limits:
@@ -118,7 +119,8 @@ console.log(doc.markdown);
 
 ### Example: Scraping a Word Document
 
-```js Node
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({
   // No API key needed to get started — add one for higher rate limits:
@@ -134,7 +136,7 @@ console.log(doc.markdown);
 
 All supported document types are converted to clean, structured markdown. For example, an Excel file with multiple sheets might be converted to:
 
-```markdown
+```markdown theme={null}
 ## Sheet1
 
 | Name  | Value |

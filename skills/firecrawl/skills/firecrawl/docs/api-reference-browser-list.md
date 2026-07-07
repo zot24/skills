@@ -41,14 +41,14 @@
 
 ### Example Request
 
-```bash
+```bash theme={null}
 curl -X GET "https://api.firecrawl.dev/v2/interact?status=active" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY"
 ```
 
 ### Example Response
 
-```json
+```json theme={null}
 {
   "success": true,
   "sessions": [

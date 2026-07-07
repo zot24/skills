@@ -21,7 +21,7 @@ When `observe_me=true` (the default), Honcho forms one representation per peer, 
 
 You can retrieve a subset of conclusions from a peer's representation using `representation()`:
 
-```python
+```python theme={null}
 # Retrieve conclusions from Honcho's representation of Alice (across all sessions)
 alice_rep = session.representation("alice")
 

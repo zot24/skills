@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/concepts/durable-execution
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Durable Agents
@@ -62,12 +75,12 @@ A file-backed SQLite adapter protects against restart on the same host. Survivin
 
 ### Cloudflare and Node recovery compared
 
-| Failure case | Cloudflare | Node without `db.ts` | Node with durable `db.ts` |
-|----|----|----|----|
-| Process disappears during agent work | Durable Object storage retains accepted work and canonical records. | Process-local state is lost. | Durable stores retain work for replacement-process recovery. |
-| Recovery trigger | Object startup, scheduled wake, and Fiber callbacks. | None after restart. | Replacement-process startup and periodic expired-lease scans. |
-| Ownership | Durable Object routing provides one owner per instance. | One process-local owner. | One live Node owner per instance; shared storage supports replacement, not active-active ownership. |
-| Interrupted workflow | Recovery terminalizes the run and closes its stream. | The run is lost with memory. | The stored run remains orphaned and active. |
+| Failure case                         | Cloudflare                                                          | Node without `db.ts`         | Node with durable `db.ts`                                                                           |
+|--------------------------------------|---------------------------------------------------------------------|------------------------------|-----------------------------------------------------------------------------------------------------|
+| Process disappears during agent work | Durable Object storage retains accepted work and canonical records. | Process-local state is lost. | Durable stores retain work for replacement-process recovery.                                        |
+| Recovery trigger                     | Object startup, scheduled wake, and Fiber callbacks.                | None after restart.          | Replacement-process startup and periodic expired-lease scans.                                       |
+| Ownership                            | Durable Object routing provides one owner per instance.             | One process-local owner.     | One live Node owner per instance; shared storage supports replacement, not active-active ownership. |
+| Interrupted workflow                 | Recovery terminalizes the run and closes its stream.                | The run is lost with memory. | The stored run remains orphaned and active.                                                         |
 
 ### Delegated tasks (subagents)
 

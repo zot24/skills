@@ -15,13 +15,13 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,8 +29,10 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Use Firecrawl in an `action` to handle form submissions. Create `app/routes/search.tsx`:
 
-```tsx
-
+```tsx theme={null}
+import { json, type ActionFunctionArgs } from "@remix-run/node";
+import { Form, useActionData } from "@remix-run/react";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -64,8 +66,10 @@ export default function SearchPage() {
 
 Use Firecrawl in a `loader` to fetch data at request time. Create `app/routes/scrape.tsx`:
 
-```tsx
-
+```tsx theme={null}
+import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -94,8 +98,10 @@ export default function ScrapePage() {
 
 Use interact to control a live browser session — click buttons, fill forms, and extract dynamic content. Create `app/routes/interact.tsx`:
 
-```tsx
-
+```tsx theme={null}
+import { json, type ActionFunctionArgs } from "@remix-run/node";
+import { Form, useActionData } from "@remix-run/react";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

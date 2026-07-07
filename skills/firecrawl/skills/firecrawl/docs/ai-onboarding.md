@@ -49,7 +49,7 @@ The [Firecrawl CLI](/sdks/cli) lets your agent search, scrape, interact, crawl, 
 
 The Firecrawl **skills** are self-contained knowledge packs that AI coding agents like Claude Code, Antigravity, and OpenCode discover and use automatically. A single install command sets up everything — the CLI tools for live web work, the build skills for integrating Firecrawl into application code, and the workflow skills for producing repeatable deliverables:
 
-```bash
+```bash theme={null}
 npx -y firecrawl-cli@latest init --all --browser
 ```
 
@@ -58,14 +58,14 @@ npx -y firecrawl-cli@latest init --all --browser
 
 After install, verify everything is working:
 
-```bash
+```bash theme={null}
 firecrawl --status
 firecrawl scrape "https://firecrawl.dev"
 ```
 
 To reinstall or scope to a specific agent later:
 
-```bash
+```bash theme={null}
 firecrawl setup skills      # CLI + build skills
 firecrawl setup workflows   # workflow skills
 ```
@@ -331,7 +331,7 @@ Wire it into your agent's error-handling flow so it can self-recover from scrapi
 
 Send a question, plus an optional `rationale` to give the support agent context about what your end user is trying to accomplish:
 
-```bash
+```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v2/support/ask \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
   -H "Content-Type: application/json" \
@@ -359,7 +359,7 @@ https://mcp.firecrawl.dev/{FIRECRAWL_API_KEY}/v2/mcp
 
 Or add the local server to any MCP client:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {

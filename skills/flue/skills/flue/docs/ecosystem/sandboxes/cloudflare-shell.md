@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/sandboxes/cloudflare-shell
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Cloudflare Shell
@@ -68,14 +81,14 @@ Create a workspace, then pass it with the `worker_loaders` binding to `getShellS
 
 ## Configure
 
-| Requirement | Purpose |
-|----|----|
-| Cloudflare target | **Required** — Runs the Workspace and Worker Loader integration. |
-| `@cloudflare/shell` package | **Required** — Provides the durable Workspace. |
-| `@cloudflare/codemode` package | **Required** — Provides code-oriented model operations. |
+| Requirement                               | Purpose                                                                                                                              |
+|-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| Cloudflare target                         | **Required** — Runs the Workspace and Worker Loader integration.                                                                     |
+| `@cloudflare/shell` package               | **Required** — Provides the durable Workspace.                                                                                       |
+| `@cloudflare/codemode` package            | **Required** — Provides code-oriented model operations.                                                                              |
 | `worker_loaders` binding such as `LOADER` | **Required on Cloudflare** — Executes JavaScript against Workspace state; this is a Cloudflare binding, not an environment variable. |
-| Environment-variable credentials | **Not required** — The integration uses the `worker_loaders` binding instead. |
-| Ordinary Linux shell | **Not provided** — This adapter provides a model-facing `code` tool, not shell command execution. |
+| Environment-variable credentials          | **Not required** — The integration uses the `worker_loaders` binding instead.                                                        |
+| Ordinary Linux shell                      | **Not provided** — This adapter provides a model-facing `code` tool, not shell command execution.                                    |
 
 Import the generated helpers from your project adapter file, not from `@flue/runtime/cloudflare`:
 

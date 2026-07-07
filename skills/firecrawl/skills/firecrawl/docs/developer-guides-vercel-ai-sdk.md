@@ -12,13 +12,13 @@ Firecrawl tools for the Vercel AI SDK. Search, scrape, interact with pages, and 
 
 ## Install
 
-```bash
+```bash theme={null}
 npm install firecrawl-aisdk ai
 ```
 
 Set environment variables:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-your-key       # https://firecrawl.dev
 AI_GATEWAY_API_KEY=your-key         # https://vercel.com/ai-gateway
 ```
@@ -31,8 +31,9 @@ AI_GATEWAY_API_KEY=your-key         # https://vercel.com/ai-gateway
 
 `FirecrawlTools()` bundles `search`, `scrape`, and `interact` by default.
 
-```typescript
-
+```typescript theme={null}
+import { generateText, stepCountIs } from 'ai';
+import { FirecrawlTools } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -51,8 +52,9 @@ const { text } = await generateText({
 
 `FirecrawlTools()` gives you the default tools plus an auto-generated `systemPrompt` you can pass to `generateText`.
 
-```typescript
-
+```typescript theme={null}
+import { generateText, stepCountIs } from 'ai';
+import { FirecrawlTools } from 'firecrawl-aisdk';
 
 const tools = FirecrawlTools();
 
@@ -67,7 +69,7 @@ const { text } = await generateText({
 
 You can customize defaults, opt into async tools, or disable individual tools:
 
-```typescript
+```typescript theme={null}
 const tools = FirecrawlTools({
   search: { limit: 5 },
   scrape: { formats: ['markdown'], onlyMainContent: true },
@@ -77,7 +79,7 @@ const tools = FirecrawlTools({
 });
 ```
 
-```typescript
+```typescript theme={null}
 // Disable interact, keep search + scrape
 FirecrawlTools({ interact: false });
 
@@ -90,7 +92,7 @@ FirecrawlTools({ all: true });
 
 When scraping to answer a question about a page, use the `question` format:
 
-```typescript
+```typescript theme={null}
 formats: [{ type: 'question', question: 'What does this page say about pricing and rate limits?' }]
 ```
 
@@ -100,8 +102,9 @@ Use `formats: ['markdown']` only when you need the full page content.
 
 Every tool can be used directly or called with options:
 
-```typescript
-
+```typescript theme={null}
+import { generateText } from 'ai';
+import { scrape, search } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -114,8 +117,9 @@ const customScrape = scrape({ apiKey: 'fc-custom-key', apiUrl: 'https://api.fire
 
 ### Search + Scrape
 
-```typescript
-
+```typescript theme={null}
+import { generateText } from 'ai';
+import { search, scrape } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -126,8 +130,9 @@ const { text } = await generateText({
 
 ### Map
 
-```typescript
-
+```typescript theme={null}
+import { generateText } from 'ai';
+import { map } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -138,8 +143,9 @@ const { text } = await generateText({
 
 ### Stream
 
-```typescript
-
+```typescript theme={null}
+import { streamText, stepCountIs } from 'ai';
+import { scrape } from 'firecrawl-aisdk';
 
 const result = streamText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -159,8 +165,9 @@ await result.fullStream;
 
 `interact()` creates a scrape-backed interactive session. Call `start(url)` to bootstrap a session and get a live view URL, then let the model reuse that session through the `interact` tool.
 
-```typescript
-
+```typescript theme={null}
+import { generateText, stepCountIs } from 'ai';
+import { interact, search } from 'firecrawl-aisdk';
 
 const interactTool = interact();
 console.log('Live view:', await interactTool.start('https://news.ycombinator.com'));
@@ -179,7 +186,7 @@ If you need the explicit live view URL after startup, use `interactTool.interact
 
 Reuse browser state across sessions with profiles:
 
-```typescript
+```typescript theme={null}
 const interactTool = interact({
   profile: { name: 'my-session', saveChanges: true },
 });
@@ -193,8 +200,9 @@ Crawl, batch scrape, and agent return a job ID. Pair them with `poll`.
 
 ### Crawl
 
-```typescript
-
+```typescript theme={null}
+import { generateText } from 'ai';
+import { crawl, poll } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -205,8 +213,9 @@ const { text } = await generateText({
 
 ### Batch Scrape
 
-```typescript
-
+```typescript theme={null}
+import { generateText } from 'ai';
+import { batchScrape, poll } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -219,8 +228,9 @@ const { text } = await generateText({
 
 Autonomous web data gathering that searches, navigates, and extracts on its own.
 
-```typescript
-
+```typescript theme={null}
+import { generateText, stepCountIs } from 'ai';
+import { agent, poll } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
   model: 'anthropic/claude-sonnet-4-5',
@@ -232,8 +242,9 @@ const { text } = await generateText({
 
 ## Logging
 
-```typescript
-
+```typescript theme={null}
+import { generateText } from 'ai';
+import { logStep, scrape, stepLogger } from 'firecrawl-aisdk';
 
 const logger = stepLogger();
 
@@ -258,7 +269,7 @@ await generateText({
 
 ## All Exports
 
-```typescript
+```typescript theme={null}
 import {
   // Core tools
   search,             // Search the web

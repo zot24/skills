@@ -12,7 +12,7 @@ Learn how to effectively scrape Wikipedia for research, knowledge extraction, an
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install firecrawl zod
 ```
 
@@ -28,8 +28,9 @@ npm install firecrawl zod
 
 Extract structured data from Wikipedia articles using Zod schemas.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { z } from 'zod';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -53,7 +54,8 @@ console.log(result.json);
 
 Find articles on Wikipedia.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -72,7 +74,8 @@ console.log(searchResult);
 
 Scrape a single Wikipedia article.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -88,7 +91,8 @@ console.log(result);
 
 Discover all available URLs in a Wikipedia portal or category. Note: Map returns URLs only, without content.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -102,7 +106,8 @@ console.log(mapResult.links);
 
 Crawl multiple pages from Wikipedia documentation or categories.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -120,7 +125,8 @@ console.log(crawlResult.data);
 
 Scrape multiple Wikipedia URLs simultaneously.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

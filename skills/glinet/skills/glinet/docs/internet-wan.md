@@ -30,10 +30,6 @@ gl-inet/docs4.x
 
 <a href="../internet_cellular/" class="md-nav__link"><span class="md-ellipsis"> Cellular </span></a>
 
-<a href="../sms/" class="md-nav__link"><span class="md-ellipsis"> SMS </span></a>
-
-<a href="../dual-ethernet_wan/" class="md-nav__link"><span class="md-ellipsis"> Dual-Ethernet WAN </span></a>
-
 
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 

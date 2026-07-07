@@ -2,6 +2,49 @@
 
 
 
+> ## Documentation Index
+>
+> Fetch the complete documentation index at: [/llms.txt](/llms.txt)
+>
+> Use this file to discover all available pages before exploring further.
+
+
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
+
+
+<a href="/" class="select-none" data-state="closed" data-slot="context-menu-trigger" style="-webkit-touch-callout:none"><span class="sr-only">1Password Developer home page</span><img src="https://mintcdn.com/ab-634991b8/lHrfVfSCdefFz8U5/static/img/logo-dark.svg?fit=max&amp;auto=format&amp;n=lHrfVfSCdefFz8U5&amp;q=85&amp;s=29d1c9358888a723dddd8a89a3b6f71d" class="nav-logo w-auto h-7 relative object-contain shrink-0 block dark:hidden" alt="light logo" /><img src="https://mintcdn.com/ab-634991b8/lHrfVfSCdefFz8U5/static/img/logo-light.svg?fit=max&amp;auto=format&amp;n=lHrfVfSCdefFz8U5&amp;q=85&amp;s=119233092720e49043d6f42ff71125f1" class="nav-logo w-auto h-7 relative object-contain shrink-0 hidden dark:block" alt="dark logo" /></a>
+
+
+Search...
+
+
+Concepts
+
+
+Item JSON template
+
+
+<a href="/get-started" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get Started</a>
+
+
+<a href="/security-for-ai" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Security for AI</a>
+
+
+<a href="/environments" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Environments</a>
+
+
+<a href="/ssh" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">SSH &amp; Git</a>
+
+
+<a href="/cli" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200 [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]" data-active="true" aria-current="location">CLI</a>
+
+
+<a href="/sdks" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">SDKs</a>
+
+
+More Tools
+
+
 Concepts
 
 
@@ -51,10 +94,10 @@ Copy page
 | `category` | The item’s category.                         |
 
 
-| Name | Description |
-|----|----|
-| `id` | The identifier for the section. If the item has multiple sections, each ID must be unique. |
-| `label` | The name of the section displayed in 1Password. |
+| Name    | Description                                                                                |
+|---------|--------------------------------------------------------------------------------------------|
+| `id`    | The identifier for the section. If the item has multiple sections, each ID must be unique. |
+| `label` | The name of the section displayed in 1Password.                                            |
 
 
 View a section JSON object
@@ -68,13 +111,13 @@ View a section JSON object
 ```
 
 
-| Name | Description |
-|----|----|
-| `id` | The field’s ID. Each ID should be unique. If left empty, 1Password will generate a random ID. |
-| `section id` | The ID of the section where the field is located. Only required if located in a custom section. |
-| `type` | The field’s type. <a href="/cli/item-fields#custom-fields" class="link">Learn more about custom field types.</a> |
-| `label` | The name of the field displayed in 1Password. |
-| `value` | The information saved in the field. Depending on its type, it can be a string, a secret, a number, or a date. |
+| Name         | Description                                                                                                      |
+|--------------|------------------------------------------------------------------------------------------------------------------|
+| `id`         | The field’s ID. Each ID should be unique. If left empty, 1Password will generate a random ID.                    |
+| `section id` | The ID of the section where the field is located. Only required if located in a custom section.                  |
+| `type`       | The field’s type. <a href="/cli/item-fields#custom-fields" class="link">Learn more about custom field types.</a> |
+| `label`      | The name of the field displayed in 1Password.                                                                    |
+| `value`      | The information saved in the field. Depending on its type, it can be a string, a secret, a number, or a date.    |
 
 
 View a field JSON object
@@ -101,7 +144,7 @@ View a field JSON object
 
 - <div id="in-the-app">
 
-  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" data-component-part="tab-button" data-active="true" data-testid="tab-In the app">
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-In the app">
 
   In the app
 
@@ -111,7 +154,7 @@ View a field JSON object
 
 - <div id="in-the-json-template">
 
-  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" data-component-part="tab-button" data-active="false" data-testid="tab-In the JSON template">
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-gray-900 border-transparent hover:border-gray-300 dark:text-gray-200 dark:hover:border-gray-700" component-part="tab-button" active="false" testid="tab-In the JSON template">
 
   In the JSON template
 
@@ -237,5 +280,13 @@ Was this page helpful?
 
 
 <a href="/cli/item-fields" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Item fields</span></a><a href="/cli/secret-reference-syntax" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Secret reference syntax</span></a>
+
+
+Responses are generated using AI and may contain mistakes.
+
+
+<a href="mailto:support@1password.com" class="group flex justify-between items-center gap-1 mt-2 py-1 transition-colors duration-200" data-component-part="contact-support-button"><span data-component-part="contact-support-icon"></span></a>
+
+Contact support
 
 

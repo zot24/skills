@@ -17,7 +17,7 @@
 
 Add your API key to your Rails credentials or environment:
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -25,7 +25,7 @@ export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create `app/services/firecrawl_service.rb`:
 
-```ruby
+```ruby theme={null}
 require "net/http"
 require "json"
 require "uri"
@@ -97,13 +97,13 @@ end
 
 Generate a controller:
 
-```bash
+```bash theme={null}
 rails generate controller Firecrawl search scrape interact --skip-routes
 ```
 
 Edit `app/controllers/firecrawl_controller.rb`:
 
-```ruby
+```ruby theme={null}
 class FirecrawlController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -135,7 +135,7 @@ end
 
 In `config/routes.rb`:
 
-```ruby
+```ruby theme={null}
 Rails.application.routes.draw do
   post "api/search", to: "firecrawl#search"
   post "api/scrape", to: "firecrawl#scrape"
@@ -145,7 +145,7 @@ end
 
 ## Test it
 
-```bash
+```bash theme={null}
 rails server
 
 # Search the web

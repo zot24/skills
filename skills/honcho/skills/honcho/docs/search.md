@@ -161,7 +161,7 @@ Combine Peer-level search with a `session_id` filter to get messages from a Peer
 
 Search returns an object containing an `items` array of message objects:
 
-```json
+```json theme={null}
 {
   "items": [
     {

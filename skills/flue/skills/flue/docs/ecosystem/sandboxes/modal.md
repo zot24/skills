@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/sandboxes/modal
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Modal
@@ -61,15 +74,15 @@ Passing `modal(sandbox)` as an agent’s `sandbox` exposes the created Modal San
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
-| `MODAL_TOKEN_ID` | **Required without `~/.modal.toml`** — Identifies the Modal token when file-based credentials are unavailable. |
+| Variable             | Purpose                                                                                                           |
+|----------------------|-------------------------------------------------------------------------------------------------------------------|
+| `MODAL_TOKEN_ID`     | **Required without `~/.modal.toml`** — Identifies the Modal token when file-based credentials are unavailable.    |
 | `MODAL_TOKEN_SECRET` | **Required without `~/.modal.toml`** — Authenticates the Modal token when file-based credentials are unavailable. |
 
-| Requirement | Purpose |
-|----|----|
-| `modal` package | **Required** — Provides the Modal JavaScript SDK. |
-| Node.js 22 or later | **Required** — Runs the SDK used by the generated adapter. |
+| Requirement          | Purpose                                                                            |
+|----------------------|------------------------------------------------------------------------------------|
+| `modal` package      | **Required** — Provides the Modal JavaScript SDK.                                  |
+| Node.js 22 or later  | **Required** — Runs the SDK used by the generated adapter.                         |
 | Suitable Modal image | **Required** — Provides the shell and system utilities required by the agent work. |
 
 ## Choose this adapter when

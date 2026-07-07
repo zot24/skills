@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/cli/overview
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # CLI
@@ -60,15 +73,15 @@ A build packages the discovered application for its runtime target. It does not 
 
 ## Command reference
 
-| Command | Description |
-|----|----|
-| [`flue init`](/docs/cli/init/) | Create an initial `flue.config.ts`. |
-| [`flue dev`](/docs/cli/dev/) | Serve and watch the local application. |
-| [`flue run`](/docs/cli/run/) | Execute one agent prompt or workflow invocation, then exit. |
-| [`flue build`](/docs/cli/build/) | Create deployable application artifacts. |
-| [`flue add`](/docs/cli/add/) | Fetch sandbox, channel, or database installation blueprints for a coding agent. |
+| Command                            | Description                                                                     |
+|------------------------------------|---------------------------------------------------------------------------------|
+| [`flue init`](/docs/cli/init/)     | Create an initial `flue.config.ts`.                                             |
+| [`flue dev`](/docs/cli/dev/)       | Serve and watch the local application.                                          |
+| [`flue run`](/docs/cli/run/)       | Execute one agent prompt or workflow invocation, then exit.                     |
+| [`flue build`](/docs/cli/build/)   | Create deployable application artifacts.                                        |
+| [`flue add`](/docs/cli/add/)       | Fetch sandbox, channel, or database installation blueprints for a coding agent. |
 | [`flue update`](/docs/cli/update/) | Fetch a current blueprint so a coding agent can apply its newer upgrade guides. |
-| [`flue docs`](/docs/cli/docs/) | List, read, and search the bundled Flue documentation. |
+| [`flue docs`](/docs/cli/docs/)     | List, read, and search the bundled Flue documentation.                          |
 
 
 ## Docs Navigation

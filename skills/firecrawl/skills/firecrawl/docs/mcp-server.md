@@ -32,25 +32,25 @@ You can either use our remote hosted URL or run the server locally. Get your API
 
 With an API key (unlocks every tool plus higher limits):
 
-```bash
+```bash theme={null}
 https://mcp.firecrawl.dev/{FIRECRAWL_API_KEY}/v2/mcp
 ```
 
 Or connect without an API key to get started on the remote keyless free tier (rate-limited per IP; see [Rate Limits](/rate-limits#keyless-no-api-key) for the current tool list):
 
-```bash
+```bash theme={null}
 https://mcp.firecrawl.dev/v2/mcp
 ```
 
 ### Running with npx
 
-```bash
+```bash theme={null}
 env FIRECRAWL_API_KEY=fc-YOUR_API_KEY npx -y firecrawl-mcp
 ```
 
 ### Manual Installation
 
-```bash
+```bash theme={null}
 npm install -g firecrawl-mcp
 ```
 
@@ -107,7 +107,7 @@ After adding, refresh the MCP server list to see the new tools. The Composer Age
 
 Add this to your `./codeium/windsurf/model_config.json`:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "mcp-server-firecrawl": {
@@ -125,7 +125,7 @@ Add this to your `./codeium/windsurf/model_config.json`:
 
 To run the server using streamable HTTP transport locally instead of the default stdio transport:
 
-```bash
+```bash theme={null}
 env HTTP_STREAMABLE_SERVER=true FIRECRAWL_API_KEY=fc-YOUR_API_KEY npx -y firecrawl-mcp
 ```
 
@@ -135,7 +135,7 @@ Use the url: [http://localhost:3000/v2/mcp](http://localhost:3000/v2/mcp) or [ht
 
 To install Firecrawl for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@mendableai/mcp-server-firecrawl):
 
-```bash
+```bash theme={null}
 npx -y @smithery/cli install @mendableai/mcp-server-firecrawl --client claude
 ```
 
@@ -147,7 +147,7 @@ For one-click installation, click one of the install buttons below\...
 
 For manual installation, add the following JSON block to your User Settings (JSON) file in VS Code. You can do this by pressing `Ctrl + Shift + P` and typing `Preferences: Open User Settings (JSON)`.
 
-```json
+```json theme={null}
 {
   "mcp": {
     "inputs": [
@@ -173,7 +173,7 @@ For manual installation, add the following JSON block to your User Settings (JSO
 
 Optionally, you can add it to a file called `.vscode/mcp.json` in your workspace. This will allow you to share the configuration with others:
 
-```json
+```json theme={null}
 {
   "inputs": [
     {
@@ -207,7 +207,7 @@ The MCP server still works fine when invoked via other extensions, but the issue
 
 Add this to the Claude config file:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {
@@ -222,7 +222,7 @@ Add this to the Claude config file:
 
 If you get a "Couldn't reach the MCP server" error, your Claude Desktop version may not support streamable HTTP transport. Use the local npx approach instead (requires [Node.js](https://nodejs.org)):
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {
@@ -242,7 +242,7 @@ If you see a `spawn npx ENOENT` error, Node.js is not installed or not in your s
 
 Add the Firecrawl MCP server using the Claude Code CLI. You can use the remote hosted URL or run locally:
 
-```bash
+```bash theme={null}
 # Remote hosted URL (recommended)
 claude mcp add --transport http firecrawl https://mcp.firecrawl.dev/your-api-key/v2/mcp
 
@@ -261,7 +261,7 @@ Google Antigravity allows you to configure MCP servers directly through its Agen
 3. Select **View raw config** to open your local `mcp_config.json` file
 4. Add the following configuration:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {
@@ -299,7 +299,7 @@ https://mcp.firecrawl.dev/{YOUR_FIRECRAWL_API_KEY}/v2/mcp
 
 For self-hosted deployments, run the MCP server with npx and enable HTTP transport mode:
 
-```bash
+```bash theme={null}
 env HTTP_STREAMABLE_SERVER=true \
     FIRECRAWL_API_KEY=fc-YOUR_API_KEY \
     FIRECRAWL_API_URL=YOUR_FIRECRAWL_INSTANCE \
@@ -325,13 +325,13 @@ This will start the server on `http://localhost:3000/v2/mcp` which you can use i
 
 For cloud API usage:
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_KEY=your-api-key
 ```
 
 For self-hosted instance:
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_URL=https://firecrawl.your-domain.com
 export FIRECRAWL_API_KEY=your-api-key  # If your instance requires auth
 ```
@@ -340,7 +340,7 @@ export FIRECRAWL_API_KEY=your-api-key  # If your instance requires auth
 
 Add this to your `claude_desktop_config.json`:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "mcp-server-firecrawl": {
@@ -372,7 +372,7 @@ Rate limits are enforced by Firecrawl. Use an API key for higher limits and acce
 
 Scrape content from a single URL with advanced options.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_scrape",
   "arguments": {
@@ -390,7 +390,7 @@ Scrape content from a single URL with advanced options.
 
 To redact personally identifiable information, include `redactPII` in the scrape tool arguments.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_scrape",
   "arguments": {
@@ -405,7 +405,7 @@ To redact personally identifiable information, include `redactPII` in the scrape
 
 Map a website to discover all indexed URLs on the site.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_map",
   "arguments": {
@@ -435,7 +435,7 @@ Map a website to discover all indexed URLs on the site.
 
 Search the web and optionally extract content from search results.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_search",
   "arguments": {
@@ -466,7 +466,7 @@ Search the web and optionally extract content from search results.
 
 Parse a local file such as a PDF, DOCX, XLSX, or HTML document into clean, LLM-ready data.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_parse",
   "arguments": {
@@ -502,7 +502,7 @@ The upload command sends the file bytes to a short-lived signed upload target. I
 
 Start an asynchronous crawl with advanced options.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_crawl",
   "arguments": {
@@ -519,7 +519,7 @@ Start an asynchronous crawl with advanced options.
 
 Check the status of a crawl job.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_check_crawl_status",
   "arguments": {
@@ -534,7 +534,7 @@ Check the status of a crawl job.
 
 Extract structured information from web pages using LLM capabilities. Supports both cloud AI and self-hosted LLM extraction.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_extract",
   "arguments": {
@@ -558,7 +558,7 @@ Extract structured information from web pages using LLM capabilities. Supports b
 
 Example response:
 
-```json
+```json theme={null}
 {
   "content": [
     {
@@ -589,7 +589,7 @@ When using a self-hosted instance, the extraction will use your configured LLM. 
 
 Autonomous web research agent that independently browses the internet, searches for information, navigates through pages, and extracts structured data based on your query. This runs asynchronously -- it returns a job ID immediately, and you poll `firecrawl_agent_status` to check when complete and retrieve results.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_agent",
   "arguments": {
@@ -616,7 +616,7 @@ Autonomous web research agent that independently browses the internet, searches 
 
 You can also provide specific URLs for the agent to focus on:
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_agent",
   "arguments": {
@@ -640,7 +640,7 @@ You can also provide specific URLs for the agent to focus on:
 
 Check the status of an agent job and retrieve results when complete. Poll every 15-30 seconds and keep polling for at least 2-3 minutes before considering the request failed.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_agent_status",
   "arguments": {
@@ -674,7 +674,7 @@ Do not pass both `url` and `scrapeId`. Provide either `prompt` or `code`. `scrap
 
 **URL mode example:**
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_interact",
   "arguments": {
@@ -686,7 +686,7 @@ Do not pass both `url` and `scrapeId`. Provide either `prompt` or `code`. `scrap
 
 **Scrape reuse example:**
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_interact",
   "arguments": {
@@ -714,7 +714,7 @@ Do not pass both `url` and `scrapeId`. Provide either `prompt` or `code`. `scrap
 
 Stop an interact session for a scraped page. Call this when you are done interacting to free resources.
 
-```json
+```json theme={null}
 {
   "name": "firecrawl_interact_stop",
   "arguments": {
@@ -761,7 +761,7 @@ The server provides robust error handling:
 
 Example error response:
 
-```json
+```json theme={null}
 {
   "content": [
     {
@@ -775,7 +775,7 @@ Example error response:
 
 ## Development
 
-```bash
+```bash theme={null}
 # Install dependencies
 npm install
 

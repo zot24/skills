@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/sdk/runs
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # client.runs
@@ -55,13 +68,13 @@ for await (const event of client.runs.stream(run.runId, { live: true })) {
 
 ### `FlueStreamOptions`
 
-| Option | Type | Default | Description |
-|----|----|----|----|
-| `offset` | `string` | `"-1"` | Starting offset. `"-1"` for full history, `"now"` for future events only, or an opaque offset from a previous read. |
-| `tail` | `number` | — | With `offset: "-1"`, start far enough back to read at most the latest N events. Must be an integer of at least 1. |
-| `live` | `boolean | 'sse' | 'long-poll'` | `true` | Enable live tailing. `true` uses long-poll; pass `'sse'` explicitly for SSE. |
-| `signal` | `AbortSignal` | — | Stop consuming events when aborted. |
-| `backoffOptions` | `BackoffOptions` | — | Configure reconnect retry behavior. |
+| Option           | Type                            | Default | Description                                                                                                         |
+|------------------|---------------------------------|---------|---------------------------------------------------------------------------------------------------------------------|
+| `offset`         | `string`                        | `"-1"`  | Starting offset. `"-1"` for full history, `"now"` for future events only, or an opaque offset from a previous read. |
+| `tail`           | `number`                        | —       | With `offset: "-1"`, start far enough back to read at most the latest N events. Must be an integer of at least 1.   |
+| `live`           | `boolean | 'sse' | 'long-poll'` | `true`  | Enable live tailing. `true` uses long-poll; pass `'sse'` explicitly for SSE.                                        |
+| `signal`         | `AbortSignal`                   | —       | Stop consuming events when aborted.                                                                                 |
+| `backoffOptions` | `BackoffOptions`                | —       | Configure reconnect retry behavior.                                                                                 |
 
 `tail` is available anywhere these options are accepted, including `client.runs.events()`. It only modifies the `"-1"` start; it has no effect with `"now"` or a concrete resume offset. There is no upper cap.
 

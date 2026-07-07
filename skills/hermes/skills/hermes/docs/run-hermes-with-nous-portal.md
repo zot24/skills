@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -27,7 +30,7 @@ Already subscribed? Skip to step 2.
 ## 2. Run the one-shot setup<a href="#2-run-the-one-shot-setup" class="hash-link" aria-label="Direct link to 2. Run the one-shot setup" translate="no" title="Direct link to 2. Run the one-shot setup">​</a>
 
 
-``` bash
+``` prism-code
 hermes setup --portal
 ```
 
@@ -47,7 +50,7 @@ When it finishes, you're back at your terminal ready to chat.
 OAuth needs a browser, but the loopback callback runs on the machine where Hermes is running. Two options:
 
 
-``` bash
+``` prism-code
 # Option A: SSH port forwarding (preferred)
 ssh -N -L 8642:127.0.0.1:8642 user@remote-host    # in a local terminal
 hermes setup --portal                              # on the remote, open the printed URL in your local browser
@@ -63,7 +66,7 @@ See [OAuth over SSH / Remote Hosts](/docs/guides/oauth-over-ssh) for the full wa
 ## 3. Verify it worked<a href="#3-verify-it-worked" class="hash-link" aria-label="Direct link to 3. Verify it worked" translate="no" title="Direct link to 3. Verify it worked">​</a>
 
 
-``` bash
+``` prism-code
 hermes portal info
 ```
 
@@ -71,7 +74,7 @@ hermes portal info
 You should see:
 
 
-``` text
+``` prism-code
   Nous Portal
   ───────────
   Auth:    ✓ logged in
@@ -92,7 +95,7 @@ If any line shows something other than "via Nous Portal" or the auth line says "
 ## 4. Run your first conversation<a href="#4-run-your-first-conversation" class="hash-link" aria-label="Direct link to 4. Run your first conversation" translate="no" title="Direct link to 4. Run your first conversation">​</a>
 
 
-``` bash
+``` prism-code
 hermes chat
 ```
 
@@ -100,7 +103,7 @@ hermes chat
 Try something that exercises both the model and the Tool Gateway:
 
 
-``` text
+``` prism-code
 Hey, search the web for "Hermes Agent release notes" and summarize the top 3 hits.
 ```
 
@@ -112,7 +115,7 @@ You should see Hermes call `web_search` (Firecrawl-backed, through the gateway) 
 `hermes setup --portal` lets you pick a model during setup, but the whole point of the subscription is access to the full catalog — switch any time with `/model` mid-session:
 
 
-``` bash
+``` prism-code
 /model anthropic/claude-sonnet-4.6     # best general-purpose agentic
 /model openai/gpt-5.4                  # strong reasoning + tool calling
 /model google/gemini-2.5-pro           # huge context window
@@ -124,7 +127,7 @@ You should see Hermes call `web_search` (Firecrawl-backed, through the gateway) 
 Or pop the picker to browse:
 
 
-``` bash
+``` prism-code
 /model
 ```
 
@@ -132,7 +135,7 @@ Or pop the picker to browse:
 Pick a different default permanently:
 
 
-``` bash
+``` prism-code
 # in your terminal, outside any session
 hermes config set model.default anthropic/claude-sonnet-4.6
 ```
@@ -149,7 +152,7 @@ The Portal's own <a href="https://portal.nousresearch.com/info" target="_blank" 
 The gateway is opt-in per tool, not all-or-nothing. If you already have a Browserbase account and want to keep using it while routing web search and image generation through Nous, that's supported:
 
 
-``` bash
+``` prism-code
 hermes tools
 # → Web search       → "Nous Subscription"     (recommended)
 # → Image generation → "Nous Subscription"     (recommended)
@@ -163,7 +166,7 @@ These rows appear in `hermes tools` even before you've logged into Nous Portal �
 Verify your mix with:
 
 
-``` bash
+``` prism-code
 hermes portal tools
 ```
 
@@ -175,7 +178,7 @@ You'll see per-tool routing — `via Nous Portal` for the ones routed through th
 Because the Tool Gateway includes OpenAI TTS, [voice mode](/docs/user-guide/features/voice-mode) works without a separate OpenAI key:
 
 
-``` bash
+``` prism-code
 hermes setup voice
 # → pick "Nous Subscription" for TTS
 # → pick a speech-to-text backend (local faster-whisper is free, no setup)
@@ -189,7 +192,7 @@ Then in any messaging-platform session (Telegram, Discord, Signal, etc.), send a
 The Portal subscription works for [cron jobs](/docs/user-guide/features/cron) and [batch processing](/docs/user-guide/features/batch-processing) the same way it works for interactive chat — the OAuth refresh token is reused automatically. No additional setup; just schedule cron jobs and they'll bill against your subscription.
 
 
-``` bash
+``` prism-code
 hermes cron create "every day at 9am" \
   "Search the web for top AI news and summarize the 5 most important stories" \
   --name "Daily AI news"
@@ -211,7 +214,7 @@ For team setups where multiple humans share a machine, each human has their own 
 The OAuth flow didn't complete. Re-run it:
 
 
-``` bash
+``` prism-code
 hermes portal
 ```
 
@@ -223,7 +226,7 @@ If your browser doesn't open or the callback fails, you're likely on a remote/he
 Your local config drifted. The OAuth worked but `model.provider` is still pointing at a different provider. Fix:
 
 
-``` bash
+``` prism-code
 hermes config set model.provider nous
 ```
 
@@ -231,7 +234,7 @@ hermes config set model.provider nous
 Or interactively:
 
 
-``` bash
+``` prism-code
 hermes model
 # pick Nous Portal
 ```
@@ -244,7 +247,7 @@ Re-verify with `hermes portal info`.
 Per-tool config is overriding the gateway. Run:
 
 
-``` bash
+``` prism-code
 hermes tools
 # pick "Nous Subscription" for any tool you want gateway-routed
 ```
@@ -257,7 +260,7 @@ Some users intentionally mix — e.g. routing web through Nous but using their o
 Your Portal refresh token was invalidated (password change, manual revoke, session expiry). The token is now quarantined locally so Hermes doesn't replay it endlessly. Just log in again:
 
 
-``` bash
+``` prism-code
 hermes auth add nous
 ```
 
@@ -269,7 +272,7 @@ The quarantine clears automatically on successful re-login.
 The Portal catalog mirrors OpenRouter's model list (300+). If a model is missing, try typing the OpenRouter-style slug directly:
 
 
-``` bash
+``` prism-code
 /model anthropic/claude-opus-4.6
 /model openai/o1-2025-12-17
 ```
@@ -288,7 +291,7 @@ If a model is genuinely unavailable, <a href="https://github.com/NousResearch/he
 ### Want to revoke and start clean<a href="#want-to-revoke-and-start-clean" class="hash-link" aria-label="Direct link to Want to revoke and start clean" translate="no" title="Direct link to Want to revoke and start clean">​</a>
 
 
-``` bash
+``` prism-code
 hermes auth logout nous       # wipes the local refresh token
 # Then re-run setup or remove the subscription from the Portal web UI
 ```
@@ -296,15 +299,15 @@ hermes auth logout nous       # wipes the local refresh token
 
 ## What this gets you, in plain numbers<a href="#what-this-gets-you-in-plain-numbers" class="hash-link" aria-label="Direct link to What this gets you, in plain numbers" translate="no" title="Direct link to What this gets you, in plain numbers">​</a>
 
-| Without Portal | With Portal |
-|----|----|
+| Without Portal                                   | With Portal                            |
+|--------------------------------------------------|----------------------------------------|
 | 1× OpenRouter / Anthropic / OpenAI key in `.env` | 1× OAuth refresh token, no `.env` keys |
-| 1× Firecrawl key for web | Web routed through gateway |
-| 1× FAL key for image gen | Image gen routed through gateway |
-| 1× Browser Use / Browserbase key for browser | Browser routed through gateway |
-| 1× OpenAI key for TTS / voice mode | TTS routed through gateway |
-| 5 separate dashboards, top-ups, invoices | 1 subscription, 1 invoice |
-| Cross-machine: replicate all 5 keys | Cross-machine: re-OAuth once |
+| 1× Firecrawl key for web                         | Web routed through gateway             |
+| 1× FAL key for image gen                         | Image gen routed through gateway       |
+| 1× Browser Use / Browserbase key for browser     | Browser routed through gateway         |
+| 1× OpenAI key for TTS / voice mode               | TTS routed through gateway             |
+| 5 separate dashboards, top-ups, invoices         | 1 subscription, 1 invoice              |
+| Cross-machine: replicate all 5 keys              | Cross-machine: re-OAuth once           |
 
 That's the deal. If you're using more than two of those backends anyway, the subscription pays for itself.
 

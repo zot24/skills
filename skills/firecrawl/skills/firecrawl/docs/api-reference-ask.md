@@ -27,7 +27,7 @@ Pass a `rationale` field to give the support agent context about what your end u
 
 Uses your Firecrawl API key as the bearer token. The request is automatically scoped to your team — you can only query your own jobs and account data.
 
-```bash
+```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v2/support/ask \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
   -H "Content-Type: application/json" \

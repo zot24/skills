@@ -55,7 +55,7 @@ Once a skill activates, its full `SKILL.md` body loads into the agent's context 
 
 Focus on what the agent *wouldn't* know without your skill: project-specific conventions, domain-specific procedures, non-obvious edge cases, and the particular tools or APIs to use. You don't need to explain what a PDF is, how HTTP works, or what a database migration does.
 
-````markdown
+````markdown theme={null}
 <!-- Too verbose — the agent already knows what PDFs are -->
 ## Extract PDF text
 
@@ -101,7 +101,7 @@ Not every part of a skill needs the same level of prescriptiveness. Match the sp
 
 **Give the agent freedom** when multiple approaches are valid and the task tolerates variation. For flexible instructions, explaining *why* can be more effective than rigid directives — an agent that understands the purpose behind an instruction makes better context-dependent decisions. A code review skill can describe what to look for without prescribing exact steps:
 
-```markdown
+```markdown theme={null}
 ## Code review process
 
 1. Check all database queries for SQL injection (use parameterized queries)
@@ -112,7 +112,7 @@ Not every part of a skill needs the same level of prescriptiveness. Match the sp
 
 **Be prescriptive** when operations are fragile, consistency matters, or a specific sequence must be followed:
 
-````markdown
+````markdown theme={null}
 ## Database migration
 
 Run exactly this sequence:
@@ -130,7 +130,7 @@ Most skills have a mix. Calibrate each part independently.
 
 When multiple tools or approaches could work, pick a default and mention alternatives briefly rather than presenting them as equal options.
 
-````markdown
+````markdown theme={null}
 <!-- Too many options -->
 You can use pypdf, pdfplumber, PyMuPDF, or pdf2image...
 
@@ -148,7 +148,7 @@ For scanned PDFs requiring OCR, use pdf2image with pytesseract instead.
 
 A skill should teach the agent *how to approach* a class of problems, not *what to produce* for a specific instance. Compare:
 
-```markdown
+```markdown theme={null}
 <!-- Specific answer — only useful for this exact task -->
 Join the `orders` table to `customers` on `customer_id`, filter where
 `region = 'EMEA'`, and sum the `amount` column.
@@ -170,7 +170,7 @@ These are reusable techniques for structuring skill content. Not every skill nee
 
 The highest-value content in many skills is a list of gotchas — environment-specific facts that defy reasonable assumptions. These aren't general advice ("handle errors appropriately") but concrete corrections to mistakes the agent will make without being told otherwise:
 
-```markdown
+```markdown theme={null}
 ## Gotchas
 
 - The `users` table uses soft deletes. Queries must include
@@ -192,7 +192,7 @@ Keep gotchas in `SKILL.md` where the agent reads them before encountering the si
 
 When you need the agent to produce output in a specific format, provide a template. This is more reliable than describing the format in prose, because agents pattern-match well against concrete structures. Short templates can live inline in `SKILL.md`; for longer templates, or templates only needed in certain cases, store them in `assets/` and reference them from `SKILL.md` so they only load when needed.
 
-````markdown
+````markdown theme={null}
 ## Report structure
 
 Use this template, adapting sections as needed for the specific analysis:
@@ -217,7 +217,7 @@ Use this template, adapting sections as needed for the specific analysis:
 
 An explicit checklist helps the agent track progress and avoid skipping steps, especially when steps have dependencies or validation gates.
 
-```markdown
+```markdown theme={null}
 ## Form processing workflow
 
 Progress:
@@ -232,7 +232,7 @@ Progress:
 
 Instruct the agent to validate its own work before moving on. The pattern is: do the work, run a validator (a script, a reference checklist, or a self-check), fix any issues, and repeat until validation passes.
 
-```markdown
+```markdown theme={null}
 ## Editing workflow
 
 1. Make your edits
@@ -250,7 +250,7 @@ A reference document can also serve as the "validator" — instruct the agent to
 
 For batch or destructive operations, have the agent create an intermediate plan in a structured format, validate it against a source of truth, and only then execute.
 
-```markdown
+```markdown theme={null}
 ## PDF form filling
 
 1. Extract form fields: `python scripts/analyze_form.py input.pdf` → `form_fields.json`

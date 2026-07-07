@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/guide/subagents
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Subagents
@@ -46,11 +59,11 @@ The child session receives the delegated request and its own configured context,
 
 A subagent profile is self-contained. The capability fields that define what the subagent is and can do apply only when the profile declares them — omitting one means the subagent has none, never the parent’s. Environment fields fall back to the parent’s values as runtime defaults.
 
-| Field | Behavior |
-|----|----|
+| Field                                          | Behavior                                                                                                                                          |
+|------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
 | `instructions`, `tools`, `skills`, `subagents` | Profile-owned. Only the profile’s own declarations apply; an omitted field means none. The parent’s values never flow into the delegated session. |
-| `model`, `thinkingLevel`, `compaction` | Inherits as a default. The profile’s own value wins when declared; an omitted field uses the parent’s value. |
-| `durability` | Rejected. Delegated task sessions run inside the parent operation, so declaring `durability` on a subagent profile is a definition-time error. |
+| `model`, `thinkingLevel`, `compaction`         | Inherits as a default. The profile’s own value wins when declared; an omitted field uses the parent’s value.                                      |
+| `durability`                                   | Rejected. Delegated task sessions run inside the parent operation, so declaring `durability` on a subagent profile is a definition-time error.    |
 
 A `task()` call without an `agent` name is not a subagent delegation: the child session reuses the parent’s full configuration in a fresh context.
 

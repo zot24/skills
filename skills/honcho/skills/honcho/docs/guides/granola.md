@@ -34,7 +34,7 @@ If you just want to get your meetings into Honcho, here's everything you need.
 
 ### 2. Set Your API Key
 
-```bash
+```bash theme={null}
 export HONCHO_API_KEY="your-key-from-app.honcho.dev"
 ```
 
@@ -79,7 +79,7 @@ The core idea is straightforward: each Granola meeting becomes a Honcho session,
 
 The script uses email addresses as the basis for peer IDs, normalized to a URL-safe format (e.g., `alice@example.com` becomes `alice-example-com`). This ensures consistent identification across meetings — if you meet someone in 5 different calls, all conversations accumulate under the same peer.
 
-```python
+```python theme={null}
 # These all resolve to the same peer:
 honcho.peer("alice-example-com")  # From Meeting A
 honcho.peer("alice-example-com")  # From Meeting B
@@ -100,7 +100,7 @@ Participants: You (note creator) from Your Company <you@example.com>,
 
 When exactly one other participant is present *and* the transcript contains `Them:` turns, the script stores the transcript with speaker-attributed messages. Consecutive same-speaker turns are merged before storing, cleaning up the fragmentation that's common in raw transcripts.
 
-```python
+```python theme={null}
 session.add_messages([
     me.message("What's your timeline for the launch?"),
     them.message("We're targeting Q2, but it depends on the API integration."),
@@ -111,7 +111,7 @@ session.add_messages([
 
 Granola's transcript uses `Them:` for all non-creator speakers with no disambiguation — in a 4-person call, everyone else is just `Them:`. Rather than guess incorrectly, the script stores Granola's summary as your record of the meeting, with participants in metadata.
 
-```python
+```python theme={null}
 session.add_messages([
     me.message(
         f"Meeting: Product Planning\n"
@@ -141,7 +141,7 @@ Granola's raw transcripts are often fragmented (`Me: Yeah.  Them: Yeah.  Me: And
 
 Once your meetings are in Honcho, you can query any peer:
 
-```python
+```python theme={null}
 import os
 from honcho import Honcho
 
@@ -160,7 +160,7 @@ print(me.chat("What topics do I discuss most frequently?"))
 
 Because meetings live in a standard Honcho workspace, you can enrich peer representations with data from other channels:
 
-```python
+```python theme={null}
 # Same workspace, same peer — data accumulates
 alice = honcho.peer("alice-example-com")
 me = honcho.peer("you-example-com")

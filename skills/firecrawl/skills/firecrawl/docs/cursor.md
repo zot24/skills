@@ -20,7 +20,7 @@ Sign up at [firecrawl.dev/app](https://firecrawl.dev/app) and copy your API key.
 
 Open Settings (`Cmd+,`), search for "MCP", and add:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {
@@ -72,7 +72,7 @@ If you see a `spawn npx ENOENT` or "No server info found" error on Windows, Curs
 
 Run `where npx` in Command Prompt to get the full path, then update your config:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {
@@ -90,7 +90,7 @@ Replace the `command` path with the output from `where npx`.
 
 **Option B: Use the remote hosted URL (no Node.js required)**
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "firecrawl": {

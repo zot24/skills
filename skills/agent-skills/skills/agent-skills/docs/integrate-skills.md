@@ -122,7 +122,7 @@ See the [specification](/specification) for the full set of frontmatter fields a
 
 Skill files authored for other clients may contain technically invalid YAML that their parsers happen to accept. The most common issue is unquoted values containing colons:
 
-```yaml
+```yaml theme={null}
 # Technically invalid YAML — the colon breaks parsing
 description: Use this skill when: the user asks about PDFs
 ```
@@ -168,7 +168,7 @@ Tell the model what skills exist without loading their full content. This is [ti
 
 For each discovered skill, include `name`, `description`, and optionally `location` (the path to the `SKILL.md` file) in whatever structured format suits your stack — XML, JSON, or a bulleted list all work:
 
-```xml
+```xml theme={null}
 <available_skills>
   <skill>
     <name>pdf-processing</name>
@@ -279,7 +279,7 @@ Both approaches work in practice.
 
 If you use a dedicated activation tool, consider wrapping skill content in identifying tags. For example:
 
-```xml
+```xml theme={null}
 <skill_content name="pdf-processing">
 # PDF Processing
 

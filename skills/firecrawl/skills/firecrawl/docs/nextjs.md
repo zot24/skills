@@ -15,7 +15,7 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
@@ -23,7 +23,7 @@ npm install firecrawl
 
 Add your API key to `.env.local`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -35,8 +35,9 @@ The SDK should only run server-side since it requires your API key.
 
 Create `app/api/search/route.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { NextResponse } from "next/server";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -52,9 +53,10 @@ export async function POST(request: Request) {
 
 Create `app/actions.ts` for use from Client Components:
 
-```typescript
+```typescript theme={null}
 "use server";
 
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -70,8 +72,9 @@ export async function searchWeb(query: string) {
 
 Create `app/api/scrape/route.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { NextResponse } from "next/server";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -87,7 +90,8 @@ export async function POST(request: Request) {
 
 Fetch data directly in a Server Component at `app/page.tsx`:
 
-```tsx
+```tsx theme={null}
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -111,8 +115,9 @@ Use interact to control a live browser session — click buttons, fill forms, an
 
 Create `app/api/interact/route.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { NextResponse } from "next/server";
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

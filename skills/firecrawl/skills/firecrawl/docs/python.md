@@ -12,7 +12,7 @@
 
 To install the Firecrawl Python SDK, you can use pip:
 
-```python Python
+```python Python theme={null}
 # pip install firecrawl-py
 
 from firecrawl import Firecrawl
@@ -31,7 +31,7 @@ Get an API key from [firecrawl.dev](https://firecrawl.dev), then either set it a
   **No API key?** You can construct `Firecrawl` without a key and use `scrape`, `search`, and `interact` on the keyless free tier (rate-limited per IP — see [Rate Limits](/rate-limits#keyless-no-api-key)). All other methods require a key.
 
 
-```python Python
+```python Python theme={null}
 from firecrawl import Firecrawl
 
 firecrawl = Firecrawl(api_key="fc-YOUR_API_KEY")
@@ -58,7 +58,7 @@ print(crawl_status)
 
 Scrape a single URL with the `scrape` method. It returns the page content as structured data, including markdown, metadata, and any other formats you request.
 
-```python Python
+```python Python theme={null}
 # Scrape a website:
 scrape_result = firecrawl.scrape('firecrawl.dev', formats=['markdown', 'html'])
 print(scrape_result)
@@ -73,7 +73,7 @@ print(scrape_result)
 Use `parse` to upload local files (`html`, `pdf`, `docx`, `xlsx`, etc.) directly to `/v2/parse`.
 `parse` does not support `changeTracking` or browser-only options like actions, wait\_for, location, mobile, screenshot, and branding.
 
-```python Python
+```python Python theme={null}
 from firecrawl.v2.types import ParseOptions
 
 parsed = firecrawl.parse(
@@ -90,7 +90,7 @@ print(parsed.markdown)
 
 To crawl a website, use the `crawl` method. It takes the starting URL and optional options as arguments. The options allow you to specify additional settings for the crawl job, such as the maximum number of pages to crawl, allowed domains, and the output format. See [Pagination](#pagination) for auto/manual pagination and limiting.
 
-```python Python
+```python Python theme={null}
 job = firecrawl.crawl(url="https://docs.firecrawl.dev", limit=5, poll_interval=1, timeout=120)
 print(job)
 ```
@@ -99,7 +99,7 @@ print(job)
 
 Use `sitemap="only"` to crawl sitemap URLs only (the start URL is always included, and HTML link discovery is skipped).
 
-```python Python
+```python Python theme={null}
 job = firecrawl.crawl(url="https://docs.firecrawl.dev", sitemap="only", limit=25)
 print(job.status, len(job.data))
 ```
@@ -110,7 +110,7 @@ Prefer non-blocking? Check out the [Async Class](#async-class) section below.
 
 Start a job without waiting using `start_crawl`. It returns a job `ID` you can use to check status. Use `crawl` when you want a waiter that blocks until completion. See [Pagination](#pagination) for paging behavior and limits.
 
-```python Python
+```python Python theme={null}
 job = firecrawl.start_crawl(url="https://docs.firecrawl.dev", limit=10)
 print(job)
 ```
@@ -119,7 +119,7 @@ print(job)
 
 Check the status of a crawl job with `get_crawl_status`. Pass the job ID and receive the current status along with any results collected so far.
 
-```python Python
+```python Python theme={null}
 status = firecrawl.get_crawl_status("<crawl-id>")
 print(status)
 ```
@@ -128,7 +128,7 @@ print(status)
 
 Cancel a crawl job with the `cancel_crawl` method. Pass the job ID returned by `start_crawl` to receive the cancellation status.
 
-```python Python
+```python Python theme={null}
 ok = firecrawl.cancel_crawl("<crawl-id>")
 print("Cancelled:", ok)
 ```
@@ -137,7 +137,7 @@ print("Cancelled:", ok)
 
 Use `map` to generate a list of URLs from a website. The options let you customize the mapping process, including excluding subdomains or utilizing the sitemap.
 
-```python Python
+```python Python theme={null}
 res = firecrawl.map(url="https://firecrawl.dev", limit=10)
 print(res)
 ```
@@ -146,7 +146,7 @@ print(res)
 
 To crawl a website with WebSockets, start the job with `start_crawl` and subscribe using the `watcher` helper. Create a watcher with the job ID and attach handlers (e.g., for page, completed, failed) before calling `start()`.
 
-```python Python
+```python Python theme={null}
 import asyncio
 from firecrawl import AsyncFirecrawl
 
@@ -178,7 +178,7 @@ Firecrawl endpoints for crawl and batch scrape return a `next` URL when more dat
 
 Use `PaginationConfig` to control pagination behavior when calling `get_crawl_status` or `get_batch_scrape_status`:
 
-```python Python
+```python Python theme={null}
 from firecrawl.v2.types import PaginationConfig
 ```
 
@@ -210,7 +210,7 @@ Use the waiter method `crawl` for the simplest experience, or start a job and pa
 
 Start a job, then fetch one page at a time with `auto_paginate=False`. Use `get_crawl_status_page` to fetch subsequent pages:
 
-```python Python
+```python Python theme={null}
 crawl_job = client.start_crawl("https://example.com", limit=100)
 
 # Fetch first page
@@ -230,7 +230,7 @@ while status.next:
 
 Keep auto-pagination on but stop early with `max_pages`, `max_results`, or `max_wait_time`:
 
-```python Python
+```python Python theme={null}
 status = client.get_crawl_status(
     crawl_job.id,
     pagination_config=PaginationConfig(max_pages=2, max_results=50, max_wait_time=15),
@@ -250,7 +250,7 @@ Use the waiter method `batch_scrape`, or start a job and page manually.
 
 Start a job, then fetch one page at a time with `auto_paginate=False`. Use `get_batch_scrape_status_page` to fetch subsequent pages:
 
-```python Python
+```python Python theme={null}
 batch_job = client.start_batch_scrape(urls)
 
 # Fetch first page
@@ -270,7 +270,7 @@ while status.next:
 
 Keep auto-pagination on but stop early with `max_pages`, `max_results`, or `max_wait_time`:
 
-```python Python
+```python Python theme={null}
 status = client.get_batch_scrape_status(
     batch_job.id,
     pagination_config=PaginationConfig(max_pages=2, max_results=100, max_wait_time=20),
@@ -286,7 +286,7 @@ When a request fails, the SDK raises an exception with a descriptive message exp
 
 For async operations, use the `AsyncFirecrawl` class. Its methods mirror `Firecrawl`, but they don't block the main thread.
 
-```python Python
+```python Python theme={null}
 import asyncio
 from firecrawl import AsyncFirecrawl
 
@@ -316,7 +316,7 @@ async def main():
 asyncio.run(main())
 ```
 
-```python Python
+```python Python theme={null}
 from firecrawl import AsyncFirecrawl
 
 async_firecrawl = AsyncFirecrawl(api_key="fc-YOUR-API-KEY")
@@ -334,7 +334,7 @@ Launch cloud browser sessions and execute code remotely.
 
 ### Create a Session
 
-```python Python
+```python Python theme={null}
 from firecrawl import Firecrawl
 
 app = Firecrawl(api_key="fc-YOUR-API-KEY")
@@ -347,7 +347,7 @@ print(session.live_view_url)  # https://liveview.firecrawl.dev/...
 
 ### Execute Code
 
-```python Python
+```python Python theme={null}
 result = app.browser_execute(
     session.id,
     code='await page.goto("https://news.ycombinator.com")\ntitle = await page.title()\nprint(title)',
@@ -358,7 +358,7 @@ print(result.result)  # "Hacker News"
 
 Execute JavaScript instead of Python:
 
-```python Python
+```python Python theme={null}
 result = app.browser_execute(
     session.id,
     code='await page.goto("https://example.com"); const t = await page.title(); console.log(t);',
@@ -370,7 +370,7 @@ result = app.browser_execute(
 
 Save and reuse browser state (cookies, localStorage, etc.) across sessions:
 
-```python Python
+```python Python theme={null}
 session = app.browser(
     ttl=600,
     profile={
@@ -384,7 +384,7 @@ session = app.browser(
 
 For full Playwright control, connect directly using the CDP URL:
 
-```python Python
+```python Python theme={null}
 from playwright.sync_api import sync_playwright
 
 with sync_playwright() as p:
@@ -400,7 +400,7 @@ with sync_playwright() as p:
 
 ### List & Close Sessions
 
-```python Python
+```python Python theme={null}
 # List active sessions
 sessions = app.list_browsers(status="active")
 for s in sessions.sessions:
@@ -419,7 +419,7 @@ Use a scrape job ID to keep interacting with the replayed page context from that
 * Additional `interact` calls on the same job ID reuse that live browser state.
 * `stop_interaction(job_id)` stops the interactive session when you are done.
 
-```python Python
+```python Python theme={null}
 doc = app.scrape(
     "https://example.com",
     actions=[{"type": "click", "selector": "a[href='/pricing']"}],

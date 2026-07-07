@@ -21,7 +21,7 @@ Honcho loads configuration in this priority order (highest wins):
 
 Use `.env` for secrets and overrides, `config.toml` for base settings. Or use environment variables exclusively — whatever fits your deployment. Copy the examples to get started:
 
-```bash
+```bash theme={null}
 cp .env.template .env
 cp config.toml.example config.toml
 ```
@@ -64,11 +64,17 @@ You can mix providers freely — for example, use Gemini for the deriver and Cla
 
 For OpenAI-compatible proxies (OpenRouter, vLLM, Ollama, etc.), use `transport = "openai"` and set `MODEL_CONFIG__OVERRIDES__BASE_URL` on each feature to point at your endpoint.
 
+
+  Some OpenAI-compatible providers don't support OpenAI Structured Outputs (`json_schema`). Set `DERIVER_MODEL_CONFIG__STRUCTURED_OUTPUT_MODE=json_object` to request loose JSON mode and inject the schema into the prompt instead.
+
+  This setting only applies to the **deriver** on the **`openai`** transport — it is the only feature that uses structured output. The dialectic, summarizer, and dreamer don't request structured output, so the setting has no effect there, and the anthropic/gemini transports reject it.
+
+
 ### Tiered Model Setup
 
 Once you're past initial setup, you can assign different models per feature for better cost/quality tradeoffs. This example uses OpenRouter with light/medium/heavy tiers:
 
-```bash
+```bash theme={null}
 LLM_OPENAI_API_KEY=sk-or-v1-...
 
 # All features route through OpenRouter via overrides.base_url
@@ -106,7 +112,7 @@ Instead of an OpenAI-compatible proxy, you can use vendor APIs directly. Each tr
 
 If you keep the built-in defaults, only `LLM_OPENAI_API_KEY` is required:
 
-```bash
+```bash theme={null}
 LLM_OPENAI_API_KEY=...
 
 # Built-in model defaults
@@ -119,7 +125,7 @@ LLM_OPENAI_API_KEY=...
 
 To use Gemini or Anthropic directly, override the features you want to move:
 
-```bash
+```bash theme={null}
 LLM_GEMINI_API_KEY=...
 DERIVER_MODEL_CONFIG__TRANSPORT=gemini
 DERIVER_MODEL_CONFIG__MODEL=gemini-2.5-flash
@@ -133,7 +139,7 @@ DREAM_DEDUCTION_MODEL_CONFIG__MODEL=claude-haiku-4-5
 
 Use `transport = "openai"` and set `MODEL_CONFIG__OVERRIDES__BASE_URL` on each feature:
 
-```bash
+```bash theme={null}
 # vLLM
 LLM_OPENAI_API_KEY=not-needed
 DERIVER_MODEL_CONFIG__TRANSPORT=openai
@@ -151,7 +157,7 @@ Set `MODEL_CONFIG__TRANSPORT`, `MODEL_CONFIG__MODEL`, and `MODEL_CONFIG__OVERRID
 
 The same overrides are available in `config.toml`:
 
-```toml
+```toml theme={null}
 [deriver.model_config]
 transport = "openai"
 model = "my-local-model"
@@ -167,14 +173,14 @@ Built-in defaults do not set `MODEL_CONFIG__THINKING_BUDGET_TOKENS` or `MODEL_CO
 
 Use `MODEL_CONFIG__THINKING_EFFORT` for OpenAI reasoning models:
 
-```bash
+```bash theme={null}
 DERIVER_MODEL_CONFIG__THINKING_EFFORT=minimal
 DIALECTIC_LEVELS__max__MODEL_CONFIG__THINKING_EFFORT=medium
 ```
 
 Use `MODEL_CONFIG__THINKING_BUDGET_TOKENS` for Anthropic and Gemini models. Set it to `0` or omit it for providers that don't support extended thinking:
 
-```bash
+```bash theme={null}
 SUMMARY_MODEL_CONFIG__THINKING_BUDGET_TOKENS=1024
 DREAM_DEDUCTION_MODEL_CONFIG__THINKING_BUDGET_TOKENS=1024
 ```
@@ -183,10 +189,37 @@ DREAM_DEDUCTION_MODEL_CONFIG__THINKING_BUDGET_TOKENS=1024
 
 Each model config supports an `overrides.provider_params` dict for passing arbitrary parameters to the underlying provider SDK. Use this for vendor-specific features that aren't part of the standard config:
 
-```toml
+```toml theme={null}
 [deriver.model_config.overrides.provider_params]
 # These are passed directly to the provider SDK
 verbosity = "low"
+```
+
+#### Transport passthrough keys
+
+Three keys inside `provider_params` are recognized as request-level escape hatches and forwarded to the underlying transport. Where a transport actually validates and merges one of these keys, its value must be a mapping — a non-mapping value raises a configuration error (see the per-transport behavior below; a key a transport ignores is not validated):
+
+* **`extra_body`** — merged into the request body
+* **`extra_headers`** — extra HTTP headers
+* **`extra_query`** — extra URL query parameters
+
+How each transport forwards them differs:
+
+* **OpenAI and Anthropic** forward all three as identically-named SDK kwargs (`extra_body`, `extra_headers`, `extra_query`).
+* **Gemini** has no SDK kwargs for these. It merges `extra_body` into the `GenerateContentConfig` dict and folds `extra_headers` into `http_options.headers`; `extra_query` is **unsupported and silently ignored**.
+
+The merge is shallow and **operator-wins**: if Honcho and your config both set the same top-level key inside `extra_body`, your value replaces Honcho's. You are responsible for choosing a coherent combination — e.g. unset `thinking_budget_tokens` when supplying an `extra_body.thinking` for Anthropic-via-proxy, since Honcho will not translate between the two shapes.
+
+Because Gemini merges `extra_body` directly into `GenerateContentConfig` (rather than a nested request body), an `extra_body` written for OpenAI/Anthropic generally will not transfer to Gemini unchanged — and a key collision there can overwrite a field Honcho manages (`thinking_config`, `response_schema`, `tools`, …).
+
+```toml theme={null}
+# Example: route an OpenAI-compatible proxy and tag requests for tracing
+[deriver.model_config.overrides.provider_params.extra_headers]
+X-Proxy-Route = "vertex"
+
+[deriver.model_config.overrides.provider_params.extra_body]
+# Provider-native body fields the standard config doesn't expose
+anthropic_beta = ["context-1m-2025-01-15"]
 ```
 
 ### Changing Transport
@@ -195,7 +228,7 @@ When changing a feature's `transport`, always specify `model` explicitly. Partia
 
 ### General LLM Settings
 
-```bash
+```bash theme={null}
 LLM_DEFAULT_MAX_TOKENS=2500
 
 # Tool output limits (to prevent token explosion)
@@ -207,7 +240,7 @@ LLM_MAX_MESSAGE_CONTENT_CHARS=2000  # Max chars per message in tool results
 
 Embeddings use their own nested model config, separate from the main text-generation LLM settings.
 
-```bash
+```bash theme={null}
 # Embedding vector settings
 EMBEDDING_VECTOR_DIMENSIONS=1536
 EMBEDDING_MAX_INPUT_TOKENS=8192
@@ -234,7 +267,7 @@ Forwarding `dimensions=` to OpenAI-compatible providers is controlled by `EMBEDD
 
 Install order for a non-default dim:
 
-```bash
+```bash theme={null}
 # 1. Apply migrations (creates default vector(1536) schema)
 alembic upgrade head
 
@@ -255,7 +288,7 @@ The script refuses to ALTER tables that already contain non-null embeddings. To 
 
 External vector stores (Turbopuffer, LanceDB) do not need bootstrap setup. Namespaces are per-workspace and lazy-created on first write at whatever dim the embedding client returns. Use `--report` to inventory the existing namespaces against the configured dim:
 
-```bash
+```bash theme={null}
 uv run python scripts/configure_embeddings.py --report
 ```
 
@@ -273,7 +306,7 @@ Each feature can use a different provider and model. Below are all the tuning kn
 
 The Dialectic API provides theory-of-mind informed responses. It uses a tiered reasoning system with five levels:
 
-```bash
+```bash theme={null}
 # Global dialectic settings
 DIALECTIC_MAX_OUTPUT_TOKENS=8192
 DIALECTIC_MAX_INPUT_TOKENS=100000
@@ -285,7 +318,7 @@ DIALECTIC_SESSION_HISTORY_MAX_TOKENS=4096
 
 Each reasoning level has its own provider, model, and settings:
 
-```toml
+```toml theme={null}
 # config.toml example
 [dialectic.levels.minimal]
 MAX_TOOL_ITERATIONS = 1
@@ -328,7 +361,7 @@ model = "gpt-5.4-mini"
 
 Environment variables for nested levels use double underscores:
 
-```bash
+```bash theme={null}
 DIALECTIC_LEVELS__minimal__MODEL_CONFIG__TRANSPORT=openai
 DIALECTIC_LEVELS__minimal__MODEL_CONFIG__MODEL=gpt-5.4-mini
 DIALECTIC_LEVELS__minimal__MAX_TOOL_ITERATIONS=1
@@ -340,7 +373,7 @@ DIALECTIC_LEVELS__minimal__TOOL_CHOICE=any
 
 The Deriver extracts facts from messages and builds theory-of-mind representations of peers.
 
-```bash
+```bash theme={null}
 DERIVER_ENABLED=true
 
 # LLM settings
@@ -351,6 +384,7 @@ DERIVER_MAX_CUSTOM_INSTRUCTIONS_TOKENS=2000
 # DERIVER_MODEL_CONFIG__THINKING_EFFORT=minimal
 # DERIVER_MODEL_CONFIG__THINKING_BUDGET_TOKENS=1024
 # DERIVER_MODEL_CONFIG__TEMPERATURE=0.7  # Optional temperature override
+# DERIVER_MODEL_CONFIG__STRUCTURED_OUTPUT_MODE=json_object  # for providers without json_schema support
 
 # Backup model (optional)
 # DERIVER_MODEL_CONFIG__FALLBACK__MODEL=claude-haiku-4-5
@@ -380,11 +414,12 @@ DERIVER_DEDUPLICATE=true
 DERIVER_LOG_OBSERVATIONS=false
 DERIVER_WORKING_REPRESENTATION_MAX_OBSERVATIONS=100
 DERIVER_REPRESENTATION_BATCH_MAX_TOKENS=1024
+DERIVER_REPRESENTATION_BATCH_MAX_AGE_SECONDS=1800
 ```
 
 **Peer Card:**
 
-```bash
+```bash theme={null}
 PEER_CARD_ENABLED=true
 ```
 
@@ -392,7 +427,7 @@ PEER_CARD_ENABLED=true
 
 Session summaries provide compressed context for long conversations — short summaries (frequent) and long summaries (comprehensive).
 
-```bash
+```bash theme={null}
 SUMMARY_ENABLED=true
 SUMMARY_MODEL_CONFIG__TRANSPORT=openai
 SUMMARY_MODEL_CONFIG__MODEL=gpt-5.4-mini
@@ -408,7 +443,7 @@ SUMMARY_MESSAGES_PER_LONG_SUMMARY=60
 
 Dream processing consolidates and refines peer representations during idle periods.
 
-```bash
+```bash theme={null}
 DREAM_ENABLED=true
 DREAM_DOCUMENT_THRESHOLD=50
 DREAM_IDLE_TIMEOUT_MINUTES=60
@@ -428,7 +463,7 @@ DREAM_INDUCTION_MODEL_CONFIG__MODEL=gpt-5.4-mini
 
 Optional subsystem for identifying unusual observations during dreaming:
 
-```bash
+```bash theme={null}
 DREAM_SURPRISAL__ENABLED=false
 DREAM_SURPRISAL__TREE_TYPE=kdtree
 DREAM_SURPRISAL__TREE_K=5
@@ -443,7 +478,7 @@ DREAM_SURPRISAL__INCLUDE_LEVELS=["explicit", "deductive"]
 
 ### Application Settings
 
-```bash
+```bash theme={null}
 LOG_LEVEL=INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
 SESSION_OBSERVERS_LIMIT=10
 GET_CONTEXT_MAX_TOKENS=100000
@@ -457,7 +492,7 @@ NAMESPACE=honcho
 
 **Optional Integrations:**
 
-```bash
+```bash theme={null}
 LANGFUSE_HOST=https://cloud.langfuse.com
 LANGFUSE_PUBLIC_KEY=your-langfuse-public-key
 COLLECT_METRICS_LOCAL=false
@@ -467,7 +502,7 @@ REASONING_TRACES_FILE=traces.jsonl
 
 ### Database
 
-```bash
+```bash theme={null}
 # Connection (required)
 DB_CONNECTION_URI=postgresql+psycopg://postgres:postgres@localhost:5432/postgres
 
@@ -487,7 +522,7 @@ DB_CONNECT_TIMEOUT_SECONDS=2
 
 ### Authentication
 
-```bash
+```bash theme={null}
 AUTH_USE_AUTH=false  # Set to true to require JWT tokens
 AUTH_JWT_SECRET=your-super-secret-jwt-key  # Required when auth is enabled
 ```
@@ -498,7 +533,7 @@ Generate a secret: `python scripts/generate_jwt_secret.py`
 
 Redis caching is optional. Honcho works without it but benefits from caching in high-traffic scenarios.
 
-```bash
+```bash theme={null}
 CACHE_ENABLED=false
 CACHE_URL=redis://localhost:6379/0?suppress=true
 CACHE_NAMESPACE=honcho
@@ -508,14 +543,14 @@ CACHE_DEFAULT_LOCK_TTL_SECONDS=5  # Cache stampede prevention
 
 ### Webhooks
 
-```bash
+```bash theme={null}
 WEBHOOK_SECRET=your-webhook-signing-secret
 WEBHOOK_MAX_WORKSPACE_LIMIT=10
 ```
 
 ### Vector Store
 
-```bash
+```bash theme={null}
 VECTOR_STORE_TYPE=pgvector  # Options: pgvector, turbopuffer, lancedb
 VECTOR_STORE_MIGRATED=false
 VECTOR_STORE_NAMESPACE=honcho
@@ -539,14 +574,14 @@ Honcho exposes `/metrics` endpoints for scraping:
 * **API process**: Port 8000
 * **Deriver process**: Port 9090
 
-```bash
+```bash theme={null}
 METRICS_ENABLED=false
 METRICS_NAMESPACE=honcho
 ```
 
 ### CloudEvents Telemetry
 
-```bash
+```bash theme={null}
 TELEMETRY_ENABLED=false
 TELEMETRY_ENDPOINT=https://telemetry.honcho.dev/v1/events
 TELEMETRY_HEADERS='{"Authorization": "Bearer your-token"}'
@@ -558,7 +593,7 @@ TELEMETRY_MAX_BUFFER_SIZE=10000
 
 ### Sentry
 
-```bash
+```bash theme={null}
 SENTRY_ENABLED=false
 SENTRY_DSN=https://your-sentry-dsn@sentry.io/project-id
 SENTRY_ENVIRONMENT=production
@@ -570,7 +605,7 @@ SENTRY_PROFILES_SAMPLE_RATE=0.1
 
 A complete config.toml with all defaults. Copy and modify what you need:
 
-```toml
+```toml theme={null}
 [app]
 LOG_LEVEL = "INFO"
 SESSION_OBSERVERS_LIMIT = 10
@@ -680,7 +715,7 @@ ENABLED = false
 
 ## Database Migrations
 
-```bash
+```bash theme={null}
 uv run alembic current          # Check status
 uv run alembic upgrade head     # Upgrade to latest
 uv run alembic downgrade <rev>  # Downgrade to specific revision

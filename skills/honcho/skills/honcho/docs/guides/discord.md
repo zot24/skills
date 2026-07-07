@@ -20,7 +20,7 @@ place to start.
 
 Most Discord bots have async functions that listen for specific events, the most common one being messages. We can use Honcho to store messages by user and session based on an interface's event logic. Take the following function definition for example:
 
-```python
+```python theme={null}
 @bot.event
 async def on_message(message):
     """
@@ -54,7 +54,7 @@ async def on_message(message):
 
 Let's break down what this code is doing...
 
-```python
+```python theme={null}
 @bot.event
 async def on_message(message):
     if not validate_message(message):
@@ -69,7 +69,7 @@ The code uses several helper functions to keep the main logic clean and readable
 
 ### Message Validation
 
-```python
+```python theme={null}
 def validate_message(message) -> bool:
     """
     Determine if the message is valid for the bot to respond to.
@@ -98,7 +98,7 @@ This function centralizes all the logic for determining whether the bot should r
 
 ### Message Sanitization
 
-```python
+```python theme={null}
 def sanitize_message(message) -> str | None:
     """Remove the bot's mention from the message content if present"""
     content = message.content.replace(f"<@{bot.user.id}>", "").strip()
@@ -111,7 +111,7 @@ This helper removes the bot's mention from the message content, leaving just the
 
 ### Peer ID Generation
 
-```python
+```python theme={null}
 def get_peer_id_from_discord(message):
     """Get a Honcho peer ID for the message author"""
     return f"discord_{str(message.author.id)}"
@@ -121,7 +121,7 @@ This creates a unique peer identifier for each Discord user by prefixing their D
 
 ### LLM Integration
 
-```python
+```python theme={null}
 def llm(session, prompt) -> str:
     """
     Call the LLM with the given prompt and chat history.
@@ -148,7 +148,7 @@ This function handles the LLM interaction. It uses Honcho's built-in `to_openai(
 
 ### Message Sending
 
-```python
+```python theme={null}
 async def send_discord_message(message, response_content: str):
     """Send a message to the Discord channel"""
     if len(response_content) > 1500:
@@ -176,14 +176,14 @@ This function handles sending messages to Discord, automatically splitting long 
 
 The new Honcho peer/session API makes integration much simpler:
 
-```python
+```python theme={null}
 peer = honcho_client.peer(id=get_peer_id_from_discord(message))
 session = honcho_client.session(id=str(message.channel.id))
 ```
 
 Here we create a peer object for the user and a session object using the Discord channel ID. This automatically handles user and session management.
 
-```python
+```python theme={null}
 # Save both the user's message and the bot's response to the session
 session.add_messages(
     [
@@ -199,7 +199,7 @@ After generating the response, we save both the user's input and the bot's respo
 
 Discord bots also offer slash command functionality. Here's an example using Honcho's chat endpoint feature:
 
-```python
+```python theme={null}
 @bot.slash_command(
     name="chat",
     description="Chat with Honcho about a peer.",
@@ -235,7 +235,7 @@ This slash command uses Honcho's chat endpoint functionality to answer questions
 
 The bot requires several environment variables and setup:
 
-```python
+```python theme={null}
 honcho_client = Honcho()
 assistant = honcho_client.peer(id="assistant", config={"observe_me": False})
 openai = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=MODEL_API_KEY)

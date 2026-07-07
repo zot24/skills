@@ -17,13 +17,13 @@
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
 Add the config entry to `config/services.php`:
 
-```php
+```php theme={null}
 'firecrawl' => [
     'api_key' => env('FIRECRAWL_API_KEY'),
     'base_url' => env('FIRECRAWL_API_URL', 'https://api.firecrawl.dev/v2'),
@@ -34,7 +34,7 @@ Add the config entry to `config/services.php`:
 
 Create `app/Services/FirecrawlService.php`:
 
-```php
+```php theme={null}
 <?php
 
 namespace App\Services;
@@ -105,7 +105,7 @@ class FirecrawlService
 
 Create `app/Http/Controllers/FirecrawlController.php`:
 
-```php
+```php theme={null}
 <?php
 
 namespace App\Http\Controllers;
@@ -152,7 +152,7 @@ class FirecrawlController extends Controller
 
 In `routes/api.php`:
 
-```php
+```php theme={null}
 use App\Http\Controllers\FirecrawlController;
 
 Route::post('/search', [FirecrawlController::class, 'search']);
@@ -162,7 +162,7 @@ Route::post('/interact', [FirecrawlController::class, 'interact']);
 
 ## Test it
 
-```bash
+```bash theme={null}
 php artisan serve
 
 # Search the web

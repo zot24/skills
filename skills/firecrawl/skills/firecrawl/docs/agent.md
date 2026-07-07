@@ -118,7 +118,7 @@ The only required parameter is `prompt`. Simply describe what data you want to e
 
 ### Response
 
-```json JSON
+```json JSON theme={null}
 {
   "success": true,
   "status": "completed",
@@ -261,7 +261,7 @@ Job results are available via the API for 24 hours after completion. After this 
 
 #### Pending Example
 
-```json JSON
+```json JSON theme={null}
 {
   "success": true,
   "status": "processing",
@@ -271,7 +271,7 @@ Job results are available via the API for 24 hours after completion. After this 
 
 #### Completed Example
 
-```json JSON
+```json JSON theme={null}
 {
   "success": true,
   "status": "completed",
@@ -438,7 +438,7 @@ Upload your CSV, then add output columns using the "+" button in the grid header
 
 If your agent jobs fail or return unexpected results, use the [Ask API](/features/ask) for agentic debugging. Describe the issue and get back a verified answer with fix parameters you can apply directly:
 
-```bash
+```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v2/support/ask \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
   -H "Content-Type: application/json" \

@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -44,7 +47,7 @@ The `web_search` and `web_extract` tools support eight backend providers, config
 Quick setup example:
 
 
-``` yaml
+``` prism-code
 web:
   backend: firecrawl    # firecrawl | searxng | brave-free | ddgs | tavily | exa | parallel | xai
 ```

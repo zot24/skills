@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/tooling/braintrust
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Braintrust
@@ -43,9 +56,9 @@ Once configured, workflow invocations appear as root traces with nested spans fo
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
-| `BRAINTRUST_API_KEY` | **Required for trace export** — Authenticates trace export to Braintrust. |
+| Variable                  | Purpose                                                                                 |
+|---------------------------|-----------------------------------------------------------------------------------------|
+| `BRAINTRUST_API_KEY`      | **Required for trace export** — Authenticates trace export to Braintrust.               |
 | `BRAINTRUST_PROJECT_NAME` | **Optional** — Chooses the Braintrust project that receives traces. Defaults to `Flue`. |
 
 Never commit the API key; on Cloudflare, store it as a Worker secret rather than a Wrangler `vars` value. When the key is absent, the integration does not initialize or subscribe and the application continues without trace export.
@@ -58,14 +71,14 @@ See [Observability](/docs/guide/observability/#choose-an-observability-provider)
 
 ## What Braintrust traces
 
-| Flue activity | Braintrust trace |
-|----|----|
-| Workflow invocation | Root `workflow:<name>` task span |
-| Prompt, skill, or compaction operation | Nested `flue.<kind>` task span |
-| Model turn | `llm:<model>` span with input, output, errors, and usage metrics |
-| Tool call | Nested `tool:<name>` span |
-| Delegated task | Nested task span |
-| Context compaction | Nested compaction span |
+| Flue activity                          | Braintrust trace                                                 |
+|----------------------------------------|------------------------------------------------------------------|
+| Workflow invocation                    | Root `workflow:<name>` task span                                 |
+| Prompt, skill, or compaction operation | Nested `flue.<kind>` task span                                   |
+| Model turn                             | `llm:<model>` span with input, output, errors, and usage metrics |
+| Tool call                              | Nested `tool:<name>` span                                        |
+| Delegated task                         | Nested task span                                                 |
+| Context compaction                     | Nested compaction span                                           |
 
 Model spans include token usage and estimated cost where available. Workflow traces carry `runId`; persistent-agent traces retain agent instance, session, operation, and optional `dispatchId` correlation. See [Observability](/docs/guide/observability/) for Flue’s identity and observer model.
 

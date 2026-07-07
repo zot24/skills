@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/databases/supabase
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Supabase
@@ -42,8 +55,8 @@ Flue discovers the adapter during a Node build, runs its migrations at server st
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
+| Variable                | Purpose                                                                  |
+|-------------------------|--------------------------------------------------------------------------|
 | `SUPABASE_DATABASE_URL` | **Required** — Connection string from **Supabase Dashboard \> Connect**. |
 
 The blueprint installs the existing `@flue/postgres` adapter with `pg` and writes a source-root `db.ts`. There is no Supabase-specific Flue package. Flue discovers the file at build time and wires it into the generated Node server.
@@ -103,13 +116,13 @@ The adapter’s `migrate()` hook runs automatically when the generated Node serv
 
 A Flue database stores runtime state, not the application’s whole data model.
 
-| Stored by Flue | Not stored by Flue |
-|----|----|
-| Canonical agent conversation streams and compaction records | Sandbox files and installed dependencies |
-| Immutable attachment payloads | External API side effects |
-| Accepted direct prompts and `dispatch(...)` submissions | Application-owned business data |
-| Durable submission claims and leases, workflow-run records, persisted events, and run indexes | Provider credentials or secrets |
-| Recovery state for accepted work | Provider credentials or secrets |
+| Stored by Flue                                                                                | Not stored by Flue                       |
+|-----------------------------------------------------------------------------------------------|------------------------------------------|
+| Canonical agent conversation streams and compaction records                                   | Sandbox files and installed dependencies |
+| Immutable attachment payloads                                                                 | External API side effects                |
+| Accepted direct prompts and `dispatch(...)` submissions                                       | Application-owned business data          |
+| Durable submission claims and leases, workflow-run records, persisted events, and run indexes | Provider credentials or secrets          |
+| Recovery state for accepted work                                                              | Provider credentials or secrets          |
 
 See [Durable Agents](/docs/concepts/durable-execution/) for recovery behavior and the [Data Persistence API](/docs/api/data-persistence-api/) for the adapter contract.
 

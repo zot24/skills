@@ -22,7 +22,7 @@ In this tutorial, you'll create a skill that gives an agent the capability to ro
 
 A skill is a folder containing a `SKILL.md` file. VS Code looks for skills in `.agents/skills/` by default. Create `.agents/skills/roll-dice/SKILL.md` in your project:
 
-````markdown .agents/skills/roll-dice/SKILL.md
+````markdown .agents/skills/roll-dice/SKILL.md theme={null}
 ---
 name: roll-dice
 description: Roll dice using a random number generator. Use when asked to roll a die (d6, d20, etc.), roll dice, or generate a random dice roll.

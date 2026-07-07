@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/api/routing-api
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Routing API
@@ -45,17 +58,17 @@ function flue(): Hono;
 
 Creates a mountable Hono sub-app for Flue’s public HTTP API. Routes are relative to the application-chosen mount prefix.
 
-| Route | Purpose |
-|----|----|
-| `POST /agents/:name/:id` | Start a prompt on an HTTP-exposed agent instance; returns `202` with stream coordinates. |
-| `POST /agents/:name/:id/abort` | Abort the instance’s in-flight and queued durable work; returns `200 { aborted }`. |
-| `GET /agents/:name/:id` | Read materialized history or projected updates. |
-| `HEAD /agents/:name/:id` | Return canonical conversation-stream metadata. |
-| `POST /workflows/:name` | Start an HTTP-exposed workflow run. |
-| `GET /runs/:runId` | Stream workflow-run events via the Durable Streams protocol. |
-| `GET /runs/:runId?meta` | Retrieve the workflow-run record as plain JSON. |
-| `HEAD /runs/:runId` | Return run stream metadata (tail offset, closed status). |
-| `* /channels/:name/*` | Serve method- and suffix-specific discovered channel handlers. |
+| Route                          | Purpose                                                                                  |
+|--------------------------------|------------------------------------------------------------------------------------------|
+| `POST /agents/:name/:id`       | Start a prompt on an HTTP-exposed agent instance; returns `202` with stream coordinates. |
+| `POST /agents/:name/:id/abort` | Abort the instance’s in-flight and queued durable work; returns `200 { aborted }`.       |
+| `GET /agents/:name/:id`        | Read materialized history or projected updates.                                          |
+| `HEAD /agents/:name/:id`       | Return canonical conversation-stream metadata.                                           |
+| `POST /workflows/:name`        | Start an HTTP-exposed workflow run.                                                      |
+| `GET /runs/:runId`             | Stream workflow-run events via the Durable Streams protocol.                             |
+| `GET /runs/:runId?meta`        | Retrieve the workflow-run record as plain JSON.                                          |
+| `HEAD /runs/:runId`            | Return run stream metadata (tail offset, closed status).                                 |
+| `* /channels/:name/*`          | Serve method- and suffix-specific discovered channel handlers.                           |
 
 Agent routes and workflow invocation routes are available only when the corresponding module exports `route`. A workflow’s existing run resources are available only when its module separately exports `runs`. Discovered channel files export a named `channel` binding whose provider-declared routes are always mounted beneath `/channels/<filename>`. Direct agent prompts and dispatched agent inputs are not runs.
 

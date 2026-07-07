@@ -15,13 +15,13 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,7 +29,8 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create `server/api/search.post.ts`:
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -44,7 +45,7 @@ export default defineEventHandler(async (event) => {
 
 Call it from a Vue component:
 
-```vue
+```vue theme={null}
 <script setup>
 const query = ref("");
 const { data, execute } = useFetch("/api/search", {
@@ -71,7 +72,8 @@ const { data, execute } = useFetch("/api/search", {
 
 Create `server/api/scrape.post.ts`:
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -86,7 +88,7 @@ export default defineEventHandler(async (event) => {
 
 Call it from a Vue component:
 
-```vue
+```vue theme={null}
 <script setup>
 const url = ref("https://example.com");
 const { data, execute } = useFetch("/api/scrape", {
@@ -109,7 +111,8 @@ const { data, execute } = useFetch("/api/scrape", {
 
 Create `server/api/interact.post.ts`:
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,

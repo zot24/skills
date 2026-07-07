@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/deploy/railway
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Deploy Agents on Railway
@@ -48,10 +61,10 @@ Set `build.builder` to `DOCKERFILE` (with `build.dockerfilePath` if non-standard
 
 Set variables on the service’s **Variables** tab. Flue needs the API key for your model provider, plus an optional model specifier:
 
-| Variable | Purpose |
-|----|----|
-| `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | Authenticates calls to your model provider. |
-| `MODEL_SPECIFIER` | Optional default model, e.g. `anthropic/claude-sonnet-4-6`, if your app reads one from the environment. |
+| Variable                               | Purpose                                                                                                 |
+|----------------------------------------|---------------------------------------------------------------------------------------------------------|
+| `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | Authenticates calls to your model provider.                                                             |
+| `MODEL_SPECIFIER`                      | Optional default model, e.g. `anthropic/claude-sonnet-4-6`, if your app reads one from the environment. |
 
 Use the variable name your provider expects, and **seal** the provider key so its value is supplied to builds and deploys but never readable back through the dashboard or API (sealing is one-way — a sealed variable cannot be un-sealed). Railway injects `PORT` automatically and the server binds it on `0.0.0.0` (defaulting to `3000` only when unset), so leave `PORT` unset and let Railway choose it — binding to `0.0.0.0` rather than `localhost` is what lets Railway’s proxy reach the service. Do not set the reserved `FLUE_MODE` or `FLUE_CLI_*` variables in production.
 

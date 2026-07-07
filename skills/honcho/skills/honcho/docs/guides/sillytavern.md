@@ -26,13 +26,13 @@ From your **SillyTavern directory**:
 
 **macOS / Linux:**
 
-```bash
+```bash theme={null}
 bash <(curl -fsSL https://raw.githubusercontent.com/plastic-labs/sillytavern-honcho/main/install.sh)
 ```
 
 **Windows (PowerShell):**
 
-```powershell
+```powershell theme={null}
 irm https://raw.githubusercontent.com/plastic-labs/sillytavern-honcho/main/install.ps1 | iex
 ```
 
@@ -140,7 +140,7 @@ If you already use Honcho with other tools (Claude Code, Cursor, Hermes), the ex
 
 Flat form (single-tool setup):
 
-```json
+```json theme={null}
 {
   "apiKey": "your-honcho-api-key",
   "peerName": "your-name",
@@ -151,7 +151,7 @@ Flat form (single-tool setup):
 
 Nested form (multiple tools sharing the file):
 
-```jsonc
+```jsonc theme={null}
 {
   "apiKey": "hch-v2-...",
   "peerName": "alice",

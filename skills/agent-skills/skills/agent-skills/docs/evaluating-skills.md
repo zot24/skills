@@ -20,7 +20,7 @@ A test case has three parts:
 
 Store test cases in `evals/evals.json` inside your skill directory:
 
-```json evals/evals.json
+```json evals/evals.json theme={null}
 {
   "skill_name": "csv-analyzer",
   "evals": [
@@ -117,7 +117,7 @@ When improving an existing skill, use the previous version as your baseline. Sna
 
 Timing data lets you compare how much time and tokens the skill costs relative to the baseline — a skill that dramatically improves output quality but triples token usage is a different trade-off than one that's both better and cheaper. When each run completes, record the token count and duration:
 
-```json timing.json
+```json timing.json theme={null}
 {
   "total_tokens": 84852,
   "duration_ms": 23332
@@ -147,7 +147,7 @@ Not everything needs an assertion. Some qualities — writing style, visual desi
 
 Add assertions to each test case in `evals/evals.json`:
 
-```json evals/evals.json highlight={9-14}
+```json evals/evals.json highlight={9-14} theme={null}
 {
   "skill_name": "csv-analyzer",
   "evals": [
@@ -173,7 +173,7 @@ Grading means evaluating each assertion against the actual outputs and recording
 
 The simplest approach is to give the outputs and assertions to an LLM and ask it to evaluate each one. For assertions that can be checked by code (valid JSON, correct row count, file exists with expected dimensions), use a verification script — scripts are more reliable than LLM judgment for mechanical checks and reusable across iterations.
 
-```json grading.json
+```json grading.json theme={null}
 {
   "assertion_results": [
     {
@@ -219,7 +219,7 @@ The simplest approach is to give the outputs and assertions to an LLM and ask it
 
 Once every run in the iteration is graded, compute summary statistics per configuration and save them to `benchmark.json` alongside the eval directories (e.g., `csv-analyzer-workspace/iteration-1/benchmark.json`):
 
-```json benchmark.json
+```json benchmark.json theme={null}
 {
   "run_summary": {
     "with_skill": {
@@ -263,7 +263,7 @@ Assertion grading and pattern analysis catch a lot, but they only check what you
 
 Record specific feedback for each test case and save it in the workspace (e.g., as a `feedback.json` alongside the eval directories):
 
-```json feedback.json
+```json feedback.json theme={null}
 {
   "eval-top-months-chart": "The chart is missing axis labels and the months are in alphabetical order instead of chronological.",
   "eval-clean-missing-emails": ""

@@ -31,7 +31,7 @@ You can use the FIRE-1 agent with the `/v1/scrape` endpoint to apply intelligent
 
 **Example (cURL):**
 
-```bash
+```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v1/scrape \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer YOUR_API_KEY' \
@@ -53,7 +53,7 @@ Similarly, you can leverage the FIRE-1 agent with the `/v1/extract` endpoint for
 
 **Example (cURL):**
 
-```bash
+```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v1/extract \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer YOUR_API_KEY' \
@@ -102,7 +102,7 @@ FIRE-1 brings a new level of intelligence to Firecrawl, enhancing your scraping 
 
 Activating FIRE-1 is straightforward. Simply include an `agent` object in your scrape or extract API request:
 
-```json
+```json theme={null}
 "agent": {
   "model": "FIRE-1",
   "prompt": "Your detailed navigation instructions here."
@@ -115,7 +115,7 @@ Activating FIRE-1 is straightforward. Simply include an `agent` object in your s
 
 Here's a quick example using FIRE-1 with the scrape endpoint to paginate through product listings:
 
-```bash
+```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v1/scrape \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer YOUR_API_KEY' \

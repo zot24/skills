@@ -15,13 +15,13 @@
 
 ## Install the SDK
 
-```bash
+```bash theme={null}
 npm install firecrawl
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,8 +29,9 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create `src/firecrawl/firecrawl.service.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { Injectable } from "@nestjs/common";
+import { Firecrawl } from "firecrawl";
 
 @Injectable()
 export class FirecrawlService {
@@ -68,8 +69,9 @@ export class FirecrawlService {
 
 Create `src/firecrawl/firecrawl.controller.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { Body, Controller, Post } from "@nestjs/common";
+import { FirecrawlService } from "./firecrawl.service";
 
 @Controller("firecrawl")
 export class FirecrawlController {
@@ -96,8 +98,10 @@ export class FirecrawlController {
 
 Create `src/firecrawl/firecrawl.module.ts`:
 
-```typescript
-
+```typescript theme={null}
+import { Module } from "@nestjs/common";
+import { FirecrawlService } from "./firecrawl.service";
+import { FirecrawlController } from "./firecrawl.controller";
 
 @Module({
   providers: [FirecrawlService],
@@ -111,7 +115,7 @@ Import `FirecrawlModule` in your `AppModule`.
 
 ## Test it
 
-```bash
+```bash theme={null}
 curl -X POST http://localhost:3000/firecrawl/search \
   -H "Content-Type: application/json" \
   -d '{"query": "firecrawl web scraping"}'

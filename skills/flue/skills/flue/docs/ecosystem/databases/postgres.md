@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/databases/postgres
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Postgres
@@ -52,8 +65,8 @@ Flue discovers the adapter at build time and wires it into the generated Node se
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
+| Variable       | Purpose                                                                                |
+|----------------|----------------------------------------------------------------------------------------|
 | `DATABASE_URL` | **Required** — Postgres connection string, e.g. `postgresql://user:pass@host:5432/db`. |
 
 Your driver reads `DATABASE_URL` at runtime — it is not baked into the build. For local development, `flue dev --env <file>` and `flue run --env <file>` load any `.env`-format file. In production, supply it from your platform’s secret store.
@@ -94,24 +107,24 @@ The adapter’s `migrate()` hook runs automatically when the generated Node serv
 
 A Flue database stores runtime state, not your whole application.
 
-| Stored by Flue | Not stored by Flue |
-|----|----|
-| Canonical agent conversation streams and compaction records | Sandbox files and installed dependencies |
-| Immutable attachment payloads | External API side effects |
-| Accepted direct prompts and `dispatch(...)` submissions | Application-owned business data unless your own tools store it |
-| Workflow-run records and persisted events | Provider credentials or secrets |
-| Run indexing for `/runs` lookups and `listRuns()` |  |
+| Stored by Flue                                              | Not stored by Flue                                             |
+|-------------------------------------------------------------|----------------------------------------------------------------|
+| Canonical agent conversation streams and compaction records | Sandbox files and installed dependencies                       |
+| Immutable attachment payloads                               | External API side effects                                      |
+| Accepted direct prompts and `dispatch(...)` submissions     | Application-owned business data unless your own tools store it |
+| Workflow-run records and persisted events                   | Provider credentials or secrets                                |
+| Run indexing for `/runs` lookups and `listRuns()`           |                                                                |
 
 The submission rows are what make accepted work recoverable after an interruption. See [Durable Agents](/docs/concepts/durable-execution/) for how recovery uses them, and the [Data Persistence API](/docs/api/data-persistence-api/) for the exact adapter contract.
 
 ## When to choose Postgres
 
-| Use case | Adapter |
-|----|----|
-| Local development, or restart persistence is unnecessary | `sqlite()` from `@flue/runtime/node` (file path or in-memory) |
-| Single-host Node deployment | File-backed `sqlite()` |
-| Multi-replica Node deployment, or state must survive host loss | `@flue/postgres`, with one live owner per agent instance |
-| Cloudflare deployment | Built-in Durable Object SQLite (no `db.ts`) |
+| Use case                                                       | Adapter                                                       |
+|----------------------------------------------------------------|---------------------------------------------------------------|
+| Local development, or restart persistence is unnecessary       | `sqlite()` from `@flue/runtime/node` (file path or in-memory) |
+| Single-host Node deployment                                    | File-backed `sqlite()`                                        |
+| Multi-replica Node deployment, or state must survive host loss | `@flue/postgres`, with one live owner per agent instance      |
+| Cloudflare deployment                                          | Built-in Durable Object SQLite (no `db.ts`)                   |
 
 Choose Postgres when a replacement process must recover accepted work, when replicas need shared workflow history, or when a single host’s disk is not a durable enough home for state. Keep one live owner for each agent instance and use instance-affine routing across replicas. Managed Postgres pairs naturally with the container deploy targets — see [Deploy on AWS](/docs/ecosystem/deploy/aws/) for RDS, and the other [deploy guides](/docs/ecosystem/deploy/node/) for provisioning a database alongside the server.
 

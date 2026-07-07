@@ -8,6 +8,10 @@
 
 > Get the configuration for a Peer in a Session.
 
+Member-read lets a peer-scoped key reach this route, but a peer may only
+read its own per-session config — not a co-member's. Workspace/admin and
+session-scoped tokens (which already span the whole session) are unaffected.
+
 
 ## OpenAPI
 
@@ -23,7 +27,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.7
+  version: 3.0.11
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -36,7 +40,16 @@ paths:
       tags:
         - sessions
       summary: Get Peer Config
-      description: Get the configuration for a Peer in a Session.
+      description: >-
+        Get the configuration for a Peer in a Session.
+
+
+        Member-read lets a peer-scoped key reach this route, but a peer may only
+
+        read its own per-session config — not a co-member's. Workspace/admin and
+
+        session-scoped tokens (which already span the whole session) are
+        unaffected.
       operationId: >-
         get_peer_config_v3_workspaces__workspace_id__sessions__session_id__peers__peer_id__config_get
       parameters:

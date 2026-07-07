@@ -22,13 +22,13 @@ Install the [Factory AI CLI](https://docs.factory.ai/cli/getting-started/quickst
 
 **macOS/Linux:**
 
-```bash
+```bash theme={null}
 curl -fsSL https://app.factory.ai/cli | sh
 ```
 
 **Windows:**
 
-```powershell
+```powershell theme={null}
 iwr https://app.factory.ai/cli/install.ps1 -useb | iex
 ```
 
@@ -36,7 +36,7 @@ iwr https://app.factory.ai/cli/install.ps1 -useb | iex
 
 In the Factory droid CLI, add Firecrawl using the `/mcp add` command:
 
-```bash
+```bash theme={null}
 /mcp add firecrawl "npx -y firecrawl-mcp" -e FIRECRAWL_API_KEY=your-api-key-here
 ```
 

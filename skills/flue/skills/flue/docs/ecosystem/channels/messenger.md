@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/ecosystem/channels/messenger
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Facebook Messenger
@@ -60,12 +73,12 @@ The abridged example omits the generated `postMessage()` tool and Graph client i
 
 ## Configure
 
-| Variable | Purpose |
-|----|----|
-| `MESSENGER_APP_SECRET` | **Required** — Verifies signed inbound webhook bodies. |
-| `MESSENGER_VERIFY_TOKEN` | **Required** — Verifies Meta’s callback setup challenge. |
-| `MESSENGER_PAGE_ID` | **Required** — Restricts inbound events and binds outbound sends. |
-| `MESSENGER_PAGE_ACCESS_TOKEN` | **Required** — Authenticates outbound Graph API calls. |
+| Variable                      | Purpose                                                           |
+|-------------------------------|-------------------------------------------------------------------|
+| `MESSENGER_APP_SECRET`        | **Required** — Verifies signed inbound webhook bodies.            |
+| `MESSENGER_VERIFY_TOKEN`      | **Required** — Verifies Meta’s callback setup challenge.          |
+| `MESSENGER_PAGE_ID`           | **Required** — Restricts inbound events and binds outbound sends. |
+| `MESSENGER_PAGE_ACCESS_TOKEN` | **Required** — Authenticates outbound Graph API calls.            |
 
 It installs `@flue/messenger` for verified Page ingress and creates an editable Graph API Fetch client for outbound messages. The same client runs in Node and workerd with Flue’s required `nodejs_compat` configuration.
 

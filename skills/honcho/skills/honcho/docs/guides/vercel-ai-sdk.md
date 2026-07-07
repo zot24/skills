@@ -48,7 +48,7 @@ Install the package:
 
 Get your API key at [app.honcho.dev](https://app.honcho.dev).
 
-```bash
+```bash theme={null}
 HONCHO_API_KEY=your-api-key
 HONCHO_WORKSPACE_ID=your-workspace-id
 ```
@@ -57,7 +57,7 @@ HONCHO_WORKSPACE_ID=your-workspace-id
 
 The package ships a Skill that can walk an agent through wiring Honcho into your Vercel AI SDK app automatically — it greps for your `generateText` / `streamText` call sites, asks where `userId` / `sessionId` come from, and applies the integration in place.
 
-```bash
+```bash theme={null}
 npx skills add plastic-labs/vercel-ai-sdk
 ```
 
@@ -79,7 +79,7 @@ Then invoke `/honcho-vercel-ai-sdk`.
 
 `createHoncho()` is the entry point. It reads your API key and workspace from environment variables and returns a provider object with `middleware()`, `tools()`, and `send()`.
 
-```typescript
+```typescript theme={null}
 import { createHoncho } from '@honcho-ai/vercel-ai-sdk';
 
 const honcho = createHoncho();
@@ -87,7 +87,7 @@ const honcho = createHoncho();
 
 You can set a stable `defaultAssistantId` on the provider to identify the AI peer across all calls:
 
-```typescript
+```typescript theme={null}
 const honcho = createHoncho({
   defaultAssistantId: 'my-assistant',
 });
@@ -100,7 +100,7 @@ const honcho = createHoncho({
 1. **Before generation** — Honcho fetches the user's representation, peer card, session summary, and recent messages and injects them into the system prompt
 2. **After generation** — the user message and assistant response are stored back in Honcho with correct peer attribution
 
-```typescript
+```typescript theme={null}
 import { createHoncho } from '@honcho-ai/vercel-ai-sdk';
 import { wrapLanguageModel, generateText } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
@@ -138,7 +138,7 @@ Pass `userId` and `sessionId` per request — no session handles to construct. B
 
 Pass the same `userId` and `sessionId` to `honcho.tools()` so tool calls bind to the same peers as the middleware:
 
-```typescript
+```typescript theme={null}
 import { generateText, stepCountIs } from 'ai';
 
 const { text } = await generateText({
@@ -158,7 +158,7 @@ Here's a full working example combining middleware and tools.
 
 Want a runnable end-to-end version? See the [Full Script](#full-script).
 
-```typescript
+```typescript theme={null}
 import { createHoncho } from '@honcho-ai/vercel-ai-sdk';
 import { wrapLanguageModel, generateText, stepCountIs } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
@@ -189,7 +189,7 @@ console.log(text);
 
 `streamText` works the same way — middleware handles persistence after the stream completes:
 
-```typescript
+```typescript theme={null}
 import { createHoncho } from '@honcho-ai/vercel-ai-sdk';
 import { wrapLanguageModel, streamText } from 'ai';
 import { openai } from '@ai-sdk/openai';
@@ -219,7 +219,7 @@ for await (const chunk of result.textStream) {
 
 If your app already manages conversation history and passes a `messages` array directly, set `injectHistory: false` to prevent Honcho from prepending duplicate history:
 
-```typescript
+```typescript theme={null}
 honcho.middleware({
   userId,
   sessionId,
@@ -241,7 +241,7 @@ Two ways to check: 1) through a developer method 2) through the UI.
 
 Compare `result.usage.inputTokens`:
 
-```typescript
+```typescript theme={null}
 const baseline = await generateText({
   model: wrapLanguageModel({
     model: anthropic('claude-sonnet-4-6'),
@@ -275,13 +275,13 @@ Send any message. The model responds normally — nothing is stored yet. Context
 
 Have a multi-turn conversation and share something about yourself:
 
-```text
+```text theme={null}
 I prefer concise answers and I mostly work in TypeScript.
 ```
 
 After a few turns, ask:
 
-```text
+```text theme={null}
 What do you know about my preferences?
 ```
 
@@ -291,7 +291,7 @@ If the model references TypeScript and concise answers without being told again 
 
 Start a new session (new `sessionId`) with the same `userId`. Ask:
 
-```text
+```text theme={null}
 Call your honcho_search tool with the query 'TypeScript' and quote the exact verbatim message that contained TypeScript. Do not paraphrase.
 ```
 
@@ -299,7 +299,7 @@ If the search returns a message from the prior session word-for-word, peer-scope
 
 To confirm the tool actually fired, inspect `result.steps[i].toolCalls`:
 
-```typescript
+```typescript theme={null}
 const toolFires = result.steps?.flatMap((step, i) =>
   (step.toolCalls ?? []).map((tc) => ({ step: i, tool: tc.toolName, input: tc.input }))
 ) ?? [];

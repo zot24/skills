@@ -128,7 +128,7 @@ For more details about the parameters, refer to the [API Reference](https://docs
 
 SDKs will return the data object directly. cURL will return the payload exactly as shown below.
 
-```json
+```json theme={null}
 {
   "success": true,
   "data" : {
@@ -278,7 +278,7 @@ Used to extract structured data from scraped pages.
 
 Output:
 
-```json JSON
+```json JSON theme={null}
 {
     "success": true,
     "data": {
@@ -364,7 +364,7 @@ You can now extract without a schema by just passing a `prompt` to the endpoint.
 
 Output:
 
-```json JSON
+```json JSON theme={null}
 {
     "success": true,
     "data": {
@@ -447,7 +447,7 @@ The branding format extracts comprehensive brand identity information from a web
 
 The branding format returns a comprehensive `BrandingProfile` object with the following structure:
 
-```json Output
+```json Output theme={null}
 {
   "success": true,
   "data": {
@@ -650,7 +650,7 @@ It returns a `product` object with title, brand, category, description, and vari
 
 The product format returns a `product` object with the following structure:
 
-```json Output
+```json Output theme={null}
 {
   "success": true,
   "data": {
@@ -1329,7 +1329,7 @@ If you’re using the sync methods from the SDKs, it will return the results of 
 
 #### Synchronous
 
-```json Completed
+```json Completed theme={null}
 {
   "status": "completed",
   "total": 36,
@@ -1359,7 +1359,7 @@ If you’re using the sync methods from the SDKs, it will return the results of 
 
 You can then use the job ID to check the status of the batch scrape by calling the `/batch/scrape/{id}` endpoint. This endpoint is meant to be used while the job is still running or right after it has completed **as batch scrape jobs expire after 24 hours**.
 
-```json
+```json theme={null}
 {
   "success": true,
   "id": "123-456-789",
@@ -1379,7 +1379,7 @@ Firecrawl supports Zero Data Retention (ZDR) for teams with strict data handling
 
 To enable ZDR, set `zeroDataRetention: true` in your request:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/scrape \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \

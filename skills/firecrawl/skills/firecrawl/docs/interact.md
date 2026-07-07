@@ -108,7 +108,7 @@ Scrape a page, interact with it, and stop the session:
   ```
 </CodeGroup>
 
-```json Response
+```json Response theme={null}
 {
   "success": true,
   "cdpUrl": "wss://browser.firecrawl.dev/...",
@@ -153,7 +153,7 @@ The simplest way to interact with a page. Describe what you want in natural lang
 
 The response includes an `output` field with the agent's answer:
 
-```json Response
+```json Response theme={null}
 {
   "success": true,
   "cdpUrl": "wss://browser.firecrawl.dev/...",
@@ -399,7 +399,7 @@ Common agent-browser commands:
 
 Every interact response returns a `liveViewUrl` that you can embed to watch the browser in real time. Useful for debugging, demos, or building browser-powered UIs.
 
-```json Response
+```json Response theme={null}
 {
   "success": true,
   "cdpUrl": "wss://browser.firecrawl.dev/...",
@@ -411,7 +411,7 @@ Every interact response returns a `liveViewUrl` that you can embed to watch the 
 }
 ```
 
-```html
+```html theme={null}
 <iframe src="LIVE_VIEW_URL" width="100%" height="600" />
 ```
 
@@ -419,7 +419,7 @@ Every interact response returns a `liveViewUrl` that you can embed to watch the 
 
 The response also includes an `interactiveLiveViewUrl`. Unlike the standard live view which is view-only, the interactive live view allows users to click, type, and interact with the browser session directly through the embedded stream. This is useful for building user-facing browser UIs, such as login flows or guided workflows where end users need to control the browser.
 
-```html
+```html theme={null}
 <iframe src="INTERACTIVE_LIVE_VIEW_URL" width="100%" height="600" />
 ```
 
@@ -427,7 +427,8 @@ The response also includes an `interactiveLiveViewUrl`. Unlike the standard live
 
 Every interact response also returns a `cdpUrl`: the raw Chrome DevTools Protocol (CDP) WebSocket URL for the browser session. Use it to connect to the live session directly from Playwright, Puppeteer, or any CDP client and drive the browser with your own code.
 
-```js
+```js theme={null}
+import { chromium } from "playwright";
 
 const browser = await chromium.connectOverCDP(cdpUrl);
 const context = browser.contexts()[0];
@@ -513,7 +514,7 @@ By default, each scrape + interact session starts with a clean browser. With `pr
 
 Pass the `profile` object to the initial `POST /v2/scrape` request. Do not pass `profile` to `POST /v2/scrape/{scrapeId}/interact`; the interact session reuses the scrape job's browser session and profile settings. Stop the interact session with `DELETE /v2/scrape/{scrapeId}/interact` so writable profile changes can be saved.
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST "https://api.firecrawl.dev/v2/scrape" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
   -H "Content-Type: application/json" \
@@ -675,7 +676,7 @@ The browser state is saved when the interact session is stopped. Always stop the
 
 You can test persistence without relying on a real login flow by writing a localStorage value in one session, stopping it, then reading the value in a second session with the same profile.
 
-```bash cURL
+```bash cURL theme={null}
 # Session 1: write browser state and save it
 RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \

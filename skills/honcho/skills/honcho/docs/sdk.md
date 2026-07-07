@@ -805,7 +805,7 @@ Provides formatted conversation context for LLM integration:
 
 The SessionContext object has the following structure:
 
-```json
+```json theme={null}
 {
   "id": "string",
   "messages": [
@@ -941,7 +941,7 @@ The SessionContext object has the following structure:
 
 When creating messages, you can optionally specify a custom `created_at` timestamp instead of using the server's current time:
 
-```bash
+```bash theme={null}
 curl -X POST "https://api.honcho.dev/v3/workspaces/{workspace_id}/sessions/{session_id}/messages" \
   -H "Authorization: Bearer $API_KEY" \
   -H "Content-Type: application/json" \

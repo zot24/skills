@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_m5m7">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_ztD2">Skip to main content</a>
 
 
 On this page
@@ -78,7 +78,7 @@ DB_DATA_LOCATION=./postgres
 # TZ=Etc/UTC
 
 # The Immich version to use. You can pin this to a specific version like "v2.1.0"
-IMMICH_VERSION=v2
+IMMICH_VERSION=v3
 
 # Connection secret for postgres. You should change it to a random password
 # Please use only the characters `A-Za-z0-9`, without special characters or spaces

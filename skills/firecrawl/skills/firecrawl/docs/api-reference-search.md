@@ -40,7 +40,7 @@ Use the `country` parameter to specify the country for search results using ISO 
 
 Examples: `"US"`, `"DE"`, `"FR"`, `"JP"`, `"UK"`, `"CA"`.
 
-```json
+```json theme={null}
 {
   "query": "restaurants",
   "country": "DE"
@@ -57,7 +57,7 @@ Filter search results by specific categories using the `categories` parameter:
 
 ### Example Usage
 
-```json
+```json theme={null}
 {
   "query": "machine learning",
   "categories": ["github", "research"],
@@ -73,7 +73,7 @@ Use `includeDomains` to restrict results to specific domains, or `excludeDomains
 
 ### Include Domains Example
 
-```json
+```json theme={null}
 {
   "query": "web scraping",
   "includeDomains": ["firecrawl.dev", "docs.firecrawl.dev"],
@@ -83,7 +83,7 @@ Use `includeDomains` to restrict results to specific domains, or `excludeDomains
 
 ### Exclude Domains Example
 
-```json
+```json theme={null}
 {
   "query": "web scraping tools",
   "excludeDomains": ["example.com"],
@@ -95,7 +95,7 @@ Use `includeDomains` to restrict results to specific domains, or `excludeDomains
 
 Each result includes a `category` field indicating its source:
 
-```json
+```json theme={null}
 {
   "success": true,
   "data": {

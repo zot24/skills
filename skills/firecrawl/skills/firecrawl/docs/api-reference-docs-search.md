@@ -18,7 +18,7 @@ The `/support/docs-search` endpoint answers questions using Firecrawl's public d
 
 ## Example
 
-```bash
+```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v2/support/docs-search \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
   -H "Content-Type: application/json" \
@@ -29,7 +29,7 @@ curl -X POST https://api.firecrawl.dev/v2/support/docs-search \
 
 ### Response
 
-```json
+```json theme={null}
 {
   "requestId": "req_...",
   "answer": "The signature is sent in the X-Firecrawl-Signature header...",

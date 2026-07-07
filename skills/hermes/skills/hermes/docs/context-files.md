@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -12,14 +15,14 @@ Hermes Agent automatically discovers and loads context files that shape how it b
 
 ## Supported Context Files<a href="#supported-context-files" class="hash-link" aria-label="Direct link to Supported Context Files" translate="no" title="Direct link to Supported Context Files">​</a>
 
-| File | Purpose | Discovery |
-|----|----|----|
-| **.hermes.md** / **HERMES.md** | Project instructions (highest priority) | Walks to git root |
-| **AGENTS.md** | Project instructions, conventions, architecture | CWD at startup + subdirectories progressively |
-| **CLAUDE.md** | Claude Code context files (also detected) | CWD at startup + subdirectories progressively |
-| **SOUL.md** | Global personality and tone customization for this Hermes instance | `HERMES_HOME/SOUL.md` only |
-| **.cursorrules** | Cursor IDE coding conventions | CWD only |
-| **.cursor/rules/\*.mdc** | Cursor IDE rule modules | CWD only |
+| File                           | Purpose                                                            | Discovery                                     |
+|--------------------------------|--------------------------------------------------------------------|-----------------------------------------------|
+| **.hermes.md** / **HERMES.md** | Project instructions (highest priority)                            | Walks to git root                             |
+| **AGENTS.md**                  | Project instructions, conventions, architecture                    | CWD at startup + subdirectories progressively |
+| **CLAUDE.md**                  | Claude Code context files (also detected)                          | CWD at startup + subdirectories progressively |
+| **SOUL.md**                    | Global personality and tone customization for this Hermes instance | `HERMES_HOME/SOUL.md` only                    |
+| **.cursorrules**               | Cursor IDE coding conventions                                      | CWD only                                      |
+| **.cursor/rules/\*.mdc**       | Cursor IDE rule modules                                            | CWD only                                      |
 
 
 Only **one** project context type is loaded per session (first match wins): `.hermes.md` → `AGENTS.md` → `CLAUDE.md` → `.cursorrules`. **SOUL.md** is always loaded independently as the agent identity (slot \#1).
@@ -34,7 +37,7 @@ Only **one** project context type is loaded per session (first match wins): `.he
 At session start, Hermes loads the `AGENTS.md` from your working directory into the system prompt. As the agent navigates into subdirectories during the session (via `read_file`, `terminal`, `search_files`, etc.), it **progressively discovers** context files in those directories and injects them into the conversation at the moment they become relevant.
 
 
-``` text
+``` prism-code
 my-project/
 ├── AGENTS.md              ← Loaded at startup (system prompt)
 ├── frontend/
@@ -60,7 +63,7 @@ Subdirectory context files go through the same [security scan](#security-prompt-
 ### Example AGENTS.md<a href="#example-agentsmd" class="hash-link" aria-label="Direct link to Example AGENTS.md" translate="no" title="Direct link to Example AGENTS.md">​</a>
 
 
-``` markdown
+``` prism-code
 # Project Context
 
 This is a Next.js 14 web application with a Python FastAPI backend.
@@ -134,7 +137,7 @@ Context files are loaded by `build_context_files_prompt()` in `agent/prompt_buil
 The final prompt section looks roughly like:
 
 
-``` text
+``` prism-code
 # Project Context
 
 The following project context files have been loaded and should be followed:
@@ -169,7 +172,7 @@ All context files are scanned for potential prompt injection before being includ
 If any threat pattern is detected, the file is blocked:
 
 
-``` text
+``` prism-code
 [BLOCKED: AGENTS.md contained potential prompt injection (prompt_injection). Content not loaded.]
 ```
 
@@ -179,17 +182,17 @@ This scanner protects against common injection patterns, but it's not a substitu
 
 ## Size Limits<a href="#size-limits" class="hash-link" aria-label="Direct link to Size Limits" translate="no" title="Direct link to Size Limits">​</a>
 
-| Limit | Value |
-|----|----|
-| Max chars per file | `context_file_max_chars` (default 20,000, ~7,000 tokens) |
-| Head truncation ratio | 70% |
-| Tail truncation ratio | 20% |
-| Truncation marker | 10% (shows char counts and suggests using file tools) |
+| Limit                 | Value                                                    |
+|-----------------------|----------------------------------------------------------|
+| Max chars per file    | `context_file_max_chars` (default 20,000, ~7,000 tokens) |
+| Head truncation ratio | 70%                                                      |
+| Tail truncation ratio | 20%                                                      |
+| Truncation marker     | 10% (shows char counts and suggests using file tools)    |
 
 When a file exceeds the configured limit, the truncation message reads:
 
 
-``` text
+``` prism-code
 [...truncated AGENTS.md: kept 14000+4000 of 25000 chars. Use file tools to read the full file.]
 ```
 
@@ -210,7 +213,7 @@ When a file exceeds the configured limit, the truncation message reads:
 For monorepos, put subdirectory-specific instructions in nested AGENTS.md files:
 
 
-``` markdown
+``` prism-code
 <!-- frontend/AGENTS.md -->
 # Frontend Context
 
@@ -221,7 +224,7 @@ For monorepos, put subdirectory-specific instructions in nested AGENTS.md files:
 ```
 
 
-``` markdown
+``` prism-code
 <!-- backend/AGENTS.md -->
 # Backend Context
 

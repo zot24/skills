@@ -15,13 +15,13 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 pip install flask firecrawl-py
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
@@ -29,7 +29,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 Create `app.py`:
 
-```python
+```python theme={null}
 import os
 from flask import Flask, request, jsonify
 from firecrawl import Firecrawl
@@ -79,13 +79,13 @@ if __name__ == "__main__":
 
 ## Run it
 
-```bash
+```bash theme={null}
 flask run
 ```
 
 ## Test it
 
-```bash
+```bash theme={null}
 # Search the web
 curl -X POST http://localhost:5000/search \
   -H "Content-Type: application/json" \

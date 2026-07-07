@@ -12,13 +12,13 @@ Integrate Firecrawl with [Microsoft AutoGen](https://github.com/microsoft/autoge
 
 ## Setup
 
-```bash
+```bash theme={null}
 pip install -U "autogen-agentchat" "autogen-ext[openai]" firecrawl-py
 ```
 
 Set your keys:
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 export OPENAI_API_KEY=sk-YOUR-OPENAI-KEY
 ```
@@ -27,7 +27,7 @@ export OPENAI_API_KEY=sk-YOUR-OPENAI-KEY
 
 This example wraps Firecrawl's `scrape` and `search` as AutoGen function tools, then lets a single `AssistantAgent` use them to answer a question.
 
-```python
+```python theme={null}
 import asyncio
 import os
 from firecrawl import FirecrawlApp
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
 Run it:
 
-```bash
+```bash theme={null}
 python researcher.py
 ```
 
@@ -87,7 +87,7 @@ python researcher.py
 
 Hand Firecrawl output from a researcher agent to a writer agent in a round-robin team.
 
-```python
+```python theme={null}
 import asyncio
 import os
 from firecrawl import FirecrawlApp

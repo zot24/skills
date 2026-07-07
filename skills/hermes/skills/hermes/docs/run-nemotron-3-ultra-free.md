@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -33,7 +36,7 @@ When the app opens, you'll see a "Let's get you set up" screen. Click **Nous Por
 After connecting, the app shows a **Default model** card. Click **Change**, search for **nemotron 3 ultra**, and select the variant tagged **Free tier**:
 
 
-``` text
+``` prism-code
 nvidia/nemotron-3-ultra:free
 ```
 
@@ -53,7 +56,7 @@ Prefer the terminal?
 On macOS/Linux/WSL2/Android, run
 
 
-``` bash
+``` prism-code
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
@@ -61,7 +64,7 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 On Windows, run
 
 
-``` powershell
+``` prism-code
 iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 ```
 
@@ -71,7 +74,7 @@ Prefer to review first? Download <a href="https://hermes-agent.nousresearch.com/
 After it finishes, reload your shell:
 
 
-``` bash
+``` prism-code
 source ~/.bashrc   # or source ~/.zshrc
 ```
 
@@ -79,7 +82,7 @@ source ~/.bashrc   # or source ~/.zshrc
 ### 2. Run Quick Setup<a href="#2-run-quick-setup" class="hash-link" aria-label="Direct link to 2. Run Quick Setup" translate="no" title="Direct link to 2. Run Quick Setup">​</a>
 
 
-``` bash
+``` prism-code
 hermes setup
 ```
 
@@ -99,7 +102,7 @@ When prompted to connect your account to Hermes Agent, click **Connect**. You'll
 Return to your terminal. From the model list, select:
 
 
-``` text
+``` prism-code
 nvidia/nemotron-3-ultra:free
 ```
 
@@ -111,7 +114,7 @@ The `:free` tag is what keeps it on the no-cost tier, so make sure you pick that
 Complete the remaining Quick Setup prompts, then run:
 
 
-``` bash
+``` prism-code
 hermes
 ```
 

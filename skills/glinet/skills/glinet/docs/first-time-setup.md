@@ -48,11 +48,11 @@ Therefore, the following guidance is divided into two cases based on the presenc
 
 ## For models that have Wi-Fi<a href="#for-models-that-have-wi-fi" class="headerlink" title="Permanent link">¶</a>
 
-Here is an example of GL-AXT1800 (Slate AX).
+The following steps use the GL-MT3000 (Beryl AX) as an example.
 
 Please prepare the following items included in the package.
 
-- GL-AXT1800
+- A router GL-MT3000 (Beryl AX)
 - A power adapter
 - An Ethernet cable
 
@@ -65,55 +65,52 @@ Watch this video guide or follow the steps below.
 Unable to execute JavaScript.
 
 
-1.  Power on
-
-    If you want to use TF card, please insert before powering on the router. Hot-swapping TF cards is not supported.
+1.  **Power on**
 
     Plug one end of the power adapter into the router and the other end into an outlet. It will automatically power on.
 
-2.  Connect to the router
+    Some models (such as Slate AX) are equipped with a TF card slot. If you need to use a TF card, insert the card before powering on the router. Hot-swapping TF cards is not supported.
 
-    You can connect to router via an ethernet cable or via Wi-Fi.
+2.  **Connect to the router**
 
-    - Connect via cable
+    Connect a device (e.g., smartphone, laptop, or computer) to the router via an Ethernet cable or via Wi-Fi.
 
-      Connect your computer to the LAN port of the router via Ethernet cable.
+    - Connect via Ethernet: Connect a device to the LAN port of the router via an Ethernet cable.
 
-    - Connect via Wi-Fi
+    - Connect via Wi-Fi: Find the Wi-Fi SSID and Wi-Fi key on the router's bottom label. Search for the router's SSID on your device, then enter the Wi-Fi key.
 
-      The Wi-Fi SSID is printed on the router's bottom label in the following formats:
+      <div class="admonition tip">
 
-      **GL-AXT1800-XXX** or **GL-AXT1800-XXX-5G**
+      Tip
 
-      The default Wi-Fi Key is located below the SSID.
+      1.  The QR code on the bottom label contains the default Wi-Fi information. You can connect quickly by scanning it with a QR code scanner.
+      2.  For some older models, if the Wi-Fi key is not found on the label, try "goodlife".
 
-      Search for the router's SSID on your computer, phone, or tablet, then enter the Wi-Fi Key. For some models, if the Wi-Fi password is not found on the label, please try "**goodlife**".
+      </div>
 
-      **Tip:** The QR code on the bottom label contains the default Wi-Fi information. You can connect quickly by scanning it with your phone's QR code scanner.
+    After connecting to the Wi-Fi, you may not have immediate Internet access. Please follow the next step to configure your network first before accessing the Internet.
 
-      **Note:** After connecting to the Wi-Fi, you may not have immediate Internet access. Please follow the next step to configure your network first before accessing the Internet.
+3.  **Log in to the web Admin Panel**
 
-3.  Log in to the web Admin Panel
+    Open a web browser (Chrome, Edge, and Safari are recommended for better compatibility) and visit <http://192.168.8.1>. You will be directed to the GL.iNet login page. If you cannot access the web Admin Panel, click [here](../cannot_access_web_admin_panel/) for troubleshooting.
 
-    Open a web browser (we recommend Chrome, Edge, or Safari) and visit <http://192.168.8.1>. You will be directed to the initial setup of the web Admin Panel.
+    Set up your admin password, then click **Next**.
 
-    If you cannot access the web Admin Panel, please check [here](../cannot_access_web_admin_panel/).
+    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/mt3000_admin_password.png" class="glboxshadow" alt="mt3000 set up admin password" />
 
-    Choose a language, and click **Next** to continue.
+    Set up your Wi-Fi. If you update the Wi-Fi information, make sure to reconnect to the updated one, then click **Next**
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/admin_panel_first_time_login.png" class="glboxshadow" alt="Admin Panel" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/mt3000_set_up_wifi.png" class="glboxshadow" alt="mt3000 set up wifi" />
 
-    Set up admin password. We recommend using a strong password. Click **Apply** to continue.
+    Wait for the router to finish initializing.
 
-    **Note**: Wi-Fi may turn off during the initialization, please make sure to reconnect to the router.
+    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/mt3000_initializing.png" class="glboxshadow" alt="mt3000 initializing" />
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/set_up_your_admin_password_gl-mt2500.png" class="glboxshadow" alt="set up admin password" />
+    You will then access the web Admin Panel of your router.
 
-    After the initial setup, you will enter the web Admin Panel of the router.
+    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/mt3000_admin_panel.png" class="glboxshadow" alt="mt3000 admin panel" />
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/admin_panel_gl-axt1800.png" class="glboxshadow" alt="admin panel of gl-axt1800" />
-
-4.  Connect to the Internet
+4.  **Connect to the Internet**
 
     - [Connect to the Internet via an ethernet cable](../../interface_guide/internet_ethernet/)
     - [Connect to the Internet via an existing Wi-Fi](../../interface_guide/internet_repeater/)
@@ -122,55 +119,33 @@ Unable to execute JavaScript.
 
 ## For models that don't have Wi-Fi<a href="#for-models-that-dont-have-wi-fi" class="headerlink" title="Permanent link">¶</a>
 
-Here is an example of GL-MT2500A (Brume 2).
+The following steps use the GL-MT5000 (Brume 3) as an example.
 
-1.  Power on
+1.  **Power on**
 
     Plug one end of the power adapter into the router and the other end into an outlet. The router will power on automatically.
 
-2.  Connect to the router
+2.  **Connect to the router**
 
-    We can connect to router via an Ethernet cable or via Wi-Fi.
+    Connect a device (e.g., laptop, computer) to the LAN port of the router via an Ethernet cable.
 
-    - Direct connection via Ethernet cable
+3.  **Log in to the web Admin Panel**
 
-      Connect your computer to the LAN port of the router using an Ethernet cable. This is the recommended configuration method as it's simple and straightforward.
+    Open a web browser (Chrome, Edge, and Safari are recommended for better compatibility) and visit <http://192.168.8.1>. You will be directed to the GL.iNet login page. If you cannot access the web Admin Panel, click [here](../cannot_access_web_admin_panel/) for troubleshooting.
 
-    - Connect via Wi-Fi of another router
+    Set up your admin password, then click **Next**.
 
-      As GL-MT2500A doesn't have a built-in Wi-Fi module, we can use another router with Wi-Fi capability to initialize the GL-MT2500A.
+    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/mt5000_admin_password.png" class="glboxshadow" alt="mt5000 set up admin password" />
 
-      - Method 1: Set the second router in AP (Access Point) mode, then connect the LAN port of GL-MT2500A to the WAN port of the second router.
+    Wait for the router to finish initializing.
 
-      - Method 2: Keep the second router in default router mode, but with a different router IP address that is not conflict with 192.168.8.1/24, e.g., 192.168.10.1. Then connect the LAN port of GL-MT2500A to the WAN port of the second router.
+    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/mt5000_initializing.png" class="glboxshadow" alt="mt5000 initializing" />
 
-      Use your computer or smartphone to connect to the Wi-Fi of the second router.
+    You will then access the web Admin Panel of your router.
 
-      <div class="admonition note">
+    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/mt5000_admin_panel.png" class="glboxshadow" alt="mt5000 admin panel" />
 
-      Note
-
-      The second router mentioned here is a regular router, like GL.iNet GL-AXT1800, TP-LINK, or Netgear routers. Modems, Optical Network Terminals, or devices provided by ISPs may not work in this scenario.
-
-      </div>
-
-3.  Access the web Admin Panel
-
-    Open a web browser (we recommend Chrome, Edge, Safari) and visit <http://192.168.8.1>. You will be directed to the initial setup of the web Admin Panel. If can't access the web Admin Panel, please check [here](../cannot_access_web_admin_panel/).
-
-    Choose a language, and click **Next** to continue.
-
-    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/admin_panel_first_time_login_gl-mt2500.png" class="glboxshadow" alt="Admin Panel" />
-
-    Set up admin password. We recommend using a strong password. Click **Submit** to continue.
-
-    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/set_up_your_admin_password_gl-mt2500.png" class="glboxshadow" alt="set up admin password" />
-
-    After the initial setup, you will enter the web Admin Panel of the router.
-
-    <img src="https://static.gl-inet.com/docs/router/en/4/faq/first_time_setup/admin_panel_gl-mt2500.png" class="glboxshadow" alt="admin panel of gl-mt2500" />
-
-4.  Connect to the Internet
+4.  **Connect to the Internet**
 
     - [Connect to the Internet via an ethernet cable](../../interface_guide/internet_ethernet/)
     - [Connect to the Internet via usb tethering](../../interface_guide/internet_tethering/)

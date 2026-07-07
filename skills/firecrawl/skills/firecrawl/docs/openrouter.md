@@ -14,11 +14,11 @@ OpenRouter's API is OpenAI-compatible, so you can use the OpenAI SDK pointed at 
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install firecrawl openai zod
 ```
 
-```bash
+```bash theme={null}
 export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 export OPENROUTER_API_KEY=sk-or-YOUR-OPENROUTER-KEY
 ```
@@ -27,8 +27,9 @@ export OPENROUTER_API_KEY=sk-or-YOUR-OPENROUTER-KEY
 
 This scrapes a page with Firecrawl and summarizes it with whatever model you pick from OpenRouter — here, Claude Haiku 4.5.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import OpenAI from 'openai';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -57,8 +58,10 @@ Switch the `model` string to any [OpenRouter-supported model](https://openrouter
 
 OpenRouter supports OpenAI-style tool calls, so Firecrawl plugs in as a function the model can invoke.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import OpenAI from 'openai';
+import { z } from 'zod';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const openrouter = new OpenAI({
@@ -102,7 +105,7 @@ if (call?.function.name === 'scrape_website') {
 
 ## Python
 
-```python
+```python theme={null}
 import os
 from firecrawl import Firecrawl
 from openai import OpenAI

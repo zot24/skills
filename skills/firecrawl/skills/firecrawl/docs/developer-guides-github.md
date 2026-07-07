@@ -12,7 +12,7 @@ Learn how to use Firecrawl's core features to scrape GitHub repositories, issues
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install firecrawl zod
 ```
 
@@ -20,8 +20,9 @@ npm install firecrawl zod
 
 Extract structured data from repositories using Zod schemas.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { z } from 'zod';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -46,7 +47,8 @@ console.log(result.json);
 
 Find repositories, issues, or documentation on GitHub.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -65,7 +67,8 @@ console.log(searchResult);
 
 Scrape a single GitHub page - repository, issue, or file.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -80,7 +83,8 @@ console.log(result);
 
 Discover all available URLs in a repository or documentation site. Note: Map returns URLs only, without content.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -94,7 +98,8 @@ console.log(mapResult.links);
 
 Crawl multiple pages from a repository or documentation.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -112,7 +117,8 @@ console.log(crawlResult.data);
 
 Scrape multiple GitHub URLs simultaneously.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -140,8 +146,9 @@ console.log(job);
 
 Extract structured data from multiple repositories at once.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { z } from 'zod';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

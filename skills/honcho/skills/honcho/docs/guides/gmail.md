@@ -108,7 +108,7 @@ The core idea is straightforward: each Gmail thread becomes a Honcho session, an
 
 The script normalizes email addresses into URL-safe peer IDs — `alice@example.com` becomes `alice-example-com`. This means the same person is automatically deduplicated across threads. If Alice emails you in 10 different threads, all of those conversations accumulate under a single peer.
 
-```python
+```python theme={null}
 def peer_id_from_email(email: str) -> str:
     """Convert email to a valid Honcho peer ID."""
     return email.replace("@", "-").replace(".", "-")
@@ -120,7 +120,7 @@ This also means peers are consistent across data sources. If you import Granola 
 
 Every email has a sender, recipients, and optionally CC/BCC addresses. The script extracts all of these to build a complete picture of who's involved in each thread:
 
-```python
+```python theme={null}
 for m in msgs:
     register_peer(m["from"])
     for addr in parse_address_list(m["to"]):
@@ -137,7 +137,7 @@ Display names are extracted when available (e.g., `Alice Smith <alice@example.co
 
 Each email becomes a message attributed to its sender via `peer.message()`. The original email timestamp is preserved using `created_at`, so Honcho sees the conversation in chronological order — not the order you imported it.
 
-```python
+```python theme={null}
 honcho_msgs.append(peer.message(
     content,
     metadata={
@@ -155,7 +155,7 @@ honcho_msgs.append(peer.message(
 
 Each thread's session is linked to all participants using `session.add_peers()`. This means when you query Honcho about a peer, it has context not just from their messages but from the full conversations they participated in.
 
-```python
+```python theme={null}
 session = honcho.session(session_id, metadata={
     "gmail_thread_id": tid,
     "subject": subject,
@@ -169,7 +169,7 @@ session.add_peers(thread_peers)
 
 Email threads are full of quoted replies — each message repeats everything above it. The script strips these out so only the new content is stored per message, avoiding duplication in Honcho's memory:
 
-```python
+```python theme={null}
 def strip_quoted_replies(text: str) -> str:
     """Strip quoted reply text, keeping only the new content."""
     lines = text.split("\n")
@@ -189,7 +189,7 @@ def strip_quoted_replies(text: str) -> str:
 
 Once your emails are in Honcho, you can query any peer:
 
-```python
+```python theme={null}
 import os
 from honcho import Honcho
 

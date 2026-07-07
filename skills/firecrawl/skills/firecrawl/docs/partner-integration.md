@@ -28,7 +28,7 @@ https://integrations.firecrawl.dev
 
 All Partner Integration API requests require an `Authorization` header with your partner key:
 
-```bash
+```bash theme={null}
 Authorization: Bearer <partner key>
 ```
 
@@ -59,7 +59,7 @@ POST /partner/v1/accounts
 
 #### Request
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST "https://integrations.firecrawl.dev/partner/v1/accounts" \
   -H "Authorization: Bearer <partner key>" \
   -H "Content-Type: application/json" \
@@ -76,7 +76,7 @@ curl -X POST "https://integrations.firecrawl.dev/partner/v1/accounts" \
 
 **`200 OK`**
 
-```json
+```json theme={null}
 {
   "apiKey": "fc-...",
   "alreadyExisted": false
@@ -113,7 +113,7 @@ POST /partner/v1/api-keys/validate
 
 #### Request
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST "https://integrations.firecrawl.dev/partner/v1/api-keys/validate" \
   -H "Authorization: Bearer <partner key>" \
   -H "Content-Type: application/json" \
@@ -130,7 +130,7 @@ curl -X POST "https://integrations.firecrawl.dev/partner/v1/api-keys/validate" \
 
 **`200 OK`**
 
-```json
+```json theme={null}
 {
   "teamName": "Example Team",
   "email": "user@example.com"
@@ -162,7 +162,7 @@ POST /partner/v1/api-keys/rotate
 
 #### Request
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST "https://integrations.firecrawl.dev/partner/v1/api-keys/rotate" \
   -H "Authorization: Bearer <partner key>" \
   -H "Content-Type: application/json" \
@@ -179,7 +179,7 @@ curl -X POST "https://integrations.firecrawl.dev/partner/v1/api-keys/rotate" \
 
 **`200 OK`**
 
-```json
+```json theme={null}
 {
   "apiKey": "fc-..."
 }

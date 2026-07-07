@@ -107,25 +107,25 @@ This enables control of:
 
 ## Global options<a href="#global-options" aria-label="Link to this section">#</a>
 
-| Option | Description |
-|----|----|
-| `--session <name>` | Use isolated session |
-| `--profile <path>` | Persistent browser profile directory |
-| `-p <provider>` | Browser provider (`browserbase`, `browseruse`, `kernel`, `browserless`, `agentcore`, or a configured `browser.provider` plugin) |
-| `--headers <json>` | HTTP headers scoped to origin |
-| `--executable-path` | Custom browser executable |
-| `--args <args>` | Browser launch args (comma-separated) |
-| `--user-agent <ua>` | Custom User-Agent string |
-| `--proxy <url>` | Proxy server URL |
-| `--proxy-bypass <hosts>` | Hosts to bypass proxy |
-| `--json` | JSON output for scripts |
-| `--name, -n` | Locator name filter |
-| `--exact` | Exact text match |
-| `--headed` | Show browser window |
-| `--cdp <port|url>` | CDP connection (port or WebSocket URL) |
-| `--auto-connect` | Auto-discover and connect to running Chrome |
-| `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`) |
-| `--debug` | Debug output |
+| Option                    | Description                                                                                                                     |
+|---------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `--session <name>`        | Use isolated session                                                                                                            |
+| `--profile <path>`        | Persistent browser profile directory                                                                                            |
+| `-p <provider>`           | Browser provider (`browserbase`, `browseruse`, `kernel`, `browserless`, `agentcore`, or a configured `browser.provider` plugin) |
+| `--headers <json>`        | HTTP headers scoped to origin                                                                                                   |
+| `--executable-path`       | Custom browser executable                                                                                                       |
+| `--args <args>`           | Browser launch args (comma-separated)                                                                                           |
+| `--user-agent <ua>`       | Custom User-Agent string                                                                                                        |
+| `--proxy <url>`           | Proxy server URL                                                                                                                |
+| `--proxy-bypass <hosts>`  | Hosts to bypass proxy                                                                                                           |
+| `--json`                  | JSON output for scripts                                                                                                         |
+| `--name, -n`              | Locator name filter                                                                                                             |
+| `--exact`                 | Exact text match                                                                                                                |
+| `--headed`                | Show browser window                                                                                                             |
+| `--cdp <port|url>`        | CDP connection (port or WebSocket URL)                                                                                          |
+| `--auto-connect`          | Auto-discover and connect to running Chrome                                                                                     |
+| `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`)                                                                      |
+| `--debug`                 | Debug output                                                                                                                    |
 
 ## Cloud providers<a href="#cloud-providers" aria-label="Link to this section">#</a>
 

@@ -109,7 +109,7 @@ URLs are primarily discovered from the website's sitemap, supplemented with SERP
 
 SDKs will return the data object directly. cURL will return the payload exactly as shown below.
 
-```json
+```json theme={null}
 {
   "success": true,
   "links": [
@@ -151,7 +151,7 @@ SDKs will return the data object directly. cURL will return the payload exactly 
 
 Map with `search` param allows you to search for specific urls inside a website.
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/map \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer YOUR_API_KEY' \
@@ -163,7 +163,7 @@ curl -X POST https://api.firecrawl.dev/v2/map \
 
 Response will be an ordered list from the most relevant to the least relevant.
 
-```json
+```json theme={null}
 {
   "status": "success",
   "links": [

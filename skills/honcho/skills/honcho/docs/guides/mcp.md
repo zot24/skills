@@ -29,7 +29,7 @@ Pick your client below and add the config. After adding, **restart the client fu
     Edit `%APPDATA%\Claude\claude_desktop_config.json`:
 
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "honcho": {
@@ -59,7 +59,7 @@ For best results, create a project and paste these [instructions](https://raw.gi
 
 ### Claude Code
 
-```bash
+```bash theme={null}
 claude mcp add honcho \
   --transport http \
   --url "https://mcp.honcho.dev" \
@@ -69,7 +69,7 @@ claude mcp add honcho \
 
 Or if you prefer the [Claude Code Honcho plugin](/v3/guides/integrations/claudecode) for a deeper integration with persistent memory, git awareness, and agent skills:
 
-```bash
+```bash theme={null}
 /plugin marketplace add plastic-labs/claude-honcho
 ```
 
@@ -77,7 +77,7 @@ Or if you prefer the [Claude Code Honcho plugin](/v3/guides/integrations/claudec
 
 Add to `~/.codex/config.toml`:
 
-```toml
+```toml theme={null}
 [mcp_servers.honcho]
 command = "npx"
 args = [
@@ -98,7 +98,7 @@ args = [
 
 Cursor supports MCP servers natively via HTTP. Add to your global config at `~/.cursor/mcp.json` or per-project at `.cursor/mcp.json`:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "honcho": {
@@ -118,7 +118,7 @@ Alternatively, go to **Cursor Settings → MCP** and add a new HTTP server with 
 
 Add to `~/.codeium/windsurf/mcp_config.json`:
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "honcho": {
@@ -140,7 +140,7 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 
 Add to your workspace `.vscode/mcp.json`:
 
-```json
+```json theme={null}
 {
   "servers": {
     "honcho": {
@@ -157,7 +157,7 @@ Add to your workspace `.vscode/mcp.json`:
 
 Or add to your User Settings JSON (`Cmd+Shift+P` → "Preferences: Open User Settings (JSON)"):
 
-```json
+```json theme={null}
 {
   "mcp": {
     "servers": {
@@ -185,7 +185,7 @@ Cline supports remote MCP servers natively. Open Cline's MCP settings at:
     `%APPDATA%\Code\User\globalStorage\saoudrizwan.claude-dev\settings\cline_mcp_settings.json`
 
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "honcho": {
@@ -205,7 +205,7 @@ Or add it via the Cline sidebar: click the MCP Servers icon → **Configure** �
 
 Add to `~/.config/zed/settings.json`:
 
-```json
+```json theme={null}
 {
   "context_servers": {
     "honcho": {
@@ -223,6 +223,32 @@ Add to `~/.config/zed/settings.json`:
   Zed uses `context_servers` instead of `mcpServers`. Native HTTP support requires Zed v0.214.5 or later.
 
 
+### Goose
+
+[Goose](https://goose-docs.ai/) supports remote MCP servers natively over Streamable HTTP.
+
+The easiest way is to run `goose configure`, choose **Add Extension → Remote Extension (Streamable HTTP)**, and enter the name `honcho`, the URI `https://mcp.honcho.dev`, and the headers `Authorization: Bearer hch-your-key-here` and `X-Honcho-User-Name: YourName`.
+
+Or edit your `config.yaml` directly (on Linux, `~/.config/goose/config.yaml`):
+
+```yaml theme={null}
+extensions:
+  honcho:
+    enabled: true
+    type: streamable_http
+    name: honcho
+    description: Honcho persistent memory & personalization
+    uri: https://mcp.honcho.dev
+    headers:
+      Authorization: "Bearer hch-your-key-here"
+      X-Honcho-User-Name: "YourName"
+    timeout: 60
+```
+
+
+  To teach Goose the recommended memory flow, save the [instructions](https://raw.githubusercontent.com/plastic-labs/honcho/refs/heads/main/mcp/instructions.md) into a `.goosehints` file in your Goose config directory (or a project root). This is Goose's equivalent of Claude Desktop's "Project Instructions". Not sure of your config path? Run `goose info`.
+
+
 ***
 
 ## Optional Configuration
@@ -238,7 +264,7 @@ You can customize the assistant name and workspace ID by adding extra headers. B
 
 Example with all headers (Claude Desktop format):
 
-```json
+```json theme={null}
 {
   "mcpServers": {
     "honcho": {

@@ -2,6 +2,9 @@
 
 
 
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
 On this page
 
 
@@ -33,19 +36,19 @@ We value contributions in this order:
 
 ### Prerequisites<a href="#prerequisites" class="hash-link" aria-label="Direct link to Prerequisites" translate="no" title="Direct link to Prerequisites">​</a>
 
-| Requirement | Notes |
-|----|----|
-| **Git** | With the `git-lfs` extension installed |
-| **Python 3.11–3.13** | uv will install it if missing |
-| **uv** | Fast Python package manager (<a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer">install</a>) |
-| **Node.js 20+** | Optional — needed for browser tools and WhatsApp bridge (matches root `package.json` engines) |
+| Requirement          | Notes                                                                                                                    |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------|
+| **Git**              | With the `git-lfs` extension installed                                                                                   |
+| **Python 3.11–3.13** | uv will install it if missing                                                                                            |
+| **uv**               | Fast Python package manager (<a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer">install</a>) |
+| **Node.js 20+**      | Optional — needed for browser tools and WhatsApp bridge (matches root `package.json` engines)                            |
 
 ### Install with the standard installer<a href="#install-with-the-standard-installer" class="hash-link" aria-label="Direct link to Install with the standard installer" translate="no" title="Direct link to Install with the standard installer">​</a>
 
 For most contributors, the best development bootstrap is the same path users take: run the standard installer, then work inside the repository it cloned. The installer creates the Hermes venv, wires the `hermes` command, stamps the install method for `hermes update`, and clones the full git project into `$HERMES_HOME/hermes-agent` (usually `~/.hermes/hermes-agent`). That keeps your development environment on the same layout the CLI, updater, lazy dependency installer, gateway, and docs assume.
 
 
-``` bash
+``` prism-code
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 cd "${HERMES_HOME:-$HOME/.hermes}/hermes-agent"
 
@@ -60,7 +63,7 @@ npm install
 After that, create branches and run tests from that checkout:
 
 
-``` bash
+``` prism-code
 git checkout -b fix/description
 scripts/run_tests.sh
 ```
@@ -73,7 +76,7 @@ Use this only if you intentionally do not want Hermes' managed install layout (f
 Create the venv **outside** the cloned source tree. A venv that lives inside the directory the agent operates from can be wiped by a relative-path command the agent runs against its own checkout (`rm -rf venv`, `uv venv venv`, etc.), which silently destroys the running runtime mid-session. Keeping it outside the tree means no relative path from the workspace resolves to it.
 
 
-``` bash
+``` prism-code
 git clone https://github.com/NousResearch/hermes-agent.git
 cd hermes-agent
 
@@ -93,7 +96,7 @@ npm install
 ### Configure for Development<a href="#configure-for-development" class="hash-link" aria-label="Direct link to Configure for Development" translate="no" title="Direct link to Configure for Development">​</a>
 
 
-``` bash
+``` prism-code
 mkdir -p ~/.hermes/{cron,sessions,logs,memories,skills}
 cp cli-config.yaml.example ~/.hermes/config.yaml
 touch ~/.hermes/.env
@@ -106,7 +109,7 @@ echo 'OPENROUTER_API_KEY=sk-or-v1-your-key' >> ~/.hermes/.env
 ### Run<a href="#run" class="hash-link" aria-label="Direct link to Run" translate="no" title="Direct link to Run">​</a>
 
 
-``` bash
+``` prism-code
 # The standard installer already put `hermes` on PATH.
 hermes doctor
 hermes chat -q "Hello"
@@ -116,7 +119,7 @@ hermes chat -q "Hello"
 If you used the manual clone fallback, run `./hermes` from the checkout or symlink this clone's venv explicitly:
 
 
-``` bash
+``` prism-code
 mkdir -p ~/.local/bin
 ln -sf "$(pwd)/venv/bin/hermes" ~/.local/bin/hermes
 ```
@@ -125,7 +128,7 @@ ln -sf "$(pwd)/venv/bin/hermes" ~/.local/bin/hermes
 ### Run Tests<a href="#run-tests" class="hash-link" aria-label="Direct link to Run Tests" translate="no" title="Direct link to Run Tests">​</a>
 
 
-``` bash
+``` prism-code
 scripts/run_tests.sh
 ```
 
@@ -157,7 +160,7 @@ Key patterns:
 Always catch both `ImportError` and `NotImplementedError`:
 
 
-``` python
+``` prism-code
 try:
     from simple_term_menu import TerminalMenu
     menu = TerminalMenu(options)
@@ -175,7 +178,7 @@ except (ImportError, NotImplementedError):
 Some environments may save `.env` files in non-UTF-8 encodings:
 
 
-``` python
+``` prism-code
 try:
     load_dotenv(env_path)
 except UnicodeDecodeError:
@@ -188,7 +191,7 @@ except UnicodeDecodeError:
 `os.setsid()`, `os.killpg()`, and signal handling differ across platforms:
 
 
-``` python
+``` prism-code
 import platform
 if platform.system() != "Windows":
     kwargs["preexec_fn"] = os.setsid
@@ -205,15 +208,15 @@ Hermes has terminal access. Security matters.
 
 ### Existing Protections<a href="#existing-protections" class="hash-link" aria-label="Direct link to Existing Protections" translate="no" title="Direct link to Existing Protections">​</a>
 
-| Layer | Implementation |
-|----|----|
-| **Sudo password piping** | Uses `shlex.quote()` to prevent shell injection |
-| **Dangerous command detection** | Regex patterns in `tools/approval.py` with user approval flow |
-| **Cron prompt injection** | Scanner blocks instruction-override patterns |
-| **Write deny list** | Protected paths resolved via `os.path.realpath()` to prevent symlink bypass |
-| **Skills guard** | Security scanner for hub-installed skills |
-| **Code execution sandbox** | Child process runs with API keys stripped |
-| **Container hardening** | Docker: all capabilities dropped, no privilege escalation, PID limits |
+| Layer                           | Implementation                                                              |
+|---------------------------------|-----------------------------------------------------------------------------|
+| **Sudo password piping**        | Uses `shlex.quote()` to prevent shell injection                             |
+| **Dangerous command detection** | Regex patterns in `tools/approval.py` with user approval flow               |
+| **Cron prompt injection**       | Scanner blocks instruction-override patterns                                |
+| **Write deny list**             | Protected paths resolved via `os.path.realpath()` to prevent symlink bypass |
+| **Skills guard**                | Security scanner for hub-installed skills                                   |
+| **Code execution sandbox**      | Child process runs with API keys stripped                                   |
+| **Container hardening**         | Docker: all capabilities dropped, no privilege escalation, PID limits       |
 
 ### Contributing Security-Sensitive Code<a href="#contributing-security-sensitive-code" class="hash-link" aria-label="Direct link to Contributing Security-Sensitive Code" translate="no" title="Direct link to Contributing Security-Sensitive Code">​</a>
 
@@ -228,7 +231,7 @@ Hermes has terminal access. Security matters.
 ### Branch Naming<a href="#branch-naming" class="hash-link" aria-label="Direct link to Branch Naming" translate="no" title="Direct link to Branch Naming">​</a>
 
 
-``` text
+``` prism-code
 fix/description        # Bug fixes
 feat/description       # New features
 docs/description       # Documentation
@@ -258,7 +261,7 @@ Include:
 We use <a href="https://www.conventionalcommits.org/" target="_blank" rel="noopener noreferrer">Conventional Commits</a>:
 
 
-``` text
+``` prism-code
 <type>(<scope>): <description>
 ```
 
@@ -277,7 +280,7 @@ Scopes: `cli`, `gateway`, `tools`, `skills`, `agent`, `install`, `whatsapp`, `se
 Examples:
 
 
-``` text
+``` prism-code
 fix(cli): prevent crash in save_config_value when model is a string
 feat(gateway): add WhatsApp multi-user session isolation
 fix(security): prevent shell injection in sudo password piping

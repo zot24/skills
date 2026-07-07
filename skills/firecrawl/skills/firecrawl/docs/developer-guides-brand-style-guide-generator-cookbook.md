@@ -187,7 +187,7 @@ A Node.js application that takes any website URL, extracts its complete brand id
 
 The [branding format](https://docs.firecrawl.dev/features/scrape#%2Fscrape-with-branding-endpoint) returns detailed brand information:
 
-```typescript
+```typescript theme={null}
 {
   colorScheme: "dark" | "light",
   logo: "https://example.com/logo.svg",
@@ -251,7 +251,7 @@ The PDF includes:
 
 Extend the generator to include UI component styles:
 
-```typescript
+```typescript theme={null}
 // Add after the Spacing & Theme section
 if (b.components) {
   doc.addPage();
@@ -271,7 +271,7 @@ if (b.components) {
 
 Add JSON export alongside the PDF:
 
-```typescript
+```typescript theme={null}
 // Add before doc.end()
 fs.writeFileSync("brand-data.json", JSON.stringify(b, null, 2));
 ```
@@ -280,7 +280,7 @@ fs.writeFileSync("brand-data.json", JSON.stringify(b, null, 2));
 
 Generate guides for multiple websites:
 
-```typescript
+```typescript theme={null}
 const websites = [
   "https://stripe.com",
   "https://linear.app",
@@ -297,7 +297,7 @@ for (const site of websites) {
 
 Create different PDF styles based on the extracted theme:
 
-```typescript
+```typescript theme={null}
 const isDarkMode = b.colorScheme === "dark";
 const headerBg = isDarkMode ? b.colors?.background : b.colors?.primary;
 const textColor = isDarkMode ? "#fff" : "#333";

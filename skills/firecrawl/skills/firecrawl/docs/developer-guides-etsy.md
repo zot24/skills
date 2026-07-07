@@ -14,7 +14,7 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install firecrawl zod
 ```
 
@@ -32,8 +32,9 @@ When scraping Etsy, you'll typically want to:
 
 Extract structured listing data using Zod schemas.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { z } from 'zod';
 
 // Define Zod schema
 const ListingSchema = z.object({
@@ -64,7 +65,8 @@ console.log(validated);
 
 Find products on Etsy marketplace.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -83,7 +85,8 @@ console.log(searchResult);
 
 Scrape a single Etsy product listing.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -99,7 +102,8 @@ console.log(result);
 
 Discover all available URLs in an Etsy shop or category. Note: Map returns URLs only, without content.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -113,7 +117,8 @@ console.log(mapResult.links);
 
 Crawl multiple pages from Etsy shop or category.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -131,7 +136,8 @@ console.log(crawlResult.data);
 
 Scrape multiple Etsy listing URLs simultaneously.
 
-```typescript
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

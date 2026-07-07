@@ -114,7 +114,7 @@ Firecrawl provides an MCP server that seamlessly integrates with Google's ADK, e
 
 ## Example: Web Research Agent
 
-```python
+```python theme={null}
 from google.adk.agents.llm_agent import Agent
 from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPServerParams
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset

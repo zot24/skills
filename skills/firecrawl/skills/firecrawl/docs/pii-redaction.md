@@ -66,7 +66,7 @@ Set `redactPII: true` on a scrape request. Firecrawl redacts the generated markd
 
 For most requests, use `redactPII: true`. To tune redaction, pass an options object:
 
-```json
+```json theme={null}
 {
   "redactPII": {
     "mode": "accurate",
@@ -90,7 +90,7 @@ For most requests, use `redactPII: true`. To tune redaction, pass an options obj
 
 When redaction succeeds, `markdown` contains the redacted content:
 
-```json
+```json theme={null}
 {
   "success": true,
   "data": {
@@ -104,7 +104,7 @@ When redaction succeeds, `markdown` contains the redacted content:
 
 For command-line viewing, pipe the markdown into your preferred renderer:
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/scrape \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
   -H "Content-Type: application/json" \

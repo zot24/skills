@@ -12,13 +12,13 @@ Integrate Firecrawl with LangChain to build AI applications powered by web data.
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install @langchain/openai firecrawl 
 ```
 
 Create `.env` file:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=your_firecrawl_key
 OPENAI_API_KEY=your_openai_key
 ```
@@ -29,8 +29,10 @@ OPENAI_API_KEY=your_openai_key
 
 This example demonstrates a simple workflow: scrape a website and process the content using LangChain.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { ChatOpenAI } from '@langchain/openai';
+import { HumanMessage } from '@langchain/core/messages';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const chat = new ChatOpenAI({
@@ -55,8 +57,11 @@ console.log('Summary:', response.content);
 
 This example shows how to build a LangChain chain to process and analyze scraped content.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { ChatOpenAI } from '@langchain/openai';
+import { ChatPromptTemplate } from '@langchain/core/prompts';
+import { StringOutputParser } from '@langchain/core/output_parsers';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const model = new ChatOpenAI({
@@ -90,8 +95,11 @@ console.log('Chain result:', result);
 
 This example demonstrates how to use LangChain's tool calling feature to let the model decide when to scrape websites.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { ChatOpenAI } from '@langchain/openai';
+import { DynamicStructuredTool } from '@langchain/core/tools';
+import { z } from 'zod';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -127,8 +135,10 @@ console.log('Tool calls:', response.tool_calls);
 
 This example shows how to extract structured data using LangChain's structured output feature.
 
-```typescript
-
+```typescript theme={null}
+import { Firecrawl } from 'firecrawl';
+import { ChatOpenAI } from '@langchain/openai';
+import { z } from 'zod';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_m5m7">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_ztD2">Skip to main content</a>
 
 
 On this page
@@ -54,6 +54,8 @@ Some basic examples:
 - `**/hidden.jpg` will exclude all files named `hidden.jpg`
 - `**/Raw/**` will exclude all files in any directory named `Raw`
 - `**/*.{tif,jpg}` will exclude all files with the extension `.tif` or `.jpg`
+
+Note that `*` is a wildcard matching zero or more characters (i.e., withinin a filename or single directory name). `**` matches zero or more subdirectories, recursively. It also includes any/all files within a subdirectory, i.e., when used at the end of a pattern. For example, `**/exclude_me/**` will exclude all files in any directory named `exclude_me`, as well as all files in any subdirectories of `exclude_me`, recursively.
 
 Special characters such as @ should be escaped, for instance:
 

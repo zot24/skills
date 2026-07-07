@@ -28,13 +28,13 @@ The skill provides three tools that any Zo workflow can call:
 
 Install dependencies:
 
-```bash
+```bash theme={null}
 pip install honcho-ai python-dotenv
 ```
 
 Set your environment variables:
 
-```bash
+```bash theme={null}
 HONCHO_API_KEY=your-api-key
 HONCHO_WORKSPACE_ID=default  # optional, defaults to "default"
 ```
@@ -43,7 +43,7 @@ Get your API key at [app.honcho.dev](https://app.honcho.dev).
 
 ## Quick Start
 
-```python
+```python theme={null}
 from tools.save_memory import save_memory
 from tools.query_memory import query_memory
 from tools.get_context import get_context
@@ -65,7 +65,7 @@ messages = get_context("alice", "session-1", "assistant", tokens=4000)
 
 `save_memory` creates peers and sessions automatically on first use and persists the message.
 
-```python
+```python theme={null}
 save_memory(
     user_id="alice",          # unique user identifier
     content="Hello!",         # message text
@@ -79,7 +79,7 @@ save_memory(
 
 `query_memory` uses Honcho's Dialectic API to answer natural language questions grounded in stored memory.
 
-```python
+```python theme={null}
 answer = query_memory(
     user_id="alice",
     query="What are my interests?",
@@ -91,7 +91,7 @@ answer = query_memory(
 
 `get_context` fetches recent conversation history within a token budget and returns it in OpenAI message format — ready to pass directly to an LLM.
 
-```python
+```python theme={null}
 messages = get_context(
     user_id="alice",
     session_id="session-1",

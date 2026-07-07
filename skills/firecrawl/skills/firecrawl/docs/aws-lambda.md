@@ -15,7 +15,7 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 mkdir firecrawl-lambda && cd firecrawl-lambda
 npm init -y
 npm install firecrawl
@@ -25,7 +25,8 @@ npm install firecrawl
 
 Create `index.mjs` with a search handler:
 
-```javascript
+```javascript theme={null}
+import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -48,7 +49,7 @@ export async function handler(event) {
 
 Add a `scrape` action to the same handler:
 
-```javascript
+```javascript theme={null}
 if (body.action === "scrape") {
   const result = await firecrawl.scrape(body.url);
   return {
@@ -62,7 +63,7 @@ if (body.action === "scrape") {
 
 Add an `interact` action to control a live browser session — click buttons, fill forms, and extract dynamic content:
 
-```javascript
+```javascript theme={null}
 if (body.action === "interact") {
   const result = await firecrawl.scrape("https://www.amazon.com", {
     formats: ["markdown"],
@@ -88,7 +89,7 @@ if (body.action === "interact") {
 
 Package and deploy with the AWS CLI:
 
-```bash
+```bash theme={null}
 zip -r function.zip index.mjs node_modules/
 
 aws lambda create-function \

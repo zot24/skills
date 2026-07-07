@@ -15,20 +15,21 @@
 
 ## Setup
 
-```bash
+```bash theme={null}
 npm install fastify firecrawl
 ```
 
 Add your API key to `.env`:
 
-```bash
+```bash theme={null}
 FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ```
 
 ## Search the web
 
-```javascript
-
+```javascript theme={null}
+import Fastify from "fastify";
+import { Firecrawl } from "firecrawl";
 
 const fastify = Fastify({ logger: true });
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
@@ -43,7 +44,7 @@ fastify.listen({ port: 3000 });
 
 ## Scrape a page
 
-```javascript
+```javascript theme={null}
 fastify.post("/scrape", async (request) => {
   const { url } = request.body;
   return firecrawl.scrape(url);
@@ -54,7 +55,7 @@ fastify.post("/scrape", async (request) => {
 
 Use interact to control a live browser session — click buttons, fill forms, and extract dynamic content.
 
-```javascript
+```javascript theme={null}
 fastify.post("/interact", async (request) => {
   const { url } = request.body;
 
@@ -74,8 +75,9 @@ fastify.post("/interact", async (request) => {
 
 Encapsulate the client in a plugin for reuse across routes:
 
-```javascript
-
+```javascript theme={null}
+import fp from "fastify-plugin";
+import { Firecrawl } from "firecrawl";
 
 export default fp(async function firecrawlPlugin(fastify) {
   const client = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
@@ -85,7 +87,7 @@ export default fp(async function firecrawlPlugin(fastify) {
 
 Register the plugin, then use `fastify.firecrawl` in any route:
 
-```javascript
+```javascript theme={null}
 fastify.register(firecrawlPlugin);
 
 fastify.post("/search", async function (request) {
@@ -96,7 +98,7 @@ fastify.post("/search", async function (request) {
 
 ## Test it
 
-```bash
+```bash theme={null}
 curl -X POST http://localhost:3000/search \
   -H "Content-Type: application/json" \
   -d '{"query": "firecrawl web scraping"}'

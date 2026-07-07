@@ -1,5 +1,18 @@
 > Source: https://flueframework.com/docs/guide/database
 
+<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
+
+
+<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
+
+
+Esc
+
+
+Start typing to search the documentation.
+
+
+<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Database
@@ -74,12 +87,12 @@ Cloudflare Durable Objects also provide the ownership boundary for agent executi
 
 A Flue database stores runtime state, not your whole application.
 
-| Stored by Flue | Not stored by Flue |
-|----|----|
-| Canonical agent-instance conversation streams | Sandbox files and installed dependencies |
-| Immutable attachments referenced by conversation records | External API side effects |
-| Accepted direct prompts and `dispatch(...)` submissions | Application-owned business data unless your own tools store it |
-| Workflow-run records, event streams, and run indexing | Provider credentials or secrets |
+| Stored by Flue                                           | Not stored by Flue                                             |
+|----------------------------------------------------------|----------------------------------------------------------------|
+| Canonical agent-instance conversation streams            | Sandbox files and installed dependencies                       |
+| Immutable attachments referenced by conversation records | External API side effects                                      |
+| Accepted direct prompts and `dispatch(...)` submissions  | Application-owned business data unless your own tools store it |
+| Workflow-run records, event streams, and run indexing    | Provider credentials or secrets                                |
 
 The canonical stream is the sole transcript and is replayed from its beginning to reconstruct conversation state. Replay acceleration and persisted-log compaction are deferred. Attachment bytes remain external immutable payloads referenced by stream records. Sessions append to the instance stream for the instance lifetime; Flue exposes no per-session deletion. Store interfaces include low-level whole-instance stream and attachment deletion primitives, but this does not promise public retention or deletion orchestration.
 
@@ -87,13 +100,13 @@ A persisted conversation does not make a sandbox durable. A durable workspace do
 
 ## Choosing an adapter
 
-| Use case | Recommended adapter |
-|----|----|
-| Local development | `sqlite()` with a file path, or no `db.ts` when restart persistence is unnecessary |
-| Single-host Node deployment | File-backed `sqlite()` |
-| Multi-replica Node deployment | `@flue/postgres`, with one live owner routed per agent instance |
-| Cloudflare deployment | Built-in Durable Object SQLite |
-| Another database backend | Custom `PersistenceAdapter` |
+| Use case                      | Recommended adapter                                                                |
+|-------------------------------|------------------------------------------------------------------------------------|
+| Local development             | `sqlite()` with a file path, or no `db.ts` when restart persistence is unnecessary |
+| Single-host Node deployment   | File-backed `sqlite()`                                                             |
+| Multi-replica Node deployment | `@flue/postgres`, with one live owner routed per agent instance                    |
+| Cloudflare deployment         | Built-in Durable Object SQLite                                                     |
+| Another database backend      | Custom `PersistenceAdapter`                                                        |
 
 A custom adapter can implement another database or hosting strategy through `@flue/runtime/adapter`. Use this when the built-in SQLite and Postgres adapters do not fit your deployment.
 

@@ -48,13 +48,13 @@ Hermes exposes four Honcho tools to the agent:
 
 Follow the [Self-Hosting Guide](/v3/contributing/self-hosting) to get Honcho running locally. Once it's up, point Hermes at your instance:
 
-```bash
+```bash theme={null}
 hermes memory setup  # select "honcho", enter http://localhost:8000 as the base URL
 ```
 
 Or manually create/edit the config file (checked in order: `$HERMES_HOME/honcho.json` > `~/.hermes/honcho.json` > `~/.honcho/config.json`):
 
-```json
+```json theme={null}
 {
   "baseUrl": "http://localhost:8000",
   "hosts": {
@@ -78,7 +78,7 @@ For the full list of config fields (`recallMode`, `writeFrequency`, `sessionStra
 
 ### 1. Check status
 
-```bash
+```bash theme={null}
 hermes memory status
 ```
 
@@ -88,13 +88,13 @@ This should show Honcho as the active memory provider with your base URL.
 
 In one conversation, tell Hermes something specific:
 
-```text
+```text theme={null}
 My favorite programming language is Rust and I always use dark mode.
 ```
 
 Start a **new session** (different thread, new CLI invocation, or a different platform). Ask:
 
-```text
+```text theme={null}
 What do you know about my preferences?
 ```
 
@@ -104,7 +104,7 @@ If Hermes mentions Rust and dark mode without being told again, cross-session me
 
 Ask Hermes to use a specific Honcho tool:
 
-```text
+```text theme={null}
 Use your honcho_search tool to find anything you know about me.
 ```
 

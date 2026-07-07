@@ -95,7 +95,7 @@ Add `lockdown: true` to your scrape request.
 
 If the URL has not been previously scraped and cached, the response is:
 
-```json
+```json theme={null}
 {
   "success": false,
   "code": "SCRAPE_LOCKDOWN_CACHE_MISS",

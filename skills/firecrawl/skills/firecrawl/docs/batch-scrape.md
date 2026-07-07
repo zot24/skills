@@ -88,7 +88,7 @@ You can run a batch scrape in two ways:
 
 Calling `batchScrape` / `batch_scrape` returns the full results when the batch completes.
 
-```json Completed
+```json Completed theme={null}
 {
   "status": "completed",
   "total": 36,
@@ -116,7 +116,7 @@ Calling `batchScrape` / `batch_scrape` returns the full results when the batch c
 
 Calling `startBatchScrape` / `start_batch_scrape` returns a job ID you can track via `getBatchScrapeStatus` / `get_batch_scrape_status`, the API endpoint `/batch/scrape/{id}`, or webhooks. Job results are available via the API for 24 hours after completion. After this period, you can still view your batch scrape history and results in the [activity logs](https://www.firecrawl.dev/app/logs).
 
-```json
+```json theme={null}
 {
   "success": true,
   "id": "123-456-789",
@@ -260,7 +260,7 @@ You can use batch scrape to extract structured data from every page in the batch
 
 `batchScrape` / `batch_scrape` returns full results:
 
-```json Completed
+```json Completed theme={null}
 {
   "status": "completed",
   "total": 36,
@@ -282,7 +282,7 @@ You can use batch scrape to extract structured data from every page in the batch
 
 `startBatchScrape` / `start_batch_scrape` returns a job ID:
 
-```json
+```json theme={null}
 {
   "success": true,
   "id": "123-456-789",
@@ -294,7 +294,7 @@ You can use batch scrape to extract structured data from every page in the batch
 
 You can configure webhooks to receive real-time notifications as each URL in your batch is scraped. This lets you process results immediately instead of waiting for the entire batch to complete.
 
-```bash cURL
+```bash cURL theme={null}
 curl -X POST https://api.firecrawl.dev/v2/batch/scrape \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer YOUR_API_KEY' \
@@ -327,7 +327,7 @@ curl -X POST https://api.firecrawl.dev/v2/batch/scrape \
 
 Each webhook delivery includes a JSON body with the following structure:
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "batch_scrape.page",

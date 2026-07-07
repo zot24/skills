@@ -82,7 +82,7 @@ Include both `markdown` and `changeTracking` in the `formats` array. The `markdo
 
 On the first scrape, `changeStatus` is `"new"` and `previousScrapeAt` is `null`:
 
-```json
+```json theme={null}
 {
   "success": true,
   "data": {
@@ -98,7 +98,7 @@ On the first scrape, `changeStatus` is `"new"` and `previousScrapeAt` is `null`:
 
 On subsequent scrapes, `changeStatus` reflects whether content changed:
 
-```json
+```json theme={null}
 {
   "success": true,
   "data": {
@@ -164,7 +164,7 @@ The `git-diff` mode returns line-by-line changes in a format similar to `git dif
 
 The `diff` object contains both a plain-text diff and a structured JSON representation:
 
-```json
+```json theme={null}
 {
   "changeTracking": {
     "previousScrapeAt": "2025-06-01T10:00:00.000+00:00",
@@ -280,7 +280,7 @@ Pass `modes: ["json"]` with a `schema` defining the fields to extract:
 
 Each field in the schema is returned with `previous` and `current` values:
 
-```json
+```json theme={null}
 {
   "changeTracking": {
     "previousScrapeAt": "2025-06-05T08:00:00.000+00:00",
@@ -464,7 +464,7 @@ Change tracking is most useful when you scrape on a regular schedule. You can au
 
 Create a script that scrapes a URL and alerts on changes:
 
-```bash check-pricing.sh
+```bash check-pricing.sh theme={null}
 #!/bin/bash
 RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
@@ -497,7 +497,7 @@ fi
 
 Schedule it with `crontab -e`:
 
-```bash
+```bash theme={null}
 0 */6 * * * /path/to/check-pricing.sh >> /var/log/price-monitor.log 2>&1
 ```
 
@@ -583,7 +583,7 @@ For async operations like crawl and batch scrape, use [webhooks](/webhooks/overv
 
 The `crawl.page` event payload includes the `changeTracking` object for each page:
 
-```json
+```json theme={null}
 {
   "success": true,
   "type": "crawl.page",

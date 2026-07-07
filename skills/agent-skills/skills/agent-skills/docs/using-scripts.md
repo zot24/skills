@@ -94,7 +94,7 @@ Use **relative paths from the skill directory root** to reference bundled files.
 
 List available scripts in your `SKILL.md` so the agent knows they exist:
 
-```markdown SKILL.md
+```markdown SKILL.md theme={null}
 ## Available scripts
 
 - **`scripts/validate.sh`** — Validates configuration files
@@ -103,7 +103,7 @@ List available scripts in your `SKILL.md` so the agent knows they exist:
 
 Then instruct the agent to run them:
 
-````markdown SKILL.md
+````markdown SKILL.md theme={null}
 ## Workflow
 
 1. Run the validation script:
@@ -117,9 +117,9 @@ Then instruct the agent to run them:
    ```
 ````
 
-
+<Note>
   The same relative-path convention works in support files like `references/*.md` — script execution paths (in code blocks) are relative to the **skill directory root**, because the agent runs commands from there.
-
+</Note>
 
 ## Self-contained scripts
 
@@ -127,10 +127,11 @@ When you need reusable logic, bundle a script in `scripts/` that declares its ow
 
 Several languages support inline dependency declarations:
 
-
+<Tabs sync={false}>
+  <Tab title="Python">
     [PEP 723](https://peps.python.org/pep-0723/) defines a standard format for inline script metadata. Declare dependencies in a TOML block inside `# ///` markers:
 
-    ```python scripts/extract.py
+    ```python scripts/extract.py theme={null}
     # /// script
     # dependencies = [
     #   "beautifulsoup4",
@@ -145,7 +146,7 @@ Several languages support inline dependency declarations:
 
     Run with [uv](https://docs.astral.sh/uv/) (recommended):
 
-    ```bash
+    ```bash theme={null}
     uv run scripts/extract.py
     ```
 
@@ -154,11 +155,12 @@ Several languages support inline dependency declarations:
     * Pin versions with [PEP 508](https://peps.python.org/pep-0508/) specifiers: `"beautifulsoup4>=4.12,<5"`.
     * Use `requires-python` to constrain the Python version.
     * Use `uv lock --script` to create a lockfile for full reproducibility.
+  </Tab>
 
-
+  <Tab title="Deno">
     Deno's `npm:` and `jsr:` import specifiers make every script self-contained by default:
 
-    ```typescript scripts/extract.ts
+    ```typescript scripts/extract.ts theme={null}
     #!/usr/bin/env -S deno run
 
     import * as cheerio from "npm:cheerio@1.0.0";
@@ -168,7 +170,7 @@ Several languages support inline dependency declarations:
     console.log($("p.info").text());
     ```
 
-    ```bash
+    ```bash theme={null}
     deno run scripts/extract.ts
     ```
 
@@ -176,11 +178,12 @@ Several languages support inline dependency declarations:
     * Version specifiers follow semver: `@1.0.0` (exact), `@^1.0.0` (compatible).
     * Dependencies are cached globally. Use `--reload` to force re-fetch.
     * Packages with native addons (node-gyp) may not work — packages that ship pre-built binaries work best.
+  </Tab>
 
-
+  <Tab title="Bun">
     Bun auto-installs missing packages at runtime when no `node_modules` directory is found. Pin versions directly in the import path:
 
-    ```typescript scripts/extract.ts
+    ```typescript scripts/extract.ts theme={null}
     #!/usr/bin/env bun
 
     import * as cheerio from "cheerio@1.0.0";
@@ -190,18 +193,19 @@ Several languages support inline dependency declarations:
     console.log($("p.info").text());
     ```
 
-    ```bash
+    ```bash theme={null}
     bun run scripts/extract.ts
     ```
 
     * No `package.json` or `node_modules` needed. TypeScript works natively.
     * Packages are cached globally. First run downloads; subsequent runs are near-instant.
     * If a `node_modules` directory exists anywhere up the directory tree, auto-install is disabled and Bun falls back to standard Node.js resolution.
+  </Tab>
 
-
+  <Tab title="Ruby">
     Bundler ships with Ruby since 2.6. Use `bundler/inline` to declare gems directly in the script:
 
-    ```ruby scripts/extract.rb
+    ```ruby scripts/extract.rb theme={null}
     require 'bundler/inline'
 
     gemfile do
@@ -214,13 +218,14 @@ Several languages support inline dependency declarations:
     puts doc.at_css('p.info').text
     ```
 
-    ```bash
+    ```bash theme={null}
     ruby scripts/extract.rb
     ```
 
     * Pin versions explicitly (`gem 'nokogiri', '~> 1.16'`) — there is no lockfile.
     * An existing `Gemfile` or `BUNDLE_GEMFILE` env var in the working directory can interfere.
-
+  </Tab>
+</Tabs>
 
 ## Designing scripts for agentic use
 

@@ -303,7 +303,7 @@ Individual messages can override session and workspace configuration for fine-gr
 
 ### Workspace & Session Configuration
 
-```json
+```json theme={null}
 {
   "reasoning": {
     "enabled": true
@@ -325,7 +325,7 @@ Individual messages can override session and workspace configuration for fine-gr
 
 ### Message Configuration
 
-```json
+```json theme={null}
 {
   "reasoning": {
     "enabled": true

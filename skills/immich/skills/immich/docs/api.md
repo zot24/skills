@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_m5m7">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_ztD2">Skip to main content</a>
 
 
 On this page
@@ -19,11 +19,11 @@ OpenAPI is used to generate the client (Typescript, Dart) SDK. `openapi-generato
 
 
 ``` prism-code
-make open-api
+mise open-api
 ```
 
 
-You can find the generated client SDK in the `open-api/typescript-sdk/client` for Typescript SDK and `mobile/openapi` for Dart SDK.
+You can find the generated client SDK in the `packages/sdk/client` for Typescript SDK and `mobile/openapi` for Dart SDK.
 
 
 - <a href="#generator" class="table-of-contents__link toc-highlight">Generator</a>
