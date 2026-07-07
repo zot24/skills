@@ -1,17 +1,6 @@
 > Source: https://blacksmithgu.github.io/obsidian-dataview/
 
 
-<a href="#overview" class="md-skip">Skip to content</a>
-
-
-Initializing search
-
-
-<a href="https://github.com/blacksmithgu/obsidian-dataview" class="md-source" data-md-component="source" title="Go to repository"></a>
-
-
-GitHub
-
 
 <a href="#resources-and-help" class="md-nav__link"><span class="md-ellipsis"> Resources and Help </span></a>
 

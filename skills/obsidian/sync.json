@@ -16,42 +16,12 @@
       "freshness_days": 30
     },
     {
-      "url": "https://publish.obsidian.md/tasks/Introduction",
-      "target": "skills/obsidian/docs/tasks-plugin.md",
-      "type": "extract-content",
-      "freshness_days": 30
-    },
-    {
-      "url": "https://coddingtonbear.github.io/obsidian-local-rest-api/",
+      "url": "https://raw.githubusercontent.com/coddingtonbear/obsidian-local-rest-api/master/README.md",
       "target": "skills/obsidian/docs/local-rest-api.md",
-      "type": "extract-content",
-      "freshness_days": 30
-    },
-    {
-      "url": "https://help.obsidian.md/obsidian-sync/introduction-to-obsidian-sync",
-      "target": "skills/obsidian/docs/sync-backup.md",
-      "type": "extract-content",
-      "freshness_days": 30
-    },
-    {
-      "url": "https://help.obsidian.md/obsidian-publish/introduction-to-obsidian-publish",
-      "target": "skills/obsidian/docs/publishing.md",
-      "type": "extract-content",
-      "freshness_days": 30
-    },
-    {
-      "url": "https://help.obsidian.md/plugins/graph-view",
-      "target": "skills/obsidian/docs/graph-analysis.md",
-      "type": "extract-content",
-      "freshness_days": 30
-    },
-    {
-      "url": "https://help.obsidian.md/plugins/daily-notes",
-      "target": "skills/obsidian/docs/daily-notes.md",
-      "type": "extract-content",
+      "type": "raw",
       "freshness_days": 30
     }
   ],
   "cache_dir": ".cache",
-  "notes": "Some docs are authored (vault-organization, mocs-guide, zettelkasten, para-method, mcp-servers, plugin-ecosystem). Dataview and Templater docs scraped via Firecrawl."
+  "notes": "Some docs are authored (vault-organization, mocs-guide, zettelkasten, para-method, mcp-servers, plugin-ecosystem). Dataview and Templater docs scraped via Firecrawl. tasks-plugin.md, sync-backup.md, publishing.md, graph-analysis.md, daily-notes.md have no working upstream source: publish.obsidian.md/tasks and all help.obsidian.md pages are JS-rendered app shells with no markdown/llms.txt mirror (confirmed 2026-07-06) — content validation always fails against the raw HTML. Docs are frozen hand-authored/fallback content; no source entry until Obsidian ships a plaintext mirror."
 }

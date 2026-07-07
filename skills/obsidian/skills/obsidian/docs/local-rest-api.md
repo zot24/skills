@@ -1,207 +1,292 @@
-<!-- Source: Scraped from coddingtonbear.github.io/obsidian-local-rest-api via Firecrawl -->
+> Source: https://raw.githubusercontent.com/coddingtonbear/obsidian-local-rest-api/master/README.md
 
-Explore
+# Local REST API with MCP
 
-# Local REST API for Obsidian  ```  1.0  ```    ``` OAS 3.0 ```
+Give your scripts, browser extensions, and AI agents a direct line into your Obsidian vault via a secure, authenticated REST API.
 
-[./openapi.yaml](https://coddingtonbear.github.io/obsidian-local-rest-api/openapi.yaml)
+**Interactive API docs:** https://coddingtonbear.github.io/obsidian-local-rest-api/
 
-You can use this interface for trying out your Local REST API in Obsidian.
+## What you can do
+
+Access your vault through the **REST API** or the **built-in [MCP server](https://modelcontextprotocol.io/)** — both interfaces expose the same core capabilities, so scripts, browser extensions, and AI agents all speak the same language.
 
-Before trying the below tools, you will want to make sure you press the "Authorize" button below and provide the API Key you are shown when you open the "Local REST API" section of your Obsidian settings. All requests to the API require a valid API Key; so you won't get very far without doing that.
+- **Read, create, update, or delete notes** — full CRUD on any file in your vault, including binary files
+- **Surgically patch specific sections** — target a heading, block reference, or frontmatter key and append, prepend, or replace just that section without touching the rest of the file
+- **Search your vault** — simple full-text search or structured [JsonLogic](https://jsonlogic.com/) queries against note metadata (frontmatter, tags, path, content)
+- **Access the active file** — read or write whatever note is currently open in Obsidian
+- **Work with periodic notes** — get or create daily, weekly, monthly, quarterly, and yearly notes
+- **List and execute commands** — trigger any Obsidian command as if you'd used the command palette
+- **Query tags** — list all tags across your vault with usage counts
+- **Open files in Obsidian** — tell Obsidian to open a specific note in its UI
+- **Extend the API** — other plugins can register their own routes via the [API extension interface](https://github.com/coddingtonbear/obsidian-local-rest-api/wiki/Adding-your-own-API-Routes-via-an-Extension)
 
-When using this tool you may see browser security warnings due to your browser not trusting the self-signed certificate the plugin will generate on its first run. If you do, you can make those errors disappear by adding the certificate as a "Trusted Certificate" in your browser or operating system's settings.
+All requests are served over HTTPS with a self-signed certificate and gated behind API key authentication.
 
-Servers
+## Quick start
+
+After installing and enabling the plugin, open **Settings → Local REST API** to find your API key and certificate.
+
+### REST API
+
+```sh
+# Check the server is running (no auth required)
+curl -k https://127.0.0.1:27124/
+
+# List files at the root of your vault
+curl -k -H "Authorization: Bearer <your-api-key>" \
+  https://127.0.0.1:27124/vault/
 
-https://{host}:{port} - HTTPS (Secure Mode)http://{host}:{port} - HTTP (Insecure Mode)
+# Read a note
+curl -k -H "Authorization: Bearer <your-api-key>" \
+  https://127.0.0.1:27124/vault/path/to/note.md
+
+# Read a specific heading (URL-embedded target)
+curl -k -H "Authorization: Bearer <your-api-key>" \
+  https://127.0.0.1:27124/vault/path/to/note.md/heading/My%20Section
+
+# Append a line to a specific heading (PATCH with headers)
+curl -k -X PATCH \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "Operation: append" \
+  -H "Target-Type: heading" \
+  -H "Target: My Section" \
+  -H "Content-Type: text/plain" \
+  --data "New line of content" \
+  https://127.0.0.1:27124/vault/path/to/note.md
+```
+
+To avoid certificate warnings, you can download and trust the certificate from `https://127.0.0.1:27124/obsidian-local-rest-api.crt`, or point your HTTP client at it directly.
+
+### MCP clients
 
-Computed URL:`https://127.0.0.1:27124`
+The MCP server runs at `https://127.0.0.1:27124/mcp/` and requires that you provide your bearer token for authentication via an `Authorization` header (i.e. `Authorization: Bearer <your-api-key>`). Because the plugin uses a self-signed certificate, you may need to either trust the certificate in your OS/client, or use the plain HTTP endpoint at `http://127.0.0.1:27123/mcp/` (enable it under **Settings → Local REST API → Enable HTTP server**).
+
+#### Claude Code
+
+Claude Code has native HTTP MCP support. The quickest way to add the server is via the CLI:
+
+```sh
+claude mcp add --transport http obsidian https://127.0.0.1:27124/mcp/ \
+  --header "Authorization: Bearer <your-api-key>"
+```
+
+Or add it manually to `.mcp.json` in your project root (project-scoped) or configure it user-wide via `claude mcp add --scope user`:
+
+```json
+{
+  "mcpServers": {
+    "obsidian": {
+      "type": "http",
+      "url": "https://127.0.0.1:27124/mcp/",
+      "headers": {
+        "Authorization": "Bearer <your-api-key>"
+      }
+    }
+  }
+}
+```
+
+#### Claude Desktop
+
+Claude Desktop does not natively support remote HTTP MCP servers, but you can bridge it with [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) (requires Node.js). Add the following to `claude_desktop_config.json`:
+
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "obsidian": {
+      "command": "npx",
+      "args": [
+        "mcp-remote@latest",
+        "https://127.0.0.1:27124/mcp/",
+        "--header",
+        "Authorization: Bearer <your-api-key>"
+      ]
+    }
+  }
+}
+```
+
+Restart Claude Desktop after saving the file.
+
+#### Cursor
+
+Cursor supports the Streamable HTTP MCP transport. Add the following to `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (project-specific):
+
+```json
+{
+  "mcpServers": {
+    "obsidian": {
+      "url": "https://127.0.0.1:27124/mcp/",
+      "headers": {
+        "Authorization": "Bearer <your-api-key>"
+      }
+    }
+  }
+}
+```
+
+#### Other clients
+
+Any MCP client that supports the Streamable HTTP transport can connect to `https://127.0.0.1:27124/mcp/` with an `Authorization: Bearer <your-api-key>` header. Consult your client's documentation for the exact configuration format.
+
+## API overview
+
+| Endpoint | Methods | Description |
+|---|---|---|
+| `/vault/{path}` | GET PUT PATCH POST DELETE | Read, write, or delete any file in your vault |
+| `/active/` | GET PUT PATCH POST DELETE | Operate on the currently open file |
+| `/periodic/{period}/` | GET PUT PATCH POST DELETE | Today's periodic note (`daily`, `weekly`, etc.) |
+| `/periodic/{period}/{year}/{month}/{day}/` | GET PUT PATCH POST DELETE | Periodic note for a specific date |
+| `/search/simple/` | POST | Full-text search across all notes |
+| `/search/` | POST | Structured search via JsonLogic |
+| `/commands/` | GET | List available Obsidian commands |
+| `/commands/{commandId}/` | POST | Execute a command |
+| `/tags/` | GET | List all tags with usage counts |
+| `/open/{path}` | POST | Open a file in the Obsidian UI |
+| `/` | GET | Server status and authentication check |
+| `/mcp/` | GET POST | MCP (Model Context Protocol) server — connect AI agents directly to your vault |
 
-#### Server variables
+For full request/response details, see the [interactive docs](https://coddingtonbear.github.io/obsidian-local-rest-api/).
 
-|     |     |
-| --- | --- |
-| host |  |
-| port |  |
+## Patching notes
 
-Authorize
+The `PATCH` method is one of the most useful features of this API. It lets you make targeted edits without rewriting entire files.
 
-### [Vault Files](https://coddingtonbear.github.io/obsidian-local-rest-api/\#/Vault%20Files)
+Specify a **target** (a heading, block reference, or frontmatter key) and an **operation** (`append`, `prepend`, or `replace`), and the plugin will apply the change precisely:
 
-GET
-[/vault/{filename}](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Vault%20Files/get_vault__filename_)
-
-Return the content of a single file in your vault.
-
-POST
-[/vault/{filename}](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Vault%20Files/post_vault__filename_)
-
-Append content to a new or existing file.
-
-PUT
-[/vault/{filename}](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Vault%20Files/put_vault__filename_)
-
-Create a new file in your vault or update the content of an existing one.
-
-PATCH
-[/vault/{filename}](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Vault%20Files/patch_vault__filename_)
-
-Partially update content in an existing note.
-
-DELETE
-[/vault/{filename}](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Vault%20Files/delete_vault__filename_)
-
-Delete a particular file in your vault.
-
-### [Active File](https://coddingtonbear.github.io/obsidian-local-rest-api/\#/Active%20File)
-
-GET
-[/active/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Active%20File/get_active_)
-
-Return the content of the active file open in Obsidian.
-
-POST
-[/active/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Active%20File/post_active_)
-
-Append content to the active file open in Obsidian.
-
-PUT
-[/active/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Active%20File/put_active_)
-
-Update the content of the active file open in Obsidian.
-
-PATCH
-[/active/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Active%20File/patch_active_)
-
-Partially update content in the currently open note.
-
-DELETE
-[/active/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Active%20File/delete_active_)
-
-Deletes the currently-active file in Obsidian.
-
-### [Periodic Notes](https://coddingtonbear.github.io/obsidian-local-rest-api/\#/Periodic%20Notes)
-
-GET
-[/periodic/{period}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/get_periodic__period__)
-
-Get current periodic note for the specified period.
-
-GET
-[/periodic/{period}/{year}/{month}/{day}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/get_periodic__period___year___month___day__)
-
-Get the periodic note for the specified period and date.
-
-POST
-[/periodic/{period}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/post_periodic__period__)
-
-Append content to the current periodic note for the specified period.
-
-POST
-[/periodic/{period}/{year}/{month}/{day}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/post_periodic__period___year___month___day__)
-
-Append content to the periodic note for the specified period and date.
-
-PUT
-[/periodic/{period}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/put_periodic__period__)
-
-Update the content of the current periodic note for the specified period.
-
-PUT
-[/periodic/{period}/{year}/{month}/{day}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/put_periodic__period___year___month___day__)
-
-Update the content of the periodic note for the specified period and date.
-
-PATCH
-[/periodic/{period}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/patch_periodic__period__)
-
-Partially update content in the current periodic note for the specified period.
-
-PATCH
-[/periodic/{period}/{year}/{month}/{day}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/patch_periodic__period___year___month___day__)
-
-Partially update content in the periodic note for the specified period and date.
-
-DELETE
-[/periodic/{period}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/delete_periodic__period__)
-
-Delete the current periodic note for the specified period.
-
-DELETE
-[/periodic/{period}/{year}/{month}/{day}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Periodic%20Notes/delete_periodic__period___year___month___day__)
-
-Delete the periodic note for the specified period and date.
-
-### [Vault Directories](https://coddingtonbear.github.io/obsidian-local-rest-api/\#/Vault%20Directories)
-
-GET
-[/vault/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Vault%20Directories/get_vault_)
-
-List files that exist in the root of your vault.
-
-GET
-[/vault/{pathToDirectory}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Vault%20Directories/get_vault__pathToDirectory__)
-
-List files that exist in the specified directory.
-
-### [Search](https://coddingtonbear.github.io/obsidian-local-rest-api/\#/Search)
-
-POST
-[/search/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Search/post_search_)
-
-Search for documents matching a specified search query
-
-POST
-[/search/simple/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Search/post_search_simple_)
-
-Search for documents matching a specified text query
-
-### [Commands](https://coddingtonbear.github.io/obsidian-local-rest-api/\#/Commands)
-
-GET
-[/commands/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Commands/get_commands_)
-
-Get a list of available commands.
-
-POST
-[/commands/{commandId}/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Commands/post_commands__commandId__)
-
-Execute a command.
-
-### [Open](https://coddingtonbear.github.io/obsidian-local-rest-api/\#/Open)
-
-POST
-[/open/{filename}](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Open/post_open__filename_)
-
-Open the specified document in the Obsidian user interface.
-
-### [System](https://coddingtonbear.github.io/obsidian-local-rest-api/\#/System)
-
-GET
-[/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/System/get_)
-
-Returns basic details about the server.
-
-GET
-[/obsidian-local-rest-api.crt](https://coddingtonbear.github.io/obsidian-local-rest-api/#/System/get_obsidian_local_rest_api_crt)
-
-Returns the certificate in use by this API.
-
-GET
-[/openapi.yaml](https://coddingtonbear.github.io/obsidian-local-rest-api/#/System/get_openapi_yaml)
-
-Returns OpenAPI YAML document describing the capabilities of this API.
-
-### [Tags](https://coddingtonbear.github.io/obsidian-local-rest-api/\#/Tags)
-
-GET
-[/tags/](https://coddingtonbear.github.io/obsidian-local-rest-api/#/Tags/get_tags_)
-
-Get a list of all tags with metadata.
-
-#### Schemas
-
-Error
-
-NoteJson
+```sh
+# Replace the value of a frontmatter field
+curl -k -X PATCH \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "Operation: replace" \
+  -H "Target-Type: frontmatter" \
+  -H "Target: status" \
+  -H "Content-Type: application/json" \
+  --data '"done"' \
+  https://127.0.0.1:27124/vault/path/to/note.md
+```
+
+See the [interactive docs](https://coddingtonbear.github.io/obsidian-local-rest-api/) for the full list of request headers and options.
+
+## Targeting specific sections
+
+You can read or write a specific part of a note — a heading, block reference, or frontmatter field — without fetching or replacing the whole file. This works on GET, PUT, POST, and PATCH requests.
+
+There are two ways to specify the target:
+
+**Headers** — add `Target-Type` and `Target` to any request:
+
+```sh
+# Read the content under a specific heading
+curl -k -H "Authorization: Bearer <your-api-key>" \
+  -H "Target-Type: heading" \
+  -H "Target: My Section" \
+  https://127.0.0.1:27124/vault/path/to/note.md
+
+# Read a frontmatter field
+curl -k -H "Authorization: Bearer <your-api-key>" \
+  -H "Target-Type: frontmatter" \
+  -H "Target: status" \
+  https://127.0.0.1:27124/vault/path/to/note.md
+```
+
+**URL path segments** (GET, PUT, and POST only) — append `/<target-type>/<target>` after the filename:
+
+```sh
+# Read a specific heading
+curl -k -H "Authorization: Bearer <your-api-key>" \
+  https://127.0.0.1:27124/vault/path/to/note.md/heading/My%20Section
+
+# Read a nested heading (levels separated by ::)
+curl -k -H "Authorization: Bearer <your-api-key>" \
+  https://127.0.0.1:27124/vault/path/to/note.md/heading/Work/Meetings
+
+# Read a frontmatter field
+curl -k -H "Authorization: Bearer <your-api-key>" \
+  https://127.0.0.1:27124/vault/path/to/note.md/frontmatter/status
+
+# Replace the content of a heading via PUT
+curl -k -X PUT \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "Content-Type: text/plain" \
+  --data "Updated content" \
+  https://127.0.0.1:27124/vault/path/to/note.md/heading/My%20Section
+
+# Append to a heading via POST
+curl -k -X POST \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "Content-Type: text/plain" \
+  --data "Appended content" \
+  https://127.0.0.1:27124/vault/path/to/note.md/heading/My%20Section
+```
+
+Supported target types: `heading`, `block`, `frontmatter`. Supplying both URL-embedded targets and the equivalent headers on the same request returns `422 Unprocessable Entity`.
+
+## Searching
+
+`POST /search/simple/?query=your+terms` runs Obsidian's built-in fuzzy search and returns matching filenames with scored context snippets.
+
+`POST /search/` accepts a [JsonLogic](https://jsonlogic.com/) expression (content type `application/vnd.olrapi.jsonlogic+json`) and evaluates it against each note's metadata (frontmatter, tags, path, content).
+
+## MCP (Model Context Protocol)
+
+> [!NOTE]
+> Several third-party MCP servers for Obsidian exist, but they are no longer necessary — this plugin ships a built-in MCP server that runs inside Obsidian and has direct access to your vault's live metadata, active file, periodic notes, and command palette. If you are currently using a third-party server, switching to this one is likely to give you better results.
+
+The plugin includes a built-in MCP server at `/mcp/` so AI agents and MCP-compatible clients can interact with your vault without hand-crafting HTTP requests.
+
+**Transport:** Streamable HTTP — API key authentication required.
+
+### Connecting a client
+
+Connect your MCP client to `https://127.0.0.1:27124/mcp/`. Authentication uses a bearer token — find your API key under **Settings → Local REST API**, then pass it as:
+
+```
+Authorization: Bearer <your-api-key>
+```
+
+The exact config syntax varies by client; see the [Quick start](#mcp-clients) examples above or consult your client's documentation for Streamable HTTP remote MCP servers.
+
+> [!WARNING]
+> To connect to the MCP server securely, your client must trust the plugin's self-signed certificate. You can download and trust it from `https://127.0.0.1:27124/obsidian-local-rest-api.crt`, or configure your client to skip TLS verification for `127.0.0.1`.
+>
+> If trusting a self-signed certificate is not possible in your environment, you can connect insecurely using `http://127.0.0.1:27123/mcp/`
+> instead of `https://127.0.0.1:27124/mcp/` if you have enabled the HTTP endpoint under **Settings → Local REST API → Enable HTTP server**.
+
+### Available tools
+
+| Tool | Description |
+|---|---|
+| `vault_list` | List files and subdirectories inside a vault directory |
+| `vault_read` | Read a file's content, frontmatter, tags, and stat |
+| `vault_write` | Create or overwrite a vault file |
+| `vault_append` | Append content to the end of a vault file |
+| `vault_patch` | Patch a specific heading, block reference, or frontmatter field |
+| `vault_delete` | Delete a vault file |
+| `vault_move` | Move (rename) a vault file to a new path |
+| `vault_get_document_map` | List the headings, block references, and frontmatter fields in a file |
+| `active_file_get_path` | Return the vault path of the file currently open in Obsidian |
+| `periodic_note_get_path` | Return the vault path of the current periodic note (`daily`, `weekly`, `monthly`, `quarterly`, `yearly`) |
+| `search_query` | Search using a [JsonLogic](https://jsonlogic.com/) query against note metadata |
+| `search_simple` | Full-text search using Obsidian's built-in search |
+| `tag_list` | List all tags across the vault with usage counts |
+| `command_list` | List all registered Obsidian commands |
+| `command_execute` | Execute an Obsidian command by ID |
+| `open_file` | Open a file in the Obsidian UI |
+
+### Available resources
+
+| URI | Description |
+|---|---|
+| `obsidian://local-rest-api/openapi.yaml` | Full OpenAPI specification for this REST API |
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). If you want to add functionality without modifying core, consider building an [API extension](https://github.com/coddingtonbear/obsidian-local-rest-api/wiki/Adding-your-own-API-Routes-via-an-Extension) instead — extensions can be developed and released independently.
+
+## Credits
+
+Inspired by [Vinzent03](https://github.com/Vinzent03)'s [advanced-uri plugin](https://github.com/Vinzent03/obsidian-advanced-uri), with the goal of expanding automation options beyond the constraints of custom URL schemes.
