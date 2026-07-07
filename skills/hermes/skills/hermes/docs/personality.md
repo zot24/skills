@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -23,7 +20,7 @@ If you want to change who Hermes is — or replace it with an entirely different
 Hermes now seeds a default `SOUL.md` automatically in:
 
 
-``` prism-code
+``` text
 ~/.hermes/SOUL.md
 ```
 
@@ -31,7 +28,7 @@ Hermes now seeds a default `SOUL.md` automatically in:
 More precisely, it uses the current instance's `HERMES_HOME`, so if you run Hermes with a custom home directory, it will use:
 
 
-``` prism-code
+``` text
 $HERMES_HOME/SOUL.md
 ```
 
@@ -64,7 +61,7 @@ That also makes it easier to teach users:
 For most users:
 
 
-``` prism-code
+``` bash
 ~/.hermes/SOUL.md
 ```
 
@@ -72,7 +69,7 @@ For most users:
 If you use a custom home:
 
 
-``` prism-code
+``` bash
 $HERMES_HOME/SOUL.md
 ```
 
@@ -109,7 +106,7 @@ A good SOUL file is:
 ### Example<a href="#example" class="hash-link" aria-label="Direct link to Example" translate="no" title="Direct link to Example">​</a>
 
 
-``` prism-code
+``` markdown
 # Personality
 
 You are a pragmatic senior engineer with strong taste.
@@ -223,7 +220,7 @@ Hermes ships with built-in personalities you can switch to with `/personality`.
 ### CLI<a href="#cli" class="hash-link" aria-label="Direct link to CLI" translate="no" title="Direct link to CLI">​</a>
 
 
-``` prism-code
+``` text
 /personality
 /personality concise
 /personality technical
@@ -233,7 +230,7 @@ Hermes ships with built-in personalities you can switch to with `/personality`.
 ### Messaging platforms<a href="#messaging-platforms" class="hash-link" aria-label="Direct link to Messaging platforms" translate="no" title="Direct link to Messaging platforms">​</a>
 
 
-``` prism-code
+``` text
 /personality teacher
 ```
 
@@ -245,7 +242,7 @@ These are convenient overlays, but your global `SOUL.md` still gives Hermes its 
 You can also define named custom personalities in `~/.hermes/config.yaml` under `agent.personalities`.
 
 
-``` prism-code
+``` yaml
 agent:
   personalities:
     codereviewer: >
@@ -257,7 +254,7 @@ agent:
 Then switch to it with:
 
 
-``` prism-code
+``` text
 /personality codereviewer
 ```
 

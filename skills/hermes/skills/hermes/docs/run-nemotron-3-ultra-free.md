@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -36,7 +33,7 @@ When the app opens, you'll see a "Let's get you set up" screen. Click **Nous Por
 After connecting, the app shows a **Default model** card. Click **Change**, search for **nemotron 3 ultra**, and select the variant tagged **Free tier**:
 
 
-``` prism-code
+``` text
 nvidia/nemotron-3-ultra:free
 ```
 
@@ -56,7 +53,7 @@ Prefer the terminal?
 On macOS/Linux/WSL2/Android, run
 
 
-``` prism-code
+``` bash
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
@@ -64,7 +61,7 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 On Windows, run
 
 
-``` prism-code
+``` powershell
 iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 ```
 
@@ -74,7 +71,7 @@ Prefer to review first? Download <a href="https://hermes-agent.nousresearch.com/
 After it finishes, reload your shell:
 
 
-``` prism-code
+``` bash
 source ~/.bashrc   # or source ~/.zshrc
 ```
 
@@ -82,7 +79,7 @@ source ~/.bashrc   # or source ~/.zshrc
 ### 2. Run Quick Setup<a href="#2-run-quick-setup" class="hash-link" aria-label="Direct link to 2. Run Quick Setup" translate="no" title="Direct link to 2. Run Quick Setup">​</a>
 
 
-``` prism-code
+``` bash
 hermes setup
 ```
 
@@ -102,7 +99,7 @@ When prompted to connect your account to Hermes Agent, click **Connect**. You'll
 Return to your terminal. From the model list, select:
 
 
-``` prism-code
+``` text
 nvidia/nemotron-3-ultra:free
 ```
 
@@ -114,7 +111,7 @@ The `:free` tag is what keeps it on the no-cost tier, so make sure you pick that
 Complete the remaining Quick Setup prompts, then run:
 
 
-``` prism-code
+``` bash
 hermes
 ```
 
@@ -132,7 +129,7 @@ Already set up with another model?
 
 - **Don't see the model in the list?** Make sure you finished the Nous Portal connection and that you're on the **Free** plan. In the CLI, `hermes portal info` confirms you're logged in and routing through Nous.
 - **Picked the wrong variant?** Re-select `nvidia/nemotron-3-ultra:free` — the `:free` suffix is required to stay on the no-cost tier.
-- **Browser didn't open / you're on a remote host (CLI)?** See [OAuth over SSH / Remote Hosts](/docs/guides/oauth-over-ssh) for port-forwarding and manual-paste workarounds.
+- **Browser didn't open / you're on a remote host (CLI)?** See [OAuth over SSH / Remote Hosts](/docs/guides/oauth-over-ssh) for port-forwarding workarounds.
 
 ## See also<a href="#see-also" class="hash-link" aria-label="Direct link to See also" translate="no" title="Direct link to See also">​</a>
 

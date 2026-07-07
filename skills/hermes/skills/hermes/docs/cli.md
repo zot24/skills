@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -23,7 +20,7 @@ Hermes also ships a modern TUI with modal overlays, mouse selection, and non-blo
 ## Running the CLI<a href="#running-the-cli" class="hash-link" aria-label="Direct link to Running the CLI" translate="no" title="Direct link to Running the CLI">​</a>
 
 
-``` prism-code
+``` bash
 # Start an interactive session (default)
 hermes
 
@@ -70,21 +67,21 @@ The welcome banner shows your model, terminal backend, working directory, availa
 A persistent status bar sits above the input area, updating in real time:
 
 
-``` prism-code
+``` text
  ⚕ claude-sonnet-4-20250514 │ 12.4K/200K │ [██████░░░░] 6% │ $0.06 │ 15m
 ```
 
 
-| Element     | Description                                                                                                                                                                                                         |
-|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Model name  | Current model (truncated if longer than 26 chars)                                                                                                                                                                   |
-| Token count | Context tokens used / max context window                                                                                                                                                                            |
-| Context bar | Visual fill indicator with color-coded thresholds                                                                                                                                                                   |
-| Cost        | Estimated session cost (or `n/a` for unknown/zero-priced models)                                                                                                                                                    |
-| 🗜️ N        | **Context compression count** — how many times the running session has been auto-compressed. Appears once the first compression fires.                                                                              |
-| ▶ N         | **Active background tasks** — how many `/background` prompts are still running in the current session. Appears whenever at least one task is in flight.                                                             |
-| Duration    | Elapsed session time                                                                                                                                                                                                |
-| ⚠ YOLO      | **YOLO mode warning** — shown whenever `HERMES_YOLO_MODE` is on (either `hermes --yolo` at launch or `/yolo` toggled mid-session). Mirrors the banner-line warning so you can't forget you're in auto-approve mode. |
+| Element | Description |
+|----|----|
+| Model name | Current model (truncated if longer than 26 chars) |
+| Token count | Context tokens used / max context window |
+| Context bar | Visual fill indicator with color-coded thresholds |
+| Cost | Estimated session cost (or `n/a` for unknown/zero-priced models) |
+| 🗜️ N | **Context compression count** — how many times the running session has been auto-compressed. Appears once the first compression fires. |
+| ▶ N | **Active background tasks** — how many `/background` prompts are still running in the current session. Appears whenever at least one task is in flight. |
+| Duration | Elapsed session time |
+| ⚠ YOLO | **YOLO mode warning** — shown whenever `HERMES_YOLO_MODE` is on (either `hermes --yolo` at launch or `/yolo` toggled mid-session). Mirrors the banner-line warning so you can't forget you're in auto-approve mode. |
 
 The bar adapts to terminal width — full layout at ≥ 76 columns, compact at 52–75, minimal (model + duration, plus the YOLO badge when active) below 52.
 
@@ -105,19 +102,19 @@ When resuming a previous session (`hermes -c` or `hermes --resume <id>`), a "Pre
 
 ## Keybindings<a href="#keybindings" class="hash-link" aria-label="Direct link to Keybindings" translate="no" title="Direct link to Keybindings">​</a>
 
-| Key                                     | Action                                                                                                                                                                                                                                 |
-|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Enter`                                 | Send message                                                                                                                                                                                                                           |
+| Key | Action |
+|----|----|
+| `Enter` | Send message |
 | `Alt+Enter`, `Ctrl+J`, or `Shift+Enter` | New line (multi-line input). `Shift+Enter` requires a terminal that distinguishes it from `Enter` — see below. On Windows Terminal, `Alt+Enter` is captured by the terminal (fullscreen toggle); use `Ctrl+Enter` or `Ctrl+J` instead. |
-| `Alt+V`                                 | Paste an image from the clipboard when supported by the terminal                                                                                                                                                                       |
-| `Ctrl+V`                                | Paste text and opportunistically attach clipboard images                                                                                                                                                                               |
-| `Ctrl+B`                                | Start/stop voice recording when voice mode is enabled (`voice.record_key`, default: `ctrl+b`)                                                                                                                                          |
-| `Ctrl+G`                                | Open the current input buffer in `$EDITOR` (vim/nvim/nano/VS Code/etc.). Save and quit to send the edited text as the next prompt — ideal for long, multi-paragraph prompts.                                                           |
-| `Ctrl+X Ctrl+E`                         | Emacs-style alternate binding for the external editor (same behavior as `Ctrl+G`).                                                                                                                                                     |
-| `Ctrl+C`                                | Interrupt agent (double-press within 2s to force exit)                                                                                                                                                                                 |
-| `Ctrl+D`                                | Exit                                                                                                                                                                                                                                   |
-| `Ctrl+Z`                                | Suspend Hermes to background (Unix only). Run `fg` in the shell to resume.                                                                                                                                                             |
-| `Tab`                                   | Accept auto-suggestion (ghost text) or autocomplete slash commands                                                                                                                                                                     |
+| `Alt+V` | Paste an image from the clipboard when supported by the terminal |
+| `Ctrl+V` | Paste text and opportunistically attach clipboard images |
+| `Ctrl+B` | Start/stop voice recording when voice mode is enabled (`voice.record_key`, default: `ctrl+b`) |
+| `Ctrl+G` | Open the current input buffer in `$EDITOR` (vim/nvim/nano/VS Code/etc.). Save and quit to send the edited text as the next prompt — ideal for long, multi-paragraph prompts. |
+| `Ctrl+X Ctrl+E` | Emacs-style alternate binding for the external editor (same behavior as `Ctrl+G`). |
+| `Ctrl+C` | Interrupt agent (double-press within 2s to force exit) |
+| `Ctrl+D` | Exit |
+| `Ctrl+Z` | Suspend Hermes to background (Unix only). Run `fg` in the shell to resume. |
+| `Tab` | Accept auto-suggestion (ghost text) or autocomplete slash commands |
 
 **Multiline paste preview.** When you paste a multi-line block, the CLI echoes a compact single-line preview (`[pasted: 47 lines, 1,842 chars — press Enter to send]`) instead of dumping the whole payload into the scrollback. The full content is still what gets sent; this is just display polish.
 
@@ -129,20 +126,20 @@ Type `/` to see the autocomplete dropdown. Hermes supports a large set of CLI sl
 
 Common examples:
 
-| Command                | Description                                                                                                                                                                                                                 |
-|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `/help`                | Show command help                                                                                                                                                                                                           |
-| `/model`               | Show or change the current model                                                                                                                                                                                            |
-| `/tools`               | List currently available tools                                                                                                                                                                                              |
-| `/skills browse`       | Browse the skills hub and official optional skills                                                                                                                                                                          |
-| `/background <prompt>` | Run a prompt in a separate background session                                                                                                                                                                               |
-| `/skin`                | Show or switch the active CLI skin                                                                                                                                                                                          |
-| `/voice on`            | Enable CLI voice mode (press `Ctrl+B` to record)                                                                                                                                                                            |
-| `/voice tts`           | Toggle spoken playback for Hermes replies                                                                                                                                                                                   |
-| `/reasoning high`      | Increase reasoning effort                                                                                                                                                                                                   |
-| `/title My Session`    | Name the current session                                                                                                                                                                                                    |
-| `/status`              | Show session info — model/profile/tokens/duration — followed by a local **Session recap** block (recent turn counts, top tools used, files touched, latest user prompt + assistant reply). Pure local compute; no LLM call. |
-| `/sessions`            | Open an interactive session picker right inside the classic CLI (same surface the TUI uses). Type to filter, arrow keys to navigate, Enter to resume.                                                                       |
+| Command | Description |
+|----|----|
+| `/help` | Show command help |
+| `/model` | Show or change the current model |
+| `/tools` | List currently available tools |
+| `/skills browse` | Browse the skills hub and official optional skills |
+| `/background <prompt>` | Run a prompt in a separate background session |
+| `/skin` | Show or switch the active CLI skin |
+| `/voice on` | Enable CLI voice mode (press `Ctrl+B` to record) |
+| `/voice tts` | Toggle spoken playback for Hermes replies |
+| `/reasoning high` | Increase reasoning effort |
+| `/title My Session` | Name the current session |
+| `/status` | Show session info — model/profile/tokens/duration — followed by a local **Session recap** block (recent turn counts, top tools used, files touched, latest user prompt + assistant reply). Pure local compute; no LLM call. |
+| `/sessions` | Open an interactive session picker right inside the classic CLI (same surface the TUI uses). Type to filter, arrow keys to navigate, Enter to resume. |
 
 For the full built-in CLI and messaging lists, see [Slash Commands Reference](/docs/reference/slash-commands).
 
@@ -157,7 +154,7 @@ Commands are case-insensitive — `/HELP` works the same as `/help`. Installed s
 You can define custom commands that run shell commands instantly without invoking the LLM. These work in both the CLI and messaging platforms (Telegram, Discord, etc.).
 
 
-``` prism-code
+``` yaml
 # ~/.hermes/config.yaml
 quick_commands:
   status:
@@ -179,7 +176,7 @@ Then type `/status`, `/gpu`, or `/restart` in any chat. See the [Configuration g
 If you already know which skills you want active for the session, pass them at launch time:
 
 
-``` prism-code
+``` bash
 hermes -s hermes-agent-dev,github-auth
 hermes chat -s github-pr-workflow -s github-auth
 ```
@@ -192,7 +189,7 @@ Hermes loads each named skill into the session prompt before the first turn. The
 Every installed skill in `~/.hermes/skills/` is automatically registered as a slash command. The skill name becomes the command:
 
 
-``` prism-code
+``` text
 /gif-search funny cats
 /axolotl help me fine-tune Llama 3 on my dataset
 /github-pr-workflow create a PR for the auth refactor
@@ -207,7 +204,7 @@ Every installed skill in `~/.hermes/skills/` is automatically registered as a sl
 Set a predefined personality to change the agent's tone:
 
 
-``` prism-code
+``` text
 /personality pirate
 /personality kawaii
 /personality concise
@@ -219,7 +216,7 @@ Built-in personalities include: `helpful`, `concise`, `technical`, `creative`, `
 You can also define custom personalities in `~/.hermes/config.yaml`:
 
 
-``` prism-code
+``` yaml
 personalities:
   helpful: "You are a helpful, friendly AI assistant."
   kawaii: "You are a kawaii assistant! Use cute expressions..."
@@ -236,7 +233,7 @@ There are two ways to enter multi-line messages:
 2.  **Backslash continuation** — end a line with `\` to continue:
 
 
-``` prism-code
+``` text
 ❯ Write a function that:\
   1. Takes a list of numbers\
   2. Returns the sum
@@ -250,11 +247,11 @@ Pasting multi-line text is supported — use any of the newline keys above, or s
 
 Most terminals send the same byte sequence for `Enter` and `Shift+Enter` by default, so applications cannot distinguish them. Hermes recognises `Shift+Enter` only when the terminal sends a distinct sequence via the <a href="https://sw.kovidgoyal.net/kitty/keyboard-protocol/" target="_blank" rel="noopener noreferrer">Kitty keyboard protocol</a> or xterm's `modifyOtherKeys` mode.
 
-| Terminal                                            | Status                                                          |
-|-----------------------------------------------------|-----------------------------------------------------------------|
-| Kitty, foot, WezTerm, Ghostty                       | Distinct `Shift+Enter` enabled by default                       |
-| iTerm2 (recent), Alacritty, VS Code terminal, Warp  | Supported once the Kitty protocol is enabled in settings        |
-| Windows Terminal Preview 1.25+                      | Supported once the Kitty protocol is enabled in settings        |
+| Terminal | Status |
+|----|----|
+| Kitty, foot, WezTerm, Ghostty | Distinct `Shift+Enter` enabled by default |
+| iTerm2 (recent), Alacritty, VS Code terminal, Warp | Supported once the Kitty protocol is enabled in settings |
+| Windows Terminal Preview 1.25+ | Supported once the Kitty protocol is enabled in settings |
 | macOS Terminal.app, stock Windows Terminal (stable) | Not supported — `Shift+Enter` is indistinguishable from `Enter` |
 
 Where the terminal cannot distinguish them, `Alt+Enter` and `Ctrl+J` continue to work everywhere. **On Windows Terminal specifically, `Alt+Enter` is captured by the terminal (toggles fullscreen) and never reaches Hermes — use `Ctrl+Enter` (delivered as `Ctrl+J`) or `Ctrl+J` directly for a newline.**
@@ -272,14 +269,14 @@ You can interrupt the agent at any point:
 
 The `display.busy_input_mode` config key controls what happens when you press Enter while the agent is working:
 
-| Mode                    | Behavior                                                                                                                               |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| `"interrupt"` (default) | Your message interrupts the current operation and is processed immediately                                                             |
-| `"queue"`               | Your message is silently queued and sent as the next turn after the agent finishes                                                     |
-| `"steer"`               | Your message is injected into the current run via `/steer`, arriving at the agent after the next tool call — no interrupt, no new turn |
+| Mode | Behavior |
+|----|----|
+| `"interrupt"` (default) | Your message interrupts the current operation and is processed immediately |
+| `"queue"` | Your message is silently queued and sent as the next turn after the agent finishes |
+| `"steer"` | Your message is injected into the current run via `/steer`, arriving at the agent after the next tool call — no interrupt, no new turn |
 
 
-``` prism-code
+``` yaml
 # ~/.hermes/config.yaml
 display:
   busy_input_mode: "steer"   # or "queue" or "interrupt" (default)
@@ -293,7 +290,7 @@ display:
 You can also change it inside the CLI:
 
 
-``` prism-code
+``` text
 /busy queue
 /busy steer
 /busy interrupt
@@ -309,7 +306,7 @@ The very first time you press Enter while Hermes is working, Hermes prints a one
 On Unix systems, press **`Ctrl+Z`** to suspend Hermes to the background — just like any terminal process. The shell prints a confirmation:
 
 
-``` prism-code
+``` text
 Hermes Agent has been suspended. Run `fg` to bring Hermes Agent back.
 ```
 
@@ -323,7 +320,7 @@ The CLI shows animated feedback as the agent works:
 **Thinking animation** (during API calls):
 
 
-``` prism-code
+``` text
   ◜ (｡•́︿•̀｡) pondering... (1.2s)
   ◠ (⊙_⊙) contemplating... (2.4s)
   ✧٩(ˊᗜˋ*)و✧ got it! (3.1s)
@@ -333,7 +330,7 @@ The CLI shows animated feedback as the agent works:
 **Tool execution feed:**
 
 
-``` prism-code
+``` text
   ┊ 💻 terminal `ls -la` (0.3s)
   ┊ 🔍 web_search (1.2s)
   ┊ 📄 web_extract (2.1s)
@@ -347,7 +344,7 @@ Cycle through display modes with `/verbose`: `off → new → all → verbose`. 
 The `display.tool_preview_length` config key controls the maximum number of characters shown in tool call preview lines (e.g. file paths, terminal commands). The default is `0`, which means no limit — full paths and commands are shown.
 
 
-``` prism-code
+``` yaml
 # ~/.hermes/config.yaml
 display:
   tool_preview_length: 80   # Truncate tool previews to 80 chars (0 = no limit)
@@ -363,7 +360,7 @@ This is useful on narrow terminals or when tool arguments contain very long file
 When you exit a CLI session, a resume command is printed:
 
 
-``` prism-code
+``` text
 Resume this session with:
   hermes --resume 20260225_143052_a1b2c3
 
@@ -376,7 +373,7 @@ Messages:       28 (5 user, 18 tool calls)
 Resume options:
 
 
-``` prism-code
+``` bash
 hermes --continue                          # Resume the most recent CLI session
 hermes -c                                  # Short form
 hermes -c "my project"                     # Resume a named session (latest in lineage)
@@ -406,7 +403,7 @@ Some messaging adapters also keep per-platform transcript files alongside the da
 Long conversations are automatically summarized when approaching context limits:
 
 
-``` prism-code
+``` yaml
 # In ~/.hermes/config.yaml
 compression:
   enabled: true
@@ -426,7 +423,7 @@ When compression triggers, middle turns are summarized while the first 3 and las
 Run a prompt in a separate background session while continuing to use the CLI for other work:
 
 
-``` prism-code
+``` text
 /background Analyze the logs in /var/log and summarize any errors from today
 ```
 
@@ -434,7 +431,7 @@ Run a prompt in a separate background session while continuing to use the CLI fo
 Hermes immediately confirms the task and gives you back the prompt:
 
 
-``` prism-code
+``` text
 🔄 Background task #1 started: "Analyze the logs in /var/log and summarize..."
    Task ID: bg_143022_a1b2c3
 ```
@@ -454,7 +451,7 @@ Each `/background` prompt spawns a **completely separate agent session** in a da
 When a background task finishes, the result appears as a panel in your terminal:
 
 
-``` prism-code
+``` text
 ╭─ ⚕ Hermes (background #1) ──────────────────────────────────╮
 │ Found 3 errors in syslog from today:                         │
 │ 1. OOM killer invoked at 03:22 — killed process nginx        │
@@ -487,7 +484,7 @@ By default, the CLI runs in quiet mode which:
 For debug output:
 
 
-``` prism-code
+``` bash
 hermes chat --verbose
 ```
 

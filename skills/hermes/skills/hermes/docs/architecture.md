@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -16,7 +13,7 @@ This page is the top-level map of Hermes Agent internals. Use it to orient yours
 ## System Overview<a href="#system-overview" class="hash-link" aria-label="Direct link to System Overview" translate="no" title="Direct link to System Overview">​</a>
 
 
-``` prism-code
+``` text
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        Entry Points                                  │
 │                                                                      │
@@ -58,7 +55,7 @@ This page is the top-level map of Hermes Agent internals. Use it to orient yours
 ## Directory Structure<a href="#directory-structure" class="hash-link" aria-label="Direct link to Directory Structure" translate="no" title="Direct link to Directory Structure">​</a>
 
 
-``` prism-code
+``` text
 hermes-agent/
 ├── run_agent.py              # AIAgent — core conversation loop (large file)
 ├── cli.py                    # HermesCLI — interactive terminal UI (large file)
@@ -147,7 +144,7 @@ hermes-agent/
 ### CLI Session<a href="#cli-session" class="hash-link" aria-label="Direct link to CLI Session" translate="no" title="Direct link to CLI Session">​</a>
 
 
-``` prism-code
+``` text
 User input → HermesCLI.process_input()
   → AIAgent.run_conversation()
     → prompt_builder.build_system_prompt()
@@ -161,7 +158,7 @@ User input → HermesCLI.process_input()
 ### Gateway Message<a href="#gateway-message" class="hash-link" aria-label="Direct link to Gateway Message" translate="no" title="Direct link to Gateway Message">​</a>
 
 
-``` prism-code
+``` text
 Platform event → Adapter.on_message() → MessageEvent
   → GatewayRunner._handle_message()
     → authorize user
@@ -175,7 +172,7 @@ Platform event → Adapter.on_message() → MessageEvent
 ### Cron Job<a href="#cron-job" class="hash-link" aria-label="Direct link to Cron Job" translate="no" title="Direct link to Cron Job">​</a>
 
 
-``` prism-code
+``` text
 Scheduler tick → load due jobs from jobs.json
   → create fresh AIAgent (no history)
   → inject attached skills as context
@@ -246,7 +243,7 @@ Long-running process with 20 platform adapters, unified session routing, user au
 
 Three discovery sources: `~/.hermes/plugins/` (user), `.hermes/plugins/` (project), and pip entry points. Plugins register tools, hooks, and CLI commands through a context API. Two specialized plugin types exist: memory providers (`plugins/memory/`) and context engines (`plugins/context_engine/`). Both are single-select — only one of each can be active at a time, configured via `hermes plugins` or `config.yaml`.
 
-→ [Plugin Guide](/docs/guides/build-a-hermes-plugin), [Memory Provider Plugin](/docs/developer-guide/memory-provider-plugin)
+→ [Plugin Guide](/docs/developer-guide/plugins), [Memory Provider Plugin](/docs/developer-guide/memory-provider-plugin)
 
 ### Cron<a href="#cron" class="hash-link" aria-label="Direct link to Cron" translate="no" title="Direct link to Cron">​</a>
 
@@ -268,19 +265,19 @@ Generates ShareGPT-format trajectories from agent sessions for training data gen
 
 ## Design Principles<a href="#design-principles" class="hash-link" aria-label="Direct link to Design Principles" translate="no" title="Direct link to Design Principles">​</a>
 
-| Principle                  | What it means in practice                                                                                                                  |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| **Prompt stability**       | System prompt doesn't change mid-conversation. No cache-breaking mutations except explicit user actions (`/model`).                        |
-| **Observable execution**   | Every tool call is visible to the user via callbacks. Progress updates in CLI (spinner) and gateway (chat messages).                       |
-| **Interruptible**          | API calls and tool execution can be cancelled mid-flight by user input or signals.                                                         |
-| **Platform-agnostic core** | One AIAgent class serves CLI, gateway, ACP, batch, and API server. Platform differences live in the entry point, not the agent.            |
-| **Loose coupling**         | Optional subsystems (MCP, plugins, memory providers, RL environments) use registry patterns and check_fn gating, not hard dependencies.    |
-| **Profile isolation**      | Each profile (`hermes -p <name>`) gets its own HERMES_HOME, config, memory, sessions, and gateway PID. Multiple profiles run concurrently. |
+| Principle | What it means in practice |
+|----|----|
+| **Prompt stability** | System prompt doesn't change mid-conversation. No cache-breaking mutations except explicit user actions (`/model`). |
+| **Observable execution** | Every tool call is visible to the user via callbacks. Progress updates in CLI (spinner) and gateway (chat messages). |
+| **Interruptible** | API calls and tool execution can be cancelled mid-flight by user input or signals. |
+| **Platform-agnostic core** | One AIAgent class serves CLI, gateway, ACP, batch, and API server. Platform differences live in the entry point, not the agent. |
+| **Loose coupling** | Optional subsystems (MCP, plugins, memory providers, RL environments) use registry patterns and check_fn gating, not hard dependencies. |
+| **Profile isolation** | Each profile (`hermes -p <name>`) gets its own HERMES_HOME, config, memory, sessions, and gateway PID. Multiple profiles run concurrently. |
 
 ## File Dependency Chain<a href="#file-dependency-chain" class="hash-link" aria-label="Direct link to File Dependency Chain" translate="no" title="Direct link to File Dependency Chain">​</a>
 
 
-``` prism-code
+``` text
 tools/registry.py  (no deps — imported by all tool files)
        ↑
 tools/*.py  (each calls registry.register() at import time)

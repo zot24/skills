@@ -154,12 +154,6 @@
       "freshness_days": 7
     },
     {
-      "url": "https://hermes-agent.nousresearch.com/docs/skills/",
-      "target": "skills/hermes/docs/skills.md",
-      "type": "extract-content",
-      "freshness_days": 7
-    },
-    {
       "url": "https://hermes-agent.nousresearch.com/docs/developer-guide/contributing/",
       "target": "skills/hermes/docs/contributing.md",
       "type": "extract-content",
@@ -198,12 +192,6 @@
     {
       "url": "https://hermes-agent.nousresearch.com/docs/guides/run-hermes-with-nous-portal/",
       "target": "skills/hermes/docs/run-hermes-with-nous-portal.md",
-      "type": "extract-content",
-      "freshness_days": 7
-    },
-    {
-      "url": "https://hermes-agent.nousresearch.com/docs/ko/",
-      "target": "skills/hermes/docs/ko.md",
       "type": "extract-content",
       "freshness_days": 7
     },

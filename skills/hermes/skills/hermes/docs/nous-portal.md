@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -16,7 +13,7 @@ On this page
 If you only have time to set up one thing, set up this. The fastest path:
 
 
-``` prism-code
+``` bash
 hermes setup --portal
 ```
 
@@ -31,23 +28,23 @@ Don't have a subscription yet? <a href="https://portal.nousresearch.com/manage-s
 
 The Portal proxies a curated catalog of agentic models from across the ecosystem — billed against your Nous subscription instead of one credit balance per lab.
 
-| Family                | Models                                                                                              |
-|-----------------------|-----------------------------------------------------------------------------------------------------|
-| **Anthropic Claude**  | Opus 4.7, Opus 4.6, Sonnet 4.6, Haiku 4.5                                                           |
-| **OpenAI**            | GPT-5.5, GPT-5.5 Pro, GPT-5.4 Mini, GPT-5.4 Nano, GPT-5.3 Codex                                     |
-| **Google Gemini**     | Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 3.1 Pro Preview, Gemini 3.1 Flash Lite Preview |
-| **DeepSeek**          | DeepSeek V4 Pro                                                                                     |
-| **Qwen**              | Qwen3.7-Max, Qwen3.6-35B-A3B                                                                        |
-| **Kimi / Moonshot**   | Kimi K2.6                                                                                           |
-| **GLM / Zhipu**       | GLM-5.1                                                                                             |
-| **MiniMax**           | MiniMax M2.7                                                                                        |
-| **xAI**               | Grok 4.3                                                                                            |
-| **NVIDIA**            | Nemotron-3 Super 120B-A12B                                                                          |
-| **Tencent**           | Hunyuan 3 Preview                                                                                   |
-| **Xiaomi**            | MiMo V2.5 Pro                                                                                       |
-| **StepFun**           | Step 3.5 Flash                                                                                      |
-| **Hermes**            | Hermes-4-70B, Hermes-4-405B (chat, see [note below](#a-note-on-hermes-4))                           |
-| **+ everything else** | 280+ additional models — the full agentic frontier                                                  |
+| Family | Models |
+|----|----|
+| **Anthropic Claude** | Opus 4.7, Opus 4.6, Sonnet 4.6, Haiku 4.5 |
+| **OpenAI** | GPT-5.5, GPT-5.5 Pro, GPT-5.4 Mini, GPT-5.4 Nano, GPT-5.3 Codex |
+| **Google Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 3.1 Pro Preview, Gemini 3.1 Flash Lite Preview |
+| **DeepSeek** | DeepSeek V4 Pro |
+| **Qwen** | Qwen3.7-Max, Qwen3.6-35B-A3B |
+| **Kimi / Moonshot** | Kimi K2.6 |
+| **GLM / Zhipu** | GLM-5.1 |
+| **MiniMax** | MiniMax M2.7 |
+| **xAI** | Grok 4.3 |
+| **NVIDIA** | Nemotron-3 Super 120B-A12B |
+| **Tencent** | Hunyuan 3 Preview |
+| **Xiaomi** | MiMo V2.5 Pro |
+| **StepFun** | Step 3.5 Flash |
+| **Hermes** | Hermes-4-70B, Hermes-4-405B (chat, see [note below](#a-note-on-hermes-4)) |
+| **+ everything else** | 280+ additional models — the full agentic frontier |
 
 Routing happens through OpenRouter under the hood, so model availability and failover behavior matches what you'd get with an OpenRouter key — just billed against your Nous subscription instead. Switch between Claude Sonnet 4.6 for code and Gemini 3 Pro for long context with `/model` mid-session — no new credentials, no top-ups, no surprise zero-balance errors.
 
@@ -55,13 +52,13 @@ Routing happens through OpenRouter under the hood, so model availability and fai
 
 The same subscription unlocks the [Tool Gateway](/docs/user-guide/features/tool-gateway), which routes Hermes Agent's tool calls through Nous-managed infrastructure. Five backends, one login:
 
-| Tool                         | Partner     | What it does                                                                                                                                                                           |
-|------------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Web search & extract**     | Firecrawl   | Agent-grade search and full-page extraction. No Firecrawl API key, no rate limit babysitting.                                                                                          |
-| **Image generation**         | FAL         | Nine models under one endpoint: FLUX 2 Klein 9B, FLUX 2 Pro, Z-Image Turbo, Nano Banana Pro (Gemini 3 Pro Image), GPT Image 1.5, GPT Image 2, Ideogram V3, Recraft V4 Pro, Qwen Image. |
-| **Text-to-speech**           | OpenAI TTS  | High-quality TTS without a separate OpenAI key. Enables [voice mode](/docs/user-guide/features/voice-mode) across messaging platforms.                                                 |
-| **Cloud browser automation** | Browser Use | Headless Chromium sessions for `browser_navigate`, `browser_click`, `browser_type`, `browser_vision`. No Browserbase account needed.                                                   |
-| **Cloud terminal sandbox**   | Modal       | Serverless terminal sandboxes for code execution (optional add-on).                                                                                                                    |
+| Tool | Partner | What it does |
+|----|----|----|
+| **Web search & extract** | Firecrawl | Agent-grade search and full-page extraction. No Firecrawl API key, no rate limit babysitting. |
+| **Image generation** | FAL | Nine models under one endpoint: FLUX 2 Klein 9B, FLUX 2 Pro, Z-Image Turbo, Nano Banana Pro (Gemini 3 Pro Image), GPT Image 1.5, GPT Image 2, Ideogram V3, Recraft V4 Pro, Qwen Image. |
+| **Text-to-speech** | OpenAI TTS | High-quality TTS without a separate OpenAI key. Enables [voice mode](/docs/user-guide/features/voice-mode) across messaging platforms. |
+| **Cloud browser automation** | Browser Use | Headless Chromium sessions for `browser_navigate`, `browser_click`, `browser_type`, `browser_vision`. No Browserbase account needed. |
+| **Cloud terminal sandbox** | Modal | Serverless terminal sandboxes for code execution (optional add-on). |
 
 Without the gateway, hooking each of those up means a Firecrawl account, a FAL account, a Browser Use account, an OpenAI key, and a Modal account — five separate signups, five separate dashboards, five separate top-up flows. With the gateway, all of it routes through one subscription.
 
@@ -86,7 +83,7 @@ Nous Research's own **Hermes 4** family (Hermes-4-70B, Hermes-4-405B) is availab
 They are **not recommended for use inside Hermes Agent**, however. Hermes 4 is tuned for chat and reasoning, not the rapid-fire tool-calling loop the agent relies on. Use them for <a href="https://chat.nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Chat</a>, for research workflows, or via the [subscription proxy](/docs/user-guide/features/subscription-proxy) from other tooling — but for agent work, pick a frontier agentic model from the catalog instead:
 
 
-``` prism-code
+``` bash
 /model anthropic/claude-sonnet-4.6     # best general-purpose agentic model
 /model openai/gpt-5.5-pro              # strong reasoning + tool calling
 /model google/gemini-3-pro-preview     # huge context window
@@ -101,7 +98,7 @@ The Portal's own <a href="https://portal.nousresearch.com/info" target="_blank" 
 ### Fresh install — one command<a href="#fresh-install--one-command" class="hash-link" aria-label="Direct link to Fresh install — one command" translate="no" title="Direct link to Fresh install — one command">​</a>
 
 
-``` prism-code
+``` bash
 hermes setup --portal
 ```
 
@@ -122,7 +119,7 @@ If you don't have a subscription yet, sign up at <a href="https://portal.nousres
 If you already have Hermes configured with OpenRouter, Anthropic, or any other provider and you want to add the Portal alongside them:
 
 
-``` prism-code
+``` bash
 hermes model
 # pick "Nous Portal" from the provider list
 # browser opens, sign in, done
@@ -133,7 +130,7 @@ Your existing providers stay configured. You can switch between them with `/mode
 
 ### Headless / SSH / remote setup<a href="#headless--ssh--remote-setup" class="hash-link" aria-label="Direct link to Headless / SSH / remote setup" translate="no" title="Direct link to Headless / SSH / remote setup">​</a>
 
-OAuth needs a browser, but the loopback callback runs on the machine where Hermes is running. For remote hosts, see [OAuth over SSH / Remote Hosts](/docs/guides/oauth-over-ssh) — the same patterns work for the Portal as for any other OAuth-based provider (`ssh -L` port forwarding, `--manual-paste` for browser-only environments like Cloud Shell / Codespaces).
+OAuth needs a browser, but the loopback callback runs on the machine where Hermes is running. For remote hosts, see [OAuth over SSH / Remote Hosts](/docs/guides/oauth-over-ssh) — the same patterns work for the Portal as for any other OAuth-based provider (`ssh -L` port forwarding).
 
 ### Profile setup<a href="#profile-setup" class="hash-link" aria-label="Direct link to Profile setup" translate="no" title="Direct link to Profile setup">​</a>
 
@@ -144,7 +141,7 @@ If you use [Hermes profiles](/docs/user-guide/profiles), the Portal refresh toke
 ### Inspecting what's wired up<a href="#inspecting-whats-wired-up" class="hash-link" aria-label="Direct link to Inspecting what&#39;s wired up" translate="no" title="Direct link to Inspecting what&#39;s wired up">​</a>
 
 
-``` prism-code
+``` bash
 hermes portal            # log in to Nous Portal + set it up (one-shot onboarding)
 hermes portal info       # login status, subscription info, model + gateway routing
 hermes portal status     # alias for `portal info`
@@ -158,7 +155,7 @@ hermes portal open       # open the subscription management page in your browser
 `hermes portal info` gives you the high-level overview:
 
 
-``` prism-code
+``` text
   Nous Portal
   ───────────
   Auth:    ✓ logged in
@@ -180,7 +177,7 @@ hermes portal open       # open the subscription management page in your browser
 Inside a session:
 
 
-``` prism-code
+``` bash
 /model anthropic/claude-sonnet-4.6
 /model openai/gpt-5.5-pro
 /model google/gemini-3-pro-preview
@@ -190,7 +187,7 @@ Inside a session:
 Or open the picker:
 
 
-``` prism-code
+``` bash
 /model
 # arrow keys, enter to select
 ```
@@ -199,7 +196,7 @@ Or open the picker:
 Outside a session (the full setup wizard, useful when adding a new provider):
 
 
-``` prism-code
+``` bash
 hermes model
 ```
 
@@ -209,7 +206,7 @@ hermes model
 If you already have, say, a Browserbase account and want to keep using it while routing web search and image generation through Nous, that's supported. Use `hermes tools` to pick backends per tool:
 
 
-``` prism-code
+``` bash
 hermes tools
 # → Web search       → "Nous Subscription"
 # → Image generation → "Nous Subscription"
@@ -232,7 +229,7 @@ Manage your plan, view usage, or upgrade/cancel at any time:
 After `hermes setup --portal`, `~/.hermes/config.yaml` will look like:
 
 
-``` prism-code
+``` yaml
 model:
   provider: nous
   default: anthropic/claude-sonnet-4.6     # or whatever model you picked
@@ -243,7 +240,7 @@ model:
 The Tool Gateway settings live under their respective tool sections:
 
 
-``` prism-code
+``` yaml
 web:
   backend: nous       # web search/extract routes through Tool Gateway
 
@@ -273,7 +270,7 @@ If the Portal invalidates the refresh token (password change, manual revoke, ses
 You haven't completed the OAuth flow, or your refresh token was wiped. Run:
 
 
-``` prism-code
+``` bash
 hermes portal
 ```
 
@@ -289,7 +286,7 @@ Your Portal refresh token was invalidated (password change, manual revoke, or se
 The Portal proxies through OpenRouter, so any model that OpenRouter supports is generally available. If a specific model isn't appearing in `/model`, try the OpenRouter-style slug directly:
 
 
-``` prism-code
+``` bash
 /model anthropic/claude-opus-4.6
 ```
 
