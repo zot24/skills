@@ -50,8 +50,7 @@ You do not need to paste an API key into your code. Read `process.env.FIRECRAWL_
 Create a route handler at `app/api/scrape/route.ts`:
 
 ```typescript
-import { NextResponse } from "next/server";
-import { Firecrawl } from "firecrawl";
+
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -80,8 +79,7 @@ curl -X POST https://your-project.vercel.app/api/scrape \
 Use `search` when your app needs current web results plus page content:
 
 ```typescript
-import { NextResponse } from "next/server";
-import { Firecrawl } from "firecrawl";
+
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -105,8 +103,7 @@ export async function POST(request: Request) {
 Use `interact` when your app needs to click, scroll, or fill forms before extracting content.
 
 ```typescript
-import { NextResponse } from "next/server";
-import { Firecrawl } from "firecrawl";
+
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -154,8 +151,7 @@ Then pass Firecrawl tools to your model. The Marketplace-installed `FIRECRAWL_AP
 
 
 ```typescript
-import { generateText, stepCountIs } from "ai";
-import { FirecrawlTools } from "firecrawl-aisdk";
+
 
 const { text } = await generateText({
   model: "anthropic/claude-sonnet-4-5",

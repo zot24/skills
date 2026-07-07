@@ -26,7 +26,6 @@ npm install firecrawl
 Create `index.mjs` with a search handler:
 
 ```javascript
-import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

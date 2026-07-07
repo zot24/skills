@@ -18,7 +18,6 @@
 Create `main.ts`:
 
 ```typescript
-import Firecrawl from "npm:firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: Deno.env.get("FIRECRAWL_API_KEY"),

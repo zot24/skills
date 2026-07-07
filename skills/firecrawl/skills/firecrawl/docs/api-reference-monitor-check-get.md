@@ -9,7 +9,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /monitor/{monitorId}/checks/{checkId}
+````yaml api-reference/v2-openapi.json GET /monitor/{monitorId}/checks/{checkId}
 openapi: 3.0.0
 info:
   title: Firecrawl API
@@ -218,6 +218,12 @@ components:
         metadata:
           type: object
           nullable: true
+          description: >-
+            Extra per-page metadata. For search monitors this includes
+            `searchStatus`, the finer-grained search disposition behind the
+            top-level `status`: `alert` (maps to `new`), `already_seen`,
+            `watching`, `ignored` (all map to `same`), or `skipped` (maps to
+            `error`).
         judgment:
           $ref: '#/components/schemas/MonitorPageJudgment'
         diff:

@@ -60,7 +60,7 @@ For the full feature guide, see the [Ask feature documentation](/features/ask).
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json POST /support/docs-search
+````yaml api-reference/v2-openapi.json POST /support/docs-search
 openapi: 3.0.0
 info:
   title: Firecrawl API

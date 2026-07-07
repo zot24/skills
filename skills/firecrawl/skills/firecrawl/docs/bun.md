@@ -30,7 +30,6 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 Bun has a built-in HTTP server. Create `index.ts`:
 
 ```typescript
-import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -95,7 +94,6 @@ if (req.method === "POST" && url.pathname === "/interact") {
 Use Firecrawl in a standalone Bun script:
 
 ```typescript
-import { Firecrawl } from "firecrawl";
 
 const app = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const results = await app.search("firecrawl web scraping", { limit: 5 });

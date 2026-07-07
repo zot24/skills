@@ -69,7 +69,10 @@ Search the web and get full page content from results in one call. See the [Sear
   ```python Python
   from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+  firecrawl = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR-API-KEY",
+  )
 
   results = firecrawl.search(
       query="firecrawl",
@@ -81,7 +84,10 @@ Search the web and get full page content from results in one call. See the [Sear
   ```js Node
   import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+  const firecrawl = new Firecrawl({
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR-API-KEY",
+  });
 
   const results = await firecrawl.search('firecrawl', {
     limit: 3,
@@ -91,8 +97,8 @@ Search the web and get full page content from results in one call. See the [Sear
   ```
 
   ```bash cURL
+  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
   curl -s -X POST "https://api.firecrawl.dev/v2/search" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
       "query": "firecrawl",
@@ -162,7 +168,10 @@ Scrape any URL and get its content in markdown, HTML, or other formats. See the 
   ```python Python
   from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+  firecrawl = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR-API-KEY",
+  )
 
   # Scrape a website:
   doc = firecrawl.scrape("https://firecrawl.dev", formats=["markdown", "html"])
@@ -172,7 +181,10 @@ Scrape any URL and get its content in markdown, HTML, or other formats. See the 
   ```js Node
   import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+  const firecrawl = new Firecrawl({
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR-API-KEY",
+  });
 
   // Scrape a website:
   const doc = await firecrawl.scrape('https://firecrawl.dev', { formats: ['markdown', 'html'] });
@@ -180,8 +192,8 @@ Scrape any URL and get its content in markdown, HTML, or other formats. See the 
   ```
 
   ```bash cURL
+  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
   curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
       "url": "https://firecrawl.dev",
@@ -236,7 +248,10 @@ Scrape a page, then keep working with it — click buttons, fill forms, extract 
   ```python Python
   from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR-API-KEY")
+  app = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR-API-KEY",
+  )
 
   # 1. Scrape Amazon's homepage
   result = app.scrape("https://www.amazon.com", formats=["markdown"])
@@ -254,7 +269,10 @@ Scrape a page, then keep working with it — click buttons, fill forms, extract 
   ```js Node
   import { Firecrawl } from 'firecrawl';
 
-  const app = new Firecrawl({ apiKey: 'fc-YOUR-API-KEY' });
+  const app = new Firecrawl({
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: 'fc-YOUR-API-KEY',
+  });
 
   // 1. Scrape Amazon's homepage
   const result = await app.scrape('https://www.amazon.com', { formats: ['markdown'] });
@@ -271,8 +289,8 @@ Scrape a page, then keep working with it — click buttons, fill forms, extract 
 
   ```bash cURL
   # 1. Scrape Amazon's homepage
+  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
   RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{"url": "https://www.amazon.com", "formats": ["markdown"]}')
 
@@ -280,18 +298,15 @@ Scrape a page, then keep working with it — click buttons, fill forms, extract 
 
   # 2. Interact — search for a product and get its price
   curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{"prompt": "Search for iPhone 16 Pro Max"}'
 
   curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{"prompt": "Click on the first result and tell me the price"}'
 
   # 3. Stop the session
-  curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+  curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
   ```
 
   ```bash CLI
@@ -311,6 +326,7 @@ Scrape a page, then keep working with it — click buttons, fill forms, extract 
   ```json Response
   {
     "success": true,
+    "cdpUrl": "wss://browser.firecrawl.dev/...",
     "liveViewUrl": "https://liveview.firecrawl.dev/...",
     "interactiveLiveViewUrl": "https://liveview.firecrawl.dev/...",
     "output": "The iPhone 16 Pro Max (256GB) is priced at $1,199.00.",

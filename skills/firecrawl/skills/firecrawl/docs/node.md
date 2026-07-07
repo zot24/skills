@@ -17,9 +17,11 @@ Install the SDK with npm:
 ```js Node
 // npm install firecrawl
 
-import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 ```
 
 ## Usage
@@ -27,10 +29,13 @@ const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 1. Get an API key from [firecrawl.dev](https://firecrawl.dev)
 2. Set the API key as an environment variable named `FIRECRAWL_API_KEY` or pass it as a parameter to the `Firecrawl` class.
 
+
+  **No API key?** You can construct `Firecrawl` without a key and use `scrape`, `search`, and `interact` on the keyless free tier (rate-limited per IP — see [Rate Limits](/rate-limits#keyless-no-api-key)). All other methods require a key.
+
+
 Here's an example of how to use the SDK with error handling:
 
 ```js Node
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({apiKey: "fc-YOUR_API_KEY"});
 
@@ -145,7 +150,6 @@ console.log(res.links);
 Stream crawl results in real time with the `crawlUrlAndWatch` method. You receive each page as it is crawled instead of waiting for the entire job to finish.
 
 ```js Node
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: 'fc-YOUR-API-KEY' });
 
@@ -255,7 +259,6 @@ Launch cloud browser sessions and execute code remotely.
 ### Create a Session
 
 ```js Node
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
@@ -311,7 +314,6 @@ const session = await firecrawl.browser({
 For full Playwright control, connect directly using the CDP URL:
 
 ```js Node
-import { chromium } from "playwright";
 
 const browser = await chromium.connectOverCDP(session.cdpUrl);
 const context = browser.contexts()[0];

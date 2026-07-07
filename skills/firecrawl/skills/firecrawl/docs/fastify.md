@@ -28,8 +28,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 ## Search the web
 
 ```javascript
-import Fastify from "fastify";
-import { Firecrawl } from "firecrawl";
+
 
 const fastify = Fastify({ logger: true });
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
@@ -76,8 +75,7 @@ fastify.post("/interact", async (request) => {
 Encapsulate the client in a plugin for reuse across routes:
 
 ```javascript
-import fp from "fastify-plugin";
-import { Firecrawl } from "firecrawl";
+
 
 export default fp(async function firecrawlPlugin(fastify) {
   const client = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });

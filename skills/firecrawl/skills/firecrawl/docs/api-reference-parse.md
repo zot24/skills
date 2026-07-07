@@ -23,9 +23,12 @@ Use `/parse` when the source document is **a local file** or **not publicly acce
 | Local file or non-public bytes (PDF, DOCX, XLSX, HTML, …)        | `POST /parse` (this endpoint)                    |
 
 
+  **Using Firecrawl through MCP?** Use `firecrawl_parse` for local files. Local MCP can read the file directly when configured with `FIRECRAWL_API_URL`. Remote hosted MCP returns a short-lived upload command first, then parses the returned `uploadRef`. Public document URLs should still use `/scrape`.
+
+
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json POST /parse
+````yaml api-reference/v2-openapi.json POST /parse
 openapi: 3.0.0
 info:
   title: Firecrawl API
@@ -425,6 +428,18 @@ components:
                 statusCode:
                   type: integer
                   description: The status code of the page
+                numPages:
+                  type: integer
+                  description: >-
+                    For PDF inputs, the number of pages parsed (capped by the
+                    parsers maxPages option).
+                totalPages:
+                  type: integer
+                  description: >-
+                    For PDF inputs, the document's true page count before any
+                    maxPages capping. Omitted when it cannot be determined; a
+                    totalPages greater than numPages indicates the result was
+                    truncated.
                 contentType:
                   type: string
                   description: >-
@@ -692,6 +707,279 @@ components:
                   type: object
                   nullable: true
                   description: Brand personality traits (tone, energy, target audience).
+            product:
+              type: object
+              nullable: true
+              description: >-
+                Product information extracted from the page if `product` is in
+                `formats`. Includes title, brand, category, description, and
+                variants. Pricing, availability, and images live on each
+                variant.
+              properties:
+                title:
+                  type: string
+                  description: The product title.
+                brand:
+                  type: string
+                  description: The product brand or manufacturer.
+                category:
+                  type: string
+                  description: >-
+                    The product category, optionally as a breadcrumb path (e.g.
+                    'Electronics > Audio > Headphones').
+                url:
+                  type: string
+                  description: The canonical URL of the product page.
+                description:
+                  type: string
+                  description: The product description.
+                variants:
+                  type: array
+                  description: Product variants (e.g. different colors or sizes).
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: The variant identifier.
+                      sku:
+                        type: string
+                        description: The variant SKU.
+                      title:
+                        type: string
+                        description: The variant title.
+                      values:
+                        type: object
+                        description: 'The variant option values (e.g. { "color": "Black" }).'
+                        additionalProperties:
+                          type: string
+                      price:
+                        type: object
+                        description: The current price of the variant.
+                        properties:
+                          amount:
+                            type: number
+                            description: The numeric price amount.
+                          currency:
+                            type: string
+                            description: The ISO 4217 currency code (e.g. 'USD').
+                          formatted:
+                            type: string
+                            description: The price formatted for display (e.g. '$199.99').
+                        required:
+                          - amount
+                      sale:
+                        type: object
+                        description: >-
+                          Sale/discount information for the variant, present
+                          when the variant is discounted.
+                        properties:
+                          originalPrice:
+                            type: object
+                            description: The original (pre-discount) price of the variant.
+                            properties:
+                              amount:
+                                type: number
+                                description: The numeric price amount.
+                              currency:
+                                type: string
+                                description: The ISO 4217 currency code (e.g. 'USD').
+                              formatted:
+                                type: string
+                                description: >-
+                                  The price formatted for display (e.g.
+                                  '$249.99').
+                            required:
+                              - amount
+                        required:
+                          - originalPrice
+                      availability:
+                        type: object
+                        description: >-
+                          The availability of the variant. Always present on a
+                          variant.
+                        properties:
+                          inStock:
+                            type: boolean
+                            description: Whether the variant is in stock.
+                          text:
+                            type: string
+                            description: >-
+                              Human-readable availability text (e.g. 'In
+                              Stock').
+                        required:
+                          - inStock
+                      images:
+                        type: array
+                        description: Variant images.
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              description: Image URL.
+                            alt:
+                              type: string
+                              description: Alternative text for the image.
+                          required:
+                            - url
+                    required:
+                      - availability
+              required:
+                - title
+                - url
+                - variants
+            menu:
+              type: object
+              nullable: true
+              description: >-
+                Menu information extracted from the page if `menu` is in
+                `formats`. Includes the merchant, currency, and a list of
+                sections, where each section carries items with description,
+                images, price, availability, dietary tags, calories, and option
+                groups.
+              properties:
+                isMenu:
+                  type: boolean
+                  description: Whether the page was identified as a menu.
+                confidence:
+                  type: number
+                  description: A confidence score between 0 and 1 for the menu extraction.
+                merchant:
+                  type: object
+                  description: The merchant the menu belongs to.
+                  properties:
+                    name:
+                      type: string
+                      description: The merchant name.
+                    type:
+                      type: string
+                      description: The merchant type (e.g. 'restaurant').
+                  required:
+                    - name
+                currency:
+                  type: string
+                  description: >-
+                    The ISO 4217 currency code for the menu (e.g. 'USD'),
+                    reported only when the page sources it.
+                sections:
+                  type: array
+                  description: Menu sections (e.g. 'Appetizers', 'Entrees').
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: The section identifier.
+                      name:
+                        type: string
+                        description: The section name.
+                      description:
+                        type: string
+                        nullable: true
+                        description: The section description.
+                      items:
+                        type: array
+                        description: The items in the section.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: The item identifier.
+                            name:
+                              type: string
+                              description: The item name.
+                            description:
+                              type: string
+                              nullable: true
+                              description: The item description.
+                            images:
+                              type: array
+                              description: Item images.
+                              items:
+                                type: object
+                                properties:
+                                  url:
+                                    type: string
+                                    description: Image URL.
+                                  alt:
+                                    type: string
+                                    nullable: true
+                                    description: Alternative text for the image.
+                                required:
+                                  - url
+                            price:
+                              type: object
+                              description: The price of the item.
+                              properties:
+                                amount:
+                                  type: number
+                                  description: The numeric price amount.
+                                currency:
+                                  type: string
+                                  description: The ISO 4217 currency code (e.g. 'USD').
+                                formatted:
+                                  type: string
+                                  description: >-
+                                    The price formatted for display (e.g.
+                                    '$7.99').
+                              required:
+                                - amount
+                            availability:
+                              type: object
+                              description: The availability of the item.
+                              properties:
+                                inStock:
+                                  type: boolean
+                                  description: Whether the item is available.
+                                text:
+                                  type: string
+                                  nullable: true
+                                  description: Human-readable availability text.
+                              required:
+                                - inStock
+                            dietary:
+                              type: array
+                              description: Dietary tags for the item (e.g. ['vegetarian']).
+                              items:
+                                type: string
+                            calories:
+                              type: number
+                              nullable: true
+                              description: The item's calorie count.
+                            optionGroups:
+                              type: array
+                              description: Option/modifier groups for the item.
+                              items:
+                                type: object
+                            identifiers:
+                              type: object
+                              description: Merchant-specific identifiers for the item.
+                              properties:
+                                merchantItemId:
+                                  type: string
+                                  description: The merchant's own item ID.
+                            url:
+                              type: string
+                              nullable: true
+                              description: The canonical URL of the item.
+                            sourceUrl:
+                              type: string
+                              nullable: true
+                              description: The URL the item was extracted from.
+                          required:
+                            - name
+                    required:
+                      - name
+                      - items
+                sourceUrl:
+                  type: string
+                  nullable: true
+                  description: The URL the menu was extracted from.
+              required:
+                - isMenu
+                - sections
     ParseFormats:
       type: array
       items:

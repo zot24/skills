@@ -40,7 +40,10 @@ Add `lockdown: true` to your scrape request.
   ```python Python
   from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR_API_KEY")
+  firecrawl = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR_API_KEY",
+  )
 
   # Serve only previously cached results. No outbound request is made.
   # Returns SCRAPE_LOCKDOWN_CACHE_MISS if the URL is not in the cache.
@@ -56,7 +59,10 @@ Add `lockdown: true` to your scrape request.
   ```javascript JavaScript
   import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+  const firecrawl = new Firecrawl({
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR_API_KEY",
+  });
 
   // Serve only previously cached results. No outbound request is made.
   // Returns SCRAPE_LOCKDOWN_CACHE_MISS if the URL is not in the cache.
@@ -69,9 +75,9 @@ Add `lockdown: true` to your scrape request.
   ```
 
   ```bash cURL
+  # No API key needed to get started — add -H "Authorization: Bearer fc-YOUR_API_KEY" for higher rate limits:
   curl -X POST https://api.firecrawl.dev/v2/scrape \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer fc-YOUR_API_KEY' \
     -d '{
       "url": "https://firecrawl.dev",
       "formats": ["markdown"],

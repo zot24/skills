@@ -1,4 +1,4 @@
-> Source: https://docs.firecrawl.dev/quickstarts/ruby.md
+> Source: https://docs.firecrawl.dev/sdks/ruby.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
@@ -6,110 +6,333 @@
 
 # Ruby
 
-> Get started with Firecrawl in Ruby. Search, scrape, and interact with web data using the REST API.
+> Firecrawl Ruby SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
 
-## Prerequisites
+## Installation
 
-* Ruby 3.0+
-* A Firecrawl API key — [get one free](https://www.firecrawl.dev/app/api-keys)
+The official Ruby SDK is maintained in the Firecrawl monorepo at [apps/ruby-sdk](https://github.com/firecrawl/firecrawl/tree/main/apps/ruby-sdk).
 
-## Search the web
+To install the Firecrawl Ruby SDK, add it to your project:
 
-Firecrawl works with Ruby through the REST API using `net/http`.
+
+    Add to your `Gemfile`:
+
+    ```ruby
+    gem "firecrawl-sdk", "~> 1.0"
+    ```
+
+    Then run:
+
+    ```bash
+    bundle install
+    ```
+
+
+    ```bash
+    gem install firecrawl-sdk
+    ```
+
+
+Requires Ruby 3.0 or later.
+
+## Usage
+
+1. Get an API key from [firecrawl.dev](https://firecrawl.dev)
+2. Set the API key as an environment variable named `FIRECRAWL_API_KEY`, or pass it directly with `Firecrawl::Client.new(api_key: ...)`
+
+Here is a quick example using the current SDK API surface:
 
 ```ruby
-require "net/http"
-require "json"
-require "uri"
+require "firecrawl"
 
-api_key = ENV.fetch("FIRECRAWL_API_KEY")
+client = Firecrawl::Client.from_env
 
-uri = URI("https://api.firecrawl.dev/v2/search")
-request = Net::HTTP::Post.new(uri)
-request["Authorization"] = "Bearer #{api_key}"
-request["Content-Type"] = "application/json"
-request.body = { query: "firecrawl web scraping", limit: 5 }.to_json
+doc = client.scrape(
+  "https://firecrawl.dev",
+  Firecrawl::Models::ScrapeOptions.new(formats: ["markdown"])
+)
 
-response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request) }
-results = JSON.parse(response.body)
+job = client.crawl(
+  "https://firecrawl.dev",
+  Firecrawl::Models::CrawlOptions.new(limit: 5)
+)
 
-results["data"]["web"].each do |result|
-  puts "#{result['title']} - #{result['url']}"
+puts doc.markdown
+puts "Crawled pages: #{job.data&.size || 0}"
+```
+
+### Scraping a URL
+
+To scrape a single URL, use the `scrape` method.
+
+```ruby
+doc = client.scrape(
+  "https://firecrawl.dev",
+  Firecrawl::Models::ScrapeOptions.new(
+    formats: ["markdown", "html"],
+    only_main_content: true,
+    wait_for: 5000
+  )
+)
+
+puts doc.markdown
+puts doc.metadata["title"]
+```
+
+#### JSON Extraction
+
+Extract structured JSON via the `scrape` endpoint by including a `json` format with a prompt and schema:
+
+```ruby
+doc = client.scrape(
+  "https://example.com/product",
+  Firecrawl::Models::ScrapeOptions.new(
+    formats: [
+      {
+        "type" => "json",
+        "prompt" => "Extract the product name and price",
+        "schema" => {
+          "type" => "object",
+          "properties" => {
+            "name" => { "type" => "string" },
+            "price" => { "type" => "number" }
+          }
+        }
+      }
+    ]
+  )
+)
+
+puts doc.json
+```
+
+### Crawling a Website
+
+To crawl a website and wait for completion, use `crawl`. It auto-polls until the job finishes.
+
+```ruby
+job = client.crawl(
+  "https://firecrawl.dev",
+  Firecrawl::Models::CrawlOptions.new(
+    limit: 50,
+    max_discovery_depth: 3,
+    scrape_options: Firecrawl::Models::ScrapeOptions.new(
+      formats: ["markdown"]
+    )
+  )
+)
+
+puts "Status: #{job.status}"
+puts "Progress: #{job.completed}/#{job.total}"
+
+job.data&.each do |page|
+  puts page.metadata["sourceURL"]
 end
 ```
 
-## Scrape a page
+### Start a Crawl
+
+Start a job without waiting using `start_crawl`.
 
 ```ruby
-uri = URI("https://api.firecrawl.dev/v2/scrape")
-request = Net::HTTP::Post.new(uri)
-request["Authorization"] = "Bearer #{api_key}"
-request["Content-Type"] = "application/json"
-request.body = { url: "https://example.com" }.to_json
+response = client.start_crawl(
+  "https://firecrawl.dev",
+  Firecrawl::Models::CrawlOptions.new(limit: 100)
+)
 
-response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request) }
-data = JSON.parse(response.body)
-
-puts data.dig("data", "markdown")
+puts "Job ID: #{response.id}"
 ```
 
+### Checking Crawl Status
 
-  ```json
-  {
-    "success": true,
-    "data": {
-      "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
-      "metadata": {
-        "title": "Example Domain",
-        "sourceURL": "https://example.com"
+Check crawl progress with `get_crawl_status`.
+
+```ruby
+status = client.get_crawl_status(response.id)
+puts "Status: #{status.status}"
+puts "Progress: #{status.completed}/#{status.total}"
+```
+
+### Cancelling a Crawl
+
+Cancel a running crawl with `cancel_crawl`.
+
+```ruby
+result = client.cancel_crawl(response.id)
+puts result
+```
+
+### Mapping a Website
+
+Discover links on a site using `map`.
+
+```ruby
+data = client.map(
+  "https://firecrawl.dev",
+  Firecrawl::Models::MapOptions.new(
+    limit: 100,
+    search: "blog"
+  )
+)
+
+data.links&.each do |link|
+  puts "#{link["url"]} - #{link["title"]}"
+end
+```
+
+### Searching the Web
+
+Search with optional settings using `search`.
+
+```ruby
+results = client.search(
+  "firecrawl web scraping",
+  Firecrawl::Models::SearchOptions.new(limit: 10)
+)
+
+results.web&.each do |result|
+  puts "#{result["title"]} - #{result["url"]}"
+end
+```
+
+### Batch Scraping
+
+Scrape multiple URLs in parallel using `batch_scrape`.
+
+```ruby
+job = client.batch_scrape(
+  ["https://firecrawl.dev", "https://firecrawl.dev/blog"],
+  Firecrawl::Models::BatchScrapeOptions.new(
+    options: Firecrawl::Models::ScrapeOptions.new(
+      formats: ["markdown"]
+    )
+  )
+)
+
+job.data&.each do |doc|
+  puts doc.markdown
+end
+```
+
+### Agent
+
+Run an AI-powered agent with `agent`.
+
+```ruby
+result = client.agent(
+  Firecrawl::Models::AgentOptions.new(
+    prompt: "Find the pricing plans for Firecrawl and compare them"
+  )
+)
+
+puts result.data
+```
+
+With a JSON schema for structured output:
+
+```ruby
+result = client.agent(
+  Firecrawl::Models::AgentOptions.new(
+    prompt: "Extract pricing plan details",
+    urls: ["https://firecrawl.dev"],
+    schema: {
+      "type" => "object",
+      "properties" => {
+        "plans" => {
+          "type" => "array",
+          "items" => {
+            "type" => "object",
+            "properties" => {
+              "name" => { "type" => "string" },
+              "price" => { "type" => "string" }
+            }
+          }
+        }
       }
     }
-  }
-  ```
+  )
+)
 
-
-## Interact with a page
-
-Scrape a page, then keep working with it using natural language prompts.
-
-```ruby
-uri = URI("https://api.firecrawl.dev/v2/scrape")
-request = Net::HTTP::Post.new(uri)
-request["Authorization"] = "Bearer #{api_key}"
-request["Content-Type"] = "application/json"
-request.body = { url: "https://www.amazon.com", formats: ["markdown"] }.to_json
-
-response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request) }
-scrape_id = JSON.parse(response.body).dig("data", "metadata", "scrapeId")
-
-interact_uri = URI("https://api.firecrawl.dev/v2/scrape/#{scrape_id}/interact")
-interact_req = Net::HTTP::Post.new(interact_uri)
-interact_req["Authorization"] = "Bearer #{api_key}"
-interact_req["Content-Type"] = "application/json"
-interact_req.body = { prompt: "Search for iPhone 16 Pro Max" }.to_json
-
-interact_resp = Net::HTTP.start(interact_uri.hostname, interact_uri.port, use_ssl: true) { |http| http.request(interact_req) }
-puts JSON.parse(interact_resp.body)
-
-# Stop the session
-delete_uri = URI("https://api.firecrawl.dev/v2/scrape/#{scrape_id}/interact")
-delete_req = Net::HTTP::Delete.new(delete_uri)
-delete_req["Authorization"] = "Bearer #{api_key}"
-Net::HTTP.start(delete_uri.hostname, delete_uri.port, use_ssl: true) { |http| http.request(delete_req) }
+puts result.data
 ```
 
-## Next steps
+### Usage & Metrics
 
+Check concurrency and remaining credits:
 
-    All scrape options including formats, actions, and proxies
+```ruby
+concurrency = client.get_concurrency
+puts "Concurrency: #{concurrency.concurrency}/#{concurrency.max_concurrency}"
 
+credits = client.get_credit_usage
+puts "Remaining credits: #{credits.remaining_credits}"
+```
 
-    Search the web and get full page content
+## Browser
 
+The Ruby SDK includes Browser Sandbox helpers.
 
-    Complete REST API documentation
+### Scrape-Bound Interactive Session
 
+Use a scrape job ID to run follow-up browser code in the same replayed context:
 
-    Click, fill forms, and extract dynamic content
+* `interact(...)` runs code in the scrape-bound browser session (and initializes it on first use).
+* `stop_interactive_browser(...)` explicitly stops the interactive session when you are done.
 
+```ruby
+scrape_job_id = "550e8400-e29b-41d4-a716-446655440000"
 
+run = client.interact(
+  scrape_job_id,
+  "console.log(page.url());",
+  language: "node",
+  timeout: 60
+)
+
+puts run["stdout"]
+
+deleted = client.stop_interactive_browser(scrape_job_id)
+puts "Deleted: #{deleted["success"]}"
+```
+
+## Configuration
+
+`Firecrawl::Client.new` supports the following options:
+
+| Option           | Type      | Default                                              | Description                              |
+| ---------------- | --------- | ---------------------------------------------------- | ---------------------------------------- |
+| `api_key`        | `String`  | `FIRECRAWL_API_KEY` env var                          | Your Firecrawl API key                   |
+| `api_url`        | `String`  | `https://api.firecrawl.dev` (or `FIRECRAWL_API_URL`) | API base URL                             |
+| `timeout`        | `Integer` | `300`                                                | HTTP request timeout in seconds          |
+| `max_retries`    | `Integer` | `3`                                                  | Automatic retries for transient failures |
+| `backoff_factor` | `Float`   | `0.5`                                                | Exponential backoff factor in seconds    |
+
+```ruby
+client = Firecrawl::Client.new(
+  api_key: "fc-your-api-key",
+  api_url: "https://api.firecrawl.dev",
+  timeout: 300,
+  max_retries: 3,
+  backoff_factor: 0.5
+)
+```
+
+## Error Handling
+
+The SDK raises exceptions under the `Firecrawl` module.
+
+```ruby
+begin
+  doc = client.scrape("https://example.com")
+rescue Firecrawl::AuthenticationError => e
+  puts "Auth failed: #{e.message}"
+rescue Firecrawl::RateLimitError => e
+  puts "Rate limited: #{e.message}"
+rescue Firecrawl::JobTimeoutError => e
+  puts "Job #{e.job_id} timed out after #{e.timeout_seconds}s"
+rescue Firecrawl::FirecrawlError => e
+  puts "Error (#{e.status_code}): #{e.message}"
+end
+```
+
+> Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.

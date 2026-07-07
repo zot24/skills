@@ -1,4 +1,4 @@
-> Source: https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/cursor.md
+> Source: https://docs.firecrawl.dev/quickstarts/cursor.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt

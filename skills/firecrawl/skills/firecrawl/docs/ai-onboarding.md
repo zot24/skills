@@ -39,6 +39,8 @@ Firecrawl users can get an API key in two ways. Most users should sign in throug
     **For supported agent platforms.** Use this when your platform can mint a WorkOS ID-JAG for Firecrawl. Review [Agent Auth](/ai-onboarding/agent-auth), then follow [`auth.md`](https://www.firecrawl.dev/auth.md).
 
 
+**Can't sign in or get a key?** When your agent cannot obtain an API key and the human cannot sign up, you can still use the keyless free tier to search, scrape, and interact without an API key. It is rate-limited and meant as a fallback, so move to a free account or API key as soon as one is available. See [Keyless (no API key)](/rate-limits#keyless-no-api-key) for details.
+
 Once you have an API key, continue with [Skills + CLI](#skills-cli) below.
 
 ## Skills + CLI
@@ -179,7 +181,7 @@ All three skill categories use the same install. The difference is what happens 
 
     * `POST https://api.firecrawl.dev/v2/search` — discover pages by query
     * `POST https://api.firecrawl.dev/v2/scrape` — extract clean markdown from a URL
-    * `POST https://api.firecrawl.dev/v2/interact` — interact with a scraped page
+    * `POST https://api.firecrawl.dev/v2/scrape/{scrapeId}/interact` — interact with a scraped page
     * `POST https://api.firecrawl.dev/v2/crawl` — bulk-extract an entire site
     * `POST https://api.firecrawl.dev/v2/map` — discover URLs on a domain
     * `POST https://api.firecrawl.dev/v2/agent` — run autonomous web data gathering
@@ -291,10 +293,11 @@ Firecrawl gives agents five core tools for working with the web. Each tool maps 
 
     ```bash
     # REST API
-    curl -X POST https://api.firecrawl.dev/v2/interact \
+    # scrapeId comes from the scrape response (data.metadata.scrapeId)
+    curl -X POST https://api.firecrawl.dev/v2/scrape/SCRAPE_ID/interact \
       -H "Authorization: Bearer fc-YOUR_API_KEY" \
       -H "Content-Type: application/json" \
-      -d '{"scrapeId": "scrape-id-from-scrape", "prompt": "Click the pricing tab and extract the plan names"}'
+      -d '{"prompt": "Click the pricing tab and extract the plan names"}'
     ```
 
     **When to use:** Continuing from a scrape, navigating dynamic pages, filling forms, and extracting data after page actions.

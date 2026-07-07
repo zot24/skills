@@ -46,7 +46,10 @@ Used to extract structured data from scraped pages.
   from firecrawl import Firecrawl
   from pydantic import BaseModel
 
-  app = Firecrawl(api_key="fc-YOUR-API-KEY")
+  app = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR-API-KEY",
+  )
 
   class CompanyInfo(BaseModel):
       company_mission: str
@@ -72,7 +75,8 @@ Used to extract structured data from scraped pages.
   import { z } from "zod";
 
   const app = new Firecrawl({
-    apiKey: "fc-YOUR_API_KEY"
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR_API_KEY",
   });
 
   // Define schema to extract contents into
@@ -94,9 +98,9 @@ Used to extract structured data from scraped pages.
   ```
 
   ```bash cURL
+  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
   curl -X POST https://api.firecrawl.dev/v2/scrape \
       -H 'Content-Type: application/json' \
-      -H 'Authorization: Bearer YOUR_API_KEY' \
       -d '{
         "url": "https://firecrawl.dev",
         "formats": [ {
@@ -165,7 +169,10 @@ You can also extract without a schema by just passing a `prompt` to the endpoint
   ```python Python
   from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR-API-KEY")
+  app = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR-API-KEY",
+  )
 
   result = app.scrape(
       'https://firecrawl.dev',
@@ -184,7 +191,8 @@ You can also extract without a schema by just passing a `prompt` to the endpoint
   import { Firecrawl } from "firecrawl";
 
   const app = new Firecrawl({
-    apiKey: "fc-YOUR_API_KEY"
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR_API_KEY",
   });
 
   const result = await app.scrape("https://firecrawl.dev", {
@@ -198,9 +206,9 @@ You can also extract without a schema by just passing a `prompt` to the endpoint
   ```
 
   ```bash cURL
+  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
   curl -X POST https://api.firecrawl.dev/v2/scrape \
       -H 'Content-Type: application/json' \
-      -H 'Authorization: Bearer YOUR_API_KEY' \
       -d '{
         "url": "https://firecrawl.dev",
         "formats": [{
@@ -245,7 +253,10 @@ Here's a comprehensive example extracting structured company information from a 
   from firecrawl import Firecrawl
   from pydantic import BaseModel
 
-  app = Firecrawl(api_key="fc-YOUR-API-KEY")
+  app = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR-API-KEY",
+  )
 
   class CompanyInfo(BaseModel):
       company_mission: str
@@ -269,7 +280,8 @@ Here's a comprehensive example extracting structured company information from a 
   import { z } from "zod";
 
   const app = new Firecrawl({
-    apiKey: "fc-YOUR_API_KEY"
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR_API_KEY",
   });
 
   const companyInfoSchema = z.object({
@@ -290,9 +302,9 @@ Here's a comprehensive example extracting structured company information from a 
   ```
 
   ```bash cURL
+  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
   curl -X POST https://api.firecrawl.dev/v2/scrape \
       -H 'Content-Type: application/json' \
-      -H 'Authorization: Bearer YOUR_API_KEY' \
       -d '{
         "url": "https://firecrawl.dev/",
         "formats": [{

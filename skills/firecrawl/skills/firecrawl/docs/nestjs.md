@@ -30,8 +30,7 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 Create `src/firecrawl/firecrawl.service.ts`:
 
 ```typescript
-import { Injectable } from "@nestjs/common";
-import { Firecrawl } from "firecrawl";
+
 
 @Injectable()
 export class FirecrawlService {
@@ -70,8 +69,7 @@ export class FirecrawlService {
 Create `src/firecrawl/firecrawl.controller.ts`:
 
 ```typescript
-import { Body, Controller, Post } from "@nestjs/common";
-import { FirecrawlService } from "./firecrawl.service";
+
 
 @Controller("firecrawl")
 export class FirecrawlController {
@@ -99,9 +97,7 @@ export class FirecrawlController {
 Create `src/firecrawl/firecrawl.module.ts`:
 
 ```typescript
-import { Module } from "@nestjs/common";
-import { FirecrawlService } from "./firecrawl.service";
-import { FirecrawlController } from "./firecrawl.controller";
+
 
 @Module({
   providers: [FirecrawlService],

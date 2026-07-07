@@ -1,4 +1,5 @@
 > Source: https://docs.firecrawl.dev/api-reference/endpoint/extract-get.md
+> NOTE: upstream page removed; content frozen as of last sync
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt

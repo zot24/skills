@@ -9,7 +9,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/webhooks-openapi.json webhook agentAction
+````yaml api-reference/webhooks-openapi.json webhook agentAction
 openapi: 3.1.0
 info:
   title: Firecrawl Webhooks

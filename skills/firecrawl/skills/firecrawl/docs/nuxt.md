@@ -30,7 +30,6 @@ FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 Create `server/api/search.post.ts`:
 
 ```typescript
-import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -73,7 +72,6 @@ const { data, execute } = useFetch("/api/search", {
 Create `server/api/scrape.post.ts`:
 
 ```typescript
-import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
@@ -112,7 +110,6 @@ const { data, execute } = useFetch("/api/scrape", {
 Create `server/api/interact.post.ts`:
 
 ```typescript
-import { Firecrawl } from "firecrawl";
 
 const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,

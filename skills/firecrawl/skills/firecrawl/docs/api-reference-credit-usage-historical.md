@@ -13,7 +13,7 @@ Returns historical credit usage on a month-by-month basis. The endpoint can also
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /team/credit-usage/historical
+````yaml api-reference/v2-openapi.json GET /team/credit-usage/historical
 openapi: 3.0.0
 info:
   title: Firecrawl API

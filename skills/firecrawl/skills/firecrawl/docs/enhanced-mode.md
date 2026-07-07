@@ -30,7 +30,10 @@ Set the `proxy` parameter to choose a proxy strategy. The following example uses
   ```python Python
   from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key='fc-YOUR-API-KEY')
+  firecrawl = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key='fc-YOUR-API-KEY',
+  )
 
   # Choose proxy strategy: 'basic' | 'enhanced' | 'auto'
   doc = firecrawl.scrape('https://example.com', formats=['markdown'], proxy='auto')
@@ -41,7 +44,10 @@ Set the `proxy` parameter to choose a proxy strategy. The following example uses
   ```js Node
   import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+  const firecrawl = new Firecrawl({
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR-API-KEY",
+  });
 
   // Choose proxy strategy: 'basic' | 'enhanced' | 'auto'
   const doc = await firecrawl.scrape('https://example.com', {
@@ -55,9 +61,9 @@ Set the `proxy` parameter to choose a proxy strategy. The following example uses
   ```bash cURL
 
   // Choose proxy strategy: 'basic' | 'enhanced' | 'auto'
+  # No API key needed to get started — add -H "Authorization: Bearer fc-YOUR-API-KEY" for higher rate limits:
   curl -X POST https://api.firecrawl.dev/v2/scrape \
       -H 'Content-Type: application/json' \
-      -H 'Authorization: Bearer fc-YOUR-API-KEY' \
       -d '{
         "url": "https://example.com",
         "proxy": "auto"

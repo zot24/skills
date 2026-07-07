@@ -33,8 +33,7 @@ When scraping Amazon, you'll typically want to:
 Extract structured product data using Zod schemas.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
-import { z } from 'zod';
+
 
 // Define Zod schema
 const ProductSchema = z.object({
@@ -67,7 +66,6 @@ console.log(validated);
 Find products on Amazon.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -87,7 +85,6 @@ console.log(searchResult);
 Scrape a single Amazon product page.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -104,7 +101,6 @@ console.log(result);
 Discover all available URLs on Amazon product or category pages. Note: Map returns URLs only, without content.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -119,7 +115,6 @@ console.log(mapResult.links);
 Crawl multiple pages from Amazon category or search results.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
@@ -138,7 +133,6 @@ console.log(crawlResult.data);
 Scrape multiple Amazon product URLs simultaneously.
 
 ```typescript
-import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 

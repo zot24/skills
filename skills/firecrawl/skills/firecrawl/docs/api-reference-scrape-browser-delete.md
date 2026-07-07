@@ -54,7 +54,7 @@ For detailed usage with examples, see the [Interact feature guide](/features/int
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json DELETE /scrape/{jobId}/interact
+````yaml api-reference/v2-openapi.json DELETE /scrape/{jobId}/interact
 openapi: 3.0.0
 info:
   title: Firecrawl API

@@ -13,7 +13,7 @@ For payload examples, configuration, and retry behavior, see [Webhook Event Type
 
 ## OpenAPI
 
-````yaml /api-reference/webhooks-openapi.json webhook batchScrapePage
+````yaml api-reference/webhooks-openapi.json webhook batchScrapePage
 openapi: 3.1.0
 info:
   title: Firecrawl Webhooks

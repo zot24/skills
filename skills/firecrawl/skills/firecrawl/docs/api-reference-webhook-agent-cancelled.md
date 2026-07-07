@@ -9,7 +9,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/webhooks-openapi.json webhook agentCancelled
+````yaml api-reference/webhooks-openapi.json webhook agentCancelled
 openapi: 3.1.0
 info:
   title: Firecrawl Webhooks

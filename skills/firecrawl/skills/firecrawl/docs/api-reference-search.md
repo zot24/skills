@@ -126,7 +126,7 @@ Use the `tbs` parameter to filter results by time periods, including custom date
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json POST /search
+````yaml api-reference/v2-openapi.json POST /search
 openapi: 3.0.0
 info:
   title: Firecrawl API
@@ -405,6 +405,19 @@ paths:
                                     redirects have been followed.
                                 statusCode:
                                   type: integer
+                                numPages:
+                                  type: integer
+                                  description: >-
+                                    For PDF inputs, the number of pages parsed
+                                    (capped by the parsers maxPages option).
+                                totalPages:
+                                  type: integer
+                                  description: >-
+                                    For PDF inputs, the document's true page
+                                    count before any maxPages capping. Omitted
+                                    when it cannot be determined; a totalPages
+                                    greater than numPages indicates the result
+                                    was truncated.
                                 error:
                                   type: string
                                   nullable: true
@@ -512,6 +525,19 @@ paths:
                                     redirects have been followed.
                                 statusCode:
                                   type: integer
+                                numPages:
+                                  type: integer
+                                  description: >-
+                                    For PDF inputs, the number of pages parsed
+                                    (capped by the parsers maxPages option).
+                                totalPages:
+                                  type: integer
+                                  description: >-
+                                    For PDF inputs, the document's true page
+                                    count before any maxPages capping. Omitted
+                                    when it cannot be determined; a totalPages
+                                    greater than numPages indicates the result
+                                    was truncated.
                                 error:
                                   type: string
                                   nullable: true
@@ -1161,6 +1187,24 @@ components:
                 type: string
                 enum:
                   - branding
+            required:
+              - type
+          - type: object
+            title: Product
+            properties:
+              type:
+                type: string
+                enum:
+                  - product
+            required:
+              - type
+          - type: object
+            title: Menu
+            properties:
+              type:
+                type: string
+                enum:
+                  - menu
             required:
               - type
           - type: object

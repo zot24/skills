@@ -1,4 +1,4 @@
-> Source: https://docs.firecrawl.dev/developer-guides/mcp-setup-guides/claude-code.md
+> Source: https://docs.firecrawl.dev/quickstarts/claude-code.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
@@ -21,7 +21,7 @@ Sign up at [firecrawl.dev/app](https://firecrawl.dev/app) and copy your API key.
 **Option A: Remote hosted URL (recommended)**
 
 ```bash
-claude mcp add firecrawl --url https://mcp.firecrawl.dev/your-api-key/v2/mcp
+claude mcp add --transport http firecrawl https://mcp.firecrawl.dev/your-api-key/v2/mcp
 ```
 
 **Option B: Local (npx)**

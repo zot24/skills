@@ -4,9 +4,9 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# List Browser Sessions
+# List Interact Sessions
 
-> Retrieve a list of all browser sessions, optionally filtered by status.
+> Retrieve your standalone Interact sessions, optionally filtered by status.
 
 ## Headers
 
@@ -42,7 +42,7 @@
 ### Example Request
 
 ```bash
-curl -X GET "https://api.firecrawl.dev/v2/browser?status=active" \
+curl -X GET "https://api.firecrawl.dev/v2/interact?status=active" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY"
 ```
 
@@ -70,7 +70,7 @@ curl -X GET "https://api.firecrawl.dev/v2/browser?status=active" \
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /browser
+````yaml api-reference/v2-openapi.json GET /interact
 openapi: 3.0.0
 info:
   title: Firecrawl API
@@ -87,11 +87,11 @@ servers:
 security:
   - bearerAuth: []
 paths:
-  /browser:
+  /interact:
     get:
       tags:
-        - Browser
-      summary: List browser sessions
+        - Interact
+      summary: List interact sessions
       operationId: listBrowserSessions
       parameters:
         - name: status
@@ -105,7 +105,7 @@ paths:
           description: Filter sessions by status
       responses:
         '200':
-          description: List of browser sessions
+          description: List of interact sessions
           content:
             application/json:
               schema:
@@ -132,7 +132,7 @@ paths:
                         interactiveLiveViewUrl:
                           type: string
                           description: >-
-                            URL to interact with the browser session in real
+                            URL to interact with the interact session in real
                             time (click, type, scroll)
                         streamWebView:
                           type: boolean

@@ -11,7 +11,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /batch/scrape/{id}/errors
+````yaml api-reference/v2-openapi.json GET /batch/scrape/{id}/errors
 openapi: 3.0.0
 info:
   title: Firecrawl API

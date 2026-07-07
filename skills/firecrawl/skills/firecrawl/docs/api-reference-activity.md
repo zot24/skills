@@ -15,12 +15,12 @@ Lists your recent API activity from the last 24 hours. Use this to discover job 
 | `scrape`       | `GET /v2/scrape/{id}`       |
 | `crawl`        | `GET /v2/crawl/{id}`        |
 | `batch_scrape` | `GET /v2/batch/scrape/{id}` |
-| `agent`        | `GET /v2/extract/{id}`      |
+| `agent`        | `GET /v2/agent/{jobId}`     |
 
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /team/activity
+````yaml api-reference/v2-openapi.json GET /team/activity
 openapi: 3.0.0
 info:
   title: Firecrawl API

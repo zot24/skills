@@ -25,6 +25,9 @@ Use `/parse` when the source document is **a local file** or **not publicly acce
 | Local file or non-public bytes (PDF, DOCX, XLSX, HTML, ...)      | [`POST /parse`](/api-reference/endpoint/parse)   |
 
 
+  **Using Firecrawl through MCP?** Use `firecrawl_parse` for local files. Local MCP can read the file directly when configured with `FIRECRAWL_API_URL`. Remote hosted MCP returns a short-lived upload command first, then parses the returned `uploadRef`. Public document URLs should still use `/scrape`.
+
+
   **Have a public PDF URL?** Use `/scrape` instead -- it auto-detects document types and returns clean markdown. No need for a separate PDF library.
 
   ```python Python
@@ -87,11 +90,20 @@ SDKs return the document object directly. cURL returns the JSON payload.
     "metadata": {
       "title": "Annual Report",
       "numPages": 42,
+      "totalPages": 42,
       "sourceFile": "report.pdf"
     }
   }
 }
 ```
+
+
+  `numPages` is the number of pages actually parsed; `totalPages` is the document's
+  true page count. They match unless `maxPages` truncated the result — e.g. parsing
+  a 100-page PDF with `maxPages: 10` returns `numPages: 10` and `totalPages: 100`, so
+  `totalPages > numPages` tells you the output was truncated. `totalPages` is omitted
+  when the page count can't be determined.
+
 
 ## Options
 

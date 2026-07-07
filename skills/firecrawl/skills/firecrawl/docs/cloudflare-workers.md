@@ -34,7 +34,6 @@ Create a handler that searches the web and returns results with full page conten
 Edit `src/index.ts`:
 
 ```typescript
-import { Firecrawl } from "firecrawl";
 
 export interface Env {
   FIRECRAWL_API_KEY: string;

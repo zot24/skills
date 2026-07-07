@@ -13,7 +13,7 @@ We've simplified billing so that Extract now uses credits, just like all of the 
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json GET /team/token-usage
+````yaml api-reference/v2-openapi.json GET /team/token-usage
 openapi: 3.0.0
 info:
   title: Firecrawl API
@@ -63,17 +63,13 @@ paths:
                       billingPeriodStart:
                         type: string
                         format: date-time
-                        description: >-
-                          Start date of the billing period. null if using the
-                          free plan
+                        description: Start date of the current billing period.
                         example: '2025-01-01T00:00:00Z'
                         nullable: true
                       billingPeriodEnd:
                         type: string
                         format: date-time
-                        description: >-
-                          End date of the billing period. null if using the free
-                          plan
+                        description: End date of the current billing period.
                         example: '2025-01-31T23:59:59Z'
                         nullable: true
         '404':

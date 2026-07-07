@@ -4,7 +4,7 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Interact with the page
+# Interact with a Scraped Page
 
 > Execute code or an AI prompt in the browser session bound to a scrape job.
 
@@ -36,18 +36,19 @@ When you are done, call `DELETE /v2/scrape/{jobId}/interact` to stop the session
 
 ## Response
 
-| Field                    | Type    | Description                                                                        |
-| ------------------------ | ------- | ---------------------------------------------------------------------------------- |
-| `success`                | boolean | Whether the execution completed without errors                                     |
-| `liveViewUrl`            | string  | Read-only live view URL for the browser session                                    |
-| `interactiveLiveViewUrl` | string  | Interactive live view URL (viewers can control the browser)                        |
-| `output`                 | string  | AI agent's final response (only present when using `prompt`)                       |
-| `stdout`                 | string  | Standard output from the code execution                                            |
-| `result`                 | string  | Return value — last expression value for Node.js, final page snapshot for `prompt` |
-| `stderr`                 | string  | Standard error output                                                              |
-| `exitCode`               | number  | Exit code of the execution (`0` = success)                                         |
-| `killed`                 | boolean | Whether the execution was terminated due to timeout                                |
-| `error`                  | string  | Error message (only present on failure)                                            |
+| Field                    | Type    | Description                                                                                                                              |
+| ------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `success`                | boolean | Whether the execution completed without errors                                                                                           |
+| `cdpUrl`                 | string  | Raw Chrome DevTools Protocol (CDP) WebSocket URL for the browser session. Connect directly with Playwright, Puppeteer, or any CDP client |
+| `liveViewUrl`            | string  | Read-only live view URL for the browser session                                                                                          |
+| `interactiveLiveViewUrl` | string  | Interactive live view URL (viewers can control the browser)                                                                              |
+| `output`                 | string  | AI agent's final response (only present when using `prompt`)                                                                             |
+| `stdout`                 | string  | Standard output from the code execution                                                                                                  |
+| `result`                 | string  | Return value — last expression value for Node.js, final page snapshot for `prompt`                                                       |
+| `stderr`                 | string  | Standard error output                                                                                                                    |
+| `exitCode`               | number  | Exit code of the execution (`0` = success)                                                                                               |
+| `killed`                 | boolean | Whether the execution was terminated due to timeout                                                                                      |
+| `error`                  | string  | Error message (only present on failure)                                                                                                  |
 
 ### Example Request (Code)
 
@@ -67,6 +68,7 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655
 ```json
 {
   "success": true,
+  "cdpUrl": "wss://browser.firecrawl.dev/...",
   "liveViewUrl": "https://liveview.firecrawl.dev/...",
   "interactiveLiveViewUrl": "https://liveview.firecrawl.dev/...",
   "stdout": "",
@@ -94,6 +96,7 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655
 ```json
 {
   "success": true,
+  "cdpUrl": "wss://browser.firecrawl.dev/...",
   "liveViewUrl": "https://liveview.firecrawl.dev/...",
   "interactiveLiveViewUrl": "https://liveview.firecrawl.dev/...",
   "output": "The Pro plan costs $49/month and includes unlimited scrapes, priority support, and custom integrations.",
@@ -123,7 +126,7 @@ For detailed usage with examples, see the [Interact feature guide](/features/int
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json POST /scrape/{jobId}/interact
+````yaml api-reference/v2-openapi.json POST /scrape/{jobId}/interact
 openapi: 3.0.0
 info:
   title: Firecrawl API
@@ -197,6 +200,27 @@ paths:
                 properties:
                   success:
                     type: boolean
+                  cdpUrl:
+                    type: string
+                    nullable: true
+                    description: >-
+                      Raw Chrome DevTools Protocol (CDP) WebSocket URL for the
+                      browser session. Use it to connect directly with
+                      Playwright, Puppeteer, or any CDP client.
+                  liveViewUrl:
+                    type: string
+                    nullable: true
+                    description: Read-only live view URL for the browser session
+                  interactiveLiveViewUrl:
+                    type: string
+                    nullable: true
+                    description: >-
+                      Interactive live view URL (viewers can control the
+                      browser)
+                  output:
+                    type: string
+                    nullable: true
+                    description: AI agent's final response (only present when using prompt)
                   stdout:
                     type: string
                     nullable: true

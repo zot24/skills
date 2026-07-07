@@ -9,7 +9,7 @@
 
 ## OpenAPI
 
-````yaml /api-reference/v2-openapi.json DELETE /monitor/{monitorId}
+````yaml api-reference/v2-openapi.json DELETE /monitor/{monitorId}
 openapi: 3.0.0
 info:
   title: Firecrawl API

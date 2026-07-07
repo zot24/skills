@@ -57,7 +57,10 @@ For full details, see the [API reference for `location.country`](https://docs.fi
   ```python Python
   from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+  firecrawl = Firecrawl(
+    # No API key needed to get started — add one for higher rate limits:
+    # api_key="fc-YOUR-API-KEY",
+  )
 
   doc = firecrawl.scrape('https://example.com',
       formats=['markdown'],
@@ -73,7 +76,10 @@ For full details, see the [API reference for `location.country`](https://docs.fi
   ```js Node
   import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+  const firecrawl = new Firecrawl({
+    // No API key needed to get started — add one for higher rate limits:
+    // apiKey: "fc-YOUR-API-KEY",
+  });
 
   const doc = await firecrawl.scrape('https://example.com', {
     formats: ['markdown'],
@@ -84,8 +90,8 @@ For full details, see the [API reference for `location.country`](https://docs.fi
   ```
 
   ```bash cURL
+  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
   curl -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
       "url": "https://example.com",
