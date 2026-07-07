@@ -1,7 +1,7 @@
 {
   "name": "immich",
   "description": "Deploy, configure, and manage Immich — self-hosted photo and video management with machine learning, facial recognition, mobile backup, external libraries, and REST API automation.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": {
     "name": "zot24"
   },

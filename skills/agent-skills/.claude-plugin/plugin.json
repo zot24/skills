@@ -1,7 +1,7 @@
 {
   "name": "agent-skills",
   "description": "Expert at Agent Skills - both the open agentskills.io format and Claude's official extensions (Claude Code, Agent SDK, Claude API).",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "author": {
     "name": "zot24"
   },

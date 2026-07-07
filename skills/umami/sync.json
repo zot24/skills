@@ -1,6 +1,6 @@
 {
   "name": "umami",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Umami open-source web analytics — API client, tracker, events, statistics, reports",
   "sources": [
     {
