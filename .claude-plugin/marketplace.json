@@ -16,19 +16,19 @@
       "name": "claude-code-expert",
       "source": "./skills/claude-code-expert",
       "description": "Comprehensive Claude Code and Anthropic ecosystem knowledge. Official patterns for agents, skills, hooks, commands, and MCP.",
-      "version": "2.1.1"
+      "version": "2.1.2"
     },
     {
       "name": "agent-browser",
       "source": "./skills/agent-browser",
       "description": "Expert on agent-browser - Vercel's headless browser automation CLI for AI agents with 50+ commands, snapshots, and multi-session support",
-      "version": "2.2.7"
+      "version": "2.2.8"
     },
     {
       "name": "chat-sdk",
       "source": "./skills/chat-sdk",
       "description": "Expert on Chat SDK (vercel/chat) - the unified TypeScript SDK for building chat bots and agents across Slack, Teams, Discord, Telegram, WhatsApp, and more",
-      "version": "1.1.5"
+      "version": "2.0.0"
     },
     {
       "name": "ai-sdk",
@@ -58,13 +58,13 @@
       "name": "hermes",
       "source": "./skills/hermes",
       "description": "Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
-      "version": "1.1.23"
+      "version": "1.1.24"
     },
     {
       "name": "honcho",
       "source": "./skills/honcho",
       "description": "Expert on Honcho — AI-native memory and context platform for LLM applications with persistent memory, user modeling, and context management",
-      "version": "1.0.9"
+      "version": "1.0.10"
     },
     {
       "name": "gh-issue-tracker",
@@ -76,25 +76,25 @@
       "name": "firecrawl",
       "source": "./skills/firecrawl",
       "description": "Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents with clean LLM-ready output",
-      "version": "1.0.8"
+      "version": "1.0.9"
     },
     {
       "name": "servarr",
       "source": "./skills/servarr",
       "description": "Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr",
-      "version": "1.0.4"
+      "version": "1.0.5"
     },
     {
       "name": "obsidian",
       "source": "./skills/obsidian",
       "description": "Manage and optimize Obsidian vaults — organization, Dataview, Templater, workflows, MCP integration, plugins, sync, and publishing",
-      "version": "1.0.2"
+      "version": "1.0.3"
     },
     {
       "name": "adguard",
       "source": "./skills/adguard",
       "description": "Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking, filtering, DHCP, client management, and REST API automation",
-      "version": "1.0.8"
+      "version": "1.0.9"
     },
     {
       "name": "immich",
@@ -118,25 +118,25 @@
       "name": "flue",
       "source": "./skills/flue",
       "description": "Expert on Flue — the open-source TypeScript framework for building durable, autonomous AI agents and workflows on the Pi harness. Write once, deploy anywhere, use any LLM.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     {
       "name": "wealthfolio",
       "source": "./skills/wealthfolio",
       "description": "Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     {
       "name": "1password-cli",
       "source": "./skills/1password-cli",
       "description": "Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     {
       "name": "portainerctl",
       "source": "./skills/portainerctl",
       "description": "Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }
