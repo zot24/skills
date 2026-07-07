@@ -32,9 +32,7 @@ Chat SDK has three core concepts:
 3. **State** — a pluggable persistence layer for thread subscriptions and distributed locking
 
 ```typescript title="lib/bot.ts" lineNumbers
-import { Chat } from "chat";
-import { createSlackAdapter } from "@chat-adapter/slack";
-import { createRedisState } from "@chat-adapter/state-redis";
+
 
 const bot = new Chat({
   userName: "mybot",
@@ -54,18 +52,18 @@ Each adapter factory auto-detects credentials from environment variables (`SLACK
 
 ## Supported platforms
 
-| Platform        | Package                   | Mentions | Reactions    | Cards    | Modals | Streaming                       | DMs |
-| --------------- | ------------------------- | -------- | ------------ | -------- | ------ | ------------------------------- | --- |
-| Slack           | `@chat-adapter/slack`     | Yes      | Yes          | Yes      | Yes    | Native                          | Yes |
-| Microsoft Teams | `@chat-adapter/teams`     | Yes      | Read-only    | Yes      | Yes    | Native (DMs) / Buffered         | Yes |
-| Google Chat     | `@chat-adapter/gchat`     | Yes      | Yes          | Yes      | No     | Post+Edit                       | Yes |
-| Discord         | `@chat-adapter/discord`   | Yes      | Yes          | Yes      | No     | Post+Edit                       | Yes |
-| Telegram        | `@chat-adapter/telegram`  | Yes      | Yes          | Partial  | No     | Private chat drafts / Post+Edit | Yes |
-| GitHub          | `@chat-adapter/github`    | Yes      | Yes          | No       | No     | Buffered                        | No  |
-| Linear          | `@chat-adapter/linear`    | Yes      | Yes          | No       | No     | Agent sessions / Post+Edit      | No  |
-| WhatsApp        | `@chat-adapter/whatsapp`  | N/A      | Yes          | Partial  | No     | Buffered                        | Yes |
-| Twilio          | `@chat-adapter/twilio`    | N/A      | No           | Fallback | No     | Buffered                        | Yes |
-| Messenger       | `@chat-adapter/messenger` | Yes      | Receive-only | Partial  | No     | Buffered                        | Yes |
+| Platform        | Package                   | Mentions | Reactions    | Cards    | Modals | Streaming                  | DMs |
+| --------------- | ------------------------- | -------- | ------------ | -------- | ------ | -------------------------- | --- |
+| Slack           | `@chat-adapter/slack`     | Yes      | Yes          | Yes      | Yes    | Native                     | Yes |
+| Microsoft Teams | `@chat-adapter/teams`     | Yes      | Read-only    | Yes      | Yes    | Native (DMs) / Buffered    | Yes |
+| Google Chat     | `@chat-adapter/gchat`     | Yes      | Yes          | Yes      | No     | Post+Edit                  | Yes |
+| Discord         | `@chat-adapter/discord`   | Yes      | Yes          | Yes      | No     | Post+Edit                  | Yes |
+| Telegram        | `@chat-adapter/telegram`  | Yes      | Yes          | Partial  | No     | Rich drafts / Post+Edit    | Yes |
+| GitHub          | `@chat-adapter/github`    | Yes      | Yes          | No       | No     | Buffered                   | No  |
+| Linear          | `@chat-adapter/linear`    | Yes      | Yes          | No       | No     | Agent sessions / Post+Edit | No  |
+| WhatsApp        | `@chat-adapter/whatsapp`  | N/A      | Yes          | Partial  | No     | Buffered                   | Yes |
+| Twilio          | `@chat-adapter/twilio`    | N/A      | No           | Fallback | No     | Buffered                   | Yes |
+| Messenger       | `@chat-adapter/messenger` | Yes      | Receive-only | Partial  | No     | Buffered                   | Yes |
 
 ## AI coding agent support
 

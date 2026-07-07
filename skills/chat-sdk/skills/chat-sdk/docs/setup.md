@@ -1,4 +1,5 @@
 <!-- Source: https://chat-sdk.dev/docs/setup -->
+> NOTE: upstream page removed; chat-sdk.dev has been repurposed for an unrelated multi-platform chat-bot SDK product. Content frozen as of last sync.
 
 # Setup
 
