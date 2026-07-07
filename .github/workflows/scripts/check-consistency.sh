@@ -6,7 +6,14 @@
 #   2. skills.toml names match the reference set exactly.
 #   3. release-please-config.json packages match the reference set minus EXEMPT_RELEASE.
 #   4. sync-docs.yml SKILLS array matches the reference set minus EXEMPT_SYNC.
-#   5. Per-skill version agreement across sync.json, plugin.json, and marketplace.json.
+#   5. Per-skill version agreement between sync.json and plugin.json (hard failure).
+#   6. Per-skill version agreement between plugin.json and marketplace.json (warning only).
+#      The release pipeline intentionally lets marketplace.json lag: release-please's
+#      release PRs bump sync.json + plugin.json only, and the separate sync-marketplace
+#      workflow copies plugin.json versions into marketplace.json AFTER the release PR
+#      merges. So a marketplace/plugin version mismatch is expected transiently around
+#      releases and must not fail CI; only sync.json/plugin.json disagreement (which
+#      should never happen) is a hard failure.
 #
 # Usage: .github/workflows/scripts/check-consistency.sh
 # Requires: jq
@@ -108,7 +115,8 @@ for name in "${SYNC_NAMES[@]}"; do
   fi
 done
 
-# --- Check 5: per-skill version agreement ---
+# --- Check 5: per-skill version agreement (sync.json vs plugin.json) ---
+# --- Check 6: plugin.json vs marketplace.json (warning only, see header) ---
 for name in "${REF[@]}"; do
   sync_file="skills/$name/sync.json"
   plugin_file="skills/$name/.claude-plugin/plugin.json"
@@ -122,8 +130,12 @@ for name in "${REF[@]}"; do
   plugin_ver=$(jq -r '.version // "MISSING"' "$plugin_file")
   market_ver=$(jq -r --arg n "$name" '.plugins[] | select(.name==$n) | .version' .claude-plugin/marketplace.json)
 
-  if [ "$sync_ver" != "$plugin_ver" ] || [ "$plugin_ver" != "$market_ver" ]; then
-    mismatch "version" "disagreement" "$name (sync=$sync_ver plugin=$plugin_ver marketplace=$market_ver)"
+  if [ "$sync_ver" != "$plugin_ver" ]; then
+    mismatch "version" "disagreement" "$name (sync=$sync_ver plugin=$plugin_ver)"
+  fi
+
+  if [ "$plugin_ver" != "$market_ver" ]; then
+    echo "WARNING: marketplace.json version lags plugin.json for $name ($market_ver vs $plugin_ver) — sync-marketplace will reconcile after merge"
   fi
 done
 
