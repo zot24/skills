@@ -30,6 +30,7 @@ An opinionated selection of skills for daily dev workflows.
 | [wealthfolio](./skills/wealthfolio) | Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development. |
 | [1password-cli](./skills/1password-cli) | Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent. |
 | [portainerctl](./skills/portainerctl) | Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC. |
+| [pxpipe](./skills/pxpipe) | Set up, run, tune, and debug pxpipe — a local proxy that cuts Claude Code token costs ~59–70% by rendering bulky context (tool results, old history, system prompt) as compressed PNG images |
 
 ## Installation
 
@@ -546,6 +547,70 @@ Expert on portainerctl — Portainer's official CLI for driving Portainer Busine
 
 [Full documentation](./skills/portainerctl/README.md)
 
+### pxpipe
+
+Set up, run, tune, and debug pxpipe (`pxpipe-proxy`) — a local proxy that cuts Claude Code token costs by rendering bulky context as compressed PNG images:
+
+- **setup** — `npx pxpipe-proxy` + `ANTHROPIC_BASE_URL`, persistent operation, instant bypass
+- **config** — `PXPIPE_MODELS` allowlist, `CLAUDE_CODE_SUBAGENT_MODEL`, dashboard kill switch and per-model toggles
+- **caveats** — lossiness, silent confabulation on byte-exact values, per-model read accuracy
+- **library** — `renderTextToImages` / `transformAnthropicMessages` without the proxy
+- **savings** — audit dual-accounted savings from `~/.pxpipe/events.jsonl`
+- **troubleshoot** — no savings shown, misread values, port conflicts
+- **sync/diff** — stay updated with upstream docs
+
+```bash
+/pxpipe:pxpipe setup
+/pxpipe:pxpipe caveats
+/pxpipe:pxpipe savings
+```
+
+[Full documentation](./skills/pxpipe/README.md)
+
+### gh-issue-tracker
+
+Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues:
+
+- **setup** — guided setup for any framework (Next.js, Express, generic Node.js)
+- **architecture** — server-only vs client+server decisions
+- **security** — recommendations and proxy patterns
+- **verify** — verification and troubleshooting
+- **triage** — issue triage and management workflows
+
+[Full documentation](./skills/gh-issue-tracker/README.md)
+
+### obsidian
+
+Manage and optimize Obsidian vaults — beyond syntax, into systems:
+
+- **vault** — folder structures, naming, MOCs, bulk operations, orphan detection
+- **dataview** — DQL queries, tables, lists, task queries, JavaScript API
+- **templater** — dynamic templates, JS execution, file creation, date handling
+- **workflows** — Zettelkasten, PARA, daily notes, periodic reviews
+- **plugins** — Dataview, Templater, Tasks, Calendar, Excalidraw, and more
+- **ai / mcp** — MCP servers, Local REST API, agent workflows
+- **sync / publish** — Obsidian Sync, git-based sync, Obsidian Publish
+
+[Full documentation](./skills/obsidian/README.md)
+
+### adguard
+
+Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking and filtering:
+
+- **setup** — Docker and bare-metal deployment
+- **configure** — DNS filtering, blocklists, upstreams
+- **encryption** — DoH, DoT, DoQ, DNSCrypt
+- **dhcp** — DHCP server setup
+- **clients** — per-client rules and settings
+- **api** — REST API automation
+
+```bash
+/adguard:adguard setup docker
+/adguard:adguard configure
+```
+
+[Full documentation](./skills/adguard/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -608,7 +673,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, pxpipe
 
 ### Automated Releases (release-please)
 
@@ -650,11 +715,16 @@ skills/
 ├── .claude-plugin/
 │   └── marketplace.json          # Marketplace manifest
 ├── .github/
-│   ├── scripts/
-│   │   └── sync-skill.sh         # Generic sync script
 │   └── workflows/
-│       ├── sync-docs.yml         # Scheduled sync workflow
-│       └── release-on-merge.yml  # Auto-release on PR merge
+│       ├── scripts/
+│       │   ├── check-consistency.sh # Registration consistency checks
+│       │   ├── sync-skill.sh        # Generic sync script
+│       │   └── sync-marketplace.sh  # Marketplace sync script
+│       ├── release-please.yml       # Automated releases
+│       ├── sync-docs.yml            # Scheduled sync workflow
+│       ├── sync-hermes-on-release.yml
+│       ├── sync-marketplace.yml
+│       └── validate.yml             # CI validation
 ├── skills/
 │   ├── umbrel-app/               # Umbrel app development
 │   ├── claude-code-expert/       # Claude Code knowledge base
@@ -673,7 +743,12 @@ skills/
 │   ├── adguard/                  # AdGuard Home DNS filtering
 │   ├── immich/                   # Immich photo/video management
 │   ├── glinet/                   # GL.iNet router management
-│   └── umami/                    # Umami web analytics
+│   ├── umami/                    # Umami web analytics
+│   ├── flue/                     # Flue open agent framework
+│   ├── wealthfolio/              # Private local-first portfolio tracker
+│   ├── 1password-cli/            # 1Password CLI (op) secrets management
+│   ├── portainerctl/             # Portainer CLI (Business Edition)
+│   └── pxpipe/                   # PNG context compression proxy for Claude Code
 └── README.md
 ```
 

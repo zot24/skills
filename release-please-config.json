@@ -125,6 +125,13 @@
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
+    "skills/pxpipe": {
+      "component": "pxpipe",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/safe-delete": {
       "component": "safe-delete",
       "extra-files": [

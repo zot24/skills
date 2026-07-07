@@ -1,0 +1,15 @@
+{
+  "name": "pxpipe",
+  "version": "1.0.0",
+  "description": "Local proxy that cuts Claude Code token costs by rendering bulky context (tool results, old history, system prompt) as compressed PNG images",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/teamchong/pxpipe/main/README.md",
+      "target": "skills/pxpipe/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "pxpipe is a single GitHub repo (teamchong/pxpipe) with no docs site, so the only synced source is the raw upstream README.md. The topical docs/ files (setup, accuracy-caveats, library-api, savings-verification) are hand-curated from the README and FINDINGS.md; refresh them manually when the README changes."
+}

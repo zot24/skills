@@ -91,3 +91,7 @@ marketplace = "zot24-skills"
 [[skills]]
 name = "portainerctl"
 marketplace = "zot24-skills"
+
+[[skills]]
+name = "pxpipe"
+marketplace = "zot24-skills"

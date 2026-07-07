@@ -41,7 +41,8 @@ skills/
 │   ├── flue/                 # Flue open agent framework
 │   ├── wealthfolio/          # Private local-first portfolio tracker
 │   ├── 1password-cli/        # 1Password CLI (op) secrets management
-│   └── portainerctl/         # Portainer CLI (Business Edition)
+│   ├── portainerctl/         # Portainer CLI (Business Edition)
+│   └── pxpipe/               # PNG context compression proxy for Claude Code
 └── README.md
 ```
 
@@ -251,6 +252,7 @@ Each skill syncs documentation from upstream sources.
 | 1password-cli | https://www.1password.dev/cli + https://app-updates.agilebits.com/product_history/CLI2 | URL-based |
 | portainerctl | https://github.com/portainer/portainerctl | URL-based |
 | x-engagement | https://github.com/xai-org/x-algorithm | URL-based |
+| pxpipe | https://github.com/teamchong/pxpipe | URL-based |
 
 ### When to Sync
 
