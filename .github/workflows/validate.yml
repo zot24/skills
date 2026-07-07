@@ -1,0 +1,14 @@
+name: Validate
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check manifest consistency
+        run: |
+          chmod +x .github/workflows/scripts/check-consistency.sh
+          .github/workflows/scripts/check-consistency.sh
