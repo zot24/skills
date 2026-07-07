@@ -1,6 +1,6 @@
 {
   "name": "umbrel-app",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Umbrel app development plugin with CLI reference and AI agent operations",
   "sources": [
     {

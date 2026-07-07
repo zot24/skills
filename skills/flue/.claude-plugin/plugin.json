@@ -1,5 +1,5 @@
 {
   "name": "flue",
   "description": "Expert on Flue — the open-source TypeScript framework for building durable, autonomous AI agents and workflows on the Pi harness. Write once, deploy anywhere, use any LLM.",
-  "version": "1.1.0"
+  "version": "1.1.1"
 }

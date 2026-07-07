@@ -1,6 +1,6 @@
 {
   "name": "flue",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Open-source TypeScript framework for building durable AI agents and workflows — built on the Pi harness, deploy anywhere, any LLM",
   "sources": [
     {

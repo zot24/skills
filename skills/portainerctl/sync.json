@@ -1,6 +1,6 @@
 {
   "name": "portainerctl",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Portainer's official CLI for driving Portainer Business Edition over its REST API (environments, stacks, GitOps, containers, Kubernetes, edge, users/teams/RBAC)",
   "sources": [
     {

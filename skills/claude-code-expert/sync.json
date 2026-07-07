@@ -1,6 +1,6 @@
 {
   "name": "claude-code-expert",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Claude Code and Anthropic ecosystem knowledge plugin",
   "sources": "registry",
   "sync_script": "scripts/sync-sources.sh",
