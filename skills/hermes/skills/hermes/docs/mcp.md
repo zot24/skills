@@ -275,20 +275,22 @@ Hermes reads MCP config from `~/.hermes/config.yaml` under `mcp_servers`.
 
 ### Common keys<a href="#common-keys" class="hash-link" aria-label="Direct link to Common keys" translate="no" title="Direct link to Common keys">​</a>
 
-| Key                            | Type           | Meaning                                                                                       |
-|--------------------------------|----------------|-----------------------------------------------------------------------------------------------|
-| `command`                      | string         | Executable for a stdio MCP server                                                             |
-| `args`                         | list           | Arguments for the stdio server                                                                |
-| `env`                          | mapping        | Environment variables passed to the stdio server                                              |
-| `url`                          | string         | HTTP MCP endpoint                                                                             |
-| `headers`                      | mapping        | HTTP headers for remote servers                                                               |
-| `client_cert`                  | string \| list | Client certificate for mTLS — a combined PEM path, or `[cert, key]` / `[cert, key, password]` |
-| `client_key`                   | string         | Client private-key PEM path (when separate from `client_cert`)                                |
-| `timeout`                      | number         | Tool call timeout                                                                             |
-| `connect_timeout`              | number         | Initial connection timeout                                                                    |
-| `enabled`                      | bool           | If `false`, Hermes skips the server entirely                                                  |
-| `supports_parallel_tool_calls` | bool           | If `true`, tools from this server may run concurrently                                        |
-| `tools`                        | mapping        | Per-server tool filtering and utility policy                                                  |
+| Key                            | Type           | Meaning                                                                                                                                             |
+|--------------------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `command`                      | string         | Executable for a stdio MCP server                                                                                                                   |
+| `args`                         | list           | Arguments for the stdio server                                                                                                                      |
+| `env`                          | mapping        | Environment variables passed to the stdio server                                                                                                    |
+| `url`                          | string         | HTTP MCP endpoint                                                                                                                                   |
+| `headers`                      | mapping        | HTTP headers for remote servers                                                                                                                     |
+| `client_cert`                  | string \| list | Client certificate for mTLS — a combined PEM path, or `[cert, key]` / `[cert, key, password]`                                                       |
+| `client_key`                   | string         | Client private-key PEM path (when separate from `client_cert`)                                                                                      |
+| `timeout`                      | number         | Tool call timeout                                                                                                                                   |
+| `connect_timeout`              | number         | Initial connection timeout (also bounds the MCP `initialize` handshake)                                                                             |
+| `idle_timeout_seconds`         | number         | Recycle a stdio server after this many seconds without a tool call (`0` = never, default). The server restarts transparently on the next tool call. |
+| `max_lifetime_seconds`         | number         | Recycle a stdio server after this total age (`0` = never, default). Restarts transparently on next use.                                             |
+| `enabled`                      | bool           | If `false`, Hermes skips the server entirely                                                                                                        |
+| `supports_parallel_tool_calls` | bool           | If `true`, tools from this server may run concurrently                                                                                              |
+| `tools`                        | mapping        | Per-server tool filtering and utility policy                                                                                                        |
 
 ### Minimal stdio example<a href="#minimal-stdio-example" class="hash-link" aria-label="Direct link to Minimal stdio example" translate="no" title="Direct link to Minimal stdio example">​</a>
 
@@ -298,6 +300,21 @@ mcp_servers:
   filesystem:
     command: "npx"
     args: ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"]
+```
+
+
+### Recycling memory-heavy stdio servers<a href="#recycling-memory-heavy-stdio-servers" class="hash-link" aria-label="Direct link to Recycling memory-heavy stdio servers" translate="no" title="Direct link to Recycling memory-heavy stdio servers">​</a>
+
+Browser-based MCP servers (e.g. `@playwright/mcp`) keep a full Chromium resident after their first tool call — hundreds of MB that never get released. Opt in to automatic recycling and the server is torn down after the idle/lifetime limit, then restarted transparently the next time one of its tools is called (its tools stay registered the whole time):
+
+
+``` prism-code
+mcp_servers:
+  playwright:
+    command: "npx"
+    args: ["-y", "@playwright/mcp@latest", "--headless"]
+    idle_timeout_seconds: 900     # recycle after 15 min without a tool call
+    max_lifetime_seconds: 86400   # and at least once a day regardless
 ```
 
 
@@ -851,6 +868,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
 - <a href="#basic-configuration-reference" class="table-of-contents__link toc-highlight">Basic configuration reference</a>
   - <a href="#common-keys" class="table-of-contents__link toc-highlight">Common keys</a>
   - <a href="#minimal-stdio-example" class="table-of-contents__link toc-highlight">Minimal stdio example</a>
+  - <a href="#recycling-memory-heavy-stdio-servers" class="table-of-contents__link toc-highlight">Recycling memory-heavy stdio servers</a>
   - <a href="#minimal-http-example" class="table-of-contents__link toc-highlight">Minimal HTTP example</a>
 - <a href="#built-in-presets" class="table-of-contents__link toc-highlight">Built-in presets</a>
 - <a href="#how-hermes-registers-mcp-tools" class="table-of-contents__link toc-highlight">How Hermes registers MCP tools</a>
