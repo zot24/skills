@@ -108,32 +108,32 @@ hermes gateway status --system         # Linux only: inspect the system service 
 
 ## Chat Commands (Inside Messaging)<a href="#chat-commands-inside-messaging" class="hash-link" aria-label="Direct link to Chat Commands (Inside Messaging)" translate="no" title="Direct link to Chat Commands (Inside Messaging)">​</a>
 
-| Command                                 | Description                                                                |
-|-----------------------------------------|----------------------------------------------------------------------------|
-| `/new` or `/reset`                      | Start a fresh conversation                                                 |
-| `/model [provider:model]`               | Show or change the model (supports `provider:model` syntax)                |
-| `/personality [name]`                   | Set a personality                                                          |
-| `/retry`                                | Retry the last message                                                     |
-| `/undo`                                 | Remove the last exchange                                                   |
-| `/status`                               | Show session info                                                          |
-| `/whoami`                               | Show your slash command access on this scope (admin / user / unrestricted) |
-| `/stop`                                 | Stop the running agent                                                     |
-| `/approve`                              | Approve a pending dangerous command                                        |
-| `/deny`                                 | Reject a pending dangerous command                                         |
-| `/sethome`                              | Set this chat as the home channel                                          |
-| `/compress`                             | Manually compress conversation context                                     |
-| `/title [name]`                         | Set or show the session title                                              |
-| `/resume [name]`                        | Resume a previously named session                                          |
-| `/usage`                                | Show token usage for this session                                          |
-| `/insights [days]`                      | Show usage insights and analytics                                          |
-| `/reasoning [level|show|hide]`          | Change reasoning effort or toggle reasoning display                        |
-| `/voice [on|off|tts|join|leave|status]` | Control messaging voice replies and Discord voice-channel behavior         |
-| `/rollback [number]`                    | List or restore filesystem checkpoints                                     |
-| `/background <prompt>`                  | Run a prompt in a separate background session                              |
-| `/reload-mcp`                           | Reload MCP servers from config                                             |
-| `/update`                               | Update Hermes Agent to the latest version                                  |
-| `/help`                                 | Show available commands                                                    |
-| `/<skill-name>`                         | Invoke any installed skill                                                 |
+| Command                                 | Description                                                                                     |
+|-----------------------------------------|-------------------------------------------------------------------------------------------------|
+| `/new` or `/reset`                      | Start a fresh conversation                                                                      |
+| `/model [provider:model]`               | Show or change the model (supports `provider:model` syntax)                                     |
+| `/personality [name]`                   | Set a personality                                                                               |
+| `/retry`                                | Retry the last message                                                                          |
+| `/undo`                                 | Remove the last exchange                                                                        |
+| `/status`                               | Show session info                                                                               |
+| `/whoami`                               | Show your slash command access on this scope (admin / user / unrestricted)                      |
+| `/stop`                                 | Stop the running agent                                                                          |
+| `/approve`                              | Approve a pending dangerous command                                                             |
+| `/deny`                                 | Reject a pending dangerous command                                                              |
+| `/sethome`                              | Set this chat as the home channel                                                               |
+| `/compress`                             | Manually compress conversation context                                                          |
+| `/title [name]`                         | Set or show the session title                                                                   |
+| `/resume [name]`                        | Resume a previously named session                                                               |
+| `/usage`                                | Show token usage for this session (`/usage reset [--force]` redeems a banked Codex limit reset) |
+| `/insights [days]`                      | Show usage insights and analytics                                                               |
+| `/reasoning [level|show|hide]`          | Change reasoning effort or toggle reasoning display                                             |
+| `/voice [on|off|tts|join|leave|status]` | Control messaging voice replies and Discord voice-channel behavior                              |
+| `/rollback [number]`                    | List or restore filesystem checkpoints                                                          |
+| `/background <prompt>`                  | Run a prompt in a separate background session                                                   |
+| `/reload-mcp`                           | Reload MCP servers from config                                                                  |
+| `/update`                               | Update Hermes Agent to the latest version                                                       |
+| `/help`                                 | Show available commands                                                                         |
+| `/<skill-name>`                         | Invoke any installed skill                                                                      |
 
 ## Session Management<a href="#session-management" class="hash-link" aria-label="Direct link to Session Management" translate="no" title="Direct link to Session Management">​</a>
 

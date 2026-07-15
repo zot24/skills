@@ -3,6 +3,39 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-07-15] Documentation Sync
+
+**Updated skills:** chat-sdk hermes honcho firecrawl pxpipe
+
+
+### chat-sdk
+New file: adapter-community-zaileys.md
+New file: adapter-x.md
+New file: adapter-vendor-cloudflare-agents.md
+New file: adapter-vendor-dial.md
+New file: adapter-vendor-photon.md
+
+### hermes
+Updated: installation.md
+Updated: quickstart.md
+Updated: learning-path.md
+Updated: cli.md
+Updated: configuration.md
+
+### honcho
+New file: codex.md
+
+### firecrawl
+New file: api-reference-threat-protection-update.md
+New file: api-reference-threat-protection.md
+
+### pxpipe
+Updated: readme-upstream.md
+
+---
+
+
+
 ## [2026-07-07] Documentation Sync
 
 **Updated skills:** umbrel-app claude-code-expert agent-browser ai-sdk agent-skills hermes honcho firecrawl servarr obsidian immich glinet umami flue wealthfolio 1password-cli portainerctl
