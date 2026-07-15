@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.12](https://github.com/zot24/skills/compare/honcho-v1.0.11...honcho-v1.0.12) (2026-07-15)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#139](https://github.com/zot24/skills/issues/139)) ([28e3f8c](https://github.com/zot24/skills/commit/28e3f8c6b0b1eff1db6a61f3ca9500cfde3c7aa1))
+
 ## [1.0.11](https://github.com/zot24/skills/compare/honcho-v1.0.10...honcho-v1.0.11) (2026-07-07)
 
 
