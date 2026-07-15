@@ -1286,6 +1286,18 @@
       "target": "skills/firecrawl/docs/research.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/threat-protection-update.md",
+      "target": "skills/firecrawl/docs/api-reference-threat-protection-update.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/threat-protection.md",
+      "target": "skills/firecrawl/docs/api-reference-threat-protection.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

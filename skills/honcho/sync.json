@@ -602,6 +602,12 @@
       "target": "skills/honcho/docs/guides/unified-memory-setup.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/guides/integrations/codex.md",
+      "target": "skills/honcho/docs/guides/codex.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

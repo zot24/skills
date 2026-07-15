@@ -482,6 +482,42 @@
       "target": "skills/chat-sdk/docs/readme-upstream.md",
       "type": "raw",
       "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/zaileys.md",
+      "target": "skills/chat-sdk/docs/adapter-community-zaileys.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/x.md",
+      "target": "skills/chat-sdk/docs/adapter-x.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/cloudflare-agents.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-cloudflare-agents.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/dial.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-dial.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/photon.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-photon.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/vercel-connect.md",
+      "target": "skills/chat-sdk/docs/vercel-connect.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache"

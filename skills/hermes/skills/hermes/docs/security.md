@@ -15,15 +15,16 @@ Hermes Agent is designed with a defense-in-depth security model. This page cover
 
 ## Overview<a href="#overview" class="hash-link" aria-label="Direct link to Overview" translate="no" title="Direct link to Overview">​</a>
 
-The security model has seven layers:
+The security model has eight layers:
 
 1.  **User authorization** — who can talk to the agent (allowlists, DM pairing)
 2.  **Dangerous command approval** — human-in-the-loop for destructive operations
-3.  **Container isolation** — Docker/Singularity/Modal sandboxing with hardened settings
-4.  **MCP credential filtering** — environment variable isolation for MCP subprocesses
-5.  **Context file scanning** — prompt injection detection in project files
-6.  **Cross-session isolation** — sessions cannot access each other's data or state; cron job storage paths are hardened against path traversal attacks
-7.  **Input sanitization** — working directory parameters in terminal tool backends are validated against an allowlist to prevent shell injection
+3.  **File write safety** — denylist and optional write sandbox for `write_file`/`patch`
+4.  **Container isolation** — Docker/Singularity/Modal sandboxing with hardened settings
+5.  **MCP credential filtering** — environment variable isolation for MCP subprocesses
+6.  **Context file scanning** — prompt injection detection in project files
+7.  **Cross-session isolation** — sessions cannot access each other's data or state; cron job storage paths are hardened against path traversal attacks
+8.  **Input sanitization** — working directory parameters in terminal tool backends are validated against an allowlist to prevent shell injection
 
 ## Dangerous Command Approval<a href="#dangerous-command-approval" class="hash-link" aria-label="Direct link to Dangerous Command Approval" translate="no" title="Direct link to Dangerous Command Approval">​</a>
 
@@ -36,7 +37,7 @@ The approval system supports three modes, configured via `approvals.mode` in `~/
 
 ``` prism-code
 approvals:
-  mode: manual                    # manual | smart | off
+  mode: smart                     # smart | manual | off
   timeout: 60                     # seconds to wait for user response (default: 60)
   cron_mode: deny                 # deny | approve — what cron jobs do when they hit a dangerous command
   mcp_reload_confirm: true        # /reload-mcp asks before invalidating the MCP tool cache
@@ -46,19 +47,19 @@ approvals:
 
 The full set of keys:
 
-| Key                         | Default  | What it controls                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|-----------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `mode`                      | `manual` | Approval policy for dangerous shell commands — see the table below.                                                                                                                                                                                                                                                                                                                                                                        |
-| `timeout`                   | `60`     | Seconds Hermes waits for an approval reply before timing out.                                                                                                                                                                                                                                                                                                                                                                              |
-| `cron_mode`                 | `deny`   | How [cron jobs](/docs/user-guide/features/cron) behave headlessly when they trigger a dangerous-command prompt. `deny` blocks the command (the agent must find another path); `approve` auto-approves everything in cron context.                                                                                                                                                                                                          |
-| `mcp_reload_confirm`        | `true`   | When true, `/reload-mcp` asks before rebuilding the MCP tool set. Rebuilding invalidates the provider prompt cache (tool schemas live in the system prompt), so the next message re-sends full input tokens. Users who click **Always Approve** flip this key to `false`.                                                                                                                                                                  |
-| `destructive_slash_confirm` | `true`   | When true, destructive session slash commands (`/clear`, `/new`, `/reset`, `/undo`) prompt before discarding conversation state. Three-option dialog (Approve Once / Always Approve / Cancel) routed through native yes/no buttons on Telegram, Discord, and Slack; text fallback elsewhere. Users who click **Always Approve** flip this key to `false`. TUI uses its own modal overlay (set `HERMES_TUI_NO_CONFIRM=1` to opt out there). |
+| Key                         | Default | What it controls                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|-----------------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `mode`                      | `smart` | Approval policy for dangerous shell commands — see the table below.                                                                                                                                                                                                                                                                                                                                                                        |
+| `timeout`                   | `60`    | Seconds Hermes waits for an approval reply before timing out.                                                                                                                                                                                                                                                                                                                                                                              |
+| `cron_mode`                 | `deny`  | How [cron jobs](/docs/user-guide/features/cron) behave headlessly when they trigger a dangerous-command prompt. `deny` blocks the command (the agent must find another path); `approve` auto-approves everything in cron context.                                                                                                                                                                                                          |
+| `mcp_reload_confirm`        | `true`  | When true, `/reload-mcp` asks before rebuilding the MCP tool set. Rebuilding invalidates the provider prompt cache (tool schemas live in the system prompt), so the next message re-sends full input tokens. Users who click **Always Approve** flip this key to `false`.                                                                                                                                                                  |
+| `destructive_slash_confirm` | `true`  | When true, destructive session slash commands (`/clear`, `/new`, `/reset`, `/undo`) prompt before discarding conversation state. Three-option dialog (Approve Once / Always Approve / Cancel) routed through native yes/no buttons on Telegram, Discord, and Slack; text fallback elsewhere. Users who click **Always Approve** flip this key to `false`. TUI uses its own modal overlay (set `HERMES_TUI_NO_CONFIRM=1` to opt out there). |
 
-| Mode                 | Behavior                                                                                                                                                                                                  |
-|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **manual** (default) | Always prompt the user for approval on dangerous commands                                                                                                                                                 |
-| **smart**            | Use an auxiliary LLM to assess risk. Low-risk commands (e.g., `python -c "print('hello')"`) are auto-approved. Genuinely dangerous commands are auto-denied. Uncertain cases escalate to a manual prompt. |
-| **off**              | Disable all approval checks — equivalent to running with `--yolo`. All commands execute without prompts.                                                                                                  |
+| Mode                | Behavior                                                                                                                                                                                                                        |
+|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **smart** (default) | Use an auxiliary LLM to assess risk. Low-risk commands (e.g., `python -c "print('hello')"`) are auto-approved for that command only. Genuinely dangerous commands are auto-denied. Uncertain cases escalate to a manual prompt. |
+| **manual**          | Always prompt the user for approval on dangerous commands.                                                                                                                                                                      |
+| **off**             | Disable all approval checks — equivalent to running with `--yolo`. All commands execute without prompts.                                                                                                                        |
 
 
 Setting `approvals.mode: off` disables all safety prompts. Use only in trusted environments (CI/CD, containers, etc.).
@@ -247,6 +248,50 @@ These patterns are loaded at startup and silently approved in all future session
 
 
 Use `hermes config edit` to review or remove patterns from your permanent allowlist.
+
+
+## File Write Safety<a href="#file-write-safety" class="hash-link" aria-label="Direct link to File Write Safety" translate="no" title="Direct link to File Write Safety">​</a>
+
+Before `write_file` or `patch` touches disk, Hermes checks the target path against a denylist and an optional sandbox. Blocked writes return an error to the agent immediately — **there is no approval prompt** and no way to override from the chat UI. The model may still claim the edit succeeded; when `display.file_mutation_verifier` is on (default), trust the [file-mutation verifier footer](/docs/user-guide/configuration#file-mutation-verifier) over the assistant's closing summary.
+
+### Protected paths (always blocked)<a href="#protected-paths-always-blocked" class="hash-link" aria-label="Direct link to Protected paths (always blocked)" translate="no" title="Direct link to Protected paths (always blocked)">​</a>
+
+These categories are always denied, even when `HERMES_WRITE_SAFE_ROOT` is unset:
+
+| Category                 | Examples                                                                                                                   |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| OS credential stores     | `~/.ssh/`, `~/.aws/`, `~/.kube/`, `/etc/sudoers`, `~/.netrc`                                                               |
+| Hermes credential stores | `auth.json`, `.env`, `.anthropic_oauth.json`, `mcp-tokens/`, `pairing/` under HERMES_HOME (active profile and global root) |
+| Project secret files     | `.env`, `.env.local`, `.env.production`, `.envrc` anywhere on disk                                                         |
+
+Sensitive paths inside the safe root are still blocked — pointing `HERMES_WRITE_SAFE_ROOT` at `$HOME` does not allow writing `~/.ssh/id_rsa`.
+
+Safe-root violations return `Write denied: '…' is outside HERMES_WRITE_SAFE_ROOT (…)`. Credential-path blocks use `Write denied: '…' is a protected system/credential file.`
+
+### HERMES_WRITE_SAFE_ROOT (optional sandbox)<a href="#hermes_write_safe_root-optional-sandbox" class="hash-link" aria-label="Direct link to HERMES_WRITE_SAFE_ROOT (optional sandbox)" translate="no" title="Direct link to HERMES_WRITE_SAFE_ROOT (optional sandbox)">​</a>
+
+When set, `write_file` and `patch` may only target paths inside the listed directory prefix(es). Anything outside is **hard-blocked** — not routed through dangerous-command approval.
+
+- Set automatically in the <a href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener noreferrer">official Docker image</a> (`HERMES_WRITE_SAFE_ROOT=/opt/data`)
+- Supports multiple roots separated by `:` on Unix or `;` on Windows
+- **Do not add to `~/.hermes/.env` casually.** If you set it to a project directory, the agent cannot write to `~/.hermes/cron/jobs.json`, profile skills, or other Hermes state outside that prefix
+
+To allow both a workspace and Hermes home:
+
+
+``` prism-code
+export HERMES_WRITE_SAFE_ROOT=/path/to/project:/home/you/.hermes
+```
+
+
+Unset the variable to restore unrestricted writes (subject to the protected-path denylist). Full reference: [HERMES_WRITE_SAFE_ROOT](/docs/reference/environment-variables#hermes_write_safe_root).
+
+### Cron and other Hermes state<a href="#cron-and-other-hermes-state" class="hash-link" aria-label="Direct link to Cron and other Hermes state" translate="no" title="Direct link to Cron and other Hermes state">​</a>
+
+Do not ask the agent to `patch` `~/.hermes/cron/jobs.json` directly. Use the `cronjob` tool, [`hermes cron`](/docs/user-guide/features/cron), or `/cron` — they update the job store through the supported API. The same applies to other Hermes control files when write safety blocks direct edits.
+
+
+Write guards apply to `write_file` and `patch` only. The `terminal` tool runs as the same OS user and can still `cat` or overwrite denied paths via shell commands. The denylist reduces accidental damage and gives models a clear stop signal; it does not sandbox a hostile or compromised agent.
 
 
 ## User Authorization (Gateway)<a href="#user-authorization-gateway" class="hash-link" aria-label="Direct link to User Authorization (Gateway)" translate="no" title="Direct link to User Authorization (Gateway)">​</a>
@@ -784,6 +829,10 @@ When disabled, backends that need optional deps will tell the user to run the in
   - <a href="#approval-flow-cli" class="table-of-contents__link toc-highlight">Approval Flow (CLI)</a>
   - <a href="#approval-flow-gatewaymessaging" class="table-of-contents__link toc-highlight">Approval Flow (Gateway/Messaging)</a>
   - <a href="#permanent-allowlist" class="table-of-contents__link toc-highlight">Permanent Allowlist</a>
+- <a href="#file-write-safety" class="table-of-contents__link toc-highlight">File Write Safety</a>
+  - <a href="#protected-paths-always-blocked" class="table-of-contents__link toc-highlight">Protected paths (always blocked)</a>
+  - <a href="#hermes_write_safe_root-optional-sandbox" class="table-of-contents__link toc-highlight">HERMES_WRITE_SAFE_ROOT (optional sandbox)</a>
+  - <a href="#cron-and-other-hermes-state" class="table-of-contents__link toc-highlight">Cron and other Hermes state</a>
 - <a href="#user-authorization-gateway" class="table-of-contents__link toc-highlight">User Authorization (Gateway)</a>
   - <a href="#authorization-check-order" class="table-of-contents__link toc-highlight">Authorization Check Order</a>
   - <a href="#platform-allowlists" class="table-of-contents__link toc-highlight">Platform Allowlists</a>

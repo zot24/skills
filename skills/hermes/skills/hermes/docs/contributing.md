@@ -69,6 +69,15 @@ scripts/run_tests.sh
 ```
 
 
+You can also run a fully isolated Hermes instance (throwaway HERMES_HOME, separate Electron userData, distinct Electron app name to avoid the single-instance lock):
+
+
+``` prism-code
+scripts/dev-sandbox.sh python -m hermes_cli.main
+scripts/dev-sandbox.sh --persistent python -m hermes_cli.main desktop  # state survives restarts, but lives in the worktree :)
+```
+
+
 ### Manual clone fallback<a href="#manual-clone-fallback" class="hash-link" aria-label="Direct link to Manual clone fallback" translate="no" title="Direct link to Manual clone fallback">​</a>
 
 Use this only if you intentionally do not want Hermes' managed install layout (for example, a throwaway clone inside a container or CI job). If you install this way, make sure you run the `hermes` entrypoint from this venv; running the system `python3 -m hermes_cli.main` can pick up unrelated system Python packages.
