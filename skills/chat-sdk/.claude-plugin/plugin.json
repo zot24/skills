@@ -1,7 +1,7 @@
 {
   "name": "chat-sdk",
   "description": "Expert at Chat SDK (vercel/chat) - the unified TypeScript SDK for building chat bots and agents across Slack, Microsoft Teams, Google Chat, Discord, Telegram, WhatsApp, and more.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": {
     "name": "zot24"
   },

@@ -1,6 +1,6 @@
 {
   "name": "pxpipe",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Local proxy that cuts Claude Code token costs by rendering bulky context (tool results, old history, system prompt) as compressed PNG images",
   "sources": [
     {
