@@ -190,12 +190,12 @@ By default, messaging sessions never auto-reset — context lives until you `/re
 
 ### Use Docker for Untrusted Code<a href="#use-docker-for-untrusted-code" class="hash-link" aria-label="Direct link to Use Docker for Untrusted Code" translate="no" title="Direct link to Use Docker for Untrusted Code">​</a>
 
-When working with untrusted repositories or running unfamiliar code, use Docker or Daytona as your terminal backend. Set `TERMINAL_BACKEND=docker` in your `.env`. Destructive commands inside a container can't harm your host system.
+When working with untrusted repositories or running unfamiliar code, use Docker or Daytona as your terminal backend. Set `TERMINAL_ENV=docker` in your `.env`. Destructive commands inside a container can't harm your host system.
 
 
 ``` prism-code
 # In your .env:
-TERMINAL_BACKEND=docker
+TERMINAL_ENV=docker
 TERMINAL_DOCKER_IMAGE=hermes-sandbox:latest
 ```
 
