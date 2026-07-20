@@ -106,6 +106,30 @@ hermes gateway status --system         # Linux only: inspect the system service 
 ```
 
 
+### Optional Linux event-loop watchdog<a href="#optional-linux-event-loop-watchdog" class="hash-link" aria-label="Direct link to Optional Linux event-loop watchdog" translate="no" title="Direct link to Optional Linux event-loop watchdog">​</a>
+
+A systemd-managed gateway can opt into process recovery when Python's asyncio event loop stops receiving scheduling time. This covers whole-process stalls that also prevent platform-specific liveness tasks from running:
+
+
+~/.hermes/config.yaml
+
+
+``` prism-code
+gateway:
+  systemd_watchdog_seconds: 120
+```
+
+
+Regenerate the service unit after changing this setting:
+
+
+``` prism-code
+hermes gateway install --force
+```
+
+
+A positive value makes the generated unit use `Type=notify`, `NotifyAccess=main`, and the matching `WatchdogSec`. Hermes sends heartbeats only while its event loop is making timely progress; systemd restarts the process when they stop. The default `0` keeps the existing `Type=simple` behavior. This setting is Linux/systemd-only and does not treat an ordinary platform network disconnect as an event-loop failure.
+
 ## Chat Commands (Inside Messaging)<a href="#chat-commands-inside-messaging" class="hash-link" aria-label="Direct link to Chat Commands (Inside Messaging)" translate="no" title="Direct link to Chat Commands (Inside Messaging)">​</a>
 
 | Command                                 | Description                                                                                     |
@@ -140,6 +164,18 @@ hermes gateway status --system         # Linux only: inspect the system service 
 ### Session Persistence<a href="#session-persistence" class="hash-link" aria-label="Direct link to Session Persistence" translate="no" title="Direct link to Session Persistence">​</a>
 
 Sessions persist across messages until they reset. The agent remembers your conversation context.
+
+### Delivery Reliability<a href="#delivery-reliability" class="hash-link" aria-label="Direct link to Delivery Reliability" translate="no" title="Direct link to Delivery Reliability">​</a>
+
+Final agent responses are recorded in a durable **delivery ledger** (`state.db`) around each platform send. If the gateway crashes or restarts between producing a response and the platform confirming receipt, the next boot redelivers the stored response instead of losing it — or re-running the whole turn.
+
+Semantics are honest at-least-once:
+
+- A response whose send **never started** is redelivered as-is.
+- A response that was **mid-send** when the gateway died (the platform may or may not have received it) is redelivered with a visible "♻️ Recovered reply — … may be a duplicate" prefix. Ambiguity is labeled, never silently resent.
+- Redelivery is bounded: 3 attempts, 24-hour freshness, then the row is abandoned. Delivered rows are pruned after 7 days.
+
+Disable with `gateway.delivery_ledger: false` in `config.yaml` (restores the old behavior: in-flight responses are lost on crash).
 
 ### Reset Policies<a href="#reset-policies" class="hash-link" aria-label="Direct link to Reset Policies" translate="no" title="Direct link to Reset Policies">​</a>
 
@@ -670,9 +706,11 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - <a href="#intentional-silence-tokens" class="table-of-contents__link toc-highlight">Intentional Silence Tokens</a>
 - <a href="#quick-setup" class="table-of-contents__link toc-highlight">Quick Setup</a>
 - <a href="#gateway-commands" class="table-of-contents__link toc-highlight">Gateway Commands</a>
+  - <a href="#optional-linux-event-loop-watchdog" class="table-of-contents__link toc-highlight">Optional Linux event-loop watchdog</a>
 - <a href="#chat-commands-inside-messaging" class="table-of-contents__link toc-highlight">Chat Commands (Inside Messaging)</a>
 - <a href="#session-management" class="table-of-contents__link toc-highlight">Session Management</a>
   - <a href="#session-persistence" class="table-of-contents__link toc-highlight">Session Persistence</a>
+  - <a href="#delivery-reliability" class="table-of-contents__link toc-highlight">Delivery Reliability</a>
   - <a href="#reset-policies" class="table-of-contents__link toc-highlight">Reset Policies</a>
 - <a href="#security" class="table-of-contents__link toc-highlight">Security</a>
   - <a href="#dm-pairing-alternative-to-allowlists" class="table-of-contents__link toc-highlight">DM Pairing (Alternative to Allowlists)</a>

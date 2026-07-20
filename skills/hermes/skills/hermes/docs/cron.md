@@ -252,6 +252,12 @@ On each tick Hermes:
 
 A file lock at `~/.hermes/cron/.tick.lock` prevents overlapping scheduler ticks from double-running the same job batch.
 
+### Execution history<a href="#execution-history" class="hash-link" aria-label="Direct link to Execution history" translate="no" title="Direct link to Execution history">​</a>
+
+Hermes records each claimed cron attempt in the profile-local `~/.hermes/cron/executions.db` before executor or provider dispatch. Attempts move through `claimed`, `running`, and one immutable terminal state: `completed`, `failed`, or `unknown`. After restart, Hermes marks an abandoned attempt `unknown` only when the original PID and process-start fingerprint prove that its owner is gone. Unknown attempts are audit records and are never automatically rerun.
+
+Inspect recent attempts with `hermes cron runs [job-id] --limit 20` (alias: `history`). Terminal history is bounded; active attempts are never pruned. The ledger is included in quick backups.
+
 ## Delivery options<a href="#delivery-options" class="hash-link" aria-label="Direct link to Delivery options" translate="no" title="Direct link to Delivery options">​</a>
 
 When scheduling jobs, you specify where the output goes:
@@ -810,6 +816,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#standalone-cli-1" class="table-of-contents__link toc-highlight">Standalone CLI</a>
 - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a>
   - <a href="#gateway-scheduler-behavior" class="table-of-contents__link toc-highlight">Gateway scheduler behavior</a>
+  - <a href="#execution-history" class="table-of-contents__link toc-highlight">Execution history</a>
 - <a href="#delivery-options" class="table-of-contents__link toc-highlight">Delivery options</a>
   - <a href="#routing-intent-all" class="table-of-contents__link toc-highlight">Routing intent (<code>all</code>)</a>
   - <a href="#telegram-cron-topic-telegram_cron_thread_id" class="table-of-contents__link toc-highlight">Telegram cron topic (<code>TELEGRAM_CRON_THREAD_ID</code>)</a>
