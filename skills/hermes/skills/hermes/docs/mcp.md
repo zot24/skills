@@ -193,6 +193,20 @@ Use HTTP servers when:
 Most hosted MCP servers (Linear, Sentry, Atlassian, Asana, Figma, Stripe, …) require OAuth 2.1 instead of a static bearer token. Set `auth: oauth` and Hermes handles discovery, dynamic client registration, PKCE, token exchange, refresh, and step-up auth via the MCP Python SDK.
 
 
+Figma's hosted endpoint (`https://mcp.figma.com/mcp`) allowlists Dynamic Client Registration by **exact `client_name`** — bare `"Hermes Agent"` 403s, while `"Claude Code"` and `"Codex"` succeed. Hermes auto-sets `oauth.client_name: "Claude Code"` for `mcp.figma.com` so install/login works without a special trick:
+
+
+``` prism-code
+mcp_servers:
+  figma:
+    url: "https://mcp.figma.com/mcp"
+    auth: oauth
+```
+
+
+Or: `hermes mcp install figma`, then `hermes mcp login figma`.
+
+
 ``` prism-code
 mcp_servers:
   linear:
@@ -465,6 +479,23 @@ mcp_servers:
 
 
 All server tools are registered except the excluded ones.
+
+### Glob patterns<a href="#glob-patterns" class="hash-link" aria-label="Direct link to Glob patterns" translate="no" title="Direct link to Glob patterns">​</a>
+
+Both lists accept fnmatch-style globs alongside exact names — essential for huge flat surfaces like Cloudflare's API MCP (`?codemode=false`, ~3,300 tools) where excluding product areas one endpoint at a time is impractical:
+
+
+``` prism-code
+mcp_servers:
+  cloudflare:
+    url: "https://mcp.cloudflare.com/mcp?codemode=false"
+    auth: oauth
+    tools:
+      exclude: ["*_radar_*", "*_accounts_dlp_*", "*_zones_web3_*"]
+```
+
+
+Entries without glob metacharacters (`*`, `?`, `[`) match exactly — `docs` excludes only the tool named `docs`, never `docs_search`.
 
 ### Precedence rule<a href="#precedence-rule" class="hash-link" aria-label="Direct link to Precedence rule" translate="no" title="Direct link to Precedence rule">​</a>
 
@@ -751,6 +782,25 @@ mcp_servers:
 ```
 
 
+## MCP Elicitation Support<a href="#mcp-elicitation-support" class="hash-link" aria-label="Direct link to MCP Elicitation Support" translate="no" title="Direct link to MCP Elicitation Support">​</a>
+
+MCP servers can ask the user for structured input mid-tool-call via the `elicitation/create` protocol (mcp Python SDK ≥ 1.11.0). Hermes routes **form-mode** elicitations through its existing approval surface — an interactive prompt in the CLI/TUI, or approval buttons on gateway platforms like Telegram and Slack — so the request reaches you wherever the session lives. **URL-mode** elicitations (where a server points you at an external URL) are declined as unsupported.
+
+Elicitation is **enabled by default** per server. Configure it under the `elicitation` key:
+
+
+``` prism-code
+mcp_servers:
+  my_server:
+    command: "my-mcp-server"
+    elicitation:
+      enabled: true    # default: true
+      timeout: 300     # seconds to wait for your answer (default: 300)
+```
+
+
+The 5-minute default timeout mirrors the gateway approval default so users on async surfaces have time to respond before the server gives up. Per-server metrics (requests, accepted, declined, errors) are tracked on the handler.
+
 ## Running Hermes as an MCP server<a href="#running-hermes-as-an-mcp-server" class="hash-link" aria-label="Direct link to Running Hermes as an MCP server" translate="no" title="Direct link to Running Hermes as an MCP server">​</a>
 
 In addition to connecting **to** MCP servers, Hermes can also **be** an MCP server. This lets other MCP-capable agents (Claude Code, Cursor, Codex, or any MCP client) use Hermes's messaging capabilities — list conversations, read message history, and send messages across all your connected platforms.
@@ -849,7 +899,7 @@ hermes mcp serve --verbose    # Debug logging on stderr
 
 ### How it works<a href="#how-it-works" class="hash-link" aria-label="Direct link to How it works" translate="no" title="Direct link to How it works">​</a>
 
-The MCP server reads conversation data directly from Hermes's session store (`~/.hermes/sessions/sessions.json` and the SQLite database). A background thread polls the database for new messages and maintains an in-memory event queue. For sending messages, it uses the same internal send engine (`tools/send_message_tool.py`) that powers cron delivery and the `hermes send` CLI.
+The MCP server reads conversation data directly from Hermes's session store — `~/.hermes/state.db` is the primary source, with `sessions.json` kept only as a legacy fallback. A background thread polls the database for new messages and maintains an in-memory event queue. For sending messages, it uses the same internal send engine (`tools/send_message_tool.py`) that powers cron delivery and the `hermes send` CLI.
 
 The gateway does NOT need to be running for read operations (listing conversations, reading history, polling events). It DOES need to be running for send operations, since the platform adapters need active connections.
 
@@ -895,6 +945,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#disable-a-server-entirely" class="table-of-contents__link toc-highlight">Disable a server entirely</a>
   - <a href="#whitelist-server-tools" class="table-of-contents__link toc-highlight">Whitelist server tools</a>
   - <a href="#blacklist-server-tools" class="table-of-contents__link toc-highlight">Blacklist server tools</a>
+  - <a href="#glob-patterns" class="table-of-contents__link toc-highlight">Glob patterns</a>
   - <a href="#precedence-rule" class="table-of-contents__link toc-highlight">Precedence rule</a>
   - <a href="#filter-utility-tools-too" class="table-of-contents__link toc-highlight">Filter utility tools too</a>
   - <a href="#full-example" class="table-of-contents__link toc-highlight">Full example</a>
@@ -917,6 +968,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#why-didnt-resource-or-prompt-utilities-appear" class="table-of-contents__link toc-highlight">Why didn't resource or prompt utilities appear?</a>
 - <a href="#parallel-tool-calls" class="table-of-contents__link toc-highlight">Parallel Tool Calls</a>
 - <a href="#mcp-sampling-support" class="table-of-contents__link toc-highlight">MCP Sampling Support</a>
+- <a href="#mcp-elicitation-support" class="table-of-contents__link toc-highlight">MCP Elicitation Support</a>
 - <a href="#running-hermes-as-an-mcp-server" class="table-of-contents__link toc-highlight">Running Hermes as an MCP server</a>
   - <a href="#when-to-use-this" class="table-of-contents__link toc-highlight">When to use this</a>
   - <a href="#quick-start-1" class="table-of-contents__link toc-highlight">Quick start</a>

@@ -144,6 +144,7 @@ Common examples:
 | `/reasoning high`      | Increase reasoning effort                                                                                                                                                                                                   |
 | `/title My Session`    | Name the current session                                                                                                                                                                                                    |
 | `/status`              | Show session info — model/profile/tokens/duration — followed by a local **Session recap** block (recent turn counts, top tools used, files touched, latest user prompt + assistant reply). Pure local compute; no LLM call. |
+| `/context [all]`       | Visual context-usage breakdown — glyph block grid + per-category token table (system prompt / tools / skills / memory / conversation / free space). `/context all` adds per-skill and per-toolset costs.                    |
 | `/sessions`            | Open an interactive session picker right inside the classic CLI (same surface the TUI uses). Type to filter, arrow keys to navigate, Enter to resume.                                                                       |
 
 For the full built-in CLI and messaging lists, see [Slash Commands Reference](/docs/reference/slash-commands).
@@ -261,24 +262,24 @@ Most terminals send the same byte sequence for `Enter` and `Shift+Enter` by defa
 
 Where the terminal cannot distinguish them, `Alt+Enter` and `Ctrl+J` continue to work everywhere. **On Windows Terminal specifically, `Alt+Enter` is captured by the terminal (toggles fullscreen) and never reaches Hermes — use `Ctrl+Enter` (delivered as `Ctrl+J`) or `Ctrl+J` directly for a newline.**
 
-## Interrupting the Agent<a href="#interrupting-the-agent" class="hash-link" aria-label="Direct link to Interrupting the Agent" translate="no" title="Direct link to Interrupting the Agent">​</a>
+## Redirecting the Agent Mid-Turn<a href="#redirecting-the-agent-mid-turn" class="hash-link" aria-label="Direct link to Redirecting the Agent Mid-Turn" translate="no" title="Direct link to Redirecting the Agent Mid-Turn">​</a>
 
-You can interrupt the agent at any point:
+While the agent is working, you can send a correction without starting a new turn:
 
-- **Type a new message + Enter** while the agent is working — it interrupts and processes your new instructions
+- **Type a new message + Enter** — redirects the active turn using your correction
 - **`Ctrl+C`** — interrupt the current operation (press twice within 2s to force exit)
-- In-progress terminal commands are killed immediately (SIGTERM, then SIGKILL after 1s)
-- Multiple messages typed during interrupt are combined into one prompt
+- Completed tool work and reasoning already shown stay in context
+- A running tool reaches its safe boundary before the correction is applied
 
 ### Busy Input Mode<a href="#busy-input-mode" class="hash-link" aria-label="Direct link to Busy Input Mode" translate="no" title="Direct link to Busy Input Mode">​</a>
 
 The `display.busy_input_mode` config key controls what happens when you press Enter while the agent is working:
 
-| Mode                    | Behavior                                                                                                                               |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| `"interrupt"` (default) | Your message interrupts the current operation and is processed immediately                                                             |
-| `"queue"`               | Your message is silently queued and sent as the next turn after the agent finishes                                                     |
-| `"steer"`               | Your message is injected into the current run via `/steer`, arriving at the agent after the next tool call — no interrupt, no new turn |
+| Mode                    | Behavior                                                                                                                                            |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `"interrupt"` (default) | Your message redirects the active turn. Model generation restarts with displayed reasoning and completed work preserved; running tools finish first |
+| `"queue"`               | Your message is silently queued and sent as the next turn after the agent finishes                                                                  |
+| `"steer"`               | Your message is injected into the current run via `/steer`, arriving at the agent after the next tool call — no interrupt, no new turn              |
 
 
 ``` prism-code
@@ -288,7 +289,7 @@ display:
 ```
 
 
-`"queue"` mode is useful when you want to prepare follow-up messages without accidentally canceling in-flight work. `"steer"` mode is useful when you want to redirect the agent mid-task without interrupting — e.g. "actually, also check the tests" while it's still editing code. Unknown values fall back to `"interrupt"`.
+`"queue"` mode prepares a separate follow-up turn. `"steer"` always waits for the next tool-result boundary. The default `"interrupt"` mode responds sooner during model generation while avoiding cancellation of a running tool. Use `/stop` when you want to cancel the turn and its foreground work. Unknown values fall back to `"interrupt"`.
 
 `"steer"` has two automatic fallbacks: if the agent hasn't started yet, or if images are attached, the message falls back to `"queue"` behavior so nothing is lost.
 
@@ -303,7 +304,7 @@ You can also change it inside the CLI:
 ```
 
 
-The very first time you press Enter while Hermes is working, Hermes prints a one-line reminder explaining the `/busy` knob (`"(tip) Your message interrupted the current run…"`). It only fires once per install — a flag in `config.yaml` under `onboarding.seen.busy_input_prompt` latches it. Delete that key to see the tip again.
+The first time you press Enter while Hermes is working, Hermes prints a one-line reminder explaining the `/busy` knob. It only fires once per install; `onboarding.seen.busy_input_prompt` in `config.yaml` records that it was shown. Delete that key to see the tip again.
 
 
 ### Suspending to Background<a href="#suspending-to-background" class="hash-link" aria-label="Direct link to Suspending to Background" translate="no" title="Direct link to Suspending to Background">​</a>
@@ -506,7 +507,7 @@ hermes chat --verbose
 - <a href="#personalities" class="table-of-contents__link toc-highlight">Personalities</a>
 - <a href="#multi-line-input" class="table-of-contents__link toc-highlight">Multi-line Input</a>
   - <a href="#shiftenter-compatibility" class="table-of-contents__link toc-highlight">Shift+Enter compatibility</a>
-- <a href="#interrupting-the-agent" class="table-of-contents__link toc-highlight">Interrupting the Agent</a>
+- <a href="#redirecting-the-agent-mid-turn" class="table-of-contents__link toc-highlight">Redirecting the Agent Mid-Turn</a>
   - <a href="#busy-input-mode" class="table-of-contents__link toc-highlight">Busy Input Mode</a>
   - <a href="#suspending-to-background" class="table-of-contents__link toc-highlight">Suspending to Background</a>
 - <a href="#tool-progress-display" class="table-of-contents__link toc-highlight">Tool Progress Display</a>

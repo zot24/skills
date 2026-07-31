@@ -217,6 +217,24 @@ See [Session Search Tool](/docs/user-guide/sessions#session-search-tool) for the
 
 **Memory** is for critical facts that should always be in context. **Session search** is for "did we discuss X last week?" queries where the agent needs to recall specifics from past conversations.
 
+## Learning Journey (`/journey`)<a href="#learning-journey-journey" class="hash-link" aria-label="Direct link to learning-journey-journey" translate="no" title="Direct link to learning-journey-journey">​</a>
+
+The learning journey is a timeline view of everything Hermes has learned — saved skills and memory entries plotted over time (oldest at top, newest at bottom), with a playable "constellation" scrubber that replays the build-up. The same graph data drives three surfaces:
+
+- **Classic CLI / standalone** — `hermes journey` (aliases: `hermes learning`, `hermes memory-graph`) renders the timeline in the terminal. Flags: `--play` animates the build-up (`--fps` to tune it), `--width`/`--height` override the render size, `--no-color` disables color, and `--json` dumps the raw graph payload.
+- **TUI** — `/journey` (aliases: `/learning`, `/memory-graph`) opens the timeline as an overlay.
+- **Desktop app** — `/journey` opens the Star Map / memory-graph panel, an interactive visual of the same nodes.
+
+Beyond viewing, the journey is also where you **prune and correct** what Hermes has learned:
+
+| Command                             | What it does                                                                                                 |
+|-------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| `hermes journey list`               | List node ids — skill names and `memory:<source>:<index>` ids for memory chunks.                             |
+| `hermes journey delete <node> [-y]` | Delete a node. Skills are **archived** (restorable), memory chunks are removed. `-y` skips the confirmation. |
+| `hermes journey edit <node>`        | Open the node's content (a skill's `SKILL.md` or the memory chunk) in `$EDITOR`.                             |
+
+The same `list` / `delete <id>` / `edit <id>` subcommands work from the in-chat `/journey` command on the CLI, and the desktop panel offers edit/delete on nodes directly.
+
 ## Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" translate="no" title="Direct link to Configuration">​</a>
 
 
@@ -349,6 +367,7 @@ See the [Memory Providers](/docs/user-guide/features/memory-providers) guide for
 - <a href="#security-scanning" class="table-of-contents__link toc-highlight">Security Scanning</a>
 - <a href="#session-search" class="table-of-contents__link toc-highlight">Session Search</a>
   - <a href="#session_search-vs-memory" class="table-of-contents__link toc-highlight">session_search vs memory</a>
+- <a href="#learning-journey-journey" class="table-of-contents__link toc-highlight">Learning Journey (<code>/journey</code>)</a>
 - <a href="#configuration" class="table-of-contents__link toc-highlight">Configuration</a>
 - <a href="#controlling-memory-writes-write_approval" class="table-of-contents__link toc-highlight">Controlling memory writes (<code>write_approval</code>)</a>
 - <a href="#background-review-notifications-displaymemory_notifications" class="table-of-contents__link toc-highlight">Background review notifications (<code>display.memory_notifications</code>)</a>

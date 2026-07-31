@@ -79,7 +79,7 @@ Text-to-speech and speech-to-text across all messaging platforms:
 | **xAI TTS**            | Good      | Paid | `XAI_API_KEY`            |
 | **NeuTTS**             | Good      | Free | None needed              |
 
-Speech-to-text supports six providers: local faster-whisper (free, runs on-device), a local command wrapper, Groq, OpenAI Whisper API, Mistral, and xAI. Voice message transcription works across Telegram, Discord, WhatsApp, and other messaging platforms. See [Voice & TTS](/docs/user-guide/features/tts) and [Voice Mode](/docs/user-guide/features/voice-mode) for details.
+Speech-to-text supports eight providers: local faster-whisper (free, runs on-device), a local command wrapper, Groq, OpenAI Whisper API, Mistral, xAI, ElevenLabs Scribe, and DeepInfra. Voice message transcription works across Telegram, Discord, WhatsApp, and other messaging platforms. See [Voice & TTS](/docs/user-guide/features/tts) and [Voice Mode](/docs/user-guide/features/voice-mode) for details.
 
 ## IDE & Editor Integration<a href="#ide--editor-integration" class="hash-link" aria-label="Direct link to IDE &amp; Editor Integration" translate="no" title="Direct link to IDE &amp; Editor Integration">​</a>
 
@@ -98,9 +98,13 @@ Speech-to-text supports six providers: local faster-whisper (free, runs on-devic
 
 Hermes runs as a gateway bot on 27+ messaging platforms, all configured through the same `gateway` subsystem:
 
-- **[Telegram](/docs/user-guide/messaging/telegram)**, **[Discord](/docs/user-guide/messaging/discord)**, **[Slack](/docs/user-guide/messaging/slack)**, **[WhatsApp](/docs/user-guide/messaging/whatsapp)**, **[Signal](/docs/user-guide/messaging/signal)**, **[Matrix](/docs/user-guide/messaging/matrix)**, **[Mattermost](/docs/user-guide/messaging/mattermost)**, **[Email](/docs/user-guide/messaging/email)**, **[SMS](/docs/user-guide/messaging/sms)**, **[DingTalk](/docs/user-guide/messaging/dingtalk)**, **[Feishu/Lark](/docs/user-guide/messaging/feishu)**, **[WeCom](/docs/user-guide/messaging/wecom)**, **[WeCom Callback](/docs/user-guide/messaging/wecom-callback)**, **[Weixin](/docs/user-guide/messaging/weixin)**, **[BlueBubbles](/docs/user-guide/messaging/bluebubbles)**, **[QQ Bot](/docs/user-guide/messaging/qqbot)**, **[Yuanbao](/docs/user-guide/messaging/yuanbao)**, **[Home Assistant](/docs/user-guide/messaging/homeassistant)**, **[Microsoft Teams](/docs/user-guide/messaging/teams)**, **[Microsoft Teams Meetings](/docs/user-guide/messaging/teams-meetings)**, **[Microsoft Graph Webhook](/docs/user-guide/messaging/msgraph-webhook)**, **[Google Chat](/docs/user-guide/messaging/google_chat)**, **[LINE](/docs/user-guide/messaging/line)**, **[ntfy](/docs/user-guide/messaging/ntfy)**, **[SimpleX](/docs/user-guide/messaging/simplex)**, **[Open WebUI](/docs/user-guide/messaging/open-webui)**, **[Webhooks](/docs/user-guide/messaging/webhooks)**
+- **[Telegram](/docs/user-guide/messaging/telegram)**, **[Discord](/docs/user-guide/messaging/discord)**, **[Slack](/docs/user-guide/messaging/slack)**, **[WhatsApp](/docs/user-guide/messaging/whatsapp)**, **[Signal](/docs/user-guide/messaging/signal)**, **[Matrix](/docs/user-guide/messaging/matrix)**, **[Mattermost](/docs/user-guide/messaging/mattermost)**, **[Email](/docs/user-guide/messaging/email)**, **[SMS](/docs/user-guide/messaging/sms)**, **[DingTalk](/docs/user-guide/messaging/dingtalk)**, **[Feishu/Lark](/docs/user-guide/messaging/feishu)**, **[WeCom](/docs/user-guide/messaging/wecom)**, **[WeCom Callback](/docs/user-guide/messaging/wecom-callback)**, **[Weixin](/docs/user-guide/messaging/weixin)**, **[BlueBubbles](/docs/user-guide/messaging/bluebubbles)**, **[Buzz](/docs/user-guide/messaging/buzz)**, **[QQ Bot](/docs/user-guide/messaging/qqbot)**, **[Yuanbao](/docs/user-guide/messaging/yuanbao)**, **[Home Assistant](/docs/user-guide/messaging/homeassistant)**, **[Microsoft Teams](/docs/user-guide/messaging/teams)**, **[Microsoft Teams Meetings](/docs/user-guide/messaging/teams-meetings)**, **[Microsoft Graph Webhook](/docs/user-guide/messaging/msgraph-webhook)**, **[Google Chat](/docs/user-guide/messaging/google_chat)**, **[LINE](/docs/user-guide/messaging/line)**, **[ntfy](/docs/user-guide/messaging/ntfy)**, **[SimpleX](/docs/user-guide/messaging/simplex)**, **[Open WebUI](/docs/user-guide/messaging/open-webui)**, **[Webhooks](/docs/user-guide/messaging/webhooks)**
 
 See the [Messaging Gateway overview](/docs/user-guide/messaging) for the platform comparison table and setup guide.
+
+## Collaboration Workspaces<a href="#collaboration-workspaces" class="hash-link" aria-label="Direct link to Collaboration Workspaces" translate="no" title="Direct link to Collaboration Workspaces">​</a>
+
+- **[Buzz](/docs/integrations/buzz)** — Block's Nostr-based human+agent workspace. Three integration paths: Buzz Desktop spawns Hermes as a managed ACP runtime, the `buzz-acp` relay bridge hosts a Hermes identity server-side, or the native gateway platform joins Buzz channels with full Hermes memory/skills/approvals/cron. The overview page compares all three.
 
 ## Home Automation<a href="#home-automation" class="hash-link" aria-label="Direct link to Home Automation" translate="no" title="Direct link to Home Automation">​</a>
 
@@ -125,6 +129,7 @@ See the [Messaging Gateway overview](/docs/user-guide/messaging) for the platfor
 - <a href="#programmatic-access" class="table-of-contents__link toc-highlight">Programmatic Access</a>
 - <a href="#memory--personalization" class="table-of-contents__link toc-highlight">Memory &amp; Personalization</a>
 - <a href="#messaging-platforms" class="table-of-contents__link toc-highlight">Messaging Platforms</a>
+- <a href="#collaboration-workspaces" class="table-of-contents__link toc-highlight">Collaboration Workspaces</a>
 - <a href="#home-automation" class="table-of-contents__link toc-highlight">Home Automation</a>
 - <a href="#plugins" class="table-of-contents__link toc-highlight">Plugins</a>
 - <a href="#training--evaluation" class="table-of-contents__link toc-highlight">Training &amp; Evaluation</a>
