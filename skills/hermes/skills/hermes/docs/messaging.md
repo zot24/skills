@@ -21,34 +21,42 @@ Bots need both a model provider and tool providers (TTS, web). A [Nous Portal](/
 
 ## Platform Comparison<a href="#platform-comparison" class="hash-link" aria-label="Direct link to Platform Comparison" translate="no" title="Direct link to Platform Comparison">​</a>
 
-| Platform        | Voice | Images | Files | Threads | Reactions | Typing | Streaming |
-|-----------------|:-----:|:------:|:-----:|:-------:|:---------:|:------:|:---------:|
-| Telegram        |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
-| Discord         |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| Slack           |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| Google Chat     |   —   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |     —     |
-| WhatsApp        |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| Signal          |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| SMS             |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Email           |   —   |   ✅   |  ✅   |   ✅    |     —     |   —    |     —     |
-| Home Assistant  |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Mattermost      |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
-| Matrix          |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| DingTalk        |   —   |   ✅   |  ✅   |    —    |    ✅     |   —    |    ✅     |
-| Feishu/Lark     |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| WeCom           |  ✅   |   ✅   |  ✅   |    —    |     —     |   —    |     —     |
-| WeCom Callback  |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Weixin          |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| BlueBubbles     |   —   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
-| QQ              |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
-| Yuanbao         |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| Microsoft Teams |   —   |   ✅   |   —   |   ✅    |     —     |   ✅   |     —     |
-| LINE            |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
-| ntfy            |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Raft            |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| IRC             |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Platform           | Voice | Images | Files | Threads | Reactions | Typing | Streaming |
+|--------------------|:-----:|:------:|:-----:|:-------:|:---------:|:------:|:---------:|
+| Telegram           |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
+| Discord            |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| Slack              |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| Google Chat        |   —   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |     —     |
+| WhatsApp           |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| WhatsApp Cloud API |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| Signal             |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| SMS                |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Email              |   —   |   ✅   |  ✅   |   ✅    |     —     |   —    |     —     |
+| Home Assistant     |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Mattermost         |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
+| Matrix             |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| DingTalk           |   —   |   ✅   |  ✅   |    —    |    ✅     |   —    |    ✅     |
+| Feishu/Lark        |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| WeCom              |  ✅   |   ✅   |  ✅   |    —    |     —     |   —    |     —     |
+| WeCom Callback     |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Weixin             |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| BlueBubbles        |   —   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
+| Photon (iMessage)  |  ✅   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
+| QQ                 |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| Yuanbao            |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| Microsoft Teams    |   —   |   ✅   |   —   |   ✅    |     —     |   ✅   |     —     |
+| LINE               |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| ntfy               |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Raft               |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| IRC                |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Buzz               |   —   |   ✅   |   —   |   ✅    |     —     |   —    |     —     |
+| SimpleX            |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
 
 **Voice** = TTS audio replies and/or voice message transcription. **Images** = send/receive images. **Files** = send/receive file attachments. **Threads** = threaded conversations. **Reactions** = emoji reactions on messages. **Typing** = typing indicator while processing. **Streaming** = progressive message updates via editing.
+
+
+[Hermes Relay](/docs/user-guide/messaging/relay) (experimental) is not a chat platform itself — it is a connector system that fronts platforms like Discord, Telegram, Slack, and WhatsApp through an external connector that owns the platform credentials. Capabilities (media, native approval/clarify prompts, reactions, threads, typing, streaming) are negotiated per connector at handshake rather than fixed in the table above.
+
 
 ## Architecture<a href="#architecture" class="hash-link" aria-label="Direct link to Architecture" translate="no" title="Direct link to Architecture">​</a>
 
@@ -148,6 +156,7 @@ A positive value makes the generated unit use `Type=notify`, `NotifyAccess=main`
 | `/compress`                             | Manually compress conversation context                                                          |
 | `/title [name]`                         | Set or show the session title                                                                   |
 | `/resume [name]`                        | Resume a previously named session                                                               |
+| `/sessions [all] [search <query>]`      | List previous sessions; `search <query>` filters by title or id                                 |
 | `/usage`                                | Show token usage for this session (`/usage reset [--force]` redeems a banked Codex limit reset) |
 | `/insights [days]`                      | Show usage insights and analytics                                                               |
 | `/reasoning [level|show|hide]`          | Change reasoning effort or toggle reasoning display                                             |
@@ -164,6 +173,14 @@ A positive value makes the generated unit use `Type=notify`, `NotifyAccess=main`
 ### Session Persistence<a href="#session-persistence" class="hash-link" aria-label="Direct link to Session Persistence" translate="no" title="Direct link to Session Persistence">​</a>
 
 Sessions persist across messages until they reset. The agent remembers your conversation context.
+
+### Finding Past Sessions (`/sessions`)<a href="#finding-past-sessions-sessions" class="hash-link" aria-label="Direct link to finding-past-sessions-sessions" translate="no" title="Direct link to finding-past-sessions-sessions">​</a>
+
+`/sessions` lists your previous sessions for the current chat, and `/sessions <name>` resumes one (shorthand for `/resume`). When the list grows long, `/sessions search <query>` (alias `find`) filters by title or session-id match, ordered by most recently active. Cross-origin listing with `/sessions all` is admin-only — regular users only ever see sessions from their own chat origin.
+
+### Persistent `/model` Overrides<a href="#persistent-model-overrides" class="hash-link" aria-label="Direct link to persistent-model-overrides" translate="no" title="Direct link to persistent-model-overrides">​</a>
+
+A `/model` switch in a gateway chat applies to that session and now **survives gateway restarts**: the model/provider choice is persisted to the session store and rehydrated on first use after a restart (credentials are re-resolved at load time and never written to disk). `/new` (or `/reset`) clears the override, and `/model <name> --global` writes it through to `config.yaml` instead. `/model <name> --once` applies for a single turn only.
 
 ### Delivery Reliability<a href="#delivery-reliability" class="hash-link" aria-label="Direct link to Delivery Reliability" translate="no" title="Direct link to Delivery Reliability">​</a>
 
@@ -211,6 +228,32 @@ Configure per-platform overrides in `~/.hermes/gateway.json`:
 }
 ```
 
+
+## Per-Channel Model & System Prompt Overrides<a href="#per-channel-model--system-prompt-overrides" class="hash-link" aria-label="Direct link to Per-Channel Model &amp; System Prompt Overrides" translate="no" title="Direct link to Per-Channel Model &amp; System Prompt Overrides">​</a>
+
+Different channels can run different models and personas from a **single gateway** — e.g. a cheap fast model in `#daily` and a frontier model with a specialist prompt in `#dev`. Configure `channel_overrides` under the platform in `~/.hermes/gateway-config.yaml`:
+
+
+``` prism-code
+platforms:
+  discord:
+    enabled: true
+    channel_overrides:
+      "123456789012345678":        # channel/thread id
+        model: anthropic/claude-sonnet-4.6
+        provider: anthropic
+        system_prompt: "You are the #dev channel code-review specialist."
+      "987654321098765432":
+        model: openai/gpt-5-mini
+```
+
+
+Details:
+
+- All three keys are optional — set only `model`, only `system_prompt`, or any combination. Unset fields fall back to the global defaults.
+- Lookup order is exact channel/thread id first, then the **parent** channel/forum id — so Discord threads inherit their parent channel's override automatically.
+- Resolution priority for the model is: session `/model` override → `channel_overrides` → global config. A user running `/model` in a chat still wins over the channel default.
+- The `system_prompt` override replaces the global gateway prompt for that channel (it is ephemeral — injected per turn, not stored in history).
 
 ## Security<a href="#security" class="hash-link" aria-label="Direct link to Security" translate="no" title="Direct link to Security">​</a>
 
@@ -296,18 +339,18 @@ gateway:
 
 Use `/whoami` from any platform to see the active scope, your tier (admin / user / unrestricted), and which slash commands you can run. See the [Telegram](/docs/user-guide/messaging/telegram#slash-command-access-control) and [Discord](/docs/user-guide/messaging/discord#slash-command-access-control) pages for platform-specific examples.
 
-## Interrupting the Agent<a href="#interrupting-the-agent" class="hash-link" aria-label="Direct link to Interrupting the Agent" translate="no" title="Direct link to Interrupting the Agent">​</a>
+## Redirecting the Agent<a href="#redirecting-the-agent" class="hash-link" aria-label="Direct link to Redirecting the Agent" translate="no" title="Direct link to Redirecting the Agent">​</a>
 
-Send any message while the agent is working to interrupt it. Key behaviors:
+Send a message while the agent is working to correct the active turn:
 
-- **In-progress terminal commands are killed immediately** (SIGTERM, then SIGKILL after 1s)
-- **Tool calls are cancelled** — only the currently-executing one runs, the rest are skipped
-- **Multiple messages are combined** — messages sent during interruption are joined into one prompt
-- **`/stop` command** — interrupts without queuing a follow-up message
+- **Model generation restarts with context** — reasoning already shown and visible partial text are retained as an ordinary assistant checkpoint
+- **Completed work stays available** — prior tool calls and results remain in the turn
+- **Running tools finish safely** — the correction is applied at the next tool-result boundary instead of killing the tool
+- **`/stop` remains a hard stop** — use it to cancel the active turn and foreground work
 
 ### Queue vs interrupt vs steer (busy-input mode)<a href="#queue-vs-interrupt-vs-steer-busy-input-mode" class="hash-link" aria-label="Direct link to Queue vs interrupt vs steer (busy-input mode)" translate="no" title="Direct link to Queue vs interrupt vs steer (busy-input mode)">​</a>
 
-By default, messaging a busy agent interrupts it. Two other modes are available:
+By default, messaging a busy agent redirects its active turn. Two other modes are available:
 
 - `queue` — follow-up messages wait and run as the next turn after the current task finishes.
 - `steer` — follow-up messages are injected into the current run via `/steer`, arriving at the agent after the next tool call. No interrupt, no new turn. Falls back to `queue` behavior if the agent hasn't started yet.
@@ -322,7 +365,16 @@ display:
 
 The first time you message a busy agent on any platform, Hermes appends a one-line reminder to the busy-ack explaining the knob (`"💡 First-time tip — …"`). The reminder fires once per install — a flag under `onboarding.seen.busy_input_prompt` latches it. Delete that key to see the tip again.
 
-If you find the busy-ack noisy — especially with voice input or rapid-fire messages — set `display.busy_ack_enabled: false`. Your input is still queued/steered/interrupts as normal, only the chat reply is silenced.
+If you find the busy acknowledgment noisy, set `display.busy_ack_enabled: false`. Input handling is unchanged; only the confirmation message is hidden.
+
+## Clarify Questions (Multi-Select)<a href="#clarify-questions-multi-select" class="hash-link" aria-label="Direct link to Clarify Questions (Multi-Select)" translate="no" title="Direct link to Clarify Questions (Multi-Select)">​</a>
+
+When the agent uses the `clarify` tool to ask you a question, the gateway renders the choices as a numbered prompt (or native buttons on platforms that support them). Clarify supports **multi-select** questions too — the agent can let you pick several options at once:
+
+- **Messaging platforms** — the prompt says "Multiple selections allowed"; reply with the numbers separated by commas or spaces (e.g. `1, 3`), the option text, or your own free-form answer.
+- **Classic CLI / TUI** — multi-select renders as checkboxes: **Space** toggles an option, **Enter** submits the selection.
+
+Single-select prompts behave as before: pick one option by number, button, or text, or type your own answer via the "Other" path.
 
 ## Tool Progress Notifications<a href="#tool-progress-notifications" class="hash-link" aria-label="Direct link to Tool Progress Notifications" translate="no" title="Direct link to Tool Progress Notifications">​</a>
 
@@ -331,7 +383,7 @@ Control how much tool activity is displayed in `~/.hermes/config.yaml`:
 
 ``` prism-code
 display:
-  tool_progress: all    # off | new | all | verbose
+  tool_progress: all    # off | new | all | verbose | log
   tool_progress_command: false  # set to true to enable /verbose in messaging
   # How progress is grouped on platforms that support message editing:
   #   accumulate (default) — edit one bubble in place as tools run
@@ -340,6 +392,28 @@ display:
   tool_progress_grouping: accumulate   # accumulate | separate
 ```
 
+
+### `log` mode — audit file instead of chat messages<a href="#log-mode--audit-file-instead-of-chat-messages" class="hash-link" aria-label="Direct link to log-mode--audit-file-instead-of-chat-messages" translate="no" title="Direct link to log-mode--audit-file-instead-of-chat-messages">​</a>
+
+Setting `display.tool_progress: log` sends **no** progress bubbles to chat. Instead, each tool call is appended as a line to `~/.hermes/logs/tool_calls.log` — a rotating audit file (5 MB × 3 backups) run through the same secret-redacting formatter as regular logs, so credentials never land on disk. Use it when you want a full tool-call trail without any chat noise.
+
+### Configurable status phrases<a href="#configurable-status-phrases" class="hash-link" aria-label="Direct link to Configurable status phrases" translate="no" title="Direct link to Configurable status phrases">​</a>
+
+Long-running gateway status lines ("still working…"-style heartbeats) draw from a phrase catalog. Built-in defaults ship in `gateway/assets/status_phrases.yaml`; you can add your own with profile-portable files under `HERMES_HOME`:
+
+- `~/.hermes/status_phrases.yaml` or any `*.yaml` in `~/.hermes/status_phrases/` (conventional paths, auto-loaded), or
+- point config at a relative path:
+
+
+``` prism-code
+display:
+  status_phrases:
+    path: status_phrases/whatsapp.yaml  # relative to HERMES_HOME
+    mode: append                        # append (default) or replace
+```
+
+
+Phrase files map a surface (`status`, `generic`) to a list of strings (max 80 phrases per surface, 160 chars each). Absolute paths and `..` escapes are ignored so config stays profile-portable. Only your configured phrase strings are used — raw tool arguments, commands, and reasoning text are never interpolated into a status phrase.
 
 ### Message timestamps in model context<a href="#message-timestamps-in-model-context" class="hash-link" aria-label="Direct link to Message timestamps in model context" translate="no" title="Direct link to Message timestamps in model context">​</a>
 
@@ -691,13 +765,19 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - [WeCom Callback Setup](/docs/user-guide/messaging/wecom-callback)
 - [Weixin Setup (WeChat)](/docs/user-guide/messaging/weixin)
 - [BlueBubbles Setup (iMessage)](/docs/user-guide/messaging/bluebubbles)
+- [Photon Setup (iMessage)](/docs/user-guide/messaging/photon)
 - [QQBot Setup](/docs/user-guide/messaging/qqbot)
 - [Yuanbao Setup](/docs/user-guide/messaging/yuanbao)
 - [Microsoft Teams Setup](/docs/user-guide/messaging/teams)
 - [Teams Meetings Pipeline](/docs/user-guide/messaging/teams-meetings)
+- [Microsoft Graph Webhook Listener](/docs/user-guide/messaging/msgraph-webhook)
+- [LINE Setup](/docs/user-guide/messaging/line)
+- [ntfy Setup](/docs/user-guide/messaging/ntfy)
+- [SimpleX Chat Setup](/docs/user-guide/messaging/simplex)
 - [Open WebUI + API Server](/docs/user-guide/messaging/open-webui)
 - [Raft Setup](/docs/user-guide/messaging/raft)
 - [IRC Setup](/docs/user-guide/messaging/irc)
+- [Buzz Setup](/docs/user-guide/messaging/buzz)
 - [Webhooks](/docs/user-guide/messaging/webhooks)
 
 
@@ -710,14 +790,20 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - <a href="#chat-commands-inside-messaging" class="table-of-contents__link toc-highlight">Chat Commands (Inside Messaging)</a>
 - <a href="#session-management" class="table-of-contents__link toc-highlight">Session Management</a>
   - <a href="#session-persistence" class="table-of-contents__link toc-highlight">Session Persistence</a>
+  - <a href="#finding-past-sessions-sessions" class="table-of-contents__link toc-highlight">Finding Past Sessions (<code>/sessions</code>)</a>
+  - <a href="#persistent-model-overrides" class="table-of-contents__link toc-highlight">Persistent <code>/model</code> Overrides</a>
   - <a href="#delivery-reliability" class="table-of-contents__link toc-highlight">Delivery Reliability</a>
   - <a href="#reset-policies" class="table-of-contents__link toc-highlight">Reset Policies</a>
+- <a href="#per-channel-model--system-prompt-overrides" class="table-of-contents__link toc-highlight">Per-Channel Model &amp; System Prompt Overrides</a>
 - <a href="#security" class="table-of-contents__link toc-highlight">Security</a>
   - <a href="#dm-pairing-alternative-to-allowlists" class="table-of-contents__link toc-highlight">DM Pairing (Alternative to Allowlists)</a>
   - <a href="#admins-vs-regular-users" class="table-of-contents__link toc-highlight">Admins vs Regular Users</a>
-- <a href="#interrupting-the-agent" class="table-of-contents__link toc-highlight">Interrupting the Agent</a>
+- <a href="#redirecting-the-agent" class="table-of-contents__link toc-highlight">Redirecting the Agent</a>
   - <a href="#queue-vs-interrupt-vs-steer-busy-input-mode" class="table-of-contents__link toc-highlight">Queue vs interrupt vs steer (busy-input mode)</a>
+- <a href="#clarify-questions-multi-select" class="table-of-contents__link toc-highlight">Clarify Questions (Multi-Select)</a>
 - <a href="#tool-progress-notifications" class="table-of-contents__link toc-highlight">Tool Progress Notifications</a>
+  - <a href="#log-mode--audit-file-instead-of-chat-messages" class="table-of-contents__link toc-highlight"><code>log</code> mode — audit file instead of chat messages</a>
+  - <a href="#configurable-status-phrases" class="table-of-contents__link toc-highlight">Configurable status phrases</a>
   - <a href="#message-timestamps-in-model-context" class="table-of-contents__link toc-highlight">Message timestamps in model context</a>
 - <a href="#background-sessions" class="table-of-contents__link toc-highlight">Background Sessions</a>
   - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How It Works</a>

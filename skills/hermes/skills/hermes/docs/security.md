@@ -38,7 +38,7 @@ The approval system supports three modes, configured via `approvals.mode` in `~/
 ``` prism-code
 approvals:
   mode: smart                     # smart | manual | off
-  timeout: 60                     # seconds to wait for user response (default: 60)
+  timeout: 300                    # seconds to wait for user response (default: 300)
   cron_mode: deny                 # deny | approve — what cron jobs do when they hit a dangerous command
   mcp_reload_confirm: true        # /reload-mcp asks before invalidating the MCP tool cache
   destructive_slash_confirm: true # /clear, /new, /reset, /undo prompt before discarding state
@@ -50,7 +50,7 @@ The full set of keys:
 | Key                         | Default | What it controls                                                                                                                                                                                                                                                                                                                                                                                                                           |
 |-----------------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `mode`                      | `smart` | Approval policy for dangerous shell commands — see the table below.                                                                                                                                                                                                                                                                                                                                                                        |
-| `timeout`                   | `60`    | Seconds Hermes waits for an approval reply before timing out.                                                                                                                                                                                                                                                                                                                                                                              |
+| `timeout`                   | `300`   | Seconds Hermes waits for an approval reply before timing out.                                                                                                                                                                                                                                                                                                                                                                              |
 | `cron_mode`                 | `deny`  | How [cron jobs](/docs/user-guide/features/cron) behave headlessly when they trigger a dangerous-command prompt. `deny` blocks the command (the agent must find another path); `approve` auto-approves everything in cron context.                                                                                                                                                                                                          |
 | `mcp_reload_confirm`        | `true`  | When true, `/reload-mcp` asks before rebuilding the MCP tool set. Rebuilding invalidates the provider prompt cache (tool schemas live in the system prompt), so the next message re-sends full input tokens. Users who click **Always Approve** flip this key to `false`.                                                                                                                                                                  |
 | `destructive_slash_confirm` | `true`  | When true, destructive session slash commands (`/clear`, `/new`, `/reset`, `/undo`) prompt before discarding conversation state. Three-option dialog (Approve Once / Always Approve / Cancel) routed through native yes/no buttons on Telegram, Discord, and Slack; text fallback elsewhere. Users who click **Always Approve** flip this key to `false`. TUI uses its own modal overlay (set `HERMES_TUI_NO_CONFIRM=1` to opt out there). |
@@ -157,7 +157,7 @@ Configure the timeout in `~/.hermes/config.yaml`:
 
 ``` prism-code
 approvals:
-  timeout: 60  # seconds (default: 60)
+  timeout: 300  # seconds (default: 300)
 ```
 
 
@@ -165,39 +165,43 @@ approvals:
 
 The following patterns trigger approval prompts (defined in `tools/approval.py`):
 
-| Pattern                                            | Description                                                                 |
-|----------------------------------------------------|-----------------------------------------------------------------------------|
-| `rm -r` / `rm --recursive`                         | Recursive delete                                                            |
-| `rm ... /`                                         | Delete in root path                                                         |
-| `chmod 777/666` / `o+w` / `a+w`                    | World/other-writable permissions                                            |
-| `chmod --recursive` with unsafe perms              | Recursive world/other-writable (long flag)                                  |
-| `chown -R root` / `chown --recursive root`         | Recursive chown to root                                                     |
-| `mkfs`                                             | Format filesystem                                                           |
-| `dd if=`                                           | Disk copy                                                                   |
-| `> /dev/sd`                                        | Write to block device                                                       |
-| `DROP TABLE/DATABASE`                              | SQL DROP                                                                    |
-| `DELETE FROM` (without WHERE)                      | SQL DELETE without WHERE                                                    |
-| `TRUNCATE TABLE`                                   | SQL TRUNCATE                                                                |
-| `> /etc/`                                          | Overwrite system config                                                     |
-| `systemctl stop/restart/disable/mask`              | Stop/restart/disable system services                                        |
-| `kill -9 -1`                                       | Kill all processes                                                          |
-| `pkill -9`                                         | Force kill processes                                                        |
-| Fork bomb patterns                                 | Fork bombs                                                                  |
-| `bash -c` / `sh -c` / `zsh -c` / `ksh -c`          | Shell command execution via `-c` flag (including combined flags like `-lc`) |
-| `python -e` / `perl -e` / `ruby -e` / `node -c`    | Script execution via `-e`/`-c` flag                                         |
-| `curl ... | sh` / `wget ... | sh`                  | Pipe remote content to shell                                                |
-| `bash <(curl ...)` / `sh <(wget ...)`              | Execute remote script via process substitution                              |
-| `tee` to `/etc/`, `~/.ssh/`, `~/.hermes/.env`      | Overwrite sensitive file via tee                                            |
-| `>` / `>>` to `/etc/`, `~/.ssh/`, `~/.hermes/.env` | Overwrite sensitive file via redirection                                    |
-| `xargs rm`                                         | xargs with rm                                                               |
-| `find -exec rm` / `find -delete`                   | Find with destructive actions                                               |
-| `cp`/`mv`/`install` to `/etc/`                     | Copy/move file into system config                                           |
-| `sed -i` / `sed --in-place` on `/etc/`             | In-place edit of system config                                              |
-| `pkill`/`killall` hermes/gateway                   | Self-termination prevention                                                 |
-| `gateway run` with `&`/`disown`/`nohup`/`setsid`   | Prevents starting gateway outside service manager                           |
+| Pattern                                                                       | Description                                                                    |
+|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| `rm -r` / `rm --recursive`                                                    | Recursive delete                                                               |
+| `rm ... /`                                                                    | Delete in root path                                                            |
+| `chmod 777/666` / `o+w` / `a+w`                                               | World/other-writable permissions                                               |
+| `chmod --recursive` with unsafe perms                                         | Recursive world/other-writable (long flag)                                     |
+| `chown -R root` / `chown --recursive root`                                    | Recursive chown to root                                                        |
+| `mkfs`                                                                        | Format filesystem                                                              |
+| `dd if=`                                                                      | Disk copy                                                                      |
+| `> /dev/sd`                                                                   | Write to block device                                                          |
+| `DROP TABLE/DATABASE`                                                         | SQL DROP                                                                       |
+| `DELETE FROM` (without WHERE)                                                 | SQL DELETE without WHERE                                                       |
+| `TRUNCATE TABLE`                                                              | SQL TRUNCATE                                                                   |
+| `> /etc/`                                                                     | Overwrite system config                                                        |
+| `systemctl stop/restart/disable/mask`                                         | Stop/restart/disable system services                                           |
+| `kill -9 -1`                                                                  | Kill all processes                                                             |
+| `pkill -9`                                                                    | Force kill processes                                                           |
+| Fork bomb patterns                                                            | Fork bombs                                                                     |
+| `bash -c` / `sh -c` / `zsh -c` / `ksh -c`                                     | Shell command execution via `-c` flag (including combined flags like `-lc`)    |
+| `python -e` / `perl -e` / `ruby -e` / `node -c`                               | Script execution via `-e`/`-c` flag                                            |
+| `curl ... | sh` / `wget ... | sh`                                             | Pipe remote content to shell                                                   |
+| `bash <(curl ...)` / `sh <(wget ...)`                                         | Execute remote script via process substitution                                 |
+| `tee` to `/etc/`, `~/.ssh/`, `~/.hermes/.env`                                 | Overwrite sensitive file via tee                                               |
+| `>` / `>>` to `/etc/`, `~/.ssh/`, `~/.hermes/.env`                            | Overwrite sensitive file via redirection                                       |
+| `xargs rm`                                                                    | xargs with rm                                                                  |
+| `find -exec rm` / `find -delete`                                              | Find with destructive actions                                                  |
+| `cp`/`mv`/`install` to `/etc/`                                                | Copy/move file into system config                                              |
+| `sed -i` / `sed --in-place` on `/etc/`                                        | In-place edit of system config                                                 |
+| `pkill`/`killall` hermes/gateway                                              | Self-termination prevention                                                    |
+| `gateway run` with `&`/`disown`/`nohup`/`setsid`                              | Prevents starting gateway outside service manager                              |
+| `docker stop/kill/restart`, `docker compose down/stop/kill/restart`           | Container lifecycle (also catches global flags and `docker-compose`)           |
+| `docker -H`/`--host`/`--context`, `DOCKER_HOST=`/`DOCKER_CONTEXT=`            | Docker daemon redirect — the command targets a different (often remote) daemon |
+| `docker context use`                                                          | Switches the default daemon for all future docker commands                     |
+| `podman --remote`/`-r`/`--url`/`--connection`/`--identity`, `CONTAINER_HOST=` | Podman remote daemon redirect                                                  |
 
 
-**Container bypass**: When running in `docker`, `singularity`, `modal`, or `daytona` backends, dangerous command checks are **skipped** because the container itself is the security boundary. Destructive commands inside a container can't harm the host.
+**Container bypass**: When running in `docker`, `singularity`, `modal`, `daytona`, or `vercel_sandbox` backends, dangerous command checks are **skipped** because the container itself is the security boundary. Destructive commands inside a container can't harm the host.
 
 
 ### Approval Flow (CLI)<a href="#approval-flow-cli" class="hash-link" aria-label="Direct link to Approval Flow (CLI)" translate="no" title="Direct link to Approval Flow (CLI)">​</a>
@@ -249,6 +253,37 @@ These patterns are loaded at startup and silently approved in all future session
 
 Use `hermes config edit` to review or remove patterns from your permanent allowlist.
 
+
+### Mining Approval History (`hermes approvals suggest`)<a href="#mining-approval-history-hermes-approvals-suggest" class="hash-link" aria-label="Direct link to mining-approval-history-hermes-approvals-suggest" translate="no" title="Direct link to mining-approval-history-hermes-approvals-suggest">​</a>
+
+Instead of answering the same prompt session after session, you can mine your past approval decisions into allowlist proposals:
+
+
+``` prism-code
+hermes approvals suggest            # dry run — prints a numbered proposal
+hermes approvals suggest --apply 1,3  # merge picks into command_allowlist
+hermes approvals suggest --json     # machine-readable output
+```
+
+
+The command scans the session database (`~/.hermes/state.db`) for dangerous-classified commands that actually executed — i.e. commands you approved — aggregates them into patterns (`git push *`, or the dangerous-class key for compound commands), and ranks them by approval frequency:
+
+
+``` prism-code
+Proposed command_allowlist additions (from approval history, last 90 days):
+
+  1. git push *    — approved 14x
+  2. docker restart/stop/kill (container lifecycle)    — approved 9x (class key)
+```
+
+
+Safety rules:
+
+- **Nothing is ever applied automatically** — the default run is read-only; only an explicit `--apply N[,M...]` writes to `config.yaml`.
+- **Destructive classes are never proposed**, no matter how often they were approved: recursive deletes, `sudo`, disk/device writes, credential and system-config edits, pipe-to-shell, SQL DROP/TRUNCATE, process kills, and every hardline class are excluded outright. `rm -rf build/` approved 100 times still never yields an `rm` entry.
+- Proposals already covered by your existing `command_allowlist` are skipped.
+
+Useful flags: `--days N` (history window, default 90), `--min-count N` (minimum approvals to qualify, default 2), `--limit N`, and `--db PATH`.
 
 ## File Write Safety<a href="#file-write-safety" class="hash-link" aria-label="Direct link to File Write Safety" translate="no" title="Direct link to File Write Safety">​</a>
 
@@ -467,7 +502,7 @@ terminal:
 - **Ephemeral mode** (`container_persistent: false`): Uses tmpfs for workspace — everything is lost on cleanup
 
 
-For production gateway deployments, use `docker`, `modal`, or `daytona` backend to isolate agent commands from your host system. This eliminates the need for dangerous command approval entirely.
+For production gateway deployments, use `docker`, `modal`, `daytona`, or `vercel_sandbox` backend to isolate agent commands from your host system. This eliminates the need for dangerous command approval entirely.
 
 
 If you add names to `terminal.docker_forward_env`, those variables are intentionally injected into the container for terminal commands. This is useful for task-specific credentials like `GITHUB_TOKEN`, but it also means code running in the container can read and exfiltrate them.
@@ -475,14 +510,15 @@ If you add names to `terminal.docker_forward_env`, those variables are intention
 
 ## Terminal Backend Security Comparison<a href="#terminal-backend-security-comparison" class="hash-link" aria-label="Direct link to Terminal Backend Security Comparison" translate="no" title="Direct link to Terminal Backend Security Comparison">​</a>
 
-| Backend         | Isolation           | Dangerous Cmd Check                | Best For                     |
-|-----------------|---------------------|------------------------------------|------------------------------|
-| **local**       | None — runs on host | ✅ Yes                             | Development, trusted users   |
-| **ssh**         | Remote machine      | ✅ Yes                             | Running on a separate server |
-| **docker**      | Container           | ❌ Skipped (container is boundary) | Production gateway           |
-| **singularity** | Container           | ❌ Skipped                         | HPC environments             |
-| **modal**       | Cloud sandbox       | ❌ Skipped                         | Scalable cloud isolation     |
-| **daytona**     | Cloud sandbox       | ❌ Skipped                         | Persistent cloud workspaces  |
+| Backend            | Isolation           | Dangerous Cmd Check                | Best For                                  |
+|--------------------|---------------------|------------------------------------|-------------------------------------------|
+| **local**          | None — runs on host | ✅ Yes                             | Development, trusted users                |
+| **ssh**            | Remote machine      | ✅ Yes                             | Running on a separate server              |
+| **docker**         | Container           | ❌ Skipped (container is boundary) | Production gateway                        |
+| **singularity**    | Container           | ❌ Skipped                         | HPC environments                          |
+| **modal**          | Cloud sandbox       | ❌ Skipped                         | Scalable cloud isolation                  |
+| **daytona**        | Cloud sandbox       | ❌ Skipped                         | Persistent cloud workspaces               |
+| **vercel_sandbox** | Cloud microVM       | ❌ Skipped                         | Cloud execution with snapshot persistence |
 
 ## Environment Variable Passthrough<a href="#environment-variable-passthrough" class="hash-link" aria-label="Direct link to Environment Variable Passthrough" translate="no" title="Direct link to Environment Variable Passthrough">​</a>
 
@@ -829,6 +865,7 @@ When disabled, backends that need optional deps will tell the user to run the in
   - <a href="#approval-flow-cli" class="table-of-contents__link toc-highlight">Approval Flow (CLI)</a>
   - <a href="#approval-flow-gatewaymessaging" class="table-of-contents__link toc-highlight">Approval Flow (Gateway/Messaging)</a>
   - <a href="#permanent-allowlist" class="table-of-contents__link toc-highlight">Permanent Allowlist</a>
+  - <a href="#mining-approval-history-hermes-approvals-suggest" class="table-of-contents__link toc-highlight">Mining Approval History (<code>hermes approvals suggest</code>)</a>
 - <a href="#file-write-safety" class="table-of-contents__link toc-highlight">File Write Safety</a>
   - <a href="#protected-paths-always-blocked" class="table-of-contents__link toc-highlight">Protected paths (always blocked)</a>
   - <a href="#hermes_write_safe_root-optional-sandbox" class="table-of-contents__link toc-highlight">HERMES_WRITE_SAFE_ROOT (optional sandbox)</a>

@@ -143,7 +143,7 @@ hermes config set model.default anthropic/claude-sonnet-4.6
 
 ### Don't pick Hermes-4 for agent work<a href="#dont-pick-hermes-4-for-agent-work" class="hash-link" aria-label="Direct link to Don&#39;t pick Hermes-4 for agent work" translate="no" title="Direct link to Don&#39;t pick Hermes-4 for agent work">​</a>
 
-Hermes-4-70B and Hermes-4-405B are available on the Portal at deep discounts, but they're **chat/reasoning models**, not tool-call-tuned. They will struggle with multi-step agent loops. Use them via <a href="https://chat.nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Chat</a> for conversation/research work, or through the [subscription proxy](/docs/user-guide/features/subscription-proxy) from non-agent tools. For Hermes Agent itself, stick to the frontier agentic models above.
+Hermes-4-70B and Hermes-4-405B are available on the Portal at deep discounts, but they're **chat/reasoning models**, not tool-call-tuned. They will struggle with multi-step agent loops. Use them for conversation/research work through the [subscription proxy](/docs/user-guide/features/subscription-proxy) from non-agent tools. For Hermes Agent itself, stick to the frontier agentic models above.
 
 The Portal's own <a href="https://portal.nousresearch.com/info" target="_blank" rel="noopener noreferrer">info page</a> carries this warning too — it's the official Nous guidance, not just a Hermes-side opinion.
 
@@ -179,7 +179,7 @@ Because the Tool Gateway includes OpenAI TTS, [voice mode](/docs/user-guide/feat
 
 
 ``` prism-code
-hermes setup voice
+hermes setup tts
 # → pick "Nous Subscription" for TTS
 # → pick a speech-to-text backend (local faster-whisper is free, no setup)
 ```
@@ -193,7 +193,7 @@ The Portal subscription works for [cron jobs](/docs/user-guide/features/cron) an
 
 
 ``` prism-code
-hermes cron create "every day at 9am" \
+hermes cron create "0 9 * * *" \
   "Search the web for top AI news and summarize the 5 most important stories" \
   --name "Daily AI news"
 ```
@@ -269,7 +269,7 @@ The quarantine clears automatically on successful re-login.
 
 ### Model I want isn't in the `/model` picker<a href="#model-i-want-isnt-in-the-model-picker" class="hash-link" aria-label="Direct link to model-i-want-isnt-in-the-model-picker" translate="no" title="Direct link to model-i-want-isnt-in-the-model-picker">​</a>
 
-The Portal catalog mirrors OpenRouter's model list (300+). If a model is missing, try typing the OpenRouter-style slug directly:
+The Portal catalog draws on OpenRouter's model list (300+) plus models served through proprietary or secondary providers. If a model is missing, try typing the OpenRouter-style slug directly:
 
 
 ``` prism-code

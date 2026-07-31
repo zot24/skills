@@ -125,11 +125,13 @@ hermes-agent/
 │   ├── mirror.py             # Cross-session message mirroring
 │   ├── status.py             # Token locks, profile-scoped process tracking
 │   ├── builtin_hooks/        # Extension point for always-registered hooks (none shipped)
-│   └── platforms/            # 20 adapters: telegram, discord, slack, whatsapp,
-│                             #   signal, matrix, mattermost, email, sms,
-│                             #   dingtalk, feishu, wecom, wecom_callback, weixin,
-│                             #   bluebubbles, qqbot, homeassistant, webhook, api_server,
-│                             #   yuanbao
+│   └── platforms/            # Built-in adapters: signal, weixin, bluebubbles,
+│                             #   qqbot, whatsapp_cloud, yuanbao, webhook, api_server
+│
+├── plugins/platforms/        # Bundled platform plugins: telegram, discord, slack,
+│                             #   whatsapp, matrix, mattermost, email, sms, dingtalk,
+│                             #   feishu, wecom, homeassistant, irc, line, teams,
+│                             #   google_chat, buzz, ntfy, photon, raft, simplex
 │
 ├── acp_adapter/              # ACP server (VS Code / Zed / JetBrains)
 ├── cron/                     # Scheduler (jobs.py, scheduler.py)
@@ -226,7 +228,7 @@ A shared runtime resolver used by CLI, gateway, cron, ACP, and auxiliary calls. 
 
 ### Tool System<a href="#tool-system" class="hash-link" aria-label="Direct link to Tool System" translate="no" title="Direct link to Tool System">​</a>
 
-Central tool registry (`tools/registry.py`) with 70+ registered tools across ~28 toolsets. Each tool file self-registers at import time. The registry handles schema collection, dispatch, availability checking, and error wrapping. Terminal tools support 6 backends (local, Docker, SSH, Daytona, Modal, Singularity).
+Central tool registry (`tools/registry.py`) with 70+ registered tools across ~28 toolsets. Each tool file self-registers at import time. The registry handles schema collection, dispatch, availability checking, and error wrapping. Terminal tools support 7 backends (local, Docker, SSH, Daytona, Modal, Singularity, Vercel Sandbox).
 
 → [Tools Runtime](/docs/developer-guide/tools-runtime)
 
@@ -238,7 +240,7 @@ SQLite-based session storage with FTS5 full-text search. Sessions have lineage t
 
 ### Messaging Gateway<a href="#messaging-gateway" class="hash-link" aria-label="Direct link to Messaging Gateway" translate="no" title="Direct link to Messaging Gateway">​</a>
 
-Long-running process with 20 platform adapters, unified session routing, user authorization (allowlists + DM pairing), slash command dispatch, hook system, cron ticking, and background maintenance.
+Long-running process with 25+ platform adapters (built-in + bundled plugins), unified session routing, user authorization (allowlists + DM pairing), slash command dispatch, hook system, cron ticking, and background maintenance.
 
 → [Gateway Internals](/docs/developer-guide/gateway-internals)
 

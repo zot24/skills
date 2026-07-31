@@ -49,7 +49,11 @@ The Portal proxies a curated catalog of agentic models from across the ecosystem
 | **Hermes**            | Hermes-4-70B, Hermes-4-405B (chat, see [note below](#a-note-on-hermes-4))                           |
 | **+ everything else** | 280+ additional models — the full agentic frontier                                                  |
 
-Routing happens through OpenRouter under the hood, so model availability and failover behavior matches what you'd get with an OpenRouter key — just billed against your Nous subscription instead. Switch between Claude Sonnet 4.6 for code and Gemini 3 Pro for long context with `/model` mid-session — no new credentials, no top-ups, no surprise zero-balance errors.
+Under the hood, the Portal routes each model to the backend best suited for it — some models go through OpenRouter, others through proprietary or secondary providers, and the routing for a given model can change over time. Everything is billed against your Nous subscription either way. Switch between Claude Sonnet 4.6 for code and Gemini 3 Pro for long context with `/model` mid-session — no new credentials, no top-ups, no surprise zero-balance errors.
+
+
+Because routing is per-model and not always through OpenRouter, OpenRouter-specific request extensions (such as `provider` routing preferences, `session_id` sticky routing, or top-level `cache_control`) are not part of the Portal's API contract and may be ignored depending on which backend serves the model.
+
 
 ### The Nous Tool Gateway<a href="#the-nous-tool-gateway" class="hash-link" aria-label="Direct link to The Nous Tool Gateway" translate="no" title="Direct link to The Nous Tool Gateway">​</a>
 
@@ -67,10 +71,6 @@ Without the gateway, hooking each of those up means a Firecrawl account, a FAL a
 
 You can also enable just specific gateway tools (e.g. web search but not image generation) — see [Mixing the gateway with your own backends](#mixing-the-gateway-with-your-own-backends) below.
 
-### Nous Chat<a href="#nous-chat" class="hash-link" aria-label="Direct link to Nous Chat" translate="no" title="Direct link to Nous Chat">​</a>
-
-Your Portal account also covers <a href="https://chat.nousresearch.com" target="_blank" rel="noopener noreferrer">chat.nousresearch.com</a> — Nous Research's web chat interface with the same model catalog. Useful when you're away from your terminal, or for non-agent conversation work.
-
 ### No credentials in your dotfiles<a href="#no-credentials-in-your-dotfiles" class="hash-link" aria-label="Direct link to No credentials in your dotfiles" translate="no" title="Direct link to No credentials in your dotfiles">​</a>
 
 Because everything routes through one OAuth-authenticated Portal session, you don't accumulate a `.env` file with a dozen long-lived API keys. The refresh token at `~/.hermes/auth.json` is the only credential on disk, and Hermes mints short-lived JWTs from it per request — see [Token handling](#token-handling) below.
@@ -83,7 +83,7 @@ Because everything routes through one OAuth-authenticated Portal session, you do
 
 Nous Research's own **Hermes 4** family (Hermes-4-70B, Hermes-4-405B) is available through the Portal at heavily discounted rates. These are **frontier hybrid-reasoning chat models** — strong at math, science, instruction following, schema adherence, roleplay, and long-form writing.
 
-They are **not recommended for use inside Hermes Agent**, however. Hermes 4 is tuned for chat and reasoning, not the rapid-fire tool-calling loop the agent relies on. Use them for <a href="https://chat.nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Chat</a>, for research workflows, or via the [subscription proxy](/docs/user-guide/features/subscription-proxy) from other tooling — but for agent work, pick a frontier agentic model from the catalog instead:
+They are **not recommended for use inside Hermes Agent**, however. Hermes 4 is tuned for chat and reasoning, not the rapid-fire tool-calling loop the agent relies on. Use them for research workflows or via the [subscription proxy](/docs/user-guide/features/subscription-proxy) from other tooling — but for agent work, pick a frontier agentic model from the catalog instead:
 
 
 ``` prism-code
@@ -245,16 +245,19 @@ The Tool Gateway settings live under their respective tool sections:
 
 ``` prism-code
 web:
-  backend: nous       # web search/extract routes through Tool Gateway
+  backend: firecrawl
+  use_gateway: true   # web search/extract routes through Tool Gateway
 
 image_gen:
-  provider: nous
+  use_gateway: true
 
 tts:
-  provider: nous
+  provider: openai
+  use_gateway: true
 
 browser:
-  backend: nous
+  cloud_provider: browser-use
+  use_gateway: true
 ```
 
 
@@ -286,7 +289,7 @@ Your Portal refresh token was invalidated (password change, manual revoke, or se
 
 ### Want to use a specific provider model that the Portal doesn't expose<a href="#want-to-use-a-specific-provider-model-that-the-portal-doesnt-expose" class="hash-link" aria-label="Direct link to Want to use a specific provider model that the Portal doesn&#39;t expose" translate="no" title="Direct link to Want to use a specific provider model that the Portal doesn&#39;t expose">​</a>
 
-The Portal proxies through OpenRouter, so any model that OpenRouter supports is generally available. If a specific model isn't appearing in `/model`, try the OpenRouter-style slug directly:
+The Portal routes each model to a suitable backend — some through OpenRouter, others through proprietary or secondary providers — so most models OpenRouter supports are generally available. If a specific model isn't appearing in `/model`, try the OpenRouter-style slug directly:
 
 
 ``` prism-code
@@ -313,7 +316,6 @@ Check `hermes portal info` first — if it shows you're using a different provid
 - <a href="#whats-in-the-subscription" class="table-of-contents__link toc-highlight">What's in the subscription</a>
   - <a href="#300-frontier-models-one-bill" class="table-of-contents__link toc-highlight">300+ frontier models, one bill</a>
   - <a href="#the-nous-tool-gateway" class="table-of-contents__link toc-highlight">The Nous Tool Gateway</a>
-  - <a href="#nous-chat" class="table-of-contents__link toc-highlight">Nous Chat</a>
   - <a href="#no-credentials-in-your-dotfiles" class="table-of-contents__link toc-highlight">No credentials in your dotfiles</a>
   - <a href="#cross-platform-parity" class="table-of-contents__link toc-highlight">Cross-platform parity</a>
 - <a href="#a-note-on-hermes-4" class="table-of-contents__link toc-highlight">A note on Hermes 4</a>
