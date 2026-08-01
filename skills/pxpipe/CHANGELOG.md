@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/zot24/skills/compare/pxpipe-v1.1.1...pxpipe-v1.1.2) (2026-08-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#145](https://github.com/zot24/skills/issues/145)) ([8421efd](https://github.com/zot24/skills/commit/8421efd07bbcdf854c52a1d6f27ce482b44e8a88))
+
 ## [1.1.1](https://github.com/zot24/skills/compare/pxpipe-v1.1.0...pxpipe-v1.1.1) (2026-07-15)
 
 
