@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_ztD2">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_S8s7">Skip to main content</a>
 
 
 On this page
@@ -37,7 +37,7 @@ You can trigger a database backup manually:
 
 1.  Go to **Administration \> Job Queues**
 2.  Click **Create job** in the top right
-3.  Select **Create Database Backup** and click **Confirm**
+3.  Select **Create Database Dump** and click **Confirm**
 
 The backup will appear in `UPLOAD_LOCATION/backups` and counts toward your retention limit.
 

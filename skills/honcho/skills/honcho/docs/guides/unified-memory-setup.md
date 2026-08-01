@@ -10,7 +10,7 @@
 
 
   This is a how-to, not an intro. It assumes you know what workspaces, peers, and
-  sessions are. If you don't, start with [Core Concepts](/v3/documentation/core-concepts/).
+  sessions are. If you don't, start with [Core Concepts](/docs/v3/documentation/core-concepts/).
 
 
 This guide wires four integration points into a single Honcho setup: a
@@ -42,7 +42,7 @@ session.add_peers([user, assistant])  # plus any other humans in the channel
 
 Slack mirrors this with `slack_{user_id}` peers and `slack-{channel}` sessions. For a
 full bot walkthrough — message ingestion, watchlists, and storing turns — see the
-[Discord guide](/v3/guides/discord).
+[Discord guide](/docs/v3/guides/discord).
 
 ***
 
@@ -68,7 +68,7 @@ attributes you to one peer:
 
 
   This is a minimal, illustrative snippet — the real config file carries more fields
-  (session maps, recall mode, observation strategy, etc.). See the [integration](/v3/guides/overview/)
+  (session maps, recall mode, observation strategy, etc.). See the [integration](/docs/v3/guides/overview/)
   guides for the full schema and per-host options.
 
 
@@ -94,7 +94,7 @@ representation.
 ## 3. Autonomous agent (Hermes)
 
 The Hermes Honcho plugin is configured through `honcho.json`, set its `workspace`
-and `aiPeer` there. See the [Hermes guide](/v3/guides/integrations/hermes) for the full config schema.
+and `aiPeer` there. See the [Hermes guide](/docs/v3/guides/integrations/hermes) for the full config schema.
 
 * **Sessions** follow a `session_strategy` (default `per-directory`, like the coding
   agent above; `per-repo` or `per-session` for a fresh Honcho session each run). The
@@ -137,7 +137,7 @@ for i in range(0, len(messages), 100):
 
 Honcho batches reasoning until a peer accumulates \~1,000 tokens *within a single session*,
 with a default age-based flush for quiet tails
-([token batching](/v3/documentation/core-concepts/reasoning#token-batching)). Scope the
+([token batching](/docs/v3/documentation/core-concepts/reasoning#token-batching)). Scope the
 session to the volume you ingest:
 
 * **High-volume runs** (a day of emails, a CRM export) clear the threshold easily — a
@@ -147,7 +147,7 @@ session to the volume you ingest:
   accumulates across runs instead of fragmenting into thin sessions that each flush
   later with little context.
 
-The [Gmail](/v3/guides/gmail) and [Granola](/v3/guides/granola) guides are related
+The [Gmail](/docs/v3/guides/gmail) and [Granola](/docs/v3/guides/granola) guides are related
 import examples.
 
 

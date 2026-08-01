@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # E2B
 
 
-Last updated May 30, 2026 <a href="/docs/ecosystem/sandboxes/e2b/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/sandboxes/e2b/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
 The E2B adapter adapts an initialized E2B sandbox from the `e2b` package into Flue’s sandbox interface. Use it for provider-managed Linux execution when an agent needs shell commands and workspace files outside the application host.
@@ -35,11 +35,11 @@ flue add sandbox e2b
 
 The blueprint installs `e2b` when needed and creates `sandboxes/e2b.ts` in your source-root. That file adapts an E2B sandbox that your application has already created; it does not create, retain, or close provider resources.
 
-``` astro-code
-// flue-blueprint: sandbox/e2b@1
-import { createSandboxSessionEnv } from '@flue/runtime';
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from '@flue/runtime';
-import type { Sandbox as E2BSandbox } from 'e2b';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/e2b@1
+import { createSandboxSessionEnv, useModel } from &#39;@flue/runtime&#39;;
+import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
+import type { Sandbox as E2BSandbox } from &#39;e2b&#39;;
 
 class E2BSandboxApi implements SandboxApi {
   constructor(private sandbox: E2BSandbox) {}
@@ -53,16 +53,17 @@ class E2BSandboxApi implements SandboxApi {
 
 export function e2b(sandbox: E2BSandbox): SandboxFactory {
   return {
-    async createSessionEnv(): Promise<SessionEnv> {
-      const sandboxCwd = '/home/user';
+    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+      const sandboxCwd = &#39;/home/user&#39;;
       const api = new E2BSandboxApi(sandbox);
       return createSandboxSessionEnv(api, sandboxCwd);
     },
   };
-}
-```
+}</code></pre>
+<figcaption><span>&lt;source-root&gt;/sandboxes/e2b.ts (abridged)</span></figcaption>
+</figure>
 
-Pass an initialized E2B `Sandbox` to `e2b(...)`, then assign the returned factory to an agent’s `sandbox` property. Flue resolves workspace paths from `/home/user`, exposes E2B’s files and commands through session operations, forwards command timeouts in milliseconds, and reports only the file metadata E2B exposes. E2B’s direct remove API has no recursive or force controls, so the adapter rejects either option before deletion. Your application remains responsible for sandbox configuration and lifecycle.
+Pass an initialized E2B `Sandbox` to `e2b(...)`, then pass the returned factory to the agent’s `useSandbox(...)` call. Flue resolves workspace paths from `/home/user`, exposes E2B’s files and commands through session operations, forwards command timeouts in milliseconds, and reports only the file metadata E2B exposes. E2B’s direct remove API has no recursive or force controls, so the adapter rejects either option before deletion. Your application remains responsible for sandbox configuration and lifecycle.
 
 ## Configure
 
@@ -80,19 +81,26 @@ Pass an initialized E2B `Sandbox` to `e2b(...)`, then assign the returned factor
 
 ``` astro-code
 import { Sandbox } from 'e2b';
-import { defineAgent } from '@flue/runtime';
+import { useModel, useSandbox } from '@flue/runtime';
 import { e2b } from '../sandboxes/e2b';
 
-const sandbox = await Sandbox.create();
-const agent = defineAgent(() => ({
-  model: 'anthropic/claude-sonnet-4-6',
-  sandbox: e2b(sandbox),
-}));
+export function Assistant() {
+  useModel('anthropic/claude-sonnet-4-6');
+  useSandbox({
+    // Lazy, per the SandboxFactory contract: constructing this object is
+    // cheap; the expensive E2B sandbox creation happens once, inside
+    // createSessionEnv(), at initialization — never on a re-render.
+    async createSessionEnv(options) {
+      const sandbox = await Sandbox.create();
+      return e2b(sandbox).createSessionEnv(options);
+    },
+  });
+}
 ```
 
 Select templates, timeouts, network access, secret exposure, and resource reuse through your application and provider policy. Flue adapts the active environment; it does not choose provider retention for you.
 
-See [Sandboxes](/docs/guide/sandboxes/) and [Sandbox Adapter API](/docs/api/sandbox-api/).
+See [Sandboxes](/docs/guide/sandboxes/) and [Sandbox Adapter API](/docs/reference/sandbox-api/).
 
 
 ## Docs Navigation
@@ -101,10 +109,10 @@ Current page: [E2B](/docs/ecosystem/sandboxes/e2b/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

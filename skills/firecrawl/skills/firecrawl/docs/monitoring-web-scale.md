@@ -18,20 +18,6 @@ Each check runs the same cycle: take the goal and its `queries`, apply a recency
   Page and crawl monitors diff content on URLs you name; web-scale monitors discover new results across the web. Same scheduling, judge, and notifications underneath.
 
 
-<div className="firecrawl-cta-box" style={{ opacity: 0.6 }}>
-  <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
-    <Icon icon="sack-dollar" color="#9ca3af" size={22} />
-
-    <div className="firecrawl-cta-title" style={{ margin: 0, color: "#9ca3af" }}>
-      <span>Expired: Bounty for /monitor feedback</span>
-    </div>
-  </div>
-
-  <p className="firecrawl-cta-description">
-    All interviewees eligible for the bounty reward have been contacted. Keep an eye on future bounties within our docs!
-  </p>
-</div>
-
 ## Search target
 
 A search target uses `type: "search"` and replaces `urls` with the queries to run and how to score the results:

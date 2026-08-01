@@ -103,7 +103,7 @@ Enable summary mode (on by default) to get a condensed version of the conversati
 
 ### Peer Representation in Context
 
-You can include a peer's [representation](/v3/documentation/core-concepts/representation) and peer card in the context by specifying `peer_target`. This is useful for providing the LLM with knowledge about a specific peer.
+You can include a peer's [representation](/docs/v3/documentation/core-concepts/representation) and peer card in the context by specifying `peer_target`. This is useful for providing the LLM with knowledge about a specific peer.
 
 <CodeGroup>
   ```python Python

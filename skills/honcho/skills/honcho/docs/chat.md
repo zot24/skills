@@ -97,6 +97,43 @@ For longer answers, use streaming to get incremental responses:
 
 Streaming is useful for displaying real-time responses in chat interfaces or when asking complex questions that require longer answers.
 
+## Structured Outputs
+
+When your application needs a machine-readable answer instead of prose, pass a schema as `response_format` and the answer is guaranteed to conform to it:
+
+<CodeGroup>
+  ```python Python
+  from pydantic import BaseModel
+
+  class OnboardingStatus(BaseModel):
+      completed: bool
+      remaining_steps: list[str]
+
+  status = peer.chat(
+      "Has the user completed the onboarding flow?",
+      response_format=OnboardingStatus,
+  )
+  # status is a parsed OnboardingStatus instance
+  ```
+
+  ```typescript TypeScript
+  import { z } from 'zod';
+
+  const OnboardingStatus = z.object({
+    completed: z.boolean(),
+    remainingSteps: z.array(z.string()),
+  });
+
+  const status = await peer.chat(
+    "Has the user completed the onboarding flow?",
+    { responseFormat: OnboardingStatus },
+  );
+  // status is typed as z.infer<typeof OnboardingStatus>
+  ```
+</CodeGroup>
+
+The agent runs its full reasoning loop either way — only the final answer is formatted to your schema. See [Structured Outputs](/docs/v3/documentation/features/advanced/structured-outputs) for the supported schema subset, streaming behavior, and best practices.
+
 ## Integration Patterns
 
 ### Dynamic Prompt Enhancement
@@ -201,7 +238,7 @@ When you call `peer.chat(query)`:
 3. Combines them with segments of source messages, if needed, to gather more context
 4. Synthesizes them into a coherent natural language response to your query
 
-Honcho [reasoning](/v3/documentation/core-concepts/reasoning) runs continuously in the background, processing new messages and updating representations. The chat endpoint always has access to Honcho's latest conclusions about the peer.
+Honcho [reasoning](/docs/v3/documentation/core-concepts/reasoning) runs continuously in the background, processing new messages and updating representations. The chat endpoint always has access to Honcho's latest conclusions about the peer.
 
 ## Best Practices
 
@@ -221,4 +258,4 @@ Don't just use chat for LLM prompts - use it to drive application logic, routing
 
 Use `context()` for conversation context and `peer.chat()` for specific insights. They complement each other.
 
-For more ideas on using the chat endpoint, see our [guides](/v3/guides/overview).
+For more ideas on using the chat endpoint, see our [guides](/docs/v3/guides/overview).

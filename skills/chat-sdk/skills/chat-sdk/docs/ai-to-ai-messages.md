@@ -63,10 +63,10 @@ function toAiMessages(
 ## Behavior
 
 * **Role mapping** — `author.isMe === true` maps to `"assistant"`, all others to `"user"`
-* **Filtering** — Messages with empty or whitespace-only text are removed
+* **Filtering** — A message with no text is kept when it has links or attachments the converter can include: images and text files with a working `fetchData()`. Messages with no text whose only attachments are unsupported (video, audio, other file types, or missing `fetchData()`) are removed. Attachment-only messages produce multipart `content` with no leading text part
 * **Sorting** — Messages are sorted chronologically (oldest first) by `metadata.dateSent`
 * **Links** — Link metadata (URL, title, description, site name) is appended to message content. Embedded message links are labeled as `[Embedded message: ...]`
-* **Attachments** — Images and text files (JSON, XML, YAML, etc.) are included as multipart content using `fetchData()`. Video and audio attachments trigger `onUnsupportedAttachment`
+* **Attachments** — Images and text files (JSON, XML, YAML, etc.) are included as multipart content using `fetchData()`. When the message has no text, the `content` array contains only attachment parts, with no leading text part. Video and audio attachments trigger `onUnsupportedAttachment`
 
 ## Return types
 
@@ -175,3 +175,11 @@ const history = await toAiMessages(result.messages, {
 
   Attachments require `fetchData()` to be available on the attachment object. Attachments without `fetchData()` are silently skipped.
 
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

@@ -22,31 +22,23 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="#policy-mode" class="md-nav__link"><span class="md-ellipsis"> Policy Mode </span></a>
-
-<a href="../vpn_dashboard_v4.9/" class="md-nav__link"><span class="md-ellipsis"> VPN Dashboard (v4.9) </span></a>
-
-<a href="../vpn_client_profile/" class="md-nav__link"><span class="md-ellipsis"> VPN Client Profile </span></a>
-
-<a href="../openvpn_client/" class="md-nav__link"><span class="md-ellipsis"> OpenVPN Client </span></a>
-
-<a href="../openvpn_server/" class="md-nav__link"><span class="md-ellipsis"> OpenVPN Server </span></a>
-
-<a href="../wireguard_client/" class="md-nav__link"><span class="md-ellipsis"> WireGuard Client </span></a>
-
-<a href="../wireguard_server/" class="md-nav__link"><span class="md-ellipsis"> WireGuard Server </span></a>
-
-
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
+<a href="../../downloads/" class="md-nav__link"><span class="md-ellipsis"> Downloads </span></a>
 
 
 <a href="#policy-mode" class="md-nav__link"><span class="md-ellipsis"> Policy Mode </span></a>
 
 
 # VPN Dashboard (Firmware v4.8)<a href="#vpn-dashboard-firmware-v48" class="headerlink" title="Permanent link">¶</a>
+
+The content on this page is based on firmware version v4.8.x. If your device is running a different firmware version, use the selector below to switch to the corresponding guide.
+
+
+- [Firmware v4.7 and earlier](../vpn_dashboard_v4.7/)
+- [Firmware v4.9](../vpn_dashboard/)
+
 
 On the left side of the web Admin Panel, go to **VPN** -\> **VPN Dashboard**.
 
@@ -345,6 +337,14 @@ Click the gear icon next to a tunnel name and select **Options**.
 ------------------------------------------------------------------------
 
 Still have questions? Visit our <a href="https://forum.gl-inet.com" target="_blank">Community Forum</a> or <a href="https://www.gl-inet.com/contacts/" target="_blank">Contact us</a>.
+
+Was this page helpful?
+
+
+Thanks for your feedback!
+
+
+Thanks for your feedback! We will use it to improve this page.
 
 
 Back to top

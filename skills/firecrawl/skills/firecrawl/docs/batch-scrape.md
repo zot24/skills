@@ -1,94 +1,165 @@
-> Source: https://docs.firecrawl.dev/features/batch-scrape.md
+> Source: https://docs.firecrawl.dev/features/batch-scrape
+
+
 
 > ## Documentation Index
-> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+>
+> Fetch the complete documentation index at: <a href="/llms.txt" tabindex="-1">/llms.txt</a>
+>
 > Use this file to discover all available pages before exploring further.
+
+
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
+
+
+<a href="https://firecrawl.dev" class="select-none" style="-webkit-touch-callout:none"><span class="sr-only">Firecrawl Docs home page</span><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=c45b3c967c19a39190e76fe8e9c2ed5a" class="nav-logo w-auto relative object-contain shrink-0 block dark:hidden h-6" alt="light logo" /><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo-dark.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=3fee4abe033bd3c26e8ad92043a91c17" class="nav-logo w-auto relative object-contain shrink-0 hidden dark:block h-6" alt="dark logo" /></a>
+
+
+Search...
+
+
+Scrape
+
+
+Batch Scrape
+
+
+<a href="/introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] hover:text-primary dark:hover:text-primary-light text-gray-800 dark:text-gray-200" data-active="true" aria-current="location">Documentation</a>
+
+
+<a href="/sdks/overview" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">SDKs</a>
+
+
+<a href="https://www.firecrawl.dev/app" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200" target="_blank" rel="noreferrer">Integrations</a>
+
+
+<a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
+
+
+<a href="/ai-onboarding" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">Build with AI</a>
+
+
+Scrape
+
 
 # Batch Scrape
 
-> Scrape multiple URLs in a single batch job
 
-Batch scrape lets you scrape multiple URLs in a single job. Pass a list of URLs and optional parameters, and Firecrawl processes them concurrently and returns all results together.
+Scrape multiple URLs in a single batch job
 
-* Works like `/crawl` but for an explicit list of URLs
-* Synchronous and asynchronous modes
-* Supports all scrape options including structured extraction
-* Configurable concurrency per job
 
-## How it works
+- Works like `/crawl` but for an explicit list of URLs
+- Synchronous and asynchronous modes
+- Supports all scrape options including structured extraction
+- Configurable concurrency per job
 
-You can run a batch scrape in two ways:
+## 
+
+
+<a href="#operations" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| Task                     | API reference                                                                                                   | SDK vocabulary                                                            |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| Start a batch            | <a href="/api-reference/endpoint/batch-scrape" class="link"><code>batch-scrape</code></a>                       | `batchScrape` / `batch_scrape`, `startBatchScrape` / `start_batch_scrape` |
+| Check status and results | <a href="/api-reference/endpoint/batch-scrape-get" class="link"><code>batch-scrape-get</code></a>               | `getBatchScrapeStatus` / `get_batch_scrape_status`                        |
+| Cancel a running batch   | <a href="/api-reference/endpoint/batch-scrape-delete" class="link"><code>batch-scrape-delete</code></a>         | Cancel or delete the batch job by ID                                      |
+| Inspect errors           | <a href="/api-reference/endpoint/batch-scrape-get-errors" class="link"><code>batch-scrape-get-errors</code></a> | Error/status helper for failed URLs                                       |
+
+
+## 
+
+
+<a href="#how-it-works" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 | Mode         | SDK method (JS / Python)                  | Behavior                                                         |
-| ------------ | ----------------------------------------- | ---------------------------------------------------------------- |
+|--------------|-------------------------------------------|------------------------------------------------------------------|
 | Synchronous  | `batchScrape` / `batch_scrape`            | Starts the batch and waits for completion, returning all results |
 | Asynchronous | `startBatchScrape` / `start_batch_scrape` | Starts the batch and returns a job ID for polling or webhooks    |
 
-## Basic usage
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+## 
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  # Asynchronous: starts the batch and returns a job ID immediately
-  start = firecrawl.start_batch_scrape([
-      "https://firecrawl.dev",
-      "https://docs.firecrawl.dev",
-  ], formats=["markdown"])
+<a href="#basic-usage" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-  status = firecrawl.get_batch_scrape_status(start.id)
 
-  # Or synchronous: starts the batch and waits for completion
-  job = firecrawl.batch_scrape([
-      "https://firecrawl.dev",
-      "https://docs.firecrawl.dev",
-  ], formats=["markdown"], poll_interval=2, wait_timeout=120)
+Python
 
-  print(job.status, job.completed, job.total)
-  ```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+Node
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  // Asynchronous: starts the batch and returns a job ID immediately
-  const { id } = await firecrawl.startBatchScrape([
-    'https://firecrawl.dev',
-    'https://docs.firecrawl.dev'
-  ], {
-    options: { formats: ['markdown'] },
-  });
+cURL
 
-  const status = await firecrawl.getBatchScrapeStatus(id);
 
-  // Or synchronous: starts the batch and waits for completion
-  const job = await firecrawl.batchScrape([
-    'https://firecrawl.dev',
-    'https://docs.firecrawl.dev'
-  ], { options: { formats: ['markdown'] }, pollInterval: 2, timeout: 120 });
+``` shiki
+from firecrawl import Firecrawl
 
-  console.log(job.status, job.completed, job.total);
-  ```
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/batch/scrape" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "urls": ["https://firecrawl.dev", "https://docs.firecrawl.dev"],
-      "formats": ["markdown"]
-    }'
-  ```
-</CodeGroup>
+# Asynchronous: starts the batch and returns a job ID immediately
+start = firecrawl.start_batch_scrape([
+    "https://firecrawl.dev",
+    "https://docs.firecrawl.dev",
+], formats=["markdown"])
 
-### Response
+status = firecrawl.get_batch_scrape_status(start.id)
 
-Calling `batchScrape` / `batch_scrape` returns the full results when the batch completes.
+# Or synchronous: starts the batch and waits for completion
+job = firecrawl.batch_scrape([
+    "https://firecrawl.dev",
+    "https://docs.firecrawl.dev",
+], formats=["markdown"], poll_interval=2, wait_timeout=120)
 
-```json Completed theme={null}
+print(job.status, job.completed, job.total)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+
+// Asynchronous: starts the batch and returns a job ID immediately
+const { id } = await firecrawl.startBatchScrape([
+  'https://firecrawl.dev',
+  'https://docs.firecrawl.dev'
+], {
+  options: { formats: ['markdown'] },
+});
+
+const status = await firecrawl.getBatchScrapeStatus(id);
+
+// Or synchronous: starts the batch and waits for completion
+const job = await firecrawl.batchScrape([
+  'https://firecrawl.dev',
+  'https://docs.firecrawl.dev'
+], { options: { formats: ['markdown'] }, pollInterval: 2, timeout: 120 });
+
+console.log(job.status, job.completed, job.total);
+```
+
+
+``` shiki
+curl -s -X POST "https://api.firecrawl.dev/v2/batch/scrape" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": ["https://firecrawl.dev", "https://docs.firecrawl.dev"],
+    "formats": ["markdown"]
+  }'
+```
+
+
+### 
+
+
+<a href="#response" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 {
   "status": "completed",
   "total": 36,
@@ -114,9 +185,8 @@ Calling `batchScrape` / `batch_scrape` returns the full results when the batch c
 }
 ```
 
-Calling `startBatchScrape` / `start_batch_scrape` returns a job ID you can track via `getBatchScrapeStatus` / `get_batch_scrape_status`, the API endpoint `/batch/scrape/{id}`, or webhooks. Job results are available via the API for 24 hours after completion. After this period, you can still view your batch scrape history and results in the [activity logs](https://www.firecrawl.dev/app/logs).
 
-```json theme={null}
+``` shiki
 {
   "success": true,
   "id": "123-456-789",
@@ -124,143 +194,158 @@ Calling `startBatchScrape` / `start_batch_scrape` returns a job ID you can track
 }
 ```
 
-## Concurrency
 
-By default, a batch scrape job uses your team's full concurrent browser limit (see [Rate Limits](/rate-limits)). You can lower this per job with the `maxConcurrency` parameter.
+## 
 
-For example, `maxConcurrency: 50` limits that job to 50 simultaneous scrapes. Setting this value too low on large batches will significantly slow down processing, so only reduce it if you need to leave capacity for other concurrent jobs.
 
-## Structured extraction
+<a href="#concurrency" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-You can use batch scrape to extract structured data from every page in the batch. This is useful when you want the same schema applied to a list of URLs.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+## 
 
-  firecrawl = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # Scrape multiple websites:
-  batch_scrape_result = firecrawl.batch_scrape(
-      ['https://docs.firecrawl.dev', 'https://docs.firecrawl.dev/sdks/overview'], 
-      formats=[{
-          'type': 'json',
-          'prompt': 'Extract the title and description from the page.',
-          'schema': {
-              'type': 'object',
-              'properties': {
-                  'title': {'type': 'string'},
-                  'description': {'type': 'string'}
-              },
-              'required': ['title', 'description']
-          }
-      }]
-  )
-  print(batch_scrape_result)
+<a href="#structured-extraction" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-  # Or, you can use the start method:
-  batch_scrape_job = firecrawl.start_batch_scrape(
-      ['https://docs.firecrawl.dev', 'https://docs.firecrawl.dev/sdks/overview'], 
-      formats=[{
-          'type': 'json',
-          'prompt': 'Extract the title and description from the page.',
-          'schema': {
-              'type': 'object',
-              'properties': {
-                  'title': {'type': 'string'},
-                  'description': {'type': 'string'}
-              },
-              'required': ['title', 'description']
-          }
-      }]
-  )
-  print(batch_scrape_job)
 
-  # You can then use the job ID to check the status of the batch scrape:
-  batch_scrape_status = firecrawl.get_batch_scrape_status(batch_scrape_job.id)
-  print(batch_scrape_status)
-  ```
+Python
 
-  ```js Node
-  import { Firecrawl, ScrapeResponse } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({apiKey: "fc-YOUR_API_KEY"});
+Node
 
-  // Define schema to extract contents into
-  const schema = {
-    type: "object",
-    properties: {
-      title: { type: "string" },
-      description: { type: "string" }
-    },
-    required: ["title", "description"]
-  };
 
-  // Scrape multiple websites (synchronous):
-  const batchScrapeResult = await firecrawl.batchScrape(['https://docs.firecrawl.dev', 'https://docs.firecrawl.dev/sdks/overview'], { 
-    formats: [
-      {
-        type: "json",
-        prompt: "Extract the title and description from the page.",
-        schema: schema
-      }
-    ]
-  });
+cURL
 
-  // Output all the results of the batch scrape:
-  console.log(batchScrapeResult)
 
-  // Or, you can use the start method:
-  const batchScrapeJob = await firecrawl.startBatchScrape(['https://docs.firecrawl.dev', 'https://docs.firecrawl.dev/sdks/overview'], { 
-    formats: [
-      {
-        type: "json",
-        prompt: "Extract the title and description from the page.",
-        schema: schema
-      }
-    ]
-  });
-  console.log(batchScrapeJob)
+``` shiki
+from firecrawl import Firecrawl
 
-  // You can then use the job ID to check the status of the batch scrape:
-  const batchScrapeStatus = await firecrawl.getBatchScrapeStatus(batchScrapeJob.id);
-  console.log(batchScrapeStatus)
-  ```
+firecrawl = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/batch/scrape \
-      -H 'Content-Type: application/json' \
-      -H 'Authorization: Bearer YOUR_API_KEY' \
-      -d '{
-        "urls": ["https://docs.firecrawl.dev", "https://docs.firecrawl.dev/sdks/overview"],
-        "formats" : [{
-          "type": "json",
-          "prompt": "Extract the title and description from the page.",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "title": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              }
+# Scrape multiple websites:
+batch_scrape_result = firecrawl.batch_scrape(
+    ['https://docs.firecrawl.dev', 'https://docs.firecrawl.dev/sdks/overview'], 
+    formats=[{
+        'type': 'json',
+        'prompt': 'Extract the title and description from the page.',
+        'schema': {
+            'type': 'object',
+            'properties': {
+                'title': {'type': 'string'},
+                'description': {'type': 'string'}
             },
-            "required": [
-              "title",
-              "description"
-            ]
-          }
-        }]
-      }'
-  ```
-</CodeGroup>
+            'required': ['title', 'description']
+        }
+    }]
+)
+print(batch_scrape_result)
 
-### Response
+# Or, you can use the start method:
+batch_scrape_job = firecrawl.start_batch_scrape(
+    ['https://docs.firecrawl.dev', 'https://docs.firecrawl.dev/sdks/overview'], 
+    formats=[{
+        'type': 'json',
+        'prompt': 'Extract the title and description from the page.',
+        'schema': {
+            'type': 'object',
+            'properties': {
+                'title': {'type': 'string'},
+                'description': {'type': 'string'}
+            },
+            'required': ['title', 'description']
+        }
+    }]
+)
+print(batch_scrape_job)
 
-`batchScrape` / `batch_scrape` returns full results:
+# You can then use the job ID to check the status of the batch scrape:
+batch_scrape_status = firecrawl.get_batch_scrape_status(batch_scrape_job.id)
+print(batch_scrape_status)
+```
 
-```json Completed theme={null}
+
+``` shiki
+import { Firecrawl, ScrapeResponse } from 'firecrawl';
+
+const firecrawl = new Firecrawl({apiKey: "fc-YOUR_API_KEY"});
+
+// Define schema to extract contents into
+const schema = {
+  type: "object",
+  properties: {
+    title: { type: "string" },
+    description: { type: "string" }
+  },
+  required: ["title", "description"]
+};
+
+// Scrape multiple websites (synchronous):
+const batchScrapeResult = await firecrawl.batchScrape(['https://docs.firecrawl.dev', 'https://docs.firecrawl.dev/sdks/overview'], { 
+  formats: [
+    {
+      type: "json",
+      prompt: "Extract the title and description from the page.",
+      schema: schema
+    }
+  ]
+});
+
+// Output all the results of the batch scrape:
+console.log(batchScrapeResult)
+
+// Or, you can use the start method:
+const batchScrapeJob = await firecrawl.startBatchScrape(['https://docs.firecrawl.dev', 'https://docs.firecrawl.dev/sdks/overview'], { 
+  formats: [
+    {
+      type: "json",
+      prompt: "Extract the title and description from the page.",
+      schema: schema
+    }
+  ]
+});
+console.log(batchScrapeJob)
+
+// You can then use the job ID to check the status of the batch scrape:
+const batchScrapeStatus = await firecrawl.getBatchScrapeStatus(batchScrapeJob.id);
+console.log(batchScrapeStatus)
+```
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/batch/scrape \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer YOUR_API_KEY' \
+    -d '{
+      "urls": ["https://docs.firecrawl.dev", "https://docs.firecrawl.dev/sdks/overview"],
+      "formats" : [{
+        "type": "json",
+        "prompt": "Extract the title and description from the page.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "description"
+          ]
+        }
+      }]
+    }'
+```
+
+
+### 
+
+
+<a href="#response-2" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 {
   "status": "completed",
   "total": 36,
@@ -280,9 +365,8 @@ You can use batch scrape to extract structured data from every page in the batch
 }
 ```
 
-`startBatchScrape` / `start_batch_scrape` returns a job ID:
 
-```json theme={null}
+``` shiki
 {
   "success": true,
   "id": "123-456-789",
@@ -290,11 +374,14 @@ You can use batch scrape to extract structured data from every page in the batch
 }
 ```
 
-## Webhooks
 
-You can configure webhooks to receive real-time notifications as each URL in your batch is scraped. This lets you process results immediately instead of waiting for the entire batch to complete.
+## 
 
-```bash cURL theme={null}
+
+<a href="#webhooks" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 curl -X POST https://api.firecrawl.dev/v2/batch/scrape \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer YOUR_API_KEY' \
@@ -314,20 +401,28 @@ curl -X POST https://api.firecrawl.dev/v2/batch/scrape \
     }' 
 ```
 
-### Event types
+
+### 
+
+
+<a href="#event-types" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 | Event                    | Description                           |
-| ------------------------ | ------------------------------------- |
+|--------------------------|---------------------------------------|
 | `batch_scrape.started`   | The batch scrape job has begun        |
 | `batch_scrape.page`      | A single URL was successfully scraped |
 | `batch_scrape.completed` | All URLs have been processed          |
 | `batch_scrape.failed`    | The batch scrape encountered an error |
 
-### Payload
 
-Each webhook delivery includes a JSON body with the following structure:
+### 
 
-```json theme={null}
+
+<a href="#payload" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 {
   "success": true,
   "type": "batch_scrape.page",
@@ -338,21 +433,34 @@ Each webhook delivery includes a JSON body with the following structure:
 }
 ```
 
-### Verifying webhook signatures
 
-Every webhook request from Firecrawl includes an `X-Firecrawl-Signature` header containing an HMAC-SHA256 signature. Always verify this signature to ensure the webhook is authentic and has not been tampered with.
-
-1. Get your webhook secret from the [Advanced tab](https://www.firecrawl.dev/app/settings?tab=advanced) of your account settings
-2. Extract the signature from the `X-Firecrawl-Signature` header
-3. Compute HMAC-SHA256 of the raw request body using your secret
-4. Compare with the signature header using a timing-safe function
+### 
 
 
-  Never process a webhook without verifying its signature first. The `X-Firecrawl-Signature` header contains the signature in the format: `sha256=abc123def456...`
+<a href="#verifying-webhook-signatures" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-For complete implementation examples in JavaScript and Python, see the [Webhook Security documentation](/webhooks/security).
+1.  Get your webhook secret from the <a href="https://www.firecrawl.dev/app/settings?tab=advanced" class="link" target="_blank" rel="noreferrer">Advanced tab</a> of your account settings
+2.  Extract the signature from the `X-Firecrawl-Signature` header
+3.  Compute HMAC-SHA256 of the raw request body using your secret
+4.  Compare with the signature header using a timing-safe function
 
-For comprehensive webhook documentation including detailed event payloads, advanced configuration, and troubleshooting, see the [Webhooks documentation](/webhooks/overview).
 
-> Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+> <span data-as="p">Are you an AI agent that needs a Firecrawl API key? See <a href="https://www.firecrawl.dev/agent-onboarding/SKILL.md" class="link" target="_blank" rel="noreferrer">firecrawl.dev/agent-onboarding/SKILL.md</a> for automated onboarding instructions.</span>
+
+
+<a href="https://github.com/firecrawl/firecrawl-docs/edit/main/features/batch-scrape.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/features/batch-scrape" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
+
+
+<a href="/features/fast-scraping" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 min-w-0 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
+
+
+Faster Scraping
+
+
+<a href="/features/llm-extract" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 min-w-0 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
+
+
+JSON mode - Structured result
+
+

@@ -2,6 +2,11 @@
 
  #  AdGuard Home - Configuration
 
+ >  [!WARNING]
+ >  This article is outdated.  See the [up-to-date version][kb-article] in our Knowledge Base.
+
+[kb-article]: https://adguard-dns.io/kb/adguard-home/configuration/
+
 Most of these settings can be changed via the web-based admin interface.
 However, we decided to list them all here just in case.
 

@@ -8,7 +8,7 @@
 
 > Understanding Honcho's core concepts and data model.
 
-Honcho is memory infrastructure that continuously [*reasons*](/v3/documentation/core-concepts/reasoning) about data to build rich representations of peers (users, agents, or any entity) over time. This document explains the data model, system components, and how data flows through Honcho.
+Honcho is memory infrastructure that continuously [*reasons*](/docs/v3/documentation/core-concepts/reasoning) about data to build rich representations of peers (users, agents, or any entity) over time. This document explains the data model, system components, and how data flows through Honcho.
 
 ## Data Model
 
@@ -43,7 +43,7 @@ Authentication is scoped to the workspace level, and configuration settings can 
 
 ### <Icon icon="user" /> Peers
 
-Peers are the most important entity in Honcho--everything revolves around building and maintaining their [*representations*](/v3/documentation/core-concepts/representation). A peer represents any individual user, agent, or entity in a workspace. Treating humans and agents the same way lets you build arbitrary combinations for multi-agent or group chat scenarios.
+Peers are the most important entity in Honcho--everything revolves around building and maintaining their [*representations*](/docs/v3/documentation/core-concepts/representation). A peer represents any individual user, agent, or entity in a workspace. Treating humans and agents the same way lets you build arbitrary combinations for multi-agent or group chat scenarios.
 
 Each peer has a unique identifier within a workspace and is a container for reasoning across all their sessions. This cross-session context means conclusions drawn about a peer in one session can inform interactions in completely different sessions. Peers can be configured to control whether Honcho reasons about them.
 

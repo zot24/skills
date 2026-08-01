@@ -112,6 +112,10 @@ paths:
                       items:
                         type: string
                         example: en-US
+                auditMetadata:
+                  $ref: '#/components/schemas/AuditMetadata'
+                threatProtection:
+                  $ref: '#/components/schemas/ThreatProtectionOverride'
               required:
                 - url
             examples:
@@ -173,6 +177,81 @@ paths:
         - bearerAuth: []
 components:
   schemas:
+    AuditMetadata:
+      type: object
+      description: >-
+        User attribution included with SIEM logging events when SIEM Logging is
+        enabled for the organization.
+      additionalProperties: false
+      required:
+        - username
+      properties:
+        username:
+          type: string
+          maxLength: 1024
+          description: The username associated with the request.
+    ThreatProtectionOverride:
+      type: object
+      title: Threat Protection Override
+      description: >-
+        Per-request [Threat
+        Protection](https://docs.firecrawl.dev/features/threat-protection)
+        override. Fields you provide replace the corresponding fields of your
+        organization's policy for this request only; omitted fields keep their
+        organization-level values. Requires Threat Protection to be enabled for
+        your team (enterprise feature) — otherwise the request is rejected with
+        a 403. If your organization has disabled request overrides, any request
+        that includes this object is rejected with a 403. If Threat Protection
+        is enforced for your team, `mode` may not be set to `off`.
+      properties:
+        mode:
+          type: string
+          enum:
+            - 'off'
+            - normal
+          description: >-
+            URL scanning mode for this request. `normal` checks URLs against
+            Google Web Risk (+2 credits per URL scanned).
+        riskScoreThreshold:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: >-
+            Normalized risk score (0–100) at or above which a classifier verdict
+            blocks the URL. Lower is stricter.
+          example: 75
+        blacklist:
+          type: array
+          maxItems: 1000
+          items:
+            type: string
+          description: >-
+            Domains to always block, as plain domains (`example.com`) or
+            wildcard globs (`*.example.com`). No protocol, path, or port.
+        whitelist:
+          type: array
+          maxItems: 1000
+          items:
+            type: string
+          description: >-
+            Domains to always allow, as plain domains or wildcard globs. Wins
+            over every other rule.
+        blockedTlds:
+          type: array
+          maxItems: 1000
+          items:
+            type: string
+          description: >-
+            Top-level domains to block outright, lowercase without the leading
+            dot (e.g. `zip`).
+        failurePolicy:
+          type: string
+          enum:
+            - open
+            - closed
+          description: >-
+            What to do when the classifier can't be reached: `closed` blocks the
+            request, `open` allows it.
     MapResponse:
       type: object
       properties:

@@ -3,7 +3,7 @@
 ---
 title: Discord
 description: Discord adapter with HTTP Interactions and Gateway WebSocket support.
-tagline: Create Discord bots with slash commands, threads, and rich embeds — works on serverless via a cron-driven Gateway listener.
+tagline: Create Discord bots with slash commands, threads, rich embeds, and Components v2 cards — works on serverless via a cron-driven Gateway listener.
 package: @chat-adapter/discord
 ---
 
@@ -23,10 +23,11 @@ package: @chat-adapter/discord
 import { Chat } from "chat";
 import { createDiscordAdapter } from "@chat-adapter/discord";
 
+const discord = createDiscordAdapter();
 const bot = new Chat({
   userName: "mybot",
   adapters: {
-    discord: createDiscordAdapter(),
+    discord,
   },
 });
 
@@ -39,6 +40,25 @@ bot.onNewMention(async (thread, message) => {
 
 
 `botToken`, `publicKey`, and `applicationId` are required.
+
+## Components cards
+
+Discord cards render as embeds by default. Set `contentFormat` to render Chat SDK cards with [Discord Components](https://docs.discord.com/developers/components/reference):
+
+```typescript
+import {
+  createDiscordAdapter,
+  DiscordContentFormat,
+} from "@chat-adapter/discord";
+
+createDiscordAdapter({
+  contentFormat: DiscordContentFormat.ComponentsV2,
+});
+```
+
+When enabled, card messages use Discord's `IS_COMPONENTS_V2` flag and render with containers, sections, text displays, media galleries, buttons, and string selects. Plain text messages continue to use normal Discord message content.
+
+Discord caps a Components v2 message at 40 total components and 4000 characters across all text. When a card exceeds either limit the adapter throws a `ValidationError` instead of letting Discord reject the request, so reduce the number of sections, fields, actions, or images, or shorten the text on very large cards.
 
 ## Interaction flags
 
@@ -86,7 +106,11 @@ In **General Information**, set **Interactions Endpoint URL** to `https://your-d
 
 ### 4. Add the bot to your server
 
-In **OAuth2** then **URL Generator**, select scopes `bot` and `applications.commands`, pick the permissions your bot needs (Send Messages, Send Messages in Threads, Create Public Threads, Read Message History, Add Reactions, Attach Files), and use the generated URL to invite the bot.
+In **OAuth2** then **URL Generator**, select scopes `bot` and `applications.commands`, pick the permissions your bot needs (Send Messages, Send Messages in Threads, Create Public Threads, Manage Threads, Read Message History, Add Reactions, Attach Files), and use the generated URL to invite the bot.
+
+## Discord thread channel names
+
+Call `discord.setThreadTitle(thread.id, title)` to rename an existing Discord thread channel. The bot needs the **Manage Threads** permission.
 
 ## Advanced
 

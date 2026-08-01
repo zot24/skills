@@ -608,6 +608,12 @@
       "target": "skills/honcho/docs/guides/codex.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/documentation/features/advanced/structured-outputs.md",
+      "target": "skills/honcho/docs/structured-outputs.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

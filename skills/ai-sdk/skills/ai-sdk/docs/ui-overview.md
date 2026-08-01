@@ -22,11 +22,11 @@ Here is a comparison of the supported functions across these frameworks:
 
 |                                                                 | [useChat](/docs/reference/ai-sdk-ui/use-chat) | [useCompletion](/docs/reference/ai-sdk-ui/use-completion) | [useObject](/docs/reference/ai-sdk-ui/use-object) | [MCP Apps](/docs/ai-sdk-core/mcp-apps) |
 | --------------------------------------------------------------- | --------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------- | -------------------------------------- |
-| React `@ai-sdk/react`                                           |                            |                                        |                                |                     |
-| Vue.js `@ai-sdk/vue`                                            |                            |                                        |                                |                     |
-| Svelte `@ai-sdk/svelte`                                         |  Chat                      |  Completion                            |  StructuredObject              |                     |
-| Angular `@ai-sdk/angular`                                       |  Chat                      |  Completion                            |  StructuredObject              |                     |
-| [SolidJS](https://github.com/kodehort/ai-sdk-solid) (community) |                            |                                        |                                |                     |
+| React `@ai-sdk/react`                                           |                                      |                                                  |                                          |                               |
+| Vue.js `@ai-sdk/vue`                                            |                                      |                                                  |                                          |                               |
+| Svelte `@ai-sdk/svelte`                                         |  Chat                                |  Completion                                      |  StructuredObject                        |                               |
+| Angular `@ai-sdk/angular`                                       |  Chat                                |  Completion                                      |  StructuredObject                        |                               |
+| [SolidJS](https://github.com/kodehort/ai-sdk-solid) (community) |                                      |                                                  |                                          |                               |
 
 ## Framework Examples
 

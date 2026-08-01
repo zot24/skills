@@ -165,7 +165,7 @@ You may therefore disable observation of a peer by setting the `observe_me` flag
 If the peer has a session-level configuration, it will override this configuration. If the flag is not set, or is set to `true`, the peer will be observed.
 
 
-  For session-level observation controls and local representations (where peers build separate models of each other), see [Representation Scopes](/v3/documentation/features/advanced/representation-scopes).
+  For session-level observation controls and local representations (where peers build separate models of each other), see [Representation Scopes](/docs/v3/documentation/features/advanced/representation-scopes).
 
 
 <CodeGroup>

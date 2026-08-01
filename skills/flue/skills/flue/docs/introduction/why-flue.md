@@ -18,49 +18,65 @@ Start typing to search the documentation.
 # Why Flue?
 
 
-AI-generated, awaiting review <a href="/docs/introduction/why-flue/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/guide/why-flue/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
-**Flue** is the TypeScript framework for building **autonomous AI agents** and the workflows around them. Flue is best-known for giving any model the same [harness-driven architecture](/docs/concepts/agents/) used by Claude Code and other coding agents: sessions, tools, skills, instructions, filesystem access, and a secure sandbox to work in. If you need agents that can do more than produce a single response—agents that operate in an environment your code defines, then run anywhere from local CI to a Node.js server to Cloudflare—then Flue is for you.
+**Flue** is the open agent framework, from the creators of [Astro](https://astro.build/). Use a React-like hooks API to build agents in TypeScript using your favorite LLMs. Run them locally or deploy them anywhere: Node.js, Cloudflare, GitHub Actions, GitLab CI/CD, etc.
+
+If you are looking to build something LLM-powered – a script, a workflow, a CI job, a product or service, anything! – then Flue is likely for you.
 
 ## Features
 
-**Flue is a complete framework for agentic software.** It includes everything you need to build, run, and deploy agents, built-in. It also connects to the wider ecosystem—MCP servers, sandbox adapters, chat surfaces, and observability backends—so you can customize a project to your exact use case and needs.
+**Flue is a complete framework for building agents.** It includes everything you need to build, run, and deploy agents. Some highlights include:
 
-Some highlights include:
-
-- **[Agents](/docs/concepts/agents/):** Autonomous agents that keep context across conversations and events.
-- **[Workflows](/docs/guide/workflows/):** Structured automations from a clear input to a finished result.
-- **[Sandboxes](/docs/guide/sandboxes/):** A secure environment where agents act and run code.
-- **[CLI](/docs/cli/overview/):** Develop locally, run applications or jobs, and build them for deployment.
-- **[Subagents](/docs/guide/subagents/):** Delegate specialized tasks to the right expert.
-- **[Tools](/docs/guide/tools/):** Typed actions for calling APIs and changing data.
-- **[Skills](/docs/guide/skills/):** Reusable expertise agents load on demand.
-- **[MCP Servers](/docs/guide/tools/#connect-mcp-servers):** Connect tools and services over the open MCP ecosystem.
-- **[Observability](/docs/guide/observability/):** Export telemetry with [OpenTelemetry](/docs/ecosystem/tooling/opentelemetry/), [Braintrust](/docs/ecosystem/tooling/braintrust/), [Sentry](/docs/ecosystem/tooling/sentry/), or your own observer.
-- **[Channels](/docs/guide/channels/):** Receive verified provider events and connect them to agents or application code.
+- **[Agents](/docs/guide/building-agents/):** Autonomous agents that keep context across conversations and events.
+- **[Sandboxes](/docs/guide/sandboxes/):** A secure environment where agents run code and do real work.
+- **[Subagents](/docs/guide/subagents/):** Let your agent delegate specialized work to the right expert.
+- **[Skills](/docs/guide/skills/):** Package expertise that agents load whenever a task needs guidance.
+- **[Tools](/docs/guide/tools/):** Agents call APIs, query data, and make changes — using the code you define.
+- **[MCP Servers](/docs/guide/mcp/):** Connect agents to thousands of tools in the open MCP ecosystem.
+- **[Persistent State](/docs/guide/agent-hooks/#persisted-state):** Write data on each agent and update its capabilities as state changes.
+- **[Chat](/docs/guide/channels/):** Drop your agents into Slack, Teams, Discord, GitHub, and more.
 
 ## Design Principles
 
-Here are three core design principles to help explain why we built Flue, the problems that it exists to solve, and why Flue may be the best choice for your project or team.
+Here are the core design principles that explain why we built Flue, the problems it exists to solve, and why Flue may be the best choice for your project or team.
 
 Flue is…
 
-1.  **[Harness-first](#harness-first):** A model pointed at a harness, not a script.
-2.  **[Open by default](#open-by-default):** Open models, sandboxes, and deploys—no lock-in.
-3.  **[AI-first](#ai-first):** Built to be used with your coding agent.
+1.  **[Harness-first](#harness-first):** The agent harness is Flue’s core, not a feature.
+2.  **[Dynamic](#dynamic):** An agent is a program to write, not an object to configure.
+3.  **[Durable](#durable):** We do the hard work of durability so you don’t have to.
+4.  **[Open](#open):** Open models, sandboxes, and hosting platforms — no lock-in.
+5.  **[Built to scale](#built-to-scale):** Designed for non-trivial agents — from a starter project to a billion-dollar company.
 
 ### Harness-first
 
-**The harness is essential to building autonomous agents.** Instead of scripting an agent’s steps, you fill its harness with context: instructions, tools, skills, sessions, files, resources, MCP server connections, etc. etc. Then you point a model at it and tell it to go solve the task. No scripting required.
+**Flue agents are proper agents, in the same mold as Claude Code or OpenClaw.** Flue builds on [Pi](https://pi.dev/), the open agent harness behind OpenClaw, and integrates it deeply into every agent you build. Each agent gets the full harness — the tools, skills, instructions, and, when you attach one, the sandbox it needs to work autonomously toward a goal.
 
-Without a harness, the model is confined too tightly to the API calls you’ve written for it. An agent without a harness is not a real agent.
+That is the difference between Flue and an SDK: the harness is the core of the framework, not a feature of it.
 
-This idea sits at the center of Flue. Read [What is an agent?](/docs/concepts/agents/) for a deep dive into the subject.
+See [Agents](/docs/guide/building-agents/) to learn more.
 
-### Open by default
+### Dynamic
 
-**Flue is open at every layer — models, sandboxes, and deployment targets — so you are never locked in.** Many agent frameworks and SDKs are closed in some direction: they assume their own models, run only in their own sandbox, or deploy only to their own cloud. We think that’s backwards.
+**Flue has two core primitives that unlock truly dynamic agent behavior: functions and hooks.** The agent function lets you design your agent as a function (not a static config object, as many other frameworks would force you to do). Agent hooks let you extend your agent with declarative functionality.
+
+Together, functions and hooks make agents reactive and stateful. With [persistent state](/docs/guide/agent-hooks/#persisted-state), an agent has literal state: data it can read and write across its whole conversation. Capabilities can follow that state — a tool that appears once prerequisites are met, a [sandbox](/docs/guide/sandboxes/) that attaches only when the task calls for one. Agents are written like components because web developers already know how to program declarative, reactive systems.
+
+See [Agent Hooks](/docs/guide/agent-hooks/) for the full toolkit.
+
+### Durable
+
+**Durability is the hardest part of running agents in production, so Flue does that work for you.** Building a demo agent is easy; keeping one alive is not. Servers restart, providers time out, and clients disconnect mid-response. The code you would write to survive all of that has nothing to do with your agent — it is recovery plumbing, and it is easy to get wrong.
+
+Flue builds it in. Every session is recorded to a durable, replayable log, so accepted work is never lost: interrupted sessions resume automatically when the runtime comes back, and clients reconnect without starting over. You write the agent, and the runtime keeps it alive.
+
+See [Durability](/docs/guide/durability/) for the exact contract on each deploy target.
+
+### Open
+
+**Flue is open at every layer — models, sandboxes, and hosting platforms — so you are never locked in.** Many agent frameworks and SDKs are closed in some direction: they assume their own models, run only in their own sandbox, or deploy only to their own cloud. We think that’s backwards.
 
 Flue is deliberately open:
 
@@ -68,25 +84,29 @@ Flue is deliberately open:
 - **Open sandboxes:** Connect to a remote provider, or use the built-in virtual sandbox.
 - **Open deploys:** Build your agent for Node.js, Cloudflare, GitHub, GitLab, etc.
 
-See [Sandboxes](/docs/guide/sandboxes/) and the [CLI overview](/docs/cli/overview/) for more details.
+The same openness applies to protocols: Flue builds on open standards like [MCP](/docs/guide/mcp/) and [Durable Streams](https://durablestreams.com/) instead of inventing its own.
 
-### AI-first
+See [Sandboxes](/docs/guide/sandboxes/) and [Deploy](/docs/guide/deploy/) for more details.
 
-**Flue is designed to be used with your coding agent.** This one borders on cliché for a product like ours, and one day it may be obvious enough to drop. For now, we want to be explicit: Flue is an AI-first framework, meant to be used by the developer alongside a coding agent like Claude Code or Codex.
+### Built to scale
 
-That assumption shapes the experience. Setup, scaffolding, and several workflows are designed around handing a prompt to your coding agent and letting it do the work—and some flows are expected to work best, or only, with a coding agent available. That’s by design, not a gap. If you’re new to Flue, the fastest path is to point your coding agent at the [Getting Started](/docs/getting-started/quickstart/) guide and build alongside it.
+**Flue is designed to scale with complexity.** A trivial agent — connect a webhook to an agent with a few capabilities and return the result — should be easy, and Flue keeps it easy. But trivial agents are not all that an agent framework should optimize for.
+
+The agents that no one else serves well today are the non-trivial ones: the agent that powers an entire internal service, product, company. Building at that level is a different problem entirely, and it is the problem Flue prioritizes. When a design decision would trade the non-trivial agent for demo convenience, Flue takes the non-trivial side.
+
+Flue is built to scale with you, from a simple starter project all the way to a billion-dollar company. Every other principle on this page serves that goal.
 
 
 ## Docs Navigation
 
-Current page: [Why Flue?](/docs/introduction/why-flue/)
+Current page: [Why Flue?](/docs/guide/why-flue/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

@@ -16,7 +16,7 @@ package: @chat-adapter/telegram
 ## Quick start
 
 
-  The adapter auto-detects `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET_TOKEN`, and `TELEGRAM_BOT_USERNAME` from the environment.
+  The adapter auto-detects `TELEGRAM_ALLOWED_USER_IDS`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET_TOKEN`, and `TELEGRAM_BOT_USERNAME` from the environment.
 
 
 ```typescript title="lib/bot.ts" lineNumbers
@@ -116,6 +116,8 @@ Pass `{ raw: "..." }` only if you need to ship a fully pre-escaped MarkdownV2 st
 * Telegram does not expose full historical message APIs to bots. `fetchMessages` returns adapter-cached messages from the current process.
 * `listThreads` is not available for Telegram chats.
 * Telegram callback data is limited to 64 bytes — keep `Button` `id`/`value` payloads short.
+* Incoming attachments preserve Telegram's downloadable `file_id` and stable `file_unique_id` as `fetchMetadata.fileId` and `fetchMetadata.fileUniqueId`. Photo attachments use the `image/jpeg` MIME type.
+* Multiple `files` or compatible `attachments` are sent as Telegram media groups. `files` upload as documents; `attachments` preserve image, audio, video, or file media type.
 * Other rich card elements (images, select menus, radios) render as fallback text.
 
 ## Feature support

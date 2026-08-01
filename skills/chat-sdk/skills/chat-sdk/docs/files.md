@@ -32,7 +32,7 @@ await thread.post({
 
 ### Typed attachments
 
-Use `attachments` when you already have normalized `Attachment` objects and the adapter supports typed outgoing media. Telegram supports one outgoing attachment per message and uses the native media method for the attachment type:
+Use `attachments` when you already have normalized `Attachment` objects and the adapter supports typed outgoing media. Telegram uses the native media method for the attachment type:
 
 ```typescript title="lib/bot.ts" lineNumbers
 await thread.post({
@@ -48,7 +48,7 @@ await thread.post({
 });
 ```
 
-Outgoing `attachments` are available on `{ raw }`, `{ markdown }`, and `{ ast }` messages. Card messages use `files` for uploads. Use `files` for generic uploads. On Telegram, `files` always upload as documents, while `attachments` preserve image, audio, video, or file media type. Use `data` or `fetchData` for private/authenticated files; URL-only attachments must be public URLs Telegram can fetch directly.
+Outgoing `attachments` are available on `{ raw }`, `{ markdown }`, and `{ ast }` messages. Card messages use `files` for uploads. Use `files` for generic uploads. On Telegram, `files` always upload as documents, while `attachments` preserve image, audio, video, or file media type. Multiple Telegram `files` or compatible `attachments` are sent as media groups. Use `data` or `fetchData` for private/authenticated files; URL-only attachments must be public URLs Telegram can fetch directly.
 
 ### Multiple files
 
@@ -101,3 +101,12 @@ bot.onSubscribedMessage(async (thread, message) => {
 | `height`        | `number` (optional)                 | Image height                                                             |
 | `fetchData`     | `() => Promise<Buffer>` (optional)  | Download the file data                                                   |
 | `fetchMetadata` | `Record<string, string>` (optional) | Platform-specific IDs for reconstructing `fetchData` after serialization |
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

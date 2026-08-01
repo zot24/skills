@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Twilio
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/twilio/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/twilio" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/twilio</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/twilio/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/twilio" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/twilio</a>
 
 
 ## Quickstart
@@ -33,11 +33,11 @@ flue add channel twilio
 
 The Twilio blueprint installs `@flue/twilio`, creates a project-owned Fetch client at the source-root `twilio-client.ts`, and creates `channels/twilio.ts`. It also updates the selected agent to bind the generated reply tool to the verified conversation.
 
-``` astro-code
-import { createTwilioChannel } from '@flue/twilio';
-import { dispatch } from '@flue/runtime';
-import assistant from '../agents/assistant.ts';
-import { TwilioClient } from '../twilio-client.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createTwilioChannel } from &#39;@flue/twilio&#39;;
+import { dispatch } from &#39;@flue/runtime&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
+import { TwilioClient } from &#39;../twilio-client.ts&#39;;
 
 export const client = new TwilioClient({
   accountSid: process.env.TWILIO_ACCOUNT_SID!,
@@ -49,25 +49,52 @@ export const channel = createTwilioChannel({
   authToken: process.env.TWILIO_AUTH_TOKEN!,
   webhookUrl: process.env.TWILIO_WEBHOOK_URL!,
   destination: {
-    type: 'address',
+    type: &#39;address&#39;,
     address: process.env.TWILIO_PHONE_NUMBER!,
   },
   async webhook({ payload, conversation }) {
-    if (payload.OptOutType === 'STOP') return;
-    await dispatch(assistant, {
-      id: channel.conversationKey(conversation),
-      input: {
-        type: 'twilio.message',
-        messageSid: payload.MessageSid,
-        from: payload.From,
-        text: payload.Body,
+    if (payload.OptOutType === &#39;STOP&#39;) return;
+    await dispatch(Assistant, {
+      id: channel.instanceId(conversation),
+      // Recorded once when this event creates the instance; ignored after.
+      initialData:
+        conversation.type === &#39;messaging-service&#39;
+          ? {
+              type: conversation.type,
+              messagingServiceSid: conversation.messagingServiceSid,
+              participant: conversation.participant,
+            }
+          : {
+              type: conversation.type,
+              address: conversation.address,
+              participant: conversation.participant,
+            },
+      message: {
+        kind: &#39;signal&#39;,
+        type: &#39;twilio.message&#39;,
+        body: payload.Body,
+        attributes: { messageSid: payload.MessageSid, from: payload.From },
       },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/twilio.ts (abridged)</span></figcaption>
+</figure>
 
-The abridged example omits the generated `postMessage()` tool and the Fetch client implementation. The full blueprint binds that tool to the agent’s parsed conversation, so verified inbound messages reach the corresponding agent instance and replies are sent to the same participant. Cloudflare projects use the generated standards-based client instead of Twilio’s Node-only helper; Messaging Service destinations and optional delivery-status callbacks are configured as secondary changes.
+The abridged example omits the generated `postMessage()` tool and the Fetch client implementation. The full blueprint binds that tool to the agent’s creation data read with `useInitialData()`, so verified inbound messages reach the corresponding agent instance and replies are sent to the same participant. Cloudflare projects use the generated standards-based client instead of Twilio’s Node-only helper; Messaging Service destinations and optional delivery-status callbacks are configured as secondary changes.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as twilio } from &#39;./channels/twilio.ts&#39;;
+
+app.route(&#39;/channels/twilio&#39;, twilio.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/twilio` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -107,12 +134,12 @@ The package rejects signed requests for another account or destination.
 
 ## Channel module
 
-``` astro-code
-import { createTwilioChannel, type TwilioConversationRef } from '@flue/twilio';
-import { defineTool, dispatch } from '@flue/runtime';
-import * as v from 'valibot';
-import assistant from '../agents/assistant.ts';
-import { TwilioClient } from '../twilio-client.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createTwilioChannel } from &#39;@flue/twilio&#39;;
+import { defineTool, dispatch } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
+import { TwilioClient } from &#39;../twilio-client.ts&#39;;
 
 export const client = new TwilioClient({
   accountSid: process.env.TWILIO_ACCOUNT_SID!,
@@ -124,50 +151,108 @@ export const channel = createTwilioChannel({
   authToken: process.env.TWILIO_AUTH_TOKEN!,
   webhookUrl: process.env.TWILIO_WEBHOOK_URL!,
   destination: {
-    type: 'address',
+    type: &#39;address&#39;,
     address: process.env.TWILIO_PHONE_NUMBER!,
   },
 
   // Path: /channels/twilio/webhook
   async webhook({ payload, conversation }) {
-    if (payload.OptOutType === 'STOP') return;
-    const numMedia = Number(payload.NumMedia ?? '0');
-    await dispatch(assistant, {
-      id: channel.conversationKey(conversation),
-      input: {
-        type: 'twilio.message',
-        messageSid: payload.MessageSid,
-        from: payload.From,
-        text: payload.Body,
-        media: Array.from({ length: numMedia }, (_, index) => ({
-          index,
-          contentType: payload[`MediaContentType${index}`],
-        })),
+    if (payload.OptOutType === &#39;STOP&#39;) return;
+    const attributes: Record&lt;string, string&gt; = {
+      messageSid: payload.MessageSid,
+      from: payload.From,
+    };
+    const numMedia = Number(payload.NumMedia ?? &#39;0&#39;);
+    if (numMedia &gt; 0) {
+      attributes.numMedia = String(numMedia);
+      for (let index = 0; index &lt; numMedia; index += 1) {
+        const contentType = payload[`MediaContentType${index}`];
+        if (typeof contentType === &#39;string&#39;) {
+          attributes[`mediaContentType${index}`] = contentType;
+        }
+      }
+    }
+    await dispatch(Assistant, {
+      id: channel.instanceId(conversation),
+      // Recorded once when this event creates the instance; ignored after.
+      initialData:
+        conversation.type === &#39;messaging-service&#39;
+          ? {
+              type: conversation.type,
+              messagingServiceSid: conversation.messagingServiceSid,
+              participant: conversation.participant,
+            }
+          : {
+              type: conversation.type,
+              address: conversation.address,
+              participant: conversation.participant,
+            },
+      message: {
+        kind: &#39;signal&#39;,
+        type: &#39;twilio.message&#39;,
+        body: payload.Body,
+        attributes,
       },
     });
   },
 });
 
-export function postMessage(ref: TwilioConversationRef) {
+export function postMessage(
+  ref:
+    | { type: &#39;address&#39;; address: string; participant: string }
+    | { type: &#39;messaging-service&#39;; messagingServiceSid: string; participant: string },
+) {
   return defineTool({
-    name: 'post_twilio_message',
-    description: 'Post to the Twilio conversation bound to this agent.',
+    name: &#39;post_twilio_message&#39;,
+    description: &#39;Post to the Twilio conversation bound to this agent.&#39;,
     input: v.object({ text: v.pipe(v.string(), v.minLength(1)) }),
-    async run({ input: { text } }) {
+    async run({ data: { text } }) {
       const result = await client.messages.create({
         to: ref.participant,
         body: text,
-        ...(ref.type === 'messaging-service'
+        ...(ref.type === &#39;messaging-service&#39;
           ? { messagingServiceSid: ref.messagingServiceSid }
           : { from: ref.address }),
       });
-      return { messageSid: result.sid };
+      return { output: { messageSid: result.sid } };
     },
   });
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/twilio.ts</span></figcaption>
+</figure>
 
-The blueprint creates `src/twilio-client.ts` with the Fetch client used above. Bind the tool from the agent with `postMessage(channel.parseConversationKey(id))`.
+The blueprint creates `src/twilio-client.ts` with the Fetch client used above. `initialData` is the instance’s creation data: recorded once when the event creates the instance and ignored afterward, so the channel passes it on every dispatch. It carries the conversation ref fields the reply tool needs.
+
+## Wire the agent
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { useInitialData, useModel, useTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+import { postMessage } from &#39;../channels/twilio.ts&#39;;
+
+const initialData = v.variant(&#39;type&#39;, [
+  v.object({ type: v.literal(&#39;address&#39;), address: v.string(), participant: v.string() }),
+  v.object({
+    type: v.literal(&#39;messaging-service&#39;),
+    messagingServiceSid: v.string(),
+    participant: v.string(),
+  }),
+]);
+
+export function Assistant() {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
+  const data = useInitialData&lt;v.InferOutput&lt;typeof initialData&gt;&gt;();
+  if (!data) throw new Error(&#39;This agent is created by the Twilio channel dispatch.&#39;);
+  useTool(postMessage(data));
+  return &#39;Reply concisely in the bound Twilio conversation.&#39;;
+}
+
+Assistant.initialData = initialData;</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
+
+The agent’s `initialData` static validates the dispatched `initialData` when the instance is created; `useInitialData()` returns the parsed value on every render — the agent reads the conversation ref this way instead of parsing it from the instance id.
 
 ## Message behavior
 
@@ -206,10 +291,10 @@ Current page: [Twilio](/docs/ecosystem/channels/twilio/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

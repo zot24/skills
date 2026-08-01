@@ -494,6 +494,18 @@
       "target": "skills/servarr/docs/sonarr-xem-guide.md",
       "type": "extract-content",
       "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/import-troubleshooting",
+      "target": "skills/servarr/docs/lidarr-import-troubleshooting.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/metadata-troubleshooting",
+      "target": "skills/servarr/docs/lidarr-metadata-troubleshooting.md",
+      "type": "extract-content",
+      "freshness_days": 30
     }
   ],
   "cache_dir": ".cache",

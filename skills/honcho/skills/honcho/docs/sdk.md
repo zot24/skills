@@ -967,7 +967,7 @@ If `created_at` is not provided, messages will use the server's current timestam
 
 ### Metadata and Filtering
 
-See [Using Filters](/v3/documentation/features/advanced/using-filters) for more examples on how to use filters.
+See [Using Filters](/docs/v3/documentation/features/advanced/using-filters) for more examples on how to use filters.
 
 <CodeGroup>
   ```python Python

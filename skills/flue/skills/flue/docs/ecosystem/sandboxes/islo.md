@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # islo
 
 
-Last updated May 30, 2026 <a href="/docs/ecosystem/sandboxes/islo/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/sandboxes/islo/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
 The islo adapter adapts a named islo sandbox into Flue’s sandbox interface by invoking the local `islo` CLI. It is designed for a Node.js server, container, or CI runner where the binary is installed and can launch remote commands.
@@ -35,18 +35,18 @@ flue add sandbox islo
 
 The islo blueprint creates `sandboxes/islo.ts` in your source-root without adding an npm dependency. The generated adapter uses Node’s child-process API and expects an authenticated `islo` binary plus an application-managed sandbox name.
 
-``` astro-code
-// flue-blueprint: sandbox/islo@1
-import { spawn } from 'node:child_process';
-import { createSandboxSessionEnv } from '@flue/runtime';
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from '@flue/runtime';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/islo@1
+import { spawn } from &#39;node:child_process&#39;;
+import { createSandboxSessionEnv } from &#39;@flue/runtime&#39;;
+import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
 
 export interface IsloAdapterOptions {
   cwd?: string;
   cliPath?: string;
 }
 
-const q = (s: string) => `'${s.replace(/'/g, `'\\''`)}'`;
+const q = (s: string) =&gt; `&#39;${s.replace(/&#39;/g, `&#39;\\&#39;&#39;`)}&#39;`;
 
 class IsloSandboxApi implements SandboxApi {
   constructor(
@@ -58,21 +58,21 @@ class IsloSandboxApi implements SandboxApi {
     command: string,
     options?: {
       cwd?: string;
-      env?: Record<string, string>;
+      env?: Record&lt;string, string&gt;;
       timeoutMs?: number;
       signal?: AbortSignal;
     },
-  ): Promise<{ stdout: string; stderr: string; exitCode: number }> {
-    const cd = options?.cwd ? `cd ${q(options.cwd)} && ` : '';
+  ): Promise&lt;{ stdout: string; stderr: string; exitCode: number }&gt; {
+    const cd = options?.cwd ? `cd ${q(options.cwd)} &amp;&amp; ` : &#39;&#39;;
     const envPrefix = options?.env
       ? Object.entries(options.env)
-          .map(([k, v]) => `${k}=${q(v)}`)
-          .join(' ') + ' '
-      : '';
+          .map(([k, v]) =&gt; `${k}=${q(v)}`)
+          .join(&#39; &#39;) + &#39; &#39;
+      : &#39;&#39;;
     const tmo =
-      typeof options?.timeoutMs === 'number' ? `timeout ${options.timeoutMs / 1000} ` : '';
+      typeof options?.timeoutMs === &#39;number&#39; ? `timeout ${options.timeoutMs / 1000} ` : &#39;&#39;;
     const remote = `${envPrefix}${tmo}bash -lc ${q(cd + command)}`;
-    const args = ['--output', 'json', 'use', this.name, '--', 'bash', '-lc', remote];
+    const args = [&#39;--output&#39;, &#39;json&#39;, &#39;use&#39;, this.name, &#39;--&#39;, &#39;bash&#39;, &#39;-lc&#39;, remote];
 
     /* ... spawn the islo CLI and map its output and exit code ... */
   }
@@ -81,16 +81,17 @@ class IsloSandboxApi implements SandboxApi {
 }
 
 export function islo(name: string, options?: IsloAdapterOptions): SandboxFactory {
-  const cliPath = options?.cliPath ?? 'islo';
+  const cliPath = options?.cliPath ?? &#39;islo&#39;;
   return {
-    async createSessionEnv(): Promise<SessionEnv> {
-      const sandboxCwd = options?.cwd ?? '/workspace';
+    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+      const sandboxCwd = options?.cwd ?? &#39;/workspace&#39;;
       const api = new IsloSandboxApi(name, cliPath);
       return createSandboxSessionEnv(api, sandboxCwd);
     },
   };
-}
-```
+}</code></pre>
+<figcaption><span>&lt;source-root&gt;/sandboxes/islo.ts (abridged)</span></figcaption>
+</figure>
 
 Pass a sandbox name to `islo(...)` and assign the returned factory to an agent’s `sandbox` property. Flue resolves relative paths from `/workspace`; the adapter converts `timeoutMs` from milliseconds to seconds for GNU `timeout` inside the sandbox, while the CLI handles remote execution and file operations.
 
@@ -113,7 +114,7 @@ Use islo when an application can rely on a host-installed CLI and wants to conne
 
 The adapter runs remote shell/file work through the CLI; ensure its host process, credentials, and agent inputs match your intended trust boundary.
 
-See [Deploy on Node.js](/docs/ecosystem/deploy/node/), [Sandboxes](/docs/guide/sandboxes/), and [Sandbox Adapter API](/docs/api/sandbox-api/).
+See [Deploy on Node.js](/docs/ecosystem/deploy/node/), [Sandboxes](/docs/guide/sandboxes/), and [Sandbox Adapter API](/docs/reference/sandbox-api/).
 
 
 ## Docs Navigation
@@ -122,10 +123,10 @@ Current page: [islo](/docs/ecosystem/sandboxes/islo/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

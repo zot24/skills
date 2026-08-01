@@ -34,7 +34,7 @@ gl-inet/docs4.x
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
+<a href="../../downloads/" class="md-nav__link"><span class="md-ellipsis"> Downloads </span></a>
 
 
 # Internet<a href="#internet" class="headerlink" title="Permanent link">¶</a>
@@ -92,6 +92,14 @@ If using the <a href="https://www.gl-inet.com/app/#download-app-glinet" target="
 ------------------------------------------------------------------------
 
 Still have questions? Visit our <a href="https://forum.gl-inet.com" target="_blank">Community Forum</a> or <a href="https://www.gl-inet.com/contacts/" target="_blank">Contact us</a>.
+
+Was this page helpful?
+
+
+Thanks for your feedback!
+
+
+Thanks for your feedback! We will use it to improve this page.
 
 
 Back to top

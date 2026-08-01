@@ -230,6 +230,12 @@
       "target": "skills/wealthfolio/docs/quick-start.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/guide/mcp-server",
+      "target": "skills/wealthfolio/docs/guide/mcp-server.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

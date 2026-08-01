@@ -22,7 +22,7 @@ We'll wire Honcho into a Vercel AI SDK app so the model receives context from pa
 * **Honcho** stores messages and retrieves user context before each generation
 * **Your model provider** can be Anthropic, OpenAI, Google, etc.
 
-The key benefit: you don't manually manage conversation history across sessions. Honcho handles persistence and context injection — the model always has a rich picture of who it's talking to. (New to Honcho's primitives? See [peers and sessions](/v3/documentation/core-concepts/architecture).)
+The key benefit: you don't manually manage conversation history across sessions. Honcho handles persistence and context injection — the model always has a rich picture of who it's talking to. (New to Honcho's primitives? See [peers and sessions](/docs/v3/documentation/core-concepts/architecture).)
 
 ## Setup
 

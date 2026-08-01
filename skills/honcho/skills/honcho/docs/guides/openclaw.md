@@ -11,7 +11,7 @@
 [OpenClaw](https://openclaw.ai) is a general AI agent that can perform actions on behalf of a user. The Honcho plugin gives OpenClaw memory across every channel — WhatsApp, Telegram, Discord, Slack, and more.
 
 
-  Honcho can run entirely locally with OpenClaw — no external API required. Keep your data on your machine while getting full memory capabilities across all channels. See the [self-hosting guide](/v3/contributing/self-hosting) to get started.
+  Honcho can run entirely locally with OpenClaw — no external API required. Keep your data on your machine while getting full memory capabilities across all channels. See the [self-hosting guide](/docs/v3/contributing/self-hosting) to get started.
 
 
 For OpenClaw's own documentation on Honcho, see the [Honcho Memory guide](https://docs.openclaw.ai/concepts/memory-honcho).

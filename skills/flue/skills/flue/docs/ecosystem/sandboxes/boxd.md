@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # boxd
 
 
-Last updated May 30, 2026 <a href="/docs/ecosystem/sandboxes/boxd/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/sandboxes/boxd/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
 The boxd adapter adapts an already-initialized boxd `Box` from `@boxd-sh/sdk` into Flue’s sandbox interface. Use it when an agent needs a provider-backed Linux virtual machine with filesystem and shell behavior rather than the lightweight default workspace.
@@ -35,23 +35,23 @@ flue add sandbox boxd
 
 The boxd blueprint installs `@boxd-sh/sdk` when needed and creates `sandboxes/boxd.ts` in your source-root. The generated adapter accepts an application-created boxd `Box`; it does not create, retain, or delete the VM.
 
-``` astro-code
-// flue-blueprint: sandbox/boxd@1
-import { createSandboxSessionEnv } from '@flue/runtime';
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from '@flue/runtime';
-import type { Box as BoxdBox } from '@boxd-sh/sdk';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/boxd@1
+import { createSandboxSessionEnv } from &#39;@flue/runtime&#39;;
+import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
+import type { Box as BoxdBox } from &#39;@boxd-sh/sdk&#39;;
 
 export interface BoxdAdapterOptions {
   cwd?: string;
   readyTimeoutMs?: number;
 }
 
-async function waitForReady(box: BoxdBox, timeoutMs: number): Promise<void> {
-  /* Polls box.exec(['true']) until the VM is ready or the deadline passes. */
+async function waitForReady(box: BoxdBox, timeoutMs: number): Promise&lt;void&gt; {
+  /* Polls box.exec([&#39;true&#39;]) until the VM is ready or the deadline passes. */
 }
 
 function shellQuote(value: string): string {
-  return `'${value.replace(/'/g, `'\\''`)}'`;
+  return `&#39;${value.replace(/&#39;/g, `&#39;\\&#39;&#39;`)}&#39;`;
 }
 
 class BoxdSandboxApi implements SandboxApi {
@@ -65,18 +65,19 @@ class BoxdSandboxApi implements SandboxApi {
 }
 
 export function boxd(box: BoxdBox, options?: BoxdAdapterOptions): SandboxFactory {
-  let readyPromise: Promise<void> | undefined;
+  let readyPromise: Promise&lt;void&gt; | undefined;
   return {
-    async createSessionEnv(): Promise<SessionEnv> {
-      const sandboxCwd = options?.cwd ?? '/home/boxd';
+    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+      const sandboxCwd = options?.cwd ?? &#39;/home/boxd&#39;;
       readyPromise ??= waitForReady(box, options?.readyTimeoutMs ?? 30_000);
       await readyPromise;
       const api = new BoxdSandboxApi(box);
       return createSandboxSessionEnv(api, sandboxCwd);
     },
   };
-}
-```
+}</code></pre>
+<figcaption><span>&lt;source-root&gt;/sandboxes/boxd.ts (abridged)</span></figcaption>
+</figure>
 
 Passing `boxd(box)` as an agent’s `sandbox` waits for that VM’s exec endpoint once, then exposes its files and Linux shell through Flue. Relative paths resolve from `/home/boxd` unless you set `cwd`; command timeouts remain in milliseconds, `stat` validates GNU metadata output, and `rm` receives the requested recursive and force flags, while VM identity, credentials, networking, persistence, and cleanup remain application-owned.
 
@@ -101,7 +102,7 @@ Choose boxd when a task requires real Linux command behavior in an isolated prov
 
 Before reusing a VM across sessions or tenants, define identity, authorization, egress, secrets, and cleanup policies. Conversation persistence remains controlled separately by Flue session storage.
 
-See [Sandboxes](/docs/guide/sandboxes/) for execution-boundary design and [Sandbox Adapter API](/docs/api/sandbox-api/) for the adapter contract.
+See [Sandboxes](/docs/guide/sandboxes/) for execution-boundary design and [Sandbox Adapter API](/docs/reference/sandbox-api/) for the adapter contract.
 
 
 ## Docs Navigation
@@ -110,10 +111,10 @@ Current page: [boxd](/docs/ecosystem/sandboxes/boxd/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

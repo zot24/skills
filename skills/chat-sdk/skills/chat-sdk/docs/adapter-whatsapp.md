@@ -90,6 +90,27 @@ Card elements are automatically converted to WhatsApp interactive messages:
 * **More than 3 buttons** — falls back to formatted text.
 * **Max body text** — 1024 characters.
 
+### Template messages
+
+Outside the 24-hour customer service window, WhatsApp only accepts pre-approved [template messages](https://developers.facebook.com/docs/whatsapp/cloud-api/guides/send-message-templates). Use `sendTemplate` to start business-initiated conversations:
+
+```typescript
+const threadId = await adapter.openDM("15551234567");
+
+await adapter.sendTemplate(threadId, {
+  name: "appointment_reminder",
+  language: "en",
+  components: [
+    {
+      type: "body",
+      parameters: [{ type: "text", text: "Tomorrow at 2pm" }],
+    },
+  ],
+});
+```
+
+Templates must be created and approved in [WhatsApp Manager](https://business.facebook.com/wa/manage/message-templates/) before they can be sent. Quick reply button taps on a template arrive as button responses and are dispatched to your `onAction` handlers.
+
 ### Thread ID format
 
 ```
@@ -101,6 +122,30 @@ Example: `whatsapp:1234567890:15551234567`.
 ### Auto-chunking
 
 Outgoing messages longer than 4096 characters are automatically chunked.
+
+### File uploads
+
+`postMessage` accepts both `files` and `attachments` (typed media with optional `data`, `fetchData`, or a public URL). See the [file uploads guide](/docs/files) for the shared API.
+
+WhatsApp-specific behavior:
+
+* **One media per message** — multiple `files` or `attachments` in a single `post()` are sent as sequential messages (the last message ID is returned).
+* **Captions** — markdown (or card fallback text) is attached as a caption on the first media message when supported (max 1024 characters). Text is sent as a separate message first when the caption is too long or when the first media is audio (audio does not support captions).
+* **Binary vs link** — buffers are uploaded via the Cloud API `/media` endpoint; `attachments` with only an `url` use HTTPS link passthrough (no upload). URLs must use `https://`.
+* **Cards + files** — when the card renders as an interactive message (reply buttons or a list), media is sent first without a caption and the interactive message that follows carries the title, body, and buttons. When the card falls back to plain text (e.g. only link buttons), the fallback text captions the first media. To send a photo with buttons, pass the image via `files` or `attachments` — card-embedded images (`imageUrl` or `<Image>` children) are not sent as native media.
+
+```typescript title="lib/bot.ts" lineNumbers
+await thread.post({
+  markdown: "Here's the report:",
+  files: [
+    {
+      data: reportBuffer,
+      filename: "report.pdf",
+      mimeType: "application/pdf",
+    },
+  ],
+});
+```
 
 ## Feature support
 

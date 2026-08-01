@@ -67,3 +67,12 @@ The main `CatalogAdapter` metadata shape is:
 * `isAdapterSlug(slug)` narrows a string to `AdapterSlug`.
 * `listEnvVars(slug)` flattens required, credential-mode, and optional env vars, de-duplicated by key.
 * `getSecretEnvVars(slug)` returns the subset of `listEnvVars(slug)` marked as secrets.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

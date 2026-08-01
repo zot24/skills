@@ -1298,6 +1298,42 @@
       "target": "skills/firecrawl/docs/api-reference-threat-protection.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/search-highlights.md",
+      "target": "skills/firecrawl/docs/search-highlights.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/mcp-server/clients.md",
+      "target": "skills/firecrawl/docs/clients.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/mcp-server/connect.md",
+      "target": "skills/firecrawl/docs/connect.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/mcp-server/development.md",
+      "target": "skills/firecrawl/docs/development.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/mcp-server/local.md",
+      "target": "skills/firecrawl/docs/local.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/mcp-server/tools.md",
+      "target": "skills/firecrawl/docs/tools.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

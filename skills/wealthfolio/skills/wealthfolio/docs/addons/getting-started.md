@@ -35,43 +35,43 @@
 #### Getting Started
 
 
-<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
 
 
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
 
 
-<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
 
 
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -83,15 +83,17 @@
 Docs
 
 
-Getting Started
+Build Your First Addon
 
 
-# Getting Started
+# Build Your First Addon
 
 Create your first Wealthfolio addon in 5 minutes.
 
 
 ------------------------------------------------------------------------
+
+Last updated July 29, 2026
 
 
 ## Prerequisites
@@ -182,17 +184,26 @@ hello-world-addon/
   "description": "My first Wealthfolio addon",
   "author": "Your Name",
   "main": "dist/addon.js",
-  "sdkVersion": "3.6.0",
-  "minWealthfolioVersion": "3.6.0",
-  "permissions": [
-    {
-      "category": "ui",
-      "functions": ["sidebar.addItem", "router.add", "onDisable"],
-      "purpose": "Add navigation items and routes"
+  "sdkVersion": "3.6.1",
+  "minWealthfolioVersion": "3.6.1",
+  "enabled": true,
+  "contributes": {
+    "routes": [{ "id": "hello-world", "path": "/addons/hello-world" }],
+    "links": {
+      "sidebar": [
+        {
+          "id": "hello-world",
+          "route": "hello-world",
+          "label": "Hello World",
+          "icon": "puzzle-piece",
+          "order": 100
+        }
+      ]
     }
-  ],
+  },
+  "permissions": [],
   "hostDependencies": {
-    "@wealthfolio/addon-sdk": "^3.6.0",
+    "@wealthfolio/addon-sdk": "^3.6.1",
     "@wealthfolio/ui": "^3.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
@@ -200,14 +211,17 @@ hello-world-addon/
 }
 ```
 
+Navigation is **declarative**. A `contributes.routes` entry is a durable addon page — the host can render it (and build the sidebar) before your addon boots, so nothing runs until the route is first visited. A `contributes.links` entry places that route in a host slot (only `"sidebar"` is consumed today) and references a declared route `id`. The runtime `router.add({ id })` you register in `addon.tsx` **must use the same `id`** as its declared route.
+
+Baseline capabilities — `ui`, `query`, `toast`, `logger`, and `storage` — are implicit and never declared in `permissions`. Only data domains and `files`, `network`, `secrets`, `events`, `snapshots`, and `settings` need an entry.
+
 ## Main Addon File
 
 `src/addon.tsx` contains the addon logic:
 
 ``` mb-4
-import React from 'react';
-import type { AddonContext } from '@wealthfolio/addon-sdk';
-import { createRoot, type Root } from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import type { AddonContext, AddonEnableFunction } from '@wealthfolio/addon-sdk';
 
 function HelloWorldPage() {
   return (
@@ -223,40 +237,47 @@ function HelloWorldPage() {
   );
 }
 
-export default function enable(ctx: AddonContext) {
-  let routeRoot: Root | undefined;
+// The host owns a single React root per addon and mounts the route `component`
+// itself, with no access to the addon context. Capture it at enable time so the
+// route wrapper can hand it down. (Do NOT call createRoot yourself — the host
+// manages the lifecycle.)
+let addonCtx: AddonContext | undefined;
 
-  // Add sidebar item
-  const sidebarItem = ctx.sidebar.addItem({
-    id: 'hello-world',
-    label: 'Hello World',
-    icon: 'puzzle-piece',
-    route: '/addons/hello-world',
-    order: 100,
-  });
+const HelloWorldRoute = () => (
+  <QueryClientProvider client={addonCtx!.api.query.getClient() as QueryClient}>
+    <HelloWorldPage />
+  </QueryClientProvider>
+);
 
-  // Register route in this addon's namespace
+const enable: AddonEnableFunction = (ctx) => {
+  addonCtx = ctx;
+
+  // The sidebar item + route are declared in manifest.json (`contributes`), so
+  // the host renders navigation without booting the addon. The route `id` MUST
+  // match `contributes.routes[].id`.
   ctx.router.add({
     id: 'hello-world',
     path: '/addons/hello-world',
-    render({ root }) {
-      routeRoot ??= createRoot(root);
-      routeRoot.render(<HelloWorldPage />);
-    },
+    component: HelloWorldRoute,
   });
 
   ctx.api.logger.info('Hello World addon loaded');
 
+  // The host owns the React root, so there is nothing to unmount here.
   ctx.onDisable(() => {
-    sidebarItem.remove();
-    routeRoot?.unmount();
+    addonCtx = undefined;
     ctx.api.logger.info('Hello World addon disabled');
   });
-}
+};
+
+export default enable;
 ```
 
 
-The sidebar `icon` is one of a curated set of <a href="https://phosphoricons.com" class="font-medium underline underline-offset-4">Phosphor</a> names, typed as `AddonIconName`. Import the type for autocomplete, and see the full list in the <a href="/docs/addons/api-reference#sidebar-icons" class="font-medium underline underline-offset-4">API reference</a>.
+Hand the host a `component` and let it own the single React root — do **not** call `createRoot` yourself (a per-route root leaves an orphaned tree whose re-renders never reach the DOM). The component receives the current route as a `{ location }` prop; the sandbox has no react-router provider, so `useLocation()` / `useParams()` are unavailable. `render` remains as a legacy imperative escape hatch, but `component` is preferred.
+
+
+The sidebar `icon` (declared in `contributes.links`) is one of a curated set of <a href="https://phosphoricons.com" class="font-medium underline underline-offset-4">Phosphor</a> names, typed as `AddonIconName`. See the full list in the <a href="/docs/addons/api-reference/#sidebar-icons" class="font-medium underline underline-offset-4">API reference</a>.
 
 
 ## Start Development
@@ -314,10 +335,8 @@ pnpm add @tanstack/react-query@^5.62.7
 Update `src/addon.tsx` to access portfolio data using TanStack Query:
 
 ``` mb-4
-import React from 'react';
-import { QueryClientProvider, useQuery, type QueryClient } from '@tanstack/react-query';
-import type { AddonContext, Account } from '@wealthfolio/addon-sdk';
-import { createRoot, type Root } from 'react-dom/client';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import type { AddonContext, AddonEnableFunction, Account } from '@wealthfolio/addon-sdk';
 
 function HelloWorldPage({ ctx }: { ctx: AddonContext }) {
   const {
@@ -403,37 +422,32 @@ function HelloWorldPage({ ctx }: { ctx: AddonContext }) {
   );
 }
 
-export default function enable(ctx: AddonContext) {
-  let routeRoot: Root | undefined;
-  const queryClient = ctx.api.query.getClient() as QueryClient;
+// Capture the context at enable time so the route wrapper can supply it (and a
+// shared QueryClientProvider) to the page. The QueryClientProvider shares one
+// cache across route navigations.
+let addonCtx: AddonContext | undefined;
 
-  const sidebarItem = ctx.sidebar.addItem({
-    id: 'hello-world',
-    label: 'Hello World',
-    icon: 'puzzle-piece',
-    route: '/addons/hello-world',
-    order: 100,
-  });
+const HelloWorldRoute = () => (
+  <QueryClientProvider client={addonCtx!.api.query.getClient() as QueryClient}>
+    <HelloWorldPage ctx={addonCtx!} />
+  </QueryClientProvider>
+);
+
+const enable: AddonEnableFunction = (ctx) => {
+  addonCtx = ctx;
 
   ctx.router.add({
     id: 'hello-world',
     path: '/addons/hello-world',
-    render({ root }) {
-      routeRoot ??= createRoot(root);
-      routeRoot.render(
-        <QueryClientProvider client={queryClient}>
-          <HelloWorldPage ctx={ctx} />
-        </QueryClientProvider>,
-      );
-    },
+    component: HelloWorldRoute,
   });
 
   ctx.onDisable(() => {
-    sidebarItem.remove();
-    routeRoot?.unmount();
-    queryClient.clear();
+    addonCtx = undefined;
   });
-}
+};
+
+export default enable;
 ```
 
 ## Update Permissions
@@ -448,29 +462,41 @@ Update `manifest.json` to include account access:
   "description": "My first Wealthfolio addon",
   "author": "Your Name",
   "main": "dist/addon.js",
-  "sdkVersion": "3.6.0",
-  "minWealthfolioVersion": "3.6.0",
+  "sdkVersion": "3.6.1",
+  "minWealthfolioVersion": "3.6.1",
+  "enabled": true,
+  "contributes": {
+    "routes": [{ "id": "hello-world", "path": "/addons/hello-world" }],
+    "links": {
+      "sidebar": [
+        {
+          "id": "hello-world",
+          "route": "hello-world",
+          "label": "Hello World",
+          "icon": "puzzle-piece",
+          "order": 100
+        }
+      ]
+    }
+  },
   "permissions": [
     {
       "category": "accounts",
       "functions": ["getAll"],
       "purpose": "Display account summary"
-    },
-    {
-      "category": "ui",
-      "functions": ["sidebar.addItem", "router.add", "onDisable"],
-      "purpose": "Add navigation and routes"
     }
   ],
   "hostDependencies": {
     "@tanstack/react-query": "^5.90.0",
-    "@wealthfolio/addon-sdk": "^3.6.0",
+    "@wealthfolio/addon-sdk": "^3.6.1",
     "@wealthfolio/ui": "^3.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }
 }
 ```
+
+Only the `accounts` data domain needs declaring — navigation now lives in `contributes`, and the `ui` capability it used to require is baseline (implicit).
 
 ## Build and Package
 
@@ -649,42 +675,42 @@ You now understand:
 
 Continue with:
 
-- <a href="/docs/addons/api-reference" class="font-medium underline underline-offset-4">API Reference</a> - All available APIs
+- <a href="/docs/addons/api-reference/" class="font-medium underline underline-offset-4">API Reference</a> - All available APIs
 - <a href="https://github.com/wealthfolio/wealthfolio-addons/tree/main/official" class="font-medium underline underline-offset-4">Examples</a> - Real addon implementations
 
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/addons" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Overview</a> <a href="/docs/addons/api-reference" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">API Reference</a>
+<a href="/docs/addons/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Overview</a> <a href="/docs/addons/api-reference/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">API Reference</a>
 
 
 On This Page
 
-- <a href="#prerequisites" class="inline-block no-underline text-sm text-muted-foreground">Prerequisites</a>
-- <a href="#start-wealthfolio-recommended" class="inline-block no-underline text-sm text-muted-foreground">Start Wealthfolio (Recommended)</a>
-- <a href="#create-new-addon" class="inline-block no-underline text-sm text-muted-foreground">Create New Addon</a>
-- <a href="#manifest-file" class="inline-block no-underline text-sm text-muted-foreground">Manifest File</a>
-- <a href="#main-addon-file" class="inline-block no-underline text-sm text-muted-foreground">Main Addon File</a>
-- <a href="#start-development" class="inline-block no-underline text-sm text-muted-foreground">Start Development</a>
-  - <a href="#hot-reload-features" class="inline-block no-underline text-sm text-muted-foreground">Hot Reload Features</a>
-  - <a href="#available-commands" class="inline-block no-underline text-sm text-muted-foreground">Available Commands</a>
-- <a href="#add-data-access" class="inline-block no-underline text-sm text-muted-foreground">Add Data Access</a>
-- <a href="#update-permissions" class="inline-block no-underline text-sm text-muted-foreground">Update Permissions</a>
-- <a href="#build-and-package" class="inline-block no-underline text-sm text-muted-foreground">Build and Package</a>
-- <a href="#debugging-and-development-tools" class="inline-block no-underline text-sm text-muted-foreground">Debugging and Development Tools</a>
-  - <a href="#browser-developer-tools" class="inline-block no-underline text-sm text-muted-foreground">Browser Developer Tools</a>
-  - <a href="#error-handling" class="inline-block no-underline text-sm text-muted-foreground">Error Handling</a>
-  - <a href="#development-server-features" class="inline-block no-underline text-sm text-muted-foreground">Development Server Features</a>
-- <a href="#ide-setup" class="inline-block no-underline text-sm text-muted-foreground">IDE Setup</a>
-  - <a href="#vs-code-recommended" class="inline-block no-underline text-sm text-muted-foreground">VS Code (Recommended)</a>
-- <a href="#code-quality-and-testing" class="inline-block no-underline text-sm text-muted-foreground">Code Quality and Testing</a>
-  - <a href="#manual-testing" class="inline-block no-underline text-sm text-muted-foreground">Manual Testing</a>
-  - <a href="#code-quality-commands" class="inline-block no-underline text-sm text-muted-foreground">Code Quality Commands</a>
-- <a href="#configuration-files" class="inline-block no-underline text-sm text-muted-foreground">Configuration Files</a>
-  - <a href="#packagejson-scripts" class="inline-block no-underline text-sm text-muted-foreground">Package.json Scripts</a>
-  - <a href="#typescript-configuration" class="inline-block no-underline text-sm text-muted-foreground">TypeScript Configuration</a>
-  - <a href="#vite-build-configuration" class="inline-block no-underline text-sm text-muted-foreground">Vite Build Configuration</a>
-- <a href="#next-steps" class="inline-block no-underline text-sm text-muted-foreground">Next Steps</a>
+- <a href="#prerequisites" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Prerequisites</a>
+- <a href="#start-wealthfolio-recommended" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Start Wealthfolio (Recommended)</a>
+- <a href="#create-new-addon" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Create New Addon</a>
+- <a href="#manifest-file" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Manifest File</a>
+- <a href="#main-addon-file" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Main Addon File</a>
+- <a href="#start-development" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Start Development</a>
+  - <a href="#hot-reload-features" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Hot Reload Features</a>
+  - <a href="#available-commands" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Available Commands</a>
+- <a href="#add-data-access" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Add Data Access</a>
+- <a href="#update-permissions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Update Permissions</a>
+- <a href="#build-and-package" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Build and Package</a>
+- <a href="#debugging-and-development-tools" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Debugging and Development Tools</a>
+  - <a href="#browser-developer-tools" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Browser Developer Tools</a>
+  - <a href="#error-handling" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Error Handling</a>
+  - <a href="#development-server-features" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Development Server Features</a>
+- <a href="#ide-setup" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">IDE Setup</a>
+  - <a href="#vs-code-recommended" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">VS Code (Recommended)</a>
+- <a href="#code-quality-and-testing" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Code Quality and Testing</a>
+  - <a href="#manual-testing" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Manual Testing</a>
+  - <a href="#code-quality-commands" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Code Quality Commands</a>
+- <a href="#configuration-files" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Configuration Files</a>
+  - <a href="#packagejson-scripts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Package.json Scripts</a>
+  - <a href="#typescript-configuration" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">TypeScript Configuration</a>
+  - <a href="#vite-build-configuration" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Vite Build Configuration</a>
+- <a href="#next-steps" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Next Steps</a>
 
 

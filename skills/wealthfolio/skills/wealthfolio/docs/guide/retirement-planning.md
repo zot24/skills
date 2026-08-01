@@ -35,43 +35,43 @@
 #### Getting Started
 
 
-<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
 
 
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
 
 
-<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
 
 
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -92,6 +92,8 @@ Project your portfolio to retirement, find your FIRE number, and stress-test the
 
 
 ------------------------------------------------------------------------
+
+Last updated July 29, 2026
 
 
 The retirement planner is a first-class goal type that simulates your portfolio year by year, models the spending, income, taxes, and asset allocation that will apply in retirement, and tells you when (and whether) you can stop working. It powers both **traditional retirement planning** and **FIRE** (Financial Independence, Retire Early).
@@ -129,15 +131,15 @@ The configurator sidebar groups inputs into the sections below. Defaults are sho
 ### Investment assumptions
 
 
-| Field                        | Unit     | Default | Range             |
-|------------------------------|----------|---------|-------------------|
-| Pre-retirement annual return | %        | 5.77    | -99 – 99          |
-| Retirement annual return     | %        | 3.37    | -99 – 99          |
-| Annual investment fee rate   | %        | 0.6     | 0 – 5             |
-| Annual volatility            | %        | 12      | 0 – 100           |
-| Inflation rate               | %        | 2       | -20 – 50          |
-| Monthly contribution         | currency | —       | 0 – 1,000,000,000 |
-| Contribution growth rate     | %        | 0       | -20 – 20          |
+| Field                        | Unit     | Default | Range   |
+|------------------------------|----------|---------|---------|
+| Pre-retirement annual return | %        | 5.77    | 0 – 50  |
+| Retirement annual return     | %        | 3.37    | 0 – 50  |
+| Annual investment fee rate   | %        | 0.6     | 0 – 10  |
+| Annual volatility            | %        | 12      | 0 – 100 |
+| Inflation rate               | %        | 2       | 0 – 20  |
+| Monthly contribution         | currency | 1,000   | ≥ 0     |
+| Contribution growth rate     | %        | 2       | 0 – 25  |
 
 
 The fee rate is subtracted from both pre-retirement and retirement returns to produce the **net** rate used in the projection.
@@ -220,7 +222,7 @@ A **value mode toggle** switches every figure between **nominal** (future-dollar
 
 The What If tab runs the same plan through stochastic and stress scenarios:
 
-- **Monte Carlo** — randomised paths (return draws from a lognormal distribution calibrated to your input return and volatility, inflation correlated -0.25 to returns). Default is 5,000 paths and you can dial it up to 500,000. Reports a **success rate** plus the percentile bands shown on the trajectory chart.
+- **Monte Carlo** — randomised paths (return draws from a lognormal distribution calibrated to your input return and volatility, inflation correlated -0.25 to returns). Default is 5,000 paths; you can run 10,000 or 100,000. Reports a **success rate** plus the percentile bands shown on the trajectory chart.
 - **Sensitivity** — sweeps a single parameter (return, contribution, retirement age…) and shows how the outcome moves.
 - **Sequence-of-returns risk (SORR)** — stress-tests the early retirement years where a market drop hurts the most.
 
@@ -262,7 +264,7 @@ These are baked into the model and worth knowing before you trust the output:
 - **Contribution routing** — future contributions are added to the existing tax buckets in the same proportion as the current bucket balances. Per-account contribution routing isn’t modelled.
 - **No rebalancing modelling** — buckets aren’t rebalanced; their proportions drift only as withdrawals deplete them.
 - **Inflation guardrail** — the cumulative inflation factor is clamped to a minimum of 0.01 to prevent divide-by-zero blow-ups in extreme deflation scenarios.
-- **Search ceiling** — the required-capital binary search is capped at \$1 trillion. Any plan that needs more than that is reported as unreachable.
+- **Required-capital search** — found by an expanding search with no fixed ceiling, so even very large targets resolve.
 
 ## Limitations
 
@@ -293,37 +295,37 @@ Even in FIRE mode the planner won’t start drawing down before your target reti
 
 ## Related
 
-- <a href="/docs/guide/goals" class="font-medium underline underline-offset-4">Goals &amp; Save-Up Planner</a> — for non-retirement goals.
-- <a href="/docs/guide/contribution-limits" class="font-medium underline underline-offset-4">Contribution Limits</a> — track yearly room on retirement accounts.
-- <a href="/docs/concepts/performance-metrics" class="font-medium underline underline-offset-4">Performance Metrics</a> — how returns are computed from your real history.
+- <a href="/docs/guide/goals/" class="font-medium underline underline-offset-4">Goals &amp; Save-Up Planner</a> — for non-retirement goals.
+- <a href="/docs/guide/contribution-limits/" class="font-medium underline underline-offset-4">Contribution Limits</a> — track yearly room on retirement accounts.
+- <a href="/docs/concepts/performance-metrics/" class="font-medium underline underline-offset-4">Performance Metrics</a> — how returns are computed from your real history.
 
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/guide/goals" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/contribution-limits" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Contribution Limits</a>
+<a href="/docs/guide/goals/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/contribution-limits/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Contribution Limits</a>
 
 
 On This Page
 
-- <a href="#creating-a-retirement-goal" class="inline-block no-underline text-sm text-muted-foreground">Creating a Retirement Goal</a>
-- <a href="#the-plan-what-you-configure" class="inline-block no-underline text-sm text-muted-foreground">The Plan: What You Configure</a>
-  - <a href="#personal-profile" class="inline-block no-underline text-sm text-muted-foreground">Personal profile</a>
-  - <a href="#investment-assumptions" class="inline-block no-underline text-sm text-muted-foreground">Investment assumptions</a>
-  - <a href="#expenses" class="inline-block no-underline text-sm text-muted-foreground">Expenses</a>
-  - <a href="#income-streams" class="inline-block no-underline text-sm text-muted-foreground">Income streams</a>
-  - <a href="#tax-profile-optional" class="inline-block no-underline text-sm text-muted-foreground">Tax profile (optional)</a>
-  - <a href="#funding" class="inline-block no-underline text-sm text-muted-foreground">Funding</a>
-- <a href="#what-the-dashboard-shows" class="inline-block no-underline text-sm text-muted-foreground">What the Dashboard Shows</a>
-  - <a href="#kpis" class="inline-block no-underline text-sm text-muted-foreground">KPIs</a>
-- <a href="#what-if" class="inline-block no-underline text-sm text-muted-foreground">What If</a>
-- <a href="#how-the-engine-works" class="inline-block no-underline text-sm text-muted-foreground">How the Engine Works</a>
-  - <a href="#the-deterministic-projection" class="inline-block no-underline text-sm text-muted-foreground">The deterministic projection</a>
-  - <a href="#how-required-capital-is-found" class="inline-block no-underline text-sm text-muted-foreground">How "required capital" is found</a>
-  - <a href="#how-monte-carlo-works" class="inline-block no-underline text-sm text-muted-foreground">How Monte Carlo works</a>
-- <a href="#engine-assumptions" class="inline-block no-underline text-sm text-muted-foreground">Engine Assumptions</a>
-- <a href="#limitations" class="inline-block no-underline text-sm text-muted-foreground">Limitations</a>
-- <a href="#fire-mode-in-detail" class="inline-block no-underline text-sm text-muted-foreground">FIRE Mode in Detail</a>
-- <a href="#related" class="inline-block no-underline text-sm text-muted-foreground">Related</a>
+- <a href="#creating-a-retirement-goal" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Creating a Retirement Goal</a>
+- <a href="#the-plan-what-you-configure" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">The Plan: What You Configure</a>
+  - <a href="#personal-profile" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Personal profile</a>
+  - <a href="#investment-assumptions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Investment assumptions</a>
+  - <a href="#expenses" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Expenses</a>
+  - <a href="#income-streams" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Income streams</a>
+  - <a href="#tax-profile-optional" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Tax profile (optional)</a>
+  - <a href="#funding" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Funding</a>
+- <a href="#what-the-dashboard-shows" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">What the Dashboard Shows</a>
+  - <a href="#kpis" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">KPIs</a>
+- <a href="#what-if" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">What If</a>
+- <a href="#how-the-engine-works" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">How the Engine Works</a>
+  - <a href="#the-deterministic-projection" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">The deterministic projection</a>
+  - <a href="#how-required-capital-is-found" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">How "required capital" is found</a>
+  - <a href="#how-monte-carlo-works" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">How Monte Carlo works</a>
+- <a href="#engine-assumptions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Engine Assumptions</a>
+- <a href="#limitations" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Limitations</a>
+- <a href="#fire-mode-in-detail" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">FIRE Mode in Detail</a>
+- <a href="#related" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Related</a>
 
 

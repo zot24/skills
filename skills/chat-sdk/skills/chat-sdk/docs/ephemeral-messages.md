@@ -30,12 +30,12 @@ The `fallbackToDM` option is required and controls behavior on platforms without
 
 ## Platform behavior
 
-| Platform    | Native support | Behavior                 | Persistence                         |
-| ----------- | -------------- | ------------------------ | ----------------------------------- |
-| Slack       | Yes            | Ephemeral in channel     | Session-only (disappears on reload) |
-| Google Chat | Yes            | Private message in space | Persists until deleted              |
-| Discord     | No             | DM fallback              | Persists in DM                      |
-| Teams       | No             | DM fallback              | Persists in DM                      |
+| Platform    | Native support | Behavior                         | Persistence                         |
+| ----------- | -------------- | -------------------------------- | ----------------------------------- |
+| Slack       | Yes            | Ephemeral in channel             | Session-only (disappears on reload) |
+| Google Chat | Yes            | Private message in space         | Persists until deleted              |
+| Teams       | Yes            | Targeted message in conversation | Teams-managed                       |
+| Discord     | No             | DM fallback                      | Persists in DM                      |
 
 Discord slash command responses can be made ephemeral with the Discord adapter's [`interactionFlags` option](/adapters/official/discord#interaction-flags). Outside that interaction flow, `postEphemeral` still follows the fallback behavior.
 
@@ -82,3 +82,12 @@ await thread.postEphemeral(
   { fallbackToDM: true }
 );
 ```
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

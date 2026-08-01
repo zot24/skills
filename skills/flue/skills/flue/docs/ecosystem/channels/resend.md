@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Resend
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/resend/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/resend" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/resend</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/resend/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/resend" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/resend</a>
 
 
 ## Quickstart
@@ -33,11 +33,11 @@ flue add channel resend
 
 The Resend blueprint installs `@flue/resend` and the official `resend` SDK, adds the SDK’s declaration-only development dependencies, and creates `channels/resend.ts` in the source-root. It also updates the selected agent to bind a message-retrieval tool to the verified inbound email.
 
-``` astro-code
-import { createResendChannel } from '@flue/resend';
-import { dispatch } from '@flue/runtime';
-import { Resend } from 'resend';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createResendChannel } from &#39;@flue/resend&#39;;
+import { dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Resend } from &#39;resend&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const client = new Resend(process.env.RESEND_API_KEY!);
 
@@ -45,23 +45,42 @@ export const channel = createResendChannel({
   client,
   webhookSecret: process.env.RESEND_WEBHOOK_SECRET!,
   async webhook({ event, delivery }) {
-    if (event.type !== 'email.received') return;
-    await dispatch(assistant, {
+    if (event.type !== &#39;email.received&#39;) return;
+    await dispatch(Assistant, {
       id: emailInstanceId(event.data.email_id),
-      input: {
-        type: 'resend.email.received',
-        deliveryId: delivery.id,
-        emailId: event.data.email_id,
-        from: event.data.from,
-        to: event.data.to,
-        subject: event.data.subject,
+      message: {
+        kind: &#39;signal&#39;,
+        type: &#39;resend.email.received&#39;,
+        // The webhook carries envelope data only; the agent retrieves the
+        // full email text through the retrieve_resend_email tool.
+        body: event.data.subject,
+        attributes: {
+          deliveryId: delivery.id,
+          emailId: event.data.email_id,
+          from: event.data.from,
+          to: event.data.to.join(&#39;, &#39;),
+        },
       },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/resend.ts (abridged)</span></figcaption>
+</figure>
 
 The abridged example omits the generated local email-id helpers and `retrieveReceivedEmail()` tool. The complete blueprint binds that tool in the agent module, so a verified `email.received` event starts a message-scoped agent instance that can retrieve the full email through the project-owned client. Receiving-domain setup, webhook registration, attachment retrieval, outbound mail, and reply policy remain application-owned.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as resend } from &#39;./channels/resend.ts&#39;;
+
+app.route(&#39;/channels/resend&#39;, resend.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/resend` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -84,13 +103,13 @@ The SDK’s public declarations reference `Buffer` and React email types. Add `@
 
 ## Channel module
 
-``` astro-code
-import { createResendChannel } from '@flue/resend';
-import { defineTool, dispatch } from '@flue/runtime';
-import { Resend } from 'resend';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createResendChannel } from &#39;@flue/resend&#39;;
+import { defineTool, dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Resend } from &#39;resend&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
-const EMAIL_INSTANCE_PREFIX = 'resend-email:';
+const EMAIL_INSTANCE_PREFIX = &#39;resend-email:&#39;;
 
 export const client = new Resend(process.env.RESEND_API_KEY!);
 
@@ -101,19 +120,26 @@ export const channel = createResendChannel({
   // Path: /channels/resend/webhook
   async webhook({ event, delivery }) {
     switch (event.type) {
-      case 'email.received': {
-        await dispatch(assistant, {
+      case &#39;email.received&#39;: {
+        await dispatch(Assistant, {
           id: emailInstanceId(event.data.email_id),
-          input: {
-            type: 'resend.email.received',
-            deliveryId: delivery.id,
-            emailId: event.data.email_id,
-            messageId: event.data.message_id,
-            from: event.data.from,
-            to: event.data.to,
-            cc: event.data.cc,
-            subject: event.data.subject,
-            attachments: event.data.attachments,
+          message: {
+            kind: &#39;signal&#39;,
+            type: &#39;resend.email.received&#39;,
+            // The webhook carries envelope data only; the agent retrieves the
+            // full email text through the retrieve_resend_email tool.
+            body: event.data.subject,
+            attributes: {
+              deliveryId: delivery.id,
+              emailId: event.data.email_id,
+              messageId: event.data.message_id,
+              from: event.data.from,
+              to: event.data.to.join(&#39;, &#39;),
+              ...(event.data.cc.length === 0 ? {} : { cc: event.data.cc.join(&#39;, &#39;) }),
+              ...(event.data.attachments.length === 0
+                ? {}
+                : { attachmentCount: String(event.data.attachments.length) }),
+            },
           },
         });
         return;
@@ -126,30 +152,31 @@ export const channel = createResendChannel({
 
 export function retrieveReceivedEmail(emailId: string) {
   return defineTool({
-    name: 'retrieve_resend_email',
-    description: 'Retrieve the complete inbound email already bound to this agent.',
+    name: &#39;retrieve_resend_email&#39;,
+    description: &#39;Retrieve the complete inbound email already bound to this agent.&#39;,
     async run() {
       const result = await client.emails.receiving.get(emailId);
       if (result.error) throw new Error(result.error.message);
-      return result.data;
+      return { output: result.data };
     },
   });
 }
 
 export function emailInstanceId(emailId: string): string {
-  if (!emailId) throw new TypeError('Resend email id must be non-empty.');
+  if (!emailId) throw new TypeError(&#39;Resend email id must be non-empty.&#39;);
   return `${EMAIL_INSTANCE_PREFIX}${encodeURIComponent(emailId)}`;
 }
 
 export function emailIdFromInstanceId(id: string): string {
   if (!id.startsWith(EMAIL_INSTANCE_PREFIX)) {
-    throw new TypeError('Expected a local Resend email instance id.');
+    throw new TypeError(&#39;Expected a local Resend email instance id.&#39;);
   }
   const emailId = decodeURIComponent(id.slice(EMAIL_INSTANCE_PREFIX.length));
-  if (!emailId) throw new TypeError('Expected a local Resend email instance id.');
+  if (!emailId) throw new TypeError(&#39;Expected a local Resend email instance id.&#39;);
   return emailId;
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/resend.ts</span></figcaption>
+</figure>
 
 `@flue/resend` gives `client.webhooks.verify()` the exact request body and the signed `svix-id`, `svix-timestamp`, and `svix-signature` values before invoking `webhook`. Returning nothing produces an empty `200`. A JSON-compatible value becomes the response body, and a normal Hono or Fetch `Response` passes through unchanged. Resend retries every status other than `200`, so return a non-`200` response only when redelivery is intentional.
 
@@ -167,18 +194,19 @@ Use `client.emails.receiving.attachments` to obtain signed download URLs when at
 
 ## Bind the tool
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { emailIdFromInstanceId, retrieveReceivedEmail } from '../channels/resend.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { type AgentProps, useModel, useTool } from &#39;@flue/runtime&#39;;
+import { emailIdFromInstanceId, retrieveReceivedEmail } from &#39;../channels/resend.ts&#39;;
 
-export default defineAgent(({ id }) => {
+export function Assistant({ id }: AgentProps) {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
   const emailId = emailIdFromInstanceId(id);
-  return {
-    model: 'anthropic/claude-haiku-4-5',
-    tools: [retrieveReceivedEmail(emailId)],
-  };
-});
-```
+  useTool(retrieveReceivedEmail(emailId));
+  return &#39;Review the inbound support email. Retrieve the complete email when its body or headers are needed.&#39;;
+}</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
 
 The model can retrieve only the email already bound by trusted application code. Outbound send, forward, or reply tools should likewise bind credentials, sender identity, recipients, and message policy outside model-selected arguments.
 
@@ -207,10 +235,10 @@ Current page: [Resend](/docs/ecosystem/channels/resend/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

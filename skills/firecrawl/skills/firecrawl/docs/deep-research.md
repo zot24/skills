@@ -10,6 +10,10 @@
 
 Build automated research agents that search the web, scrape full-page content, and synthesize findings with an LLM. Firecrawl handles source discovery and content extraction so you can focus on analysis, not parsing HTML.
 
+
+  This is the current recommended Deep Research workflow. It is built from Firecrawl Search and Scrape. If you are maintaining the legacy v1 Deep Research API, use the [v1 Deep Research endpoint](/api-reference/v1-endpoint/deep-research) and plan migration to the Search-based workflow.
+
+
 ## Start with a Template
 
 

@@ -12,16 +12,16 @@ Advanced features give you fine-grained control over Honcho's behavior and imple
 
 ## Reasoning & Memory
 
-* [Configuration](/v3/documentation/features/advanced/reasoning-configuration) - Configure reasoning models and behavior
-* [Summarizer](/v3/documentation/features/advanced/summarizer) - Automatic session summarization
-* [Peer Card](/v3/documentation/features/advanced/peer-card) - Quick-reference profile of stable biographical facts about a peer
-* [Representation Scopes](/v3/documentation/features/advanced/representation-scopes) - Directional representations for multi-peer scenarios
-* [Dreaming](/v3/documentation/features/advanced/dreaming) - Autonomous memory consolidation and self-improvement
-* [Queue Status](/v3/documentation/features/advanced/queue-status) - Monitor background processing and reasoning tasks
+* [Configuration](/docs/v3/documentation/features/advanced/reasoning-configuration) - Configure reasoning models and behavior
+* [Summarizer](/docs/v3/documentation/features/advanced/summarizer) - Automatic session summarization
+* [Peer Card](/docs/v3/documentation/features/advanced/peer-card) - Quick-reference profile of stable biographical facts about a peer
+* [Representation Scopes](/docs/v3/documentation/features/advanced/representation-scopes) - Directional representations for multi-peer scenarios
+* [Dreaming](/docs/v3/documentation/features/advanced/dreaming) - Autonomous memory consolidation and self-improvement
+* [Queue Status](/docs/v3/documentation/features/advanced/queue-status) - Monitor background processing and reasoning tasks
 
 ## Querying & Data
 
-* [Search](/v3/documentation/features/advanced/search) - Search across peers, sessions, and messages
-* [Filters](/v3/documentation/features/advanced/using-filters) - Filter queries with advanced parameters
-* [Streaming Responses](/v3/documentation/features/advanced/streaming-response) - Stream dialectic responses in real-time
-* [File Uploads](/v3/documentation/features/advanced/file-uploads) - Ingest files into peer memory
+* [Search](/docs/v3/documentation/features/advanced/search) - Search across peers, sessions, and messages
+* [Filters](/docs/v3/documentation/features/advanced/using-filters) - Filter queries with advanced parameters
+* [Streaming Responses](/docs/v3/documentation/features/advanced/streaming-response) - Stream dialectic responses in real-time
+* [File Uploads](/docs/v3/documentation/features/advanced/file-uploads) - Ingest files into peer memory

@@ -99,3 +99,12 @@ The SDK is distributed as a set of packages you install based on your needs:
 | `@chat-adapter/state-ioredis` | ioredis state adapter (alternative)                                                                                                                                                      |
 | `@chat-adapter/state-pg`      | PostgreSQL state adapter (production)                                                                                                                                                    |
 | `@chat-adapter/state-memory`  | In-memory state adapter (development)                                                                                                                                                    |
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

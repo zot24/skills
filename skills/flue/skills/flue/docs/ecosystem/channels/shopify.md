@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Shopify
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/shopify/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/shopify" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/shopify</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/shopify/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/shopify" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/shopify</a>
 
 
 ## Quickstart
@@ -33,17 +33,17 @@ flue add channel shopify
 
 The blueprint installs `@flue/shopify` and the official lightweight `@shopify/admin-api-client`, creates a source-root `channels/shopify.ts` module with named `channel` and project-owned `client` exports, and modifies the selected orders agent to bind a generated Admin GraphQL tool. It also adds `@types/node` when the project needs the Admin client’s declaration-only `Buffer` type.
 
-``` astro-code
-import { createAdminApiClient } from '@shopify/admin-api-client';
-import { createShopifyChannel } from '@flue/shopify';
-import { dispatch } from '@flue/runtime';
-import orders from '../agents/orders.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createAdminApiClient } from &#39;@shopify/admin-api-client&#39;;
+import { createShopifyChannel } from &#39;@flue/shopify&#39;;
+import { dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Orders } from &#39;../agents/orders.ts&#39;;
 
 const SHOP_DOMAIN = process.env.SHOPIFY_SHOP_DOMAIN!;
 
 export const client = createAdminApiClient({
   storeDomain: SHOP_DOMAIN,
-  apiVersion: '2026-04',
+  apiVersion: &#39;2026-04&#39;,
   accessToken: process.env.SHOPIFY_ADMIN_ACCESS_TOKEN!,
 });
 
@@ -51,23 +51,42 @@ export const channel = createShopifyChannel({
   clientSecret: process.env.SHOPIFY_CLIENT_SECRET!,
   previousClientSecret: process.env.SHOPIFY_PREVIOUS_CLIENT_SECRET || undefined,
   async webhook({ c, payload }) {
-    const shopDomain = c.req.header('x-shopify-shop-domain');
+    const shopDomain = c.req.header(&#39;x-shopify-shop-domain&#39;);
     if (shopDomain !== SHOP_DOMAIN) {
-      return c.json({ error: 'Unexpected Shopify shop.' }, 403);
+      return c.json({ error: &#39;Unexpected Shopify shop.&#39; }, 403);
     }
-    if (c.req.header('x-shopify-topic') !== 'orders/create') return;
+    if (c.req.header(&#39;x-shopify-topic&#39;) !== &#39;orders/create&#39;) return;
 
     const order = parseOrderCreatedPayload(payload);
-    if (!order) return c.json({ error: 'Unsupported orders/create payload.' }, 400);
-    await dispatch(orders, {
+    if (!order) return c.json({ error: &#39;Unsupported orders/create payload.&#39; }, 400);
+    await dispatch(Orders, {
       id: orderInstanceId(shopDomain, order.id),
-      input: { type: 'shopify.orders.create', orderId: order.id, orderName: order.name },
+      message: {
+        kind: &#39;signal&#39;,
+        type: &#39;shopify.orders/create&#39;,
+        body: `Shopify order ${order.name} created.`,
+        attributes: { shopDomain, orderId: order.id, orderName: order.name },
+      },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/shopify.ts (abridged)</span></figcaption>
+</figure>
 
 The abridged example omits the generated payload parser, order-instance helpers, and Admin GraphQL tool. Once configured, an `orders/create` delivery continues the agent instance bound to that trusted shop and order, and the tool can retrieve that order without letting the model choose a shop, token, or order id. The same verified Fetch path runs on Node and Cloudflare Workers with Flue’s `nodejs_compat` setting.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as shopify } from &#39;./channels/shopify.ts&#39;;
+
+app.route(&#39;/channels/shopify&#39;, shopify.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/shopify` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -92,15 +111,15 @@ The Admin client’s public declarations include a `Buffer` reference through `@
 
 ## Channel module
 
-``` astro-code
-import { type ClientResponse, createAdminApiClient } from '@shopify/admin-api-client';
-import { createShopifyChannel, type JsonValue } from '@flue/shopify';
-import { defineTool, dispatch } from '@flue/runtime';
-import orders from '../agents/orders.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { type ClientResponse, createAdminApiClient } from &#39;@shopify/admin-api-client&#39;;
+import { createShopifyChannel, type JsonValue } from &#39;@flue/shopify&#39;;
+import { defineTool, dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Orders } from &#39;../agents/orders.ts&#39;;
 
 const SHOP_DOMAIN = process.env.SHOPIFY_SHOP_DOMAIN!;
-const ADMIN_API_VERSION = '2026-04';
-const ORDER_INSTANCE_PREFIX = 'shopify-order:';
+const ADMIN_API_VERSION = &#39;2026-04&#39;;
+const ORDER_INSTANCE_PREFIX = &#39;shopify-order:&#39;;
 
 export function createShopifyClient(customFetchApi: typeof fetch = globalThis.fetch) {
   return createAdminApiClient({
@@ -119,32 +138,36 @@ export const channel = createShopifyChannel({
 
   // Path: /channels/shopify/webhook
   async webhook({ c, payload }) {
-    // Shopify's HMAC authenticates the body, not these headers, which are
+    // Shopify&#39;s HMAC authenticates the body, not these headers, which are
     // read from the verified request through `c`. This comparison is a
     // tenancy consistency check, not authorization by itself.
-    const shopDomain = c.req.header('x-shopify-shop-domain');
+    const shopDomain = c.req.header(&#39;x-shopify-shop-domain&#39;);
     if (shopDomain !== SHOP_DOMAIN) {
-      return c.json({ error: 'Unexpected Shopify shop.' }, 403);
+      return c.json({ error: &#39;Unexpected Shopify shop.&#39; }, 403);
     }
 
-    switch (c.req.header('x-shopify-topic')) {
-      case 'orders/create': {
+    switch (c.req.header(&#39;x-shopify-topic&#39;)) {
+      case &#39;orders/create&#39;: {
         const order = parseOrderCreatedPayload(payload);
         if (!order) {
-          return c.json({ error: 'Unsupported orders/create payload.' }, 400);
+          return c.json({ error: &#39;Unsupported orders/create payload.&#39; }, 400);
         }
 
-        await dispatch(orders, {
+        const webhookId = c.req.header(&#39;x-shopify-webhook-id&#39;);
+        const eventId = c.req.header(&#39;x-shopify-event-id&#39;);
+        await dispatch(Orders, {
           id: orderInstanceId(shopDomain, order.id),
-          input: {
-            type: 'shopify.orders.create',
-            deliveryId: c.req.header('x-shopify-webhook-id'),
-            eventId: c.req.header('x-shopify-event-id'),
-            shopDomain,
-            apiVersion: c.req.header('x-shopify-api-version'),
-            orderId: order.id,
-            orderName: order.name,
-            triggeredAt: c.req.header('x-shopify-triggered-at'),
+          message: {
+            kind: &#39;signal&#39;,
+            type: &#39;shopify.orders/create&#39;,
+            body: `Shopify order ${order.name} created.`,
+            attributes: {
+              shopDomain,
+              orderId: order.id,
+              orderName: order.name,
+              ...(webhookId === undefined ? {} : { webhookId }),
+              ...(eventId === undefined ? {} : { eventId }),
+            },
           },
         });
         return;
@@ -189,39 +212,39 @@ interface ShopifyOrderQuery {
 
 export function retrieveOrder(orderId: string) {
   return defineTool({
-    name: 'retrieve_shopify_order',
-    description: 'Retrieve the Shopify order already bound to this agent.',
+    name: &#39;retrieve_shopify_order&#39;,
+    description: &#39;Retrieve the Shopify order already bound to this agent.&#39;,
     async run() {
-      const result: ClientResponse<ShopifyOrderQuery> = await client.request(ORDER_QUERY, {
+      const result: ClientResponse&lt;ShopifyOrderQuery&gt; = await client.request(ORDER_QUERY, {
         variables: { id: `gid://shopify/Order/${orderId}` },
       });
-      if (result.errors) throw new Error('Shopify Admin API request failed.');
-      if (!result.data?.order) throw new Error('Shopify order was not found.');
-      return result.data.order;
+      if (result.errors) throw new Error(&#39;Shopify Admin API request failed.&#39;);
+      if (!result.data?.order) throw new Error(&#39;Shopify order was not found.&#39;);
+      return { output: result.data.order };
     },
   });
 }
 
 function parseOrderCreatedPayload(payload: JsonValue): { id: string; name: string } | undefined {
   if (!isRecord(payload) || !isOrderId(payload.id)) return undefined;
-  if (typeof payload.name !== 'string' || payload.name.length === 0) {
+  if (typeof payload.name !== &#39;string&#39; || payload.name.length === 0) {
     return undefined;
   }
   return { id: String(payload.id), name: payload.name };
 }
 
 function isOrderId(value: unknown): value is string | number {
-  if (typeof value === 'string') return /^[1-9]\d*$/.test(value);
-  return typeof value === 'number' && Number.isSafeInteger(value) && value > 0;
+  if (typeof value === &#39;string&#39;) return /^[1-9]\d*$/.test(value);
+  return typeof value === &#39;number&#39; &amp;&amp; Number.isSafeInteger(value) &amp;&amp; value &gt; 0;
 }
 
-function isRecord(value: JsonValue): value is Record<string, JsonValue> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+function isRecord(value: JsonValue): value is Record&lt;string, JsonValue&gt; {
+  return typeof value === &#39;object&#39; &amp;&amp; value !== null &amp;&amp; !Array.isArray(value);
 }
 
 export function orderInstanceId(shopDomain: string, orderId: string): string {
   if (!shopDomain || !orderId) {
-    throw new TypeError('Shopify shop domain and order id must be non-empty.');
+    throw new TypeError(&#39;Shopify shop domain and order id must be non-empty.&#39;);
   }
   return `${ORDER_INSTANCE_PREFIX}${encodeURIComponent(shopDomain)}:${encodeURIComponent(orderId)}`;
 }
@@ -231,12 +254,12 @@ export function orderRefFromInstanceId(id: string): {
   orderId: string;
 } {
   if (!id.startsWith(ORDER_INSTANCE_PREFIX)) {
-    throw new TypeError('Expected a local Shopify order instance id.');
+    throw new TypeError(&#39;Expected a local Shopify order instance id.&#39;);
   }
   const encoded = id.slice(ORDER_INSTANCE_PREFIX.length);
-  const separator = encoded.indexOf(':');
-  if (separator < 1) {
-    throw new TypeError('Expected a local Shopify order instance id.');
+  const separator = encoded.indexOf(&#39;:&#39;);
+  if (separator &lt; 1) {
+    throw new TypeError(&#39;Expected a local Shopify order instance id.&#39;);
   }
   let shopDomain: string;
   let orderId: string;
@@ -244,14 +267,15 @@ export function orderRefFromInstanceId(id: string): {
     shopDomain = decodeURIComponent(encoded.slice(0, separator));
     orderId = decodeURIComponent(encoded.slice(separator + 1));
   } catch {
-    throw new TypeError('Expected a local Shopify order instance id.');
+    throw new TypeError(&#39;Expected a local Shopify order instance id.&#39;);
   }
   if (!shopDomain || !orderId) {
-    throw new TypeError('Expected a local Shopify order instance id.');
+    throw new TypeError(&#39;Expected a local Shopify order instance id.&#39;);
   }
   return { shopDomain, orderId };
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/shopify.ts</span></figcaption>
+</figure>
 
 The client binds one trusted shop domain, access token, and explicit Admin API version. The tool accepts no destination from the model. A multi-shop application should resolve installation credentials from its own authenticated state instead of selecting them from webhook headers or tool input.
 
@@ -261,23 +285,24 @@ Shopify order ids can exceed JavaScript’s safe integer range. The guard accept
 
 ## Bind the tool
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { orderRefFromInstanceId, retrieveOrder } from '../channels/shopify.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { type AgentProps, useModel, useTool } from &#39;@flue/runtime&#39;;
+import { orderRefFromInstanceId, retrieveOrder } from &#39;../channels/shopify.ts&#39;;
 
-export default defineAgent(({ id }) => {
+export function Orders({ id }: AgentProps) {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
   const { shopDomain, orderId } = orderRefFromInstanceId(id);
   if (shopDomain !== process.env.SHOPIFY_SHOP_DOMAIN) {
-    throw new TypeError('Unexpected Shopify shop.');
+    throw new TypeError(&#39;Unexpected Shopify shop.&#39;);
   }
-  return {
-    model: 'anthropic/claude-haiku-4-5',
-    tools: [retrieveOrder(orderId)],
-  };
-});
-```
+  useTool(retrieveOrder(orderId));
+  return &#39;Review the newly created Shopify order and summarize any fulfillment or payment follow-up.&#39;;
+}</code></pre>
+<figcaption><span>src/agents/orders.ts</span></figcaption>
+</figure>
 
-The local `shopify-order:` id includes shop and order identity because Shopify has no universal conversation key. It is still an identifier, not an authorization capability. Apply normal access control to direct agent routes.
+The local `shopify-order:` id includes shop and order identity because Shopify has no universal thread concept to derive an instance id from. It is still an identifier, not an authorization capability. Apply normal access control to direct agent routes.
 
 ## Verification and event shape
 
@@ -347,10 +372,10 @@ Current page: [Shopify](/docs/ecosystem/channels/shopify/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

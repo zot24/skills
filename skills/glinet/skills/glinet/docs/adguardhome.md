@@ -38,7 +38,7 @@ gl-inet/docs4.x
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
+<a href="../../downloads/" class="md-nav__link"><span class="md-ellipsis"> Downloads </span></a>
 
 
 # AdGuard Home<a href="#adguard-home" class="headerlink" title="Permanent link">¶</a>
@@ -106,6 +106,14 @@ You will be redirected to the official AdGuard Home settings page to configure a
 For any inquiries, please visit the <a href="https://adguard.com/en/support.html" target="_blank">AdGuard Home Support Center</a> for further assistance.
 
 ------------------------------------------------------------------------
+
+Was this page helpful?
+
+
+Thanks for your feedback!
+
+
+Thanks for your feedback! We will use it to improve this page.
 
 
 Back to top

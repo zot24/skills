@@ -246,3 +246,12 @@ type ToolOverrides = Partial<
 ```
 
 Per-tool overrides accepted by `createChatTools({ overrides })`. Core fields like `execute`, `inputSchema`, `outputSchema`, `type`, `id`, and `args` are intentionally excluded so tool semantics stay stable across upgrades.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

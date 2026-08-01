@@ -134,3 +134,11 @@ When using `fullStream`, the SDK auto-detects `text-delta` and `finish-step` eve
 
 Used in the `files` field of any structured message format.
 
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

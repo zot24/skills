@@ -35,43 +35,43 @@
 #### Getting Started
 
 
-<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
 
 
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
 
 
-<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
 
 
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -88,12 +88,14 @@ Cost Basis & Lots
 
 # Cost Basis & Lots
 
-How Wealthfolio tracks the cost basis of every share you own, through splits, transfers, DRIPs, and partial sales.
+How Wealthfolio tracks the cost basis of long and short lots, through splits, transfers, DRIPs, and partial sales.
 
 
 ------------------------------------------------------------------------
 
-Every share you buy creates a **lot**: a unit of cost basis that follows that share around until it’s sold. Lot accounting is what makes the difference between “you sold some Apple, here’s your gain” and “you sold these specific shares bought on this date at this price, here’s your gain and your remaining basis.”
+Last updated July 29, 2026
+
+Every share you buy creates a **long lot**; every explicit Sell Short creates a signed **short lot**. A lot is a unit of cost basis that follows that position until it’s closed. Lot accounting is what makes the difference between “you sold some Apple, here’s your gain” and “you sold these specific shares bought on this date at this price, here’s your gain and your remaining basis.”
 
 This page covers how Wealthfolio’s lot tracking works, why we made the choices we did, and what to expect when activities touch your lots.
 
@@ -116,7 +118,7 @@ The **average cost** line is a convenience display — total cost basis of your 
 
 Lots only exist when you track real activities. A **manually-entered holding** (a manual account snapshot) stores just a quantity and the average cost you type in — there’s no per-lot history behind it, so FIFO and realized-gain tracking only kick in once the position is built from actual `BUY` / `SELL` / `TRANSFER` activities.
 
-Every `SELL` or `TRANSFER_OUT` closes shares from one or more lots. Wealthfolio decides **which** lots to close using a method called **FIFO**.
+Every `SELL`, **Buy to Cover**, or `TRANSFER_OUT` closes shares from one or more lots. Wealthfolio decides **which** lots to close using a method called **FIFO**.
 
 ------------------------------------------------------------------------
 
@@ -145,7 +147,7 @@ Why FIFO?
 - **Simple to reason about.** No “which lots am I selling?” guessing. The oldest go first, period.
 - **Stable.** Adding a backdated trade doesn’t reshuffle which shares were “sold” in later sales unless the backdate is actually earlier than those sales.
 
-**Selling more than you hold?** Wealthfolio doesn’t go negative or open a short lot. It closes every available lot, caps the position at zero, and flags the oversell — short positions aren’t supported today. If you see this, you’re usually missing a `BUY` or a `TRANSFER_IN` that should have come first.
+**Selling more than you hold?** A plain `SELL` still does not open or increase a short lot. Wealthfolio closes every available long lot, caps the position at zero, and flags the oversell. If you meant to open a short stock or ETF position, use **Sell Short** instead; that creates a signed negative lot. Use **Buy to Cover** to close short lots FIFO.
 
 ------------------------------------------------------------------------
 
@@ -154,11 +156,13 @@ Why FIFO?
 
 | Activity                                                                | Effect on lots                                                                                                                                                                                      |
 |-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `BUY`                                                                   | Opens a new lot at the trade price. Fee is folded into cost basis.                                                                                                                                  |
-| `SELL`                                                                  | Closes shares from the oldest lot(s) first. Fee reduces proceeds.                                                                                                                                   |
+| `BUY`                                                                   | Opens a new long lot at the trade price. Fee is folded into cost basis.                                                                                                                             |
+| `SELL`                                                                  | Closes shares from the oldest long lot(s) first. Fee reduces proceeds. Plain sells do not open short lots.                                                                                          |
+| `SELL` (Sell Short)                                                     | Opens or extends a signed short lot for stocks and ETFs.                                                                                                                                            |
+| `BUY` (Buy to Cover)                                                    | Closes shares from the oldest short lot(s) first.                                                                                                                                                   |
 | `SPLIT`                                                                 | Adjusts quantity and per-share cost on every existing lot. Total cost basis is unchanged.                                                                                                           |
 | `DIVIDEND` (DRIP subtype)                                               | Opens a new lot at the DRIP price for the reinvested shares.                                                                                                                                        |
-| `DIVIDEND in Kind`                                                      | Opens a new lot in the spun-off security at the broker-reported cost basis.                                                                                                                         |
+| `DIVIDEND in Kind`                                                      | Opens a new lot for additional units of the same security at the broker-reported cost basis.                                                                                                        |
 | `TRANSFER_IN`                                                           | Restores the original lots (cost basis preserved) when paired with a `TRANSFER_OUT` from another Wealthfolio account. With the **External** flag, opens a single lot at the cost basis you provide. |
 | `TRANSFER_OUT`                                                          | Closes lots oldest-first; no gain is realised. Internal: basis travels to the destination account. External: basis simply leaves Wealthfolio with the asset.                                        |
 | `ADJUSTMENT` (Option Expiry)                                            | Closes the option lot to zero, realizing the premium paid as a loss.                                                                                                                                |
@@ -221,7 +225,7 @@ A `DIVIDEND` with the **DRIP** subtype does two things in one activity:
 
 That new lot starts the FIFO clock on those shares from the DRIP date. Relevant for short-vs-long-term capital gains tax in some jurisdictions.
 
-A `DIVIDEND in Kind` (e.g. a spin-off) opens a lot in the **new** security at the cost basis your broker reports. The original lots in the parent security are unchanged.
+A `DIVIDEND in Kind` opens a lot for additional units of the same security at the cost basis your broker reports. For a true spin-off into a different ticker, record the received security as an External `TRANSFER_IN` using the broker-reported basis.
 
 ------------------------------------------------------------------------
 
@@ -271,25 +275,25 @@ The same view powers the **realized vs. unrealized** breakdown on the Performanc
 
 ------------------------------------------------------------------------
 
-**Next step:** <a href="/docs/concepts/performance-metrics" class="font-medium underline underline-offset-4">Performance Metrics</a> walks through how realized and unrealized gains combine into the TWR and MWR numbers on your dashboard.
+**Next step:** <a href="/docs/concepts/performance-metrics/" class="font-medium underline underline-offset-4">Performance Metrics</a> walks through how realized and unrealized gains combine into the TWR and MWR numbers on your dashboard.
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/concepts/activity-types" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Activity Types</a> <a href="/docs/concepts/performance-metrics" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Performance Metrics</a>
+<a href="/docs/concepts/activity-types/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Activity Types</a> <a href="/docs/concepts/performance-metrics/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Performance Metrics</a>
 
 
 On This Page
 
-- <a href="#1--the-mental-model" class="inline-block no-underline text-sm text-muted-foreground">1 · The mental model</a>
-- <a href="#2--fifo-first-in-first-out" class="inline-block no-underline text-sm text-muted-foreground">2 · FIFO: first in, first out</a>
-- <a href="#3--how-activities-change-lots" class="inline-block no-underline text-sm text-muted-foreground">3 · How activities change lots</a>
-- <a href="#4--worked-example-buy--split--sell" class="inline-block no-underline text-sm text-muted-foreground">4 · Worked example: BUY → SPLIT → SELL</a>
-- <a href="#5--transfers-preserve-cost-basis" class="inline-block no-underline text-sm text-muted-foreground">5 · Transfers preserve cost basis</a>
-- <a href="#6--drip-and-dividend-in-kind" class="inline-block no-underline text-sm text-muted-foreground">6 · DRIP and dividend-in-kind</a>
-- <a href="#7--fractional-shares" class="inline-block no-underline text-sm text-muted-foreground">7 · Fractional shares</a>
-- <a href="#8--cost-basis-and-currency" class="inline-block no-underline text-sm text-muted-foreground">8 · Cost basis and currency</a>
-- <a href="#9--why-not-lifo-weighted-average-or-specific-identification" class="inline-block no-underline text-sm text-muted-foreground">9 · Why not LIFO, weighted-average, or specific-identification?</a>
-- <a href="#10--where-to-see-your-lots" class="inline-block no-underline text-sm text-muted-foreground">10 · Where to see your lots</a>
+- <a href="#1--the-mental-model" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · The mental model</a>
+- <a href="#2--fifo-first-in-first-out" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · FIFO: first in, first out</a>
+- <a href="#3--how-activities-change-lots" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · How activities change lots</a>
+- <a href="#4--worked-example-buy--split--sell" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Worked example: BUY → SPLIT → SELL</a>
+- <a href="#5--transfers-preserve-cost-basis" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Transfers preserve cost basis</a>
+- <a href="#6--drip-and-dividend-in-kind" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">6 · DRIP and dividend-in-kind</a>
+- <a href="#7--fractional-shares" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">7 · Fractional shares</a>
+- <a href="#8--cost-basis-and-currency" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">8 · Cost basis and currency</a>
+- <a href="#9--why-not-lifo-weighted-average-or-specific-identification" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">9 · Why not LIFO, weighted-average, or specific-identification?</a>
+- <a href="#10--where-to-see-your-lots" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">10 · Where to see your lots</a>
 
 

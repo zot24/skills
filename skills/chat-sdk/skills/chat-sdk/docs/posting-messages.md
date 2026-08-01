@@ -173,7 +173,7 @@ await thread.post({
 });
 ```
 
-Use `attachments` on `{ raw }`, `{ markdown }`, or `{ ast }` when an adapter supports typed media uploads, such as Telegram's single image/audio/video/file upload support.
+Use `attachments` on `{ raw }`, `{ markdown }`, or `{ ast }` when an adapter supports typed media uploads, such as Telegram's image/audio/video/file uploads and media groups.
 
 See the [Files](/docs/files) page for more on attachments.
 
@@ -191,3 +191,12 @@ See the [Files](/docs/files) page for more on attachments.
 | [`StreamingPlan`](/docs/streaming#streaming-with-options) | Streaming with platform-specific options          | Slack streaming with grouped tasks or stop blocks |
 
 For most cases, **AST builders** give the best balance of control and simplicity. Reach for **cards** when you need interactive elements like buttons or dropdowns.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

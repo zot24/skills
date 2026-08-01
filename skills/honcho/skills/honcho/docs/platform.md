@@ -105,7 +105,7 @@ Expand the `Peers` list from the `Workspace` dashboard to see a detailed view of
   <img src="https://mintcdn.com/plasticlabs/lVyHfvNDd8wveJyM/images/app-screenshots/peer-dash.png?fit=max&auto=format&n=lVyHfvNDd8wveJyM&q=85&s=bb3eaf7fc86fa7bdb32d5def13eb83f0" alt="Peer Dashboard" width="1200" height="800" loading="lazy" decoding="async" fetchpriority="low" data-path="images/app-screenshots/peer-dash.png" />
 </Frame>
 
-Click into any peer to navigate to their respective utilities page. Next to the `Peer` name you can edit the [Peer Configuration](/v3/documentation/features/advanced/reasoning-configuration), and in the tabs below, explore all utilities for the `Peer`.
+Click into any peer to navigate to their respective utilities page. Next to the `Peer` name you can edit the [Peer Configuration](/docs/v3/documentation/features/advanced/reasoning-configuration), and in the tabs below, explore all utilities for the `Peer`.
 
 <Frame>
   <img src="https://mintcdn.com/plasticlabs/lVyHfvNDd8wveJyM/images/app-screenshots/peer-utilities.png?fit=max&auto=format&n=lVyHfvNDd8wveJyM&q=85&s=9fb53f36a54490d4ba29c584fba9e421" alt="Peer Management Dashboard" width="1200" height="800" loading="lazy" decoding="async" fetchpriority="low" data-path="images/app-screenshots/peer-utilities.png" />
@@ -121,7 +121,7 @@ Utilities include:
 </Frame>
 
 * **Session logs** view which `Sessions` the `Peer` is active
-* **Peer configuration and metadata management** including [Session-Peer Configuration](/v3/documentation/features/advanced/reasoning-configuration#session-configuration)
+* **Peer configuration and metadata management** including [Session-Peer Configuration](/docs/v3/documentation/features/advanced/reasoning-configuration#session-configuration)
 
 <Frame>
   <img src="https://mintcdn.com/plasticlabs/lVyHfvNDd8wveJyM/images/app-screenshots/peer-utilities.png?fit=max&auto=format&n=lVyHfvNDd8wveJyM&q=85&s=9fb53f36a54490d4ba29c584fba9e421" alt="Peer Management Dashboard" width="1200" height="800" loading="lazy" decoding="async" fetchpriority="low" data-path="images/app-screenshots/peer-utilities.png" />
@@ -170,9 +170,9 @@ The [Members](https://app.honcho.dev/members) page provides organization adminis
 
 ## Go Further
 
-View the [Architecture](/v3/documentation/core-concepts/architecture) to see how Honcho works under the hood.
+View the [Architecture](/docs/v3/documentation/core-concepts/architecture) to see how Honcho works under the hood.
 
-Dive into our [API Reference](/v3/api-reference) to explore all available endpoints.
+Dive into our [API Reference](/docs/v3/api-reference) to explore all available endpoints.
 
 ## Next Steps
 

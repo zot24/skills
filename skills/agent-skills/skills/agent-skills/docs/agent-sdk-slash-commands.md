@@ -121,7 +121,7 @@ Send slash commands by including them in your prompt string, just like regular t
 
   After yielding that final result message, the SDK raises an error, because the CLI process exits with a non-zero code.
 
-  Wrap the loop in a `try`/`catch` in TypeScript or `try`/`except` in Python if your command might hit the limit, as shown in [Single Message Input](/en/agent-sdk/streaming-vs-single-mode#single-message-input), or set `maxTurns` high enough for the work to complete. In Python, catch `Exception`: the SDK surfaces error results as a plain `Exception`.
+  Wrap the loop in a `try`/`catch` in TypeScript or `try`/`except` in Python if your command might hit the limit, as shown in [Single Message Input](/docs/en/agent-sdk/streaming-vs-single-mode#single-message-input), or set `maxTurns` high enough for the work to complete. In Python, catch `Exception`: the SDK surfaces error results as a plain `Exception`.
 
 
 ## Common Slash Commands
@@ -206,14 +206,14 @@ The `/compact` command reduces the size of your conversation history by summariz
 </CodeGroup>
 
 
-  A `compact_boundary` message only arrives when compaction ran. With nothing to summarize, `/compact` reports the reason instead of raising: the run still ends with a `success` result, no `compact_boundary` message is emitted, and the result text carries the message, for example `Not enough messages to compact.` after a single short exchange. A fresh one-shot `query()` call starts with empty context, so use this pattern in a session with prior turns, for example in [streaming input mode](/en/agent-sdk/streaming-vs-single-mode) or when resuming a session.
+  A `compact_boundary` message only arrives when compaction ran. With nothing to summarize, `/compact` reports the reason instead of raising: the run still ends with a `success` result, no `compact_boundary` message is emitted, and the result text carries the message, for example `Not enough messages to compact.` after a single short exchange. A fresh one-shot `query()` call starts with empty context, so use this pattern in a session with prior turns, for example in [streaming input mode](/docs/en/agent-sdk/streaming-vs-single-mode) or when resuming a session.
 
 
 ### `/clear` - Reset conversation context
 
-The `/clear` command resets the conversation to an empty context, so subsequent prompts start with no prior conversation history. The previous conversation remains on disk and can be returned to by passing its session ID to the [`resume` option](/en/agent-sdk/sessions#resume-by-id).
+The `/clear` command resets the conversation to an empty context, so subsequent prompts start with no prior conversation history. The previous conversation remains on disk and can be returned to by passing its session ID to the [`resume` option](/docs/en/agent-sdk/sessions#resume-by-id).
 
-This is useful in [streaming input mode](/en/agent-sdk/streaming-vs-single-mode), where you send multiple prompts over a single connection. For one-shot `query()` calls, each call already starts with empty context, so sending `/clear` has no practical effect; start a new `query()` instead.
+This is useful in [streaming input mode](/docs/en/agent-sdk/streaming-vs-single-mode), where you send multiple prompts over a single connection. For one-shot `query()` calls, each call already starts with empty context, so sending `/clear` has no practical effect; start a new `query()` instead.
 
 
   `/clear` in the SDK requires Claude Code v2.1.117 or later. In earlier versions it is omitted from `slash_commands`.
@@ -221,15 +221,15 @@ This is useful in [streaming input mode](/en/agent-sdk/streaming-vs-single-mode)
 
 ## Creating Custom Slash Commands
 
-In addition to using built-in slash commands, you can create your own custom commands that are available through the SDK. Custom commands are defined as markdown files in specific directories, similar to how subagents are configured.
+In addition to using built-in slash commands, you can create your own custom commands that are available through the SDK. You define custom commands as markdown files in specific directories, the same way you configure subagents.
 
 
-  The `.claude/commands/` directory is the legacy format. The recommended format is `.claude/skills/<name>/SKILL.md`, which supports the same slash-command invocation (`/name`) plus autonomous invocation by Claude. See [Skills](/en/agent-sdk/skills) for the current format. The CLI continues to support both formats, and the examples below remain accurate for `.claude/commands/`.
+  The `.claude/commands/` directory is the legacy format. The recommended format is `.claude/skills/<name>/SKILL.md`, which supports the same slash-command invocation (`/name`) plus autonomous invocation by Claude. See [Skills](/docs/en/agent-sdk/skills) for the current format. The CLI continues to support both formats, and the examples below remain accurate for `.claude/commands/`.
 
 
 ### File Locations
 
-Custom slash commands are stored in designated directories based on their scope:
+Save custom slash commands in one of these directories, depending on their scope:
 
 * **Project commands**: `.claude/commands/` - Available only in the current project (legacy; prefer `.claude/skills/`)
 * **Personal commands**: `~/.claude/commands/` - Available across all your projects (legacy; prefer `~/.claude/skills/`)
@@ -365,14 +365,19 @@ Use in SDK:
   import { query } from "@anthropic-ai/claude-agent-sdk";
 
   // Pass arguments to custom command
-  for await (const message of query({
-    prompt: "/fix-issue 123 high",
-    options: { maxTurns: 5 }
-  })) {
-    // Command will process with $0="123" and $1="high"
-    if (message.type === "result" && message.subtype === "success") {
-      console.log("Issue fixed:", message.result);
+  try {
+    for await (const message of query({
+      prompt: "/fix-issue 123 high",
+      options: { maxTurns: 5 }
+    })) {
+      // Command will process with $0="123" and $1="high"
+      if (message.type === "result" && message.subtype === "success") {
+        console.log("Issue fixed:", message.result);
+      }
     }
+  } catch (err) {
+    // The run ends with an error when it reaches the maxTurns limit
+    console.error("Session ended with an error:", err);
   }
   ```
 
@@ -383,15 +388,21 @@ Use in SDK:
 
   async def main():
       # Pass arguments to custom command
-      async for message in query(prompt="/fix-issue 123 high", options=ClaudeAgentOptions(max_turns=5)):
-          # Command will process with $0="123" and $1="high"
-          if isinstance(message, ResultMessage):
-              print("Issue fixed:", message.result)
+      try:
+          async for message in query(prompt="/fix-issue 123 high", options=ClaudeAgentOptions(max_turns=5)):
+              # Command will process with $0="123" and $1="high"
+              if isinstance(message, ResultMessage):
+                  print("Issue fixed:", message.result)
+      except Exception as error:
+          # The run ends with an error when it reaches the max_turns limit
+          print(f"Session ended with an error: {error}")
 
 
   asyncio.run(main())
   ```
 </CodeGroup>
+
+If the prompt passes fewer arguments than the placeholders reference, unmatched indexed placeholders such as `$1` stay in the command text verbatim. For the full substitution behavior, including named arguments, see [available string substitutions](/docs/en/skills#available-string-substitutions).
 
 #### Bash Command Execution
 
@@ -561,8 +572,8 @@ Use these commands through the SDK:
 
 ## See Also
 
-* [Slash Commands](/en/skills) - Complete slash command documentation
-* [Subagents in the SDK](/en/agent-sdk/subagents) - Similar filesystem-based configuration for subagents
-* [TypeScript SDK reference](/en/agent-sdk/typescript) - Complete API documentation
-* [SDK overview](/en/agent-sdk/overview) - General SDK concepts
-* [CLI reference](/en/cli-reference) - Command-line interface
+* [Slash Commands](/docs/en/skills) - Complete slash command documentation
+* [Subagents in the SDK](/docs/en/agent-sdk/subagents) - Similar filesystem-based configuration for subagents
+* [TypeScript SDK reference](/docs/en/agent-sdk/typescript) - Complete API documentation
+* [SDK overview](/docs/en/agent-sdk/overview) - General SDK concepts
+* [CLI reference](/docs/en/cli-reference) - Command-line interface

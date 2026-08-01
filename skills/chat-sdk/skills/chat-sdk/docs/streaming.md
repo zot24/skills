@@ -21,7 +21,7 @@ Pass an AI SDK `fullStream` or `textStream` directly to `thread.post()`:
 import { ToolLoopAgent } from "ai";
 
 const agent = new ToolLoopAgent({
-  model: "anthropic/claude-4.5-sonnet",
+  model: "xai/grok-4.5",
   instructions: "You are a helpful assistant.",
 });
 
@@ -101,6 +101,8 @@ const bot = new Chat({
   fallbackStreamingPlaceholderText: "Thinking...",
 });
 ```
+
+On Teams, a custom placeholder becomes an informative status during native direct-message streaming, while group chats edit the placeholder into the final answer. Leave the option unset to preserve native DM and buffered group-chat behavior, or set it to `null` to disable the status.
 
 ## Markdown healing
 
@@ -265,3 +267,12 @@ bot.onSubscribedMessage(async (thread, message) => {
 ```
 
 See the [`toAiMessages` reference](/docs/ai/to-ai-messages) for all options including `includeNames`, `transformMessage`, and attachment handling.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

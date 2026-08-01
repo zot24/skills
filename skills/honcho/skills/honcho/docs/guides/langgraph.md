@@ -112,7 +112,7 @@ OPENAI_API_KEY=your_openai_key
 Define your state schema to pass data through the graph. The state stores Honcho objects directly along with the current user message and assistant response.
 
 
-  Before proceeding, it's important to understand Honcho's core concepts (`Peers` and `Sessions`). Review the [Honcho Architecture](/v3/documentation/core-concepts/architecture) to familiarize yourself with these primitives.
+  Before proceeding, it's important to understand Honcho's core concepts (`Peers` and `Sessions`). Review the [Honcho Architecture](/docs/v3/documentation/core-concepts/architecture) to familiarize yourself with these primitives.
 
 
 <CodeGroup>
@@ -231,7 +231,7 @@ Now let's build the LangGraph:
 
 ### Understanding context()
 
-The [`context()`](/v3/documentation/features/get-context) method retrieves comprehensive conversation context and formats it for your LLM. It automatically:
+The [`context()`](/docs/v3/documentation/features/get-context) method retrieves comprehensive conversation context and formats it for your LLM. It automatically:
 
 * **Manages conversation history** - Tracks all messages and determines what's relevant
 * **Respects token limits** - Stays within context window constraints without manual counting
@@ -251,7 +251,7 @@ That's it. Call `session.context().to_openai(assistant)` and you get properly fo
   **Adding System Prompts:** Since `context()` returns conversation messages, you can easily prepend custom system instructions. Just add your system prompt to the beginning of the messages array before sending it to your LLM: `[{"role": "system", "content": "..."}, ...context_messages]`.
 
 
-  For more details on all available parameters, see [`context() documentation`](/v3/documentation/features/get-context)
+  For more details on all available parameters, see [`context() documentation`](/docs/v3/documentation/features/get-context)
 
 
 ## Chat Loop

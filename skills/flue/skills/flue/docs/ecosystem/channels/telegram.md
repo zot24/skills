@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Telegram
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/telegram/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/telegram" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/telegram</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/telegram/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/telegram" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/telegram</a>
 
 
 ## Quickstart
@@ -33,11 +33,11 @@ flue add channel telegram
 
 The blueprint installs `@flue/telegram` and grammY, creates a source-root `channels/telegram.ts` module with named `channel` and project-owned `client` exports, and modifies the selected agent to bind the generated message tool.
 
-``` astro-code
-import { createTelegramChannel } from '@flue/telegram';
-import { dispatch } from '@flue/runtime';
-import { Api } from 'grammy';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createTelegramChannel } from &#39;@flue/telegram&#39;;
+import { dispatch } from &#39;@flue/runtime&#39;;
+import { Api } from &#39;grammy&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const client = new Api(process.env.TELEGRAM_BOT_TOKEN!);
 
@@ -46,19 +46,37 @@ export const channel = createTelegramChannel({
   async webhook({ update }) {
     const incoming = update.message ?? update.channel_post ?? update.business_message;
     if (!incoming) return;
-    await dispatch(assistant, {
-      id: channel.conversationKey(conversationFromMessage(incoming)),
-      input: {
-        type: 'telegram.message',
-        updateId: update.update_id,
-        message: incoming,
+    const conversation = conversationFromMessage(incoming);
+    await dispatch(Assistant, {
+      id: channel.instanceId(conversation),
+      // Recorded once when this event creates the instance; ignored after.
+      initialData: conversationData(conversation, incoming),
+      message: {
+        kind: &#39;signal&#39;,
+        type: &#39;telegram.message&#39;,
+        body: messageBody(incoming),
+        attributes: { updateId: String(update.update_id) },
       },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/telegram.ts (abridged)</span></figcaption>
+</figure>
 
-The abridged example omits the generated `conversationFromMessage` helper, callback-query branch, and message tool. Once configured, an incoming message continues the agent instance for its chat, business chat, or topic, and the bound grammY tool replies to that same destination. grammY’s Fetch export runs on Node and Cloudflare Workers with Flue’s `nodejs_compat` setting.
+The abridged example omits the generated `conversationFromMessage`, `conversationData`, and `messageBody` helpers, callback-query branch, and message tool. Once configured, an incoming message continues the agent instance for its chat, business chat, or topic, and the bound grammY tool replies to that same destination. grammY’s Fetch export runs on Node and Cloudflare Workers with Flue’s `nodejs_compat` setting.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as telegram } from &#39;./channels/telegram.ts&#39;;
+
+app.route(&#39;/channels/telegram&#39;, telegram.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/telegram` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -101,13 +119,13 @@ Webhook delivery and `getUpdates` polling are mutually exclusive. Polling is out
 
 ## Channel module
 
-``` astro-code
-import { createTelegramChannel, type TelegramConversationRef } from '@flue/telegram';
-import { defineTool, dispatch } from '@flue/runtime';
-import { Api } from 'grammy';
-import type { Message } from 'grammy/types';
-import * as v from 'valibot';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createTelegramChannel, type TelegramConversationRef } from &#39;@flue/telegram&#39;;
+import { defineTool, dispatch } from &#39;@flue/runtime&#39;;
+import { Api } from &#39;grammy&#39;;
+import type { Message } from &#39;grammy/types&#39;;
+import * as v from &#39;valibot&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const client = new Api(process.env.TELEGRAM_BOT_TOKEN!);
 
@@ -118,12 +136,16 @@ export const channel = createTelegramChannel({
   async webhook({ update }) {
     const incoming = update.message ?? update.channel_post ?? update.business_message;
     if (incoming) {
-      await dispatch(assistant, {
-        id: channel.conversationKey(conversationFromMessage(incoming)),
-        input: {
-          type: 'telegram.message',
-          updateId: update.update_id,
-          message: incoming,
+      const conversation = conversationFromMessage(incoming);
+      await dispatch(Assistant, {
+        id: channel.instanceId(conversation),
+        // Recorded once when this event creates the instance; ignored after.
+        initialData: conversationData(conversation, incoming),
+        message: {
+          kind: &#39;signal&#39;,
+          type: &#39;telegram.message&#39;,
+          body: messageBody(incoming),
+          attributes: { updateId: String(update.update_id) },
         },
       });
       return;
@@ -133,19 +155,38 @@ export const channel = createTelegramChannel({
       const query = update.callback_query;
       await client.answerCallbackQuery(query.id);
       if (!query.message) return;
-      await dispatch(assistant, {
-        id: channel.conversationKey(conversationFromMessage(query.message)),
-        input: {
-          type: 'telegram.callback_query',
-          updateId: update.update_id,
-          data: query.data,
-          from: query.from,
+      const conversation = conversationFromMessage(query.message);
+      await dispatch(Assistant, {
+        id: channel.instanceId(conversation),
+        // Recorded once when this event creates the instance; ignored after.
+        initialData: conversationData(conversation, query.message),
+        message: {
+          kind: &#39;signal&#39;,
+          type: &#39;telegram.callback_query&#39;,
+          body: query.data ?? &#39;&#39;,
+          attributes: {
+            updateId: String(update.update_id),
+            fromId: String(query.from.id),
+            ...(query.from.username === undefined ? {} : { fromUsername: query.from.username }),
+          },
         },
       });
       return;
     }
   },
 });
+
+// Message text, or a short placeholder describing a media-only message.
+function messageBody(message: Message): string {
+  if (message.text !== undefined) return message.text;
+  if (message.caption !== undefined) return message.caption;
+  if (message.photo) return &#39;[photo message]&#39;;
+  if (message.video) return &#39;[video message]&#39;;
+  if (message.voice) return &#39;[voice message]&#39;;
+  if (message.document) return &#39;[document message]&#39;;
+  if (message.sticker) return &#39;[sticker message]&#39;;
+  return &#39;[non-text message]&#39;;
+}
 
 // Build the canonical destination identity from a native Telegram Message.
 function conversationFromMessage(message: Message): TelegramConversationRef {
@@ -159,22 +200,40 @@ function conversationFromMessage(message: Message): TelegramConversationRef {
   };
   return message.business_connection_id
     ? {
-        type: 'business-chat',
+        type: &#39;business-chat&#39;,
         businessConnectionId: message.business_connection_id,
         chatId: message.chat.id,
         ...topic,
       }
-    : { type: 'chat', chatId: message.chat.id, ...topic };
+    : { type: &#39;chat&#39;, chatId: message.chat.id, ...topic };
+}
+
+// Instance-creation data: the destination ref plus small instance-constant context.
+function conversationData(conversation: TelegramConversationRef, message: Message) {
+  return {
+    type: conversation.type,
+    chatId: conversation.chatId,
+    ...(conversation.type === &#39;business-chat&#39;
+      ? { businessConnectionId: conversation.businessConnectionId }
+      : {}),
+    ...(conversation.messageThreadId === undefined
+      ? {}
+      : { messageThreadId: conversation.messageThreadId }),
+    ...(conversation.directMessagesTopicId === undefined
+      ? {}
+      : { directMessagesTopicId: conversation.directMessagesTopicId }),
+    ...(message.chat.title === undefined ? {} : { chatTitle: message.chat.title }),
+  };
 }
 
 export function postMessage(ref: TelegramConversationRef) {
   return defineTool({
-    name: 'post_telegram_message',
-    description: 'Post to the Telegram conversation bound to this agent.',
+    name: &#39;post_telegram_message&#39;,
+    description: &#39;Post to the Telegram conversation bound to this agent.&#39;,
     input: v.object({ text: v.pipe(v.string(), v.minLength(1)) }),
-    async run({ input: { text } }) {
+    async run({ data: { text } }) {
       const message = await client.sendMessage(ref.chatId, text, {
-        ...(ref.type === 'business-chat'
+        ...(ref.type === &#39;business-chat&#39;
           ? { business_connection_id: ref.businessConnectionId }
           : {}),
         ...(ref.messageThreadId ? { message_thread_id: ref.messageThreadId } : {}),
@@ -182,23 +241,52 @@ export function postMessage(ref: TelegramConversationRef) {
           ? { direct_messages_topic_id: ref.directMessagesTopicId }
           : {}),
       });
-      return { messageId: message.message_id };
+      return { output: { messageId: message.message_id } };
     },
   });
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/telegram.ts</span></figcaption>
+</figure>
 
 ## Bind the tool
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { channel, postMessage } from '../channels/telegram.ts';
+`initialData` is the instance’s creation data: recorded once when the event creates the instance and ignored afterward, so the channel passes it on every dispatch. Bind the tool from the agent with `useInitialData()` instead of parsing the instance id:
 
-export default defineAgent(({ id }) => ({
-  model: 'anthropic/claude-haiku-4-5',
-  tools: [postMessage(channel.parseConversationKey(id))],
-}));
-```
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { useInitialData, useModel, useTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+import { postMessage } from &#39;../channels/telegram.ts&#39;;
+
+const chatData = v.object({
+  type: v.literal(&#39;chat&#39;),
+  chatId: v.number(),
+  messageThreadId: v.optional(v.number()),
+  directMessagesTopicId: v.optional(v.number()),
+  chatTitle: v.optional(v.string()),
+});
+const businessChatData = v.object({
+  type: v.literal(&#39;business-chat&#39;),
+  businessConnectionId: v.string(),
+  chatId: v.number(),
+  messageThreadId: v.optional(v.number()),
+  directMessagesTopicId: v.optional(v.number()),
+  chatTitle: v.optional(v.string()),
+});
+const initialData = v.variant(&#39;type&#39;, [chatData, businessChatData]);
+
+export function Assistant() {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
+  const data = useInitialData&lt;v.InferOutput&lt;typeof initialData&gt;&gt;();
+  if (!data) throw new Error(&#39;This agent is created by the Telegram channel dispatch.&#39;);
+  useTool(postMessage(data));
+  const chatTitle = data.chatTitle ? ` (&quot;${data.chatTitle}&quot;)` : &#39;&#39;;
+  return `Reply concisely in the bound Telegram conversation${chatTitle}.`;
+}
+
+Assistant.initialData = initialData;</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
 
 Trusted code binds the chat, business connection, and optional topic. The model selects only message text.
 
@@ -214,9 +302,9 @@ Telegram retries unsuccessful webhook requests. Returning nothing produces an em
 
 ## Conversation identity
 
-`conversationFromMessage` derives a canonical key from the native `Message`: regular chats, business chats, forum threads, and channel direct-message topics produce distinct keys. Business identity includes `businessConnectionId` because Telegram warns that business chat ids can match ordinary bot chat ids, and a thread id (`message_thread_id`) and direct-message topic id (`direct_messages_topic.topic_id`) are mutually exclusive.
+`conversationFromMessage` derives a canonical instance id from the native `Message`: regular chats, business chats, forum threads, and channel direct-message topics produce distinct ids. Business identity includes `businessConnectionId` because Telegram warns that business chat ids can match ordinary bot chat ids, and a thread id (`message_thread_id`) and direct-message topic id (`direct_messages_topic.topic_id`) are mutually exclusive.
 
-Some native updates have no durable chat destination, so do not build a conversation key from them. A guest message’s `guest_query_id` authorizes one short-lived `answerGuestQuery` response and must not enter model context, logs, durable session data, or agent identity. An inline `callback_query` without a `message` likewise supplies no accessible chat.
+Some native updates have no durable chat destination, so do not build an instance id from them. A guest message’s `guest_query_id` authorizes one short-lived `answerGuestQuery` response and must not enter model context, logs, durable session data, or agent identity. An inline `callback_query` without a `message` likewise supplies no accessible chat.
 
 See the [`@flue/telegram` README](https://github.com/withastro/flue/tree/main/packages/telegram#readme).
 
@@ -227,10 +315,10 @@ Current page: [Telegram](/docs/ecosystem/channels/telegram/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

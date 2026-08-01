@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # exe.dev
 
 
-Last updated May 30, 2026 <a href="/docs/ecosystem/sandboxes/exedev/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/sandboxes/exedev/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
 The exe.dev adapter adapts an existing exe.dev VM into Flue’s sandbox interface using SSH for commands and SFTP for files. Because it depends on Node.js APIs and `ssh2`, use it with the Node target rather than a Cloudflare Worker target.
@@ -35,15 +35,15 @@ flue add sandbox exedev
 
 The blueprint installs `ssh2` and its TypeScript declarations, then creates `sandboxes/exedev.ts` in your source-root. The generated Node adapter uses SSH and SFTP for an existing VM and also exports optional helpers for explicit VM creation, cloning, readiness checks, and deletion.
 
-``` astro-code
-// flue-blueprint: sandbox/exedev@1
-import { createSandboxSessionEnv } from '@flue/runtime';
-import type { FileStat, SandboxApi, SandboxFactory, SessionEnv } from '@flue/runtime';
-import * as fs from 'node:fs';
-import * as os from 'node:os';
-import * as path from 'node:path';
-import { Client as SSHClient } from 'ssh2';
-import type { ConnectConfig, SFTPWrapper } from 'ssh2';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/exedev@1
+import { createSandboxSessionEnv } from &#39;@flue/runtime&#39;;
+import type { FileStat, SandboxApi, SandboxFactory, SessionEnv } from &#39;@flue/runtime&#39;;
+import * as fs from &#39;node:fs&#39;;
+import * as os from &#39;node:os&#39;;
+import * as path from &#39;node:path&#39;;
+import { Client as SSHClient } from &#39;ssh2&#39;;
+import type { ConnectConfig, SFTPWrapper } from &#39;ssh2&#39;;
 
 /* ... generated VM and option interfaces, error type, and HTTPS lifecycle helpers ... */
 /* ... generated SSH authentication, retry, connection, and stream interfaces ... */
@@ -55,11 +55,11 @@ export class ExeDevSandboxApi implements SandboxApi {
     command: string,
     options?: {
       cwd?: string;
-      env?: Record<string, string>;
+      env?: Record&lt;string, string&gt;;
       timeoutMs?: number;
       signal?: AbortSignal;
     },
-  ): Promise<{ stdout: string; stderr: string; exitCode: number }> {
+  ): Promise&lt;{ stdout: string; stderr: string; exitCode: number }&gt; {
     /* ... generate the SSH command from env, cwd, and command ... */
     /* ... collect both output streams and close the stream after timeoutMs ... */
     /* ... return exit code 124 when the timeout closes the stream ... */
@@ -67,15 +67,15 @@ export class ExeDevSandboxApi implements SandboxApi {
 }
 
 export function exedev(vm: ExeDevVm | string, options?: ExeDevAdapterOptions): SandboxFactory {
-  const resolvedVm = typeof vm === 'string' ? { host: vm } : vm;
+  const resolvedVm = typeof vm === &#39;string&#39; ? { host: vm } : vm;
   return {
-    async createSessionEnv(): Promise<SessionEnv> {
+    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
       const { ssh } = await sshConnect(resolvedVm, options ?? {});
       const api = new ExeDevSandboxApi(ssh);
 
-      let sandboxCwd = '/home/user';
+      let sandboxCwd = &#39;/home/user&#39;;
       try {
-        const { stdout } = await api.exec('echo $HOME');
+        const { stdout } = await api.exec(&#39;echo $HOME&#39;);
         const detected = stdout.trim();
         if (detected) sandboxCwd = detected;
       } catch {
@@ -85,8 +85,9 @@ export function exedev(vm: ExeDevVm | string, options?: ExeDevAdapterOptions): S
       return createSandboxSessionEnv(api, sandboxCwd);
     },
   };
-}
-```
+}</code></pre>
+<figcaption><span>&lt;source-root&gt;/sandboxes/exedev.ts (abridged)</span></figcaption>
+</figure>
 
 Pass an SSH-reachable VM hostname or `ExeDevVm` to `exedev(...)` and assign the returned factory to an agent’s `sandbox` property. Flue uses the detected remote home directory when available; `timeoutMs` remains in milliseconds and closes the SSH command stream at the deadline, returning exit code 124. File removal uses SFTP directly, so recursive and force options are rejected before mutation rather than emulated with a one-off shell command.
 
@@ -112,7 +113,7 @@ Use exe.dev when a Node-hosted Flue application should operate inside a VM you r
 
 Treat SSH keys and provider tokens as server-side secrets. Decide whether agent instances share or allocate VMs, and clean up application-owned VMs according to your retention policy.
 
-See [Deploy on Node.js](/docs/ecosystem/deploy/node/), [Sandboxes](/docs/guide/sandboxes/), and [Sandbox Adapter API](/docs/api/sandbox-api/).
+See [Deploy on Node.js](/docs/ecosystem/deploy/node/), [Sandboxes](/docs/guide/sandboxes/), and [Sandbox Adapter API](/docs/reference/sandbox-api/).
 
 
 ## Docs Navigation
@@ -121,10 +122,10 @@ Current page: [exe.dev](/docs/ecosystem/sandboxes/exedev/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

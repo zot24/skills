@@ -46,7 +46,7 @@ Hermes exposes four Honcho tools to the agent:
 
 ## Running Honcho locally with Hermes
 
-Follow the [Self-Hosting Guide](/v3/contributing/self-hosting) to get Honcho running locally. Once it's up, point Hermes at your instance:
+Follow the [Self-Hosting Guide](/docs/v3/contributing/self-hosting) to get Honcho running locally. Once it's up, point Hermes at your instance:
 
 ```bash theme={null}
 hermes memory setup  # select "honcho", enter http://localhost:8000 as the base URL

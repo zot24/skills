@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Discord
 
 
-Last updated Jun 13, 2026 <a href="/docs/ecosystem/channels/discord/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/discord" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/discord</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/discord/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/discord" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/discord</a>
 
 
 ## Quickstart
@@ -33,45 +33,69 @@ flue add channel discord
 
 The blueprint installs `@flue/discord` and the community-maintained `@discordjs/rest` client. It creates a source-root `channels/discord.ts` module that verifies interactions, dispatches supported commands, exports a project-owned REST client and message tool, and modifies the selected agent to bind that tool to the interaction’s trusted destination.
 
-``` astro-code
-import { REST } from '@discordjs/rest';
-import { createDiscordChannel, type APIInteractionResponse } from '@flue/discord';
-import { dispatch } from '@flue/runtime';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { REST } from &#39;@discordjs/rest&#39;;
+import { createDiscordChannel, type APIInteractionResponse } from &#39;@flue/discord&#39;;
+import { dispatch } from &#39;@flue/runtime&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
-export const client = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN!);
+export const client = new REST({ version: &#39;10&#39; }).setToken(process.env.DISCORD_BOT_TOKEN!);
 
 export const channel = createDiscordChannel({
   publicKey: process.env.DISCORD_PUBLIC_KEY!,
   async interactions({ interaction }) {
-    if (interaction.type !== 2 || interaction.data.name !== 'ask') {
+    if (interaction.type !== 2 || interaction.data.name !== &#39;ask&#39;) {
       return {
         type: 4,
-        data: { content: 'Unsupported interaction.', flags: 64 },
+        data: { content: &#39;Unsupported interaction.&#39;, flags: 64 },
       } satisfies APIInteractionResponse;
     }
 
     const destination = destinationFromInteraction(interaction);
-    if (!destination || destination.type === 'private') {
+    if (!destination || destination.type === &#39;private&#39;) {
       return {
         type: 4,
-        data: { content: 'Unsupported interaction.', flags: 64 },
+        data: { content: &#39;Unsupported interaction.&#39;, flags: 64 },
       } satisfies APIInteractionResponse;
     }
 
-    await dispatch(assistant, {
-      id: channel.conversationKey(destination),
-      input: { type: 'discord.command.ask', interactionId: interaction.id },
+    // The first string option of the `/ask` chat-input command is the prompt.
+    const question =
+      interaction.data.type === 1
+        ? interaction.data.options?.find((option) =&gt; option.type === 3)?.value
+        : undefined;
+    await dispatch(Assistant, {
+      id: channel.instanceId(destination),
+      message: {
+        kind: &#39;signal&#39;,
+        type: &#39;discord.command.ask&#39;,
+        body: question ?? JSON.stringify(interaction.data),
+        attributes: { interactionId: interaction.id, commandName: interaction.data.name },
+      },
     });
     return {
       type: 4,
-      data: { content: 'Your request was accepted.', flags: 64 },
+      data: { content: &#39;Your request was accepted.&#39;, flags: 64 },
     } satisfies APIInteractionResponse;
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/discord.ts (abridged)</span></figcaption>
+</figure>
 
 The abridged example omits the generated `destinationFromInteraction` helper and message tool. Once configured, an `ask` command continues the agent instance for its Discord destination, acknowledges the interaction, and lets that agent post messages through the bound REST tool. On Cloudflare Workers, the REST package selects its Fetch-based export and uses Flue’s `nodejs_compat` setting.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as discord } from &#39;./channels/discord.ts&#39;;
+
+app.route(&#39;/channels/discord&#39;, discord.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/discord` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -104,8 +128,8 @@ Signed PING requests are answered with PONG internally before application code r
 
 ### Interactions
 
-``` astro-code
-import { type APIInteractionResponse, createDiscordChannel } from '@flue/discord';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { type APIInteractionResponse, createDiscordChannel } from &#39;@flue/discord&#39;;
 
 export const channel = createDiscordChannel({
   publicKey: process.env.DISCORD_PUBLIC_KEY!,
@@ -119,20 +143,21 @@ export const channel = createDiscordChannel({
       } satisfies APIInteractionResponse;
     }
 
-    if (interaction.type === 2 && interaction.data.name === 'ask') {
+    if (interaction.type === 2 &amp;&amp; interaction.data.name === &#39;ask&#39;) {
       return {
         type: 4,
-        data: { content: 'Your request was accepted.', flags: 64 },
+        data: { content: &#39;Your request was accepted.&#39;, flags: 64 },
       } satisfies APIInteractionResponse;
     }
 
     return {
       type: 4,
-      data: { content: 'Unsupported interaction.', flags: 64 },
+      data: { content: &#39;Unsupported interaction.&#39;, flags: 64 },
     } satisfies APIInteractionResponse;
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/discord.ts</span></figcaption>
+</figure>
 
 `interaction` is Discord’s provider-native API v10 object. Its numeric `type` discriminant narrows commands, autocomplete requests, message components, and modal submissions while preserving Discord’s snake_case fields and nesting. The package does not filter authenticated interaction families; the handler decides which ones affect the application.
 
@@ -144,27 +169,28 @@ Every non-PING HTTP interaction requires a valid Discord interaction response. D
 
 An immediate message response uses callback type `4`. A deferred response uses type `5` when the application will complete the interaction through Discord’s webhook API. Interaction tokens remain valid for follow-up operations for up to 15 minutes.
 
-`interaction.token` is a short-lived response capability. Use it only in immediate trusted application code. Keep it out of dispatched input, model context, logs, and durable session history.
+`interaction.token` is a short-lived response capability. Use it only in immediate trusted application code. Keep it out of the dispatched message, model context, logs, and durable session history.
 
 See Discord’s [interaction callback documentation](https://docs.discord.com/developers/interactions/receiving-and-responding#interaction-callback) for the response types allowed by each interaction family.
 
 ### Choose a conversation destination
 
-Not every interaction represents a durable Discord channel conversation. When an interaction should continue an agent instance, application code can derive a `DiscordDestinationRef` from native `guild_id`, `channel.id`, `channel.type`, and `context` fields. The complete generated example from `flue add channel discord` shows that derivation and dispatches with `channel.conversationKey(ref)`.
+Not every interaction represents a durable Discord channel conversation. When an interaction should continue an agent instance, application code can derive a `DiscordDestinationRef` from native `guild_id`, `channel.id`, `channel.type`, and `context` fields. The complete generated example from `flue add channel discord` shows that derivation and dispatches with `channel.instanceId(ref)`.
 
 Some valid interactions, including modal submissions, may omit a channel. Private-channel interactions can be acknowledged through their interaction token, but that capability does not grant the bot arbitrary channel-message access.
 
-Use `channel.conversationKey(ref)` when a Discord destination should continue the same agent instance. Conversation keys are identifiers, not authorization capabilities. See the shared [Channels guide](/docs/guide/channels/) for dispatch, authorization, and deduplication guidance.
+Use `channel.instanceId(ref)` when a Discord destination should continue the same agent instance. Instance ids are identifiers, not authorization capabilities. See the shared [Channels guide](/docs/guide/channels/) for dispatch, authorization, and deduplication guidance.
 
 ## Outbound REST
 
 Outbound Discord behavior belongs to the exported project-owned client:
 
-``` astro-code
-import { REST } from '@discordjs/rest';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { REST } from &#39;@discordjs/rest&#39;;
 
-export const client = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN!);
-```
+export const client = new REST({ version: &#39;10&#39; }).setToken(process.env.DISCORD_BOT_TOKEN!);</code></pre>
+<figcaption><span>src/channels/discord.ts</span></figcaption>
+</figure>
 
 Bot-token messages, application-command registration, and interaction-token follow-ups or edits are Discord REST operations. They are not implemented by `@flue/discord`.
 
@@ -172,43 +198,53 @@ Bot-token messages, application-command registration, and interaction-token foll
 
 Use the client to define an application-owned tool with its destination bound in trusted code:
 
-``` astro-code
-import { defineTool } from '@flue/runtime';
-import type { DiscordDestinationRef } from '@flue/discord';
-import * as v from 'valibot';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { defineTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
 
-export function postMessage(ref: DiscordDestinationRef) {
+export function postMessage(ref: { channelId: string }) {
   return defineTool({
-    name: 'post_discord_message',
-    description: 'Post to the Discord destination bound to this agent.',
+    name: &#39;post_discord_message&#39;,
+    description: &#39;Post to the Discord destination bound to this agent.&#39;,
     input: v.object({ content: v.pipe(v.string(), v.minLength(1)) }),
-    async run({ input: { content } }) {
+    async run({ data: { content } }) {
       const result = (await client.post(`/channels/${ref.channelId}/messages`, {
         body: { content },
       })) as { id?: string };
-      return { messageId: result.id ?? null };
+      return { output: { messageId: result.id ?? null } };
     },
   });
+}</code></pre>
+<figcaption><span>src/channels/discord.ts</span></figcaption>
+</figure>
+
+`data` is the instance’s creation data, recorded once when the dispatching event creates the instance. Bind it when creating the agent instead of parsing the instance id:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { useInitialData, useModel, useTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+import { postMessage } from &#39;../channels/discord.ts&#39;;
+
+const initialData = v.object({ channelId: v.string() });
+
+export function Assistant() {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
+  const data = useInitialData&lt;v.InferOutput&lt;typeof initialData&gt;&gt;();
+  if (!data) throw new Error(&#39;This agent is created by the Discord channel dispatch.&#39;);
+  useTool(postMessage(data));
+  return &#39;Post a concise answer to the bound Discord destination.&#39;;
 }
-```
 
-Bind the destination when creating the agent:
+Assistant.initialData = initialData;</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { channel, postMessage } from '../channels/discord.ts';
-
-export default defineAgent(({ id }) => ({
-  model: 'anthropic/claude-haiku-4-5',
-  tools: [postMessage(channel.parseConversationKey(id))],
-}));
-```
-
-The model selects message content. It does not select arbitrary Discord channels, credentials, or REST methods. This tool creates an ordinary bot-token channel message, not an interaction follow-up or guaranteed ephemeral response.
+The model selects message content. It does not select arbitrary Discord channels, credentials, or REST methods. This tool creates an ordinary bot-token channel message, not an interaction follow-up or guaranteed ephemeral response. `parseInstanceId()` remains available as an escape hatch for recovering the destination from the id directly.
 
 ## Delivery and runtime behavior
 
-Discord does not document dependable interaction redelivery behavior. Preserve `interaction.id` for tracing, and claim it in application-owned durable storage before dispatch when duplicate admission is unacceptable. The channel itself is stateless and does not deduplicate interaction ids.
+Discord does not document dependable interaction redelivery behavior. The channel rejects signed requests whose timestamp is more than five minutes from the server clock, which bounds how stale a replay can be, but it is otherwise stateless and does not deduplicate interaction ids. Preserve `interaction.id` for tracing, and claim it in application-owned durable storage before dispatch when duplicate admission is unacceptable.
 
 `@flue/discord` runs in Node and Cloudflare Workers with Flue’s required `nodejs_compat` setting. The example executes `@discordjs/rest` channel-message request construction against a fail-closed fake Fetch transport in both runtimes. Validate any additional REST operations your application depends on.
 
@@ -219,10 +255,10 @@ Current page: [Discord](/docs/ecosystem/channels/discord/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

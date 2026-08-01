@@ -35,43 +35,43 @@
 #### Getting Started
 
 
-<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
 
 
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
 
 
-<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
 
 
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,6 +93,8 @@ Automatically pull activities from your brokerage and sync your data across devi
 
 ------------------------------------------------------------------------
 
+Last updated July 29, 2026
+
 <a href="/connect" class="font-medium underline underline-offset-4">Wealthfolio Connect</a> is an optional paid service that adds two things on top of the free local-first app:
 
 1.  **Automatic broker sync.** Activities pulled directly from your brokerage, no CSV exports required.
@@ -102,7 +104,7 @@ The core app stays exactly the same with or without Connect. This guide covers w
 
 <figure class="my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/app/connect.png" class="block rounded-lg border border-border dark:hidden" alt="Wealthfolio Connect — sync brokers and devices while your data stays on your device" /><img src="https://assets.wealthfolio.app/images/screenshots/app/connect-dark.png" class="hidden rounded-lg border border-border dark:block" alt="Wealthfolio Connect — sync brokers and devices while your data stays on your device" />
-<figcaption>Wealthfolio Connect — sync brokers and devices while your data stays on your device</figcaption>
+<figcaption><p>Wealthfolio Connect — sync brokers and devices while your data stays on your device</p></figcaption>
 </figure>
 
 ------------------------------------------------------------------------
@@ -134,7 +136,7 @@ Connect uses <a href="https://snaptrade.com" class="font-medium underline underl
 Highlights:
 
 - **US:** Fidelity, Schwab, Robinhood, E\*Trade, Webull, Public, TradeStation, tastytrade
-- **Canada:** Questrade, Wealthsimple, Interactive Brokers
+- **Canada:** Questrade, Interactive Brokers
 - **International:** Interactive Brokers (global), Trading 212, Kraken (crypto), Coinbase (crypto), Binance (crypto)
 
 If your broker isn’t listed, request it via <a href="https://snaptrade.com/brokerage-integrations" class="font-medium underline underline-offset-4">SnapTrade’s coverage form</a>. Support tends to expand quickly.
@@ -174,7 +176,7 @@ Once Connect is active, devices linked to the same Connect account stay in sync:
 We can’t read the encrypted blobs. If you lose every device, you can recover by linking a new device with your account credentials. But if you also lose your account credentials, the data is unrecoverable. (That’s the deal with E2E encryption.)
 
 
-**Back up your data.** E2E means we cannot recover your portfolio for you. Periodically export a full database SQL (<a href="/docs/guide/data-export" class="font-medium underline underline-offset-4">Export &amp; Backup</a>) and store it somewhere you trust.
+**Back up your data.** E2E means we cannot recover your portfolio for you. Periodically export a full database SQL (<a href="/docs/guide/data-export/" class="font-medium underline underline-offset-4">Export &amp; Backup</a>) and store it somewhere you trust.
 
 
 ------------------------------------------------------------------------
@@ -218,27 +220,27 @@ Cancel and retry: Settings → **Connected Accounts** → **Sync now**. If it fa
 
 ------------------------------------------------------------------------
 
-**Next step:** Once your brokers are syncing, the <a href="/docs/guide/health-center" class="font-medium underline underline-offset-4">Health Center</a> will flag any inconsistencies between synced data and what Wealthfolio expects (negative cash, missing deposits, stale quotes).
+**Next step:** Once your brokers are syncing, the <a href="/docs/guide/health-center/" class="font-medium underline underline-offset-4">Health Center</a> will flag any inconsistencies between synced data and what Wealthfolio expects (negative cash, missing deposits, stale quotes).
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/guide/data-export" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Export &amp; Backup</a> <a href="/docs/guide/ai-assistant" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">AI Assistant</a>
+<a href="/docs/guide/data-export/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Export &amp; Backup</a> <a href="/docs/guide/ai-assistant/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">AI Assistant</a>
 
 
 On This Page
 
-- <a href="#1--what-connect-does-and-doesnt" class="inline-block no-underline text-sm text-muted-foreground">1 · What Connect does (and doesn't)</a>
-- <a href="#2--supported-brokerages" class="inline-block no-underline text-sm text-muted-foreground">2 · Supported brokerages</a>
-- <a href="#3--set-up-broker-sync" class="inline-block no-underline text-sm text-muted-foreground">3 · Set up broker sync</a>
-- <a href="#4--how-synced-data-lands-in-wealthfolio" class="inline-block no-underline text-sm text-muted-foreground">4 · How synced data lands in Wealthfolio</a>
-- <a href="#5--multi-device-sync" class="inline-block no-underline text-sm text-muted-foreground">5 · Multi-device sync</a>
-- <a href="#6--renaming-and-grouping-connect-accounts" class="inline-block no-underline text-sm text-muted-foreground">6 · Renaming and grouping Connect accounts</a>
-- <a href="#7--known-limitations" class="inline-block no-underline text-sm text-muted-foreground">7 · Known limitations</a>
-- <a href="#8--disconnecting" class="inline-block no-underline text-sm text-muted-foreground">8 · Disconnecting</a>
-- <a href="#9--troubleshooting" class="inline-block no-underline text-sm text-muted-foreground">9 · Troubleshooting</a>
-  - <a href="#sync-failed-with-authentication-error" class="inline-block no-underline text-sm text-muted-foreground">Sync failed with "authentication error"</a>
-  - <a href="#a-synced-activity-looks-wrong" class="inline-block no-underline text-sm text-muted-foreground">A synced activity looks wrong</a>
-  - <a href="#sync-is-stuck-on-syncing-for-hours" class="inline-block no-underline text-sm text-muted-foreground">Sync is stuck on "syncing…" for hours</a>
+- <a href="#1--what-connect-does-and-doesnt" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · What Connect does (and doesn't)</a>
+- <a href="#2--supported-brokerages" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Supported brokerages</a>
+- <a href="#3--set-up-broker-sync" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Set up broker sync</a>
+- <a href="#4--how-synced-data-lands-in-wealthfolio" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · How synced data lands in Wealthfolio</a>
+- <a href="#5--multi-device-sync" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Multi-device sync</a>
+- <a href="#6--renaming-and-grouping-connect-accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">6 · Renaming and grouping Connect accounts</a>
+- <a href="#7--known-limitations" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">7 · Known limitations</a>
+- <a href="#8--disconnecting" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">8 · Disconnecting</a>
+- <a href="#9--troubleshooting" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">9 · Troubleshooting</a>
+  - <a href="#sync-failed-with-authentication-error" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Sync failed with "authentication error"</a>
+  - <a href="#a-synced-activity-looks-wrong" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">A synced activity looks wrong</a>
+  - <a href="#sync-is-stuck-on-syncing-for-hours" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Sync is stuck on "syncing…" for hours</a>
 
 

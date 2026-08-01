@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Modal
 
 
-Last updated May 30, 2026 <a href="/docs/ecosystem/sandboxes/modal/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/sandboxes/modal/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
 The Modal adapter adapts an already-initialized Modal Sandbox from the `modal` JavaScript SDK into Flue’s sandbox interface. Use it for provider-backed command execution and files when your application provisions Modal sandbox resources.
@@ -35,18 +35,18 @@ flue add sandbox modal
 
 The Modal blueprint installs the `modal` JavaScript SDK when needed and creates `sandboxes/modal.ts` in your source-root. The generated adapter accepts an application-created Modal `Sandbox`; provisioning, image selection, credentials, and shutdown remain outside the adapter.
 
-``` astro-code
-// flue-blueprint: sandbox/modal@1
-import { createSandboxSessionEnv } from '@flue/runtime';
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from '@flue/runtime';
-import type { Sandbox as ModalSandbox } from 'modal';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/modal@1
+import { createSandboxSessionEnv } from &#39;@flue/runtime&#39;;
+import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
+import type { Sandbox as ModalSandbox } from &#39;modal&#39;;
 
 export interface ModalAdapterOptions {
   cwd?: string;
 }
 
 function shellQuote(value: string): string {
-  return `'${value.replace(/'/g, `'\\''`)}'`;
+  return `&#39;${value.replace(/&#39;/g, `&#39;\\&#39;&#39;`)}&#39;`;
 }
 
 class ModalSandboxApi implements SandboxApi {
@@ -61,14 +61,15 @@ class ModalSandboxApi implements SandboxApi {
 
 export function modal(sandbox: ModalSandbox, options?: ModalAdapterOptions): SandboxFactory {
   return {
-    async createSessionEnv(): Promise<SessionEnv> {
-      const sandboxCwd = options?.cwd ?? '/';
+    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+      const sandboxCwd = options?.cwd ?? &#39;/&#39;;
       const api = new ModalSandboxApi(sandbox);
       return createSandboxSessionEnv(api, sandboxCwd);
     },
   };
-}
-```
+}</code></pre>
+<figcaption><span>&lt;source-root&gt;/sandboxes/modal.ts (abridged)</span></figcaption>
+</figure>
 
 Passing `modal(sandbox)` as an agent’s `sandbox` exposes the created Modal Sandbox’s files and command execution through Flue, with relative paths rooted at `/` unless you set `cwd`. The selected image must provide `bash` and compatible filesystem utilities for operations that Modal’s SDK does not expose directly; the generated `stat` parser supports the output used by GNU and BusyBox `stat`, and `rm` receives the requested recursive and force flags.
 
@@ -89,7 +90,7 @@ Passing `modal(sandbox)` as an agent’s `sandbox` exposes the created Modal San
 
 Use Modal when your application already manages Modal applications, images, or sandbox lifetimes and needs to expose that compute boundary to Flue operations. The adapter adapts the created sandbox; creation, shutdown, secret handling, networking, and image content remain your responsibility.
 
-See [Sandboxes](/docs/guide/sandboxes/) and [Sandbox Adapter API](/docs/api/sandbox-api/).
+See [Sandboxes](/docs/guide/sandboxes/) and [Sandbox Adapter API](/docs/reference/sandbox-api/).
 
 
 ## Docs Navigation
@@ -98,10 +99,10 @@ Current page: [Modal](/docs/ecosystem/sandboxes/modal/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

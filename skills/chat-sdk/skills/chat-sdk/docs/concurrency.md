@@ -269,3 +269,12 @@ All strategies emit structured log events at `info` level:
 * The deprecated `onLockConflict` option continues to work but should be replaced with `concurrency`.
 * Handler signatures are backward-compatible; the new `context` parameter is optional.
 * Deduplication always runs regardless of strategy.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

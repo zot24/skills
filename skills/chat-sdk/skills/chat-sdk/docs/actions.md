@@ -152,3 +152,12 @@ If the button also has a `value` prop, it is included in the payload as `"value"
 
 
 For modals, see [callbackUrl on modals](/docs/modals#callback-urls).
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

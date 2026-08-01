@@ -40,7 +40,7 @@ bot.onNewMention(async (thread, message) => {
 ## Configuration
 
 
-`appId` is required. Exactly one authentication method (`appPassword` or `federated`) must be provided.
+`appId` is required, along with one authentication method (`appPassword`, `federated`, or `token`). If more than one is configured, `token` takes precedence over `federated`, which takes precedence over `appPassword`.
 
 ## Authentication
 
@@ -108,7 +108,33 @@ createTeamsAdapter({
 });
 ```
 
+**Custom token factory** — for runtimes without access to Azure IMDS (e.g. serverless platforms), provide your own token-minting logic. Maps to `AppOptions.token` in the Teams SDK:
+
+```typescript
+createTeamsAdapter({
+  appId: "your_app_id_here",
+  appTenantId: "your_tenant_id_here",
+  token: async (scope, tenantId) => {
+    // fetch or mint an access token for the given scope/tenant however your
+    // runtime supports it (e.g. a workload-identity federation bridge)
+    return await getAccessToken(scope, tenantId);
+  },
+});
+```
+
+
+  The Teams SDK reads a generic `CLIENT_SECRET` environment variable and prefers it over the token factory. Make sure `CLIENT_SECRET` is not set in your deployment environment, or the bot will silently fall back to client-secret auth.
+
+
 ## Advanced
+
+### Conversation routing
+
+Incoming thread IDs preserve the Teams conversation type when the legacy ID-prefix heuristic would route it incorrectly. This keeps correctly classified IDs stable while selecting the buffered fallback for group chats whose IDs begin with `a:`. Thread IDs created by older adapter versions remain supported.
+
+### Incoming attachments
+
+Incoming inline images and files are exposed through `message.attachments` with a lazy `fetchData()` method. The adapter authenticates connector-hosted inline attachments through the configured Teams bot client, while [Teams file download cards](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/bots-filesv4) use their direct download URL without the bot token.
 
 ### User lookup
 
@@ -124,6 +150,18 @@ console.log(user?.fullName); // "Alice Smith"
 ```
 
 The adapter caches each user's Azure AD object ID from incoming activities, so `getUser` only works for users who have previously interacted with the bot.
+
+### Targeted / ephemeral messages
+
+Teams targeted messages are available in public preview. Use `thread.postEphemeral()` or `channel.postEphemeral()` to send a native Teams message that only the selected conversation member can see:
+
+```typescript
+await thread.postEphemeral(message.author, "Only you can see this.", {
+  fallbackToDM: false,
+});
+```
+
+The result has `usedFallback: false` when Teams accepts the targeted message.
 
 ### Message history
 

@@ -1,4 +1,4 @@
-> Source: https://docs.firecrawl.dev/sdks/dotnet.md
+> Source: https://docs.firecrawl.dev/quickstarts/dotnet.md
 
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
@@ -6,389 +6,209 @@
 
 # .NET
 
-> Firecrawl .NET SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
+> Get started with Firecrawl in .NET. Scrape, search, and interact with web data using the REST API.
 
-## Installation
+## Prerequisites
 
-The official .NET SDK is maintained in the Firecrawl monorepo at [apps/dot-net-sdk](https://github.com/firecrawl/firecrawl/tree/main/apps/dot-net-sdk).
+* .NET 6.0+
+* A Firecrawl API key — [get one free](https://www.firecrawl.dev/app/api-keys)
 
-To install the Firecrawl .NET SDK, add the NuGet package:
+## Search the web
 
-
-    ```bash
-    dotnet add package firecrawl-sdk
-    ```
-
-
-    ```powershell
-    Install-Package firecrawl-sdk
-    ```
-
-
-    ```xml
-    <PackageReference Include="firecrawl-sdk" Version="1.0.0" />
-    ```
-
-
-Requires .NET 8.0 or later.
-
-## Usage
-
-1. Get an API key from [firecrawl.dev](https://firecrawl.dev)
-2. Set the API key as an environment variable named `FIRECRAWL_API_KEY`, or pass it to the `FirecrawlClient` constructor
-
-Here is a quick example using the current SDK API surface:
+Firecrawl works with .NET through the REST API using `HttpClient`.
 
 ```csharp theme={null}
-using Firecrawl;
-using Firecrawl.Models;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 
-var client = new FirecrawlClient("fc-your-api-key");
+var apiKey = Environment.GetEnvironmentVariable("FIRECRAWL_API_KEY");
+var client = new HttpClient();
+client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
-// Scrape a single page
-var doc = await client.ScrapeAsync("https://firecrawl.dev",
-    new ScrapeOptions { Formats = new List<object> { "markdown" } });
+var content = new StringContent(
+    JsonSerializer.Serialize(new { query = "firecrawl web scraping", limit = 5 }),
+    Encoding.UTF8,
+    "application/json"
+);
 
-// Crawl a website
-var job = await client.CrawlAsync("https://firecrawl.dev",
-    new CrawlOptions { Limit = 5 });
-
-Console.WriteLine(doc.Markdown);
-Console.WriteLine($"Crawled pages: {job.Data?.Count ?? 0}");
+var response = await client.PostAsync("https://api.firecrawl.dev/v2/search", content);
+var json = await response.Content.ReadAsStringAsync();
+Console.WriteLine(json);
 ```
 
-### Scraping a URL
 
-To scrape a single URL, use the `ScrapeAsync` method.
-
-```csharp theme={null}
-using Firecrawl.Models;
-
-var doc = await client.ScrapeAsync("https://firecrawl.dev",
-    new ScrapeOptions
-    {
-        Formats = new List<object> { "markdown", "html" },
-        OnlyMainContent = true,
-        WaitFor = 5000
-    });
-
-Console.WriteLine(doc.Markdown);
-Console.WriteLine(doc.Metadata?["title"]);
-```
-
-#### JSON Extraction
-
-Extract structured JSON with `JsonFormat` via the scrape endpoint:
-
-```csharp theme={null}
-using Firecrawl.Models;
-
-var jsonFmt = new JsonFormat
-{
-    Prompt = "Extract the product name and price",
-    Schema = new Dictionary<string, object>
-    {
-        ["type"] = "object",
-        ["properties"] = new Dictionary<string, object>
+  ```json
+  {
+    "success": true,
+    "data": {
+      "web": [
         {
-            ["name"] = new Dictionary<string, object> { ["type"] = "string" },
-            ["price"] = new Dictionary<string, object> { ["type"] = "number" }
+          "url": "https://docs.firecrawl.dev",
+          "title": "Firecrawl Documentation",
+          "markdown": "# Firecrawl\n\nFirecrawl is a web scraping API..."
         }
+      ]
     }
-};
+  }
+  ```
 
-var doc = await client.ScrapeAsync("https://example.com/product",
-    new ScrapeOptions
-    {
-        Formats = new List<object> { jsonFmt }
-    });
 
-Console.WriteLine(doc.Json);
-```
-
-### Crawling a Website
-
-To crawl a website and wait for completion, use `CrawlAsync`. This method handles polling and pagination automatically.
+## Scrape a page
 
 ```csharp theme={null}
-using Firecrawl.Models;
+var scrapeContent = new StringContent(
+    JsonSerializer.Serialize(new { url = "https://example.com" }),
+    Encoding.UTF8,
+    "application/json"
+);
 
-var job = await client.CrawlAsync("https://firecrawl.dev",
-    new CrawlOptions
-    {
-        Limit = 50,
-        MaxDiscoveryDepth = 3,
-        ScrapeOptions = new ScrapeOptions
-        {
-            Formats = new List<object> { "markdown" }
-        }
-    });
+var scrapeResponse = await client.PostAsync("https://api.firecrawl.dev/v2/scrape", scrapeContent);
+var scrapeJson = await scrapeResponse.Content.ReadAsStringAsync();
 
-Console.WriteLine($"Status: {job.Status}");
-Console.WriteLine($"Progress: {job.Completed}/{job.Total}");
+using var doc = JsonDocument.Parse(scrapeJson);
+var markdown = doc.RootElement.GetProperty("data").GetProperty("markdown").GetString();
+Console.WriteLine(markdown);
+```
 
-if (job.Data != null)
-{
-    foreach (var page in job.Data)
-    {
-        Console.WriteLine(page.Metadata?["sourceURL"]);
+
+  ```json
+  {
+    "success": true,
+    "data": {
+      "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
+      "metadata": {
+        "title": "Example Domain",
+        "sourceURL": "https://example.com"
+      }
     }
-}
-```
+  }
+  ```
 
-### Start a Crawl
 
-Start a job without waiting using `StartCrawlAsync`.
+## Interact with a page
 
-```csharp theme={null}
-using Firecrawl.Models;
+Start a browser session, interact with the page using natural-language prompts, then close the session.
 
-var start = await client.StartCrawlAsync("https://firecrawl.dev",
-    new CrawlOptions { Limit = 100 });
-
-Console.WriteLine($"Job ID: {start.Id}");
-```
-
-### Checking Crawl Status
-
-Check crawl progress with `GetCrawlStatusAsync`.
+### Step 1 — Scrape to start a session
 
 ```csharp theme={null}
-var status = await client.GetCrawlStatusAsync(start.Id!);
-Console.WriteLine($"Status: {status.Status}");
-Console.WriteLine($"Progress: {status.Completed}/{status.Total}");
+var sessionContent = new StringContent(
+    JsonSerializer.Serialize(new { url = "https://www.amazon.com", formats = new[] { "markdown" } }),
+    Encoding.UTF8,
+    "application/json"
+);
+
+var sessionResponse = await client.PostAsync("https://api.firecrawl.dev/v2/scrape", sessionContent);
+var sessionJson = await sessionResponse.Content.ReadAsStringAsync();
+
+using var sessionDoc = JsonDocument.Parse(sessionJson);
+var scrapeId = sessionDoc.RootElement
+    .GetProperty("data")
+    .GetProperty("metadata")
+    .GetProperty("scrapeId")
+    .GetString();
+
+Console.WriteLine($"scrapeId: {scrapeId}");
 ```
 
-### Cancelling a Crawl
-
-Cancel a running crawl with `CancelCrawlAsync`.
+### Step 2 — Send interactions
 
 ```csharp theme={null}
-var result = await client.CancelCrawlAsync(start.Id!);
-Console.WriteLine(result);
+var interactUrl = $"https://api.firecrawl.dev/v2/scrape/{scrapeId}/interact";
+
+// Search for a product
+var searchBody = new StringContent(
+    JsonSerializer.Serialize(new { prompt = "Search for iPhone 16 Pro Max" }),
+    Encoding.UTF8,
+    "application/json"
+);
+
+var searchResult = await client.PostAsync(interactUrl, searchBody);
+Console.WriteLine(await searchResult.Content.ReadAsStringAsync());
+
+// Click on the first result
+var clickBody = new StringContent(
+    JsonSerializer.Serialize(new { prompt = "Click on the first result and tell me the price" }),
+    Encoding.UTF8,
+    "application/json"
+);
+
+var clickResult = await client.PostAsync(interactUrl, clickBody);
+Console.WriteLine(await clickResult.Content.ReadAsStringAsync());
 ```
 
-### Mapping a Website
-
-Discover links on a site using `MapAsync`.
+### Step 3 — Stop the session
 
 ```csharp theme={null}
-using Firecrawl.Models;
+await client.DeleteAsync(interactUrl);
+Console.WriteLine("Session stopped");
+```
 
-var data = await client.MapAsync("https://firecrawl.dev",
-    new MapOptions
-    {
-        Limit = 100,
-        Search = "blog"
-    });
+## Reusable client class
 
-if (data.Links != null)
+For repeated use, wrap the API in a typed client:
+
+```csharp theme={null}
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+
+public class FirecrawlClient
 {
-    foreach (var link in data.Links)
+    private readonly HttpClient _http;
+    private const string BaseUrl = "https://api.firecrawl.dev/v2";
+
+    public FirecrawlClient(string apiKey)
     {
-        Console.WriteLine(link);
+        _http = new HttpClient();
+        _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
     }
-}
-```
 
-### Searching the Web
-
-Search with optional search settings using `SearchAsync`.
-
-```csharp theme={null}
-using Firecrawl.Models;
-
-var results = await client.SearchAsync("firecrawl web scraping",
-    new SearchOptions
+    private async Task<JsonDocument> PostAsync(string endpoint, object payload)
     {
-        Limit = 10,
-        Location = "US"
-    });
+        var content = new StringContent(
+            JsonSerializer.Serialize(payload),
+            Encoding.UTF8,
+            "application/json"
+        );
 
-if (results.Web != null)
-{
-    foreach (var hit in results.Web)
-    {
-        Console.WriteLine($"{hit.Title} - {hit.Url}");
+        var response = await _http.PostAsync($"{BaseUrl}{endpoint}", content);
+        response.EnsureSuccessStatusCode();
+
+        var json = await response.Content.ReadAsStringAsync();
+        return JsonDocument.Parse(json);
     }
-}
-```
 
-### Batch Scraping
-
-Scrape multiple URLs in parallel using `BatchScrapeAsync`. This method handles polling and pagination automatically.
-
-```csharp theme={null}
-using Firecrawl.Models;
-
-var urls = new List<string>
-{
-    "https://firecrawl.dev",
-    "https://firecrawl.dev/blog"
-};
-
-var job = await client.BatchScrapeAsync(urls,
-    new BatchScrapeOptions
+    public async Task<JsonDocument> ScrapeAsync(string url)
     {
-        Options = new ScrapeOptions
-        {
-            Formats = new List<object> { "markdown" }
-        }
-    });
+        return await PostAsync("/scrape", new { url });
+    }
 
-if (job.Data != null)
-{
-    foreach (var doc in job.Data)
+    public async Task<JsonDocument> SearchAsync(string query, int limit = 5)
     {
-        Console.WriteLine(doc.Markdown);
+        return await PostAsync("/search", new { query, limit });
     }
 }
+
+// Usage
+var firecrawl = new FirecrawlClient(Environment.GetEnvironmentVariable("FIRECRAWL_API_KEY")!);
+var result = await firecrawl.SearchAsync("firecrawl web scraping");
+Console.WriteLine(result.RootElement);
 ```
 
-#### Batch Scrape with Idempotency Key
+## Next steps
 
-To ensure duplicate requests are not processed, pass an `IdempotencyKey`:
 
-```csharp theme={null}
-var job = await client.BatchScrapeAsync(urls,
-    new BatchScrapeOptions
-    {
-        IdempotencyKey = "my-unique-key",
-        Options = new ScrapeOptions
-        {
-            Formats = new List<object> { "markdown" }
-        }
-    });
-```
+    Search the web and get full page content
 
-### Usage & Metrics
 
-Check concurrency and remaining credits:
+    All scrape options including formats, actions, and proxies
 
-```csharp theme={null}
-using Firecrawl.Models;
 
-var concurrency = await client.GetConcurrencyAsync();
-Console.WriteLine($"Concurrency: {concurrency.Current}/{concurrency.MaxConcurrency}");
+    Click, fill forms, and extract dynamic content
 
-var credits = await client.GetCreditUsageAsync();
-Console.WriteLine($"Remaining credits: {credits.RemainingCredits}");
-```
 
-## Async Support
+    Complete REST API documentation
 
-All methods in the .NET SDK are async by default and return `Task<T>`. They support `CancellationToken` for cooperative cancellation.
 
-```csharp theme={null}
-using Firecrawl.Models;
-
-using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-
-var doc = await client.ScrapeAsync("https://example.com",
-    new ScrapeOptions
-    {
-        Formats = new List<object> { "markdown" }
-    },
-    cancellationToken: cts.Token);
-
-Console.WriteLine(doc.Markdown);
-```
-
-## Configuration
-
-The `FirecrawlClient` constructor supports the following options:
-
-| Option          | Type          | Default                                              | Description                              |
-| --------------- | ------------- | ---------------------------------------------------- | ---------------------------------------- |
-| `apiKey`        | `string?`     | `FIRECRAWL_API_KEY` env var                          | Your Firecrawl API key                   |
-| `apiUrl`        | `string?`     | `https://api.firecrawl.dev` (or `FIRECRAWL_API_URL`) | API base URL                             |
-| `timeout`       | `TimeSpan?`   | 5 minutes                                            | HTTP request timeout                     |
-| `maxRetries`    | `int`         | `3`                                                  | Automatic retries for transient failures |
-| `backoffFactor` | `double`      | `0.5`                                                | Exponential backoff factor in seconds    |
-| `httpClient`    | `HttpClient?` | Built from `timeout`                                 | Pre-configured HttpClient instance       |
-
-```csharp theme={null}
-using Firecrawl;
-
-var client = new FirecrawlClient(
-    apiKey: "fc-your-api-key",
-    apiUrl: "https://api.firecrawl.dev",
-    timeout: TimeSpan.FromMinutes(5),
-    maxRetries: 3,
-    backoffFactor: 0.5);
-```
-
-### Custom HTTP Client
-
-You can pass a pre-configured `HttpClient` to control connection pooling, proxies, message handlers, and any other `HttpClient` feature. When provided, the `timeout` setting is ignored in favor of the client's own configuration.
-
-```csharp theme={null}
-using Firecrawl;
-
-var handler = new HttpClientHandler
-{
-    Proxy = new WebProxy("http://proxy.example.com:8080"),
-    UseProxy = true
-};
-
-var httpClient = new HttpClient(handler)
-{
-    Timeout = TimeSpan.FromSeconds(60)
-};
-
-var client = new FirecrawlClient(
-    apiKey: "fc-your-api-key",
-    httpClient: httpClient);
-```
-
-### Environment Variable Configuration
-
-The SDK resolves configuration from environment variables when constructor parameters are omitted:
-
-```csharp theme={null}
-// Uses FIRECRAWL_API_KEY and FIRECRAWL_API_URL environment variables
-var client = new FirecrawlClient();
-```
-
-## Error Handling
-
-The SDK throws specific exceptions under `Firecrawl.Exceptions`.
-
-```csharp theme={null}
-using Firecrawl.Exceptions;
-using Firecrawl.Models;
-
-try
-{
-    var doc = await client.ScrapeAsync("https://example.com");
-}
-catch (AuthenticationException ex)
-{
-    Console.Error.WriteLine($"Auth failed: {ex.Message}");
-}
-catch (RateLimitException ex)
-{
-    Console.Error.WriteLine($"Rate limited: {ex.Message}");
-}
-catch (JobTimeoutException ex)
-{
-    Console.Error.WriteLine($"Job {ex.JobId} timed out after {ex.TimeoutSeconds}s");
-}
-catch (FirecrawlException ex)
-{
-    Console.Error.WriteLine($"Error {ex.StatusCode}: {ex.Message}");
-}
-```
-
-The exception hierarchy:
-
-| Exception                 | HTTP Code | When                                                    |
-| ------------------------- | --------- | ------------------------------------------------------- |
-| `AuthenticationException` | 401       | Invalid or missing API key                              |
-| `RateLimitException`      | 429       | Too many requests                                       |
-| `JobTimeoutException`     | —         | Async job (crawl/batch scrape) did not complete in time |
-| `FirecrawlException`      | varies    | Base exception for all other API errors                 |
-
-Transient failures (408, 409, 502, and other 5xx errors) are retried automatically with exponential backoff before an exception is thrown.
-
-> Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.

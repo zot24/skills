@@ -35,43 +35,43 @@
 #### Getting Started
 
 
-<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
 
 
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
 
 
-<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
 
 
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,6 +93,8 @@ Map broker exports to Wealthfolio activities. File format, mapping, per-broker r
 
 ------------------------------------------------------------------------
 
+Last updated July 29, 2026
+
 The CSV importer takes broker statements (or any spreadsheet) and turns each row into a Wealthfolio activity. Most brokers don’t follow the same column names, so the importer walks you through a **mapping step** that aligns their columns to ours. Mappings are saved per account, so subsequent imports for that broker are one click.
 
 <figure class="not-prose my-6">
@@ -109,10 +111,11 @@ Wealthfolio’s native CSV format:
 ``` mb-4
 date,symbol,instrumentType,quantity,activityType,unitPrice,currency,fee,amount,fxRate,subtype
 2024-01-15,MSFT,EQUITY,10,BUY,380.50,USD,4.95,,,
-2024-02-01,MSFT,EQUITY,1,DIVIDEND,0.75,USD,0,0.75,,QUALIFIED
+2024-02-01,MSFT,EQUITY,1,DIVIDEND,0.75,USD,0,0.75,,
 2024-02-15,,,1,DEPOSIT,1,USD,0,1000.00,,
-2024-04-01,VOO,EQUITY,1,DIVIDEND,1.50,USD,0,1.50,,DRIP
-2024-05-01,,,1,INTEREST,1,USD,0,12.50,,COUPON
+2024-04-01,VOO,EQUITY,0.25,DIVIDEND,200.00,USD,0,50.00,,DRIP
+2024-05-01,AAPL,EQUITY,5,SELL,100.00,USD,0,,,SELL_SHORT
+2024-05-15,AAPL,EQUITY,2,BUY,95.00,USD,0,,,BUY_TO_COVER
 2024-06-01,TD.TO,EQUITY,10,BUY,85.00,CAD,9.99,,1.36,
 ```
 
@@ -128,7 +131,7 @@ These six must be mapped before you can import:
 | `date`         | Trade or transaction date. ISO-8601 (`2025-03-15`) preferred; common locale formats are recognized.                                                                                                             |
 | `symbol`       | Ticker (`AAPL`, `RY.TO`, `IWDA.AS`). Leave **blank** for pure cash activities — the activity type identifies them.                                                                                              |
 | `quantity`     | Shares (positive number). Up to 8 decimal places for fractional shares. Use `1` for cash rows.                                                                                                                  |
-| `activityType` | One of the <a href="/docs/concepts/activity-types" class="font-medium underline underline-offset-4">supported activity types</a>.                                                                               |
+| `activityType` | One of the <a href="/docs/concepts/activity-types/" class="font-medium underline underline-offset-4">supported activity types</a>.                                                                              |
 | `unitPrice`    | Price per unit in the activity currency. Use `1` for cash activities.                                                                                                                                           |
 | `amount`       | Total cash value. For trades it’s **auto-calculated** from `quantity × unitPrice` when left blank; **required** for cash activities (`DIVIDEND`, `DEPOSIT`, `WITHDRAWAL`, `INTEREST`, `TAX`, `FEE`, transfers). |
 
@@ -136,16 +139,16 @@ These six must be mapped before you can import:
 ### Optional columns
 
 
-| Field            | What it is                                                                                                        |
-|------------------|-------------------------------------------------------------------------------------------------------------------|
-| `currency`       | Activity currency (ISO 4217, e.g. `USD`, `EUR`, `CAD`). Defaults to the **account currency** when omitted.        |
-| `fee`            | Inline fee or commission for `BUY` / `SELL` activities.                                                           |
-| `instrumentType` | Asset type for a new security, e.g. `EQUITY`, `CRYPTO`. Helps Wealthfolio classify symbols it hasn’t seen before. |
-| `isin`           | ISIN identifier — an alternative to the ticker for matching a security.                                           |
-| `fxRate`         | Exchange rate from the activity currency to your **base currency** (e.g. `1.36`). Used when the two differ.       |
-| `subtype`        | Refines the activity type, e.g. `DRIP`, `QUALIFIED`, `COUPON`, `STAKING_REWARD`.                                  |
-| `comment`        | Free-text note. Useful for cross-referencing your broker statement.                                               |
-| `account`        | Destination account per row, if you’re not importing everything into the single selected account.                 |
+| Field            | What it is                                                                                                                                             |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `currency`       | Activity currency (ISO 4217, e.g. `USD`, `EUR`, `CAD`). Defaults to the **account currency** when omitted.                                             |
+| `fee`            | Inline fee or commission for `BUY` / `SELL` activities.                                                                                                |
+| `instrumentType` | Asset type for a new security, e.g. `EQUITY`, `CRYPTO`. Helps Wealthfolio classify symbols it hasn’t seen before.                                      |
+| `isin`           | ISIN identifier — an alternative to the ticker for matching a security.                                                                                |
+| `fxRate`         | Exchange rate from the activity currency to your **base currency** (e.g. `1.36`). Used when the two differ.                                            |
+| `subtype`        | Refines the activity type, e.g. `DRIP`, `STAKING_REWARD`, `POSITION_OPEN`, `POSITION_CLOSE`, `SELL_SHORT`, `BUY_TO_COVER`, `BTO`, `STO`, `BTC`, `STC`. |
+| `comment`        | Free-text note. Useful for cross-referencing your broker statement.                                                                                    |
+| `account`        | Destination account per row, if you’re not importing everything into the single selected account.                                                      |
 
 
 ### Holdings-mode CSV (balance snapshots)
@@ -169,7 +172,7 @@ Required: `date`, `symbol`, `quantity`. Optional: `avgCost`, `currency`. For cas
 The importer is a five-step wizard:
 
 1.  **Upload.** Select the destination account (mappings are saved per account), drop your CSV file (or click to browse), and optionally pick a saved format. Wealthfolio shows a live preview of the parsed rows.
-2.  **Mapping.** Align each CSV column to a Wealthfolio field, map every broker activity word to an activity type (e.g. “Buy” → `BUY`, “Dividend Reinvestment” → `DIVIDEND` with the **DRIP** subtype), and normalize symbols if needed (e.g. `MSFT.NASDAQ` → `MSFT`). The importer auto-guesses what it can — fix anything still flagged. Save the result as a reusable **template**.
+2.  **Mapping.** Align each CSV column to a Wealthfolio field, map every broker activity word to an activity type (e.g. “Buy” → `BUY`, “Dividend Reinvestment” → `DIVIDEND` with the **DRIP** subtype, “Sell Short” → `SELL` with **Position Open**), and normalize symbols if needed (e.g. `MSFT.NASDAQ` → `MSFT`). The importer auto-guesses what it can — fix anything still flagged. Save the result as a reusable **template**.
 3.  **Review Assets.** Confirm any new symbols the file introduces, so prices and classifications resolve correctly.
 4.  **Review Activities.** Preview every row before import, with duplicates flagged.
 5.  **Import.** A summary shows how many rows will be imported versus skipped, broken down by activity type. Confirm to finish — the mapping is saved for next time.
@@ -191,31 +194,37 @@ The importer is a five-step wizard:
 Brokers use their own vocabulary. Map these to Wealthfolio activity types in the import step:
 
 
-| Broker term                                      | Wealthfolio activity type                      |
-|--------------------------------------------------|------------------------------------------------|
-| Buy, Purchase, Bought                            | `BUY`                                          |
-| Sell, Sold, Sale, Disposal                       | `SELL`                                         |
-| Dividend, Cash Dividend, Ordinary Dividend       | `DIVIDEND`                                     |
-| Dividend Reinvestment, DRIP, Reinvested Dividend | `DIVIDEND` with **DRIP** subtype               |
-| Interest, Credit Interest, Cash Interest         | `INTEREST`                                     |
-| Staking Reward, Staking Income                   | `INTEREST` with **Staking Reward** subtype     |
-| Deposit, Funds Received, ACH In, Wire In         | `DEPOSIT`                                      |
-| Withdrawal, Funds Sent, ACH Out, Wire Out        | `WITHDRAWAL`                                   |
-| Journal, Internal Transfer, ACATS In/Out         | `TRANSFER_IN` / `TRANSFER_OUT`                 |
-| Sweep In, Sweep Out                              | Often safe to ignore; these are intra-account. |
-| Stock Split, Forward Split, Reverse Split        | `SPLIT`                                        |
-| Spin-off, Stock Dividend                         | `DIVIDEND` with **Dividend in Kind** subtype   |
-| Account Fee, Custody Fee, Advisory Fee           | `FEE`                                          |
-| Withholding Tax, Tax Adjustment                  | `TAX`                                          |
-| Bonus, Sign-up Reward, Referral                  | `CREDIT` with **Bonus** subtype                |
-| Maker Rebate, Volume Discount                    | `CREDIT` with **Trading Rebate** subtype       |
-| Fee Refund, Fee Reversal                         | `CREDIT` with **Fee Refund** subtype           |
-| Option Expiration, Expired Worthless             | `ADJUSTMENT` with **Option Expiry** subtype    |
-| Opening Balance, Starting Position               | `TRANSFER_IN` with **External** flag           |
-| Position Closed (no proceeds), Write-off         | `TRANSFER_OUT` with **External** flag          |
+| Broker term                                      | Wealthfolio activity type                        |
+|--------------------------------------------------|--------------------------------------------------|
+| Buy, Purchase, Bought                            | `BUY`                                            |
+| Sell, Sold, Sale, Disposal                       | `SELL`                                           |
+| Sell Short, Short Sell                           | `SELL` with **Position Open** / **Sell Short**   |
+| Buy to Cover, Cover Short                        | `BUY` with **Position Close** / **Buy to Cover** |
+| Buy to Open, BTO                                 | `BUY` with **Position Open**                     |
+| Sell to Open, STO                                | `SELL` with **Position Open**                    |
+| Buy to Close, BTC                                | `BUY` with **Position Close**                    |
+| Sell to Close, STC                               | `SELL` with **Position Close**                   |
+| Dividend, Cash Dividend, Ordinary Dividend       | `DIVIDEND`                                       |
+| Dividend Reinvestment, DRIP, Reinvested Dividend | `DIVIDEND` with **DRIP** subtype                 |
+| Interest, Credit Interest, Cash Interest         | `INTEREST`                                       |
+| Staking Reward, Staking Income                   | `INTEREST` with **Staking Reward** subtype       |
+| Deposit, Funds Received, ACH In, Wire In         | `DEPOSIT`                                        |
+| Withdrawal, Funds Sent, ACH Out, Wire Out        | `WITHDRAWAL`                                     |
+| Journal, Internal Transfer, ACATS In/Out         | `TRANSFER_IN` / `TRANSFER_OUT`                   |
+| Sweep In, Sweep Out                              | Often safe to ignore; these are intra-account.   |
+| Stock Split, Forward Split, Reverse Split        | `SPLIT`                                          |
+| Spin-off, Stock Dividend                         | `DIVIDEND` with **Dividend in Kind** subtype     |
+| Account Fee, Custody Fee, Advisory Fee           | `FEE`                                            |
+| Withholding Tax, Tax Adjustment                  | `TAX`                                            |
+| Bonus, Sign-up Reward, Referral                  | `CREDIT` with **Bonus** subtype                  |
+| Maker Rebate, Volume Discount                    | `CREDIT` with **Trading Rebate** subtype         |
+| Fee Refund, Fee Reversal                         | `CREDIT` with **Fee Refund** subtype             |
+| Option Expiration, Expired Worthless             | `ADJUSTMENT` with **Option Expiry** subtype      |
+| Opening Balance, Starting Position               | `TRANSFER_IN` with **External** flag             |
+| Position Closed (no proceeds), Write-off         | `TRANSFER_OUT` with **External** flag            |
 
 
-Full reference: <a href="/docs/concepts/activity-types" class="font-medium underline underline-offset-4">Activity Types</a>.
+Full reference: <a href="/docs/concepts/activity-types/" class="font-medium underline underline-offset-4">Activity Types</a>.
 
 ------------------------------------------------------------------------
 
@@ -311,17 +320,6 @@ Export from **History → Export → CSV**.
 - **Total (in your account currency)** → `amount` (for cash rows).
 - **Currency conversion fee** → add to `fee`.
 
-### Wealthsimple
-
-Export from **Activity → Download**.
-
-- **Date** → `date`.
-- **Transaction** → `activityType`. “BUY” → `BUY`, “SELL” → `SELL`, “DIV” → `DIVIDEND`, “DEPOSIT” → `DEPOSIT`, “WITHDRAWAL” → `WITHDRAWAL`, “DIS” (distribution / interest) → `INTEREST`.
-- **Description** → optional `notes`.
-- **Amount** → `amount`.
-- **Currency** → `currency`.
-- Wealthsimple symbols sometimes include `.TO` for Canadian; leave them as-is.
-
 ### Questrade
 
 Export from **Activities → Download CSV** with the **Detailed** option.
@@ -336,11 +334,12 @@ Export from **Activities → Download CSV** with the **Detailed** option.
 
 ### Bank of America (cash / checking)
 
-Bank exports don’t have a symbol column. Add one yourself: a single column with the constant `$CASH-USD` on every row (or use the **Mapped Value** option in the importer to hard-code a value during mapping).
+Cash/checking imports use the transaction importer. When importing into a cash account, you don’t need a symbol column.
 
 - **Date** → `date`.
-- **Description** → optional `notes`.
-- **Amount** → `amount`. Positive = `DEPOSIT`, negative = `WITHDRAWAL`. Map sign to activity type via the **Conditional Mapping** option, or split the file into two passes (positives → `DEPOSIT`, negatives → `WITHDRAWAL`).
+- **Description** → `comment`, or `activityType` only if the values are broad labels like “Deposit”, “Withdrawal”, “Payment”, or “Purchase”.
+- **Transaction Type** / **Type** → `activityType`, if the export provides one.
+- **Amount** → `amount`. Wealthfolio imports cash amounts as positive values. Sign-based `DEPOSIT` / `WITHDRAWAL` inference is automatic only for supported generic cash movement labels such as `TRANSFER`, `TRANSFER_TF`, and `MoneyMovement`; there is no separate **Conditional Mapping** configuration. If the export has only arbitrary merchant descriptions plus an amount, add an explicit `activityType` column before importing, or split the file into positive and negative rows.
 
 ### Guideline / Gusto 401(k)
 
@@ -403,44 +402,43 @@ To reset a mapping: import a different file into the same account and pick **Res
 
 ------------------------------------------------------------------------
 
-**Next step:** <a href="/docs/concepts/activity-types" class="font-medium underline underline-offset-4">Activity Types</a> walks through every activity type and subtype in detail. Handy when you’re picking which broker term maps to which Wealthfolio category.
+**Next step:** <a href="/docs/concepts/activity-types/" class="font-medium underline underline-offset-4">Activity Types</a> walks through every activity type and subtype in detail. Handy when you’re picking which broker term maps to which Wealthfolio category.
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/guide/activities" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Activities</a> <a href="/docs/guide/accounts" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Accounts &amp; Portfolios</a>
+<a href="/docs/guide/activities/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Activities</a> <a href="/docs/guide/accounts/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Accounts &amp; Portfolios</a>
 
 
 On This Page
 
-- <a href="#1--the-csv-format-at-a-glance" class="inline-block no-underline text-sm text-muted-foreground">1 · The CSV format at a glance</a>
-  - <a href="#required-columns" class="inline-block no-underline text-sm text-muted-foreground">Required columns</a>
-  - <a href="#optional-columns" class="inline-block no-underline text-sm text-muted-foreground">Optional columns</a>
-  - <a href="#holdings-mode-csv-balance-snapshots" class="inline-block no-underline text-sm text-muted-foreground">Holdings-mode CSV (balance snapshots)</a>
-- <a href="#2--importing-step-by-step" class="inline-block no-underline text-sm text-muted-foreground">2 · Importing step by step</a>
-- <a href="#3--broker-term-glossary" class="inline-block no-underline text-sm text-muted-foreground">3 · Broker term glossary</a>
-- <a href="#4--importing-cash-only--bank-accounts" class="inline-block no-underline text-sm text-muted-foreground">4 · Importing cash-only / bank accounts</a>
-- <a href="#5--broker-recipes" class="inline-block no-underline text-sm text-muted-foreground">5 · Broker recipes</a>
-  - <a href="#charles-schwab" class="inline-block no-underline text-sm text-muted-foreground">Charles Schwab</a>
-  - <a href="#fidelity" class="inline-block no-underline text-sm text-muted-foreground">Fidelity</a>
-  - <a href="#vanguard" class="inline-block no-underline text-sm text-muted-foreground">Vanguard</a>
-  - <a href="#interactive-brokers-ibkr" class="inline-block no-underline text-sm text-muted-foreground">Interactive Brokers (IBKR)</a>
-  - <a href="#robinhood" class="inline-block no-underline text-sm text-muted-foreground">Robinhood</a>
-  - <a href="#trading-212" class="inline-block no-underline text-sm text-muted-foreground">Trading 212</a>
-  - <a href="#wealthsimple" class="inline-block no-underline text-sm text-muted-foreground">Wealthsimple</a>
-  - <a href="#questrade" class="inline-block no-underline text-sm text-muted-foreground">Questrade</a>
-  - <a href="#bank-of-america-cash--checking" class="inline-block no-underline text-sm text-muted-foreground">Bank of America (cash / checking)</a>
-  - <a href="#guideline--gusto-401k" class="inline-block no-underline text-sm text-muted-foreground">Guideline / Gusto 401(k)</a>
-- <a href="#6--duplicate-detection" class="inline-block no-underline text-sm text-muted-foreground">6 · Duplicate detection</a>
-- <a href="#7--troubleshooting" class="inline-block no-underline text-sm text-muted-foreground">7 · Troubleshooting</a>
-  - <a href="#missing-required-field-symbol" class="inline-block no-underline text-sm text-muted-foreground">"Missing required field: symbol"</a>
-  - <a href="#-is-not-a-valid-number" class="inline-block no-underline text-sm text-muted-foreground">"$ is not a valid number"</a>
-  - <a href="#unknown-activity-type" class="inline-block no-underline text-sm text-muted-foreground">"Unknown activity type"</a>
-  - <a href="#amount-is-required-for-cash-activity" class="inline-block no-underline text-sm text-muted-foreground">"Amount is required for cash activity"</a>
-  - <a href="#my-drip-rows-have-no-share-count" class="inline-block no-underline text-sm text-muted-foreground">My DRIP rows have no share count</a>
-  - <a href="#my-transfers-dont-show-on-both-accounts" class="inline-block no-underline text-sm text-muted-foreground">My transfers don't show on both accounts</a>
-  - <a href="#dates-are-getting-parsed-wrong" class="inline-block no-underline text-sm text-muted-foreground">Dates are getting parsed wrong</a>
-  - <a href="#quotes-inside-text-fields-breaking-the-parse" class="inline-block no-underline text-sm text-muted-foreground">Quotes inside text fields breaking the parse</a>
-- <a href="#8--reusing-mappings" class="inline-block no-underline text-sm text-muted-foreground">8 · Reusing mappings</a>
+- <a href="#1--the-csv-format-at-a-glance" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · The CSV format at a glance</a>
+  - <a href="#required-columns" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Required columns</a>
+  - <a href="#optional-columns" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Optional columns</a>
+  - <a href="#holdings-mode-csv-balance-snapshots" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Holdings-mode CSV (balance snapshots)</a>
+- <a href="#2--importing-step-by-step" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Importing step by step</a>
+- <a href="#3--broker-term-glossary" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Broker term glossary</a>
+- <a href="#4--importing-cash-only--bank-accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Importing cash-only / bank accounts</a>
+- <a href="#5--broker-recipes" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Broker recipes</a>
+  - <a href="#charles-schwab" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Charles Schwab</a>
+  - <a href="#fidelity" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Fidelity</a>
+  - <a href="#vanguard" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Vanguard</a>
+  - <a href="#interactive-brokers-ibkr" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Interactive Brokers (IBKR)</a>
+  - <a href="#robinhood" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Robinhood</a>
+  - <a href="#trading-212" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Trading 212</a>
+  - <a href="#questrade" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Questrade</a>
+  - <a href="#bank-of-america-cash--checking" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Bank of America (cash / checking)</a>
+  - <a href="#guideline--gusto-401k" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Guideline / Gusto 401(k)</a>
+- <a href="#6--duplicate-detection" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">6 · Duplicate detection</a>
+- <a href="#7--troubleshooting" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">7 · Troubleshooting</a>
+  - <a href="#missing-required-field-symbol" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">"Missing required field: symbol"</a>
+  - <a href="#-is-not-a-valid-number" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">"$ is not a valid number"</a>
+  - <a href="#unknown-activity-type" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">"Unknown activity type"</a>
+  - <a href="#amount-is-required-for-cash-activity" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">"Amount is required for cash activity"</a>
+  - <a href="#my-drip-rows-have-no-share-count" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">My DRIP rows have no share count</a>
+  - <a href="#my-transfers-dont-show-on-both-accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">My transfers don't show on both accounts</a>
+  - <a href="#dates-are-getting-parsed-wrong" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Dates are getting parsed wrong</a>
+  - <a href="#quotes-inside-text-fields-breaking-the-parse" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Quotes inside text fields breaking the parse</a>
+- <a href="#8--reusing-mappings" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">8 · Reusing mappings</a>
 
 

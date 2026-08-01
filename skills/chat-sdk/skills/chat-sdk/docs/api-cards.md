@@ -9,10 +9,10 @@ type: reference
 # Cards
 
 
-Card components render natively on each platform — Block Kit on Slack, Adaptive Cards on Teams, Embeds on Discord, and Google Chat Cards.
+Card components render natively on each platform — Block Kit on Slack, Adaptive Cards on Teams, embeds or components on Discord, and Google Chat Cards.
 
 ```typescript
-import { Card, Text, CardLink, Button, Actions, Section, Fields, Field, Divider, Image, LinkButton, Table } from "chat";
+import { Card, Text, CardLink, Button, Actions, Section, Fields, Field, Divider, Image, LinkButton, Table, Chart } from "chat";
 ```
 
 All components support both function-call and JSX syntax. Function-call syntax is recommended for better type inference.
@@ -135,7 +135,29 @@ Table({
 ```
 
 
-On platforms with native table support (Teams, GitHub, Linear), tables render as formatted tables. On other platforms (Slack, Google Chat, Discord, Telegram), tables render as padded ASCII text.
+On platforms with native table support (Slack, Teams, GitHub, Linear), tables render as formatted tables. On Slack, tables render as paginated, sortable data table blocks. Discord card payloads preserve GFM markdown tables. On other platforms (Google Chat, Telegram), tables render as padded ASCII text.
+
+## Chart
+
+Data visualization with pie, bar, area, and line charts.
+
+```typescript
+Chart({
+  title: "My Favorite Candy Bars",
+  chart: {
+    type: "pie",
+    segments: [
+      { label: "Kit Kat", value: 45 },
+      { label: "Twix", value: 28 },
+    ],
+  },
+})
+```
+
+
+Pie charts take `segments` (label + value, rendered as percentages of the total). Bar, area, and line charts take `series` (named lists of data points) plotted against shared `categories`, with optional `xLabel`/`yLabel` axis titles.
+
+On Slack, charts render as native data visualization blocks. On other platforms, charts fall back to the underlying data rendered as a text table.
 
 ## Divider
 
@@ -159,3 +181,13 @@ The `children` array in `Card` and `Section` accepts these element types:
 | `SectionElement` | `Section()`  |
 | `FieldsElement`  | `Fields()`   |
 | `TableElement`   | `Table()`    |
+| `ChartElement`   | `Chart()`    |
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

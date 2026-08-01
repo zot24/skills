@@ -258,3 +258,12 @@ The low-level Teams subpaths are designed to avoid the full runtime import graph
 * no full adapter import
 
 The package still installs the full Teams adapter dependencies. The subpaths keep your source and bundle imports clean, but they are not a package-size split.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

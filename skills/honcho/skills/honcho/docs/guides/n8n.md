@@ -15,7 +15,7 @@
 * n8n instance (self-hosted or cloud)
 * Honcho API key ([get one here](https://app.honcho.dev))
 * Basic understanding of n8n workflows
-* Basic understanding of [Honcho architecture](/v3/documentation/core-concepts/architecture). Specifically **workspaces**, **sessions**, **peers**, and **messages**.
+* Basic understanding of [Honcho architecture](/docs/v3/documentation/core-concepts/architecture). Specifically **workspaces**, **sessions**, **peers**, and **messages**.
 
 ### Before You Start
 
@@ -748,7 +748,7 @@ Want to skip the manual setup? Import this workflow directly into n8n. In n8n, g
 Once you have the basic workflow running, consider these enhancements:
 
 * **Dynamic IDs**: Use n8n variables instead of hardcoding `email-test` and `new_session`
-* **Chat with Peers**: Add an HTTP Request Tool for natural language queries about peer representations. Read more in the [docs](/v3/documentation/features/chat).
+* **Chat with Peers**: Add an HTTP Request Tool for natural language queries about peer representations. Read more in the [docs](/docs/v3/documentation/features/chat).
 * **Load more messages**: Use Gmail's "Get All" operation to load entire conversation threads
 * **Make it real-time**: Add a **Gmail Trigger** node to automatically ingest new emails as they arrive
 * **Add error handling**: Connect an **Error Trigger** node with notifications (Email, Slack) and retry logic

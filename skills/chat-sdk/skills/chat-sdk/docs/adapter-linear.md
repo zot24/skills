@@ -40,7 +40,9 @@ By default, the adapter runs in `mode: "comments"` and treats `Comment` webhooks
 ## Configuration
 
 
-One of `apiKey`, `accessToken`, top-level `clientId`/`clientSecret`, or `clientCredentials` is required, plus `webhookSecret`.
+One of `apiKey`, `accessToken` (string or Vercel Connect resolver), top-level
+`clientId`/`clientSecret`, or `clientCredentials` is required, plus either
+`webhookSecret` or a `webhookVerifier`.
 
 ## Authentication
 
@@ -104,6 +106,22 @@ createLinearAdapter({
   mode: "agent-sessions",
 });
 ```
+
+### Option E — Vercel Connect
+
+Use [Vercel Connect](https://vercel.com/docs/connect) to source the Linear access token at runtime instead of storing a long-lived token or OAuth secret. The `connectLinearAdapter()` helper from [`@vercel/connect/chat`](https://www.npmjs.com/package/@vercel/connect) wires an `accessToken` resolver and a `webhookVerifier` for Connect trigger-forwarded webhooks:
+
+```typescript
+import { createLinearAdapter } from "@chat-adapter/linear";
+import { connectLinearAdapter } from "@vercel/connect/chat";
+
+createLinearAdapter({
+  ...connectLinearAdapter("linear/acme-linear"),
+  mode: "agent-sessions",
+});
+```
+
+`accessToken` accepts a `string` or `() => string | Promise<string>` resolver invoked per API call. When `webhookVerifier` is set it takes precedence over `webhookSecret` and `LINEAR_WEBHOOK_SECRET`.
 
 ## Advanced
 

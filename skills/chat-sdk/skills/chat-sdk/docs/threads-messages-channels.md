@@ -261,7 +261,7 @@ console.log(info.name, info.memberCount);
 All thread IDs follow the pattern `{adapter}:{channel}:{thread}`:
 
 * **Slack**: `slack:C123ABC:1234567890.123456`
-* **Teams**: `teams:{base64(conversationId)}:{base64(serviceUrl)}`
+* **Teams**: `teams:{base64(conversationId)}:{base64(serviceUrl)}[:{conversationType}]`
 * **Google Chat**: `gchat:spaces/ABC123:{base64(threadName)}`
 * **Discord**: `discord:{guildId}:{channelId}/{messageId}`
 
@@ -300,3 +300,12 @@ createSlackAdapter({
   logger: logger.child("slack"), // optional — auto-created if omitted
 });
 ```
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

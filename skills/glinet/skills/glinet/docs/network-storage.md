@@ -40,7 +40,7 @@ gl-inet/docs4.x
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
+<a href="../../downloads/" class="md-nav__link"><span class="md-ellipsis"> Downloads </span></a>
 
 
 # Network Storage<a href="#network-storage" class="headerlink" title="Permanent link">¶</a>
@@ -78,24 +78,28 @@ Usually, models with USB ports or MicroSD(TF) slots support network storage (i.e
 
 For devices with flash storage of 32MB or less, the Network Storage function is not yet supported.
 
-| Router Model                        | Samba | Webdav | DLNA | USB Port | MicroSD Card |
-|:------------------------------------|:-----:|:------:|:----:|:--------:|:------------:|
-| GL-E5800 (Mudi 7)                   |   √   |   √    |  √   |    √     |      \-      |
-| GL-MT5000 (Brume 3)                 |   √   |   √    |  √   |    √     |      \-      |
-| GL-BE3600 (Slate 7)                 |   √   |   √    |  √   |    √     |      \-      |
-| GL-X2000 (Spitz Plus)               |   √   |   √    |  √   |    √     |      \-      |
-| GL-MT6000 (Flint 2)                 |   √   |   √    |  √   |    √     |      \-      |
-| GL-XE3000 (Puli AX)                 |   √   |   √    |  √   |    √     |      √       |
-| GL-X3000 (Spitz AX)                 |   √   |   √    |  √   |    √     |      √       |
-| GL-MT3000 (Beryl AX)                |   √   |   √    |  √   |    √     |      \-      |
-| GL-MT2500/GL-MT2500A (Brume 2)      |   √   |   √    |  √   |    √     |      \-      |
-| GL-AXT1800 (Slate AX)               |   √   |   √    |  √   |    √     |      √       |
-| GL-AX1800 (Flint)                   |   √   |   √    |  √   |    √     |      \-      |
-| GL-A1300 (Slate Plus)               |   √   |   √    |  √   |    √     |      \-      |
-| GL-S1300 (Convexa-S)                |   √   |   √    |  √   |    √     |      \-      |
-| GL-SFT1200 (Opal)**\*FW 4.7.2**     |   √   |   \-   |  \-  |    √     |      \-      |
-| GL-E750V2 (Mudi V2)**\*FW 4.7.2**   |   √   |   \-   |  \-  |    √     |      √       |
-| GL-AR750S-EXT (Slate)**\*FW 4.7.2** |   √   |   \-   |  \-  |    √     |      √       |
+| Router Model                       | Samba | Webdav | DLNA | USB Port | MicroSD Card |
+|:-----------------------------------|:-----:|:------:|:----:|:--------:|:------------:|
+| GL-BE10000 (Slate 7 Pro)           |   √   |   √    |  √   |    √     |      \-      |
+| GL-MT3600BE (Beryl 7)              |   √   |   √    |  √   |    √     |      \-      |
+| GL-E5800 (Mudi 7)                  |   √   |   √    |  √   |    √     |      \-      |
+| GL-MT5000 (Brume 3)                |   √   |   √    |  √   |    √     |      \-      |
+| GL-BE9300 (Flint 3)                |   √   |   √    |  √   |    √     |      \-      |
+| GL-BE6500 (Flint 3e)               |   √   |   √    |  √   |    √     |      \-      |
+| GL-BE3600 (Slate 7)                |   √   |   √    |  √   |    √     |      \-      |
+| GL-X2000 (Spitz Plus)              |   √   |   √    |  √   |    √     |      \-      |
+| GL-MT6000 (Flint 2)                |   √   |   √    |  √   |    √     |      \-      |
+| GL-XE3000 (Puli AX)                |   √   |   √    |  √   |    √     |      √       |
+| GL-X3000 (Spitz AX)                |   √   |   √    |  √   |    √     |      √       |
+| GL-MT3000 (Beryl AX)               |   √   |   √    |  √   |    √     |      \-      |
+| GL-MT2500/GL-MT2500A (Brume 2)     |   √   |   √    |  √   |    √     |      \-      |
+| GL-AXT1800 (Slate AX)              |   √   |   √    |  √   |    √     |      √       |
+| GL-AX1800 (Flint)                  |   √   |   √    |  √   |    √     |      \-      |
+| GL-A1300 (Slate Plus)              |   √   |   √    |  √   |    √     |      \-      |
+| GL-S1300 (Convexa-S)               |   √   |   √    |  √   |    √     |      \-      |
+| GL-SFT1200 (Opal)**\*FW 4.8+**     |   √   |   \-   |  \-  |    √     |      \-      |
+| GL-E750V2 (Mudi V2)**\*FW 4.8+**   |   √   |   \-   |  \-  |    √     |      √       |
+| GL-AR750S-EXT (Slate)**\*FW 4.7+** |   √   |   \-   |  \-  |    √     |      √       |
 
 ## Insert Storage Device<a href="#insert-storage-device" class="headerlink" title="Permanent link">¶</a>
 
@@ -422,6 +426,14 @@ The web Admin Panel only allows you to manage shared folders. To manage files on
 ------------------------------------------------------------------------
 
 Still have questions? Visit our <a href="https://forum.gl-inet.com" target="_blank">Community Forum</a> or <a href="https://www.gl-inet.com/contacts/" target="_blank">Contact us</a>.
+
+Was this page helpful?
+
+
+Thanks for your feedback!
+
+
+Thanks for your feedback! We will use it to improve this page.
 
 
 Back to top

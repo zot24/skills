@@ -8,7 +8,7 @@
 
 > A quick-reference profile of stable biographical facts about a peer
 
-A **peer card** is a list of stable, biographical facts about a peer--name, occupation, preferences, standing instructions--that acts as a quick-reference profile. While the full [representation](/v3/documentation/core-concepts/representation) contains all of Honcho's reasoning (conclusions, summaries, semantic search results), the peer card captures the grounding facts that should never be forgotten.
+A **peer card** is a list of stable, biographical facts about a peer--name, occupation, preferences, standing instructions--that acts as a quick-reference profile. While the full [representation](/docs/v3/documentation/core-concepts/representation) contains all of Honcho's reasoning (conclusions, summaries, semantic search results), the peer card captures the grounding facts that should never be forgotten.
 
 Think of it as the front of a contact card: the information an agent needs at a glance to know who it's talking to.
 
@@ -33,7 +33,7 @@ Peer cards are populated through two paths:
 
 **1. Automatic (via Dreaming)**
 
-When [dreaming](/v3/documentation/features/advanced/dreaming) runs, the deduction and induction specialists extract stable biographical facts from existing conclusions and write them to the peer card. This happens without any manual intervention--Honcho identifies facts like names, occupations, and preferences from conversation history and records them automatically.
+When [dreaming](/docs/v3/documentation/features/advanced/dreaming) runs, the deduction and induction specialists extract stable biographical facts from existing conclusions and write them to the peer card. This happens without any manual intervention--Honcho identifies facts like names, occupations, and preferences from conversation history and records them automatically.
 
 **2. Manual (via SDK or API)**
 
@@ -83,7 +83,7 @@ You can set a peer card directly. This is useful for bootstrapping a peer with k
 
 ## Directional Peer Cards
 
-Peer cards follow the same observer-observed model as [representations](/v3/documentation/features/advanced/representation-scopes). When `observe_others` is enabled, a peer can have a **different** card for each peer it observes.
+Peer cards follow the same observer-observed model as [representations](/docs/v3/documentation/features/advanced/representation-scopes). When `observe_others` is enabled, a peer can have a **different** card for each peer it observes.
 
 For example, if Alice and Bob are in a session together and Alice has `observe_others: true`, Alice will build her own peer card for Bob--separate from Honcho's peer card for Bob. You can read and write these directional cards using the `target` parameter.
 
@@ -125,11 +125,11 @@ For example, if Alice and Bob are in a session together and Alice has `observe_o
 
 ### In the Dialectic (Chat Endpoint)
 
-When you call [`peer.chat()`](/v3/documentation/features/chat), Honcho automatically injects the relevant peer cards into the system prompt. The dialectic agent sees both the observer's own card and the observed peer's card, giving it immediate grounding without needing to search memory.
+When you call [`peer.chat()`](/docs/v3/documentation/features/chat), Honcho automatically injects the relevant peer cards into the system prompt. The dialectic agent sees both the observer's own card and the observed peer's card, giving it immediate grounding without needing to search memory.
 
 ### In Context Retrieval
 
-The [`session.context()`](/v3/documentation/features/get-context) method includes the peer card when you specify a `peer_target`:
+The [`session.context()`](/docs/v3/documentation/features/get-context) method includes the peer card when you specify a `peer_target`:
 
 <CodeGroup>
   ```python Python
@@ -156,7 +156,7 @@ The [`session.context()`](/v3/documentation/features/get-context) method include
 
 ### During Dreaming
 
-The [dreaming](/v3/documentation/features/advanced/dreaming) process reads the current peer card before consolidation, then updates it with any new stable facts discovered during the deduction and induction phases.
+The [dreaming](/docs/v3/documentation/features/advanced/dreaming) process reads the current peer card before consolidation, then updates it with any new stable facts discovered during the deduction and induction phases.
 
 ## Limits
 
@@ -173,7 +173,7 @@ When the dreaming process or a manual update pushes the card beyond 40 facts, it
 
 ## Configuration
 
-Peer card behavior is controlled through the [configuration hierarchy](/v3/documentation/features/advanced/reasoning-configuration). You can independently toggle whether agents **use** existing peer cards and whether they **create/update** them.
+Peer card behavior is controlled through the [configuration hierarchy](/docs/v3/documentation/features/advanced/reasoning-configuration). You can independently toggle whether agents **use** existing peer cards and whether they **create/update** them.
 
 <CodeGroup>
   ```python Python
@@ -210,7 +210,7 @@ Peer card behavior is controlled through the [configuration hierarchy](/v3/docum
 | `use`    | `bool` | `true`  | Whether agents read the peer card during reasoning and chat |
 | `create` | `bool` | `true`  | Whether agents can create or update peer cards              |
 
-Configuration can be set at the workspace, session, or message level. See [Reasoning Configuration](/v3/documentation/features/advanced/reasoning-configuration) for the full hierarchy.
+Configuration can be set at the workspace, session, or message level. See [Reasoning Configuration](/docs/v3/documentation/features/advanced/reasoning-configuration) for the full hierarchy.
 
 ## Best Practices
 

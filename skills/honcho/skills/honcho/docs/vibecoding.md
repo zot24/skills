@@ -18,7 +18,7 @@ The fastest way to give any AI tool persistent memory is through the Honcho MCP 
 2. Add the config for your client below
 3. Restart your client
 
-See the [full MCP documentation](/v3/guides/integrations/mcp) for all available tools, advanced configuration, and setup instructions for every supported client.
+See the [full MCP documentation](/docs/v3/guides/integrations/mcp) for all available tools, advanced configuration, and setup instructions for every supported client.
 
 <CodeGroup>
   ```json Claude Desktop
@@ -82,13 +82,13 @@ honcho doctor    # verify connectivity
 
 The CLI also ships an agent skill. Install it with `npx skills add plastic-labs/honcho` and pick `honcho-cli` from the list.
 
-See the [full CLI reference](/v3/documentation/reference/cli) for all commands, flags, and environment variables.
+See the [full CLI reference](/docs/v3/documentation/reference/cli) for all commands, flags, and environment variables.
 
 ***
 
 ## Claude Code Plugin
 
-Use Honcho to build with Honcho! The [plugin](/v3/guides/integrations/claudecode) provides Claude Code persistent memory that survives context wipes and session restarts.
+Use Honcho to build with Honcho! The [plugin](/docs/v3/guides/integrations/claudecode) provides Claude Code persistent memory that survives context wipes and session restarts.
 
 ```bash theme={null}
 /plugin marketplace add plastic-labs/claude-honcho
@@ -98,19 +98,19 @@ Use Honcho to build with Honcho! The [plugin](/v3/guides/integrations/claudecode
 
 The marketplace also includes all the agent skills below, so you can use `/honcho-dev:integrate` directly after installing.
 
-See the [full Claude Code integration guide](/v3/guides/integrations/claudecode) for setup details.
+See the [full Claude Code integration guide](/docs/v3/guides/integrations/claudecode) for setup details.
 
 ***
 
 ## OpenCode Plugin
 
-The [OpenCode plugin](/v3/guides/integrations/opencode) gives OpenCode sessions persistent memory that survives context wipes, session restarts, and fresh chats.
+The [OpenCode plugin](/docs/v3/guides/integrations/opencode) gives OpenCode sessions persistent memory that survives context wipes, session restarts, and fresh chats.
 
 ```bash theme={null}
 bunx @honcho-ai/opencode-honcho install
 ```
 
-Then run `/honcho:setup` inside OpenCode. See the [full OpenCode integration guide](/v3/guides/integrations/opencode) for setup details.
+Then run `/honcho:setup` inside OpenCode. See the [full OpenCode integration guide](/docs/v3/guides/integrations/opencode) for setup details.
 
 ***
 

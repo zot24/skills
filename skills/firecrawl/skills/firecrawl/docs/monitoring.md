@@ -10,7 +10,7 @@
 
 Firecrawl monitoring runs recurring checks and notifies you or your agent when something changes or appears. Use `/monitor` to [watch known pages](/features/monitoring-page), [crawl a website on a schedule](/features/monitoring-website), or [run an always-on web search](/features/monitoring-web-scale) for new results that match a goal.
 
-All monitor types share the same workflow: choose one or more targets, set a schedule, add an optional plain-language goal, and receive webhook or email notifications when something matters. This page covers shared configuration. For target-specific setup and examples, go to the [Page](/features/monitoring-page), [Website](/features/monitoring-website), or [Entire web-scale](/features/monitoring-web-scale) monitoring page.
+All monitor types share the same workflow: choose one or more targets, set a schedule, add an optional plain-language goal, and receive webhook, email, or Slack notifications when something matters. This page covers shared configuration. For target-specific setup and examples, go to the [Page](/features/monitoring-page), [Website](/features/monitoring-website), or [Entire web-scale](/features/monitoring-web-scale) monitoring page.
 
 
     Watch one or more known URLs, diff each scrape against the last snapshot, and alert on meaningful page changes.
@@ -22,21 +22,7 @@ All monitor types share the same workflow: choose one or more targets, set a sch
     Run recurring web searches and alert when a new result appears that matches your goal.
 
 
-Each check records page-level results as `same`, `new`, `changed`, `removed`, or `error`. You can receive a webhook as each monitored page finishes, a webhook for every completed check, email summaries when changes or errors happen, or any combination of those notifications.
-
-<div className="firecrawl-cta-box" style={{ opacity: 0.6 }}>
-  <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
-    <Icon icon="sack-dollar" color="#9ca3af" size={22} />
-
-    <div className="firecrawl-cta-title" style={{ margin: 0, color: "#9ca3af" }}>
-      <span>Expired: Bounty for /monitor feedback</span>
-    </div>
-  </div>
-
-  <p className="firecrawl-cta-description">
-    All interviewees eligible for the bounty reward have been contacted. Keep an eye on future bounties within our docs!
-  </p>
-</div>
+Each check records page-level results as `same`, `new`, `changed`, `removed`, or `error`. You can receive a webhook as each monitored page finishes, a webhook for every completed check, email summaries when changes or errors happen, Slack notifications to a channel, or any combination of those notifications.
 
 ## Targets
 
@@ -610,6 +596,20 @@ You can configure up to 25 explicit recipients.
 #### Recipient confirmation process
 
 When a new recipient is added to a monitor, Firecrawl sends them an email containing a confirmation link. This ensures they explicitly agree to receive notifications for that monitor. If the recipient is already a member of the team, no confirmation is required.
+
+### Slack
+
+You can also have monitor notifications delivered to a Slack channel.
+
+
+  Slack notifications are a dashboard-only feature. They can only be configured through the [monitoring dashboard](https://www.firecrawl.dev/app/monitoring), not through the API or SDKs.
+
+
+To set up Slack notifications:
+
+1. Open the [monitoring dashboard](https://www.firecrawl.dev/app/monitoring). You can add Slack notifications while creating a new monitor, or add them to a monitor that already exists.
+2. During monitor creation, or once you've selected an existing monitor, scroll to **Notifications** and select **Slack**.
+3. You'll be prompted to proceed through OAuth. Complete the flow and select the workspace and channel you want to receive notifications in.
 
 ## Check results
 

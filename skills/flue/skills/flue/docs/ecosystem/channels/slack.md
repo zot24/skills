@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Slack
 
 
-Last updated Jun 13, 2026 <a href="/docs/ecosystem/channels/slack/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/slack" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/slack</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/slack/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/slack" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/slack</a>
 
 
 ## Quickstart
@@ -33,38 +33,53 @@ flue add channel slack
 
 The Slack blueprint installs `@flue/slack` and Slack’s official `@slack/web-api` SDK, then creates `channels/slack.ts` in the source-root. It also updates the selected agent to bind the generated thread-reply tool to the verified Slack conversation.
 
-``` astro-code
-import { dispatch } from '@flue/runtime';
-import { createSlackChannel } from '@flue/slack';
-import { WebClient } from '@slack/web-api';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { dispatch } from &#39;@flue/runtime&#39;;
+import { createSlackChannel } from &#39;@flue/slack&#39;;
+import { WebClient } from &#39;@slack/web-api&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const client = new WebClient(process.env.SLACK_BOT_TOKEN);
 
 export const channel = createSlackChannel({
   signingSecret: process.env.SLACK_SIGNING_SECRET!,
   async events({ payload }) {
-    if (payload.type !== 'event_callback') return;
-    if (payload.event.type !== 'app_mention') return;
+    if (payload.type !== &#39;event_callback&#39;) return;
+    if (payload.event.type !== &#39;app_mention&#39;) return;
 
     const event = payload.event;
-    await dispatch(assistant, {
-      id: channel.conversationKey({
+    await dispatch(Assistant, {
+      id: channel.instanceId({
         teamId: payload.team_id,
         channelId: event.channel,
         threadTs: event.thread_ts ?? event.ts,
       }),
-      input: {
-        type: 'slack.app_mention',
-        eventId: payload.event_id,
-        text: event.text,
+      message: {
+        kind: &#39;signal&#39;,
+        type: &#39;slack.app_mention&#39;,
+        body: event.text,
+        attributes: { eventId: payload.event_id },
       },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/slack.ts (abridged)</span></figcaption>
+</figure>
 
 The abridged example omits the generated `replyInThread()` tool. The complete blueprint binds that tool in the agent module, so verified app mentions reach a thread-scoped agent instance and replies return to the same thread. Interactivity and slash-command callbacks are optional secondary additions: each callback publishes its corresponding route only when enabled.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as slack } from &#39;./channels/slack.ts&#39;;
+
+app.route(&#39;/channels/slack&#39;, slack.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/slack` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -73,7 +88,7 @@ The abridged example omits the generated `replyInThread()` tool. The complete bl
 | `SLACK_SIGNING_SECRET` | **Required** — Verifies inbound request bytes.             |
 | `SLACK_BOT_TOKEN`      | **Required** — Authenticates outbound Slack Web API calls. |
 
-The blueprint installs and configures `@flue/slack` for inbound requests, along with Slack’s official `@slack/web-api` SDK for making outbound API calls. After running the command, you will have a new `src/channels/slack.ts` channel with new `/channels/slack/*` webhook routes set up and ready to receive events.
+The blueprint installs and configures `@flue/slack` for inbound requests, along with Slack’s official `@slack/web-api` SDK for making outbound API calls. After running the command, you will have a new `src/channels/slack.ts` channel whose webhook routes are served wherever `app.ts` mounts `channel.route()` — conventionally `/channels/slack/*`.
 
 ## Supported Webhooks
 
@@ -89,32 +104,40 @@ Omitting a callback from `createSlackChannel()` omits its route. Slack URL verif
 
 ### Events
 
-``` astro-code
-import { dispatch } from '@flue/runtime';
-import { createSlackChannel } from '@flue/slack';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { dispatch } from &#39;@flue/runtime&#39;;
+import { createSlackChannel } from &#39;@flue/slack&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const channel = createSlackChannel({
   signingSecret: process.env.SLACK_SIGNING_SECRET!,
 
   // Path: /channels/slack/events
   async events({ payload }) {
-    if (payload.type !== 'event_callback') return;
+    if (payload.type !== &#39;event_callback&#39;) return;
 
     switch (payload.event.type) {
-      case 'app_mention': {
+      case &#39;app_mention&#39;: {
         const event = payload.event;
         const thread = {
           teamId: payload.team_id,
           channelId: event.channel,
           threadTs: event.thread_ts ?? event.ts,
         };
-        await dispatch(assistant, {
-          id: channel.conversationKey(thread),
-          input: {
-            type: 'slack.app_mention',
-            eventId: payload.event_id,
-            text: event.text,
+        await dispatch(Assistant, {
+          id: channel.instanceId(thread),
+          // Recorded once when this event creates the instance; ignored after.
+          initialData: {
+            channelId: thread.channelId,
+            threadTs: thread.threadTs,
+            startedBy: event.user,
+            startedAt: new Date(Number(event.ts) * 1000).toISOString(),
+          },
+          message: {
+            kind: &#39;signal&#39;,
+            type: &#39;slack.app_mention&#39;,
+            body: event.text,
+            attributes: { eventId: payload.event_id },
           },
         });
         return;
@@ -123,8 +146,9 @@ export const channel = createSlackChannel({
         return;
     }
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/slack.ts</span></figcaption>
+</figure>
 
 `payload` is Slack’s outer Events API delivery. For `event_callback`, `payload.event` uses the official `SlackEvent` union from `@slack/types`. Switching on `payload.event.type` narrows events such as `app_mention`, `reaction_added`, Assistant events, and `message`. Message subtypes remain available through `payload.event.subtype`.
 
@@ -158,7 +182,7 @@ export const channel = createSlackChannel({
 });
 ```
 
-Interaction payloads preserve Slack’s snake_case wire fields. `trigger_id`, `response_url`, and view `response_urls` are short-lived capabilities. Keep them in immediate trusted request handling, not dispatch input, model context, logs, or durable session history.
+Interaction payloads preserve Slack’s snake_case wire fields. `trigger_id`, `response_url`, and view `response_urls` are short-lived capabilities. Keep them in immediate trusted request handling, not a dispatched message, model context, logs, or durable session history.
 
 ### Commands
 
@@ -189,50 +213,68 @@ Returning nothing produces an empty `200`. Return JSON-compatible data for a JSO
 
 Outbound Slack behavior belongs to the exported SDK client:
 
-``` astro-code
-import { WebClient } from '@slack/web-api';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { WebClient } from &#39;@slack/web-api&#39;;
 
-export const client = new WebClient(process.env.SLACK_BOT_TOKEN);
-```
+export const client = new WebClient(process.env.SLACK_BOT_TOKEN);</code></pre>
+<figcaption><span>src/channels/slack.ts</span></figcaption>
+</figure>
 
 ## Slack Tools
 
 Use the client to define application-owned tools:
 
-``` astro-code
-import { defineTool } from '@flue/runtime';
-import * as v from 'valibot';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { defineTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
 
 export function replyInThread(ref: { channelId: string; threadTs: string }) {
   return defineTool({
-    name: 'reply_in_slack_thread',
-    description: 'Reply in the Slack thread bound to this agent.',
+    name: &#39;reply_in_slack_thread&#39;,
+    description: &#39;Reply in the Slack thread bound to this agent.&#39;,
     input: v.object({ text: v.pipe(v.string(), v.minLength(1)) }),
-    async run({ input: { text } }) {
+    async run({ data: { text } }) {
       const result = await client.chat.postMessage({
         channel: ref.channelId,
         thread_ts: ref.threadTs,
         text,
       });
-      return { channel: result.channel ?? null, ts: result.ts ?? null };
+      return { output: { channel: result.channel ?? null, ts: result.ts ?? null } };
     },
   });
+}</code></pre>
+<figcaption><span>src/channels/slack.ts</span></figcaption>
+</figure>
+
+Bind the destination in trusted code. `data` is the instance’s creation data — recorded once when the dispatch above creates the instance — so the agent reads the structured thread facts with `useInitialData()` instead of parsing them from the instance id:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { useInitialData, useModel, useTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+import { replyInThread } from &#39;../channels/slack.ts&#39;;
+
+const initialData = v.object({
+  channelId: v.string(),
+  threadTs: v.string(),
+  startedBy: v.optional(v.string()),
+  startedAt: v.pipe(v.string(), v.isoTimestamp()),
+});
+
+export function Assistant() {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
+  const data = useInitialData&lt;v.InferOutput&lt;typeof initialData&gt;&gt;();
+  if (!data) throw new Error(&#39;This agent is created by the Slack channel dispatch.&#39;);
+  useTool(replyInThread(data));
+  const startedBy = data.startedBy ? ` by &lt;@${data.startedBy}&gt;` : &#39;&#39;;
+  return `Reply in the bound Slack thread when appropriate. This conversation was started${startedBy} at ${data.startedAt}.`;
 }
-```
 
-Bind the destination in trusted code:
+Assistant.initialData = initialData;</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { channel, replyInThread } from '../channels/slack.ts';
-
-export default defineAgent(({ id }) => ({
-  model: 'anthropic/claude-haiku-4-5',
-  tools: [replyInThread(channel.parseConversationKey(id))],
-}));
-```
-
-The model selects message text. It does not select arbitrary workspaces, channels, credentials, or Web API methods.
+`channel.parseInstanceId(id)` remains available as an escape hatch for routes that receive only the id without creation data. The model selects message text. It does not select arbitrary workspaces, channels, credentials, or Web API methods.
 
 ## Show Assistant status
 
@@ -282,10 +324,10 @@ Current page: [Slack](/docs/ecosystem/channels/slack/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

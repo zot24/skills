@@ -140,3 +140,12 @@ Entries are written under the key `transcripts:user:{userKey}` as a capped list.
 ## Reference
 
 See [Transcripts](/docs/api/transcripts) for full type signatures, configuration options, and the entry shape.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

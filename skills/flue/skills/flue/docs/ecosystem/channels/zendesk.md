@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Zendesk
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/zendesk/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/zendesk" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/zendesk</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/zendesk/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/zendesk" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/zendesk</a>
 
 
 ## Quickstart
@@ -33,11 +33,11 @@ flue add channel zendesk
 
 The blueprint installs `@flue/zendesk` and `lossless-json`. It creates a narrow Fetch client at `<source-root>/zendesk-client.ts` and `<source-root>/channels/zendesk.ts` with named `channel` and project-owned `client` exports, ticket identity handling, and a ticket-bound retrieval tool. It wires that tool into an agent and adds Node types only when the target needs them; no community Zendesk SDK is installed.
 
-``` astro-code
-import { createZendeskChannel } from '@flue/zendesk';
-import { dispatch } from '@flue/runtime';
-import assistant from '../agents/assistant.ts';
-import { createZendeskClient } from '../zendesk-client.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createZendeskChannel } from &#39;@flue/zendesk&#39;;
+import { dispatch } from &#39;@flue/runtime&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
+import { createZendeskClient } from &#39;../zendesk-client.ts&#39;;
 
 export const client = createZendeskClient({
   subdomain: process.env.ZENDESK_SUBDOMAIN!,
@@ -48,22 +48,48 @@ export const client = createZendeskClient({
 export const channel = createZendeskChannel({
   signingSecret: process.env.ZENDESK_WEBHOOK_SIGNING_SECRET!,
   accountId: process.env.ZENDESK_ACCOUNT_ID!,
-  async webhook({ payload }) {
-    if (payload.type !== 'zen:event-type:ticket.created') return;
+  async webhook({ payload, delivery }) {
+    if (payload.type !== &#39;zen:event-type:ticket.created&#39;) return;
     const ticketId = ticketIdFromEvent(payload.subject, payload.detail);
     if (!ticketId) return;
 
-    await dispatch(assistant, {
-      id: channel.ticketKey({ accountId: payload.account_id, ticketId }),
-      input: { type: `zendesk.${payload.type}`, eventId: payload.id, ticketId },
+    await dispatch(Assistant, {
+      id: channel.instanceId({ accountId: payload.account_id, ticketId }),
+      message: {
+        kind: &#39;signal&#39;,
+        type: `zendesk.${payload.type}`,
+        // `event` is Zendesk&#39;s provider-native change object; its
+        // properties vary by event type.
+        body: JSON.stringify(payload.event),
+        attributes: {
+          eventId: payload.id,
+          ticketId,
+          occurredAt: payload.time,
+          invocationId: delivery.invocationId,
+        },
+      },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/zendesk.ts (abridged)</span></figcaption>
+</figure>
 
 The abridged example omits the `ticketIdFromEvent()` helper; the complete helper appears in the channel module below.
 
 A matching ticket event is admitted to the agent bound to that account and ticket, while other verified events receive an empty successful response. The full generated module validates matching ticket identity in `subject` and `detail.id`, handles comment events, and lets the bound agent retrieve the current ticket through the project-owned client. That client preserves large Zendesk identifiers and runs in Node or Cloudflare Workers.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as zendesk } from &#39;./channels/zendesk.ts&#39;;
+
+app.route(&#39;/channels/zendesk&#39;, zendesk.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/zendesk` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -88,48 +114,58 @@ The webhook signing secret and outbound API token are separate credentials.
 
 ## Channel module
 
-``` astro-code
-import { createZendeskChannel, type JsonValue, type ZendeskTicketRef } from '@flue/zendesk';
-import { defineTool, dispatch } from '@flue/runtime';
-import assistant from '../agents/assistant.ts';
-import { createZendeskClient } from '../zendesk-client.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createZendeskChannel, type JsonValue, type ZendeskTicketRef } from &#39;@flue/zendesk&#39;;
+import { defineTool, dispatch } from &#39;@flue/runtime&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
+import { createZendeskClient } from &#39;../zendesk-client.ts&#39;;
 
-const accountId = requiredEnv('ZENDESK_ACCOUNT_ID');
+const accountId = requiredEnv(&#39;ZENDESK_ACCOUNT_ID&#39;);
 
 export const client = createZendeskClient({
-  subdomain: requiredEnv('ZENDESK_SUBDOMAIN'),
-  email: requiredEnv('ZENDESK_EMAIL'),
-  apiToken: requiredEnv('ZENDESK_API_TOKEN'),
+  subdomain: requiredEnv(&#39;ZENDESK_SUBDOMAIN&#39;),
+  email: requiredEnv(&#39;ZENDESK_EMAIL&#39;),
+  apiToken: requiredEnv(&#39;ZENDESK_API_TOKEN&#39;),
 });
 
 export const channel = createZendeskChannel({
-  signingSecret: requiredEnv('ZENDESK_WEBHOOK_SIGNING_SECRET'),
+  signingSecret: requiredEnv(&#39;ZENDESK_WEBHOOK_SIGNING_SECRET&#39;),
   accountId,
   webhookId: process.env.ZENDESK_WEBHOOK_ID || undefined,
 
   // Path: /channels/zendesk/webhook
   async webhook({ c, payload, delivery }) {
     switch (payload.type) {
-      case 'zen:event-type:ticket.created':
-      case 'zen:event-type:ticket.comment_added': {
+      case &#39;zen:event-type:ticket.created&#39;:
+      case &#39;zen:event-type:ticket.comment_added&#39;: {
         const ticketId = ticketIdFromEvent(payload.subject, payload.detail);
         if (!ticketId) {
-          return c.json({ error: 'Expected a Zendesk ticket event.' }, 400);
+          return c.json({ error: &#39;Expected a Zendesk ticket event.&#39; }, 400);
         }
 
         const ticket: ZendeskTicketRef = {
           accountId: payload.account_id,
           ticketId,
         };
-        await dispatch(assistant, {
-          id: channel.ticketKey(ticket),
-          input: {
+        await dispatch(Assistant, {
+          id: channel.instanceId(ticket),
+          // Recorded once when this event creates the instance; ignored after.
+          initialData: {
+            accountId: ticket.accountId,
+            ticketId: ticket.ticketId,
+          },
+          message: {
+            kind: &#39;signal&#39;,
             type: `zendesk.${payload.type}`,
-            eventId: payload.id,
-            invocationId: delivery.invocationId,
-            occurredAt: payload.time,
-            ticketId,
-            change: payload.event,
+            // `event` is Zendesk&#39;s provider-native change object; its
+            // properties vary by event type.
+            body: JSON.stringify(payload.event),
+            attributes: {
+              eventId: payload.id,
+              ticketId,
+              occurredAt: payload.time,
+              invocationId: delivery.invocationId,
+            },
           },
         });
         return;
@@ -142,27 +178,25 @@ export const channel = createZendeskChannel({
 
 export function retrieveTicket(ref: ZendeskTicketRef) {
   if (ref.accountId !== accountId) {
-    throw new TypeError('Expected the configured Zendesk account.');
+    throw new TypeError(&#39;Expected the configured Zendesk account.&#39;);
   }
   return defineTool({
-    name: 'retrieve_zendesk_ticket',
-    description: 'Retrieve the Zendesk ticket already bound to this agent.',
+    name: &#39;retrieve_zendesk_ticket&#39;,
+    description: &#39;Retrieve the Zendesk ticket already bound to this agent.&#39;,
     async run() {
-      return client.getTicket(ref.ticketId);
+      return { output: await client.getTicket(ref.ticketId) };
     },
   });
 }
 
-function ticketIdFromEvent(subject: string, detail: Record<string, JsonValue>): string | undefined {
+function ticketIdFromEvent(subject: string, detail: Record&lt;string, JsonValue&gt;): string | undefined {
   const match = /^zen:ticket:([1-9]\d*)$/.exec(subject);
   if (!match?.[1]) return undefined;
   const id = detail.id;
-  if (
-    !(
-      (typeof id === 'string' && /^[1-9]\d*$/.test(id)) ||
-      (typeof id === 'number' && Number.isSafeInteger(id) && id > 0)
-    )
-  ) {
+  if (!(
+    (typeof id === &#39;string&#39; &amp;&amp; /^[1-9]\d*$/.test(id)) ||
+    (typeof id === &#39;number&#39; &amp;&amp; Number.isSafeInteger(id) &amp;&amp; id &gt; 0)
+  )) {
     return undefined;
   }
   return String(id) === match[1] ? match[1] : undefined;
@@ -172,8 +206,9 @@ function requiredEnv(name: string): string {
   const value = process.env[name];
   if (!value) throw new Error(`${name} is required.`);
   return value;
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/zendesk.ts</span></figcaption>
+</figure>
 
 The grouped branch handles selected ticket events while leaving the provider catalog open. Validate the fields consumed for every subscribed type. The example requires the ticket id in `subject` and `detail.id` to agree before using it as application identity.
 
@@ -181,8 +216,8 @@ The grouped branch handles selected ticket events while leaving the provider cat
 
 Use the original account subdomain and bind credentials in trusted code:
 
-``` astro-code
-import { isLosslessNumber, isSafeNumber, parse } from 'lossless-json';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { isLosslessNumber, isSafeNumber, parse } from &#39;lossless-json&#39;;
 
 type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
 
@@ -198,20 +233,20 @@ export function createZendeskClient({
   fetcher?: typeof globalThis.fetch;
 }) {
   if (!/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(subdomain)) {
-    throw new TypeError('Zendesk subdomain must be a bare DNS label.');
+    throw new TypeError(&#39;Zendesk subdomain must be a bare DNS label.&#39;);
   }
-  const authorization = `Basic ${Buffer.from(`${email}/token:${apiToken}`).toString('base64')}`;
+  const authorization = `Basic ${Buffer.from(`${email}/token:${apiToken}`).toString(&#39;base64&#39;)}`;
 
   return {
     async getTicket(ticketId: string) {
       if (!/^[1-9]\d*$/.test(ticketId)) {
-        throw new TypeError('Zendesk ticket id must be a positive integer.');
+        throw new TypeError(&#39;Zendesk ticket id must be a positive integer.&#39;);
       }
       const response = await fetcher(
         `https://${subdomain}.zendesk.com/api/v2/tickets/${ticketId}.json`,
         {
           headers: {
-            accept: 'application/json',
+            accept: &#39;application/json&#39;,
             authorization,
           },
         },
@@ -221,7 +256,7 @@ export function createZendeskClient({
       }
       const body = normalizeJsonValue(parse(await response.text()));
       if (!isRecord(body) || !isRecord(body.ticket) || !isZendeskId(body.ticket.id)) {
-        throw new TypeError('Zendesk returned an invalid ticket response.');
+        throw new TypeError(&#39;Zendesk returned an invalid ticket response.&#39;);
       }
       return body.ticket;
     },
@@ -229,16 +264,16 @@ export function createZendeskClient({
 }
 
 function isZendeskId(value: unknown): value is string | number {
-  if (typeof value === 'string') return /^[1-9]\d*$/.test(value);
-  return typeof value === 'number' && Number.isSafeInteger(value) && value > 0;
+  if (typeof value === &#39;string&#39;) return /^[1-9]\d*$/.test(value);
+  return typeof value === &#39;number&#39; &amp;&amp; Number.isSafeInteger(value) &amp;&amp; value &gt; 0;
 }
 
 function normalizeJsonValue(value: unknown): JsonValue | undefined {
   if (
     value === null ||
-    typeof value === 'boolean' ||
-    typeof value === 'string' ||
-    (typeof value === 'number' && Number.isFinite(value))
+    typeof value === &#39;boolean&#39; ||
+    typeof value === &#39;string&#39; ||
+    (typeof value === &#39;number&#39; &amp;&amp; Number.isFinite(value))
   ) {
     return value;
   }
@@ -264,16 +299,17 @@ function normalizeJsonValue(value: unknown): JsonValue | undefined {
   return result;
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+function isRecord(value: unknown): value is Record&lt;string, unknown&gt; {
   return (
-    typeof value === 'object' &&
-    value !== null &&
-    !Array.isArray(value) &&
-    !isLosslessNumber(value) &&
+    typeof value === &#39;object&#39; &amp;&amp;
+    value !== null &amp;&amp;
+    !Array.isArray(value) &amp;&amp;
+    !isLosslessNumber(value) &amp;&amp;
     Object.getPrototypeOf(value) === Object.prototype
   );
-}
-```
+}</code></pre>
+<figcaption><span>src/zendesk-client.ts</span></figcaption>
+</figure>
 
 Zendesk documents API-token Basic authentication as `{email}/token:{api_token}`. OAuth bearer tokens are also available, but authorization setup, token refresh, and installation storage remain application-owned.
 
@@ -283,20 +319,32 @@ Install `lossless-json@4.3.0` for this client. Zendesk identifiers can exceed Ja
 
 ## Bind the tool
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { channel, retrieveTicket } from '../channels/zendesk.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { useInitialData, useModel, useTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+import { retrieveTicket } from &#39;../channels/zendesk.ts&#39;;
 
-export default defineAgent(({ id }) => {
-  const ticket = channel.parseTicketKey(id);
-  return {
-    model: 'anthropic/claude-haiku-4-5',
-    tools: [retrieveTicket(ticket)],
-  };
+const initialData = v.object({
+  accountId: v.string(),
+  ticketId: v.string(),
 });
-```
 
-The tool accepts no account, ticket id, API host, or credential from the model. `ticketKey()` includes account and ticket identity because Zendesk resource ids are account-scoped. The key remains an identifier, not an authorization capability.
+export function Assistant() {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
+  const data = useInitialData&lt;v.InferOutput&lt;typeof initialData&gt;&gt;();
+  if (!data) throw new Error(&#39;This agent is created by the Zendesk channel dispatch.&#39;);
+  useTool(retrieveTicket(data));
+  return &#39;Review the inbound Zendesk ticket event. Retrieve the current ticket when more context is needed.&#39;;
+}
+
+Assistant.initialData = initialData;</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
+
+`initialData` is the instance’s creation data: recorded once when the event creates the instance and ignored afterward, so the channel passes it on every dispatch. The agent reads it with `useInitialData()`, validated against the agent’s `initialData` static, instead of parsing the instance id.
+
+The tool accepts no account, ticket id, API host, or credential from the model. `instanceId()` includes account and ticket identity because Zendesk resource ids are account-scoped. The id remains an identifier, not an authorization capability. `parseInstanceId()` remains available as an escape hatch for recovering that identity from the id directly.
 
 ## Verification
 
@@ -359,10 +407,10 @@ Current page: [Zendesk](/docs/ecosystem/channels/zendesk/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

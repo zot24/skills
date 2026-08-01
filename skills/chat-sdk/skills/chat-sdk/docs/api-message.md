@@ -78,3 +78,12 @@ const restored = Message.fromJSON(json);
 ```
 
 The serialized format converts `Date` fields to ISO strings and omits non-serializable fields like `data` buffers and `fetchData` functions. The `fetchMetadata` field is preserved so that adapters can reconstruct `fetchData` when the message is rehydrated from a queue.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

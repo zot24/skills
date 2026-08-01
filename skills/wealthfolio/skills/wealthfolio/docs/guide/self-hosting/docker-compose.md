@@ -35,43 +35,43 @@
 #### Getting Started
 
 
-<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
 
 
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
 
 
-<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
 
 
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -83,15 +83,17 @@
 Docs
 
 
-Docker Compose
+Self-Host with Docker Compose
 
 
-# Docker Compose
+# Self-Host with Docker Compose
 
 Run Wealthfolio with a compose.yml that bundles restart policies, env files, direct browser access, and an optional reverse proxy override.
 
 
 ------------------------------------------------------------------------
+
+Last updated July 29, 2026
 
 
 If you already manage your homelab with Compose, this is the path you want. The Wealthfolio repo ships a production-ready `compose.yml` for direct browser access, plus an optional `compose.proxy.yml` override for same-network reverse proxy setups.
@@ -137,7 +139,7 @@ chmod 600 .env
 Set `WF_CORS_ALLOW_ORIGINS` to the exact URL you’ll use in the browser, for example `http://192.168.1.10:8088` for LAN access or `https://wealthfolio.example.com` behind a reverse proxy.
 
 
-**Single quotes around `WF_AUTH_PASSWORD_HASH` are mandatory.** Compose interpolates `$` in `.env` files by default, and the Argon2 hash is full of `$` characters. Single-quote it, or double every `$` (`$$argon2id$$...`). Compose 2.30+ also supports `format: raw` in `env_file` to skip interpolation entirely — see the <a href="/docs/guide/self-hosting/configuration#escaping-dollar-signs-in-your-hash" class="font-medium underline underline-offset-4">escaping table</a>.
+**Single quotes around `WF_AUTH_PASSWORD_HASH` are mandatory.** Compose interpolates `$` in `.env` files by default, and the Argon2 hash is full of `$` characters. Single-quote it, or double every `$` (`$$argon2id$$...`). Compose 2.30+ also supports `format: raw` in `env_file` to skip interpolation entirely — see the <a href="/docs/guide/self-hosting/configuration/#escaping-dollar-signs-in-your-hash" class="font-medium underline underline-offset-4">escaping table</a>.
 
 
 ## Start it
@@ -191,7 +193,7 @@ Start with all three files when using that override:
 docker compose --env-file .env -f compose.yml -f compose.proxy.yml -f compose.override.yml up -d
 ```
 
-See <a href="/docs/guide/self-hosting/reverse-proxy" class="font-medium underline underline-offset-4"><strong>Reverse proxy setup</strong></a> for full examples.
+See <a href="/docs/guide/self-hosting/reverse-proxy/" class="font-medium underline underline-offset-4"><strong>Reverse proxy setup</strong></a> for full examples.
 
 ### Traefik labels
 
@@ -258,27 +260,27 @@ Back up `.env` (which holds `WF_SECRET_KEY`) **separately** from the data volume
 
 ## Configuration
 
-Every variable Wealthfolio reads is documented in the <a href="/docs/guide/self-hosting/configuration" class="font-medium underline underline-offset-4"><strong>Configuration reference</strong></a>.
+Every variable Wealthfolio reads is documented in the <a href="/docs/guide/self-hosting/configuration/" class="font-medium underline underline-offset-4"><strong>Configuration reference</strong></a>.
 
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/guide/self-hosting/docker" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Docker</a> <a href="/docs/guide/self-hosting/unraid" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Unraid</a>
+<a href="/docs/guide/self-hosting/docker/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Docker</a> <a href="/docs/guide/self-hosting/unraid/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Unraid</a>
 
 
 On This Page
 
-- <a href="#prerequisites" class="inline-block no-underline text-sm text-muted-foreground">Prerequisites</a>
-- <a href="#get-the-compose-file" class="inline-block no-underline text-sm text-muted-foreground">Get the compose file</a>
-- <a href="#create-your-env" class="inline-block no-underline text-sm text-muted-foreground">Create your .env</a>
-- <a href="#start-it" class="inline-block no-underline text-sm text-muted-foreground">Start it</a>
-- <a href="#inspect--manage" class="inline-block no-underline text-sm text-muted-foreground">Inspect &amp; manage</a>
-- <a href="#reverse-proxy-integration" class="inline-block no-underline text-sm text-muted-foreground">Reverse proxy integration</a>
-  - <a href="#traefik-labels" class="inline-block no-underline text-sm text-muted-foreground">Traefik labels</a>
-- <a href="#permissions" class="inline-block no-underline text-sm text-muted-foreground">Permissions</a>
-- <a href="#pinning-the-version" class="inline-block no-underline text-sm text-muted-foreground">Pinning the version</a>
-- <a href="#backups" class="inline-block no-underline text-sm text-muted-foreground">Backups</a>
-- <a href="#configuration" class="inline-block no-underline text-sm text-muted-foreground">Configuration</a>
+- <a href="#prerequisites" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Prerequisites</a>
+- <a href="#get-the-compose-file" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Get the compose file</a>
+- <a href="#create-your-env" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Create your .env</a>
+- <a href="#start-it" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Start it</a>
+- <a href="#inspect--manage" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Inspect &amp; manage</a>
+- <a href="#reverse-proxy-integration" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Reverse proxy integration</a>
+  - <a href="#traefik-labels" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Traefik labels</a>
+- <a href="#permissions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Permissions</a>
+- <a href="#pinning-the-version" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Pinning the version</a>
+- <a href="#backups" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Backups</a>
+- <a href="#configuration" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Configuration</a>
 
 

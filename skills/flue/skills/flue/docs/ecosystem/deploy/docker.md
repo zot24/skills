@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Deploy Agents with Docker
 
 
-Last updated Jun 20, 2026 <a href="/docs/ecosystem/deploy/docker/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/deploy/docker/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
 Package the Flue Node.js build as a container image that runs on any platform that takes one. For the underlying build and runtime behavior, see [Deploy Agents on Node.js](/docs/ecosystem/deploy/node/).
@@ -29,15 +29,15 @@ Flue’s Node target is a long-running HTTP server, not a function. The containe
 
 A multi-stage build keeps the runtime image lean: compile the Node target in the first stage, ship only production dependencies and `dist/` in the second.
 
-``` astro-code
-# syntax=docker/dockerfile:1
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="dockerfile"><code># syntax=docker/dockerfile:1
 
 FROM node:22-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-RUN npx flue build --target node
+RUN npx vite build
 
 FROM node:22-slim AS runtime
 WORKDIR /app
@@ -48,10 +48,11 @@ COPY --from=build /app/dist ./dist
 USER node
 ENV PORT=8080
 EXPOSE 8080
-CMD ["node", "dist/server.mjs"]
-```
+CMD [&quot;node&quot;, &quot;dist/server.mjs&quot;]</code></pre>
+<figcaption><span>Dockerfile</span></figcaption>
+</figure>
 
-The build externalizes your application dependencies rather than bundling them, so the runtime stage installs production dependencies (`@flue/cli` stays a build-only dependency and is dropped by `--omit=dev`). Add a `.dockerignore` for `node_modules`, `dist`, `.git`, and `.env` so local artifacts and secrets never enter the image.
+The build externalizes your application dependencies rather than bundling them, so the runtime stage installs production dependencies (`vite` and `@flue/vite` stay build-only devDependencies and are dropped by `--omit=dev`). Add a `.dockerignore` for `node_modules`, `dist`, `.git`, and `.env` so local artifacts and secrets never enter the image.
 
 The official `node` images ship a non-root `node` user (uid 1000); `USER node` drops superuser privileges in the running container. Node was not designed to run as PID 1 and won’t reap children or forward signals cleanly, so run the container with an init — `docker run --init` (shown below) or a baked-in `tini`/`dumb-init` — so `SIGTERM` reaches the server for a graceful shutdown of in-flight streams.
 
@@ -77,21 +78,31 @@ docker run --init -p 8080:8080 \
 
 ## Persistence
 
-Without a `db.ts` adapter the server keeps canonical agent conversations, attachments, accepted submissions, and workflow-run records in process-local memory, so a restart or redeploy loses them. Add a Postgres-backed [`PersistenceAdapter`](/docs/guide/database/) for replacement recovery and shared workflow history. Multiple replicas must still route each agent instance to one live owner; shared storage does not enable active-active same-instance execution:
+Without a `db.ts` adapter the server keeps canonical agent conversations, attachments, and accepted submissions in process-local memory, so a restart or redeploy loses them. Add a Postgres-backed [`PersistenceAdapter`](/docs/guide/database/) for replacement recovery. Multiple replicas must still route each agent instance to one live owner; shared storage does not enable active-active same-instance execution:
 
-``` astro-code
-import { postgres } from '@flue/postgres';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="typescript"><code>import { postgres } from &#39;@flue/postgres&#39;;
+import { Pool } from &#39;pg&#39;;
 
-export default postgres(process.env.DATABASE_URL!);
-```
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-Flue discovers `db.ts` at build time and wires it into the generated server. Provide `DATABASE_URL` as an environment variable like any other secret.
+export default postgres({
+  query: async (text, params) =&gt; (await pool.query(text, params)).rows,
+  transaction: async (fn) =&gt; {
+    /* one checked-out client per transaction; see the Postgres guide */
+  },
+  close: () =&gt; pool.end(),
+});</code></pre>
+<figcaption><span>src/db.ts (abridged)</span></figcaption>
+</figure>
+
+Flue discovers `db.ts` at build time and wires it into the generated server. Provide `DATABASE_URL` as an environment variable like any other secret. See [Postgres](/docs/ecosystem/databases/postgres/) for the full bring-your-own-driver runner.
 
 ## Health and streaming
 
 Flue does not generate a health endpoint. If your platform health-checks the container, define the route it expects (commonly `/health`) in your `app.ts`.
 
-Exposed workflow runs use long-lived `GET /runs/:runId` reads (long-poll/SSE). Ensure the platform’s request and idle-connection timeouts allow them. Workflow admission returns `runId`; clients can reconnect to that run and resume with a stream offset. Agent admission returns `streamUrl`, `offset`, and `submissionId`. See [Streaming Protocol](/docs/api/streaming-protocol/).
+Agent conversations use long-lived `GET` reads on the conversation URL (long-poll/SSE). Ensure the platform’s request and idle-connection timeouts allow them. Message admission returns `streamUrl`, `offset`, and `submissionId`; clients can reconnect and resume the conversation stream from an offset. See [Streaming Protocol](/docs/reference/streaming-protocol/).
 
 ## References
 
@@ -107,10 +118,10 @@ Current page: [Deploy Agents with Docker](/docs/ecosystem/deploy/docker/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

@@ -12,10 +12,13 @@ To solve these challenges, AI SDK Core offers a standardized approach to interac
 Here is an overview of the AI SDK Provider Architecture:
 
 <MDXImage
+  alt="Diagram showing the AI SDK Core API, provider specifications, and provider implementations"
   srcLight="/images/ai-sdk-diagram.png"
   srcDark="/images/ai-sdk-diagram-dark.png"
-  width={800}
-  height={800}
+  width={1694}
+  height={1206}
+  widthDark={2541}
+  heightDark={1884}
 />
 
 ## AI SDK Providers
@@ -90,6 +93,7 @@ The open-source community has created the following providers:
 - [Zhipu (Z.AI) Provider](/providers/community-providers/zhipu) (`zhipu-ai-provider`)
 - [OLLM Provider](/providers/community-providers/ollm) (`@ofoundation/ollm`)
 - [ZeroEntropy Provider](/providers/community-providers/zeroentropy) (`zeroentropy-ai-provider`)
+- [Neon AI Gateway Provider](/providers/community-providers/neon-ai-gateway) (`@neon/ai-sdk-provider`)
 
 ## Self-Hosted Models
 
@@ -107,58 +111,63 @@ Additionally, any self-hosted provider that supports the OpenAI specification ca
 The AI providers support different language models with various capabilities.
 Here are the capabilities of popular models:
 
-| Provider                                           | Model                                       | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      |
-| -------------------------------------------------- | ------------------------------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
-| [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-4`                                    |  |  |  |  |
-| [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-3`                                    |  |  |  |  |
-| [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-3-mini`                               |  |  |  |  |
-| [Vercel](/providers/ai-sdk-providers/vercel)       | `v0-1.0-md`                                 |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.5`                                   |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4-pro`                               |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4`                                   |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4-mini`                              |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4-nano`                              |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.3-chat-latest`                       |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.2-pro`                               |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.2-chat-latest`                       |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.2`                                   |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5`                                     |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-mini`                                |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-nano`                                |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.1-chat-latest`                       |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.1-codex-mini`                        |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.1-codex`                             |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.1`                                   |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-codex`                               |  |  |  |  |
-| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-chat-latest`                         |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-sonnet-5`                           |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-fable-5`                            |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-8`                           |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-7`                           |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-6`                           |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-sonnet-4-6`                         |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-5`                           |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-1`                           |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-0`                           |  |  |  |  |
-| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-sonnet-4-0`                         |  |  |  |  |
-| [Mistral](/providers/ai-sdk-providers/mistral)     | `pixtral-large-latest`                      |  |  |  |  |
-| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-large-latest`                      |  |  |  |  |
-| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-latest`                     |  |  |  |  |
-| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-3`                          |  |  |  |  |
-| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-2505`                       |  |  |  |  |
-| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-3.5`                        |  |  |  |  |
-| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-small-latest`                      |  |  |  |  |
-| [Mistral](/providers/ai-sdk-providers/mistral)     | `pixtral-12b-2409`                          |  |  |  |  |
-| [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-chat`                             |  |  |  |  |
-| [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-reasoner`                         |  |  |  |  |
-| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `llama3.1-8b`                               |  |  |  |  |
-| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `llama3.1-70b`                              |  |  |  |  |
-| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `llama3.3-70b`                              |  |  |  |  |
-| [Groq](/providers/ai-sdk-providers/groq)           | `meta-llama/llama-4-scout-17b-16e-instruct` |  |  |  |  |
-| [Groq](/providers/ai-sdk-providers/groq)           | `llama-3.3-70b-versatile`                   |  |  |  |  |
-| [Groq](/providers/ai-sdk-providers/groq)           | `llama-3.1-8b-instant`                      |  |  |  |  |
-| [Groq](/providers/ai-sdk-providers/groq)           | `mixtral-8x7b-32768`                        |  |  |  |  |
-| [Groq](/providers/ai-sdk-providers/groq)           | `gemma2-9b-it`                              |  |  |  |  |
+| Provider                                           | Model                                       | Image Input | Object Generation | Tool Usage | Tool Streaming |
+| -------------------------------------------------- | ------------------------------------------- | ----------- | ----------------- | ---------- | -------------- |
+| [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-4.5`                                  |    |          |   |       |
+| [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-4`                                    |    |          |   |       |
+| [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-3`                                    |    |          |   |       |
+| [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-3-mini`                               |    |          |   |       |
+| [Vercel](/providers/ai-sdk-providers/vercel)       | `v0-1.0-md`                                 |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6`                                   |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6-luna`                              |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6-sol`                               |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6-terra`                             |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.5`                                   |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4-pro`                               |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4`                                   |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4-mini`                              |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.4-nano`                              |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.3-chat-latest`                       |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.2-pro`                               |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.2-chat-latest`                       |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.2`                                   |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5`                                     |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-mini`                                |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-nano`                                |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.1-chat-latest`                       |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.1-codex-mini`                        |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.1-codex`                             |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.1`                                   |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-codex`                               |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-chat-latest`                         |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-sonnet-5`                           |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-fable-5`                            |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-8`                           |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-7`                           |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-6`                           |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-sonnet-4-6`                         |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-5`                           |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-1`                           |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-0`                           |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-sonnet-4-0`                         |    |          |   |       |
+| [Mistral](/providers/ai-sdk-providers/mistral)     | `pixtral-large-latest`                      |    |          |   |       |
+| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-large-latest`                      |    |          |   |       |
+| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-latest`                     |    |          |   |       |
+| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-3`                          |    |          |   |       |
+| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-2505`                       |    |          |   |       |
+| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-3.5`                        |    |          |   |       |
+| [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-small-latest`                      |    |          |   |       |
+| [Mistral](/providers/ai-sdk-providers/mistral)     | `pixtral-12b-2409`                          |    |          |   |       |
+| [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-chat`                             |    |          |   |       |
+| [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-reasoner`                         |    |          |   |       |
+| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `llama3.1-8b`                               |    |          |   |       |
+| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `llama3.1-70b`                              |    |          |   |       |
+| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `llama3.3-70b`                              |    |          |   |       |
+| [Groq](/providers/ai-sdk-providers/groq)           | `meta-llama/llama-4-scout-17b-16e-instruct` |    |          |   |       |
+| [Groq](/providers/ai-sdk-providers/groq)           | `llama-3.3-70b-versatile`                   |    |          |   |       |
+| [Groq](/providers/ai-sdk-providers/groq)           | `llama-3.1-8b-instant`                      |    |          |   |       |
+| [Groq](/providers/ai-sdk-providers/groq)           | `mixtral-8x7b-32768`                        |    |          |   |       |
+| [Groq](/providers/ai-sdk-providers/groq)           | `gemma2-9b-it`                              |    |          |   |       |
 
 
   This table is not exhaustive. Additional models can be found in the provider
