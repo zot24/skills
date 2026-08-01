@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Microsoft Teams
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/teams/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/teams" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/teams</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/teams/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/teams" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/teams</a>
 
 
 ## Quickstart
@@ -33,31 +33,48 @@ flue add channel teams
 
 The blueprint installs `@flue/teams`, creates a source-root `lib/teams-client.ts` Fetch client and `channels/teams.ts` channel module, and modifies the selected agent to bind the generated message tool. The Fetch client handles OAuth token exchange and Bot Connector requests without adding Microsoft’s Node-oriented hosting SDKs.
 
-``` astro-code
-import { dispatch } from '@flue/runtime';
-import { createTeamsChannel } from '@flue/teams';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { dispatch } from &#39;@flue/runtime&#39;;
+import { createTeamsChannel } from &#39;@flue/teams&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const channel = createTeamsChannel({
   appId: process.env.TEAMS_APP_ID!,
   tenantId: process.env.TEAMS_TENANT_ID!,
   async activities({ activity }) {
-    if (activity.type !== 'message' || !activity.text) return;
-    await dispatch(assistant, {
-      id: channel.conversationKey(channel.destination(activity)),
-      input: {
-        type: 'teams.message',
-        activityId: activity.id,
-        sender: activity.from,
-        text: activity.text,
-        entities: activity.entities,
+    if (activity.type !== &#39;message&#39; || !activity.text) return;
+    await dispatch(Assistant, {
+      id: channel.instanceId(channel.destination(activity)),
+      message: {
+        kind: &#39;signal&#39;,
+        type: &#39;teams.message&#39;,
+        body: activity.text,
+        attributes: {
+          ...(activity.id === undefined ? {} : { activityId: activity.id }),
+          senderId: activity.from.id,
+          senderName: activity.from.name,
+        },
       },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/teams.ts (abridged)</span></figcaption>
+</figure>
 
 The abridged example omits the generated client and message tool. Once configured, a text activity continues the agent instance for its verified Teams conversation, and the bound tool can post a reply to the same Connector service URL and thread. The generated Fetch client runs on Node and Cloudflare Workers.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as teams } from &#39;./channels/teams.ts&#39;;
+
+app.route(&#39;/channels/teams&#39;, teams.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/teams` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -81,12 +98,12 @@ Teams bots receive channel messages when mentioned by default. Configure the app
 
 ## Channel module
 
-``` astro-code
-import { defineTool, dispatch } from '@flue/runtime';
-import { createTeamsChannel, type TeamsConversationRef } from '@flue/teams';
-import * as v from 'valibot';
-import assistant from '../agents/assistant.ts';
-import { createTeamsClient } from '../lib/teams-client.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { defineTool, dispatch } from &#39;@flue/runtime&#39;;
+import { createTeamsChannel } from &#39;@flue/teams&#39;;
+import * as v from &#39;valibot&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
+import { createTeamsClient, type TeamsMessageRef } from &#39;../lib/teams-client.ts&#39;;
 
 const appId = process.env.TEAMS_APP_ID!;
 const tenantId = process.env.TEAMS_TENANT_ID!;
@@ -104,16 +121,27 @@ export const channel = createTeamsChannel({
   // Path: /channels/teams/activities
   async activities({ activity }) {
     switch (activity.type) {
-      case 'message': {
+      case &#39;message&#39;: {
         if (!activity.text) return;
-        await dispatch(assistant, {
-          id: channel.conversationKey(channel.destination(activity)),
-          input: {
-            type: 'teams.message',
-            activityId: activity.id,
-            sender: activity.from,
-            text: activity.text,
-            entities: activity.entities,
+        const destination = channel.destination(activity);
+        await dispatch(Assistant, {
+          id: channel.instanceId(destination),
+          // Recorded once when this event creates the instance; ignored after.
+          initialData: {
+            serviceUrl: destination.serviceUrl,
+            conversationId: destination.conversationId,
+            botId: destination.botId,
+            ...(destination.threadId === undefined ? {} : { threadId: destination.threadId }),
+          },
+          message: {
+            kind: &#39;signal&#39;,
+            type: &#39;teams.message&#39;,
+            body: activity.text,
+            attributes: {
+              ...(activity.id === undefined ? {} : { activityId: activity.id }),
+              senderId: activity.from.id,
+              senderName: activity.from.name,
+            },
           },
         });
         return;
@@ -124,18 +152,19 @@ export const channel = createTeamsChannel({
   },
 });
 
-export function postMessage(ref: TeamsConversationRef) {
+export function postMessage(ref: TeamsMessageRef) {
   return defineTool({
-    name: 'post_teams_message',
-    description: 'Post to the Microsoft Teams conversation bound to this agent.',
+    name: &#39;post_teams_message&#39;,
+    description: &#39;Post to the Microsoft Teams conversation bound to this agent.&#39;,
     input: v.object({ text: v.pipe(v.string(), v.minLength(1)) }),
-    async run({ input: { text } }) {
+    async run({ data: { text } }) {
       const result = await client.postMessage(ref, text);
-      return { activityId: result.id };
+      return { output: { activityId: result.id } };
     },
   });
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/teams.ts</span></figcaption>
+</figure>
 
 The generated `lib/teams-client.ts` exchanges the application credentials for a Bot Connector token, caches it until shortly before expiry, and sends message activities through the verified destination’s Connector service URL.
 
@@ -145,19 +174,32 @@ Azure Bot Service holds the inbound request open with a real response window, so
 
 ## Bind the tool
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { channel, postMessage } from '../channels/teams.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { useInitialData, useModel, useTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+import { postMessage } from &#39;../channels/teams.ts&#39;;
 
-export default defineAgent(({ id }) => ({
-  model: 'anthropic/claude-haiku-4-5',
-  tools: [postMessage(channel.parseConversationKey(id))],
-}));
-```
+const initialData = v.object({
+  serviceUrl: v.string(),
+  conversationId: v.string(),
+  botId: v.string(),
+  threadId: v.optional(v.string()),
+});
 
-The model selects only message text. Trusted code binds the tenant, Connector service URL, conversation, bot account, and channel thread.
+export function Assistant() {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
+  const data = useInitialData&lt;v.InferOutput&lt;typeof initialData&gt;&gt;();
+  if (!data) throw new Error(&#39;This agent is created by the Microsoft Teams channel dispatch.&#39;);
+  useTool(postMessage(data));
+  return &#39;Reply concisely in the bound Microsoft Teams conversation.&#39;;
+}
 
-Conversation keys validate syntax, not authorization. Keep this agent dispatch-only, or independently authorize caller-selected instance ids before using them for outbound requests.
+Assistant.initialData = initialData;</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
+
+The model selects only message text. Trusted code binds the Connector service URL, conversation, bot account, and channel thread as the instance’s creation data — the agent reads them with `useInitialData()` instead of parsing the instance id.
 
 ## Authentication
 
@@ -182,10 +224,10 @@ Current page: [Microsoft Teams](/docs/ecosystem/channels/teams/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

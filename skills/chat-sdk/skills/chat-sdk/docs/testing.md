@@ -145,3 +145,12 @@ describe("MyAdapter.handleWebhook", () => {
 Helpers that depend on a specific platform's wire format (signed Slack webhooks, Teams claim builders, etc.) live in each adapter's own `/testing` subpath rather than in this kit, so adopting `@chat-adapter/tests` doesn't pull in adapter dependencies you don't use.
 
 If you're contributing adapters or core to this repo, see the [Testing adapters contributing guide](/docs/contributing/testing) for hand-rolled patterns used inside `packages/`.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

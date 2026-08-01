@@ -118,21 +118,36 @@ When the [Web adapter](/adapters/official/web) is selected, the CLI also creates
 
 When the [Discord adapter](/adapters/official/discord) is selected, the CLI also creates a Gateway listener at `/api/discord/gateway` and a `vercel.json` cron that calls it. Discord delivers slash commands and button clicks to the webhook route, but regular messages and reactions only arrive over the Gateway WebSocket, so the cron keeps that connection alive and forwards events to `/api/webhooks/discord`. Set a `CRON_SECRET` environment variable to authenticate the cron requests. The generated serverless Gateway cron requires [Vercel Pro or Enterprise](https://vercel.com/docs/cron-jobs/usage-and-pricing) because it runs every nine minutes.
 
+## Vercel Connect
+
+[Vercel Connect](/docs/vercel-connect) lets the Slack, GitHub, and Linear adapters authenticate with a connector instead of stored provider secrets. Pass `--connect` — or choose **Vercel Connect** at the interactive auth-mode prompt — to scaffold Connect wiring for any selected Slack, GitHub, or Linear adapter:
+
+```bash
+npm create chat-sdk@latest -- my-bot --adapter slack --connect -y
+```
+
+The generated `src/lib/bot.ts` spreads the matching helper from `@vercel/connect/chat` into the adapter factory, `@vercel/connect` is added to dependencies, and `.env.example` lists each connector UID (for example `SLACK_CONNECTOR`) in place of native secrets.
+
+
+  Vercel Connect provides `VERCEL_OIDC_TOKEN` at runtime. For local development, run `vercel link` then `vercel env pull` to populate it. Connect forwards inbound webhooks only to deployed URLs, so test webhook delivery against a Vercel deployment (such as a preview) rather than localhost.
+
+
 ## Reference
 
-| Option                     | Description                                                      |
-| -------------------------- | ---------------------------------------------------------------- |
-| `[name]`                   | Name of the project.                                             |
-| `-d, --description <text>` | Project description.                                             |
-| `--adapter <values...>`    | Platform or state adapters to include.                           |
-| `--vendor`                 | List only vendor-official adapters in the interactive prompt.    |
-| `--pm <manager>`           | Package manager to use: `npm`, `yarn`, `pnpm`, or `bun`.         |
-| `-y, --yes`                | Skip prompts and accept defaults.                                |
-| `--interactive`            | Always prompt, even when a coding agent environment is detected. |
-| `-f, --force`              | Overwrite generated files in an existing directory.              |
-| `-s, --skip-install`       | Skip dependency installation.                                    |
-| `--no-git`                 | Skip git repository initialization.                              |
-| `-q, --quiet`              | Suppress non-essential output.                                   |
+| Option                     | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `[name]`                   | Name of the project.                                                 |
+| `-d, --description <text>` | Project description.                                                 |
+| `--adapter <values...>`    | Platform or state adapters to include.                               |
+| `--vendor`                 | List only vendor-official adapters in the interactive prompt.        |
+| `--connect`                | Authenticate Slack, GitHub, and Linear adapters with Vercel Connect. |
+| `--pm <manager>`           | Package manager to use: `npm`, `yarn`, `pnpm`, or `bun`.             |
+| `-y, --yes`                | Skip prompts and accept defaults.                                    |
+| `--interactive`            | Always prompt, even when a coding agent environment is detected.     |
+| `-f, --force`              | Overwrite generated files in an existing directory.                  |
+| `-s, --skip-install`       | Skip dependency installation.                                        |
+| `--no-git`                 | Skip git repository initialization.                                  |
+| `-q, --quiet`              | Suppress non-essential output.                                       |
 
 Color output follows the [NO\_COLOR standard](https://no-color.org/) — set `NO_COLOR=1` to disable colors.
 
@@ -161,3 +176,12 @@ Fill in the generated environment variables, expose your local server, and confi
 ## Resources
 
 See guides, templates, and examples on the [resources](/resources) page.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

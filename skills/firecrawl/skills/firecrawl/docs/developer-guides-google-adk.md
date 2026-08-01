@@ -45,7 +45,8 @@ Firecrawl provides an MCP server that seamlessly integrates with Google's ADK, e
       tools=[
           MCPToolset(
               connection_params=StreamableHTTPServerParams(
-                  url=f"https://mcp.firecrawl.dev/{FIRECRAWL_API_KEY}/v2/mcp",
+                  url="https://mcp.firecrawl.dev/v2/mcp",
+                  headers={"Authorization": f"Bearer {FIRECRAWL_API_KEY}"},
               ),
           )
       ],
@@ -134,7 +135,8 @@ research_agent = Agent(
     tools=[
         MCPToolset(
             connection_params=StreamableHTTPServerParams(
-                url=f"https://mcp.firecrawl.dev/{FIRECRAWL_API_KEY}/v2/mcp",
+                url="https://mcp.firecrawl.dev/v2/mcp",
+                headers={"Authorization": f"Bearer {FIRECRAWL_API_KEY}"},
             ),
         )
     ],

@@ -38,7 +38,7 @@ import { ToolLoopAgent } from "ai";
 const chat = new Chat({ /* adapters, state, ... */ });
 
 const agent = new ToolLoopAgent({
-  model: "anthropic/claude-sonnet-4.6",
+  model: "xai/grok-4.5",
   instructions: "You operate inside a chat workspace via Chat SDK tools.",
   tools: createChatTools({ chat, preset: "messenger", requireApproval: true }),
 });
@@ -71,3 +71,12 @@ bot.onSubscribedMessage(async (thread) => {
 * [Human-in-the-Loop with Chat SDK and Workflow SDK](https://vercel.com/kb/guide/human-in-the-loop-with-chat-sdk-and-workflow-sdk?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=ai\&utm_content=human-in-the-loop-with-chat-sdk-and-workflow-sdk) — Pause durable workflows on Slack approval cards using Chat SDK and Workflow SDK. Uses `createWebhook` to suspend workflows until a button click, with patterns for multi-stage approvals, timeouts via durable sleep, and approver validation.
 
 See all guides and templates on the [resources](/resources?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=ai\&utm_content=resources) page.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

@@ -2,6 +2,11 @@
 
  #  AdGuard Home - DHCP server
 
+ >  [!WARNING]
+ >  This article is outdated.  See the [up-to-date version][kb-article] in our Knowledge Base.
+
+[kb-article]: https://adguard-dns.io/kb/adguard-home/dhcp/
+
  *  [Prerequisites](#prereq)
  *  [Default options](#default)
  *  [Configuration](#config)

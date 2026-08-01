@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Supabase
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/databases/supabase/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/postgres" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/postgres</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/databases/supabase/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/postgres" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/postgres</a>
 
 
 ## Quickstart
@@ -35,23 +35,24 @@ The Supabase blueprint installs `@flue/postgres` and `pg`, adds the matching `@t
 
 The primary generated adapter uses one checked-out `pg` client for every query in a transaction:
 
-``` astro-code
-import { postgres } from '@flue/postgres';
-import { Pool } from 'pg';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { postgres } from &#39;@flue/postgres&#39;;
+import { Pool } from &#39;pg&#39;;
 
 const pool = new Pool({ connectionString: process.env.SUPABASE_DATABASE_URL });
 
 export default postgres({
-  query: async (text, params) => (await pool.query(text, params)).rows,
-  transaction: async (fn) => {
+  query: async (text, params) =&gt; (await pool.query(text, params)).rows,
+  transaction: async (fn) =&gt; {
     const client = await pool.connect();
     // ...
   },
-  close: () => pool.end(),
-});
-```
+  close: () =&gt; pool.end(),
+});</code></pre>
+<figcaption><span>src/db.ts (abridged)</span></figcaption>
+</figure>
 
-Flue discovers the adapter during a Node build, runs its migrations at server startup, and persists canonical agent conversations, immutable attachments, accepted submissions, workflow runs, and event state in Supabase so that state survives process replacement. Replicas may share durable state and workflow history, but each agent instance still requires one live Node owner. Application business data remains application-owned.
+Flue discovers the adapter during a Node build, runs its migrations at server startup, and persists canonical agent conversations, immutable attachments, and accepted submissions in Supabase so that state survives process replacement. Replicas may share durable state, but each agent instance still requires one live Node owner. Application business data remains application-owned.
 
 ## Configure
 
@@ -70,7 +71,7 @@ Copy a connection string from **Supabase Dashboard \> Connect** and provide it a
 | Persistent, IPv6-capable Node server | Direct connection             |
 | Persistent, IPv4-only Node server    | Shared pooler in session mode |
 
-The provider-specific environment variable makes the secret’s source clear. If your project already uses another database variable convention, use it consistently in `db.ts` instead. Supply the value through your platform’s secret store and never commit it. For local development, `flue dev --env <file>` and `flue run --env <file>` load any `.env`-format file.
+The provider-specific environment variable makes the secret’s source clear. If your project already uses another database variable convention, use it consistently in `db.ts` instead. Supply the value through your platform’s secret store and never commit it. For local development, `vite dev` loads the project `.env`, and `flue run --env <file>` loads any `.env`-format file.
 
 Transaction-mode pooling is not the default. It can preserve an explicit transaction performed on one checked-out client and does not inherently break `BEGIN`/`COMMIT`, but it does not support prepared statements or session state. If your deployment requires transaction mode, keep `pg` queries unnamed as in the example: do not pass a `name` in query configuration or otherwise enable named prepared statements, and do not depend on session state.
 
@@ -78,57 +79,65 @@ Transaction-mode pooling is not the default. It can preserve an explicit transac
 
 `@flue/postgres` accepts a runner so the application owns driver configuration, pooling, TLS, and credentials. The canonical `pg` runner checks out one client for the entire transaction callback:
 
-``` astro-code
-import { postgres } from '@flue/postgres';
-import { Pool } from 'pg';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { postgres } from &#39;@flue/postgres&#39;;
+import { Pool } from &#39;pg&#39;;
 
 const pool = new Pool({ connectionString: process.env.SUPABASE_DATABASE_URL });
 
 export default postgres({
-  query: async (text, params) => (await pool.query(text, params)).rows,
-  transaction: async (fn) => {
+  query: async (text, params) =&gt; (await pool.query(text, params)).rows,
+  transaction: async (fn) =&gt; {
     const client = await pool.connect();
     try {
-      await client.query('BEGIN');
+      await client.query(&#39;BEGIN&#39;);
       const result = await fn({
-        query: async (text, params) => (await client.query(text, params)).rows,
+        query: async (text, params) =&gt; (await client.query(text, params)).rows,
       });
-      await client.query('COMMIT');
+      await client.query(&#39;COMMIT&#39;);
       return result;
     } catch (error) {
-      await client.query('ROLLBACK');
+      await client.query(&#39;ROLLBACK&#39;);
       throw error;
     } finally {
       client.release();
     }
   },
-  close: () => pool.end(),
-});
-```
+  close: () =&gt; pool.end(),
+});</code></pre>
+<figcaption><span>src/db.ts</span></figcaption>
+</figure>
 
 Every query in the callback uses the checked-out client. Sending those queries through the pool could move work onto another connection and outside the transaction. `@flue/postgres` uses transaction-scoped `pg_advisory_xact_lock`, not session advisory locks, to serialize session updates; each lock is released with its transaction.
 
 ## Migrations
 
-The adapter’s `migrate()` hook runs automatically when the generated Node server starts. It creates Flue’s `flue_*` tables idempotently and stamps a schema version, so a fresh Supabase database is provisioned on first boot and an existing one is reused on restart. There is no separate migration command, and a database written by a newer Flue version refuses to start rather than risking incompatible writes.
+The adapter’s `migrate()` hook runs automatically when the generated Node server starts. It creates Flue’s `flue_*` tables idempotently and stamps a format version, so a fresh Supabase database is provisioned on first boot and an existing one is reused on restart. There is no separate migration command, and a database written by a newer Flue version refuses to start rather than risking incompatible writes.
 
 ## What gets stored
 
 A Flue database stores runtime state, not the application’s whole data model.
 
-| Stored by Flue                                                                                | Not stored by Flue                       |
-|-----------------------------------------------------------------------------------------------|------------------------------------------|
-| Canonical agent conversation streams and compaction records                                   | Sandbox files and installed dependencies |
-| Immutable attachment payloads                                                                 | External API side effects                |
-| Accepted direct prompts and `dispatch(...)` submissions                                       | Application-owned business data          |
-| Durable submission claims and leases, workflow-run records, persisted events, and run indexes | Provider credentials or secrets          |
-| Recovery state for accepted work                                                              | Provider credentials or secrets          |
+Stored by Flue:
 
-See [Durable Agents](/docs/concepts/durable-execution/) for recovery behavior and the [Data Persistence API](/docs/api/data-persistence-api/) for the adapter contract.
+- canonical agent conversation streams and compaction records;
+- immutable attachment payloads;
+- accepted direct prompts and `dispatch(...)` submissions;
+- durable submission claims, leases, and settlement records;
+- recovery state for accepted work.
+
+Not stored by Flue:
+
+- sandbox files and installed dependencies;
+- external API side effects;
+- application-owned business data;
+- provider credentials or secrets.
+
+See [Durability](/docs/guide/durability/) for recovery behavior and the [Data Persistence API](/docs/reference/data-persistence-api/) for the adapter contract.
 
 ## Verify
 
-Build the configured Node target and confirm `db.ts` is discovered. Against a non-production Supabase project, start the server and confirm the `flue_*` tables are created. Create agent or workflow state, restart the server, and confirm that state is reloaded. If you use the shared pooler, verify that its mode matches the deployment and that transaction mode, when explicitly chosen, uses no named prepared statements or session state.
+Build the configured Node target and confirm `db.ts` is discovered. Against a non-production Supabase project, start the server and confirm the `flue_*` tables are created. Create agent state, restart the server, and confirm that state is reloaded. If you use the shared pooler, verify that its mode matches the deployment and that transaction mode, when explicitly chosen, uses no named prepared statements or session state.
 
 ## When to choose Supabase
 
@@ -141,10 +150,10 @@ Current page: [Supabase](/docs/ecosystem/databases/supabase/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

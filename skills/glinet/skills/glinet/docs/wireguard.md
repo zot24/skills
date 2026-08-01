@@ -28,7 +28,7 @@ gl-inet/docs4.x
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
+<a href="../../downloads/" class="md-nav__link"><span class="md-ellipsis"> Downloads </span></a>
 
 
 # Set Up WireGuard Client on GL.iNet Routers<a href="#set-up-wireguard-client-on-glinet-routers" class="headerlink" title="Permanent link">¶</a>
@@ -63,6 +63,7 @@ Select the corresponding WireGuard service provider below to quickly locate the 
 - [Set up PureVPN](#set-up-purevpn)
 - [Set Up Surfshark](#set-up-surfshark)
 - [Set Up Windscribe](#set-up-windscribe)
+- [Set Up X-VPN](#set-up-x-vpn)
 
 If you subscribe to other WireGuard service provider, download a configuration file from their website, then upload the file to your router for VPN connection.
 
@@ -115,7 +116,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **AzireVPN**.
 
 5.  Go renew.
 
-    If you click **Go Renew**, you will be redirected to the official website to renew your subscription.
+    If you click **Go Renew**, you will be directed to the official website to renew your subscription.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_azirevpn/azirevpn7.png" class="glboxshadow" alt="azirevpn go renew" />
 
@@ -253,7 +254,7 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Mullvad**.
 
 6.  Go renew.
 
-    If you click **Go Renew**, you will be redirected to the official website to renew your subscription.
+    If you click **Go Renew**, you will be directed to the official website to renew your subscription.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_mullvad/mullvad8.png" class="glboxshadow" alt="mullvad go renew" />
 
@@ -539,6 +540,86 @@ In the web Admin Panel, go to **VPN** -\> **WireGuard Client** -\> **Windscribe*
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_windscribe/windscribe10.png" class="glboxshadow" alt="windscribe delete" />
 
+## Set Up X-VPN<a href="#set-up-x-vpn" class="headerlink" title="Permanent link">¶</a>
+
+<a href="https://xvpn.io/" target="_blank">Official Website</a>
+
+**Note**: X-VPN is integrated into GL.iNet routers starting from firmware v4.11.
+
+1.  First, obtain X-VPN token on the official website.
+
+    Click <a href="https://xvpn.io/login" target="_blank">here</a> to log in to your X-VPN web account.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn1.png" class="glboxshadow" alt="xvpn login" />
+
+    After logging in, click **Settings** in the left menu. Find **Login Token** and click **Generate**.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn2.png" class="glboxshadow" alt="xvpn settings" />
+
+    The page will generate a token that is valid for 15 minutes. Copy the token for later use.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn3.png" class="glboxshadow" alt="xvpn generate token" />
+
+2.  Log in to your GL.iNet router's web Admin Panel, and go to **VPN** -\> **VPN Client Profile**. Click **X-VPN**.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn4.png" class="glboxshadow" alt="xvpn enter token" />
+
+    Enter the token and click **Save and Continue**.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn5.png" class="glboxshadow" alt="xvpn enter token" />
+
+3.  Select the server(s) you want to connect to, and click **Apply**.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn6.png" class="glboxshadow" alt="xvpn select servers" />
+
+    Then you will get a list of configuration files corresponding to the selected server.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn7.png" class="glboxshadow" alt="xvpn config files" />
+
+4.  Start a connection.
+
+    Select your preferred server, and click the three-dot icon on the right to start a connection.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn8.png" class="glboxshadow" alt="xvpn start" />
+
+    Once connected, a green dot will appear next to the configuration file.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn9.png" class="glboxshadow" alt="xvpn connected" />
+
+    You can also check the VPN connection details, create and manage VPN tunnels and policies on the **VPN Dashboard**.
+
+5.  Update servers.
+
+    You can click **Update Servers** to obtain the latest available server list, avoiding connection failures caused by server maintenance or shutdown.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn10.png" class="glboxshadow" alt="xvpn update servers" />
+
+6.  Go renew.
+
+    If you click **Go Renew**, you will be directed to the official website to renew your subscription.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn11.png" class="glboxshadow" alt="xvpn renew" />
+
+7.  Delete configurations.
+
+    Click the gear icon on the right and select **Delete Configurations** to delete specific or all configuration files with one click.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn12.png" class="glboxshadow" alt="xvpn delete" />
+
+8.  Modify authentication information.
+
+    Click the gear icon on the right and select **Modify Authentication Information** to edit your login token if necessary.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn13.png" class="glboxshadow" alt="xvpn edit credential" />
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn14.png" class="glboxshadow" width="600" alt="xvpn edit credential" />
+
+9.  Log out.
+
+    Click the gear icon on the right and select **Logout** to sign out if necessary. It will delete the account credential, associated public key, private key and configuration files stored on the router. Please proceed with caution.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireguard_client/set_up_xvpn/xvpn15.png" class="glboxshadow" alt="xvpn logout" />
+
 ## Set Up WireGuard Client Manually (for other providers)<a href="#set-up-wireguard-client-manually-for-other-providers" class="headerlink" title="Permanent link">¶</a>
 
 If you subscribe to other WireGuard service provider, download a configuration file from their website, then follow the steps below to set up the WireGuard Client. If you don't know how to download the configuration files, refer to [this guide](../../tutorials/how_to_get_configuration_files_from_wireguard_service_providers/) or contact their support.
@@ -597,7 +678,7 @@ Install the app and follow the on-screen instructions to set up as needed.
 
 ## Set Up WireGuard Server on GL.iNet Router<a href="#set-up-wireguard-server-on-glinet-router" class="headerlink" title="Permanent link">¶</a>
 
-Do not want to subscribe to third-party VPN services? You may purchase two GL.iNet routers – set one as WireGuard server and the other as WireGuard server.
+Do not want to subscribe to third-party VPN services? You may purchase two GL.iNet routers – set one as WireGuard server and the other as WireGuard client.
 
 This is especially suitable for scenarios where your home network's ISP provides a Public IP, and you want to connect to your home network via VPN when away from home to ensure security and access to internal network resources. This eliminates the cost and hassle of continuously subscribing to commercial VPN services.
 
@@ -610,6 +691,14 @@ WireGuard® is a registered trademark of Jason A.Donenfeld.
 ------------------------------------------------------------------------
 
 Still have questions? Visit our <a href="https://forum.gl-inet.com" target="_blank">Community Forum</a> or <a href="https://www.gl-inet.com/contacts/" target="_blank">Contact us</a>.
+
+Was this page helpful?
+
+
+Thanks for your feedback!
+
+
+Thanks for your feedback! We will use it to improve this page.
 
 
 Back to top

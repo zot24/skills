@@ -18,111 +18,218 @@ Start typing to search the documentation.
 # Observability
 
 
-Last updated Jun 20, 2026 <a href="/docs/guide/observability/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/guide/observability/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
-Observability helps you understand whether Flue work completed, failed, became slow, or used more model resources than expected. Inspect workflow run history for bounded jobs, and use `observe(...)` to monitor workflows and continuing agents across your application.
+Flue emits everything its agents do — model turns, tool calls, structured logs, compactions, and settlements — as typed **runtime events** your application can observe in process. This surface is separate from the per-conversation message stream a chat UI reads, which belongs to [Routing](/docs/guide/routing/) and the [Flue Agent SDK](/docs/sdk/overview/). This guide covers the two surfaces and when to use each, subscribing with `observe()`, what the event stream contains, token usage and provider diagnostics on model turns, tool activity and logs, exporting telemetry to Sentry, Braintrust, and OpenTelemetry, and how agent activity surfaces in Cloudflare’s platform observability.
 
-## Inspect workflow runs
+## Two event surfaces
 
-Each workflow invocation has a `runId`. Its run history records the completed result or error and the observable activity produced while the workflow executes.
+Flue exposes agent activity on two distinct surfaces:
 
-Use the Action context’s `log` methods to record application-specific facts that runtime activity alone cannot explain. For example, a summarization workflow can report the size of the accepted document and the usage of the completed operation:
+- The **conversation stream** is the product surface: one conversation’s durable, render-ready messages, data parts, and settlements, consumed over HTTP with [`createFlueClient(...)`](/docs/sdk/create-flue-client/) `observe()` / `history()`. [Routing](/docs/guide/routing/#reading-the-conversation) covers it.
+- The **runtime event stream** is the operational surface: live activity across every agent in the process — model requests, tool executions, logs, token counts, failures — consumed in process with [`observe()`](/docs/reference/events/#observe) from `@flue/runtime`. That stream is this guide’s subject.
 
-``` astro-code
-import { defineAgent, defineWorkflow } from '@flue/runtime';
-import * as v from 'valibot';
+The two APIs share a name but not a shape: the SDK client’s `observe()` maintains one conversation’s materialized message state, while the runtime’s `observe()` delivers raw activity events. Telemetry, metering, and error reporting belong on the runtime stream. The surfaces share correlation identifiers — a conversation message’s `submissionId` matches the runtime events its submission produced.
 
-const summarizer = defineAgent(() => ({
-  model: 'anthropic/claude-haiku-4-5',
-  instructions: 'Summarize the supplied document clearly and concisely.',
-}));
+## Subscribing with `observe()`
 
-export default defineWorkflow({
-  agent: summarizer,
-  input: v.object({ text: v.string() }),
+`observe()` from `@flue/runtime` registers a global subscriber for all agent activity in the current process. Register it once at startup, at module top level in `app.ts` (or a module `app.ts` imports):
 
-  async run({ harness, log, input }) {
-    log.info('Summarization requested', { characters: input.text.length });
-    const response = await (await harness.session()).prompt(input.text);
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { observe } from &#39;@flue/runtime&#39;;
 
-    log.info('Summarization completed', {
-      tokens: response.usage.totalTokens,
-      cost: response.usage.cost.total,
-    });
-
-    return { summary: response.text };
-  },
-});
-```
-
-`log.info(...)`, `log.warn(...)`, and `log.error(...)` accept structured attributes. Use attributes for values that you may later search, aggregate, or forward to a monitoring system. See [`ActionContext`](/docs/api/action-api/#actioncontext) for the Action logging contract.
-
-When a workflow invoked through a running application reports its `runId`, and its module exposes `runs` middleware, use SDK [`client.runs`](/docs/sdk/runs/) to retrieve its record and events or follow its live stream. Configure application-required credentials on the SDK client. The raw [`/runs` APIs](/docs/api/streaming-protocol/) provide the same HTTP surface. Run inspection applies only to workflows; direct prompts and `dispatch(...)` inputs belong to continuing agent sessions instead.
-
-A workflow’s `startedAt` timestamp is captured before durable admission finishes. Live observers receive `run_start` after admission setup, immediately before workflow code begins. This distinction matters when admission itself takes time: `startedAt` describes the admitted invocation’s full lifetime, while `run_start` marks the beginning of live workflow execution.
-
-## Observe application activity
-
-Register `observe(...)` in your application entrypoint when you need telemetry across workflows and continuing agents. The observer receives activity handled by that running application context, including operations triggered by asynchronously dispatched input.
-
-``` astro-code
-import { observe } from '@flue/runtime';
-import { flue } from '@flue/runtime/routing';
-import { Hono } from 'hono';
-
-observe((event) => {
-  if (event.type === 'run_end' && event.isError) {
-    console.error('Workflow failed', event.runId, event.error);
+observe((event) =&gt; {
+  if (event.type === &#39;submission_settled&#39; &amp;&amp; event.outcome === &#39;failed&#39;) {
+    console.error(
+      `[${event.agentName}] submission ${event.submissionId} failed:`,
+      event.error?.message,
+    );
   }
+});</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
 
-  if (event.type === 'operation' && event.durationMs > 5_000) {
-    console.warn('Slow operation', event.operationKind, event.durationMs);
-  }
+The subscriber receives every event from every agent — direct prompts, dispatched work, subagent tasks, and harness activity alike. `observe()` returns an unsubscribe function, but telemetry subscribers typically register once and never remove themselves; the return value exists for tests and dynamic wiring.
 
-  if (event.type === 'log' && event.level === 'error') {
-    console.error(event.message, event.attributes);
-  }
-});
+Three rules for subscribers:
 
-const app = new Hono();
-app.route('/', flue());
+- **Stay cheap.** Subscribers run synchronously on the event emission path. Branch on `event.type`, return immediately for activity you don’t consume, and queue substantial async work instead of blocking emission.
+- **Treat events as read-only.** Each delivery is a detached, frozen observation; a subscriber can never alter what other subscribers or the runtime see.
+- **Failures are contained.** A throwing subscriber is logged and skipped — it never halts the agent or other subscribers. Returned promises are observed for rejection but not awaited.
 
-export default app;
-```
+The subscription is **isolate-scoped and live-only**: it sees activity emitted in the current process from the moment it registers, with no durable replay and no cross-process aggregation. On Node.js one process hosts all agents, so one registration sees everything. On [Cloudflare](/docs/guide/cloudflare-target/), each agent conversation runs in its own Durable Object isolate — a subscriber registered from `app.ts` runs in each isolate and sees that isolate’s activity only. One placement caveat, shared with `setProvider()`: [`flue run`](/docs/cli/run/) loads only the agent module, never `app.ts` — register in the agent module when a subscriber must also run under the CLI.
 
-An operation is the useful finite boundary for agent activity, such as prompting a session, running a skill, or delegating work. Direct and dispatched agent input can therefore be monitored without treating a continuing agent as a series of workflow runs.
+## What the stream contains
 
-When an operation is slow or unexpectedly expensive, its nested activity can provide the explanation. One prompt operation may include multiple model turns or tool calls. Model turns expose latency, token usage, and cost; tool activity shows where the agent spent time or encountered an error.
+Every event carries the event-format version (`v: 3`), a per-context `eventIndex`, a `timestamp`, and the correlation fields that apply to it, including `agentName`, `conversationId`, `instanceId`, `submissionId`, `operationId`, `turnId`, and `taskId`. The event families:
 
-Callbacks registered with `observe(...)` are invoked while Flue emits activity and receive every emitted event object directly. Treat events as read-only, branch on `event.type`, and return immediately for activity you do not consume. Keep callbacks lightweight; returned promises are observed for rejection but are not awaited. In a distributed deployment, each running application context observes only the activity it handles; use an external backend to aggregate telemetry across processes or isolates.
+| Events                                                | Activity                                                                                         |
+|-------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| `agent_start`, `agent_end`, `idle`                    | Agent loop lifecycle.                                                                            |
+| `submission_settled`                                  | A durable submission reached `completed`, `failed`, or `aborted` — the reliable terminal signal. |
+| `operation_start`, `operation`                        | Prompt, skill, task, shell, and compact operation boundaries, with duration and rolled-up usage. |
+| `turn_start`, `turn_request`, `turn`, `turn_messages` | Model turns (see [below](#token-usage)).                                                         |
+| `message_*`, `text_delta`, `thinking_*`               | Live message and reasoning progress.                                                             |
+| `tool_start`, `tool`                                  | Tool execution, correlated by `toolCallId`.                                                      |
+| `task_start`, `task`                                  | Subagent task delegation, with result, error state, and duration.                                |
+| `compaction_start`, `compaction`                      | Context compaction, with message counts and usage.                                               |
+| `log`                                                 | Structured logs written by your tools and hooks (see [below](#tool-activity-and-logs)).          |
 
-Streaming deltas are best-effort live progress; use `message_end` as the authoritative completed assistant message. A subscriber attached after generation starts may miss earlier partial output until that event arrives. Internal interrupted-turn recovery uses separate durable state and is unaffected.
+Streaming deltas are live progress signals, not authoritative message state; the assistant `message_end` event carries the completed message. Nested errors do not necessarily fail the work that contains them — an agent can recover from a failed turn or tool call — so alert on `submission_settled` outcomes and read nested `isError` events as diagnostic context.
+
+Two properties of the live stream go beyond what is durably recorded:
+
+- **Live observations carry extra detail.** `observe()` delivers each event as a `FlueObservation` — the event plus live-only fields such as normalized tool arguments, effective results, and classified `errorInfo` including the throw-site stack. These exporter-oriented fields are never persisted or replayed.
+- **`turn_request` is in-process only.** It contains the full model-visible request — provider identity, settings, system prompt, messages, and tools — and is delivered to `observe()` subscribers but never persisted or served over HTTP.
+
+The [Events Reference](/docs/reference/events/) documents every event’s fields and which payloads are stable contract.
+
+## Token usage
+
+Each completed model call emits a `turn` event whose `request` summarizes what was sent (provider, requested model, API, settings) and whose `response` carries the outcome — output, finish reason, and `usage`:
+
+| `usage` field             | Meaning                                                                    |
+|---------------------------|----------------------------------------------------------------------------|
+| `input`, `output`         | Tokens sent to and generated by the model.                                 |
+| `cacheRead`, `cacheWrite` | Prompt-cache tokens read and written.                                      |
+| `totalTokens`             | Total across all components.                                               |
+| `cost`                    | Estimated cost from the model catalog’s rates, per component plus `total`. |
+
+Per-agent token metering is a single observer:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { observe } from &#39;@flue/runtime&#39;;
+import { metrics } from &#39;./shared/metrics.ts&#39;;
+
+observe((event) =&gt; {
+  if (event.type !== &#39;turn&#39; || !event.response.usage) return;
+  const { usage } = event.response;
+  metrics.increment(&#39;llm.tokens&#39;, usage.totalTokens, {
+    agent: event.agentName,
+    model: event.request.requestedModel,
+    purpose: event.purpose, // &#39;agent&#39; | &#39;compaction&#39; | &#39;compaction_prefix&#39;
+  });
+  metrics.increment(&#39;llm.cost&#39;, usage.cost.total, { agent: event.agentName });
+});</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+Usage also rolls up at coarser boundaries: `operation` and `compaction` events carry aggregate usage for the work they bound. When summing usage across events, sum one level only — `turn` values are the leaves, and the roll-ups already include them. Duration values at different levels overlap the same way and should not be added together. Inside the agent, `useResponseFinish()` receives the whole response’s aggregate usage — the right place to stamp token counts onto response metadata for your client; see [Event hooks](/docs/guide/agent-hooks/#event-hooks).
+
+## Provider diagnostics
+
+A `turn` event’s `response` is normalized — `finishReason` and `error` use Flue’s vocabulary regardless of provider. Alongside them, the response carries allowlisted raw provider metadata when the provider attaches it:
+
+- `providerFinishReason` — the provider’s exact finish value before normalization (for example, Workers AI’s `tool_calls` behind the normalized `toolUse`).
+- `gatewayLogId` — the response’s own Cloudflare AI Gateway log id (`cf-aig-log-id`), for correlating a specific turn with its entry in the gateway dashboard.
+
+Both are telemetry only — they never affect execution or replay — and are present only when the provider records them. The [Workers AI provider](/docs/guide/models/#cloudflare-workers-ai-cloudflare-only) attaches both today. A diagnostic observer for failed turns reads them directly from the event:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { observe } from &#39;@flue/runtime&#39;;
+
+observe((event) =&gt; {
+  if (event.type !== &#39;turn&#39; || !event.isError) return;
+  console.error(&#39;model turn failed&#39;, {
+    provider: event.request.providerName,
+    model: event.request.requestedModel,
+    finishReason: event.response.finishReason,
+    providerFinishReason: event.response.providerFinishReason,
+    gatewayLogId: event.response.gatewayLogId,
+    error: event.response.error?.message,
+  });
+});</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`request.providerId` is the registration key from the model specifier; `request.providerName` is the semantic provider identity, which differs when a gateway or custom registration fronts the model.
+
+## Tool activity and logs
+
+Tool execution emits `tool_start` and `tool` events carrying the tool name, `toolCallId`, duration, error state, and result — for both model-driven calls and programmatic shell activity. The live observation adds the normalized arguments and effective result.
+
+For progress inside a long-running tool, the tool’s `run` context provides a logger (see [Tools](/docs/guide/tools/#how-a-tool-call-works)); lifecycle hook contexts like `useAgentStart` carry the same `log` interface. Each call emits a `log` event with a level, a message, and your attributes — tool logs additionally stamped with `tool` and `toolCallId`, hook logs with the hook that wrote them. The model never sees log lines; they exist for your application:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>async run({ data, log }) {
+  log.info(&#39;sync started&#39;, { records: data.ids.length });
+  const failed = await crm.sync(data.ids);
+  if (failed.length &gt; 0) log.error(&#39;sync incomplete&#39;, { failed: failed.length });
+  return { synced: data.ids.length - failed.length };
+}</code></pre>
+<figcaption><span>src/tools/sync-crm.ts (excerpt)</span></figcaption>
+</figure>
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { observe } from &#39;@flue/runtime&#39;;
+import { logger } from &#39;./shared/logger.ts&#39;;
+
+observe((event) =&gt; {
+  if (event.type !== &#39;log&#39;) return;
+  logger.log(event.level, event.message, {
+    ...event.attributes,
+    conversation: event.conversationId,
+  });
+});</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+Log lines are runtime events, not conversation content: they never appear in the messages a client renders, and they reach only in-process subscribers — forward them to your logging backend from an observer, or through one of the integrations below.
 
 ## Choose an observability provider
 
-| Provider                                                | Choose it when                                                                                                      |
-|---------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| [OpenTelemetry](/docs/ecosystem/tooling/opentelemetry/) | You need vendor-neutral traces or already operate an OpenTelemetry-compatible backend.                              |
-| [Braintrust](/docs/ecosystem/tooling/braintrust/)       | You want content-bearing agent traces, model usage, costs, and evaluation-oriented debugging.                       |
-| [Sentry](/docs/ecosystem/tooling/sentry/)               | You primarily want actionable workflow failures and explicit error logs without exporting model content by default. |
+For production telemetry, Flue ships integrations with three ecosystems rather than a bundled dashboard:
 
-You can also consume `observe(...)` directly when these integrations do not match your telemetry or data-handling requirements.
+- [Sentry](/docs/ecosystem/tooling/sentry/) — terminal failures as issues, every log in Sentry Logs, and optional AI traces with content off by default. Add with `flue add tooling sentry`.
+- [Braintrust](/docs/ecosystem/tooling/braintrust/) — LLM tracing: operations as traces with model, tool, task, and compaction spans plus usage. Add with `flue add tooling braintrust`.
+- [OpenTelemetry](/docs/ecosystem/tooling/opentelemetry/) — standards-based GenAI spans, metrics, and logs for any OTel-compatible backend. Add `@flue/opentelemetry` to your OTel SDK setup.
 
-## Export telemetry safely
+The Sentry and Braintrust [blueprints](/docs/cli/add/) generate a source-root module that `app.ts` imports — an event bridge like the ones above, plus provider initialization. Span-producing integrations register through `instrument(...)`, which pairs an observer with an execution interceptor so spans wrap live agent, model, tool, and task execution:
 
-Runtime events can contain workflow inputs, prompts, model messages, logs, tool values, errors, and application-owned metadata. Flue replaces image data in recognized content blocks with an omission sentinel before events are observed or persisted, but arbitrary inputs, log attributes, tool details, and results still require an application-owned sanitization policy.
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createOpenTelemetryInstrumentation } from &#39;@flue/opentelemetry&#39;;
+import { instrument } from &#39;@flue/runtime&#39;;
 
-Start with outcome-oriented signals: failed workflows, explicit application error logs, slow operations, and completed model usage. A model turn or tool call may fail before an agent recovers, so treating every nested error as an incident can create noisy alerts. When aggregating usage, sum model-turn leaf values rather than operation or compaction roll-ups; nested duration values can overlap and should not be summed.
+instrument(createOpenTelemetryInstrumentation());</code></pre>
+<figcaption><span>src/app.ts (abridged)</span></figcaption>
+</figure>
 
-Restrict subscriptions to required event types and review the retention, access, and redaction controls of any external backend before exporting content. The provider guides above describe each integration’s default export policy and runtime-specific behavior.
+Choose Sentry when you want failures, logs, and traces in an existing application monitor, Braintrust when you want content-bearing LLM traces for inspection and evaluation, and OpenTelemetry when your organization standardizes on an OTel backend. They compose — an error reporter and a tracer can subscribe side by side. On Cloudflare, each integration exports per isolate and final flushes are best-effort; each tooling page documents its target-specific behavior.
+
+## Cloudflare
+
+On the [Cloudflare target](/docs/guide/cloudflare-target/), agent work is also visible to the platform’s own observability products, with no Flue-side wiring. Each agent response runs as one unit of platform work — admission answers immediately, then the response executes start-to-settlement as a single invocation the platform can see and measure. [Workers Logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/) attribute tool and hook logs to the response that wrote them, and [Workers Traces](https://developers.cloudflare.com/workers/observability/traces/) capture one trace per response — model calls and other subrequests appear as spans inside it. Both are enabled in `wrangler.jsonc`; see [Deploy on Cloudflare](/docs/ecosystem/deploy/cloudflare/#observability) for configuration and the [Cloudflare target guide](/docs/guide/cloudflare-target/#durable-agent-execution) for the execution model behind the attribution.
+
+Agent-shaped spans are built in — with traces enabled, every response’s trace carries them, no wiring needed. To customize the adapter (content policy, redaction), install it yourself once at `app.ts` module scope, which replaces the default:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { instrument } from &#39;@flue/runtime&#39;;
+import { createCloudflareTracing } from &#39;@flue/runtime/cloudflare&#39;;
+
+instrument(createCloudflareTracing({ content: false }));</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+Set [`tracing: false`](/docs/reference/configuration/#tracing) in `flue.config.ts` to drop agent tracing from the build.
+
+Each response’s trace carries an `invoke_agent` span wrapping the run, a `chat` span per model turn with token usage, and an `execute_tool` span per tool call, using the same OpenTelemetry GenAI naming Cloudflare’s own agent tracing emits — Flue agents read natively in the Traces dashboard. The spans carry the conversation by default: input and output messages, system instructions, and tool definitions, arguments, and results, so you can read what the agent actually said and did straight from the trace. Raw error messages and stack traces are the exception — they never ship on this backend, and failures record only a low-cardinality `error.type`. Pass `content: false` for content-free spans, or a `transform` to redact or drop content in code; see [`createCloudflareTracing()`](/docs/guide/cloudflare-target/#createcloudflaretracing) for the attribute surface, the truncation contract, and behavior details.
+
+The platform view and the runtime event stream are complementary, not redundant. Workers Observability shows operational shape — invocations, durations, outcomes, subrequests, and with the adapter, agent identity, usage, and conversation content; the runtime events remain the full-fidelity stream: settlement outcomes, error details, everything a trace attribute can’t hold. Use the platform products for fleet health, latency, and reading conversations, and the runtime stream (or an integration above) for anything that needs the complete record.
+
+## Protect sensitive content
+
+Runtime events can contain prompts, system instructions, reasoning, tool arguments and results, and error details — and **both trace adapters capture conversation content by default**. For every exporter that leaves Cloudflare, installing an instrumentation with `instrument(...)` is the consent: nothing is emitted by merely deploying, but once that line exists, prompts and tool payloads flow to the receiving backend. Cloudflare’s own Workers Traces is the exception — agent tracing is built into the target, so the switch there is enabling traces on the account, and the content stays within it. Every adapter takes the same two controls: `content: false` turns capture off entirely, and `content: { transform }` is the policy hook — redact, drop by `scope.contentType`, or tighten the byte budget with `truncateContent`.
+
+Two protections are unconditional: `turn_request` events never leave the process, and image content blocks never carry raw bytes (their `data` is replaced with the `IMAGE_DATA_OMITTED` sentinel). Beyond those, each exporter has its own posture: the Cloudflare adapter never emits raw error messages or stacks, the OpenTelemetry adapter passes exception messages and stack traces through the same content gate, the Sentry integration keeps model and tool content out of traces unless its record flags opt in, and Braintrust is content-bearing with a masking hook. Review the retention and access controls of whatever receives your traces, and make the data-handling decision explicitly.
 
 ## Next steps
 
-- [Events reference](/docs/api/events-reference/) — inspect the complete observable event contract.
-- [Workflows](/docs/guide/workflows/) — create finite operations whose run history can be inspected.
-- [Agents](/docs/guide/building-agents/) — create continuing agent instances and deliver direct or dispatched input.
-- [Routing](/docs/guide/routing/) — add the application entrypoint where telemetry observers are registered.
+- [Events Reference](/docs/reference/events/) — the full event vocabulary, envelope fields, and the `observe()` contract.
+- [Routing](/docs/guide/routing/) and the [Agent SDK](/docs/sdk/overview/) — the conversation stream your UI consumes.
+- [Agent Hooks](/docs/guide/agent-hooks/#event-hooks) — read usage and stamp response metadata from inside the agent.
+- [Sentry](/docs/ecosystem/tooling/sentry/), [Braintrust](/docs/ecosystem/tooling/braintrust/), and [OpenTelemetry](/docs/ecosystem/tooling/opentelemetry/) — per-integration setup and content policies.
+- [Evals](/docs/guide/evals/) — turn observed behavior into scored regression checks.
 
 
 ## Docs Navigation
@@ -131,10 +238,10 @@ Current page: [Observability](/docs/guide/observability/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

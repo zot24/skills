@@ -24,13 +24,12 @@ This is what the model sees instead of text:
 tokens as this page. Real pipeline output; the model reads renders like this
 at 100/100 (see benchmarks).*
 
-![chart: characters a frontier context window holds, 2018–2026 — vendor text series including Grok 4.5; orange measured overlay is Fable 5 [1m] + pxpipe ~18M (4.6×)](docs/assets/context-window-chars.png)
+![chart: characters a frontier context window holds, 2018–2026 — vendor text series including Grok 4.5; orange measured overlays are Fable 5 [1m] + pxpipe ~19.0M (4.8×) and Gemini 3.6 Flash + pxpipe ~21.3M (5.3×)](docs/assets/context-window-chars.png)
 
 *Eight years of context growth, in characters. Every text line tops out near
 ~4M chars (a 1M-token window at ~4 chars/token); **Grok 4.5** is shown as a
-text-window point only (500K). The orange overlay is the **same Fable 5 1M
-window** read through pxpipe images — ~18M chars at the measured Anthropic
-density (**4.6×** the text ceiling). Density is measured from a live render at
+text-window point only (500K). The orange overlays are the **same 1M
+windows** read through pxpipe images — ~19.0M chars for Fable 5 (**4.8×**) and ~21.3M chars for Gemini 3.6 Flash (**5.3×** text capacity). Density is measured from a live render at
 generation time, not hand-typed: regenerate with
 `npx tsx scripts/gen-context-chart.ts`
 ([source](scripts/gen-context-chart.ts)).*
@@ -47,14 +46,6 @@ and ends the session at **$6.06** with context to spare (73.5k/1M) vs
 **$42.21** at 96% full. One caveat visible in the clip: the pxpipe arm
 needed a nudge to match the requested one-line output format.
 
-**Opus 4.8 (disabled by default) — same layout:**
-
-https://github.com/user-attachments/assets/f4e50137-31b5-426f-a6ed-b83f829b4a2c
-
-Text needles read fine on both arms; the imaged phrase-count doesn't read on
-Opus — and pxpipe **says so instead of fabricating a number**. That misread
-rate is why Opus is opt-in.
-
 ## Try it (30 seconds)
 
 ```bash
@@ -68,13 +59,44 @@ normally — pxpipe compresses the *request* only, never the model's output.
 Recent turns stay text; the system prompt, tool docs, and older bulk history
 are imaged.
 
+### `pxpipe warp`
+
+```bash
+pxpipe warp -- claude          # also: cursor-agent, codex, or a shell alias
+```
+
+Same thing without `ANTHROPIC_BASE_URL`, so `/remote-control`, claude.ai
+connectors, and first-party gates keep working. Full instructions in the
+dashboard.
+
+## Offline export (no proxy)
+
+You can render text, files, or diffs to PNG pages without running the proxy or
+connecting Claude Code:
+
+```bash
+npx pxpipe-proxy export src/
+cat prompt.txt | npx pxpipe-proxy export --stdin
+npx pxpipe-proxy export --git
+```
+
+If the package is installed, use `pxpipe export` instead of
+`npx pxpipe-proxy export`.
+
+Each run writes a fresh `pxpipe-export-XXXXXX/` output folder (the exact path
+is printed when the command finishes) containing `page-*.png`, `factsheet.txt`,
+`manifest.json`, and `prompt.txt`. Upload the PNG pages and paste the prompt
+into image-upload clients such as Cursor when you want dense visual context
+without running the proxy.
+
 ## The honest part
 
 - **It is lossy.** Exact 12-char hex strings in dense imaged content:
-  **13/15** on Fable 5, **0/15** on Opus, and **0/15** on Sol — misses are *silent
+  **13/15** on Fable 5 and **0/15** on Sol — misses are *silent
   confabulations*, not errors. Byte-exact values (IDs, hashes, secrets)
-  must stay text; recent turns do. A dedicated verbatim-risk guard is not
-  built yet.
+  must stay text; recent turns do. The factsheet selectively preserves up to
+  96 recognized precision-critical tokens, not every identifier. A dedicated
+  verbatim-risk guard is not built yet.
 - **Escape hatch:** subagents on non-allowlisted models pass through as
   text — route byte-exact work there
   (`CLAUDE_CODE_SUBAGENT_MODEL=claude-sonnet-4-6`, or `model: sonnet` in
@@ -90,77 +112,98 @@ are imaged.
   re-sends as text. Claude Code re-sends system + tools + history on
   `/anthropic/messages` and typically lands ~60–70%. Details and measured
   splits: [docs/CACHING_AND_SAVINGS.md](docs/CACHING_AND_SAVINGS.md).
-- **Model scope:** default `PXPIPE_MODELS=claude-fable-5`. Sol, Opus
-  4.7/4.8, GPT 5.5, and **Grok** are opt-in only (dashboard chips or
-  `PXPIPE_MODELS`) — not good enough as silent defaults for imaged context.
-  Grok packing + factsheet helps exact IDs, but quality remains below Fable:
-  82/100 arithmetic, 83/98 gist, and 13/18 state tracking. The exact Sol id
-  still matters. Sibling variants such as `gpt-5.6-terra` do not
+
+<details>
+<summary><strong>Model support and rendering details</strong></summary>
+
+- **`claude-opus-5`:** weaker recall than Fable 5 (verbatim **2/15 vs 13/15**), good
+  enough otherwise (100/100 arithmetic, 0/16 never-stated), **~4.7×** context before
+  `/compact`. Suggested effort: **medium**. Details: [FINDINGS.md](FINDINGS.md).
+- **Model scope:** default `PXPIPE_MODELS=claude-fable-5,claude-opus-5,gemini-3.6-flash`. Sol, GPT 5.5,
+  and **Grok** are opt-in only (dashboard chips or
+  `PXPIPE_MODELS`). The exact Sol id still matters. Sibling variants such as
+  `gpt-5.6-terra` do not
   inherit Sol's allowlist or render profile. `PXPIPE_MODELS=off` disables
   imaging. Everything else passes through byte-identical. On the GPT path,
   tool definitions stay native JSON and no Anthropic `cache_control`
-  markers are used. Responses history compression recognizes adjacent completed
-  `function_call`/`function_call_output` pairs: only old closed pairs are imaged;
-  the newest six completed pairs, every open call, and malformed/orphan state
-  remain native. The default history budget is 32 images; opt-in long-session
-  coverage can be raised (defensive cap 100) with
+  markers are used. Responses history compression recognizes completed
+  `function_call`/`function_call_output` pairs, including OpenCode's parallel
+  calls-then-outputs rounds: only old closed rounds are imaged atomically;
+  every open call and malformed/orphan state remains native. The base profile
+  keeps the newest six completed pairs and allows 32 images; Sol keeps one pair
+  and allows 64 images, while Grok allows 24 images. Opt-in long-session
+  coverage can be changed (defensive cap 100) with
   `PXPIPE_GPT_HISTORY_MAX_IMAGES=48` after validating the provider's request cap.
-- **Per-model rendering:** opt-in `gpt-5.6-sol` uses a 152-column,
-  5×8 Spleen profile; Claude keeps its 312-column 5×8 Spleen profile. These
+- **Per-model rendering:** opt-in `gpt-5.6-sol` and Grok use native 14px
+  JetBrains Mono glyphs in a 9×16 cell, 84 columns, and a 764px full-width
+  strip; Claude keeps its 312-column, 1568×728 5×8 Spleen profile. These
   are selected by exact model id, including history pages and profitability
-  math. **Sol quality:** production 5×8 scored 98/100 arithmetic and 79/93
-  completed gist, 18/18 state, 4/15 completed never-stated confabulations,
-  and 0/15 dense hex. Exact IDs therefore use the verbatim factsheet, and recent/open tool state stays native.
+  math. Recognized IDs can ride in the bounded factsheet, and
+  recent/open tool state stays native.
   [Sol receipts](eval/sol-profile/QUALITY_RESULTS.md) and
   [profile evidence](docs/MODEL_RENDER_PROFILES.md).
-- **Grok 4.5 (opt-in):** same production recipe as Sol (5×8 Spleen, IDS, text
-  factsheet; Grok strip maxH 512). Off by default (not Fable-level pure-image).
-  Measured production results are 82/100 arithmetic, 83/98 gist, and 13/18
-  state tracking. Enable with
+- **Grok 4.5 (opt-in):** native 14px / 84 cols / maxH 512 (100/100 arith, 97/98 gist).
+  Off by default (dense hex still 0/15).
+  Enable with
   `PXPIPE_MODELS=claude-fable-5,grok-4.5` or the dashboard chip.
   [eval/grok-density/QUALITY_RESULTS.md](eval/grok-density/QUALITY_RESULTS.md).
 
-## Benchmarks (reproducible)
+</details>
 
-### Model quality (does the model read the images?)
+## Benchmark results and receipts
 
-Every model row below uses the same production recipe unless a pure-image
-research arm is called out: **5×8 Spleen + IDS block + adjacent text factsheet**.
-Claude numbers are novel problems the model cannot have memorized. Sol and Grok
-quality use Codex’s Responses provider; Fable/Opus use Claude. Token deltas
-compare matched input arms: negative saves tokens; positive costs more. The
-historical GSM8K run measured −38%, but it is a different corpus and is not
-used for these novel-arithmetic rows.
+### Model quality
 
-| test | model | N | text | pxpipe (image) | tokens |
-|---|---|---:|---:|---:|---|
-| novel arithmetic | `claude-fable-5` | 100 | 100% | **100%** | not measured |
-| novel arithmetic | `gpt-5.6-sol` | 100 | 100% | **98%** | **+32%** |
-| novel arithmetic | `claude-opus-4-8` | 100 | 100% | 93% | not measured |
-| novel arithmetic | `grok-4.5` | 100 | 100% | **82%** | **+7%** |
-| gist recall A/B (decisions, values, paths, names, negations; distractors; 15k–45k char sessions) | Fable 5 | 98/arm | 98/98 | **98/98** | not measured |
-| same gist corpus, production images + factsheet | `gpt-5.6-sol` | 98 | not measured | **79/93 completed; 1 session error** | not measured |
-| same gist corpus, production images + factsheet | `grok-4.5` | 98 | 98/98 | **83/98** | not measured |
-| state tracking (value mutated 3×, final/first/count) | Fable 5 | 18/arm | 18/18 | **18/18** | not measured |
-| same state-tracking corpus | `gpt-5.6-sol` | 18 | not measured | **18/18 latest** | not measured |
-| same state-tracking corpus | `grok-4.5` | 18 | 18/18 | **13/18** | not measured |
-| confabulation on never-stated facts (lower is better) | Fable 5 | 16/arm | 0/16 | **0/16** | not measured |
-| same never-stated probes (lower is better) | `gpt-5.6-sol` | 16 | not measured | **4/15 completed; 1 session error** | not measured |
-| same never-stated probes (lower is better) | `grok-4.5` | 16 | 0/16 | **0/16** | not measured |
-| verbatim 12-char hex, dense render | Opus | 15 | 15/15 | **0/15** | not measured |
-| verbatim 12-char hex, dense render | Fable 5 | 15 | not measured | **13/15** | not measured |
-| verbatim 12-char hex, same dense pages | `gpt-5.6-sol` | 15 | not measured | **0/15** | not measured |
-| verbatim 12-char hex, same dense pages | `grok-4.5` | 15 | 15/15 | **0/6 completed; 9 transport errors** | not measured |
+This matrix shows coverage as well as scores. `—` means the model was not run
+on that test; it does not mean zero. Arithmetic uses novel random-number
+problems. Gist, state, and never-stated probes share one corpus. Never-stated
+is confabulations, so lower is better.
 
-**Harness split:** Fable/Opus quality and SWE-bench rows use **Claude**; Sol and Grok quality use
-**Codex’s Responses provider** (`OPENAI_BASE_URL`, typically ocproxy) — see
-[`eval/grok-density/QUALITY_SUITE.md`](eval/grok-density/QUALITY_SUITE.md).
+| model | arithmetic (N=100) | gist (N=98) | state (N=18) | never-stated (N=16) | dense hex (N=15) | profile provenance and receipts |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| `claude-fable-5` | **100/100** | **98/98** | **18/18** | **0/16** | 13/15 | June 2026 production profiles: [arithmetic + hex](FINDINGS.md), [gist/state/guards](eval/gist-recall/) |
+| `google/gemini-3.6-flash` | **100/100** | **98/98** | **18/18** | **0/16** | **14/15** | current shipped profile: [quality results](eval/gemini-profile/QUALITY_RESULTS.md) |
+| `claude-opus-5` | **100/100** | 94/98 | 17/18 | **0/16** | 2/15 | current profile: [arithmetic](eval/gsm8k/), [gist/state/guards](eval/gist-recall/), [dense hex](eval/verbatim-15/) |
+| `gpt-5.6-sol` | 98/100 | 83/98 | 17/18 | 4/16 | 0/15 | prior 5×8 broad suite; native 14px pilot: 7/8 exact, 0 inventions, gist/guard pass: [pilot](eval/sol-profile/README.md) |
+| `claude-opus-4-8` | 93/100 | 77/98 | **18/18** | **0/16** | 0/15 | historical profile: [arithmetic](eval/gsm8k/), [gist/state/guards](eval/gist-recall/), [dense hex](eval/needle-haystack/) |
+| `grok-4.5` | **100/100** | **97/98** | 17/18 | **0/16** | 0/15 | native 14px/84 quality suite (live profile); [quality](eval/grok-density/QUALITY_RESULTS.md), [native-sweep](eval/grok-density/native-sweep/RESULTS.md) |
+| `moonshotai/kimi-k3` | 79/100 | 84/98 | 15/18 | 1/16 | 0/15 | generic GPT profile: [quality results](eval/sol-profile/KIMI_K3_QUALITY_RESULTS.md) |
 
-Sol receipts: [`eval/sol-profile/QUALITY_RESULTS.md`](eval/sol-profile/QUALITY_RESULTS.md).
-Grok receipts: [`eval/grok-density/QUALITY_RESULTS.md`](eval/grok-density/QUALITY_RESULTS.md).
-SWE-bench is not copied to Sol: its runner is Claude Code/Fable-specific
-(`ANTHROPIC_BASE_URL`, Claude CLI, official Docker grading), and no Sol ON/OFF
-run exists yet. Pure-image-only is **not** Fable-grade on live Grok.
+### Native-profile cost check
+
+Offline export of the same deterministic 454,045-character dense record corpus
+through each complete profile produced:
+
+| model profile | pages | text estimate | image tokens | savings |
+|---|---:|---:|---:|---:|
+| Claude, Spleen 5×8 | 17 | 122,715 | 23,856 | 80.6% |
+| Sol, JetBrains Mono 14px | 45 | 122,715 | 65,424 | 46.7% |
+
+The text estimate uses 3.7 characters/token; image tokens use each model's
+provider formula and actual rendered page dimensions. These figures establish
+profile cost on this corpus, not a universal workload savings rate. Sol's paid
+fixtures estimated 42% while reading 7/8 exact with no unsupported inventions.
+
+The runs use different transports and profile generations, not one identical
+image geometry. Fable and Opus use Claude; Gemini uses Google AI Studio; Sol
+and Grok use Codex Responses; Kimi K3 uses Cloudflare's OpenAI-compatible
+transport. Current production profiles include the adjacent bounded factsheet;
+historical or pure-image exceptions are identified in the linked evaluation.
+
+### Model-specific evaluations
+
+These are not cross-model comparisons. Every unlisted model is **not run**.
+
+| test | model | result | evaluation and receipts |
+| --- | --- | --- | --- |
+| SWE-bench Lite | `claude-fable-5` | pxpipe 10/10; text 10/10; −65% request size | [paired pilot](eval/swe-bench/) |
+| SWE-bench Pro | `claude-fable-5` | pxpipe 14/19; text 15/19; −60% request size | [paired pilot](eval/swe-bench-pro/) |
+| production-history row localization | `google/gemini-3.6-flash` | text 17/30; pxpipe 18/30 | [positional retrieval](eval/gemini-profile/QUALITY_RESULTS.md#production-history-positional-retrieval) |
+| production-history exact row | `google/gemini-3.6-flash` | text 3/30; pxpipe 3/30 | [positional retrieval](eval/gemini-profile/QUALITY_RESULTS.md#production-history-positional-retrieval) |
+
+The SWE-bench runner is Claude Code/Fable-specific; no other model has an ON/OFF
+run. Gemini's positional-retrieval sweep is directional evidence, not a general
+Lost-in-the-Middle result.
 
 ### Capacity / density (how many chars per vision-token?)
 
@@ -170,35 +213,29 @@ chars/vision-token ÷ 4 (prose text baseline). Not a model-quality score.
 
 | family | window | as text (@4 c/tok) | as pxpipe images | density | multiplier |
 |---|---:|---:|---:|---:|---:|
-| **`claude-fable-5[1m]`** (default) | 1M | ~4.0M | **~18.3M** | ~18.3 c/vt (px÷750) | **~4.6×** |
+| **`claude-fable-5[1m]`** (default) | 1M | ~4.0M | **~18.9M** | ~18.9 c/vt (exact 28px patches) | **~4.7×** |
+| **`google/gemini-3.6-flash`** | 1M | ~4.0M | **~20.1M** | ~20.1 c/vt (1,078 tok/page) | **~5.0×** |
+| **`claude-opus-5`** | 1M | ~4.0M | **~18.9M** | ~18.9 c/vt (resolves to Fable 5’s geometry) | **~4.7×** |
 
 Regenerate: `npx tsx scripts/gen-context-chart.ts` · chart PNG
 [`docs/assets/context-window-chars.png`](docs/assets/context-window-chars.png).
 
-SWE-bench run totals, receipts, and caveats:
-[`eval/swe-bench/`](eval/swe-bench/) ·
-[`eval/swe-bench-pro/`](eval/swe-bench-pro/) ·
-[`eval/needle-haystack/`](eval/needle-haystack/) ·
-[`eval/gist-recall/`](eval/gist-recall/) ·
-[`eval/grok-density/`](eval/grok-density/) · analysis in
-[`FINDINGS.md`](FINDINGS.md). (GSM8K scored 96% imaged, but it's in training
-data — memorized answers survive misreads — so we lead with the novel-number
-evals.)
+The older GSM8K result is omitted because its training-data contamination can
+hide image misreads; the linked arithmetic evaluations use novel numbers.
 
 ## How it works
 
 ```
-model id ──► render profile ──► wrap/reflow bulk context ──► PNG[] + exact-token factsheet
+model id ──► render profile ──► wrap/reflow bulk context ──► PNG[] + bounded factsheet
 ```
 
-The proxy intercepts `/v1/messages`, rewrites eligible bulk into image
-blocks, splices them back cache-friendly (static prefix preserved, prompt
-caching keeps working), and forwards. Every enabled model gets the same
-production stack: 5×8 Spleen pages, in-image IDS block, and adjacent text
-factsheet. Claude uses 1568×728 pages; GPT 5.6 Sol uses 768px-wide portrait
-strips; opt-in Grok 4.5 uses 152-col strips (maxH 512). A
-per-request estimator uses that same resolved profile, so sparse prose stays
-text. Events log to `~/.pxpipe/events.jsonl`.
+The proxy handles Anthropic Messages, OpenAI Responses and Chat Completions,
+and Google `generateContent` requests. It rewrites eligible bulk into image
+blocks and forwards the provider-native request, or bridges Anthropic Messages
+to a configured OpenAI-compatible provider. On Anthropic, the static prefix and
+prompt-cache boundary are preserved. Model-specific profiles control geometry,
+factsheets, history retention, and profitability, so sparse prose stays text.
+Events log to `~/.pxpipe/events.jsonl`.
 
 ## Library use (no proxy)
 
@@ -224,9 +261,13 @@ pnpm install && pnpm test
 pnpm run build                # regenerates dist/
 ```
 
+Windows is community-supported: primary development targets macOS/Linux, and Windows-specific fixes rely on contributor PRs (thanks @makoribrian).
+
 ## FAQ
 
-**Is the headline end-to-end, or only on the requests you touched?**
+<details>
+<summary><strong>Is the headline end-to-end, or only on the requests you touched?</strong></summary>
+
 End-to-end, the whole bill. Most compression tools report savings only on
 the input slice they touched, which flatters the number. The end-to-end
 denominator is *every* production request: the small ones pxpipe correctly
@@ -236,7 +277,11 @@ proxy never compresses). On a 13,709-request snapshot that was 59% ($100 →
 runs higher (~72–74%) and is quoted separately, never as the headline. The
 exact figure is workload-dependent — reproduce it on your own log.
 
-**How is the math measured?**
+</details>
+
+<details>
+<summary><strong>How is the math measured?</strong></summary>
+
 Both sides of the same request, at the same moment. For every `/v1/messages`
 POST the proxy fires a free `count_tokens` probe on the original uncompressed
 body (the counterfactual) in parallel with the real forward, and reads
@@ -248,24 +293,32 @@ identically to both sides, so the caching discount cancels and cannot be
 double-counted as "savings". Re-derive it yourself from the events log: the
 formula and field names are documented in `src/core/baseline.ts`.
 
-**What does it actually compress?**
+</details>
+
+<details>
+<summary><strong>What does it actually compress?</strong></summary>
+
 Three kinds of *input* blocks, each behind a profitability gate:
 
 1. large `tool_result` bodies (file reads, command output, logs) above
    ~6k chars of token-dense content
 2. older collapsed history: turns behind the live tail get re-rendered as
    image pages, recent turns always stay text
-3. the static system prompt + tool docs slab
+3. the static cacheable system prompt + tool docs slab; appended non-cacheable
+   system blocks stay live text so host custom instructions keep system-level
+   salience
 
 Everything else passes through byte-identical: your messages, recent turns,
 the model's output (it is the response, the proxy never touches it), sparse
-prose, and anything too small to win. Fable 5 is the only built-in default. Sol,
-Opus, GPT 5.5, and Grok remain explicit opt-ins. Sol's production 5×8 run
-scored 98/100 arithmetic, 79/93 completed gist, 18/18 state, 4/15 completed
-never-stated confabulations, and 0/15 dense hex. Grok scored 82/100
-arithmetic, 83/98 gist, and 13/18 state.
+prose, and anything too small to win. Model defaults and detailed results are
+listed under [model support](#the-honest-part) and
+[benchmarks](#benchmark-results-and-receipts).
 
-**Has it ever failed for real, outside the benchmarks?**
+</details>
+
+<details>
+<summary><strong>Has it ever failed for real, outside the benchmarks?</strong></summary>
+
 Yes, once in weeks of daily use: the model recalled a person's name from
 imaged chat history and got it confidently wrong. No error, just a
 plausible wrong name. That is the documented failure mode: exact strings
@@ -276,51 +329,70 @@ This failure mode is measured, not anecdotal:
 exact-string recall off rendered pages (blind reads top out at 63% on dense
 identifiers, with every miss predicted by a glyph-confusability matrix) and
 documents the shipped mitigations — page geometry clamped to the API's
-resample cap so billed pixels actually reach the vision encoder, and exact
+resample cap so billed pixels actually reach the vision encoder, and selected
 identifiers (SHAs, numbers) riding alongside as text.
 
-**Why are misses silent confabulations instead of read errors?**
+</details>
+
+<details>
+<summary><strong>Why are misses silent confabulations instead of read errors?</strong></summary>
+
 Because model vision is not OCR: the image becomes patch embeddings, never
 discrete characters, so there is no per-glyph confidence to fail loudly
 on. When pixels underdetermine a glyph, the language prior fills the gap
 with something plausible. Mechanism and receipts:
 [docs/NOT-OCR.md](docs/NOT-OCR.md).
 
-**Didn't DeepSeek-OCR show this doesn't hold up in practice?**
+</details>
+
+<details>
+<summary><strong>Didn't DeepSeek-OCR show this doesn't hold up in practice?</strong></summary>
+
 No: it proved the channel works, using an encoder/decoder pair trained for
 the job. The skepticism dates from October 2025, when no stock production
 model could read dense renders; that changed with Fable 5 (0/15 verbatim
-hex on Opus 4.8 vs 13/15 on Fable 5, same pages). Timeline and per-model
+hex on the prior Opus generation vs 13/15 on Fable 5, same pages). Timeline and per-model
 numbers: [docs/NOT-OCR.md](docs/NOT-OCR.md).
 
-**Why does the README read like an AI wrote it?**
+</details>
+
+<details>
+<summary><strong>Why does the README read like an AI wrote it?</strong></summary>
+
 Because one did. Most of this repo's commits — the code and the docs — were
 authored by Opus/Fable agent sessions running behind pxpipe itself, reading
 their own collapsed history as image pages while they worked.
 
-## Limitations
+</details>
 
-- Lossy (above); verbatim recall from images is unreliable.
+## Additional limitations
+
 - PNG encoding adds latency to large requests before they leave.
 - ASCII/Latin-1 well tested; CJK works but conservatively.
 
-## Roadmap
+## Research status
 
-Rendering research is parked as of 2026-07-05: verbatim misreads are
-capacity-bound, not trick-bound, so no font/color/layout change fixes
-exact-string recall at profitable density. The why is in
-[docs/NOT-OCR.md](docs/NOT-OCR.md); the dated analysis and the three
-documented follow-up threads (glyph-style A/B with banked pages, runtime
-canary + re-fetch, surrogate-reader pre-flight) are in
-[FINDINGS.md](FINDINGS.md), 2026-07-05 entry. Watch condition: re-run the
-resolution sweep per model release; readable density moved ~4x in glyph
-area from Opus 4.8 to Fable 5, and a model that reads production cells
-near 100% means savings rise for free.
+Current as of 2026-07-22. The broad conclusion from the 2026-07-05 pass still
+holds: exact recall is limited by pixels per glyph, so rendering changes do not
+eliminate errors at profitable density. A later glyph-style A/B did find a
+useful local improvement: repainting `K` reduced Fable's H/K error from 47.2%
+to 18.7% without changing geometry or token cost. It shipped, but exact control
+IDs did not improve. See [FINDINGS.md](FINDINGS.md), 2026-07-19 entry.
 
-Still open, unchanged: whether imaged bulk stretches effective context (~2x
-the real content in the same 1M window), and whether a smaller active
-context improves long-task accuracy. Hypotheses, not claims — they ship as
-numbers with an n or they get cut.
+Runtime canary + text re-fetch and surrogate-reader pre-flight remain untested.
+The release tripwire remains a resolution sweep for each new model; a model
+that reads production cells near 100% would permit higher density.
+
+Effective-context benefits remain unproven. The production-history results
+above are directional evidence, not a general context-window or long-task
+accuracy claim.
+
+## Community projects
+
+Third-party projects listed here are not maintained or supported by pxpipe.
+
+- [pxpipe-windows](https://github.com/DivyeshPatro/pxpipe-windows) — Windows support for `pxpipe mitm` (node-forge CA in place of openssl, Task Scheduler autostart).
+- [OmniGlyph](https://github.com/diegosouzapw/OmniGlyph) — A community-maintained project derived from pxpipe and used by [OmniRoute](https://github.com/diegosouzapw/OmniRoute).
 
 ## License
 

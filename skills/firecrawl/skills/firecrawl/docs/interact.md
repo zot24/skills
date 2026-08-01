@@ -1,114 +1,186 @@
-> Source: https://docs.firecrawl.dev/features/interact.md
+> Source: https://docs.firecrawl.dev/features/interact
+
+
 
 > ## Documentation Index
-> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+>
+> Fetch the complete documentation index at: <a href="/llms.txt" tabindex="-1">/llms.txt</a>
+>
 > Use this file to discover all available pages before exploring further.
+
+
+<a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
+
+
+<a href="https://firecrawl.dev" class="select-none" style="-webkit-touch-callout:none"><span class="sr-only">Firecrawl Docs home page</span><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=c45b3c967c19a39190e76fe8e9c2ed5a" class="nav-logo w-auto relative object-contain shrink-0 block dark:hidden h-6" alt="light logo" /><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo-dark.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=3fee4abe033bd3c26e8ad92043a91c17" class="nav-logo w-auto relative object-contain shrink-0 hidden dark:block h-6" alt="dark logo" /></a>
+
+
+Search...
+
+
+Core Endpoints
+
+
+Interact after scraping
+
+
+<a href="/introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] hover:text-primary dark:hover:text-primary-light text-gray-800 dark:text-gray-200" data-active="true" aria-current="location">Documentation</a>
+
+
+<a href="/sdks/overview" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">SDKs</a>
+
+
+<a href="https://www.firecrawl.dev/app" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200" target="_blank" rel="noreferrer">Integrations</a>
+
+
+<a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
+
+
+<a href="/ai-onboarding" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">Build with AI</a>
+
+
+Core Endpoints
+
 
 # Interact after scraping
 
-> Interact with a page you fetched by prompting or running code.
 
-Scrape a page to get clean data, then call `/interact` to start taking actions in that page: click buttons, fill forms, extract dynamic content, or navigate deeper. Just describe what you want, or write code if you need full control.
-
-
-    Describe what action you want to take in the page
+Interact with a page you fetched by prompting or running code.
 
 
-    Interact via code execution securely with playwright, agent-browser
+<a href="" class="firecrawl-cta-btn-primary firecrawl-cta-btn-inline"><span data-as="p">Start the interview</span></a>
 
 
-    Watch or interact with the browser in real time via embeddable stream
+## 
 
 
-## How It Works
+<a href="#choose-the-right-interaction-model" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-1. **Scrape** a URL with `POST /v2/scrape`. The response includes a `scrapeId` in `data.metadata.scrapeId`. If you want persistent browser state, pass `profile` on this request.
-2. **Interact** by calling `POST /v2/scrape/{scrapeId}/interact` with a `prompt` or with playwright `code`. Do not pass `profile` here; the interact session inherits the profile from the scrape job.
-3. **Stop** the session with `DELETE /v2/scrape/{scrapeId}/interact` when you're done. For writable profiles, changes are saved when the session stops.
 
-## Quick Start
+| Need                                                      | Use                                           | Canonical docs                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|-----------------------------------------------------------|-----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Start a standalone browser session without scraping first | Browser Sandbox / standalone Interact session | <a href="/features/browser" class="link">Browser Sandbox</a>, <a href="/api-reference/endpoint/browser-create" class="link">Create Browser Session</a>, <a href="/api-reference/endpoint/browser-execute" class="link">Execute Browser Code</a>, <a href="/api-reference/endpoint/browser-list" class="link">List Browser Sessions</a>, <a href="/api-reference/endpoint/browser-delete" class="link">Delete Browser Session</a> |
+| Continue from a scrape result using `scrapeId`            | Interact after scraping                       | <a href="/api-reference/endpoint/scrape-execute" class="link">Execute Interact</a>, <a href="/api-reference/endpoint/scrape-browser-delete" class="link">Stop Interact</a>                                                                                                                                                                                                                                                       |
 
-Scrape a page, interact with it, and stop the session:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+## AI prompts
 
-  app = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
 
-  # 1. Scrape Amazon's homepage
-  result = app.scrape("https://www.amazon.com", formats=["markdown"])
-  scrape_id = result.metadata.scrape_id
+## Code execution
 
-  # 2. Interact — search for a product and get its price
-  app.interact(scrape_id, prompt="Search for iPhone 16 Pro Max")
-  response = app.interact(scrape_id, prompt="Click on the first result and tell me the price")
-  print(response.output)
 
-  # 3. Stop the session
-  app.stop_interaction(scrape_id)
-  ```
+## Live view
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
 
-  const app = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: 'fc-YOUR-API-KEY',
-  });
+## 
 
-  // 1. Scrape Amazon's homepage
-  const result = await app.scrape('https://www.amazon.com', { formats: ['markdown'] });
-  const scrapeId = result.metadata?.scrapeId;
 
-  // 2. Interact — search for a product and get its price
-  await app.interact(scrapeId, { prompt: 'Search for iPhone 16 Pro Max' });
-  const response = await app.interact(scrapeId, { prompt: 'Click on the first result and tell me the price' });
-  console.log(response.output);
+<a href="#how-it-works" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-  // 3. Stop the session
-  await app.stopInteraction(scrapeId);
-  ```
 
-  ```bash cURL
-  # 1. Scrape Amazon's homepage
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{"url": "https://www.amazon.com", "formats": ["markdown"]}')
+1.  **Scrape** a URL with `POST /v2/scrape`. The response includes a `scrapeId` in `data.metadata.scrapeId`. If you want persistent browser state, pass `profile` on this request.
+2.  **Interact** by calling `POST /v2/scrape/{scrapeId}/interact` with a `prompt` or with playwright `code`. Do not pass `profile` here; the interact session inherits the profile from the scrape job.
+3.  **Stop** the session with `DELETE /v2/scrape/{scrapeId}/interact` when you’re done. For writable profiles, changes are saved when the session stops.
 
-  SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+## 
 
-  # 2. Interact — search for a product and get its price
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Content-Type: application/json" \
-    -d '{"prompt": "Search for iPhone 16 Pro Max"}'
 
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Content-Type: application/json" \
-    -d '{"prompt": "Click on the first result and tell me the price"}'
+<a href="#quick-start" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-  # 3. Stop the session
-  curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
-  ```
 
-  ```bash CLI
-  # 1. Scrape Amazon's homepage (scrape ID is saved automatically)
-  firecrawl scrape https://www.amazon.com
+Python
 
-  # 2. Interact — search for a product and get its price
-  firecrawl interact "Search for iPhone 16 Pro Max"
-  firecrawl interact "Click on the first result and tell me the price"
 
-  # 3. Stop the session
-  firecrawl interact stop
-  ```
-</CodeGroup>
+Node
 
-```json Response theme={null}
+
+cURL
+
+
+CLI
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+app = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
+
+# 1. Scrape Amazon's homepage
+result = app.scrape("https://www.amazon.com", formats=["markdown"])
+scrape_id = result.metadata.scrape_id
+
+# 2. Interact — search for a product and get its price
+app.interact(scrape_id, prompt="Search for iPhone 16 Pro Max")
+response = app.interact(scrape_id, prompt="Click on the first result and tell me the price")
+print(response.output)
+
+# 3. Stop the session
+app.stop_interaction(scrape_id)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const app = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: 'fc-YOUR-API-KEY',
+});
+
+// 1. Scrape Amazon's homepage
+const result = await app.scrape('https://www.amazon.com', { formats: ['markdown'] });
+const scrapeId = result.metadata?.scrapeId;
+
+// 2. Interact — search for a product and get its price
+await app.interact(scrapeId, { prompt: 'Search for iPhone 16 Pro Max' });
+const response = await app.interact(scrapeId, { prompt: 'Click on the first result and tell me the price' });
+console.log(response.output);
+
+// 3. Stop the session
+await app.stopInteraction(scrapeId);
+```
+
+
+``` shiki
+# 1. Scrape Amazon's homepage
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://www.amazon.com", "formats": ["markdown"]}')
+
+SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+
+# 2. Interact — search for a product and get its price
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Search for iPhone 16 Pro Max"}'
+
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Click on the first result and tell me the price"}'
+
+# 3. Stop the session
+curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
+```
+
+
+``` shiki
+# 1. Scrape Amazon's homepage (scrape ID is saved automatically)
+firecrawl scrape https://www.amazon.com
+
+# 2. Interact — search for a product and get its price
+firecrawl interact "Search for iPhone 16 Pro Max"
+firecrawl interact "Click on the first result and tell me the price"
+
+# 3. Stop the session
+firecrawl interact stop
+```
+
+
+``` shiki
 {
   "success": true,
   "cdpUrl": "wss://browser.firecrawl.dev/...",
@@ -120,40 +192,55 @@ Scrape a page, interact with it, and stop the session:
 }
 ```
 
-## Interact via prompting
 
-The simplest way to interact with a page. Describe what you want in natural language and it will click, type, scroll, and extract data automatically.
+## 
 
-<CodeGroup>
-  ```python Python
-  response = app.interact(scrape_id, prompt="What are the customer reviews saying about battery life?")
-  print(response.output)
-  ```
 
-  ```js Node
-  const response = await app.interact(scrapeId, {
-    prompt: 'What are the customer reviews saying about battery life?',
-  });
-  console.log(response.output);
-  ```
+<a href="#interact-via-prompting" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "prompt": "What are the customer reviews saying about battery life?"
-    }'
-  ```
 
-  ```bash CLI
-  firecrawl interact "What are the customer reviews saying about battery life?"
-  ```
-</CodeGroup>
+Python
 
-The response includes an `output` field with the agent's answer:
 
-```json Response theme={null}
+Node
+
+
+cURL
+
+
+CLI
+
+
+``` shiki
+response = app.interact(scrape_id, prompt="What are the customer reviews saying about battery life?")
+print(response.output)
+```
+
+
+``` shiki
+const response = await app.interact(scrapeId, {
+  prompt: 'What are the customer reviews saying about battery life?',
+});
+console.log(response.output);
+```
+
+
+``` shiki
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "What are the customer reviews saying about battery life?"
+  }'
+```
+
+
+``` shiki
+firecrawl interact "What are the customer reviews saying about battery life?"
+```
+
+
+``` shiki
 {
   "success": true,
   "cdpUrl": "wss://browser.firecrawl.dev/...",
@@ -168,218 +255,269 @@ The response includes an `output` field with the agent's answer:
 }
 ```
 
-### Keep Prompts Small and Focused
 
-Prompts work best when each one is a **single, clear task**. Instead of asking the agent to do a complex multi-step workflow in one shot, break it into separate interact calls. Each call reuses the same browser session, so state carries over between them.
+### 
 
-## Running Code
 
-For full control, you can execute code directly in the browser sandbox. The `page` variable (a Playwright Page object) is available in Node.js and Python. Bash mode has [agent-browser](https://github.com/vercel-labs/agent-browser) pre-installed. You can also take screenshots within the session: use `(await page.screenshot()).toString("base64")` in Node.js, `await page.screenshot(path="/tmp/screenshot.png")` in Python, or `agent-browser screenshot` in Bash.
+<a href="#keep-prompts-small-and-focused" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-### Node.js (Playwright)
 
-The default language. Write Playwright code directly. `page` is already connected to the browser.
+## 
 
-<CodeGroup>
-  ```python Python
-  response = app.interact(scrape_id, code="""
-  // Click a button and wait for navigation
-  await page.click('#next-page');
-  await page.waitForLoadState('networkidle');
 
-  // Extract content from the new page
-  const title = await page.title();
-  const content = await page.$eval('.article-body', el => el.textContent);
-  JSON.stringify({ title, content });
-  """)
-  print(response.result)
-  ```
+<a href="#running-code" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-  ```js Node
-  const response = await app.interact(scrapeId, {
-    code: `
-      // Click a button and wait for navigation
-      await page.click('#next-page');
-      await page.waitForLoadState('networkidle');
 
-      // Extract content from the new page
-      const title = await page.title();
-      const content = await page.$eval('.article-body', el => el.textContent);
-      JSON.stringify({ title, content });
-    `,
-  });
-  console.log(response.result);
-  ```
+### 
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "code": "await page.click(\"#next-page\"); await page.waitForLoadState(\"networkidle\"); const title = await page.title(); JSON.stringify({ title });",
-      "language": "node",
-      "timeout": 30
-    }'
-  ```
 
-  ```bash CLI
-  # Uses the last scrape automatically
-  firecrawl interact -c "
+<a href="#node-js-playwright" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+CLI
+
+
+``` shiki
+response = app.interact(scrape_id, code="""
+// Click a button and wait for navigation
+await page.click('#next-page');
+await page.waitForLoadState('networkidle');
+
+// Extract content from the new page
+const title = await page.title();
+const content = await page.$eval('.article-body', el => el.textContent);
+JSON.stringify({ title, content });
+""")
+print(response.result)
+```
+
+
+``` shiki
+const response = await app.interact(scrapeId, {
+  code: `
+    // Click a button and wait for navigation
     await page.click('#next-page');
     await page.waitForLoadState('networkidle');
+
+    // Extract content from the new page
     const title = await page.title();
-    const content = await page.\$eval('.article-body', el => el.textContent);
+    const content = await page.$eval('.article-body', el => el.textContent);
     JSON.stringify({ title, content });
-  "
-
-  # Or pass a scrape ID explicitly
-  # firecrawl interact <scrape-id> -c "await page.title()"
-  ```
-</CodeGroup>
-
-### Python
-
-Set `language` to `"python"` for Playwright's Python API.
-
-<CodeGroup>
-  ```python Python
-  response = app.interact(
-      scrape_id,
-      code="""
-  import json
-
-  await page.click('#load-more')
-  await page.wait_for_load_state('networkidle')
-
-  items = await page.query_selector_all('.item')
-  data = []
-  for item in items:
-      text = await item.text_content()
-      data.append(text.strip())
-
-  print(json.dumps(data))
-  """,
-      language="python",
-  )
-  print(response.stdout)
-  ```
-
-  ```js Node
-  const response = await app.interact(scrapeId, {
-    code: `
-  import json
-
-  await page.click('#load-more')
-  await page.wait_for_load_state('networkidle')
-
-  items = await page.query_selector_all('.item')
-  data = []
-  for item in items:
-      text = await item.text_content()
-      data.append(text.strip())
-
-  print(json.dumps(data))
   `,
-    language: 'python',
-  });
-  console.log(response.stdout);
-  ```
+});
+console.log(response.result);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "code": "import json\nawait page.click(\"#load-more\")\nawait page.wait_for_load_state(\"networkidle\")\nitems = await page.query_selector_all(\".item\")\ndata = [await i.text_content() for i in items]\nprint(json.dumps(data))",
-      "language": "python"
-    }'
-  ```
 
-  ```bash CLI
-  firecrawl interact --python -c "
-  import json
-  await page.click('#load-more')
-  await page.wait_for_load_state('networkidle')
-  items = await page.query_selector_all('.item')
-  data = [await i.text_content() for i in items]
-  print(json.dumps(data))
-  "
-  ```
-</CodeGroup>
+``` shiki
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "code": "await page.click(\"#next-page\"); await page.waitForLoadState(\"networkidle\"); const title = await page.title(); JSON.stringify({ title });",
+    "language": "node",
+    "timeout": 30
+  }'
+```
 
-### Bash (agent-browser)
 
-[agent-browser](https://github.com/vercel-labs/agent-browser) is a CLI pre-installed in the sandbox with 60+ commands. It provides an accessibility tree with element refs (`@e1`, `@e2`, ...), which is ideal for LLM-driven automation.
+``` shiki
+# Uses the last scrape automatically
+firecrawl interact -c "
+  await page.click('#next-page');
+  await page.waitForLoadState('networkidle');
+  const title = await page.title();
+  const content = await page.\$eval('.article-body', el => el.textContent);
+  JSON.stringify({ title, content });
+"
 
-<CodeGroup>
-  ```python Python
-  # Take a snapshot to see interactive elements
-  snapshot = app.interact(
-      scrape_id,
-      code="agent-browser snapshot -i",
-      language="bash",
-  )
-  print(snapshot.stdout)
-  # Output:
-  # [document]
-  #   @e1 [input type="text"] "Search..."
-  #   @e2 [button] "Search"
-  #   @e3 [link] "About"
+# Or pass a scrape ID explicitly
+# firecrawl interact <scrape-id> -c "await page.title()"
+```
 
-  # Interact with elements using @refs
-  app.interact(
-      scrape_id,
-      code='agent-browser fill @e1 "firecrawl" && agent-browser click @e2',
-      language="bash",
-  )
-  ```
 
-  ```js Node
-  // Take a snapshot to see interactive elements
-  const snapshot = await app.interact(scrapeId, {
-    code: 'agent-browser snapshot -i',
-    language: 'bash',
-  });
-  console.log(snapshot.stdout);
-  // Output:
-  // [document]
-  //   @e1 [input type="text"] "Search..."
-  //   @e2 [button] "Search"
-  //   @e3 [link] "About"
+### 
 
-  // Interact with elements using @refs
-  await app.interact(scrapeId, {
-    code: 'agent-browser fill @e1 "firecrawl" && agent-browser click @e2',
-    language: 'bash',
-  });
-  ```
 
-  ```bash cURL
-  # Take a snapshot to see interactive elements
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Content-Type: application/json" \
-    -d '{"code": "agent-browser snapshot -i", "language": "bash"}'
+<a href="#python" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-  # Interact with elements using @refs
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Content-Type: application/json" \
-    -d '{"code": "agent-browser fill @e1 \"firecrawl\" && agent-browser click @e2", "language": "bash"}'
-  ```
 
-  ```bash CLI
-  # Take a snapshot to see interactive elements
-  firecrawl interact --bash -c "agent-browser snapshot -i"
+Python
 
-  # Interact with elements using @refs
-  firecrawl interact --bash -c 'agent-browser fill @e1 "firecrawl" && agent-browser click @e2'
-  ```
-</CodeGroup>
 
-Common agent-browser commands:
+Node
+
+
+cURL
+
+
+CLI
+
+
+``` shiki
+response = app.interact(
+    scrape_id,
+    code="""
+import json
+
+await page.click('#load-more')
+await page.wait_for_load_state('networkidle')
+
+items = await page.query_selector_all('.item')
+data = []
+for item in items:
+    text = await item.text_content()
+    data.append(text.strip())
+
+print(json.dumps(data))
+""",
+    language="python",
+)
+print(response.stdout)
+```
+
+
+``` shiki
+const response = await app.interact(scrapeId, {
+  code: `
+import json
+
+await page.click('#load-more')
+await page.wait_for_load_state('networkidle')
+
+items = await page.query_selector_all('.item')
+data = []
+for item in items:
+    text = await item.text_content()
+    data.append(text.strip())
+
+print(json.dumps(data))
+`,
+  language: 'python',
+});
+console.log(response.stdout);
+```
+
+
+``` shiki
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "code": "import json\nawait page.click(\"#load-more\")\nawait page.wait_for_load_state(\"networkidle\")\nitems = await page.query_selector_all(\".item\")\ndata = [await i.text_content() for i in items]\nprint(json.dumps(data))",
+    "language": "python"
+  }'
+```
+
+
+``` shiki
+firecrawl interact --python -c "
+import json
+await page.click('#load-more')
+await page.wait_for_load_state('networkidle')
+items = await page.query_selector_all('.item')
+data = [await i.text_content() for i in items]
+print(json.dumps(data))
+"
+```
+
+
+### 
+
+
+<a href="#bash-agent-browser" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+CLI
+
+
+``` shiki
+# Take a snapshot to see interactive elements
+snapshot = app.interact(
+    scrape_id,
+    code="agent-browser snapshot -i",
+    language="bash",
+)
+print(snapshot.stdout)
+# Output:
+# [document]
+#   @e1 [input type="text"] "Search..."
+#   @e2 [button] "Search"
+#   @e3 [link] "About"
+
+# Interact with elements using @refs
+app.interact(
+    scrape_id,
+    code='agent-browser fill @e1 "firecrawl" && agent-browser click @e2',
+    language="bash",
+)
+```
+
+
+``` shiki
+// Take a snapshot to see interactive elements
+const snapshot = await app.interact(scrapeId, {
+  code: 'agent-browser snapshot -i',
+  language: 'bash',
+});
+console.log(snapshot.stdout);
+// Output:
+// [document]
+//   @e1 [input type="text"] "Search..."
+//   @e2 [button] "Search"
+//   @e3 [link] "About"
+
+// Interact with elements using @refs
+await app.interact(scrapeId, {
+  code: 'agent-browser fill @e1 "firecrawl" && agent-browser click @e2',
+  language: 'bash',
+});
+```
+
+
+``` shiki
+# Take a snapshot to see interactive elements
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{"code": "agent-browser snapshot -i", "language": "bash"}'
+
+# Interact with elements using @refs
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{"code": "agent-browser fill @e1 \"firecrawl\" && agent-browser click @e2", "language": "bash"}'
+```
+
+
+``` shiki
+# Take a snapshot to see interactive elements
+firecrawl interact --bash -c "agent-browser snapshot -i"
+
+# Interact with elements using @refs
+firecrawl interact --bash -c 'agent-browser fill @e1 "firecrawl" && agent-browser click @e2'
+```
+
 
 | Command                   | Description                               |
-| ------------------------- | ----------------------------------------- |
+|---------------------------|-------------------------------------------|
 | `snapshot`                | Full accessibility tree with element refs |
 | `snapshot -i`             | Interactive elements only                 |
 | `click @e1`               | Click element by ref                      |
@@ -395,11 +533,14 @@ Common agent-browser commands:
 | `screenshot`              | Take a screenshot of the current page     |
 | `eval "js code"`          | Run JavaScript in page                    |
 
-## Live View
 
-Every interact response returns a `liveViewUrl` that you can embed to watch the browser in real time. Useful for debugging, demos, or building browser-powered UIs.
+## 
 
-```json Response theme={null}
+
+<a href="#live-view" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 {
   "success": true,
   "cdpUrl": "wss://browser.firecrawl.dev/...",
@@ -411,23 +552,30 @@ Every interact response returns a `liveViewUrl` that you can embed to watch the 
 }
 ```
 
-```html theme={null}
+
+``` shiki
 <iframe src="LIVE_VIEW_URL" width="100%" height="600" />
 ```
 
-### Interactive Live View
 
-The response also includes an `interactiveLiveViewUrl`. Unlike the standard live view which is view-only, the interactive live view allows users to click, type, and interact with the browser session directly through the embedded stream. This is useful for building user-facing browser UIs, such as login flows or guided workflows where end users need to control the browser.
+### 
 
-```html theme={null}
+
+<a href="#interactive-live-view" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 <iframe src="INTERACTIVE_LIVE_VIEW_URL" width="100%" height="600" />
 ```
 
-### CDP URL
 
-Every interact response also returns a `cdpUrl`: the raw Chrome DevTools Protocol (CDP) WebSocket URL for the browser session. Use it to connect to the live session directly from Playwright, Puppeteer, or any CDP client and drive the browser with your own code.
+### 
 
-```js theme={null}
+
+<a href="#cdp-url" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 import { chromium } from "playwright";
 
 const browser = await chromium.connectOverCDP(cdpUrl);
@@ -435,86 +583,115 @@ const context = browser.contexts()[0];
 const page = context.pages()[0];
 ```
 
-## Session Lifecycle
 
-### Creation
-
-The first `POST /v2/scrape/{scrapeId}/interact` continues the scrape session and starts the interaction.
-
-### Reuse
-
-Subsequent interact calls on the same `scrapeId` reuse the existing session. The browser stays open and maintains its state between calls, so you can chain multiple interactions:
-
-<CodeGroup>
-  ```python Python
-  # First call: click a tab
-  app.interact(scrape_id, code="await page.click('#tab-2')")
-
-  # Second call: the tab is still selected, extract its content
-  result = app.interact(scrape_id, code="await page.$eval('#tab-2-content', el => el.textContent)")
-  print(result.result)
-  ```
-
-  ```js Node
-  // First call: click a tab
-  await app.interact(scrapeId, { code: "await page.click('#tab-2')" });
-
-  // Second call: the tab is still selected, extract its content
-  const result = await app.interact(scrapeId, {
-    code: "await page.$eval('#tab-2-content', el => el.textContent)",
-  });
-  console.log(result.result);
-  ```
-
-  ```bash CLI
-  # First call: click a tab
-  firecrawl interact -c "await page.click('#tab-2')"
-
-  # Second call: the tab is still selected, extract its content
-  firecrawl interact -c "await page.\$eval('#tab-2-content', el => el.textContent)"
-  ```
-</CodeGroup>
-
-### Cleanup
-
-Stop the session explicitly when done:
-
-<CodeGroup>
-  ```python Python
-  app.stop_interaction(scrape_id)
-  ```
-
-  ```js Node
-  await app.stopInteraction(scrapeId);
-  ```
-
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
-  ```
-
-  ```bash CLI
-  # Stops the last scrape session
-  firecrawl interact stop
-
-  # Or stop a specific session by ID
-  # firecrawl interact stop <scrape-id>
-  ```
-</CodeGroup>
-
-Sessions also expire automatically based on TTL (default: 10 minutes) or inactivity timeout (default: 5 minutes).
+## 
 
 
-  Always stop sessions when you're done to avoid unnecessary billing. Credits are prorated by the second.
+<a href="#session-lifecycle" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-## Persistent Profiles with Scrape + Interact
+### 
 
-By default, each scrape + interact session starts with a clean browser. With `profile`, you can save and reuse browser state (cookies, localStorage, sessions) across scrapes. This is useful for staying logged in and preserving preferences.
 
-Pass the `profile` object to the initial `POST /v2/scrape` request. Do not pass `profile` to `POST /v2/scrape/{scrapeId}/interact`; the interact session reuses the scrape job's browser session and profile settings. Stop the interact session with `DELETE /v2/scrape/{scrapeId}/interact` so writable profile changes can be saved.
+<a href="#creation" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-```bash cURL theme={null}
+
+### 
+
+
+<a href="#reuse" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+CLI
+
+
+``` shiki
+# First call: click a tab
+app.interact(scrape_id, code="await page.click('#tab-2')")
+
+# Second call: the tab is still selected, extract its content
+result = app.interact(scrape_id, code="await page.$eval('#tab-2-content', el => el.textContent)")
+print(result.result)
+```
+
+
+``` shiki
+// First call: click a tab
+await app.interact(scrapeId, { code: "await page.click('#tab-2')" });
+
+// Second call: the tab is still selected, extract its content
+const result = await app.interact(scrapeId, {
+  code: "await page.$eval('#tab-2-content', el => el.textContent)",
+});
+console.log(result.result);
+```
+
+
+``` shiki
+# First call: click a tab
+firecrawl interact -c "await page.click('#tab-2')"
+
+# Second call: the tab is still selected, extract its content
+firecrawl interact -c "await page.\$eval('#tab-2-content', el => el.textContent)"
+```
+
+
+### 
+
+
+<a href="#cleanup" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+CLI
+
+
+``` shiki
+app.stop_interaction(scrape_id)
+```
+
+
+``` shiki
+await app.stopInteraction(scrapeId);
+```
+
+
+``` shiki
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
+```
+
+
+``` shiki
+# Stops the last scrape session
+firecrawl interact stop
+
+# Or stop a specific session by ID
+# firecrawl interact stop <scrape-id>
+```
+
+
+## 
+
+
+<a href="#persistent-profiles-with-scrape-+-interact" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
 curl -X POST "https://api.firecrawl.dev/v2/scrape" \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
   -H "Content-Type: application/json" \
@@ -538,145 +715,156 @@ curl -X DELETE "https://api.firecrawl.dev/v2/scrape/SCRAPE_ID/interact" \
   -H "Authorization: Bearer fc-YOUR_API_KEY"
 ```
 
-The profile lifecycle is:
 
-1. Create the scrape with `profile.name` and `saveChanges: true`.
-2. Run prompt or code interactions against the returned `scrapeId`.
-3. Stop the session to save cookies, localStorage, and other browser state.
-4. Start a later scrape with the same `profile.name`. Use `saveChanges: false` when you only want to read existing state without writing changes back.
+1.  Create the scrape with `profile.name` and `saveChanges: true`.
+2.  Run prompt or code interactions against the returned `scrapeId`.
+3.  Stop the session to save cookies, localStorage, and other browser state.
+4.  Start a later scrape with the same `profile.name`. Use `saveChanges: false` when you only want to read existing state without writing changes back.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
 
-  app = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+Python
 
-  # Session 1: Scrape with a profile, log in, then stop (state is saved)
-  result = app.scrape(
-      "https://app.example.com/login",
-      formats=["markdown"],
-      profile={"name": "my-app", "save_changes": True},
-  )
-  scrape_id = result.metadata.scrape_id
 
-  app.interact(scrape_id, prompt="Fill in user@example.com and password, then click Login")
-  app.stop_interaction(scrape_id)
+Node
 
-  # Session 2: Scrape with the same profile in read-only mode - already logged in
-  result = app.scrape(
-      "https://app.example.com/dashboard",
-      formats=["markdown"],
-      profile={"name": "my-app", "save_changes": False},
-  )
-  scrape_id = result.metadata.scrape_id
 
-  response = app.interact(scrape_id, prompt="Extract the dashboard data")
-  print(response.output)
-  app.stop_interaction(scrape_id)
-  ```
+cURL
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
 
-  const app = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: 'fc-YOUR-API-KEY',
-  });
+CLI
 
-  // Session 1: Scrape with a profile, log in, then stop (state is saved)
-  const result1 = await app.scrape('https://app.example.com/login', {
-    formats: ['markdown'],
-    profile: { name: 'my-app', saveChanges: true },
-  });
-  const scrapeId1 = result1.metadata?.scrapeId;
 
-  await app.interact(scrapeId1, { prompt: 'Fill in user@example.com and password, then click Login' });
-  await app.stopInteraction(scrapeId1);
+``` shiki
+from firecrawl import Firecrawl
 
-  // Session 2: Scrape with the same profile in read-only mode - already logged in
-  const result2 = await app.scrape('https://app.example.com/dashboard', {
-    formats: ['markdown'],
-    profile: { name: 'my-app', saveChanges: false },
-  });
-  const scrapeId2 = result2.metadata?.scrapeId;
+app = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  const response = await app.interact(scrapeId2, { prompt: 'Extract the dashboard data' });
-  console.log(response.output);
-  await app.stopInteraction(scrapeId2);
-  ```
+# Session 1: Scrape with a profile, log in, then stop (state is saved)
+result = app.scrape(
+    "https://app.example.com/login",
+    formats=["markdown"],
+    profile={"name": "my-app", "save_changes": True},
+)
+scrape_id = result.metadata.scrape_id
 
-  ```bash cURL
-  # Session 1: Scrape with a profile
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://app.example.com/login",
-      "formats": ["markdown"],
-      "profile": { "name": "my-app", "saveChanges": true }
-    }')
+app.interact(scrape_id, prompt="Fill in user@example.com and password, then click Login")
+app.stop_interaction(scrape_id)
 
-  SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+# Session 2: Scrape with the same profile in read-only mode - already logged in
+result = app.scrape(
+    "https://app.example.com/dashboard",
+    formats=["markdown"],
+    profile={"name": "my-app", "save_changes": False},
+)
+scrape_id = result.metadata.scrape_id
 
-  # Log in via interact
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Content-Type: application/json" \
-    -d '{"prompt": "Fill in user@example.com and password, then click Login"}'
+response = app.interact(scrape_id, prompt="Extract the dashboard data")
+print(response.output)
+app.stop_interaction(scrape_id)
+```
 
-  # Stop - state is saved to the profile
-  curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
 
-  # Session 2: Scrape again with the same profile in read-only mode - already logged in
-  RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://app.example.com/dashboard",
-      "formats": ["markdown"],
-      "profile": { "name": "my-app", "saveChanges": false }
-    }')
+``` shiki
+import { Firecrawl } from 'firecrawl';
 
-  SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+const app = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: 'fc-YOUR-API-KEY',
+});
 
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-    -H "Content-Type: application/json" \
-    -d '{"prompt": "Extract the dashboard data"}'
-  ```
+// Session 1: Scrape with a profile, log in, then stop (state is saved)
+const result1 = await app.scrape('https://app.example.com/login', {
+  formats: ['markdown'],
+  profile: { name: 'my-app', saveChanges: true },
+});
+const scrapeId1 = result1.metadata?.scrapeId;
 
-  ```bash CLI
-  # Session 1: Scrape with a profile, log in, then stop (state is saved)
-  firecrawl scrape https://app.example.com/login --profile my-app
-  firecrawl interact "Fill in user@example.com and password, then click Login"
-  firecrawl interact stop
+await app.interact(scrapeId1, { prompt: 'Fill in user@example.com and password, then click Login' });
+await app.stopInteraction(scrapeId1);
 
-  # Session 2: Scrape with the same profile — already logged in
-  firecrawl scrape https://app.example.com/dashboard --profile my-app
-  firecrawl interact "Extract the dashboard data"
-  firecrawl interact stop
+// Session 2: Scrape with the same profile in read-only mode - already logged in
+const result2 = await app.scrape('https://app.example.com/dashboard', {
+  formats: ['markdown'],
+  profile: { name: 'my-app', saveChanges: false },
+});
+const scrapeId2 = result2.metadata?.scrapeId;
 
-  # Read-only: load profile state without saving changes back
-  firecrawl scrape https://app.example.com/dashboard --profile my-app --no-save-changes
-  ```
-</CodeGroup>
+const response = await app.interact(scrapeId2, { prompt: 'Extract the dashboard data' });
+console.log(response.output);
+await app.stopInteraction(scrapeId2);
+```
+
+
+``` shiki
+# Session 1: Scrape with a profile
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://app.example.com/login",
+    "formats": ["markdown"],
+    "profile": { "name": "my-app", "saveChanges": true }
+  }')
+
+SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+
+# Log in via interact
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Fill in user@example.com and password, then click Login"}'
+
+# Stop - state is saved to the profile
+curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
+
+# Session 2: Scrape again with the same profile in read-only mode - already logged in
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://app.example.com/dashboard",
+    "formats": ["markdown"],
+    "profile": { "name": "my-app", "saveChanges": false }
+  }')
+
+SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Extract the dashboard data"}'
+```
+
+
+``` shiki
+# Session 1: Scrape with a profile, log in, then stop (state is saved)
+firecrawl scrape https://app.example.com/login --profile my-app
+firecrawl interact "Fill in user@example.com and password, then click Login"
+firecrawl interact stop
+
+# Session 2: Scrape with the same profile — already logged in
+firecrawl scrape https://app.example.com/dashboard --profile my-app
+firecrawl interact "Extract the dashboard data"
+firecrawl interact stop
+
+# Read-only: load profile state without saving changes back
+firecrawl scrape https://app.example.com/dashboard --profile my-app --no-save-changes
+```
+
 
 | Parameter     | Default | Description                                                                                                                                                                                               |
-| ------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|---------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `name`        | None    | A name for the persistent profile. Scrapes with the same name share browser state.                                                                                                                        |
 | `saveChanges` | `true`  | When `true`, browser state is saved back to the profile when the interact session stops. Set to `false` to load existing data without writing, which is useful when you need multiple concurrent readers. |
 
 
-  Only one session can save to a profile at a time. If another session is already saving, you'll get a `409` error. You can still open the same profile with `saveChanges: false`, or try again later.
+### 
 
 
-The browser state is saved when the interact session is stopped. Always stop the session when you're done so the profile can be reused.
+<a href="#validate-persistence" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-### Validate Persistence
 
-You can test persistence without relying on a real login flow by writing a localStorage value in one session, stopping it, then reading the value in a second session with the same profile.
-
-```bash cURL theme={null}
+``` shiki
 # Session 1: write browser state and save it
 RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
@@ -722,62 +910,91 @@ curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY"
 ```
 
-The second interact response should show `localStorage` as `"saved"` and `cookie` as `true`.
+
+## 
 
 
-  Profiles created through the API may not appear in Dashboard > Interact > Profiles yet. The dashboard currently does not provide a complete inventory of API-created persistent profiles.
+<a href="#when-to-use-what" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-## When to Use What
-
-| Use Case                         | Recommended                | Why                             |
-| -------------------------------- | -------------------------- | ------------------------------- |
-| Web search                       | [Search](/features/search) | Dedicated search endpoint       |
-| Get clean content from a URL     | [Scrape](/features/scrape) | One API call, no session needed |
-| Click, type, navigate on a page  | **Interact** (prompt)      | Just describe it in English     |
-| Extract data behind interactions | **Interact** (prompt)      | No selectors needed             |
-| Complex scraping logic           | **Interact** (code)        | Full Playwright control         |
+| Use Case                         | Recommended                                        | Why                             |
+|----------------------------------|----------------------------------------------------|---------------------------------|
+| Web search                       | <a href="/features/search" class="link">Search</a> | Dedicated search endpoint       |
+| Get clean content from a URL     | <a href="/features/scrape" class="link">Scrape</a> | One API call, no session needed |
+| Click, type, navigate on a page  | **Interact** (prompt)                              | Just describe it in English     |
+| Extract data behind interactions | **Interact** (prompt)                              | No selectors needed             |
+| Complex scraping logic           | **Interact** (code)                                | Full Playwright control         |
 
 
-  **Interact vs Browser Sandbox**: Interact is built on the same infrastructure as [Browser Sandbox](/features/browser) but provides a better interface for the most common pattern: scrape a page, then go deeper. Browser Sandbox is better when you need a standalone browser session that isn't tied to a specific scrape.
+## 
 
 
-## Pricing
+<a href="#pricing" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-* **Code-only** (no `prompt`): 2 credits per session minute
-* **With AI prompts**: 7 credits per session minute
-* **Scrape**: billed separately (1 credit per scrape, plus any format-specific costs)
 
-## API Reference
+- **Code-only** (no `prompt`): 2 credits per session minute
+- **With AI prompts**: 7 credits per session minute
+- **Scrape**: billed separately (1 credit per scrape, plus any format-specific costs)
 
-* [Execute Interact](/api-reference/endpoint/scrape-execute): `POST /v2/scrape/{scrapeId}/interact`
-* [Stop Interact](/api-reference/endpoint/scrape-browser-delete): `DELETE /v2/scrape/{scrapeId}/interact`
+## 
 
-### Request Body (POST)
+
+<a href="#api-reference" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="/api-reference/endpoint/scrape-execute" class="link">Execute Interact</a>: `POST /v2/scrape/{scrapeId}/interact`
+- <a href="/api-reference/endpoint/scrape-browser-delete" class="link">Stop Interact</a>: `DELETE /v2/scrape/{scrapeId}/interact`
+
+### 
+
+
+<a href="#request-body-post" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 | Field      | Type     | Default  | Description                                                                                          |
-| ---------- | -------- | -------- | ---------------------------------------------------------------------------------------------------- |
+|------------|----------|----------|------------------------------------------------------------------------------------------------------|
 | `prompt`   | `string` | None     | Natural language task for the AI agent. Required if `code` is not set. Max 10,000 characters.        |
 | `code`     | `string` | None     | Code to execute (Node.js, Python, or Bash). Required if `prompt` is not set. Max 100,000 characters. |
 | `language` | `string` | `"node"` | `"node"`, `"python"`, or `"bash"`. Only used with `code`.                                            |
 | `timeout`  | `number` | `30`     | Timeout in seconds (1–300).                                                                          |
 | `origin`   | `string` | None     | Caller identifier for activity tracking.                                                             |
 
-### Response
+
+### 
+
+
+<a href="#response" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
 
 | Field                    | Description                                                                                                                                           |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `success`                | `true` if the execution completed without errors                                                                                                      |
 | `cdpUrl`                 | Raw Chrome DevTools Protocol (CDP) WebSocket URL for the browser session. Connect directly with Playwright, Puppeteer, or any CDP client              |
 | `liveViewUrl`            | Read-only live view URL for the browser session                                                                                                       |
 | `interactiveLiveViewUrl` | Interactive live view URL (viewers can control the browser)                                                                                           |
-| `output`                 | The agent's natural language answer to your prompt. Only present when using `prompt`.                                                                 |
+| `output`                 | The agent’s natural language answer to your prompt. Only present when using `prompt`.                                                                 |
 | `stdout`                 | Standard output from the code execution                                                                                                               |
 | `result`                 | Raw return value from the sandbox. For `code`: the last expression evaluated. For `prompt`: the raw page snapshot the agent used to produce `output`. |
 | `stderr`                 | Standard error output                                                                                                                                 |
 | `exitCode`               | Exit code (`0` = success)                                                                                                                             |
 | `killed`                 | `true` if the execution was terminated due to timeout                                                                                                 |
 
-***
 
-Have feedback or need help? Email [help@firecrawl.com](mailto:help@firecrawl.com) or reach out on [Discord](https://discord.gg/firecrawl).
+------------------------------------------------------------------------
+
+
+<a href="https://github.com/firecrawl/firecrawl-docs/edit/main/features/interact.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/features/interact" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
+
+
+<a href="/features/monitoring-web-scale" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 min-w-0 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
+
+
+Entire web-scale monitoring
+
+
+<a href="/features/parse" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 min-w-0 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
+
+
+Parse
+
+

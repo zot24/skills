@@ -66,7 +66,7 @@ Honcho has four storage primitives that work together:
 * **Sessions** - Interaction threads between peers with temporal boundaries
 * **Messages** - Units of data that trigger reasoning (conversations, events, activity, documents, and more)
 
-When you write messages to Honcho, they're stored and processed in the background. Custom reasoning models perform formal logical [*reasoning*](/v3/documentation/core-concepts/reasoning) to generate conclusions about each peer. These conclusions are stored as [*representations*](/v3/documentation/core-concepts/representation) that you can query to provide rich context for your agents.
+When you write messages to Honcho, they're stored and processed in the background. Custom reasoning models perform formal logical [*reasoning*](/docs/v3/documentation/core-concepts/reasoning) to generate conclusions about each peer. These conclusions are stored as [*representations*](/docs/v3/documentation/core-concepts/representation) that you can query to provide rich context for your agents.
 
 <img src="https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/architecture.png?fit=max&auto=format&n=Pwe1D9IEDkAtnMKn&q=85&s=8be3896689d78b60a46c501529d32267" alt="Honcho Architecture" width="1203" height="845" data-path="images/architecture.png" />
 

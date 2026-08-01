@@ -28,12 +28,12 @@ const channel = chat.channel("slack:C123ABC");
 
 Channel IDs are derived from thread IDs by dropping the thread-specific part. By default, this is the first two colon-separated segments:
 
-| Platform    | Thread ID                                   | Channel ID            |
-| ----------- | ------------------------------------------- | --------------------- |
-| Slack       | `slack:C123ABC:1234567890.123456`           | `slack:C123ABC`       |
-| Teams       | `teams:{base64}:{base64}`                   | `teams:{base64}`      |
-| Google Chat | `gchat:spaces/ABC123:{base64}`              | `gchat:spaces/ABC123` |
-| Discord     | `discord:{guildId}:{channelId}/{messageId}` | `discord:{guildId}`   |
+| Platform    | Thread ID                                                                  | Channel ID                                                                 |
+| ----------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Slack       | `slack:C123ABC:1234567890.123456`                                          | `slack:C123ABC`                                                            |
+| Teams       | `teams:{base64(conversationId)}:{base64(serviceUrl)}[:{conversationType}]` | `teams:{base64(conversationId)}:{base64(serviceUrl)}[:{conversationType}]` |
+| Google Chat | `gchat:spaces/ABC123:{base64}`                                             | `gchat:spaces/ABC123`                                                      |
+| Discord     | `discord:{guildId}:{channelId}/{messageId}`                                | `discord:{guildId}`                                                        |
 
 ## messages
 
@@ -133,3 +133,12 @@ Get a platform-specific @-mention string.
 ```typescript
 await channel.post(`Hey ${channel.mentionUser(userId)}, check this out!`);
 ```
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

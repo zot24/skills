@@ -4,7 +4,7 @@
 
 > ## Documentation Index
 >
-> Fetch the complete documentation index at: [/llms.txt](/llms.txt)
+> Fetch the complete documentation index at: <a href="/llms.txt" tabindex="-1">/llms.txt</a>
 >
 > Use this file to discover all available pages before exploring further.
 
@@ -12,7 +12,7 @@
 <a href="#content-area" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:p-2 focus:text-sm focus:bg-background-light dark:focus:bg-background-dark focus:rounded-md focus:outline-primary dark:focus:outline-primary-light">Skip to main content</a>
 
 
-<a href="https://firecrawl.dev" class="select-none" data-state="closed" data-slot="context-menu-trigger" style="-webkit-touch-callout:none"><span class="sr-only">Firecrawl Docs home page</span><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=c45b3c967c19a39190e76fe8e9c2ed5a" class="nav-logo w-auto relative object-contain shrink-0 block dark:hidden h-6" alt="light logo" /><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo-dark.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=3fee4abe033bd3c26e8ad92043a91c17" class="nav-logo w-auto relative object-contain shrink-0 hidden dark:block h-6" alt="dark logo" /></a>
+<a href="https://firecrawl.dev" class="select-none" style="-webkit-touch-callout:none"><span class="sr-only">Firecrawl Docs home page</span><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=c45b3c967c19a39190e76fe8e9c2ed5a" class="nav-logo w-auto relative object-contain shrink-0 block dark:hidden h-6" alt="light logo" /><img src="https://mintcdn.com/firecrawl/iilnMwCX-8eR1yOO/logo/logo-dark.png?fit=max&amp;auto=format&amp;n=iilnMwCX-8eR1yOO&amp;q=85&amp;s=3fee4abe033bd3c26e8ad92043a91c17" class="nav-logo w-auto relative object-contain shrink-0 hidden dark:block h-6" alt="dark logo" /></a>
 
 
 Search...
@@ -45,13 +45,10 @@ Get Started
 # Introduction
 
 
-Copy page
+Search the web, scrape any page, and interact with it, all through one API.
 
 
-Search the web, scrape any page, and interact with it — all through one API.
-
-
-Copy page
+<a href="" class="firecrawl-cta-btn-primary firecrawl-cta-btn-inline"><span data-as="p">Start the interview</span></a>
 
 
 ## 
@@ -60,21 +57,33 @@ Copy page
 <a href="#get-started" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-## Get your API key
-
-
-## Try it in the Playground
-
-
 ### 
 
 
-<a href="#use-firecrawl-with-ai-agents-recommended" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#install-the-firecrawl-cli" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 ``` shiki
 npx -y firecrawl-cli@latest init --all --browser
 ```
+
+
+### 
+
+
+<a href="#set-up-with-an-agent" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#build-and-test-directly" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## Get your API key
+
+
+## Try it in the Playground
 
 
 ------------------------------------------------------------------------
@@ -139,6 +148,39 @@ results = firecrawl.search(
     limit=3,
 )
 print(results)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
+
+const results = await firecrawl.search('firecrawl', {
+  limit: 3,
+  scrapeOptions: { formats: ['markdown'] }
+});
+console.log(results);
+```
+
+
+``` shiki
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/search" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "firecrawl",
+    "limit": 3
+  }'
+```
+
+
+``` shiki
+# Search the web
+firecrawl search "firecrawl web scraping" --limit 5 --pretty
 ```
 
 
@@ -222,6 +264,40 @@ print(doc)
 ```
 
 
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
+
+// Scrape a website:
+const doc = await firecrawl.scrape('https://firecrawl.dev', { formats: ['markdown', 'html'] });
+console.log(doc);
+```
+
+
+``` shiki
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "formats": ["markdown", "html"]
+  }'
+```
+
+
+``` shiki
+# Scrape a URL and get markdown
+firecrawl https://firecrawl.dev
+
+# With multiple formats (returns JSON)
+firecrawl https://firecrawl.dev --format markdown,html,links --pretty
+```
+
+
 Response
 
 
@@ -292,6 +368,64 @@ app.stop_interaction(scrape_id)
 ```
 
 
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const app = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: 'fc-YOUR-API-KEY',
+});
+
+// 1. Scrape Amazon's homepage
+const result = await app.scrape('https://www.amazon.com', { formats: ['markdown'] });
+const scrapeId = result.metadata?.scrapeId;
+
+// 2. Interact — search for a product and get its price
+await app.interact(scrapeId, { prompt: 'Search for iPhone 16 Pro Max' });
+const response = await app.interact(scrapeId, { prompt: 'Click on the first result and tell me the price' });
+console.log(response.output);
+
+// 3. Stop the session
+await app.stopInteraction(scrapeId);
+```
+
+
+``` shiki
+# 1. Scrape Amazon's homepage
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://www.amazon.com", "formats": ["markdown"]}')
+
+SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+
+# 2. Interact — search for a product and get its price
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Search for iPhone 16 Pro Max"}'
+
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Click on the first result and tell me the price"}'
+
+# 3. Stop the session
+curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
+```
+
+
+``` shiki
+# 1. Scrape Amazon's homepage (scrape ID is saved automatically)
+firecrawl scrape https://www.amazon.com
+
+# 2. Interact — search for a product and get its price
+firecrawl interact "Search for iPhone 16 Pro Max"
+firecrawl interact "Click on the first result and tell me the price"
+
+# 3. Stop the session
+firecrawl interact stop
+```
+
+
 Response
 
 
@@ -357,7 +491,7 @@ Response
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/introduction.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/introduction" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
 
 
-<a href="/sdks/cli" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
+<a href="/sdks/cli" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 min-w-0 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
 
 
 Skills + CLI

@@ -47,3 +47,12 @@ Note that force-releasing a lock does not cancel the previous handler — it con
 ### Caching
 
 State adapters provide key-value storage with TTL for thread state (`thread.setState()`), message deduplication, and other internal caching.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

@@ -18,12 +18,12 @@ Start typing to search the documentation.
 # Deploy Agents on SST
 
 
-Last updated Jun 20, 2026 <a href="/docs/ecosystem/deploy/sst/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/deploy/sst/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
-[SST](https://sst.dev) is a TypeScript infrastructure-as-code framework for AWS. You describe your infrastructure as components in a single `sst.config.ts` file and deploy it with `sst deploy`. This guide deploys a Flue agent as a persistent container service, not as a Lambda function: Flue’s streaming responses use a long-lived `GET /runs/:runId` connection, and its default coordinator keeps run state in memory, so it must run as an always-on process. SST’s `sst.aws.Service` component runs exactly that — a container on AWS Fargate behind a load balancer.
+[SST](https://sst.dev) is a TypeScript infrastructure-as-code framework for AWS. You describe your infrastructure as components in a single `sst.config.ts` file and deploy it with `sst deploy`. This guide deploys a Flue agent as a persistent container service, not as a Lambda function: Flue’s streaming responses use long-lived conversation `GET` connections, and its default coordinator keeps state in memory, so it must run as an always-on process. SST’s `sst.aws.Service` component runs exactly that — a container on AWS Fargate behind a load balancer.
 
-This guide builds on the [Docker](/docs/ecosystem/deploy/docker/) guide. SST builds and pushes the image from that same `Dockerfile`; the steps below cover the SST-specific wiring — the service, secrets, and database. The `flue build --target node` output (`dist/server.mjs`, started with `node dist/server.mjs`) and its runtime contract are unchanged from the [Node.js](/docs/ecosystem/deploy/node/) guide.
+This guide builds on the [Docker](/docs/ecosystem/deploy/docker/) guide. SST builds and pushes the image from that same `Dockerfile`; the steps below cover the SST-specific wiring — the service, secrets, and database. The `vite build` output (`dist/server.mjs`, started with `node dist/server.mjs`) and its runtime contract are unchanged from the [Node.js](/docs/ecosystem/deploy/node/) guide.
 
 This guide was written against SST v3 (the Ion engine, the current major line). SST’s component API moves quickly; confirm field names against the current [SST docs](https://sst.dev/docs/) for your installed version.
 
@@ -31,31 +31,32 @@ This guide was written against SST v3 (the Ion engine, the current major line). 
 
 An `sst.aws.Service` runs on an `sst.aws.Cluster`, which needs an `sst.aws.Vpc`. The service builds the container from your `Dockerfile` and exposes it through a load balancer. Point the load balancer’s `forward` port at the port your Dockerfile’s server listens on — the [Docker](/docs/ecosystem/deploy/docker/) guide binds `PORT=8080`, so the examples below forward to `8080`.
 
-``` astro-code
-/// <reference path="./.sst/platform/config.d.ts" />
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="typescript"><code>/// &lt;reference path=&quot;./.sst/platform/config.d.ts&quot; /&gt;
 
 export default $config({
   app(input) {
     return {
-      name: 'flue-agents',
-      home: 'aws',
-      removal: input.stage === 'production' ? 'retain' : 'remove',
+      name: &#39;flue-agents&#39;,
+      home: &#39;aws&#39;,
+      removal: input.stage === &#39;production&#39; ? &#39;retain&#39; : &#39;remove&#39;,
     };
   },
   async run() {
-    const vpc = new sst.aws.Vpc('FlueVpc');
-    const cluster = new sst.aws.Cluster('FlueCluster', { vpc });
+    const vpc = new sst.aws.Vpc(&#39;FlueVpc&#39;);
+    const cluster = new sst.aws.Cluster(&#39;FlueCluster&#39;, { vpc });
 
-    new sst.aws.Service('Flue', {
+    new sst.aws.Service(&#39;Flue&#39;, {
       cluster,
-      image: { context: '.', dockerfile: 'Dockerfile' },
+      image: { context: &#39;.&#39;, dockerfile: &#39;Dockerfile&#39; },
       loadBalancer: {
-        rules: [{ listen: '80/http', forward: '8080/http' }],
+        rules: [{ listen: &#39;80/http&#39;, forward: &#39;8080/http&#39; }],
       },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>sst.config.ts</span></figcaption>
+</figure>
 
 `sst deploy` builds the image from the `Dockerfile`, pushes it to ECR, and provisions the cluster, service, and load balancer. The service URL is printed at the end of the deploy.
 
@@ -65,20 +66,21 @@ Flue’s built server reads its provider key and model from the environment at s
 
 Define the provider key as an `sst.Secret` so its value stays out of source, then interpolate it into `environment`:
 
-``` astro-code
-const apiKey = new sst.Secret('AnthropicApiKey');
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="typescript"><code>const apiKey = new sst.Secret(&#39;AnthropicApiKey&#39;);
 
-new sst.aws.Service('Flue', {
+new sst.aws.Service(&#39;Flue&#39;, {
   cluster,
-  image: { context: '.', dockerfile: 'Dockerfile' },
-  loadBalancer: { rules: [{ listen: '80/http', forward: '8080/http' }] },
+  image: { context: &#39;.&#39;, dockerfile: &#39;Dockerfile&#39; },
+  loadBalancer: { rules: [{ listen: &#39;80/http&#39;, forward: &#39;8080/http&#39; }] },
   link: [apiKey],
   environment: {
     ANTHROPIC_API_KEY: apiKey.value,
-    MODEL_SPECIFIER: 'anthropic/claude-sonnet-4-6',
+    MODEL_SPECIFIER: &#39;anthropic/claude-sonnet-4-6&#39;,
   },
-});
-```
+});</code></pre>
+<figcaption><span>sst.config.ts</span></figcaption>
+</figure>
 
 Use `OPENAI_API_KEY` (and an `openai/...` `MODEL_SPECIFIER`) instead for OpenAI, matching the env var your provider expects. Set the secret’s value once per stage with the CLI:
 
@@ -86,56 +88,68 @@ Use `OPENAI_API_KEY` (and an `openai/...` `MODEL_SPECIFIER`) instead for OpenAI,
 sst secret set AnthropicApiKey sk-...
 ```
 
-Linking the secret grants the service permission to read it; the `environment` entry is what surfaces it to the Flue process as `process.env.ANTHROPIC_API_KEY`. The `FLUE_MODE`, `FLUE_CLI_*`, and `FLUE_INTERNAL_CLI_IPC` variables are reserved by the Flue CLI — do not set them on the service.
+Linking the secret grants the service permission to read it; the `environment` entry is what surfaces it to the Flue process as `process.env.ANTHROPIC_API_KEY`.
 
 ## Persistence
 
-On a single Fargate task, Flue’s canonical conversations, attachments, and accepted submissions live in memory, so they are lost when the task restarts or redeploys. Back them with Postgres when state must survive replacement or workflow history must be available across tasks. Shared storage does not enable active-active agent execution: route each agent instance to one live task.
+On a single Fargate task, Flue’s canonical conversations, attachments, and accepted submissions live in memory, so they are lost when the task restarts or redeploys. Back them with Postgres when state must survive replacement or be available to replacement tasks. Shared storage does not enable active-active agent execution: route each agent instance to one live task.
 
 The `sst.aws.Postgres` component provisions an RDS Postgres instance in the VPC and exposes its connection parts as outputs (`host`, `port`, `username`, `password`, `database`). Construct a `DATABASE_URL` from those with `$interpolate` and pass it through `environment`:
 
-``` astro-code
-const db = new sst.aws.Postgres('FlueDb', { vpc });
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="typescript"><code>const db = new sst.aws.Postgres(&#39;FlueDb&#39;, { vpc });
 
-new sst.aws.Service('Flue', {
+new sst.aws.Service(&#39;Flue&#39;, {
   cluster,
-  image: { context: '.', dockerfile: 'Dockerfile' },
-  loadBalancer: { rules: [{ listen: '80/http', forward: '8080/http' }] },
+  image: { context: &#39;.&#39;, dockerfile: &#39;Dockerfile&#39; },
+  loadBalancer: { rules: [{ listen: &#39;80/http&#39;, forward: &#39;8080/http&#39; }] },
   link: [apiKey, db],
   environment: {
     ANTHROPIC_API_KEY: apiKey.value,
-    MODEL_SPECIFIER: 'anthropic/claude-sonnet-4-6',
+    MODEL_SPECIFIER: &#39;anthropic/claude-sonnet-4-6&#39;,
     DATABASE_URL: $interpolate`postgresql://${db.username}:${db.password}@${db.host}:${db.port}/${db.database}`,
   },
-});
-```
+});</code></pre>
+<figcaption><span>sst.config.ts</span></figcaption>
+</figure>
 
-Install `@flue/postgres` and add a `db.ts` that reads `DATABASE_URL`:
+Install `@flue/postgres` and add a `db.ts` that wraps your configured `pg` pool and reads `DATABASE_URL` — see [Postgres](/docs/ecosystem/databases/postgres/) for the full bring-your-own-driver runner:
 
-``` astro-code
-import { postgres } from '@flue/postgres';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="typescript"><code>import { postgres } from &#39;@flue/postgres&#39;;
+import { Pool } from &#39;pg&#39;;
 
-export default postgres(process.env.DATABASE_URL!);
-```
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-Flue discovers `db.ts` at build time and wires it into the generated server. The adapter handles schema creation, canonical conversation streams, immutable attachments, durable submission state, and workflow history. Because the Postgres instance and the service share the VPC, the service reaches the database over the private network. See [Database](/docs/guide/database/) for the adapter contract and other backends.
+export default postgres({
+  query: async (text, params) =&gt; (await pool.query(text, params)).rows,
+  transaction: async (fn) =&gt; {
+    /* one checked-out client per transaction; see the Postgres guide */
+  },
+  close: () =&gt; pool.end(),
+});</code></pre>
+<figcaption><span>src/db.ts (abridged)</span></figcaption>
+</figure>
+
+Flue discovers `db.ts` at build time and wires it into the generated server. The adapter handles schema creation, canonical conversation streams, immutable attachments, and durable submission state. Because the Postgres instance and the service share the VPC, the service reaches the database over the private network. See [Database](/docs/guide/database/) for the adapter contract and other backends.
 
 ## Health and streaming
 
 The load balancer health-checks the service before it routes traffic, and the check defaults to path `/`. Flue does not generate a `/health` route — define one in `app.ts`, or the load balancer will treat the default health-check path as unhealthy if `/` doesn’t return a `200`. Once that route exists, point the check at it through the service’s `loadBalancer.health` field, which is keyed by the forwarded `'port/protocol'`:
 
-``` astro-code
-loadBalancer: {
-  rules: [{ listen: '80/http', forward: '8080/http' }],
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="typescript"><code>loadBalancer: {
+  rules: [{ listen: &#39;80/http&#39;, forward: &#39;8080/http&#39; }],
   health: {
-    '8080/http': { path: '/health' },
+    &#39;8080/http&#39;: { path: &#39;/health&#39; },
   },
-},
-```
+},</code></pre>
+<figcaption><span>sst.config.ts</span></figcaption>
+</figure>
 
 `sst.aws.Service` also accepts a container-level `health` command (run by ECS, e.g. `{ command: ['CMD-SHELL', 'curl -f http://localhost:8080/health || exit 1'] }`) if you prefer an ECS health check.
 
-Exposed workflow runs hold long-lived `GET /runs/:runId` reads open (long-poll or SSE). Load balancer idle timeouts can cut these off; for slow workflows, retain the invocation’s `runId`, raise the idle timeout, and resume the run stream rather than relying on `?wait=result`. See [Workflow HTTP exports](/docs/api/workflow-api/#http-exports).
+Agent conversations hold long-lived `GET` reads open on the conversation URL (long-poll or SSE). Load balancer idle timeouts can cut these off; for slow work, retain the admission’s `streamUrl` and `offset`, raise the idle timeout, and resume the conversation stream rather than holding one blocking request. See the [Streaming Protocol](/docs/reference/streaming-protocol/).
 
 ## Going further
 
@@ -155,10 +169,10 @@ Current page: [Deploy Agents on SST](/docs/ecosystem/deploy/sst/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

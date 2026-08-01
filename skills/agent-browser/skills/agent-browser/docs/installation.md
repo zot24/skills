@@ -115,22 +115,24 @@ Detects your installation method (npm, Homebrew, or Cargo) and runs the appropri
 agent-browser doctor                     # Full diagnosis
 agent-browser doctor --offline --quick   # Local-only, fastest (~<1s)
 agent-browser doctor --fix               # Also run destructive repairs
+agent-browser doctor --webgpu            # Also run a live WebGPU render probe
 agent-browser doctor --json              # Structured output
 ```
 
 
 It checks:
 
-| Category    | What it checks                                                                                                                                                                  |
-|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Environment | CLI version, platform, home directory, state and socket dirs, free disk space                                                                                                   |
-| Chrome      | Chrome install path and version, cache dir, Puppeteer fallback, user-data dir and profile count, optional `lightpanda` engine                                                   |
-| Daemons     | Running daemons per session, stale `.sock` / `.pid` / `.version` / `.stream` files (auto-cleaned), version mismatch with the CLI, dashboard process liveness                    |
-| Config      | `~/.agent-browser/config.json`, `./agent-browser.json`, and any file at `AGENT_BROWSER_CONFIG` parse as valid JSON                                                              |
-| Security    | Encryption key env var or `~/.agent-browser/.encryption-key` (with 0600 permissions on unix), state file count and age vs `AGENT_BROWSER_STATE_EXPIRE_DAYS`, action policy file |
-| Providers   | Env vars for Browserless, Browserbase, Browser Use, Kernel, AgentCore (AWS creds), Appium (for `--provider ios`), and `AI_GATEWAY_API_KEY` for chat                             |
-| Network     | Reachability of the Chrome for Testing CDN, AI Gateway (if configured), and any currently selected provider endpoint (skipped under `--offline`)                                |
-| Launch test | Spawns a scratch session, launches headless Chrome, navigates to `about:blank`, then closes. Measures wall time (skipped under `--quick`)                                       |
+| Category     | What it checks                                                                                                                                                                                                                                         |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Environment  | CLI version, platform, home directory, state and socket dirs, free disk space                                                                                                                                                                          |
+| Chrome       | Chrome install path and version, cache dir, Puppeteer fallback, user-data dir and profile count, optional `lightpanda` engine                                                                                                                          |
+| Daemons      | Running daemons per session, stale `.sock` / `.pid` / `.version` / `.stream` files (auto-cleaned), version mismatch with the CLI, dashboard process liveness                                                                                           |
+| Config       | `~/.agent-browser/config.json`, `./agent-browser.json`, and any file at `AGENT_BROWSER_CONFIG` parse as valid JSON                                                                                                                                     |
+| Security     | Encryption key env var or `~/.agent-browser/.encryption-key` (with 0600 permissions on unix), state file count and age vs `AGENT_BROWSER_STATE_EXPIRE_DAYS`, action policy file                                                                        |
+| Providers    | Env vars for Browserless, Browserbase, Browser Use, Kernel, AgentCore (AWS creds), Appium (for `--provider ios`), and `AI_GATEWAY_API_KEY` for chat                                                                                                    |
+| Network      | Reachability of the Chrome for Testing CDN, AI Gateway (if configured), and any currently selected provider endpoint (skipped under `--offline`)                                                                                                       |
+| Launch test  | Spawns a scratch session, launches headless Chrome, navigates to `about:blank`, then closes. Measures wall time (skipped under `--quick`)                                                                                                              |
+| WebGPU probe | Opt-in via `--webgpu`: launches a scratch session with the [WebGPU preset](/webgpu), renders through a real WebGPU pass, and pixel-checks both an offscreen readback and a decoded screenshot. Add `--headed` to validate the headed/Xvfb capture path |
 
 Stale sidecar files are always cleaned. Destructive actions are opt-in via `--fix`:
 

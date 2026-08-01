@@ -40,7 +40,7 @@ gl-inet/docs4.x
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="../../community/" class="md-nav__link"><span class="md-ellipsis"> Community </span></a>
+<a href="../../downloads/" class="md-nav__link"><span class="md-ellipsis"> Downloads </span></a>
 
 
 # Network Mode<a href="#network-mode" class="headerlink" title="Permanent link">¶</a>
@@ -79,6 +79,14 @@ Models with Wi-Fi functionality usually support four network modes: Router, Acce
 
   After switching to Access Point mode, you will not be able to access the web admin panel using the original LAN IP address. Instead, you need to log in to the upstream router to find the IP address it has assigned to this AP, then use this IP address to access the web admin panel. If you do not have access to the upstream router, press and hold the reset button for 4 seconds to revert it to the default Router mode.
 
+  <div class="admonition tip">
+
+  Tip
+
+  When deploying multiple access points, AP placement, channel selection, coverage overlap, and transmit power can affect roaming and performance. See [Understanding Wi-Fi Coverage, Access Points, and Transmit Power](../../tutorials/understanding_wifi_coverage_access_points_and_transmit_power/) for deployment guidance.
+
+  </div>
+
   ------------------------------------------------------------------------
 
 - **Extender**: This mode is designed to extend the Wi-Fi coverage of an existing wireless network and eliminate signal dead zones in areas with poor connectivity.
@@ -116,6 +124,14 @@ GL-MT2500/GL-MT2500A does not support Access Point, Extender, or WDS modes, as i
 ------------------------------------------------------------------------
 
 Still have questions? Visit our <a href="https://forum.gl-inet.com" target="_blank">Community Forum</a> or <a href="https://www.gl-inet.com/contacts/" target="_blank">Contact us</a>.
+
+Was this page helpful?
+
+
+Thanks for your feedback!
+
+
+Thanks for your feedback! We will use it to improve this page.
 
 
 Back to top

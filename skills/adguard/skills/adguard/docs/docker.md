@@ -2,6 +2,11 @@
 
  #  AdGuard Home - Docker
 
+ >  [!WARNING]
+ >  This article is outdated.  See the [up-to-date version][kb-article] in our Knowledge Base.
+
+[kb-article]: https://adguard-dns.io/kb/adguard-home/docker/
+
 &nbsp;
 <p align="center">
     <img src="https://cdn.adguard.com/public/Adguard/Common/adguard_home.svg" width="300px" alt="AdGuard Home" />

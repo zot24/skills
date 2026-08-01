@@ -35,43 +35,43 @@
 #### Getting Started
 
 
-<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
 
 
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
 
 
-<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
 
 
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -92,6 +92,8 @@ Track cash flow alongside your investments. Categorize transactions, build budge
 
 
 ------------------------------------------------------------------------
+
+Last updated July 29, 2026
 
 
 Spending & Budgets, introduced in **3.5**, brings your day-to-day cash flow into Wealthfolio, right next to your investments. Categorize transactions automatically, set budgets that fit how you actually spend, tag life events, and read an insights page that explains where your money went.
@@ -143,7 +145,7 @@ You can start from **rule presets** (a library of common merchant/category rules
 
 ### AI suggestions
 
-For transactions no rule covers, the AI assistant can propose categories. Review the proposals, accept the ones that look right, and optionally turn them into reusable rules. See the <a href="/docs/guide/ai-assistant" class="font-medium underline underline-offset-4">AI Assistant</a> guide for setup.
+For transactions no rule covers, the AI assistant can propose categories. Review the proposals, accept the ones that look right, and optionally turn them into reusable rules. See the <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> guide for setup.
 
 
 A single transaction can hold more than one assignment. For example, it can be split across a spending category and a savings category, each with its own weight.
@@ -227,33 +229,33 @@ Almost every number is clickable:
 
 ## Related
 
-- <a href="/docs/guide/activities" class="font-medium underline underline-offset-4">Activities</a>: how transactions get into Wealthfolio.
-- <a href="/docs/guide/ai-assistant" class="font-medium underline underline-offset-4">AI Assistant</a>: AI category suggestions and assisted import.
-- <a href="/docs/guide/allocation-targets" class="font-medium underline underline-offset-4">Allocation Targets &amp; Rebalancing</a>: the other major 3.5 module.
+- <a href="/docs/guide/activities/" class="font-medium underline underline-offset-4">Activities</a>: how transactions get into Wealthfolio.
+- <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a>: AI category suggestions and assisted import.
+- <a href="/docs/guide/allocation-targets/" class="font-medium underline underline-offset-4">Allocation Targets &amp; Rebalancing</a>: the other major 3.5 module.
 
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/guide/accounts" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Accounts &amp; Portfolios</a> <a href="/docs/guide/allocation-targets" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Allocation Targets &amp; Rebalancing</a>
+<a href="/docs/guide/accounts/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Accounts &amp; Portfolios</a> <a href="/docs/guide/allocation-targets/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Allocation Targets &amp; Rebalancing</a>
 
 
 On This Page
 
-- <a href="#choosing-spending-accounts" class="inline-block no-underline text-sm text-muted-foreground">Choosing spending accounts</a>
-- <a href="#categorizing-transactions" class="inline-block no-underline text-sm text-muted-foreground">Categorizing transactions</a>
-  - <a href="#rules" class="inline-block no-underline text-sm text-muted-foreground">Rules</a>
-  - <a href="#ai-suggestions" class="inline-block no-underline text-sm text-muted-foreground">AI suggestions</a>
-- <a href="#budgets" class="inline-block no-underline text-sm text-muted-foreground">Budgets</a>
-  - <a href="#groups-and-targets" class="inline-block no-underline text-sm text-muted-foreground">Groups and targets</a>
-  - <a href="#monthly-periods-rollovers-and-copy" class="inline-block no-underline text-sm text-muted-foreground">Monthly periods, rollovers, and copy</a>
-- <a href="#life-events" class="inline-block no-underline text-sm text-muted-foreground">Life events</a>
-- <a href="#spending-insights" class="inline-block no-underline text-sm text-muted-foreground">Spending insights</a>
-  - <a href="#1--where-i-am" class="inline-block no-underline text-sm text-muted-foreground">1 · Where I am</a>
-  - <a href="#2--what-changed" class="inline-block no-underline text-sm text-muted-foreground">2 · What changed</a>
-  - <a href="#3--when--where" class="inline-block no-underline text-sm text-muted-foreground">3 · When &amp; where</a>
-  - <a href="#multi-currency" class="inline-block no-underline text-sm text-muted-foreground">Multi-currency</a>
-  - <a href="#drilling-in" class="inline-block no-underline text-sm text-muted-foreground">Drilling in</a>
-- <a href="#related" class="inline-block no-underline text-sm text-muted-foreground">Related</a>
+- <a href="#choosing-spending-accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Choosing spending accounts</a>
+- <a href="#categorizing-transactions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Categorizing transactions</a>
+  - <a href="#rules" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Rules</a>
+  - <a href="#ai-suggestions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">AI suggestions</a>
+- <a href="#budgets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Budgets</a>
+  - <a href="#groups-and-targets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Groups and targets</a>
+  - <a href="#monthly-periods-rollovers-and-copy" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Monthly periods, rollovers, and copy</a>
+- <a href="#life-events" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Life events</a>
+- <a href="#spending-insights" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Spending insights</a>
+  - <a href="#1--where-i-am" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · Where I am</a>
+  - <a href="#2--what-changed" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · What changed</a>
+  - <a href="#3--when--where" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · When &amp; where</a>
+  - <a href="#multi-currency" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Multi-currency</a>
+  - <a href="#drilling-in" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Drilling in</a>
+- <a href="#related" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Related</a>
 
 

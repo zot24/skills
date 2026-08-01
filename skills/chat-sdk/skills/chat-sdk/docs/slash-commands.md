@@ -143,3 +143,12 @@ For full option details (names, types), use `event.raw` to access the original D
 ### Registering commands with Discord
 
 You need to register slash commands with the [Discord API](https://discord.com/developers/docs/interactions/application-commands) before they appear in the client. The Chat SDK handles incoming commands but does not register them for you.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

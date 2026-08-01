@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # MongoDB
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/databases/mongodb/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/mongodb" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/mongodb</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/databases/mongodb/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/mongodb" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/mongodb</a>
 
 
 ## Quickstart
@@ -33,22 +33,21 @@ flue add database mongodb
 
 The MongoDB blueprint installs `@flue/mongodb` and the official `mongodb` driver, creates a complete `db.ts` runner in the project’s source-root, and follows the project’s existing secret convention for `MONGODB_URL` and `MONGODB_DATABASE`. The generated adapter connects the driver, selects the database, and passes a project-owned runner to `mongodb()`:
 
-``` astro-code
-import { mongodb, type MongoOperations, type MongoRunner } from '@flue/mongodb';
-import { MongoClient } from 'mongodb';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { mongodb, type MongoOperations, type MongoRunner } from &#39;@flue/mongodb&#39;;
+import { MongoClient } from &#39;mongodb&#39;;
 
 const client = new MongoClient(process.env.MONGODB_URL!);
 await client.connect();
 
 const db = client.db(process.env.MONGODB_DATABASE);
-const runner: MongoRunner = {
-  /* ... */
-};
+const runner: MongoRunner = {/* ... */};
 
-export default mongodb(runner);
-```
+export default mongodb(runner);</code></pre>
+<figcaption><span>src/db.ts (abridged)</span></figcaption>
+</figure>
 
-The blueprint does not modify the MongoDB deployment, which must support transactions. Flue discovers the adapter during a Node build and persists canonical agent conversations, immutable attachments, accepted submissions, workflow runs, and event streams so that state survives process replacement. Replicas may share durable state and workflow history, but each agent instance still requires one live Node owner. Application business data remains application-owned.
+The blueprint does not modify the MongoDB deployment, which must support transactions. Flue discovers the adapter during a Node build and persists canonical agent conversations, immutable attachments, and accepted submissions so that state survives process replacement. Replicas may share durable state, but each agent instance still requires one live Node owner. Application business data remains application-owned.
 
 ## Configure
 
@@ -57,7 +56,7 @@ The blueprint does not modify the MongoDB deployment, which must support transac
 | `MONGODB_URL`      | **Required** — MongoDB connection string, including credentials and TLS options when required.                        |
 | `MONGODB_DATABASE` | **Optional** — Explicit database name for Flue state; recommended when the URL does not select the intended database. |
 
-The official driver reads these values at runtime. Never commit credentials. For local development, `flue dev --env <file>` and `flue run --env <file>` load any `.env`-format file; use the deployment platform’s secret store in production.
+The official driver reads these values at runtime. Never commit credentials. For local development, `vite dev` loads the project `.env`, and `flue run --env <file>` loads any `.env`-format file; use the deployment platform’s secret store in production.
 
 `client.db(undefined)` can select the database from the connection string (or the driver’s default), but setting `MONGODB_DATABASE` explicitly avoids an ambiguous deployment. Prefer a dedicated database. If Flue must share one, pass a stable unique `collectionPrefix` to `mongodb()`; changing it selects a new namespace rather than moving existing data.
 
@@ -74,7 +73,7 @@ MongoDB transactions require one of these deployments:
 - a transaction-capable sharded cluster; or
 - a single-node replica set.
 
-A standalone `mongod` is unsupported. Migration checks the topology before creating collections or stamping the Flue schema version and fails when the deployment cannot run transactions.
+A standalone `mongod` is unsupported. Migration checks the topology before creating collections or stamping the Flue format version and fails when the deployment cannot run transactions.
 
 For local development, a single-node replica set is one MongoDB server started with replica-set mode enabled and initialized once as a one-member set. Follow the instructions for your existing installation or container setup; the production requirements and operational tradeoffs remain those of a replica set.
 
@@ -88,7 +87,7 @@ Keep the complete generated runner when adapting connection options. In particul
 
 ## Migrations and indexes
 
-Flue calls `migrate()` automatically at server startup. After validating the topology, migration creates collections with strict validators and creates the required indexes. It then inspects the actual validator, validation level and action, plus each required index’s key, uniqueness, partial filter, and collation before writing the schema version. Incompatible definitions and data written by a newer Flue version stop startup. There is no separate migration command.
+Flue calls `migrate()` automatically at server startup. After validating the topology, migration creates collections with strict validators and creates the required indexes. It then inspects the actual validator, validation level and action, plus each required index’s key, uniqueness, partial filter, and collation before writing the format version. Incompatible definitions and data written by a newer Flue version stop startup. There is no separate migration command.
 
 ## Large values and staged writes
 
@@ -98,13 +97,13 @@ Images keep Flue’s persisted chunk representation and use the same staged valu
 
 ## What gets stored
 
-MongoDB stores append-only canonical conversation records, immutable attachment payloads, accepted direct and dispatched submissions, recovery claims and leases, workflow runs and indexes, and persisted event streams. Sessions append for the agent-instance lifetime; there are no session generations, transcript snapshots, per-session deletion, or recursive session-tree cleanup.
+MongoDB stores append-only canonical conversation records, immutable attachment payloads, accepted direct and dispatched submissions, and recovery claims and leases. Sessions append for the agent-instance lifetime; there are no session generations, transcript snapshots, per-session deletion, or recursive session-tree cleanup.
 
 The adapter does not store sandbox files, external API side effects, credentials, or application-owned business records.
 
 ## Verify
 
-Build the Node target and start it with `MONGODB_URL` and `MONGODB_DATABASE` pointing at a throwaway supported deployment. Confirm migration creates the collections and indexes, create state, restart Flue, and verify the state reloads. Exercise a value larger than 4 MiB to cover multipart staging. A throwaway standalone `mongod` should fail migration before the schema version is stamped. Do not verify against a production database.
+Build the Node target and start it with `MONGODB_URL` and `MONGODB_DATABASE` pointing at a throwaway supported deployment. Confirm migration creates the collections and indexes, create state, restart Flue, and verify the state reloads. Exercise a value larger than 4 MiB to cover multipart staging. A throwaway standalone `mongod` should fail migration before the format version is stamped. Do not verify against a production database.
 
 
 ## Docs Navigation
@@ -113,10 +112,10 @@ Current page: [MongoDB](/docs/ecosystem/databases/mongodb/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

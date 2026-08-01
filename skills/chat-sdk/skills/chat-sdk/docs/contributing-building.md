@@ -725,3 +725,12 @@ import {
 ```
 
 Accept the key as an optional `encryptionKey` config field (auto-detected from a `*_ENCRYPTION_KEY` env var), encrypt on `setInstallation()`, decrypt on `getInstallation()`, and use `isEncryptedTokenData` to keep accepting plaintext records so operators can roll the key in without flushing existing installs. See `@chat-adapter/slack` and `@chat-adapter/linear` for reference implementations.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

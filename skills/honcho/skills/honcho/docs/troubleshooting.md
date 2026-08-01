@@ -28,7 +28,7 @@ LLM_ANTHROPIC_API_KEY=... # Used by dialectic medium/high/max, dream
 LLM_OPENAI_API_KEY=...    # Used by embeddings (when EMBED_MESSAGES=true)
 ```
 
-See the [LLM Setup](/v3/contributing/self-hosting#llm-setup) section for provider configuration. You can change which providers are used in your `.env` or `config.toml` (see [Configuration Guide](./configuration#llm-configuration)).
+See the [LLM Setup](/docs/v3/contributing/self-hosting#llm-setup) section for provider configuration. You can change which providers are used in your `.env` or `config.toml` (see [Configuration Guide](./configuration#llm-configuration)).
 
 ### Server won't start: "JWT\_SECRET must be set"
 
@@ -115,7 +115,7 @@ Messages are stored but no observations, summaries, or representations are being
    DERIVER_WORKERS=4
    ```
 
-5. **Representation Batch Max** — By default the deriver buffers representation work until a session has enough tokens for that representation, set via `DERIVER_REPRESENTATION_BATCH_MAX_TOKENS`. Sub-threshold tails become eligible after `DERIVER_REPRESENTATION_BATCH_MAX_AGE_SECONDS` (default 1800 seconds), so quiet sessions eventually flush without disabling batching globally. Set the age to `0` for legacy behavior where sub-threshold tails wait indefinitely. See [token batching](/v3/documentation/core-concepts/reasoning#token-batching) for more details
+5. **Representation Batching** — By default the deriver buffers representation work until a work unit has accumulated enough tokens, set via `DERIVER_REPRESENTATION_BATCH_WORK_UNIT_TARGET_TOKENS` (`0` disables the accumulation gate). A separate setting, `DERIVER_REPRESENTATION_BATCH_TARGET_INPUT_TOKENS`, caps the conversation window fed to each deriver LLM call when draining a claimed work unit. Sub-threshold tails become eligible after `DERIVER_REPRESENTATION_BATCH_MAX_AGE_SECONDS` (default 1800 seconds), so quiet sessions eventually flush without disabling batching globally. Set the age to `0` for legacy behavior where sub-threshold tails wait indefinitely. See [token batching](/docs/v3/documentation/core-concepts/reasoning#token-batching) for more details
 
 ## Alternative Provider Issues
 

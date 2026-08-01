@@ -362,6 +362,60 @@
       "target": "skills/1password-cli/docs/service-accounts/security.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/connect/",
+      "target": "skills/1password-cli/docs/cli/connect.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/connect/aws/",
+      "target": "skills/1password-cli/docs/connect/aws.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/connect/ci-cd/",
+      "target": "skills/1password-cli/docs/connect/ci-cd.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/connect/k8s/",
+      "target": "skills/1password-cli/docs/connect/k8s.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/connect/pulumi/",
+      "target": "skills/1password-cli/docs/connect/pulumi.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/connect/terraform/",
+      "target": "skills/1password-cli/docs/connect/terraform.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/service-accounts/pulumi/",
+      "target": "skills/1password-cli/docs/service-accounts/pulumi.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/service-accounts/setup-tutorial/",
+      "target": "skills/1password-cli/docs/service-accounts/setup-tutorial.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/service-accounts/terraform/",
+      "target": "skills/1password-cli/docs/service-accounts/terraform.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

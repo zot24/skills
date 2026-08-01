@@ -56,3 +56,12 @@ bot.onNewMention(async (thread, message) => {
 ```
 
 For anything beyond `message.subject`, access the platform's typed API client via [`bot.getAdapter("github").octokit`](/docs/api/chat#getadapter) or [`bot.getAdapter("linear").linearClient`](/docs/api/chat#getadapter).
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

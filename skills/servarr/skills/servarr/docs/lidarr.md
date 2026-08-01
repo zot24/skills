@@ -32,6 +32,8 @@
 # <a href="#troubleshooting" class="toc-anchor">¶</a> Troubleshooting
 
 - <a href="/lidarr/troubleshooting" class="is-internal-link is-valid-page"><em></em> General Troubleshooting</a>
+- <a href="/lidarr/metadata-troubleshooting" class="is-internal-link is-valid-page"><em></em> Metadata Troubleshooting <em>Missing or incorrect MusicBrainz data</em></a>
+- <a href="/lidarr/import-troubleshooting" class="is-internal-link is-valid-page"><em></em> Import Troubleshooting <em>Downloads that finish but don't import</em></a>
 - <a href="/vpn" class="is-internal-link is-valid-page"><em></em> VPN Guide <em>When and how to use VPNs properly</em></a>
 
 # <a href="#development" class="toc-anchor">¶</a> Development

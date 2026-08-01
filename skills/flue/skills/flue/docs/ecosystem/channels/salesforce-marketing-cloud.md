@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Salesforce Marketing Cloud
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/salesforce-marketing-cloud/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/salesforce" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/salesforce</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/salesforce-marketing-cloud/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/salesforce" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/salesforce</a>
 
 
 ## Quickstart
@@ -33,12 +33,12 @@ flue add channel salesforce-marketing-cloud
 
 The blueprint installs `@flue/salesforce`. It creates a narrow Fetch client at `<source-root>/salesforce-marketing-cloud-client.ts`, family identity helpers at `<source-root>/salesforce-marketing-cloud-email.ts`, and `<source-root>/channels/salesforce-marketing-cloud.ts` with named `channel` and project-owned `client` exports. It also creates or updates an agent to bind a callback lookup tool to validated email-event identity. This integration is for Marketing Cloud Engagement ENS, not generic Salesforce APIs.
 
-``` astro-code
-import { createSalesforceMarketingCloudChannel } from '@flue/salesforce';
-import { dispatch } from '@flue/runtime';
-import assistant from '../agents/assistant.ts';
-import { createSalesforceMarketingCloudClient } from '../salesforce-marketing-cloud-client.ts';
-import { emailEventInstanceId, emailRefFromEvent } from '../salesforce-marketing-cloud-email.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createSalesforceMarketingCloudChannel } from &#39;@flue/salesforce&#39;;
+import { dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
+import { createSalesforceMarketingCloudClient } from &#39;../salesforce-marketing-cloud-client.ts&#39;;
+import { emailEventInstanceId, emailRefFromEvent } from &#39;../salesforce-marketing-cloud-email.ts&#39;;
 
 const callbackId = process.env.SALESFORCE_MARKETING_CLOUD_CALLBACK_ID!;
 export const client = createSalesforceMarketingCloudClient({
@@ -52,23 +52,53 @@ export const channel = createSalesforceMarketingCloudChannel({
   async events({ c, batch }) {
     const usefulEvents = [];
     for (const event of batch.events) {
-      if (event.eventCategoryType !== 'EngagementEvents.EmailOpen') continue;
+      if (event.eventCategoryType !== &#39;EngagementEvents.EmailOpen&#39;) continue;
       const ref = emailRefFromEvent(callbackId, event);
-      if (!ref) return c.json({ error: 'Expected a supported email event.' }, 400);
+      if (!ref) return c.json({ error: &#39;Expected a supported email event.&#39; }, 400);
       usefulEvents.push({ event, ref });
     }
     for (const { event, ref } of usefulEvents) {
-      await dispatch(assistant, {
+      await dispatch(Assistant, {
         id: emailEventInstanceId(ref),
-        input: { type: `salesforce-marketing-cloud.${event.eventCategoryType}` },
+        message: {
+          kind: &#39;signal&#39;,
+          type: `salesforce-marketing-cloud.${event.eventCategoryType}`,
+          // `info` carries the family-specific event fields; there is no
+          // natural message text for an engagement event.
+          body: JSON.stringify(event.info ?? {}),
+          attributes: {
+            ...(typeof event.timestampUTC === &#39;string&#39; ? { occurredAt: event.timestampUTC } : {}),
+            callbackId: ref.callbackId,
+            mid: ref.mid,
+            eid: ref.eid,
+            jobId: ref.jobId,
+            batchId: ref.batchId,
+            listId: ref.listId,
+            subscriberId: ref.subscriberId,
+          },
+        },
       });
     }
     return c.body(null, 204);
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/salesforce-marketing-cloud.ts (abridged)</span></figcaption>
+</figure>
 
 Each valid selected email event in a signed batch is admitted to the agent bound to its callback and email tracking identity, then the batch receives `204`. The full generated module handles additional send and engagement families and lets the bound agent retrieve the configured callback. Callback registration, OAuth, token refresh, and the one-time `/ens-verify` call remain application-owned; Node and Cloudflare targets use the same Fetch and Web Crypto implementation.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as salesforceMarketingCloud } from &#39;./channels/salesforce-marketing-cloud.ts&#39;;
+
+app.route(&#39;/channels/salesforce-marketing-cloud&#39;, salesforceMarketingCloud.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/salesforce-marketing-cloud` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -91,49 +121,49 @@ The signature key and outbound access token are separate credentials. Callback r
 
 ## Channel module
 
-``` astro-code
-import {
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import {
   createSalesforceMarketingCloudChannel,
   type SalesforceMarketingCloudEvent,
-} from '@flue/salesforce';
-import { defineTool, dispatch } from '@flue/runtime';
-import assistant from '../agents/assistant.ts';
-import { createSalesforceMarketingCloudClient } from '../salesforce-marketing-cloud-client.ts';
+} from &#39;@flue/salesforce&#39;;
+import { defineTool, dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
+import { createSalesforceMarketingCloudClient } from &#39;../salesforce-marketing-cloud-client.ts&#39;;
 import {
   emailEventInstanceId,
   emailRefFromEvent,
   type SalesforceMarketingCloudEmailRef,
-} from '../salesforce-marketing-cloud-email.ts';
+} from &#39;../salesforce-marketing-cloud-email.ts&#39;;
 
-const callbackId = requiredEnv('SALESFORCE_MARKETING_CLOUD_CALLBACK_ID');
+const callbackId = requiredEnv(&#39;SALESFORCE_MARKETING_CLOUD_CALLBACK_ID&#39;);
 
 export const client = createSalesforceMarketingCloudClient({
-  restBaseUrl: requiredEnv('SALESFORCE_MARKETING_CLOUD_REST_BASE_URL'),
-  accessToken: requiredEnv('SALESFORCE_MARKETING_CLOUD_ACCESS_TOKEN'),
+  restBaseUrl: requiredEnv(&#39;SALESFORCE_MARKETING_CLOUD_REST_BASE_URL&#39;),
+  accessToken: requiredEnv(&#39;SALESFORCE_MARKETING_CLOUD_ACCESS_TOKEN&#39;),
 });
 
 export const channel = createSalesforceMarketingCloudChannel({
-  signatureKey: requiredEnv('SALESFORCE_MARKETING_CLOUD_SIGNATURE_KEY'),
+  signatureKey: requiredEnv(&#39;SALESFORCE_MARKETING_CLOUD_SIGNATURE_KEY&#39;),
   callbackId,
 
   // Path: /channels/salesforce-marketing-cloud/events
   async events({ c, batch }) {
-    const usefulEvents: Array<{
+    const usefulEvents: Array&lt;{
       event: SalesforceMarketingCloudEvent;
       ref: SalesforceMarketingCloudEmailRef;
-    }> = [];
+    }&gt; = [];
 
     for (const event of batch.events) {
       switch (event.eventCategoryType) {
-        case 'TransactionalSendEvents.EmailSent':
-        case 'TransactionalSendEvents.EmailNotSent':
-        case 'TransactionalSendEvents.EmailBounced':
-        case 'EngagementEvents.EmailOpen':
-        case 'EngagementEvents.EmailClick':
-        case 'EngagementEvents.EmailUnsubscribe': {
+        case &#39;TransactionalSendEvents.EmailSent&#39;:
+        case &#39;TransactionalSendEvents.EmailNotSent&#39;:
+        case &#39;TransactionalSendEvents.EmailBounced&#39;:
+        case &#39;EngagementEvents.EmailOpen&#39;:
+        case &#39;EngagementEvents.EmailClick&#39;:
+        case &#39;EngagementEvents.EmailUnsubscribe&#39;: {
           const ref = emailRefFromEvent(callbackId, event);
           if (!ref) {
-            return c.json({ error: 'Expected a supported Marketing Cloud email event.' }, 400);
+            return c.json({ error: &#39;Expected a supported Marketing Cloud email event.&#39; }, 400);
           }
           usefulEvents.push({ event, ref });
           break;
@@ -144,21 +174,24 @@ export const channel = createSalesforceMarketingCloudChannel({
     }
 
     for (const { event, ref } of usefulEvents) {
-      await dispatch(assistant, {
+      await dispatch(Assistant, {
         id: emailEventInstanceId(ref),
-        input: {
+        message: {
+          kind: &#39;signal&#39;,
           type: `salesforce-marketing-cloud.${event.eventCategoryType}`,
-          occurredAt: event.timestampUTC,
-          callbackId: ref.callbackId,
-          mid: ref.mid,
-          eid: ref.eid,
-          tracking: {
+          // `info` carries the family-specific event fields; there is no
+          // natural message text for an engagement event.
+          body: JSON.stringify(event.info ?? {}),
+          attributes: {
+            ...(typeof event.timestampUTC === &#39;string&#39; ? { occurredAt: event.timestampUTC } : {}),
+            callbackId: ref.callbackId,
+            mid: ref.mid,
+            eid: ref.eid,
             jobId: ref.jobId,
             batchId: ref.batchId,
             listId: ref.listId,
             subscriberId: ref.subscriberId,
           },
-          details: event.info ?? {},
         },
       });
     }
@@ -169,13 +202,13 @@ export const channel = createSalesforceMarketingCloudChannel({
 
 export function retrieveCallback(ref: SalesforceMarketingCloudEmailRef) {
   if (ref.callbackId !== callbackId) {
-    throw new TypeError('Expected the configured Marketing Cloud callback.');
+    throw new TypeError(&#39;Expected the configured Marketing Cloud callback.&#39;);
   }
   return defineTool({
-    name: 'retrieve_salesforce_marketing_cloud_callback',
-    description: 'Retrieve the Marketing Cloud ENS callback bound to this agent.',
+    name: &#39;retrieve_salesforce_marketing_cloud_callback&#39;,
+    description: &#39;Retrieve the Marketing Cloud ENS callback bound to this agent.&#39;,
     async run() {
-      return client.getCallback(callbackId);
+      return { output: await client.getCallback(callbackId) };
     },
   });
 }
@@ -184,8 +217,9 @@ function requiredEnv(name: string): string {
   const value = process.env[name];
   if (!value) throw new Error(`${name} is required.`);
   return value;
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/salesforce-marketing-cloud.ts</span></figcaption>
+</figure>
 
 The route is fixed at `POST /events`. The example groups selected email event families while leaving the ENS taxonomy open. `emailRefFromEvent()` is application code that validates `mid`, `eid`, and the selected families’ tracking fields under `event.composite`. It normalizes those values with `callbackId` into a local agent id and rejects malformed events.
 
@@ -195,8 +229,8 @@ ENS supplies no universal delivery or conversation id. This email identity is va
 
 Use a narrow Fetch client and validate the tenant origin before attaching a Bearer token:
 
-``` astro-code
-export function createSalesforceMarketingCloudClient({
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>export function createSalesforceMarketingCloudClient({
   restBaseUrl,
   accessToken,
   fetcher = globalThis.fetch,
@@ -207,20 +241,20 @@ export function createSalesforceMarketingCloudClient({
 }) {
   const origin = salesforceMarketingCloudRestOrigin(restBaseUrl);
   if (!accessToken || accessToken.trim() !== accessToken) {
-    throw new TypeError('Marketing Cloud access token must be non-empty and trimmed.');
+    throw new TypeError(&#39;Marketing Cloud access token must be non-empty and trimmed.&#39;);
   }
 
   return {
     async getCallback(callbackId: string) {
       if (!callbackId || callbackId.trim() !== callbackId) {
-        throw new TypeError('Marketing Cloud callback id must be non-empty and trimmed.');
+        throw new TypeError(&#39;Marketing Cloud callback id must be non-empty and trimmed.&#39;);
       }
       const response = await fetcher(
         `${origin}/platform/v1/ens-callbacks/${encodeURIComponent(callbackId)}`,
         {
-          method: 'GET',
+          method: &#39;GET&#39;,
           headers: {
-            accept: 'application/json',
+            accept: &#39;application/json&#39;,
             authorization: `Bearer ${accessToken}`,
           },
         },
@@ -229,8 +263,8 @@ export function createSalesforceMarketingCloudClient({
         throw new Error(`Marketing Cloud API request failed with ${response.status}.`);
       }
       const value: unknown = await response.json();
-      if (!value || typeof value !== 'object' || Array.isArray(value)) {
-        throw new TypeError('Marketing Cloud returned an invalid callback response.');
+      if (!value || typeof value !== &#39;object&#39; || Array.isArray(value)) {
+        throw new TypeError(&#39;Marketing Cloud returned an invalid callback response.&#39;);
       }
       return value;
     },
@@ -239,23 +273,24 @@ export function createSalesforceMarketingCloudClient({
 
 function salesforceMarketingCloudRestOrigin(value: string): string {
   const url = new URL(value);
-  const suffix = '.rest.marketingcloudapis.com';
+  const suffix = &#39;.rest.marketingcloudapis.com&#39;;
   if (
-    url.protocol !== 'https:' ||
-    url.username !== '' ||
-    url.password !== '' ||
-    url.port !== '' ||
-    url.pathname !== '/' ||
-    url.search !== '' ||
-    url.hash !== '' ||
+    url.protocol !== &#39;https:&#39; ||
+    url.username !== &#39;&#39; ||
+    url.password !== &#39;&#39; ||
+    url.port !== &#39;&#39; ||
+    url.pathname !== &#39;/&#39; ||
+    url.search !== &#39;&#39; ||
+    url.hash !== &#39;&#39; ||
     !url.hostname.endsWith(suffix) ||
     url.hostname.length === suffix.length
   ) {
-    throw new TypeError('Expected an HTTPS tenant origin ending in .rest.marketingcloudapis.com.');
+    throw new TypeError(&#39;Expected an HTTPS tenant origin ending in .rest.marketingcloudapis.com.&#39;);
   }
   return url.origin;
-}
-```
+}</code></pre>
+<figcaption><span>src/salesforce-marketing-cloud-client.ts</span></figcaption>
+</figure>
 
 Do not accept an arbitrary API origin, callback id, or token from a model or event. The tool shown above binds all three in trusted application code and performs only:
 
@@ -268,19 +303,20 @@ No Salesforce SDK is required. Callback registration, OAuth, token refresh, subs
 
 ## Bind the agent
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { retrieveCallback } from '../channels/salesforce-marketing-cloud.ts';
-import { parseEmailEventInstanceId } from '../salesforce-marketing-cloud-email.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { type AgentProps, useModel, useTool } from &#39;@flue/runtime&#39;;
+import { retrieveCallback } from &#39;../channels/salesforce-marketing-cloud.ts&#39;;
+import { parseEmailEventInstanceId } from &#39;../salesforce-marketing-cloud-email.ts&#39;;
 
-export default defineAgent(({ id }) => {
+export function Assistant({ id }: AgentProps) {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
   const email = parseEmailEventInstanceId(id);
-  return {
-    model: 'anthropic/claude-haiku-4-5',
-    tools: [retrieveCallback(email)],
-  };
-});
-```
+  useTool(retrieveCallback(email));
+  return &#39;Review the inbound Salesforce Marketing Cloud email lifecycle event. Retrieve the configured ENS callback when callback status or delivery configuration is relevant.&#39;;
+}</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
 
 The tool accepts no tenant origin, callback id, access token, or resource id from the model. The parsed local id remains an identifier, not authorization; the tool checks its callback id again before selecting credentials.
 
@@ -344,10 +380,10 @@ Current page: [Salesforce Marketing Cloud](/docs/ecosystem/channels/salesforce-m
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

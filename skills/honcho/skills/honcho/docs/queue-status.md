@@ -8,7 +8,7 @@
 
 > Learn how to check the status of Honcho's reasoning
 
-Whenever messages are stored in Honcho, background processes kick off to [reason](/v3/documentation/core-concepts/reasoning) about the conversation and generate insights.
+Whenever messages are stored in Honcho, background processes kick off to [reason](/docs/v3/documentation/core-concepts/reasoning) about the conversation and generate insights.
 
 Reasoning is an asynchronous process and will not immediately
 generate insights for the latest message you've sent. This is

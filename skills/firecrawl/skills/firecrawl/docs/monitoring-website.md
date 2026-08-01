@@ -12,20 +12,6 @@ Website monitoring watches a whole site instead of a fixed list of URLs. Each ch
 
 This page covers the `crawl` target. Scheduling, goals and judging, change tracking, notifications, and pricing are shared across all monitor types. See the [Monitoring overview](/features/monitoring).
 
-<div className="firecrawl-cta-box" style={{ opacity: 0.6 }}>
-  <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
-    <Icon icon="sack-dollar" color="#9ca3af" size={22} />
-
-    <div className="firecrawl-cta-title" style={{ margin: 0, color: "#9ca3af" }}>
-      <span>Expired: Bounty for /monitor feedback</span>
-    </div>
-  </div>
-
-  <p className="firecrawl-cta-description">
-    All interviewees eligible for the bounty reward have been contacted. Keep an eye on future bounties within our docs!
-  </p>
-</div>
-
 ## Create a website monitor
 
 Create a monitor with a `crawl` target to diff every page discovered by a crawl on each check:

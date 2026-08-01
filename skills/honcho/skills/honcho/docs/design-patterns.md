@@ -9,7 +9,7 @@
 > Design your workspace, peers, and sessions for common application patterns
 
 
-  This page covers **how to structure** workspaces, peers, and sessions for real applications. For the conceptual model behind them, start with [Architecture](/v3/documentation/core-concepts/architecture).
+  This page covers **how to structure** workspaces, peers, and sessions for real applications. For the conceptual model behind them, start with [Architecture](/docs/v3/documentation/core-concepts/architecture).
 
   Ready to add Honcho to your codebase? The **`/honcho-integration` skill** applies these patterns for you — it explores your code, asks how your peers and sessions should map to your app, and wires in the Honcho SDK. Run it in any coding agent that supports skills (Claude Code, Cursor, and others).
 
@@ -32,7 +32,7 @@
 
 A workspace is a hard isolation boundary. **Default to one workspace per application,** and split only at a real privacy, compliance, or product boundary (e.g. per-tenant SaaS, or a tool that needs intentionally isolated memory). Agents that collaborate over the same product, user, or game state belong in the *same* workspace so each can retrieve what the others produced.
 
-Honcho plugins default to one workspace *per host* (`hermes`, `claude_code`, `cursor`, `opencode`). To unify memory across them, point each at the same workspace — see [Unified Memory Setup](/v3/guides/recipes/unified-memory-setup).
+Honcho plugins default to one workspace *per host* (`hermes`, `claude_code`, `cursor`, `opencode`). To unify memory across them, point each at the same workspace — see [Unified Memory Setup](/docs/v3/guides/recipes/unified-memory-setup).
 
 
   The SDK creates a workspace called `default` when no `workspace_id` is specified.
@@ -45,7 +45,7 @@ Honcho plugins default to one workspace *per host* (`hermes`, `claude_code`, `cu
 Give each real-world entity **one** stable peer ID and reuse it everywhere — splitting one entity across `user-web`, `user-discord`, and `user-slack` builds three separate representations. Prefix IDs by source for multi-channel apps (`discord_491827364`), and if a peer goes by multiple names, store the aliases in its peer card with `set_card()` / `setCard()`.
 
 
-  For unified context across Honcho plugins, set the same user peer ID (`peerName`) everywhere — that shared ID is what connects memory across Claude Code, Cursor, OpenCode, and your own app. See [Unified Memory Setup](/v3/guides/recipes/unified-memory-setup).
+  For unified context across Honcho plugins, set the same user peer ID (`peerName`) everywhere — that shared ID is what connects memory across Claude Code, Cursor, OpenCode, and your own app. See [Unified Memory Setup](/docs/v3/guides/recipes/unified-memory-setup).
 
 
 ***
@@ -67,7 +67,7 @@ Sessions define the temporal boundaries of an interaction. How you scope them af
 Create a **new** session when context resets (new conversation, new day, new topic); **reuse** one when context should keep accumulating (ongoing channel, persistent thread).
 
 
-  **Don't scope sessions too thin.** Honcho batches reasoning until a peer accumulates \~1,000 tokens *within a single session*, with a default age-based flush for quiet tails ([token batching](/v3/documentation/core-concepts/reasoning#token-batching)). Low-volume or trickle inputs should still append to one ongoing session rather than fragment across many, so reasoning runs with useful context instead of many small delayed batches.
+  **Don't scope sessions too thin.** Honcho batches reasoning until a peer accumulates \~1,000 tokens *within a single session*, with a default age-based flush for quiet tails ([token batching](/docs/v3/documentation/core-concepts/reasoning#token-batching)). Low-volume or trickle inputs should still append to one ongoing session rather than fragment across many, so reasoning runs with useful context instead of many small delayed batches.
 
 
 **How cross-session reasoning works**
@@ -75,7 +75,7 @@ Create a **new** session when context resets (new conversation, new day, new top
 * **Session memory** is local to an interaction — summaries and recent-message context describe only what happened there.
 * **Peer memory** (representations) accumulates reasoning across every session the peer is part of.
 
-So you can start a session fresh or pull in a peer's long-term memory. [`session.context()`](/v3/documentation/features/get-context) returns the current session's summary and recent messages; add a [peer target](/v3/documentation/features/get-context#peer-representation-in-context) to fold in that peer's cross-session history.
+So you can start a session fresh or pull in a peer's long-term memory. [`session.context()`](/docs/v3/documentation/features/get-context) returns the current session's summary and recent messages; add a [peer target](/docs/v3/documentation/features/get-context#peer-representation-in-context) to fold in that peer's cross-session history.
 
 ***
 

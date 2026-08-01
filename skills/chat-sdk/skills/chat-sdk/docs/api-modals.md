@@ -12,7 +12,15 @@ type: reference
 Modals display form dialogs that collect structured user input. Currently supported on Slack and Teams.
 
 ```typescript
-import { Modal, TextInput, Select, RadioSelect, SelectOption } from "chat";
+import {
+  Modal,
+  TextInput,
+  DateInput,
+  NumberInput,
+  Select,
+  RadioSelect,
+  SelectOption,
+} from "chat";
 ```
 
 ## Modal
@@ -55,6 +63,38 @@ TextInput({
 })
 ```
 
+
+## DateInput
+
+A date picker — a Slack `datepicker`, an Adaptive Card `Input.Date` on Teams.
+
+```typescript
+DateInput({
+  id: "due_date",
+  label: "Due date",
+  placeholder: "Pick a date",
+  initialValue: "2026-08-01",
+})
+```
+
+
+The submitted value arrives in `event.values` as an ISO `YYYY-MM-DD` string. An `initialValue` that is not a valid `YYYY-MM-DD` date is ignored with a warning — Slack rejects a malformed `initial_date` by failing the whole modal, so it is dropped rather than forwarded.
+
+## NumberInput
+
+A numeric input — a Slack `number_input`, an Adaptive Card `Input.Number` on Teams.
+
+```typescript
+NumberInput({
+  id: "quantity",
+  label: "Quantity",
+  min: 1,
+  max: 10,
+})
+```
+
+
+Values in `event.values` are always strings — parse with `Number(...)` when you need a number.
 
 ## Select
 
@@ -124,7 +164,18 @@ The `children` array in `Modal` accepts these element types:
 | Type                 | Created by                     |
 | -------------------- | ------------------------------ |
 | `TextInputElement`   | `TextInput()`                  |
+| `DateInputElement`   | `DateInput()`                  |
+| `NumberInputElement` | `NumberInput()`                |
 | `SelectElement`      | `Select()`                     |
 | `RadioSelectElement` | `RadioSelect()`                |
 | `TextElement`        | `Text()` — static text content |
 | `FieldsElement`      | `Fields()` — key-value display |
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

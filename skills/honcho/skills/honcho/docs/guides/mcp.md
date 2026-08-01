@@ -67,7 +67,7 @@ claude mcp add honcho \
   --header "X-Honcho-User-Name: YourName"
 ```
 
-Or if you prefer the [Claude Code Honcho plugin](/v3/guides/integrations/claudecode) for a deeper integration with persistent memory, git awareness, and agent skills:
+Or if you prefer the [Claude Code Honcho plugin](/docs/v3/guides/integrations/claudecode) for a deeper integration with persistent memory, git awareness, and agent skills:
 
 ```bash theme={null}
 /plugin marketplace add plastic-labs/claude-honcho

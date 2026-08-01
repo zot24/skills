@@ -178,6 +178,8 @@ agent-browser --session "$SESSION" --restore --restore-check-text Dashboard open
 
 State files are stored in `~/.agent-browser/sessions/` and automatically loaded before navigation. With the default `--restore-save auto` policy, failed restore or failed validation skips auto-save.
 
+When `--restore` or another restore key is configured, state is saved when the browser closes (explicit `close`, idle timeout, or daemon shutdown) and also periodically while the browser is open, so a browser window you close by hand still leaves a recent save behind. A session ID by itself only isolates the daemon and does not enable persistence; without a restore key, shutdown discards transient browser state and open tabs. Periodic autosave waits for commands to settle, then saves at most once per `AGENT_BROWSER_AUTOSAVE_INTERVAL_MS` (default 30000; set to `0` to save only on close). Idle sessions with configured persistence keep saving on the same interval, so changes the page makes on its own (token refreshes, background requests) are captured too. The daemon exits after one hour without commands or dashboard input by default; `--idle-timeout <time>` or `AGENT_BROWSER_IDLE_TIMEOUT_MS` tunes this, and `0` disables it. Headed, Safari/iOS WebDriver, and user-attached browsers are exempt from the default timeout; provider-owned cloud browsers are not. State saving respects the `--restore-save` policy.
+
 ### Restore key rules<a href="#restore-key-rules" aria-label="Link to this section">#</a>
 
 Session and restore names must contain only alphanumeric characters, hyphens, and underscores. Use `agent-browser session id` to generate a valid key:
@@ -299,18 +301,19 @@ agent-browser set headers '{"X-Custom-Header": "value"}'
 
 ## Environment variables<a href="#environment-variables" aria-label="Link to this section">#</a>
 
-| Variable                           | Description                                                |
-|------------------------------------|------------------------------------------------------------|
-| `AGENT_BROWSER_SESSION`            | Browser session ID (default: "default")                    |
-| `AGENT_BROWSER_NAMESPACE`          | Namespace for daemon sockets and restore-state directories |
-| `AGENT_BROWSER_RESTORE`            | Auto-save/load state persistence key                       |
-| `AGENT_BROWSER_RESTORE_SAVE`       | Restore save policy: `auto`, `always`, or `never`          |
-| `AGENT_BROWSER_RESTORE_CHECK_URL`  | URL pattern restored state must match                      |
-| `AGENT_BROWSER_RESTORE_CHECK_TEXT` | Page text restored state must contain                      |
-| `AGENT_BROWSER_RESTORE_CHECK_FN`   | JavaScript expression restored state must satisfy          |
-| `AGENT_BROWSER_SESSION_NAME`       | Legacy auto-save/load state persistence name               |
-| `AGENT_BROWSER_ENCRYPTION_KEY`     | 64-char hex key for AES-256-GCM encryption                 |
-| `AGENT_BROWSER_STATE_EXPIRE_DAYS`  | Auto-delete states older than N days (default: 30)         |
+| Variable                             | Description                                                                  |
+|--------------------------------------|------------------------------------------------------------------------------|
+| `AGENT_BROWSER_SESSION`              | Browser session ID (default: "default")                                      |
+| `AGENT_BROWSER_NAMESPACE`            | Namespace for daemon sockets and restore-state directories                   |
+| `AGENT_BROWSER_RESTORE`              | Auto-save/load state persistence key                                         |
+| `AGENT_BROWSER_RESTORE_SAVE`         | Restore save policy: `auto`, `always`, or `never`                            |
+| `AGENT_BROWSER_AUTOSAVE_INTERVAL_MS` | Minimum ms between periodic session autosaves (default: 30000, `0` disables) |
+| `AGENT_BROWSER_RESTORE_CHECK_URL`    | URL pattern restored state must match                                        |
+| `AGENT_BROWSER_RESTORE_CHECK_TEXT`   | Page text restored state must contain                                        |
+| `AGENT_BROWSER_RESTORE_CHECK_FN`     | JavaScript expression restored state must satisfy                            |
+| `AGENT_BROWSER_SESSION_NAME`         | Legacy auto-save/load state persistence name                                 |
+| `AGENT_BROWSER_ENCRYPTION_KEY`       | 64-char hex key for AES-256-GCM encryption                                   |
+| `AGENT_BROWSER_STATE_EXPIRE_DAYS`    | Auto-delete states older than N days (default: 30)                           |
 
 
 Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>

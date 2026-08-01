@@ -22,7 +22,7 @@ Streaming is particularly useful for:
 
 ## Streaming with the Chat Endpoint
 
-One of the primary use cases for streaming in Honcho is with the [chat endpoint](/v3/documentation/features/chat). This allows you to stream the AI's reasoning about a user in real-time.
+One of the primary use cases for streaming in Honcho is with the [chat endpoint](/docs/v3/documentation/features/chat). This allows you to stream the AI's reasoning about a user in real-time.
 
 ### Prerequisites
 

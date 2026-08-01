@@ -35,43 +35,43 @@
 #### Getting Started
 
 
-<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
 
 
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
 
 
-<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
 
 
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,6 +93,8 @@ Three install paths on Proxmox (community-scripts LXC, Docker inside an LXC, or 
 
 ------------------------------------------------------------------------
 
+Last updated July 29, 2026
+
 
 There are three sensible ways to run Wealthfolio on Proxmox. Pick based on how you already run other services.
 
@@ -104,7 +106,7 @@ There are three sensible ways to run Wealthfolio on Proxmox. Pick based on how y
 | <a href="#docker-vm" class="font-medium underline underline-offset-4">Docker inside a VM</a>    | Most isolated, no LXC quirks                                                 | Higher RAM/CPU overhead than LXC                                                                                                                                                                     |
 
 
-If you’re already a community-scripts user, **stick with the LXC path**. If you already run a Docker host VM on Proxmox, **just deploy the container there** like any other service. See <a href="/docs/guide/self-hosting/docker-compose" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a>.
+If you’re already a community-scripts user, **stick with the LXC path**. If you already run a Docker host VM on Proxmox, **just deploy the container there** like any other service. See <a href="/docs/guide/self-hosting/docker-compose/" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a>.
 
 ## <span id="lxc"></span>1. LXC via community-scripts (recommended)
 
@@ -179,7 +181,7 @@ lxc.cap.drop:
 
 ### Install Wealthfolio
 
-Inside the LXC, install Docker + Compose, then follow the <a href="/docs/guide/self-hosting/docker-compose" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a> guide. Quick version:
+Inside the LXC, install Docker + Compose, then follow the <a href="/docs/guide/self-hosting/docker-compose/" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a> guide. Quick version:
 
 ``` mb-4
 mkdir -p /opt/wealthfolio && cd /opt/wealthfolio
@@ -217,13 +219,13 @@ docker compose up -d
 
 ## <span id="docker-vm"></span>3. Docker inside a VM
 
-Same flow as a normal Docker host. Nothing Proxmox-specific. Spin up a Debian/Ubuntu VM, install Docker, and follow <a href="/docs/guide/self-hosting/docker" class="font-medium underline underline-offset-4"><strong>Docker</strong></a> or <a href="/docs/guide/self-hosting/docker-compose" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a>.
+Same flow as a normal Docker host. Nothing Proxmox-specific. Spin up a Debian/Ubuntu VM, install Docker, and follow <a href="/docs/guide/self-hosting/docker/" class="font-medium underline underline-offset-4"><strong>Docker</strong></a> or <a href="/docs/guide/self-hosting/docker-compose/" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a>.
 
 This is the right choice if you don’t want to fiddle with LXC nesting or if you’re already running a “docker VM” pattern.
 
 ## Reverse proxy
 
-For HTTPS and a real domain, see <a href="/docs/guide/self-hosting/reverse-proxy" class="font-medium underline underline-offset-4"><strong>Reverse proxy setup</strong></a>.
+For HTTPS and a real domain, see <a href="/docs/guide/self-hosting/reverse-proxy/" class="font-medium underline underline-offset-4"><strong>Reverse proxy setup</strong></a>.
 
 ## Troubleshooting
 
@@ -246,21 +248,21 @@ For HTTPS and a real domain, see <a href="/docs/guide/self-hosting/reverse-proxy
 ------------------------------------------------------------------------
 
 
-<a href="/docs/guide/self-hosting/unraid" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Unraid</a> <a href="/docs/guide/self-hosting/coolify" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Coolify</a>
+<a href="/docs/guide/self-hosting/unraid/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Unraid</a> <a href="/docs/guide/self-hosting/coolify/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Coolify</a>
 
 
 On This Page
 
-- <a href="#a-idlxca1-lxc-via-community-scripts-recommended" class="inline-block no-underline text-sm text-muted-foreground">1. LXC via community-scripts (recommended)</a>
-  - <a href="#install" class="inline-block no-underline text-sm text-muted-foreground">Install</a>
-  - <a href="#layout-inside-the-lxc" class="inline-block no-underline text-sm text-muted-foreground">Layout inside the LXC</a>
-  - <a href="#updating" class="inline-block no-underline text-sm text-muted-foreground">Updating</a>
-- <a href="#a-iddocker-lxca2-docker-inside-an-lxc" class="inline-block no-underline text-sm text-muted-foreground">2. Docker inside an LXC</a>
-  - <a href="#lxc-requirements-for-docker" class="inline-block no-underline text-sm text-muted-foreground">LXC requirements for Docker</a>
-  - <a href="#install-wealthfolio" class="inline-block no-underline text-sm text-muted-foreground">Install Wealthfolio</a>
-- <a href="#a-iddocker-vma3-docker-inside-a-vm" class="inline-block no-underline text-sm text-muted-foreground">3. Docker inside a VM</a>
-- <a href="#reverse-proxy" class="inline-block no-underline text-sm text-muted-foreground">Reverse proxy</a>
-- <a href="#troubleshooting" class="inline-block no-underline text-sm text-muted-foreground">Troubleshooting</a>
-- <a href="#reference" class="inline-block no-underline text-sm text-muted-foreground">Reference</a>
+- <a href="#a-idlxca1-lxc-via-community-scripts-recommended" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1. LXC via community-scripts (recommended)</a>
+  - <a href="#install" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Install</a>
+  - <a href="#layout-inside-the-lxc" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Layout inside the LXC</a>
+  - <a href="#updating" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Updating</a>
+- <a href="#a-iddocker-lxca2-docker-inside-an-lxc" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2. Docker inside an LXC</a>
+  - <a href="#lxc-requirements-for-docker" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">LXC requirements for Docker</a>
+  - <a href="#install-wealthfolio" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Install Wealthfolio</a>
+- <a href="#a-iddocker-vma3-docker-inside-a-vm" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3. Docker inside a VM</a>
+- <a href="#reverse-proxy" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Reverse proxy</a>
+- <a href="#troubleshooting" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Troubleshooting</a>
+- <a href="#reference" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Reference</a>
 
 

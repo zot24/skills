@@ -55,7 +55,7 @@ The explicit reasoning model ([Neuromancer XR](https://blog.plasticlabs.ai/resea
 
 The reasoning that Honcho does is something we're constantly iterating and improving on. Our goal is simple--provide the richest, most relevant context in the fastest, cheapest way possible in order to simulate statefulness in whatever setting you need.
 
-Two components produce this logic: the **Deriver** extracts explicit and deductive conclusions from incoming messages as they arrive, and the **Dreamer** periodically revisits stored conclusions to consolidate them and draw inductive conclusions across patterns spanning multiple messages. See [Architecture](/v3/documentation/core-concepts/architecture) for how these fit into the request/background split.
+Two components produce this logic: the **Deriver** extracts explicit and deductive conclusions from incoming messages as they arrive, and the **Dreamer** periodically revisits stored conclusions to consolidate them and draw inductive conclusions across patterns spanning multiple messages. See [Architecture](/docs/v3/documentation/core-concepts/architecture) for how these fit into the request/background split.
 
 ## How It Works
 

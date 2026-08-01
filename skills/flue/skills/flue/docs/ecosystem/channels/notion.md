@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Notion
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/notion/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/notion" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/notion</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/notion/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/notion" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/notion</a>
 
 
 ## Quickstart
@@ -33,32 +33,54 @@ flue add channel notion
 
 The blueprint installs `@flue/notion`, the official `@notionhq/client`, and its required TypeScript peer when needed. It creates `<source-root>/channels/notion.ts` with a named `channel`, project-owned `client`, local page identity helpers, and a page-bound retrieval tool, then wires that tool into an agent. It may also add `"node"` to a restrictive `compilerOptions.types` list.
 
-``` astro-code
-import { Client } from '@notionhq/client';
-import { createNotionChannel } from '@flue/notion';
-import { dispatch } from '@flue/runtime';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { Client } from &#39;@notionhq/client&#39;;
+import { createNotionChannel } from &#39;@flue/notion&#39;;
+import { dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const client = new Client({ auth: process.env.NOTION_TOKEN! });
 
 export const channel = createNotionChannel({
   verificationToken: process.env.NOTION_WEBHOOK_VERIFICATION_TOKEN!,
   async webhook({ event }) {
-    if (event.type !== 'page.content_updated') return;
+    if (event.type !== &#39;page.content_updated&#39;) return;
 
-    await dispatch(assistant, {
+    await dispatch(Assistant, {
       id: `notion-page:${encodeURIComponent(event.entity.id)}`,
-      input: {
+      message: {
+        kind: &#39;signal&#39;,
         type: `notion.${event.type}`,
-        deliveryId: event.id,
-        pageId: event.entity.id,
+        // `data` is Notion&#39;s event-specific detail object; page events
+        // carry no natural message text.
+        body: JSON.stringify(event.data ?? {}),
+        attributes: {
+          eventId: event.id,
+          pageId: event.entity.id,
+          attemptNumber: String(event.attempt_number),
+          authorIds: event.authors.map((author) =&gt; author.id).join(&#39;,&#39;),
+        },
       },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/notion.ts (abridged)</span></figcaption>
+</figure>
 
 A matching page update is admitted to the agent identified by that page, while other verified events receive an empty successful response. The full generated module handles additional page events, injects a Fetch implementation for Node and Cloudflare portability, and lets the bound agent retrieve current page state. Initial webhook verification uses a temporary setup callback, described below, before recurring signed delivery can begin.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as notion } from &#39;./channels/notion.ts&#39;;
+
+app.route(&#39;/channels/notion&#39;, notion.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/notion` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -81,18 +103,18 @@ The package declares `@types/node` as a required peer because the official clien
 
 ## Channel module
 
-``` astro-code
-import { Client } from '@notionhq/client';
-import { createNotionChannel } from '@flue/notion';
-import { defineTool, dispatch } from '@flue/runtime';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { Client } from &#39;@notionhq/client&#39;;
+import { createNotionChannel } from &#39;@flue/notion&#39;;
+import { defineTool, dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
-const PAGE_INSTANCE_PREFIX = 'notion-page:';
+const PAGE_INSTANCE_PREFIX = &#39;notion-page:&#39;;
 
-const notionFetch: NonNullable<NonNullable<ConstructorParameters<typeof Client>[0]>['fetch']> = (
+const notionFetch: NonNullable&lt;NonNullable&lt;ConstructorParameters&lt;typeof Client&gt;[0]&gt;[&#39;fetch&#39;]&gt; = (
   url,
   init,
-) =>
+) =&gt;
   globalThis.fetch(url, {
     method: init?.method,
     headers: init?.headers,
@@ -110,7 +132,7 @@ export const channel = createNotionChannel({
   ...(verificationToken ? { verificationToken } : {}),
 
   // Initial setup only: temporarily use this instead of verificationToken and
-  // persist the received value through the project's secure secret workflow.
+  // persist the received value through the project&#39;s secure secret workflow.
   // async verification({ verificationToken }) {
   //   await saveNotionWebhookVerificationToken(verificationToken);
   // },
@@ -118,22 +140,27 @@ export const channel = createNotionChannel({
   // Path: /channels/notion/webhook
   async webhook({ event }) {
     switch (event.type) {
-      case 'page.created':
-      case 'page.content_updated':
-      case 'page.properties_updated':
-      case 'page.moved':
-      case 'page.undeleted':
-      case 'page.locked':
-      case 'page.unlocked': {
-        await dispatch(assistant, {
+      case &#39;page.created&#39;:
+      case &#39;page.content_updated&#39;:
+      case &#39;page.properties_updated&#39;:
+      case &#39;page.moved&#39;:
+      case &#39;page.undeleted&#39;:
+      case &#39;page.locked&#39;:
+      case &#39;page.unlocked&#39;: {
+        await dispatch(Assistant, {
           id: pageInstanceId(event.entity.id),
-          input: {
+          message: {
+            kind: &#39;signal&#39;,
             type: `notion.${event.type}`,
-            deliveryId: event.id,
-            attemptNumber: event.attempt_number,
-            pageId: event.entity.id,
-            authors: event.authors,
-            data: event.data,
+            // `data` is Notion&#39;s event-specific detail object; page events
+            // carry no natural message text.
+            body: JSON.stringify(event.data ?? {}),
+            attributes: {
+              eventId: event.id,
+              pageId: event.entity.id,
+              attemptNumber: String(event.attempt_number),
+              authorIds: event.authors.map((author) =&gt; author.id).join(&#39;,&#39;),
+            },
           },
         });
         return;
@@ -146,50 +173,57 @@ export const channel = createNotionChannel({
 
 export function retrievePage(pageId: string) {
   return defineTool({
-    name: 'retrieve_notion_page',
-    description: 'Retrieve the Notion page bound to this agent.',
+    name: &#39;retrieve_notion_page&#39;,
+    description: &#39;Retrieve the Notion page bound to this agent.&#39;,
     async run() {
       const page = await client.pages.retrieve({ page_id: pageId });
       return {
-        id: page.id,
-        object: page.object,
-        archived: 'archived' in page ? page.archived : null,
-        inTrash: 'in_trash' in page ? page.in_trash : null,
+        output: {
+          id: page.id,
+          object: page.object,
+          archived: &#39;archived&#39; in page ? page.archived : null,
+          inTrash: &#39;in_trash&#39; in page ? page.in_trash : null,
+        },
       };
     },
   });
 }
 
 export function pageInstanceId(pageId: string): string {
-  if (!pageId) throw new TypeError('Notion page id must be non-empty.');
+  if (!pageId) throw new TypeError(&#39;Notion page id must be non-empty.&#39;);
   return `${PAGE_INSTANCE_PREFIX}${encodeURIComponent(pageId)}`;
 }
 
 export function pageIdFromInstanceId(id: string): string {
   if (!id.startsWith(PAGE_INSTANCE_PREFIX)) {
-    throw new TypeError('Expected a local Notion page instance id.');
+    throw new TypeError(&#39;Expected a local Notion page instance id.&#39;);
   }
   const pageId = decodeURIComponent(id.slice(PAGE_INSTANCE_PREFIX.length));
-  if (!pageId) throw new TypeError('Expected a local Notion page instance id.');
+  if (!pageId) throw new TypeError(&#39;Expected a local Notion page instance id.&#39;);
   return pageId;
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/notion.ts</span></figcaption>
+</figure>
 
 `event` is the official SDK’s provider-native webhook payload union, so `switch (event.type)` narrows each modeled variant to its snake-case payload shape. The channel widens only `authors`/`accessible_by` to include Notion’s documented `agent` author type, which the current SDK type omits. A verified event whose `type` is newer than the installed SDK is still forwarded — typed as the union, with its native fields intact — and handled from the `default` arm. There is no synthetic `type: 'unknown'` variant, `eventType`, or `raw` mirror.
 
-The `notion-page:` id is a local application convention because `@flue/notion` does not invent one universal conversation key for unrelated Notion resources. This example uses the page id because one project-owned client selects the installation. Include workspace or installation identity when one agent can cross credential domains.
+The `notion-page:` id is a local application convention because `@flue/notion` does not invent one universal instance id for unrelated Notion resources. This example uses the page id because one project-owned client selects the installation. Include workspace or installation identity when one agent can cross credential domains.
 
 ## Bind the tool
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { pageIdFromInstanceId, retrievePage } from '../channels/notion.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { type AgentProps, useModel, useTool } from &#39;@flue/runtime&#39;;
+import { pageIdFromInstanceId, retrievePage } from &#39;../channels/notion.ts&#39;;
 
-export default defineAgent(({ id }) => ({
-  model: 'anthropic/claude-haiku-4-5',
-  tools: [retrievePage(pageIdFromInstanceId(id))],
-}));
-```
+export function Assistant({ id }: AgentProps) {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
+  const pageId = pageIdFromInstanceId(id);
+  useTool(retrievePage(pageId));
+  return &#39;Review the Notion page change. Retrieve the current page when its properties are needed.&#39;;
+}</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
 
 The model can request the current page summary, but it cannot select another workspace, page, token, or API route. Trusted application code binds the page from the verified event.
 
@@ -236,10 +270,10 @@ Current page: [Notion](/docs/ecosystem/channels/notion/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

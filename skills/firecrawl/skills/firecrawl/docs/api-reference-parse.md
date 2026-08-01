@@ -240,6 +240,8 @@ components:
           type: string
           nullable: true
           description: Optional integration identifier.
+        auditMetadata:
+          $ref: '#/components/schemas/AuditMetadata'
         zeroDataRetention:
           type: boolean
           default: false
@@ -1093,6 +1095,19 @@ components:
             `tag` replaces spans with placeholders like `<EMAIL>`, `mask`
             replaces characters with `*`, and `remove` deletes the span text.
       additionalProperties: false
+    AuditMetadata:
+      type: object
+      description: >-
+        User attribution included with SIEM logging events when SIEM Logging is
+        enabled for the organization.
+      additionalProperties: false
+      required:
+        - username
+      properties:
+        username:
+          type: string
+          maxLength: 1024
+          description: The username associated with the request.
     RedactPIIEntity:
       type: string
       enum:

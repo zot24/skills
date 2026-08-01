@@ -35,43 +35,43 @@
 #### Getting Started
 
 
-<a href="/docs/introduction" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
+<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
 
 
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
 
 
-<a href="/docs/guide/connect-broker-sync" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
+<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
 
 
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,9 +93,15 @@ Ask natural-language questions about your portfolio. Run fully local with Ollama
 
 ------------------------------------------------------------------------
 
+Last updated July 29, 2026
+
 The AI Assistant is a chat interface that answers questions about your portfolio by running typed queries against your local database. Ask “what did I earn in dividends last year?” and it’ll figure out the right query, run it, and answer with real numbers.
 
 It’s not a financial advisor. It’s faster `SELECT`s.
+
+
+Want an agent in your editor or Claude Desktop to reach your portfolio instead of chatting inside the app? The <a href="/docs/guide/mcp-server/" class="font-medium underline underline-offset-4">MCP Server</a> exposes these same typed tools to external AI agents over the Model Context Protocol.
+
 
 <figure class="my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/ai/welcome.png" class="block rounded-lg border border-border dark:hidden" alt="The AI assistant — ask about your portfolio in plain English" /><img src="https://assets.wealthfolio.app/images/screenshots/ai/welcome-dark.png" class="hidden rounded-lg border border-border dark:block" alt="The AI assistant — ask about your portfolio in plain English" />
@@ -169,13 +175,12 @@ Each provider also accepts a **Custom Endpoint** field, so you can point it at a
 
 ### Ollama (recommended for privacy)
 
-Models that support **tool calling** are required (the assistant relies on tool calls to fetch your data). Models configured by default:
+Models that support **tool calling** are required (the assistant relies on tool calls to fetch your data). Tool-capable models configured by default:
 
 - `gemma4:e4b` (default)
 - `qwen3.5:9b`
 - `gpt-oss:20b`
 - `ministral-3`
-- `deepseek-r1:8b` (thinking model; no tool support today)
 
 Setup:
 
@@ -255,7 +260,7 @@ For paid providers, every chat turn (and every tool call result the model consid
 
 ### ”The model called a tool that doesn’t exist”
 
-Some smaller open-source models hallucinate tool names. Switch to a larger or tool-tuned model (e.g. `gemma4:e4b` or `qwen3.5:9b` from the bundled Ollama list).
+Some smaller open-source models hallucinate tool names. Switch to a larger tool-capable model (e.g. `qwen3.5:9b` or `gpt-oss:20b` from the bundled Ollama list).
 
 ### Answers are vague or wrong
 
@@ -271,29 +276,29 @@ The assistant runs the same underlying queries the UI does, so numbers should ma
 
 ------------------------------------------------------------------------
 
-**Next step:** Once you’re comfortable with the assistant, the <a href="/docs/guide/health-center" class="font-medium underline underline-offset-4">Health Center</a> is a good place to catch data inconsistencies before you ask the assistant deep questions.
+**Next step:** Once you’re comfortable with the assistant, the <a href="/docs/guide/health-center/" class="font-medium underline underline-offset-4">Health Center</a> is a good place to catch data inconsistencies before you ask the assistant deep questions.
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/guide/connect-broker-sync" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Connect &amp; Broker Sync</a> <a href="/docs/guide/mcp-server" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">MCP Server (Agent Access)</a>
+<a href="/docs/guide/connect-broker-sync/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Connect &amp; Broker Sync</a> <a href="/docs/guide/mcp-server/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">MCP Server (Agent Access)</a>
 
 
 On This Page
 
-- <a href="#1--what-it-can-do" class="inline-block no-underline text-sm text-muted-foreground">1 · What it can do</a>
-- <a href="#2--what-it-cant-do-yet" class="inline-block no-underline text-sm text-muted-foreground">2 · What it can't do (yet)</a>
-- <a href="#3--choose-a-provider" class="inline-block no-underline text-sm text-muted-foreground">3 · Choose a provider</a>
-  - <a href="#ollama-recommended-for-privacy" class="inline-block no-underline text-sm text-muted-foreground">Ollama (recommended for privacy)</a>
-  - <a href="#anthropic-openai-google-ai-groq-openrouter" class="inline-block no-underline text-sm text-muted-foreground">Anthropic, OpenAI, Google AI, Groq, OpenRouter</a>
-  - <a href="#openai-compatible-custom-endpoints" class="inline-block no-underline text-sm text-muted-foreground">OpenAI-compatible custom endpoints</a>
-- <a href="#4--what-gets-sent-to-the-llm" class="inline-block no-underline text-sm text-muted-foreground">4 · What gets sent to the LLM</a>
-- <a href="#5--chat-history" class="inline-block no-underline text-sm text-muted-foreground">5 · Chat history</a>
-- <a href="#6--streaming-and-cost" class="inline-block no-underline text-sm text-muted-foreground">6 · Streaming and cost</a>
-- <a href="#7--troubleshooting" class="inline-block no-underline text-sm text-muted-foreground">7 · Troubleshooting</a>
-  - <a href="#no-response--hangs-forever" class="inline-block no-underline text-sm text-muted-foreground">"No response" / hangs forever</a>
-  - <a href="#the-model-called-a-tool-that-doesnt-exist" class="inline-block no-underline text-sm text-muted-foreground">"The model called a tool that doesn't exist"</a>
-  - <a href="#answers-are-vague-or-wrong" class="inline-block no-underline text-sm text-muted-foreground">Answers are vague or wrong</a>
-  - <a href="#numbers-dont-match-the-dashboard" class="inline-block no-underline text-sm text-muted-foreground">Numbers don't match the dashboard</a>
+- <a href="#1--what-it-can-do" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · What it can do</a>
+- <a href="#2--what-it-cant-do-yet" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · What it can't do (yet)</a>
+- <a href="#3--choose-a-provider" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Choose a provider</a>
+  - <a href="#ollama-recommended-for-privacy" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Ollama (recommended for privacy)</a>
+  - <a href="#anthropic-openai-google-ai-groq-openrouter" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Anthropic, OpenAI, Google AI, Groq, OpenRouter</a>
+  - <a href="#openai-compatible-custom-endpoints" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">OpenAI-compatible custom endpoints</a>
+- <a href="#4--what-gets-sent-to-the-llm" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · What gets sent to the LLM</a>
+- <a href="#5--chat-history" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Chat history</a>
+- <a href="#6--streaming-and-cost" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">6 · Streaming and cost</a>
+- <a href="#7--troubleshooting" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">7 · Troubleshooting</a>
+  - <a href="#no-response--hangs-forever" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">"No response" / hangs forever</a>
+  - <a href="#the-model-called-a-tool-that-doesnt-exist" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">"The model called a tool that doesn't exist"</a>
+  - <a href="#answers-are-vague-or-wrong" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Answers are vague or wrong</a>
+  - <a href="#numbers-dont-match-the-dashboard" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Numbers don't match the dashboard</a>
 
 

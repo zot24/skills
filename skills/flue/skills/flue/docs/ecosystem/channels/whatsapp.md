@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # WhatsApp
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/whatsapp/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/whatsapp" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/whatsapp</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/whatsapp/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/whatsapp" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/whatsapp</a>
 
 
 ## Quickstart
@@ -33,15 +33,15 @@ flue add channel whatsapp
 
 The blueprint installs `@flue/whatsapp` and `@kapso/whatsapp-cloud-api`, creates a source-root `channels/whatsapp.ts` module with named `channel` and project-owned `client` exports, and modifies the selected agent to bind the generated message tool.
 
-``` astro-code
-import { createWhatsAppChannel } from '@flue/whatsapp';
-import { dispatch } from '@flue/runtime';
-import { WhatsAppClient } from '@kapso/whatsapp-cloud-api';
-import assistant from '../agents/assistant.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createWhatsAppChannel } from &#39;@flue/whatsapp&#39;;
+import { dispatch } from &#39;@flue/runtime&#39;;
+import { WhatsAppClient } from &#39;@kapso/whatsapp-cloud-api&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const client = new WhatsAppClient({
   accessToken: process.env.WHATSAPP_ACCESS_TOKEN!,
-  graphVersion: 'v25.0',
+  graphVersion: &#39;v25.0&#39;,
 });
 
 export const channel = createWhatsAppChannel({
@@ -50,23 +50,57 @@ export const channel = createWhatsAppChannel({
   async webhook({ payload }) {
     for (const entry of payload.entry) {
       for (const change of entry.changes) {
-        if (change.field !== 'messages') continue;
+        if (change.field !== &#39;messages&#39;) continue;
         if (change.value.metadata.phone_number_id !== process.env.WHATSAPP_PHONE_NUMBER_ID)
           continue;
         for (const message of change.value.messages ?? []) {
-          if (message.type !== 'text' && message.type !== 'interactive') continue;
-          await dispatch(assistant, {
-            id: channel.conversationKey(conversationRef(entry.id, change.value, message)),
-            input: { type: `whatsapp.${message.type}`, messageId: message.id, message },
+          if (message.type !== &#39;text&#39; &amp;&amp; message.type !== &#39;interactive&#39;) continue;
+          const body =
+            message.type === &#39;text&#39;
+              ? message.text.body
+              : (message.interactive.button_reply?.title ??
+                message.interactive.list_reply?.title ??
+                message.interactive.nfm_reply?.body ??
+                &#39;&#39;);
+          const ref = conversationRef(entry.id, change.value, message);
+          await dispatch(Assistant, {
+            id: channel.instanceId(ref),
+            // Recorded once when this event creates the instance; ignored after.
+            initialData: {
+              phoneNumberId: ref.phoneNumberId,
+              destination: ref.type === &#39;individual&#39; ? ref.destination : undefined,
+              groupId: ref.type === &#39;group&#39; ? ref.groupId : undefined,
+              contactName: change.value.contacts?.[0]?.profile?.name,
+            },
+            message: {
+              kind: &#39;signal&#39;,
+              type: `whatsapp.${message.type}`,
+              body,
+              attributes: { messageId: message.id },
+            },
           });
         }
       }
     }
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/whatsapp.ts (abridged)</span></figcaption>
+</figure>
 
 The abridged example omits the generated `conversationRef` helper and outbound message tool. Once configured, supported messages continue the agent instance for the verified business-scoped user or group, and the bound client tool replies to that same destination. The Fetch-based client runs on Node and Cloudflare Workers with Flue’s `nodejs_compat` setting.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as whatsapp } from &#39;./channels/whatsapp.ts&#39;;
+
+app.route(&#39;/channels/whatsapp&#39;, whatsapp.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/whatsapp` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -94,21 +128,21 @@ Use a system-user or business access token for production outbound calls. Keep G
 
 ## Channel module
 
-``` astro-code
-import {
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import {
   createWhatsAppChannel,
   type WebhookMessage,
   type WebhookValue,
   type WhatsAppConversationRef,
-} from '@flue/whatsapp';
-import { defineTool, dispatch } from '@flue/runtime';
-import { WhatsAppClient, type SendMessageResponse } from '@kapso/whatsapp-cloud-api';
-import * as v from 'valibot';
-import assistant from '../agents/assistant.ts';
+} from &#39;@flue/whatsapp&#39;;
+import { defineTool, dispatch } from &#39;@flue/runtime&#39;;
+import { WhatsAppClient, type SendMessageResponse } from &#39;@kapso/whatsapp-cloud-api&#39;;
+import * as v from &#39;valibot&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const client = new WhatsAppClient({
   accessToken: process.env.WHATSAPP_ACCESS_TOKEN!,
-  graphVersion: 'v25.0',
+  graphVersion: &#39;v25.0&#39;,
 });
 
 export const channel = createWhatsAppChannel({
@@ -120,18 +154,34 @@ export const channel = createWhatsAppChannel({
     const expectedPhoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID!;
     for (const entry of payload.entry) {
       for (const change of entry.changes) {
-        if (change.field !== 'messages') continue;
+        if (change.field !== &#39;messages&#39;) continue;
         const value = change.value;
         // Filtering authenticated deliveries by phone number is application policy.
         if (value.metadata.phone_number_id !== expectedPhoneNumberId) continue;
         for (const message of value.messages ?? []) {
-          if (message.type !== 'text' && message.type !== 'interactive') continue;
-          await dispatch(assistant, {
-            id: channel.conversationKey(conversationRef(entry.id, value, message)),
-            input: {
+          if (message.type !== &#39;text&#39; &amp;&amp; message.type !== &#39;interactive&#39;) continue;
+          const body =
+            message.type === &#39;text&#39;
+              ? message.text.body
+              : (message.interactive.button_reply?.title ??
+                message.interactive.list_reply?.title ??
+                message.interactive.nfm_reply?.body ??
+                &#39;&#39;);
+          const ref = conversationRef(entry.id, value, message);
+          await dispatch(Assistant, {
+            id: channel.instanceId(ref),
+            // Recorded once when this event creates the instance; ignored after.
+            initialData: {
+              phoneNumberId: ref.phoneNumberId,
+              destination: ref.type === &#39;individual&#39; ? ref.destination : undefined,
+              groupId: ref.type === &#39;group&#39; ? ref.groupId : undefined,
+              contactName: value.contacts?.[0]?.profile?.name,
+            },
+            message: {
+              kind: &#39;signal&#39;,
               type: `whatsapp.${message.type}`,
-              messageId: message.id,
-              message,
+              body,
+              attributes: { messageId: message.id },
             },
           });
         }
@@ -148,61 +198,115 @@ function conversationRef(
 ): WhatsAppConversationRef {
   const phoneNumberId = value.metadata.phone_number_id;
   if (message.group_id) {
-    return { type: 'group', businessAccountId, phoneNumberId, groupId: message.group_id };
+    return { type: &#39;group&#39;, businessAccountId, phoneNumberId, groupId: message.group_id };
   }
   return {
-    type: 'individual',
+    type: &#39;individual&#39;,
     businessAccountId,
     phoneNumberId,
-    destination: { type: 'user-id', userId: message.from_user_id },
+    destination: { type: &#39;user-id&#39;, userId: message.from_user_id },
   };
 }
 
-function sendTextMessage(ref: WhatsAppConversationRef, body: string): Promise<SendMessageResponse> {
-  if (ref.type === 'group') {
+// The `WhatsAppConversationRef` fields `sendTextMessage()` actually sends on.
+export type WhatsAppSendRef =
+  | {
+      type: &#39;individual&#39;;
+      phoneNumberId: string;
+      destination:
+        { type: &#39;phone-number&#39;; phoneNumber: string } | { type: &#39;user-id&#39;; userId: string };
+    }
+  | { type: &#39;group&#39;; phoneNumberId: string; groupId: string };
+
+function sendTextMessage(ref: WhatsAppSendRef, body: string): Promise&lt;SendMessageResponse&gt; {
+  if (ref.type === &#39;group&#39;) {
     return client.messages.sendText({
       phoneNumberId: ref.phoneNumberId,
-      recipientType: 'group',
+      recipientType: &#39;group&#39;,
       to: ref.groupId,
       body,
     });
   }
-  if (ref.destination.type === 'phone-number') {
+  if (ref.destination.type === &#39;phone-number&#39;) {
     return client.messages.sendText({
       phoneNumberId: ref.phoneNumberId,
-      recipientType: 'individual',
+      recipientType: &#39;individual&#39;,
       to: ref.destination.phoneNumber,
       body,
     });
   }
-  return client.request<SendMessageResponse>('POST', `${ref.phoneNumberId}/messages`, {
+  return client.request&lt;SendMessageResponse&gt;(&#39;POST&#39;, `${ref.phoneNumberId}/messages`, {
     body: {
-      messaging_product: 'whatsapp',
-      recipient_type: 'individual',
+      messaging_product: &#39;whatsapp&#39;,
+      recipient_type: &#39;individual&#39;,
       recipient: ref.destination.userId,
-      type: 'text',
+      type: &#39;text&#39;,
       text: { body },
     },
-    responseType: 'json',
+    responseType: &#39;json&#39;,
   });
 }
 
-export function postMessage(ref: WhatsAppConversationRef) {
+export function postMessage(ref: WhatsAppSendRef) {
   return defineTool({
-    name: 'post_whatsapp_message',
-    description: 'Post to the WhatsApp conversation bound to this agent.',
+    name: &#39;post_whatsapp_message&#39;,
+    description: &#39;Post to the WhatsApp conversation bound to this agent.&#39;,
     input: v.object({
       text: v.pipe(v.string(), v.minLength(1), v.maxLength(4096)),
     }),
-    async run({ input: { text } }) {
+    async run({ data: { text } }) {
       const result = await sendTextMessage(ref, text);
-      return { messageId: result.messages[0]?.id ?? null };
+      return { output: { messageId: result.messages[0]?.id ?? null } };
     },
   });
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/whatsapp.ts</span></figcaption>
+</figure>
 
-Bind the tool from the agent with `postMessage(channel.parseConversationKey(id))`. Trusted application code selects the destination; the model selects only message text.
+`initialData` is the instance’s creation data: recorded once when the event creates the instance and ignored afterward, so the channel passes it on every dispatch. It carries the conversation’s destination facts — the agent reads them with `useInitialData()` instead of parsing the instance id — plus small instance-constant context like the contact’s display name. Per-message facts stay on the signal’s `attributes`.
+
+## Wire the agent
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { useInitialData, useModel, useTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+import { postMessage, type WhatsAppSendRef } from &#39;../channels/whatsapp.ts&#39;;
+
+const initialData = v.object({
+  phoneNumberId: v.string(),
+  destination: v.optional(
+    v.union([
+      v.object({ type: v.literal(&#39;phone-number&#39;), phoneNumber: v.string() }),
+      v.object({ type: v.literal(&#39;user-id&#39;), userId: v.string() }),
+    ]),
+  ),
+  groupId: v.optional(v.string()),
+  contactName: v.optional(v.string()),
+});
+
+export function Assistant() {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
+  const data = useInitialData&lt;v.InferOutput&lt;typeof initialData&gt;&gt;();
+  if (!data) throw new Error(&#39;This agent is created by the WhatsApp channel dispatch.&#39;);
+  let ref: WhatsAppSendRef;
+  if (data.groupId !== undefined) {
+    ref = { type: &#39;group&#39;, phoneNumberId: data.phoneNumberId, groupId: data.groupId };
+  } else if (data.destination !== undefined) {
+    ref = { type: &#39;individual&#39;, phoneNumberId: data.phoneNumberId, destination: data.destination };
+  } else {
+    throw new Error(&#39;WhatsApp instance data is missing a destination.&#39;);
+  }
+  useTool(postMessage(ref));
+  const contactName = data.contactName ? ` with ${data.contactName}` : &#39;&#39;;
+  return `Reply concisely in the bound WhatsApp conversation${contactName}.`;
+}
+
+Assistant.initialData = initialData;</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
+
+The agent’s `initialData` static validates the dispatched `initialData` when the instance is created; `useInitialData()` returns the parsed value on every render. Trusted application code selects the destination; the model selects only message text. `parseInstanceId()` remains available as an escape hatch for recovering that destination from the id directly.
 
 ## Delivery behavior
 
@@ -231,10 +335,10 @@ Current page: [WhatsApp](/docs/ecosystem/channels/whatsapp/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

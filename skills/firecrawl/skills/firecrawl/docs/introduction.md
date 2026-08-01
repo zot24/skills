@@ -6,35 +6,66 @@
 
 # Introduction
 
-> Search the web, scrape any page, and interact with it — all through one API.
+> Search the web, scrape any page, and interact with it, all through one API.
 
 
   **For AI agents:** Use [llms.txt](/llms.txt) for a full index of all documentation.
 
 
+<div className="firecrawl-cta-box">
+  <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
+    <Icon icon="sack-dollar" color="#ff4d00" size={22} />
+
+    <div className="firecrawl-cta-title" style={{ margin: 0 }}>
+      <span style={{ color: "#ff4d00" }}>Bounty: 5,000 credit reward</span>
+      <span style={{ fontWeight: 400 }}> for solid feedback on Firecrawl</span>
+    </div>
+  </div>
+
+  <p className="firecrawl-cta-description">
+    To qualify, complete a high-signal interview (thoughtful, concrete use cases, etc) with our Firecrawl Feedback Assistant. Only takes a few minutes, can be stopped at any time, and is both human/agent-friendly (just paste the link into your agentic harness!). New to Firecrawl? Your take still counts.
+  </p>
+
+  <a href={"https://www.firecrawl.dev/survey/dsag9?src=" + (props.src || "docs-introduction")} className="firecrawl-cta-btn-primary firecrawl-cta-btn-inline">
+    Start the interview
+  </a>
+
+  <p className="firecrawl-cta-description" style={{ fontSize: "12px", fontStyle: "italic", margin: "12px 0 0 0" }}>
+    Include your email to be eligible. Interviews are reviewed for quality at the end of each week.
+  </p>
+</div>
+
 ## Get started
 
+<McpClientSelector />
 
-    Sign up and get your API key to start using Firecrawl
+### Install the Firecrawl CLI
 
-
-    Test the API instantly without writing any code
-
-
-### Use Firecrawl with AI agents (recommended)
-
-The Firecrawl skills are the fastest way for agents to discover and use Firecrawl. Without them, your agent will not know Firecrawl is available.
+One command installs the Firecrawl CLI, authenticates in your browser, and adds skills to every detected coding agent.
 
 ```bash theme={null}
 npx -y firecrawl-cli@latest init --all --browser
 ```
 
 
-  Restart your agent after installing the skills. See [Skills + CLI](/sdks/cli)
-  for the full setup.
+  Restart your coding agent after setup so it can discover the new skills. See
+  [Skills + CLI](/sdks/cli) for the full setup.
 
 
-Or use the [MCP Server](/mcp-server) to connect Firecrawl directly to Claude, Cursor, Windsurf, VS Code, and other AI tools.
+### Set up with an agent
+
+Provide your agent with this Firecrawl setup prompt.
+
+<AgentSetupButton />
+
+### Build and test directly
+
+
+    Create a free account for direct API access and higher limits
+
+
+    Test Firecrawl in the browser without writing code
+
 
 ***
 
@@ -47,7 +78,7 @@ Or use the [MCP Server](/mcp-server) to connect Firecrawl directly to Claude, Cu
     Extract content from any URL as markdown, HTML, or structured JSON
 
 
-    Continue working with any scraped page — click, fill forms, extract dynamic
+    Continue working with any scraped page: click, fill forms, extract dynamic
     content
 
 
@@ -242,7 +273,7 @@ Scrape any URL and get its content in markdown, HTML, or other formats. See the 
 
 ## Interact
 
-Scrape a page, then keep working with it — click buttons, fill forms, extract dynamic content, or navigate deeper. Describe what you want in plain English or write code for full control. See the [Interact feature docs](/features/interact) for all options.
+Scrape a page, then keep working with it: click buttons, fill forms, extract dynamic content, or navigate deeper. Describe what you want in plain English or write code for full control. See the [Interact feature docs](/features/interact) for all options.
 
 <CodeGroup>
   ```python Python

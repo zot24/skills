@@ -120,7 +120,7 @@ This enables control of:
 | `--proxy-bypass <hosts>`  | Hosts to bypass proxy                                                                                                           |
 | `--json`                  | JSON output for scripts                                                                                                         |
 | `--name, -n`              | Locator name filter                                                                                                             |
-| `--exact`                 | Exact text match                                                                                                                |
+| `--exact`                 | Exact, case-sensitive match (accessible name for role)                                                                          |
 | `--headed`                | Show browser window                                                                                                             |
 | `--cdp <port|url>`        | CDP connection (port or WebSocket URL)                                                                                          |
 | `--auto-connect`          | Auto-discover and connect to running Chrome                                                                                     |

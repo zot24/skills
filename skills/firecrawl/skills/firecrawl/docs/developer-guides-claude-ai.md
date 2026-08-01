@@ -4,11 +4,11 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# MCP Web Search & Scrape in Claude.ai
+# Use Firecrawl MCP in Claude
 
-> Add web scraping and search to Claude.ai (Co-work) in 2 minutes
+> Connect Claude to Firecrawl with OAuth
 
-Add web scraping and search capabilities to Claude.ai with Firecrawl MCP using custom connectors.
+Add Firecrawl capabilities to Claude with a remote account connector.
 
 
   Looking for Claude Code setup? See the [Claude Code guide](/quickstarts/claude-code) instead.
@@ -16,29 +16,21 @@ Add web scraping and search capabilities to Claude.ai with Firecrawl MCP using c
 
 ## Quick Setup
 
-### 1. Get Your API Key
-
-Sign up at [firecrawl.dev/app/api-keys](https://www.firecrawl.dev/app/api-keys) and copy your API key.
-
-### 2. Add Custom Connector
+### 1. Add a custom connector
 
 Go to [Settings > Connectors](https://claude.ai/settings/connectors) in Claude.ai and click **Add custom connector**.
 
 Fill in the connector details:
 
-* **URL:** `https://mcp.firecrawl.dev/YOUR_API_KEY/v2/mcp`
+* **URL:** `https://mcp.firecrawl.dev/v2/mcp-oauth`
 * **OAuth Client ID:** Leave blank
 * **OAuth Client Secret:** Leave blank
 
-Replace `YOUR_API_KEY` in the URL with your actual [Firecrawl API key](https://www.firecrawl.dev/app/api-keys). Your API key is embedded directly in the URL, so no additional authentication fields are needed.
-
 Click **Add** to save the connector.
 
+Claude opens Firecrawl in your browser. Sign in, choose the team to use, and approve access. Your raw API key is never placed in the connector URL. See [Connect an MCP Client to Your Account](/developer-guides/mcp-setup-guides/oauth) for the endpoint contract and other supported modes.
 
-  **Prefer not to put your API key in the URL?** Use the keyless endpoint `https://mcp.firecrawl.dev/v2/mcp` instead (still leaving the OAuth fields blank). Claude.ai will open a browser window for you to sign in to Firecrawl and authorize the connector. See [Connect MCP Clients with OAuth](/developer-guides/mcp-setup-guides/oauth) for details.
-
-
-### 3. Enable in Conversation
+### 2. Enable in Conversation
 
 In any Claude.ai conversation, click the **+** button at the bottom left, go to **Connectors**, and enable the Firecrawl connector.
 

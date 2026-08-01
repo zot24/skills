@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_ztD2">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_S8s7">Skip to main content</a>
 
 
 On this page
@@ -89,7 +89,7 @@ Information on the current workers can be found [here](/administration/jobs-work
 
 \*1: The values of `DB_USERNAME`, `DB_PASSWORD`, and `DB_DATABASE_NAME` are passed to the Postgres container as the variables `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_DB` in `docker-compose.yml`.
 
-\*2: If not provided, the appropriate extension to use is auto-detected at startup by introspecting the database. When multiple extensions are installed, the order of preference is VectorChord, pgvecto.rs, pgvector.
+\*2: If not provided, the appropriate extension to use is auto-detected at startup by inspecting the database. When multiple extensions are installed, the order of preference is VectorChord, pgvector.
 
 \*3: Uses either <a href="https://github.com/immich-app/base-images/blob/main/postgres/postgresql.ssd.conf" target="_blank" rel="noopener noreferrer"><code>postgresql.ssd.conf</code></a> or <a href="https://github.com/immich-app/base-images/blob/main/postgres/postgresql.hdd.conf" target="_blank" rel="noopener noreferrer"><code>postgresql.hdd.conf</code></a> which mainly controls the Postgres `effective_io_concurrency` setting to allow for concurrenct IO on SSDs and sequential IO on HDDs.
 

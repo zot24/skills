@@ -18,253 +18,268 @@ Start typing to search the documentation.
 # Channels
 
 
-AI-generated, awaiting review <a href="/docs/guide/channels/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Jul 21, 2026<a href="/docs/guide/channels/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
-Channels bring provider HTTP events into a Flue application. A channel verifies the provider request, parses it into typed provider-native data, and calls your application handler. Your handler can dispatch work to an agent, invoke application code, or return a provider-specific response.
+A **channel** connects an external provider — Slack, GitHub, Stripe — to your agents: verified HTTP ingress that authenticates each incoming delivery and hands your code the provider’s native payload to route into agent conversations with [`dispatch(...)`](/docs/guide/building-agents/#dispatch). Channels are inbound-only; outbound provider calls stay in your application, written against the provider’s own SDK. This guide covers adding a channel to a project, the channel module and its mount in `app.ts`, delivering provider events into conversations, reading those deliveries inside the agent, outbound behavior through provider SDKs, and the channel catalog.
 
-Channels are intentionally focused on inbound HTTP. They are not universal clients for Slack, GitHub, Stripe, or another provider. Use the provider’s established SDK for outbound API calls, then expose only the operations your application or agents need.
+## Adding a channel
 
-## Add a channel
-
-Use `flue add` to give your coding agent the integration blueprint for a first-party channel:
+Every supported provider ships as a [blueprint](/docs/cli/add/) — a Markdown implementation guide your coding agent applies, rather than a package installer:
 
 ``` astro-code
-flue add channel slack --print | codex
+flue add channel slack
 ```
 
-The blueprint inspects the project and creates a module such as `src/channels/slack.ts`. A typical channel module exports:
+Applying the Slack blueprint installs two packages and wires them into your project:
 
-``` astro-code
-import { createSlackChannel } from '@flue/slack';
-import { WebClient } from '@slack/web-api';
+- `@flue/slack` — the **ingress** package: request verification and the channel’s HTTP routes.
+- `@slack/web-api` — Slack’s own SDK, for **outbound** calls your application makes.
 
-export const client = new WebClient(process.env.SLACK_BOT_TOKEN);
+The result is one new module, `src/channels/slack.ts`, exporting the configured `channel` and the SDK `client`, plus a mount in `app.ts` and a reply tool bound into the target agent. Every channel follows the same split: Flue owns verified ingress, and outbound behavior stays in your application through the provider’s established SDK ([below](#use-provider-sdks)).
+
+Each provider’s ecosystem page documents its environment variables — for Slack, `SLACK_SIGNING_SECRET` for inbound verification and `SLACK_BOT_TOKEN` for outbound calls. Supply them like any other secret; see [Provider credentials](/docs/guide/models/#provider-credentials).
+
+## The channel module
+
+A channel module configures the provider’s `create*Channel()` factory with a verification secret and one handler per protocol surface. The package verifies each request — signatures checked against the exact raw bytes, replay windows enforced, protocol handshakes such as Slack’s URL verification answered internally — and calls your handler only for authenticated deliveries, passing the provider’s native payload types alongside the Hono context `c`:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { dispatch } from &#39;@flue/runtime&#39;;
+import { createSlackChannel } from &#39;@flue/slack&#39;;
+import { Assistant } from &#39;../agents/assistant.ts&#39;;
 
 export const channel = createSlackChannel({
   signingSecret: process.env.SLACK_SIGNING_SECRET!,
 
-  // Path: /channels/slack/events
+  // Served at POST /channels/slack/events (with the mount below).
   async events({ payload }) {
-    if (payload.type !== 'event_callback') return;
-    // Handle payload.event using Slack's native types and fields.
+    if (payload.type !== &#39;event_callback&#39;) return;
+    if (payload.event.type !== &#39;app_mention&#39;) return;
+
+    const event = payload.event;
+    const thread = {
+      teamId: payload.team_id,
+      channelId: event.channel,
+      threadTs: event.thread_ts ?? event.ts,
+    };
+
+    await dispatch(Assistant, {
+      id: channel.instanceId(thread),
+      // Slack redelivers events whose acknowledgement was slow or lost; the
+      // event id names the delivery, so a retry never runs a second turn.
+      idempotencyKey: payload.event_id,
+      // Recorded once, when this delivery creates the conversation.
+      initialData: {
+        channelId: thread.channelId,
+        threadTs: thread.threadTs,
+        startedBy: event.user,
+      },
+      message: {
+        kind: &#39;signal&#39;,
+        type: &#39;slack.app_mention&#39;,
+        body: event.text,
+        attributes: { eventId: payload.event_id },
+      },
+    });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/slack.ts</span></figcaption>
+</figure>
 
-The named `channel` export is the Flue integration. The named `client` export is ordinary application code initialized with the provider SDK. A channel module may also export application-owned tools or helper functions.
+The handler filters the events the application cares about, chooses the receiving conversation, and dispatches a normalized message. Everything in the `dispatch(...)` call is covered in [Delivering into a conversation](#delivering-into-a-conversation) below, except `idempotencyKey` — that is the redelivery convention, covered next.
 
-See the [Ecosystem](/docs/ecosystem/#channels) for first-party packages and provider-specific setup.
+The channel packages share a few conventions:
 
-## Custom Channel
+- **Handlers select routes.** Each configured handler publishes its route (`events` → `/events`, `interactions` → `/interactions`, …); omit a handler and its route does not exist. Most providers expose a single `webhook` handler at `/webhook`.
+- **Return values become responses.** Returning nothing produces an empty `200`; a JSON-compatible value becomes a JSON response; a `Response` passes through unchanged — for the surfaces (like Slack slash commands or Discord interactions) whose protocol reads the acknowledgement body. See each package’s reference for its exact contract.
+- **Acknowledge quickly.** `dispatch(...)` resolves as soon as the message is durably admitted — the agent runs asynchronously. Providers retry slow acknowledgements, so admit the work and return rather than awaiting agent output in the handler.
+- **Deliveries can repeat.** Providers retry failed requests and may deliver an event more than once; channel packages are stateless and do not deduplicate. Pass the provider’s redelivery-stable id as the dispatch `idempotencyKey` — `idempotencyKey: payload.event_id` for Slack events — and a redelivered event converges on the original submission instead of running a second turn: same receipt (marked `deduplicated: true`), at most one answer. The key names the delivery, not the outcome, and reusing it with a different payload rejects with a 409 `submission_conflict`. Carrying the id in signal `attributes` as well keeps it visible for tracing.
 
-When Flue does not provide a first-party channel, give `flue add` the provider’s webhook documentation and select the generic channel blueprint:
+## Mounting
 
-``` astro-code
-flue add channel https://provider.example/webhooks --print | codex
-```
+A channel serves HTTP only where `app.ts` mounts it. The channel object exposes a `route()` factory — a pure, mountable sub-router serving the channel’s declared routes relative to the mount point:
 
-The blueprint guides your coding agent through creating a discovered `channels/<provider>.ts` module, verifying requests against the unconsumed body, preserving provider-native events, and adding the provider’s established SDK for outbound calls. Review the generated code and test valid and invalid signatures, protocol handshakes, responses, and the configured Node or Cloudflare target.
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as slack } from &#39;./channels/slack.ts&#39;;
 
-See the [generic channel blueprint](https://github.com/withastro/flue/blob/main/blueprints/channel.md) for the full implementation and verification checklist.
+app.route(&#39;/channels/slack&#39;, slack.route());
+// Slack&#39;s Events API endpoint is now POST /channels/slack/events</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
 
-## Understand ownership
+`/channels/<provider>` is a convention, not a requirement — the suffixes shift with whatever mount you choose, and the URL you register with the provider is the mount plus the suffix. The dispatch-target agent needs no mount of its own: the `'use agent'` directive registers it, and registration is all `dispatch(...)` requires. See [Dispatch-only agents](/docs/guide/routing/#dispatch-only-agents) in the Routing guide for how channel mounts sit alongside the rest of the route map.
 
-Flue channels own the provider ingress boundary. Your application owns how that event affects the rest of the system.
+Unlike agent mounts, channel routes need no additional authentication middleware for the provider traffic itself — verification against the provider’s secret is the authentication, and it happens inside the channel before your handler runs.
 
-| Concern                                                | Owner           |
-|--------------------------------------------------------|-----------------|
-| Request authentication and signature verification      | Channel package |
-| Provider handshakes and automatic protocol responses   | Channel package |
-| Body limits, parsing, and typed provider payloads      | Channel package |
-| Discovered routes beneath `/channels/<name>/...`       | Flue            |
-| Provider SDK client and outbound credentials           | Application     |
-| OAuth, installation, token storage, and token rotation | Application     |
-| Agent tools and authorization policy                   | Application     |
-| Delivery deduplication and business persistence        | Application     |
+## Delivering into a conversation
 
-This boundary keeps each provider’s large outbound API in its established SDK instead of rebuilding it inside Flue. Provider ecosystem guides can document useful SDK operations, but those methods remain SDK capabilities rather than features implemented by the channel package.
+The `dispatch(...)` call in a channel handler makes three decisions: which conversation receives the event, what the message says, and what the conversation is about.
 
-## File-based routing
+### The conversation id
 
-Each immediate file beneath `channels/` exports one named `channel` binding. The filename defines its route namespace:
+Every delivery dispatched to the same `id` lands in the same durable conversation, so the id determines which events share history. For conversation-shaped providers — a Slack thread, a GitHub issue, a Teams chat — the natural mapping is one agent conversation per provider destination, and those channels expose an `instanceId()` helper that derives a canonical, collision-free id from the destination’s identifying fields:
 
 ``` astro-code
-src/channels/github.ts -> /channels/github/webhook
-src/channels/slack.ts  -> /channels/slack/events
-                          /channels/slack/interactions
-                          /channels/slack/commands
+channel.instanceId({ teamId, channelId, threadTs }); // "slack:v1:T0123:C0456:1721760000.123456"
 ```
 
-The provider package defines one or more fixed, non-empty suffixes such as `/webhook`, `/events`, or `/interactions`. The namespace itself, such as `/channels/slack`, is not an endpoint.
+The id identifies the conversation; it does not authorize access to it — protect mounted conversations as described in [Protecting your agents](/docs/guide/routing/#protecting-your-agents). `parseInstanceId(id)` recovers the destination fields from a canonical id, but it is an escape hatch: prefer passing structured facts through `initialData` (below) over parsing them back out of the id.
 
-No `app.ts` is required. If an authored application mounts `flue()` beneath a prefix, discovered channels receive the same prefix as agents and workflows:
+Event-feed providers — Stripe, Shopify, Notion, Resend — have no inherent conversation shape, so their channels have no `instanceId()` helper. Choose the id from the event yourself: per customer, per order, per occurrence — the same choice a [schedule](/docs/guide/schedules/) makes.
 
-``` astro-code
-import { flue } from '@flue/runtime/routing';
-import { Hono } from 'hono';
+### Signals
 
-const app = new Hono();
-app.route('/api', flue());
+Channel deliveries are dispatched as `kind: 'signal'` messages, not `kind: 'user'`. A Slack thread or GitHub issue is a multi-participant surface the agent joins as one member — a `user` message would present every participant as the agent’s own user, where a signal carries the event with its metadata intact:
 
-export default app;
-```
+- `type` — a namespaced event name you choose (`'slack.app_mention'`, `'github.issue_comment.created'`).
+- `body` — the message content, a plain string.
+- `attributes` — a string-to-string map of structured facts your verified handler attaches: sender, delivery id, resource identifiers.
 
-This publishes the Slack Events API route at `/api/channels/slack/events`. An authored application can prefix all Flue routes, but it cannot relocate one discovered channel independently.
+Keep short-lived provider capabilities — interaction tokens, `response_url` values — out of the dispatched message: signals enter model context and durable history, and those values belong only in immediate request handling. The full message shape is [`DeliveredMessage`](/docs/reference/agent-api/#deliveredmessage) in the Agent API.
 
-Use an application-owned Hono route instead when a provider requires a fully custom URL. See [Routing](/docs/guide/routing/).
+### Creation data
 
-## Handle verified events
+`initialData` is recorded once, when the dispatch creates the conversation, and ignored by every later send. It carries the facts that define what the conversation *is* — the thread, the repository, the ticket — as opposed to what each message *says*. When the agent declares an `initialData` schema static, the value is validated at admission, so a creating dispatch that omits or malforms it fails instead of seeding a broken conversation. See [Passing data to the agent](/docs/guide/agent-hooks/#passing-data-to-the-agent).
 
-Each provider constructor accepts callbacks for its HTTP surfaces. The callback runs only after the package has performed the applicable request authentication, parsing, and protocol handling. Handshakes that do not represent application events are handled before the callback:
+## Reading deliveries in the agent
 
-``` astro-code
-import { dispatch } from '@flue/runtime';
-import { createSlackChannel } from '@flue/slack';
-import assistant from '../agents/assistant.ts';
+Two hooks read these inputs inside the agent: [`useInitialData()`](/docs/reference/agent-hooks-api/#useinitialdata) returns the creation data, and [`useDelivery()`](/docs/reference/agent-hooks-api/#usedelivery) returns the message currently in front of the model as the same `DeliveredMessage` the channel dispatched:
 
-export const channel = createSlackChannel({
-  signingSecret: process.env.SLACK_SIGNING_SECRET!,
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { useDelivery, useInitialData, useModel, useTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+import { replyInThread } from &#39;../channels/slack.ts&#39;;
 
-  // Path: /channels/slack/events
-  async events({ payload }) {
-    if (payload.type !== 'event_callback') return;
+export function Assistant() {
+  useModel(&#39;anthropic/claude-sonnet-4-6&#39;);
 
-    switch (payload.event.type) {
-      case 'app_mention': {
-        const event = payload.event;
-        await dispatch(assistant, {
-          id: channel.conversationKey({
-            teamId: payload.team_id,
-            channelId: event.channel,
-            threadTs: event.thread_ts ?? event.ts,
-          }),
-          input: {
-            type: 'slack.app_mention',
-            eventId: payload.event_id,
-            text: event.text,
-          },
-        });
-        return;
-      }
-      default:
-        return;
-    }
-  },
-});
-```
+  const data = useInitialData&lt;v.InferOutput&lt;typeof Assistant.initialData&gt;&gt;();
+  useTool(replyInThread(data));
 
-The callback receives one extensible object containing the authentic Hono context as `c` and provider-specific typed data such as `payload`, `event`, or `interaction`. First-party channels prefer authoritative provider-maintained types and preserve provider field names, nesting, and discriminants. Use a `switch` to group provider event types that share behavior, and consult the provider package reference for its exact callback shape.
+  const delivery = useDelivery();
+  const eventId = delivery.kind === &#39;signal&#39; ? delivery.attributes?.eventId : undefined;
 
-Some providers expose multiple optional surfaces. Omitting an optional callback omits its route instead of publishing an empty handler.
-
-## Return provider responses
-
-Channel callbacks use ordinary Hono and Fetch responses:
-
-- Return nothing when an empty successful acknowledgement is appropriate.
-- Return `c.json(...)`, `c.text(...)`, or another `Response` for explicit status, headers, or body control.
-- When supported by the provider package, return a JSON-compatible value to use it as the response body.
-
-Provider protocols may narrow the accepted return values. Discord interactions require a provider response, Slack view submissions can return validation errors, and Twilio handlers use explicit responses for provider-specific XML or other bodies. Follow the provider guide and API reference for the exact contract.
-
-## Deliver events to agents
-
-Use `dispatch(...)` when an accepted event should become asynchronous input to a continuing agent:
-
-``` astro-code
-if (payload.type === 'event_callback' && payload.event.type === 'app_mention') {
-  await dispatch(assistant, {
-    id: channel.conversationKey(thread),
-    input: {
-      type: 'slack.app_mention',
-      eventId: payload.event_id,
-      text: payload.event.text,
-    },
-  });
+  return &#39;You participate in one Slack thread. Reply with the reply_in_slack_thread tool when a response is called for.&#39;;
 }
-```
 
-Your application chooses the agent and instance id before dispatch. A provider thread, issue, ticket, or conversation is often a useful instance boundary because later events continue the same agent session.
+Assistant.initialData = v.object({
+  channelId: v.string(),
+  threadTs: v.string(),
+  startedBy: v.optional(v.string()),
+});</code></pre>
+<figcaption><span>src/agents/assistant.ts</span></figcaption>
+</figure>
 
-Conversation keys are canonical identifiers, not authorization capabilities. If a caller can select an agent id through another route, authorize that id before deriving provider destinations or outbound tools from it.
-
-A dispatched event is an operation inside an agent session. It is not a workflow run. See [Agents](/docs/guide/building-agents/) for continuing agent state and [Workflows](/docs/guide/workflows/) for finite invocations.
+Because the schema static is required here, a conversation cannot exist without valid creation data, and no `undefined` narrowing is needed. Both hooks give *code* the same access the model has: the thread facts bind the reply tool without the model choosing a destination, and signal `attributes` carry identifiers your tools can trust because verified channel code attached them — the authorization pattern covered in [Protect access](/docs/guide/tools/#protect-access) in the Tools guide.
 
 ## Use provider SDKs
 
-Initialize the provider’s established SDK in application code and export the client from the channel module:
+Channels are ingress-only: Flue has no outbound messaging API, no reply routing, and no send-message abstraction over providers. Outbound behavior belongs to your application, written against the provider’s own SDK — the blueprint installs one and exports a configured client from the channel module:
 
-``` astro-code
-import { defineTool } from '@flue/runtime';
-import { Octokit } from '@octokit/rest';
-import * as v from 'valibot';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { WebClient } from &#39;@slack/web-api&#39;;
 
-export const client = new Octokit({
-  auth: process.env.GITHUB_TOKEN,
-});
+export const client = new WebClient(process.env.SLACK_BOT_TOKEN);</code></pre>
+<figcaption><span>src/channels/slack.ts</span></figcaption>
+</figure>
 
-export function commentOnIssue(ref: { owner: string; repo: string; issueNumber: number }) {
+Application code calls the client directly, with the provider’s full documented surface. OAuth installation flows, token storage, and rotation are likewise application concerns, outside the channel package. To let the *model* act on the provider, wrap exactly the actions the application needs as [tools](/docs/guide/tools/), binding the destination in trusted code:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { defineTool } from &#39;@flue/runtime&#39;;
+import * as v from &#39;valibot&#39;;
+
+export function replyInThread(ref: { channelId: string; threadTs: string }) {
   return defineTool({
-    name: 'comment_on_github_issue',
-    description: 'Comment on the GitHub issue bound to this agent.',
-    input: v.object({ body: v.string() }),
-    async run({ input, signal }) {
-      await client.rest.issues.createComment({
-        owner: ref.owner,
-        repo: ref.repo,
-        issue_number: ref.issueNumber,
-        body: input.body,
-        request: { signal },
+    name: &#39;reply_in_slack_thread&#39;,
+    description: &#39;Reply in the Slack thread bound to this conversation.&#39;,
+    input: v.object({ text: v.pipe(v.string(), v.minLength(1)) }),
+    async run({ data }) {
+      const result = await client.chat.postMessage({
+        channel: ref.channelId,
+        thread_ts: ref.threadTs,
+        text: data.text,
       });
-      return { posted: true };
+      return { output: { ts: result.ts ?? null } };
     },
   });
-}
+}</code></pre>
+<figcaption><span>src/channels/slack.ts</span></figcaption>
+</figure>
+
+The model selects the reply text; it cannot select the workspace, the thread, the credential, or the Web API method — those are fixed by the factory argument the agent supplied from its creation data. Avoid generic provider tools that expose arbitrary destinations or API methods unless the application has an explicit authorization design for them.
+
+Because the SDK is the provider’s own, everything it documents is available without waiting for framework support — Slack’s assistant status and streaming-reply APIs, Octokit’s full GitHub surface, Stripe’s typed event handling — from tools, from [event hooks](/docs/guide/agent-hooks/#event-hooks), or from any other application code.
+
+## The channel catalog
+
+Flue publishes ingress packages and blueprints for these providers; each [ecosystem page](/docs/ecosystem/#channels) documents the provider’s routes, payload types, environment variables, and caveats. The packages are built on Fetch and Web Crypto and run on both the Node and Cloudflare targets. Each blueprint installs its provider’s ingress package (`@flue/slack`, `@flue/github`, …), named on the ecosystem page:
+
+| Provider                                                                           | Blueprint                    |
+|------------------------------------------------------------------------------------|------------------------------|
+| [Slack](/docs/ecosystem/channels/slack/)                                           | `slack`                      |
+| [Discord](/docs/ecosystem/channels/discord/)                                       | `discord`                    |
+| [Microsoft Teams](/docs/ecosystem/channels/teams/)                                 | `teams`                      |
+| [Google Chat](/docs/ecosystem/channels/google-chat/)                               | `google-chat`                |
+| [Telegram](/docs/ecosystem/channels/telegram/)                                     | `telegram`                   |
+| [WhatsApp](/docs/ecosystem/channels/whatsapp/)                                     | `whatsapp`                   |
+| [Facebook Messenger](/docs/ecosystem/channels/messenger/)                          | `messenger`                  |
+| [Twilio](/docs/ecosystem/channels/twilio/)                                         | `twilio`                     |
+| [GitHub](/docs/ecosystem/channels/github/)                                         | `github`                     |
+| [Linear](/docs/ecosystem/channels/linear/)                                         | `linear`                     |
+| [Notion](/docs/ecosystem/channels/notion/)                                         | `notion`                     |
+| [Intercom](/docs/ecosystem/channels/intercom/)                                     | `intercom`                   |
+| [Zendesk](/docs/ecosystem/channels/zendesk/)                                       | `zendesk`                    |
+| [Stripe](/docs/ecosystem/channels/stripe/)                                         | `stripe`                     |
+| [Shopify](/docs/ecosystem/channels/shopify/)                                       | `shopify`                    |
+| [Resend](/docs/ecosystem/channels/resend/)                                         | `resend`                     |
+| [Salesforce Marketing Cloud](/docs/ecosystem/channels/salesforce-marketing-cloud/) | `salesforce-marketing-cloud` |
+
+### Providers without a blueprint
+
+For any other provider, pass a documentation URL and the generic channel blueprint guides your coding agent through the same shape — verified ingress as project source, the provider’s SDK for outbound, narrow application-owned tools:
+
+``` astro-code
+flue add channel https://developers.provider.example/webhooks
 ```
 
-Bind credentials and destinations in trusted code. Let the model select message content or other intentionally variable values, not arbitrary account ids, URLs, credentials, or provider methods.
+A channel is an object with declarative routes, so you can also write one by hand. `createChannelRouter(routes)` from `@flue/runtime` builds the same mountable sub-router the packaged channels’ `route()` returns:
 
-There is no universal channel client or generic provider tool collection. Provider APIs, authorization models, and SDKs are too different for a shared outbound abstraction to preserve their capabilities well.
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import type { Handler } from &#39;hono&#39;;
 
-## Handle retries and delivery identity
+const webhook: Handler = async (c) =&gt; {
+  const rawBody = await c.req.text();
+  // Verify the provider&#39;s signature against the raw bytes before parsing,
+  // then dispatch into an agent exactly like a packaged channel.
+  return c.body(null, 200);
+};
 
-Channel packages are stateless and do not deduplicate provider deliveries. Providers may retry failed requests, deliver events more than once, or deliver them out of order.
+export const channel = {
+  routes: [{ method: &#39;POST&#39;, path: &#39;/webhook&#39;, handler: webhook }],
+};</code></pre>
+<figcaption><span>src/channels/acme.ts</span></figcaption>
+</figure>
 
-Preserve the provider delivery or event id in application input when it is useful for tracing. When duplicate admission is unacceptable, claim that id in application-owned durable storage before performing external effects or dispatching work.
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { createChannelRouter } from &#39;@flue/runtime&#39;;
+import { channel as acme } from &#39;./channels/acme.ts&#39;;
 
-Handlers wait for application work such as `dispatch(...)` admission before acknowledging. Some packages impose a deadline so the provider receives a response within its protocol window. A timed-out JavaScript operation cannot be forcibly stopped and may still complete later, so a timeout does not replace idempotency.
+app.route(&#39;/channels/acme&#39;, createChannelRouter(acme.routes));</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
 
-Retry behavior and useful delivery identifiers are provider-specific. See the corresponding ecosystem guide.
-
-## Protect sensitive provider data
-
-Keep credentials, raw request bodies, webhook response URLs, interaction tokens, and other short-lived provider capabilities out of:
-
-- model context;
-- dispatched input;
-- logs;
-- durable agent session history.
-
-Use those values only in immediate trusted application code. Provider identity such as a workspace id, repository name, or channel id may still be sensitive and does not by itself authorize an operation.
-
-## Run on Node and Cloudflare
-
-First-party channel packages use Fetch and Web Crypto and are tested on Node and workerd. Flue Cloudflare builds enable `nodejs_compat`.
-
-The outbound client remains application-owned. A client import successfully bundling for Cloudflare is not proof that every SDK operation works there. Provider blueprints select a credible cross-runtime client, and examples execute a representative client operation in workerd without contacting the provider. Validate any additional SDK paths your application depends on.
-
-Long-lived sockets, polling loops, and provider-managed background transports are outside the current channel model. Use verified HTTP delivery, or keep that integration in application-owned infrastructure until Flue supports the required transport.
-
-## Other integration paths
-
-[Chat SDK](https://chat-sdk.dev/docs) is a separate option when its cross-provider conversation model, adapters, and chat-side state are a better fit than provider-native first-party channels. In that design, Chat SDK owns its adapter and state boundary, while application handlers call `dispatch(...)` to deliver accepted messages to Flue agents.
+Verify signatures against the exact unconsumed request body, keep every route suffix a non-empty path beginning with `/`, and test both valid and invalid signatures along with the provider’s protocol handshakes. Channels model verified HTTP delivery; long-lived sockets, polling loops, and provider-managed background transports stay in application-owned infrastructure.
 
 ## Next steps
 
-- [Ecosystem](/docs/ecosystem/#channels) — choose a first-party provider.
-- [Agents](/docs/guide/building-agents/) — deliver events into continuing agent sessions.
-- [Routing](/docs/guide/routing/) — compose channels with application routes, middleware, and a shared prefix.
+- [Routing](/docs/guide/routing/) — the `app.ts` route map that channel mounts live in.
+- [Agents](/docs/guide/building-agents/#dispatch) — `dispatch(...)`, receipts, and the other ways to reach an agent.
+- [Tools](/docs/guide/tools/#protect-access) — binding trusted identifiers so the model can act without selecting destinations.
+- [Agent API](/docs/reference/agent-api/) — `useDelivery()`, `useInitialData()`, and the `DeliveredMessage` shape.
+- [Slack](/docs/ecosystem/channels/slack/) and the other [ecosystem channel pages](/docs/ecosystem/#channels) — per-provider setup, payloads, and configuration.
 
 
 ## Docs Navigation
@@ -273,10 +288,10 @@ Current page: [Channels](/docs/guide/channels/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

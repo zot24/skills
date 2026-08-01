@@ -29,22 +29,23 @@ Ready to build your own? Follow the [building](/docs/contributing/building) guid
 | Post message       |                 |                         |                       |                     |                         |                   |                            |                       |                         |
 | Edit message       |                 |                         |                       |                     |                         |                   |  Partial                    |                       |                         |
 | Delete message     |                 |                         |                       |                     |                         |                   |  Partial                    |                       |                         |
-| File uploads       |                 |                         |                       |                     |  Single file/media       |                   |                            |  Images, audio, docs  |                         |
+| File uploads       |                 |                         |                       |                     |  Media groups           |                   |                            |  Images, audio, docs  |                         |
 | Streaming          |  Native         |  Native (DMs) / Buffered |  Post+Edit             |  Post+Edit           |  Rich drafts / Post+Edit |  Buffered          |  Agent sessions / Post+Edit |  Buffered              |  Buffered                |
 | Scheduled messages |  Native         |                         |                       |                     |                         |                   |                            |                       |                         |
 
 ### Rich content
 
-| Feature         | Slack               | Teams          | Google Chat       | Discord       | Telegram                               | GitHub        | Linear        | WhatsApp                      | Messenger                |
-| --------------- | ------------------- | -------------- | ----------------- | ------------- | -------------------------------------- | ------------- | ------------- | ----------------------------- | ------------------------ |
-| Card format     | Block Kit           | Adaptive Cards | Google Chat Cards | Embeds        | Markdown + inline keyboard buttons     | GFM Markdown  | Markdown      | WhatsApp templates            | Generic/Button Templates |
-| Buttons         |            |       |          |      |  Inline keyboard callbacks     |      |      |  Interactive replies |  Max 3, postback |
-| Link buttons    |            |       |          |      |  Inline keyboard URLs          |      |      |                      |                 |
-| Select menus    |            |       |          |      |                               |      |      |                      |                 |
-| Tables          |  Block Kit |  GFM  |  ASCII    |  GFM |  Native messages / ASCII cards |  GFM |  GFM |                      |  ASCII           |
-| Fields          |            |       |          |      |                               |      |      |  Template variables   |  ASCII           |
-| Images in cards |            |       |          |      |                               |      |      |                      |                 |
-| Modals          |            |       |          |      |                               |      |      |                      |                 |
+| Feature         | Slack                          | Teams                  | Google Chat            | Discord                | Telegram                               | GitHub                 | Linear                 | WhatsApp                      | Messenger                |
+| --------------- | ------------------------------ | ---------------------- | ---------------------- | ---------------------- | -------------------------------------- | ---------------------- | ---------------------- | ----------------------------- | ------------------------ |
+| Card format     | Block Kit                      | Adaptive Cards         | Google Chat Cards      | Embeds                 | Markdown + inline keyboard buttons     | GFM Markdown           | Markdown               | WhatsApp templates            | Generic/Button Templates |
+| Buttons         |                       |               |               |               |  Inline keyboard callbacks     |               |               |  Interactive replies |  Max 3, postback |
+| Link buttons    |                       |               |               |               |  Inline keyboard URLs          |               |               |                      |                 |
+| Select menus    |                       |               |               |               |                               |               |               |                      |                 |
+| Tables          |  Block Kit data table |  GFM          |  ASCII         |  GFM          |  Native messages / ASCII cards |  GFM          |  GFM          |                      |  ASCII           |
+| Charts          |  Block Kit            |  Text fallback |  Text fallback |  Text fallback |  Text fallback                 |  Text fallback |  Text fallback |  Text fallback        |  Text fallback   |
+| Fields          |                       |               |               |               |                               |               |               |  Template variables   |  ASCII           |
+| Images in cards |                       |               |               |               |                               |               |               |                      |                 |
+| Modals          |                       |               |               |               |                               |               |               |                      |                 |
 
 ### Conversations
 
@@ -151,3 +152,11 @@ Construct your subclass anywhere you'd construct the base adapter, for example, 
 
   The `protected` extension surface is intentionally broader than the public API but is not yet considered fully stable. Method signatures may evolve in minor releases as we learn from real-world subclasses. Pin the adapter version you build against, watch the changelog for the affected adapter, and prefer overriding the smallest hook that solves your problem so upgrades stay easy. If you rely on a particular hook, please open an issue so we can promote it to a stable, documented extension point.
 
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

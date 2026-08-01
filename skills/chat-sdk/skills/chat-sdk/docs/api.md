@@ -39,3 +39,12 @@ import { Chat, root, paragraph, text, Card, Button, emoji } from "chat";
 ## AI utilities
 
 `toAiMessages`, `createChatTools`, and the supporting types live in the [`chat/ai`](/docs/ai) subpath — see the [AI section](/docs/ai) for the full reference.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

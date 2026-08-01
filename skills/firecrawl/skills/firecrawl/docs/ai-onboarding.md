@@ -39,7 +39,7 @@ Firecrawl users can get an API key in two ways. Most users should sign in throug
     **For supported agent platforms.** Use this when your platform can mint a WorkOS ID-JAG for Firecrawl. Review [Agent Auth](/ai-onboarding/agent-auth), then follow [`auth.md`](https://www.firecrawl.dev/auth.md).
 
 
-**Can't sign in or get a key?** When your agent cannot obtain an API key and the human cannot sign up, you can still use the keyless free tier to search, scrape, and interact without an API key. It is rate-limited and meant as a fallback, so move to a free account or API key as soon as one is available. See [Keyless (no API key)](/rate-limits#keyless-no-api-key) for details.
+**Can't sign in or get a key?** The CLI, SDKs, and REST API allow keyless search, scrape, interact, and parse. Hosted MCP exposes the narrower keyless Search, Scrape, and Parse surface; interact requires an account connection or API key there. Keyless access is rate-limited and meant as a fallback, so move to a free account or API key as soon as one is available. See [Keyless (no API key)](/rate-limits#keyless-no-api-key) for details.
 
 Once you have an API key, continue with [Skills + CLI](#skills-cli) below.
 
@@ -351,11 +351,13 @@ The response includes an `answer`, a `confidence` rating, optional `fixParameter
 
 MCP is an open protocol that standardizes how applications provide context to LLMs. Among other benefits, it gives LLMs tools to act on your behalf. Our [MCP server](https://github.com/firecrawl/firecrawl-mcp-server) is open-source and covers our full API surface — search, scrape, interact, crawl, map, extract, and agent.
 
-Use the remote hosted URL:
+Use the remote hosted URL (works without an API key on the keyless free tier):
 
 ```
-https://mcp.firecrawl.dev/{FIRECRAWL_API_KEY}/v2/mcp
+https://mcp.firecrawl.dev/v2/mcp
 ```
+
+With an API key, send it as an `Authorization: Bearer fc-YOUR-API-KEY` header to unlock every tool plus higher limits.
 
 Or add the local server to any MCP client:
 

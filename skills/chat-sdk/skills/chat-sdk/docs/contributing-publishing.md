@@ -197,3 +197,12 @@ Accepted `readme` formats:
 | Subpath in a monorepo | `https://github.com/owner/repo/tree/<ref>/packages/adapter` |
 
 Unpinned refs (e.g., `tree/main`, or omitting `/tree/<ref>` entirely) will emit a build warning and are rejected during PR review.
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

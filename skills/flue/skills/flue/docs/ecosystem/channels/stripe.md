@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Stripe
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/channels/stripe/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/stripe" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/stripe</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/channels/stripe/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/stripe" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/stripe</a>
 
 
 ## Quickstart
@@ -33,11 +33,11 @@ flue add channel stripe
 
 The blueprint installs `@flue/stripe`, Stripe’s official `stripe` SDK, and its required TypeScript peer when needed. It creates `<source-root>/channels/stripe.ts`, where the named `channel` export verifies snapshot webhook events by default and the project-owned `client` handles outbound API calls. Adapt the selected events, agent, and tool to the application.
 
-``` astro-code
-import Stripe from 'stripe';
-import { createStripeChannel } from '@flue/stripe';
-import { dispatch } from '@flue/runtime';
-import billing from '../agents/billing.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import Stripe from &#39;stripe&#39;;
+import { createStripeChannel } from &#39;@flue/stripe&#39;;
+import { dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Billing } from &#39;../agents/billing.ts&#39;;
 
 export const client = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   httpClient: Stripe.createFetchHttpClient(),
@@ -47,21 +47,47 @@ export const channel = createStripeChannel({
   client,
   webhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
   async webhook({ event }) {
-    if (event.type !== 'checkout.session.completed') return;
+    if (event.type !== &#39;checkout.session.completed&#39;) return;
     const session = event.data.object;
     const customerId =
-      typeof session.customer === 'string' ? session.customer : session.customer?.id;
+      typeof session.customer === &#39;string&#39; ? session.customer : session.customer?.id;
     if (!customerId) return;
 
-    await dispatch(billing, {
+    await dispatch(Billing, {
       id: customerId,
-      input: { type: `stripe.${event.type}`, eventId: event.id },
+      message: {
+        kind: &#39;signal&#39;,
+        type: `stripe.${event.type}`,
+        body: `Checkout session ${session.id} reported payment status ${session.payment_status}.`,
+        attributes: {
+          eventId: event.id,
+          customerId,
+          sessionId: session.id,
+          paymentStatus: session.payment_status,
+          ...(session.amount_total === null ? {} : { amountTotal: String(session.amount_total) }),
+          ...(session.currency === null ? {} : { currency: session.currency }),
+        },
+      },
     });
   },
-});
-```
+});</code></pre>
+<figcaption><span>src/channels/stripe.ts (abridged)</span></figcaption>
+</figure>
 
 A matching event is admitted to the billing agent identified by its Stripe customer. Other events receive an empty successful response. The generated module also defines a customer-bound retrieval tool; the blueprint wires that tool into the billing agent. For Cloudflare targets, the same SDK uses its Fetch and Web Crypto implementation.
+
+## Mount the channel
+
+A channel serves HTTP routes only where `app.ts` mounts it. Mount the module’s named `channel` export:
+
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { channel as stripe } from &#39;./channels/stripe.ts&#39;;
+
+app.route(&#39;/channels/stripe&#39;, stripe.route());</code></pre>
+<figcaption><span>src/app.ts</span></figcaption>
+</figure>
+
+`channel.route()` is a pure router factory serving the channel’s declared routes relative to the mount path. The webhook paths in this guide assume the conventional `/channels/stripe` mount; a different mount path shifts them accordingly. The dispatch-target agent module carries the `'use agent'` directive — the directive registers it, so a dispatch-only agent needs no HTTP mount of its own.
 
 ## Configure
 
@@ -84,11 +110,11 @@ If `flue()` is mounted beneath an outer prefix, include that prefix. Subscribe o
 
 Snapshot events are the default:
 
-``` astro-code
-import Stripe from 'stripe';
-import { createStripeChannel } from '@flue/stripe';
-import { defineTool, dispatch } from '@flue/runtime';
-import billing from '../agents/billing.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import Stripe from &#39;stripe&#39;;
+import { createStripeChannel } from &#39;@flue/stripe&#39;;
+import { defineTool, dispatch, useModel } from &#39;@flue/runtime&#39;;
+import { Billing } from &#39;../agents/billing.ts&#39;;
 
 export const client = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   httpClient: Stripe.createFetchHttpClient(),
@@ -101,19 +127,29 @@ export const channel = createStripeChannel({
   // Path: /channels/stripe/webhook
   async webhook({ event }) {
     switch (event.type) {
-      case 'checkout.session.completed':
-      case 'checkout.session.async_payment_succeeded': {
+      case &#39;checkout.session.completed&#39;:
+      case &#39;checkout.session.async_payment_succeeded&#39;: {
         const session = event.data.object;
         const customerId =
-          typeof session.customer === 'string' ? session.customer : session.customer?.id;
+          typeof session.customer === &#39;string&#39; ? session.customer : session.customer?.id;
         if (!customerId) return;
 
-        await dispatch(billing, {
+        await dispatch(Billing, {
           id: customerId,
-          input: {
+          message: {
+            kind: &#39;signal&#39;,
             type: `stripe.${event.type}`,
-            eventId: event.id,
-            checkoutSessionId: session.id,
+            body: `Checkout session ${session.id} reported payment status ${session.payment_status}.`,
+            attributes: {
+              eventId: event.id,
+              customerId,
+              sessionId: session.id,
+              paymentStatus: session.payment_status,
+              ...(session.amount_total === null
+                ? {}
+                : { amountTotal: String(session.amount_total) }),
+              ...(session.currency === null ? {} : { currency: session.currency }),
+            },
           },
         });
         return;
@@ -126,17 +162,20 @@ export const channel = createStripeChannel({
 
 export function retrieveCustomer(customerId: string) {
   return defineTool({
-    name: 'retrieve_stripe_customer',
-    description: 'Retrieve the Stripe customer bound to this billing agent.',
+    name: &#39;retrieve_stripe_customer&#39;,
+    description: &#39;Retrieve the Stripe customer bound to this billing agent.&#39;,
     async run() {
       const customer = await client.customers.retrieve(customerId);
-      return 'deleted' in customer
-        ? { id: customer.id, deleted: true }
-        : { id: customer.id, name: customer.name, email: customer.email };
+      return {
+        output: &#39;deleted&#39; in customer
+          ? { id: customer.id, deleted: true }
+          : { id: customer.id, name: customer.name, email: customer.email },
+      };
     },
   });
-}
-```
+}</code></pre>
+<figcaption><span>src/channels/stripe.ts</span></figcaption>
+</figure>
 
 `@flue/stripe` gives Stripe’s SDK the exact request bytes and `Stripe-Signature` header before invoking `webhook`. Returning nothing produces an empty `200`. A JSON-compatible value becomes the response body, and a normal Hono or Fetch `Response` passes through unchanged.
 
@@ -144,17 +183,20 @@ The example uses a customer id as the agent instance id for one Stripe account. 
 
 ## Bind the tool
 
-``` astro-code
-import { defineAgent } from '@flue/runtime';
-import { retrieveCustomer } from '../channels/stripe.ts';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>&#39;use agent&#39;;
+import { type AgentProps, useModel, useTool } from &#39;@flue/runtime&#39;;
+import { retrieveCustomer } from &#39;../channels/stripe.ts&#39;;
 
-export default defineAgent(({ id: customerId }) => ({
-  model: 'anthropic/claude-haiku-4-5',
-  tools: [retrieveCustomer(customerId)],
-}));
-```
+export function Billing({ id: customerId }: AgentProps) {
+  useModel(&#39;anthropic/claude-haiku-4-5&#39;);
+  useTool(retrieveCustomer(customerId));
+  return &#39;Review the completed Checkout event and summarize any billing follow-up that is needed.&#39;;
+}</code></pre>
+<figcaption><span>src/agents/billing.ts</span></figcaption>
+</figure>
 
-The model can invoke the lookup but cannot select another customer, account, or credential. Trusted application code binds those values. The channel-agent import cycle is supported because both imported bindings are read only inside deferred callbacks or initializers.
+The model can invoke the lookup but cannot select another customer, account, or credential. Trusted application code binds those values. The channel-agent import cycle is supported because both imported bindings are read only inside deferred callbacks or the agent function body.
 
 ## Thin event notifications
 
@@ -197,10 +239,10 @@ Current page: [Stripe](/docs/ecosystem/channels/stripe/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

@@ -18,7 +18,7 @@ Start typing to search the documentation.
 # Redis
 
 
-AI-generated, awaiting review <a href="/docs/ecosystem/databases/redis/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a> <a href="https://www.npmjs.com/package/@flue/redis" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/redis</a>
+Last updated Jul 21, 2026<a href="/docs/ecosystem/databases/redis/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a><a href="https://www.npmjs.com/package/@flue/redis" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800" target="_blank" rel="noopener noreferrer">@flue/redis</a>
 
 
 ## Quickstart
@@ -35,21 +35,22 @@ The Redis blueprint installs `@flue/redis` and the official `redis` client, crea
 
 The primary generated adapter connects the client and translates Flue database operations into Redis commands:
 
-``` astro-code
-import { redis } from '@flue/redis';
-import { createClient } from 'redis';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { redis } from &#39;@flue/redis&#39;;
+import { createClient } from &#39;redis&#39;;
 
 const client = createClient({ url: process.env.REDIS_URL });
 await client.connect();
 
 export default redis({
-  command: (command, args = []) => client.sendCommand([command, ...args.map(String)]),
-  eval: (script, keys, args = []) => client.eval(script, { keys, arguments: args.map(String) }),
-  close: () => client.close(),
-});
-```
+  command: (command, args = []) =&gt; client.sendCommand([command, ...args.map(String)]),
+  eval: (script, keys, args = []) =&gt; client.eval(script, { keys, arguments: args.map(String) }),
+  close: () =&gt; client.close(),
+});</code></pre>
+<figcaption><span>src/db.ts (abridged)</span></figcaption>
+</figure>
 
-This abridged excerpt omits the generated pipeline helper, which batches commands and rejects any `Error` result. Flue discovers the adapter during a Node build, checks and migrates its Redis namespace at server startup, and persists canonical agent conversations, immutable attachments, accepted submissions, workflow runs, and event streams so that they survive Flue process restarts. Durability across Redis server loss depends on the deployment’s AOF or snapshot configuration.
+This abridged excerpt omits the generated pipeline helper, which batches commands and rejects any `Error` result. Flue discovers the adapter during a Node build, checks and migrates its Redis namespace at server startup, and persists canonical agent conversations, immutable attachments, and accepted submissions so that they survive Flue process restarts. Durability across Redis server loss depends on the deployment’s AOF or snapshot configuration.
 
 ## Configure
 
@@ -63,30 +64,31 @@ Set `REDIS_URL` to a persistent standalone Redis server or managed single-shard 
 
 The canonical runner uses the official client:
 
-``` astro-code
-import { redis } from '@flue/redis';
-import { createClient } from 'redis';
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { redis } from &#39;@flue/redis&#39;;
+import { createClient } from &#39;redis&#39;;
 
 const client = createClient({ url: process.env.REDIS_URL });
 await client.connect();
 
 export default redis({
-  command: (command, args = []) => client.sendCommand([command, ...args.map(String)]),
-  eval: (script, keys, args = []) =>
+  command: (command, args = []) =&gt; client.sendCommand([command, ...args.map(String)]),
+  eval: (script, keys, args = []) =&gt;
     client.eval(script, {
       keys,
       arguments: args.map(String),
     }),
-  pipeline: async (commands) => {
+  pipeline: async (commands) =&gt; {
     const multi = client.multi();
     for (const { command, args = [] } of commands) multi.addCommand([command, ...args.map(String)]);
     const results = await multi.exec();
     for (const result of results) if (result instanceof Error) throw result;
     return results;
   },
-  close: () => client.close(),
-});
-```
+  close: () =&gt; client.close(),
+});</code></pre>
+<figcaption><span>src/db.ts</span></figcaption>
+</figure>
 
 ## Inspection and isolation
 
@@ -96,9 +98,9 @@ Use a dedicated Redis database or pass a stable, unique `keyPrefix` as the adapt
 
 ## Migrations and stored data
 
-Flue runs `migrate()` at startup. It initializes schema-version metadata idempotently and refuses data from an unsupported newer schema; there is no separate migration command.
+Flue runs `migrate()` at startup. It initializes format-version metadata idempotently and refuses data from an unsupported newer format; there is no separate migration command.
 
-Redis stores append-only canonical conversation records and compaction facts, immutable attachment payloads, accepted prompts and dispatches, recovery claims and leases, workflow runs and indexes, and persisted event streams. It does not store session transcript snapshots, sandbox files, external API side effects, secrets, or application business data.
+Redis stores append-only canonical conversation records and compaction facts, immutable attachment payloads, accepted prompts and dispatches, and recovery claims and leases. It does not store session transcript snapshots, sandbox files, external API side effects, secrets, or application business data.
 
 ## Verify durability
 
@@ -111,10 +113,10 @@ Current page: [Redis](/docs/ecosystem/databases/redis/)
 
 ### Sections
 
-- [Guide](/docs/getting-started/quickstart/)
-- [Reference](/docs/api/agent-api/)
+- [Guide](/docs/guide/getting-started/)
+- [Reference](/docs/reference/agent-api/)
 - [CLI](/docs/cli/overview/)
-- [SDK](/docs/sdk/overview/)
+- [Agent SDK](/docs/sdk/overview/)
 - [Ecosystem](/docs/ecosystem/)
 
 

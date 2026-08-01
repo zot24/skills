@@ -2,6 +2,9 @@
 
  #  AdGuard Home - Wiki
 
+> [!WARNING]
+> This article is outdated. The latest version is now available on the [AdGuard DNS Knowledge Base][adguard-home-kb] website.
+
 <br/>
 <p align="center">
     <img src="https://cdn.adguard.com/public/Adguard/Common/adguard_home.svg" width="300px" alt="AdGuard Home" />
@@ -17,6 +20,8 @@
 <hr/>
 
 Welcome to the AdGuard Home wiki!
+
+[adguard-home-kb]: https://adguard-dns.io/kb/adguard-home/overview/
 
 ##  Guides
 

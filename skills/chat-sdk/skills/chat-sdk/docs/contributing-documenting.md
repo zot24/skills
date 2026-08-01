@@ -221,3 +221,12 @@ Before publishing, verify your documentation covers:
 * [ ] TSDoc comments on all exported interfaces and factory functions
 * [ ] `sample-messages.md` with real platform webhook payloads
 * [ ] Links to Chat SDK docs (`chat-sdk.dev`) where relevant
+
+
+---
+
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
+
+For an index of all available documentation, see [/llms.txt](/llms.txt)
+
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)
