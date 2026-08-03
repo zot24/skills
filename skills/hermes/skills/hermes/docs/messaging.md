@@ -778,6 +778,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - [Raft Setup](/docs/user-guide/messaging/raft)
 - [IRC Setup](/docs/user-guide/messaging/irc)
 - [Buzz Setup](/docs/user-guide/messaging/buzz)
+- [A2A (Agent-to-Agent) Setup](/docs/user-guide/messaging/a2a)
 - [Webhooks](/docs/user-guide/messaging/webhooks)
 
 

@@ -41,7 +41,7 @@ We value contributions in this order:
 | **Git**              | With the `git-lfs` extension installed                                                                                   |
 | **Python 3.11–3.13** | uv will install it if missing                                                                                            |
 | **uv**               | Fast Python package manager (<a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer">install</a>) |
-| **Node.js 20+**      | Optional — needed for browser tools and WhatsApp bridge (matches root `package.json` engines)                            |
+| **Node.js 26+**      | Optional — needed for browser tools and WhatsApp bridge (matches root `package.json` engines)                            |
 
 ### Install with the standard installer<a href="#install-with-the-standard-installer" class="hash-link" aria-label="Direct link to Install with the standard installer" translate="no" title="Direct link to Install with the standard installer">​</a>
 
