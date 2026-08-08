@@ -15,6 +15,7 @@ Parse the arguments to determine the action:
 | `review <draft>` | Review and improve a tweet draft (check quality gate + dwell + follow trigger) |
 | `ideas <niche>` | Generate content ideas ranked by algorithm signal priority |
 | `signals` | Explain the algorithm scoring signals and how to optimize for them |
+| `monetization` | Explain Original Content Rewards — eligibility, qualified impressions, what counts as original, payout rules |
 | `help` | Show available commands |
 
 ## Instructions
@@ -27,6 +28,7 @@ Parse the arguments to determine the action:
    - `docs/conversation-tactics.md` - Reply strategy, spam risk, social proof
    - `docs/authority-building.md` - Follow triggers, DM shares, network alignment
    - `docs/content-ideas.md` - High-performing templates by signal priority
+   - `docs/monetization.md` - Original Content Rewards: eligibility, qualified impressions, originality rules, payouts
 3. Apply the playbook principles to generate or review content
 
 ## Quick Reference
@@ -42,3 +44,5 @@ Parse the arguments to determine the action:
 **Author diversity:** posting too much in bursts triggers decay — each additional post competes against your own best
 
 **Network alignment:** Jaccard similarity between your followers and viewer's following graph affects OON distribution
+
+**Monetization:** Original Content Rewards pays on qualified impressions — Premium viewers, Home Timeline, original posts only. Replies don't monetize; aggregation and bait packaging are devalued. Confirm live thresholds at help.x.com before quoting numbers.

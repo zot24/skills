@@ -1,6 +1,6 @@
 ---
 name: x-engagement
-description: Crafts high-engagement X (Twitter) content using the actual X recommendation algorithm signals, conversation hijacking, authority building, and strategic hooks. Use when writing tweets, planning X content strategy, building audience, or optimizing engagement. Triggers on mentions of X, Twitter, tweets, threads, engagement, audience growth, content strategy.
+description: Crafts high-engagement X (Twitter) content using the actual X recommendation algorithm signals, conversation hijacking, authority building, strategic hooks, and the Original Content Rewards monetization rules. Use when writing tweets, planning X content strategy, building audience, optimizing engagement, or checking creator payout eligibility. Triggers on mentions of X, Twitter, tweets, threads, engagement, audience growth, content strategy, creator monetization, Original Content Rewards, revenue sharing, creator payouts.
 allowed-tools: Read, Write, Edit, Bash
 ---
 
@@ -17,6 +17,7 @@ Expert at building authority and engagement on X (Twitter) through distribution 
 - **DM shares** — separately tracked and weighted; reference-quality content earns them
 - **Conversation leverage** — replies are quality-scored by Grok VLM; quality > volume
 - **Network alignment** — MinHash Jaccard measures your follower overlap with viewer graphs
+- **Monetization alignment** — Original Content Rewards pays on verified impressions on *original* posts in the Home Timeline; reach and revenue are now the same target
 
 ## Core Principles
 
@@ -27,10 +28,13 @@ The scoring model weights `follow_author` above all per-action signals. Every po
 `dwell` and `cont_dwell_time` are explicit positive signals. `not_dwelled` (fast scroll-past) is an explicit **negative** signal that suppresses future distribution. A hook without substance earns stops then scrolls — net negative.
 
 ### 3. Post First, Drive Traffic Second
-Always post your own content to your profile first. Then reply in relevant threads to pull traffic back. Never let your best content die inside someone else's thread.
+Always post your own content to your profile first. Then reply in relevant threads to pull traffic back. Never let your best content die inside someone else's thread — reply impressions don't count toward monetization either.
 
 ### 4. Reply Quality Over Volume
 Replies are Grok-scored on a 0–3 scale. Low-follower accounts (< 1,000) face elevated spam scrutiny. Five excellent replies outperform fifty mediocre ones — and don't risk spam classification.
+
+### 5. Originality Is Now Attributed and Paid
+Original Content Rewards pays on qualified impressions: **Premium viewers**, **Home Timeline**, **original posts**. Reposts, thin aggregation, and "BREAKING" repackaging are devalued, and habitual bait posting risks permanent payout deductions. The Banger Screen is no longer just a distribution gate — it's a paywall.
 
 ## Documentation
 
@@ -39,6 +43,7 @@ Replies are Grok-scored on a 0–3 scale. Low-follower accounts (< 1,000) face e
 - **[Content Strategy](docs/content-strategy.md)** - Hooks, clusters, dwell optimization, author diversity penalty, quality gate
 - **[Conversation Tactics](docs/conversation-tactics.md)** - Reply quality scoring, spam risk, social proof facepile, thread hijacking
 - **[Authority Building](docs/authority-building.md)** - Follow triggers, DM-share signals, network alignment (Jaccard), positioning
+- **[Monetization](docs/monetization.md)** - Original Content Rewards: eligibility, qualified impressions, what counts as original, payout rules, Revenue Sharing transition
 - **[Content Ideas](docs/content-ideas.md)** - High-performing templates ranked by algorithm signal priority
 - **[x-algorithm README (upstream)](docs/x-algorithm-readme.md)** - Cached README from xai-org/x-algorithm, the codebase the playbook is grounded in
 
@@ -61,7 +66,8 @@ quality_score ≥ 0.4 (passes banger screen)
 + dwell design (substance that holds attention)
 + DM-shareable framing (reference-quality, specific)
 + conversation leverage (strategic replies with Grok-quality content)
-= algorithmic reach
++ originality (first-hand, attributable, not repackaged)
+= algorithmic reach → qualified impressions → payout
 ```
 
 ## Anti-Patterns
@@ -74,3 +80,6 @@ quality_score ≥ 0.4 (passes banger screen)
 - Leading with theory instead of concrete examples
 - Posts that generate likes but no dwell (not_dwelled is an explicit negative signal)
 - Content that triggers safety categories (ViolentMedia, HateOrAbuse, etc.) — suppressed regardless of engagement
+- Aggregating others' content with thin additions (devalued under Original Content Rewards; payouts to aggregators already cut)
+- "BREAKING"-style repackaging as a habit (risks permanent payout deductions)
+- Building a reply-heavy strategy for income (reply impressions don't monetize)
