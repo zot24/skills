@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/zot24/skills/compare/x-engagement-v1.1.1...x-engagement-v1.2.0) (2026-08-08)
+
+
+### Features
+
+* **x-engagement:** add Original Content Rewards monetization guidance ([#149](https://github.com/zot24/skills/issues/149)) ([cd5ea0a](https://github.com/zot24/skills/commit/cd5ea0a455a7fb89f518401926c8e23ef82e3417))
+
 ## [1.1.1](https://github.com/zot24/skills/compare/x-engagement-v1.1.0...x-engagement-v1.1.1) (2026-07-07)
 
 
