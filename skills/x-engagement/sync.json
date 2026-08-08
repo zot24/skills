@@ -1,7 +1,7 @@
 {
   "name": "x-engagement",
   "version": "1.1.1",
-  "description": "X (Twitter) engagement playbook grounded in xai-org/x-algorithm codebase - scoring signals, quality gate, dwell, follow triggers, spam detection",
+  "description": "X (Twitter) engagement playbook grounded in xai-org/x-algorithm codebase - scoring signals, quality gate, dwell, follow triggers, spam detection, Original Content Rewards monetization",
   "sources": [
     {
       "url": "https://raw.githubusercontent.com/xai-org/x-algorithm/main/README.md",

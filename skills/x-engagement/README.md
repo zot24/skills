@@ -11,6 +11,7 @@ Expert at crafting high-engagement [X (Twitter)](https://x.com) content — grou
 - **Reply strategy** — Grok scores all replies 0–3; spam detection targets accounts under 1,000 followers
 - **Threads + clusters** — Interconnected posts that drive cross-traffic
 - **Authority building** — Network alignment (Jaccard), DM-share signals, facepile social proof
+- **Monetization** — Original Content Rewards: eligibility, qualified impressions (Premium viewers × Home Timeline × original posts), what counts as original, payout rules
 
 ## Usage
 
@@ -20,6 +21,7 @@ Expert at crafting high-engagement [X (Twitter)](https://x.com) content — grou
 /x-engagement:x-engagement review "my draft tweet text here"
 /x-engagement:x-engagement reply "context from parent thread"
 /x-engagement:x-engagement signals
+/x-engagement:x-engagement monetization
 ```
 
 Or use natural language:
@@ -43,3 +45,15 @@ Or use natural language:
 | Banger Screen | Gate | quality_score ≥ 0.4 required for For You feed |
 | Author diversity | Decay | Successive posts from same author get attenuated scores |
 | OON weight | Penalty | Non-follower distribution requires higher raw score |
+
+## Monetization (Original Content Rewards)
+
+Creator Revenue Sharing has been replaced by **Original Content Rewards**. Earnings come from
+*qualified impressions*: **Premium viewers × Home Timeline × original posts**. Replies don't
+monetize, aggregator payouts have been cut, and habitual bait packaging risks permanent
+deductions.
+
+See [`docs/monetization.md`](skills/x-engagement/docs/monetization.md) for eligibility
+thresholds, originality rules, payout cadence, and the Revenue Sharing migration timeline.
+Numbers are set by X and change — verify at
+<https://help.x.com/en/using-x/original-content-rewards>.
