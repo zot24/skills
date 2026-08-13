@@ -2,6 +2,12 @@
 
 # Monetization: Original Content Rewards
 
+> **This document is not code-grounded.** Every other analytical doc in this skill cites
+> `file:line` in `xai-org/x-algorithm`. This one is derived from X help pages and announcements —
+> there is no payout logic in the open-source repo, which covers ranking and visibility only.
+> The numbers below are set by X, change without notice, and are **not** covered by CI sync
+> (help.x.com blocks automated fetching). Verify before acting on any specific figure.
+
 X's creator payout program. It replaces **Creator Revenue Sharing**, which X retired
 because its incentives were misaligned — it paid for engagement volume rather than for
 bringing net new content to the platform.
@@ -39,9 +45,11 @@ Payouts run **every two weeks**, with a **$30 minimum** before a payout is relea
 | Track record | Consistent history of publishing original content |
 
 500,000 verified impressions / 90 days ≈ **5,500 verified impressions per day**, sustained.
-That is not reachable through replies or through follower-only reach — it requires
-repeatedly clearing the Banger Screen into out-of-network distribution.
-→ See **[Content Quality Gate](content-quality.md)**.
+That is not reachable through replies or through follower-only reach — it requires sustained
+out-of-network distribution, which means staying clear of the account-level labels that drop
+you from recommendations.
+→ See **[Visibility Filtering](visibility-filtering.md)** and
+**[Account Standing](account-standing.md)**.
 
 ## What Counts as Original
 
@@ -93,9 +101,11 @@ X reports the 2026 creator revenue pool was doubled, with $45M+ paid to creators
 
 ## Strategic Implications for the Playbook
 
-1. **Out-of-network reach is now revenue.** The Banger Screen (`quality_score ≥ 0.4`) was
-   previously a distribution gate; it is now also a paywall. Content that only reaches your
-   existing followers earns almost nothing at the required scale.
+1. **Out-of-network reach is now revenue.** Content that only reaches your existing followers
+   earns almost nothing at the required scale. This makes the out-of-network-only drop rules a
+   direct paywall: an account-level `SpamHighRecall` or `DO_NOT_AMPLIFY` label zeroes your income
+   for its 30-day TTL while your timeline still looks healthy.
+   → **[Visibility Filtering](visibility-filtering.md)**
 2. **Replies are a distribution tool, not an income stream.** This reinforces the existing
    rule: post to your own profile first, then reply into threads to pull traffic back.
    Never spend your best material inside someone else's thread — it can't be monetized there.
@@ -106,7 +116,8 @@ X reports the 2026 creator revenue pool was doubled, with $45M+ paid to creators
    is 90% someone else's screenshot is not. Add first-hand experience, original data, or a
    genuinely new frame.
 5. **Bait packaging carries a durable cost.** "BREAKING" theatrics risk permanent payout
-   deductions, on top of the slop/spam penalties the quality gate already applies.
+   deductions, on top of the `llm_slop_post` / `SpamHighRecall` labels the enforcement chain
+   applies for 30 days at a time. → **[Account Standing](account-standing.md)**
 6. **Volume still loses to quality.** Author diversity decay attenuates each successive post
    in a viewer's feed load, so burst posting to farm impressions works against itself.
    → See **[Content Strategy](content-strategy.md)**.

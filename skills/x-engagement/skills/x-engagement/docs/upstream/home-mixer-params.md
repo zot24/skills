@@ -1,0 +1,1086 @@
+> Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/home-mixer/params/param.rs
+
+// mirrored from config feature-switch defaults; last sync 2026-08-12T04:09:22Z
+use xai_feature_switches::param;
+
+param!(
+    PhoenixMaxResults,
+    u32,
+    "rust_home_mixer_phoenix_max_results",
+    1000
+);
+param!(
+    EnablePhoenixSource,
+    bool,
+    "rust_home_mixer_enable_phoenix_source",
+    true
+);
+
+param!(
+    ThunderMaxResults,
+    u32,
+    "rust_home_mixer_thunder_max_results",
+    1200
+);
+param!(
+    ThunderAlgorithm,
+    String,
+    "rust_home_mixer_thunder_algorithm",
+    "default"
+);
+param!(
+    ThunderClusterId,
+    String,
+    "rust_home_mixer_thunder_cluster_id",
+    "amp"
+);
+param!(
+    TweetMixerMaxResults,
+    u32,
+    "rust_home_mixer_tweet_mixer_max_results",
+    800
+);
+param!(
+    EnableTweetMixerSource,
+    bool,
+    "rust_home_mixer_enable_tweet_mixer_source",
+    false
+);
+
+param!(
+    EnableSimclustersSource,
+    bool,
+    "rust_home_mixer_enable_simclusters_source",
+    true
+);
+
+param!(
+    PhoenixInferenceClusterId,
+    String,
+    "rust_home_mixer_phoenix_inference_cluster_id",
+    "Experiment1Fou"
+);
+param!(
+    PhoenixRetrievalInferenceClusterId,
+    String,
+    "rust_home_mixer_phoenix_retrieval_inference_cluster_id",
+    "Experiment1Fou"
+);
+param!(
+    ShadowTrafficPhoenixClustersList,
+    Vec<String>,
+    "rust_home_mixer_shadow_traffic_phoenix_clusters_list",
+    vec![]
+);
+param!(
+    ShadowTrafficPhoenixRetrievalClustersList,
+    Vec<String>,
+    "rust_home_mixer_shadow_traffic_phoenix_retrieval_clusters_list",
+    vec![]
+);
+param!(
+    ShadowTrafficPhoenixClusterRates,
+    Vec<String>,
+    "rust_home_mixer_shadow_traffic_phoenix_cluster_rates",
+    vec!["Experiment6Fou:1.5".to_string()]
+);
+param!(
+    ShadowTrafficDefaultPercent,
+    f64,
+    "rust_home_mixer_shadow_traffic_default_percent",
+    0.3
+);
+param!(
+    EnablePhoenixRetrievalStatsExperimentBucket,
+    bool,
+    "rust_home_mixer_enable_phoenix_retrieval_stats_experiment_bucket",
+    false
+);
+param!(
+    PhoenixRetrievalTopicInferenceClusterId,
+    String,
+    "rust_home_mixer_phoenix_retrieval_topic_inference_cluster_id",
+    "Experiment2Fou"
+);
+param!(
+    TopicFilteringId,
+    String,
+    "rust_home_mixer_topic_filtering_experiment_id",
+    "PostBased50Pct"
+);
+param!(
+    TopicFilteringOverrides,
+    String,
+    "rust_home_mixer_topic_filtering_overrides",
+    ""
+);
+param!(
+    UserActionsClusterId,
+    String,
+    "rust_home_mixer_user_actions_cluster_id",
+    "Fou"
+);
+param!(
+    PhoenixAggregationType,
+    String,
+    "rust_home_mixer_phoenix_aggregation_type",
+    "DENSE_WITH_SHORT_DWELL"
+);
+param!(
+    PhoenixRetrievalAggregationType,
+    String,
+    "rust_home_mixer_phoenix_retrieval_aggregation_type",
+    "DENSE_WITH_SHORT_DWELL"
+);
+
+param!(
+    EnablePhoenixMOESource,
+    bool,
+    "rust_home_mixer_enable_phoenix_moe_source",
+    false
+);
+param!(
+    PhoenixMoeCodivertViewerIsControl,
+    bool,
+    "rust_home_mixer_phoenix_moe_codivert_viewer_is_control",
+    false
+);
+param!(
+    PhoenixMoeCodivertViewerIsTreatment,
+    bool,
+    "rust_home_mixer_phoenix_moe_codivert_viewer_is_treatment",
+    false
+);
+param!(
+    PhoenixRetrievalMOEInferenceClusterId,
+    String,
+    "rust_home_mixer_phoenix_retrieval_moe_inference_cluster_id",
+    "Experiment1Fou"
+);
+param!(
+    PhoenixMOEMaxResults,
+    u32,
+    "rust_home_mixer_phoenix_moe_max_results",
+    200
+);
+param!(
+    AuthorPhoenixMoeEnabled,
+    bool,
+    "rust_home_mixer_author_phoenix_moe_enabled",
+    false
+);
+param!(
+    AuthorIsControl,
+    bool,
+    "rust_home_mixer_author_is_control",
+    false
+);
+param!(
+    AuthorIsTreatment,
+    bool,
+    "rust_home_mixer_author_is_treatment",
+    false
+);
+
+param!(
+    PhoenixRetrievalNewUserInferenceClusterId,
+    String,
+    "rust_home_mixer_phoenix_retrieval_new_user_inference_cluster_id",
+    "Experiment1Lap7"
+);
+param!(
+    PhoenixRetrievalNewUserHistoryThreshold,
+    u64,
+    "rust_home_mixer_phoenix_retrieval_new_user_history_threshold",
+    0
+);
+param!(
+    PhoenixXdsRetrievalMaxRetries,
+    u32,
+    "rust_home_mixer_phoenix_xds_retrieval_max_retries",
+    0
+);
+param!(
+    EnablePhoenixRetrievalFallback,
+    bool,
+    "rust_home_mixer_phoenix_retrieval_enable_fallback",
+    false
+);
+
+param!(
+    PhoenixRankerNewUserInferenceClusterId,
+    String,
+    "rust_home_mixer_phoenix_ranker_new_user_inference_cluster_id",
+    "Experiment1Fou"
+);
+param!(
+    PhoenixRankerNewUserHistoryThreshold,
+    u64,
+    "rust_home_mixer_phoenix_ranker_new_user_history_threshold",
+    0
+);
+
+param!(EnableRanking, bool, "rust_home_mixer_enable_ranking", true);
+param!(
+    EnableAuthorDiversity,
+    bool,
+    "rust_home_mixer_enable_author_diversity",
+    true
+);
+param!(
+    AuthorDiversityDecay,
+    f64,
+    "rust_home_mixer_author_diversity_decay",
+    0.5
+);
+param!(
+    AuthorDiversityFloor,
+    f64,
+    "rust_home_mixer_author_diversity_floor",
+    0.25
+);
+param!(
+    LogSlateContext,
+    bool,
+    "rust_home_mixer_log_slate_context",
+    false
+);
+param!(
+    OonWeightFactor,
+    f64,
+    "rust_home_mixer_oon_weight_factor",
+    0.75
+);
+
+param!(
+    EnableMpnScoring,
+    bool,
+    "rust_home_mixer_enable_mpn_scoring",
+    false
+);
+
+param!(
+    EnableOonRescoreForInNetworkRepliesRetweets,
+    bool,
+    "rust_home_mixer_enable_oon_rescore_for_in_network_replies_retweets",
+    true
+);
+param!(
+    TopicOonWeightFactor,
+    f64,
+    "rust_home_mixer_topic_oon_weight_factor",
+    0.5
+);
+param!(
+    NewUserAgeThresholdSecs,
+    u64,
+    "rust_home_mixer_new_user_age_threshold_secs",
+    0
+);
+
+// These weights reflect a combination of how much an action is
+// valued in ranking and typical propensities of these actions
+// across the X network (e.g. negative feedback is overall rare).
+param!(FavoriteWeight, f64, "rust_home_mixer_favorite_weight", 0.5);
+param!(ReplyWeight, f64, "rust_home_mixer_reply_weight", 5.0);
+param!(
+    BidirectionalFollowReplyWeightBoost,
+    f64,
+    "rust_home_mixer_bidirectional_follow_reply_weight_boost",
+    15.0
+);
+param!(
+    BidirectionalFollowDwellWeightBoost,
+    f64,
+    "rust_home_mixer_bidirectional_follow_dwell_weight_boost",
+    0.0
+);
+param!(RetweetWeight, f64, "rust_home_mixer_retweet_weight", 1.0);
+param!(
+    PhotoExpandWeight,
+    f64,
+    "rust_home_mixer_photo_expand_weight",
+    0.05
+);
+param!(
+    VideoOpenWeight,
+    f64,
+    "rust_home_mixer_video_open_weight",
+    0.05
+);
+param!(ClickWeight, f64, "rust_home_mixer_click_weight", 0.4);
+param!(OpenLinkWeight, f64, "rust_home_mixer_open_link_weight", 0.2);
+param!(
+    ProfileClickWeight,
+    f64,
+    "rust_home_mixer_profile_click_weight",
+    0.0
+);
+param!(VqvWeight, f64, "rust_home_mixer_vqv_weight", 0.05);
+param!(ShareWeight, f64, "rust_home_mixer_share_weight", 2.0);
+param!(
+    ShareViaDmWeight,
+    f64,
+    "rust_home_mixer_share_via_dm_weight",
+    5.0
+);
+param!(
+    ShareViaCopyLinkWeight,
+    f64,
+    "rust_home_mixer_share_via_copy_link_weight",
+    20.0
+);
+param!(DwellWeight, f64, "rust_home_mixer_dwell_weight", 0.0);
+param!(QuoteWeight, f64, "rust_home_mixer_quote_weight", 5.0);
+param!(
+    QuotedClickWeight,
+    f64,
+    "rust_home_mixer_quoted_click_weight",
+    0.05
+);
+param!(
+    QuotedVqvWeight,
+    f64,
+    "rust_home_mixer_quoted_vqv_weight",
+    0.0
+);
+param!(
+    FollowAuthorWeight,
+    f64,
+    "rust_home_mixer_follow_author_weight",
+    4.0
+);
+param!(
+    PostUnexploredWeight,
+    f64,
+    "rust_home_mixer_post_unexplored_weight",
+    0.02
+);
+param!(
+    EnableMultiplicativePostUnexplored,
+    bool,
+    "rust_home_mixer_enable_multiplicative_post_unexplored",
+    false
+);
+param!(
+    MultiplicativePostUnexploredAlpha,
+    f64,
+    "rust_home_mixer_multiplicative_post_unexplored_alpha",
+    0.0
+);
+param!(
+    PostUnexploredWeightInNetworkOnly,
+    bool,
+    "rust_home_mixer_post_unexplored_weight_in_network_only",
+    true
+);
+param!(
+    ContDwellTimeWeight,
+    f64,
+    "rust_home_mixer_cont_dwell_time_weight",
+    0.004
+);
+param!(
+    ContClickDwellTimeWeight,
+    f64,
+    "rust_home_mixer_cont_click_dwell_time_weight",
+    0.0
+);
+param!(
+    EnableClickDwellLowFavRatePenalty,
+    bool,
+    "rust_home_mixer_enable_click_dwell_low_fav_rate_penalty",
+    false
+);
+param!(
+    ClickDwellLowFavRatePenaltyBaseline,
+    f64,
+    "rust_home_mixer_click_dwell_low_fav_rate_penalty_baseline",
+    0.01
+);
+param!(
+    ClickDwellLowFavRatePenaltyAlpha,
+    f64,
+    "rust_home_mixer_click_dwell_low_fav_rate_penalty_alpha",
+    0.5
+);
+param!(
+    ClickDwellLowFavRatePenaltyFloor,
+    f64,
+    "rust_home_mixer_click_dwell_low_fav_rate_penalty_floor",
+    0.01
+);
+param!(
+    ClickDwellLowFavRatePenaltyCap,
+    f64,
+    "rust_home_mixer_click_dwell_low_fav_rate_penalty_cap",
+    1.0
+);
+param!(
+    ContActiveSecs5mResidualNormWeight,
+    f64,
+    "rust_home_mixer_cont_active_secs_5m_residual_norm_weight",
+    0.0
+);
+
+param!(
+    NotInterestedWeight,
+    f64,
+    "rust_home_mixer_not_interested_weight",
+    -43.2
+);
+param!(
+    BlockAuthorWeight,
+    f64,
+    "rust_home_mixer_block_author_weight",
+    -31.2
+);
+param!(
+    MuteAuthorWeight,
+    f64,
+    "rust_home_mixer_mute_author_weight",
+    -58.8
+);
+param!(ReportWeight, f64, "rust_home_mixer_report_weight", -234.0);
+param!(
+    NotDwelledWeight,
+    f64,
+    "rust_home_mixer_not_dwelled_weight",
+    -0.02
+);
+
+param!(
+    ValueModelMode,
+    String,
+    "rust_home_mixer_value_model_mode",
+    "weighted"
+);
+param!(
+    DwellRegretTemperature,
+    f64,
+    "rust_home_mixer_dwell_regret_temperature",
+    10.0
+);
+param!(
+    DwellRegretDwellFloor,
+    f64,
+    "rust_home_mixer_dwell_regret_dwell_floor",
+    1.0
+);
+param!(
+    DwellRegretAlphaFavorite,
+    f64,
+    "rust_home_mixer_dwell_regret_alpha_favorite",
+    1.0
+);
+param!(
+    DwellRegretAlphaReply,
+    f64,
+    "rust_home_mixer_dwell_regret_alpha_reply",
+    1.0
+);
+param!(
+    DwellRegretAlphaRetweet,
+    f64,
+    "rust_home_mixer_dwell_regret_alpha_retweet",
+    1.0
+);
+param!(
+    DwellRegretAlphaQuote,
+    f64,
+    "rust_home_mixer_dwell_regret_alpha_quote",
+    1.0
+);
+param!(
+    DwellRegretAlphaShare,
+    f64,
+    "rust_home_mixer_dwell_regret_alpha_share",
+    1.0
+);
+param!(
+    DwellRegretAlphaShareViaDm,
+    f64,
+    "rust_home_mixer_dwell_regret_alpha_share_via_dm",
+    1.0
+);
+param!(
+    DwellRegretAlphaShareViaCopyLink,
+    f64,
+    "rust_home_mixer_dwell_regret_alpha_share_via_copy_link",
+    1.0
+);
+param!(
+    DwellRegretNegNotInterested,
+    f64,
+    "rust_home_mixer_dwell_regret_neg_not_interested",
+    -10000.0
+);
+param!(
+    DwellRegretNegBlockAuthor,
+    f64,
+    "rust_home_mixer_dwell_regret_neg_block_author",
+    -8000.0
+);
+param!(
+    DwellRegretNegMuteAuthor,
+    f64,
+    "rust_home_mixer_dwell_regret_neg_mute_author",
+    -15000.0
+);
+param!(
+    DwellRegretNegReport,
+    f64,
+    "rust_home_mixer_dwell_regret_neg_report",
+    -60000.0
+);
+param!(
+    DwellRegretGateWeights,
+    String,
+    "rust_home_mixer_dwell_regret_gate_weights",
+    "seq_len:0.530298,n_fav:-0.082139,n_reply:0.485541,n_rt_quote:0.056561,n_vqv:-0.072778,n_click:-0.176675,n_bm_share:-0.167574,n_profile_follow:-0.221285,n_photo:-0.106004,n_negfb:0.031839,n_7d:-0.075799,n_1d:-0.241730,active_days:0.047017,active_days_7d:-0.126896,days_since_last:-0.034238,span_days:-0.052186,followers:-0.066642,followings:0.064140,account_age_years:-0.045455"
+);
+param!(
+    DwellRegretGateBias,
+    f64,
+    "rust_home_mixer_dwell_regret_gate_bias",
+    1.033918
+);
+param!(
+    DwellRegretGateThreshold,
+    f64,
+    "rust_home_mixer_dwell_regret_gate_threshold",
+    -0.634264
+);
+param!(
+    DwellRegretGateHysteresisBand,
+    f64,
+    "rust_home_mixer_dwell_regret_gate_hysteresis_band",
+    0.0
+);
+
+param!(
+    EnableFollowingRepliedUsersFacepile,
+    bool,
+    "rust_home_mixer_enable_following_replied_users_facepile",
+    false
+);
+param!(
+    FollowingRepliedUsersFacepileMinUsers,
+    i64,
+    "rust_home_mixer_following_replied_users_facepile_min_users",
+    0
+);
+param!(
+    FollowingRepliedUsersFacepileMaxPosts,
+    i64,
+    "rust_home_mixer_following_replied_users_facepile_max_posts",
+    0
+);
+
+param!(
+    EnableVMRanker,
+    bool,
+    "rust_home_mixer_enable_vm_ranker",
+    true
+);
+param!(
+    VMRankerEnableFallback,
+    bool,
+    "rust_home_mixer_vm_ranker_enable_fallback",
+    false
+);
+param!(
+    VMRankerClusterId,
+    String,
+    "rust_home_mixer_vm_ranker_cluster_id",
+    "Experiment3"
+);
+param!(
+    VMRankerValueModelId,
+    String,
+    "rust_home_mixer_vm_ranker_value_model_id",
+    "dpp"
+);
+param!(
+    VMRankerSendHeadWeights,
+    bool,
+    "rust_home_mixer_vm_ranker_send_head_weights",
+    false
+);
+param!(
+    VMRankerDppTheta,
+    f64,
+    "rust_home_mixer_vm_ranker_dpp_theta",
+    0.65
+);
+param!(
+    VMRankerDppMaxSelectedRank,
+    u32,
+    "rust_home_mixer_vm_ranker_dpp_max_selected_rank",
+    150
+);
+param!(
+    ColdStartImpressionThreshold,
+    u32,
+    "rust_home_mixer_cold_start_impression_threshold",
+    1000
+);
+param!(
+    ColdStartSlotMin,
+    u32,
+    "rust_home_mixer_cold_start_slot_min",
+    15
+);
+param!(
+    ColdStartSlotMax,
+    u32,
+    "rust_home_mixer_cold_start_slot_max",
+    16
+);
+param!(
+    ColdStartFollowerCap,
+    i64,
+    "rust_home_mixer_cold_start_follower_cap",
+    1000
+);
+param!(
+    ColdStartMaxPostAgeSecs,
+    u64,
+    "rust_home_mixer_cold_start_max_post_age_secs",
+    86400
+);
+
+param!(
+    LowImpressionsMaxPositionRatio,
+    f64,
+    "rust_home_mixer_low_impressions_max_boost_position_ratio",
+    0.85
+);
+
+param!(
+    EnableViewerColdStart,
+    bool,
+    "rust_home_mixer_enable_viewer_cold_start_boost",
+    true
+);
+
+param!(
+    EnableCachedPosts,
+    bool,
+    "rust_home_mixer_enable_cached_posts",
+    true
+);
+param!(
+    MaxPostsToCache,
+    usize,
+    "rust_home_mixer_max_posts_to_cache",
+    750
+);
+param!(
+    MinVideoDurationMs,
+    i32,
+    "rust_home_mixer_min_video_duration_ms",
+    10_000
+);
+
+param!(
+    EnableQuotedVqvDurationCheck,
+    bool,
+    "rust_home_mixer_enable_quoted_vqv_duration_check",
+    false
+);
+
+param!(
+    EnableContextFeatures,
+    bool,
+    "rust_home_mixer_enable_context_features",
+    true
+);
+
+param!(
+    EnableIpFeature,
+    bool,
+    "rust_home_mixer_enable_geo_features",
+    true
+);
+
+param!(
+    EnableExplicitEngagementSignals,
+    bool,
+    "rust_home_mixer_enable_explicit_engagement_signals",
+    true
+);
+param!(
+    EnableImplicitEngagementSignals,
+    bool,
+    "rust_home_mixer_enable_implicit_engagement_signals",
+    true
+);
+param!(
+    EngagementSignalsMaxPerType,
+    usize,
+    "rust_home_mixer_engagement_signals_max_per_type",
+    15
+);
+
+param!(
+    EnableUserInstalledAppsHydration,
+    bool,
+    "rust_home_mixer_enable_user_installed_apps_hydration",
+    true
+);
+
+param!(
+    EnableUserInstalledAppsV2,
+    bool,
+    "rust_home_mixer_enable_user_installed_apps_v2",
+    false
+);
+
+param!(
+    EnableInferredGenderHydration,
+    bool,
+    "rust_home_mixer_enable_inferred_gender_hydration",
+    true
+);
+
+param!(
+    EnableRetrievalSequenceHydration,
+    bool,
+    "rust_home_mixer_enable_retrieval_sequence_hydration",
+    true
+);
+
+param!(
+    EnableScoringSequenceHydration,
+    bool,
+    "rust_home_mixer_enable_scoring_sequence_hydration",
+    true
+);
+
+param!(
+    EnableMutualFollowJaccardHydration,
+    bool,
+    "rust_home_mixer_enable_mutual_follow_jaccard_hydration",
+    false
+);
+
+param!(
+    EnableBidirectionalFollowHydration,
+    bool,
+    "rust_home_mixer_enable_bidirectional_follow_hydration",
+    true
+);
+param!(
+    EnableAllAuthorFollowHydration,
+    bool,
+    "rust_home_mixer_enable_all_author_follow_hydration",
+    true
+);
+param!(
+    EnableNewUserMinEngagementFilter,
+    bool,
+    "rust_home_mixer_enable_new_user_min_engagement_filter",
+    false
+);
+param!(
+    NewUserMinEngagementFilterMetric,
+    String,
+    "rust_home_mixer_new_user_min_engagement_filter_metric",
+    "fav"
+);
+param!(
+    NewUserMinEngagementFilterUseRatio,
+    bool,
+    "rust_home_mixer_new_user_min_engagement_filter_use_ratio",
+    false
+);
+param!(
+    NewUserMinEngagementThreshold,
+    f64,
+    "rust_home_mixer_new_user_min_engagement_threshold",
+    0.0
+);
+param!(
+    NewUserMinEngagementFilterMaxAccountAgeSecs,
+    u64,
+    "rust_home_mixer_new_user_min_engagement_filter_max_account_age_secs",
+    1800
+);
+param!(
+    NewUserMinEngagementFilterMaxResurrectionAgeSecs,
+    u64,
+    "rust_home_mixer_new_user_min_engagement_filter_max_resurrection_age_secs",
+    1800
+);
+param!(
+    EnableEngagementCountsHydration,
+    bool,
+    "rust_home_mixer_enable_engagement_counts_hydration",
+    true
+);
+param!(
+    EnableSemanticIdHydration,
+    bool,
+    "rust_home_mixer_enable_semantic_id_hydration",
+    true
+);
+param!(
+    SidServerEndpoint,
+    String,
+    "rust_home_mixer_sid_server_endpoint",
+    "xds://xai-recsys-sid-v8-root.prod.recsys-infra:grpc"
+);
+param!(
+    UseEngagementCounterViewCountForImpressionBoost,
+    bool,
+    "rust_home_mixer_use_engagement_counter_view_count_for_impression_boost",
+    true
+);
+param!(
+    EnableAdsSource,
+    bool,
+    "rust_home_mixer_enable_ads_source",
+    true
+);
+
+param!(
+    EnableAdsInjectionLogging,
+    bool,
+    "rust_home_mixer_enable_ads_injection_logging",
+    true
+);
+
+param!(
+    AdsBlenderType,
+    String,
+    "rust_home_mixer_ads_blender",
+    "partition_organic_low_risk"
+);
+param!(
+    AdsTimeGapTSec,
+    f64,
+    "rust_home_mixer_ads_time_gap_t_sec",
+    4.0
+);
+param!(
+    AdsTimeGapClampLo,
+    f64,
+    "rust_home_mixer_ads_time_gap_clamp_lo",
+    0.5
+);
+param!(
+    AdsTimeGapClampHi,
+    f64,
+    "rust_home_mixer_ads_time_gap_clamp_hi",
+    2.0
+);
+param!(
+    AdsTimeGapMinOrganicGap,
+    u32,
+    "rust_home_mixer_ads_time_gap_min_organic_gap",
+    3
+);
+param!(UseXdsForUas, bool, "rust_home_mixer_use_xds_for_uas", true);
+param!(
+    UasSourceDataType,
+    String,
+    "rust_home_mixer_uas_source_data_type",
+    "NEW_UUA_ARROW"
+);
+param!(
+    MaxSeqLengthScoring,
+    u32,
+    "rust_home_mixer_max_seq_length_scoring",
+    1024
+);
+param!(
+    MaxSeqLengthRetrieval,
+    u32,
+    "rust_home_mixer_max_seq_length_retrieval",
+    1024
+);
+
+param!(
+    EnableAdAdjacentServedFilter,
+    bool,
+    "rust_home_mixer_enable_ad_adjacent_served_filter",
+    false
+);
+param!(
+    EnableServedFilterAllRequests,
+    bool,
+    "rust_home_mixer_enable_served_filter_all_requests",
+    true
+);
+
+param!(
+    EnableInventoryHoldout,
+    bool,
+    "rust_home_mixer_enable_inventory_holdout",
+    false
+);
+param!(
+    InventoryHoldoutOriginalsPercent,
+    u32,
+    "rust_home_mixer_inventory_holdout_originals_percent",
+    0
+);
+param!(
+    InventoryHoldoutRepliesPercent,
+    u32,
+    "rust_home_mixer_inventory_holdout_replies_percent",
+    0
+);
+param!(
+    InventoryHoldoutRetweetsPercent,
+    u32,
+    "rust_home_mixer_inventory_holdout_retweets_percent",
+    0
+);
+
+param!(
+    EnableEntryIdRandomHash,
+    bool,
+    "rust_home_mixer_enable_entry_id_random_hash",
+    false
+);
+
+param!(
+    EnableTopicFeedbackContext,
+    bool,
+    "rust_home_mixer_enable_topic_feedback_context",
+    false
+);
+
+param!(
+    EnablePhoenixRequestCacheSideEffect,
+    bool,
+    "rust_home_mixer_enable_phoenix_request_cache_side_effect",
+    true
+);
+param!(
+    PhoenixRequestCacheSideEffectTtlSeconds,
+    u64,
+    "rust_home_mixer_phoenix_request_cache_side_effect_ttl_seconds",
+    10800
+);
+
+param!(
+    EnableUrtMigrationComponents,
+    bool,
+    "rust_home_mixer_enable_urt_migration_components",
+    true
+);
+
+param!(
+    EnableAuthorServedMetricsExperimentBucket,
+    bool,
+    "rust_home_mixer_enable_author_served_metrics_experiment_bucket",
+    false
+);
+param!(
+    AuthorServedMetricsAuthorIds,
+    Vec<u64>,
+    "rust_home_mixer_author_served_metrics_author_ids",
+    vec![]
+);
+
+param!(
+    EnablePublishSeenIdsToKafka,
+    bool,
+    "rust_home_mixer_enable_publish_seen_ids_kafka",
+    true
+);
+
+param!(
+    EnableWhoToFollowModule,
+    bool,
+    "rust_home_mixer_enable_who_to_follow_module",
+    true
+);
+param!(
+    WhoToFollowFatigueHours,
+    u32,
+    "rust_home_mixer_who_to_follow_fatigue_hours",
+    30
+);
+
+param!(EnablePrompts, bool, "rust_home_mixer_enable_prompts", true);
+
+param!(
+    ExcludeServedTweetIdsDuration,
+    u32,
+    "rust_home_mixer_exclude_served_tweet_ids_duration_minutes",
+    10
+);
+param!(
+    ExcludeServedTweetIdsNumber,
+    usize,
+    "rust_home_mixer_exclude_served_tweet_ids_number",
+    100
+);
+
+param!(
+    EnableJetfuelFrames,
+    bool,
+    "rust_home_mixer_enable_jetfuel_frames",
+    false
+);
+param!(
+    EnableJetfuelFrameSoccer,
+    bool,
+    "rust_home_mixer_jetfuel_frame_soccer_enabled",
+    false
+);
+param!(
+    EnableJetfuelFrameNfl,
+    bool,
+    "rust_home_mixer_jetfuel_frame_nfl_enabled",
+    false
+);
+param!(
+    EnableJetfuelFrameMlbCarousel,
+    bool,
+    "rust_home_mixer_jetfuel_frame_mlb_carousel_enabled",
+    false
+);
+param!(
+    EnableJetfuelFrameNflTimelinePinned,
+    bool,
+    "rust_home_mixer_jetfuel_frame_nfl_timeline_pinned_enabled",
+    false
+);
+param!(
+    EnableJetfuelFrameNflTimelineRotation,
+    bool,
+    "rust_home_mixer_jetfuel_frame_nfl_timeline_rotation_enabled",
+    false
+);
+
+param!(
+    EnableFeedSurvey,
+    bool,
+    "rust_home_mixer_enable_feed_survey",
+    false
+);
+param!(
+    FeedSurveyFatigueHours,
+    u32,
+    "rust_home_mixer_feed_survey_fatigue_hours",
+    24
+);
+
+param!(
+    EnableXaiVfClient,
+    bool,
+    "rust_home_mixer_enable_xai_vf_client",
+    true
+);
+
+param!(
+    PhoenixScoresResultSize,
+    u32,
+    "rust_home_mixer_phoenix_scores_result_size",
+    2800
+);

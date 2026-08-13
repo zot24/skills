@@ -2,347 +2,470 @@
 
 # X For You Feed Algorithm
 
-This repository contains the core recommendation system powering the "For You" feed on X. It combines in-network content (from accounts you follow) with out-of-network content (discovered through ML-based retrieval) and ranks everything using a Grok-based transformer model.
-
-> **Note:** The transformer implementation is ported from the [Grok-1 open source release](https://github.com/xai-org/grok-1) by xAI, adapted for recommendation system use cases.
+This repository contains the core code that determines which posts a viewer sees in the **For You** feed on X. It combines in-network content (from accounts the viewer follows) with out-of-network content (discovered through ML-based retrieval and other mechanisms), filters content based on a variety of inputs, and ranks posts using a transformer model.
 
 ## Table of Contents
 
-- [Updates — May 15th, 2026](#updates--may-15th-2026)
+- [Latest update](#latest-update--august-13th-2026)
 - [Overview](#overview)
 - [System Architecture](#system-architecture)
+  - [Request Path](#request-path)
+  - [Labeling Path](#labeling-path)
 - [Components](#components)
-  - [Home Mixer](#home-mixer)
-  - [Thunder](#thunder)
-  - [Phoenix](#phoenix)
-  - [Candidate Pipeline](#candidate-pipeline)
 - [How It Works](#how-it-works)
-  - [Pipeline Stages](#pipeline-stages)
   - [Scoring and Ranking](#scoring-and-ranking)
   - [Filtering](#filtering)
+- [Experiments and Configuration](#experiments-and-configuration)
+- [What's not in this repo?](#whats-not-in-this-repo)
+- [Under the Hood Label Transparency Tool](#under-the-hood-label-transparency-tool)
 - [Key Design Decisions](#key-design-decisions)
 - [License](#license)
 
 ---
 
-## Updates — May 15th, 2026
 
-This release updates the For You algorithm code, including a runnable end-to-end inference pipeline alongside new components for content understanding, ads, and candidate sourcing.
 
-1. **End-to-end inference pipeline:** A new [`phoenix/run_pipeline.py`](phoenix/run_pipeline.py) replaces the separate `run_ranker.py` and `run_retrieval.py` scripts with a single entry point that runs **retrieval → ranking** from exported checkpoints, mirroring how the two stages are composed in production.
+## Latest update — August 13th, 2026
 
-2. **Pre-trained model artifacts:** A pre-trained mini Phoenix model (256-dim embeddings, 4 attention heads, 2 transformer layers) is now packaged as a ~3 GB archive distributed via Git LFS, enabling out-of-the-box inference without training your own model first.
+This release:
 
-3. **Grox content-understanding pipeline:** A new [`grox/`](grox/) service is included, providing classifiers, embedders, and a task-execution engine for content understanding workloads such as spam detection, post-category classification, and PTOS policy enforcement.
+- Adds key configuration parameters (including weights used to blend predicted action values into a score for a post)
+- Adds code for systems that impact whether a post is filtered from the For You feed
+- Replaces the Phoenix demonstration model with the code used to train the models the feed uses, as well as synthetic data generation code so one can run a proof-of-concept training run of Phoenix.
 
-4. **Ads blending system:** Includes a new [`home-mixer/ads/`](home-mixer/ads/) module that handles ad injection and positioning within the feed, including brand-safety tracking that respects sensitive content boundaries.
+Among new systems included are:
 
-5. **Query hydrators:** Home mixer now hydrates user context including followed topics, starter packs, impression bloom filters, IP, mutual follow graphs, and served history.
+1. **Visibility filtering:** [`visibility-filtering/`](visibility-filtering/) determines whether to show a post, drop it, or show it behind an interstitial.
+2. **The systems that produce labels that drive visibility filtering's responses:** rules that apply labels ([`botmaker/`](botmaker/), [`botmaker-rules/`](botmaker-rules/), [`scarecrow/`](scarecrow/)), models that score accounts on various dimensions ([`agatha/`](agatha/), [`bdsm/`](bdsm/), [`user-cred-v2/`](user-cred-v2/)), models that examine images and video ([`media-model-proxy/`](media-model-proxy/), [`clip/`](clip/)), and enforcement ([`abuse-enforcement-service/`](abuse-enforcement-service/)).
+3. **Phoenix model code:** [`phoenix/`](phoenix/) now contains code that trains and runs the model, plus synthetic data generation.
+4. **SimClusters:** [`simclusters/`](simclusters/), an additional source of posts from accounts the viewer does not follow that is called in retrieval alongside Thunder and Phoenix retrieval.
 
-6. **Candidate hydrators:** Additional hydrators for engagement counts, brand safety signals, language codes, media detection, quote post expansion, mutual follow scores, and more.
-
-7. **Candidate sources:** Adds sources for ads, who to follow, Phoenix MoE, Phoenix topics, prompts, and updates Thunder/Phoenix ones.
+This update is also paired with a new [**Under the Hood**](#under-the-hood-label-transparency-tool) transparency tool that allows people to see aggregate statistics about the labels on their account and posts that can limit visibility.
 
 ---
+
+
 
 ## Overview
 
-The For You feed algorithm retrieves, ranks, and filters posts from two sources:
+The For You feed is assembled per request. Posts come from two places:
 
-1. **In-Network (Thunder)**: Posts from accounts you follow
-2. **Out-of-Network (Phoenix Retrieval)**: Posts discovered from a global corpus
+1. **In-Network** — [`thunder/`](thunder/) keeps recent posts from the accounts a viewer follows in memory
+2. **Out-of-Network** — [`phoenix/`](phoenix/) retrieval and [`simclusters/`](simclusters/) find posts from accounts the viewer does not follow
 
-Both sources are combined and ranked together using **Phoenix**, a Grok-based transformer model that predicts engagement probabilities for each post. The final score is a weighted combination of these predicted engagements.
+Both are ranked together by the same model. **Phoenix** reads the viewer's recent engagement history and predicts, for each post, how likely the viewer is to take each action on it. Those predictions are combined into one score using weights held in the code — see [Scoring and Ranking](#scoring-and-ranking).
 
-We have eliminated every single hand-engineered feature and most heuristics from the system. The Grok-based transformer does all the heavy lifting by understanding your engagement history (what you liked, replied to, shared, etc.) and using that to determine what content is relevant to you.
+Two pipelines do the work. The **Post Pipeline** finds, ranks and filters posts. The **Blending Pipeline** wraps it and adds what the model does not rank: ads, Who to Follow recommendations, prompts.
+
+Ranking sets the order. Whether a post can be shown at all is decided separately, by [`visibility-filtering/`](visibility-filtering/), from the viewer's own actions such as blocks and mutes and from labels that other systems here attach to posts and accounts.
 
 ---
+
+
 
 ## System Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                    FOR YOU FEED REQUEST                                     │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-                                               │
-                                               ▼
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                         HOME MIXER                                          │
-│                                    (Orchestration Layer)                                    │
-├─────────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                             │
-│   ┌─────────────────────────────────────────────────────────────────────────────────────┐   │
-│   │                                   QUERY HYDRATION                                   │   │
-│   │  ┌──────────────────────────┐    ┌──────────────────────────────────────────────┐   │   │
-│   │  │ User Action Sequence     │    │ User Features                                │   │   │
-│   │  │ (engagement history)     │    │ (following list, preferences, etc.)          │   │   │
-│   │  └──────────────────────────┘    └──────────────────────────────────────────────┘   │   │
-│   └─────────────────────────────────────────────────────────────────────────────────────┘   │
-│                                              │                                              │
-│                                              ▼                                              │
-│   ┌─────────────────────────────────────────────────────────────────────────────────────┐   │
-│   │                                  CANDIDATE SOURCES                                  │   │
-│   │         ┌─────────────────────────────┐    ┌────────────────────────────────┐       │   │
-│   │         │        THUNDER              │    │     PHOENIX RETRIEVAL          │       │   │
-│   │         │    (In-Network Posts)       │    │   (Out-of-Network Posts)       │       │   │
-│   │         │                             │    │                                │       │   │
-│   │         │  Posts from accounts        │    │  ML-based similarity search    │       │   │
-│   │         │  you follow                 │    │  across global corpus          │       │   │
-│   │         └─────────────────────────────┘    └────────────────────────────────┘       │   │
-│   └─────────────────────────────────────────────────────────────────────────────────────┘   │
-│                                              │                                              │
-│                                              ▼                                              │
-│   ┌─────────────────────────────────────────────────────────────────────────────────────┐   │
-│   │                                      HYDRATION                                      │   │
-│   │  Fetch additional data: core post metadata, author info, media entities, etc.       │   │
-│   └─────────────────────────────────────────────────────────────────────────────────────┘   │
-│                                              │                                              │
-│                                              ▼                                              │
-│   ┌─────────────────────────────────────────────────────────────────────────────────────┐   │
-│   │                                      FILTERING                                      │   │
-│   │  Remove: duplicates, old posts, self-posts, blocked authors, muted keywords, etc.   │   │
-│   └─────────────────────────────────────────────────────────────────────────────────────┘   │
-│                                              │                                              │
-│                                              ▼                                              │
-│   ┌─────────────────────────────────────────────────────────────────────────────────────┐   │
-│   │                                       SCORING                                       │   │
-│   │  ┌──────────────────────────┐                                                       │   │
-│   │  │  Phoenix Scorer          │    Grok-based Transformer predicts:                   │   │
-│   │  │  (ML Predictions)        │    P(like), P(reply), P(repost), P(click)...          │   │
-│   │  └──────────────────────────┘                                                       │   │
-│   │               │                                                                     │   │
-│   │               ▼                                                                     │   │
-│   │  ┌──────────────────────────┐                                                       │   │
-│   │  │  Weighted Scorer         │    Weighted Score = Σ (weight × P(action))            │   │
-│   │  │  (Combine predictions)   │                                                       │   │
-│   │  └──────────────────────────┘                                                       │   │
-│   │               │                                                                     │   │
-│   │               ▼                                                                     │   │
-│   │  ┌──────────────────────────┐                                                       │   │
-│   │  │  Author Diversity        │    Attenuate repeated author scores                   │   │
-│   │  │  Scorer                  │    to ensure feed diversity                           │   │
-│   │  └──────────────────────────┘                                                       │   │
-│   └─────────────────────────────────────────────────────────────────────────────────────┘   │
-│                                              │                                              │
-│                                              ▼                                              │
-│   ┌─────────────────────────────────────────────────────────────────────────────────────┐   │
-│   │                                      SELECTION                                      │   │
-│   │                    Sort by final score, select top K candidates                     │   │
-│   └─────────────────────────────────────────────────────────────────────────────────────┘   │
-│                                              │                                              │
-│                                              ▼                                              │
-│   ┌─────────────────────────────────────────────────────────────────────────────────────┐   │
-│   │                              FILTERING (Post-Selection)                             │   │
-│   │                 Visibility filtering (deleted/spam/violence/gore etc)               │   │
-│   └─────────────────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                             │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-                                               │
-                                               ▼
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                     RANKED FEED RESPONSE                                    │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+### Request Path
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   FOR YOU FEED REQUEST                                   │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+                                             ▼
+┌──────────────────────────────── HOME MIXER   <a href="home-mixer/">home-mixer/</a> ────────────────────────────────┐
+│                                                                                          │
+├───────────────────────  POST PIPELINE   <a href="home-mixer/candidate_pipeline/phoenix_candidate_pipeline.rs">PhoenixCandidatePipeline</a>  ───────────────────────┤
+│                                                                                          │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ 1. <a href="home-mixer/query_hydrators/">QUERY HYDRATION</a>                                                                 │  │
+│  │    user action sequence — the viewer's recent engagements, and the                 │  │
+│  │    main input to the model · following list · blocks and mutes · muted             │  │
+│  │    keywords · posts already seen and served · followed topics, etc.                │  │
+│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                            ▼                                             │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ 2. <a href="home-mixer/sources/">CANDIDATE SOURCES</a> — queried in parallel                                         │  │
+│  │    ┌───────────────────────────────┐ ┌────────────────────────────────────────┐    │  │
+│  │    │ IN-NETWORK                    │ │ OUT-OF-NETWORK                         │    │  │
+│  │    │ <a href="thunder/">Thunder</a>                       │ │ <a href="phoenix/">Phoenix retrieval</a>   retrieval model    │    │  │
+│  │    │   recent posts from the       │ │ <a href="simclusters/">SimClusters</a>         cluster similarity │    │  │
+│  │    │   accounts the viewer follows │ │                                        │    │  │
+│  │    └───────────────────────────────┘ └────────────────────────────────────────┘    │  │
+│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                            ▼                                             │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ 3. <a href="home-mixer/candidate_hydrators/">CANDIDATE HYDRATION</a>                                                             │  │
+│  │    post text and media · author details and account labels · quoted post ·         │  │
+│  │    language · engagement counts · subscription status, etc.                        │  │
+│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                            ▼                                             │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ 4. <a href="home-mixer/filters/">PRE-SCORING FILTERS</a>                                                             │  │
+│  │    duplicates across sources · older than 48 hours · the viewer's own              │  │
+│  │    posts · blocked and muted accounts · muted keywords · already seen              │  │
+│  │    or served · subscriber-only posts the viewer cannot access, etc.                │  │
+│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                            ▼                                             │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ 5. SCORING                                                                         │  │
+│  │    <a href="home-mixer/scorers/phoenix_scorer.rs">PhoenixScorer</a>   a probability for each action the viewer might take             │  │
+│  │    <a href="home-mixer/scorers/ranking_scorer.rs">RankingScorer</a>   weighted sum, then repeated-author decay, an                    │  │
+│  │                    out-of-network discount, a new-author boost                     │  │
+│  │    <a href="home-mixer/scorers/vm_ranker.rs">VMRanker</a>        calls the reranking service in <a href="vm-ranker/">vm-ranker/</a>                       │  │
+│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                            ▼                                             │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ 6. SELECTION — <a href="home-mixer/selectors/top_k_score_selector.rs">TopKScoreSelector</a>                                                   │  │
+│  │    sort by final score, keep the top K                                             │  │
+│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                            ▼                                             │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ 7. <a href="home-mixer/filters/">POST-SELECTION FILTERS</a> — after the order is fixed                               │  │
+│  │    <a href="home-mixer/candidate_hydrators/vf_candidate_hydrator.rs">VFCandidateHydrator</a>  asks <a href="visibility-filtering/">visibility-filtering/</a> per post and viewer             │  │
+│  │    <a href="home-mixer/filters/vf_filter.rs">VFFilter</a>             removes the posts it said to drop                          │  │
+│  │    <a href="home-mixer/filters/dedup_conversation_filter.rs">DedupConversationFilter</a>  collapses branches of one conversation                 │  │
+│  │                         ◄── these labels come from the Labeling Path               │  │
+│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                          │
+├─────────────────────  BLENDING PIPELINE   <a href="home-mixer/candidate_pipeline/for_you_candidate_pipeline.rs">ForYouCandidatePipeline</a>  ──────────────────────┤
+│                                                                                          │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ the ranked posts are one source here; the others add non-post items:               │  │
+│  │    ads · Who to Follow · prompts · push-to-home, etc.                              │  │
+│  │                                                                                    │  │
+│  │ <a href="home-mixer/selectors/blender_selector.rs">BlenderSelector</a> interleaves them. The default <a href="home-mixer/ads/partition_organic_blender.rs">ads blender</a> reorders                 │  │
+│  │ posts for ad adjacency. Who to Follow and prompts go at fixed positions.           │  │
+│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                            ▼                                             │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ <a href="home-mixer/side_effects/">SIDE EFFECTS</a> — after the response is sent                                          │  │
+│  │    record which posts were served · refresh the post cache · log ad                │  │
+│  │    and client events, etc.                                                         │  │
+│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+                                             ▼
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 RANKED FOR YOU TIMELINE                                  │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+Stages can be switched on and off individually, with defaults in [`home-mixer/params/param.rs`](home-mixer/params/param.rs) — see [Experiments and Configuration](#experiments-and-configuration) for how those defaults relate to what runs in production.
+
+### Labeling Path
+
+<pre>
+┌───────  1. CONTENT UNDERSTANDING — happens continuously, not on the request path  ───────┐
+│                                                                                          │
+│    POSTS AND MEDIA                    ACCOUNTS                                           │
+│    <a href="grox/">grox/</a>          classifiers for     <a href="agatha/">agatha/</a>        blocks and reports                  │
+│                   text and media                     relative to favorites               │
+│    <a href="media-model-proxy/">media-model-</a>   image and video     <a href="bdsm/">bdsm/</a>          inauthentic behavior                │
+│      <a href="media-model-proxy/">proxy/</a>       models              <a href="user-cred-v2/">user-cred-v2/</a>  PageRank over follow                │
+│    <a href="clip/">clip/</a>          image and text                     and engagement edges                │
+│                   embeddings the                                                         │
+│                   media models use                                                       │
+│                                                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+                                             ▼
+┌──────────────────────────────────  2. LABELING RULES  ───────────────────────────────────┐
+│                                                                                          │
+│    <a href="scarecrow/">scarecrow/</a>  reacts to events as they happen. Embeds <a href="botmaker/">botmaker/</a> as its                  │
+│       rule engine and loads rules from <a href="botmaker-rules/scarecrow/">botmaker-rules/scarecrow/</a>. A rule                 │
+│       reads: on this event, if these conditions hold, apply this label.                  │
+│                                                                                          │
+│    <a href="abuse-enforcement-service/">abuse-enforcement-service/</a>  reads model scores about an account. Its                  │
+│       rules label the account or its posts, challenge it, or suspend it.                 │
+│                                                                                          │
+│    <a href="safety-label-user-agg/">safety-label-user-agg/</a>  labels an account for what its posts collected.               │
+│                                                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+                                             ▼
+┌──────────────────────────────────────  3. STORAGE  ──────────────────────────────────────┐
+│             labels are written to storage, and read back on the request path             │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+                                             ▼
+┌───────────────────  4. VISIBILITY FILTERING   <a href="visibility-filtering/">visibility-filtering/</a>  ────────────────────┐
+│                                                                                          │
+│    for each post and viewer, one of three answers:                                       │
+│                                                                                          │
+│       ALLOW          show the post normally                                              │
+│       INTERSTITIAL   show it behind an interstitial the viewer can tap                   │
+│                      through, e.g. for adult or graphic media                            │
+│       DROP           do not show it                                                      │
+│                                                                                          │
+│    the rules read the labels above, plus whether the viewer blocks, mutes                │
+│    or follows the author, whether that account is protected, suspended or                │
+│    deactivated, subscriber-only status, and the viewer's settings and                    │
+│    country. Some rules drop a post only when it is a recommendation from                 │
+│    an account the viewer does not follow — spam caught at high recall, for               │
+│    instance. The same post is allowed to a follower.                                     │
+│                                                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+                                             ▼
+┌───────────────  5. <a href="home-mixer/filters/">POST-SELECTION FILTERS</a>   <a href="home-mixer/filters/vf_filter.rs">VFFilter</a>, <a href="home-mixer/filters/ancillary_vf_filter.rs">AncillaryVFFilter</a>  ────────────────┐
+│                                                                                          │
+│    drop  ──►  the post is removed after ranking, and so is any post whose                │
+│               ancestor in the thread, quoted post or reposted post was                   │
+│               itself dropped                                                             │
+│    interstitial  ──►  the post stays in the feed; nothing in this                        │
+│               repository draws the interstitial                                          │
+│                                                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
 
 ---
+
+
 
 ## Components
 
-### Home Mixer
 
-**Location:** [`home-mixer/`](home-mixer/)
 
-The orchestration layer that assembles the For You feed. It leverages the `CandidatePipeline` framework with the following stages:
+### Home Mixer and Candidate Pipeline
 
-| Stage | Description |
-|-------|-------------|
-| Query Hydrators | Fetch user context (engagement history, following list) |
-| Sources | Retrieve candidates from Thunder and Phoenix |
-| Hydrators | Enrich candidates with additional data |
-| Filters | Remove ineligible candidates |
-| Scorers | Predict engagement and compute final scores |
-| Selector | Sort by score and select top K |
-| Post-Selection Filters | Final visibility and dedup checks |
-| Side Effects | Cache request info for future use |
 
-The server exposes a gRPC endpoint (`ScoredPostsService`) that returns ranked posts for a given user.
+| Component                                    | What it does                                                                                                                                                         |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`home-mixer/`](home-mixer/)                 | Builds the For You feed: the pipeline stages, the scoring weights, and calls other systems on the request path.                                                      |
+| [`candidate-pipeline/`](candidate-pipeline/) | The framework `home-mixer` is built on. Defines the stage types — source, hydrator, filter, scorer, selector, side effect — and runs them, in parallel where it can. |
+
+
+
+
+### Candidate Sources
+
+
+| Component                        | What it does                                                                                              |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [`thunder/`](thunder/)           | Holds recent posts in memory as they are published, and returns those from the accounts a viewer follows. |
+| [`phoenix/`](phoenix/) retrieval | Embeds the viewer and each post as vectors, and returns the posts nearest the viewer.                     |
+| [`simclusters/`](simclusters/)   | Clusters accounts and posts by who engages with what, then uses the clusters to find candidates.          |
+
+
+
+
+### Retrieval Index
+
+
+| Component                                            | What it does                                                                                          |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| [`phoenix-rankall/`](phoenix-rankall/)               | Maintains the index of posts Phoenix retrieval queries, updating it as events arrive.                 |
+| [`phoenix-rankall-strato/`](phoenix-rankall-strato/) | The event layer that determines which index a post belongs in, consulting visibility filtering first. |
+
+
+
+
+### Ranking
+
+
+| Component                      | What it does                                                                                                                                                                                    |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`phoenix/`](phoenix/) ranking | Predicts how likely the viewer is to take each action on each post. Training and serving code, in JAX with a Rust serving layer.                                                                |
+| [`vm-ranker/`](vm-ranker/)     | The service `VMRanker` calls once posts are scored. It reorders them with a determinantal point process over their embeddings, giving up a little score for less similarity between neighbours. |
+
+
+
+
+### Content Understanding
+
+These produce the scores and labels that Visibility Filtering reads.
+
+
+| Component                                  | What it does                                                                                                                                                                          |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`grox/`](grox/)                           | Runs as posts are published. Classifiers for categories such as spam, adult content and violent media, plus numeric representations of a post's text and images.                      |
+| [`media-model-proxy/`](media-model-proxy/) | Serves the image and video models: adult content, violence and gore, hateful symbols, subject matter, and matching against known media.                                               |
+| [`clip/`](clip/)                           | Trains the image and text embedding model whose media embeddings the classifiers above take as input.                                                                                 |
+| [`agatha/`](agatha/)                       | Offline batch jobs that label an account from how others respond to its posts: blocks, reports and spam reports relative to favorites, plus spam-suspension and adult-content labels. |
+| [`bdsm/`](bdsm/)                           | Reads the sequence of actions an account takes over time to identify signs of inauthentic or abusive behavior.                                                                        |
+| [`user-cred-v2/`](user-cred-v2/)           | Runs PageRank over the follow graph and engagement edges, and turns the resulting mass into a per-account score.                                                                      |
+| [`adult-content/`](adult-content/)         | Trains and calibrates a classifier for adult media.                                                                                                                                   |
+| [`pnsfwmedia/`](pnsfwmedia/)               | An adult-media classifier that combines CLIP media embeddings with account-level scores, including the calibrated score from `agatha`.                                                |
+
+
+
+
+### Visibility Filtering
+
+
+| Component                                                      | What it does                                                                                                                                                                                                  |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`visibility-filtering/`](visibility-filtering/)               | Determines whether a post is shown to a viewer. Rules in [`rules/registry.rs`](visibility-filtering/rules/registry.rs).                                                                                       |
+| [`scarecrow/`](scarecrow/)                                     | Applies label rules to events as they happen. Embeds `botmaker` as its rule engine.                                                                                                                           |
+| [`botmaker/`](botmaker/)                                       | That rule engine: the language rules are written in, its compiler, and its runtime.                                                                                                                           |
+| [`botmaker-rules/`](botmaker-rules/)                           | The rules `scarecrow` loads. To reduce the risk of gaming to circumvent these systems, some rules aren't currently in this repository.                                                                        |
+| [`abuse-enforcement-service/`](abuse-enforcement-service/)     | Acts on model scores about an account rather than on events: labels it or its posts, challenges it, or suspends it.                                                                                           |
+| [`safety-label-user-agg/`](safety-label-user-agg/)             | Labels an account for what its posts collected.                                                                                                                                                               |
+| [`visibility-filtering-client/`](visibility-filtering-client/) | The client callers use to reach visibility filtering, and the post safety-label types it answers with.                                                                                                        |
+| [`under-the-hood/`](under-the-hood/)                           | Builds the per-account [Under the Hood](#under-the-hood-label-transparency-tool) report: daily jobs collect the labels applied to an account and its posts, which the serving layer aggregates over a period. |
+
 
 ---
 
-### Thunder
 
-**Location:** [`thunder/`](thunder/)
-
-An in-memory post store and realtime ingestion pipeline that tracks recent posts from all users. It:
-
-- Consumes post create/delete events from Kafka
-- Maintains per-user stores for original posts, replies/reposts, and video posts
-- Serves "in-network" post candidates from accounts the requesting user follows
-- Automatically trims posts older than the retention period
-
-Thunder enables sub-millisecond lookups for in-network content without hitting an external database.
-
----
-
-### Phoenix
-
-**Location:** [`phoenix/`](phoenix/)
-
-The ML component with two main functions:
-
-#### 1. Retrieval (Two-Tower Model)
-Finds relevant out-of-network posts:
-- **User Tower**: Encodes user features and engagement history into an embedding
-- **Candidate Tower**: Encodes all posts into embeddings
-- **Similarity Search**: Retrieves top-K posts via dot product similarity
-
-#### 2. Ranking (Transformer with Candidate Isolation)
-Predicts engagement probabilities for each candidate:
-- Takes user context (engagement history) and candidate posts as input
-- Uses special attention masking so candidates cannot attend to each other
-- Outputs probabilities for each action type (like, reply, repost, click, etc.)
-
-See [`phoenix/README.md`](phoenix/README.md) for detailed architecture documentation.
-
----
-
-### Candidate Pipeline
-
-**Location:** [`candidate-pipeline/`](candidate-pipeline/)
-
-A reusable framework for building recommendation pipelines. Defines traits for:
-
-| Trait | Purpose |
-|-------|---------|
-| `Source` | Fetch candidates from a data source |
-| `Hydrator` | Enrich candidates with additional features |
-| `Filter` | Remove candidates that shouldn't be shown |
-| `Scorer` | Compute scores for ranking |
-| `Selector` | Sort and select top candidates |
-| `SideEffect` | Run async side effects (caching, logging) |
-
-The framework runs sources and hydrators in parallel where possible, with configurable error handling and logging.
-
----
 
 ## How It Works
 
-### Pipeline Stages
 
-1. **Query Hydration**: Fetch the user's recent engagements history and metadata (eg. following list)
-
-2. **Candidate Sourcing**: Retrieve candidates from:
-   - **Thunder**: Recent posts from followed accounts (in-network)
-   - **Phoenix Retrieval**: ML-discovered posts from the global corpus (out-of-network)
-
-3. **Candidate Hydration**: Enrich candidates with:
-   - Core post data (text, media, etc.)
-   - Author information (username, verification status)
-   - Video duration (for video posts)
-   - Subscription status
-
-4. **Pre-Scoring Filters**: Remove posts that are:
-   - Duplicates
-   - Too old
-   - From the viewer themselves
-   - From blocked/muted accounts
-   - Containing muted keywords
-   - Previously seen or recently served
-   - Ineligible subscription content
-
-5. **Scoring**: Apply multiple scorers sequentially:
-   - **Phoenix Scorer**: Get ML predictions from the Phoenix transformer model
-   - **Weighted Scorer**: Combine predictions into a final relevance score
-   - **Author Diversity Scorer**: Attenuate repeated author scores for diversity
-   - **OON Scorer**: Adjust scores for out-of-network content
-
-6. **Selection**: Sort by score and select the top K candidates
-
-7. **Post-Selection Processing**: Final validation of post candidates to be served
-
----
 
 ### Scoring and Ranking
 
-The Phoenix Grok-based transformer model predicts probabilities for multiple engagement types:
+Phoenix predicts a probability for each action:
 
 ```
-Predictions:
-├── P(favorite)
-├── P(reply)
-├── P(repost)
-├── P(quote)
-├── P(click)
-├── P(profile_click)
-├── P(video_view)
-├── P(photo_expand)
-├── P(share)
-├── P(dwell)
-├── P(follow_author)
-├── P(not_interested)
-├── P(block_author)
-├── P(mute_author)
-└── P(report)
+Engagement    favorite · reply · repost · quote · share · share via DM · share via copy link
+Clicks        post · profile · link · photo expand · video open · quoted post
+Attention     video quality view · dwell · dwell time · click dwell time · active seconds
+Author        follow author
+Negative      not interested · mute author · block author · report · not dwelled
 ```
 
-The **Weighted Scorer** combines these into a final score:
+`RankingScorer` combines them:
 
 ```
 Final Score = Σ (weight_i × P(action_i))
 ```
 
-Positive actions (like, repost, share) have positive weights. Negative actions (block, mute, report) have negative weights, pushing down content the user would likely dislike.
+Positive actions carry positive weights, negative actions negative ones. The weights are in [`home-mixer/params/param.rs`](home-mixer/params/param.rs); the arithmetic is in [`home-mixer/scorers/ranking_scorer.rs`](home-mixer/scorers/ranking_scorer.rs).
 
----
+Three adjustments follow:
+
+- **Author Diversity**: each post after an author's first is multiplied by a decaying factor, down to a floor.
+- **Out-of-Network Discount**: posts from accounts the viewer does not follow are multiplied by a factor below 1, as are replies and reposts from accounts the viewer does follow.
+- **New-Author Boost**: posts from authors whose impressions are below a threshold are lifted toward a target position.
+
+`VMRanker` then calls [`vm-ranker/`](vm-ranker/), a separate service that reorders the result.
 
 ### Filtering
 
-Filters run at two stages:
+**Pre-Scoring Filters** ([`home-mixer/filters/`](home-mixer/filters/)), in order:
 
-**Pre-Scoring Filters:**
-| Filter | Purpose |
-|--------|---------|
-| `DropDuplicatesFilter` | Remove duplicate post IDs |
-| `CoreDataHydrationFilter` | Remove posts that failed to hydrate core metadata |
-| `AgeFilter` | Remove posts older than threshold |
-| `SelfpostFilter` | Remove user's own posts |
-| `RepostDeduplicationFilter` | Dedupe reposts of same content |
-| `IneligibleSubscriptionFilter` | Remove paywalled content user can't access |
-| `PreviouslySeenPostsFilter` | Remove posts user has already seen |
-| `PreviouslyServedPostsFilter` | Remove posts already served in session |
-| `MutedKeywordFilter` | Remove posts with user's muted keywords |
-| `AuthorSocialgraphFilter` | Remove posts from blocked/muted authors |
+
+| Filter                            | Removes                                                                                           |
+| --------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `DropDuplicatesFilter`            | The same post returned by more than one source                                                    |
+| `CoreDataHydrationFilter`         | Posts whose text and metadata failed to load                                                      |
+| `AgeFilter`                       | Posts older than 48 hours                                                                         |
+| `SelfTweetFilter`                 | The viewer's own posts                                                                            |
+| `OONRetweetReplyFilter`           | Reposts and replies from accounts the viewer does not follow, and replies whose parent is missing |
+| `OONNsfwSimclustersFilter`        | SimClusters posts whose author is flagged for adult content, when the viewer does not follow them |
+| `RetweetDeduplicationFilter`      | Repeated reposts of the same post                                                                 |
+| `IneligibleSubscriptionFilter`    | Subscriber-only posts the viewer cannot access                                                    |
+| `PreviouslySeenPostsFilter`       | Posts the viewer has already been shown                                                           |
+| `PreviouslySeenPostsBackupFilter` | The same, from a second record of impressions                                                     |
+| `PreviouslyServedPostsFilter`     | Posts already served earlier in the session                                                       |
+| `MutedKeywordFilter`              | Posts matching the viewer's muted keywords                                                        |
+| `AuthorSocialgraphFilter`         | Posts from accounts the viewer blocks or mutes                                                    |
+| `VideoFilter`                     | Video posts, when the request excludes video                                                      |
+| `TopicIdsFilter`                  | Posts outside the requested topics, and posts in excluded topics                                  |
+| `NewUserMinEngagementFilter`      | For new accounts, out-of-network posts below an engagement threshold                              |
+| `InventoryHoldoutFilter`          | A configured percentage of posts, chosen deterministically per post and viewer                    |
+
+
+Already-seen posts are handled twice over: `ThunderSource` is passed the list and leaves them out, the other sources are not, so their repeats are caught by the filters above.
 
 **Post-Selection Filters:**
-| Filter | Purpose |
-|--------|---------|
-| `VFFilter` | Remove posts that are deleted/spam/violence/gore etc. |
-| `DedupConversationFilter` | Deduplicate multiple branches of the same conversation thread |
+
+
+| Filter                    | Removes                                                        |
+| ------------------------- | -------------------------------------------------------------- |
+| `VFFilter`                | Posts `visibility-filtering/` answered drop for                |
+| `AncillaryVFFilter`       | Posts whose parent, quoted or reposted post was itself dropped |
+| `DedupConversationFilter` | Additional branches of the same conversation                   |
+
+
+Two things to know about how the rules run:
+
+- The first rule that answers drop ends the evaluation.
+- A further set of rules applies only when the post is a recommendation from an account the viewer does not follow, and those rules can only drop — spam caught at high recall, for instance. The same post is allowed to a follower. Both sets are listed in evaluation order in [`visibility-filtering/rules/registry.rs`](visibility-filtering/rules/registry.rs).
 
 ---
 
+
+
+## Experiments and Configuration
+
+As we work to improve the algorithm we regularly run experiments on a small percentage of timeline traffic. Our aim is for experiments running at a notable share of traffic — e.g. 10% or more — to be visible in this repository.
+
+To enable experimentation, many tunable values are read from a configuration system rather than written into the code. To help people understand the production defaults, we run cron scripts that set the defaults in this repository's code to be the primary production values, for example in [`home-mixer/params/param.rs`](home-mixer/params/param.rs).
+
+[`docs/BIDIRECTIONAL_BOOST_CHANGE.md`](docs/BIDIRECTIONAL_BOOST_CHANGE.md) follows a widely-discussed timeline change, exemplifying what you would see as a param value changes over time.
+
+---
+
+
+
+## What's not in this repo?
+
+We believe transparency is important for trust, and our aim is for the public to be able to understand how posts are distributed on X, so they can audit, critique or even help improve the system.
+
+One challenge with making code that impacts post distribution public is that people could use it to try to game the system. To reduce the risk of this, there are a limited set of files not currently published in the repository, e.g.:
+
+- Grox prompts. E.g. the j2 files with the specific LLM prompts used in Grox.
+- Some botmaker rules
+
+However, we still want the public to have insight into these systems. To accomplish that, we're piloting a new [transparency tool](#under-the-hood-label-transparency-tool) that will show people the visibility-impacting labels that have been applied to their account and posts. This approach has multiple benefits:
+
+- one can see the outcomes of these systems (and whether they affect their own account)
+- one can see whether labels have been manually applied outside of automated systems
+- one can match any labels present on their account to the code to understand if or how the visibility of their posts is affected, and critique it if desired
+
+We believe the combination of code + transparent outputs is a powerful one for public transparency, and welcome feedback.
+
+
+### Deployment-related code
+
+The focus of the repository is transparency into the code that affects post visibility in the For You timeline. All of the code here is inspectable, and some of the code is even designed to be runnable end-to-end — e.g. training and running the Phoenix scoring model. Where code is meant to be built and run, the relevant manifests are in the repo, e.g. [`phoenix/`](phoenix/) ships a Cargo workspace, a `pyproject.toml`, a [quickstart](phoenix/QUICKSTART.md) and synthetic data generation, so a small model can be trained and served end-to-end. Elsewhere, code may not necessarily include build- or deployment-related files or generally self-explanatory infrastructure imports (e.g. `xai_service_runner` or `xai_kafka`). If there's anything not here that you believe would help your understanding of the algorithm, please let us know.
+
+---
+
+
+
+## Under the Hood Label Transparency Tool
+
+We're piloting a new transparency tool that lets people see aggregate statistics about the visibility-impacting labels on their account and posts. Paired with the code in this repository, we believe this gives people valuable insight into the visibility of their posts.
+
+The tool is [available here](https://x.com/i/under_the_hood) — we'll be shaping it based on your feedback and expanding availability over time. The jobs and serving code that build the report are in [`under-the-hood/`](under-the-hood/).
+
+---
+
+
+
 ## Key Design Decisions
 
-### 1. No Hand-Engineered Features
-The system relies entirely on the Grok-based transformer to learn relevance from user engagement sequences. No manual feature engineering for content relevance. This significantly reduces the complexity in our data pipelines and serving infrastructure.
+
+
+### 1. Multi-Action Prediction
+
+Rather than predicting a single "relevance" score, the model predicts probabilities for many actions. Combining them into one number is a separate, explicit step.
 
 ### 2. Candidate Isolation in Ranking
-During transformer inference, candidates cannot attend to each other—only to the user context. This ensures the score for a post doesn't depend on which other posts are in the batch, making scores consistent and cacheable.
+
+During transformer inference, candidates cannot attend to each other—only to the viewer context. This ensures the score for a post doesn't depend on which other posts are in the batch, making scores consistent and cacheable.
 
 ### 3. Hash-Based Embeddings
-Both retrieval and ranking use multiple hash functions for embedding lookup
 
-### 4. Multi-Action Prediction
-Rather than predicting a single "relevance" score, the model predicts probabilities for many actions.
+Both retrieval and ranking use multiple hash functions for embedding lookup, so there is no vocabulary to maintain and a new post is representable immediately.
+
+### 4. Ranking and Visibility Are Separate
+
+Ranking decides the order. Visibility filtering decides whether a post can be shown at all. Different services, different inputs, different rules.
 
 ### 5. Composable Pipeline Architecture
+
 The `candidate-pipeline` crate provides a flexible framework for building recommendation pipelines with:
+
 - Separation of pipeline execution and monitoring from business logic
 - Parallel execution of independent stages and graceful error handling
 - Easy addition of new sources, hydrations, filters, and scorers
 
 ---
 
+
+
 ## License
 
-This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
+Licensed under the Apache License 2.0. See [LICENSE](LICENSE).

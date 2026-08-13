@@ -17,7 +17,7 @@ An opinionated selection of skills for daily dev workflows.
 | [hermes](./skills/hermes) | Expert at understanding and working with Hermes Agent - its memory system, skills, cron jobs, tools, and behavioral conventions |
 | [honcho](./skills/honcho) | Expert on Honcho — AI-native memory and context platform for LLM applications with persistent memory, user modeling, and context management |
 | [safe-delete](./skills/safe-delete) | Prevents catastrophic file deletion by transforming rm commands to trash and blocking dangerous patterns like `rm -rf /` |
-| [x-engagement](./skills/x-engagement) | Crafts high-engagement X (Twitter) content using conversation hijacking, authority building, strategic hooks, and Original Content Rewards monetization rules |
+| [x-engagement](./skills/x-engagement) | Crafts high-engagement X (Twitter) content using the published X algorithm scoring weights, visibility filtering and account-standing rules, conversation tactics, and Original Content Rewards monetization |
 | [gh-issue-tracker](./skills/gh-issue-tracker) | Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues with deduplication, fingerprinting, and rate limiting |
 | [firecrawl](./skills/firecrawl) | Expert on Firecrawl — web scraping, crawling, search, and browser automation API for AI agents with clean LLM-ready output |
 | [servarr](./skills/servarr) | Deploy, configure, and manage the full media stack — Sonarr, Radarr, Lidarr, Prowlarr, Plex, Overseerr, qBittorrent, Bazarr, and Recyclarr |
@@ -335,9 +335,11 @@ Crafts high-engagement X (Twitter) content using strategic frameworks:
 - **thread** - Draft a full tweet/thread
 - **reply** - Craft strategic, Grok-quality-aware replies
 - **cluster** - Plan a content cluster of related posts
-- **review** - Review a draft against the quality gate, dwell, and follow triggers
+- **review** - Review a draft for negative-signal risk, action triggers, and slop
 - **ideas** - Generate ideas ranked by algorithm signal priority
-- **signals** - Explain the algorithm scoring signals
+- **signals** - Explain the published scoring weights and how to read them
+- **weights** - Print the published blend weights with `file:line` citations
+- **standing** - Diagnose a reach drop via visibility filtering and account labels
 - **monetization** - Original Content Rewards eligibility, qualified impressions, payout rules
 
 ```bash
