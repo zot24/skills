@@ -93,9 +93,5 @@ name = "portainerctl"
 marketplace = "zot24-skills"
 
 [[skills]]
-name = "pxpipe"
-marketplace = "zot24-skills"
-
-[[skills]]
 name = "llm-wiki"
 marketplace = "zot24-skills"

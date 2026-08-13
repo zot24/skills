@@ -30,7 +30,6 @@ An opinionated selection of skills for daily dev workflows.
 | [wealthfolio](./skills/wealthfolio) | Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development. |
 | [1password-cli](./skills/1password-cli) | Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent. |
 | [portainerctl](./skills/portainerctl) | Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC. |
-| [pxpipe](./skills/pxpipe) | Set up, run, tune, and debug pxpipe — a local proxy that cuts Claude Code token costs ~59–70% by rendering bulky context (tool results, old history, system prompt) as compressed PNG images |
 | [llm-wiki](./skills/llm-wiki) | Expert on llm-wiki (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent. Hub/topic layout, ingest → compile → query, lint/librarian/audit, Ideas and Projects, sessions, private adapters, and version pinning |
 
 ## Installation
@@ -554,26 +553,6 @@ Expert on portainerctl — Portainer's official CLI for driving Portainer Busine
 
 [Full documentation](./skills/portainerctl/README.md)
 
-### pxpipe
-
-Set up, run, tune, and debug pxpipe (`pxpipe-proxy`) — a local proxy that cuts Claude Code token costs by rendering bulky context as compressed PNG images:
-
-- **setup** — `npx pxpipe-proxy` + `ANTHROPIC_BASE_URL`, persistent operation, instant bypass
-- **config** — `PXPIPE_MODELS` allowlist, `CLAUDE_CODE_SUBAGENT_MODEL`, dashboard kill switch and per-model toggles
-- **caveats** — lossiness, silent confabulation on byte-exact values, per-model read accuracy
-- **library** — `renderTextToImages` / `transformAnthropicMessages` without the proxy
-- **savings** — audit dual-accounted savings from `~/.pxpipe/events.jsonl`
-- **troubleshoot** — no savings shown, misread values, port conflicts
-- **sync/diff** — stay updated with upstream docs
-
-```bash
-/pxpipe:pxpipe setup
-/pxpipe:pxpipe caveats
-/pxpipe:pxpipe savings
-```
-
-[Full documentation](./skills/pxpipe/README.md)
-
 ### llm-wiki
 
 Expert on [llm-wiki](https://github.com/nvk/llm-wiki) (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent:
@@ -703,7 +682,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, pxpipe, llm-wiki
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, llm-wiki
 
 ### Automated Releases (release-please)
 
@@ -777,8 +756,7 @@ skills/
 │   ├── flue/                     # Flue open agent framework
 │   ├── wealthfolio/              # Private local-first portfolio tracker
 │   ├── 1password-cli/            # 1Password CLI (op) secrets management
-│   ├── portainerctl/             # Portainer CLI (Business Edition)
-│   └── pxpipe/                   # PNG context compression proxy for Claude Code
+│   └── portainerctl/             # Portainer CLI (Business Edition)
 └── README.md
 ```
 
