@@ -4,9 +4,12 @@
 
 ## Hook First, Context Later — But Hold Attention After
 
-People scroll fast. Your first line decides everything — but the algorithm also explicitly tracks **dwell time** as a positive signal and **not_dwelled** (fast scroll-past) as a negative signal.
+People scroll fast. Your first line decides whether anyone reads the rest.
 
-A hook gets the stop. Substance gets the dwell. **Both matter.**
+A hook gets the stop. Substance is what converts the stop into a reply, quote, share or follow —
+the actions the model actually pays for. **Both matter**, but see
+[Dwell — What It's Actually Worth](#dwell--what-its-actually-worth) below: attention is the
+precondition, not the payoff.
 
 ### Hook Structure
 
@@ -98,15 +101,27 @@ conversation hijacking
 
 All four elements must be present for maximum impact.
 
-## Dwell Optimization
+## Dwell — What It's Actually Worth
 
-The algorithm tracks two dwell signals:
-- `dwell` / `cont_dwell_time`: Viewer reads the post (positive weight)
-- `not_dwelled`: Viewer scrolls past quickly (negative weight — actively hurts you)
+The published weights deflate this considerably (`home-mixer/params/param.rs`):
 
-A post that generates zero likes but holds attention for 5 seconds scores better than a post that gets a quick like-and-scroll. **Design every post to reward reading, not just stopping.**
+- `dwell` (binary): **0.0** — predicted, but contributes nothing
+- `cont_dwell_time`: **0.004** — the smallest non-zero positive in the model
+- `not_dwelled`: **−0.02** — the smallest term in the model, period
 
-### Dwell tactics
+So a post that holds attention but earns nothing else scores near zero, and a hook that fails to
+hold costs you almost nothing directly. **"Optimize for dwell" is not supported by the weights.**
+
+Attention is still worth designing for, but as a *means*: nobody replies, quotes, DM-shares or
+follows from a post they didn't read. Hold attention to earn the 4.0–5.0 actions, not for the
+0.004.
+
+The real penalty for thin content isn't the scroll-past — it's `not_interested` (−43.2) and
+`mute_author` (−58.8). Boring is cheap; irritating is expensive.
+
+→ **[Scoring Weights](scoring-weights.md)**
+
+### Attention tactics
 - Break long thoughts across multiple lines to slow the read
 - Use numbered progressions that pull readers forward ("3 of 5 surprises people...")
 - End posts with a question or open loop that invites a reply
@@ -114,14 +129,28 @@ A post that generates zero likes but holds attention for 5 seconds scores better
 
 ## Author Diversity Penalty
 
-If you have multiple posts competing for a viewer's feed, the algorithm applies a **decay multiplier** to each successive post from the same author. Your best post gets full score — every additional post in that feed load gets progressively attenuated.
+If you have multiple posts competing for a viewer's feed, the algorithm applies a **decay
+multiplier** to each successive post from the same author. With published defaults (decay 0.5,
+floor 0.25) your 2nd post keeps **62.5%** of its score and your 3rd **43.75%**, tailing to a 25%
+floor.
 
-**Quality beats quantity.** One excellent post outperforms three average ones that split your author score budget.
+A second penalty stacks on top: `vm-ranker/` reorders by embedding dissimilarity, so posts that
+resemble each other are demoted even across different authors.
 
-## The Quality Gate
+**Quality beats quantity, and variety beats repetition.** One excellent post outperforms three
+average ones that split your author score budget — and three rephrasings of the same take are
+worse still.
 
-Every post is screened by a Grok VLM (**Banger Initial Screen**) before entering out-of-network distribution. Content with `quality_score < 0.4` only reaches existing followers.
+## Screening and Eligibility
 
-The VLM penalizes: generic / templated content, thin text, decontextualized media, and engagement bait without substance.
+Every non-reply post is screened by a Grok VLM (**Banger Initial Screen**) at publish time, which
+classifies it into the topic taxonomy and scores it for slop. There is **no published numeric
+quality threshold** — the widely repeated `quality_score ≥ 0.4` gate came from a file deleted on
+2026-08-13.
 
-→ See **[Content Quality Gate](content-quality.md)** for detailed thresholds and tactics.
+What actually decides whether you reach non-followers is the label-and-drop chain in visibility
+filtering, which keys largely on **account-level** standing.
+
+- → **[Content Quality Screening](content-quality.md)** — what the screen produces
+- → **[Visibility Filtering](visibility-filtering.md)** — what drops you from recommendations
+- → **[Account Standing](account-standing.md)** — how accounts pick up the labels that do it

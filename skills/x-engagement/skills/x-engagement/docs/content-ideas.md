@@ -100,17 +100,24 @@ Build posts that reward reading all the way through:
 > What this means if you're [doing X]:
 > [actionable implication]
 
-The layered structure creates dwell — each line pulls the reader to the next. **Not_dwelled is an explicit negative signal; not_clicked is not.**
+The layered structure holds the reader — each line pulls to the next. That's what converts a stop
+into a reply, quote or follow, which is where the score actually comes from.
 
 ## Algorithm-Backed Content Priorities
 
-Based on the scoring model's action hierarchy:
+These are ordered by **what you can realistically influence**, not by raw weight — upstream states
+weights blend action value with base rate (`param.rs:279-281`), so the weight column is context,
+not a ranking. → **[Scoring Weights](scoring-weights.md)**
 
-| Priority | Action | Content Type |
-|----------|--------|-------------|
-| 1 | follow_author | Unique insight + clear content identity |
-| 2 | share_via_dm | Reference-quality, problem-specific content |
-| 3 | repost/quote | Counterintuitive takes on shared experiences |
-| 4 | reply | Discussion-inviting questions or challenges |
-| 5 | dwell | Layered content that rewards full reading |
-| 6 | like | Table stakes — the baseline |
+| Priority | Target | Weight | Content Type |
+|---|---|---:|---|
+| 1 | *Avoid* mute / block / report | −31 to −234 | Nothing gratuitously antagonistic; the negatives dominate the model |
+| 2 | reply | 5.0 | Discussion-inviting questions or genuine challenges |
+| 3 | quote | 5.0 | Counterintuitive takes people want to add their own angle to |
+| 4 | share_via_dm | 5.0 | Reference-quality, problem-specific content |
+| 5 | follow_author | 4.0 | Unique insight + clear content identity — the only action that compounds |
+| 6 | repost | 1.0 | Broadly relatable, low-friction to forward |
+| 7 | like | 0.5 | Table stakes — the baseline |
+
+Not worth designing for: `dwell` (0.0), `profile_click` (0.0), and avoiding `not_dwelled` (−0.02).
+Hold attention because it earns rows 2–5, not for its own weight.

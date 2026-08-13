@@ -4,13 +4,15 @@ Expert at crafting high-engagement [X (Twitter)](https://x.com) content — grou
 
 ## What This Skill Covers
 
-- **Algorithm signals** — Exact scoring model: follow_author, dwell, share_via_dm, not_dwelled (negative), and more
-- **Quality gate** — Banger Initial Screen: Grok VLM scores all posts; quality_score ≥ 0.4 required for OON distribution
-- **Hooks + dwell** — First line stops the scroll; substance after the hook earns the dwell (and avoids the not_dwelled penalty)
-- **Follow triggers** — Designing content that earns follows (the highest-weight action in the model)
-- **Reply strategy** — Grok scores all replies 0–3; spam detection targets accounts under 1,000 followers
+- **Published scoring weights** — the real blend weights xAI released on 2026-08-13, cited with `file:line`
+- **Visibility filtering** — the ALLOW/INTERSTITIAL/DROP rules, including the ones that fire *only* for out-of-network recommendations
+- **Account standing** — agatha, user-cred-v2 PageRank, the bdsm behaviour model, and the enforcement labels with 30-day TTLs
+- **Quality screening** — Banger Initial Screen outputs, taxonomy classification, slop scoring
+- **Hooks + attention** — First line stops the scroll; substance converts it into an action that actually scores
+- **Follow triggers** — Why follows compound across scoring, retrieval and enforcement, even at a weight of 4.0
+- **Reply strategy** — Grok scores replies 0–3; elevated spam scrutiny under 1,000 followers, and why volume is the riskiest lever
 - **Threads + clusters** — Interconnected posts that drive cross-traffic
-- **Authority building** — Network alignment (Jaccard), DM-share signals, facepile social proof
+- **Authority building** — Mutual-follow boost, share signals, network alignment, positioning
 - **Monetization** — Original Content Rewards: eligibility, qualified impressions (Premium viewers × Home Timeline × original posts), what counts as original, payout rules
 
 ## Usage
@@ -33,18 +35,31 @@ Or use natural language:
 "What signals does the X algorithm actually weight?"
 ```
 
-## Key Algorithm Facts (from xai-org/x-algorithm)
+## Key Algorithm Facts (from xai-org/x-algorithm @ `a389166`, 2026-08-13)
 
-| Signal | Type | Implication |
-|--------|------|-------------|
-| `follow_author` | Positive | Highest-value per-action; design for follows |
-| `share_via_dm` | Positive | Private DM shares tracked separately; reference-quality content earns them |
-| `dwell` / `cont_dwell_time` | Positive | Time-on-post is rewarded |
-| `not_dwelled` | **Negative** | Fast scroll-past actively hurts future distribution |
-| `report` / `block` | **Negative** | Strong account-level suppression |
-| Banger Screen | Gate | quality_score ≥ 0.4 required for For You feed |
-| Author diversity | Decay | Successive posts from same author get attenuated scores |
-| OON weight | Penalty | Non-follower distribution requires higher raw score |
+Published blend weights, from `home-mixer/params/param.rs`:
+
+| Signal | Weight | Implication |
+|--------|-------:|-------------|
+| `report` | **−234.0** | One report cancels ~47 replies. Negatives dominate the model. |
+| `mute_author` / `not_interested` / `block_author` | −58.8 / −43.2 / −31.2 | Irritating people is far costlier than boring them |
+| `share_via_copy_link` | 20.0 | Highest positive — but high *because* the action is rare |
+| `reply` from a mutual follow | 5.0 **+15.0** | Largest live positive term; root posts only |
+| `reply` / `quote` / `share_via_dm` | 5.0 | Quote is worth 5× a bare repost |
+| `follow_author` | 4.0 | Not the top weight — but the only action that compounds |
+| `retweet` / `favorite` | 1.0 / 0.5 | Likes are near-table-stakes |
+| `cont_dwell_time` | 0.004 | Attention is a precondition, not the payoff |
+| `dwell` / `profile_click` | **0.0** | Predicted, but contribute nothing |
+| `not_dwelled` | −0.02 | Smallest term in the model — a weak hook costs little directly |
+| Author diversity | ×0.625 / ×0.438 | Your 2nd and 3rd post in one feed load |
+| OON weight | ×0.75 | Reaching non-followers costs 25% of your score |
+
+Weights blend action value with base rate (`param.rs:279-281`) — a large weight often just means
+a rare action. Score contribution is `weight × P(action)`. Don't read the table as a to-do list.
+
+Beyond ranking, **visibility filtering** decides eligibility: a set of rules drops posts *only*
+for out-of-network recommendations, many keyed on account-level labels with 30-day TTLs. That is
+usually what a reach collapse actually is.
 
 ## Monetization (Original Content Rewards)
 

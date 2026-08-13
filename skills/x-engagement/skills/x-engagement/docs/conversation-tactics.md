@@ -81,7 +81,10 @@ Always post your content first. Then use other conversations to bring readers ba
 
 ## Reply Quality Is Scored by Grok
 
-Every reply in the system is quality-scored by Grok VLM on a **0–3 scale** with reasoning. Higher-scored replies get more thread visibility. The scoring uses contextual signals including the parent post and engagement data.
+Replies are quality-scored by Grok on a **0–3 rubric**, enforced in code
+(`grox/flows/reply_spam/classifier_reply_ranking.py:163-169` raises on any score outside it).
+Higher-scored replies get more thread visibility. The scoring uses contextual signals including
+the parent post and engagement data.
 
 **This means reply quality is not just social — it's algorithmic.** Weak replies get buried. Strong replies get surfaced.
 
@@ -101,20 +104,50 @@ Every reply in the system is quality-scored by Grok VLM on a **0–3 scale** wit
 
 ## Spam Risk for Small Accounts
 
-The algorithm specifically targets replies from lower-follower accounts with a **SpamEapiLowFollowerClassifier**. It runs Grok VLM on your replies if you're under 1,000 followers:
+`grox/flows/reply_spam/task_spam_detection.py:18-27` buckets replies by follower count for spam
+scrutiny:
 
-| Followers | Spam Scrutiny |
-|-----------|--------------|
-| ≤ 100 | Highest |
-| ≤ 500 | High |
-| ≤ 1,000 | Elevated |
-| > 1,000 | Standard |
+| Bucket | Condition |
+|---|---|
+| Highest | reply-target **and** root author both ≤ 100 followers |
+| High | both ≤ 500 |
+| Elevated | both ≤ 1,000 |
+| Standard | above that |
 
-**If you're under 1,000 followers: quality > volume on replies.** Five excellent replies outperform fifty mediocre ones and avoid triggering spam detection.
+Read the condition carefully: it keys on the **replied-to user's and the root author's** follower
+counts, not only yours. Small accounts talking in small threads draw the most scrutiny.
+
+**Under 1,000 followers: quality > volume on replies.** Five excellent replies outperform fifty
+mediocre ones and avoid spam detection.
+
+### The reply-volume trap
+
+This is the highest-risk strategy in the playbook, because three systems converge on it:
+
+- `fast_reply_spam_post` → `SpamHighRecall` post label, **30-day TTL**
+  (`enforcement_post.yaml:53-58`)
+- `llm_slop_post` → `RiskyHighVizReply` label, 30-day TTL (`enforcement_post.yaml:39-44`)
+- `bdsm/` reads inter-action **timing** directly — burstiness and mechanical cadence
+- `classifier_coordinated_spam.py` checks for coordination across accounts
+
+A `SpamHighRecall` label on your account triggers `SPAM_HIGH_RECALL_USER_DROP`, which removes
+**every** post you make from out-of-network recommendations for the label's duration — while your
+followers keep seeing you normally, so the metrics look survivable.
+
+→ **[Account Standing](account-standing.md)** · **[Visibility Filtering](visibility-filtering.md)**
 
 ## Social Proof via Following Network
 
-The algorithm shows a "facepile" (profile pictures) of people the viewer follows who replied to a post — but only for viewers who themselves have ≥1,000 followers. This creates a social proof loop:
+The algorithm can show a "facepile" (profile pictures) of people the viewer follows who replied to
+a post — but only for viewers who themselves have **≥ 1,000 followers**
+(`home-mixer/candidate_hydrators/following_replied_users_hydrator.rs:13`).
+
+Caveat: `EnableFollowingRepliedUsersFacepile` defaults to `false` (`param.rs:559-564`), so treat
+this as a real mechanism with an unconfirmed rollout. The tactic below is worth doing regardless —
+quality replies from engaged followers are valuable on their own — just don't count on the
+facepile itself.
+
+The loop when it is on:
 
 ```
 Your post gets quality replies from engaged followers

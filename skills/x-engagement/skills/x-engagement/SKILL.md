@@ -1,85 +1,139 @@
 ---
 name: x-engagement
-description: Crafts high-engagement X (Twitter) content using the actual X recommendation algorithm signals, conversation hijacking, authority building, strategic hooks, and the Original Content Rewards monetization rules. Use when writing tweets, planning X content strategy, building audience, optimizing engagement, or checking creator payout eligibility. Triggers on mentions of X, Twitter, tweets, threads, engagement, audience growth, content strategy, creator monetization, Original Content Rewards, revenue sharing, creator payouts.
+description: Crafts high-engagement X (Twitter) content using the published X recommendation algorithm weights, visibility filtering rules, account standing signals, conversation tactics, and the Original Content Rewards monetization rules. Use when writing tweets, planning X content strategy, building audience, optimizing engagement, diagnosing lost reach, or checking creator payout eligibility. Triggers on mentions of X, Twitter, tweets, threads, engagement, audience growth, content strategy, shadowban, reach drop, creator monetization, Original Content Rewards, revenue sharing, creator payouts.
 allowed-tools: Read, Write, Edit, Bash
 ---
 
 # X Engagement Playbook
 
-Expert at building authority and engagement on X (Twitter) through distribution engineering, algorithm-aware content design, and conversation tactics — grounded in the actual `xai-org/x-algorithm` codebase.
+Expert at building authority and engagement on X (Twitter) through distribution engineering,
+algorithm-aware content design, and conversation tactics — grounded in the `xai-org/x-algorithm`
+codebase at snapshot `a389166` (2026-08-13), the release that published the scoring weights and
+the visibility-filtering rules.
 
 ## Overview
 
-- **Algorithm-first thinking** — the Phoenix transformer predicts P(follow), P(dwell), P(share_dm), P(reply), P(not_dwelled) — optimize for these, not just likes
-- **Quality gate awareness** — content must pass the Banger Initial Screen (quality_score ≥ 0.4) to reach non-followers at all
-- **Hook-first writing** — first line decides the stop; substance decides the dwell
-- **Follow triggers** — the highest-value per-action signal in the scoring model
-- **DM shares** — separately tracked and weighted; reference-quality content earns them
-- **Conversation leverage** — replies are quality-scored by Grok VLM; quality > volume
-- **Network alignment** — MinHash Jaccard measures your follower overlap with viewer graphs
-- **Monetization alignment** — Original Content Rewards pays on verified impressions on *original* posts in the Home Timeline; reach and revenue are now the same target
+- **Two systems, not one** — ranking decides your *order*; visibility filtering decides whether
+  you're *eligible* at all. Most reach problems are the second one.
+- **Published weights** — the blend weights are public as of 2026-08-13; the skill cites them with
+  `file:line` rather than inferring a hierarchy
+- **Negative feedback dominates** — `report` is −234.0 against a top positive of 20.0; avoiding
+  irritation beats optimizing engagement
+- **Account standing gates everything** — spam/slop labels drop *every* post from out-of-network
+  for 30 days while followers see you normally
+- **Mutuals compound** — a mutually-followed author gets +15.0 on reply weight for root posts
+- **Conversation leverage** — replies are Grok-scored 0–3; volume is the riskiest strategy here
+- **Monetization alignment** — Original Content Rewards pays on verified impressions on *original*
+  posts in the Home Timeline
 
 ## Core Principles
 
-### 1. Hook → Hold → Trigger Follow
-The scoring model weights `follow_author` above all per-action signals. Every post should make a viewer think "I want to see more from this person." Bad: tips thread. Good: counterintuitive insight with specific proof from lived experience.
+### 1. Don't Get Dropped Before You Get Ranked
+Visibility filtering runs a set of rules that fire **only for out-of-network recommendations** —
+spam-high-recall, do-not-amplify, abusive, NSFW, compromised. Many are **account-level**. If OON
+reach dies while follower engagement holds, that's the cause, not your hooks.
 
-### 2. Dwell Is a Signal, Not_Dwelled Is a Penalty
-`dwell` and `cont_dwell_time` are explicit positive signals. `not_dwelled` (fast scroll-past) is an explicit **negative** signal that suppresses future distribution. A hook without substance earns stops then scrolls — net negative.
+### 2. Negative Signals Outweigh Everything Positive
+`report` −234.0, `mute_author` −58.8, `not_interested` −43.2 versus a top positive of 20.0. One
+report cancels ~47 replies. Provocation that wins arguments and loses this ratio is a bad trade —
+and `agatha/` scores blocks/reports *relative to favorites* as a durable account label.
 
-### 3. Post First, Drive Traffic Second
-Always post your own content to your profile first. Then reply in relevant threads to pull traffic back. Never let your best content die inside someone else's thread — reply impressions don't count toward monetization either.
+### 3. Hook → Hold → Earn a Real Action
+`dwell` is weighted **0.0** and `cont_dwell_time` **0.004**; `not_dwelled` is **−0.02**, the
+smallest term in the model. Attention is the precondition, not the payoff. Hold the reader to earn
+a reply, quote, DM share or follow — those are what score.
 
-### 4. Reply Quality Over Volume
-Replies are Grok-scored on a 0–3 scale. Low-follower accounts (< 1,000) face elevated spam scrutiny. Five excellent replies outperform fifty mediocre ones — and don't risk spam classification.
+### 4. Follows Compound, Even Though They Aren't Top-Weighted
+`follow_author` is 4.0 — below reply, quote and DM share. But it's the only action that changes
+every *future* impression, moves you in-network past the 0.75 OON discount, and feeds the PageRank
+credibility that buys enforcement leniency. Design for it for those reasons.
 
-### 5. Originality Is Now Attributed and Paid
-Original Content Rewards pays on qualified impressions: **Premium viewers**, **Home Timeline**, **original posts**. Reposts, thin aggregation, and "BREAKING" repackaging are devalued, and habitual bait posting risks permanent payout deductions. The Banger Screen is no longer just a distribution gate — it's a paywall.
+### 5. Post First, Drive Traffic Second
+Always post your own content to your profile first, then reply into relevant threads to pull
+traffic back. Never let your best content die inside someone else's thread — reply impressions
+don't monetize either.
+
+### 6. Reply Quality Over Volume — This Is The Riskiest Lever
+Replies are Grok-scored 0–3. Below ~1,000 followers spam scrutiny is elevated, and
+`fast_reply_spam_post` carries a 30-day `SpamHighRecall` label. `bdsm/` reads posting *cadence*
+directly. Five excellent replies beat fifty mediocre ones by a wide margin.
+
+### 7. Volume and Repetition Both Decay
+Author diversity: your 2nd post in a feed load keeps 62.5%, your 3rd 43.75%. VMRanker separately
+demotes posts similar to their neighbours. Post less, and don't rephrase yourself.
+
+### 8. Originality Is Attributed, Paid, and Enforced
+Original Content Rewards pays on qualified impressions: **Premium viewers**, **Home Timeline**,
+**original posts**. Separately, `llm_slop_user` and `llm_slop_post` are real enforcement labels
+with 30-day TTLs. Generic AI-shaped output is a named, penalized category.
 
 ## Documentation
 
-- **[Algorithm Signals](docs/algorithm-signals.md)** - Exact scoring signals from the x-algorithm codebase: weights, dwell, follow, OON penalties, author diversity
-- **[Content Quality Gate](docs/content-quality.md)** - Banger Screen (quality_score ≥ 0.4), slop score, spam detection thresholds, reply scoring
-- **[Content Strategy](docs/content-strategy.md)** - Hooks, clusters, dwell optimization, author diversity penalty, quality gate
-- **[Conversation Tactics](docs/conversation-tactics.md)** - Reply quality scoring, spam risk, social proof facepile, thread hijacking
-- **[Authority Building](docs/authority-building.md)** - Follow triggers, DM-share signals, network alignment (Jaccard), positioning
-- **[Monetization](docs/monetization.md)** - Original Content Rewards: eligibility, qualified impressions, what counts as original, payout rules, Revenue Sharing transition
-- **[Content Ideas](docs/content-ideas.md)** - High-performing templates ranked by algorithm signal priority
-- **[x-algorithm README (upstream)](docs/x-algorithm-readme.md)** - Cached README from xai-org/x-algorithm, the codebase the playbook is grounded in
+- **[Scoring Weights](docs/scoring-weights.md)** - The published blend weights with `file:line`
+  citations, the bidirectional-follow boost, OON factors, author diversity, params off by default
+- **[Algorithm Signals](docs/algorithm-signals.md)** - Which signals exist, candidate sources,
+  network alignment, facepile, how to prioritize
+- **[Visibility Filtering](docs/visibility-filtering.md)** - ALLOW/INTERSTITIAL/DROP, the
+  out-of-network-only drop rules, the Under the Hood transparency tool
+- **[Account Standing](docs/account-standing.md)** - agatha, user-cred-v2 PageRank, bdsm behaviour
+  model, the enforcement label chain and its 30-day TTLs
+- **[Content Quality Screening](docs/content-quality.md)** - Banger Screen outputs, reply spam
+  buckets, 0–3 reply rubric, the ten safety categories
+- **[Content Strategy](docs/content-strategy.md)** - Hooks, clusters, attention, diversity decay
+- **[Conversation Tactics](docs/conversation-tactics.md)** - Reply scoring, spam risk, thread
+  hijacking, social proof
+- **[Authority Building](docs/authority-building.md)** - Follow triggers, share signals,
+  network alignment, positioning
+- **[Monetization](docs/monetization.md)** - Original Content Rewards: eligibility, qualified
+  impressions, originality rules, payout mechanics *(sourced from X help pages, not the codebase)*
+- **[Content Ideas](docs/content-ideas.md)** - High-performing templates
+- **[x-algorithm README (upstream)](docs/x-algorithm-readme.md)** - Cached upstream README
+- **[upstream/](docs/upstream/)** - Verbatim cached source files the analysis above is derived from
 
 ## Quick Workflow
 
-1. **Draft content** with a strong hook (controversial truth or myth-busting)
-2. **Check quality** — does it pass the Banger Screen? Original insight, specific, topically clear?
-3. **Optimize for dwell** — does it reward reading all the way through?
-4. **Ask: does this earn a follow?** — the highest-value action
-5. **Post to your profile** first
-6. **Wait 10–30 minutes**, then find active threads (20–200 likes, your topic)
-7. **Reply with quality** — extend the idea, don't self-promote
-8. **Seed replies** from engaged followers to trigger the social proof facepile
+1. **Check standing first** if reach has dropped — Under the Hood shows the labels actually on
+   your account; don't theorize about hooks until that's clean
+2. **Draft content** with a strong hook (controversial truth or myth-busting)
+3. **Ask: could this make someone mute, block or report?** The negatives dominate the model
+4. **Ask: does this earn a reply, quote, DM share, or follow?** Those are what score
+5. **Check it reads as human** — not templated, not your last post rephrased
+6. **Post to your profile** first
+7. **Wait 10–30 minutes**, then find active threads (20–200 likes, your topic)
+8. **Reply with quality, at human pace** — extend the idea, don't self-promote
 
-## Updated Content Formula
+## Content Formula
 
 ```
-quality_score ≥ 0.4 (passes banger screen)
-+ follow trigger (unique insight + content identity)
-+ dwell design (substance that holds attention)
-+ DM-shareable framing (reference-quality, specific)
-+ conversation leverage (strategic replies with Grok-quality content)
-+ originality (first-hand, attributable, not repackaged)
+clean account standing (no OON drop labels)
++ topically legible (VLM can categorize it)
++ nothing that invites mute / block / report
++ a reason to reply, quote, or DM it to one specific person
++ a reason to follow (unique insight + consistent content identity)
++ original and human-sounding (not slop-labelled)
 = algorithmic reach → qualified impressions → payout
 ```
 
 ## Anti-Patterns
 
-- Dropping naked links (looks spammy, no dwell)
+- High-volume or fast-cadence replies (`fast_reply_spam_post`, 30-day `SpamHighRecall`)
+- Generic / templated / AI-shaped content (`llm_slop_user`, `llm_slop_post`)
+- Rephrasing your own last post (VMRanker demotion, `SpamEmbeddingMajorityPoster`)
+- Burst posting on a mechanical schedule (`bdsm/` reads inter-action timing)
+- Deliberate antagonism (agatha scores blocks/reports relative to favorites)
+- Posting too frequently (author diversity decay attenuates each successive post)
+- Dropping naked links (`MALICIOUS_URL_DROP` keys on the link, and it can fire retroactively)
+- Risky avatar / banner imagery (`NSFW_AVATAR_IMAGE_USER_DROP` costs you *all* OON reach)
 - Posting before building your own content
-- Generic / templated content (fails quality screen, high slop score)
-- High-volume low-quality replies (spam-flagged under 1,000 followers)
-- Posting too frequently in bursts (author diversity decay attenuates each successive post)
 - Leading with theory instead of concrete examples
-- Posts that generate likes but no dwell (not_dwelled is an explicit negative signal)
-- Content that triggers safety categories (ViolentMedia, HateOrAbuse, etc.) — suppressed regardless of engagement
-- Aggregating others' content with thin additions (devalued under Original Content Rewards; payouts to aggregators already cut)
-- "BREAKING"-style repackaging as a habit (risks permanent payout deductions)
 - Building a reply-heavy strategy for income (reply impressions don't monetize)
+- Aggregating others' content with thin additions (devalued under Original Content Rewards)
+- Chasing `dwell` as an end in itself (weighted 0.0)
+- Chasing `profile_click` (weighted 0.0)
+
+## Currency
+
+Analytical docs are hand-derived from the source files cached in `docs/upstream/`, at snapshot
+`a389166` (2026-08-13). CI copies those files but **cannot** regenerate the prose. If a cached
+file's diff shows a changed or removed constant, the analysis needs re-deriving by hand — see
+`sync.json` → `snapshot_commit`.
