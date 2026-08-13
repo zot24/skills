@@ -1,0 +1,84 @@
+> Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/abuse-enforcement-service/service-lib/rules/enforcement_post.yaml
+
+# mirrored from GrowthBook dynamic config; last sync 2026-08-06T16:20:00Z
+
+for_entity: post
+
+rules:
+  - id: post_in_allowlist
+    when: post_allowlist.is_allowlisted
+    then:
+      kind: skip
+      reason: post_in_allowlist
+
+  - id: user_in_allowlist
+    when: user_allowlist.is_allowlisted
+    then:
+      kind: skip
+      reason: user_in_allowlist
+
+  - id: user_not_found
+    when: "!user.present"
+    then:
+      kind: skip
+      reason: user_not_found
+
+  - id: high_follower_count
+    # Prod uses a different follower count floor; this is a mock value to reduce gaming.
+    when: cred.follower_count >= 12.34 && !score.skip_author_credibility_prechecks
+    then:
+      kind: skip
+      reason: high_follower_count
+
+  - id: pagerank_skipped
+    when: >
+      (cred.is_high || cred.score >= 50.0)
+      && !score.skip_author_credibility_prechecks
+    then:
+      kind: skip
+      reason: pagerank_skipped
+
+  - id: act_add_llm_slop_post_label
+    when: '"llm_slop_post" in score.labels'
+    then:
+      kind: act_add_post_labels_v2
+      labels: ["RiskyHighVizReply"]
+      ttl_msec: 2592000000   
+
+  - id: act_add_gibberish_post_label
+    when: '"gibberish_post" in score.labels'
+    then:
+      kind: act_add_post_labels_v2
+      labels: ["SpamHighRecall"]
+      ttl_msec: 2592000000   
+
+  - id: act_add_fast_reply_spam_post_label
+    when: '"fast_reply_spam_post" in score.labels'
+    then:
+      kind: act_add_post_labels_v2
+      labels: ["SpamHighRecall"]
+      ttl_msec: 2592000000   
+
+  - id: anchor_campaign_post
+    when: '"anchor_campaign_post" in score.labels'
+    then: { kind: act_add_post_labels_v2, labels: ["SpamHighRecall"] }
+
+
+  - id: act_add_spam_embedding_ptos_distilled_label
+    when: '"SpamEmbeddingPtosDistilled" in score.labels'
+    then:
+      kind: act_add_post_labels_v2
+      labels: ["SpamHighRecall"]
+
+  - id: act_suspend_ncmec_reported_content_author
+    when: '"cse_reports_embedding_v2" in score.labels'
+    then:
+      kind: act_suspend_user
+      perm: true
+      policy: Cse
+
+  - id: post_no_actionable_label
+    when: "true"
+    then:
+      kind: skip
+      reason: post_no_actionable_label
