@@ -47,6 +47,8 @@ hermes chat -s github-pr-workflow -q "open a draft PR"
 # Resume previous sessions
 hermes --continue             # Resume the most recent CLI session (-c)
 hermes --resume <session_id>  # Resume a specific session by ID (-r)
+hermes --resume latest        # Resume the most recent session (same as -c)
+hermes --resume latest --in ./dir  # Resume ./dir's latest session, staying in ./dir
 
 # Verbose mode (debug output)
 hermes chat --verbose
@@ -56,6 +58,23 @@ hermes -w                         # Interactive mode in worktree
 hermes -w -z "Fix issue #123"     # Single query in worktree
 ```
 
+
+### Plugin management<a href="#plugin-management" class="hash-link" aria-label="Direct link to Plugin management" translate="no" title="Direct link to Plugin management">​</a>
+
+The `hermes plugins` commands manage native Hermes plugins and portable Agent Plugins v1 packages through the same opt-in workflow:
+
+
+``` prism-code
+hermes plugins install owner/repository --no-enable
+hermes plugins list
+hermes plugins enable <plugin-name>
+hermes plugins disable <plugin-name>
+hermes plugins update <plugin-name>
+hermes plugins remove <plugin-name>
+```
+
+
+Portable packages remain disabled until explicitly enabled. Hermes currently loads portable Agent Skills and stdio MCP entries. See the [plugin developer guide](/docs/developer-guide/plugins#portable-agent-plugins-v1-packages) for the exact supported subset and trust boundary.
 
 ## Interface Layout<a href="#interface-layout" class="hash-link" aria-label="Direct link to Interface Layout" translate="no" title="Direct link to Interface Layout">​</a>
 
@@ -75,16 +94,17 @@ A persistent status bar sits above the input area, updating in real time:
 ```
 
 
-| Element     | Description                                                                                                                                                                                                         |
-|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Model name  | Current model (truncated if longer than 26 chars)                                                                                                                                                                   |
-| Token count | Context tokens used / max context window                                                                                                                                                                            |
-| Context bar | Visual fill indicator with color-coded thresholds                                                                                                                                                                   |
-| Cost        | Estimated session cost (or `n/a` for unknown/zero-priced models)                                                                                                                                                    |
-| 🗜️ N        | **Context compression count** — how many times the running session has been auto-compressed. Appears once the first compression fires.                                                                              |
-| ▶ N         | **Active background tasks** — how many `/background` prompts are still running in the current session. Appears whenever at least one task is in flight.                                                             |
-| Duration    | Elapsed session time                                                                                                                                                                                                |
-| ⚠ YOLO      | **YOLO mode warning** — shown whenever `HERMES_YOLO_MODE` is on (either `hermes --yolo` at launch or `/yolo` toggled mid-session). Mirrors the banner-line warning so you can't forget you're in auto-approve mode. |
+| Element       | Description                                                                                                                                                                                                         |
+|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Model name    | Current model (truncated if longer than 26 chars)                                                                                                                                                                   |
+| Token count   | Context tokens used / max context window                                                                                                                                                                            |
+| Context bar   | Visual fill indicator with color-coded thresholds                                                                                                                                                                   |
+| Cost          | Estimated session cost (or `n/a` for unknown/zero-priced models)                                                                                                                                                    |
+| 🗜️ N          | **Context compression count** — how many times the running session has been auto-compressed. Appears once the first compression fires.                                                                              |
+| ▶ N           | **Active background tasks** — how many `/background` prompts are still running in the current session. Appears whenever at least one task is in flight.                                                             |
+| Duration      | Elapsed session time                                                                                                                                                                                                |
+| Session title | Once the session has a title, it appears as a gold badge pinned to the far-right edge. Long titles truncate before displacing the essential model and context fields.                                               |
+| ⚠ YOLO        | **YOLO mode warning** — shown whenever `HERMES_YOLO_MODE` is on (either `hermes --yolo` at launch or `/yolo` toggled mid-session). Mirrors the banner-line warning so you can't forget you're in auto-approve mode. |
 
 The bar adapts to terminal width — full layout at ≥ 76 columns, compact at 52–75, minimal (model + duration, plus the YOLO badge when active) below 52.
 
@@ -241,6 +261,8 @@ Set a predefined personality to change the agent's tone:
 
 
 Built-in personalities include: `helpful`, `concise`, `technical`, `creative`, `teacher`, `kawaii`, `catgirl`, `pirate`, `shakespeare`, `surfer`, `noir`, `uwu`, `philosopher`, `hype`.
+
+To go back to the default (no overlay), use `/personality none` — `default` and `neutral` work too.
 
 You can also define custom personalities in `~/.hermes/config.yaml`:
 
@@ -408,6 +430,8 @@ hermes -c                                  # Short form
 hermes -c "my project"                     # Resume a named session (latest in lineage)
 hermes --resume 20260225_143052_a1b2c3     # Resume a specific session by ID
 hermes --resume "refactoring auth"         # Resume by title
+hermes --resume latest                     # Resume the most recent session (same as -c)
+hermes --resume latest --in ./my-project   # Latest session for ./my-project's workspace
 hermes -r 20260225_143052_a1b2c3           # Short form
 ```
 
@@ -519,6 +543,7 @@ hermes chat --verbose
 
 
 - <a href="#running-the-cli" class="table-of-contents__link toc-highlight">Running the CLI</a>
+  - <a href="#plugin-management" class="table-of-contents__link toc-highlight">Plugin management</a>
 - <a href="#interface-layout" class="table-of-contents__link toc-highlight">Interface Layout</a>
   - <a href="#status-bar" class="table-of-contents__link toc-highlight">Status Bar</a>
   - <a href="#session-resume-display" class="table-of-contents__link toc-highlight">Session Resume Display</a>

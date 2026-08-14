@@ -17,6 +17,10 @@ Run multiple independent Hermes agents on the same machine — each with its own
 
 A profile is a separate Hermes home directory. Each profile gets its own directory containing its own `config.yaml`, `.env`, `SOUL.md`, memories, sessions, skills, cron jobs, and state database. Profiles let you run separate agents for different purposes — a coding assistant, a personal bot, a research agent — without mixing up Hermes state.
 
+
+Never point two agent processes at the same profile (the same Hermes home). Both write memory automatically, and each loads the other's writes into its system prompt at session start — so two writers on one home compound each other's state until it stops being anything you configured. Profiles exist exactly to prevent this; agents that need shared memory should use an [external memory provider](/docs/user-guide/features/memory-providers) instead.
+
+
 When you create a profile, it automatically becomes its own command. Create a profile called `coder` and you immediately have `coder chat`, `coder setup`, `coder gateway start`, etc.
 
 ## Quick start<a href="#quick-start" class="hash-link" aria-label="Direct link to Quick start" translate="no" title="Direct link to Quick start">​</a>
@@ -270,10 +274,12 @@ User-modified skills are never overwritten.
 hermes profile list           # show all profiles with status
 hermes profile show coder     # detailed info for one profile
 hermes profile rename coder dev-bot   # rename (updates alias + service)
-hermes profile export coder   # export to coder.tar.gz
-hermes profile import coder.tar.gz   # import from archive
+hermes profile export coder   # pack into coder.tar.gz (shareable; keys stripped)
+hermes profile import coder.tar.gz   # install an archive as a new profile
 ```
 
+
+In chat, the same two live as `/export` and `/import` — and in the desktop app as **⌘K → Export/Import profile…**. See [Sharing a profile](#sharing-a-profile).
 
 ## Deleting a profile<a href="#deleting-a-profile" class="hash-link" aria-label="Direct link to Deleting a profile" translate="no" title="Direct link to Deleting a profile">​</a>
 
@@ -324,9 +330,21 @@ Hermes also exposes `HERMES_REAL_HOME` to subprocesses so scripts can still find
 
 The default profile is simply `~/.hermes` itself. No migration needed — existing installs work identically.
 
-## Sharing profiles as distributions<a href="#sharing-profiles-as-distributions" class="hash-link" aria-label="Direct link to Sharing profiles as distributions" translate="no" title="Direct link to Sharing profiles as distributions">​</a>
+## Sharing a profile<a href="#sharing-a-profile" class="hash-link" aria-label="Direct link to Sharing a profile" translate="no" title="Direct link to Sharing a profile">​</a>
 
-A profile you built on one machine can be packaged as a **git repository** and installed with one command on another machine — your own workstation, a teammate's laptop, or a community user's environment. The shared package includes the SOUL, config, skills, cron jobs, and MCP connections. Credentials, memories, and sessions stay per-machine.
+A profile you built on one machine can go to another — your own workstation, a teammate's laptop, or the community. Two paths:
+
+**Send a file.** `/export` packs the profile into one `.tar.gz` — skills, memory, persona, crons, plugins, settings, and (from the desktop) your theme and layout. API keys are stripped. The recipient runs `/import`.
+
+
+``` prism-code
+# In chat, run /export, hand over the file, and they run /import on it
+hermes profile export coder
+hermes profile import ./coder.tar.gz --name coder
+```
+
+
+**Publish a distribution.** Package the profile as a **git repository** so recipients install it with one command and pull versioned updates later. Carries the SOUL, config, skills, cron jobs, and MCP connections; credentials, memories, and sessions stay per-machine.
 
 
 ``` prism-code
@@ -338,7 +356,7 @@ hermes profile update research-bot
 ```
 
 
-See **[Profile Distributions: Share a Whole Agent](/docs/user-guide/profile-distributions)** for the full guide — authoring, publishing, update semantics, security model, and use cases.
+Use an export file for a one-time handoff or a move; use a distribution for an agent you'll keep shipping. See **[Profile Distributions: Share a Whole Agent](/docs/user-guide/profile-distributions)** for both — the comparison table, authoring, publishing, update semantics, and the security model.
 
 
 - <a href="#what-are-profiles" class="table-of-contents__link toc-highlight">What are profiles?</a>
@@ -365,6 +383,6 @@ See **[Profile Distributions: Share a Whole Agent](/docs/user-guide/profile-dist
 - <a href="#deleting-a-profile" class="table-of-contents__link toc-highlight">Deleting a profile</a>
 - <a href="#tab-completion" class="table-of-contents__link toc-highlight">Tab completion</a>
 - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a>
-- <a href="#sharing-profiles-as-distributions" class="table-of-contents__link toc-highlight">Sharing profiles as distributions</a>
+- <a href="#sharing-a-profile" class="table-of-contents__link toc-highlight">Sharing a profile</a>
 
 

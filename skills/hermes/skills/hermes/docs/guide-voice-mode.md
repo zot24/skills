@@ -199,6 +199,7 @@ If you skip that install or it fails, the wizard falls back to Edge TTS.
 ``` prism-code
 voice:
   record_key: "ctrl+b"
+  submit_mode: "direct"  # TUI: direct | draft
   max_recording_seconds: 120
   auto_tts: false
   beep_enabled: true
@@ -218,6 +219,20 @@ tts:
 
 
 This is a good conservative default for most people.
+
+In the TUI, `voice.submit_mode` controls what happens after transcription:
+
+- `direct` (default) submits the transcript immediately.
+- `draft` puts the transcript in the composer so you can edit or cancel it before pressing Enter.
+
+For editable voice drafts, set:
+
+
+``` prism-code
+voice:
+  submit_mode: "draft"
+```
+
 
 If you want local TTS instead, switch the `tts` block to:
 
