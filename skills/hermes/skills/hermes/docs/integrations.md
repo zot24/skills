@@ -102,6 +102,20 @@ Hermes runs as a gateway bot on 27+ messaging platforms, all configured through 
 
 See the [Messaging Gateway overview](/docs/user-guide/messaging) for the platform comparison table and setup guide.
 
+### Quick connect links<a href="#quick-connect-links" class="hash-link" aria-label="Direct link to Quick connect links" translate="no" title="Direct link to Quick connect links">​</a>
+
+The big platforms have a canonical "create your bot/app" URL, and some accept parameters that pre-open the right form. Skip the console-hunting and go straight there:
+
+| Platform        | Direct link                                                                                                                                                                       | What it opens                                                                                                                     |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| **Telegram**    | <a href="https://t.me/BotFather" target="_blank" rel="noopener noreferrer">t.me/BotFather</a>                                                                                     | Chat with BotFather — send `/newbot` to mint a bot token                                                                          |
+| **Discord**     | <a href="https://discord.com/developers/applications?new_application=true" target="_blank" rel="noopener noreferrer">discord.com/developers/applications?new_application=true</a> | Developer Portal with the **New Application** dialog pre-opened                                                                   |
+| **Slack**       | <a href="https://api.slack.com/apps?new_app=1" target="_blank" rel="noopener noreferrer">api.slack.com/apps?new_app=1</a>                                                         | The **Create New App** dialog — pick *From an app manifest* and paste the manifest `hermes slack manifest --agent-view` generates |
+| **LINE**        | <a href="https://developers.line.biz/console/" target="_blank" rel="noopener noreferrer">developers.line.biz/console</a>                                                          | LINE Developers Console for creating a Messaging API channel                                                                      |
+| **Feishu/Lark** | <a href="https://open.feishu.cn/app" target="_blank" rel="noopener noreferrer">open.feishu.cn/app</a>                                                                             | Feishu open-platform console for creating a custom app                                                                            |
+
+Each platform's setup page walks through what to do once you're there.
+
 ## Collaboration Workspaces<a href="#collaboration-workspaces" class="hash-link" aria-label="Direct link to Collaboration Workspaces" translate="no" title="Direct link to Collaboration Workspaces">​</a>
 
 - **[Buzz](/docs/integrations/buzz)** — Block's Nostr-based human+agent workspace. Three integration paths: Buzz Desktop spawns Hermes as a managed ACP runtime, the `buzz-acp` relay bridge hosts a Hermes identity server-side, or the native gateway platform joins Buzz channels with full Hermes memory/skills/approvals/cron. The overview page compares all three.
@@ -129,6 +143,7 @@ See the [Messaging Gateway overview](/docs/user-guide/messaging) for the platfor
 - <a href="#programmatic-access" class="table-of-contents__link toc-highlight">Programmatic Access</a>
 - <a href="#memory--personalization" class="table-of-contents__link toc-highlight">Memory &amp; Personalization</a>
 - <a href="#messaging-platforms" class="table-of-contents__link toc-highlight">Messaging Platforms</a>
+  - <a href="#quick-connect-links" class="table-of-contents__link toc-highlight">Quick connect links</a>
 - <a href="#collaboration-workspaces" class="table-of-contents__link toc-highlight">Collaboration Workspaces</a>
 - <a href="#home-automation" class="table-of-contents__link toc-highlight">Home Automation</a>
 - <a href="#plugins" class="table-of-contents__link toc-highlight">Plugins</a>

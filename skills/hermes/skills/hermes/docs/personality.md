@@ -242,7 +242,7 @@ These are convenient overlays, but your global `SOUL.md` still gives Hermes its 
 
 ## Custom personalities in config<a href="#custom-personalities-in-config" class="hash-link" aria-label="Direct link to Custom personalities in config" translate="no" title="Direct link to Custom personalities in config">​</a>
 
-You can also define named custom personalities in `~/.hermes/config.yaml` under `agent.personalities`.
+Built-in personalities are always available on every surface (CLI, messaging platforms, TUI, and the desktop app). You can add your own — or override a built-in by reusing its name — in `~/.hermes/config.yaml` under `agent.personalities`.
 
 
 ``` prism-code
@@ -260,6 +260,26 @@ Then switch to it with:
 ``` prism-code
 /personality codereviewer
 ```
+
+
+Your selection is stored as a name in `display.personality`. Personalities never touch `agent.system_prompt` — that field is reserved for a manual system prompt you write yourself, and it applies only when no personality is selected.
+
+## Resetting to the default<a href="#resetting-to-the-default" class="hash-link" aria-label="Direct link to Resetting to the default" translate="no" title="Direct link to Resetting to the default">​</a>
+
+To cancel the active personality overlay and return to base behavior (your `SOUL.md` persona, plus `agent.system_prompt` if you set one), use any of:
+
+
+``` prism-code
+/personality none
+/personality default
+/personality neutral
+```
+
+
+All three clear the selection (`display.personality`) and the change takes effect on your next message. Running `/personality` with no arguments also lists `none` alongside the available presets and marks the active one.
+
+
+Older Hermes versions saved personality state inconsistently across surfaces, which could re-enable a personality you had previously turned off. On your first run after upgrading, any saved personality selection is reset to `none` once (the migration prints which personality was cleared). Re-enable it with `/personality <name>` if you still want it. Manual `agent.system_prompt` text is never touched.
 
 
 ## Recommended workflow<a href="#recommended-workflow" class="hash-link" aria-label="Direct link to Recommended workflow" translate="no" title="Direct link to Recommended workflow">​</a>
@@ -326,6 +346,7 @@ For terminal appearance, see [Skins & Themes](/docs/user-guide/features/skins).
   - <a href="#cli" class="table-of-contents__link toc-highlight">CLI</a>
   - <a href="#messaging-platforms" class="table-of-contents__link toc-highlight">Messaging platforms</a>
 - <a href="#custom-personalities-in-config" class="table-of-contents__link toc-highlight">Custom personalities in config</a>
+- <a href="#resetting-to-the-default" class="table-of-contents__link toc-highlight">Resetting to the default</a>
 - <a href="#recommended-workflow" class="table-of-contents__link toc-highlight">Recommended workflow</a>
 - <a href="#how-personality-interacts-with-the-full-prompt" class="table-of-contents__link toc-highlight">How personality interacts with the full prompt</a>
 - <a href="#related-docs" class="table-of-contents__link toc-highlight">Related docs</a>

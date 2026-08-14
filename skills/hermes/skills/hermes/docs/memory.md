@@ -25,6 +25,9 @@ Two files make up the agent's memory:
 Both are stored in `~/.hermes/memories/` and are injected into the system prompt as a frozen snapshot at session start. The agent manages its own memory via the `memory` tool — it can add, replace, or remove entries.
 
 
+Don't point two agent processes at the same Hermes home directory. Memory writes are automatic and load back into the system prompt at session start, so two writers sharing one home will compound each other's entries into state neither of them (nor you) authored. Memory is scoped per [profile](/docs/user-guide/profiles) by design — give a second agent its own profile, and if they need shared memory, use an [external memory provider](/docs/user-guide/features/memory-providers) instead.
+
+
 Character limits keep memory focused. Memory does **not** auto-compact: when a write would exceed the limit, the `memory` tool returns an error instead of silently dropping entries. The agent then makes room itself — consolidating or removing entries in the same turn before retrying (see [What Happens When Memory is Full](#what-happens-when-memory-is-full)). Note that `replace` is also bound by the limit: swapping an entry for a longer one can still overflow, so the new content must be shortened (or another entry removed) to fit.
 
 

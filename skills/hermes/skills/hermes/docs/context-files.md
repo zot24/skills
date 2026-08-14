@@ -32,6 +32,23 @@ Only **one** project context type is loaded per session (first match wins): `.he
 
 `AGENTS.md` is the primary project context file. It tells the agent how your project is structured, what conventions to follow, and any special instructions.
 
+### Directory Chain (git root → working directory)<a href="#directory-chain-git-root--working-directory" class="hash-link" aria-label="Direct link to Directory Chain (git root → working directory)" translate="no" title="Direct link to Directory Chain (git root → working directory)">​</a>
+
+When your working directory sits inside a git repository, Hermes loads a **merged chain** of `AGENTS.md` files at session start: the git-root `AGENTS.md` first, then the `AGENTS.md` in every intermediate directory down to your working directory. Deeper files appear later in the prompt, so more specific guidance takes precedence. Each file gets its own provenance header (e.g. `## ../../AGENTS.md`), and identical copies along the chain are deduplicated.
+
+
+``` prism-code
+monorepo/                   (git root, cwd = packages/webapp/)
+├── AGENTS.md              ← Loaded first (repo-wide conventions)
+└── packages/
+    ├── AGENTS.md          ← Loaded second
+    └── webapp/
+        └── AGENTS.md      ← Loaded last (most specific, takes precedence)
+```
+
+
+Outside a git repository, only the working directory itself is checked — parents are never consulted, so an `AGENTS.md` planted in `/tmp` or `$HOME` can't leak into unrelated sessions.
+
 ### Progressive Subdirectory Discovery<a href="#progressive-subdirectory-discovery" class="hash-link" aria-label="Direct link to Progressive Subdirectory Discovery" translate="no" title="Direct link to Progressive Subdirectory Discovery">​</a>
 
 At session start, Hermes loads the `AGENTS.md` from your working directory into the system prompt. As the agent navigates into subdirectories during the session (via `read_file`, `terminal`, `search_files`, etc.), it **progressively discovers** context files in those directories and injects them into the conversation at the moment they become relevant.
@@ -237,6 +254,7 @@ For monorepos, put subdirectory-specific instructions in nested AGENTS.md files:
 
 - <a href="#supported-context-files" class="table-of-contents__link toc-highlight">Supported Context Files</a>
 - <a href="#agentsmd" class="table-of-contents__link toc-highlight">AGENTS.md</a>
+  - <a href="#directory-chain-git-root--working-directory" class="table-of-contents__link toc-highlight">Directory Chain (git root → working directory)</a>
   - <a href="#progressive-subdirectory-discovery" class="table-of-contents__link toc-highlight">Progressive Subdirectory Discovery</a>
   - <a href="#example-agentsmd" class="table-of-contents__link toc-highlight">Example AGENTS.md</a>
 - <a href="#soulmd" class="table-of-contents__link toc-highlight">SOUL.md</a>

@@ -180,6 +180,8 @@ Running Hermes as a dedicated unprivileged user (e.g. a `hermes` systemd service
 
     </div>
 
+    The installer also pre-installs [`cua-driver`](/docs/user-guide/features/computer-use) so the Computer Use toolset works the moment you enable it; pass `--skip-computer-use` to opt out (it will then install on demand when you enable the tool).
+
 3.  **Make `hermes` available to the service user's shells.** The installer writes the launcher to `~/.local/bin/hermes`. System service accounts often have a minimal PATH that doesn't include `~/.local/bin`. Either add it to the user's environment, or symlink the launcher into a system location:
 
     <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
@@ -199,6 +201,22 @@ Running Hermes as a dedicated unprivileged user (e.g. a `hermes` systemd service
     </div>
 
 4.  **Verify:** `hermes doctor` should now run cleanly. If you get `ModuleNotFoundError: No module named 'dotenv'`, you're invoking the repo source `hermes` file (`~/.hermes/hermes-agent/hermes`) with system Python instead of the venv launcher (`~/.hermes/hermes-agent/venv/bin/hermes`) — fix step 3.
+
+5.  **Running the messaging gateway from this account?** A user-level service stops at logout and does not start at boot until you enable lingering for the service user:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    sudo loginctl enable-linger <service-user>
+    ```
+
+    </div>
+
+    </div>
+
+    See [Messaging Gateway](/docs/user-guide/messaging/) for the service setup itself.
 
 The same pattern works on Arch (the installer uses pacman with the same sudo-detection logic), Fedora/RHEL, and openSUSE — those distros don't support `--with-deps` at all, so an administrator always installs the system libraries separately. The relevant `dnf`/`zypper` commands are printed by the installer.
 

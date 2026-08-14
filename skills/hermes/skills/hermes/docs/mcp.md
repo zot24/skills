@@ -15,6 +15,10 @@ MCP lets Hermes Agent connect to external tool servers so the agent can use tool
 
 If you have ever wanted Hermes to use a tool that already exists somewhere else, MCP is usually the cleanest way to do it.
 
+
+The `mcpServers` block in your `~/.claude.json` maps to `mcp_servers` in Hermes' `config.yaml` — and `hermes import-agent claude-code` migrates it (along with skills and instructions) automatically. See [Import from Other Agents](/docs/user-guide/import-from-other-agents).
+
+
 ## What MCP gives you<a href="#what-mcp-gives-you" class="hash-link" aria-label="Direct link to What MCP gives you" translate="no" title="Direct link to What MCP gives you">​</a>
 
 - Access to external tool ecosystems without writing a native Hermes tool first
@@ -126,6 +130,8 @@ Manifests pin a `manifest_version`. The catalog is forward-compatible: if a PR a
 ### Runtime `${ENV_VAR}` substitution<a href="#runtime-env_var-substitution" class="hash-link" aria-label="Direct link to runtime-env_var-substitution" translate="no" title="Direct link to runtime-env_var-substitution">​</a>
 
 Inside an entry's `transport.command`, `transport.args`, `transport.url`, and `headers`, `${VAR}` placeholders are resolved at server-connect time from environment variables (which include everything in `~/.hermes/.env`). This is useful when a catalog entry wants to reference a value the user configured elsewhere — e.g. `${HOME}/foo` or `${MY_PROVIDER_TOKEN}`.
+
+Cursor-style context variables are also substituted (case-sensitive): `${userHome}` (home directory), `${workspaceFolder}` (session workspace root), `${workspaceFolderBasename}`, and `${pathSeparator}` / `${/}` (the OS path separator). See the [MCP config reference](/docs/reference/mcp-config-reference) for details.
 
 Note this is distinct from `${INSTALL_DIR}` in catalog manifests, which is substituted at install-time with the path the catalog cloned the entry's repo into.
 
@@ -300,6 +306,27 @@ mcp_servers:
 
 You can also keep the cert and key fully separate via `client_cert` (combined PEM) plus an explicit `client_key`. Paths support `~` expansion; a missing file raises a clear, server-scoped error rather than an opaque TLS handshake failure.
 
+## Per-user identity header<a href="#per-user-identity-header" class="hash-link" aria-label="Direct link to Per-user identity header" translate="no" title="Direct link to Per-user identity header">​</a>
+
+Remote HTTP/SSE MCP servers that key behavior on a caller identity (per-user rate limits, audit trails, multi-tenant routing) can be sent an identity header on every request via `identity_header`:
+
+
+``` prism-code
+mcp_servers:
+  team_api:
+    url: "https://mcp.team.example.com/mcp"
+    identity_header:
+      name: "X-User-Id"
+      value_from: "static"   # "static" (default) or "profile"
+      value: "alice"         # required for static
+```
+
+
+- `value_from: static` sends the literal `value` from config.yaml.
+- `value_from: profile` sends the active Hermes profile name, resolved once at connect time — useful when multiple profiles on one machine talk to the same server and it needs to tell them apart.
+
+An explicit entry in the server's `headers` mapping with the same name (any casing) always wins; the identity header never overrides your own header config. Invalid `identity_header` blocks are warned about and ignored — they never block the server from connecting. On stdio servers the key is ignored with a warning (stdio transports have no headers).
+
 ## Basic configuration reference<a href="#basic-configuration-reference" class="hash-link" aria-label="Direct link to Basic configuration reference" translate="no" title="Direct link to Basic configuration reference">​</a>
 
 Hermes reads MCP config from `~/.hermes/config.yaml` under `mcp_servers`.
@@ -315,6 +342,7 @@ Hermes reads MCP config from `~/.hermes/config.yaml` under `mcp_servers`.
 | `headers`                      | mapping        | HTTP headers for remote servers                                                                                                                     |
 | `client_cert`                  | string \| list | Client certificate for mTLS — a combined PEM path, or `[cert, key]` / `[cert, key, password]`                                                       |
 | `client_key`                   | string         | Client private-key PEM path (when separate from `client_cert`)                                                                                      |
+| `identity_header`              | mapping        | Optional per-user identity header for HTTP/SSE servers — `{name, value_from: static|profile, value}`                                                |
 | `timeout`                      | number         | Tool call timeout                                                                                                                                   |
 | `connect_timeout`              | number         | Initial connection timeout (also bounds the MCP `initialize` handshake)                                                                             |
 | `idle_timeout_seconds`         | number         | Recycle a stdio server after this many seconds without a tool call (`0` = never, default). The server restarts transparently on the next tool call. |
@@ -932,6 +960,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#http-servers" class="table-of-contents__link toc-highlight">HTTP servers</a>
   - <a href="#oauth-authenticated-http-servers" class="table-of-contents__link toc-highlight">OAuth-authenticated HTTP servers</a>
 - <a href="#mtls--client-certificates" class="table-of-contents__link toc-highlight">mTLS / client certificates</a>
+- <a href="#per-user-identity-header" class="table-of-contents__link toc-highlight">Per-user identity header</a>
 - <a href="#basic-configuration-reference" class="table-of-contents__link toc-highlight">Basic configuration reference</a>
   - <a href="#common-keys" class="table-of-contents__link toc-highlight">Common keys</a>
   - <a href="#minimal-stdio-example" class="table-of-contents__link toc-highlight">Minimal stdio example</a>

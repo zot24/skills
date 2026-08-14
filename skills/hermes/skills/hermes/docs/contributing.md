@@ -164,25 +164,7 @@ When contributing code, keep these rules in mind:
 
 Key patterns:
 
-### 1. `termios` and `fcntl` are Unix-only<a href="#1-termios-and-fcntl-are-unix-only" class="hash-link" aria-label="Direct link to 1-termios-and-fcntl-are-unix-only" translate="no" title="Direct link to 1-termios-and-fcntl-are-unix-only">​</a>
-
-Always catch both `ImportError` and `NotImplementedError`:
-
-
-``` prism-code
-try:
-    from simple_term_menu import TerminalMenu
-    menu = TerminalMenu(options)
-    idx = menu.show()
-except (ImportError, NotImplementedError):
-    # Fallback: numbered menu
-    for i, opt in enumerate(options):
-        print(f"  {i+1}. {opt}")
-    idx = int(input("Choice: ")) - 1
-```
-
-
-### 2. File encoding<a href="#2-file-encoding" class="hash-link" aria-label="Direct link to 2. File encoding" translate="no" title="Direct link to 2. File encoding">​</a>
+### 1. File encoding<a href="#1-file-encoding" class="hash-link" aria-label="Direct link to 1. File encoding" translate="no" title="Direct link to 1. File encoding">​</a>
 
 Some environments may save `.env` files in non-UTF-8 encodings:
 
@@ -195,7 +177,7 @@ except UnicodeDecodeError:
 ```
 
 
-### 3. Process management<a href="#3-process-management" class="hash-link" aria-label="Direct link to 3. Process management" translate="no" title="Direct link to 3. Process management">​</a>
+### 2. Process management<a href="#2-process-management" class="hash-link" aria-label="Direct link to 2. Process management" translate="no" title="Direct link to 2. Process management">​</a>
 
 `os.setsid()`, `os.killpg()`, and signal handling differ across platforms:
 
@@ -207,7 +189,7 @@ if platform.system() != "Windows":
 ```
 
 
-### 4. Path separators<a href="#4-path-separators" class="hash-link" aria-label="Direct link to 4. Path separators" translate="no" title="Direct link to 4. Path separators">​</a>
+### 3. Path separators<a href="#3-path-separators" class="hash-link" aria-label="Direct link to 3. Path separators" translate="no" title="Direct link to 3. Path separators">​</a>
 
 Use `pathlib.Path` instead of string concatenation with `/`.
 
@@ -296,6 +278,29 @@ fix(security): prevent shell injection in sudo password piping
 ```
 
 
+### Repo-local review checklists: `.agents/checks/*.md`<a href="#repo-local-review-checklists-agentschecksmd" class="hash-link" aria-label="Direct link to repo-local-review-checklists-agentschecksmd" translate="no" title="Direct link to repo-local-review-checklists-agentschecksmd">​</a>
+
+Projects built on (or reviewed by) Hermes can keep reviewer checklists inside the repository under `.agents/checks/`. Each file is a focused, plain-markdown checklist that an agent loads before reviewing a change touching the matching area:
+
+
+``` prism-code
+.agents/
+  checks/
+    security.md        # e.g. "grep the diff for shell interpolation; check subprocess calls quote args"
+    migrations.md      # e.g. "every schema change ships a backfill and a rollback note"
+    public-api.md      # e.g. "exported signatures changed? flag for semver review"
+```
+
+
+Conventions that make these work well:
+
+- **One concern per file**, named after the concern. Small files get read in full; a monolithic `checklist.md` gets skimmed.
+- **Write checks as verifiable actions** ("run X and confirm Y"), not aspirations ("code should be secure").
+- **State the trigger at the top** — which paths or change types the checklist applies to — so an agent (or human) can skip irrelevant ones cheaply.
+- Keep them in version control next to the code they guard: they evolve with the codebase, and a PR that changes the rules changes the checklist in the same diff.
+
+When you ask Hermes to review a PR in a repository that has `.agents/checks/`, tell it (or teach it via a skill) to read the relevant checklists first and report against them. This gives review agents the project-specific bar that generic review prompts miss.
+
 ## Reporting Issues<a href="#reporting-issues" class="hash-link" aria-label="Direct link to Reporting Issues" translate="no" title="Direct link to Reporting Issues">​</a>
 
 - Use <a href="https://github.com/NousResearch/hermes-agent/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>
@@ -326,10 +331,9 @@ By contributing, you agree that your contributions will be licensed under the <a
   - <a href="#run-tests" class="table-of-contents__link toc-highlight">Run Tests</a>
 - <a href="#code-style" class="table-of-contents__link toc-highlight">Code Style</a>
 - <a href="#cross-platform-compatibility" class="table-of-contents__link toc-highlight">Cross-Platform Compatibility</a>
-  - <a href="#1-termios-and-fcntl-are-unix-only" class="table-of-contents__link toc-highlight">1. <code>termios</code> and <code>fcntl</code> are Unix-only</a>
-  - <a href="#2-file-encoding" class="table-of-contents__link toc-highlight">2. File encoding</a>
-  - <a href="#3-process-management" class="table-of-contents__link toc-highlight">3. Process management</a>
-  - <a href="#4-path-separators" class="table-of-contents__link toc-highlight">4. Path separators</a>
+  - <a href="#1-file-encoding" class="table-of-contents__link toc-highlight">1. File encoding</a>
+  - <a href="#2-process-management" class="table-of-contents__link toc-highlight">2. Process management</a>
+  - <a href="#3-path-separators" class="table-of-contents__link toc-highlight">3. Path separators</a>
 - <a href="#security-considerations" class="table-of-contents__link toc-highlight">Security Considerations</a>
   - <a href="#existing-protections" class="table-of-contents__link toc-highlight">Existing Protections</a>
   - <a href="#contributing-security-sensitive-code" class="table-of-contents__link toc-highlight">Contributing Security-Sensitive Code</a>
@@ -338,6 +342,7 @@ By contributing, you agree that your contributions will be licensed under the <a
   - <a href="#before-submitting" class="table-of-contents__link toc-highlight">Before Submitting</a>
   - <a href="#pr-description" class="table-of-contents__link toc-highlight">PR Description</a>
   - <a href="#commit-messages" class="table-of-contents__link toc-highlight">Commit Messages</a>
+  - <a href="#repo-local-review-checklists-agentschecksmd" class="table-of-contents__link toc-highlight">Repo-local review checklists: <code>.agents/checks/*.md</code></a>
 - <a href="#reporting-issues" class="table-of-contents__link toc-highlight">Reporting Issues</a>
 - <a href="#community" class="table-of-contents__link toc-highlight">Community</a>
 - <a href="#license" class="table-of-contents__link toc-highlight">License</a>
