@@ -38,8 +38,8 @@ The islo blueprint creates `sandboxes/islo.ts` in your source-root without addin
 <figure class="astro-code-figure">
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/islo@1
 import { spawn } from &#39;node:child_process&#39;;
-import { createSandboxSessionEnv } from &#39;@flue/runtime&#39;;
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
+import { sandboxFromDriver } from &#39;@flue/runtime&#39;;
+import type { SandboxDriver, SandboxFactory, Sandbox, FileStat } from &#39;@flue/runtime&#39;;
 
 export interface IsloAdapterOptions {
   cwd?: string;
@@ -48,7 +48,7 @@ export interface IsloAdapterOptions {
 
 const q = (s: string) =&gt; `&#39;${s.replace(/&#39;/g, `&#39;\\&#39;&#39;`)}&#39;`;
 
-class IsloSandboxApi implements SandboxApi {
+class IsloSandboxDriver implements SandboxDriver {
   constructor(
     private name: string,
     private cliPath: string,
@@ -83,10 +83,10 @@ class IsloSandboxApi implements SandboxApi {
 export function islo(name: string, options?: IsloAdapterOptions): SandboxFactory {
   const cliPath = options?.cliPath ?? &#39;islo&#39;;
   return {
-    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+    async createSandbox(): Promise&lt;Sandbox&gt; {
       const sandboxCwd = options?.cwd ?? &#39;/workspace&#39;;
-      const api = new IsloSandboxApi(name, cliPath);
-      return createSandboxSessionEnv(api, sandboxCwd);
+      const driver = new IsloSandboxDriver(name, cliPath);
+      return sandboxFromDriver(driver, sandboxCwd);
     },
   };
 }</code></pre>

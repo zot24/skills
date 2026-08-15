@@ -36,11 +36,11 @@ The simplest agent — no container, no storage, just a prompt and a reply.
 ``` astro-code
 mkdir my-flue-worker && cd my-flue-worker
 npm init -y
-npm install @flue/runtime hono 'agents@^0.14.2'
+npm install @flue/runtime hono
 npm install -D @flue/vite @cloudflare/vite-plugin vite wrangler
 ```
 
-`agents` is Cloudflare’s Agents SDK — Flue uses its Durable Object base class and native lifecycle capabilities while retaining ownership of application routing. Flue is tested against `agents` 0.14.x; the generated worker checks at runtime that the installed SDK provides the durability API it relies on (such as `runFiber`) and fails with an explicit error if it does not. If you also need a remote sandbox, additionally install `@cloudflare/sandbox` (see [Connecting a remote sandbox](#connecting-a-remote-sandbox) below).
+Flue builds on `agents`, Cloudflare’s Agents SDK — it uses the SDK’s Durable Object base class and native lifecycle capabilities while retaining ownership of application routing. `@flue/vite` ships the SDK as its own dependency, so each Flue release runs against the SDK minor it was tested with and your project doesn’t declare it. To run a different SDK version, add your own `agents` dependency — a copy installed in your project always wins; the generated worker checks at runtime that the SDK provides the durability API Flue relies on (such as `runFiber`) and fails with an explicit error if it does not. If you also need a remote sandbox, additionally install `@cloudflare/sandbox` (see [Connecting a remote sandbox](#connecting-a-remote-sandbox) below).
 
 <figure class="astro-code-figure">
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>import { cloudflare } from &#39;@cloudflare/vite-plugin&#39;;

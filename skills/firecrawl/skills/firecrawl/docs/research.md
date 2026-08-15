@@ -6,15 +6,16 @@
 
 # Research Index
 
-> Search papers, read paper passages, find related work, and search across related GitHub repos
+> Search papers, read paper passages, and find related work
 
-Firecrawl Research is a purpose-built index for scientific and engineering research agents. It exposes a research-specific toolset for searching papers, inspecting paper metadata, reading relevant full-text passages, discovering related papers through structural expansion, and searching over research-related GitHub repos.
+Firecrawl Research is a purpose-built index for scientific and engineering research agents. It exposes a research-specific toolset for searching papers, inspecting paper metadata, reading relevant full-text passages, and discovering related papers through structural expansion.
+
+The index covers roughly 43 million paper abstracts. The majority of the corpus is biomedical and life sciences — **PubMed**, **bioRxiv**, and **medRxiv** — alongside **arXiv** for physics, mathematics, and computer science. Papers are addressable by their source ids, so `pmid:`, `pmcid:`, and `doi:` references work the same way `arxiv:` ones do.
 
 * Find papers by topic, method, benchmark, author, or category
 * Inspect canonical paper metadata and source ids
 * Read the passages in one paper that answer a specific question
 * Expand from strong seed papers to related papers, citers, or references
-* Search GitHub history and READMEs for implementation notes, bugs, and design discussions
 
 
   To give your agent access to the Research Index, we strongly recommend using our [CLI](/sdks/cli) or [MCP](/mcp-server), combined with our [**dedicated research skill**](https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md), which you can install with:
@@ -24,6 +25,20 @@ Firecrawl Research is a purpose-built index for scientific and engineering resea
   ```
 
 
+## How this relates to `/search`
+
+Firecrawl has two things named "research", and they are not the same feature:
+
+|                            | Research Index (this page)                                                                      | `/search` with `categories: ["research"]`                                                                  |
+| :------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| What it searches           | A paper index of \~43M abstracts — PubMed, bioRxiv, medRxiv, arXiv                              | The open web, restricted to \~14 academic **websites** (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, …) |
+| What you get back          | Ranked paper records: canonical `paperId`, `primaryId`, source ids, title, full abstract, score | Ordinary web results: URL, title, snippet                                                                  |
+| Can it read inside a paper | Yes — passage-level reads via `GET /search/research/papers/{id}`                                | No                                                                                                         |
+| Can it expand by citations | Yes — `GET /search/research/papers/{id}/similar`                                                | No                                                                                                         |
+| Endpoint                   | `GET /search/research/papers`                                                                   | `POST /search`                                                                                             |
+
+Use the Research Index when you are doing literature work: finding papers, reading them, and following citations. Use [`categories: ["research"]`](/features/search#search-categories) when you want ordinary web pages that happen to live on academic domains.
+
 ## Endpoints
 
 | Task                              | Endpoint                                                                                      |
@@ -31,7 +46,6 @@ Firecrawl Research is a purpose-built index for scientific and engineering resea
 | Search papers                     | [`GET /search/research/papers`](/api-reference/endpoint/research-search-papers)               |
 | Inspect metadata or read passages | [`GET /search/research/papers/{id}`](/api-reference/endpoint/research-paper)                  |
 | Find related papers               | [`GET /search/research/papers/{id}/similar`](/api-reference/endpoint/research-related-papers) |
-| Search GitHub history             | [`GET /search/research/github`](/api-reference/endpoint/research-github-search)               |
 
 ## Search papers
 
@@ -81,9 +95,56 @@ Optional filters:
 * `from`: inclusive created/updated lower bound, `YYYY-MM-DD`
 * `to`: inclusive created/updated upper bound, `YYYY-MM-DD`
 
+### Biomedical example
+
+Most of the index is life sciences, so clinical and molecular biology queries work the same way:
+
+<CodeGroup>
+  ```bash cURL
+  # No API key needed to get started; add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+  curl -s "https://api.firecrawl.dev/v2/search/research/papers?query=CRISPR%20base%20editing%20off-target%20effects%20in%20primary%20human%20T%20cells&k=20"
+  ```
+
+  ```bash CLI
+  firecrawl research search-papers "CRISPR base editing off-target effects in primary human T cells" --limit 20
+  ```
+
+  ```python Python
+  from firecrawl import Firecrawl
+
+  firecrawl = Firecrawl(
+    # No API key needed to get started; add one for higher rate limits:
+    # api_key="fc-YOUR-API-KEY",
+  )
+
+  result = firecrawl.v2.search_papers(
+    "CRISPR base editing off-target effects in primary human T cells",
+    k=20,
+  )
+  print(result)
+  ```
+
+  ```js Node
+  import { Firecrawl } from "firecrawl";
+
+  const firecrawl = new Firecrawl({
+    // No API key needed to get started; add one for higher rate limits:
+    // apiKey: "fc-YOUR-API-KEY",
+  });
+
+  const result = await firecrawl.research.searchPapers(
+    "CRISPR base editing off-target effects in primary human T cells",
+    { k: 20 },
+  );
+  console.log(result);
+  ```
+</CodeGroup>
+
+Results carry a `primaryId` in whichever namespace the source uses, so biomedical hits come back as `pmid:<id>`, `pmcid:<id>`, or `doi:<doi>`. Feed that value straight back into the inspect, read, and related endpoints below.
+
 ## Inspect a paper
 
-Use a canonical `paperId` or a source-specific `primaryId`.
+Use a canonical `paperId` or a source-specific `primaryId`. Accepted `primaryId` forms are `arxiv:<id>`, `pmid:<id>`, `pmcid:<id>`, and `doi:<doi>` — for example `curl -s ".../v2/search/research/papers/pmid:<id>"` for a PubMed record.
 
 <CodeGroup>
   ```bash cURL
@@ -222,44 +283,4 @@ Modes:
 
 ## Search GitHub history
 
-Search GitHub issues, pull requests, discussions, and repository READMEs for implementation details and engineering prior art.
-
-<CodeGroup>
-  ```bash cURL
-  # No API key needed to get started; add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s "https://api.firecrawl.dev/v2/search/research/github?query=flash%20attention%20implementation%20notes&k=10"
-  ```
-
-  ```bash CLI
-  firecrawl research search-github "flash attention implementation notes" --limit 10
-  ```
-
-  ```python Python
-  from firecrawl import Firecrawl
-
-  firecrawl = Firecrawl(
-    # No API key needed to get started; add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
-
-  results = firecrawl.v2.search_github("flash attention implementation notes", k=10)
-  print(results)
-  ```
-
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started; add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
-
-  const results = await firecrawl.research.searchGithub(
-    "flash attention implementation notes",
-    { k: 10 },
-  );
-  console.log(results);
-  ```
-</CodeGroup>
-
-GitHub results include repository, URL, issue/PR metadata when available, snippet, and matched markdown content when available.
+Issues, merged pull requests, and repository READMEs now live in the [Developer Index](/features/developer), which ranks them with the matched passages and adds curated documentation sources alongside them. Use [`GET` or `POST /search/developer`](/api-reference/endpoint/developer-search), or `/search` with `categories: ["developer"]`.

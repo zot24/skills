@@ -10,6 +10,9 @@ package: @chat-adapter/messenger
 # Messenger
 
 
+  Building for Instagram Direct Messages? Use the [Instagram adapter](/adapters/official/instagram) instead. It connects through Instagram API with Instagram Login and does not require a Facebook Page.
+
+
 ## Install
 
 
@@ -101,6 +104,19 @@ Constraints:
 * Button titles limited to 20 characters (truncated with ellipsis).
 * Subtitles limited to 80 characters.
 * Button Template text limited to 640 characters.
+
+### Read receipts
+
+Use `thread.markAsRead()` in a message handler to send Messenger's `mark_seen` sender action:
+
+```typescript
+bot.onDirectMessage(async (thread) => {
+  await thread.markAsRead();
+  await thread.post("Thanks, I have seen your message.");
+});
+```
+
+Messenger applies this action to the conversation's seen state rather than a single message, even when you pass a message or message ID.
 
 ### Thread ID format
 

@@ -9,6 +9,8 @@ prerequisites:
 related:
   - /docs/actions
   - /docs/modals
+  - /docs/api/cards
+  - /docs/emoji
 ---
 
 # Cards

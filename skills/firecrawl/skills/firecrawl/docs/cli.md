@@ -4,7 +4,7 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Skills + CLI
+# CLI
 
 > Firecrawl skills are an easy way for AI agents such as Claude Code, Antigravity and OpenCode to use Firecrawl through the CLI.
 
@@ -70,9 +70,9 @@ firecrawl view-config
 firecrawl logout
 ```
 
-### Self-Hosted / Local Development
+### Connect the CLI to self-hosted Firecrawl
 
-For self-hosted Firecrawl instances or local development, use the `--api-url` option:
+First, get one scrape working with the [self-hosting guide](/contributing/self-host). Then point the CLI at that API with `--api-url` or `FIRECRAWL_API_URL`:
 
 ```bash CLI theme={null}
 # Use a local Firecrawl instance (no API key required)
@@ -86,7 +86,15 @@ firecrawl scrape https://example.com
 firecrawl config --api-url http://localhost:3002
 ```
 
-When using a custom API URL (anything other than `https://api.firecrawl.dev`), API key authentication is automatically skipped, allowing you to use local instances without an API key.
+When you use a custom API URL instead of `https://api.firecrawl.dev`, the CLI skips Firecrawl Cloud API-key authentication. That matches the trusted-network quickstart, where `USE_DB_AUTHENTICATION=false`.
+
+
+  Keep an unauthenticated API on a trusted network. If you add an authentication
+  proxy or another access-control layer, verify that the CLI can send the
+  credentials that layer requires before depending on this path.
+
+
+The CLI can call only the capabilities enabled in your deployment. Check [self-hosted feature support](/contributing/self-host#self-hosted-feature-support) before using Cloud-only or provider-dependent commands.
 
 ### Check Status
 
@@ -272,7 +280,7 @@ firecrawl search "firecrawl" --pretty -o results.json
 | ---------------------------- | ------------------------------------------------------------------------------------------- |
 | `--limit <number>`           | Maximum results (default: 5, max: 100)                                                      |
 | `--sources <sources>`        | Sources to search: `web`, `images`, `news` (comma-separated)                                |
-| `--categories <categories>`  | Filter by category: `github`, `research`, `pdf` (comma-separated)                           |
+| `--categories <categories>`  | Filter by category: `github`, `research`, `pdf`, `developer` (comma-separated)              |
 | `--tbs <value>`              | Time filter: `qdr:h` (hour), `qdr:d` (day), `qdr:w` (week), `qdr:m` (month), `qdr:y` (year) |
 | `--location <location>`      | Geo-targeting (e.g., "Berlin,Germany")                                                      |
 | `--country <code>`           | ISO country code (default: US)                                                              |
@@ -284,6 +292,26 @@ firecrawl search "firecrawl" --pretty -o results.json
 | `--json`                     | Output as JSON                                                                              |
 | `--output <path>`            | Save output to file                                                                         |
 | `--pretty`                   | Pretty print JSON output                                                                    |
+
+***
+
+### Developer
+
+Search the [Developer Index](/features/developer) — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites.
+
+```bash CLI theme={null}
+firecrawl developer "how do I configure retries" --limit 10
+```
+
+**Available Options:**
+
+| Option             | Description                                            |
+| ------------------ | ------------------------------------------------------ |
+| `--limit <number>` | Number of results to return (default: 10, max: 100)    |
+| `--skills-only`    | Search only indexed agent-skill files (default: false) |
+| `--json`           | Output as compact JSON                                 |
+| `--output <path>`  | Save output to file                                    |
+| `--pretty`         | Pretty print JSON output                               |
 
 ***
 
@@ -689,8 +717,8 @@ jq -r '.data.web[].url' search-results.json
 # Get titles from search results
 jq -r '.data.web[] | "\(.title): \(.url)"' search-results.json
 
-# Extract links and process with jq
-firecrawl https://example.com --format links | jq '.links[].url'
+# Extract links as JSON and print one URL per line
+firecrawl https://example.com --format links --json | jq -r '.links[]'
 
 # Count URLs from map
 firecrawl map https://example.com | wc -l

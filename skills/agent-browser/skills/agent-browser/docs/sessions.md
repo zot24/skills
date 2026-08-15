@@ -51,6 +51,21 @@ Each session has its own:
 - Navigation history
 - Authentication state
 
+## Tab pinning in a shared browser<a href="#tab-pinning-in-a-shared-browser" aria-label="Link to this section">#</a>
+
+Full isolation applies when each session launches its own browser. When sessions instead share one Chrome over `--cdp`, only the tab selection separates them. Each session remembers which tab it is bound to (by CDP target id, persisted across daemon restarts), so a restarted daemon reattaches to the session's own tab instead of adopting the most recently active one.
+
+Add `--pin-tab` (or set `AGENT_BROWSER_PIN_TAB=1`) to make the binding strict:
+
+
+``` shiki
+agent-browser --session agent1 --cdp 9222 --pin-tab open https://site-a.com
+agent-browser --session agent2 --cdp 9222 --pin-tab open https://site-b.com
+```
+
+
+With `--pin-tab`, a session whose bound tab was closed gets a `tab_gone` error instead of silently acting on another session's tab; run `tab new <url>` or pick a tab from `tab list` to recover. JSON output includes `"code": "tab_gone"`, `data.targetId`, and optional sanitized `data.lastUrl`. Batch output uses `result` for the same recovery object. The flag is sticky per session; pass `--no-pin-tab` to turn it off again. See [CDP Mode](/cdp-mode) for details.
+
 ## Chrome profile reuse<a href="#chrome-profile-reuse" aria-label="Link to this section">#</a>
 
 The simplest way to reuse your existing login state: pass a Chrome profile name to `--profile`. agent-browser copies the profile to a temp directory (read-only snapshot) and launches Chrome with your existing cookies and sessions.
@@ -305,6 +320,7 @@ agent-browser set headers '{"X-Custom-Header": "value"}'
 |--------------------------------------|------------------------------------------------------------------------------|
 | `AGENT_BROWSER_SESSION`              | Browser session ID (default: "default")                                      |
 | `AGENT_BROWSER_NAMESPACE`            | Namespace for daemon sockets and restore-state directories                   |
+| `AGENT_BROWSER_PIN_TAB`              | Pin the session to its bound tab (strict tab binding)                        |
 | `AGENT_BROWSER_RESTORE`              | Auto-save/load state persistence key                                         |
 | `AGENT_BROWSER_RESTORE_SAVE`         | Restore save policy: `auto`, `always`, or `never`                            |
 | `AGENT_BROWSER_AUTOSAVE_INTERVAL_MS` | Minimum ms between periodic session autosaves (default: 30000, `0` disables) |

@@ -26,6 +26,8 @@ gl-inet/docs4.x
 
 <a href="../multi-wan/" class="md-nav__link"><span class="md-ellipsis"> Multi-WAN </span></a>
 
+<a href="../subnet/" class="md-nav__link"><span class="md-ellipsis"> Subnet </span></a>
+
 <a href="../lan/" class="md-nav__link"><span class="md-ellipsis"> LAN </span></a>
 
 <a href="../guest_network/" class="md-nav__link"><span class="md-ellipsis"> Guest Network </span></a>
@@ -36,15 +38,15 @@ gl-inet/docs4.x
 
 <a href="../ethernet_port/" class="md-nav__link"><span class="md-ellipsis"> Ethernet Port </span></a>
 
-<a href="../network_mode/" class="md-nav__link"><span class="md-ellipsis"> Network Mode </span></a>
-
 <a href="../ipv6/" class="md-nav__link"><span class="md-ellipsis"> IPv6 </span></a>
 
 <a href="../mac_address/" class="md-nav__link"><span class="md-ellipsis"> MAC Address </span></a>
 
-<a href="../drop-in_gateway/" class="md-nav__link"><span class="md-ellipsis"> Drop-in Gateway </span></a>
-
 <a href="../igmp_snooping/" class="md-nav__link"><span class="md-ellipsis"> IGMP Snooping </span></a>
+
+<a href="../network_mode/" class="md-nav__link"><span class="md-ellipsis"> Network Mode </span></a>
+
+<a href="../drop-in_gateway/" class="md-nav__link"><span class="md-ellipsis"> Drop-in Gateway </span></a>
 
 <a href="../hardware_acceleration/" class="md-nav__link"><span class="md-ellipsis"> Hardware Acceleration </span></a>
 
@@ -63,7 +65,7 @@ gl-inet/docs4.x
 
 This guide applies to firmware v4.5 and earlier.
 
-Since v4.6, the Firewall page has been split. The Port Forwarding and DMZ features have been moved to the [Port Forwarding](../port_forwarding/). The Open Ports feature has been moved to the [Security](../security/).
+Since v4.6, the Firewall page has been split: the Port Forwarding and DMZ features have been moved to the [Port Forwarding](../port_forwarding/), while the Open Ports feature has been moved to the [Security](../security/).
 
 ------------------------------------------------------------------------
 

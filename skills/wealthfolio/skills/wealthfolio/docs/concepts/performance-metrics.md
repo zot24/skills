@@ -93,7 +93,7 @@ Understanding the performance metrics and calculation methodologies used in Weal
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 Wealthfolio employs several performance metrics and calculation methods to provide a comprehensive view of your portfolio’s performance. Understanding these concepts is key to interpreting your financial progress accurately.

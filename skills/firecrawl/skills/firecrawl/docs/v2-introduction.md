@@ -17,10 +17,19 @@ The Firecrawl API gives you programmatic access to web data. All endpoints share
 ## Features
 
 
+    Search the web and get full page content in any format.
+
+
     Extract content from any webpage in markdown or json format.
 
 
+    Create an Interact session to click, fill forms, and navigate pages.
+
+
     Upload files and parse them into markdown or other formats.
+
+
+    Schedule recurring checks and get notified when content changes.
 
 
     Crawl entire websites and get content from all pages.
@@ -29,16 +38,7 @@ The Firecrawl API gives you programmatic access to web data. All endpoints share
     Get a complete list of URLs from any website quickly and reliably.
 
 
-    Search the web and get full page content in any format.
-
-
-## Agentic Features
-
-
     Autonomous web data gathering powered by AI.
-
-
-    Create and control browser sessions for interactive web tasks.
 
 
 ## Base URL

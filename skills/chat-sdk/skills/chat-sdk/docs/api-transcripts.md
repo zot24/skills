@@ -4,6 +4,8 @@
 title: Transcripts
 description: Cross-platform per-user transcript persistence — configuration, methods, and entry shape.
 type: reference
+related:
+  - /docs/conversation-history
 ---
 
 # Transcripts

@@ -28,7 +28,7 @@ Other parts of the `@flue/runtime` surface have their own reference pages:
 - [Errors](/docs/reference/errors/) — error classes and transport categories.
 - [Events](/docs/reference/events/) — `observe()`, `instrument()`, `FlueEvent`, and the observation types.
 - [Provider API](/docs/reference/provider-api/) — the `providers` config, `setProvider()`, and `cloudflareBindingProvider()`.
-- [Sandbox Adapter API](/docs/reference/sandbox-api/) — `SandboxFactory`, `SessionEnv`, `SandboxApi`, `bash()`, `createSandboxSessionEnv()`, and the per-tool factories (`createReadTool` and friends).
+- [Sandbox Adapter API](/docs/reference/sandbox-api/) — `SandboxFactory`, `Sandbox`, `SandboxDriver`, `bash()`, `sandboxFromDriver()`, and the per-tool factories (`createReadTool` and friends).
 - [Data Persistence API](/docs/reference/data-persistence-api/) — `PersistenceAdapter` and the store contracts.
 - [Streaming Protocol](/docs/reference/streaming-protocol/) — the conversation wire protocol behind `ConversationStreamChunk`.
 
@@ -412,7 +412,7 @@ interface FlueHarness {
   ): CallHandle<PromptResultResponse<v.InferOutput<S>>>;
   prompt(text: string, options?: PromptOptions): CallHandle<PromptResponse>;
   compact(): Promise<void>;
-  readonly sandbox: SessionEnv;
+  readonly sandbox: Sandbox;
 }
 ```
 
@@ -495,12 +495,12 @@ Triggers compaction of the harness conversation immediately. Resolves as a no-op
 
 ## `harness.sandbox`
 
-The agent’s environment itself: the live `SessionEnv` resolved from the agent’s [`useSandbox()`](/docs/reference/agent-hooks-api/#usesandbox) declaration. One object carries the whole surface — `exec()`, the file verbs (`readFile`, `readFileBuffer`, `writeFile`, `stat`, `readdir`, `exists`, `mkdir`, `rm`), `cwd`, and `resolvePath()`. Accessing it in an agent that declared no sandbox throws `[flue] This agent has no sandbox. ...` — tools that may run in sandbox-less agents should not touch it. The full `SessionEnv` contract is documented in the [Sandbox Adapter API](/docs/reference/sandbox-api/).
+The agent’s environment itself: the live [`Sandbox`](/docs/reference/sandbox-api/#sandbox) resolved from the agent’s [`useSandbox()`](/docs/reference/agent-hooks-api/#usesandbox) declaration. One object carries the whole surface — `exec()`, the file verbs (`readFile`, `readFileBuffer`, `writeFile`, `stat`, `readdir`, `exists`, `mkdir`, `rm`), `cwd`, and `resolvePath()`. Accessing it in an agent that declared no sandbox throws `[flue] This agent has no sandbox. ...` — tools that may run in sandbox-less agents should not touch it. The full `Sandbox` contract is documented in the [Sandbox Adapter API](/docs/reference/sandbox-api/).
 
 - Operations on it are never recorded in a conversation. The model has its own tools for filesystem work it should reason about; `harness.sandbox` is for plumbing the model shouldn’t see.
 - `writeFile` creates missing parent directories in every sandbox mode.
 - Relative paths resolve against the agent’s cwd (`useSandbox(factory, { cwd })` when set, else the adapter default); use absolute paths for portability across adapters. `resolvePath()` resolves a relative path against `cwd` without touching the filesystem.
-- Sandboxes are heterogeneous: an adapter may not support every generic verb (it throws where it cannot — the Cloudflare Shell adapter’s `exec()` throws, since its durable Workspace has no shell) and may enrich the returned object with its native surface. Adapter packages ship runtime-checked accessors that narrow to that surface, such as Cloudflare Shell’s `shellWorkspace(harness.sandbox)`.
+- Sandboxes are heterogeneous: an adapter may not support every generic verb (it throws where it cannot) and may enrich the returned object with its native surface. Adapter packages ship runtime-checked accessors that narrow to that surface, such as Cloudflare Computer’s `computerWorkspace(harness.sandbox)`.
 - It is a live getter, not a snapshot: a [conditional `useSandbox()`](/docs/guide/sandboxes/#conditional-attachment) may swap the environment at a turn boundary, and this property follows. Do not cache the returned reference across turn boundaries if the agent swaps environments.
 
 ## `defineTool()`
@@ -719,7 +719,7 @@ Definition fields are documented at [`McpConnectionDefinition`](#mcpconnectionde
 
 ## Dynamic resources
 
-Tools, skills, and subagents may be [declared conditionally](/docs/reference/agent-hooks-api/#rendering-and-the-rules-of-hooks), so the set the model can use changes across renders. The runtime never rewrites the presentation surfaces the model already read — the system prompt’s skill catalog and the `task` tool’s roster stay frozen on a durable baseline snapshot, so a flip never invalidates the provider’s prompt cache. Instead, each render’s declared set is diffed against the last-narrated snapshot, and changes are appended to the conversation as signals. Activation and delegation always resolve against the live set: `activate_skill` and the `task` tool’s `agent` parameter take plain string names, and an unknown name returns a factual miss listing what is currently available. This section is the contract for those framework-authored signals.
+Tools, skills, and subagents may be [declared conditionally](/docs/reference/agent-hooks-api/#rendering-and-the-rules-of-hooks), so the set the model can use changes across renders. The runtime never rewrites the presentation surfaces the model already read — the system prompt’s skill catalog and the `task` tool’s roster stay frozen on a durable baseline snapshot, so a skill or subagent flip never invalidates the provider’s prompt cache. Instead, each render’s declared set is diffed against the last-narrated snapshot, and changes are appended to the conversation as signals. A custom-tool change also rewrites the request’s native tools array, which invalidates the cache unless the tool was added by a completed tool call; current first-party Anthropic models (excluding Haiku) load such an addition at its position in the transcript. Activation and delegation always resolve against the live set: `activate_skill` and the `task` tool’s `agent` parameter take plain string names, and an unknown name returns a factual miss listing what is currently available. This section is the contract for those framework-authored signals.
 
 - **`resources` signal** — emitted at a turn boundary when a render’s declared tools, skills, or subagents differ from the last-narrated set — or, for a change that happened between responses (a redeploy, a flip in the previous response’s final render), before the next response’s first turn. One signal per changed kind. The body lists added entries as catalog lines (`- **name** — description`), removals and updates as factual one-liners, and always ends with the full current roster (names only), so a chain of deltas ends in an unambiguous snapshot:
 

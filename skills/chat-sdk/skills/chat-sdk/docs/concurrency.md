@@ -9,6 +9,7 @@ prerequisites:
 related:
   - /docs/state-adapters
   - /docs/streaming
+  - /docs/error-handling
 ---
 
 # Overlapping Messages

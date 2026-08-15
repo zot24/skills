@@ -4,6 +4,9 @@
 title: Thread
 description: Represents a conversation thread with methods for posting, subscribing, and state management.
 type: reference
+related:
+  - /docs/threads-messages-channels
+  - /docs/posting-messages
 ---
 
 # Thread
@@ -48,6 +51,24 @@ await thread.post(new StreamingPlan(stream, { groupTasks: "plan" }));
 **Returns:** `Promise<SentMessage | PostableObject>` — for plain messages and streams, a `SentMessage` with `edit()`, `delete()`, `addReaction()`, and `removeReaction()` methods; for `Plan` / `StreamingPlan` inputs, the same object is returned so you can keep mutating it.
 
 See [Posting Messages](/docs/posting-messages) for details on each format.
+
+## reply
+
+Post a message with a native reference to another message.
+
+```typescript
+await thread.reply(message, {
+  markdown: "Thanks, I can help with that.",
+});
+```
+
+**Parameters:** `target: string | Message`, `message: string | AdapterPostableMessage | AsyncIterable<string | StreamChunk | StreamEvent> | CardJSXElement`
+
+**Returns:** `Promise<SentMessage>`
+
+The target `Message` must belong to the same thread. Streams are buffered before sending. Unlike `post()`, `reply()` does not accept `Plan` or `StreamingPlan`. Adapters without native message reply support throw `NotImplementedError`.
+
+Prefer passing the `Message` over its ID. The `Message` is checked against this thread and carried through to `SentMessage.replyTo` and cached thread history. A bare ID is only resolved to a `Message` when the thread already holds it in `recentMessages`; otherwise the reply is still sent, but `replyTo` is left undefined.
 
 ## postEphemeral
 
@@ -142,6 +163,29 @@ await thread.startTyping();
 // With custom status (Slack only)
 await thread.startTyping("Searching documents...");
 ```
+
+## markAsRead
+
+Mark an inbound message as read. WhatsApp, Messenger, and XChat support this capability. Other adapters throw `NotImplementedError`.
+
+Inside a message handler, omit the argument to mark the current message:
+
+```typescript
+bot.onDirectMessage(async (thread) => {
+  await thread.markAsRead();
+});
+```
+
+Pass a `Message` or message ID when targeting a message explicitly:
+
+```typescript
+await thread.markAsRead(message);
+await thread.markAsRead(message.id);
+```
+
+A `Message` must belong to the thread, and passing one from another thread throws. A bare message ID is sent to the adapter as given, since there is nothing to check it against. Calling `markAsRead()` without an argument outside a message handler throws because there is no current message.
+
+Platforms may advance the conversation's read state through the target message, which also marks earlier messages as read.
 
 ## messages / allMessages
 

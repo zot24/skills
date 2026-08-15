@@ -37,8 +37,8 @@ The boxd blueprint installs `@boxd-sh/sdk` when needed and creates `sandboxes/bo
 
 <figure class="astro-code-figure">
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/boxd@1
-import { createSandboxSessionEnv } from &#39;@flue/runtime&#39;;
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
+import { sandboxFromDriver } from &#39;@flue/runtime&#39;;
+import type { SandboxDriver, SandboxFactory, Sandbox, FileStat } from &#39;@flue/runtime&#39;;
 import type { Box as BoxdBox } from &#39;@boxd-sh/sdk&#39;;
 
 export interface BoxdAdapterOptions {
@@ -54,7 +54,7 @@ function shellQuote(value: string): string {
   return `&#39;${value.replace(/&#39;/g, `&#39;\\&#39;&#39;`)}&#39;`;
 }
 
-class BoxdSandboxApi implements SandboxApi {
+class BoxdSandboxDriver implements SandboxDriver {
   constructor(private box: BoxdBox) {}
 
   /* Adapts direct boxd file reads and writes. */
@@ -67,12 +67,12 @@ class BoxdSandboxApi implements SandboxApi {
 export function boxd(box: BoxdBox, options?: BoxdAdapterOptions): SandboxFactory {
   let readyPromise: Promise&lt;void&gt; | undefined;
   return {
-    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+    async createSandbox(): Promise&lt;Sandbox&gt; {
       const sandboxCwd = options?.cwd ?? &#39;/home/boxd&#39;;
       readyPromise ??= waitForReady(box, options?.readyTimeoutMs ?? 30_000);
       await readyPromise;
-      const api = new BoxdSandboxApi(box);
-      return createSandboxSessionEnv(api, sandboxCwd);
+      const driver = new BoxdSandboxDriver(box);
+      return sandboxFromDriver(driver, sandboxCwd);
     },
   };
 }</code></pre>

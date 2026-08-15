@@ -69,6 +69,14 @@ Same thing without `ANTHROPIC_BASE_URL`, so `/remote-control`, claude.ai
 connectors, and first-party gates keep working. Full instructions in the
 dashboard.
 
+`api.anthropic.com/v1/messages` is routed by default. Agents that reach their
+provider over some other base URL need a rule for it, and a rule that names a
+port matches only that port:
+
+```bash
+pxpipe warp --route '127.0.0.1:8082/v1/*=http://127.0.0.1:47821' -- codex
+```
+
 ## Offline export (no proxy)
 
 You can render text, files, or diffs to PNG pages without running the proxy or
@@ -119,7 +127,7 @@ without running the proxy.
 - **`claude-opus-5`:** weaker recall than Fable 5 (verbatim **2/15 vs 13/15**), good
   enough otherwise (100/100 arithmetic, 0/16 never-stated), **~4.7×** context before
   `/compact`. Suggested effort: **medium**. Details: [FINDINGS.md](FINDINGS.md).
-- **Model scope:** default `PXPIPE_MODELS=claude-fable-5,claude-opus-5,gemini-3.6-flash`. Sol, GPT 5.5,
+- **Model scope:** default `PXPIPE_MODELS=claude-fable-5,gemini-3.6-flash`. Opus 5, Sol, GPT 5.5,
   and **Grok** are opt-in only (dashboard chips or
   `PXPIPE_MODELS`). The exact Sol id still matters. Sibling variants such as
   `gpt-5.6-terra` do not
@@ -253,6 +261,32 @@ const { body, applied, info } = await transformAnthropicMessages({
 returns the originals of imaged blocks. Pure-JS runtime (Node and
 edge/Workers); `@napi-rs/canvas` is build-time only. Full API:
 `src/core/index.ts`.
+
+<details>
+<summary><strong>Offline stats (no proxy): <code>pxpipe stats</code></strong></summary>
+
+The live dashboard shows savings while the proxy is running. To read the same
+event log **after the fact** — with no server up — summarize it straight from
+disk:
+
+```bash
+pxpipe stats                   # human report from ~/.pxpipe/events.jsonl
+pxpipe stats --json            # same aggregate as machine-readable JSON
+pxpipe stats --file /path/to/events.jsonl
+```
+
+Alongside request counts, compression ratios, latency percentiles, and
+cache-hit rates, the report prints a **measured savings** headline —
+`count_tokens` of the original body versus real usage, over probe-measured rows
+only (unmeasured requests are excluded, never counted as zero). This is a
+**raw-token** figure (cache reads at face value, not cost-weighted), so it is
+deliberately a different quantity from the dashboard's cost-weighted saved %.
+Point it at a non-default log with `--file`, or set `PXPIPE_LOG`.
+
+Exit codes: `0` report printed, `1` events file not found, `2` file present but
+no valid events. `pxpipe stats --help` prints usage.
+
+</details>
 
 ## Development
 
@@ -393,6 +427,7 @@ Third-party projects listed here are not maintained or supported by pxpipe.
 
 - [pxpipe-windows](https://github.com/DivyeshPatro/pxpipe-windows) — Windows support for `pxpipe mitm` (node-forge CA in place of openssl, Task Scheduler autostart).
 - [OmniGlyph](https://github.com/diegosouzapw/OmniGlyph) — A community-maintained project derived from pxpipe and used by [OmniRoute](https://github.com/diegosouzapw/OmniRoute).
+- [pxpipe-go](https://github.com/evan-choi/pxpipe-go) — A Go port of pxpipe's core with a CLI wrapper, standalone proxy, and embeddable library for Anthropic Messages and OpenAI Chat/Responses.
 
 ## License
 

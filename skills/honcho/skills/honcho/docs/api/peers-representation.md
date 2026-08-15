@@ -29,7 +29,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.11
+  version: 3.0.12
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -105,6 +105,17 @@ components:
             - type: 'null'
           title: Session Id
           description: Optional session ID within which to scope the representation
+        filters:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Filters
+          description: >-
+            Optional filters to scope the representation. This endpoint supports
+            only the 'session_id' key: a session id, a list of session ids, or
+            {"in": [...]}. When session_id is also set, it must be included in
+            the allowlist.
         target:
           anyOf:
             - type: string

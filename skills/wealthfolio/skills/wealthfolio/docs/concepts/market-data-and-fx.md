@@ -93,7 +93,7 @@ How Wealthfolio resolves symbols, fetches prices, and converts between currencie
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 ### How symbols work
 

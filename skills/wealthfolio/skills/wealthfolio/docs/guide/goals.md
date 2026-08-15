@@ -93,7 +93,7 @@ Set savings targets, fund them from your accounts, and project when you'll get t
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 The Goals feature turns Wealthfolio into a planning tool: pick a goal, link the accounts that fund it, and the app projects your progress and tells you whether you’re on track.

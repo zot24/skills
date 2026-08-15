@@ -24,7 +24,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.11
+  version: 3.0.12
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -98,6 +98,18 @@ components:
             - type: 'null'
           title: Session Id
           description: ID of the session to scope the representation to
+        filters:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Filters
+          description: >-
+            Optional filters to scope recall. This endpoint supports only the
+            'session_id' key: a session id, a list of session ids, or {"in":
+            [...]}. Recall (conclusions and messages) is restricted to the
+            allowlist; unsupported keys are rejected. When session_id is also
+            set, it must be included in the allowlist.
         target:
           anyOf:
             - type: string
@@ -127,6 +139,18 @@ components:
           title: Reasoning Level
           description: 'Level of reasoning to apply: minimal, low, medium, high, or max'
           default: low
+        response_format:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Response Format
+          description: >-
+            Optional JSON Schema (root type 'object') the response must conform
+            to. When provided, `content` is a JSON string matching this schema.
+            Only a conservative subset of JSON Schema is supported; unsupported 
+            schemas are rejected with 422. Constraint keywords (minItems, 
+            maxLength, ...) are hints to the model, not enforced server-side.
       type: object
       required:
         - query

@@ -37,8 +37,8 @@ The Modal blueprint installs the `modal` JavaScript SDK when needed and creates 
 
 <figure class="astro-code-figure">
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/modal@1
-import { createSandboxSessionEnv } from &#39;@flue/runtime&#39;;
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
+import { sandboxFromDriver } from &#39;@flue/runtime&#39;;
+import type { SandboxDriver, SandboxFactory, Sandbox, FileStat } from &#39;@flue/runtime&#39;;
 import type { Sandbox as ModalSandbox } from &#39;modal&#39;;
 
 export interface ModalAdapterOptions {
@@ -49,7 +49,7 @@ function shellQuote(value: string): string {
   return `&#39;${value.replace(/&#39;/g, `&#39;\\&#39;&#39;`)}&#39;`;
 }
 
-class ModalSandboxApi implements SandboxApi {
+class ModalSandboxDriver implements SandboxDriver {
   constructor(private sandbox: ModalSandbox) {}
 
   /* Adapts Modal open/read/write handles and closes every opened file. */
@@ -61,10 +61,10 @@ class ModalSandboxApi implements SandboxApi {
 
 export function modal(sandbox: ModalSandbox, options?: ModalAdapterOptions): SandboxFactory {
   return {
-    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+    async createSandbox(): Promise&lt;Sandbox&gt; {
       const sandboxCwd = options?.cwd ?? &#39;/&#39;;
-      const api = new ModalSandboxApi(sandbox);
-      return createSandboxSessionEnv(api, sandboxCwd);
+      const driver = new ModalSandboxDriver(sandbox);
+      return sandboxFromDriver(driver, sandboxCwd);
     },
   };
 }</code></pre>

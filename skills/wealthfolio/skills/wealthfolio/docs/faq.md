@@ -93,7 +93,7 @@ Answers to the questions we see most often about imports, transfers, FX, perform
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 This FAQ is the front door. For deeper explanations, follow the links inside each answer to the <a href="/docs/concepts/" class="font-medium underline underline-offset-4">concept docs</a> and <a href="/docs/guide/dashboards/" class="font-medium underline underline-offset-4">user guide</a>.
 

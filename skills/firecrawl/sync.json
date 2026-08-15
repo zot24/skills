@@ -1334,6 +1334,180 @@
       "target": "skills/firecrawl/docs/tools.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/api-reference/endpoint/developer-search.md",
+      "target": "skills/firecrawl/docs/api-reference-developer-search.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/developer-guides/usage-guides/verifying-freshness-and-liveness.md",
+      "target": "skills/firecrawl/docs/developer-guides-verifying-freshness-and-liveness.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/enterprise.md",
+      "target": "skills/firecrawl/docs/enterprise.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/developer.md",
+      "target": "skills/firecrawl/docs/developer.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/ip-restrictions.md",
+      "target": "skills/firecrawl/docs/ip-restrictions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/key-restrictions.md",
+      "target": "skills/firecrawl/docs/key-restrictions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/siem.md",
+      "target": "skills/firecrawl/docs/siem.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/features/threat-protection.md",
+      "target": "skills/firecrawl/docs/threat-protection.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations.md",
+      "target": "skills/firecrawl/docs/integrations.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/camelai.md",
+      "target": "skills/firecrawl/docs/camelai.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/composio.md",
+      "target": "skills/firecrawl/docs/composio.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/crewai.md",
+      "target": "skills/firecrawl/docs/crewai.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/dify.md",
+      "target": "skills/firecrawl/docs/dify.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/flowise.md",
+      "target": "skills/firecrawl/docs/flowise.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/hermes.md",
+      "target": "skills/firecrawl/docs/hermes.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/langchain.md",
+      "target": "skills/firecrawl/docs/langchain.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/langflow.md",
+      "target": "skills/firecrawl/docs/langflow.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/llamaindex.md",
+      "target": "skills/firecrawl/docs/llamaindex.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/lovable.md",
+      "target": "skills/firecrawl/docs/lovable.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/make.md",
+      "target": "skills/firecrawl/docs/make.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/n8n.md",
+      "target": "skills/firecrawl/docs/n8n.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/pipedream.md",
+      "target": "skills/firecrawl/docs/pipedream.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/praison.md",
+      "target": "skills/firecrawl/docs/praison.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/replit.md",
+      "target": "skills/firecrawl/docs/replit.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/sourcesyncai.md",
+      "target": "skills/firecrawl/docs/sourcesyncai.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/integrations/zapier.md",
+      "target": "skills/firecrawl/docs/zapier.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/mcp-server/keyless.md",
+      "target": "skills/firecrawl/docs/keyless.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/mcp-server/oauth.md",
+      "target": "skills/firecrawl/docs/oauth.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/partner-credits.md",
+      "target": "skills/firecrawl/docs/partner-credits.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

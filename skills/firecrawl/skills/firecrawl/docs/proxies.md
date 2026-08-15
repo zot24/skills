@@ -19,13 +19,15 @@ Firecrawl automatically selects the best proxy based on your specified or detect
 | Country Code | Country Name         | Basic Proxy Support | Enhanced Proxy Support |
 | ------------ | -------------------- | ------------------- | ---------------------- |
 | AE           | United Arab Emirates | Yes                 | No                     |
+| AT           | Austria              | Yes                 | No                     |
 | AU           | Australia            | Yes                 | No                     |
+| BE           | Belgium              | Yes                 | No                     |
 | BR           | Brazil               | Yes                 | No                     |
 | CA           | Canada               | Yes                 | No                     |
+| CH           | Switzerland          | Yes                 | No                     |
 | CN           | China                | Yes                 | No                     |
 | DE           | Germany              | Yes                 | No                     |
 | DK           | Denmark              | Yes                 | No                     |
-| EE           | Estonia              | Yes                 | No                     |
 | EG           | Egypt                | Yes                 | No                     |
 | ES           | Spain                | Yes                 | No                     |
 | FR           | France               | Yes                 | No                     |
@@ -35,9 +37,11 @@ Firecrawl automatically selects the best proxy based on your specified or detect
 | IN           | India                | Yes                 | No                     |
 | IT           | Italy                | Yes                 | No                     |
 | JP           | Japan                | Yes                 | No                     |
+| MX           | Mexico               | Yes                 | No                     |
 | NL           | Netherlands          | Yes                 | Yes                    |
-| PT           | Portugal             | Yes                 | No                     |
+| PL           | Poland               | Yes                 | No                     |
 | QA           | Qatar                | Yes                 | No                     |
+| SE           | Sweden               | Yes                 | No                     |
 | TR           | Turkey               | Yes                 | No                     |
 | US           | United States        | Yes                 | Yes                    |
 

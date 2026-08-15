@@ -517,7 +517,7 @@ Schedule it with `crontab -e`:
 
 ### Workflow automation
 
-No-code platforms like **n8n**, **Zapier**, and **Make** can call the Firecrawl API on a schedule and route results to Slack, email, or databases. See the [workflow automation guides](/developer-guides/workflow-automation/n8n).
+No-code platforms like **n8n**, **Zapier**, and **Make** can call the Firecrawl API on a schedule and route results to Slack, email, or databases. See the [workflow automation guides](/integrations/n8n).
 
 ## Webhooks
 

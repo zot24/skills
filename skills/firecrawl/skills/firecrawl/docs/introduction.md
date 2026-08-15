@@ -9,35 +9,35 @@
 > Search the web, scrape any page, and interact with it, all through one API.
 
 
-  **For AI agents:** Use [llms.txt](/llms.txt) for a full index of all documentation.
-
-
-<div className="firecrawl-cta-box">
-  <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
-    <Icon icon="sack-dollar" color="#ff4d00" size={22} />
-
-    <div className="firecrawl-cta-title" style={{ margin: 0 }}>
-      <span style={{ color: "#ff4d00" }}>Bounty: 5,000 credit reward</span>
-      <span style={{ fontWeight: 400 }}> for solid feedback on Firecrawl</span>
-    </div>
-  </div>
-
-  <p className="firecrawl-cta-description">
-    To qualify, complete a high-signal interview (thoughtful, concrete use cases, etc) with our Firecrawl Feedback Assistant. Only takes a few minutes, can be stopped at any time, and is both human/agent-friendly (just paste the link into your agentic harness!). New to Firecrawl? Your take still counts.
-  </p>
-
-  <a href={"https://www.firecrawl.dev/survey/dsag9?src=" + (props.src || "docs-introduction")} className="firecrawl-cta-btn-primary firecrawl-cta-btn-inline">
-    Start the interview
-  </a>
-
-  <p className="firecrawl-cta-description" style={{ fontSize: "12px", fontStyle: "italic", margin: "12px 0 0 0" }}>
-    Include your email to be eligible. Interviews are reviewed for quality at the end of each week.
-  </p>
-</div>
-
 ## Get started
 
-<McpClientSelector />
+Connect over Streamable HTTP. The keyless server URL (Search, Scrape, and Parse; no credential required) is `https://mcp.firecrawl.dev/v2/mcp`.
+
+* Codex: `codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp`
+* Claude Code: `claude mcp add --transport http firecrawl https://mcp.firecrawl.dev/v2/mcp`
+* Cursor or any JSON-config client: `{"mcpServers": {"firecrawl": {"url": "https://mcp.firecrawl.dev/v2/mcp"}}}`
+* OpenCode (`opencode.json`): `{"mcp": {"firecrawl": {"type": "remote", "url": "https://mcp.firecrawl.dev/v2/mcp", "enabled": true}}}`
+* ChatGPT or Claude.ai: use the native Firecrawl connector — [ChatGPT](https://chatgpt.com/plugins?q=firecrawl) or [Claude](https://claude.ai/directory/connectors/firecrawl).
+
+Both setup paths and API-key setup: [MCP Get Started](/mcp-server.md), [For Agents](/mcp-server/keyless.md), and [For Humans](/mcp-server/oauth.md).
+
+### Build directly with the API
+
+Scrape your first page now. No account or API key is required for this request.
+
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "formats": ["markdown", "html"]
+  }'
+```
+
+Add an [API key](https://www.firecrawl.dev/app/api-keys) when you need higher limits. See the [Python SDK](/sdks/python), [Node SDK](/sdks/node), or [API reference](/api-reference/endpoint/scrape) to build it into your application.
+
+## Other ways to get started
 
 ### Install the Firecrawl CLI
 
@@ -49,14 +49,18 @@ npx -y firecrawl-cli@latest init --all --browser
 
 
   Restart your coding agent after setup so it can discover the new skills. See
-  [Skills + CLI](/sdks/cli) for the full setup.
+  [CLI](/sdks/cli) for the full setup.
 
 
 ### Set up with an agent
 
-Provide your agent with this Firecrawl setup prompt.
+Provide your agent with this Firecrawl setup prompt, or see [all MCP setup options](/mcp-server).
 
 <AgentSetupButton />
+
+
+  **For AI agents:** Use [llms.txt](https://docs.firecrawl.dev/llms.txt) for an index of the documentation, or [llms-full.txt](https://docs.firecrawl.dev/llms-full.txt) for the full text.
+
 
 ### Build and test directly
 
@@ -89,6 +93,29 @@ Provide your agent with this Firecrawl setup prompt.
 * **Reliable**: Built for production with high uptime and consistent results.
 * **Fast**: Results in seconds, optimized for high throughput.
 * **MCP Server**: Connect Firecrawl to any AI tool via the [Model Context Protocol](/mcp-server).
+
+<div className="firecrawl-cta-box">
+  <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
+    <Icon icon="sack-dollar" color="#ff4d00" size={22} />
+
+    <div className="firecrawl-cta-title" style={{ margin: 0 }}>
+      <span style={{ color: "#ff4d00" }}>Bounty: 5,000 credit reward</span>
+      <span style={{ fontWeight: 400 }}> for solid feedback on Firecrawl</span>
+    </div>
+  </div>
+
+  <p className="firecrawl-cta-description">
+    To qualify, complete a high-signal interview (thoughtful, concrete use cases, etc) with our Firecrawl Feedback Assistant. Only takes a few minutes, can be stopped at any time, and is both human/agent-friendly (just paste the link into your agentic harness!). New to Firecrawl? Your take still counts.
+  </p>
+
+  <a href={"https://www.firecrawl.dev/survey/dsag9?src=" + (props.src || "docs-introduction")} className="firecrawl-cta-btn-primary firecrawl-cta-btn-inline">
+    Start the interview
+  </a>
+
+  <p className="firecrawl-cta-description" style={{ fontSize: "12px", fontStyle: "italic", margin: "12px 0 0 0" }}>
+    Include your email to be eligible. Interviews are reviewed for quality at the end of each week.
+  </p>
+</div>
 
 ***
 
@@ -382,6 +409,9 @@ Scrape a page, then keep working with it: click buttons, fill forms, extract dyn
 
 
     Managed browser sessions for interactive workflows
+
+
+    Turn local PDFs, DOCX, XLSX, HTML, and more into Markdown or structured JSON
 
 
     Discover all URLs on a website

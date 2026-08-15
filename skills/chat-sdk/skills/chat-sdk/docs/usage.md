@@ -10,6 +10,8 @@ related:
   - /docs/handling-events
   - /docs/adapters
   - /docs/state-adapters
+  - /docs/api/chat
+  - /docs/error-handling
 ---
 
 # Creating a Chat Instance
@@ -66,7 +68,7 @@ const bot = new Chat({
 });
 ```
 
-Your event handlers work identically across all registered adapters — the SDK normalizes messages, threads, and reactions into a consistent format.
+Your event handlers work identically across all registered adapters — the SDK normalizes messages, threads, and reactions into a consistent format. Where platforms differ (rate limits or unsupported features), the SDK throws typed errors. See [Error Handling](/docs/error-handling).
 
 ## Configuration options
 

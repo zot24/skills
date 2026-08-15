@@ -4,6 +4,8 @@
 title: Modals
 description: Modal form components for collecting user input.
 type: reference
+related:
+  - /docs/modals
 ---
 
 # Modals

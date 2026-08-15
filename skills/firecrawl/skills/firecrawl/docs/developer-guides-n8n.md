@@ -4,7 +4,7 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Firecrawl + n8n
+# n8n
 
 > Learn how to use Firecrawl with n8n for web scraping automation, a complete step-by-step guide.
 
@@ -16,7 +16,7 @@ Web scraping automation has become essential for modern businesses. Whether you 
 
 **What is n8n?**
 
-n8n is an open-source workflow automation platform that connects different tools and services together. Think of it as a visual programming environment where you drag and drop nodes onto a canvas, connect them, and create automated workflows. With over 400 integrations, n8n lets you build complex automations without writing code.
+n8n is an open-source workflow automation platform that connects different tools and services together. Think of it as a visual programming environment where you drag and drop nodes onto a canvas, connect them, and create automated workflows. With 1,900+ integrations, n8n lets you build complex automations without writing code.
 
 ## Why Use Firecrawl with n8n?
 
@@ -370,7 +370,7 @@ const results = $input.all();
 let message = "Latest AI News:\n\n";
 
 results.forEach((item) => {
-  const webData = item.json.data.web;
+  const webData = item.json.data?.web || [];
   webData.forEach((article, index) => {
     message += `${index + 1}. ${article.title}\n`;
     message += `${article.description}\n`;

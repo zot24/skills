@@ -24,8 +24,6 @@ gl-inet/docs4.x
 
 <a href="#cautions" class="md-nav__link"><span class="md-ellipsis"> Cautions </span></a>
 
-<a href="../igmp_snooping/" class="md-nav__link"><span class="md-ellipsis"> IGMP Snooping </span></a>
-
 <a href="../hardware_acceleration/" class="md-nav__link"><span class="md-ellipsis"> Hardware Acceleration </span></a>
 
 <a href="../network_acceleration/" class="md-nav__link"><span class="md-ellipsis"> Network Acceleration </span></a>

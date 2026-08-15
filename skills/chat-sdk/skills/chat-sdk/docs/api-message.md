@@ -4,6 +4,10 @@
 title: Message
 description: Normalized message format with text, AST, author, and metadata.
 type: reference
+related:
+  - /docs/handling-events
+  - /docs/subject
+  - /docs/ai/to-ai-messages
 ---
 
 # Message

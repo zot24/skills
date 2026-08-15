@@ -37,7 +37,7 @@ gl-inet/docs4.x
 
 # Tailscale<a href="#tailscale" class="headerlink" title="Permanent link">¶</a>
 
-Tailscale is a VPN service that makes the devices and applications you own accessible anywhere in the world, securely and effortlessly. For more information about Tailscale, please visit [Tailscale official website](https://tailscale.com/).
+Tailscale is a VPN service that makes the devices and applications you own accessible anywhere in the world, securely and effortlessly. For more information about Tailscale, please visit <a href="https://tailscale.com/" target="_blank">Tailscale official website</a>.
 
 The Tailscale feature on GL.iNet routers, available since firmware v4.2, allows the router to join a Tailscale virtual network. Once connected, you can access the router remotely, including its WAN and LAN resources.
 
@@ -53,6 +53,9 @@ The Tailscale feature on GL.iNet routers, available since firmware v4.2, allows 
 
 Supported Models
 
+- GL-BE14000 (Flint 4)
+- GL-BE10000 (Slate 7 Pro)
+- GL-MG1300 (Mango 2)
 - GL-E5800 (Mudi 7)
 - GL-MT5000 (Brume 3)
 - GL-MT3600BE (Beryl 7)
@@ -141,7 +144,7 @@ The following is an example of the GL-MT2500.
 
 ## Allow Remote Access WAN<a href="#allow-remote-access-wan" class="headerlink" title="Permanent link">¶</a>
 
-> This feature was renamed to **Advertise WAN Subnets** in firmware v4.9 and later.
+**Note**: This feature was renamed to **Advertise WAN Subnets** in firmware v4.9 and later.
 
 If this option is enabled, resources on the device's WAN side can be accessed through the Tailscale virtual network. Routes take effect only after approval in the Tailscale Admin Console.
 
@@ -173,7 +176,7 @@ Here are the steps to set up this feature.
 
 ## Allow Remote Access LAN<a href="#allow-remote-access-lan" class="headerlink" title="Permanent link">¶</a>
 
-> This feature was renamed to **Advertise LAN Subnets** in firmware v4.9 and later.
+**Note**: This feature was renamed to **Advertise LAN Subnets** in firmware v4.9 and later.
 
 If this option is enabled, resources on the device's LAN side can be accessed through the Tailscale virtual network. Routes take effect only after approval in the Tailscale Admin Console.
 
@@ -263,7 +266,7 @@ Here are the steps to set Leo-Desktop as an Exit Node.
 
 ## Run Exit Node<a href="#run-exit-node" class="headerlink" title="Permanent link">¶</a>
 
-> This feature was introduced in firmware v4.9.
+**Note**: This feature was introduced in firmware v4.9.
 
 Running an exit node on your router allows other devices within your tailnet to route all outbound internet traffic via this router's public IP.
 

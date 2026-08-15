@@ -93,7 +93,7 @@ Define a target portfolio, see how far each holding has drifted, and generate a 
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 Allocation Targets, introduced in **3.5**, lets you define the portfolio you *want*, see how far your actual holdings have **drifted** from it, and generate a **rebalance plan** that tells you exactly what to buy or sell.

@@ -26,8 +26,6 @@ gl-inet/docs4.x
 
 <a href="../scheduled_tasks/" class="md-nav__link"><span class="md-ellipsis"> Scheduled Tasks </span></a>
 
-<a href="../admin_password/" class="md-nav__link"><span class="md-ellipsis"> Admin Password </span></a>
-
 <a href="../display_management/" class="md-nav__link"><span class="md-ellipsis"> Display Management </span></a>
 
 <a href="../usb_power/" class="md-nav__link"><span class="md-ellipsis"> USB &amp; Power </span></a>
@@ -36,11 +34,11 @@ gl-inet/docs4.x
 
 <a href="../toggle_button_settings/" class="md-nav__link"><span class="md-ellipsis"> Toggle Button Settings </span></a>
 
-<a href="../log/" class="md-nav__link"><span class="md-ellipsis"> Log </span></a>
-
 <a href="../security/" class="md-nav__link"><span class="md-ellipsis"> Security </span></a>
 
 <a href="../reset_firmware/" class="md-nav__link"><span class="md-ellipsis"> Reset Firmware </span></a>
+
+<a href="../log/" class="md-nav__link"><span class="md-ellipsis"> Log </span></a>
 
 <a href="../advanced_settings/" class="md-nav__link"><span class="md-ellipsis"> Advanced Settings </span></a>
 

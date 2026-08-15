@@ -93,7 +93,7 @@ Understand the two ways to track your investment accounts in Wealthfolio.
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 Wealthfolio offers two ways to track your investment accounts. The choice comes down to how much detail you want to maintain and what metrics matter to you.
 

@@ -62,6 +62,25 @@ export async function POST(request: Request) {
 }
 ```
 
+## XChat Adapter vs X Adapter
+
+Both adapters ship from [`@chat-adapter/x`](https://www.npmjs.com/package/@chat-adapter/x), but they target different X surfaces and use different factories.
+
+Use this **XChat** adapter (`createXchatAdapter` from `@chat-adapter/x/chat`) when you want:
+
+* Encrypted XChat 1:1 and group conversations
+* Typing indicators, read receipts, and emoji reactions
+* Crypto handled inside the adapter (Juicebox PIN, key exchange, signed messages)
+
+Use the [**X** adapter](/adapters/official/x) (`createXAdapter` from `@chat-adapter/x`) when you want:
+
+* Public timeline mentions and replies (`post.mention.create`)
+* Classic (unencrypted) direct messages
+* Posting from the bot account to the public timeline (`x:public`)
+* Likes as reactions
+
+You can register both adapters on the same `Chat` instance if your bot needs encrypted XChat and public posts/DMs.
+
 ## Configuration
 
 
@@ -142,7 +161,24 @@ The adapter can edit and delete only the bot's own messages. The first edit of a
 
 ### Read receipts and typing
 
-A read receipt is sent for each delivered inbound message before handlers run unless `sendReadReceipts: false`. The typing indicator is re-sent every 3 seconds while a handler runs.
+A read receipt is sent for each delivered inbound message before handlers run unless `sendReadReceipts: false`. To control the timing yourself, disable automatic receipts and call `thread.markAsRead()` in the handler. XChat advances the conversation's read watermark through the target message sequence. The typing indicator is re-sent every 3 seconds while a handler runs.
+
+```typescript
+const xchat = createXchatAdapter({ sendReadReceipts: false });
+
+const bot = new Chat({
+  userName: "mybot",
+  adapters: { xchat },
+});
+
+bot.onDirectMessage(async (thread) => {
+  await thread.markAsRead();
+});
+```
+
+Automatic receipts never interrupt a handler, since a failure is logged and swallowed. A `thread.markAsRead()` call you make yourself rejects on failure, so await it or attach a `.catch()`.
+
+When a delivered message has no sequence id, such as an event the adapter could not decrypt, the watermark advances to the latest event in the conversation. When only an explicit message id is available, the adapter replays recent history and rejects if it cannot resolve that exact message rather than advancing through newer messages.
 
 ### Thread ID format
 

@@ -93,7 +93,7 @@ Track tax-advantaged contribution caps and remaining room across accounts.
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 Most tax-advantaged accounts — RRSPs, TFSAs, IRAs, 401(k)s, ISAs, PEAs — have a yearly cap on how much you can contribute. Wealthfolio tracks those caps for you, sums up what counts as a contribution, and tells you how much room you have left.

@@ -9,6 +9,9 @@ prerequisites:
 related:
   - /docs/handling-events
   - /docs/posting-messages
+  - /docs/api/thread
+  - /docs/api/channel
+  - /docs/subject
 ---
 
 # Threads, Messages, and Channels
@@ -91,6 +94,29 @@ await thread.startTyping();
   Not all platforms support typing indicators. The call is a no-op on unsupported platforms. See the [adapter feature matrix](/docs/platform-adapters) for details.
 
 
+### Mark as read
+
+Inside a message handler, mark the current inbound message as read without passing platform-specific IDs:
+
+```typescript title="lib/bot.ts"
+bot.onDirectMessage(async (thread) => {
+  await thread.markAsRead();
+});
+```
+
+You can pass a `Message` or message ID when you need an explicit target:
+
+```typescript
+await thread.markAsRead(message);
+await thread.markAsRead(message.id);
+```
+
+Platforms may advance the conversation's read state through the target message, which also marks earlier messages as read.
+
+
+  WhatsApp, Messenger, and XChat support marking messages as read. Other adapters throw `NotImplementedError`. See the [adapter feature matrix](/docs/platform-adapters) for details.
+
+
 ### Message history
 
 Access recent messages or iterate through full history:
@@ -161,17 +187,18 @@ await scheduled.cancel();
 
 Incoming messages are normalized across platforms into a consistent format:
 
-| Property      | Type                      | Description                                  |
-| ------------- | ------------------------- | -------------------------------------------- |
-| `id`          | `string`                  | Platform message ID                          |
-| `threadId`    | `string`                  | Thread ID in `adapter:channel:thread` format |
-| `text`        | `string`                  | Plain text content                           |
-| `formatted`   | `Root`                    | mdast AST representation                     |
-| `raw`         | `unknown`                 | Original platform-specific payload           |
-| `author`      | `Author`                  | Message author info                          |
-| `metadata`    | `MessageMetadata`         | Timestamps and edit status                   |
-| `attachments` | `Attachment[]` (optional) | File attachments                             |
-| `isMention`   | `boolean` (optional)      | Whether the bot was @-mentioned              |
+| Property      | Type                      | Description                                                              |
+| ------------- | ------------------------- | ------------------------------------------------------------------------ |
+| `id`          | `string`                  | Platform message ID                                                      |
+| `threadId`    | `string`                  | Thread ID in `adapter:channel:thread` format                             |
+| `text`        | `string`                  | Plain text content                                                       |
+| `formatted`   | `Root`                    | mdast AST representation                                                 |
+| `raw`         | `unknown`                 | Original platform-specific payload                                       |
+| `author`      | `Author`                  | Message author info                                                      |
+| `metadata`    | `MessageMetadata`         | Timestamps and edit status                                               |
+| `attachments` | `Attachment[]` (optional) | File attachments                                                         |
+| `replyTo`     | `Message` (optional)      | Normalized message this message replies to, when provided by the adapter |
+| `isMention`   | `boolean` (optional)      | Whether the bot was @-mentioned                                          |
 
 ### Author
 

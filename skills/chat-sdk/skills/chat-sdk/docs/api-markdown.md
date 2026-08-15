@@ -4,6 +4,9 @@
 title: Markdown
 description: AST builder functions and utilities for programmatic message formatting.
 type: reference
+related:
+  - /docs/posting-messages
+  - /docs/emoji
 ---
 
 # Markdown

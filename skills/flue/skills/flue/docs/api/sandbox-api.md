@@ -21,36 +21,38 @@ Start typing to search the documentation.
 Last updated Jul 21, 2026<a href="/docs/reference/sandbox-api/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
-A sandbox adapter wraps an execution environment — a provider SDK, a container, the host machine, an in-memory emulation — into the factory contract that [`useSandbox(...)`](/docs/reference/agent-hooks-api/#usesandbox) accepts. This page documents that contract: the `SandboxFactory` interface, the `SessionEnv` surface an adapter must produce, the helpers that produce it from simpler shapes, the adapter tool factory, and the built-in factories. For choosing and using sandboxes, see the [Sandboxes guide](/docs/guide/sandboxes/); for the catalog of supported providers, see [Sandboxes in the Ecosystem](/docs/ecosystem/#sandboxes).
+A sandbox adapter wraps an execution environment — a provider SDK, a container, the host machine, an in-memory emulation — into the factory contract that [`useSandbox(...)`](/docs/reference/agent-hooks-api/#usesandbox) accepts. This page documents that contract: the `SandboxFactory` interface, the `Sandbox` surface an adapter must produce, the helpers that produce it from simpler shapes, the adapter tool factory, and the built-in factories. For choosing and using sandboxes, see the [Sandboxes guide](/docs/guide/sandboxes/); for the catalog of supported providers, see [Sandboxes in the Ecosystem](/docs/ecosystem/#sandboxes).
 
-All symbols on this page are exported from `@flue/runtime`, except `local()` (from `@flue/runtime/node`) and `cloudflareSandbox()` (from `@flue/runtime/cloudflare`).
+**The model never calls this surface.** An agent’s model-facing file and shell capabilities are the built-in tools — `read` with offset/limit paging, `edit` string replacement, `grep`, `glob` — built on top of it and documented in [Agent Behavior](/docs/reference/agent-behavior/#built-in-tools). This page is for the two audiences underneath: adapter authors implementing a provider, and application code scripting the environment through [`harness.sandbox`](/docs/reference/agent-api/#harnesssandbox).
+
+All symbols on this page are exported from `@flue/runtime`, except `local()` (from `@flue/runtime/node`) and `cloudflareSandbox()` (from `@flue/runtime/cloudflare`). The former names — `SessionEnv`, `SandboxApi`, `SessionToolFactory`, `createSandboxSessionEnv`, and the factory method `createSessionEnv` — remain available as deprecated aliases, so existing adapters keep compiling and running unchanged.
 
 ## `SandboxFactory`
 
 ``` astro-code
 interface SandboxFactory {
-  createSessionEnv(options: { id: string }): Promise<SessionEnv>;
-  tools?: SessionToolFactory;
+  createSandbox(options: { id: string }): Promise<Sandbox>;
+  tools?: SandboxToolFactory;
 }
 ```
 
-The value passed to `useSandbox(...)` or composed into an agent’s `sandbox:` config. The factory object itself is cheap to construct — agents build a fresh one on every render. All expensive work belongs inside `createSessionEnv()`.
+The value passed to `useSandbox(...)` or composed into an agent’s `sandbox:` config. The factory object itself is cheap to construct — agents build a fresh one on every render. All expensive work belongs inside `createSandbox()`.
 
-- `createSessionEnv(options)` — builds the environment. Called once per initialized harness — one call per `init()` — and every session and task session of that harness shares the returned env. Re-renders never rebuild the environment. A rejection fails the agent’s initialization.
+- `createSandbox(options)` — builds the environment. Called once per initialized harness — one call per `init()` — and every session and task session of that harness shares the returned sandbox. Re-renders never rebuild the environment. A rejection fails the agent’s initialization.
 - `options.id` — the agent instance id (`ctx.id`). Multiple harnesses initialized in the same context receive the same `id`, so an adapter that keys provider resources on `id` must tolerate repeated calls with the same value. Keying a provider workspace on `id` is how a conversation gets a durable filesystem across messages and restarts.
-- `tools` — optional. When present, replaces the framework’s default model-facing tool set for this sandbox. See [`SessionToolFactory`](#sessiontoolfactory).
+- `tools` — optional. When present, replaces the framework’s default model-facing tool set for this sandbox. See [`SandboxToolFactory`](#sandboxtoolfactory).
 
-A minimal adapter over a provider SDK, using [`createSandboxSessionEnv`](#createsandboxsessionenvapi-cwd-options) to supply the generic path and abort plumbing:
+A minimal adapter over a provider SDK, using [`sandboxFromDriver`](#sandboxfromdriverdriver-cwd-options) to supply the generic path and abort plumbing:
 
 ``` astro-code
-import { createSandboxSessionEnv, type SandboxApi, type SandboxFactory } from '@flue/runtime';
+import { sandboxFromDriver, type SandboxDriver, type SandboxFactory } from '@flue/runtime';
 
 export function myProvider(client: MyProviderClient): SandboxFactory {
   return {
-    async createSessionEnv({ id }) {
+    async createSandbox({ id }) {
       const sandbox = await client.findOrCreate(id);
-      const api: SandboxApi = {/* map each SandboxApi method to the provider SDK */};
-      return createSandboxSessionEnv(api, '/workspace');
+      const driver: SandboxDriver = {/* map each SandboxDriver method to the provider SDK */};
+      return sandboxFromDriver(driver, '/workspace');
     },
   };
 }
@@ -60,20 +62,21 @@ What the contract deliberately does not include:
 
 - **No teardown verb.** There is no `dispose()` or lifecycle callback. Flue connects to what the factory hands it and never creates, reuses, or destroys provider infrastructure on its own — provisioning and deletion belong to the application (typically inside the factory, or in application code around it). An adapter must not call the provider’s `delete()`/`terminate()`/`kill()` on the application’s behalf.
 - **No per-message rebuild.** The environment is resolved once per initialized harness. An adapter cannot observe individual messages or turns.
+- **Legacy method name.** Factories implementing the pre-rename `createSessionEnv` still work: the runtime calls it when `createSandbox` is absent (with a one-time deprecation warning). New adapters should implement `createSandbox`.
 - **No identity beyond `id`.** The factory receives the instance id and nothing else — no conversation content, no request data. Anything else an adapter needs must be captured in the closure that built the factory.
 
 ### `useSandbox` `cwd` scoping
 
-When the agent passes `useSandbox(factory, { cwd })`, the runtime wraps the adapter’s env in a scoping layer after `createSessionEnv()` resolves. The adapter is not involved and must not apply an agent’s `cwd` itself:
+When the agent passes `useSandbox(factory, { cwd })`, the runtime wraps the adapter’s sandbox in a scoping layer after `createSandbox()` resolves. The adapter is not involved and must not apply an agent’s `cwd` itself:
 
 - The `cwd` value is resolved through the adapter env’s own `resolvePath` (so a relative value resolves against the adapter’s base directory), then POSIX-normalized.
 - The wrapper resolves all relative file paths against the scoped `cwd`, defaults `exec`’s working directory to it, and resolves a relative per-call `exec` `cwd` against it.
-- The wrapper exposes only the standard `SessionEnv` members. Extra properties an adapter attached to its env (a [native surface](#extending-sessionenv)) are not forwarded — agents that need the native surface must not set a `cwd` override on `useSandbox`.
+- The wrapper exposes only the standard `Sandbox` members. Extra properties an adapter attached to its sandbox (a [native surface](#extending-sandbox)) are not forwarded — agents that need the native surface must not set a `cwd` override on `useSandbox`.
 
-## `SessionEnv`
+## `Sandbox`
 
 ``` astro-code
-interface SessionEnv {
+interface Sandbox {
   exec(
     command: string,
     options?: {
@@ -98,9 +101,9 @@ interface SessionEnv {
 }
 ```
 
-The universal environment interface. Every sandbox mode — virtual, local, remote — implements it, so core logic never branches on mode. The same object is exposed to application code as [`harness.sandbox`](/docs/reference/agent-api/#harnesssandbox), and the standard model-facing tools operate through it. Operations on it are never recorded in the conversation.
+The agent’s live sandbox: the universal environment interface. Every sandbox mode — virtual, local, remote — implements it, so core logic never branches on mode. The same object is exposed to application code as [`harness.sandbox`](/docs/reference/agent-api/#harnesssandbox), and the standard model-facing tools operate through it. Operations on it are never recorded in the conversation.
 
-Most adapters should not implement this interface by hand: [`createSandboxSessionEnv`](#createsandboxsessionenvapi-cwd-options) (over a provider SDK) and [`bash()`](#bashfactory) (over a just-bash instance) produce conforming envs from smaller surfaces. The contract below is what those wrappers guarantee, and what a hand-written implementation must reproduce.
+Most adapters should not implement this interface by hand: [`sandboxFromDriver`](#sandboxfromdriverdriver-cwd-options) (over a provider SDK) and [`bash()`](#bashfactory) (over a just-bash instance) produce conforming sandboxes from smaller surfaces. The contract below is what those wrappers guarantee, and what a hand-written implementation must reproduce.
 
 ### Path semantics
 
@@ -117,14 +120,14 @@ Runs a shell command and resolves with its output.
 - `options.cwd` — working directory for this command. A relative value resolves against `env.cwd`; when omitted, the command runs in `env.cwd`.
 - `options.env` — environment variables supplied to the command, layered on top of whatever base environment the adapter defines.
 - `options.timeoutMs` — wall-clock deadline hint in milliseconds, and the primary cancellation contract. Forward it to the provider’s native timeout option (E2B `timeoutMs`, Daytona `timeout`, Modal `timeout`, and so on) so signal-blind providers still observe the deadline. Providers with coarser granularity may round the value up, never down.
-- `options.signal` — cancellation. Aborting rejects the returned promise promptly with an `AbortError` (`DOMException`) carrying the signal’s reason as `cause` — never gated on the remote command’s settlement. An adapter whose provider can cancel mid-flight does so, so the rejection is exact; one that can’t leaves the command running as an **orphan** that keeps executing (and mutating the workspace) after the rejection, its eventual result discarded rather than surfacing later. The `AbortError` message says so. See [`createSandboxSessionEnv`](#createsandboxsessionenvapi-cwd-options) for how the wrapper implements this and how to observe an orphan’s settlement.
+- `options.signal` — cancellation. Aborting rejects the returned promise promptly with an `AbortError` (`DOMException`) carrying the signal’s reason as `cause` — never gated on the remote command’s settlement. An adapter whose provider can cancel mid-flight does so, so the rejection is exact; one that can’t leaves the command running as an **orphan** that keeps executing (and mutating the workspace) after the rejection, its eventual result discarded rather than surfacing later. The `AbortError` message says so. See [`sandboxFromDriver`](#sandboxfromdriverdriver-cwd-options) for how the wrapper implements this and how to observe an orphan’s settlement.
 - `timeoutMs` and `signal` are independent. Callers with a deadline that also want ad-hoc cancellation pass both; adapters that support both should observe whichever fires first. The standard `bash` tool passes both whenever the model requests a timeout.
 
 ### File verbs
 
 - `readFile(path)` — reads a UTF-8 file. Throws if the path does not exist or is not a file.
 - `readFileBuffer(path)` — reads raw bytes.
-- `writeFile(path, content)` — creates or replaces a file. Must create missing parent directories — this is a cross-mode guarantee (`fs.writeFile('out/nested/report.md', …)` never requires a prior `mkdir`). `createSandboxSessionEnv`, `bash()`, and `local()` all implement it by retrying a failed write once after `mkdir -p` on the parent; a hand-written env must provide the same guarantee.
+- `writeFile(path, content)` — creates or replaces a file. Must create missing parent directories — this is a cross-mode guarantee (`fs.writeFile('out/nested/report.md', …)` never requires a prior `mkdir`). `sandboxFromDriver`, `bash()`, and `local()` all implement it by retrying a failed write once after `mkdir -p` on the parent; a hand-written sandbox must provide the same guarantee.
 - `stat(path)` — file metadata. Throws if the path does not exist.
 - `readdir(path)` — directory entry names (names only, no paths). Throws if the path is not a directory.
 - `exists(path)` — `true` if a file or directory exists. Never throws.
@@ -158,32 +161,32 @@ interface FileStat {
 - `isSymbolicLink`, `size`, and `mtime` are omitted when the provider does not expose them. Adapters must never fabricate placeholder values (`new Date()`, `0`, `false`) — callers cannot distinguish them from real metadata.
 - For symlinks, `isFile`/`isDirectory`/`size`/`mtime` describe the target and `isSymbolicLink` describes the path itself (the semantics of `stat -L` plus a non-following check; `local()` and the Cloudflare Sandbox adapter both implement this).
 
-### Extending `SessionEnv`
+### Extending `Sandbox`
 
-An adapter may return an env with additional properties — a native surface beyond the generic verbs. `harness.sandbox` exposes the object exactly as returned, so an adapter package can ship a runtime-checked accessor that narrows to it (the Cloudflare Shell adapter’s `shellWorkspace(harness.sandbox)` returns its `Workspace` this way). Two constraints:
+An adapter may return a sandbox with additional properties — a native surface beyond the generic verbs. `harness.sandbox` exposes the object exactly as returned, so an adapter package can ship a runtime-checked accessor that narrows to it (the Cloudflare Computer adapter’s `computerWorkspace(harness.sandbox)` returns its `Workspace` this way). Two constraints:
 
-- A `cwd` override on `useSandbox` wraps the env and drops extra properties ([above](#usesandbox-cwd-scoping)).
-- An env that cannot execute commands should still ship all file verbs and throw from `exec` — and pair the sandbox with a [`tools`](#sessiontoolfactory) list that omits the exec-backed standard tools.
+- A `cwd` override on `useSandbox` wraps the sandbox and drops extra properties ([above](#usesandbox-cwd-scoping)).
+- A sandbox that cannot execute commands should still ship all file verbs and throw from `exec` — and pair the sandbox with a [`tools`](#sandboxtoolfactory) list that omits the exec-backed standard tools.
 
-## `createSandboxSessionEnv(api, cwd, options?)`
+## `sandboxFromDriver(driver, cwd, options?)`
 
 ``` astro-code
-function createSandboxSessionEnv(
-  api: SandboxApi,
+function sandboxFromDriver(
+  driver: SandboxDriver,
   cwd: string,
   options?: { onOrphanSettled?: (settlement: OrphanedExecSettlement) => void },
-): SessionEnv;
+): Sandbox;
 ```
 
-Wraps a `SandboxApi` — the minimal surface a remote provider adapter implements — into a conforming `SessionEnv`. The wrapper supplies:
+Wraps a `SandboxDriver` — the minimal interface a remote provider adapter implements — into a conforming `Sandbox`. The wrapper supplies:
 
-- Path resolution: relative file paths and relative/absent `exec` working directories resolve against `cwd`, POSIX-normalized. The `api` methods always receive absolute paths.
-- The `writeFile` parent-creation guarantee: a failed write is retried once after `api.mkdir(parent, { recursive: true })`; when the retry still fails, the retried write’s error propagates.
-- The `exec` abort race: an already-aborted signal rejects with `AbortError` before `api.exec` is called. An abort that fires mid-flight rejects promptly too — the wrapper never waits on `api.exec`’s own settlement to decide the caller’s outcome, whether or not the adapter wired `signal` into its SDK. The adapter only needs to forward `signal` when its SDK has a real cancellation primitive; the abort race and the promise-consumption below apply either way.
+- Path resolution: relative file paths and relative/absent `exec` working directories resolve against `cwd`, POSIX-normalized. The `driver` methods always receive absolute paths.
+- The `writeFile` parent-creation guarantee: a failed write is retried once after `driver.mkdir(parent, { recursive: true })`; when the retry still fails, the retried write’s error propagates.
+- The `exec` abort race: an already-aborted signal rejects with `AbortError` before `driver.exec` is called. An abort that fires mid-flight rejects promptly too — the wrapper never waits on `driver.exec`’s own settlement to decide the caller’s outcome, whether or not the adapter wired `signal` into its SDK. The adapter only needs to forward `signal` when its SDK has a real cancellation primitive; the abort race and the promise-consumption below apply either way.
 
 ### Orphaned commands
 
-When an abort fires before `api.exec`’s promise has settled, that promise becomes an **orphaned command**: the caller has already been released with an `AbortError`, but the provider call keeps running until it settles on its own. A cancel-capable adapter that forwards `signal` still produces one of these — the window just shrinks from the command’s remaining duration down to the SDK’s cancellation latency, since the wrapper’s rejection always races ahead of that confirmation.
+When an abort fires before `driver.exec`’s promise has settled, that promise becomes an **orphaned command**: the caller has already been released with an `AbortError`, but the provider call keeps running until it settles on its own. A cancel-capable adapter that forwards `signal` still produces one of these — the window just shrinks from the command’s remaining duration down to the SDK’s cancellation latency, since the wrapper’s rejection always races ahead of that confirmation.
 
 An orphan’s eventual settlement — fulfillment or rejection — is never appended to the conversation; the abort already stands as the command’s terminal result, and a second outcome arriving later would violate reducer invariants. It’s consumed here so it can’t surface as an unhandled rejection, and reported only through `options.onOrphanSettled`:
 
@@ -200,10 +203,10 @@ interface OrphanedExecSettlement {
 
 `error` carries whatever the orphaned call eventually rejected with — a late `SandboxDiedError` included. Without `onOrphanSettled`, the settlement is simply discarded; adapters that want to log, bill, or reap an orphaned remote process out-of-band use the callback to do so.
 
-### `SandboxApi`
+### `SandboxDriver`
 
 ``` astro-code
-interface SandboxApi {
+interface SandboxDriver {
   readFile(path: string): Promise<string>;
   readFileBuffer(path: string): Promise<Uint8Array>;
   writeFile(path: string, content: string | Uint8Array): Promise<void>;
@@ -224,7 +227,7 @@ interface SandboxApi {
 }
 ```
 
-Identical to the corresponding `SessionEnv` members except that paths arrive pre-resolved (absolute) and the `writeFile` parent guarantee is handled by the wrapper.
+Identical to the corresponding `Sandbox` members except that paths arrive pre-resolved (absolute) and the `writeFile` parent guarantee is handled by the wrapper.
 
 File-verb implementation notes:
 
@@ -238,16 +241,16 @@ File-verb implementation notes:
 
 - Honor `timeoutMs` by forwarding it to the provider SDK’s native timeout option, converting units and rounding up — never down — when the provider is coarser (a whole-seconds provider forwards `Math.ceil(timeoutMs / 1000)`). It stays the provider-primary deadline regardless of `signal`: it’s what protects a signal-blind caller, and a caller that never aborts at all.
 - An adapter that enforces the deadline itself resolves an expired command as a `ShellResult` with `exitCode: 124` and the timeout details on `stderr` — the `timeout(1)` convention the shipped adapters follow. Rejection stays reserved for `signal` aborts.
-- Forward `signal` when the SDK has a real cancellation primitive (an `AbortSignal` option, a process kill, a cancel token) — doing so shrinks the orphan window from the command’s remaining duration down to the SDK’s cancellation latency. Confirm the cancellation actually takes effect; a `signal` that’s accepted but not honored is worse than not forwarding it, since it advertises a kill the command never receives. Don’t implement a second abort race around the call (a local `Promise.race`, or the adapter’s own pre/post `signal.aborted` checks) — `createSandboxSessionEnv` already races `signal` against `api.exec`’s promise and owns the caller-facing rejection; a second race only duplicates it while leaving the orphan bookkeeping unable to tell which one fired.
+- Forward `signal` when the SDK has a real cancellation primitive (an `AbortSignal` option, a process kill, a cancel token) — doing so shrinks the orphan window from the command’s remaining duration down to the SDK’s cancellation latency. Confirm the cancellation actually takes effect; a `signal` that’s accepted but not honored is worse than not forwarding it, since it advertises a kill the command never receives. Don’t implement a second abort race around the call (a local `Promise.race`, or the adapter’s own pre/post `signal.aborted` checks) — `sandboxFromDriver` already races `signal` against `driver.exec`’s promise and owns the caller-facing rejection; a second race only duplicates it while leaving the orphan bookkeeping unable to tell which one fired.
 - When the provider does not expose `stderr` separately, return `''` for it. Report `exitCode: 0` only for a clearly successful call.
 
-Liveness contract (all `SandboxApi` methods):
+Liveness contract (all `SandboxDriver` methods):
 
 - An adapter should ensure in-flight operations settle when the sandbox dies, by whatever mechanism its provider SDK supports — native rejection of in-flight calls, or polling a cheap control-plane status read while a call is pending. The first-party Cloudflare adapter implements the polling shape internally.
 - An adapter with no such mechanism carries an accepted limitation: when the provider transport never settles a call after the sandbox dies, that call may hang until the surrounding operation is aborted.
 - There is deliberately no per-command deadline in this contract. Agent commands are legitimately unbounded; `timeoutMs` is the command’s own deadline, not an infrastructure liveness bound.
 - An adapter that detects sandbox death should reject with `SandboxDiedError` (`type: 'sandbox_died'`, exported from `@flue/runtime`), so shell classification reports an infrastructure failure rather than caller cancellation.
-- Liveness detection and caller abort are separate concerns implemented at different layers, and a death detector must not blur them: it races the sandbox’s liveness signal against the in-flight provider call and nothing else. `createSandboxSessionEnv` already races `signal` one layer up and consumes the provider promise’s eventual settlement once the caller has been released, so a death detector that also listens for `signal` produces two rejections competing for the same promise. The first-party Cloudflare adapter’s death detector follows this split — liveness-only, with the caller-abort race left entirely to the wrapper it builds on.
+- Liveness detection and caller abort are separate concerns implemented at different layers, and a death detector must not blur them: it races the sandbox’s liveness signal against the in-flight provider call and nothing else. `sandboxFromDriver` already races `signal` one layer up and consumes the provider promise’s eventual settlement once the caller has been released, so a death detector that also listens for `signal` produces two rejections competing for the same promise. The first-party Cloudflare adapter’s death detector follows this split — liveness-only, with the caller-abort race left entirely to the wrapper it builds on.
 
 ## `bash(factory)`
 
@@ -261,8 +264,8 @@ Wraps a [just-bash](https://github.com/vercel-labs/just-bash) `Bash` instance in
 
 - The factory function is called once, when the runtime initializes the agent.
 - The returned value is duck-type checked (`exec`, `getCwd`, and an `fs` object). A wrong value throws `Error('[flue] BashFactory must return a Bash-like object.')`.
-- The env’s `cwd` is the instance’s `getCwd()` (just-bash defaults to `/home/user` when constructed without `cwd` or `files`).
-- just-bash has no native timeout option, so the wrapper translates `exec`’s `timeoutMs` into an `AbortSignal` and merges it with the caller’s signal. Pre- and post-call abort checks apply as in `createSandboxSessionEnv`.
+- The sandbox’s `cwd` is the instance’s `getCwd()` (just-bash defaults to `/home/user` when constructed without `cwd` or `files`).
+- just-bash has no native timeout option, so the wrapper translates `exec`’s `timeoutMs` into an `AbortSignal` and merges it with the caller’s signal. Pre- and post-call abort checks apply as in `sandboxFromDriver`.
 - The `writeFile` parent-creation guarantee is applied over the instance’s `fs`.
 
 `BashLike` is a structural type (no just-bash import in `@flue/runtime`), exported for adapter authors who construct compatible runtimes:
@@ -288,12 +291,12 @@ interface BashLike {
 }
 ```
 
-## `SessionToolFactory`
+## `SandboxToolFactory`
 
 ``` astro-code
-type SessionToolFactory = (env: SessionEnv, options: SessionToolFactoryOptions) => AgentTool<any>[];
+type SandboxToolFactory = (sandbox: Sandbox, options: SandboxToolFactoryOptions) => AgentTool<any>[];
 
-interface SessionToolFactoryOptions {
+interface SandboxToolFactoryOptions {
   subagents: Record<string, SubagentDefinition>;
 }
 ```
@@ -301,7 +304,7 @@ interface SessionToolFactoryOptions {
 An optional `tools` function on a `SandboxFactory`. When present, its return value **replaces** the framework’s default six-tool set (`read`, `write`, `edit`, `bash`, `grep`, `glob`) for agents on this sandbox. Compose the replacement from the [standard tool factories](#the-standard-tool-factories) plus the sandbox’s own native tools rather than rebuilding from scratch — an exec-less sandbox, for example, lists the three file tools and its own executor tool.
 
 - Must be synchronous and return a fresh array on every call. It is invoked each time the runtime assembles the model’s tool list — at initialization and again at every turn boundary — not once.
-- `env` — the session environment, with the [packaged-skill overlay](#packaged-skill-overlays) layered onto `readFile`. This is not the identical object `harness.sandbox` exposes; tools that hold the env in a closure read packaged-skill paths transparently.
+- `sandbox` — the live sandbox, with the [packaged-skill overlay](#packaged-skill-overlays) layered onto `readFile`. This is not the identical object `harness.sandbox` exposes; tools that hold the sandbox in a closure read packaged-skill paths transparently.
 - `options.subagents` — the agent’s current subagent roster, keyed by name. Provided for adapters whose tools describe or constrain delegation.
 
 The replacement covers only the framework’s built-in group. Unaffected by it:
@@ -328,77 +331,25 @@ interface AgentTool<TParameters extends TSchema = TSchema, TDetails = any> {
 }
 ```
 
-`execute` throws on failure rather than encoding errors in `content`. The standard factories return values of this type; typing a factory as `SessionToolFactory` checks a hand-written tool against it.
+`execute` throws on failure rather than encoding errors in `content`. The standard factories return values of this type; typing a factory as `SandboxToolFactory` checks a hand-written tool against it.
 
 ## The standard tool factories
 
 ``` astro-code
-function createReadTool(env: SessionEnv): AgentTool;
-function createWriteTool(env: SessionEnv): AgentTool;
-function createEditTool(env: SessionEnv): AgentTool;
-function createBashTool(env: SessionEnv): AgentTool;
-function createGrepTool(env: SessionEnv): AgentTool;
-function createGlobTool(env: SessionEnv): AgentTool;
+function createReadTool(sandbox: Sandbox): AgentTool;
+function createWriteTool(sandbox: Sandbox): AgentTool;
+function createEditTool(sandbox: Sandbox): AgentTool;
+function createBashTool(sandbox: Sandbox): AgentTool;
+function createGrepTool(sandbox: Sandbox): AgentTool;
+function createGlobTool(sandbox: Sandbox): AgentTool;
 ```
 
-One factory per standard model-facing tool, each closing over a `SessionEnv`. These are exactly the tools the framework installs when a sandbox has no `tools` function; exporting them per-tool lets an adapter’s `SessionToolFactory` add, drop, or swap members without rebuilding the set. `createReadTool`, `createWriteTool`, and `createEditTool` need only the file verbs; `createBashTool`, `createGrepTool`, and `createGlobTool` require a working `env.exec`.
+One factory per standard model-facing tool, each closing over a `Sandbox`. These are exactly the tools the framework installs when a sandbox has no `tools` function; exporting them per-tool lets an adapter’s `SandboxToolFactory` add, drop, or swap members without rebuilding the set. The tools’ model-facing behavior — parameters, truncation limits, error shapes, continuation markers — is documented in [Agent Behavior](/docs/reference/agent-behavior/#built-in-tools). What matters when composing them:
 
-### `createReadTool(env)`
-
-The `read` tool. Reads via `env.readFile`; output is truncated to 2000 lines or 50 KB, whichever is hit first.
-
-- `path` — file to read.
-- `offset` — line number to start from, 1-indexed. Optional. An offset past the end of the file throws.
-- `limit` — maximum number of lines. Optional.
-
-Truncated output ends with a marker naming the shown line range and the offset to continue from.
-
-### `createWriteTool(env)`
-
-The `write` tool. Writes via `env.writeFile` (parent directories created per the env guarantee).
-
-- `path` — file to write.
-- `content` — full file content.
-
-Same-file mutations within one parallel tool batch are serialized through a per-resolved-path lock shared with `edit`, so a shorter write finishing after a longer one cannot leave corrupt tail bytes. Paths are canonicalized through `env.resolvePath`; a `bash` command mutating the same file concurrently is not synchronized.
-
-### `createEditTool(env)`
-
-The `edit` tool. Exact-text replacement: reads the file, replaces, writes back — the whole transaction under the same per-path lock as `write`.
-
-- `path` — file to edit.
-- `oldText` — exact text to find. An empty string throws. Zero occurrences throws a “could not find” error; more than one occurrence throws and asks for more context, unless `replaceAll` is set.
-- `newText` — replacement text.
-- `replaceAll` — replace every occurrence. Optional.
-
-### `createBashTool(env)`
-
-The `bash` tool. Executes via `env.exec`; stdout and stderr are combined and truncated to the last 2000 lines or 50 KB.
-
-- `command` — the shell command.
-- `timeout` — deadline in **seconds** (model-facing convention). Optional. Converted to `timeoutMs` for the env, and additionally composed into the abort signal as a backstop for envs that ignore both cancellation fields.
-
-On timeout, the tool returns a recoverable `ShellResult`-shaped output with `exitCode: 124` and the message `[flue] Command timed out after N seconds.` — the model can react to it. On host abort it rethrows, so the outer operation cancels.
-
-### `createGrepTool(env)`
-
-The `grep` tool. Searches file contents by running `rg` — or `grep -rnH` where `rg` is unavailable — through `env.exec`. The backend is probed once per environment (`rg --version`, 10-second deadline) and cached.
-
-- `pattern` — regex to search for.
-- `path` — directory or file to search. Optional; defaults to `.`.
-- `include` — glob filter, e.g. `"*.ts"`. Optional.
-- `literal` — match the pattern as literal text. Optional.
-
-Output is capped at 100 matches; individual lines are truncated to 500 characters. A backend exit code above 1 throws with the backend’s stderr.
-
-### `createGlobTool(env)`
-
-The `glob` tool. Finds files by name pattern with `find <path> -type f -name <pattern>` through `env.exec`.
-
-- `pattern` — filename pattern with `find -name` semantics.
-- `path` — directory to search. Optional; defaults to `.`.
-
-Results are capped at 1000 paths.
+- `createReadTool`, `createWriteTool`, and `createEditTool` need only the file verbs; `createBashTool`, `createGrepTool`, and `createGlobTool` require a working `exec` — leave them out for exec-less sandboxes.
+- `read` fetches through `readFile` and slices in the runtime; `edit` is a whole read → replace → write transaction. Same-file mutations from `write`/`edit` within one parallel tool batch are serialized through a per-path lock keyed on `resolvePath`, so two spellings of the same path must resolve to the same string. A `bash` command mutating the same file concurrently is not synchronized.
+- `createBashTool` converts the model’s `timeout` (seconds) to `timeoutMs` for the sandbox and additionally composes it into the abort signal as a backstop for sandboxes that ignore both cancellation fields; a pure timeout surfaces as a recoverable `exitCode: 124` result while a host abort rethrows.
+- `createGrepTool` probes for `rg` once per environment (`rg --version`, 10-second deadline, cached) and falls back to `grep -rnH`; `createGlobTool` shells out to `find -name`.
 
 ## Packaged-skill overlays
 

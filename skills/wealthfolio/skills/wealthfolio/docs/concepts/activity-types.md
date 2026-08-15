@@ -93,7 +93,7 @@ How Wealthfolio models trades, cash flows, income, transfers, subtypes, and posi
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 Activities are the atomic events that drive portfolio state in Wealthfolio—every trade, cash movement, fee, or corporate action is recorded as an **activity**. Accurate performance, cash-flow, and tax reporting all start with choosing the right activity type.
 

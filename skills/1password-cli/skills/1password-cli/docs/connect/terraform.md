@@ -27,9 +27,6 @@ Use the 1Password Terraform provider with Connect
 <a href="/get-started" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get Started</a>
 
 
-<a href="/tutorials" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tutorials</a>
-
-
 <a href="/security-for-ai" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Security for AI</a>
 
 
@@ -178,21 +175,21 @@ If you don’t see the option to update to the latest beta in the app, you can d
 1.  Open and unlock the <a href="https://1password.com/downloads/" class="link" target="_blank" rel="noreferrer">1Password app</a>.
 2.  Select your account or collection at the top of the sidebar.
 3.  Navigate to **Settings** \> **<a href="onepassword://settings/developers" class="link" target="_blank" rel="noreferrer">Developer</a>**.
-4.  Under Integrate with the 1Password SDKs, select **Integrate with other apps**.
+4.  Under Developer Integrations, select **Integrate with 1Password SDKs**.
 5.  If you want to authenticate with Touch ID, navigate to **Settings** \> **<a href="onepassword://settings/security" class="link" target="_blank" rel="noreferrer">Security</a>**, then turn on **<a href="https://support.1password.com/touch-id-mac/" class="link" target="_blank" rel="noreferrer">Unlock using Touch ID</a>**.
 
 
 1.  Open and unlock the <a href="https://1password.com/downloads/" class="link" target="_blank" rel="noreferrer">1Password app</a>.
 2.  Select your account or collection at the top of the sidebar.
 3.  Navigate to **Settings** \> **<a href="onepassword://settings/developers" class="link" target="_blank" rel="noreferrer">Developer</a>**.
-4.  Under Integrate with the 1Password SDKs, select **Integrate with other apps**.
+4.  Under Developer Integrations, select **Integrate with 1Password SDKs**.
 5.  If you want to authenticate with Windows Hello, navigate to **Settings** \> **<a href="onepassword://settings/security" class="link" target="_blank" rel="noreferrer">Security</a>**, then turn on **<a href="https://support.1password.com/windows-hello/" class="link" target="_blank" rel="noreferrer">Unlock using Windows Hello</a>**.
 
 
 1.  Open and unlock the <a href="https://1password.com/downloads/" class="link" target="_blank" rel="noreferrer">1Password app</a>.
 2.  Select your account or collection at the top of the sidebar.
 3.  Navigate to **Settings** \> **<a href="onepassword://settings/developers" class="link" target="_blank" rel="noreferrer">Developer</a>**.
-4.  Under Integrate with the 1Password SDKs, select **Integrate with other apps**.
+4.  Under Developer Integrations, select **Integrate with 1Password SDKs**.
 5.  If you want to authenticate the same way you sign in to your Linux account, navigate to **Settings** \> **<a href="onepassword://settings/security" class="link" target="_blank" rel="noreferrer">Security</a>**, then turn on **<a href="https://support.1password.com/system-authentication-linux/" class="link" target="_blank" rel="noreferrer">Unlock using system authentication</a>**.
 
 
@@ -1050,9 +1047,6 @@ Related topics
 
 
 Was this page helpful?
-
-
-<a href="/connect/pulumi" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Pulumi</span></a><a href="/connect/api-reference" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">Overview</span></a>
 
 
 Responses are generated using AI and may contain mistakes.

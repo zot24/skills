@@ -15,115 +15,104 @@ Start typing to search the documentation.
 <a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
-# Cloudflare Shell
+# Cloudflare Computer
 
 
-Last updated Jul 21, 2026<a href="/docs/ecosystem/sandboxes/cloudflare-shell/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
+Last updated Aug 4, 2026<a href="/docs/ecosystem/sandboxes/cloudflare-computer/index.md" class="inline-flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-800">View as Markdown</a>
 
 
-The Cloudflare Shell adapter adapts an application-owned `@cloudflare/shell` `Workspace` into a Flue sandbox on the Cloudflare target. Unlike a Linux shell sandbox, it provides a durable workspace. The model keeps the standard file tools (`read`/`write`/`edit`, routed through the workspace) and gains a `code` tool that executes JavaScript against workspace state through a Worker Loader binding, in place of the shell-backed `bash`/`grep`/`glob`.
+The Cloudflare Computer adapter wraps a [`@cloudflare/computer`](https://github.com/cloudflare/computer) `Workspace` — a durable, SQLite-backed virtual filesystem that lives in the agent’s own Durable Object — into a Flue sandbox on the Cloudflare target. Commands run through the package’s worker-shell backend, a just-bash shell in a Dynamic Worker operating directly on the durable files, so agents get Flue’s full standard tool set (`bash`/`grep`/`glob`/`read`/`write`/`edit`) with no substitutions and no container.
+
+`@cloudflare/computer` is an early preview from Cloudflare — suitable for experiments and prototypes, not production.
 
 ## Quickstart
 
-Add durable workspace sandbox capability to an existing Flue project with the [Cloudflare Shell](https://developers.cloudflare.com/workers/runtime-apis/bindings/worker-loader/) blueprint. Run the following command in your terminal or coding agent of choice:
+Add durable workspace sandbox capability to an existing Flue project with the Cloudflare Computer blueprint. Run the following command in your terminal or coding agent of choice:
 
 ``` astro-code
-flue add sandbox cloudflare-shell
+flue add sandbox cloudflare-computer
 ```
 
 ## Overview
 
-The blueprint installs `@cloudflare/shell` and `@cloudflare/codemode`, creates `<source-root>/sandboxes/cloudflare-shell.ts`, and adds a Worker Loader binding to Wrangler configuration. The generated adapter exports sandbox construction and default workspace helpers; its file API retries nested writes after recursively creating a missing parent directory.
+The blueprint creates the adapter at `<source-root>/sandboxes/cloudflare-computer.ts`. Shell commands don’t run in your Worker: the adapter mints a Dynamic Worker through a [Worker Loader](https://developers.cloudflare.com/workers/runtime-apis/bindings/worker-loader/) binding and runs just-bash there, against the durable filesystem. That binding — currently beta-gated, so your Cloudflare account needs access — and the `experimental` compatibility flag its Dynamic Worker requires are the two Wrangler additions; there are no API keys or environment variables:
 
 <figure class="astro-code-figure">
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/cloudflare-shell@2
-import { Workspace, WorkspaceFileSystem /* ... */ } from &#39;@cloudflare/shell&#39;;
-import { stateTools } from &#39;@cloudflare/shell/workers&#39;;
-import { DynamicWorkerExecutor, resolveProvider /* ... */ } from &#39;@cloudflare/codemode&#39;;
-import {
-  createEditTool,
-  createReadTool,
-  createWriteTool,
-  type SandboxFactory,
-  type SessionToolFactory /* ... */,
-} from &#39;@flue/runtime&#39;;
-import { getCloudflareContext } from &#39;@flue/runtime/cloudflare&#39;;
-
-export interface GetShellSandboxOptions {
-  workspace: Workspace;
-  loader: WorkerLoader;
-  executor?: Pick&lt;DynamicWorkerExecutorOptions, &#39;timeout&#39; | &#39;globalOutbound&#39; | &#39;modules&#39;&gt;;
-}
-
-export function getShellSandbox(options: GetShellSandboxOptions): SandboxFactory {
-  /* ... generated workspace and Worker Loader validation ... */
-
-  const { workspace, loader, executor: executorOptions } = options;
-  const fs = new WorkspaceFileSystem(workspace);
-  const executor = new DynamicWorkerExecutor({
-    loader,
-    ...executorOptions,
-  });
-  const stateProvider = resolveProvider(stateTools(workspace));
-  // Compose the standard file tools with this sandbox&#39;s native codemode
-  // tool; the exec-backed bash/grep/glob stay out — this env has no shell.
-  const toolFactory: SessionToolFactory = (env) =&gt; [
-    createReadTool(env),
-    createWriteTool(env),
-    createEditTool(env),
-    createCodeTool(executor, stateProvider),
-  ];
-
-  return {
-    async createSessionEnv(): Promise&lt;ShellSandboxEnv&gt; {
-      return { ...createWorkspaceSessionEnv(workspace, fs, &#39;/&#39;), workspace };
-    },
-    tools: toolFactory,
-  };
-}
-
-/* ... generated workspace session environment and code tool implementation ... */
-
-export function getDefaultWorkspace(): Workspace {
-  const { storage } = getCloudflareContext();
-  return new Workspace({ sql: storage.sql });
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="jsonc"><code>{
+ &quot;compatibility_flags&quot;: [&quot;nodejs_compat&quot;, &quot;experimental&quot;],
+ &quot;worker_loaders&quot;: [{ &quot;binding&quot;: &quot;LOADER&quot; }]
 }</code></pre>
-<figcaption><span>&lt;source-root&gt;/sandboxes/cloudflare-shell.ts (abridged)</span></figcaption>
+<figcaption><span>wrangler.jsonc</span></figcaption>
 </figure>
 
-Create a workspace, then pass it with the `worker_loaders` binding to `getShellSandbox(...)`. Agents receive durable file operations — the standard `read`/`write`/`edit` tools composed from Flue’s exported per-tool factories — and the isolated JavaScript `code` tool; they do not receive Linux command execution. Application-specific data loading into the workspace remains application-owned.
+Two one-line re-exports complete the wiring: the project’s `cloudflare.ts` re-exports `WorkspaceServiceProxy` (the loopback the shell dials back through), and each sandbox-using agent module re-exports the generated `workspaceHost` extension so its Durable Object hosts the workspace.
 
-The generated `code` tool bounds its own concurrency: Cloudflare allows at most 4 concurrent dynamic-worker invocations per request, and Flue executes a turn’s tool calls in parallel, so the adapter queues `code` executions above a cap of 3 rather than letting the platform reject the surplus calls.
+<figure class="astro-code-figure">
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/cloudflare-computer@1
+import { Workspace, type WorkspaceOptions /* ... */ } from &#39;@cloudflare/computer&#39;;
+import { WorkerShellBackend } from &#39;@cloudflare/computer/backends/worker-shell&#39;;
+import { createGitClient } from &#39;@cloudflare/computer/git&#39;;
+import type { Sandbox, SandboxFactory /* ... */ } from &#39;@flue/runtime&#39;;
+import { extend, getDurableObjectIdentity } from &#39;@flue/runtime/cloudflare&#39;;
 
-## Configure
+/** Re-export from each agent module: `export { workspaceHost as cloudflare } ...` */
+export const workspaceHost = extend({
+ base: (Base) =&gt;
+     class extends Base {
+         /* ... captures the Durable Object state; exposes the workspace stub ... */
+     },
+});
 
-| Requirement                               | Purpose                                                                                                                              |
-|-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| Cloudflare target                         | **Required** — Runs the Workspace and Worker Loader integration.                                                                     |
-| `@cloudflare/shell` package               | **Required** — Provides the durable Workspace.                                                                                       |
-| `@cloudflare/codemode` package            | **Required** — Provides code-oriented model operations.                                                                              |
-| `worker_loaders` binding such as `LOADER` | **Required on Cloudflare** — Executes JavaScript against Workspace state; this is a Cloudflare binding, not an environment variable. |
-| Environment-variable credentials          | **Not required** — The integration uses the `worker_loaders` binding instead.                                                        |
-| Ordinary Linux shell                      | **Not provided** — This adapter provides the standard file tools plus a model-facing `code` tool, not shell command execution.       |
+/** One durable Workspace per agent instance, shared with the sandbox. */
+export function getComputerWorkspace(options: GetComputerWorkspaceOptions): Workspace {
+ /* ... memoized construction: DO storage + git client + WorkerShellBackend ... */
+}
 
-Import the generated helpers from your project adapter file, not from `@flue/runtime/cloudflare`:
+export function getComputerSandbox(options: GetComputerWorkspaceOptions): SandboxFactory {
+ return {
+     async createSandbox(): Promise&lt;ComputerSandboxEnv&gt; {
+         const workspace = getComputerWorkspace(options);
+         await workspace.fs.mkdir(&#39;/workspace&#39;, { recursive: true });
+         return { ...createWorkspaceSandbox(workspace, &#39;/workspace&#39;), workspace };
+     },
+     // No `tools` override: exec() works here, so the framework&#39;s standard
+     // set (bash/grep/glob/read/write/edit) applies as-is.
+ };
+}</code></pre>
+<figcaption><span>&lt;source-root&gt;/sandboxes/cloudflare-computer.ts (abridged)</span></figcaption>
+</figure>
+
+Pass the `worker_loaders` binding to `getComputerSandbox(...)` inside the agent:
 
 ``` astro-code
-import { getDefaultWorkspace, getShellSandbox } from '../sandboxes/cloudflare-shell';
+'use agent';
+import { env } from 'cloudflare:workers';
+import { useModel, useSandbox } from '@flue/runtime';
+import { getComputerSandbox } from '../sandboxes/cloudflare-computer';
+
+export { workspaceHost as cloudflare } from '../sandboxes/cloudflare-computer';
+
+export function Assistant() {
+ useModel('cloudflare/@cf/moonshotai/kimi-k2.6');
+ useSandbox(getComputerSandbox({ loader: env.LOADER }));
+ return 'You explore and edit your durable workspace with the standard file and shell tools.';
+}
 ```
+
+Application-owned hydration and inspection go through the workspace’s native surface: `getComputerWorkspace(...)` (or `computerWorkspace(harness.sandbox)`) exposes `workspace.git` for clones and commits and `workspace.fs` for out-of-band reads and writes, and the adapter’s `workspace` option reshapes the generated `WorkspaceOptions` — read-only R2 mounts, a `defaultGitIdentity`, an observer, additional backends. Import all of these helpers from your project adapter file, not from `@flue/runtime/cloudflare`.
 
 ## Choose this adapter when
 
-Use Cloudflare Shell when files must be stored in a durable Workspace and agent work can be expressed through Workspace operations. It is not interchangeable with a container: `harness.sandbox.exec(...)` does not provide Linux command execution through this adapter — it throws. Use the file verbs on `harness.sandbox` for durable file access, or narrow to the native `Workspace` with `shellWorkspace(harness.sandbox)` for operations the generic surface doesn’t cover.
+Use Cloudflare Computer when files must be stored durably in the agent’s own Durable Object and shell-expressible work covers the agent’s needs — no container to provision, no cold start beyond the Dynamic Worker. Filesystem state survives Durable Object restarts and is capped around 10 GB (it shares the DO’s SQLite storage).
 
-If the workspace should survive later user interactions, associate it with a stable agent instance id. A workspace keyed to a throwaway id belongs to that id’s owner rather than forming a shared workspace.
+It is not a Linux box: commands run in a JavaScript shell without native binaries or package managers. That is the adapter’s default wiring, not the package’s ceiling — `@cloudflare/computer` can register additional execution backends against the same durable files, including its full-Linux `CloudflareContainerBackend`, appended through the adapter’s `workspace` option as an application-owned configuration. If the agent’s baseline need is language toolchains, native tools, or writable bucket mounts, use [Cloudflare Sandbox](/docs/ecosystem/sandboxes/cloudflare/) (Containers) instead.
 
 See [Sandboxes](/docs/guide/sandboxes/) and [Deploy on Cloudflare](/docs/ecosystem/deploy/cloudflare/).
 
 
 ## Docs Navigation
 
-Current page: [Cloudflare Shell](/docs/ecosystem/sandboxes/cloudflare-shell/)
+Current page: [Cloudflare Computer](/docs/ecosystem/sandboxes/cloudflare-computer/)
 
 ### Sections
 

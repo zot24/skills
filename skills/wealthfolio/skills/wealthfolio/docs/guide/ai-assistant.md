@@ -93,7 +93,7 @@ Ask natural-language questions about your portfolio. Run fully local with Ollama
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 The AI Assistant is a chat interface that answers questions about your portfolio by running typed queries against your local database. Ask “what did I earn in dividends last year?” and it’ll figure out the right query, run it, and answer with real numbers.
 

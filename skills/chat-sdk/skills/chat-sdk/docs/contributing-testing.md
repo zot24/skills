@@ -8,6 +8,7 @@ prerequisites:
   - /docs/contributing/building
 related:
   - /docs/adapters
+  - /docs/testing
 ---
 
 # Testing adapters

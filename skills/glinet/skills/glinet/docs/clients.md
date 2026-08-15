@@ -22,7 +22,11 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="#remove-offline-clients" class="md-nav__link"><span class="md-ellipsis"> Remove Offline Clients </span></a>
+<a href="#sort" class="md-nav__link"><span class="md-ellipsis"> Sort </span></a>
+
+<a href="#settings" class="md-nav__link"><span class="md-ellipsis"> Settings </span></a>
+
+<a href="#remove-clients" class="md-nav__link"><span class="md-ellipsis"> Remove Clients </span></a>
 
 
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
@@ -31,7 +35,11 @@ gl-inet/docs4.x
 <a href="../../downloads/" class="md-nav__link"><span class="md-ellipsis"> Downloads </span></a>
 
 
-<a href="#remove-offline-clients" class="md-nav__link"><span class="md-ellipsis"> Remove Offline Clients </span></a>
+<a href="#sort" class="md-nav__link"><span class="md-ellipsis"> Sort </span></a>
+
+<a href="#settings" class="md-nav__link"><span class="md-ellipsis"> Settings </span></a>
+
+<a href="#remove-clients" class="md-nav__link"><span class="md-ellipsis"> Remove Clients </span></a>
 
 
 # Clients<a href="#clients" class="headerlink" title="Permanent link">¶</a>
@@ -74,17 +82,11 @@ Many devices use randomized MAC addresses. If the connected devices use randomiz
 
 ## Speed<a href="#speed" class="headerlink" title="Permanent link">¶</a>
 
-The third column displays the internet speed of the connected device.
+The third column displays the internet speed of the connected device. This data represents the average speed over the last 3 minutes.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/speed.png" class="glboxshadow" alt="speed" />
 
-The speed here is the average speed over 3 minutes.
-
-- Open the current page for 10 seconds, the average speed of the last 10 seconds is displayed.
-- Open the current page for 30 seconds, the average speed of the last 30 seconds is displayed.
-- Open the current page for 60 seconds, the average speed of the last 60 seconds is displayed.
-- Open current page for 3 minutes, the average rate of the last 3 minutes is displayed.
-- Open current page for 10 minutes, the average rate of the last 3 minutes is displayed.
+**Note**: The system begins calculating the average speed when this page is opened. For example, if the page is opened for 10 seconds, the average speed will be based on only 10 seconds worth of data.
 
 ## Traffic<a href="#traffic" class="headerlink" title="Permanent link">¶</a>
 
@@ -94,9 +96,7 @@ The fourth column displays the internet traffic of the connected device.
 
 ## Reserved IP<a href="#reserved-ip" class="headerlink" title="Permanent link">¶</a>
 
-In the fifth column, you can reserve IP address for a certain connected device with just one click.
-
-This feature is available as of v4.8.
+In the fifth column, you can reserve IP address for a certain connected device with just one click. This feature was introduced in firmware v4.8.
 
 When you specify a reserved IP address for a client within the LAN, the client always receives the same IP address each time it accesses the router's DHCP server.
 
@@ -152,17 +152,6 @@ In the Access Control page, manually input the MAC address of the devices you wa
 
 **Note**: Blocking client is based on the MAC address of the device. If the blocked device uses different MAC address next time, it can still be able to connect to router.
 
-## Sort<a href="#sort" class="headerlink" title="Permanent link">¶</a>
-
-The current sort type is displayed in the upper right corner, and you can switch to other sort types.
-
-The default sort type is as follows:
-
-- The self device is always on top.
-- In the online client section, the later the device is connected, the higher it appears in the list.
-
-<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/sort.png" class="glboxshadow" alt="sort" />
-
 ## Action<a href="#action" class="headerlink" title="Permanent link">¶</a>
 
 ### Client Details<a href="#client-details" class="headerlink" title="Permanent link">¶</a>
@@ -187,13 +176,13 @@ Click the three-dot icon in the Action column, and in the drop-down menu, click 
 
 Click the three-dot icon in the Action column, and in the drop-down menu, click **Limit Speed**.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/limit_speed.png" class="glboxshadow" alt="limit speed" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/limit_speed1.png" class="glboxshadow" alt="limit speed" />
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/clients_limit_speed_settings.png" class="glboxshadow" alt="limit speed settings" />
 
 If a client has been applied speed limitation, its up arrow and down arrow of speed will turn yellow.
 
-<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/limit_speed.jpg" class="glboxshadow" alt="limited speed" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/limit_speed2.png" class="glboxshadow" alt="limited speed" />
 
 Click the three-dot icon in the Action column to disable speed limit.
 
@@ -205,7 +194,34 @@ Add a client to the VPN tunnel list with MAC-based policy. If you need to make d
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/use-vpn-tunnel.png" class="glboxshadow" alt="use vpn tunnel" />
 
-## Remove Offline Clients<a href="#remove-offline-clients" class="headerlink" title="Permanent link">¶</a>
+## Sort<a href="#sort" class="headerlink" title="Permanent link">¶</a>
+
+The current sort rule is displayed in the upper right corner, and you can switch to others.
+
+The default sort order is as follows:
+
+- The self-device (i.e., the device you are using to access the Admin Panel) always appears at the top.
+- In the Online Clients section, the earlier the device is connected, the higher it appears in the list.
+
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/sort.png" class="glboxshadow" alt="sort" />
+
+## Settings<a href="#settings" class="headerlink" title="Permanent link">¶</a>
+
+Click the **Settings** button in the upper right corner for further operations.
+
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/settings.png" class="glboxshadow" alt="settings" />
+
+- **Clear Traffic Statistics**: Clear traffic statistics for all online clients with one click. Once applied, the traffic statistics column will be reset to zero and then restart the statistics.
+
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/traffic_cleared.png" class="glboxshadow" alt="clear traffic" />
+
+- **Toggle Rate Unit**: Switch the rate unit for the speed column between **KB/s** and **Kbps**.
+
+- **Auto Remove Offline Clients**: This feature was introduced in firmware v4.9. Once enabled, all offline clients will be cleared immediately and will not display in the Offline Clients section.
+
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/auto_removal.png" class="glboxshadow" alt="auto removal" />
+
+## Remove Clients<a href="#remove-clients" class="headerlink" title="Permanent link">¶</a>
 
 In the offline clients section, you can click **Delete All** at the top right to delete all offline clients.
 

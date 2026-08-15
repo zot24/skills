@@ -4,79 +4,57 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Connect an MCP Client to Your Account
+# For Humans
 
-> Connect an interactive MCP client to your Firecrawl account
+> Sign in via your browser.
 
-Use Firecrawl's account endpoint when a person is present to sign in and approve access. The client receives short-lived, resource-bound tokens instead of your raw Firecrawl API key.
+## Sign in
 
-For the complete choice between account OAuth, unattended API-key access, and keyless access, see [Connect Firecrawl MCP](/mcp-server/connect).
+OAuth server URL (Streamable HTTP; the client starts browser sign-in): `https://mcp.firecrawl.dev/v2/mcp-oauth`
 
-## Connect an interactive client
+* Codex: `codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp-oauth` then `codex mcp login firecrawl`
+* Claude Code: `claude mcp add --transport http firecrawl https://mcp.firecrawl.dev/v2/mcp-oauth` then complete sign-in via `/mcp`
+* Cursor or any JSON-config client: `{"mcpServers": {"firecrawl": {"url": "https://mcp.firecrawl.dev/v2/mcp-oauth"}}}`
+* OpenCode (`opencode.json`): `{"mcp": {"firecrawl": {"type": "remote", "url": "https://mcp.firecrawl.dev/v2/mcp-oauth", "enabled": true}}}`
+* ChatGPT or Claude.ai: use the native Firecrawl connector — [ChatGPT](https://chatgpt.com/plugins?q=firecrawl) or [Claude](https://claude.ai/directory/connectors/firecrawl).
 
-Point a compatible interactive client at:
+A human must complete the browser sign-in and approve a team. Do not open the server URL directly in a browser.
 
-```text theme={null}
-https://mcp.firecrawl.dev/v2/mcp-oauth
-```
 
-If the client asks for an OAuth Client ID or Client Secret, leave both blank. Compatible clients identify themselves with Client ID Metadata Documents or Dynamic Client Registration.
+  `https://mcp.firecrawl.dev/v2/mcp-oauth` is a server URL for your MCP client. It is not a page to open directly in a browser. Your client starts the browser sign-in flow.
 
-The client opens Firecrawl in your browser. Sign in, choose the team the connector should use, review the consent request, and approve access. Requests are billed to the selected team.
 
-Use the client-specific guides for [ChatGPT](/developer-guides/mcp-setup-guides/chatgpt) and [Claude](/developer-guides/mcp-setup-guides/claude-ai), because their setup screens and workspace rules differ.
+You can review and revoke connections from [MCP settings](https://www.firecrawl.dev/app/settings?tab=mcp).
 
-### Cursor and VS Code redirect support
+## ChatGPT and Claude
 
-Use the account endpoint only when the installed client version can complete a remote OAuth flow. Firecrawl accepts HTTPS redirect URIs and loopback redirect URIs using `http://localhost`, `http://127.0.0.1`, or `http://[::1]`. For native HTTP loopback clients, the port may vary per run, but the registered host and path must match the requested redirect URI.
 
-If Cursor or VS Code cannot complete remote OAuth in the version you use, configure `https://mcp.firecrawl.dev/v2/mcp` with an `Authorization: Bearer <FIRECRAWL_API_KEY>` header instead. Keep the key in the client's environment or secure-secret store; never put it in the URL.
+    Install the native Firecrawl connector in ChatGPT.
 
-## Choose the hosted mode
 
-| Endpoint                                 | Use it for                                       | Authentication and tool surface                                                                                                                                                    |
-| ---------------------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `https://mcp.firecrawl.dev/v2/mcp`       | A keyless trial or an unattended process         | With no credential, it exposes only Search, Scrape, and Parse while eligible and rate-limited. With `Authorization: Bearer <FIRECRAWL_API_KEY>`, it exposes the full tool surface. |
-| `https://mcp.firecrawl.dev/v2/mcp-oauth` | An interactive, browser-based account connection | It opens OAuth and exposes the full tool surface after authorization. API keys are also accepted as a compatibility path.                                                          |
+    Install the native Firecrawl connector in Claude.
 
-For CI, servers, scripts, and other unattended clients, use `https://mcp.firecrawl.dev/v2/mcp` with an environment-variable-backed `Authorization: Bearer <FIRECRAWL_API_KEY>` header. Do not put an API key in a URL or project configuration file.
 
-## Manage a connection
+## Add an API key
 
-To disconnect a client, open **MCP** in [Firecrawl Settings](https://www.firecrawl.dev/app/settings?tab=mcp) and revoke the connection. Revocation makes its access and refresh tokens unusable; reconnect from the client to authorize again.
 
-## Compatibility during migration
+  Prefer a key in your client config instead of browser sign-in. Setup lives on For Agents.
 
-* Existing OAuth tokens explicitly bound to `/v2/mcp` continue working on `/v2/mcp`.
-* During the migration window, a compatible existing `/v2/mcp` token can also be accepted by `/v2/mcp-oauth`.
-* A new token issued for `/v2/mcp-oauth` is not accepted by `/v2/mcp`.
-* Tokens with a missing or ambiguous audience fail closed.
-* Existing legacy key-in-path MCP configurations continue working, but new configurations should use OAuth or a Bearer header.
 
-## Security properties
-
-* Access tokens expire after one hour.
-* Refresh tokens rotate on every successful refresh.
-* Each connection is bound to its OAuth client, user, team, scope, and MCP resource.
-* OAuth clients use Authorization Code with PKCE and do not need a client secret.
-
-## Supported standards
-
-* OAuth 2.0 Authorization Code with PKCE (S256)
-* RFC 8414 Authorization Server Metadata
-* RFC 9728 Protected Resource Metadata
-* Client ID Metadata Documents (CIMD)
-* RFC 7591 Dynamic Client Registration (DCR)
-* RFC 8707 Resource Indicators
-
-New account connections must use this exact resource on authorization and token requests:
+## Try
 
 ```text theme={null}
-https://mcp.firecrawl.dev/v2/mcp-oauth
+Search the web for the latest Firecrawl release notes and summarize the sources.
 ```
 
-The authorization-server metadata is available at:
+If no Firecrawl tools appear, restart or reload the client after saving its MCP configuration.
 
-```bash theme={null}
-curl -s "https://www.firecrawl.dev/.well-known/oauth-authorization-server" | jq .
-```
+## More
+
+
+    Find the right Firecrawl MCP tool and review connection-specific availability.
+
+
+    Start the open-source server over stdio or Streamable HTTP.
+
+

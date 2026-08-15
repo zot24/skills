@@ -100,6 +100,8 @@ docker compose up -d --build
 
 The first build takes a few minutes (compiling from source). Subsequent starts are fast.
 
+The default image does not include LanceDB. To use `VECTOR_STORE_TYPE=lancedb`, build with `INSTALL_LANCEDB=true docker compose up -d --build`.
+
 This starts four services: **api** (port 8000), **deriver** (background worker), **database** (PostgreSQL with pgvector, port 5432), and **redis** (port 6379). All ports are bound to `127.0.0.1`. Redis caching is enabled by default.
 
 For development, uncomment the source mount and monitoring sections inside `docker-compose.yml` to enable live reload, Prometheus, and Grafana.
@@ -184,6 +186,12 @@ psql -U postgres
 CREATE EXTENSION IF NOT EXISTS vector;
 \q
 ```
+
+
+  **Least-privilege database roles.** Honcho runs `CREATE EXTENSION IF NOT EXISTS vector` before migrations and again at startup, so if the role in `DB_CONNECTION_URI` can't create extensions, both fail with a privilege error — `IF NOT EXISTS` doesn't help, because Postgres checks the privilege first.
+
+  Run the statement above once as a superuser (or `rds_superuser`) and the application role needs no extension privileges. See [Troubleshooting](/docs/v3/contributing/troubleshooting) if you hit this.
+
 
 ### 4. Configure Environment
 

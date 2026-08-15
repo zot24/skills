@@ -88,7 +88,7 @@ createGoogleChatAdapter({
 
 1. Under **Pub/Sub** then **Topics**, create a topic (e.g. `chat-events`) and copy its full name to `GOOGLE_CHAT_PUBSUB_TOPIC`.
 2. Add `chat-api-push@system.gserviceaccount.com` as a Pub/Sub Publisher.
-3. Create a Push subscription with endpoint `https://your-domain.com/api/webhooks/gchat`.
+3. Create a Push subscription with endpoint `https://your-domain.com/api/webhooks/gchat`. Enable authentication on it and pick a service account, then set that account's email as `GOOGLE_CHAT_PUBSUB_SERVICE_ACCOUNT_EMAIL`.
 
 **Domain-wide delegation:**
 
@@ -110,20 +110,27 @@ Required for Workspace Events subscriptions and initiating DMs.
 The two transports share one HTTP endpoint, so each verifier only covers its own request shape:
 
 * **Direct webhooks** — Google Chat sends a signed JWT in the `Authorization: Bearer …` header. The expected `aud` claim depends on how the Chat app is configured (see [Verify requests from Google Chat](https://developers.google.com/workspace/chat/verify-requests-from-chat)).
-* **Pub/Sub push** — Cloud Pub/Sub sends a signed OIDC JWT whose audience is whatever you configured on the push subscription. Configure with `pubsubAudience`.
+* **Pub/Sub push** — Cloud Pub/Sub sends a signed OIDC JWT whose audience is whatever you configured on the push subscription. Configure with `pubsubAudience` **and** `pubsubServiceAccountEmail`.
+
+
+  Your push audience is a public URL, so anyone can point a Pub/Sub subscription in their own Google Cloud project at your endpoint and have Google mint a validly signed token naming it. Signature and `aud` therefore say nothing about who sent the push. Set `pubsubServiceAccountEmail` to the identity in your subscription's push auth settings and the adapter compares it exactly, as [Google requires](https://docs.cloud.google.com/pubsub/docs/authenticate-push-subscriptions). Leave it unset and Pub/Sub pushes are rejected with HTTP 401.
+
 
 If you only configure a direct-webhook verifier, incoming Pub/Sub-shaped requests are rejected with HTTP 401 — and vice versa. Configure both transports if you receive both.
 
 #### Which direct-webhook option do I need?
 
-| Your Chat app                                                                                         | Token type & `aud`                         | Signed by                                                                               | Set                                              |
-| ----------------------------------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| Standalone Chat app, **Authentication audience: Project number** (in Chat API config)                 | self-signed JWT, `aud` = project number    | `chat@system.gserviceaccount.com` (its own X.509 certs)                                 | `googleChatProjectNumber`                        |
-| Standalone Chat app, **Authentication audience: HTTP endpoint URL**                                   | Google OIDC ID token, `aud` = endpoint URL | Google (`email`: `chat@system.gserviceaccount.com`)                                     | `endpointUrl`                                    |
-| **Workspace Add-on Chat app** (built via Google Workspace Marketplace SDK; the audience is hardcoded) | Google OIDC ID token, `aud` = endpoint URL | Google (`email`: `service-{projectNumber}@gcp-sa-gsuiteaddons.iam.gserviceaccount.com`) | `endpointUrl`                                    |
-| Mixed across envs / not sure                                                                          | varies                                     | varies                                                                                  | both `googleChatProjectNumber` and `endpointUrl` |
+| Your Chat app                                                                                         | Token type & `aud`                         | Signed by                                                                               | Set                                                       |
+| ----------------------------------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Standalone Chat app, **Authentication audience: Project number** (in Chat API config)                 | self-signed JWT, `aud` = project number    | `chat@system.gserviceaccount.com` (its own X.509 certs)                                 | `googleChatProjectNumber`                                 |
+| Standalone Chat app, **Authentication audience: HTTP endpoint URL**                                   | Google OIDC ID token, `aud` = endpoint URL | Google (`email`: `chat@system.gserviceaccount.com`)                                     | `endpointUrl`                                             |
+| **Workspace Add-on Chat app** (built via Google Workspace Marketplace SDK; the audience is hardcoded) | Google OIDC ID token, `aud` = endpoint URL | Google (`email`: `service-{projectNumber}@gcp-sa-gsuiteaddons.iam.gserviceaccount.com`) | `endpointUrl` **and** `workspaceAddOnServiceAccountEmail` |
+| Mixed across envs / not sure                                                                          | varies                                     | varies                                                                                  | both `googleChatProjectNumber` and `endpointUrl`          |
 
 The two token types are verified differently, matching [Google's reference implementation](https://developers.google.com/workspace/chat/verify-requests-from-chat): endpoint-URL tokens are standard OIDC ID tokens checked against Google's public certs plus the Chat service-account `email` claim; project-number tokens are self-signed by `chat@system.gserviceaccount.com` and checked against that service account's own X.509 certificates. When both `googleChatProjectNumber` and `endpointUrl` are set, either token type is accepted. If you don't know which mode your app uses, look at an incoming token: an `email` claim containing `gcp-sa-gsuiteaddons` means it's a Workspace Add-on (URL audience).
+
+
+  Every Workspace Add-on project produces an `email` of the same `service-{projectNumber}@gcp-sa-gsuiteaddons` shape, so that shape identifies "some add-on", not *your* add-on. Set `workspaceAddOnServiceAccountEmail` to your own project's address and the adapter compares it exactly. Leave it unset and add-on tokens are rejected with HTTP 401, rather than accepting any add-on that happens to point at your endpoint URL. Standalone Chat apps signing as `chat@system.gserviceaccount.com` are unaffected.
 
 
   Workspace Add-on Chat apps don't expose an "Authentication audience" radio; their token `aud` is always the endpoint URL. Set `endpointUrl` for these.

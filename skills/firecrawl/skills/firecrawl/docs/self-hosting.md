@@ -21,16 +21,13 @@ Search...
 Contributing
 
 
-Self-hosting
+Self-hosting Firecrawl
 
 
 <a href="/introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor] hover:text-primary dark:hover:text-primary-light text-gray-800 dark:text-gray-200" data-active="true" aria-current="location">Documentation</a>
 
 
 <a href="/sdks/overview" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">SDKs</a>
-
-
-<a href="https://www.firecrawl.dev/app" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200" target="_blank" rel="noreferrer">Integrations</a>
 
 
 <a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
@@ -42,317 +39,210 @@ Self-hosting
 Contributing
 
 
-# Self-hosting
+# Self-hosting Firecrawl
 
 
-Learn how to self-host Firecrawl to run on your own and contribute to the project.
-
-
-#### 
-
-
-<a href="#contributor" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+Self-host Firecrawl with Docker Compose, verify a local scrape, understand open-source limits, and prepare the stack for production.
 
 
 ## 
 
 
-<a href="#self-hosting-firecrawl" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#choose-self-hosting-or-firecrawl-cloud" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-
-## 
-
-
-<a href="#why" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-- **Enhanced Security and Compliance:** By self-hosting, you ensure that all data handling and processing complies with internal and external regulations, keeping sensitive information within your secure infrastructure. Note that Firecrawl is a Mendable product and relies on SOC2 Type2 certification, which means that the platform adheres to high industry standards for managing data security.
-- **Customizable Services:** Self-hosting allows you to tailor the services, such as the Playwright service, to meet specific needs or handle particular use cases that may not be supported by the standard cloud offering.
-- **Learning and Community Contribution:** By setting up and maintaining your own instance, you gain a deeper understanding of how Firecrawl works, which can also lead to more meaningful contributions to the project.
 
 ### 
 
 
-<a href="#considerations" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#self-host-firecrawl-when" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-1.  **Limited Access to Fire-engine:** Currently, self-hosted instances of Firecrawl do not have access to Fire-engine, which includes advanced features for handling IP blocks, robot detection mechanisms, and more. This means that while you can manage basic scraping tasks, more complex scenarios might require additional configuration or might not be supported.
-2.  **Manual Configuration Required:** If you need to use scraping methods beyond the basic fetch and Playwright options, you will need to manually configure these in the `.env` file. This requires a deeper understanding of the technologies and might involve more setup time. \| Capability \| Cloud \| Self-hosting \| \| --- \| --- \| --- \| \| All API endpoints supported \| Yes \| Not always; `/agent` and `/browser` are not supported in self-hosting \| \| Screenshot support \| Yes \| Yes, when the Playwright service is running \| \| Local LLMs (e.g., Ollama) \| Not supported \| Supported via `OLLAMA_BASE_URL` (experimental) \|
+- **You want control over the source or infrastructure.** This guide gets the API and its supporting services running on your machine.
+- **You are comfortable operating the stack.** You will own upgrades, security, storage, monitoring, and recovery.
+- **You want to validate Firecrawl against your environment.** Get the baseline working here, then design the controls in <a href="#before-production" class="link">Before production</a>.
+
+
+### 
+
+
+<a href="#what-self-hosting-requires" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- You own upgrades, secrets, storage, monitoring, recovery, and incident response.
+- Scraping still sends outbound requests to target websites. Optional proxy, parsing, or AI providers add more data flows.
+- This guide keeps the first run intentionally simple. Get one scrape working, then change one decision at a time.
+- The commands are pinned to `v2.11.162`. A different release may use a different Compose contract.
+
+## 
+
+
+<a href="#self-host-firecrawl-with-docker-compose" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#start-with-these-defaults" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- **Release: Firecrawl `v2.11.162`.** Pin the code and configuration first. Upgrade after reviewing the target release’s `docker-compose.yaml` and self-hosting notes.
+- **API authentication: off for this local run.** Add it only with a complete supported identity and database design; one environment variable is not enough.
+- **Queue: PostgreSQL.** Keep it unless you intentionally want to operate the optional FoundationDB backend.
+- **Queue admin UI: off.** Enable it only with a strong `BULL_AUTH_KEY` and network controls.
+- **AI and advanced scraping providers: not configured.** Add a provider when a capability you need requires it.
+
+
+### 
+
+
+<a href="#prerequisites" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- <a href="https://git-scm.com/downloads" class="link" target="_blank" rel="noreferrer">Git</a>
+- <a href="https://docs.docker.com/engine/install/" class="link" target="_blank" rel="noreferrer">Docker Engine</a> or Docker Desktop
+- Docker Compose v2, invoked as `docker compose`
+- `curl` for the verification requests
+
+
+### 
+
+
+<a href="#clone-the-verified-release" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+git clone https://github.com/firecrawl/firecrawl.git
+cd firecrawl
+git checkout v2.11.162
+```
+
+
+### 
+
+
+<a href="#configure-the-evaluation-deployment" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+cat > .env <<'EOF'
+USE_DB_AUTHENTICATION=false
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=replace-with-at-least-32-random-characters
+POSTGRES_DB=postgres
+EOF
+```
+
+
+### 
+
+
+<a href="#build-and-start-firecrawl" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+docker compose up --build -d
+docker compose ps --all
+```
+
+
+### 
+
+
+<a href="#check-api-reachability" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl \
+  --fail \
+  --silent \
+  --show-error \
+  --max-time 5 \
+  http://localhost:3002/v0/health/readiness
+```
+
+
+``` shiki
+{"status":"ok"}
+```
+
+
+### 
+
+
+<a href="#run-a-functional-smoke-test" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl \
+  --fail-with-body \
+  --silent \
+  --show-error \
+  --max-time 75 \
+  -X POST \
+  http://localhost:3002/v2/scrape \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "https://example.com",
+    "formats": ["markdown"],
+    "timeout": 60000
+  }'
+```
+
+
+``` shiki
+{
+  "success": true,
+  "data": {
+    "markdown": "...",
+    "metadata": {
+      "statusCode": 200
+    }
+  }
+}
+```
 
 
 ## 
 
 
-<a href="#steps" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#self-hosted-feature-support" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-1.  First, start by installing the dependencies
+| If you need                                                                                | Decision                                                                                                   |
+|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| Core scrape, crawl, map, and search routes                                                 | Keep the default stack. Fetch and Playwright processing are included.                                      |
+| LLM-backed extraction or formats                                                           | Connect an OpenAI-compatible provider or Ollama, then test that path separately.                           |
+| Fire-engine or its advanced anti-bot behavior                                              | Run and configure that service separately; it is not included.                                             |
+| Screenshots or page actions                                                                | Not available in the default stack. Fetch and Playwright both report no support; both require Fire-engine. |
+| Agent, Browser, interact, feedback, or specialized product, menu, audio, and video formats | Use Firecrawl Cloud, or verify the external service requirements for the specific capability.              |
 
-- Docker <a href="https://docs.docker.com/get-docker/" class="link" target="_blank" rel="noreferrer">instructions</a>
 
-2.  Set environment variables
+## 
 
 
-``` shiki
-# .env
+<a href="#before-production" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-# ===== Required ENVS ======
-PORT=3002
-HOST=0.0.0.0
 
-# Note: PORT is used by both the main API server and worker liveness check endpoint
+- **If data must survive service replacement,** add durable storage for PostgreSQL, Redis, and RabbitMQ, then define and test backup and restore procedures. The provided Compose file does not add those volumes.
+- **If users or untrusted networks can reach the API,** add a supported authentication design, network access controls, and TLS at a reverse proxy or ingress. Do not expose this unauthenticated baseline publicly.
+- **If you have availability or capacity requirements,** set uptime targets, monitoring, resource sizing, scaling triggers, and upgrade and rollback procedures. The Compose limits are not verified minimum requirements.
+- **If data location or compliance matters,** map requests to target websites and every optional AI, proxy, or parsing provider before enabling them.
+- **If secrets must be managed centrally,** move the database password out of `.env` and into your platform’s secret-management system.
 
-# To turn on DB authentication, you need to set up Supabase.
-USE_DB_AUTHENTICATION=false
 
-# ===== Optional ENVS ======
+## 
 
-## === AI features (JSON format on scrape, /extract API) ===
-# Provide your OpenAI API key here to enable AI features
-# OPENAI_API_KEY=
 
-# Experimental: Use Ollama
-# OLLAMA_BASE_URL=http://localhost:11434/api
-# MODEL_NAME=deepseek-r1:7b
-# MODEL_EMBEDDING_NAME=nomic-embed-text
+<a href="#where-to-go-next" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
-# Experimental: Use any OpenAI-compatible API
-# OPENAI_BASE_URL=https://example.com/v1
-# OPENAI_API_KEY=
 
-## === Proxy ===
-# PROXY_SERVER can be a full URL (e.g. http://0.1.2.3:1234) or just an IP and port combo (e.g. 0.1.2.3:1234)
-# Do not uncomment PROXY_USERNAME and PROXY_PASSWORD if your proxy is unauthenticated
-# PROXY_SERVER=
-# PROXY_USERNAME=
-# PROXY_PASSWORD=
-
-## === /search API ===
-
-# You can specify a SearXNG server with the JSON format enabled, if you'd like to use that instead of direct Google.
-# You can also customize the engines and categories parameters, but the defaults should also work just fine.
-# SEARXNG_ENDPOINT=http://your.searxng.server
-# SEARXNG_ENGINES=
-# SEARXNG_CATEGORIES=
-
-## === Other ===
-
-# Supabase Setup (used to support DB authentication, advanced logging, etc.)
-# SUPABASE_ANON_TOKEN=
-# SUPABASE_URL=
-# SUPABASE_SERVICE_TOKEN=
-
-# Use if you've set up authentication and want to test with a real API key
-# TEST_API_KEY=
-
-# This key lets you access the queue admin panel. Change this if your deployment is publicly accessible.
-BULL_AUTH_KEY=CHANGEME
-
-# This is now autoconfigured by the docker-compose.yaml. You shouldn't need to set it.
-# PLAYWRIGHT_MICROSERVICE_URL=http://playwright-service:3000/scrape
-# REDIS_URL=redis://redis:6379
-# REDIS_RATE_LIMIT_URL=redis://redis:6379
-
-# Set if you have a llamaparse key you'd like to use to parse pdfs
-# LLAMAPARSE_API_KEY=
-
-# Set if you'd like to send server health status messages to Slack
-# SLACK_WEBHOOK_URL=
-
-# Set if you'd like to send posthog events like job logs
-# POSTHOG_API_KEY=
-# POSTHOG_HOST=
-
-## === System Resource Configuration ===
-# Maximum CPU usage threshold (0.0-1.0). Worker will reject new jobs when CPU usage exceeds this value.
-# Default: 0.8 (80%)
-# MAX_CPU=0.8
-
-# Maximum RAM usage threshold (0.0-1.0). Worker will reject new jobs when memory usage exceeds this value.
-# Default: 0.8 (80%)
-# MAX_RAM=0.8
-
-# Set if you'd like to allow local webhooks to be sent to your self-hosted instance
-# ALLOW_LOCAL_WEBHOOKS=true
-```
-
-
-- JSON format on scrape
-- /extract API
-- Summary format
-- Branding format
-- Change tracking format
-
-
-3.  <span data-as="p">*(Optional) Running with TypeScript Playwright Service*</span>
-    - <span data-as="p">Update the `docker-compose.yml` file to change the Playwright service:</span>
-      <div class="code-block mt-5 mb-8 not-prose rounded-2xl relative group min-w-0 print:print-color-exact text-gray-950 dark:text-gray-50 codeblock-light border border-gray-950/10 dark:border-white/10 dark:twoslash-dark bg-transparent dark:bg-transparent" numberoflines="2" language="text">
-
-      <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
-
-      <div id="base-ui-_R_3cka4llcrbav5tccsnisnpfiulb_" class="z-10 select-none" base-ui-tooltip-trigger="">
-
-      <span class="sr-only" role="status"></span>
-
-      </div>
-
-      </div>
-
-      <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
-
-      <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_34a4llcrbav5tccsnisnpfiulb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
-
-      <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
-
-      <div class="font-mono whitespace-pre leading-6">
-
-      ``` shiki
-          build: apps/playwright-service
-      ```
-
-      </div>
-
-      </div>
-
-      </div>
-
-      </div>
-
-      <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
-
-      </div>
-
-      </div>
-
-      <span data-as="p">TO</span>
-      <div class="code-block mt-5 mb-8 not-prose rounded-2xl relative group min-w-0 print:print-color-exact text-gray-950 dark:text-gray-50 codeblock-light border border-gray-950/10 dark:border-white/10 dark:twoslash-dark bg-transparent dark:bg-transparent" numberoflines="2" language="text">
-
-      <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
-
-      <div id="base-ui-_R_3coa4llcrbav5tccsnisnpfiulb_" class="z-10 select-none" base-ui-tooltip-trigger="">
-
-      <span class="sr-only" role="status"></span>
-
-      </div>
-
-      </div>
-
-      <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
-
-      <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_38a4llcrbav5tccsnisnpfiulb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
-
-      <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
-
-      <div class="font-mono whitespace-pre leading-6">
-
-      ``` shiki
-          build: apps/playwright-service-ts
-      ```
-
-      </div>
-
-      </div>
-
-      </div>
-
-      </div>
-
-      <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
-
-      </div>
-
-      </div>
-    - <span data-as="p">Set the `PLAYWRIGHT_MICROSERVICE_URL` in your `.env` file:</span>
-      <div class="code-block mt-5 mb-8 not-prose rounded-2xl relative group min-w-0 print:print-color-exact text-gray-950 dark:text-gray-50 codeblock-light border border-gray-950/10 dark:border-white/10 dark:twoslash-dark bg-transparent dark:bg-transparent" numberoflines="2" language="text">
-
-      <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
-
-      <div id="base-ui-_R_1mci4llcrbav5tccsnisnpfiulb_" class="z-10 select-none" base-ui-tooltip-trigger="">
-
-      <span class="sr-only" role="status"></span>
-
-      </div>
-
-      </div>
-
-      <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
-
-      <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1ki4llcrbav5tccsnisnpfiulb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
-
-      <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
-
-      <div class="font-mono whitespace-pre leading-6">
-
-      ``` shiki
-      PLAYWRIGHT_MICROSERVICE_URL=http://localhost:3000/scrape
-      ```
-
-      </div>
-
-      </div>
-
-      </div>
-
-      </div>
-
-      <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
-
-      </div>
-
-      </div>
-    - <span data-as="p">Don’t forget to set the proxy server in your `.env` file as needed.</span>
-4.  <span data-as="p">Build and run the Docker containers:</span>
-    <div class="code-block mt-5 mb-8 not-prose rounded-2xl relative group min-w-0 print:print-color-exact text-gray-950 dark:text-gray-50 codeblock-light border border-gray-950/10 dark:border-white/10 dark:twoslash-dark bg-transparent dark:bg-transparent" numberoflines="2" language="shellscript">
-
-    <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
-
-    <div id="base-ui-_R_r68llcrbav5tccsnisnpfiulb_" class="z-10 select-none" base-ui-tooltip-trigger="">
-
-    <span class="sr-only" role="status"></span>
-
-    </div>
-
-    </div>
-
-    <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
-
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_q8llcrbav5tccsnisnpfiulb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
-
-    <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
-
-    <div class="font-mono whitespace-pre leading-6">
-
-    ``` shiki
-    docker compose build
-    docker compose up
-    ```
-
-    </div>
-
-    </div>
-
-    </div>
-
-    </div>
-
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
-
-    </div>
-
-    </div>
-
-
-5.  *(Optional)* Test the API
-
-
-``` shiki
-curl -X POST http://localhost:3002/v2/crawl \
-    -H 'Content-Type: application/json' \
-    -d '{
-      "url": "https://docs.firecrawl.dev"
-    }'
-```
-
+- **Still evaluating?** Keep the API on a trusted network and run `docker compose down` when you are finished.
+- **Adding an open-source capability?** Use <a href="#self-hosted-feature-support" class="link">Self-hosted feature support</a> to find the required provider or service, then test that path on its own.
+- **Changing Firecrawl code?** Switch to <a href="/contributing/guide" class="link">Running Locally</a> for the contributor development environment.
+- **Connecting a client?** Point the <a href="/sdks/cli#connect-the-cli-to-self-hosted-firecrawl" class="link">Firecrawl CLI</a> or <a href="/mcp-server/local#connect-mcp-to-self-hosted-firecrawl" class="link">local MCP server</a> at your verified API URL.
+- **Moving to Kubernetes?** Start with the versioned Kubernetes or Helm references linked from <a href="https://github.com/firecrawl/firecrawl/blob/main/SELF_HOST.md" class="link" target="_blank" rel="noreferrer"><code>SELF_HOST.md</code></a>, then make the production decisions above explicit for your platform.
+- **Want managed infrastructure or Cloud-only capabilities?** Compare <a href="/contributing/open-source-or-cloud" class="link">Open Source vs Cloud</a>.
+- **Going to production?** Complete every decision in <a href="#before-production" class="link">Before production</a> before exposing the API.
 
 ## 
 
@@ -363,24 +253,7 @@ curl -X POST http://localhost:3002/v2/crawl \
 ### 
 
 
-<a href="#supabase-client-is-not-configured" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-``` shiki
-[YYYY-MM-DDTHH:MM:SS.SSSz]ERROR - Attempted to access Supabase client when it's not configured.
-[YYYY-MM-DDTHH:MM:SS.SSSz]ERROR - Error inserting scrape event: Error: Supabase client is not configured.
-```
-
-
-### 
-
-
 <a href="#you’re-bypassing-authentication" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-``` shiki
-[YYYY-MM-DDTHH:MM:SS.SSSz]WARN - You're bypassing authentication
-```
 
 
 ### 
@@ -390,12 +263,14 @@ curl -X POST http://localhost:3002/v2/crawl \
 
 
 ``` shiki
-docker logs [container_name]
+docker compose ps --all
+docker compose logs --tail=200
 ```
 
 
-- Ensure all required environment variables are set correctly in the .env file.
-- Verify that all Docker services defined in docker-compose.yml are correctly configured and the necessary images are available.
+- If the source revision differs, either check out `v2.11.162` or use that release’s configuration.
+- If a build or container is resource-constrained, increase Docker CPU, memory, or disk capacity.
+- If PostgreSQL fails, check `.env` syntax, keep `POSTGRES_DB=postgres`, and make sure the user and password values are consistent.
 
 ### 
 
@@ -403,9 +278,11 @@ docker logs [container_name]
 <a href="#connection-issues-with-redis" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- Ensure that the Redis service is up and running in your Docker environment.
-- Verify that the REDIS_URL and REDIS_RATE_LIMIT_URL in your .env file point to the correct Redis instance.
-- Check network settings and firewall rules that may block the connection to the Redis port.
+``` shiki
+docker compose ps redis
+docker compose logs --tail=100 redis
+```
+
 
 ### 
 
@@ -413,23 +290,23 @@ docker logs [container_name]
 <a href="#api-endpoint-does-not-respond" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- Ensure that the Firecrawl service is running by checking the Docker container status.
-- Verify that the PORT and HOST settings in your .env file are correct and that no other service is using the same port.
-- Check the network configuration to ensure that the host is accessible from the client making the API request.
+``` shiki
+docker compose ps api
+docker compose logs --tail=200 api
+```
 
 
-## 
+``` shiki
+docker compose logs --tail=200 api playwright-service
+```
 
 
-<a href="#install-firecrawl-on-a-kubernetes-cluster-simple-version" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+### 
+
+
+<a href="#scrape-request-times-out" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/contributing/self-host.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/contributing/self-host" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
-
-
-<a href="/contributing/guide" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 min-w-0 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
-
-
-Running Locally
 
 

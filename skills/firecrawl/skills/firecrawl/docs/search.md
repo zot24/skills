@@ -30,9 +30,6 @@ Search
 <a href="/sdks/overview" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">SDKs</a>
 
 
-<a href="https://www.firecrawl.dev/app" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200" target="_blank" rel="noreferrer">Integrations</a>
-
-
 <a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
 
 
@@ -109,6 +106,9 @@ npm install -g firecrawl
 # Authenticate (one-time setup)
 firecrawl login
 ```
+
+
+<a href="" class="link firecrawl-cta-btn-primary firecrawl-cta-btn-inline" target="_blank" rel="noreferrer"><span data-as="p">Start the interview</span></a>
 
 
 ### 
@@ -262,8 +262,10 @@ for (const item of result.web ?? []) {
 
 
 - `github`: Search within GitHub repositories, code, issues, and documentation
-- `research`: Search academic and research websites (arXiv, Nature, IEEE, PubMed, etc.)
+- `research`: Restrict web search to academic and research **websites** (arxiv.org, nature.com, ieee.org, pubmed.ncbi.nlm.nih.gov, biorxiv.org, medrxiv.org, and similar). Returns ordinary web page results with snippets — not paper records. To search papers themselves, use the <a href="/features/research" class="link">Research Index</a>
 - `pdf`: Search for PDFs
+- `developer`: Search the <a href="/features/developer" class="link">Developer Index</a> — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites
+
 
 ### 
 
@@ -296,6 +298,29 @@ curl -X POST https://api.firecrawl.dev/v2/search \
   -d '{
     "query": "machine learning transformers",
     "categories": ["research"],
+    "limit": 10
+  }'
+```
+
+
+``` shiki
+curl -s "https://api.firecrawl.dev/v2/search/research/papers?query=CRISPR%20base%20editing%20off-target%20effects&k=10"
+```
+
+
+### 
+
+
+<a href="#developer-category-search" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/search \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "query": "how do I configure retries",
+    "categories": ["developer"],
     "limit": 10
   }'
 ```
@@ -876,6 +901,23 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 ```
 
 
+### 
+
+
+<a href="#safe-search" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/search \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "query": "firecrawl",
+    "safe": true
+  }'
+```
+
+
 ## 
 
 
@@ -979,17 +1021,5 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 
 
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/features/search.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/features/search" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
-
-
-<a href="/features/siem" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 min-w-0 hover:border-gray-300 dark:hover:border-gray-700 justify-start"></a>
-
-
-SIEM Audit Logging
-
-
-<a href="/features/search-highlights" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 min-w-0 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
-
-
-Search Highlights
 
 

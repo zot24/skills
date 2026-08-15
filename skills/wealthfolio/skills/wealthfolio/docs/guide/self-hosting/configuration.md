@@ -93,7 +93,7 @@ Every WF\_\* environment variable Wealthfolio understands, plus how to escape Ar
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 All Wealthfolio configuration is done through environment variables prefixed with `WF_`. This page is the source of truth. The platform-specific guides link back here for the details.

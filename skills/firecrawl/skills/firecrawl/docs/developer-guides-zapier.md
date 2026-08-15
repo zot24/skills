@@ -4,14 +4,14 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Firecrawl + Zapier
+# Zapier
 
-> Official tutorials and Zapier integration templates for Firecrawl + Zapier automation
+> Official tutorials and Zapier integration templates for Firecrawl automation
 
 
   **Official Zapier Integration:** [zapier.com/apps/firecrawl/integrations](https://zapier.com/apps/firecrawl/integrations)
 
-  Connect with 8,000+ apps • No-code automation • Pre-built Zap templates • Cloud-based
+  Connect with 9,000+ apps • No-code automation • Pre-built Zap templates • Cloud-based
 
 
 ## Official Blog Post
@@ -148,13 +148,13 @@
 
 ## Firecrawl Actions
 
-| Action                      | Use Case                                  |
-| --------------------------- | ----------------------------------------- |
-| **Scrape URL**              | Quick single-page data capture            |
-| **Crawl Website**           | Full site scraping with multiple pages    |
-| **Extract Structured Data** | AI-powered extraction with custom schemas |
-| **Search Web**              | Research automation with search + scrape  |
-| **Map Website**             | SEO analysis and site structure mapping   |
+| Action             | Use Case                                  |
+| ------------------ | ----------------------------------------- |
+| **/Scrape Page**   | Quick single-page data capture            |
+| **/Crawl Website** | Full site scraping with multiple pages    |
+| **/Extract Data**  | AI-powered extraction with custom schemas |
+| **/Search Data**   | Research automation with search + scrape  |
+| **/Map Data**      | SEO analysis and site structure mapping   |
 
 ## Quick Reference
 
@@ -166,7 +166,7 @@
     5. Choose your workflow and activate
 
 
-    * Use `/Scrape URL` for single pages (faster)
+    * Use `/Scrape Page` for single pages (faster)
     * Schedule strategically (hourly/daily/weekly)
     * Test in Firecrawl playground first
     * Add error handling for failed scrapes
@@ -206,8 +206,8 @@
 | Feature          | Zapier                                | n8n                      |
 | ---------------- | ------------------------------------- | ------------------------ |
 | **Setup**        | No-code, cloud-based                  | Self-hosted or cloud     |
-| **Pricing**      | Per-task pricing                      | Flat monthly             |
-| **Integrations** | 8,000+ apps                           | 400+ integrations        |
+| **Pricing**      | Per-task pricing                      | Execution-based          |
+| **Integrations** | 9,000+ apps                           | 1,000+ apps and services |
 | **Best For**     | Quick automation, non-technical users | Custom logic, developers |
 
 

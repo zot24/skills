@@ -93,7 +93,7 @@ Deploy Wealthfolio on Coolify, the self-hosted PaaS that handles HTTPS, env vars
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 <a href="https://coolify.io" class="font-medium underline underline-offset-4">Coolify</a> is a self-hosted PaaS, think Heroku you run on your own VPS. It handles HTTPS, env vars, persistent storage, and rolling updates, so deploying Wealthfolio is mostly clicks plus a few values to paste in.

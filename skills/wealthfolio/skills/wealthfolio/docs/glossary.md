@@ -93,7 +93,7 @@ Plain-English definitions of the investment and portfolio-accounting terms used 
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 A short reference for the terms used across Wealthfolio’s app and docs. Use it when a metric or concept is unfamiliar — every entry links out to the deeper concept doc where applicable.
 
