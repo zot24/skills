@@ -93,7 +93,7 @@ Track cash flow alongside your investments. Categorize transactions, build budge
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 Spending & Budgets, introduced in **3.5**, brings your day-to-day cash flow into Wealthfolio, right next to your investments. Categorize transactions automatically, set budgets that fit how you actually spend, tag life events, and read an insights page that explains where your money went.

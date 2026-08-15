@@ -93,7 +93,7 @@ Find and fix portfolio data issues in Wealthfolio — orphan activities, negativ
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 The Health Center is the place to start when something looks off — a number doesn’t add up, a holding shows a strange spike, an account has negative cash. It runs a series of checks against your portfolio across six categories and proposes fixes for whatever it finds.
 

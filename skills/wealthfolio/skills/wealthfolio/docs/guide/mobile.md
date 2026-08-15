@@ -93,7 +93,7 @@ Wealthfolio on iOS, the road for Android, and the PWA workaround for self-hosted
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 Wealthfolio’s mobile story has three parts: a native iOS app, a Progressive Web App (PWA) for self-hosted users on any phone, and an Android version that’s planned but not yet built. This guide covers what’s available today.
 

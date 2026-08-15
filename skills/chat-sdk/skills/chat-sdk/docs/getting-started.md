@@ -3,6 +3,11 @@
 ---
 title: Getting Started
 description: Pick a guide to start building with Chat SDK.
+related:
+  - /docs/usage
+  - /docs/platform-adapters
+  - /docs/vercel-connect
+  - /docs/create-chat-sdk
 ---
 
 # Getting Started
@@ -18,7 +23,7 @@ Learn the core patterns for handling incoming events and posting messages back t
 Connect your bot to chat platforms and persist state across restarts.
 
 
-Browse all official and community adapters on the [Adapters](/adapters) page.
+Browse all official, vendor-official, and community adapters on the [Adapters](/adapters) page.
 
 ## Resources
 

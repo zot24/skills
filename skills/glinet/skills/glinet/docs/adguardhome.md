@@ -49,6 +49,8 @@ AdGuard Home is a network-wide software for blocking ads and tracking. Once set 
 
 Supported Models
 
+- GL-BE14000 (Flint 4)
+- GL-BE10000 (Slate 7 Pro)
 - GL-E5800 (Mudi 7)
 - GL-MT5000 (Brume 3)
 - GL-MT3600BE (Beryl 7)
@@ -70,6 +72,7 @@ Supported Models
 
 Unsupported Models
 
+- GL-MG1300 (Mango 2)
 - GL-SFT1200 (Opal)
 - GL-MT1300 (Beryl)
 - GL-E750/E750V2 (Mudi)

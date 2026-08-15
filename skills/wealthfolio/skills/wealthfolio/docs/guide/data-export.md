@@ -93,7 +93,7 @@ Export your data to CSV, JSON, or a full SQLite database for backup, migration, 
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 Your Wealthfolio data is yours. You can export it in three formats depending on what you need to do.

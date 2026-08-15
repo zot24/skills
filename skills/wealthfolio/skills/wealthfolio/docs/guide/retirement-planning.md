@@ -93,7 +93,7 @@ Project your portfolio to retirement, find your FIRE number, and stress-test the
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 The retirement planner is a first-class goal type that simulates your portfolio year by year, models the spending, income, taxes, and asset allocation that will apply in retirement, and tells you when (and whether) you can stop working. It powers both **traditional retirement planning** and **FIRE** (Financial Independence, Retire Early).

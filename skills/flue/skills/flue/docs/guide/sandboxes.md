@@ -126,7 +126,7 @@ useSandbox(factory, { cwd: '/srv/checkouts/flue' });
 A few rules shape how it behaves:
 
 - **At most once per render.** An agent has one environment. Call it in the agent body or inside a single custom hook; a second call in the same render throws. It also throws inside a subagent’s render — delegates share the parent’s environment.
-- **The factory is lazy.** Constructing the factory value on every render is cheap by design. The expensive work happens inside the factory’s `createSessionEnv()`, which the runtime calls once when it initializes the agent — never on re-renders.
+- **The factory is lazy.** Constructing the factory value on every render is cheap by design. The expensive work happens inside the factory’s `createSandbox()`, which the runtime calls once when it initializes the agent — never on re-renders.
 - **The factory receives the agent instance id.** Adapters can key provider resources on it, which is how a remote sandbox gives each conversation its own durable workspace (more below).
 - **`cwd` scopes the working directory** inside the environment, resolved once at initialization against the sandbox’s own base directory. It determines where commands run by default and where workspace discovery (`AGENTS.md`, skills, the directory listing) happens.
 
@@ -165,7 +165,7 @@ Add one with the [`flue add`](/docs/cli/add/) blueprint command:
 flue add sandbox e2b
 ```
 
-The blueprint walks your coding agent through creating `<source-dir>/sandboxes/e2b.ts` and installing the provider SDK. The Ecosystem catalog lists supported providers — including [Daytona](/docs/ecosystem/sandboxes/daytona/), [E2B](/docs/ecosystem/sandboxes/e2b/), [Modal](/docs/ecosystem/sandboxes/modal/), [Cloudflare Sandbox](/docs/ecosystem/sandboxes/cloudflare/), and [Cloudflare Shell](/docs/ecosystem/sandboxes/cloudflare-shell/) — see [Sandboxes in the Ecosystem](/docs/ecosystem/#sandboxes). For an unsupported provider, run `flue add sandbox <docs-url>` and your coding agent can build the adapter against the [Sandbox Adapter API](/docs/reference/sandbox-api/).
+The blueprint walks your coding agent through creating `<source-dir>/sandboxes/e2b.ts` and installing the provider SDK. The Ecosystem catalog lists supported providers — including [Daytona](/docs/ecosystem/sandboxes/daytona/), [E2B](/docs/ecosystem/sandboxes/e2b/), [Modal](/docs/ecosystem/sandboxes/modal/), [Cloudflare Sandbox](/docs/ecosystem/sandboxes/cloudflare/), and [Cloudflare Computer](/docs/ecosystem/sandboxes/cloudflare-computer/) — see [Sandboxes in the Ecosystem](/docs/ecosystem/#sandboxes). For an unsupported provider, run `flue add sandbox <docs-url>` and your coding agent can build the adapter against the [Sandbox Adapter API](/docs/reference/sandbox-api/).
 
 Adapters are deliberately thin: your application creates, reuses, and deletes provider sandboxes; Flue only connects to what you hand it and never destroys provider infrastructure. The usual pattern wraps the provider call in the factory itself, so the sandbox is created (or reconnected) lazily at initialization:
 
@@ -178,10 +178,10 @@ import { daytona } from &#39;../sandboxes/daytona.ts&#39;;
 export function CodeRunner() {
   useModel(&#39;anthropic/claude-sonnet-4-6&#39;);
   useSandbox({
-    async createSessionEnv(options) {
+    async createSandbox(options) {
       const client = new Daytona();
       const sandbox = await client.create();
-      return daytona(sandbox).createSessionEnv(options);
+      return daytona(sandbox).createSandbox(options);
     },
   });
   return &#39;Clone the repository the user names, run its test suite, and report results.&#39;;
@@ -189,13 +189,13 @@ export function CodeRunner() {
 <figcaption><span>src/agents/code-runner.ts</span></figcaption>
 </figure>
 
-`createSessionEnv({ id })` receives the agent instance id. A factory that looks up an existing provider sandbox by that id before creating one gives each conversation a durable workspace that survives across messages and process restarts.
+`createSandbox({ id })` receives the agent instance id. A factory that looks up an existing provider sandbox by that id before creating one gives each conversation a durable workspace that survives across messages and process restarts.
 
 Cancelling a running command — the model’s own `timeout`, or your application aborting the surrounding task — always rejects promptly, whatever the provider does under the hood. `local()`’s process-group kill actually stops the command, but most provider SDKs have no mid-flight cancellation: the remote command keeps running in the background after the rejection, and its eventual output is discarded rather than appearing later in the conversation. A provider whose SDK does support cancellation (Vercel, Mirage) stops the command for real instead of just abandoning it.
 
 ### Sandbox-provided tools
 
-A sandbox factory may also carry a `tools` function. When present, it **replaces** the framework’s default model-facing tool set for that agent — the [Cloudflare Shell](/docs/ecosystem/sandboxes/cloudflare-shell/) adapter, for example, keeps the `read`/`write`/`edit` file tools but swaps the shell-backed `bash`/`grep`/`glob` for a `code` tool that executes JavaScript against a durable workspace. Adapters compose these sets from the exported per-tool factories (`createReadTool`, `createBashTool`, and friends) rather than rebuilding from scratch. Because capabilities vary this way, check an integration’s documentation before assuming ordinary file or command tools are available. See the [Sandbox Adapter API](/docs/reference/sandbox-api/) for the contract.
+A sandbox factory may also carry a `tools` function. When present, it **replaces** the framework’s default model-facing tool set for that agent — an adapter for an exec-less environment, for example, keeps the `read`/`write`/`edit` file tools but swaps the shell-backed `bash`/`grep`/`glob` for its own executor tool. Adapters compose these sets from the exported per-tool factories (`createReadTool`, `createBashTool`, and friends) rather than rebuilding from scratch. Because capabilities vary this way, check an integration’s documentation before assuming ordinary file or command tools are available. See the [Sandbox Adapter API](/docs/reference/sandbox-api/) for the contract.
 
 ## Conditional attachment
 
@@ -232,7 +232,7 @@ export function SupportEngineer() {
 
 Presence of the `useSandbox()` call is read at initialization and again at every turn boundary. When it flips, the environment swaps before the next model call: attaching resolves the declared factory, and detaching removes the environment — the file and shell tools drop with it, and nothing carries over either way. The model is told about the swap with a single `environment` signal in the conversation that restates the complete current state — the new working directory plus the full tool, skill, and subagent rosters — and warns that files and results from the previous environment may no longer be accessible (see [Dynamic resources](/docs/reference/agent-api/#dynamic-resources)).
 
-The system prompt stays frozen: it keeps describing the workspace discovered at initialization until the next [compaction](/docs/reference/agent-hooks-api/#compactionconfig), which re-discovers against the current environment.
+The system prompt stays frozen: it keeps describing the workspace discovered at initialization until the next [compaction](/docs/reference/agent-hooks-api/#compactionconfig), which re-discovers against the current environment. A swap also rewrites the native tools array, since the file and shell tools come and go with it, and that invalidates the provider’s prompt cache.
 
 Only *presence* is observable: factories are fresh objects on every render, so replacing sandbox A with sandbox B while staying attached doesn’t swap mid-run — it takes effect when the next submission initializes. And because the condition lives in persistent state, it replays durably: every later submission re-attaches the same declaration, and an adapter keyed on the instance id resolves back to the same workspace.
 

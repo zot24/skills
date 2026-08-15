@@ -93,7 +93,7 @@ Run Wealthfolio on your own infrastructure. Pick the platform that fits your set
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 Wealthfolio is local-first by design. The desktop app keeps everything on your machine. The **web edition** packages the same engine into a single Docker image so you can run it on a homelab, NAS, or VPS and access it from any browser.

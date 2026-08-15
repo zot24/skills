@@ -4,9 +4,9 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Firecrawl + Make
+# Make
 
-> Official integration and workflow automation for Firecrawl + Make
+> Official integration and workflow automation for Firecrawl and Make
 
 
   **Official Make Integration:** [make.com/en/integrations/firecrawl](https://www.make.com/en/integrations/firecrawl)
@@ -16,7 +16,7 @@
 
 ## Make Integration Overview
 
-Make (formerly Integromat) provides a verified, officially supported Firecrawl integration maintained by Mendable.
+Make (formerly Integromat) provides a verified, officially supported Firecrawl integration maintained by the Firecrawl team.
 
 
     Design complex automations with Make's intuitive visual interface
@@ -217,14 +217,14 @@ Make (formerly Integromat) provides a verified, officially supported Firecrawl i
 
 ## Make vs Zapier vs n8n
 
-| Feature            | Make                              | Zapier           | n8n                  |
-| ------------------ | --------------------------------- | ---------------- | -------------------- |
-| **Setup**          | Visual builder, cloud             | No-code, cloud   | Self-hosted or cloud |
-| **Pricing**        | Operations-based                  | Per-task pricing | Flat monthly         |
-| **Integrations**   | 3,000+ apps                       | 8,000+ apps      | 400+ integrations    |
-| **Complexity**     | Advanced workflows                | Simple workflows | Complex workflows    |
-| **Best For**       | Visual automation, mid-complexity | Quick automation | Developer control    |
-| **Learning Curve** | Moderate                          | Easy             | Moderate-Advanced    |
+| Feature            | Make                              | Zapier           | n8n                      |
+| ------------------ | --------------------------------- | ---------------- | ------------------------ |
+| **Setup**          | Visual builder, cloud             | No-code, cloud   | Self-hosted or cloud     |
+| **Pricing**        | Operations-based                  | Per-task pricing | Execution-based          |
+| **Integrations**   | 3,000+ apps                       | 9,000+ apps      | 1,000+ apps and services |
+| **Complexity**     | Advanced workflows                | Simple workflows | Complex workflows        |
+| **Best For**       | Visual automation, mid-complexity | Quick automation | Developer control        |
+| **Learning Curve** | Moderate                          | Easy             | Moderate-Advanced        |
 
 
   **Pro Tip:** Make excels at visual workflow design and complex automations. Perfect for teams that need more control than Zapier but prefer visual building over n8n's code-first approach.

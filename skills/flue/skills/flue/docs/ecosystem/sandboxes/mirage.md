@@ -37,8 +37,8 @@ The Mirage blueprint installs `@struktoai/mirage-node` for Node or `@struktoai/m
 
 <figure class="astro-code-figure">
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/mirage@1
-import { createSandboxSessionEnv } from &#39;@flue/runtime&#39;;
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
+import { sandboxFromDriver } from &#39;@flue/runtime&#39;;
+import type { SandboxDriver, SandboxFactory, Sandbox, FileStat } from &#39;@flue/runtime&#39;;
 import type { Workspace as MirageWorkspace } from &#39;@struktoai/mirage-core&#39;;
 
 export interface MirageAdapterOptions {
@@ -47,7 +47,7 @@ export interface MirageAdapterOptions {
 
 /* ... generated shellQuote() helper ... */
 
-class MirageSandboxApi implements SandboxApi {
+class MirageSandboxDriver implements SandboxDriver {
   constructor(
     private workspace: MirageWorkspace,
     private flueContextId: string,
@@ -126,7 +126,7 @@ class MirageSandboxApi implements SandboxApi {
 
 export function mirage(workspace: MirageWorkspace, options?: MirageAdapterOptions): SandboxFactory {
   return {
-    async createSessionEnv({ id }: { id: string }): Promise&lt;SessionEnv&gt; {
+    async createSandbox({ id }: { id: string }): Promise&lt;Sandbox&gt; {
       try {
         workspace.createSession(id);
       } catch {
@@ -134,8 +134,8 @@ export function mirage(workspace: MirageWorkspace, options?: MirageAdapterOption
       }
 
       const sandboxCwd = options?.cwd ?? &#39;/&#39;;
-      const api = new MirageSandboxApi(workspace, id);
-      return createSandboxSessionEnv(api, sandboxCwd);
+      const driver = new MirageSandboxDriver(workspace, id);
+      return sandboxFromDriver(driver, sandboxCwd);
     },
   };
 }</code></pre>

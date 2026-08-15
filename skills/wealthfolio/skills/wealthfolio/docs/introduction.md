@@ -93,7 +93,7 @@ Get started with Wealthfolio — a private, open-source investment tracker and p
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 Wealthfolio is a private, open-source investment tracker and personal finance app. Your data lives on your own machine in a local SQLite file — no subscriptions, no cloud, no lock-in.

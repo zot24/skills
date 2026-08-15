@@ -93,7 +93,7 @@ Complete reference for Wealthfolio addon APIs.
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 # API Reference

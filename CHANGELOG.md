@@ -3,6 +3,116 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-08-15] Documentation Sync
+
+**Updated skills:** agent-browser chat-sdk ai-sdk agent-skills hermes honcho firecrawl servarr glinet umami flue wealthfolio 1password-cli x-engagement pxpipe
+
+
+### agent-browser
+Updated: readme-upstream.md
+Updated: installation.md
+Updated: quick-start.md
+Updated: commands.md
+Updated: selectors.md
+
+### chat-sdk
+Updated: adapter-community-baileys.md
+Updated: adapter-community-blooio.md
+Updated: adapter-community-cloudflare-do.md
+Updated: adapter-community-mattermost.md
+Updated: adapter-community-mysql.md
+
+### ai-sdk
+Updated: readme-upstream.md
+Updated: getting-started.md
+Updated: core-overview.md
+Updated: ui-overview.md
+Updated: tools.md
+
+### agent-skills
+Updated: readme-upstream.md
+Updated: specification.md
+Updated: what-are-skills.md
+Updated: integrate-skills.md
+Updated: skill-creation-quickstart.md
+
+### hermes
+Updated: installation.md
+Updated: quickstart.md
+Updated: learning-path.md
+Updated: cli.md
+Updated: configuration.md
+
+### honcho
+Updated: overview.md
+Updated: quickstart.md
+Updated: vibecoding.md
+Updated: architecture.md
+Updated: design-patterns.md
+
+### firecrawl
+Updated: readme-upstream.md
+Updated: quickstart.md
+Updated: scrape.md
+Updated: search.md
+Updated: crawl.md
+
+### servarr
+Updated: recyclarr-config.md
+Updated: sonarr.md
+Updated: radarr.md
+Updated: lidarr.md
+Updated: prowlarr.md
+
+### glinet
+Updated: first-time-setup.md
+Updated: internet-wan.md
+Updated: wireless.md
+Updated: lan-dns.md
+Updated: vpn-dashboard.md
+
+### umami
+Updated: readme-upstream.md
+Updated: api-client.md
+Updated: node-client.md
+Updated: authentication.md
+Updated: websites-api.md
+
+### flue
+Updated: home.md
+Updated: flue-1-0-beta.md
+Updated: agent-api.md
+Updated: data-persistence-api.md
+Updated: errors-reference.md
+
+### wealthfolio
+Updated: addons.md
+Updated: api-reference.md
+Updated: getting-started.md
+Updated: concepts.md
+Updated: activity-types.md
+
+### 1password-cli
+Updated: get-started.md
+Updated: app-integration.md
+Updated: sign-in-manually.md
+Updated: use-multiple-accounts.md
+Updated: secret-references.md
+
+### x-engagement
+Updated: x-algorithm-readme.md
+Updated: home-mixer-params.md
+Updated: home-mixer-config.md
+Updated: visibility-filtering-registry.md
+Updated: banger-screen-state.md
+
+### pxpipe
+Updated: readme-upstream.md
+
+---
+
+
+
 ## [2026-08-01] Documentation Sync
 
 **Updated skills:** agent-browser chat-sdk ai-sdk agent-skills hermes honcho firecrawl servarr obsidian adguard immich glinet flue wealthfolio 1password-cli pxpipe

@@ -6,54 +6,40 @@
 
 # Use Firecrawl MCP in Claude
 
-> Connect Claude to Firecrawl with OAuth
+> Add Firecrawl to Claude.ai with the native connector
 
-Add Firecrawl capabilities to Claude with a remote account connector.
+Add Firecrawl to Claude.ai with the native Firecrawl connector. You do not need to add a custom connector or paste a server URL.
 
 
   Looking for Claude Code setup? See the [Claude Code guide](/quickstarts/claude-code) instead.
 
 
-## Quick Setup
+## Add to Claude
 
-### 1. Add a custom connector
 
-Go to [Settings > Connectors](https://claude.ai/settings/connectors) in Claude.ai and click **Add custom connector**.
+  Open the Firecrawl connector in Claude.ai and connect it.
 
-Fill in the connector details:
 
-* **URL:** `https://mcp.firecrawl.dev/v2/mcp-oauth`
-* **OAuth Client ID:** Leave blank
-* **OAuth Client Secret:** Leave blank
+1. Open the [Firecrawl connector in Claude.ai](https://claude.ai/directory/connectors/firecrawl).
+2. Connect Firecrawl. When Claude opens Firecrawl in your browser, sign in, choose a team, and approve access.
+3. In a conversation, open the **+** menu, go to **Connectors**, and enable Firecrawl.
 
-Click **Add** to save the connector.
+On Team or Enterprise plans, an organization Owner may need to allow the connector before members can connect.
 
-Claude opens Firecrawl in your browser. Sign in, choose the team to use, and approve access. Your raw API key is never placed in the connector URL. See [Connect an MCP Client to Your Account](/developer-guides/mcp-setup-guides/oauth) for the endpoint contract and other supported modes.
+Requests through this connector use the credits and plan of the team you selected during sign-in. Review or revoke the connection anytime from [MCP settings](https://www.firecrawl.dev/app/settings?tab=mcp).
 
-### 2. Enable in Conversation
+## Try
 
-In any Claude.ai conversation, click the **+** button at the bottom left, go to **Connectors**, and enable the Firecrawl connector.
+With Firecrawl enabled, try:
 
-## Quick Demo
-
-With the Firecrawl connector enabled, try these prompts:
-
-**Search the web:**
-
-```
-Search for the latest Next.js 15 features
+```text theme={null}
+Search the web for the latest Firecrawl release notes and summarize the sources.
 ```
 
-**Scrape a page:**
-
-```
+```text theme={null}
 Scrape firecrawl.dev and tell me what it does
 ```
 
-**Get documentation:**
+## More
 
-```
-Find and scrape the Stripe API docs for payment intents
-```
-
-Claude will automatically use Firecrawl's search and scrape tools to get the information.
+See [For Humans](/mcp-server/oauth) for sign-in setup in other clients, or [For Agents](/mcp-server/keyless) to start keyless.

@@ -149,7 +149,7 @@ console.log(res.links);
 
 ### Crawling a Website with WebSockets
 
-Stream crawl results in real time with the `crawlUrlAndWatch` method. You receive each page as it is crawled instead of waiting for the entire job to finish.
+Stream crawl results in real time with `watcher(jobId, options)`. You receive each page as it is crawled instead of waiting for the entire job to finish.
 
 ```js Node theme={null}
 import { Firecrawl } from 'firecrawl';

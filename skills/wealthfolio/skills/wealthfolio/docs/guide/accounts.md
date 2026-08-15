@@ -93,7 +93,7 @@ Add and configure accounts, organize them into groups, and build portfolios — 
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 Accounts are where your money lives; portfolios are how you slice across them. Both are managed under **Settings → Accounts** and **Settings → Portfolios**.
 

@@ -4,6 +4,9 @@
 title: Cards
 description: Rich card components for cross-platform interactive messages.
 type: reference
+related:
+  - /docs/cards
+  - /docs/actions
 ---
 
 # Cards

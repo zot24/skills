@@ -6,6 +6,10 @@ description: Collect structured user input through modal dialogs with text field
 type: guide
 prerequisites:
   - /docs/actions
+related:
+  - /docs/api/modals
+  - /docs/cards
+  - /docs/slash-commands
 ---
 
 # Modals

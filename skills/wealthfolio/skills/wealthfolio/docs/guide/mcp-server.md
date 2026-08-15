@@ -93,7 +93,7 @@ Connect Wealthfolio to external AI agents — Claude, Cursor, Windsurf, Cline, V
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 **Wealthfolio’s MCP server** lets external AI agents talk to your portfolio over the <a href="https://modelcontextprotocol.io" class="font-medium underline underline-offset-4">Model Context Protocol</a>. Point Claude Desktop, Claude Code, Cursor, Windsurf, Cline, or any MCP-capable client at Wealthfolio and it can read your holdings, performance, and activities — and, if you allow it, draft or record new activities — through the exact same typed tools the built-in <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> uses.
 

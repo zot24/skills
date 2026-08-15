@@ -106,6 +106,7 @@ function cloudflareBindingProvider(options: CloudflareBindingProviderOptions): P
 interface CloudflareBindingProviderOptions {
   binding: CloudflareAIBinding; // env.AI
   gateway?: CloudflareGatewayOptions | false;
+  streamIdleTimeoutMs?: number;
 }
 ```
 
@@ -113,6 +114,7 @@ Builds the `cloudflare` provider: Pi models dispatched through a [Workers AI bin
 
 - `binding` — the captured `env.AI` reference.
 - `gateway` — [AI Gateway](https://developers.cloudflare.com/ai-gateway/) routing for every `run` call through this provider. Tri-state: omitted routes through Cloudflare’s default AI Gateway (the options object `{ id: 'default' }`, which the binding provisions on demand for the account); a [`CloudflareGatewayOptions`](#cloudflaregatewayoptions) object replaces the default; `false` opts out — no gateway option is passed to `run`.
+- `streamIdleTimeoutMs` — cap on how long a model stream may go without delivering a byte before the request fails as a retryable interruption, which the turn retries under the transient-error budget. Defaults to five minutes — generous, because a long-thinking model can be legitimately silent when neither keepalives nor reasoning deltas stream. `0` disables the guard.
 
 Behavior:
 
@@ -137,7 +139,7 @@ interface CloudflareGatewayOptions {
 }
 ```
 
-AI Gateway options forwarded verbatim as the `gateway` option on every `binding.run(...)` call routed through a [`cloudflareBindingProvider()`](#cloudflarebindingprovider). The shape mirrors [Cloudflare’s Worker binding methods documentation](https://developers.cloudflare.com/ai-gateway/integrations/worker-binding-methods/), which defines each field’s provider-side semantics. Exported from `@flue/runtime/cloudflare`.
+AI Gateway options applied to every `binding.run(...)` call routed through a [`cloudflareBindingProvider()`](#cloudflarebindingprovider). The shape mirrors [Cloudflare’s Worker binding methods documentation](https://developers.cloudflare.com/ai-gateway/integrations/worker-binding-methods/), which defines each field’s provider-side semantics; every field except `requestTimeoutMs` is forwarded verbatim in the `gateway` option. Exported from `@flue/runtime/cloudflare`.
 
 - `id` — the AI Gateway ID (slug) to route through. Required whenever gateway options are specified.
 - `skipCache` — bypass the gateway cache for the request.
@@ -146,7 +148,7 @@ AI Gateway options forwarded verbatim as the `gateway` option on every `binding.
 - `metadata` — arbitrary metadata surfaced on the gateway log entry.
 - `collectLog` — force collecting (or not collecting) request logs.
 - `eventId` — custom event ID for log correlation.
-- `requestTimeoutMs` — per-request timeout enforced by the gateway, in milliseconds.
+- `requestTimeoutMs` — gateway-enforced bound, in milliseconds, on the time to the first part of the response (not total duration — pair with [`streamIdleTimeoutMs`](#cloudflarebindingprovider) for mid-stream stalls). The binding has no equivalent field, so this is emitted as the `cf-aig-request-timeout` header on the request rather than forwarded in the `gateway` option.
 
 ## `CloudflareAIBinding`
 

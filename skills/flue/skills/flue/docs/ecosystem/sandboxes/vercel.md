@@ -37,11 +37,11 @@ The blueprint installs `@vercel/sandbox` when needed and creates `sandboxes/verc
 
 <figure class="astro-code-figure">
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/vercel@1
-import { createSandboxSessionEnv, useModel } from &#39;@flue/runtime&#39;;
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
+import { sandboxFromDriver, useModel } from &#39;@flue/runtime&#39;;
+import type { SandboxDriver, SandboxFactory, Sandbox, FileStat } from &#39;@flue/runtime&#39;;
 import type { Sandbox as VercelSandbox } from &#39;@vercel/sandbox&#39;;
 
-class VercelSandboxApi implements SandboxApi {
+class VercelSandboxDriver implements SandboxDriver {
   constructor(private sandbox: VercelSandbox) {}
 
   /* ... generated filesystem operations using sandbox.fs ... */
@@ -107,10 +107,10 @@ class VercelSandboxApi implements SandboxApi {
 
 export function vercel(sandbox: VercelSandbox): SandboxFactory {
   return {
-    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+    async createSandbox(): Promise&lt;Sandbox&gt; {
       const sandboxCwd = &#39;/vercel/sandbox&#39;;
-      const api = new VercelSandboxApi(sandbox);
-      return createSandboxSessionEnv(api, sandboxCwd);
+      const driver = new VercelSandboxDriver(sandbox);
+      return sandboxFromDriver(driver, sandboxCwd);
     },
   };
 }</code></pre>
@@ -143,10 +143,10 @@ export function Assistant() {
   useSandbox({
     // Lazy, per the SandboxFactory contract: constructing this object is
     // cheap; the expensive Vercel sandbox creation happens once, inside
-    // createSessionEnv(), at initialization — never on a re-render.
-    async createSessionEnv(options) {
+    // createSandbox(), at initialization — never on a re-render.
+    async createSandbox(options) {
       const sandbox = await Sandbox.create({ runtime: 'node24' });
-      return vercel(sandbox).createSessionEnv(options);
+      return vercel(sandbox).createSandbox(options);
     },
   });
 }

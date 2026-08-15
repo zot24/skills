@@ -1,0 +1,69 @@
+> Source: https://docs.firecrawl.dev/integrations/llamaindex.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# LlamaIndex
+
+> Firecrawl integrates with LlamaIndex as a document reader.
+
+## Installation
+
+```bash theme={null}
+pip install 'firecrawl-py>=4.3.3' llama-index llama-index-readers-web
+```
+
+## Usage
+
+`FireCrawlWebReader` supports `scrape`, `crawl`, `map`, `search`, and `extract` modes.
+
+### Using Firecrawl to Gather an Entire Website
+
+```python theme={null}
+from llama_index.readers.web import FireCrawlWebReader
+from llama_index.core import SummaryIndex
+import os
+
+
+# Initialize FireCrawlWebReader to crawl a website
+firecrawl_reader = FireCrawlWebReader(
+    api_key="<your_api_key>",  # Replace with your actual API key from https://www.firecrawl.dev/
+    mode="crawl",  # "scrape", "crawl", "map", "search", or "extract"
+    params={"additional": "parameters"}  # Optional additional parameters
+)
+
+# Set the environment variable for the virtual key
+os.environ["OPENAI_API_KEY"] = "<OPENAI_API_KEY>"
+
+# Load documents from a single page URL
+documents = firecrawl_reader.load_data(url="http://paulgraham.com/")
+index = SummaryIndex.from_documents(documents)
+
+# Set Logging to DEBUG for more detailed outputs
+query_engine = index.as_query_engine()
+response = query_engine.query("What did the author do growing up?")
+display(Markdown(f"<b>{response}</b>"))
+```
+
+### Using Firecrawl to Gather a Single Page
+
+```python theme={null}
+from llama_index.readers.web import FireCrawlWebReader
+
+# Initialize the FireCrawlWebReader with your API key and desired mode
+firecrawl_reader = FireCrawlWebReader(
+    api_key="<your_api_key>",  # Replace with your actual API key from https://www.firecrawl.dev/
+    mode="scrape",  # "scrape", "crawl", "map", "search", or "extract"
+    params={"additional": "parameters"}  # Optional additional parameters
+)
+
+# Load documents from a specified URL
+documents = firecrawl_reader.load_data(url="http://paulgraham.com/worked.html")
+index = SummaryIndex.from_documents(documents)
+
+# Set Logging to DEBUG for more detailed outputs
+query_engine = index.as_query_engine()
+response = query_engine.query("What did the author do growing up?")
+display(Markdown(f"<b>{response}</b>"))
+```

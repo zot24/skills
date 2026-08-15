@@ -93,7 +93,7 @@ Manual entry, CSV import, editing, subtypes, short trades, transfers, and the fu
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 Activities are the atomic events that drive your portfolio: every trade, dividend, deposit, fee, and adjustment. This guide covers how to add them, edit them, and use the subtypes and trade intents that handle DRIP, staking, short positions, options, transfers, and option expiry cleanly.
 

@@ -30,9 +30,6 @@ Introduction
 <a href="/sdks/overview" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">SDKs</a>
 
 
-<a href="https://www.firecrawl.dev/app" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200" target="_blank" rel="noreferrer">Integrations</a>
-
-
 <a href="/api-reference/v2-introduction" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">API Reference</a>
 
 
@@ -48,13 +45,33 @@ Get Started
 Search the web, scrape any page, and interact with it, all through one API.
 
 
-<a href="" class="firecrawl-cta-btn-primary firecrawl-cta-btn-inline"><span data-as="p">Start the interview</span></a>
+## 
+
+
+<a href="#get-started" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#build-directly-with-the-api" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "formats": ["markdown", "html"]
+  }'
+```
 
 
 ## 
 
 
-<a href="#get-started" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#other-ways-to-get-started" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 ### 
@@ -114,6 +131,10 @@ npx -y firecrawl-cli@latest init --all --browser
 - **Reliable**: Built for production with high uptime and consistent results.
 - **Fast**: Results in seconds, optimized for high throughput.
 - **MCP Server**: Connect Firecrawl to any AI tool via the <a href="/mcp-server" class="link">Model Context Protocol</a>.
+
+
+<a href="" class="link firecrawl-cta-btn-primary firecrawl-cta-btn-inline" target="_blank" rel="noreferrer"><span data-as="p">Start the interview</span></a>
+
 
 ------------------------------------------------------------------------
 
@@ -462,6 +483,9 @@ Response
 ## Browser Sandbox
 
 
+## Parse
+
+
 ## Map
 
 
@@ -489,11 +513,5 @@ Response
 
 
 <a href="https://github.com/firecrawl/firecrawl-docs/edit/main/introduction.mdx" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Suggest edits</span></a><a href="https://github.com/firecrawl/firecrawl-docs/issues/new?title=Issue%20on%20docs&amp;body=Path:%20/introduction" class="h-fit whitespace-nowrap px-3.5 py-2 flex flex-row gap-3 items-center border-standard rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-white/50 dark:bg-codeblock/50 hover:border-gray-500 hover:dark:border-gray-500" target="_blank" rel="noopener noreferrer"><span class="small">Raise issue</span></a>
-
-
-<a href="/sdks/cli" class="border border-gray-200/70 dark:border-gray-800/70 group flex items-center rounded-xl py-3 px-4 min-w-0 hover:border-gray-300 dark:hover:border-gray-700 justify-end"></a>
-
-
-Skills + CLI
 
 

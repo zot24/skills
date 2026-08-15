@@ -6,6 +6,10 @@ description: Stream real-time text responses from AI models and other async sour
 type: guide
 prerequisites:
   - /docs/usage
+related:
+  - /docs/api/markdown
+  - /docs/concurrency
+  - /docs/ai
 ---
 
 # Streaming
@@ -61,17 +65,18 @@ await thread.post(stream);
 
 ## Platform behavior
 
-| Platform    | Method                                | Description                                                                                                                                          |
-| ----------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Slack       | Native streaming API                  | Uses Slack's `chatStream` for smooth, real-time updates                                                                                              |
-| Telegram    | Private chat rich draft previews      | Uses Telegram's `sendRichMessageDraft` in private chats, persists the final response with `sendRichMessage`, and falls back to post + edit elsewhere |
-| Teams       | Native (DMs) / Buffered (group chats) | Uses the Teams SDK's native `stream.emit()` for direct messages; accumulates chunks and posts one final message when no native streamer is active    |
-| Google Chat | Post + Edit                           | Posts a message then edits it as chunks arrive                                                                                                       |
-| Discord     | Post + Edit                           | Posts a message then edits it as chunks arrive                                                                                                       |
-| GitHub      | Buffered                              | Accumulates chunks and posts one final comment                                                                                                       |
-| Linear      | Agent sessions / Post + Edit          | Uses agent session activities in agent-session threads; falls back to post+edit comments in issue threads                                            |
-| WhatsApp    | Buffered                              | Accumulates chunks and sends one final message                                                                                                       |
-| Messenger   | Buffered                              | Accumulates chunks and sends one final message                                                                                                       |
+| Platform    | Method                                | Description                                                                                                                                                                                             |
+| ----------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Slack       | Native streaming API                  | Uses Slack's `chatStream` for smooth, real-time updates                                                                                                                                                 |
+| Telegram    | Post + Edit                           | Posts a message then edits it as chunks arrive (throttled to \~1 edit/s). Set `nativeStreaming: true` to use `sendRichMessageDraft` previews in private chats instead, persisted with `sendRichMessage` |
+| Teams       | Native (DMs) / Buffered (group chats) | Uses the Teams SDK's native `stream.emit()` for direct messages; accumulates chunks and posts one final message when no native streamer is active                                                       |
+| Google Chat | Post + Edit                           | Posts a message then edits it as chunks arrive                                                                                                                                                          |
+| Discord     | Post + Edit                           | Posts a message then edits it as chunks arrive                                                                                                                                                          |
+| GitHub      | Buffered                              | Accumulates chunks and posts one final comment                                                                                                                                                          |
+| Linear      | Agent sessions / Post + Edit          | Uses agent session activities in agent-session threads; falls back to post+edit comments in issue threads                                                                                               |
+| Notion      | Post + Edit                           | Posts a comment then edits it as chunks arrive (throttled for \~3 req/s)                                                                                                                                |
+| WhatsApp    | Buffered                              | Accumulates chunks and sends one final message                                                                                                                                                          |
+| Messenger   | Buffered                              | Accumulates chunks and sends one final message                                                                                                                                                          |
 
 The post+edit fallback throttles edits to avoid rate limits. Configure the update interval when creating your `Chat` instance:
 

@@ -39,7 +39,8 @@ bot.onNewMention(async (thread, message) => {
 ## Configuration
 
 
-`botToken`, `publicKey`, and `applicationId` are required.
+`botToken` and `applicationId` are required. Provide either `publicKey` or
+`webhookVerifier`.
 
 ## Components cards
 

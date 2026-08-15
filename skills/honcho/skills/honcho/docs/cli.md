@@ -436,7 +436,7 @@ List, create, chat with, search, and manage peers and their representations.
 
 ## honcho session
 
-List, inspect, create, delete, and manage conversation sessions and their peers.
+List, inspect, view, create, delete, and manage conversation sessions and their peers.
 
 
     Add peers to a session.
@@ -606,6 +606,55 @@ List, inspect, create, delete, and manage conversation sessions and their peers.
     <ParamField path="session_id" type="string" />
 
 
+    View a session transcript as a chat log.
+
+    Modes (pick one):
+
+    * default / --last N: tail of the conversation (most recent N)
+    * \--page N \[--size M]: page through the full transcript
+    * \--all: every message
+
+    Paging follows the requested order: --page 1 starts at the oldest message,
+    or the newest with --reverse.
+
+    Human mode prints a row-delimited table. JSON mode emits the message list
+    (same shape as message list).
+
+    ```bash
+    honcho session view [<session_id>]
+    ```
+
+    <ParamField path="session_id" type="string" />
+
+    <ParamField path="--last" type="number">
+      Show only the N most recent messages (default when no --page/--all: 50).
+    </ParamField>
+
+    <ParamField path="--page" type="number">
+      1-indexed page of the full transcript. Use for page 2+.
+    </ParamField>
+
+    <ParamField path="--size" type="number">
+      Messages per page; requires --page (1-100, default: 50).
+    </ParamField>
+
+    <ParamField path="--all" type="boolean">
+      Show the full transcript (every page).
+    </ParamField>
+
+    <ParamField path="--reverse" type="boolean">
+      Newest first (default is chronological: oldest at top).
+    </ParamField>
+
+    <ParamField path="--ids" type="boolean">
+      Include message IDs in the transcript.
+    </ParamField>
+
+    <ParamField path="--peer" type="string">
+      Filter by peer ID. Short alias: `-p`.
+    </ParamField>
+
+
 ## honcho workspace
 
 List, create, inspect, delete, and search workspaces.
@@ -719,13 +768,13 @@ When you pick up a workspace and need to orient — start broad, narrow to the p
 
     ```bash
     honcho session inspect <session_id> --json
-    honcho message list <session_id> --last 20 --json
+    honcho session view <session_id> --last 20
     honcho session context <session_id> --json
     honcho session summaries <session_id> --json
     ```
 
 
-  `honcho session context` shows exactly what an agent would receive at inference time — check it before `honcho peer chat` if a response surprises you.
+  `honcho session context` shows exactly what an agent would receive at inference time — check it before `honcho peer chat` if a response surprises you. `honcho session view` shows the raw transcript that context was built from; it prints content verbatim, so tag-delimited and multi-line messages appear exactly as stored.
 
 
 ### A peer isn't learning
@@ -751,7 +800,7 @@ When an agent's responses don't reflect what you expect it to know.
 ```bash theme={null}
 honcho session context <session_id> --json
 honcho session summaries <session_id> --json
-honcho message list <session_id> --last 50 --json
+honcho session view <session_id> --last 50
 ```
 
 ### Dialectic returns bad answers

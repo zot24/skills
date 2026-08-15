@@ -90,6 +90,37 @@ Card elements are automatically converted to WhatsApp interactive messages:
 * **More than 3 buttons** — falls back to formatted text.
 * **Max body text** — 1024 characters.
 
+When a card with reply buttons also contains link buttons, each link button is appended to the interactive message body as a `Label: url` line, since WhatsApp reply buttons cannot open URLs.
+
+### Contextual replies
+
+Use `thread.reply()` to quote a specific message in WhatsApp:
+
+```typescript
+bot.onNewMessage(async (thread, message) => {
+  await thread.reply(message, {
+    markdown: "I can help with that.",
+  });
+});
+```
+
+You can pass either a `Message` or a message ID as the target. Text, cards, files, and buffered streams are supported. When one logical reply produces multiple WhatsApp messages, only the first message includes the contextual reference.
+
+Replies are outbound only. When a user quote-replies to one of your messages, the adapter does not yet surface what they quoted, so `message.replyTo` is `undefined` on inbound WhatsApp messages.
+
+WhatsApp does not display the quoted bubble when the target was deleted or moved to long-term storage, when the reply is a template message, or for some media replies on KaiOS. Reaction messages cannot be contextual replies. See [Meta's contextual replies documentation](https://developers.facebook.com/documentation/business-messaging/whatsapp/messages/contextual-replies/).
+
+### Link buttons (CTA URL)
+
+A card whose only interactive element is a single `LinkButton` is sent as a native WhatsApp CTA URL message with a tappable link button. The card is promoted only when all of these hold:
+
+* The `LinkButton` is the card's only action across every actions row, including rows nested in sections. Reply buttons, selects, radio selects, or a second populated actions row keep the text fallback.
+* The URL starts with `http://` or `https://` and the label is non-empty. Other schemes (`mailto:`, `tel:`, relative paths) keep the text fallback because the Cloud API rejects them.
+* The card has no header `imageUrl` and no image, table, chart, or inline link children. The interactive body cannot carry those, so such cards keep the text fallback to avoid losing content. Text, fields, sections, and dividers are fine.
+* The post has no `files` or `attachments`. When media accompanies the card, the adapter keeps the single captioned media send.
+
+The button label is truncated to 20 characters, the header (card title) to 60, and the body to 1024. Cards that do not match these rules fall back to formatted text, where link buttons render as `Label: url`.
+
 ### Template messages
 
 Outside the 24-hour customer service window, WhatsApp only accepts pre-approved [template messages](https://developers.facebook.com/docs/whatsapp/cloud-api/guides/send-message-templates). Use `sendTemplate` to start business-initiated conversations:
@@ -110,6 +141,41 @@ await adapter.sendTemplate(threadId, {
 ```
 
 Templates must be created and approved in [WhatsApp Manager](https://business.facebook.com/wa/manage/message-templates/) before they can be sent. Quick reply button taps on a template arrive as button responses and are dispatched to your `onAction` handlers.
+
+### Typing indicators
+
+WhatsApp supports typing indicators through `thread.startTyping()` or `adapter.startTyping(threadId)`.
+
+Use it when the bot is about to respond and may take a few seconds. The adapter sends Meta's read-plus-typing payload using the latest inbound message in the thread, so the indicator only works after the bot has received a message.
+
+```typescript
+bot.onNewMessage(async (thread, message) => {
+  await thread.startTyping();
+
+  await thread.post({
+    markdown: "Thanks, I am checking that now.",
+  });
+});
+```
+
+WhatsApp-specific behavior:
+
+* The adapter uses the most recent inbound message ID from thread history.
+* If there is no inbound message context, `startTyping()` no-ops.
+* The typing indicator is dismissed when the bot sends its reply, or after the WhatsApp platform timeout.
+
+### Read receipts
+
+Mark the current inbound message as read before starting work:
+
+```typescript
+bot.onDirectMessage(async (thread) => {
+  await thread.markAsRead();
+  await thread.post("Thanks, I am checking that now.");
+});
+```
+
+You can also pass an inbound `Message` or its ID to `thread.markAsRead()`. WhatsApp marks that message and earlier messages in the conversation as read. It does not allow outgoing message IDs to be marked as read and recommends acknowledging inbound messages within 30 days.
 
 ### Thread ID format
 
@@ -132,7 +198,7 @@ WhatsApp-specific behavior:
 * **One media per message** — multiple `files` or `attachments` in a single `post()` are sent as sequential messages (the last message ID is returned).
 * **Captions** — markdown (or card fallback text) is attached as a caption on the first media message when supported (max 1024 characters). Text is sent as a separate message first when the caption is too long or when the first media is audio (audio does not support captions).
 * **Binary vs link** — buffers are uploaded via the Cloud API `/media` endpoint; `attachments` with only an `url` use HTTPS link passthrough (no upload). URLs must use `https://`.
-* **Cards + files** — when the card renders as an interactive message (reply buttons or a list), media is sent first without a caption and the interactive message that follows carries the title, body, and buttons. When the card falls back to plain text (e.g. only link buttons), the fallback text captions the first media. To send a photo with buttons, pass the image via `files` or `attachments` — card-embedded images (`imageUrl` or `<Image>` children) are not sent as native media.
+* **Cards + files** — when the card renders as an interactive message (reply buttons or a list), media is sent first without a caption and the interactive message that follows carries the title, body, and buttons. When the card falls back to plain text, the fallback text captions the first media, and the caption includes a `Label: url` line for each link button. A card with only a link button is not promoted to a CTA URL message when media is attached, so it takes this captioned path too. To send a photo with buttons, pass the image via `files` or `attachments` — card-embedded images (`imageUrl` or `<Image>` children) are not sent as native media.
 
 ```typescript title="lib/bot.ts" lineNumbers
 await thread.post({

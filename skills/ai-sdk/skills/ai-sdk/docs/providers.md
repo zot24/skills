@@ -93,6 +93,7 @@ The open-source community has created the following providers:
 - [Zhipu (Z.AI) Provider](/providers/community-providers/zhipu) (`zhipu-ai-provider`)
 - [OLLM Provider](/providers/community-providers/ollm) (`@ofoundation/ollm`)
 - [ZeroEntropy Provider](/providers/community-providers/zeroentropy) (`zeroentropy-ai-provider`)
+- [Crusoe Provider](/providers/community-providers/crusoe) (`crusoe-ai-provider`)
 - [Neon AI Gateway Provider](/providers/community-providers/neon-ai-gateway) (`@neon/ai-sdk-provider`)
 
 ## Self-Hosted Models
@@ -113,11 +114,11 @@ Here are the capabilities of popular models:
 
 | Provider                                           | Model                                       | Image Input | Object Generation | Tool Usage | Tool Streaming |
 | -------------------------------------------------- | ------------------------------------------- | ----------- | ----------------- | ---------- | -------------- |
+| [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-4.6`                                  |    |          |   |       |
 | [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-4.5`                                  |    |          |   |       |
 | [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-4`                                    |    |          |   |       |
 | [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-3`                                    |    |          |   |       |
 | [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-3-mini`                               |    |          |   |       |
-| [Vercel](/providers/ai-sdk-providers/vercel)       | `v0-1.0-md`                                 |    |          |   |       |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6`                                   |    |          |   |       |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6-luna`                              |    |          |   |       |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6-sol`                               |    |          |   |       |
@@ -160,9 +161,9 @@ Here are the capabilities of popular models:
 | [Mistral](/providers/ai-sdk-providers/mistral)     | `pixtral-12b-2409`                          |    |          |   |       |
 | [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-chat`                             |    |          |   |       |
 | [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-reasoner`                         |    |          |   |       |
-| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `llama3.1-8b`                               |    |          |   |       |
-| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `llama3.1-70b`                              |    |          |   |       |
-| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `llama3.3-70b`                              |    |          |   |       |
+| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `gpt-oss-120b`                              |    |          |   |       |
+| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `zai-glm-4.7`                               |    |          |   |       |
+| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `gemma-4-31b`                               |    |          |   |       |
 | [Groq](/providers/ai-sdk-providers/groq)           | `meta-llama/llama-4-scout-17b-16e-instruct` |    |          |   |       |
 | [Groq](/providers/ai-sdk-providers/groq)           | `llama-3.3-70b-versatile`                   |    |          |   |       |
 | [Groq](/providers/ai-sdk-providers/groq)           | `llama-3.1-8b-instant`                      |    |          |   |       |

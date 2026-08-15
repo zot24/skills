@@ -4,6 +4,10 @@
 title: PostableMessage
 description: The union type accepted by thread.post() for sending messages.
 type: reference
+related:
+  - /docs/posting-messages
+  - /docs/streaming
+  - /docs/cards
 ---
 
 # PostableMessage

@@ -30,15 +30,15 @@ gl-inet/docs4.x
 
 <a href="../ethernet_port/" class="md-nav__link"><span class="md-ellipsis"> Ethernet Port </span></a>
 
-<a href="../network_mode/" class="md-nav__link"><span class="md-ellipsis"> Network Mode </span></a>
-
 <a href="../ipv6/" class="md-nav__link"><span class="md-ellipsis"> IPv6 </span></a>
 
 <a href="../mac_address/" class="md-nav__link"><span class="md-ellipsis"> MAC Address </span></a>
 
-<a href="../drop-in_gateway/" class="md-nav__link"><span class="md-ellipsis"> Drop-in Gateway </span></a>
-
 <a href="../igmp_snooping/" class="md-nav__link"><span class="md-ellipsis"> IGMP Snooping </span></a>
+
+<a href="../network_mode/" class="md-nav__link"><span class="md-ellipsis"> Network Mode </span></a>
+
+<a href="../drop-in_gateway/" class="md-nav__link"><span class="md-ellipsis"> Drop-in Gateway </span></a>
 
 <a href="../hardware_acceleration/" class="md-nav__link"><span class="md-ellipsis"> Hardware Acceleration </span></a>
 

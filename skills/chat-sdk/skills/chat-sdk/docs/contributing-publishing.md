@@ -10,6 +10,7 @@ prerequisites:
   - /docs/contributing/documenting
 related:
   - /docs/adapters
+  - /docs/contributing/vendor-official
 ---
 
 # Publishing your adapter
@@ -168,6 +169,10 @@ You should see your exported symbols (`createMatrixAdapter`, `MatrixAdapter`, et
 ## Listing on chat-sdk.dev
 
 Community adapters can be listed on the [Adapters](https://chat-sdk.dev/adapters) page by opening a PR that adds an entry to `apps/docs/adapters.json` in the [Chat SDK repo](https://github.com/vercel/chat). Your adapter's README is fetched from GitHub at build time and rendered on its dedicated page.
+
+
+  Platform vendors should follow the [vendor-official guide](/docs/contributing/vendor-official) instead.
+
 
 ### Pin your README to a commit or tag
 

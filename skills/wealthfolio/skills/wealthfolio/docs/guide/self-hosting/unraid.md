@@ -93,7 +93,7 @@ Install Wealthfolio on Unraid via Community Apps, with the official template cov
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 Wealthfolio runs as a standard Docker container on Unraid, configured through Unraid’s Docker tab. The Community Apps (CA) template covers ports, volumes, and required env vars. You just fill in the secrets.

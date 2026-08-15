@@ -4,6 +4,9 @@
 title: Chat
 description: The main entry point for creating a multi-platform chat bot.
 type: reference
+related:
+  - /docs/usage
+  - /docs/handling-events
 ---
 
 # Chat
@@ -391,13 +394,18 @@ const data = JSON.parse(payload, bot.reviver());
 await data.thread.post("Hello from workflow!");
 ```
 
-There is also a standalone `reviver` export that works without a `Chat` instance. This is useful in Vercel Workflow functions where importing the full Chat instance (with its adapter dependencies) is not possible:
+There is also a workflow-safe serialization entrypoint that works without importing the `Chat` runtime. Use it in Vercel Workflow files so serializer registration does not load Node-only runtime dependencies:
 
 ```typescript
-import { reviver } from "chat";
+import { Message, reviver, ThreadImpl } from "chat/serialization";
 
-const data = JSON.parse(payload, reviver) as { thread: Thread; message: Message };
+const data = JSON.parse(payload, reviver) as {
+  thread: ThreadImpl;
+  message: Message;
+};
 ```
+
+`Message`, `ThreadImpl`, and `ChannelImpl` retain their automatic Workflow serialization when imported from either `chat` or `chat/serialization`. The dedicated entrypoint guarantees their serializer module graph does not load the Node-only `Chat` conversation context.
 
 The standalone reviver uses lazy adapter resolution - the adapter is looked up from the Chat singleton when first accessed. Call `chat.registerSingleton()` before using thread methods like `post()` (typically inside a `"use step"` function).
 

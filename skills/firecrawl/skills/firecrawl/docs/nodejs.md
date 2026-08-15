@@ -10,7 +10,7 @@
 
 ## Prerequisites
 
-* Node.js 18+
+* Node.js 22+
 * A Firecrawl API key — [get one free](https://www.firecrawl.dev/app/api-keys)
 
 ## Install the SDK

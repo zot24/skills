@@ -76,6 +76,33 @@ This is useful when:
 - You want a zero-configuration connection to your existing browser
 - You don't want to track which port Chrome is using
 
+## Tab pinning<a href="#tab-pinning" aria-label="Link to this section">#</a>
+
+When several sessions share one browser over CDP, each session remembers which tab it is bound to (by CDP target id, persisted across daemon restarts). A restarted daemon reattaches to the session's own tab instead of adopting whatever tab is currently active, which in a shared browser is usually another session's.
+
+Pass `--pin-tab` (or set `AGENT_BROWSER_PIN_TAB=1`) to make the binding strict:
+
+
+``` shiki
+# Two agents sharing one Chrome, each pinned to its own tab
+agent-browser --session agent1 --cdp 9222 --pin-tab open https://site-a.com
+agent-browser --session agent2 --cdp 9222 --pin-tab open https://site-b.com
+```
+
+
+With `--pin-tab`:
+
+- Attaching with no binding opens a fresh tab instead of adopting an existing one
+- If the bound tab is closed, commands fail with a `tab_gone` error instead of silently acting on another tab. JSON responses carry `"code": "tab_gone"`, `data.targetId`, and optional `data.lastUrl`
+- `tab list`, `tab new`, and `tab <ref>` still work in that state, so an agent can recover by binding a new tab
+- Tabs opened by other sessions or the user never steal the pinned session's active tab
+
+The flag is sticky per session: pass it once and later commands and daemon restarts keep the strict semantics. Pass `--no-pin-tab` to explicitly turn the pin off again. See [Sessions](/sessions) for the multi-session workflow and [Commands](/commands) for tab refs by CDP target id.
+
+The structured `lastUrl` is emitted only for sanitized HTTP(S) URLs and `about:blank`. Credentials, query strings, and fragments are removed from HTTP(S) URLs, while opaque URLs such as `data:` are omitted. Batch JSON exposes the recovery object under `result`.
+
+When re-running a shared-tab script such as the repro from \#1530, add `--pin-tab` to the first command for every session. Without it, `open` intentionally preserves the legacy behavior and navigates the shared active tab, so the original script still collides. The same rule applies when sessions attach with `--auto-connect` instead of `--cdp`.
+
 ## Color scheme<a href="#color-scheme" aria-label="Link to this section">#</a>
 
 Use `--color-scheme` to set a persistent preference when connecting via CDP:
@@ -124,6 +151,8 @@ This enables control of:
 | `--headed`                | Show browser window                                                                                                             |
 | `--cdp <port|url>`        | CDP connection (port or WebSocket URL)                                                                                          |
 | `--auto-connect`          | Auto-discover and connect to running Chrome                                                                                     |
+| `--pin-tab`               | Pin the session to its bound tab (strict tab binding)                                                                           |
+| `--no-pin-tab`            | Disable a sticky pin previously enabled with `--pin-tab`                                                                        |
 | `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`)                                                                      |
 | `--debug`                 | Debug output                                                                                                                    |
 

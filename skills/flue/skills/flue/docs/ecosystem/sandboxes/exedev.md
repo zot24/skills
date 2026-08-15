@@ -37,8 +37,8 @@ The blueprint installs `ssh2` and its TypeScript declarations, then creates `san
 
 <figure class="astro-code-figure">
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/exedev@1
-import { createSandboxSessionEnv } from &#39;@flue/runtime&#39;;
-import type { FileStat, SandboxApi, SandboxFactory, SessionEnv } from &#39;@flue/runtime&#39;;
+import { sandboxFromDriver } from &#39;@flue/runtime&#39;;
+import type { FileStat, SandboxDriver, SandboxFactory, Sandbox } from &#39;@flue/runtime&#39;;
 import * as fs from &#39;node:fs&#39;;
 import * as os from &#39;node:os&#39;;
 import * as path from &#39;node:path&#39;;
@@ -48,7 +48,7 @@ import type { ConnectConfig, SFTPWrapper } from &#39;ssh2&#39;;
 /* ... generated VM and option interfaces, error type, and HTTPS lifecycle helpers ... */
 /* ... generated SSH authentication, retry, connection, and stream interfaces ... */
 
-export class ExeDevSandboxApi implements SandboxApi {
+export class ExeDevSandboxDriver implements SandboxDriver {
   /* ... generated SFTP connection and file operations ... */
 
   async exec(
@@ -69,20 +69,20 @@ export class ExeDevSandboxApi implements SandboxApi {
 export function exedev(vm: ExeDevVm | string, options?: ExeDevAdapterOptions): SandboxFactory {
   const resolvedVm = typeof vm === &#39;string&#39; ? { host: vm } : vm;
   return {
-    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+    async createSandbox(): Promise&lt;Sandbox&gt; {
       const { ssh } = await sshConnect(resolvedVm, options ?? {});
-      const api = new ExeDevSandboxApi(ssh);
+      const driver = new ExeDevSandboxDriver(ssh);
 
       let sandboxCwd = &#39;/home/user&#39;;
       try {
-        const { stdout } = await api.exec(&#39;echo $HOME&#39;);
+        const { stdout } = await driver.exec(&#39;echo $HOME&#39;);
         const detected = stdout.trim();
         if (detected) sandboxCwd = detected;
       } catch {
         /* ... retain /home/user when home-directory detection fails ... */
       }
 
-      return createSandboxSessionEnv(api, sandboxCwd);
+      return sandboxFromDriver(driver, sandboxCwd);
     },
   };
 }</code></pre>

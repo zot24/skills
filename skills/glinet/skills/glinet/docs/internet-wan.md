@@ -53,7 +53,7 @@ The top half features a diagram showing the Internet status, and the bottom half
 - A dashed gray line means no network connection.
 - A solid white line with a yellow exclamation mark means connected but no Internet access.
 
-**The middle** of the diagram displays the current router model and the status of [AdGuard Home](../adguardhome/), [IPv6](../ipv6/), [VPN](../vpn_dashboard_v4.8/), [Tor](../tor/), [5G Main Wi-Fi](../wireless/), [2.4G Main Wi-Fi](../wireless/), [5G Guest Wi-Fi](../wireless/) and [2.4G Guest Wi-Fi](../wireless/).
+**The middle** of the diagram displays the current router model, key features status (e.g., [AdGuard Home](../adguardhome/), [IPv6](../ipv6/), [VPN](../vpn_dashboard/), [Tor](../tor/)), and [wireless](../wireless/) status.
 
 - Green indicates the feature is enabled, gray indicates disabled. For VPN and Tor, white means connecting.
 

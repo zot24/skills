@@ -31,11 +31,13 @@ Firecrawl provides an MCP server that seamlessly integrates with Google's ADK, e
 
 <CodeGroup>
   ```python Remote MCP Server
+  import os
+
   from google.adk.agents.llm_agent import Agent
   from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPServerParams
   from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
 
-  FIRECRAWL_API_KEY = "YOUR-API-KEY"
+  FIRECRAWL_API_KEY = os.environ["FIRECRAWL_API_KEY"]
 
   root_agent = Agent(
       model="gemini-2.5-pro",
@@ -54,6 +56,8 @@ Firecrawl provides an MCP server that seamlessly integrates with Google's ADK, e
   ```
 
   ```python Local MCP Server
+  import os
+
   from google.adk.agents.llm_agent import Agent
   from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
   from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
@@ -71,10 +75,10 @@ Firecrawl provides an MCP server that seamlessly integrates with Google's ADK, e
                       command='npx',
                       args=[
                           "-y",
-                          "firecrawl-mcp",
+                          "firecrawl-mcp@3.23.7",
                       ],
                       env={
-                          "FIRECRAWL_API_KEY": "YOUR-API-KEY",
+                          "FIRECRAWL_API_KEY": os.environ["FIRECRAWL_API_KEY"],
                       }
                   ),
                   timeout=30,
@@ -85,16 +89,17 @@ Firecrawl provides an MCP server that seamlessly integrates with Google's ADK, e
   ```
 </CodeGroup>
 
+Set `FIRECRAWL_API_KEY` in the environment that starts ADK. Do not put its value in agent prompts, source control, or the MCP URL. The local MCP package requires Node.js 22 or newer.
+
 ## Available Tools
 
-| Tool               | Name                           | Description                                                          |
-| ------------------ | ------------------------------ | -------------------------------------------------------------------- |
-| Scrape Tool        | `firecrawl_scrape`             | Scrape content from a single URL with advanced options               |
-| Map Tool           | `firecrawl_map`                | Map a website to discover all indexed URLs on the site               |
-| Search Tool        | `firecrawl_search`             | Search the web and optionally extract content from search results    |
-| Crawl Tool         | `firecrawl_crawl`              | Start an asynchronous crawl with advanced options                    |
-| Check Crawl Status | `firecrawl_check_crawl_status` | Check the status of a crawl job                                      |
-| Extract Tool       | `firecrawl_extract`            | Extract structured information from web pages using LLM capabilities |
+| Tool               | Name                           | Description                                                       |
+| ------------------ | ------------------------------ | ----------------------------------------------------------------- |
+| Scrape Tool        | `firecrawl_scrape`             | Scrape content from a single URL with advanced options            |
+| Map Tool           | `firecrawl_map`                | Map a website to discover all indexed URLs on the site            |
+| Search Tool        | `firecrawl_search`             | Search the web and optionally extract content from search results |
+| Crawl Tool         | `firecrawl_crawl`              | Start an asynchronous crawl with advanced options                 |
+| Check Crawl Status | `firecrawl_check_crawl_status` | Check the status of a crawl job                                   |
 
 ## Configuration
 

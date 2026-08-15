@@ -16,67 +16,14 @@ Platform adapters handle webhook verification, message parsing, and API calls fo
 
 Need a browser chat UI? See the [Web adapter](/adapters/official/web). It speaks the AI SDK UI stream protocol and works with React (`@ai-sdk/react`), Vue (`@ai-sdk/vue`), and Svelte (`@ai-sdk/svelte`), so the same bot serves Slack, Teams, and any browser framework out of the box.
 
-Ready to build your own? Follow the [building](/docs/contributing/building) guide.
-
 ## Feature matrix
+
+This matrix covers Vercel-maintained [official adapters](/adapters) only. For vendor-official and community adapters, see each adapter's page.
 
 <GlobalFeatureMatrix type="platform" />
 
-### Messaging
 
-| Feature            | [Slack](/adapters/slack) | [Teams](/adapters/teams)         | [Google Chat](/adapters/gchat) | [Discord](/adapters/discord) | [Telegram](/adapters/telegram)   | [GitHub](/adapters/github) | [Linear](/adapters/linear)          | [WhatsApp](/adapters/whatsapp) | [Messenger](/adapters/messenger) |
-| ------------------ | ------------------------ | -------------------------------- | ------------------------------ | ---------------------------- | -------------------------------- | -------------------------- | ----------------------------------- | ------------------------------ | -------------------------------- |
-| Post message       |                 |                         |                       |                     |                         |                   |                            |                       |                         |
-| Edit message       |                 |                         |                       |                     |                         |                   |  Partial                    |                       |                         |
-| Delete message     |                 |                         |                       |                     |                         |                   |  Partial                    |                       |                         |
-| File uploads       |                 |                         |                       |                     |  Media groups           |                   |                            |  Images, audio, docs  |                         |
-| Streaming          |  Native         |  Native (DMs) / Buffered |  Post+Edit             |  Post+Edit           |  Rich drafts / Post+Edit |  Buffered          |  Agent sessions / Post+Edit |  Buffered              |  Buffered                |
-| Scheduled messages |  Native         |                         |                       |                     |                         |                   |                            |                       |                         |
-
-### Rich content
-
-| Feature         | Slack                          | Teams                  | Google Chat            | Discord                | Telegram                               | GitHub                 | Linear                 | WhatsApp                      | Messenger                |
-| --------------- | ------------------------------ | ---------------------- | ---------------------- | ---------------------- | -------------------------------------- | ---------------------- | ---------------------- | ----------------------------- | ------------------------ |
-| Card format     | Block Kit                      | Adaptive Cards         | Google Chat Cards      | Embeds                 | Markdown + inline keyboard buttons     | GFM Markdown           | Markdown               | WhatsApp templates            | Generic/Button Templates |
-| Buttons         |                       |               |               |               |  Inline keyboard callbacks     |               |               |  Interactive replies |  Max 3, postback |
-| Link buttons    |                       |               |               |               |  Inline keyboard URLs          |               |               |                      |                 |
-| Select menus    |                       |               |               |               |                               |               |               |                      |                 |
-| Tables          |  Block Kit data table |  GFM          |  ASCII         |  GFM          |  Native messages / ASCII cards |  GFM          |  GFM          |                      |  ASCII           |
-| Charts          |  Block Kit            |  Text fallback |  Text fallback |  Text fallback |  Text fallback                 |  Text fallback |  Text fallback |  Text fallback        |  Text fallback   |
-| Fields          |                       |               |               |               |                               |               |               |  Template variables   |  ASCII           |
-| Images in cards |                       |               |               |               |                               |               |               |                      |                 |
-| Modals          |                       |               |               |               |                               |               |               |                      |                 |
-
-### Conversations
-
-| Feature                                                                                  | Slack            | Teams           | Google Chat      | Discord   | Telegram            | GitHub    | Linear                  | WhatsApp  | Messenger |
-| ---------------------------------------------------------------------------------------- | ---------------- | --------------- | ---------------- | --------- | ------------------- | --------- | ----------------------- | --------- | --------- |
-| Slash commands                                                                           |         |        |         |  |            |  |                |  |  |
-| Mentions                                                                                 |         |        |         |  |            |  |                |  |  |
-| Add reactions                                                                            |         |        |         |  |            |  |                |  |  |
-| Remove reactions                                                                         |         |        |         |  |            |   |                 |  |  |
-| Typing indicator                                                                         |         |        |         |  |            |  |  Agent sessions |   |  |
-| DMs                                                                                      |         |        |         |  |            |  |                |  |  |
-| Ephemeral messages                                                                       |  Native |        |  Native |  |            |  |                |  |  |
-| User lookup ([`getUser`](/docs/api/chat#getuser))                                        |         |  Cached |  Cached  |  |  Seen users |  |                |  |  |
-| Parent subject ([`message.subject`](/docs/subject))                                      |         |        |         |  |            |  |                |  |  |
-| Native client ([`.webClient` / `.octokit` / `.linearClient`](/docs/api/chat#getadapter)) |         |        |         |  |            |  |                |  |  |
-| Custom API endpoint (`apiUrl`)                                                           |         |        |         |  |            |  |                |  |  |
-
-### Message history
-
-| Feature                | Slack     | Teams     | Google Chat | Discord   | Telegram        | GitHub    | Linear    | WhatsApp                           | Messenger                          |
-| ---------------------- | --------- | --------- | ----------- | --------- | --------------- | --------- | --------- | ---------------------------------- | ---------------------------------- |
-| Fetch messages         |  |  |    |  |  Cached |  |  |  Cached sent messages only |  Cached sent messages only |
-| Fetch single message   |  |  |    |  |  Cached |  |  |                           |  Cached                    |
-| Fetch thread info      |  |  |    |  |        |  |  |                           |                           |
-| Fetch channel messages |  |  |    |  |  Cached |  |  |                           |  Cached                    |
-| List threads           |  |  |    |  |        |  |  |                           |                           |
-| Fetch channel info     |  |  |    |  |        |  |  |                           |                           |
-| Post channel message   |  |  |    |  |        |  |  |                           |                           |
-
-
-   indicates partial support. The feature works with limitations. See individual adapter pages for details.
+  Partial support means the feature works with limitations. See individual adapter pages for details.
 
 
 ## How adapters work

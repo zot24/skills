@@ -27,9 +27,6 @@ completion
 <a href="/get-started" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get Started</a>
 
 
-<a href="/tutorials" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tutorials</a>
-
-
 <a href="/security-for-ai" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Security for AI</a>
 
 
@@ -110,13 +107,10 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 
 Related topics
 
-<a href="/cli/reference" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password CLI reference</span></a><a href="/cli/shell-plugins/troubleshooting" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password Shell Plugins troubleshooting</span></a><a href="/environments/mcp-server" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use the 1Password MCP Server to allow MCP clients to manage your 1Password Environments (beta)</span></a>
+<a href="/cli/reference" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password CLI reference</span></a><a href="/cli/shell-plugins/troubleshooting" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password Shell Plugins troubleshooting</span></a>
 
 
 Was this page helpful?
-
-
-<a href="/cli/reference/management-commands/vault" class="flex items-center space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">vault</span></a><a href="/cli/reference/commands/inject" class="flex items-center ml-auto space-x-3 group"><span class="group-hover:text-gray-900 dark:group-hover:text-white">inject</span></a>
 
 
 Responses are generated using AI and may contain mistakes.

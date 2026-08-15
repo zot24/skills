@@ -93,7 +93,7 @@ Front Wealthfolio with Nginx, Caddy, Traefik, or Nginx Proxy Manager for HTTPS, 
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 For anything beyond LAN access, put Wealthfolio behind a reverse proxy. The container speaks plain HTTP on port `8088`. Your proxy terminates TLS and adds the niceties (HSTS, gzip, access logs).

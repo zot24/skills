@@ -4,6 +4,10 @@
 title: Emoji
 description: Type-safe, cross-platform emoji that automatically convert to each platform's format.
 type: reference
+related:
+  - /docs/posting-messages
+  - /docs/cards
+  - /docs/handling-events
 ---
 
 # Emoji

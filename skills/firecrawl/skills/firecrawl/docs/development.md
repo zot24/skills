@@ -4,51 +4,44 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Develop Firecrawl MCP
+# Get Started
 
-> Build, test, and contribute to the Firecrawl MCP server.
+> Set up Firecrawl MCP with keyless access, account sign-in, or an API key.
 
-## Prerequisites
+Choose how the connection will authenticate. Signing in and adding an API key are two paths to the same access: both reach the full tool surface on your team's plan.
 
-* [Git](https://git-scm.com/downloads)
-* Node.js 22 or newer
-* npm, included with Node.js
 
-Confirm the Node.js version before installing dependencies:
+    No account or key. Search, Scrape, and Parse within daily limits.
 
-```bash theme={null}
-node --version
+
+    Browser sign-in from Codex, Claude Code, or your favorite harness.
+
+
+    Configure an API key in your client, no browser needed.
+
+
+## Add an API key
+
+[Create a Firecrawl API key](https://www.firecrawl.dev/app/api-keys), then send it as a bearer token:
+
+```text theme={null}
+URL: https://mcp.firecrawl.dev/v2/mcp
+Authorization: Bearer <FIRECRAWL_API_KEY>
 ```
 
-## Clone and test the server
+Configure the key through an environment variable or your client's secret storage, never in the MCP URL.
 
-```bash theme={null}
-git clone https://github.com/firecrawl/firecrawl-mcp-server.git
-cd firecrawl-mcp-server
-npm install
-npm run build
-npm test
-```
 
-Run the linter before submitting a change:
+  This is a server URL for your MCP client, not a page to open directly in a browser. Sign-in connections use `https://mcp.firecrawl.dev/v2/mcp-oauth` instead, and your client starts the browser flow.
 
-```bash theme={null}
-npm run lint
-```
 
-## Contributing
+## Client setup
 
-1. Fork the [Firecrawl MCP server repository](https://github.com/firecrawl/firecrawl-mcp-server).
-2. Clone your fork and create a feature branch.
-3. Run `npm run lint` and `npm test`.
-4. Submit a pull request with the behavior and verification evidence.
 
-## Thanks to contributors
+    Start keyless or use an API key.
 
-Thanks to [@vrknetha](https://github.com/vrknetha), [@cawstudios](https://caw.tech) for the initial implementation!
 
-Thanks to MCP.so and Klavis AI for hosting and [@gstarwd](https://github.com/gstarwd), [@xiangkaiz](https://github.com/xiangkaiz) and [@zihaolin96](https://github.com/zihaolin96) for integrating our server.
+    Sign in via browser.
 
-## License
 
-MIT License - see LICENSE file for details
+Next: [choose a tool](/mcp-server/tools) or [run the server locally](/mcp-server/local).

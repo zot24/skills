@@ -11,7 +11,7 @@
 If you're developing with AI, Firecrawl offers several resources to improve your experience. Firecrawl ships with **skills** — self-contained knowledge packs that AI coding agents discover and use automatically. One install command gives agents three complete skill segments: CLI skills for live web work, build skills for integrating Firecrawl into application code, and workflow skills for producing repeatable deliverables. Firecrawl users can get an API key in two ways. See [Get credentials](#get-credentials) below.
 
 * [Get credentials](#get-credentials)
-* [Skills + CLI](#skills-cli)
+* [CLI and agent skills](#cli)
 * [Using Firecrawl as a Tool](#using-firecrawl-as-a-tool)
 * [Agentic Debugging](#agentic-debugging)
 * [Firecrawl MCP Server](#firecrawl-mcp-server)
@@ -41,9 +41,11 @@ Firecrawl users can get an API key in two ways. Most users should sign in throug
 
 **Can't sign in or get a key?** The CLI, SDKs, and REST API allow keyless search, scrape, interact, and parse. Hosted MCP exposes the narrower keyless Search, Scrape, and Parse surface; interact requires an account connection or API key there. Keyless access is rate-limited and meant as a fallback, so move to a free account or API key as soon as one is available. See [Keyless (no API key)](/rate-limits#keyless-no-api-key) for details.
 
-Once you have an API key, continue with [Skills + CLI](#skills-cli) below.
+Once you have an API key, continue with [CLI and agent skills](#cli) below.
 
-## Skills + CLI
+<span id="cli" />
+
+## CLI and agent skills
 
 The [Firecrawl CLI](/sdks/cli) lets your agent search, scrape, interact, crawl, map, extract, and run agent jobs from the terminal. It's built for humans, AI agents, and CI/CD pipelines.
 
@@ -92,16 +94,21 @@ The install sets up three categories of skills that cover every way an agent use
 
 **Build skills** — for integrating Firecrawl into application code:
 
-| Skill                        | Purpose                                              |
-| ---------------------------- | ---------------------------------------------------- |
-| `firecrawl-build`            | Choose the right Firecrawl endpoint for your product |
-| `firecrawl-build-onboarding` | Auth and project setup                               |
-| `firecrawl-build-scrape`     | Implement scraping in app code                       |
-| `firecrawl-build-search`     | Implement search in app code                         |
-| `firecrawl-build-interact`   | Implement page interaction in app code               |
-| `firecrawl-build-crawl`      | Implement crawling in app code                       |
-| `firecrawl-build-map`        | Implement URL discovery in app code                  |
-| `firecrawl-build-parse`      | Implement document parsing in app code               |
+| Skill                        | Purpose                                                        |
+| ---------------------------- | -------------------------------------------------------------- |
+| `firecrawl-build`            | Choose the right Firecrawl endpoint for your product           |
+| `firecrawl-build-onboarding` | Auth and project setup                                         |
+| `firecrawl-build-scrape`     | Implement scraping in app code                                 |
+| `firecrawl-build-search`     | Implement search in app code                                   |
+| `firecrawl-build-interact`   | Implement page interaction in app code                         |
+| `firecrawl-research-index`   | Search papers, read passages, and follow citations in app code |
+| `firecrawl-developer-index`  | Search issues, pull requests, READMEs, and docs in app code    |
+
+The install above includes both index skills. To add just the paper-search one to an existing setup — worth doing when the work is biomedical or scientific literature — run:
+
+```bash theme={null}
+npx skills add firecrawl/skills@firecrawl-research-index
+```
 
 **Workflow skills** — outcome-focused skills that produce a concrete deliverable from Firecrawl web data:
 
@@ -226,7 +233,9 @@ Firecrawl gives agents five core tools for working with the web. Each tool maps 
       -d '{"query": "latest OpenAI API pricing"}'
     ```
 
-    **When to use:** Research tasks, finding documentation, competitive analysis, answering questions that require up-to-date web information.
+    **When to use:** General web research, finding documentation, competitive analysis, answering questions that require up-to-date web information.
+
+    **When not to use:** Scientific literature. To find papers, read passages from inside one, or follow citations, use the [Research Index](/features/research) instead — the `firecrawl_research_*` MCP tools, `firecrawl research search-papers` on the CLI, or the `firecrawl-research-index` skill. Search returns web page snippets; the Research Index returns paper records with full abstracts.
 
 
     Use this when you already have a URL and need clean, LLM-ready content. Scrape converts any web page into markdown, HTML, or structured data — handling JavaScript rendering, anti-bot measures, and messy HTML automatically.
@@ -349,35 +358,10 @@ The response includes an `answer`, a `confidence` rating, optional `fixParameter
 
 ## Firecrawl MCP Server
 
-MCP is an open protocol that standardizes how applications provide context to LLMs. Among other benefits, it gives LLMs tools to act on your behalf. Our [MCP server](https://github.com/firecrawl/firecrawl-mcp-server) is open-source and covers our full API surface — search, scrape, interact, crawl, map, extract, and agent.
-
-Use the remote hosted URL (works without an API key on the keyless free tier):
-
-```
-https://mcp.firecrawl.dev/v2/mcp
-```
-
-With an API key, send it as an `Authorization: Bearer fc-YOUR-API-KEY` header to unlock every tool plus higher limits.
-
-Or add the local server to any MCP client:
-
-```json theme={null}
-{
-  "mcpServers": {
-    "firecrawl": {
-      "command": "npx",
-      "args": ["-y", "firecrawl-mcp"],
-      "env": {
-        "FIRECRAWL_API_KEY": "fc-YOUR-API-KEY"
-      }
-    }
-  }
-}
-```
+MCP is an open protocol that lets compatible applications give models access to tools. The open-source [Firecrawl MCP server](https://github.com/firecrawl/firecrawl-mcp-server) supports search, scraping, browsing, crawling, mapping, structured extraction through Scrape JSON, and autonomous Agent jobs.
 
 
-  View installation instructions for Cursor, Claude Desktop, Windsurf, VS Code,
-  and more.
+  Try keyless access, sign in through an interactive client, or configure an API key for agents, CI, and backend services.
 
 
 ## Firecrawl Docs for Agents
@@ -404,7 +388,7 @@ You can give your agent current Firecrawl docs in a context-aware way. Agents ca
     A shorter index is also available at `https://docs.firecrawl.dev/llms.txt`.
 
 
-    For a structured approach using MCP tools, connect the Firecrawl MCP server in any MCP client (Cursor, Claude Code, Claude Desktop, Windsurf). See the [MCP Server](/mcp-server) page for install commands.
+    For a structured approach using MCP tools, connect the Firecrawl MCP server in Codex, Cursor, Claude Code, Claude Desktop, or another compatible client. Start with the [MCP setup chooser](/mcp-server). Windsurf users should follow the [Windsurf quickstart](/quickstarts/windsurf).
 
 
     Every page includes a contextual action menu (copy, view as markdown, open in ChatGPT, open in Claude) so agents and humans can move pages between tools in one click.
@@ -416,7 +400,7 @@ Drop-in quickstarts for the stacks agents build on most often. Point your agent 
 
 Prefer to let Cursor drive? One-click install the Firecrawl MCP server and start prompting in Cursor:
 
-<a href="cursor://anysphere.cursor-deeplink/mcp/install?name=firecrawl&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImZpcmVjcmF3bC1tY3AiXSwiZW52Ijp7IkZJUkVDUkFXTF9BUElfS0VZIjoiWU9VUi1BUEktS0VZIn19">
+<a href="cursor://anysphere.cursor-deeplink/mcp/install?name=firecrawl&config=eyJ1cmwiOiJodHRwczovL21jcC5maXJlY3Jhd2wuZGV2L3YyL21jcCJ9">
   <img src="https://cursor.com/deeplink/mcp-install-dark.png" alt="Open in Cursor — Add Firecrawl MCP server" style={{ maxHeight: 32 }} />
 </a>
 

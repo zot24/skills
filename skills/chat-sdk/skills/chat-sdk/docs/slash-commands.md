@@ -11,6 +11,7 @@ related:
   - /adapters/official/slack
   - /adapters/official/discord
   - /adapters/official/telegram
+  - /docs/ephemeral-messages
 ---
 
 # Slash Commands
@@ -78,6 +79,8 @@ bot.onSlashCommand("/greet", async (event) => {
   );
 });
 ```
+
+See [Ephemeral Messages](/docs/ephemeral-messages) for platform support and the `fallbackToDM` option.
 
 ## Open a modal
 

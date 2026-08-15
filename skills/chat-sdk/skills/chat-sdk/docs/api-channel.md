@@ -4,6 +4,8 @@
 title: Channel
 description: Channel container that holds threads, with methods for listing, posting, and iteration.
 type: reference
+related:
+  - /docs/threads-messages-channels
 ---
 
 # Channel

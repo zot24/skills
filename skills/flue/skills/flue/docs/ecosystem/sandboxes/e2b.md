@@ -37,11 +37,11 @@ The blueprint installs `e2b` when needed and creates `sandboxes/e2b.ts` in your 
 
 <figure class="astro-code-figure">
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code>// flue-blueprint: sandbox/e2b@1
-import { createSandboxSessionEnv, useModel } from &#39;@flue/runtime&#39;;
-import type { SandboxApi, SandboxFactory, SessionEnv, FileStat } from &#39;@flue/runtime&#39;;
+import { sandboxFromDriver, useModel } from &#39;@flue/runtime&#39;;
+import type { SandboxDriver, SandboxFactory, Sandbox, FileStat } from &#39;@flue/runtime&#39;;
 import type { Sandbox as E2BSandbox } from &#39;e2b&#39;;
 
-class E2BSandboxApi implements SandboxApi {
+class E2BSandboxDriver implements SandboxDriver {
   constructor(private sandbox: E2BSandbox) {}
 
   /* Implements file reads, writes, stat, listing, existence, and mkdir with sandbox.files. */
@@ -53,10 +53,10 @@ class E2BSandboxApi implements SandboxApi {
 
 export function e2b(sandbox: E2BSandbox): SandboxFactory {
   return {
-    async createSessionEnv(): Promise&lt;SessionEnv&gt; {
+    async createSandbox(): Promise&lt;Sandbox&gt; {
       const sandboxCwd = &#39;/home/user&#39;;
-      const api = new E2BSandboxApi(sandbox);
-      return createSandboxSessionEnv(api, sandboxCwd);
+      const driver = new E2BSandboxDriver(sandbox);
+      return sandboxFromDriver(driver, sandboxCwd);
     },
   };
 }</code></pre>
@@ -89,10 +89,10 @@ export function Assistant() {
   useSandbox({
     // Lazy, per the SandboxFactory contract: constructing this object is
     // cheap; the expensive E2B sandbox creation happens once, inside
-    // createSessionEnv(), at initialization — never on a re-render.
-    async createSessionEnv(options) {
+    // createSandbox(), at initialization — never on a re-render.
+    async createSandbox(options) {
       const sandbox = await Sandbox.create();
-      return e2b(sandbox).createSessionEnv(options);
+      return e2b(sandbox).createSandbox(options);
     },
   });
 }

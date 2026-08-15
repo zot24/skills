@@ -8,7 +8,7 @@
 
 Upload a local or non-public document and convert it into clean, LLM-ready data. `/parse` accepts file bytes via `multipart/form-data` and returns Markdown, JSON, HTML, links, images, or a summary — with reading order and tables preserved.
 
-* Turn PDF, DOCX, XLSX, HTML, and more into Markdown or structured JSON
+* Turn PDF, Word, Excel, PowerPoint, OpenDocument, EPUB, CSV, HTML, and more into Markdown or structured JSON
 * Up to **5x faster** parsing via a Rust-based engine
 * Files up to **50 MB** per request
 * Zero Data Retention support
@@ -63,7 +63,8 @@ paths:
                   format: binary
                   description: >-
                     The file bytes to parse. Supported extensions: .html, .htm,
-                    .pdf, .docx, .doc, .odt, .rtf, .xlsx, .xls.
+                    .xhtml, .pdf, .docx, .doc, .docm, .odt, .ods, .odp, .rtf,
+                    .xlsx, .xls, .xlsm, .xlsb, .pptx, .ppt, .pptm, .epub, .csv.
                 options:
                   $ref: '#/components/schemas/ParseOptions'
               required:

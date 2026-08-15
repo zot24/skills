@@ -8,6 +8,7 @@ prerequisites:
   - /docs/cards
 related:
   - /docs/modals
+  - /docs/approvals
 ---
 
 # Actions

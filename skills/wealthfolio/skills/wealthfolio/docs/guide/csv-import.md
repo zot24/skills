@@ -93,7 +93,7 @@ Map broker exports to Wealthfolio activities. File format, mapping, per-broker r
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 The CSV importer takes broker statements (or any spreadsheet) and turns each row into a Wealthfolio activity. Most brokers don’t follow the same column names, so the importer walks you through a **mapping step** that aligns their columns to ours. Mappings are saved per account, so subsequent imports for that broker are one click.
 

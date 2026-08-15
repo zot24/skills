@@ -13,7 +13,7 @@ related:
 # Message Subject
 
 
-When your bot receives a comment on a Linear issue or GitHub PR, `message.subject` resolves the parent resource so your handler knows what the conversation is about.
+When your bot receives a comment on a Linear issue, GitHub PR, or Notion page, `message.subject` resolves the parent resource so your handler knows what the conversation is about.
 
 ## Usage
 
@@ -29,7 +29,7 @@ bot.onNewMention(async (thread, message) => {
 });
 ```
 
-On Linear and GitHub, comment webhooks deliver the comment text but not the parent issue or pull request — `message.subject` fetches it from the platform API on first access. The result is cached on the message instance. On chat platforms (which have no parent-resource concept), or if the API call fails, it returns `null`.
+On Linear, GitHub, and Notion, comment webhooks deliver the comment text but not the full parent resource — `message.subject` fetches it from the platform API on first access. The result is cached on the message instance. On chat platforms (which have no parent-resource concept), or if the API call fails, it returns `null`.
 
 See [`MessageSubject`](/docs/api/message#messagesubject) for the full type shape.
 
@@ -39,6 +39,7 @@ See [`MessageSubject`](/docs/api/message#messagesubject) for the full type shape
 | -------- | ------------------------------------------ |
 | Linear   | Parent issue (from comment webhooks)       |
 | GitHub   | Parent issue or PR (from comment webhooks) |
+| Notion   | Parent page (from comment webhooks)        |
 
 All other platforms return `null`.
 

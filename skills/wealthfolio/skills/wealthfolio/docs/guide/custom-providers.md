@@ -93,7 +93,7 @@ Create your own market data providers to fetch prices from any JSON API, HTML pa
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 
 Custom providers let you connect Wealthfolio to virtually any market data source — whether that’s a paid API service, a free public API, or a website you want to scrape. You define a URL pattern, tell Wealthfolio where to find the price in the response, and the app handles the rest — fetching, parsing, and storing quotes alongside the built-in providers.

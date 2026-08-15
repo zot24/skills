@@ -93,7 +93,7 @@ Automatically pull activities from your brokerage and sync your data across devi
 
 ------------------------------------------------------------------------
 
-Last updated July 29, 2026
+Last updated August 8, 2026
 
 <a href="/connect" class="font-medium underline underline-offset-4">Wealthfolio Connect</a> is an optional paid service that adds two things on top of the free local-first app:
 

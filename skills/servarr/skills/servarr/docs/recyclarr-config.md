@@ -4,7 +4,7 @@
 
 [![GitHub License](https://img.shields.io/github/license/recyclarr/recyclarr)](https://github.com/recyclarr/recyclarr/blob/master/LICENSE)
 [![Build Workflow Status](https://img.shields.io/github/actions/workflow/status/recyclarr/recyclarr/build.yml?branch=master&logo=githubactions)](https://github.com/recyclarr/recyclarr/actions/workflows/build.yml?query=branch%3Amaster)
-[![Qodana](https://github.com/recyclarr/recyclarr/actions/workflows/qodana.yml/badge.svg)](https://qodana.cloud/projects/p5QRr)
+[![CodeQL](https://github.com/recyclarr/recyclarr/actions/workflows/codeql.yml/badge.svg)](https://github.com/recyclarr/recyclarr/actions/workflows/codeql.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/recyclarr/recyclarr?logo=github)](https://github.com/recyclarr/recyclarr/releases/)
 [![Discord](https://img.shields.io/discord/492590071455940612?label=TRaSH-Guides&logo=discord)][discord]
 
@@ -25,9 +25,8 @@ to these services from the TRaSH Guides. For a more detailed features list, see 
 - Media Management (Propers/Repacks)
 
 > [!WARNING]
-> The `latest` Docker tag is no longer published. If you are using `recyclarr/recyclarr:latest` or
-> `ghcr.io/recyclarr/recyclarr:latest`, switch to a major version tag (e.g. `8`) to continue
-> receiving updates.
+> The `latest` Docker tag is not available on Docker Hub or GHCR. Use a major version tag (e.g. `8`)
+> instead.
 
 ## Read the Documentation
 
@@ -69,7 +68,6 @@ Thank you to all who have supported Recyclarr!
 <!-- markdownlint-disable MD033 MD013 -->
 
 <a href="https://www.jetbrains.com/rider/" target="_blank"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/Rider_icon.svg" alt="Jetbrains Rider" style="margin-right: 10px;"></a>
-<a href="https://www.jetbrains.com/qodana/" target="_blank"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/Qodana_icon.svg" alt="Jetbrains Qodana"></a>
 
 <!-- markdownlint-enable MD033 MD013 -->
 

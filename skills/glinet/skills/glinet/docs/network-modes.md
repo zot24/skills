@@ -22,13 +22,7 @@ gl-inet/docs4.x
 <a href="../" class="md-nav__link"><span class="md-ellipsis"> Interface Guide </span></a> <span class="md-nav__icon md-icon"></span>
 
 
-<a href="../ipv6/" class="md-nav__link"><span class="md-ellipsis"> IPv6 </span></a>
-
-<a href="../mac_address/" class="md-nav__link"><span class="md-ellipsis"> MAC Address </span></a>
-
 <a href="../drop-in_gateway/" class="md-nav__link"><span class="md-ellipsis"> Drop-in Gateway </span></a>
-
-<a href="../igmp_snooping/" class="md-nav__link"><span class="md-ellipsis"> IGMP Snooping </span></a>
 
 <a href="../hardware_acceleration/" class="md-nav__link"><span class="md-ellipsis"> Hardware Acceleration </span></a>
 
@@ -105,7 +99,7 @@ Models with Wi-Fi functionality usually support four network modes: Router, Acce
 
 ## For models without Wi-Fi<a href="#for-models-without-wi-fi" class="headerlink" title="Permanent link">¶</a>
 
-GL-MT2500/GL-MT2500A does not support Access Point, Extender, or WDS modes, as it lacks Wi-Fi functionality. But it supports Router mode and Bridge mode.
+Models lacking Wi-Fi functionality (e.g., GL-MT5000, GL-MT2500, and GL-MT2500A) do not support Access Point, Extender, or WDS modes; but they support Router mode and Bridge mode.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/network_mode/network_mode_page_mt2500.png" class="glboxshadow" alt="network mode of gl-mt2500" />
 

@@ -29,7 +29,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.11
+  version: 3.0.12
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -107,6 +107,14 @@ components:
             - type: 'null'
           title: Session Id
           description: Session ID to scope the dream to if specified
+        rebuild:
+          type: boolean
+          title: Rebuild
+          description: >-
+            card_refresh dreams only: rebuild the peer card solely from
+            observations currently in the collection, without injecting the
+            existing card (use after removals)
+          default: false
       type: object
       required:
         - observer
@@ -125,6 +133,7 @@ components:
       type: string
       enum:
         - omni
+        - card_refresh
       title: DreamType
       description: Types of dreams that can be triggered.
     ValidationError:

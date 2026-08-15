@@ -54,6 +54,27 @@ curl -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/setWebhook" \
   }'
 ```
 
+## Vercel Connect
+
+Use Vercel Connect for the outbound Telegram bot token:
+
+```typescript title="lib/bot.ts" lineNumbers
+import { createTelegramAdapter } from "@chat-adapter/telegram";
+import { connectTelegramAdapter } from "@vercel/connect/chat";
+
+const telegram = createTelegramAdapter({
+  ...connectTelegramAdapter("telegram/acme-telegram"),
+  secretToken: process.env.TELEGRAM_WEBHOOK_SECRET_TOKEN,
+});
+```
+
+
+  Connect does not forward Telegram webhooks. Keep
+  `TELEGRAM_WEBHOOK_SECRET_TOKEN` for native webhook verification, or use
+  polling mode without an inbound webhook. `TELEGRAM_BOT_TOKEN` is not needed
+  when using `connectTelegramAdapter`.
+
+
 ## Configuration
 
 
@@ -103,9 +124,27 @@ console.log(telegram.runtimeMode); // "webhook" | "polling"
 
 Use `bot.onSlashCommand` to handle Telegram bot commands such as `/status` and `/status@mybot`. Commands addressed to another bot are ignored as slash commands and continue through the normal message path.
 
+### Streaming
+
+Streams use post-and-edit by default for consistent behavior across Telegram clients. To opt into native draft previews in private chats:
+
+```typescript
+const telegram = createTelegramAdapter({ nativeStreaming: true });
+```
+
+[Telegram clients should dismiss a draft preview](https://core.telegram.org/api/bots/ai#live-response-streaming) when the final message arrives, but draft rendering varies between clients. Keep the default when your bot must work consistently across Telegram clients.
+
+Telegram recommends at most one message per second in a single chat and limits groups to 20 messages per minute. Sends and edits share flood control, so the post-and-edit path defaults to 1100ms between operations in private chats and 3100ms in other chats. This is a floor: setting a lower `streamingUpdateIntervalMs` on your `Chat` instance does not push the adapter past it. Override it with `streamingEditIntervalMs`:
+
+```typescript
+const telegram = createTelegramAdapter({ streamingEditIntervalMs: 4000 });
+```
+
+If Telegram rate limits the final edit, the adapter waits and retries when the requested delay is 5 seconds or less. Longer delays and failed retries reject the post so it never reports text that Telegram did not receive.
+
 ### Markdown formatting
 
-On Telegram Bot API 10.1 and newer, explicit `{ markdown }` and `{ ast }` messages use rich messages. Standard markdown gains native headings, lists, tables, task lists, formulas, details, and separate media blocks where supported by Telegram. Private chat streams use rich draft previews and persist the completed response as a rich message.
+On Telegram Bot API 10.1 and newer, explicit `{ markdown }` and `{ ast }` messages use rich messages. Standard markdown gains native headings, lists, tables, task lists, formulas, details, and separate media blocks where supported by Telegram.
 
 Plain strings, raw messages, cards, and media captions retain their existing lightweight message paths. Cards and captions use Telegram's `MarkdownV2` parse mode with context-aware escaping. Older or custom Bot API servers automatically fall back to this existing path when rich message methods are unavailable.
 
@@ -113,11 +152,13 @@ Pass `{ raw: "..." }` only if you need to ship a fully pre-escaped MarkdownV2 st
 
 ### Notes
 
+* Verified webhook updates with an integer `update_id` are deduplicated for 24 hours through the configured state adapter. Configure `secretToken` and use shared durable state across serverless instances. If state is unavailable, the adapter returns 503 so Telegram retries without dispatching.
 * Telegram does not expose full historical message APIs to bots. `fetchMessages` returns adapter-cached messages from the current process.
 * `listThreads` is not available for Telegram chats.
 * Telegram callback data is limited to 64 bytes — keep `Button` `id`/`value` payloads short.
 * Incoming attachments preserve Telegram's downloadable `file_id` and stable `file_unique_id` as `fetchMetadata.fileId` and `fetchMetadata.fileUniqueId`. Photo attachments use the `image/jpeg` MIME type.
 * Multiple `files` or compatible `attachments` are sent as Telegram media groups. `files` upload as documents; `attachments` preserve image, audio, video, or file media type.
+* Incoming media groups are delivered as one message after the album settles, with attachments ordered by Telegram message ID and the shared caption preserved.
 * Other rich card elements (images, select menus, radios) render as fallback text.
 
 ## Feature support

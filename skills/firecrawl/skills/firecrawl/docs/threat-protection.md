@@ -1,0 +1,150 @@
+> Source: https://docs.firecrawl.dev/features/threat-protection.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# Threat Protection
+
+> Block requests to risky URLs across every endpoint, using a policy your organization controls. Enforced server-side.
+
+Threat Protection lets your organization block Firecrawl from accessing risky URLs. When it is enabled, every URL a request would fetch through the API — a scrape target, a search result, a link discovered during a crawl, an agent's starting URL — is checked against your organization's policy, and URLs that fail the policy are refused. Checks are URL-level: a single malicious page can be blocked while the rest of its site stays reachable, and a flagged site is blocked on every page.
+
+The policy is defined once at the organization level and applies to every endpoint automatically. You can also allow per-request adjustments, or lock the policy so no request can weaken it.
+
+
+  Threat Protection is an enterprise feature and is gated per organization. Contact your Firecrawl account team to have it enabled for your account.
+
+
+## Modes
+
+Threat Protection has three modes, set at the organization level:
+
+* **Off** (default) — no checks are performed.
+* **Normal** — URLs are checked against [Google Web Risk](https://cloud.google.com/web-risk), which flags pages and sites associated with malware, social engineering (phishing), and unwanted software. **+2 credits per URL scanned.**
+* **Zscaler** — URLs are checked against your organization's own [Zscaler Internet Access](https://www.zscaler.com/products-and-solutions/zscaler-internet-access) (ZIA) tenant: the Zscaler-defined URL categories you choose to block, plus your custom URL categories and custom URL lists. See [Zscaler mode](#zscaler-mode) below. **No scan fees** — classification runs against your own tenant.
+
+The checks are designed to protect your data. In Normal mode the overwhelming majority of requests resolve locally against a regularly synced threat list, so the URLs you scrape are never sent to the classifier. In Zscaler mode, URL classification happens against your own ZIA tenant — the same system that already sees your organization's web policy. In every mode, no verdict about your traffic is ever stored by Firecrawl.
+
+## Policy controls
+
+Beyond the classifier, a policy can include:
+
+* **Custom blacklist** — exact domains or globs (e.g. `*.example.com`) that are always blocked, without a classifier call.
+* **Custom whitelist** — exact domains or globs that are always allowed. The whitelist wins over every other rule, so a domain you trust is never blocked.
+* **Blocked TLDs** — top-level domains to block outright (e.g. `zip`), matched on label boundaries.
+* **Risk score threshold** — the normalized score (0–100) at or above which a classifier verdict is treated as a block. Lower is stricter. The default is `75`. Applies to Normal mode; Zscaler mode blocks by category instead.
+* **Failure policy** — what to do when the classifier can't be reached: **block** (`closed`, the default and recommended for a security control) or **allow** (`open`).
+
+The custom blacklist, whitelist, and blocked-TLD rules are domain-level — they match on the host of the URL being checked; only the classifier operates on full URLs. Custom domains you blacklist or whitelist are matched using the same host canonicalization as the classifier, so alternate encodings of an address (for example, an integer-form IP) can't be used to slip past a list entry.
+
+## Zscaler mode
+
+Zscaler mode lets an organization that already maintains URL policy in ZIA enforce it on Firecrawl traffic, without maintaining a parallel taxonomy. Two planes work together:
+
+* **Inline classification** — URLs are classified through your tenant's URL Lookup API into Zscaler-defined categories, and URLs in a category you have denied are blocked.
+* **Synced custom rules** — your custom URL categories (URL lists and keywords) and your additions to Zscaler-defined categories are synced from the tenant on a schedule and evaluated by Firecrawl directly, because the ZIA lookup API does not return custom classifications. Entries removed in ZIA disappear on the next sync; a manual **Sync now** is available in the dashboard.
+
+The promise is **your custom lists plus your selected Zscaler categories** — not "identical to your ZIA policy." ZIA rules can also depend on users, groups, locations, time of day, and request context that Firecrawl does not replay. Keyword rules in custom categories are matched best-effort (case-insensitive match against the URL); exact URL-list entries match exactly.
+
+### Connecting your tenant
+
+Team admins connect the tenant from the dashboard (see below) with a [Zidentity OAuth client](https://help.zscaler.com/oneapi/understanding-oneapi): client ID, client secret, and your Zidentity vanity domain. Use a least-privilege API role scoped to URL Categories. The **Test connection** button verifies three things separately — the credentials, taxonomy access, and URL Lookup access — so a role that can read categories but not classify URLs is surfaced at setup rather than on your first scrape. The client secret is write-only and encrypted at rest; Zscaler's support for two active secrets lets you rotate with no downtime.
+
+After connecting, pick the categories to block from your tenant's own taxonomy — Zscaler-defined and custom categories both appear in the picker.
+
+Classification traffic to your tenant originates from a dedicated static IP for allowlisting; ask your account team for the address.
+
+### Capacity and behavior
+
+ZIA's URL Lookup API allows 1 request per second and 400 requests per hour per tenant. Firecrawl batches lookups (up to 100 URLs per request) and enforces these limits tenant-wide, which gives a sustained classification ceiling of roughly 11 URLs per second. Your scrape throughput is never throttled: when demand outruns the budget, or the hourly budget is exhausted, affected requests resolve through your failure policy immediately instead of queueing indefinitely.
+
+Two endpoint-level differences from Normal mode:
+
+* **Map results are evaluated against local rules only** (your lists plus synced custom rules) rather than classified inline — one map can return thousands of URLs, and classifying them would burn the hourly budget on links that may never be fetched. Every URL still gets the full check when a scrape of it starts.
+* **Search results are classified inline** and blocked results are removed, same as Normal mode; each unique result draws on the hourly lookup budget.
+
+Verdicts are never cached or stored (as in every mode), so a classification change in Zscaler applies to the very next request, and custom-list changes apply on the next sync.
+
+## Configuring the policy
+
+Team admins configure Threat Protection from [Enterprise Controls → Threat Protection](https://www.firecrawl.dev/app/enterprise-controls?tab=threat-protection) in the dashboard:
+
+1. Open **Enterprise Controls → Threat Protection**.
+2. Choose a mode, set your risk score threshold, and add any blacklist, whitelist, or blocked-TLD entries.
+3. For Zscaler mode: enter the tenant connection, run the connection test, pick the categories to block, and set the sync interval.
+4. Choose whether to allow per-request overrides, and set the failure policy.
+5. Save. Changes take effect immediately — the next request is evaluated against the new policy.
+
+Only team admins can view or change the policy. Everyone else sees a read-only view.
+
+## Per-request overrides
+
+Every endpoint that accepts URLs also accepts an optional `threatProtection` object, so an individual request can tighten (or, if your organization allows it, adjust) the policy for that call:
+
+```json theme={null}
+{
+  "url": "https://example.com",
+  "threatProtection": {
+    "mode": "normal",
+    "riskScoreThreshold": 50,
+    "blacklist": ["*.risky.example"]
+  }
+}
+```
+
+Overrides are merged onto the organization policy field by field. If your organization has **disabled request overrides**, any request that includes a `threatProtection` object is rejected with a `403` — this lets an administrator guarantee that the organization policy is the floor for every request.
+
+An override may select `"mode": "zscaler"` only when the organization has a Zscaler connection configured; the connection itself and the denied-category selection are organization-level and cannot be set per request.
+
+If Threat Protection is **enforced** for your team, an override may still tighten the policy but may not include `"mode": "off"` — a request that tries is rejected with a `403`.
+
+## When a URL is blocked
+
+A blocked request fails with a `403` and a stable error code:
+
+```json theme={null}
+{
+  "success": false,
+  "code": "unsafe_domain_blocked",
+  "error": "This URL (https://risky.example/landing) is blocked by your organization's threat protection policy (rule: blacklist). If you believe this is a mistake, contact your organization administrator to adjust the policy (e.g. whitelist the domain)."
+}
+```
+
+Behavior differs slightly by endpoint, matching what is most useful:
+
+* **Scrape, batch scrape, extract, agent** — a blocked target returns the `unsafe_domain_blocked` error for that URL.
+* **Crawl** — a blocked seed URL fails the request; blocked links discovered mid-crawl are skipped and the crawl continues.
+* **Search, map** — blocked URLs are removed from the returned results rather than surfaced and refused.
+
+If a request is redirected to a different URL — including a same-site redirect onto a different page — the destination is re-checked, and content from a blocked destination is never returned. For **agent**, the policy covers the starting URLs and everything the agent fetches through the Firecrawl API; navigations the remote browser performs inside a page are not intercepted.
+
+## Billing
+
+In Normal mode a scan costs **+2 credits per URL scanned**, on top of the base cost of the request. **Zscaler mode has no scan fees**: classification runs against your own ZIA tenant, with your credentials and your API quota, so the scan-fee details below apply to Normal mode only. A few details:
+
+* Decisions made entirely from your own policy (blacklist, whitelist, or blocked-TLD matches) do not call the classifier and are **not** charged a scan fee.
+* A request that is blocked is still charged for the scan that produced the verdict.
+* Scans are deduplicated within a single scrape: a redirect re-check that resolves to the same URL shares the original scan, while a redirect that lands on a different URL is a second scan.
+* **Crawls and batch scrapes check every page independently.** Verdicts are never reused across pages — nothing about your traffic is stored (see above) — so in Normal mode expect **+2 credits per scraped page**. A link that is discovered mid-crawl and blocked bills its scan once per crawl, no matter how many pages link to it.
+* **Search and map** scan each unique URL in the result set once per request, so their scan fees scale with the number of results scanned — which can slightly exceed the number returned when results are trimmed to your `limit`.
+
+## Error reference
+
+| Status | When                                                                                                                         |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| `403`  | A request targets a URL blocked by the policy (`code: unsafe_domain_blocked`).                                               |
+| `403`  | A request includes a `threatProtection` override while overrides are disabled for the organization.                          |
+| `403`  | A `threatProtection` override sets `mode: "off"` while Threat Protection is enforced for the team.                           |
+| `403`  | The organization policy is updated with `mode: "off"` while Threat Protection is enforced for the team.                      |
+| `403`  | Threat Protection options are used on a team without the feature enabled.                                                    |
+| `403`  | A `threatProtection` override selects `mode: "zscaler"` while the organization has no Zscaler connection configured.         |
+| `403`  | A deprecated v0 endpoint is called while Threat Protection is enforced for the team (v0 does not support Threat Protection). |
+
+## Notes
+
+* The policy is organization-wide: it applies to every API key and every endpoint automatically.
+* The whitelist always wins, so a URL on an explicitly trusted domain is never blocked by the classifier or a TLD rule.
+* The error code `unsafe_domain_blocked` is kept stable for compatibility even though checks are URL-level.
+* With the failure policy set to `closed` (the default), a classifier outage causes affected requests to be blocked rather than silently allowed.
+* With [SIEM Audit Logging](/features/siem) configured, every decision is visible in your audit trail: events carry the deciding rule, the classifier consulted, the threat categories, and — for Zscaler-classified URLs — a `security_alert` flag when the URL carried a security-alert classification.
