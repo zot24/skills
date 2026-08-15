@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.11](https://github.com/zot24/skills/compare/ai-sdk-v1.1.10...ai-sdk-v1.1.11) (2026-08-15)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#156](https://github.com/zot24/skills/issues/156)) ([7c9ecd2](https://github.com/zot24/skills/commit/7c9ecd2f4fdd8e91229fc49f66228bcf556e45bd))
+
 ## [1.1.10](https://github.com/zot24/skills/compare/ai-sdk-v1.1.9...ai-sdk-v1.1.10) (2026-08-01)
 
 
