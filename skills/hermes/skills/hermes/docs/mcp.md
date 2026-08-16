@@ -151,6 +151,12 @@ MCPs are never auto-updated. Re-run `hermes mcp install <name>` to refresh after
 
 To add an MCP to the catalog, open a PR against <a href="https://github.com/NousResearch/hermes-agent/tree/main/optional-mcps" target="_blank" rel="noopener noreferrer"><code>optional-mcps/</code></a>.
 
+### Suggestion metadata (`suggest:`)<a href="#suggestion-metadata-suggest" class="hash-link" aria-label="Direct link to suggestion-metadata-suggest" translate="no" title="Direct link to suggestion-metadata-suggest">​</a>
+
+A manifest may declare an optional `suggest:` block with `keywords:` and/or `hosts:` lists. UI surfaces (currently the Desktop app's composer) use it to offer a one-click "Add \<server\>" pill when your draft mentions one of the keywords as a completed word, or contains a pasted link whose hostname ends with one of the host suffixes. It is purely advisory — installs still flow through the same validated catalog/config paths — and most hosted remote entries (Atlassian, Sentry, Notion, Stripe, Vercel, Supabase, and friends) declare it.
+
+GitHub is deliberately **not** in the catalog: its hosted MCP requires each client to bring its own OAuth app (generic dynamic client registration is rejected), and Hermes's bundled `github/*` skills driving the `gh` CLI are a more capable integration. On Desktop, GitHub mentions instead offer the `github-auth` skill when `gh` isn't signed in yet.
+
 ## Two kinds of MCP servers<a href="#two-kinds-of-mcp-servers" class="hash-link" aria-label="Direct link to Two kinds of MCP servers" translate="no" title="Direct link to Two kinds of MCP servers">​</a>
 
 ### Stdio servers<a href="#stdio-servers" class="hash-link" aria-label="Direct link to Stdio servers" translate="no" title="Direct link to Stdio servers">​</a>
@@ -955,6 +961,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#runtime-env_var-substitution" class="table-of-contents__link toc-highlight">Runtime <code>${ENV_VAR}</code> substitution</a>
   - <a href="#updating-tool-selection-later" class="table-of-contents__link toc-highlight">Updating tool selection later</a>
   - <a href="#updating-the-catalog-manifest" class="table-of-contents__link toc-highlight">Updating the catalog manifest</a>
+  - <a href="#suggestion-metadata-suggest" class="table-of-contents__link toc-highlight">Suggestion metadata (<code>suggest:</code>)</a>
 - <a href="#two-kinds-of-mcp-servers" class="table-of-contents__link toc-highlight">Two kinds of MCP servers</a>
   - <a href="#stdio-servers" class="table-of-contents__link toc-highlight">Stdio servers</a>
   - <a href="#http-servers" class="table-of-contents__link toc-highlight">HTTP servers</a>
