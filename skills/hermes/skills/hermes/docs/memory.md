@@ -312,6 +312,22 @@ When you point it at a model **different** from your main one, the review runs t
 
 Leave it at `auto` (or set it to your main model) and nothing changes — the review keeps running on the main model with the full warm-cache replay.
 
+### Disabling automatic reviews (`enabled`)<a href="#disabling-automatic-reviews-enabled" class="hash-link" aria-label="Direct link to disabling-automatic-reviews-enabled" translate="no" title="Direct link to disabling-automatic-reviews-enabled">​</a>
+
+The review fork can burn a meaningful share of total tokens on busy hosts. Operators can disable it without zeroing nudge intervals:
+
+
+``` prism-code
+auxiliary:
+  background_review:
+    enabled: true              # false = skip automatic post-turn forks
+```
+
+
+With `enabled: false`, automatic post-turn forks do not spawn; manual `/refine` still works.
+
+Fork usage is persisted in `session_model_usage` with `task='background_review'` and a completion line is written to `agent.log` (`Background review complete: thread=bg-review calls=… in=… out=… result=…`).
+
 ## Controlling skill writes (`skills.write_approval`)<a href="#controlling-skill-writes-skillswrite_approval" class="hash-link" aria-label="Direct link to controlling-skill-writes-skillswrite_approval" translate="no" title="Direct link to controlling-skill-writes-skillswrite_approval">​</a>
 
 Skills use the same on/off gate, but the review UX differs because a `SKILL.md` is far too large to read in a chat bubble:
@@ -375,6 +391,7 @@ See the [Memory Providers](/docs/user-guide/features/memory-providers) guide for
 - <a href="#controlling-memory-writes-write_approval" class="table-of-contents__link toc-highlight">Controlling memory writes (<code>write_approval</code>)</a>
 - <a href="#background-review-notifications-displaymemory_notifications" class="table-of-contents__link toc-highlight">Background review notifications (<code>display.memory_notifications</code>)</a>
 - <a href="#running-the-review-on-a-cheaper-model-auxiliarybackground_review" class="table-of-contents__link toc-highlight">Running the review on a cheaper model (<code>auxiliary.background_review</code>)</a>
+  - <a href="#disabling-automatic-reviews-enabled" class="table-of-contents__link toc-highlight">Disabling automatic reviews (<code>enabled</code>)</a>
 - <a href="#controlling-skill-writes-skillswrite_approval" class="table-of-contents__link toc-highlight">Controlling skill writes (<code>skills.write_approval</code>)</a>
 - <a href="#external-memory-providers" class="table-of-contents__link toc-highlight">External Memory Providers</a>
 
