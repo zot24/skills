@@ -31,6 +31,7 @@ An opinionated selection of skills for daily dev workflows.
 | [1password-cli](./skills/1password-cli) | Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent. |
 | [portainerctl](./skills/portainerctl) | Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC. |
 | [pxpipe](./skills/pxpipe) | Set up, run, tune, and debug pxpipe — a local proxy that cuts Claude Code token costs ~59–70% by rendering bulky context (tool results, old history, system prompt) as compressed PNG images |
+| [llm-wiki](./skills/llm-wiki) | Expert on llm-wiki (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent. Hub/topic layout, ingest → compile → query, lint/librarian/audit, Ideas and Projects, sessions, private adapters, and version pinning |
 
 ## Installation
 
@@ -573,6 +574,29 @@ Set up, run, tune, and debug pxpipe (`pxpipe-proxy`) — a local proxy that cuts
 
 [Full documentation](./skills/pxpipe/README.md)
 
+### llm-wiki
+
+Expert on [llm-wiki](https://github.com/nvk/llm-wiki) (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent:
+
+- **structure** — hub + isolated topic wikis, immutable `raw/` vs synthesized `wiki/`, derived indexes
+- **ingest/compile/query** — sources in, cited cross-referenced articles out, read-only query-lite protocol
+- **lint/librarian/audit** — structural checks, staleness scoring, provenance and drift tracing
+- **inventory/dataset** — tracking records and manifests for data too large to hold in the wiki
+- **idea/project/portfolio** — Concept → Idea → Project promotion and the hub-wide read-only view
+- **session/feedback** — redacted operational memory, rehydrate, explicit promotion
+- **adapter** — the private-adapter boundary, machine-local registry, governed remote writes
+- **upgrade** — check the installed version, classify a diff, pin to a tag
+- **sync/diff** — stay updated with upstream docs
+
+```bash
+/llm-wiki:llm-wiki quickstart
+/llm-wiki:llm-wiki structure
+/llm-wiki:llm-wiki query
+/llm-wiki:llm-wiki upgrade
+```
+
+[Full documentation](./skills/llm-wiki/README.md)
+
 ### gh-issue-tracker
 
 Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues:
@@ -679,7 +703,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, pxpipe
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, pxpipe, llm-wiki
 
 ### Automated Releases (release-please)
 
