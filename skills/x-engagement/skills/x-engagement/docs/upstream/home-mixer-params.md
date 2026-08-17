@@ -1,4 +1,5 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/home-mixer/params/param.rs
+> Snapshot: c65aa17 (2026-08-14)
 
 // mirrored from config feature-switch defaults; last sync 2026-08-12T04:09:22Z
 use xai_feature_switches::param;

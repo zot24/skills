@@ -1,9 +1,10 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/visibility-filtering/rules/registry.rs (cached at upstream/visibility-filtering-registry.md) -->
-<!-- Snapshot: a389166, 2026-08-13 -->
+<!-- Snapshot: c65aa17, 2026-08-14 — Brazil filter is in home-mixer, not the VF registry -->
 
 # Visibility Filtering
 
-Published **2026-08-13**. This is the system that decides whether a post can be shown at all —
+Published **2026-08-13**, with an additional For You candidate filter on **2026-08-14**
+(`Brazil2026ElectionFilter`). This is the system that decides whether a post can be shown at all —
 separately from, and after, ranking.
 
 **Ranking sets the order. Visibility filtering sets whether you're in the list.** Optimizing
@@ -82,7 +83,26 @@ acceptable because followers still see you.
   `NSFW_CARD_IMAGE_INTERSTITIAL`, `NsfwAuthorInterstitialRule`
 
 Note `DropStaleTweetsRule` — posts age out regardless of engagement. Old content does not
-resurface.
+resurface. Separately, Phoenix can zero engagement-count features on ~14-day-old candidates when
+`enable_stale_post` is on (ranking-side, not this VF rule).
+
+## Brazil 2026 election filter (home-mixer, 2026-08-14)
+
+Not part of the `visibility-filtering/` registry — it runs in the Phoenix candidate pipeline as
+`Brazil2026ElectionFilter` (`home-mixer/filters/brazil_2026_election_filter.rs`).
+
+- Hardcoded set of user IDs reported to Brazil's Electoral Court for the 2026 election (~665
+  accounts in the open-source list; usernames included for transparency).
+- **Removes** from For You recommendations posts whose author is on the list **unless the viewer
+  already follows that author**.
+- Also removes retweets of listed authors, quotes of listed authors, and replies whose ancestor
+  chain includes a listed author (same follow exception).
+- Stated purpose: Brazilian electoral-law compliance for recommendation systems
+  ([XBR announcement](https://x.com/XBR/status/2088341967864320507), TSE open data).
+
+Practical: this is a **jurisdiction-specific OON-style drop with an explicit follow carve-out**.
+It is not a general spam/safety label. Creators outside that list are unaffected. Open-source
+makes the exact membership and logic auditable.
 
 ## Practical implications
 
@@ -98,6 +118,9 @@ resurface.
    which is also why threads under a suppressed root go quiet.
 6. **Interstitials are not drops.** Edgy-but-allowed media stays in the feed behind a tap. Nothing
    in the repo draws the interstitial; the post is still distributed.
+7. **Geo/legal filters exist in code.** Election and local-law paths can remove eligible authors
+   from recommendations even with clean spam standing — check Under the Hood and local rules if
+   reach dies only for some audiences.
 
 ## Check your own labels
 

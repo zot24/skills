@@ -1,11 +1,11 @@
 {
   "name": "x-engagement",
-  "version": "1.2.2",
-  "description": "X (Twitter) engagement playbook grounded in xai-org/x-algorithm codebase - published scoring weights, visibility filtering, account standing, dwell, follow triggers, spam detection, Original Content Rewards monetization",
+  "version": "1.2.3",
+  "description": "X (Twitter) engagement playbook grounded in xai-org/x-algorithm codebase - published scoring weights with correct P(action) semantics, visibility filtering, Brazil 2026 election filter, account standing, dwell, follow triggers, spam detection, Original Content Rewards monetization",
   "upstream_repo": "https://github.com/xai-org/x-algorithm",
-  "snapshot_commit": "a389166",
-  "snapshot_date": "2026-08-13",
-  "notes": "The analytical docs (scoring-weights, algorithm-signals, visibility-filtering, account-standing, content-quality) are hand-derived from the source files cached under docs/upstream/. CI copies files; it cannot regenerate prose. When a source below 404s, or its diff shows a removed constant, those docs need re-deriving by hand - then bump snapshot_commit.",
+  "snapshot_commit": "c65aa17",
+  "snapshot_date": "2026-08-14",
+  "notes": "The analytical docs (scoring-weights, algorithm-signals, visibility-filtering, account-standing, content-quality) are hand-derived from the source files cached under docs/upstream/. CI copies files; it cannot regenerate prose. When a source below 404s, or its diff shows a removed constant, those docs need re-deriving by hand - then bump snapshot_commit. 2026-08-14 (c65aa17): weight semantics clarification, Brazil2026ElectionFilter, cold-start TS params, reply spam threshold 30k, stale post 14d features.",
   "sources": [
     {
       "url": "https://raw.githubusercontent.com/xai-org/x-algorithm/main/README.md",

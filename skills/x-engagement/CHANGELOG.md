@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/zot24/skills/compare/x-engagement-v1.2.2...x-engagement-v1.2.3) (2026-08-17)
+
+
+### Features
+
+* **x-engagement:** track x-algorithm `c65aa17` (2026-08-14) — weight P(action) semantics, Brazil election filter, reply-spam 30k, stale-post 14d, cold-start TS
+
 ## [1.2.2](https://github.com/zot24/skills/compare/x-engagement-v1.2.1...x-engagement-v1.2.2) (2026-08-15)
 
 

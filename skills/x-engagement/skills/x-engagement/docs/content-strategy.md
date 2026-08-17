@@ -117,7 +117,9 @@ follows from a post they didn't read. Hold attention to earn the 4.0–5.0 actio
 0.004.
 
 The real penalty for thin content isn't the scroll-past — it's `not_interested` (−43.2) and
-`mute_author` (−58.8). Boring is cheap; irritating is expensive.
+`mute_author` (−58.8). Boring is cheap; irritating is expensive. And irritating is *not* the same
+as "one report deletes forty-seven replies" — see [Scoring Weights](scoring-weights.md) for the
+2026-08-14 probability semantics.
 
 → **[Scoring Weights](scoring-weights.md)**
 
@@ -126,6 +128,18 @@ The real penalty for thin content isn't the scroll-past — it's `not_interested
 - Use numbered progressions that pull readers forward ("3 of 5 surprises people...")
 - End posts with a question or open loop that invites a reply
 - Give enough substance that even sophisticated readers learn something
+
+## Freshness window
+
+Two separate mechanisms punish "let it age and ride the counts":
+
+1. Visibility filtering's `DropStaleTweetsRule` ages posts out of eligibility.
+2. Phoenix (2026-08-14) can flag posts older than ~14 days (`IS_STALE_POST14D`) and **zero their
+   engagement-count features** when `enable_stale_post` is on — so old viral tallies stop helping
+   the model the way fresh counts do.
+
+**Ship, distribute, and earn actions while the post is young.** Clusters still work; resurrection
+of month-old bangers via raw counts is a weaker bet than it looks.
 
 ## Author Diversity Penalty
 
@@ -149,7 +163,8 @@ quality threshold** — the widely repeated `quality_score ≥ 0.4` gate came fr
 2026-08-13.
 
 What actually decides whether you reach non-followers is the label-and-drop chain in visibility
-filtering, which keys largely on **account-level** standing.
+filtering, which keys largely on **account-level** standing — plus jurisdiction-specific candidate
+filters such as `Brazil2026ElectionFilter` (listed authors hidden from For You unless followed).
 
 - → **[Content Quality Screening](content-quality.md)** — what the screen produces
 - → **[Visibility Filtering](visibility-filtering.md)** — what drops you from recommendations

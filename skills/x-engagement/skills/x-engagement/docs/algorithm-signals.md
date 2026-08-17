@@ -1,13 +1,13 @@
 <!-- Source: https://github.com/xai-org/x-algorithm (direct codebase analysis) -->
-<!-- Snapshot: a389166, 2026-08-13 -->
+<!-- Snapshot: c65aa17, 2026-08-14 -->
 
 # X Algorithm Signals Reference
 
 The signals the Phoenix ranking model predicts, and what the pipeline does with them.
 
 **For the actual numbers, see [Scoring Weights](scoring-weights.md)** — xAI published the blend
-weights on 2026-08-13. This file covers which signals exist and how they combine; that file covers
-what each is worth.
+weights on 2026-08-13 and clarified weight semantics on 2026-08-14. This file covers which signals
+exist and how they combine; that file covers what each is worth.
 
 ## How Scoring Works
 
@@ -15,11 +15,17 @@ Phoenix (a Grok-based transformer) predicts probabilities for multiple viewer ac
 multiplied by configurable weights and summed:
 
 ```
-Final Score = Σ (weight_i × P(action_i))
+Final Score = Σ (weight_i × P(action_i | viewer, post))
 ```
 
 Positive weights add, negative weights subtract. The result is then adjusted by author diversity
 and out-of-network factors, and the top K are selected.
+
+**Critical (2026-08-14):** weights scale predicted probabilities (or continuous values like dwell
+time), **not** raw engagement counts. Do not convert weight ratios into "1 report cancels N
+likes." P(report) is >1000× rarer than P(like) network-wide; the large negative weight exists so
+the prediction can affect ranking at all. Recommendations are personalized; coordinated reports
+via direct navigation (not Home Timeline serve) do not feed ranking.
 
 Ranking decides **order**. It does not decide whether you are eligible to appear at all — that is
 **[Visibility Filtering](visibility-filtering.md)**, a separate system.
@@ -58,10 +64,11 @@ They are predicted but contribute nothing to the score. See
 | `block_author` | Viewer blocks you | Strong (−31.2) |
 | `not_dwelled` | Viewer scrolled past quickly | Negligible (−0.02) |
 
-The spread here is the most important fact in the model. Negative feedback outweighs every
-positive action by one to two orders of magnitude — one report cancels roughly 47 replies.
-`not_dwelled`, by contrast, is the weakest term in the entire weight table; a hook that fails to
-hold costs you almost nothing *directly*.
+The spread here is the most important *risk* fact in the model — not a raw count conversion table.
+Negative feedback weights are large because those actions are rare; score contribution is still
+`weight × P(action|viewer)`. Upstream (2026-08-14) rejects "one report cancels roughly 47
+replies." `not_dwelled`, by contrast, is the weakest term in the entire weight table; a hook that
+fails to hold costs you almost nothing *directly*.
 
 Note that `report`, `mute_author` and `block_author` also feed **account-level** labels via
 `agatha/`, which is where the durable cost lives. → **[Account Standing](account-standing.md)**.
@@ -122,6 +129,25 @@ What *is* live and load-bearing is the **bidirectional follow reply boost**: +15
 for root posts from an author the viewer mutually follows. Mutuals are worth roughly 4× one-way
 followers on your root posts. → [Scoring Weights](scoring-weights.md).
 
+As of 2026-08-14, Phoenix also stamps explicit bool features on candidates and history:
+`IS_AUTHOR_FOLLOWED_BY_VIEWER_SEQ` and `IS_AUTHOR_FOLLOWING_VIEWER_SEQ` (previously zero-filled).
+Follow-graph state is a first-class model input, not only a post-score boost path.
+
+## Stale posts (~14 days)
+
+When `enable_stale_post` is on, candidates older than `STALE_POST_14D_TTL_SEC` get
+`IS_STALE_POST14D` set and **engagement count features zeroed** (fav/reply/rt/quote/view) in the
+Phoenix input buffer (`phoenix/.../util.rs`). Rank-all also added a `video_14day` SID window.
+Practical: do not lean on weeks-old posts retaining ranking power from accumulated counts alone —
+ship and distribute while fresh.
+
+## Cold start
+
+`AuthorColdStart` can boost a low-impression eligible post into a higher slot. A 2026-08-14 option
+(`EnableColdStartThompsonSampling`, **default false**) samples Beta(α0+favs, β0+imps−favs) and
+picks among the top-K sampled before falling back to score. Defaults: α0=0.75, β0=49.25, K=5.
+Until production enables the flag, behaviour remains argmax-by-score among cold-start eligibles.
+
 ## Facepile Social Proof
 
 If people the viewer follows have replied to your post, a facepile of their avatars is shown.
@@ -141,18 +167,20 @@ compensates for a rare action. Score contribution is `weight × P(action)`, and 
 
 What the code does support:
 
-1. **Avoid negative feedback before optimizing anything else.** The negatives are 1–2 orders of
-   magnitude larger than the positives, and they compound into account labels.
+1. **Avoid negative feedback before optimizing anything else.** Large negative weights + account
+   labels. Do not invent raw "report = N likes" ratios; still design so people don't mute/block/
+   report you.
 2. **Protect account standing.** An OON drop label makes the whole scoring model moot.
    → [Account Standing](account-standing.md)
 3. **Earn replies and quotes.** Both 5.0, both well above like (0.5) and repost (1.0), and both
    plausibly reachable by design.
 4. **Earn follows.** 4.0 per impression, but the only action that changes every *future*
-   impression — a compounding return the per-impression score can't express.
+   impression — a compounding return the per-impression score can't express. Follow edges are now
+   explicit Phoenix features too.
 5. **Write things worth sending to one specific person.** DM share 5.0, copy-link share 20.0.
 6. **Hold attention** — but as a means to the above, not for `cont_dwell_time` (0.004) itself.
-7. **Post less, better.** Author diversity decay plus VMRanker both penalize volume and
-   repetition.
+7. **Post less, better, fresher.** Author diversity decay plus VMRanker both penalize volume and
+   repetition; stale-post feature zeroing weakens old count-heavy posts.
 
 ## Old patterns
 
