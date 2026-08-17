@@ -1,5 +1,5 @@
 {
   "name": "x-engagement",
-  "description": "Crafts high-engagement X (Twitter) content using conversation hijacking, authority building, strategic hooks, and Original Content Rewards monetization rules.",
-  "version": "1.2.2"
+  "description": "Crafts high-engagement X (Twitter) content using published algorithm weights (P(action) semantics), visibility filtering, conversation tactics, and Original Content Rewards monetization rules.",
+  "version": "1.2.3"
 }

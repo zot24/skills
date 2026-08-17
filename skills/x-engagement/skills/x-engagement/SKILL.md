@@ -8,8 +8,8 @@ allowed-tools: Read, Write, Edit, Bash
 
 Expert at building authority and engagement on X (Twitter) through distribution engineering,
 algorithm-aware content design, and conversation tactics — grounded in the `xai-org/x-algorithm`
-codebase at snapshot `a389166` (2026-08-13), the release that published the scoring weights and
-the visibility-filtering rules.
+codebase at snapshot `c65aa17` (2026-08-14), which clarified weight semantics and added the
+Brazil 2026 election filter on top of the 2026-08-13 scoring-weights release.
 
 ## Overview
 
@@ -17,25 +17,34 @@ the visibility-filtering rules.
   you're *eligible* at all. Most reach problems are the second one.
 - **Published weights** — the blend weights are public as of 2026-08-13; the skill cites them with
   `file:line` rather than inferring a hierarchy
-- **Negative feedback dominates** — `report` is −234.0 against a top positive of 20.0; avoiding
-  irritation beats optimizing engagement
+- **Weights multiply P(action), not counts** — upstream (2026-08-14) explicitly rejects
+  "1 report cancels N likes." Report is rare (>1000× less base rate than like), so its weight is
+  large so the *prediction* can move the score. Mass-report brigades are personalized and mostly
+  affect similar users; only Home-Timeline-served actions count
 - **Account standing gates everything** — spam/slop labels drop *every* post from out-of-network
   for 30 days while followers see you normally
-- **Mutuals compound** — a mutually-followed author gets +15.0 on reply weight for root posts
-- **Conversation leverage** — replies are Grok-scored 0–3; volume is the riskiest strategy here
+- **Mutuals compound** — a mutually-followed author gets +15.0 on reply weight for root posts;
+  follow-graph bool features are now wired into Phoenix candidate/history tensors
+- **Conversation leverage** — replies are Grok-scored 0–3; spam/reply-ranking eligibility widened
+  to threads where target+root are ≤30k followers (was 15k)
 - **Monetization alignment** — Original Content Rewards pays on verified impressions on *original*
   posts in the Home Timeline
+- **Freshness hardens after 14d** — stale posts zero engagement-count features in Phoenix when the
+  flag is on; old viral posts lose raw-count advantage
 
 ## Core Principles
 
 ### 1. Don't Get Dropped Before You Get Ranked
 Visibility filtering runs a set of rules that fire **only for out-of-network recommendations** —
 spam-high-recall, do-not-amplify, abusive, NSFW, compromised. Many are **account-level**. If OON
-reach dies while follower engagement holds, that's the cause, not your hooks.
+reach dies while follower engagement holds, that's the cause, not your hooks. Jurisdiction filters
+(e.g. `Brazil2026ElectionFilter`) can also remove listed authors from For You unless the viewer
+follows them.
 
-### 2. Negative Signals Outweigh Everything Positive
-`report` −234.0, `mute_author` −58.8, `not_interested` −43.2 versus a top positive of 20.0. One
-report cancels ~47 replies. Provocation that wins arguments and loses this ratio is a bad trade —
+### 2. Negative Signals Matter — But Read the Math
+`report` −234.0, `mute_author` −58.8, `not_interested` −43.2 versus a top positive of 20.0. Those
+numbers weight **predicted probabilities for this viewer**, not raw engagement tallies. Do **not**
+say "one report cancels ~47 replies." Still: content that invites mute/block/report is expensive,
 and `agatha/` scores blocks/reports *relative to favorites* as a durable account label.
 
 ### 3. Hook → Hold → Earn a Real Action
@@ -56,7 +65,8 @@ don't monetize either.
 ### 6. Reply Quality Over Volume — This Is The Riskiest Lever
 Replies are Grok-scored 0–3. Below ~1,000 followers spam scrutiny is elevated, and
 `fast_reply_spam_post` carries a 30-day `SpamHighRecall` label. `bdsm/` reads posting *cadence*
-directly. Five excellent replies beat fifty mediocre ones by a wide margin.
+directly. Reply-spam / reply-ranking tasks now also cover mid-tier threads (≤30k followers on
+target and root). Five excellent replies beat fifty mediocre ones by a wide margin.
 
 ### 7. Volume and Repetition Both Decay
 Author diversity: your 2nd post in a feed load keeps 62.5%, your 3rd 43.75%. VMRanker separately
@@ -67,21 +77,28 @@ Original Content Rewards pays on qualified impressions: **Premium viewers**, **H
 **original posts**. Separately, `llm_slop_user` and `llm_slop_post` are real enforcement labels
 with 30-day TTLs. Generic AI-shaped output is a named, penalized category.
 
+### 9. Ship While Fresh
+Phoenix can mark posts older than ~14 days as stale and zero their engagement-count features
+(`IS_STALE_POST14D`). Design for timely distribution; do not rely on ancient high-count posts to
+keep ranking on raw fav/view features alone.
+
 ## Documentation
 
 - **[Scoring Weights](docs/scoring-weights.md)** - The published blend weights with `file:line`
-  citations, the bidirectional-follow boost, OON factors, author diversity, params off by default
+  citations, correct P(action) semantics, bidirectional-follow boost, OON factors, author
+  diversity, params off by default
 - **[Algorithm Signals](docs/algorithm-signals.md)** - Which signals exist, candidate sources,
-  network alignment, facepile, how to prioritize
+  network alignment, facepile, stale-post / cold-start notes, how to prioritize
 - **[Visibility Filtering](docs/visibility-filtering.md)** - ALLOW/INTERSTITIAL/DROP, the
-  out-of-network-only drop rules, the Under the Hood transparency tool
+  out-of-network-only drop rules, Brazil 2026 election filter, Under the Hood
 - **[Account Standing](docs/account-standing.md)** - agatha, user-cred-v2 PageRank, bdsm behaviour
   model, the enforcement label chain and its 30-day TTLs
 - **[Content Quality Screening](docs/content-quality.md)** - Banger Screen outputs, reply spam
   buckets, 0–3 reply rubric, the ten safety categories
-- **[Content Strategy](docs/content-strategy.md)** - Hooks, clusters, attention, diversity decay
-- **[Conversation Tactics](docs/conversation-tactics.md)** - Reply scoring, spam risk, thread
-  hijacking, social proof
+- **[Content Strategy](docs/content-strategy.md)** - Hooks, clusters, attention, diversity decay,
+  freshness
+- **[Conversation Tactics](docs/conversation-tactics.md)** - Reply scoring, spam risk (≤30k),
+  thread hijacking, social proof
 - **[Authority Building](docs/authority-building.md)** - Follow triggers, share signals,
   network alignment, positioning
 - **[Monetization](docs/monetization.md)** - Original Content Rewards: eligibility, qualified
@@ -95,7 +112,8 @@ with 30-day TTLs. Generic AI-shaped output is a named, penalized category.
 1. **Check standing first** if reach has dropped — Under the Hood shows the labels actually on
    your account; don't theorize about hooks until that's clean
 2. **Draft content** with a strong hook (controversial truth or myth-busting)
-3. **Ask: could this make someone mute, block or report?** The negatives dominate the model
+3. **Ask: could this make someone mute, block or report?** Negatives still dominate risk, even
+   after correcting the weight-ratio myth
 4. **Ask: does this earn a reply, quote, DM share, or follow?** Those are what score
 5. **Check it reads as human** — not templated, not your last post rephrased
 6. **Post to your profile** first
@@ -111,6 +129,7 @@ clean account standing (no OON drop labels)
 + a reason to reply, quote, or DM it to one specific person
 + a reason to follow (unique insight + consistent content identity)
 + original and human-sounding (not slop-labelled)
++ timely enough that engagement features still count
 = algorithmic reach → qualified impressions → payout
 ```
 
@@ -130,10 +149,12 @@ clean account standing (no OON drop labels)
 - Aggregating others' content with thin additions (devalued under Original Content Rewards)
 - Chasing `dwell` as an end in itself (weighted 0.0)
 - Chasing `profile_click` (weighted 0.0)
+- Treating weight ratios as raw count equivalences ("1 report = N likes") — wrong since 2026-08-14
+- Relying on weeks-old posts to keep ranking on accumulated fav/view counts alone
 
 ## Currency
 
 Analytical docs are hand-derived from the source files cached in `docs/upstream/`, at snapshot
-`a389166` (2026-08-13). CI copies those files but **cannot** regenerate the prose. If a cached
+`c65aa17` (2026-08-14). CI copies those files but **cannot** regenerate the prose. If a cached
 file's diff shows a changed or removed constant, the analysis needs re-deriving by hand — see
 `sync.json` → `snapshot_commit`.

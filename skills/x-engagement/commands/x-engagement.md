@@ -49,7 +49,7 @@ not_interested −43.2 · block −31.2 · **not_dwelled −0.02**
 (`param.rs:279-281`). Contribution is `weight × P(action)`. Copy-link is 20.0 because it's rare —
 it is not a tactic. Never present the table as a ranked to-do list.
 
-**Negatives dominate:** one report cancels ~47 replies. Avoiding mute/block/report beats
+**Negatives dominate risk:** large weights on rare P(mute/block/report) — not raw count math. Avoiding mute/block/report beats
 optimizing any positive action.
 
 **Two systems:** ranking sets order; **visibility filtering** sets eligibility. A set of drop

@@ -1,12 +1,12 @@
 <!-- Source: https://github.com/xai-org/x-algorithm — abuse-enforcement-service/, agatha/, user-cred-v2/, bdsm/ -->
 <!-- Cached: upstream/enforcement-user-rules.md, upstream/enforcement-post-rules.md -->
-<!-- Snapshot: a389166, 2026-08-13 -->
+<!-- Snapshot: c65aa17, 2026-08-14 -->
 
 # Account Standing
 
-Published **2026-08-13**. Several systems score your **account**, not your posts, and the labels
-they assign feed straight into the out-of-network drop rules in
-**[Visibility Filtering](visibility-filtering.md)**.
+Published **2026-08-13** (with BDSM public-note refinements through **2026-08-14**). Several systems
+score your **account**, not your posts, and the labels they assign feed straight into the
+out-of-network drop rules in **[Visibility Filtering](visibility-filtering.md)**.
 
 This is the layer that decides whether your content is eligible for reach at all. It operates on
 timescales of weeks and is invisible from engagement metrics.
@@ -30,9 +30,11 @@ from one that earns 50 likes and 5 blocks. This is the mechanism by which delibe
 antagonistic content is expensive even when it "performs" — the engagement it wins is the
 denominator, and the blocks are the numerator.
 
-This also reframes the `report` weight of −234.0 in
-**[Scoring Weights](scoring-weights.md)**: a report costs you twice, once per-impression in
-ranking and again as a durable account label.
+This also pairs with the `report` weight of −234.0 in
+**[Scoring Weights](scoring-weights.md)**: a report can cost you in ranking *via personalized
+P(report)* and again as a durable account label through Agatha. Do **not** treat the weight as a
+raw "one report cancels N likes" conversion — upstream rejected that reading on 2026-08-14.
+Mass-report campaigns that never appear on Home Timeline also do not feed ranking.
 
 ### User-cred-v2 — PageRank, and the immunity it buys
 

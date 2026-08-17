@@ -1,27 +1,40 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs (cached at upstream/home-mixer-params.md) -->
-<!-- Snapshot: a389166, 2026-08-13 -->
+<!-- Snapshot: c65aa17, 2026-08-14 -->
 
 # Published Scoring Weights
 
-xAI published the actual blend weights on **2026-08-13**. Before that release the weights were
-private and any ranking of "which action matters most" was inference. These are the real
-defaults, from `home-mixer/params/param.rs`.
+xAI published the actual blend weights on **2026-08-13**. On **2026-08-14** they added long-form
+comments in `param.rs` and `ranking_scorer.rs` correcting how those weights must be read. Before
+2026-08-13 the weights were private and any ranking of "which action matters most" was inference.
+These are the real defaults, from `home-mixer/params/param.rs`.
 
 Cached verbatim at [`upstream/home-mixer-params.md`](upstream/home-mixer-params.md) — grep it to
 confirm any number below.
 
 ## Read this before you read the table
 
-Upstream states, at `param.rs:279-281`:
+Upstream states (`param.rs` comments expanded 2026-08-14; also `ranking_scorer.rs` on `apply`):
 
 > These weights reflect a combination of how much an action is valued in ranking **and typical
 > propensities of these actions across the X network** (e.g. negative feedback is overall rare).
 
+And, explicitly:
+
+> Each weight multiplies the *predicted* probability of that action (P(favorite), P(repost), …)
+> or a continuous value e.g. watch time — the weights do **not** multiply raw engagement counts.
+> One common misinterpretation is that you can read these weight ratios as count equivalences,
+> e.g. the incorrect statement that "one report cancels 468 likes."
+
 A weight is not a strategic priority. The score contribution of an action is:
 
 ```
-contribution = weight_i × P(action_i)
+contribution = weight_i × P(action_i | viewer, post)
 ```
+
+That probability is personalized and substantially driven by the viewer's own behaviour. The
+baseline P(report) is **more than 1000× lower** than P(like); the large negative weight exists so
+the report *prediction* can move the final score at all — not so that one raw report erases dozens
+of raw likes.
 
 `share_via_copy_link` carries the largest weight (20.0) precisely *because* almost nobody copies a
 link. A high weight compensates for a low base rate — it does not mean "chase this action."
@@ -81,9 +94,19 @@ orders of magnitude below `report`. A hook that doesn't deliver costs you roughl
 directly. The real cost of thin content is `not_interested` (−43.2) and `mute_author` (−58.8) —
 i.e. actively annoying someone, not merely failing to hold them.
 
-**Negative feedback dwarfs everything positive.** One report (−234.0) cancels ~47 replies at 5.0.
-The asymmetry is the single loudest thing in the table. Avoiding the reactions that make people
-mute, block or report you matters more than optimizing any positive action.
+**Negative feedback still dominates risk — without the count-equivalence myth.** The weight
+magnitudes look extreme (−234.0 report vs 5.0 reply) because rare actions are scaled up so their
+*predictions* matter. Upstream rejects reading that as "1 report cancels ~47 replies." Two further
+guards against mass-report gaming (same 2026-08-14 comments):
+
+1. **Personalization** — recommendations use *your* predicted P(report/block), so brigading from
+   dissimilar bad actors mainly hurts ranking for viewers like those actors, not the whole network.
+2. **Home Timeline only** — actions only count for ranking if they happen on a post *served in*
+   Home Timeline. Navigating straight to a post (e.g. coordinated via group chat) has no ranking
+   impact, and you cannot force a post into someone's Timeline in a reliably reproducible way.
+
+Strategically: still avoid content that invites mute, block, or report. Agatha and account labels
+are the durable cost. Just stop teaching the false "one report = N likes" ratio.
 
 **`profile_click` scores nothing.** Content designed purely to drive profile visits earns no
 ranking credit for the visit itself.
@@ -172,15 +195,26 @@ Published defaults, easy to mistake for live behaviour:
 
 | Param | Default | `param.rs` |
 |---|---|---|
-| `EnableMutualFollowJaccardHydration` | `false` | `:759-764` |
-| `EnableFollowingRepliedUsersFacepile` | `false` | `:559-564` |
-| `EnableMpnScoring` | `false` | `:253-258` |
-| `EnableClickDwellLowFavRatePenalty` | `false` | `:387-392` |
-| `EnableMultiplicativePostUnexplored` | `false` | `:357-362` |
+| `EnableMutualFollowJaccardHydration` | `false` | runtime key |
+| `EnableFollowingRepliedUsersFacepile` | `false` | runtime key |
+| `EnableMpnScoring` | `false` | runtime key |
+| `EnableClickDwellLowFavRatePenalty` | `false` | runtime key |
+| `EnableMultiplicativePostUnexplored` | `false` | runtime key |
+| `EnableColdStartThompsonSampling` | `false` | added 2026-08-14 |
 
 These are runtime-overridable params (the string keys are override handles), so a `false` default
 does not prove the feature is off in production — only that the published default is off. Treat
 tactics built on them as speculative.
+
+### Cold-start Thompson sampling (off by default)
+
+`home-mixer/scorers/author_cold_start.rs` can optionally pick the cold-start boost slot with
+Thompson sampling over a Beta prior on fav/view rate (`EnableColdStartThompsonSampling`, default
+`false`). Published priors: `ColdStartBetaAlpha0=0.75`, `ColdStartBetaBeta0=49.25`,
+`ColdStartTsTopK=5`, `ColdStartImpressionScale=1.0`. When off (default), cold-start still picks by
+argmax score among low-impression eligible posts. Practical takeaway if/when enabled: low-data
+posts get a structured explore path — freshness and early positive rate matter more than raw
+count lead.
 
 ## Verifying any of this
 

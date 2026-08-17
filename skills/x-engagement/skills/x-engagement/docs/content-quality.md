@@ -1,6 +1,6 @@
 <!-- Source: https://github.com/xai-org/x-algorithm — grox/flows/upa/, grox/flows/reply_spam/, grox/flows/ptos/ -->
 <!-- Cached: upstream/banger-screen-state.md -->
-<!-- Snapshot: a389166, 2026-08-13 -->
+<!-- Snapshot: c65aa17, 2026-08-14 -->
 
 # Content Quality Screening
 

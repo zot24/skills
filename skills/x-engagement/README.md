@@ -35,13 +35,18 @@ Or use natural language:
 "What signals does the X algorithm actually weight?"
 ```
 
-## Key Algorithm Facts (from xai-org/x-algorithm @ `a389166`, 2026-08-13)
+## Key Algorithm Facts (from xai-org/x-algorithm @ `c65aa17`, 2026-08-14)
+
+- **Weights multiply P(action), not raw counts** (clarified 2026-08-14) — do not say "1 report cancels N likes"
+- **Brazil2026ElectionFilter** — listed electoral-court accounts dropped from For You unless the viewer follows them
+- **Reply spam/ranking mid-tier threshold** 15k → **30k** followers on target+root
+- **Stale ~14d** posts can have engagement-count features zeroed in Phoenix
 
 Published blend weights, from `home-mixer/params/param.rs`:
 
 | Signal | Weight | Implication |
 |--------|-------:|-------------|
-| `report` | **−234.0** | One report cancels ~47 replies. Negatives dominate the model. |
+| `report` | **−234.0** | Large weight on rare P(report) — not "1 report = N likes". Still avoid inviting reports. |
 | `mute_author` / `not_interested` / `block_author` | −58.8 / −43.2 / −31.2 | Irritating people is far costlier than boring them |
 | `share_via_copy_link` | 20.0 | Highest positive — but high *because* the action is rare |
 | `reply` from a mutual follow | 5.0 **+15.0** | Largest live positive term; root posts only |

@@ -120,6 +120,18 @@ counts, not only yours. Small accounts talking in small threads draw the most sc
 **Under 1,000 followers: quality > volume on replies.** Five excellent replies outperform fifty
 mediocre ones and avoid spam detection.
 
+### Mid-tier threshold raised to 30k (2026-08-14)
+
+`grox/flows/reply_spam/task_filter.py`:
+
+| Filter | When eligible | Threshold (was → now) |
+|---|---|---|
+| `TaskSpamFilter` | spam detection task runs unless *both* reply-target and root are **above** the threshold | 15,000 → **30,000** |
+| `TaskReplyRankingFilter` | reply quality ranking runs when *both* reply-target and root are **≤** threshold | 15,000 → **30,000** |
+
+Effect: more mid-size threads (accounts in the 15k–30k band) now go through reply-spam detection
+and/or Grok reply ranking. Reply quality still matters past "small account" territory.
+
 ### The reply-volume trap
 
 This is the highest-risk strategy in the playbook, because three systems converge on it:
