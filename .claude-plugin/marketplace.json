@@ -155,6 +155,12 @@
       "source": "./skills/herdr-tower",
       "description": "Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Covers dispatch, watch/poke, staffing, layout, closing, the work graph, and the failure catalogue.",
       "version": "1.1.0"
+    },
+    {
+      "name": "nvk-wiki-hermes",
+      "source": "./skills/nvk-wiki-hermes",
+      "description": "Hermes hyphen-slash pack of every nvk/llm-wiki v0.23.0 Claude command (/wiki, /wiki-compile, /wiki-ingest, /wiki-query, …). Official command bodies, pinned to tag v0.23.0 — not the llm-wiki expert skill and not Karpathy llm-wiki.",
+      "version": "1.0.0"
     }
   ]
 }

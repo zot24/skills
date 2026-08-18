@@ -1,0 +1,309 @@
+{
+  "name": "nvk-wiki-hermes",
+  "version": "1.0.0",
+  "description": "Hermes /wiki-* hyphen slashes vendored from nvk/llm-wiki v0.23.0",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/wiki.md",
+      "target": "vendor/commands/wiki.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/adapter.md",
+      "target": "vendor/commands/adapter.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/archive.md",
+      "target": "vendor/commands/archive.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/assess.md",
+      "target": "vendor/commands/assess.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/audit.md",
+      "target": "vendor/commands/audit.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/collect.md",
+      "target": "vendor/commands/collect.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/compile.md",
+      "target": "vendor/commands/compile.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/dataset.md",
+      "target": "vendor/commands/dataset.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/feedback.md",
+      "target": "vendor/commands/feedback.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/idea.md",
+      "target": "vendor/commands/idea.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/ingest.md",
+      "target": "vendor/commands/ingest.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/ingest-collection.md",
+      "target": "vendor/commands/ingest-collection.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/inventory.md",
+      "target": "vendor/commands/inventory.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/librarian.md",
+      "target": "vendor/commands/librarian.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/lint.md",
+      "target": "vendor/commands/lint.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/ll.md",
+      "target": "vendor/commands/ll.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/output.md",
+      "target": "vendor/commands/output.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/plan.md",
+      "target": "vendor/commands/plan.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/portfolio.md",
+      "target": "vendor/commands/portfolio.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/project.md",
+      "target": "vendor/commands/project.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/query.md",
+      "target": "vendor/commands/query.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/refresh.md",
+      "target": "vendor/commands/refresh.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/research.md",
+      "target": "vendor/commands/research.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/retract.md",
+      "target": "vendor/commands/retract.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/session.md",
+      "target": "vendor/commands/session.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/specialist.md",
+      "target": "vendor/commands/specialist.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/claude-plugin/commands/thesis.md",
+      "target": "vendor/commands/thesis.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/SKILL.md",
+      "target": "vendor/wiki-manager/SKILL.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/adapters.md",
+      "target": "vendor/wiki-manager/references/adapters.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/archive.md",
+      "target": "vendor/wiki-manager/references/archive.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/audit.md",
+      "target": "vendor/wiki-manager/references/audit.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/command-prelude.md",
+      "target": "vendor/wiki-manager/references/command-prelude.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/compilation.md",
+      "target": "vendor/wiki-manager/references/compilation.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/datasets.md",
+      "target": "vendor/wiki-manager/references/datasets.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/feedback.md",
+      "target": "vendor/wiki-manager/references/feedback.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/hub-resolution.md",
+      "target": "vendor/wiki-manager/references/hub-resolution.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/ideas.md",
+      "target": "vendor/wiki-manager/references/ideas.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/indexing.md",
+      "target": "vendor/wiki-manager/references/indexing.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/ingestion.md",
+      "target": "vendor/wiki-manager/references/ingestion.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/inventory.md",
+      "target": "vendor/wiki-manager/references/inventory.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/librarian.md",
+      "target": "vendor/wiki-manager/references/librarian.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/linting.md",
+      "target": "vendor/wiki-manager/references/linting.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/portfolio.md",
+      "target": "vendor/wiki-manager/references/portfolio.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/projects.md",
+      "target": "vendor/wiki-manager/references/projects.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/query-lite.md",
+      "target": "vendor/wiki-manager/references/query-lite.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/research-infrastructure.md",
+      "target": "vendor/wiki-manager/references/research-infrastructure.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/sessions.md",
+      "target": "vendor/wiki-manager/references/sessions.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/specialists.md",
+      "target": "vendor/wiki-manager/references/specialists.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-manager/references/wiki-structure.md",
+      "target": "vendor/wiki-manager/references/wiki-structure.md",
+      "type": "raw",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvk/llm-wiki/v0.23.0/plugins/llm-wiki-opencode/skills/wiki-query/SKILL.md",
+      "target": "vendor/wiki-query/SKILL.md",
+      "type": "raw",
+      "freshness_days": 30
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "ALL sources are pinned to nvk/llm-wiki v0.23.0 (d02cbcb), never master. After sync, run scripts/generate-skills.py to rebuild embedded SKILL.md files from vendor/commands."
+}

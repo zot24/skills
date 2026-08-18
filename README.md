@@ -33,6 +33,7 @@ An opinionated selection of skills for daily dev workflows.
 | [llm-wiki](./skills/llm-wiki) | Expert on llm-wiki (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent. Hub/topic layout, ingest → compile → query, lint/librarian/audit, Ideas and Projects, sessions, private adapters, and version pinning |
 | [beads](./skills/beads) | Expert on beads (`bd`) — the dependency-aware, Dolt-backed issue tracker built for AI coding agents. Ready-queue workflow, hash IDs, dependency types, formulas/molecules/gates/wisps, Dolt sync, and Claude Code wiring |
 | [herdr-tower](./skills/herdr-tower) | How to run a control tower over a fleet of herdr agents — delegate every task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Dispatch, watch/poke, staffing, layout, closing, and the failure catalogue |
+| [nvk-wiki-hermes](./skills/nvk-wiki-hermes) | Official nvk/llm-wiki v0.23.0 Claude command surface as Hermes hyphen slashes (`/wiki`, `/wiki-compile`, `/wiki-ingest`, `/wiki-query`, …). Not the llm-wiki expert skill. Not Karpathy llm-wiki |
 
 ## Installation
 
@@ -621,6 +622,29 @@ How to run a **control tower** over a fleet of [herdr](https://github.com/herdrd
 
 [Full documentation](./skills/herdr-tower/README.md)
 
+### nvk-wiki-hermes
+
+Official [nvk/llm-wiki](https://github.com/nvk/llm-wiki) **v0.23.0** Claude commands, packaged as Hermes hyphen slashes. Peer of the `llm-wiki` expert skill — this package is the command surface, not the digest.
+
+Hermes cannot use colons in slashes: Claude `/wiki:compile` is Hermes `/wiki-compile`.
+
+- **router** — `/wiki` (init, status, config, natural-language route)
+- **read** — `/wiki-query` (official query.md + Query Lite pointer)
+- **write** — `/wiki-ingest`, `/wiki-ingest-collection`, `/wiki-compile`, `/wiki-lint`, `/wiki-retract`, …
+- **shape** — `/wiki-idea`, `/wiki-project`, `/wiki-portfolio`, `/wiki-inventory`, `/wiki-dataset`
+- **ops** — `/wiki-session`, `/wiki-feedback`, `/wiki-audit`, `/wiki-librarian`, `/wiki-research`
+
+```bash
+/wiki
+/wiki-query what do we know about X
+/wiki-ingest https://example.com
+/wiki-compile
+```
+
+Pin is tag `v0.23.0` / `d02cbcb`, never `master`. Keep bundled Karpathy `llm-wiki` disabled.
+
+[Full documentation](./skills/nvk-wiki-hermes/README.md)
+
 ### gh-issue-tracker
 
 Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues:
@@ -727,7 +751,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, llm-wiki, beads, herdr-tower
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, llm-wiki, beads, herdr-tower, nvk-wiki-hermes
 
 ### Automated Releases (release-please)
 

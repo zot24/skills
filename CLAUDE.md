@@ -44,7 +44,8 @@ skills/
 │   ├── portainerctl/         # Portainer CLI (Business Edition)
 │   ├── llm-wiki/             # llm-wiki (nvk) LLM-compiled knowledge bases
 │   ├── beads/                # Beads (bd) dependency-aware Dolt-backed issue tracker
-│   └── herdr-tower/          # Control tower over a herdr agent fleet
+│   ├── herdr-tower/          # Control tower over a herdr agent fleet
+│   └── nvk-wiki-hermes/      # nvk v0.23.0 Claude commands as Hermes /wiki-* slashes
 └── README.md
 ```
 
@@ -257,6 +258,7 @@ Each skill syncs documentation from upstream sources.
 | llm-wiki | https://github.com/nvk/llm-wiki (README, AGENTS.md, wiki-manager references) | URL-based |
 | beads | https://beads.gascity.com (Markdown pages, `/llms.txt` index) + https://github.com/gastownhall/beads | URL-based |
 | herdr-tower | https://github.com/herdrdev/herdr (README, bundled `skills/herdr/SKILL.md`) | URL-based + authored |
+| nvk-wiki-hermes | https://github.com/nvk/llm-wiki **v0.23.0** (claude-plugin/commands + wiki-manager references). Never master. | URL-based, tag-pinned |
 
 ### When to Sync
 

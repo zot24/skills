@@ -132,6 +132,13 @@
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
+    "skills/nvk-wiki-hermes": {
+      "component": "nvk-wiki-hermes",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/obsidian": {
       "component": "obsidian",
       "extra-files": [

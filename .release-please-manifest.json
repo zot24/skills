@@ -16,6 +16,7 @@
   "skills/honcho": "1.0.14",
   "skills/immich": "1.0.4",
   "skills/llm-wiki": "1.1.0",
+  "skills/nvk-wiki-hermes": "1.0.0",
   "skills/obsidian": "1.0.5",
   "skills/portainerctl": "1.1.1",
   "skills/safe-delete": "1.0.3",
