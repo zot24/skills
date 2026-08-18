@@ -127,6 +127,7 @@ updates:
   pre_update_backup: quick       # quick (state snapshot, default) | full (snapshot + HERMES_HOME zip) | off
   backup_keep: 5                 # Keep this many full pre-update backup zips
   non_interactive_local_changes: stash  # stash | discard
+  auto_switch_parked_branch: true       # auto-switch a clean, fully merged parked branch back to main
 ```
 
 
