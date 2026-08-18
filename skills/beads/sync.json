@@ -1,0 +1,117 @@
+{
+  "name": "beads",
+  "version": "1.0.0",
+  "description": "Beads (bd) \u2014 dependency-aware, Dolt-backed issue tracker built for AI coding agents: ready queue, hash IDs, formulas/molecules/gates, and Dolt sync",
+  "sources": [
+    {
+      "url": "https://beads.gascity.com/index.md",
+      "target": "skills/beads/docs/intro.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/getting-started/installation.md",
+      "target": "skills/beads/docs/installation.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/getting-started/quickstart.md",
+      "target": "skills/beads/docs/quickstart.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/getting-started/ide-setup.md",
+      "target": "skills/beads/docs/ide-setup.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/core-concepts/index.md",
+      "target": "skills/beads/docs/core-concepts.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/core-concepts/issues.md",
+      "target": "skills/beads/docs/issues.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/core-concepts/dependencies.md",
+      "target": "skills/beads/docs/dependencies.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/core-concepts/hash-ids.md",
+      "target": "skills/beads/docs/hash-ids.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/core-concepts/sync-concepts.md",
+      "target": "skills/beads/docs/sync-concepts.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/workflows/index.md",
+      "target": "skills/beads/docs/workflows.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/workflows/formulas.md",
+      "target": "skills/beads/docs/formulas.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/workflows/molecules.md",
+      "target": "skills/beads/docs/molecules.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/workflows/gates.md",
+      "target": "skills/beads/docs/gates.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/workflows/wisps.md",
+      "target": "skills/beads/docs/wisps.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/integrations/claude-code.md",
+      "target": "skills/beads/docs/claude-code.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/reference/json-schema.md",
+      "target": "skills/beads/docs/json-schema.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://beads.gascity.com/cli-reference/index.md",
+      "target": "skills/beads/docs/cli-reference.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gastownhall/beads/main/README.md",
+      "target": "skills/beads/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "Docs-site pages are fetched as Markdown from https://beads.gascity.com (each page is served as .md; https://beads.gascity.com/llms.txt is the full page index) and cleaned with extract-content, which strips Mintlify MDX artifacts. The upstream README comes raw from GitHub. docs/versions.md is authored for this skill and is intentionally not synced. When adding sources, check llms.txt for new pages first."
+}

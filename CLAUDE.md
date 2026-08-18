@@ -42,7 +42,8 @@ skills/
 │   ├── wealthfolio/          # Private local-first portfolio tracker
 │   ├── 1password-cli/        # 1Password CLI (op) secrets management
 │   ├── portainerctl/         # Portainer CLI (Business Edition)
-│   └── llm-wiki/             # llm-wiki (nvk) LLM-compiled knowledge bases
+│   ├── llm-wiki/             # llm-wiki (nvk) LLM-compiled knowledge bases
+│   └── beads/                # Beads (bd) dependency-aware Dolt-backed issue tracker
 └── README.md
 ```
 
@@ -253,6 +254,7 @@ Each skill syncs documentation from upstream sources.
 | portainerctl | https://github.com/portainer/portainerctl | URL-based |
 | x-engagement | https://github.com/xai-org/x-algorithm | URL-based |
 | llm-wiki | https://github.com/nvk/llm-wiki (README, AGENTS.md, wiki-manager references) | URL-based |
+| beads | https://beads.gascity.com (Markdown pages, `/llms.txt` index) + https://github.com/gastownhall/beads | URL-based |
 
 ### When to Sync
 
