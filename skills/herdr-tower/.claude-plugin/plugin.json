@@ -1,0 +1,5 @@
+{
+  "name": "herdr-tower",
+  "description": "Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Covers dispatch, watch/poke, staffing, layout, closing, the work graph, and the failure catalogue.",
+  "version": "1.0.0"
+}

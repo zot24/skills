@@ -32,6 +32,7 @@ An opinionated selection of skills for daily dev workflows.
 | [portainerctl](./skills/portainerctl) | Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC. |
 | [llm-wiki](./skills/llm-wiki) | Expert on llm-wiki (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent. Hub/topic layout, ingest → compile → query, lint/librarian/audit, Ideas and Projects, sessions, private adapters, and version pinning |
 | [beads](./skills/beads) | Expert on beads (`bd`) — the dependency-aware, Dolt-backed issue tracker built for AI coding agents. Ready-queue workflow, hash IDs, dependency types, formulas/molecules/gates/wisps, Dolt sync, and Claude Code wiring |
+| [herdr-tower](./skills/herdr-tower) | How to run a control tower over a fleet of herdr agents — delegate every task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Dispatch, watch/poke, staffing, layout, closing, and the failure catalogue |
 
 ## Installation
 
@@ -598,6 +599,27 @@ Expert on [beads](https://github.com/gastownhall/beads) (`bd`) — a dependency-
 ```
 
 [Full documentation](./skills/beads/README.md)
+### herdr-tower
+
+How to run a **control tower** over a fleet of [herdr](https://github.com/herdrdev/herdr) agents — the operating protocol for the agent that drives the others:
+
+- **dispatch** — the spec is a file, not a prompt; pane labels; start argv per kind; land-checking that the prompt actually arrived
+- **watch/verify** — **idle is not done**: a named marker file on disk plus your own re-check of the central claim against `gh`, the disk, or the DB
+- **staff** — PM · mentor · worker · adversary · reviewer · scout · QA, and which of those a given task actually requires
+- **layout** — one tab per checkout; an extra tab means an extra worktree and branch
+- **close** — retiring agents, one-shot panes, when a workspace may close, and reloading a plugin without tearing down a space
+- **graph** — `OPEN-THREADS.md` nodes, states, and typed edges
+- **pitfalls** — the failure catalogue, each entry with what it actually cost
+- **scripts** — `tower-watch.sh` / `tower-poke.sh`, the marker-watch and poke loop
+
+```bash
+/herdr-tower:herdr-tower dispatch
+/herdr-tower:herdr-tower watch
+/herdr-tower:herdr-tower staff
+/herdr-tower:herdr-tower pitfalls
+```
+
+[Full documentation](./skills/herdr-tower/README.md)
 
 ### gh-issue-tracker
 
@@ -705,7 +727,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, llm-wiki, beads
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, llm-wiki, beads, herdr-tower
 
 ### Automated Releases (release-please)
 
