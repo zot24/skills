@@ -281,6 +281,18 @@ hermes profile import coder.tar.gz   # install an archive as a new profile
 
 In chat, the same two live as `/export` and `/import` — and in the desktop app as **⌘K → Export/Import profile…**. See [Sharing a profile](#sharing-a-profile).
 
+### Naming the default profile<a href="#naming-the-default-profile" class="hash-link" aria-label="Direct link to Naming the default profile" translate="no" title="Direct link to Naming the default profile">​</a>
+
+The default profile's internal ID is always `default` — it can't be truly renamed because `~/.hermes` is the installation root. Renaming it instead sets a **display name**, which UI surfaces show in place of the bare ID:
+
+
+``` prism-code
+hermes profile rename default Harumesu   # Unicode fine: 小助手
+```
+
+
+The display name appears in `hermes profile list`/`show`, the `/profile` chat command, the dashboard, and the desktop app (including the Bot Mode roster). It is presentation-only: `-p default`, service names, cron jobs, and every other reference keep using the canonical `default` ID. It is stored as `display_name` in `~/.hermes/profile.yaml`; remove that line to revert. Named profiles can carry a `display_name` too (it survives a real rename), but `rename` for them still renames the profile itself.
+
 ## Deleting a profile<a href="#deleting-a-profile" class="hash-link" aria-label="Direct link to Deleting a profile" translate="no" title="Direct link to Deleting a profile">​</a>
 
 
@@ -380,6 +392,7 @@ Use an export file for a one-time handoff or a move; use a distribution for an a
   - <a href="#from-the-dashboard" class="table-of-contents__link toc-highlight">From the dashboard</a>
 - <a href="#updating" class="table-of-contents__link toc-highlight">Updating</a>
 - <a href="#managing-profiles" class="table-of-contents__link toc-highlight">Managing profiles</a>
+  - <a href="#naming-the-default-profile" class="table-of-contents__link toc-highlight">Naming the default profile</a>
 - <a href="#deleting-a-profile" class="table-of-contents__link toc-highlight">Deleting a profile</a>
 - <a href="#tab-completion" class="table-of-contents__link toc-highlight">Tab completion</a>
 - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a>
