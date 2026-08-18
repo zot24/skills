@@ -443,6 +443,13 @@ Examples:
 
 In practice, you usually do not need to call the prefixed name manually — Hermes sees the tool and chooses it during normal reasoning.
 
+### Tool-result sanitization and `_meta`<a href="#tool-result-sanitization-and-_meta" class="hash-link" aria-label="Direct link to tool-result-sanitization-and-_meta" translate="no" title="Direct link to tool-result-sanitization-and-_meta">​</a>
+
+Two behaviors apply to every MCP tool result before the model sees it:
+
+- **Invisible Unicode TAG characters are stripped.** Characters in the U+E0000–U+E007F range render as nothing in terminals and chat UIs but are fully visible to the model — a classic prompt-injection smuggling channel for a malicious or compromised server. Hermes strips them from tool results, resource content, and tool descriptions. Legitimate emoji tag sequences (regional flags like 🏴󠁧󠁢󠁳󠁣󠁴󠁿) are preserved.
+- **Vendor `_meta` is surfaced; protocol-reserved keys are not.** When a server attaches a `_meta` mapping to a tool result (vendor namespaces like `com.example/handoff`), Hermes passes it through to the model alongside the result content. Keys under protocol-reserved prefixes — a `modelcontextprotocol` or `mcp` label followed by another label, e.g. `modelcontextprotocol.io/...` or `tools.mcp.com/...` — are dropped, matching the MCP spec's key-name rules. If nothing model-facing remains, the `_meta` field is omitted entirely.
+
 ## MCP utility tools<a href="#mcp-utility-tools" class="hash-link" aria-label="Direct link to MCP utility tools" translate="no" title="Direct link to MCP utility tools">​</a>
 
 When supported, Hermes also registers utility tools around MCP resources and prompts:
@@ -975,6 +982,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#minimal-http-example" class="table-of-contents__link toc-highlight">Minimal HTTP example</a>
 - <a href="#built-in-presets" class="table-of-contents__link toc-highlight">Built-in presets</a>
 - <a href="#how-hermes-registers-mcp-tools" class="table-of-contents__link toc-highlight">How Hermes registers MCP tools</a>
+  - <a href="#tool-result-sanitization-and-_meta" class="table-of-contents__link toc-highlight">Tool-result sanitization and <code>_meta</code></a>
 - <a href="#mcp-utility-tools" class="table-of-contents__link toc-highlight">MCP utility tools</a>
   - <a href="#important" class="table-of-contents__link toc-highlight">Important</a>
 - <a href="#per-server-filtering" class="table-of-contents__link toc-highlight">Per-server filtering</a>

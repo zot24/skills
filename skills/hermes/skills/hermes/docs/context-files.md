@@ -15,17 +15,20 @@ Hermes Agent automatically discovers and loads context files that shape how it b
 
 ## Supported Context Files<a href="#supported-context-files" class="hash-link" aria-label="Direct link to Supported Context Files" translate="no" title="Direct link to Supported Context Files">​</a>
 
-| File                           | Purpose                                                            | Discovery                                     |
-|--------------------------------|--------------------------------------------------------------------|-----------------------------------------------|
-| **.hermes.md** / **HERMES.md** | Project instructions (highest priority)                            | Walks to git root                             |
-| **AGENTS.md**                  | Project instructions, conventions, architecture                    | CWD at startup + subdirectories progressively |
-| **CLAUDE.md**                  | Claude Code context files (also detected)                          | CWD at startup + subdirectories progressively |
-| **SOUL.md**                    | Global personality and tone customization for this Hermes instance | `HERMES_HOME/SOUL.md` only                    |
-| **.cursorrules**               | Cursor IDE coding conventions                                      | CWD only                                      |
-| **.cursor/rules/\*.mdc**       | Cursor IDE rule modules                                            | CWD only                                      |
+| File                           | Purpose                                                              | Discovery                                     |
+|--------------------------------|----------------------------------------------------------------------|-----------------------------------------------|
+| **.hermes.md** / **HERMES.md** | Project instructions (highest priority)                              | Walks to git root                             |
+| **AGENTS.override.md**         | Personal, per-directory override of AGENTS.md (typically gitignored) | CWD at startup + subdirectories progressively |
+| **AGENTS.md**                  | Project instructions, conventions, architecture                      | CWD at startup + subdirectories progressively |
+| **CLAUDE.md**                  | Claude Code context files (also detected)                            | CWD at startup + subdirectories progressively |
+| **SOUL.md**                    | Global personality and tone customization for this Hermes instance   | `HERMES_HOME/SOUL.md` only                    |
+| **.cursorrules**               | Cursor IDE coding conventions                                        | CWD only                                      |
+| **.cursor/rules/\*.mdc**       | Cursor IDE rule modules                                              | CWD only                                      |
 
 
-Only **one** project context type is loaded per session (first match wins): `.hermes.md` → `AGENTS.md` → `CLAUDE.md` → `.cursorrules`. **SOUL.md** is always loaded independently as the agent identity (slot \#1).
+Only **one** project context type is loaded per session (first match wins): `.hermes.md` → `AGENTS.override.md` → `AGENTS.md` → `CLAUDE.md` → `.cursorrules`. **SOUL.md** is always loaded independently as the agent identity (slot \#1).
+
+If an `AGENTS.override.md` exists next to an `AGENTS.md`, the override is loaded **instead of** the committed file — keep a personal (usually gitignored) `AGENTS.override.md` when you want different instructions than the ones checked into the repo, without editing the tracked `AGENTS.md`.
 
 
 ## AGENTS.md<a href="#agentsmd" class="hash-link" aria-label="Direct link to AGENTS.md" translate="no" title="Direct link to AGENTS.md">​</a>
