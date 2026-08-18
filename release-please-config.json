@@ -48,6 +48,13 @@
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
+    "skills/beads": {
+      "component": "beads",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/chat-sdk": {
       "component": "chat-sdk",
       "extra-files": [

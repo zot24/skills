@@ -143,6 +143,12 @@
       "source": "./skills/llm-wiki",
       "description": "Expert on llm-wiki (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent. Hub and topic-wiki layout, ingest/compile/query, lint/librarian/audit, inventory, datasets, Ideas and Projects, sessions and feedback, private adapters, and version pinning.",
       "version": "1.0.0"
+    },
+    {
+      "name": "beads",
+      "source": "./skills/beads",
+      "description": "Expert on beads (`bd`) — the dependency-aware, Dolt-backed issue tracker built for AI coding agents. Ready-queue workflow, hash IDs, dependency types, formulas/molecules/gates/wisps, Dolt sync, and Claude Code wiring.",
+      "version": "1.0.0"
     }
   ]
 }

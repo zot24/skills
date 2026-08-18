@@ -31,6 +31,7 @@ An opinionated selection of skills for daily dev workflows.
 | [1password-cli](./skills/1password-cli) | Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent. |
 | [portainerctl](./skills/portainerctl) | Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC. |
 | [llm-wiki](./skills/llm-wiki) | Expert on llm-wiki (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent. Hub/topic layout, ingest → compile → query, lint/librarian/audit, Ideas and Projects, sessions, private adapters, and version pinning |
+| [beads](./skills/beads) | Expert on beads (`bd`) — the dependency-aware, Dolt-backed issue tracker built for AI coding agents. Ready-queue workflow, hash IDs, dependency types, formulas/molecules/gates/wisps, Dolt sync, and Claude Code wiring |
 
 ## Installation
 
@@ -576,6 +577,28 @@ Expert on [llm-wiki](https://github.com/nvk/llm-wiki) (nvk) — LLM-compiled, ap
 
 [Full documentation](./skills/llm-wiki/README.md)
 
+### beads
+
+Expert on [beads](https://github.com/gastownhall/beads) (`bd`) — a dependency-aware, Dolt-backed issue tracker built for AI coding agents:
+
+- **concepts** — beads as a work graph, hash IDs that never collide, what `bd ready` computes
+- **deps** — blocking vs annotation-only dependency types, trees, cycles
+- **workflows** — formula → proto → molecule, plus gates and ephemeral wisps
+- **sync** — `bd dolt push`/`pull` over `refs/dolt/data`, bootstrap, and what JSONL export is not
+- **setup** — `bd setup claude`, the SessionStart `bd prime` hook, other IDE recipes
+- **json** — the stable `--json` output contract for agents
+- **version** — installed `bd` vs latest release, and the docs-vs-release drift
+- **sync/diff** — stay updated with upstream docs
+
+```bash
+/beads:beads quickstart
+/beads:beads ready
+/beads:beads workflows
+/beads:beads version
+```
+
+[Full documentation](./skills/beads/README.md)
+
 ### gh-issue-tracker
 
 Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues:
@@ -682,7 +705,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, llm-wiki
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, llm-wiki, beads
 
 ### Automated Releases (release-please)
 
