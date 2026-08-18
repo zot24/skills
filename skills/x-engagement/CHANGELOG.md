@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/zot24/skills/compare/x-engagement-v1.2.2...x-engagement-v1.3.0) (2026-08-18)
+
+
+### Features
+
+* **x-engagement:** track x-algorithm c65aa17 (2026-08-14) ([#161](https://github.com/zot24/skills/issues/161)) ([8f1f5e8](https://github.com/zot24/skills/commit/8f1f5e8bcbf0198bbec171dd15acde053adbb19d))
+
 ## [1.2.3](https://github.com/zot24/skills/compare/x-engagement-v1.2.2...x-engagement-v1.2.3) (2026-08-17)
 
 
