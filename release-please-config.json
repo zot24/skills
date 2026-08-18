@@ -97,6 +97,13 @@
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
+    "skills/herdr-tower": {
+      "component": "herdr-tower",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/hermes": {
       "component": "hermes",
       "extra-files": [

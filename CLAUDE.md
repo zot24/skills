@@ -43,7 +43,8 @@ skills/
 │   ├── 1password-cli/        # 1Password CLI (op) secrets management
 │   ├── portainerctl/         # Portainer CLI (Business Edition)
 │   ├── llm-wiki/             # llm-wiki (nvk) LLM-compiled knowledge bases
-│   └── beads/                # Beads (bd) dependency-aware Dolt-backed issue tracker
+│   ├── beads/                # Beads (bd) dependency-aware Dolt-backed issue tracker
+│   └── herdr-tower/          # Control tower over a herdr agent fleet
 └── README.md
 ```
 
@@ -255,6 +256,7 @@ Each skill syncs documentation from upstream sources.
 | x-engagement | https://github.com/xai-org/x-algorithm | URL-based |
 | llm-wiki | https://github.com/nvk/llm-wiki (README, AGENTS.md, wiki-manager references) | URL-based |
 | beads | https://beads.gascity.com (Markdown pages, `/llms.txt` index) + https://github.com/gastownhall/beads | URL-based |
+| herdr-tower | https://github.com/herdrdev/herdr (README, bundled `skills/herdr/SKILL.md`) | URL-based + authored |
 
 ### When to Sync
 
