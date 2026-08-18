@@ -160,7 +160,7 @@
       "name": "nvk-wiki-hermes",
       "source": "./skills/nvk-wiki-hermes",
       "description": "Hermes hyphen-slash pack of every nvk/llm-wiki v0.23.0 Claude command (/wiki, /wiki-compile, /wiki-ingest, /wiki-query, …). Official command bodies, pinned to tag v0.23.0 — not the llm-wiki expert skill and not Karpathy llm-wiki.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }
