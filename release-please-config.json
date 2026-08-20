@@ -153,6 +153,13 @@
         {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
       ]
     },
+    "skills/pr-standard": {
+      "component": "pr-standard",
+      "extra-files": [
+        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
+        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+      ]
+    },
     "skills/safe-delete": {
       "component": "safe-delete",
       "extra-files": [

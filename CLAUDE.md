@@ -45,7 +45,8 @@ skills/
 │   ├── llm-wiki/             # llm-wiki (nvk) LLM-compiled knowledge bases
 │   ├── beads/                # Beads (bd) dependency-aware Dolt-backed issue tracker
 │   ├── herdr-tower/          # Control tower over a herdr agent fleet
-│   └── nvk-wiki-hermes/      # nvk v0.23.0 Claude commands as Hermes /wiki-* slashes
+│   ├── nvk-wiki-hermes/      # nvk v0.23.0 Claude commands as Hermes /wiki-* slashes
+│   └── pr-standard/          # House standard for GitHub PR descriptions (STE100 + labels + diagram)
 └── README.md
 ```
 
@@ -259,6 +260,7 @@ Each skill syncs documentation from upstream sources.
 | beads | https://beads.gascity.com (Markdown pages, `/llms.txt` index) + https://github.com/gastownhall/beads | URL-based |
 | herdr-tower | https://github.com/herdrdev/herdr (README, bundled `skills/herdr/SKILL.md`) | URL-based + authored |
 | nvk-wiki-hermes | https://github.com/nvk/llm-wiki **v0.23.0** (claude-plugin/commands + wiki-manager references). Never master. | URL-based, tag-pinned |
+| pr-standard | None — house policy, promoted from a private repo guide | Self-contained |
 
 ### When to Sync
 
