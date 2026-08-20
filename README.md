@@ -34,6 +34,7 @@ An opinionated selection of skills for daily dev workflows.
 | [beads](./skills/beads) | Expert on beads (`bd`) — the dependency-aware, Dolt-backed issue tracker built for AI coding agents. Ready-queue workflow, hash IDs, dependency types, formulas/molecules/gates/wisps, Dolt sync, and Claude Code wiring |
 | [herdr-tower](./skills/herdr-tower) | How to run a control tower over a fleet of herdr agents — delegate every task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Dispatch, watch/poke, staffing, layout, closing, and the failure catalogue |
 | [nvk-wiki-hermes](./skills/nvk-wiki-hermes) | Official nvk/llm-wiki v0.23.0 Claude command surface as Hermes hyphen slashes (`/wiki`, `/wiki-compile`, `/wiki-ingest`, `/wiki-query`, …). Not the llm-wiki expert skill. Not Karpathy llm-wiki |
+| [pr-standard](./skills/pr-standard) | House standard for GitHub pull request descriptions — the six ASD-STE100 writing rules, the four-label pack (type, `priority:*`, `t-shirt:*`, `area:*`), the required body shape with a mermaid diagram, and the forked-chat workflow |
 
 ## Installation
 
@@ -644,6 +645,27 @@ Hermes cannot use colons in slashes: Claude `/wiki:compile` is Hermes `/wiki-com
 Pin is tag `v0.23.0` / `d02cbcb`, never `master`. Keep bundled Karpathy `llm-wiki` disabled.
 
 [Full documentation](./skills/nvk-wiki-hermes/README.md)
+
+### pr-standard
+
+The house standard for GitHub pull request descriptions. One card an agent or a human reads before writing a PR body:
+
+- **rules** — the six ASD-STE100 rules: one idea per sentence, the same word for the same thing, active voice, imperative in steps, no filler, exact technical names
+- **template** — Labels checklist, Summary, How It Works (mermaid), Linked issues, Testing evidence, Notes
+- **labels** — the four-pack: type, `priority:*`, `t-shirt:*`, and that repo's own `area:*`
+- **diagram** — which diagram a change needs, when to commit a `.mmd`, and the three mermaid patterns GitHub refuses to render
+- **fork** — why the conversation that wrote the code must not write the body
+
+```bash
+/pr-standard:pr-standard write
+/pr-standard:pr-standard fix 812
+/pr-standard:pr-standard labels
+/pr-standard:pr-standard diagram
+```
+
+Hard rule for agents: fill the template. Never `gh pr create -b "<one paragraph>"`.
+
+[Full documentation](./skills/pr-standard/README.md)
 
 ### gh-issue-tracker
 
