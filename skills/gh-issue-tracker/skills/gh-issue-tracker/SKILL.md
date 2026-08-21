@@ -1,15 +1,7 @@
 ---
-name: error-tracker-install
-description: Install and configure gh-issue-tracker in any project. Guides the user through architecture decisions (server-only vs client+server), security model, and framework-specific setup.
-type: project
-version: 1.1.0
-triggers:
-  - "install error tracker"
-  - "add error tracking"
-  - "setup github issues tracker"
-  - "configure error reporting"
-  - "add bug reporting"
-  - "setup error monitoring"
+name: gh-issue-tracker
+description: Install and configure gh-issue-tracker in any project. Guides the user through architecture decisions (server-only vs client+server), security model, and framework-specific setup. Use when the user wants error tracking that files GitHub Issues. Triggers on mentions of install error tracker, add error tracking, setup github issues tracker, configure error reporting, add bug reporting, setup error monitoring.
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # Error Tracker Installation Skill

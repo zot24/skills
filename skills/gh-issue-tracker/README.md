@@ -12,11 +12,15 @@ Claude Code plugin for [gh-issue-tracker](https://github.com/zot24/gh-issue-trac
 
 ## Install
 
-Via the zot24 marketplace:
+From inside Claude Code:
 
-```bash
-claude plugin add gh-issue-tracker --marketplace zot24/skills
 ```
+/plugin marketplace add zot24/skills
+/plugin install gh-issue-tracker@zot24-skills
+```
+
+`zot24/skills` is the repository. `zot24-skills` is the marketplace name declared in
+`.claude-plugin/marketplace.json`, and that is what `/plugin install` expects after the `@`.
 
 ## Commands
 
