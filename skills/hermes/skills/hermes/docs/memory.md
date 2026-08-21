@@ -252,6 +252,10 @@ memory:
 ```
 
 
+Setting **both** `memory_enabled` and `user_profile_enabled` to `false` turns the built-in stores off completely: the `memory` tool is dropped from the schema and its guidance block is dropped from the system prompt, so the model is never told about a tool it cannot use. An external provider set via `memory.provider` (Hindsight, Mem0, Honcho, …) is unaffected and keeps its own tools — use this when you want a third-party memory backend *instead of* the built-in files. Listing `memory` under `agent.disabled_toolsets` is the heavier switch: it hides external provider tools too.
+
+With only `memory_enabled: false` (user profile still on), the tool stays — it backs the profile store — but the system prompt swaps the full memory guidance for a narrower profile-only block. The tool schema advertises only the `user` target, and direct or staged writes to disabled `MEMORY.md` are rejected. The inverse configuration advertises only `memory` and rejects `USER.md` writes.
+
 ## Controlling memory writes (`write_approval`)<a href="#controlling-memory-writes-write_approval" class="hash-link" aria-label="Direct link to controlling-memory-writes-write_approval" translate="no" title="Direct link to controlling-memory-writes-write_approval">​</a>
 
 By default the agent saves memory freely — including from the background self-improvement review that runs after a turn. If you'd rather approve saves first, set `memory.write_approval: true`. It's a simple on/off gate applied to **both** foreground turns and the background review:
@@ -261,7 +265,7 @@ By default the agent saves memory freely — including from the background self-
 | `false` (default) | Write freely — the gate is off (the pre-gate behaviour).                                                                                                                                                                                                                                                 |
 | `true`            | Require approval before anything is saved. In the interactive CLI, foreground writes prompt you inline (entries are small enough to read in full). Everywhere else — messaging platforms, scripts, and the background self-improvement review — writes are **staged** for review with `/memory pending`. |
 
-> To turn memory off entirely (not just gate it), set `memory_enabled: false`.
+> To turn memory off entirely (not just gate it), set both `memory_enabled: false` and `user_profile_enabled: false`. When both built-in stores are disabled, the built-in `memory` tool is automatically hidden.
 
 Review staged writes from the CLI or any messaging platform:
 

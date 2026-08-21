@@ -224,6 +224,12 @@
       "target": "skills/hermes/docs/opensearch.xml.md",
       "type": "extract-content",
       "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/bot-mode/",
+      "target": "skills/hermes/docs/bot-mode.md",
+      "type": "extract-content",
+      "freshness_days": 7
     }
   ],
   "cache_dir": ".cache",
