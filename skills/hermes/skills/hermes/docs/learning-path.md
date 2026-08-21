@@ -85,6 +85,16 @@ Schedule recurring tasks, run batch jobs, or chain agent actions together.
 Cron jobs let Hermes Agent run tasks on a schedule — daily summaries, periodic checks, automated reports — without you being present.
 
 
+### "I want a team of specialist Bots"<a href="#i-want-a-team-of-specialist-bots" class="hash-link" aria-label="Direct link to &quot;I want a team of specialist Bots&quot;" translate="no" title="Direct link to &quot;I want a team of specialist Bots&quot;">​</a>
+
+Create named Bots with their own model, memory, skills, routines, and chats, then bring them together in group chats or through `@mentions`.
+
+1.  [Desktop](/docs/user-guide/desktop)
+2.  [Profiles](/docs/user-guide/profiles)
+3.  [Bot Mode](/docs/user-guide/bot-mode)
+4.  [Cron Scheduling](/docs/user-guide/features/cron)
+5.  [Multi-connection Desktop](/docs/user-guide/multi-connection-desktop)
+
 ### "I want to build custom tools/skills"<a href="#i-want-to-build-custom-toolsskills" class="hash-link" aria-label="Direct link to &quot;I want to build custom tools/skills&quot;" translate="no" title="Direct link to &quot;I want to build custom tools/skills&quot;">​</a>
 
 Extend Hermes Agent with your own tools and reusable skill packages.
@@ -131,20 +141,21 @@ Integrate Hermes Agent into your own Python applications programmatically.
 
 Not sure what's available? Here's a quick directory of major features:
 
-| Feature              | What It Does                                                      | Link                                                           |
-|----------------------|-------------------------------------------------------------------|----------------------------------------------------------------|
-| **Tools**            | Built-in tools the agent can call (file I/O, search, shell, etc.) | [Tools](/docs/user-guide/features/tools)                       |
-| **Skills**           | Installable plugin packages that add new capabilities             | [Skills](/docs/user-guide/features/skills)                     |
-| **Memory**           | Persistent memory across sessions                                 | [Memory](/docs/user-guide/features/memory)                     |
-| **Context Files**    | Feed files and directories into conversations                     | [Context Files](/docs/user-guide/features/context-files)       |
-| **MCP**              | Connect to external tool servers via Model Context Protocol       | [MCP](/docs/user-guide/features/mcp)                           |
-| **Cron**             | Schedule recurring agent tasks                                    | [Cron](/docs/user-guide/features/cron)                         |
-| **Delegation**       | Spawn sub-agents for parallel work                                | [Delegation](/docs/user-guide/features/delegation)             |
-| **Code Execution**   | Run Python scripts that call Hermes tools programmatically        | [Code Execution](/docs/user-guide/features/code-execution)     |
-| **Browser**          | Web browsing and scraping                                         | [Browser](/docs/user-guide/features/browser)                   |
-| **Hooks**            | Event-driven callbacks and middleware                             | [Hooks](/docs/user-guide/features/hooks)                       |
-| **Batch Processing** | Process multiple inputs in bulk                                   | [Batch Processing](/docs/user-guide/features/batch-processing) |
-| **Provider Routing** | Route requests across multiple LLM providers                      | [Provider Routing](/docs/user-guide/features/provider-routing) |
+| Feature              | What It Does                                                                        | Link                                                           |
+|----------------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| **Tools**            | Built-in tools the agent can call (file I/O, search, shell, etc.)                   | [Tools](/docs/user-guide/features/tools)                       |
+| **Skills**           | Installable plugin packages that add new capabilities                               | [Skills](/docs/user-guide/features/skills)                     |
+| **Memory**           | Persistent memory across sessions                                                   | [Memory](/docs/user-guide/features/memory)                     |
+| **Bot Mode**         | Named specialist Bots with persistent chats, routines, group chats, and `@mentions` | [Bot Mode](/docs/user-guide/bot-mode)                          |
+| **Context Files**    | Feed files and directories into conversations                                       | [Context Files](/docs/user-guide/features/context-files)       |
+| **MCP**              | Connect to external tool servers via Model Context Protocol                         | [MCP](/docs/user-guide/features/mcp)                           |
+| **Cron**             | Schedule recurring agent tasks                                                      | [Cron](/docs/user-guide/features/cron)                         |
+| **Delegation**       | Spawn sub-agents for parallel work                                                  | [Delegation](/docs/user-guide/features/delegation)             |
+| **Code Execution**   | Run Python scripts that call Hermes tools programmatically                          | [Code Execution](/docs/user-guide/features/code-execution)     |
+| **Browser**          | Web browsing and scraping                                                           | [Browser](/docs/user-guide/features/browser)                   |
+| **Hooks**            | Event-driven callbacks and middleware                                               | [Hooks](/docs/user-guide/features/hooks)                       |
+| **Batch Processing** | Process multiple inputs in bulk                                                     | [Batch Processing](/docs/user-guide/features/batch-processing) |
+| **Provider Routing** | Route requests across multiple LLM providers                                        | [Provider Routing](/docs/user-guide/features/provider-routing) |
 
 ## What to Read Next<a href="#what-to-read-next" class="hash-link" aria-label="Direct link to What to Read Next" translate="no" title="Direct link to What to Read Next">​</a>
 
@@ -167,6 +178,7 @@ You don't need to read everything. Pick the path that matches your goal, follow 
   - <a href="#i-want-a-cli-coding-assistant" class="table-of-contents__link toc-highlight">"I want a CLI coding assistant"</a>
   - <a href="#i-want-a-telegramdiscord-bot" class="table-of-contents__link toc-highlight">"I want a Telegram/Discord bot"</a>
   - <a href="#i-want-to-automate-tasks" class="table-of-contents__link toc-highlight">"I want to automate tasks"</a>
+  - <a href="#i-want-a-team-of-specialist-bots" class="table-of-contents__link toc-highlight">"I want a team of specialist Bots"</a>
   - <a href="#i-want-to-build-custom-toolsskills" class="table-of-contents__link toc-highlight">"I want to build custom tools/skills"</a>
   - <a href="#i-want-to-train-models" class="table-of-contents__link toc-highlight">"I want to train models"</a>
   - <a href="#i-want-to-use-it-as-a-python-library" class="table-of-contents__link toc-highlight">"I want to use it as a Python library"</a>
