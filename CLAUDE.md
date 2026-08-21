@@ -241,6 +241,7 @@ Each skill syncs documentation from upstream sources.
 | chat-sdk | https://chat-sdk.dev/docs + https://github.com/vercel/chat | URL-based |
 | ai-sdk | https://github.com/vercel/ai + https://ai-sdk.dev/ | URL-based |
 | agent-skills | https://github.com/agentskills/agentskills + https://agentskills.io | URL-based |
+| safe-delete | None — original hooks and docs, no upstream to track | Self-contained |
 | hermes | Hermes Agent docs + operational experience | Hybrid |
 | honcho | https://docs.honcho.dev/v3/documentation | URL-based |
 | firecrawl | https://docs.firecrawl.dev + https://github.com/mendableai/firecrawl | URL-based |
