@@ -4,6 +4,7 @@ description: >-
   Hermes hyphen-slash pack of every nvk/llm-wiki v0.23.0 Claude command
   (/wiki, /wiki-compile, /wiki-ingest, …). Use when the user wants the
   official nvk command surface on Hermes. Never Karpathy llm-wiki.
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # nvk-wiki-hermes — official nvk v0.23.0 command pack
@@ -51,3 +52,9 @@ embeds the official command body.
 
 Do not invent protocols. Do not compile or `lint --fix` a hub unless the
 user invoked that command and the official body allows it.
+
+## Documentation
+
+- **[Layout](docs/layout.md)** — what is vendored, what is generated, and which files never to hand-edit
+- **[The llm-wiki CLI](docs/cli.md)** — three commands need an external CLI, how it is resolved, and what to install
+- **[Pin policy](docs/pin.md)** — why the sources are tag-pinned to v0.23.0 and what a version bump involves

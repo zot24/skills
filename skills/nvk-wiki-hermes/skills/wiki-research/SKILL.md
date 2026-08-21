@@ -2,7 +2,7 @@
 name: wiki-research
 description: >-
   Deep multi-agent research on a topic, question, or thesis. Launches parallel agents to search the web, ingests sources, and compiles them into active wiki articles. Thesis mode provides for/against evidence framing with a verdict. Use when the user runs /wiki-research or /wiki:research. Official nvk/llm-wiki v0.23.0 command body. Never use bundled Karpathy llm-wiki against this hub.
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(ls:*), Bash(wc:*), Bash(date:*), Bash(mkdir:*), Bash(python3:*), Bash(scripts/llm-wiki:*), Bash(${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki:*), WebFetch, WebSearch, Agent
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(ls:*), Bash(wc:*), Bash(date:*), Bash(mkdir:*), Bash(python3:*), Bash(scripts/llm-wiki:*), Bash(llm-wiki:*), Bash(command:*), WebFetch, WebSearch, Agent
 ---
 
 # wiki-research — nvk v0.23.0 `/wiki:research`
@@ -23,6 +23,27 @@ Do **not** invent compile, ingest, lint, or query protocols.
 Official command body follows. `$ARGUMENTS` is the text after `/wiki-research`.
 
 ---
+## Resolve the llm-wiki CLI
+
+This package vendors command bodies only. It does **not** bundle a CLI, so
+`${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki` does not exist here. Resolve the command
+first and fail closed when it is absent:
+
+```bash
+if [ -x "./scripts/llm-wiki" ]; then
+  LLM_WIKI="./scripts/llm-wiki"           # source checkout
+elif command -v llm-wiki >/dev/null 2>&1; then
+  LLM_WIKI="llm-wiki"                     # installed on PATH
+else
+  echo "llm-wiki CLI not found. Install nvk/llm-wiki and put llm-wiki on PATH," >&2
+  echo "or run from a source checkout that provides scripts/llm-wiki." >&2
+  exit 1
+fi
+```
+
+Every `$LLM_WIKI` below refers to that resolved command. Do not guess a path,
+and do not continue without the CLI.
+
 ## Your task
 
 Conduct deep research on the topic in $ARGUMENTS. This is an automated pipeline: search → ingest → compile.
@@ -85,7 +106,7 @@ record an empty specialist list and continue without reading `HUB/.skills/`.
 For a hub topic, read `HUB/.skills/_index.md` when present, then run:
 
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki" specialist list \
+"$LLM_WIKI" specialist list \
   --wiki <topic-slug> --json
 ```
 
