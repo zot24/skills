@@ -40,7 +40,9 @@ jobs:
       - name: Restore sync cache
         uses: actions/cache@v4
         with:
-          path: skills/*/.cache
+          path: |
+            skills/*/.cache
+            skills/*/cache
           key: sync-cache-${{ github.run_id }}
           restore-keys: |
             sync-cache-
@@ -73,6 +75,7 @@ jobs:
           SKILLS=("umbrel-app" "claude-code-expert" "agent-browser" "chat-sdk" "ai-sdk" "agent-skills" "hermes" "honcho" "firecrawl" "servarr" "obsidian" "adguard" "immich" "glinet" "umami" "flue" "wealthfolio" "1password-cli" "portainerctl" "x-engagement" "llm-wiki" "beads" "herdr-tower" "nvk-wiki-hermes")
           CHANGED_SKILLS=""
           FAILED_SKILLS=""
+          CRASHED_SKILLS=""
           ALL_CHANGES=""
           SYNC_REPORTS=""
 
@@ -86,6 +89,13 @@ jobs:
             set -e
 
             echo "$OUTPUT"
+
+            # A non-zero exit means the sync script aborted. It may have died before it
+            # printed has_failures=true, so the grep below cannot be the only detector.
+            if [ "$EXIT_CODE" -ne 0 ]; then
+              echo "::error::sync-skill.sh exited $EXIT_CODE for $SKILL"
+              CRASHED_SKILLS="$CRASHED_SKILLS $SKILL"
+            fi
 
             # Check for failures reported by the script
             if echo "$OUTPUT" | grep -q "has_failures=true"; then
@@ -122,6 +132,7 @@ jobs:
           # Trim whitespace
           CHANGED_SKILLS=$(echo "$CHANGED_SKILLS" | xargs)
           FAILED_SKILLS=$(echo "$FAILED_SKILLS" | xargs)
+          CRASHED_SKILLS=$(echo "$CRASHED_SKILLS" | xargs)
 
           # Set outputs
           if [ -z "$CHANGED_SKILLS" ]; then
@@ -143,6 +154,12 @@ jobs:
             echo "::warning::Failed skills: $FAILED_SKILLS"
           fi
 
+          if [ -n "$CRASHED_SKILLS" ]; then
+            echo "has_crashes=true" >> $GITHUB_OUTPUT
+            echo "crashed_skills=$CRASHED_SKILLS" >> $GITHUB_OUTPUT
+            echo "::error::Sync script aborted for: $CRASHED_SKILLS"
+          fi
+
           # Save sync reports
           echo "sync_reports<<EOF" >> $GITHUB_OUTPUT
           echo "$SYNC_REPORTS" >> $GITHUB_OUTPUT
@@ -155,6 +172,8 @@ jobs:
           CHANGED_SKILLS: ${{ steps.sync.outputs.changed_skills }}
           HAS_FAILURES: ${{ steps.sync.outputs.has_failures }}
           FAILED_SKILLS: ${{ steps.sync.outputs.failed_skills }}
+          HAS_CRASHES: ${{ steps.sync.outputs.has_crashes }}
+          CRASHED_SKILLS: ${{ steps.sync.outputs.crashed_skills }}
           SYNC_REPORTS: ${{ steps.sync.outputs.sync_reports }}
         run: |
           echo "## Sync Summary" >> $GITHUB_STEP_SUMMARY
@@ -171,6 +190,14 @@ jobs:
           if [ "$HAS_FAILURES" == "true" ]; then
             echo "### ⚠️ Failed Skills" >> $GITHUB_STEP_SUMMARY
             echo "**$FAILED_SKILLS**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "$HAS_CRASHES" == "true" ]; then
+            echo "### ❌ Sync Script Aborted" >> $GITHUB_STEP_SUMMARY
+            echo "**$CRASHED_SKILLS**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "These skills did not finish syncing. This run is marked failed." >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
           fi
 
@@ -305,3 +332,15 @@ jobs:
             gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
             echo "Auto-merge enabled for PR #$PR_NUMBER"
           fi
+
+      # Runs last so that a partial sync still produces its PR, but the run goes red.
+      # Without this the job stayed green when the sync script aborted, because the only
+      # failure detector was a grep for a string a crashed script never prints.
+      - name: Fail the run when a sync aborted
+        if: always() && steps.sync.outputs.has_crashes == 'true'
+        env:
+          CRASHED_SKILLS: ${{ steps.sync.outputs.crashed_skills }}
+        run: |
+          echo "::error::Sync script aborted for: $CRASHED_SKILLS"
+          echo "The documentation for these skills was not refreshed."
+          exit 1
