@@ -561,10 +561,23 @@ main() {
         freshness_days=$(jq -r '.freshness_days // 14' "$MANIFEST")
 
         # Process each source
+        local source_count
+        source_count=$(jq -r '.sources | length' "$MANIFEST")
+
+        if [ "$source_count" -eq 0 ]; then
+            # `jq -c '.sources[]'` prints nothing for an empty array, and a here-string
+            # of "" still feeds the loop one empty line. That produced a fetch of the
+            # empty URL, two retries, and a false has_failures=true. Skip instead.
+            log_info "No sources declared for $skill_name - nothing to sync"
+        else
+
         local sources_json
         sources_json=$(jq -c '.sources[]' "$MANIFEST")
 
         while IFS= read -r source; do
+            if [ -z "$source" ]; then
+                continue
+            fi
             local url target source_freshness source_type_val
             url=$(echo "$source" | jq -r '.url')
             target=$(echo "$source" | jq -r '.target')
@@ -577,6 +590,8 @@ main() {
                 log_warn "Continuing with remaining sources..."
             fi
         done <<< "$sources_json"
+
+        fi
 
         # Check for changes
         if ! git diff --quiet "$SKILL_DIR" 2>/dev/null; then
