@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/zot24/skills/compare/umbrel-app-v2.1.2...umbrel-app-v2.1.3) (2026-08-22)
+
+
+### Documentation
+
+* correct 26 documented slash commands after a command rename ([#176](https://github.com/zot24/skills/issues/176)) ([cc011e0](https://github.com/zot24/skills/commit/cc011e033e6c8195dc23249e33cc5af83d9b28a3))
+
 ## [2.1.2](https://github.com/zot24/skills/compare/umbrel-app-v2.1.1...umbrel-app-v2.1.2) (2026-07-07)
 
 
