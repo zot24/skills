@@ -1,0 +1,24 @@
+{
+  "name": "tower-gates",
+  "version": "1.0.0",
+  "description": "Tower acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored zero-dependency checker, so \"done\" is an exit code instead of a claim",
+  "keywords": [
+    "gates",
+    "acceptance-criteria",
+    "verification",
+    "agents",
+    "orchestration",
+    "herdr",
+    "unlazy",
+    "gate-check",
+    "completion-marker"
+  ],
+  "author": {
+    "name": "zot24",
+    "email": "hi@zot24.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zot24/skills"
+  }
+}

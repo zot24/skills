@@ -35,6 +35,7 @@ An opinionated selection of skills for daily dev workflows.
 | [herdr-tower](./skills/herdr-tower) | How to run a control tower over a fleet of herdr agents — delegate every task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Dispatch, watch/poke, staffing, layout, closing, and the failure catalogue |
 | [nvk-wiki-hermes](./skills/nvk-wiki-hermes) | Official nvk/llm-wiki v0.23.0 Claude command surface as Hermes hyphen slashes (`/wiki`, `/wiki-compile`, `/wiki-ingest`, `/wiki-query`, …). Not the llm-wiki expert skill. Not Karpathy llm-wiki |
 | [pr-standard](./skills/pr-standard) | House standard for GitHub pull request descriptions — the six ASD-STE100 writing rules, the four-label pack (type, `priority:*`, `t-shirt:*`, `area:*`), the required body shape with a mermaid diagram, and the forked-chat workflow |
+| [tower-gates](./skills/tower-gates) | Acceptance gates for agent work — a gates file of `CHECK` / `EXPECT` / `EVIDENCE` outcomes verified by a vendored zero-dependency checker (Leonxlnx/unlazy, MIT), so "done" is an exit code instead of a claim |
 
 ## Installation
 
@@ -666,6 +667,28 @@ The house standard for GitHub pull request descriptions. One card an agent or a 
 Hard rule for agents: fill the template. Never `gh pr create -b "<one paragraph>"`.
 
 [Full documentation](./skills/pr-standard/README.md)
+
+### tower-gates
+
+Acceptance gates for agent work. A gates file lists observable outcomes. A vendored, zero-dependency checker runs them, flips the boxes, and writes the evidence back:
+
+- **format** — `- [ ] G1: outcome` with `CHECK`, `EXPECT`, `EVIDENCE: pending`, plus manual gates and honest `ABANDON:` lines
+- **checker** — run mode vs `--status`, exit codes, substring and `/regex/` matching, per-check timeouts
+- **workflow** — the spec names the gates, the implementer fills them, the marker carries the output, the parent re-runs `--status`
+- **boundaries** — no Stop hook, no orchestrated mode, no subagent fan-out, no second checker
+
+```bash
+/tower-gates:tower-gates new gates/job.md
+/tower-gates:tower-gates run gates/job.md
+/tower-gates:tower-gates status gates/job.md
+/tower-gates:tower-gates verify gates/job.md
+```
+
+A checked box with `EVIDENCE: pending` is unmet. An empty `touch <marker>.done` is not done.
+
+The checker is copyright (c) 2026 Leonxlnx, MIT, from [Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy). It is vendored by hand and keeps its attribution header and `LICENSE.unlazy`.
+
+[Full documentation](./skills/tower-gates/README.md)
 
 ### gh-issue-tracker
 
