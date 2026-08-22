@@ -1,7 +1,7 @@
 {
   "name": "tower-gates",
   "version": "1.1.1",
-  "description": "Tower acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored zero-dependency checker, so \"done\" is an exit code instead of a claim",
+  "description": "Acceptance gates for agent work — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored zero-dependency checker, so a completion marker carries proof and \"done\" is an exit code instead of a claim",
   "keywords": [
     "gates",
     "acceptance-criteria",
@@ -11,7 +11,9 @@
     "herdr",
     "unlazy",
     "gate-check",
-    "completion-marker"
+    "completion-marker",
+    "done-file",
+    "definition-of-done"
   ],
   "author": {
     "name": "zot24",
