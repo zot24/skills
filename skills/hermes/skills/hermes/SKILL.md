@@ -2,6 +2,7 @@
 name: hermes
 description: Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions. Use when configuring Hermes, writing skills for it, debugging its behavior, or understanding what it can and cannot do.
 trigger: how does hermes work, hermes memory, hermes skills, hermes tools, hermes configuration, hermes capabilities, what can hermes do
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
 # Hermes Agent — Self-Knowledge
@@ -91,39 +92,39 @@ Jobs are defined in `~/.hermes/cron/jobs.json` with fields: `name`, `prompt`, `s
 Reference docs cached locally from upstream:
 
 ### Getting Started
-- **[Installation](skills/hermes/docs/installation.md)** - Setup and install
-- **[Quickstart](skills/hermes/docs/quickstart.md)** - First steps
-- **[Learning Path](skills/hermes/docs/learning-path.md)** - Guided learning
+- **[Installation](docs/installation.md)** - Setup and install
+- **[Quickstart](docs/quickstart.md)** - First steps
+- **[Learning Path](docs/learning-path.md)** - Guided learning
 
 ### User Guide
-- **[CLI](skills/hermes/docs/cli.md)** - Command-line interface
-- **[Configuration](skills/hermes/docs/configuration.md)** - Config options
-- **[Messaging](skills/hermes/docs/messaging.md)** - Messaging platforms
-- **[Profiles](skills/hermes/docs/profiles.md)** - Running multiple agents
-- **[Security](skills/hermes/docs/security.md)** - Security model
+- **[CLI](docs/cli.md)** - Command-line interface
+- **[Configuration](docs/configuration.md)** - Config options
+- **[Messaging](docs/messaging.md)** - Messaging platforms
+- **[Profiles](docs/profiles.md)** - Running multiple agents
+- **[Security](docs/security.md)** - Security model
 
 ### Features
-- **[Tools](skills/hermes/docs/tools.md)** - Built-in tools
-- **[Memory](skills/hermes/docs/memory.md)** - Memory system
-- **[Skills](skills/hermes/docs/skills.md)** - Skills system
-- **[MCP](skills/hermes/docs/mcp.md)** - MCP integration
-- **[Voice Mode](skills/hermes/docs/voice-mode.md)** - Voice interaction
-- **[Personality](skills/hermes/docs/personality.md)** - Personality customization
-- **[Context Files](skills/hermes/docs/context-files.md)** - Context file system
-- **[Cron](skills/hermes/docs/cron.md)** - Scheduled tasks
+- **[Tools](docs/tools.md)** - Built-in tools
+- **[Memory](docs/memory.md)** - Memory system
+- **[Skills](docs/skills.md)** - Skills system
+- **[MCP](docs/mcp.md)** - MCP integration
+- **[Voice Mode](docs/voice-mode.md)** - Voice interaction
+- **[Personality](docs/personality.md)** - Personality customization
+- **[Context Files](docs/context-files.md)** - Context file system
+- **[Cron](docs/cron.md)** - Scheduled tasks
 
 ### Guides
-- **[MCP Guide](skills/hermes/docs/guide-mcp.md)** - Using MCP with Hermes
-- **[Voice Guide](skills/hermes/docs/guide-voice-mode.md)** - Voice mode guide
-- **[Tips](skills/hermes/docs/tips.md)** - Usage tips
+- **[MCP Guide](docs/guide-mcp.md)** - Using MCP with Hermes
+- **[Voice Guide](docs/guide-voice-mode.md)** - Voice mode guide
+- **[Tips](docs/tips.md)** - Usage tips
 
 ### Reference
-- **[CLI Commands](skills/hermes/docs/cli-commands.md)** - Full command reference
-- **[FAQ](skills/hermes/docs/faq.md)** - Frequently asked questions
-- **[Architecture](skills/hermes/docs/architecture.md)** - System architecture
-- **[Source Reference](skills/hermes/docs/source-reference.md)** - Repo structure, all tools, toolsets, platforms, config sections, env vars
-- **[Config Reference](skills/hermes/docs/config-reference.md)** - Full cli-config.yaml.example
-- **[Env Reference](skills/hermes/docs/env-reference.md)** - Full .env.example
+- **[CLI Commands](docs/cli-commands.md)** - Full command reference
+- **[FAQ](docs/faq.md)** - Frequently asked questions
+- **[Architecture](docs/architecture.md)** - System architecture
+- **[Source Reference](docs/source-reference.md)** - Repo structure, all tools, toolsets, platforms, config sections, env vars
+- **[Config Reference](docs/config-reference.md)** - Full cli-config.yaml.example
+- **[Env Reference](docs/env-reference.md)** - Full .env.example
 
 ### Upstream
 - Docs: https://hermes-agent.nousresearch.com/docs

@@ -20,7 +20,8 @@ Activate when user asks questions like:
 
 ## Files
 
-- `SKILL.md` — main skill file with all knowledge
+- `skills/hermes/SKILL.md` — main skill file, with references into `docs/`
+- `skills/hermes/docs/` — cached upstream documentation, loaded on demand
 - `commands/hermes.md` — slash command entry point
 - `sync.json` — CI sync configuration
 
