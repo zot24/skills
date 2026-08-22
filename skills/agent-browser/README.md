@@ -12,19 +12,34 @@ Expert assistant for browser automation with AI agents using [Vercel's agent-bro
 
 ## Installation
 
-Add to your Claude Code project:
+This skill ships as a plugin in the `zot24-skills` marketplace.
+
+From inside Claude Code:
+
+```
+/plugin marketplace add zot24/skills
+/plugin install agent-browser@zot24-skills
+```
+
+With [`zskills`](https://github.com/zot24/zskills):
 
 ```bash
-# Clone the skills repository
-git clone https://github.com/zot24/skills.git
-
-# Or add as a submodule
-git submodule add https://github.com/zot24/skills.git .claude-skills
+zskills marketplace add zot24/skills
+zskills install agent-browser
 ```
+
+`zot24/skills` is the repository. `zot24-skills` is the marketplace name declared in
+`.claude-plugin/marketplace.json`, and that is what `/plugin install` expects after the `@`.
 
 ## Usage
 
-The skill auto-activates when you mention:
+Run the slash command:
+
+```
+/agent-browser:agent-browser
+```
+
+The skill also auto-activates when you mention:
 - Browser automation
 - agent-browser commands
 - Web scraping with AI
