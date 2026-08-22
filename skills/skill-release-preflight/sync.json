@@ -1,0 +1,8 @@
+{
+  "name": "skill-release-preflight",
+  "version": "1.0.0",
+  "description": "Preflight checks before pushing a change to this marketplace repo",
+  "sources": [],
+  "cache_dir": ".cache",
+  "notes": "This skill has no upstream sources - it encodes this repository's own release and consistency rules"
+}
