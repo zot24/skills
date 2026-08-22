@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.12](https://github.com/zot24/skills/compare/agent-browser-v2.2.11...agent-browser-v2.2.12) (2026-08-22)
+
+
+### Documentation
+
+* **agent-browser:** replace install instructions that register nothing ([#181](https://github.com/zot24/skills/issues/181)) ([76c072a](https://github.com/zot24/skills/commit/76c072a4c423c826b6fed8bcee8a6627d0006d1d))
+
 ## [2.2.11](https://github.com/zot24/skills/compare/agent-browser-v2.2.10...agent-browser-v2.2.11) (2026-08-15)
 
 
