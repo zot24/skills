@@ -46,7 +46,7 @@
       "name": "safe-delete",
       "source": "./skills/safe-delete",
       "description": "Prevents catastrophic file deletion by transforming rm commands to trash and blocking dangerous patterns like rm -rf /",
-      "version": "1.0.3"
+      "version": "1.0.4"
     },
     {
       "name": "x-engagement",
@@ -166,13 +166,13 @@
       "name": "pr-standard",
       "source": "./skills/pr-standard",
       "description": "House standard for GitHub pull request descriptions — ASD-STE100 writing rules, the four-label pack (type, priority, t-shirt, area), the required body shape with a mermaid diagram, and the forked-chat workflow",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     {
       "name": "tower-gates",
       "source": "./skills/tower-gates",
       "description": "Tower acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored zero-dependency checker (from Leonxlnx/unlazy, MIT), so \"done\" is an exit code instead of a claim",
-      "version": "1.1.0"
+      "version": "1.1.1"
     }
   ]
 }
