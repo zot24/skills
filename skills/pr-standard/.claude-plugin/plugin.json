@@ -17,8 +17,5 @@
     "name": "zot24",
     "email": "hi@zot24.com"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zot24/skills"
-  }
+  "repository": "https://github.com/zot24/skills"
 }
