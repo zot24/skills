@@ -102,8 +102,19 @@ needs_refresh() {
         return 0  # Force refresh
     fi
 
-    # Check file age
-    local file_age=$(( ( $(date +%s) - $(stat -f %m "$cache_file" 2>/dev/null || stat -c %Y "$cache_file" 2>/dev/null) ) / 86400 ))
+    # Check file age (cross-platform: BSD stat -f vs GNU stat -c)
+    # `stat -f` means "format" on BSD/macOS but "filesystem" on GNU coreutils, where it
+    # succeeds and prints filesystem info. The `||` fallback therefore never fires on
+    # Linux, and its output lands inside $(( )) under `set -u`. Branch on $OSTYPE instead,
+    # the same way .github/workflows/scripts/sync-skill.sh already does.
+    local file_mtime
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        file_mtime=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+    else
+        file_mtime=$(stat -c %Y "$cache_file" 2>/dev/null || echo 0)
+    fi
+
+    local file_age=$(( ( $(date +%s) - file_mtime ) / 86400 ))
     if [[ $file_age -gt $max_age_days ]]; then
         return 0  # Too old
     fi
