@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/zot24/skills/compare/tower-gates-v1.1.1...tower-gates-v1.1.2) (2026-08-22)
+
+
+### Bug Fixes
+
+* **pr-standard, tower-gates:** label preflight and a completion-marker trigger ([#194](https://github.com/zot24/skills/issues/194)) ([840e084](https://github.com/zot24/skills/commit/840e084bf235713158f441ac879b20a9b9bc9786))
+
 ## [1.1.1](https://github.com/zot24/skills/compare/tower-gates-v1.1.0...tower-gates-v1.1.1) (2026-08-22)
 
 

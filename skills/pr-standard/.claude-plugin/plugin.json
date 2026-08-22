@@ -1,6 +1,6 @@
 {
   "name": "pr-standard",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "House standard for GitHub pull request descriptions — ASD-STE100 writing rules, the four-label pack, the required body shape, a mermaid diagram, and the forked-chat workflow",
   "keywords": [
     "pull-request",
