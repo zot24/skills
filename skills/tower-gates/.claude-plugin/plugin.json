@@ -1,6 +1,6 @@
 {
   "name": "tower-gates",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Tower acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored zero-dependency checker, so \"done\" is an exit code instead of a claim",
   "keywords": [
     "gates",
