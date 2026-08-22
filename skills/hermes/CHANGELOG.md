@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.38](https://github.com/zot24/skills/compare/hermes-v1.1.37...hermes-v1.1.38) (2026-08-22)
+
+
+### Bug Fixes
+
+* **hermes:** correct 25 documentation links in SKILL.md ([#178](https://github.com/zot24/skills/issues/178)) ([2854a7d](https://github.com/zot24/skills/commit/2854a7da126b998a8243e887e1291e66fa15fc61))
+
 ## [1.1.37](https://github.com/zot24/skills/compare/hermes-v1.1.36...hermes-v1.1.37) (2026-08-21)
 
 
