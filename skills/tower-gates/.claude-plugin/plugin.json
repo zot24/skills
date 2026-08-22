@@ -1,6 +1,6 @@
 {
   "name": "tower-gates",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Acceptance gates for agent work — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored zero-dependency checker, so a completion marker carries proof and \"done\" is an exit code instead of a claim",
   "keywords": [
     "gates",
