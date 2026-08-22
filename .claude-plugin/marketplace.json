@@ -10,7 +10,7 @@
       "name": "umbrel-app",
       "source": "./skills/umbrel-app",
       "description": "Expert assistant for developing, packaging, testing, and submitting apps for umbrelOS",
-      "version": "2.1.2"
+      "version": "2.1.3"
     },
     {
       "name": "claude-code-expert",
