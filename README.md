@@ -101,20 +101,20 @@ Format: `/skill-name:command-name [arguments]`
 
 ```bash
 # Umbrel app development
-/umbrel-app:umbrel scaffold my-app        # Create new app structure
-/umbrel-app:umbrel validate ./my-app      # Validate app configuration
-/umbrel-app:umbrel convert ./docker-app   # Convert Docker Compose to Umbrel
-/umbrel-app:umbrel pr ./my-app            # Generate PR submission
-/umbrel-app:umbrel debug ./my-app         # Troubleshoot issues
+/umbrel-app:umbrel-app scaffold my-app               # Create new app structure
+/umbrel-app:umbrel-app validate ./my-app             # Validate app configuration
+/umbrel-app:umbrel-app convert ./docker-app          # Convert Docker Compose to Umbrel
+/umbrel-app:umbrel-app pr ./my-app                   # Generate PR submission
+/umbrel-app:umbrel-app debug ./my-app                # Troubleshoot issues
 
 # Claude Code expertise
-/claude-code-expert:claude create agent    # Guide for creating agents
-/claude-code-expert:claude create skill    # Guide for creating skills
-/claude-code-expert:claude validate ./x    # Validate against best practices
-/claude-code-expert:claude features        # Show Claude Code capabilities
+/claude-code-expert:claude-code-expert create agent  # Guide for creating agents
+/claude-code-expert:claude-code-expert create skill  # Guide for creating skills
+/claude-code-expert:claude-code-expert validate ./x  # Validate against best practices
+/claude-code-expert:claude-code-expert features      # Show Claude Code capabilities
 
 # Agent browser automation
-/agent-browser:agent-browser open <url>    # Open a webpage
+/agent-browser:agent-browser open <url>              # Open a webpage
 /agent-browser:agent-browser snapshot      # Get element refs
 /agent-browser:agent-browser click @e2     # Click by ref
 /agent-browser:agent-browser screenshot    # Capture viewport
@@ -185,8 +185,8 @@ Full lifecycle support for Umbrel app development:
 - **sync/diff** - Stay updated with upstream docs
 
 ```bash
-/umbrel-app:umbrel scaffold my-app
-/umbrel-app:umbrel validate ./my-app
+/umbrel-app:umbrel-app scaffold my-app
+/umbrel-app:umbrel-app validate ./my-app
 ```
 
 [Full documentation](./skills/umbrel-app/README.md)
@@ -202,10 +202,10 @@ Comprehensive Claude Code and Anthropic ecosystem knowledge:
 - **sync/check** - Keep documentation up to date
 
 ```bash
-/claude-code-expert:claude create agent
-/claude-code-expert:claude create skill
-/claude-code-expert:claude validate ./my-agent
-/claude-code-expert:claude features
+/claude-code-expert:claude-code-expert create agent
+/claude-code-expert:claude-code-expert create skill
+/claude-code-expert:claude-code-expert validate ./my-agent
+/claude-code-expert:claude-code-expert features
 ```
 
 [Full documentation](./skills/claude-code-expert/README.md)

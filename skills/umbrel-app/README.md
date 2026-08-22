@@ -60,14 +60,14 @@ Add to your project's `.claude/settings.json`:
 ### Slash Command
 
 ```
-/umbrel-app:umbrel scaffold my-cool-app
-/umbrel-app:umbrel validate ./my-app
-/umbrel-app:umbrel convert ./existing-docker-app
-/umbrel-app:umbrel pr ./my-app
-/umbrel-app:umbrel debug ./my-app
-/umbrel-app:umbrel sync
-/umbrel-app:umbrel diff
-/umbrel-app:umbrel help
+/umbrel-app:umbrel-app scaffold my-cool-app
+/umbrel-app:umbrel-app validate ./my-app
+/umbrel-app:umbrel-app convert ./existing-docker-app
+/umbrel-app:umbrel-app pr ./my-app
+/umbrel-app:umbrel-app debug ./my-app
+/umbrel-app:umbrel-app sync
+/umbrel-app:umbrel-app diff
+/umbrel-app:umbrel-app help
 ```
 
 ### Natural Language
@@ -220,7 +220,7 @@ ssh umbrel@umbrel.local umbreld client apps.install.mutate --appId my-app
 4. Include 3-5 gallery images (1440x900 PNG)
 5. Open a pull request
 
-Use `/umbrel-app:umbrel pr ./my-app` to generate the PR template.
+Use `/umbrel-app:umbrel-app pr ./my-app` to generate the PR template.
 
 ## Keeping the Skill Updated
 
@@ -229,7 +229,7 @@ The skill includes commands to stay synchronized with the official Umbrel docume
 ### Check for Changes
 
 ```bash
-/umbrel-app:umbrel diff
+/umbrel-app:umbrel-app diff
 ```
 
 Compares the current skill against the upstream documentation and reports any differences without making changes.
@@ -237,7 +237,7 @@ Compares the current skill against the upstream documentation and reports any di
 ### Sync with Upstream
 
 ```bash
-/umbrel-app:umbrel sync
+/umbrel-app:umbrel-app sync
 ```
 
 Fetches the latest documentation from GitHub and updates the skill with any new requirements, fields, or procedures.
