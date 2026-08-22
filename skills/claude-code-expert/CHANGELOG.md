@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.4](https://github.com/zot24/skills/compare/claude-code-expert-v2.1.3...claude-code-expert-v2.1.4) (2026-08-22)
+
+
+### Bug Fixes
+
+* **claude-code-expert:** use a portable stat call in the sync age check ([#174](https://github.com/zot24/skills/issues/174)) ([c9e743b](https://github.com/zot24/skills/commit/c9e743b904364477a444faa47dd04e0ccbb8b7b4))
+
 ## [2.1.3](https://github.com/zot24/skills/compare/claude-code-expert-v2.1.2...claude-code-expert-v2.1.3) (2026-07-07)
 
 
