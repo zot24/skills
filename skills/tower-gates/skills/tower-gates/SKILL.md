@@ -1,6 +1,6 @@
 ---
 name: tower-gates
-description: Tower acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes, verified by a vendored checker. Use when writing a spec, writing a completion marker, or verifying a delivered job. Triggers on GATES.md, gates file, gate table, gate-check, MARKER_OK, an empty touch marker, EVIDENCE pending, CHECK/EXPECT, acceptance criteria for an agent job, unlazy.
+description: Acceptance gates, and the rule that a completion marker must carry proof. Use when about to write a completion marker or a .done file, when about to report a job finished, when writing a spec's acceptance criteria, or when verifying a delivered job. An empty `touch <name>.done` is never done. Triggers on write the completion marker, completion marker, marker file, .done file, touch .done, mark the job done, report ready, definition of done, acceptance criteria for an agent job, GATES.md, gates file, gate table, gate-check, MARKER_OK, EVIDENCE pending, CHECK/EXPECT, unlazy.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 

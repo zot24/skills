@@ -62,6 +62,11 @@ Set all four on every PR. Read [labels](docs/labels.md) for the full table.
 **Area names are per repo.** Run `gh label list --limit 100` and pick from the result. Do not invent
 an `area:*` label. When the repo carries no `area:*` label, set the other three and say so in the PR.
 
+**Read the label list before you post.** `gh pr create` rejects the whole command when any `--label`
+does not exist, and it does so after the branch is pushed. The priority scale is per repo too — some
+carry `priority:low`, others stop at `priority:medium`. Never assume a scale from another repo, and
+never create a label inside a feature PR. Commands and the failure mode: [labels](docs/labels.md).
+
 ## Documentation
 
 - **[Writing rules](docs/writing-rules.md)** — the six rules, banned words, worked rewrites

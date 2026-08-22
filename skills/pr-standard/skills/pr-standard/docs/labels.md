@@ -30,6 +30,10 @@ Pick one. A PR that fixes a bug and adds a feature is two PRs.
 | `priority:high` | Launch quality |
 | `priority:medium` | Post-launch improvement |
 
+**The scale is per repo.** Some repos carry `priority:low` as a fourth value; others stop at
+`priority:medium`. Do not assume the scale from another repo — read the list. When the value you
+want is absent, pick the nearest existing one and say which you used in the PR.
+
 ## Size
 
 | Label | Meaning |
@@ -59,6 +63,13 @@ the repo defines no area labels. Do not create an `area:*` taxonomy inside a fea
 
 ## Set the labels
 
+**Read the list first.** `gh pr create` rejects the whole command when any `--label` does not exist,
+and it does so after the branch is pushed:
+
+```bash
+gh label list --limit 100 --json name --jq '.[].name'
+```
+
 At creation:
 
 ```bash
@@ -73,7 +84,9 @@ gh pr edit <number> --add-label priority:high --add-label t-shirt:medium
 gh pr edit <number> --remove-label priority:medium
 ```
 
-`gh pr create` fails when a label does not exist on the repo. Read the label list before you post.
+A rejected label aborts the whole command, so a PR that would otherwise be correct is not created at
+all. The branch is already pushed at that point, so the cost is a confusing half-finished state, not
+just a retry.
 
 ---
 
