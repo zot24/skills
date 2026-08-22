@@ -120,6 +120,65 @@ def rewrite_refs(body: str) -> str:
     return body
 
 
+BUNDLED_CLI = "${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki"
+
+CLI_RESOLVER = """## Resolve the llm-wiki CLI
+
+This package vendors command bodies only. It does **not** bundle a CLI, so
+`${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki` does not exist here. Resolve the command
+first and fail closed when it is absent:
+
+```bash
+if [ -x "./scripts/llm-wiki" ]; then
+  LLM_WIKI="./scripts/llm-wiki"           # source checkout
+elif command -v llm-wiki >/dev/null 2>&1; then
+  LLM_WIKI="llm-wiki"                     # installed on PATH
+else
+  echo "llm-wiki CLI not found. Install nvk/llm-wiki and put llm-wiki on PATH," >&2
+  echo "or run from a source checkout that provides scripts/llm-wiki." >&2
+  exit 1
+fi
+```
+
+Every `$LLM_WIKI` below refers to that resolved command. Do not guess a path,
+and do not continue without the CLI.
+
+"""
+
+
+def needs_cli(text: str) -> bool:
+    return BUNDLED_CLI in text
+
+
+def rewrite_cli(body: str) -> str:
+    """Point CLI invocations at a resolved command instead of a bundle we lack.
+
+    Upstream assumes a `bin/llm-wiki` shipped inside the plugin root. This
+    package vendors command bodies only, so that path never exists and the
+    commands fail at runtime. Rewrite the invocation to `$LLM_WIKI`, which the
+    resolver block above defines from a source checkout or from PATH.
+    """
+    if not needs_cli(body):
+        return body
+    body = body.replace(f'"{BUNDLED_CLI}"', '"$LLM_WIKI"')
+    body = body.replace(BUNDLED_CLI, '"$LLM_WIKI"')
+    body = body.replace(
+        "Other runtimes should use the\nbundled `bin/llm-wiki` relative to the installed plugin root described in the\nadapter reference. Do not assume the command is globally installed.",
+        "Other runtimes resolve\n`$LLM_WIKI` as shown above. This package ships no bundled `bin/llm-wiki`.",
+    )
+    return body
+
+
+def rewrite_cli_tools(value: str) -> str:
+    """Replace the bundled-CLI permission with the resolved-command permission."""
+    if f"Bash({BUNDLED_CLI}:*)" not in value:
+        return value
+    return value.replace(
+        f"Bash({BUNDLED_CLI}:*)",
+        "Bash(llm-wiki:*), Bash(command:*)",
+    )
+
+
 def extract_ref_names(original: str) -> list[str]:
     names = re.findall(
         r"skills/wiki-manager/references/([A-Za-z0-9._-]+)", original
@@ -144,7 +203,7 @@ def hermes_frontmatter(cmd: str, meta: dict[str, str]) -> str:
         f"Official nvk/llm-wiki {TAG} command body. "
         "Never use bundled Karpathy llm-wiki against this hub."
     )
-    tools = meta.get("allowed-tools", "").strip()
+    tools = rewrite_cli_tools(meta.get("allowed-tools", "").strip())
     lines = [
         "---",
         f"name: {name}",
@@ -279,7 +338,9 @@ def write_skill(cmd: str) -> None:
                 text = banner + text
             (refdir / "wiki-query-opencode.md").write_text(text)
 
-    rewritten = rewrite_refs(body.lstrip("\n"))
+    rewritten = rewrite_cli(rewrite_refs(body.lstrip("\n")))
+    if needs_cli(body):
+        rewritten = CLI_RESOLVER + rewritten
     skill = hermes_frontmatter(cmd, meta) + "\n" + header(cmd, refs) + rewritten
     if not skill.endswith("\n"):
         skill += "\n"
@@ -292,7 +353,20 @@ def write_skill(cmd: str) -> None:
         f"<!-- Hermes slash is {slash(cmd)}; Claude plugin slash is "
         f"/nvk-wiki-hermes:{skill_name(cmd)}. Official nvk {TAG} body. -->\n"
     )
-    (cmd_dir / f"{skill_name(cmd)}.md").write_text(note + src)
+    cmd_meta, cmd_body = parse_frontmatter(src)
+    if needs_cli(src):
+        cmd_src = src
+        for key in ("allowed-tools",):
+            if key in cmd_meta:
+                cmd_src = cmd_src.replace(
+                    f"{key}: {cmd_meta[key]}", f"{key}: {rewrite_cli_tools(cmd_meta[key])}"
+                )
+        head, sep, rest = cmd_src.partition("\n---\n")
+        rest = CLI_RESOLVER + rewrite_cli(rest.lstrip("\n"))
+        cmd_src = head + sep + "\n" + rest
+    else:
+        cmd_src = src
+    (cmd_dir / f"{skill_name(cmd)}.md").write_text(note + cmd_src)
 
 
 def write_package_index() -> None:
@@ -312,6 +386,7 @@ description: >-
   Hermes hyphen-slash pack of every nvk/llm-wiki {TAG} Claude command
   (/wiki, /wiki-compile, /wiki-ingest, …). Use when the user wants the
   official nvk command surface on Hermes. Never Karpathy llm-wiki.
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # nvk-wiki-hermes — official nvk {TAG} command pack
@@ -333,6 +408,12 @@ embeds the official command body.
 
 Do not invent protocols. Do not compile or `lint --fix` a hub unless the
 user invoked that command and the official body allows it.
+
+## Documentation
+
+- **[Layout](docs/layout.md)** — what is vendored, what is generated, and which files never to hand-edit
+- **[The llm-wiki CLI](docs/cli.md)** — three commands need an external CLI, how it is resolved, and what to install
+- **[Pin policy](docs/pin.md)** — why the sources are tag-pinned to {TAG} and what a version bump involves
 """
     )
 

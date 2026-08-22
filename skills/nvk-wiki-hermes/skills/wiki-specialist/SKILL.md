@@ -2,7 +2,7 @@
 name: wiki-specialist
 description: >-
   Manage private specialist SKILL.md methods, topic allowlists, candidate discovery, and bounded specialist reviews. Use when the user runs /wiki-specialist or /wiki:specialist. Official nvk/llm-wiki v0.23.0 command body. Never use bundled Karpathy llm-wiki against this hub.
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(ls:*), Bash(wc:*), Bash(date:*), Bash(python3:*), Bash(scripts/llm-wiki:*), Bash(${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki:*), WebFetch, WebSearch, Agent
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(ls:*), Bash(wc:*), Bash(date:*), Bash(python3:*), Bash(scripts/llm-wiki:*), Bash(llm-wiki:*), Bash(command:*), WebFetch, WebSearch, Agent
 ---
 
 # wiki-specialist — nvk v0.23.0 `/wiki:specialist`
@@ -22,6 +22,27 @@ Do **not** invent compile, ingest, lint, or query protocols.
 Official command body follows. `$ARGUMENTS` is the text after `/wiki-specialist`.
 
 ---
+## Resolve the llm-wiki CLI
+
+This package vendors command bodies only. It does **not** bundle a CLI, so
+`${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki` does not exist here. Resolve the command
+first and fail closed when it is absent:
+
+```bash
+if [ -x "./scripts/llm-wiki" ]; then
+  LLM_WIKI="./scripts/llm-wiki"           # source checkout
+elif command -v llm-wiki >/dev/null 2>&1; then
+  LLM_WIKI="llm-wiki"                     # installed on PATH
+else
+  echo "llm-wiki CLI not found. Install nvk/llm-wiki and put llm-wiki on PATH," >&2
+  echo "or run from a source checkout that provides scripts/llm-wiki." >&2
+  exit 1
+fi
+```
+
+Every `$LLM_WIKI` below refers to that resolved command. Do not guess a path,
+and do not continue without the CLI.
+
 ## Your task
 
 Manage or apply user-private specialist methods. Read
@@ -32,7 +53,7 @@ Resolve HUB from `$HOME/.config/llm-wiki/config.json`, preferring `hub_path` and
 expanding only a leading `~`. Use the bundled deterministic helper:
 
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki" specialist <subcommand>
+"$LLM_WIKI" specialist <subcommand>
 ```
 
 Use `scripts/llm-wiki` in a source checkout. Never assume a global install.

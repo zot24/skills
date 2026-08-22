@@ -2,7 +2,7 @@
 name: wiki-adapter
 description: >-
   Route to, register, inspect, validate, and run explicitly trusted local private adapters without putting their code or bulk data in the wiki. Use when the user runs /wiki-adapter or /wiki:adapter. Official nvk/llm-wiki v0.23.0 command body. Never use bundled Karpathy llm-wiki against this hub.
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(ls:*), Bash(date:*), Bash(python3:*), Bash(scripts/llm-wiki:*), Bash(${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki:*)
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(ls:*), Bash(date:*), Bash(python3:*), Bash(scripts/llm-wiki:*), Bash(llm-wiki:*), Bash(command:*)
 ---
 
 # wiki-adapter — nvk v0.23.0 `/wiki:adapter`
@@ -22,6 +22,27 @@ Do **not** invent compile, ingest, lint, or query protocols.
 Official command body follows. `$ARGUMENTS` is the text after `/wiki-adapter`.
 
 ---
+## Resolve the llm-wiki CLI
+
+This package vendors command bodies only. It does **not** bundle a CLI, so
+`${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki` does not exist here. Resolve the command
+first and fail closed when it is absent:
+
+```bash
+if [ -x "./scripts/llm-wiki" ]; then
+  LLM_WIKI="./scripts/llm-wiki"           # source checkout
+elif command -v llm-wiki >/dev/null 2>&1; then
+  LLM_WIKI="llm-wiki"                     # installed on PATH
+else
+  echo "llm-wiki CLI not found. Install nvk/llm-wiki and put llm-wiki on PATH," >&2
+  echo "or run from a source checkout that provides scripts/llm-wiki." >&2
+  exit 1
+fi
+```
+
+Every `$LLM_WIKI` below refers to that resolved command. Do not guess a path,
+and do not continue without the CLI.
+
 ## Your task
 
 Manage or invoke a private llm-wiki adapter through the deterministic bundled
@@ -37,7 +58,7 @@ Before treating an external URL as an ingestion source, normalize the requested
 effect to a lowercase intent token and run:
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki adapter route \
+"$LLM_WIKI" adapter route \
   --intent <effect> --resource '<external-url>' --json
 ```
 
@@ -58,12 +79,11 @@ idempotency keys, private receipts, and read-back verification remain required.
 For Claude Code, use:
 
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/bin/llm-wiki" adapter <subcommand>
+"$LLM_WIKI" adapter <subcommand>
 ```
 
-In a source checkout, use `scripts/llm-wiki`. Other runtimes should use the
-bundled `bin/llm-wiki` relative to the installed plugin root described in the
-adapter reference. Do not assume the command is globally installed.
+In a source checkout, use `scripts/llm-wiki`. Other runtimes resolve
+`$LLM_WIKI` as shown above. This package ships no bundled `bin/llm-wiki`.
 
 ## Management operations
 
