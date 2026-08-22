@@ -47,7 +47,8 @@ skills/
 │   ├── herdr-tower/          # Control tower over a herdr agent fleet
 │   ├── nvk-wiki-hermes/      # nvk v0.23.0 Claude commands as Hermes /wiki-* slashes
 │   ├── pr-standard/          # House standard for GitHub PR descriptions (STE100 + labels + diagram)
-│   └── tower-gates/          # Acceptance gates — CHECK/EXPECT/EVIDENCE verified by a vendored checker
+│   ├── tower-gates/          # Acceptance gates — CHECK/EXPECT/EVIDENCE verified by a vendored checker
+│   └── skill-release-preflight/ # Pre-push checks for this repo — versions, manifests, labels
 └── README.md
 ```
 
@@ -264,6 +265,7 @@ Each skill syncs documentation from upstream sources.
 | nvk-wiki-hermes | https://github.com/nvk/llm-wiki **v0.23.0** (claude-plugin/commands + wiki-manager references). Never master. | URL-based, tag-pinned |
 | pr-standard | None — house policy, promoted from a private repo guide | Self-contained |
 | tower-gates | https://github.com/Leonxlnx/unlazy (`scripts/gate-check.mjs`, MIT) | Vendored by hand — never auto-synced, the attribution header must survive |
+| skill-release-preflight | None — this repository's own release and consistency rules | Self-contained |
 
 ### When to Sync
 

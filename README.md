@@ -36,6 +36,7 @@ An opinionated selection of skills for daily dev workflows.
 | [nvk-wiki-hermes](./skills/nvk-wiki-hermes) | Official nvk/llm-wiki v0.23.0 Claude command surface as Hermes hyphen slashes (`/wiki`, `/wiki-compile`, `/wiki-ingest`, `/wiki-query`, …). Not the llm-wiki expert skill. Not Karpathy llm-wiki |
 | [pr-standard](./skills/pr-standard) | House standard for GitHub pull request descriptions — the six ASD-STE100 writing rules, the four-label pack (type, `priority:*`, `t-shirt:*`, `area:*`), the required body shape with a mermaid diagram, and the forked-chat workflow |
 | [tower-gates](./skills/tower-gates) | Acceptance gates for agent work — a gates file of `CHECK` / `EXPECT` / `EVIDENCE` outcomes verified by a vendored zero-dependency checker (Leonxlnx/unlazy, MIT), so "done" is an exit code instead of a claim |
+| [skill-release-preflight](./skills/skill-release-preflight) | Three checks before pushing to this repo — never hand-edit a release-please version, run `check-consistency.sh` locally, and read `gh label list` before `gh pr create` |
 
 ## Installation
 
@@ -689,6 +690,24 @@ A checked box with `EVIDENCE: pending` is unmet. An empty `touch <marker>.done` 
 The checker is copyright (c) 2026 Leonxlnx, MIT, from [Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy). It is vendored by hand and keeps its attribution header and `LICENSE.unlazy`.
 
 [Full documentation](./skills/tower-gates/README.md)
+
+### skill-release-preflight
+
+Three commands before every push to this repo. Each takes under a second, and each has already caught a failure that reached CI:
+
+- **version** — release-please owns `sync.json` and `plugin.json` and bumps them in lockstep; a hand edit desyncs them and fails CI. Revert to `.release-please-manifest.json`, never bump the other file to match
+- **register** — the six registration points, and `EXEMPT_SYNC` for a skill with no upstream
+- **new-skill** — the `Release-As: 1.0.0` footer, without which a new skill ships as `1.1.0` and its changelog links to a tag that does not exist
+- **check** — every `MISMATCH:` line `check-consistency.sh` can print, and the one `WARNING:` that is expected
+- **preflight** — consistency, `gh label list`, `git status --porcelain`, then push
+
+```bash
+/skill-release-preflight:skill-release-preflight preflight
+/skill-release-preflight:skill-release-preflight check
+/skill-release-preflight:skill-release-preflight version
+```
+
+[Full documentation](./skills/skill-release-preflight/README.md)
 
 ### gh-issue-tracker
 

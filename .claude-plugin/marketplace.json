@@ -171,8 +171,14 @@
     {
       "name": "tower-gates",
       "source": "./skills/tower-gates",
-      "description": "Tower acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored zero-dependency checker (from Leonxlnx/unlazy, MIT), so \"done\" is an exit code instead of a claim",
+      "description": "Acceptance gates for agent work — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored zero-dependency checker, so a completion marker carries proof and \"done\" is an exit code instead of a claim",
       "version": "1.1.1"
+    },
+    {
+      "name": "skill-release-preflight",
+      "source": "./skills/skill-release-preflight",
+      "description": "Preflight checks before pushing to a skills marketplace repo — never hand-edit a release-please version, run check-consistency.sh locally, and read the label list before gh pr create",
+      "version": "1.0.0"
     }
   ]
 }

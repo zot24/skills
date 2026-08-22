@@ -1,0 +1,23 @@
+{
+  "name": "skill-release-preflight",
+  "version": "1.0.0",
+  "description": "Preflight checks before pushing to a skills marketplace repo — never hand-edit a release-please version, run check-consistency.sh locally, and read the label list before gh pr create",
+  "keywords": [
+    "release-please",
+    "versioning",
+    "preflight",
+    "check-consistency",
+    "marketplace",
+    "manifest",
+    "ci",
+    "skills"
+  ],
+  "author": {
+    "name": "zot24",
+    "email": "hi@zot24.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zot24/skills"
+  }
+}

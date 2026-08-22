@@ -115,3 +115,7 @@ marketplace = "zot24-skills"
 [[skills]]
 name = "tower-gates"
 marketplace = "zot24-skills"
+
+[[skills]]
+name = "skill-release-preflight"
+marketplace = "zot24-skills"
