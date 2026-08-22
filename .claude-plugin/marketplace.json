@@ -22,7 +22,7 @@
       "name": "agent-browser",
       "source": "./skills/agent-browser",
       "description": "Expert on agent-browser - Vercel's headless browser automation CLI for AI agents with 50+ commands, snapshots, and multi-session support",
-      "version": "2.2.11"
+      "version": "2.2.12"
     },
     {
       "name": "chat-sdk",
