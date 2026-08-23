@@ -113,7 +113,7 @@ echo "$NEW_URLS" | while IFS= read -r url; do [ -n "$url" ] && echo "  $url"; do
 if [ "$AUTO_ADD" = "true" ]; then
     echo ""
     echo "Auto-adding new pages to sync.json..."
-    echo "$NEW_URLS" | while IFS= read -r url; do
+    while IFS= read -r url; do
         [ -z "$url" ] && continue
         rel=$(rel_from_url "$url")
         target="skills/pi/docs/${rel}.md"
@@ -129,7 +129,7 @@ if [ "$AUTO_ADD" = "true" ]; then
             "$MANIFEST" > "$tmp"
         mv "$tmp" "$MANIFEST"
         echo "  Added: $url -> $target"
-    done
+    done < <(echo "$NEW_URLS")
     echo ""
     echo "Done. Run sync to fetch the new pages:"
     echo "  .github/workflows/scripts/sync-skill.sh skills/pi --force"
