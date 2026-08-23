@@ -1,8 +1,0 @@
-{
-  "name": "tower-gates",
-  "version": "1.1.2",
-  "description": "Tower acceptance gates backed by the vendored unlazy gate-check.mjs",
-  "sources": [],
-  "cache_dir": ".cache",
-  "notes": "scripts/gate-check.mjs is vendored by hand from Leonxlnx/unlazy (MIT). An automated fetch would overwrite the attribution header, so sources stays empty. Re-vendor with the steps in skills/tower-gates/docs/boundaries.md"
-}

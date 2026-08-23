@@ -97,17 +97,13 @@ name = "beads"
 marketplace = "zot24-skills"
 
 [[skills]]
-name = "herdr-tower"
-marketplace = "zot24-skills"
-
-[[skills]]
 name = "pr-standard"
 marketplace = "zot24-skills"
 
 [[skills]]
-name = "tower-gates"
+name = "skill-release-preflight"
 marketplace = "zot24-skills"
 
 [[skills]]
-name = "skill-release-preflight"
+name = "tower"
 marketplace = "zot24-skills"
