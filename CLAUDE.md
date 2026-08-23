@@ -42,10 +42,8 @@ skills/
 │   ├── wealthfolio/          # Private local-first portfolio tracker
 │   ├── 1password-cli/        # 1Password CLI (op) secrets management
 │   ├── portainerctl/         # Portainer CLI (Business Edition)
-│   ├── llm-wiki/             # llm-wiki (nvk) LLM-compiled knowledge bases
 │   ├── beads/                # Beads (bd) dependency-aware Dolt-backed issue tracker
 │   ├── herdr-tower/          # Control tower over a herdr agent fleet
-│   ├── nvk-wiki-hermes/      # nvk v0.23.0 Claude commands as Hermes /wiki-* slashes
 │   ├── pr-standard/          # House standard for GitHub PR descriptions (STE100 + labels + diagram)
 │   ├── tower-gates/          # Acceptance gates — CHECK/EXPECT/EVIDENCE verified by a vendored checker
 │   └── skill-release-preflight/ # Pre-push checks for this repo — versions, manifests, labels
@@ -259,10 +257,8 @@ Each skill syncs documentation from upstream sources.
 | 1password-cli | https://www.1password.dev/cli + https://app-updates.agilebits.com/product_history/CLI2 | URL-based |
 | portainerctl | https://github.com/portainer/portainerctl | URL-based |
 | x-engagement | https://github.com/xai-org/x-algorithm | URL-based |
-| llm-wiki | https://github.com/nvk/llm-wiki (README, AGENTS.md, wiki-manager references) | URL-based |
 | beads | https://beads.gascity.com (Markdown pages, `/llms.txt` index) + https://github.com/gastownhall/beads | URL-based |
 | herdr-tower | https://github.com/herdrdev/herdr (README, bundled `skills/herdr/SKILL.md`) | URL-based + authored |
-| nvk-wiki-hermes | https://github.com/nvk/llm-wiki **v0.23.0** (claude-plugin/commands + wiki-manager references). Never master. | URL-based, tag-pinned |
 | pr-standard | None — house policy, promoted from a private repo guide | Self-contained |
 | tower-gates | https://github.com/Leonxlnx/unlazy (`scripts/gate-check.mjs`, MIT) | Vendored by hand — never auto-synced, the attribution header must survive |
 | skill-release-preflight | None — this repository's own release and consistency rules | Self-contained |
