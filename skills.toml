@@ -93,19 +93,11 @@ name = "portainerctl"
 marketplace = "zot24-skills"
 
 [[skills]]
-name = "llm-wiki"
-marketplace = "zot24-skills"
-
-[[skills]]
 name = "beads"
 marketplace = "zot24-skills"
 
 [[skills]]
 name = "herdr-tower"
-marketplace = "zot24-skills"
-
-[[skills]]
-name = "nvk-wiki-hermes"
 marketplace = "zot24-skills"
 
 [[skills]]

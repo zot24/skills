@@ -30,10 +30,8 @@ An opinionated selection of skills for daily dev workflows.
 | [wealthfolio](./skills/wealthfolio) | Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development. |
 | [1password-cli](./skills/1password-cli) | Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent. |
 | [portainerctl](./skills/portainerctl) | Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC. |
-| [llm-wiki](./skills/llm-wiki) | Expert on llm-wiki (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent. Hub/topic layout, ingest → compile → query, lint/librarian/audit, Ideas and Projects, sessions, private adapters, and version pinning |
 | [beads](./skills/beads) | Expert on beads (`bd`) — the dependency-aware, Dolt-backed issue tracker built for AI coding agents. Ready-queue workflow, hash IDs, dependency types, formulas/molecules/gates/wisps, Dolt sync, and Claude Code wiring |
 | [herdr-tower](./skills/herdr-tower) | How to run a control tower over a fleet of herdr agents — delegate every task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Dispatch, watch/poke, staffing, layout, closing, and the failure catalogue |
-| [nvk-wiki-hermes](./skills/nvk-wiki-hermes) | Official nvk/llm-wiki v0.23.0 Claude command surface as Hermes hyphen slashes (`/wiki`, `/wiki-compile`, `/wiki-ingest`, `/wiki-query`, …). Not the llm-wiki expert skill. Not Karpathy llm-wiki |
 | [pr-standard](./skills/pr-standard) | House standard for GitHub pull request descriptions — the six ASD-STE100 writing rules, the four-label pack (type, `priority:*`, `t-shirt:*`, `area:*`), the required body shape with a mermaid diagram, and the forked-chat workflow |
 | [tower-gates](./skills/tower-gates) | Acceptance gates for agent work — a gates file of `CHECK` / `EXPECT` / `EVIDENCE` outcomes verified by a vendored zero-dependency checker (Leonxlnx/unlazy, MIT), so "done" is an exit code instead of a claim |
 | [skill-release-preflight](./skills/skill-release-preflight) | Three checks before pushing to this repo — never hand-edit a release-please version, run `check-consistency.sh` locally, and read `gh label list` before `gh pr create` |
@@ -559,29 +557,6 @@ Expert on portainerctl — Portainer's official CLI for driving Portainer Busine
 
 [Full documentation](./skills/portainerctl/README.md)
 
-### llm-wiki
-
-Expert on [llm-wiki](https://github.com/nvk/llm-wiki) (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent:
-
-- **structure** — hub + isolated topic wikis, immutable `raw/` vs synthesized `wiki/`, derived indexes
-- **ingest/compile/query** — sources in, cited cross-referenced articles out, read-only query-lite protocol
-- **lint/librarian/audit** — structural checks, staleness scoring, provenance and drift tracing
-- **inventory/dataset** — tracking records and manifests for data too large to hold in the wiki
-- **idea/project/portfolio** — Concept → Idea → Project promotion and the hub-wide read-only view
-- **session/feedback** — redacted operational memory, rehydrate, explicit promotion
-- **adapter** — the private-adapter boundary, machine-local registry, governed remote writes
-- **upgrade** — check the installed version, classify a diff, pin to a tag
-- **sync/diff** — stay updated with upstream docs
-
-```bash
-/llm-wiki:llm-wiki quickstart
-/llm-wiki:llm-wiki structure
-/llm-wiki:llm-wiki query
-/llm-wiki:llm-wiki upgrade
-```
-
-[Full documentation](./skills/llm-wiki/README.md)
-
 ### beads
 
 Expert on [beads](https://github.com/gastownhall/beads) (`bd`) — a dependency-aware, Dolt-backed issue tracker built for AI coding agents:
@@ -624,29 +599,6 @@ How to run a **control tower** over a fleet of [herdr](https://github.com/herdrd
 ```
 
 [Full documentation](./skills/herdr-tower/README.md)
-
-### nvk-wiki-hermes
-
-Official [nvk/llm-wiki](https://github.com/nvk/llm-wiki) **v0.23.0** Claude commands, packaged as Hermes hyphen slashes. Peer of the `llm-wiki` expert skill — this package is the command surface, not the digest.
-
-Hermes cannot use colons in slashes: Claude `/wiki:compile` is Hermes `/wiki-compile`.
-
-- **router** — `/wiki` (init, status, config, natural-language route)
-- **read** — `/wiki-query` (official query.md + Query Lite pointer)
-- **write** — `/wiki-ingest`, `/wiki-ingest-collection`, `/wiki-compile`, `/wiki-lint`, `/wiki-retract`, …
-- **shape** — `/wiki-idea`, `/wiki-project`, `/wiki-portfolio`, `/wiki-inventory`, `/wiki-dataset`
-- **ops** — `/wiki-session`, `/wiki-feedback`, `/wiki-audit`, `/wiki-librarian`, `/wiki-research`
-
-```bash
-/wiki
-/wiki-query what do we know about X
-/wiki-ingest https://example.com
-/wiki-compile
-```
-
-Pin is tag `v0.23.0` / `d02cbcb`, never `master`. Keep bundled Karpathy `llm-wiki` disabled.
-
-[Full documentation](./skills/nvk-wiki-hermes/README.md)
 
 ### pr-standard
 
@@ -815,7 +767,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, llm-wiki, beads, herdr-tower, nvk-wiki-hermes
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, beads, herdr-tower
 
 ### Automated Releases (release-please)
 

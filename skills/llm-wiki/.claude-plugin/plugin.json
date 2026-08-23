@@ -1,5 +1,0 @@
-{
-  "name": "llm-wiki",
-  "description": "Expert on llm-wiki (nvk) — LLM-compiled, append-only Markdown knowledge bases for any AI coding agent. Hub and topic-wiki layout, ingest/compile/query, lint/librarian/audit, inventory, datasets, Ideas and Projects, sessions and feedback, private adapters, and version pinning.",
-  "version": "1.1.0"
-}
