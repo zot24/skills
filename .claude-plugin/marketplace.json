@@ -167,6 +167,12 @@
       "source": "./skills/skill-release-preflight",
       "description": "Preflight checks before pushing to a skills marketplace repo — never hand-edit a release-please version, run check-consistency.sh locally, and read the label list before gh pr create",
       "version": "1.0.0"
+    },
+    {
+      "name": "pi",
+      "source": "./skills/pi",
+      "description": "Expert on Pi (pi.dev, @earendil-works/pi-coding-agent) — the minimal terminal coding harness. Extend, improve, custom providers, extensions, skills, themes.",
+      "version": "1.0.0"
     }
   ]
 }

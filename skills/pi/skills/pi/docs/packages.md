@@ -1,0 +1,308 @@
+> Source: https://pi.dev/docs/latest/packages
+
+
+
+Documentation
+
+Guides and references for configuring and extending Pi.
+
+
+Navigation
+
+
+On this page
+
+
+Documentation
+
+
+Search documentation
+
+
+<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
+
+
+On this page
+
+
+# Pi Packages
+
+
+> pi can help you create pi packages. Ask it to bundle your extensions, skills, prompt templates, or themes.
+
+Pi packages bundle extensions, skills, prompt templates, and themes so you can share them through npm or git. A package can declare resources in `package.json` under the `pi` key, or use conventional directories.
+
+
+## Table of Contents
+
+<a href="#table-of-contents" class="heading-anchor" aria-label="Permalink: Table of Contents" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#table-of-contents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+- [Install and Manage](#install-and-manage)
+- [Package Sources](#package-sources)
+- [Creating a Pi Package](#creating-a-pi-package)
+- [Package Structure](#package-structure)
+- [Dependencies](#dependencies)
+- [Package Filtering](#package-filtering)
+- [Enable and Disable Resources](#enable-and-disable-resources)
+- [Scope and Deduplication](#scope-and-deduplication)
+
+
+## Install and Manage
+
+<a href="#install-and-manage" class="heading-anchor" aria-label="Permalink: Install and Manage" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#install-and-manage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+> **Security:** Pi packages run with full system access. Extensions execute arbitrary code, and skills can instruct the model to perform any action including running executables. Review source code before installing third-party packages.
+
+``` bash
+pi install npm:@foo/bar@1.0.0
+pi install git:github.com/user/repo@v1
+pi install https://github.com/user/repo  # raw URLs work too
+pi install /absolute/path/to/package
+pi install ./relative/path/to/package
+
+pi remove npm:@foo/bar
+pi list                     # show installed packages from settings
+pi update                   # update pi only
+pi update --all             # update pi, update packages, and reconcile pinned git refs
+pi update --extensions      # update packages and reconcile pinned git refs only
+pi update --models          # refresh model catalogs only
+pi update --self            # update pi only
+pi update --self --force    # reinstall pi even if current
+pi update npm:@foo/bar      # update one package
+pi update --extension npm:@foo/bar
+```
+
+These commands manage pi packages and `pi update` can update the pi CLI installation. To uninstall pi itself, see [Quickstart](/docs/latest/quickstart#uninstall).
+
+By default, `install` and `remove` write to user settings (`~/.pi/agent/settings.json`). Use `-l` to write to project settings (`.pi/settings.json`) instead. Project settings can be shared with your team, and pi installs any missing packages automatically on startup after the project is trusted.
+
+To try a package without installing it, use `--extension` or `-e`. This installs to a temporary directory for the current run only:
+
+``` bash
+pi -e npm:@foo/bar
+pi -e git:github.com/user/repo
+```
+
+
+## Package Sources
+
+<a href="#package-sources" class="heading-anchor" aria-label="Permalink: Package Sources" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#package-sources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Pi accepts three source types in settings and `pi install`.
+
+
+### npm
+
+<a href="#npm" class="heading-anchor" aria-label="Permalink: npm" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#npm"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+    npm:@scope/pkg@1.2.3
+    npm:pkg
+
+- Versioned specs are pinned and skipped by package updates (`pi update --extensions`, `pi update --all`).
+- User installs go under `~/.pi/agent/npm/`.
+- Project installs go under `.pi/npm/`.
+- Set `npmCommand` in `settings.json` to pin npm package lookup and install operations to a specific wrapper command such as `mise` or `asdf`.
+
+Example:
+
+``` json
+{
+  "npmCommand": ["mise", "exec", "node@20", "--", "npm"]
+}
+```
+
+
+### git
+
+<a href="#git" class="heading-anchor" aria-label="Permalink: git" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#git"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+    git:github.com/user/repo@v1
+    git:git@github.com:user/repo@v1
+    https://github.com/user/repo@v1
+    ssh://git@github.com/user/repo@v1
+
+- Without `git:` prefix, only protocol URLs are accepted (`https://`, `http://`, `ssh://`, `git://`).
+- With `git:` prefix, shorthand formats are accepted, including `github.com/user/repo` and `git@github.com:user/repo`.
+- HTTPS and SSH URLs are both supported.
+- SSH URLs use your configured SSH keys automatically (respects `~/.ssh/config`).
+- For non-interactive runs (for example CI), you can set `GIT_TERMINAL_PROMPT=0` to disable credential prompts and set `GIT_SSH_COMMAND` (for example `ssh -o BatchMode=yes -o ConnectTimeout=5`) to fail fast.
+- Refs are pinned tags or commits. `pi update --extensions` and `pi update --all` do not move them to newer refs, but they do reconcile an existing clone to the configured ref.
+- Use `pi install git:host/user/repo@new-ref` to update settings and move an existing package to a new pinned ref.
+- Cloned to `~/.pi/agent/git/<host>/<path>` (global) or `.pi/git/<host>/<path>` (project).
+- When reconciliation changes the checkout, pi resets and cleans the clone, then runs `npm install` if `package.json` exists.
+
+**SSH examples:**
+
+``` bash
+# git@host:path shorthand (requires git: prefix)
+pi install git:git@github.com:user/repo
+
+# ssh:// protocol format
+pi install ssh://git@github.com/user/repo
+
+# With version ref
+pi install git:git@github.com:user/repo@v1.0.0
+```
+
+
+### Local Paths
+
+<a href="#local-paths" class="heading-anchor" aria-label="Permalink: Local Paths" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#local-paths"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+    /absolute/path/to/package
+    ./relative/path/to/package
+
+Local paths point to files or directories on disk and are added to settings without copying. Relative paths are resolved against the settings file they appear in. If the path is a file, it loads as a single extension. If it is a directory, pi loads resources using package rules.
+
+
+## Creating a Pi Package
+
+<a href="#creating-a-pi-package" class="heading-anchor" aria-label="Permalink: Creating a Pi Package" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#creating-a-pi-package"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Add a `pi` manifest to `package.json` or use conventional directories. Include the `pi-package` keyword for discoverability.
+
+``` json
+{
+  "name": "my-package",
+  "keywords": ["pi-package"],
+  "pi": {
+    "extensions": ["./extensions"],
+    "skills": ["./skills"],
+    "prompts": ["./prompts"],
+    "themes": ["./themes"]
+  }
+}
+```
+
+Paths are relative to the package root. Arrays support glob patterns and `!exclusions`. Positive manifest globs discover visible paths in lexical order. List dot-prefixed paths directly. If a glob would need to continue through a symlink, list the symlinked resource root directly.
+
+
+### Gallery Metadata
+
+<a href="#gallery-metadata" class="heading-anchor" aria-label="Permalink: Gallery Metadata" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#gallery-metadata"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+The [package gallery](https://pi.dev/packages) displays packages tagged with `pi-package`. Add `video` or `image` fields to show a preview:
+
+``` json
+{
+  "name": "my-package",
+  "keywords": ["pi-package"],
+  "pi": {
+    "extensions": ["./extensions"],
+    "video": "https://example.com/demo.mp4",
+    "image": "https://example.com/screenshot.png"
+  }
+}
+```
+
+- **video**: MP4 only. On desktop, autoplays on hover. Clicking opens a fullscreen player.
+- **image**: PNG, JPEG, GIF, or WebP. Displayed as a static preview.
+
+If both are set, video takes precedence.
+
+
+## Package Structure
+
+<a href="#package-structure" class="heading-anchor" aria-label="Permalink: Package Structure" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#package-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+### Convention Directories
+
+<a href="#convention-directories" class="heading-anchor" aria-label="Permalink: Convention Directories" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#convention-directories"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+If no `pi` manifest is present, pi auto-discovers resources from these directories:
+
+- `extensions/` loads `.ts` and `.js` files
+- `skills/` recursively finds `SKILL.md` folders and loads top-level `.md` files as skills
+- `prompts/` loads `.md` files
+- `themes/` loads `.json` files
+
+
+## Dependencies
+
+<a href="#dependencies" class="heading-anchor" aria-label="Permalink: Dependencies" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#dependencies"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Third party runtime dependencies belong in `dependencies` in `package.json`. Dependencies that do not register extensions, skills, prompt templates, or themes also belong in `dependencies`. When pi installs a package from npm or git, it runs `npm install`, so those dependencies are installed automatically.
+
+Pi bundles core packages for extensions and skills. If you import any of these, list them in `peerDependencies` with a `"*"` range and do not bundle them: `@earendil-works/pi-ai`, `@earendil-works/pi-agent-core`, `@earendil-works/pi-coding-agent`, `@earendil-works/pi-tui`, `typebox`.
+
+Other pi packages must be bundled in your tarball. Add them to `dependencies` and `bundledDependencies`, then reference their resources through `node_modules/` paths. Pi loads packages with separate module roots, so separate installs do not collide or share modules.
+
+Example:
+
+``` json
+{
+  "dependencies": {
+    "shitty-extensions": "^1.0.1"
+  },
+  "bundledDependencies": ["shitty-extensions"],
+  "pi": {
+    "extensions": ["extensions", "node_modules/shitty-extensions/extensions"],
+    "skills": ["skills", "node_modules/shitty-extensions/skills"]
+  }
+}
+```
+
+
+## Package Filtering
+
+<a href="#package-filtering" class="heading-anchor" aria-label="Permalink: Package Filtering" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#package-filtering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Filter what a package loads using the object form in settings:
+
+``` json
+{
+  "packages": [
+    "npm:simple-pkg",
+    {
+      "source": "npm:my-package",
+      "extensions": ["extensions/*.ts", "!extensions/legacy.ts"],
+      "skills": [],
+      "prompts": ["prompts/review.md"],
+      "themes": ["+themes/legacy.json"]
+    }
+  ]
+}
+```
+
+`+path` and `-path` are exact paths relative to the package root.
+
+- Omit a key to load all of that type.
+- Use `[]` to load none of that type.
+- `!pattern` excludes matches.
+- `+path` force-includes an exact path.
+- `-path` force-excludes an exact path.
+- Filters layer on top of the manifest. They narrow down what is already allowed.
+
+
+## Enable and Disable Resources
+
+<a href="#enable-and-disable-resources" class="heading-anchor" aria-label="Permalink: Enable and Disable Resources" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#enable-and-disable-resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Use `pi config` to enable or disable extensions, skills, prompt templates, and themes from installed packages and local directories. `pi config` starts in global settings (`~/.pi/agent/settings.json`); press Tab to switch between global and project-local modes. Use `pi config -l` to start in project overrides (`.pi/settings.json`) with inherited global resources dimmed.
+
+
+## Scope and Deduplication
+
+<a href="#scope-and-deduplication" class="heading-anchor" aria-label="Permalink: Scope and Deduplication" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#scope-and-deduplication"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Packages can appear in both global and project settings. If the same package appears in both, the project entry wins unless the project entry has `autoload: false`, in which case it is applied as a delta over the global entry. Identity is determined by:
+
+- npm: package name
+- git: repository URL without ref
+- local: resolved absolute path
+
+

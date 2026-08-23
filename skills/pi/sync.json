@@ -1,0 +1,195 @@
+{
+  "name": "pi",
+  "version": "1.0.0",
+  "description": "Expert on Pi (pi.dev, @earendil-works/pi-coding-agent) \u2014 extend, improve, custom providers, extensions, skills, themes",
+  "sources": [
+    {
+      "url": "https://pi.dev/docs/latest",
+      "target": "skills/pi/docs/index.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/quickstart",
+      "target": "skills/pi/docs/quickstart.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/usage",
+      "target": "skills/pi/docs/usage.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/providers",
+      "target": "skills/pi/docs/providers.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/llama-cpp",
+      "target": "skills/pi/docs/llama-cpp.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/security",
+      "target": "skills/pi/docs/security.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/containerization",
+      "target": "skills/pi/docs/containerization.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/settings",
+      "target": "skills/pi/docs/settings.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/environment-variables",
+      "target": "skills/pi/docs/environment-variables.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/keybindings",
+      "target": "skills/pi/docs/keybindings.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/sessions",
+      "target": "skills/pi/docs/sessions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/compaction",
+      "target": "skills/pi/docs/compaction.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/extensions",
+      "target": "skills/pi/docs/extensions.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/skills",
+      "target": "skills/pi/docs/skills.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/prompt-templates",
+      "target": "skills/pi/docs/prompt-templates.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/themes",
+      "target": "skills/pi/docs/themes.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/packages",
+      "target": "skills/pi/docs/packages.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/models",
+      "target": "skills/pi/docs/models.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/custom-provider",
+      "target": "skills/pi/docs/custom-provider.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/session-format",
+      "target": "skills/pi/docs/session-format.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/sdk",
+      "target": "skills/pi/docs/sdk.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/rpc",
+      "target": "skills/pi/docs/rpc.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/json",
+      "target": "skills/pi/docs/json.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/tui",
+      "target": "skills/pi/docs/tui.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/development",
+      "target": "skills/pi/docs/development.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/main/README.md",
+      "target": "skills/pi/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/main/AGENTS.md",
+      "target": "skills/pi/docs/agents-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/main/CONTRIBUTING.md",
+      "target": "skills/pi/docs/contributing.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/main/packages/agent/README.md",
+      "target": "skills/pi/docs/package-agent.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/main/packages/ai/README.md",
+      "target": "skills/pi/docs/package-ai.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/main/packages/tui/README.md",
+      "target": "skills/pi/docs/package-tui.md",
+      "type": "raw",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache",
+  "notes": "25 extract-content pages from https://pi.dev/docs/latest plus 6 raw GitHub files (root README/AGENTS/CONTRIBUTING and packages/agent, ai, tui READMEs). extract-content output from pi.dev carries ~27% heading-anchor / search-widget chrome (anchors start with <a , so the shared sync-skill.sh filter does not drop them). Accept the chrome. Do not hand-strip committed docs. Do not edit the shared extract_content filter in this skill. discover-pages.sh crawls the HTML hub only (docs.json is a strict subset). Platform Setup slugs are denylisted."
+}
