@@ -1,0 +1,5 @@
+{
+  "name": "pi",
+  "description": "Expert on Pi (pi.dev, @earendil-works/pi-coding-agent) — the minimal terminal coding harness. Extend, improve, custom providers, extensions, skills, themes.",
+  "version": "1.0.0"
+}

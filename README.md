@@ -27,6 +27,7 @@ An opinionated selection of skills for daily dev workflows.
 | [glinet](./skills/glinet) | Configure and manage GL.iNet routers — VPN, AdGuard Home, DNS, multi-WAN failover, drop-in gateway, firewall, and network modes |
 | [umami](./skills/umami) | Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, and reports |
 | [flue](./skills/flue) | Expert on Flue — the open-source TypeScript framework for building durable, autonomous AI agents and workflows on the Pi harness. Write once, deploy anywhere, use any LLM. |
+| [pi](./skills/pi) | Expert on Pi (pi.dev, @earendil-works/pi-coding-agent) — extend, improve, custom providers, extensions, skills, themes, and running from source |
 | [wealthfolio](./skills/wealthfolio) | Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker). Concepts, CSV import, self-hosting, and addon development. |
 | [1password-cli](./skills/1password-cli) | Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent. |
 | [portainerctl](./skills/portainerctl) | Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC. |
@@ -489,6 +490,26 @@ Expert on Flue — the open-source TypeScript framework (by the Astro team) for 
 
 [Full documentation](./skills/flue/README.md)
 
+### pi
+
+Expert on Pi (pi.dev, `@earendil-works/pi-coding-agent`) — the minimal terminal coding harness. Procedure for extending Pi, improving it, adding custom providers, writing extensions / skills / themes / pi packages, forking, and running from source:
+
+- **extend / loop** — `packages/agent` (`pi-agent-core`)
+- **provider** — `packages/ai` (`pi-ai`), custom providers
+- **extension / skill / theme / package** — `packages/coding-agent`
+- **fork** — read `docs/development.md` Forking / Rebranding
+- **source** — `npm install --ignore-scripts`, `npm run check`, `./test.sh`, `./pi-test.sh`
+- **sync/diff** — Stay updated with upstream docs
+
+```bash
+/pi:pi extend
+/pi:pi provider
+/pi:pi extension
+/pi:pi source
+```
+
+[Full documentation](./skills/pi/README.md)
+
 ### wealthfolio
 
 Expert on Wealthfolio — the open-source, private, local-first portfolio & net-worth tracker (desktop, iOS, self-hosted Docker):
@@ -767,7 +788,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, beads, herdr-tower
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, beads, herdr-tower, pi
 
 ### Automated Releases (release-please)
 
@@ -839,6 +860,7 @@ skills/
 │   ├── glinet/                   # GL.iNet router management
 │   ├── umami/                    # Umami web analytics
 │   ├── flue/                     # Flue open agent framework
+│   ├── pi/                       # Pi coding harness (extend / improve)
 │   ├── wealthfolio/              # Private local-first portfolio tracker
 │   ├── 1password-cli/            # 1Password CLI (op) secrets management
 │   └── portainerctl/             # Portainer CLI (Business Edition)

@@ -107,3 +107,7 @@ marketplace = "zot24-skills"
 [[skills]]
 name = "tower"
 marketplace = "zot24-skills"
+
+[[skills]]
+name = "pi"
+marketplace = "zot24-skills"

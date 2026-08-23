@@ -39,6 +39,7 @@ skills/
 │   ├── glinet/               # GL.iNet router management
 │   ├── umami/                # Umami web analytics
 │   ├── flue/                 # Flue open agent framework
+│   ├── pi/                   # Pi coding harness (extend / improve)
 │   ├── wealthfolio/          # Private local-first portfolio tracker
 │   ├── 1password-cli/        # 1Password CLI (op) secrets management
 │   ├── portainerctl/         # Portainer CLI (Business Edition)
@@ -253,6 +254,7 @@ Each skill syncs documentation from upstream sources.
 | glinet | https://docs.gl-inet.com/router/en/4/ | URL-based |
 | umami | https://docs.umami.is + https://github.com/umami-software/umami | URL-based |
 | flue | https://flueframework.com/docs | URL-based |
+| pi | https://pi.dev/docs/latest + https://github.com/earendil-works/pi | URL-based |
 | wealthfolio | https://wealthfolio.app/docs | URL-based |
 | 1password-cli | https://www.1password.dev/cli + https://app-updates.agilebits.com/product_history/CLI2 | URL-based |
 | portainerctl | https://github.com/portainer/portainerctl | URL-based |
