@@ -12,7 +12,7 @@ Pi is the minimal terminal coding harness at [pi.dev](https://pi.dev) (`@earendi
 
 1. **Classify the job.** Match one row in the package table: extend loop / custom provider / extension / skill / theme / pi package / CLI-TUI / fork / debug / from-source / evals / telemetry / remote protocol. **Done when** one row matches.
 2. **Open a local clone** of `https://github.com/earendil-works/pi` (canonical; `pi-mono` 301s here). Clone outside `skills/pi/`. **Done when** `packages/` is present in that clone.
-3. **Read the matching `docs/` file.** Open the file named in the table and read the **section** that covers this job. For `extensions.md`, use its Table of Contents and grep to the section. Size warning: `extensions.md` (~162 KB), `rpc.md` (~69 KB), `sdk.md` (~48 KB), `tui.md` (~44 KB). **Done when** the named section is in context.
+3. **Read the matching `docs/` file.** Open the file named in the table and read the **section** that covers this job. For `extensions.md`, use its Table of Contents and grep to the section. Size warning: `extensions.md` (~162 KB), `rpc.md` (~69 KB), `sdk.md` (~48 KB), `tui.md` (~44 KB). When the table says not cached, open that clone README / package path instead. **Done when** the named section is in context, or — if the cell says not cached — the clone README / package path is in context.
 4. **Change the package path in the clone.** Edit that clone. **Done when** the edit is under that package path.
 5. **From-source checks** (after a code change):
    - `npm install --ignore-scripts` (README; `docs/development.md` omits the flag — follow README).
@@ -41,11 +41,11 @@ Fork/rebrand: read `docs/development.md` section **Forking / Rebranding**. Platf
 | CLI / TUI | `packages/coding-agent` + `packages/tui` | [usage.md](docs/usage.md), [tui.md](docs/tui.md) (large) |
 | fork / rebrand | `packages/coding-agent` (`package.json`) | [development.md](docs/development.md) Forking / Rebranding |
 | from-source | clone root | [agents-upstream.md](docs/agents-upstream.md), [development.md](docs/development.md) |
-| debug | clone; log at `~/.pi/agent/pi-debug.log` | [usage.md](docs/usage.md) |
-| remote protocol | `packages/protocol`, `packages/client`, `packages/server` (experimental) | [rpc.md](docs/rpc.md) (large), [sdk.md](docs/sdk.md) (large) |
-| evals | `packages/evals` (private) | [package-agent.md](docs/package-agent.md) |
-| telemetry | `packages/telemetry` | [package-agent.md](docs/package-agent.md) |
-| sqlite sessions | `packages/session-backends/sqlite-node` | [sessions.md](docs/sessions.md), [session-format.md](docs/session-format.md) |
+| debug | clone; log at `~/.pi/agent/pi-debug.log` | [development.md](docs/development.md) section **Debug Command** (`/debug` → `~/.pi/agent/pi-debug.log`) |
+| remote protocol | `packages/protocol`, `packages/client`, `packages/server` (experimental) | not cached; read `packages/protocol/README.md`, `packages/client/README.md`, `packages/server/README.md` in the clone (`rpc.md` / `sdk.md` are JSONL RPC / SDK, not this CBOR protocol) |
+| evals | `packages/evals` (private) | not cached; read `packages/evals/` in the clone |
+| telemetry | `packages/telemetry` | [readme-upstream.md](docs/readme-upstream.md) All Packages row + [settings.md](docs/settings.md) |
+| sqlite sessions | `packages/session-backends/sqlite-node` | [package-agent.md](docs/package-agent.md) section **SQLite session backends** |
 
 ## Documentation
 
@@ -68,4 +68,4 @@ Coding-agent's GitHub README overlaps `usage.md`; open the clone README only whe
 
 ## Sync
 
-Run `.github/workflows/scripts/sync-skill.sh skills/pi` to refresh `docs/`. Run it without `--force` to compare against upstream.
+Run `.github/workflows/scripts/sync-skill.sh skills/pi` to refresh `docs/`. Compare with `.github/workflows/scripts/sync-skill.sh skills/pi --dry-run`.
