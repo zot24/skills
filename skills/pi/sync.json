@@ -1,7 +1,7 @@
 {
   "name": "pi",
   "version": "1.0.0",
-  "description": "Expert on Pi (pi.dev, @earendil-works/pi-coding-agent) \u2014 extend, improve, custom providers, extensions, skills, themes",
+  "description": "Expert on Pi (pi.dev, @earendil-works/pi-coding-agent) — extend, improve, custom providers, extensions, skills, themes",
   "sources": [
     {
       "url": "https://pi.dev/docs/latest",
