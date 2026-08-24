@@ -58,7 +58,7 @@ The outer loop. Dispatch is the inner loop. Details: [operating loop](docs/opera
 
 1. **Session start.** Load the work graph. Read the live map and the status board. Report fleet, queue head, entitled kinds/models, pin file, dispatch blockers. Do not start agents. Do not edit product repos. Completion: one compact decision summary.
 2. **Unpaid ask.** Before the reply that starts a new job, settle every ask from the previous owner message: answer it in this reply, or name it parked and why. A pane start does not pay a question. See [work graph](docs/work-graph.md).
-3. **catalog.** Same board, entitlement focus. Name entitled vs missing kinds/models. Name pin slots whose kind is missing. Do not hit market feeds unless the board cannot answer.
+3. **catalog.** Same board, entitlement focus. Name entitled vs missing kinds/models. Name pin slots whose kind is missing. Do not go outside the board unless the board cannot answer.
 4. **reconvene.** After a marker: verify, then one owner table (Project, Status, What is true, Wrong/gap, You). That is the conversation. Not a running commentary while panes work.
 
 ## Acceptance gates

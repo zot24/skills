@@ -62,7 +62,7 @@ A spec that omits these hands the agent every unlisted gap as licence.
 | **The question** | One sentence. What decision does the answer change? |
 | **The standard** | What counts as an answer — a number, a diff, a verdict, a file |
 | **Repo path + project name** | Where the work lives. Colour is optional instance convention |
-| **RoutingDecision** | Plane, kind, model if known, reason. Kind must be an installed herdr kind — do not invent one |
+| **RoutingDecision** | Plane, kind, model if known, reason, and `staff` (roles, `required`, `when`). Kind must be an installed herdr kind — do not invent one |
 | **The deliverable path + marker path** | Both absolute, both distinct |
 | **Verification contract** | The central claim, and how the tower re-checks it (`gh`, disk, DB) |
 | **Read-only, or not** | Investigation and audit passes read and report. Say so. |
