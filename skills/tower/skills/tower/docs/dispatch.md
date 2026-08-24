@@ -19,6 +19,21 @@ log read, not a production SHA census. If it takes judgement, it is already a pa
 Work done inline burns the tower's context, is invisible in the fleet UI, and dies with the
 session. Agents in panes are inspectable, persistent, and parallel.
 
+If a PM pane is already live for the project, prompt the PM — never a worker. A one-shot with
+no space still starts one worker; see [staffing](staffing.md).
+
+## Planes
+
+Ranked. Do not invent a runner this skill does not name.
+
+| Rank | Plane | Use it for |
+|---|---|---|
+| 1 | **herdr** | Default for project work. Always for audits, deploys, version checks, any judgement against a repo |
+| 0 | **inline** | One cheap fact to fill the spec: `gh`, `git`, `ls`. Not the investigation |
+
+Other runners (local subagents, sandboxes, queues) are instance config. They are not this skill.
+Short tower-local reads stay in this session; they are not the investigation.
+
 ## Step 1 — the spec is a file
 
 Write the spec to a file before touching herdr. Prompts get truncated and echoed back into the
@@ -46,7 +61,10 @@ A spec that omits these hands the agent every unlisted gap as licence.
 |---|---|
 | **The question** | One sentence. What decision does the answer change? |
 | **The standard** | What counts as an answer — a number, a diff, a verdict, a file |
+| **Repo path + project name** | Where the work lives. Colour is optional instance convention |
+| **RoutingDecision** | Plane, kind, model if known, reason, and `staff` (roles, `required`, `when`). Kind must be an installed herdr kind — do not invent one |
 | **The deliverable path + marker path** | Both absolute, both distinct |
+| **Verification contract** | The central claim, and how the tower re-checks it (`gh`, disk, DB) |
 | **Read-only, or not** | Investigation and audit passes read and report. Say so. |
 | **Phase A / Phase B** | A task that both investigates *and* changes gets split. Phase A ends in `STOP`; the owner decides; Phase B is released separately. |
 | **Out of scope** | Do not do this |
@@ -126,8 +144,9 @@ then land-check `working` again.
 ## Step 6 — then leave
 
 Start the watch ([watch & poke](watch-and-poke.md)) and stop analysing in this chat. When the
-marker lands, verify, then reconvene with one table: every live agent, tab, pane, run, and what
-is done / blocked / waiting. Then the owner decides the next dispatch.
+marker lands, verify, then reconvene with two tables: the fleet table (every live agent, tab,
+pane, run, and what is done / blocked / waiting) and the owner table in
+[operating loop](operating-loop.md). Then the owner decides the next dispatch.
 
 ## Step 7 — relay, don't dump
 

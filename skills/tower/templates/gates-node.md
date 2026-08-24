@@ -3,7 +3,7 @@
 Scope: children <list child markers or gates files> merged into one working whole
 
 - [ ] N1: every child gates file is fully checked
-  CHECK: node /Users/anon/orchestrator/.pi/skills/tower-gates/scripts/gate-check.mjs --status <child-a.md> <child-b.md>
+  CHECK: node scripts/gate-check.mjs --status <child-a.md> <child-b.md>
   EXPECT: ALL MET
   EVIDENCE: pending
 

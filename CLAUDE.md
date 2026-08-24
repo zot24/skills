@@ -44,9 +44,8 @@ skills/
 │   ├── 1password-cli/        # 1Password CLI (op) secrets management
 │   ├── portainerctl/         # Portainer CLI (Business Edition)
 │   ├── beads/                # Beads (bd) dependency-aware Dolt-backed issue tracker
-│   ├── herdr-tower/          # Control tower over a herdr agent fleet
+│   ├── tower/                # Control tower + acceptance gates over a herdr fleet
 │   ├── pr-standard/          # House standard for GitHub PR descriptions (STE100 + labels + diagram)
-│   ├── tower-gates/          # Acceptance gates — CHECK/EXPECT/EVIDENCE verified by a vendored checker
 │   └── skill-release-preflight/ # Pre-push checks for this repo — versions, manifests, labels
 └── README.md
 ```
@@ -260,9 +259,7 @@ Each skill syncs documentation from upstream sources.
 | portainerctl | https://github.com/portainer/portainerctl | URL-based |
 | x-engagement | https://github.com/xai-org/x-algorithm | URL-based |
 | beads | https://beads.gascity.com (Markdown pages, `/llms.txt` index) + https://github.com/gastownhall/beads | URL-based |
-| herdr-tower | https://github.com/herdrdev/herdr (README, bundled `skills/herdr/SKILL.md`) | URL-based + authored |
-| pr-standard | None — house policy, promoted from a private repo guide | Self-contained |
-| tower-gates | https://github.com/Leonxlnx/unlazy (`scripts/gate-check.mjs`, MIT) | Vendored by hand — never auto-synced, the attribution header must survive |
+| tower | https://github.com/herdrdev/herdr (README, bundled `skills/herdr/SKILL.md`) + authored operating loop / dispatch / gates; checker from https://github.com/Leonxlnx/unlazy (`scripts/gate-check.mjs`, MIT) vendored by hand — never auto-synced, the attribution header must survive | URL-based + authored |
 | skill-release-preflight | None — this repository's own release and consistency rules | Self-contained |
 
 ### When to Sync

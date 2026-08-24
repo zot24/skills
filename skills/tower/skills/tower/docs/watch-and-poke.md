@@ -81,7 +81,8 @@ resolves its target as: the agent literally named `tower`, else the agent whose 
 `$TOWER_ROOT` and whose kind matches `$TOWER_KIND` — renaming it to `tower` so the next poke is
 unambiguous. It refuses to do anything when `HERDR_ENV != 1`.
 
-The poke *starts* the reconvene. It is not the verification.
+The poke *starts* the reconvene. It is not the verification. The owner table (Project, Status,
+What is true, Wrong/gap, You) lives in [operating loop](operating-loop.md).
 
 ## Verify independently — the step everything else exists to protect
 

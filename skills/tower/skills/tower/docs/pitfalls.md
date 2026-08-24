@@ -39,6 +39,12 @@ mean to state it.
 **Putting the spec in the prompt.** Prompts get truncated and echoed. → The spec is a file; the
 prompt is one line pointing at it.
 
+**Starting a new job without paying the previous owner message.** A later ask that adds work
+does not close an unanswered question. Two skills once taught two starts — session loop in one
+file, dispatch in another — and unpaid asks died in the gap. → Before the reply that starts a
+new job, answer every prior ask or name it parked and why. A pane start does not pay a
+question. See [work graph](work-graph.md).
+
 ## Spec writing
 
 **Naming the sources the agent should read.** It converts research into confirmation. One agent
