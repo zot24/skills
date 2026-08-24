@@ -32,8 +32,12 @@ irreversible outward action. Idle seats are **not** a reason to ask the human.
 
 ## Hard rules
 
-1. **Start the standing roster** on an open space before the first task prompt.
-2. **Prompt the PM only.** Never mentor, scout, worker, reviewer, QA from the tower.
+1. **Already-staffed spaces only.** If at least one standing seat (PM, mentor,
+   or scout) is already live, start missing *required* seats, then prompt the
+   PM. An open space with no standing seats is still a one-shot: one worker.
+   Do not spawn PM + mentor + scout on every one-shot. See [staffing](staffing.md).
+2. **Prompt the PM only** when a PM is live. Never mentor, scout, worker,
+   reviewer, or QA from the tower.
 3. Every PM spec **must** contain the **Loop block** below, with real agent names.
 4. A job whose spec said "mentor reviews" and whose mentor pane stayed idle for the whole run
    is **not done**, even if the marker exists. Partial.
