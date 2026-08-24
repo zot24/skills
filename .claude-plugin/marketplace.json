@@ -154,19 +154,19 @@
       "name": "skill-release-preflight",
       "source": "./skills/skill-release-preflight",
       "description": "Preflight checks before pushing to a skills marketplace repo — never hand-edit a release-please version, run check-consistency.sh locally, and read the label list before gh pr create",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "tower",
       "source": "./skills/tower",
       "description": "Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, staff only the required seats, and verify through acceptance gates so 'done' is an exit code, not a claim.",
-      "version": "2.0.0"
+      "version": "3.0.0"
     },
     {
       "name": "pi",
       "source": "./skills/pi",
       "description": "Expert on Pi (pi.dev, @earendil-works/pi-coding-agent) — the minimal terminal coding harness. Extend, improve, custom providers, extensions, skills, themes.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }
