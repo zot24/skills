@@ -1,6 +1,6 @@
 {
   "name": "skill-release-preflight",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Preflight checks before pushing a change to this marketplace repo",
   "sources": [],
   "cache_dir": ".cache",

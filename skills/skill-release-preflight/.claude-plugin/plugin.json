@@ -1,6 +1,6 @@
 {
   "name": "skill-release-preflight",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Preflight checks before pushing to a skills marketplace repo — never hand-edit a release-please version, run check-consistency.sh locally, and read the label list before gh pr create",
   "keywords": [
     "release-please",

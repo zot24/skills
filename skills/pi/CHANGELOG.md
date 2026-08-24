@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/zot24/skills/compare/pi-v1.0.0...pi-v1.1.0) (2026-08-24)
+
+
+### Features
+
+* **pi:** sync docs on earendil-works/pi GitHub release ([#206](https://github.com/zot24/skills/issues/206)) ([9c02015](https://github.com/zot24/skills/commit/9c02015eb0b9bed8c5ab30ed1816f20dbd5fbc41))
+
+
+### Bug Fixes
+
+* **pi:** repoint empty package-table docs and use --dry-run ([#203](https://github.com/zot24/skills/issues/203)) ([ff409da](https://github.com/zot24/skills/commit/ff409dac2bd8e33faa68deaae552b30f7396180d))
+
 ## [1.0.0](https://github.com/zot24/skills/compare/pi-v1.0.0...pi-v1.0.0) (2026-08-23)
 
 
