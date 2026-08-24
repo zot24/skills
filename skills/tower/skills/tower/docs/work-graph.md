@@ -10,13 +10,13 @@ edges are what a thread waits on and what it frees.**
 
 ```markdown
 # Open threads
-Last rewritten: 2026-08-17T14:02-03:00 (from `tower-map` + live herdr)
+Last rewritten: 2026-08-17T14:02-03:00 (from live map + live herdr)
 
 | # | Thread | Status | Next / edges |
 |---|---|---|---|
-| 51 | 🟢 paraguayos — invite activation QA | **blocked** | waits_on: owner decision → NEEDS-HUMAN #3 |
-| 52 | 🔵 wealthfolio — import ticker binding | live | dev·k3 in `w2:p1`; waits_on: `markers/import-fix.done` |
-| 53 | ⚪ herdr-tower skill | live | waits_on: `markers/2026-08-17-herdr-tower-skill.done`; unblocks: 47 |
+| 51 | 🟢 billing — invite activation QA | **blocked** | waits_on: owner decision → owner queue #3 |
+| 52 | 🔵 portfolio — import ticker binding | live | dev·k3 in `w2:p1`; waits_on: `markers/import-fix.done` |
+| 53 | ⚪ tower skill | live | waits_on: `markers/2026-08-17-tower-skill.done`; unblocks: 47 |
 ```
 
 ## The one rule
@@ -24,6 +24,13 @@ Last rewritten: 2026-08-17T14:02-03:00 (from `tower-map` + live herdr)
 **A new owner message may only *add* a node, or *defer* a node in writing. It never replaces the
 graph.** An interrupt that silently drops a live row is how a paying customer's blocker sits at
 rank 1 for fifteen days.
+
+## Unpaid ask
+
+**Unpaid ask.** One owner message with N asks is N nodes. An in-chat question is a node.
+Deferring one sibling does not defer the others. A later message may add a node; it does not
+close an unpaid ask. Pay unpaid asks in the same reply that starts the new job: answer them, or
+name each parked item and why. Dispatch is not payment.
 
 ## When to touch it
 
@@ -41,7 +48,9 @@ dispatch** · when a marker lands and the tower reconvenes.
    `unblocks: <thread #>`, `escalates: <owner queue>`. An edge you cannot name stays unwritten.
 4. **Keep every live node.** Starting a track that would leave one unattended: park it, finish
    it, or write it `deferred` with a reason — *in the file* — then take the new ask.
-5. **On marker land**, before reconvening: flip that node to `done` against the marker file, and
+5. **Pay unpaid asks in the same reply** that starts the new job: answer them, or name each
+   parked item and why. A pane start is not payment.
+6. **On marker land**, before reconvening: flip that node to `done` against the marker file, and
    release whatever it `unblocks`.
 
 ## States

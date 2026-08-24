@@ -32,9 +32,8 @@ An opinionated selection of skills for daily dev workflows.
 | [1password-cli](./skills/1password-cli) | Expert on the 1Password CLI (`op`) — manage 1Password from the terminal, read/inject secrets with secret references, run op run/op inject, manage items & vaults, service accounts, shell plugins, and the SSH agent. |
 | [portainerctl](./skills/portainerctl) | Expert on portainerctl — Portainer's official CLI for driving Portainer Business Edition over its REST API. Auth via API token, environments, stacks, GitOps deploys, containers, Kubernetes, edge, users/teams/RBAC. |
 | [beads](./skills/beads) | Expert on beads (`bd`) — the dependency-aware, Dolt-backed issue tracker built for AI coding agents. Ready-queue workflow, hash IDs, dependency types, formulas/molecules/gates/wisps, Dolt sync, and Claude Code wiring |
-| [herdr-tower](./skills/herdr-tower) | How to run a control tower over a fleet of herdr agents — delegate every task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Dispatch, watch/poke, staffing, layout, closing, and the failure catalogue |
+| [tower](./skills/tower) | Run a control tower over a fleet of herdr agents — session start, catalog, unpaid ask, dispatch from a spec file, watch a completion marker, reconvene with an owner table, and verify through acceptance gates so "done" is an exit code |
 | [pr-standard](./skills/pr-standard) | House standard for GitHub pull request descriptions — the six ASD-STE100 writing rules, the four-label pack (type, `priority:*`, `t-shirt:*`, `area:*`), the required body shape with a mermaid diagram, and the forked-chat workflow |
-| [tower-gates](./skills/tower-gates) | Acceptance gates for agent work — a gates file of `CHECK` / `EXPECT` / `EVIDENCE` outcomes verified by a vendored zero-dependency checker (Leonxlnx/unlazy, MIT), so "done" is an exit code instead of a claim |
 | [skill-release-preflight](./skills/skill-release-preflight) | Three checks before pushing to this repo — never hand-edit a release-please version, run `check-consistency.sh` locally, and read `gh label list` before `gh pr create` |
 
 ## Installation
@@ -599,27 +598,34 @@ Expert on [beads](https://github.com/gastownhall/beads) (`bd`) — a dependency-
 ```
 
 [Full documentation](./skills/beads/README.md)
-### herdr-tower
+### tower
 
-How to run a **control tower** over a fleet of [herdr](https://github.com/herdrdev/herdr) agents — the operating protocol for the agent that drives the others:
+How to run a **control tower** over a fleet of [herdr](https://github.com/herdrdev/herdr) agents — the operating protocol for the agent that drives the others, including the acceptance gates that decide when a job is done:
 
+- **status / catalog** — Session start reads the work graph and the status board; catalog names entitled vs missing kinds
+- **unpaid ask** — settle every prior owner ask before starting a new job; a pane start does not pay a question
 - **dispatch** — the spec is a file, not a prompt; pane labels; start argv per kind; land-checking that the prompt actually arrived
+- **planes** — herdr is the default; inline is one cheap fact to fill the spec
 - **watch/verify** — **idle is not done**: a named marker file on disk plus your own re-check of the central claim against `gh`, the disk, or the DB
+- **reconvene** — after a marker: verify, then one owner table (Project, Status, What is true, Wrong/gap, You)
 - **staff** — PM · mentor · worker · adversary · reviewer · scout · QA, and which of those a given task actually requires
 - **layout** — one tab per checkout; an extra tab means an extra worktree and branch
 - **close** — retiring agents, one-shot panes, when a workspace may close, and reloading a plugin without tearing down a space
-- **graph** — `OPEN-THREADS.md` nodes, states, and typed edges
+- **graph** — work graph file, unpaid ask, node states, and typed edges
 - **pitfalls** — the failure catalogue, each entry with what it actually cost
-- **scripts** — `tower-watch.sh` / `tower-poke.sh`, the marker-watch and poke loop
+- **gates** — a gates file of `CHECK` / `EXPECT` / `EVIDENCE` outcomes verified by the vendored zero-dependency checker (Leonxlnx/unlazy, MIT)
+- **scripts** — `tower-watch.sh` / `tower-poke.sh`, the marker-watch and poke loop; `gate-check.mjs`
 
 ```bash
-/herdr-tower:herdr-tower dispatch
-/herdr-tower:herdr-tower watch
-/herdr-tower:herdr-tower staff
-/herdr-tower:herdr-tower pitfalls
+/tower:tower status
+/tower:tower catalog
+/tower:tower dispatch
+/tower:tower reconvene
+/tower:tower staff
+/tower:tower gates status gates/job.md
 ```
 
-[Full documentation](./skills/herdr-tower/README.md)
+[Full documentation](./skills/tower/README.md)
 
 ### pr-standard
 
@@ -641,28 +647,6 @@ The house standard for GitHub pull request descriptions. One card an agent or a 
 Hard rule for agents: fill the template. Never `gh pr create -b "<one paragraph>"`.
 
 [Full documentation](./skills/pr-standard/README.md)
-
-### tower-gates
-
-Acceptance gates for agent work. A gates file lists observable outcomes. A vendored, zero-dependency checker runs them, flips the boxes, and writes the evidence back:
-
-- **format** — `- [ ] G1: outcome` with `CHECK`, `EXPECT`, `EVIDENCE: pending`, plus manual gates and honest `ABANDON:` lines
-- **checker** — run mode vs `--status`, exit codes, substring and `/regex/` matching, per-check timeouts
-- **workflow** — the spec names the gates, the implementer fills them, the marker carries the output, the parent re-runs `--status`
-- **boundaries** — no Stop hook, no orchestrated mode, no subagent fan-out, no second checker
-
-```bash
-/tower-gates:tower-gates new gates/job.md
-/tower-gates:tower-gates run gates/job.md
-/tower-gates:tower-gates status gates/job.md
-/tower-gates:tower-gates verify gates/job.md
-```
-
-A checked box with `EVIDENCE: pending` is unmet. An empty `touch <marker>.done` is not done.
-
-The checker is copyright (c) 2026 Leonxlnx, MIT, from [Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy). It is vendored by hand and keeps its attribution header and `LICENSE.unlazy`.
-
-[Full documentation](./skills/tower-gates/README.md)
 
 ### skill-release-preflight
 
@@ -788,7 +772,7 @@ Options:
 - `dry_run`: Check for changes without creating PR
 
 **Skills with CI sync enabled:**
-- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, beads, herdr-tower, pi
+- umbrel-app, claude-code-expert, agent-browser, chat-sdk, ai-sdk, agent-skills, hermes, honcho, firecrawl, servarr, obsidian, adguard, immich, glinet, umami, flue, wealthfolio, 1password-cli, portainerctl, x-engagement, beads, tower, pi
 
 ### Automated Releases (release-please)
 
@@ -863,7 +847,8 @@ skills/
 │   ├── pi/                       # Pi coding harness (extend / improve)
 │   ├── wealthfolio/              # Private local-first portfolio tracker
 │   ├── 1password-cli/            # 1Password CLI (op) secrets management
-│   └── portainerctl/             # Portainer CLI (Business Edition)
+│   ├── portainerctl/             # Portainer CLI (Business Edition)
+│   └── tower/                    # Control tower + acceptance gates over a herdr fleet
 └── README.md
 ```
 

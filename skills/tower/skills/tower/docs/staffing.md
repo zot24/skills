@@ -30,6 +30,14 @@ tower → PM
 **A single one-shot task is one worker pane.** PM and mentor exist to keep a *loop* moving; they
 are overhead on a task with one deliverable and one marker.
 
+**An already-staffed space is different.** If the space is open and the standing roster (PM +
+mentor + scout) is incomplete, start the missing required seats first, then prompt the PM. Do
+not spawn PM + mentor + scout on every one-shot. Standing seats already up stay up. Optional
+rows still wait for `when` (`decision` / `pr` / `user_facing` / `task`).
+
+A spec that names `herdr agent prompt` for mentor and scout is a loop. Prose "mentor reviews"
+is not a loop.
+
 ## What each seat is for
 
 - **PM** — keeps every loop MOVING. Notices finished batches, verifies the central claim itself,
@@ -91,6 +99,8 @@ covered. *"Ran the happy path on local, did not test the duplicate-email case"* 
 - The **tower** prompts the PM, and holds the money gate: only the human authorises anything that
   spends budget or is irreversible or outward-facing. Everything in that class goes to the owner
   queue and the loop continues on whatever else is unblocked.
+- If a **PM pane is already live**, the tower prompts that PM — never a worker. The PM prompts
+  mentor and scout. Two agents prompting one developer still duplicates work.
 
 ## Lessons this table encodes
 
