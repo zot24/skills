@@ -598,6 +598,7 @@ Expert on [beads](https://github.com/gastownhall/beads) (`bd`) — a dependency-
 ```
 
 [Full documentation](./skills/beads/README.md)
+
 ### tower
 
 How to run a **control tower** over a fleet of [herdr](https://github.com/herdrdev/herdr) agents — the operating protocol for the agent that drives the others, including the acceptance gates that decide when a job is done:
@@ -610,6 +611,9 @@ How to run a **control tower** over a fleet of [herdr](https://github.com/herdrd
 - **reconvene** — after a marker: verify, then one owner table (Project, Status, What is true, Wrong/gap, You)
 - **staff** — PM · mentor · worker · adversary · reviewer · scout · QA, and which of those a given task actually requires
 - **layout** — one tab per checkout; an extra tab means an extra worktree and branch
+- **worktree** — default implement seat: list, then open or create; do not write on home `main`
+- **escalate** — re-verify, then an owner-queue item, or decline because it is already fixed
+- **handoff** — rewrite a session snapshot from live herdr and markers; a handoff note is not live state
 - **close** — retiring agents, one-shot panes, when a workspace may close, and reloading a plugin without tearing down a space
 - **graph** — work graph file, unpaid ask, node states, and typed edges
 - **pitfalls** — the failure catalogue, each entry with what it actually cost
@@ -622,6 +626,9 @@ How to run a **control tower** over a fleet of [herdr](https://github.com/herdrd
 /tower:tower dispatch
 /tower:tower reconvene
 /tower:tower staff
+/tower:tower escalate
+/tower:tower handoff
+/tower:tower worktree
 /tower:tower gates status gates/job.md
 ```
 
@@ -849,7 +856,10 @@ skills/
 │   ├── wealthfolio/              # Private local-first portfolio tracker
 │   ├── 1password-cli/            # 1Password CLI (op) secrets management
 │   ├── portainerctl/             # Portainer CLI (Business Edition)
-│   └── tower/                    # Control tower + acceptance gates over a herdr fleet
+│   ├── beads/                    # Beads (bd) dependency-aware issue tracker
+│   ├── tower/                    # Control tower + acceptance gates over a herdr fleet
+│   ├── pr-standard/              # House standard for GitHub PR descriptions
+│   └── skill-release-preflight/  # Pre-push checks for this repo
 └── README.md
 ```
 
