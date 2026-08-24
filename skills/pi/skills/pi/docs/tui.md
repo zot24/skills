@@ -51,12 +51,12 @@ interface Component {
 }
 ```
 
-| Method | Description |
-|----|----|
-| `render(width)` | Return array of strings (one per line). Each line **must not exceed `width`**. |
-| `handleInput?(data)` | Receive keyboard input when component has focus. |
-| `wantsKeyRelease?` | If true, component receives key release events (Kitty protocol). Default: false. |
-| `invalidate()` | Clear cached render state. Called on theme changes. |
+| Method               | Description                                                                      |
+|----------------------|----------------------------------------------------------------------------------|
+| `render(width)`      | Return array of strings (one per line). Each line **must not exceed `width`**.   |
+| `handleInput?(data)` | Receive keyboard input when component has focus.                                 |
+| `wantsKeyRelease?`   | If true, component receives key release events (Kitty protocol). Default: false. |
+| `invalidate()`       | Clear cached render state. Called on theme changes.                              |
 
 The TUI appends a full SGR reset and OSC 8 reset at the end of each rendered line. Styles do not carry across lines. If you emit multi-line text with styling, reapply styles per line or use `wrapTextWithAnsi()` so styles are preserved for each wrapped line.
 
@@ -532,18 +532,18 @@ renderResult(result, options, theme, context) {
 
 **Foreground colors** (`theme.fg(color, text)`):
 
-| Category | Colors |
-|----|----|
-| General | `text`, `accent`, `muted`, `dim`, `searchMatchText` |
-| Status | `success`, `error`, `warning` |
-| Borders | `border`, `borderAccent`, `borderMuted` |
-| Messages | `userMessageText`, `customMessageText`, `customMessageLabel` |
-| Tools | `toolTitle`, `toolOutput` |
-| Diffs | `toolDiffAdded`, `toolDiffRemoved`, `toolDiffContext` |
-| Markdown | `mdHeading`, `mdLink`, `mdLinkUrl`, `mdCode`, `mdCodeBlock`, `mdCodeBlockBorder`, `mdQuote`, `mdQuoteBorder`, `mdHr`, `mdListBullet` |
-| Syntax | `syntaxComment`, `syntaxKeyword`, `syntaxFunction`, `syntaxVariable`, `syntaxString`, `syntaxNumber`, `syntaxType`, `syntaxOperator`, `syntaxPunctuation` |
-| Thinking | `thinkingOff`, `thinkingMinimal`, `thinkingLow`, `thinkingMedium`, `thinkingHigh`, `thinkingXhigh`, `thinkingMax` |
-| Modes | `bashMode` |
+| Category | Colors                                                                                                                                                    |
+|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| General  | `text`, `accent`, `muted`, `dim`, `searchMatchText`                                                                                                       |
+| Status   | `success`, `error`, `warning`                                                                                                                             |
+| Borders  | `border`, `borderAccent`, `borderMuted`                                                                                                                   |
+| Messages | `userMessageText`, `customMessageText`, `customMessageLabel`                                                                                              |
+| Tools    | `toolTitle`, `toolOutput`                                                                                                                                 |
+| Diffs    | `toolDiffAdded`, `toolDiffRemoved`, `toolDiffContext`                                                                                                     |
+| Markdown | `mdHeading`, `mdLink`, `mdLinkUrl`, `mdCode`, `mdCodeBlock`, `mdCodeBlockBorder`, `mdQuote`, `mdQuoteBorder`, `mdHr`, `mdListBullet`                      |
+| Syntax   | `syntaxComment`, `syntaxKeyword`, `syntaxFunction`, `syntaxVariable`, `syntaxString`, `syntaxNumber`, `syntaxType`, `syntaxOperator`, `syntaxPunctuation` |
+| Thinking | `thinkingOff`, `thinkingMinimal`, `thinkingLow`, `thinkingMedium`, `thinkingHigh`, `thinkingXhigh`, `thinkingMax`                                         |
+| Modes    | `bashMode`                                                                                                                                                |
 
 **Background colors** (`theme.bg(color, text)`):
 

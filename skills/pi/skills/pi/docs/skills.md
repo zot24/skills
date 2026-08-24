@@ -198,15 +198,15 @@ See [the reference guide](references/REFERENCE.md) for details.
 
 Per the [Agent Skills specification](https://agentskills.io/specification#frontmatter-required):
 
-| Field | Required | Description |
-|----|----|----|
-| `name` | Yes | Max 64 chars. Lowercase a-z, 0-9, hyphens. Unlike the standard, Pi does not require this to match the parent directory because that standard requirement is suboptimal for shared skill directories. |
-| `description` | Yes | Max 1024 chars. What the skill does and when to use it. |
-| `license` | No | License name or reference to bundled file. |
-| `compatibility` | No | Max 500 chars. Environment requirements. |
-| `metadata` | No | Arbitrary key-value mapping. |
-| `allowed-tools` | No | Space-delimited list of pre-approved tools (experimental). |
-| `disable-model-invocation` | No | When `true`, skill is hidden from system prompt. Users must use `/skill:name`. |
+| Field                      | Required | Description                                                                                                                                                                                          |
+|----------------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `name`                     | Yes      | Max 64 chars. Lowercase a-z, 0-9, hyphens. Unlike the standard, Pi does not require this to match the parent directory because that standard requirement is suboptimal for shared skill directories. |
+| `description`              | Yes      | Max 1024 chars. What the skill does and when to use it.                                                                                                                                              |
+| `license`                  | No       | License name or reference to bundled file.                                                                                                                                                           |
+| `compatibility`            | No       | Max 500 chars. Environment requirements.                                                                                                                                                             |
+| `metadata`                 | No       | Arbitrary key-value mapping.                                                                                                                                                                         |
+| `allowed-tools`            | No       | Space-delimited list of pre-approved tools (experimental).                                                                                                                                           |
+| `disable-model-invocation` | No       | When `true`, skill is hidden from system prompt. Users must use `/skill:name`.                                                                                                                       |
 
 
 ### Name Rules

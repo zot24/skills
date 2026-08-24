@@ -41,11 +41,11 @@ There are two general options. You can either
 <a href="#choose-a-pattern" class="heading-anchor" aria-label="Permalink: Choose a pattern" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#choose-a-pattern"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Pattern | What is isolated | Best for | Notes |
-|----|----|----|----|
-| Gondolin extension | Built-in tools and `!` commands | Local micro-VM isolation while keeping auth on host | See [`examples/extensions/gondolin/`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/gondolin). |
-| Plain Docker | Whole `pi` process in a local container | Simple local isolation | Provider API keys enter the container. |
-| OpenShell | Whole `pi` process in a policy-controlled sandbox | Local or remote managed sandbox | Requires an OpenShell gateway |
+| Pattern            | What is isolated                                  | Best for                                            | Notes                                                                                                                                     |
+|--------------------|---------------------------------------------------|-----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Gondolin extension | Built-in tools and `!` commands                   | Local micro-VM isolation while keeping auth on host | See [`examples/extensions/gondolin/`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/gondolin). |
+| Plain Docker       | Whole `pi` process in a local container           | Simple local isolation                              | Provider API keys enter the container.                                                                                                    |
+| OpenShell          | Whole `pi` process in a policy-controlled sandbox | Local or remote managed sandbox                     | Requires an OpenShell gateway                                                                                                             |
 
 Extensions run wherever the `pi` process runs. If you run host `pi` with a tool-routing extension, other custom extension tools still run on the host unless they also delegate their operations.
 
