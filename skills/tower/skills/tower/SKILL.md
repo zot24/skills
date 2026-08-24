@@ -48,7 +48,7 @@ node scripts/gate-check.mjs --status /abs/gates/thing.md       # exit 0 or it is
 
 ## Core Concepts
 
-- **The loop.** Write spec → prompt a pane → start the watch → **stop analysing in this chat** → marker lands → verify → reconvene with one table of every agent, tab, and run. The tower's jobs are specs, launch, land-check, watch, verify, report. It does not do the work.
+- **The loop.** Write spec → prompt a pane → start the watch → **stop analysing in this chat** → marker lands → verify → reconvene with the fleet table of every agent, tab, and run. The tower's jobs are specs, launch, land-check, watch, verify, report. It does not do the work.
 - **Three grades, preserved upward.** Every load-bearing claim is VERIFIED / INFERRED / NOT DETERMINED. Collapsing the last two is how a gap ships as a conclusion. A report where nothing is ever NOT DETERMINED had a spec that was too loose.
 - **Live work is a graph, not a chat.** A new owner ask may add a node or defer one in writing; it never drops a live one. See [work graph](docs/work-graph.md).
 

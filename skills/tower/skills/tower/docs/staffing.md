@@ -31,10 +31,10 @@ tower → PM
 are overhead on a task with one deliverable and one marker.
 
 **An already-staffed space is different.** If at least one standing seat (PM, mentor, or scout)
-is already live, start any missing *required* seats, then prompt the PM. An open space with no
-standing seats is still a one-shot: one worker. Do not spawn PM + mentor + scout on every
-one-shot, and do not treat “the space exists” as a roster. Standing seats already up stay up.
-Optional rows still wait for `when` (`decision` / `pr` / `user_facing` / `task`).
+is already live, start any seat the spec's staff plan marks `required`, then prompt the PM. An
+open space with no standing seats is still a one-shot: one worker. Do not spawn PM + mentor +
+scout on every one-shot, and do not treat “the space exists” as a roster. Standing seats already
+up stay up. Optional rows still wait for `when` (`decision` / `pr` / `user_facing` / `task`).
 
 A spec that names `herdr agent prompt` for mentor and scout is a loop. Prose "mentor reviews"
 is not a loop.

@@ -4,8 +4,15 @@ The dispatch protocol is how a *job* runs. This file is how a *session* starts, 
 catalogued, and how the owner is reconvened. SKILL.md names the four steps; this file is the
 ritual.
 
-Generic names: **status board**, **live map**, **work graph file**, **pin file**, **owner queue**.
-Instance bins, MCP tool names, and house paths stay out of this skill.
+Generic names (instance bins and MCP tool names stay out of this skill):
+
+- **status board** — the entitled kinds, models, pins, and dispatch blockers for this tower
+- **live map** — who is actually alive in herdr right now, plus which markers exist on disk
+- **work graph file** — the graph of live threads (see [work graph](work-graph.md))
+- **pin file** — which kind and model each named seat is supposed to run
+- **owner queue** — decisions only a human can make (see [work graph](work-graph.md))
+- **queue head** — the first owner-queue item, ranked by age and cost of deciding
+- **entitled kinds/models** — kinds and models this tower is allowed to start; missing means the pin names a kind that is not installed
 
 ## Session start / status
 
@@ -23,9 +30,8 @@ That summary is the conversation until the owner asks for catalog or dispatch.
 
 Completion: entitled vs missing named.
 
-Same board, entitlement focus. Name every pin slot whose kind is missing. Do not hit market
-feeds unless the board cannot answer. Freshness results, if used at all, join back to the board
-before they change a dispatch.
+Same board, entitlement focus. Name every pin slot whose kind is missing. Do not go outside the
+board unless the board cannot answer.
 
 ## Unpaid ask
 
