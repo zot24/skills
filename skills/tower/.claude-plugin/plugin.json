@@ -11,7 +11,8 @@
     "verification",
     "gate-check",
     "completion-marker",
-    "definition-of-done"
+    "definition-of-done",
+    "auto-wiki"
   ],
   "author": {
     "name": "zot24",

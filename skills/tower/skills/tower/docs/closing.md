@@ -11,6 +11,12 @@ A pane created for a single task — an audit, a QA run, a census — is finishe
 file exists and its deliverable has been read and verified**. Close it then. Leaving it is not
 free: an idle pane with a stale label reads as live work.
 
+**Read the pane record before any close.** Untitled, idle, or working is not evidence the pane
+is leftover. Before `herdr pane close` or `herdr workspace close`, read: label,
+`terminal_title`, agent name, `agent_session`, last `state_change_seq`, and any file that
+pane wrote. Owner research and unnamed sessions stay. A live session id is a keep. Closing
+without that read is a tower failure. Index: [herdr-fleet](herdr-fleet.md).
+
 ```bash
 herdr pane close <pane_id>
 herdr tab close <tab_id>        # a one-shot tab: its worktree task is done and merged/abandoned

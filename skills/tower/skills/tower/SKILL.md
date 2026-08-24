@@ -1,6 +1,6 @@
 ---
 name: tower
-description: Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Includes acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored checker, so a completion marker carries proof and "done" is an exit code instead of a claim. Use when operating or staffing a herdr fleet, writing a delegation spec, deciding whether an agent is finished, writing acceptance criteria, or verifying a delivered job. Use at session start; when the user asks for status, catalog, an unpaid ask, or to reconvene; when choosing a plane; when escalating, handing off, or seating a write on a worktree. Triggers on herdr, control tower, tower, fleet, agent pane, marker, land-check, idle vs done, definition of done, gates file, gate-check, GATES.md, MARKER_OK, CHECK/EXPECT, unlazy, session start, catalog, unpaid ask, reconvene, planes, escalate, handoff, worktree.
+description: Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Includes acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored checker, so a completion marker carries proof and "done" is an exit code instead of a claim. Use when operating or staffing a herdr fleet, writing a delegation spec, deciding whether an agent is finished, writing acceptance criteria, or verifying a delivered job. Use at session start; when the user asks for status, catalog, an unpaid ask, or to reconvene; when choosing a plane; when escalating, handing off, or seating a write on a worktree. Triggers on herdr, control tower, tower, fleet, agent pane, marker, land-check, idle vs done, definition of done, gates file, gate-check, GATES.md, MARKER_OK, CHECK/EXPECT, unlazy, session start, catalog, unpaid ask, reconvene, planes, escalate, handoff, worktree, auto-wiki.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
@@ -21,6 +21,7 @@ herdr itself teaches the CLI — see [herdr's own skill](docs/herdr-skill-upstre
 - **Start only the seats the task requires.** The role menu is not a standing orchestra.
 - **A gate that cannot fail is not a gate.** Every spec names a gates file; done means the checker exits 0.
 - **Planes.** herdr is the default for project work. Inline is one cheap fact to fill the spec. Other runners are instance config, not this skill. See [dispatch](docs/dispatch.md).
+- **Auto-wiki.** A hook on `main` calls `scripts/auto-wiki.py`. It rewrites high-level wiki pages from the git diff. It does not paste the source. See [auto-wiki](docs/auto-wiki.md).
 
 ## Quick Start
 
@@ -88,13 +89,20 @@ Done means `gate-check.mjs --status <gates>` exits **0**. An empty `touch` marke
 
 ## Documentation
 
-- **[Operating loop](docs/operating-loop.md)** — Session start, catalog, unpaid ask, reconvene, Escalate, Handoff, and closeout
+House leftovers folded here (not six plugins): `herdr-fleet`, `work-graph`, `space-loop`, `reconvene-table`, `verify-deliverable`, `model-router`, plus **auto-wiki**.
+
+- **[Operating loop](docs/operating-loop.md)** — Session start, catalog, unpaid ask, reconvene, Escalate, Handoff, closeout, and the reconvene-table PR verb list
 - **[Dispatch](docs/dispatch.md)** — planes, the spec file, the eight-step delegation protocol, and the three spec-writing failures
 - **[Watch & poke](docs/watch-and-poke.md)** — why idle ≠ done, marker polling, the land-check, and how to verify a deliverable independently
+- **[verify-deliverable](docs/verify-deliverable.md)** — seven-step re-check; verdict pass / partial / fail
 - **[Staffing](docs/staffing.md)** — the role graph, required vs optional seats, kinds/models/effort, chain of command, and time-boxing an autonomous loop
+- **[space-loop](docs/space-loop.md)** — Loop block in every PM spec; tower never prompts scout/mentor when a PM is live
+- **[herdr-fleet](docs/herdr-fleet.md)** — fleet index, `agent read`, pane-record-before-close
+- **[model-router](docs/model-router.md)** — board-first RoutingDecision; pin ∩ entitled
 - **[Layout](docs/layout.md)** — worktree as the default implement seat, thread in the agent name, pane labels, and why an extra tab means an extra worktree
 - **[Closing](docs/closing.md)** — retiring agents, closing one-shot panes, when a workspace may close, and reloading a plugin without killing a space
 - **[Work graph](docs/work-graph.md)** — work graph file, unpaid ask, node states, and typed edges
+- **[auto-wiki](docs/auto-wiki.md)** — rewrite wiki pages from a git diff; hook calls this package's script
 - **[Pitfalls](docs/pitfalls.md)** — the failure catalogue, each with what it actually cost
 - **[CLI reference](docs/cli-reference.md)** — the herdr surface a tower uses, verified against v0.7.5
 - **[Gate format](docs/gate-format.md)** — the file shape, `CHECK` / `EXPECT` / `EVIDENCE`, `ABANDON`, and how to write a gate that means something
@@ -114,6 +122,7 @@ Done means `gate-check.mjs --status <gates>` exits **0**. An empty `touch` marke
 
 - `scripts/tower-watch.sh`, `scripts/tower-poke.sh` — the watch/poke loop. Point at a tower root with `TOWER_ROOT`; both are read-only against product repos.
 - `scripts/gate-check.mjs` — the acceptance checker. Vendored from Leonxlnx/unlazy (MIT), zero dependencies, Node 16+. Keep the attribution header and [LICENSE.unlazy](LICENSE.unlazy) together; re-vendor by hand per [boundaries](docs/boundaries.md).
+- `scripts/auto-wiki.py` — rewrite high-level wiki pages from a git diff. Consumer hook calls this file. Not a copier.
 
 ## Upstream Sources
 

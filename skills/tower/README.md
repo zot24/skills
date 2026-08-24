@@ -13,6 +13,9 @@ agents, including the acceptance gates that decide when a job is done.
 - Gates: a gates file of `CHECK` / `EXPECT` / `EVIDENCE` outcomes verified by the vendored
   zero-dependency checker `scripts/gate-check.mjs` (from Leonxlnx/unlazy, MIT).
   Done = exit 0. An empty marker is never done.
+- Auto-wiki: `scripts/auto-wiki.py` plus `docs/auto-wiki.md` live in this package. A consumer
+  hook calls that script. It rewrites a high-level page from the git diff. It does not paste
+  the source file.
 
 Merged from the former `herdr-tower` and `tower-gates` skills (v1.1.x) — same content,
 one seat, one name.

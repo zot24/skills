@@ -105,8 +105,9 @@ covered. *"Ran the happy path on local, did not test the duplicate-email case"* 
 - The **tower** prompts the PM, and holds the money gate: only the human authorises anything that
   spends budget or is irreversible or outward-facing. Everything in that class goes to the owner
   queue and the loop continues on whatever else is unblocked.
-- If a **PM pane is already live**, the tower prompts that PM — never a worker. The PM prompts
-  mentor and scout. Two agents prompting one developer still duplicates work.
+- If a **PM pane is already live**, the tower prompts that PM — never a worker, and **never
+  scout or mentor**. The PM prompts mentor and scout. Two agents prompting one developer still
+  duplicates work. The inner circuit is [space-loop](space-loop.md).
 
 ## Lessons this table encodes
 

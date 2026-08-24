@@ -77,7 +77,22 @@ The fleet table (every live agent, tab, pane, run) still belongs in the dispatch
 reconvene. Do not collapse them.
 
 When a PR is the click, run `gh pr view N --json number,title,state,mergedAt,url` this turn.
-If `state` is `MERGED`, the You cell is `—`. A work graph file is not evidence of GitHub state.
+If `state` is `MERGED`, the You cell is `—` and the PR-list verb is `merged`. A work graph
+file is not evidence of GitHub state.
+
+## PRs (when any PR is the click)
+
+A second small list under the table, one line each. Folded from the former house skill
+`reconvene-table`.
+
+```
+PRs
+  merge   #5     restore jobs          https://github.com/org/repo/pull/5
+  then    #6     stacked on #5         https://github.com/org/repo/pull/6
+  hold    #1097  spike                 DO NOT MERGE
+```
+
+Never dump ten URLs without a verb (`merge` / `then` / `hold` / `review` / `closed` / `merged`).
 
 ## Escalate
 
