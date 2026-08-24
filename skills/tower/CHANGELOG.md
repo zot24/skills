@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/zot24/skills/compare/tower-v3.0.0...tower-v3.1.0) (2026-08-24)
+
+
+### Features
+
+* **tower:** add escalate and handoff pointers; worktree default seat ([#208](https://github.com/zot24/skills/issues/208)) ([3749d56](https://github.com/zot24/skills/commit/3749d5609783823f69f46772a4cb9773cdbf3212))
+
 ## [3.0.0](https://github.com/zot24/skills/compare/tower-v2.0.0...tower-v3.0.0) (2026-08-24)
 
 
