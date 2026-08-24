@@ -1,6 +1,6 @@
 ---
 name: tower
-description: Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Includes acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored checker, so a completion marker carries proof and "done" is an exit code instead of a claim. Use when operating or staffing a herdr fleet, writing a delegation spec, deciding whether an agent is finished, writing acceptance criteria, or verifying a delivered job. Use at session start; when the user asks for status, catalog, an unpaid ask, or to reconvene; when choosing a plane. Triggers on herdr, control tower, tower, fleet, agent pane, marker, land-check, poke, watch the marker, idle vs done, delegation spec, staffing, completion marker, marker file, .done file, mark the job done, report ready, definition of done, GATES.md, gates file, gate table, gate-check, MARKER_OK, EVIDENCE pending, CHECK/EXPECT, unlazy, session start, catalog, unpaid ask, reconvene, planes.
+description: Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Includes acceptance gates — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored checker, so a completion marker carries proof and "done" is an exit code instead of a claim. Use when operating or staffing a herdr fleet, writing a delegation spec, deciding whether an agent is finished, writing acceptance criteria, or verifying a delivered job. Use at session start; when the user asks for status, catalog, an unpaid ask, or to reconvene; when choosing a plane; when escalating, handing off, or seating a write on a worktree. Triggers on herdr, control tower, tower, fleet, agent pane, marker, land-check, poke, watch the marker, idle vs done, delegation spec, staffing, completion marker, marker file, .done file, mark the job done, report ready, definition of done, GATES.md, gates file, gate table, gate-check, MARKER_OK, EVIDENCE pending, CHECK/EXPECT, unlazy, session start, catalog, unpaid ask, reconvene, planes, escalate, handoff, worktree, thread id, slug.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
@@ -16,7 +16,8 @@ herdr itself teaches the CLI — see [herdr's own skill](docs/herdr-skill-upstre
 - **A spec is a file, not a prompt.** Prompts get truncated and echoed; files do not. The prompt is one line pointing at the spec.
 - **Idle is not done.** Done is a named marker file on disk *plus* an independent re-check of the deliverable's central claim. Agent prose is say-so.
 - **Watch the marker, then poke.** A background poller waits on the marker path and prompts the tower when it lands. Never hook agent `idle`.
-- **Name every pane, and one tab per checkout.** An extra tab means an extra worktree and branch, never a second view of the same `main`.
+- **Worktree is the default implement seat.** Home stays on `main`. For a write, branch, or PR: `herdr worktree list`, then `open` or `create`. Start the seats the task requires on that worktree workspace. A worktree workspace with no live named seats is not staffed. See [layout](docs/layout.md).
+- **Thread in the name.** Agent `<slug>-<N>-<role>` (must match `[a-z][a-z0-9_-]{0,31}`; shorten the slug, not the thread id, if it would overflow). Pane `#<N> · <role> · <task>`. The `#` is the label, never the agent name. See [layout](docs/layout.md).
 - **Start only the seats the task requires.** The role menu is not a standing orchestra.
 - **A gate that cannot fail is not a gate.** Every spec names a gates file; done means the checker exits 0.
 - **Planes.** herdr is the default for project work. Inline is one cheap fact to fill the spec. Other runners are instance config, not this skill. See [dispatch](docs/dispatch.md).
@@ -29,10 +30,10 @@ test "${HERDR_ENV:-}" = 1                       # tower must live inside herdr
 # 1. spec on disk — it names the gates file for the job
 $EDITOR scratchpad/specs/2026-08-17-thing.md
 
-# 2. pane, labelled before the first prompt
+# 2. pane, labelled before the first prompt (cwd is the worktree; <N> is the thread id)
 herdr pane split --pane "$HERDR_PANE_ID" --direction right --ratio 0.42 --cwd ~/code/thing --no-focus
-herdr pane rename <new_pane_id> "builder · thing"
-herdr agent start builder --kind claude --pane <new_pane_id> -- --model opus
+herdr pane rename <new_pane_id> "#<N> · worker · thing"
+herdr agent start <slug>-<N>-worker --kind claude --pane <new_pane_id> -- --model opus
 
 # 3. dispatch, then land-check that it actually arrived
 herdr agent prompt builder "read the spec at /abs/specs/2026-08-17-thing.md and follow it exactly. \
@@ -61,6 +62,12 @@ The outer loop. Dispatch is the inner loop. Details: [operating loop](docs/opera
 3. **catalog.** Same board, entitlement focus. Name entitled vs missing kinds/models. Name pin slots whose kind is missing. Do not go outside the board unless the board cannot answer.
 4. **reconvene.** After a marker: verify, then one owner table (Project, Status, What is true, Wrong/gap, You). That is the conversation. Not a running commentary while panes work.
 
+On demand (not session-start steps):
+
+- **Escalate.** An item the tower cannot decide goes to the owner queue after re-verify, or is declined because it is already fixed. Details: [operating loop](docs/operating-loop.md).
+- **Handoff.** A handoff note is an output rewritten from live herdr and markers on disk. It is never a source of liveness. Details: [operating loop](docs/operating-loop.md).
+- **Closeout.** Route the deliverable into the project's knowledge base, or mark it ephemeral with a reason. Nothing auto-promotes. Details: [operating loop](docs/operating-loop.md).
+
 ## Acceptance gates
 
 Reuse **unlazy v2** enforcement via the vendored checker. Do not rebuild it. Do not run unlazy **orchestrated** mode inside a herdr fleet — the space PM owns dispatch.
@@ -81,11 +88,11 @@ Done means `gate-check.mjs --status <gates>` exits **0**. An empty `touch` marke
 
 ## Documentation
 
-- **[Operating loop](docs/operating-loop.md)** — Session start, catalog, unpaid ask, and the owner reconvene table
+- **[Operating loop](docs/operating-loop.md)** — Session start, catalog, unpaid ask, reconvene, Escalate, Handoff, and closeout
 - **[Dispatch](docs/dispatch.md)** — planes, the spec file, the eight-step delegation protocol, and the three spec-writing failures
 - **[Watch & poke](docs/watch-and-poke.md)** — why idle ≠ done, marker polling, the land-check, and how to verify a deliverable independently
 - **[Staffing](docs/staffing.md)** — the role graph, required vs optional seats, kinds/models/effort, chain of command, and time-boxing an autonomous loop
-- **[Layout](docs/layout.md)** — workspaces, tabs, panes, pane labels, and why an extra tab means an extra worktree
+- **[Layout](docs/layout.md)** — worktree as the default implement seat, thread in the agent name, pane labels, and why an extra tab means an extra worktree
 - **[Closing](docs/closing.md)** — retiring agents, closing one-shot panes, when a workspace may close, and reloading a plugin without killing a space
 - **[Work graph](docs/work-graph.md)** — work graph file, unpaid ask, node states, and typed edges
 - **[Pitfalls](docs/pitfalls.md)** — the failure catalogue, each with what it actually cost
@@ -99,8 +106,8 @@ Done means `gate-check.mjs --status <gates>` exits **0**. An empty `touch` marke
 ## Common Workflows
 
 - **Session start.** Work graph + live map + status board → one compact decision summary. Do not start agents. Then catalog, or dispatch.
-- **Dispatch one task.** Spec file (naming its gates) → split + rename pane → `agent start` → `agent prompt` → land-check `working` → `tower-watch.sh start` → on `MARKER_OK`, read the deliverable, re-check its central claim against `gh`, the disk, or the DB yourself, and re-run `gate-check.mjs --status` for exit 0.
-- **Stand up a project workspace.** Start the required seats only (usually PM + mentor + one worker), one tab, roles as splits, every pane labelled `role · what it is doing`. Add reviewer when there is a mergeable diff, QA when a human will click it.
+- **Dispatch one task.** Spec file (naming its gates) → worktree workspace (not home `main`) → split + rename pane → `agent start` → `agent prompt` → land-check `working` → `tower-watch.sh start` → on `MARKER_OK`, read the deliverable, re-check its central claim against `gh`, the disk, or the DB yourself, and re-run `gate-check.mjs --status` for exit 0.
+- **Stand up a project workspace.** Start the required seats only (usually PM + mentor + one worker), one tab, roles as splits, every pane labelled `#<N> · <role> · <task>`. Add reviewer when there is a mergeable diff, QA when a human will click it.
 - **Split investigate-and-change.** Phase A is read-only and ends in `STOP`; the owner decides; Phase B is released separately. Discover-and-fix in one uninterrupted run is how an agent fixes the wrong thing confidently.
 
 ## Scripts

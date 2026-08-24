@@ -85,6 +85,12 @@ An item the tower cannot decide goes to the owner queue after re-verify, or is d
 it is already fixed. Carry age, cost of deciding, VERIFIED date, and the check performed.
 Rules: [work graph](work-graph.md).
 
+## Handoff
+
+A handoff or session-summary note, if this instance keeps one, is an **output**: rewrite it from
+live herdr and the markers on disk, never from the previous note. It is never an input — no
+session-start step may read it in place of live state, and its filename is instance config.
+
 ## Closeout
 
 A report that exists only under `reports/` has taught the system nothing. Route it into the

@@ -15,15 +15,20 @@ tower → PM
 
 | Seat | Start it when | Kind / model | Effort |
 |---|---|---|---|
-| **PM** (`<project>-pm`) | sustained multi-cycle work | claude opus | high |
-| **Mentor** (`<project>-mentor`) | sustained multi-cycle work | claude opus | high |
-| **Worker — judgement** | there is a task | claude opus | high |
-| **Worker — bulk** | mechanical: rebase, census apply, codemod | kimi `--auto` | medium (no CLI effort flag) |
-| **Adversary** (`<project>-adversary`) | an open design or ADR | grok-4.6, ≠ mentor kind | high |
-| **Reviewer** (`<project>-reviewer`) | a PR or mergeable diff exists | grok-4.6, ≠ author kind | high |
-| **Scout** | read-only code or GitHub census | grok-4.6 | medium |
-| **QA** (`<project>-qa`) | a human will click it, or data moves | pi + grok-4.6 | low |
+| **PM** (`<slug>-<N>-pm`) | sustained multi-cycle work | claude opus | high |
+| **Mentor** (`<slug>-<N>-mentor`) | sustained multi-cycle work | claude opus | high |
+| **Worker — judgement** (`<slug>-<N>-worker`) | there is a task | claude opus | high |
+| **Worker — bulk** (`<slug>-<N>-bulk`) | mechanical: rebase, census apply, codemod | kimi `--auto` | medium (no CLI effort flag) |
+| **Adversary** (`<slug>-<N>-adversary`) | an open design or ADR | grok-4.6, ≠ mentor kind | high |
+| **Reviewer** (`<slug>-<N>-reviewer`) | a PR or mergeable diff exists | grok-4.6, ≠ author kind | high |
+| **Scout** (`<slug>-<N>-scout`) | read-only code or GitHub census | grok-4.6 | medium |
+| **QA** (`<slug>-<N>-qa`) | a human will click it, or data moves | pi + grok-4.6 | low |
 | **Tower brain** | this session | any strong judgement model | high |
+
+Agent names are `<slug>-<N>-<role>` and must match `[a-z][a-z0-9_-]{0,31}` and be unique among
+live agents. Put `#<N>` in the pane label, not the agent name. If the name would overflow,
+shorten the slug, not the thread id. Do not rename a `working` or `blocked` agent to fit this
+pattern; next seats only.
 
 `xhigh` / `max` effort only when the owner asks for it.
 

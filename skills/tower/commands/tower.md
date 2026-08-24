@@ -11,7 +11,11 @@ Parse the arguments to determine the action:
 | `status` | Session start: work graph, live map, fleet / queue / entitlement; do not start agents |
 | `catalog` | Entitled vs missing kinds/models from the status board |
 | `reconvene` | After a marker: verify, then one owner table |
+| `escalate` | Owner-queue item after re-verify, or decline because already fixed |
+| `handoff` | Rewrite a session snapshot from live herdr + markers; a handoff note is not live state |
 | `planes` | herdr default vs inline glue; do not invent instance runners |
+| `worktree` | Default implement seat: list, then open or create; start required seats there; empty worktree workspace is not staffed |
+| `name` | Agent `<slug>-<N>-<role>`; pane `#<N> · <role> · <task>`; `#` is the label |
 | `dispatch` | Write a spec file (naming its gates), split and label a pane, start an agent, land-check the prompt |
 | `spec` | What a delegation spec must contain, and the three spec-writing failures |
 | `watch` | Start/stop/inspect a marker watch; why idle ≠ done |

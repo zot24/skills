@@ -51,6 +51,27 @@ Two agents editing one checkout on two branches is how a fleet loses work: one a
 `git checkout` silently rewrites the other's working tree mid-edit. The worktree is not
 ceremony, it is the isolation.
 
+## Worktree is the default implement seat
+
+Home workspace stays on `main`. Every write, branch, or PR starts with
+`herdr worktree list`, then `open` or `create`. Start the seats the staffing
+plan requires on **that worktree workspace**, not on home. A worktree
+workspace with no live named agent is not staffed: open it and start seats,
+or remove it. Do not dispatch the job on home because the checkout exists.
+
+This is not a completion signal. `unknown` still does not mean done; see
+[watch & poke](watch-and-poke.md). Empty shells are still layout debt; see
+[closing](closing.md).
+
+```bash
+herdr worktree list
+herdr worktree create ...    # no worktree for this branch yet
+herdr worktree open   ...    # checkout exists; workspace empty or unfocused
+```
+
+One-shot remains one worker ([staffing](staffing.md)). Creating a worktree
+does not spawn PM, mentor, scout, and adversary.
+
 ## Pane layout inside a tab
 
 Developers on top, supervision beneath, so a human watches work and review side by side.
@@ -83,20 +104,22 @@ Always `--no-focus` for background work. The human's focus is theirs.
 answers "what is this fleet working on".
 
 ```bash
-herdr pane rename wX:p1 "dev · lead-convert audit"
-herdr pane rename wX:p3 "mentor · reviews both"
-herdr pane rename wX:p5 "🗼 tower"
+herdr pane rename wX:p1 "#51 · dev · lead-convert audit"
+herdr pane rename wX:p3 "#51 · mentor · reviews both"
+herdr pane rename wX:p5 "tower"
 ```
 
-Format: `role · what it is doing`, with the kind appended when it is not the default
-(`dev·k3`, `dev·grok`). Keep it short enough to survive a narrow pane.
+Format: `#<N> · <role> · <task>`, with the kind appended when it is not the default
+(`dev·k3`, `dev·grok`). `<N>` is the thread id. Keep it short enough to survive a narrow pane.
 
 **Relabelling is part of dispatching work**, done by whoever hands the agent its new task — the
 mentor releasing a cycle, the tower re-tasking a warm agent. A pane still carrying last week's
 label is worse than a blank one, because it is confidently wrong.
 
-Agent names are a separate namespace: `[a-z][a-z0-9_-]{0,31}`, unique among live agents. A name
+Agent names are a separate namespace: `<slug>-<N>-<role>`, matching `[a-z][a-z0-9_-]{0,31}`,
+unique among live agents. The `#` stays in the pane label, never the agent name. A name
 follows the current pane occupant and is cleared when that agent exits or is replaced.
+Seat table: [staffing](staffing.md).
 
 ## Don't
 
