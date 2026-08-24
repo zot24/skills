@@ -27,7 +27,7 @@ Parse the arguments to determine the action:
 2. Read the matching file in `${CLAUDE_PLUGIN_ROOT}/skills/pi/docs/` — the **section** named by the package table, not the whole file. For `extensions.md`, use ToC + grep. Size warning on `extensions.md`, `rpc.md`, `sdk.md`, `tui.md`.
 3. Open a local clone of `https://github.com/earendil-works/pi`. Change the package path in that clone.
 4. For **sync**: fetch latest from pi.dev / GitHub and update `docs/` via `.github/workflows/scripts/sync-skill.sh skills/pi`
-5. For **diff**: compare current `docs/` vs upstream (same script, no `--force`)
+5. For **diff**: compare current `docs/` vs upstream with `.github/workflows/scripts/sync-skill.sh skills/pi --dry-run`
 
 ## Quick Reference
 
