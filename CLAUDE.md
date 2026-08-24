@@ -18,6 +18,7 @@ skills/
 │       ├── release-please.yml
 │       ├── sync-docs.yml            # Scheduled sync workflow (all skills)
 │       ├── sync-hermes-on-release.yml
+│       ├── sync-pi-on-release.yml
 │       └── sync-marketplace.yml
 ├── skills/
 │   ├── umbrel-app/           # Umbrel app development

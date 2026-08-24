@@ -1,0 +1,215 @@
+name: Sync Pi on New Release
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Check every 6 hours
+
+  repository_dispatch:
+    types: [pi-release]
+
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force sync regardless of release version'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-and-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check for new release
+        id: check
+        env:
+          # Authenticate to avoid the 60/hr unauthenticated rate limit on shared runners.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Fetch latest release from earendil-works/pi. Use gh API which auto-authenticates
+          # and returns a non-zero exit if the endpoint 404s (no published release yet).
+          LATEST=$(gh api repos/earendil-works/pi/releases/latest --jq '.tag_name // empty' 2>/dev/null || true)
+
+          if [ -z "$LATEST" ]; then
+            echo "No release found, checking tags..."
+            # gh api returns a JSON array; guard against non-array responses (errors, empty repos).
+            TAGS_JSON=$(gh api repos/earendil-works/pi/tags 2>/dev/null || echo '[]')
+            if echo "$TAGS_JSON" | jq -e 'type == "array"' >/dev/null 2>&1; then
+              LATEST=$(echo "$TAGS_JSON" | jq -r '.[0].name // empty')
+            else
+              echo "Tags endpoint did not return an array — skipping"
+            fi
+          fi
+
+          # Reject tag names that aren't plain version-ish strings — they get
+          # interpolated into later shell steps and PR fields.
+          if [ -n "$LATEST" ] && ! echo "$LATEST" | grep -qE '^[A-Za-z0-9._-]+$'; then
+            echo "::error::Upstream tag name has unexpected characters: refusing to process"
+            exit 1
+          fi
+
+          if [ -z "$LATEST" ]; then
+            echo "No releases or tags found"
+            echo "has_new=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Latest upstream version: $LATEST"
+          echo "version=$LATEST" >> $GITHUB_OUTPUT
+
+          # Force mode skips version check
+          if [ "${{ inputs.force }}" == "true" ]; then
+            echo "Force mode — syncing regardless"
+            echo "has_new=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "has_new=true" >> $GITHUB_OUTPUT
+
+      - name: Checkout repository
+        if: steps.check.outputs.has_new == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if already synced
+        if: steps.check.outputs.has_new == 'true'
+        id: version
+        env:
+          VERSION: ${{ steps.check.outputs.version }}
+        run: |
+          MARKER_FILE="skills/pi/.last-synced-release"
+
+          if [ -f "$MARKER_FILE" ] && [ "$(cat "$MARKER_FILE")" == "$VERSION" ]; then
+            echo "Already synced for $VERSION"
+            echo "needs_sync=false" >> $GITHUB_OUTPUT
+          else
+            echo "New release detected: $VERSION"
+            echo "needs_sync=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install dependencies
+        if: steps.version.outputs.needs_sync == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq curl pandoc
+
+      - name: Setup Git
+        if: steps.version.outputs.needs_sync == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Discover new docs pages
+        if: steps.version.outputs.needs_sync == 'true'
+        run: |
+          if [ -f "skills/pi/discover-pages.sh" ]; then
+            chmod +x skills/pi/discover-pages.sh
+            skills/pi/discover-pages.sh --auto-add || echo "::warning::Discovery failed"
+          fi
+
+      - name: Sync pi docs
+        if: steps.version.outputs.needs_sync == 'true'
+        id: sync
+        run: |
+          chmod +x .github/workflows/scripts/sync-skill.sh
+
+          # Run sync, capture output. Don't fail the step if some sources fail —
+          # the script uses set -euo pipefail internally and may exit non-zero
+          # if individual sources have issues (e.g. transient 5xx).
+          set +e
+          OUTPUT=$(.github/workflows/scripts/sync-skill.sh skills/pi --force 2>&1)
+          SYNC_EXIT=$?
+          set -e
+
+          echo "$OUTPUT"
+
+          if [ "$SYNC_EXIT" -ne 0 ]; then
+            echo "::warning::Sync script exited with code $SYNC_EXIT"
+          fi
+
+          if git diff --quiet skills/pi/; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Record synced release
+        if: steps.sync.outputs.has_changes == 'true'
+        env:
+          VERSION: ${{ steps.check.outputs.version }}
+        run: |
+          echo "$VERSION" > skills/pi/.last-synced-release
+
+      - name: Create branch and commit
+        if: steps.sync.outputs.has_changes == 'true'
+        id: branch
+        env:
+          VERSION: ${{ steps.check.outputs.version }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          BRANCH_NAME="sync/pi-${VERSION}"
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+          # Clean up stale remote branch from a previous failed run
+          git push origin --delete "$BRANCH_NAME" 2>/dev/null || true
+
+          git checkout -b "$BRANCH_NAME"
+          git add skills/pi/
+          git commit -m "fix(pi): sync for upstream release ${VERSION}
+
+          Triggered by new release of earendil-works/pi ${VERSION}.
+          Run ID: ${RUN_ID}"
+
+          git push origin "$BRANCH_NAME"
+
+      - name: Create Pull Request
+        if: steps.branch.outputs.branch != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.check.outputs.version }}
+          BRANCH_NAME: ${{ steps.branch.outputs.branch }}
+        run: |
+          gh pr create \
+            --title "fix(pi): sync for upstream release ${VERSION}" \
+            --body "## Summary
+          Automated sync triggered by new release of [pi ${VERSION}](https://github.com/earendil-works/pi/releases/tag/${VERSION}).
+          - Ran page discovery to catch any new docs pages
+          - Force-synced all pi documentation from upstream
+          ---
+          *This PR was automatically generated by the pi release sync workflow.*" \
+            --label "documentation,automated" \
+            --base main \
+            --head "$BRANCH_NAME"
+
+      - name: Add pi label
+        if: steps.branch.outputs.branch != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_NAME: ${{ steps.branch.outputs.branch }}
+        continue-on-error: true
+        run: |
+          PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '.[0].number')
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr edit "$PR_NUMBER" --add-label "pi" 2>/dev/null || true
+          fi
+
+      - name: Enable auto-merge
+        if: steps.branch.outputs.branch != ''
+        env:
+          # Use PAT so the auto-merge push triggers downstream workflows
+          # (release-please, sync-marketplace). GITHUB_TOKEN-driven pushes
+          # are suppressed by GitHub's anti-recursion safeguard.
+          GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
+          BRANCH_NAME: ${{ steps.branch.outputs.branch }}
+        run: |
+          PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '.[0].number')
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
+            echo "Auto-merge enabled for PR #$PR_NUMBER (branch will be deleted)"
+          fi

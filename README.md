@@ -838,6 +838,7 @@ skills/
 │       ├── release-please.yml       # Automated releases
 │       ├── sync-docs.yml            # Scheduled sync workflow
 │       ├── sync-hermes-on-release.yml
+│       ├── sync-pi-on-release.yml
 │       ├── sync-marketplace.yml
 │       └── validate.yml             # CI validation
 ├── skills/
