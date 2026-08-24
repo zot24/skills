@@ -111,8 +111,10 @@ for (const file of files) {
   const lines = text.split(/\r?\n/);
   const { gates, abandoned } = parse(lines);
   if (!gates.length) {
-    console.log(`${file}: no gates found`);
-    continue;
+    // A gates file with zero checkbox gates cannot fail, so it cannot verify
+    // anything. Headings are not gates. Exit 2 rather than false ALL MET.
+    console.error(`${file}: no gates found (need '- [ ] G1:' checkboxes; headings do not count)`);
+    process.exit(2);
   }
   let changed = false;
 

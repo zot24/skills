@@ -145,21 +145,9 @@
       "version": "1.1.0"
     },
     {
-      "name": "herdr-tower",
-      "source": "./skills/herdr-tower",
-      "description": "Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, and verify independently before calling anything done. Covers dispatch, watch/poke, staffing, layout, closing, the work graph, and the failure catalogue.",
-      "version": "1.1.0"
-    },
-    {
       "name": "pr-standard",
       "source": "./skills/pr-standard",
       "description": "House standard for GitHub pull request descriptions — ASD-STE100 writing rules, the four-label pack (type, priority, t-shirt, area), the required body shape with a mermaid diagram, and the forked-chat workflow",
-      "version": "1.1.2"
-    },
-    {
-      "name": "tower-gates",
-      "source": "./skills/tower-gates",
-      "description": "Acceptance gates for agent work — a gates file of CHECK/EXPECT/EVIDENCE outcomes verified by a vendored zero-dependency checker, so a completion marker carries proof and \"done\" is an exit code instead of a claim",
       "version": "1.1.2"
     },
     {
@@ -167,6 +155,12 @@
       "source": "./skills/skill-release-preflight",
       "description": "Preflight checks before pushing to a skills marketplace repo — never hand-edit a release-please version, run check-consistency.sh locally, and read the label list before gh pr create",
       "version": "1.0.0"
+    },
+    {
+      "name": "tower",
+      "source": "./skills/tower",
+      "description": "Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, staff only the required seats, and verify through acceptance gates so 'done' is an exit code, not a claim.",
+      "version": "2.0.0"
     },
     {
       "name": "pi",

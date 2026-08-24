@@ -7,129 +7,263 @@
   "separate-pull-requests": false,
   "bootstrap-sha": "77f8e6761ca94bc4d4f53ab9247eda78595cda33",
   "changelog-sections": [
-    {"type": "feat", "section": "Features"},
-    {"type": "fix", "section": "Bug Fixes"},
-    {"type": "docs", "section": "Documentation"},
-    {"type": "chore", "section": "Maintenance", "hidden": true}
+    {
+      "type": "feat",
+      "section": "Features"
+    },
+    {
+      "type": "fix",
+      "section": "Bug Fixes"
+    },
+    {
+      "type": "docs",
+      "section": "Documentation"
+    },
+    {
+      "type": "chore",
+      "section": "Maintenance",
+      "hidden": true
+    }
   ],
   "packages": {
     "skills/1password-cli": {
       "component": "1password-cli",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/adguard": {
       "component": "adguard",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/agent-browser": {
       "component": "agent-browser",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/agent-skills": {
       "component": "agent-skills",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/ai-sdk": {
       "component": "ai-sdk",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/beads": {
       "component": "beads",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/chat-sdk": {
       "component": "chat-sdk",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/claude-code-expert": {
       "component": "claude-code-expert",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/firecrawl": {
       "component": "firecrawl",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/flue": {
       "component": "flue",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/gh-issue-tracker": {
       "component": "gh-issue-tracker",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/glinet": {
       "component": "glinet",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
-      ]
-    },
-    "skills/herdr-tower": {
-      "component": "herdr-tower",
-      "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/hermes": {
       "component": "hermes",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/honcho": {
       "component": "honcho",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/immich": {
       "component": "immich",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/obsidian": {
       "component": "obsidian",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/pi": {
@@ -142,72 +276,140 @@
     "skills/portainerctl": {
       "component": "portainerctl",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/pr-standard": {
       "component": "pr-standard",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/safe-delete": {
       "component": "safe-delete",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/servarr": {
       "component": "servarr",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/skill-release-preflight": {
       "component": "skill-release-preflight",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
-      ]
-    },
-    "skills/tower-gates": {
-      "component": "tower-gates",
-      "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/umami": {
       "component": "umami",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/umbrel-app": {
       "component": "umbrel-app",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/wealthfolio": {
       "component": "wealthfolio",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/x-engagement": {
       "component": "x-engagement",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
+    },
+    "skills/tower": {
+      "release-type": "node"
     }
   }
 }
