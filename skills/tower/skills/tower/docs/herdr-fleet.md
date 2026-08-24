@@ -1,7 +1,7 @@
 # herdr-fleet — house dispatch and supervise
 
 **HOUSE.** Folded from the former house skill `herdr-fleet`. Dispatch/supervise. Not a
-separate plugin. **Not** the official herdr CLI skill (`ogulcancelik/herdr`, install
+separate plugin. **Not** the official herdr CLI skill (`herdrdev/herdr`, install
 separately). Official CLI contract: [herdr-skill-upstream.md](herdr-skill-upstream.md)
 (synced pointer only).
 

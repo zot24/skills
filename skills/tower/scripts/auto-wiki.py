@@ -130,15 +130,29 @@ def summarise_diff(diff_text: str, src_rel: str, rng: str) -> str:
 
 
 def outline_from_headings(src_path: Path, src_rel: str, rng: str) -> str:
-    """First page: headings only. Not the source body."""
-    text = src_path.read_text() if src_path.is_file() else ""
-    heads = [ln.strip() for ln in text.splitlines() if ln.strip().startswith("#") and not ln.strip().startswith("#!")]
+    """First page: markdown headings only. Not the source body. No preamble
+    (summarise_diff already emits it — concatenating both used to print it twice).
+    """
     lines = [
-        f"High-level map of `{src_rel}`. Code wins if this page and the tree disagree.",
-        "This page is not a copy of the source. Read the tree for the current text.",
-        "",
         f"## Outline at `{rng}` (headings only)",
         "",
+    ]
+    if src_path.suffix != ".md":
+        # Shell/Python `#` comments are not headings. Stat/symbols only.
+        text = src_path.read_text() if src_path.is_file() else ""
+        syms = symbol_lines(text)
+        lines.append("- Source is not markdown. No heading outline.")
+        if syms:
+            lines.append("- Symbols:")
+            for s in syms[:24]:
+                lines.append(f"  - `{s}`")
+        lines.append("")
+        return "\n".join(lines).rstrip() + "\n"
+    text = src_path.read_text() if src_path.is_file() else ""
+    heads = [
+        ln.strip()
+        for ln in text.splitlines()
+        if ln.strip().startswith("#") and not ln.strip().startswith("#!")
     ]
     if heads:
         for h in heads[:40]:
