@@ -57,7 +57,7 @@ Not a running commentary while panes work.
 | 53 | ⚪ tower skill | live | spec on disk | — | waits_on marker |
 
 - **#** — thread id.
-- **Project** — colour + name. Never a bare number.
+- **Project** — name. Never a bare number. Colour is optional instance convention.
 - **Status** — `done` / `live` / `blocked` / `partial`.
 - **What is true** — one clause the tower checked.
 - **Wrong / gap** — one clause, or `—`.
@@ -76,8 +76,8 @@ If `state` is `MERGED`, the You cell is `—`. A work graph file is not evidence
 ## Escalate
 
 An item the tower cannot decide goes to the owner queue after re-verify, or is declined because
-it is already fixed. Carry colour, age, cost of deciding, VERIFIED date, and the check
-performed. Rules: [work graph](work-graph.md).
+it is already fixed. Carry age, cost of deciding, VERIFIED date, and the check performed.
+Rules: [work graph](work-graph.md).
 
 ## Closeout
 
