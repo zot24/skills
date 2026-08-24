@@ -7,6 +7,8 @@ into a wiki article.
 nvk `wiki-manager` stays a **separate install**. This script rewrites high-level Project
 pages from a git diff. It does not compile the hub. It is not wiki-manager.
 
+Pattern (Danny / nvk / Karpathy): [patterns/auto-wiki.md](patterns/auto-wiki.md). Catalog: [patterns/README.md](patterns/README.md).
+
 ## Pattern
 
 ```

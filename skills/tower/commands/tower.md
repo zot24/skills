@@ -31,4 +31,4 @@ Parse the arguments to determine the action:
 Load the matching doc from `skills/tower/docs/` before answering: operating-loop.md, dispatch.md,
 watch-and-poke.md, staffing.md, layout.md, closing.md, work-graph.md, pitfalls.md,
 cli-reference.md, gate-format.md, checker.md, workflow.md, space-loop.md, model-router.md,
-verify-deliverable.md, herdr-fleet.md, auto-wiki.md.
+verify-deliverable.md, herdr-fleet.md, auto-wiki.md, patterns/README.md.
