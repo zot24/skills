@@ -30,17 +30,27 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
-          # Get all PR numbers from the release output
           prs='${{ steps.release.outputs.prs }}'
           echo "PRs created: $prs"
 
-          # Parse and enable auto-merge for each PR
-          echo "$prs" | jq -r '.[].number' | while read pr_number; do
-            if [ -n "$pr_number" ]; then
-              echo "Enabling auto-merge for PR #$pr_number"
-              gh pr merge "$pr_number" --auto --squash --delete-branch --repo ${{ github.repository }}
+          pr_numbers=$(echo "$prs" | jq -r '.[].number')
+          while IFS= read -r pr_number; do
+            if [ -z "$pr_number" ]; then
+              continue
             fi
-          done
+            echo "Enabling auto-merge for PR #$pr_number"
+            if ! out=$(gh pr merge "$pr_number" --auto --squash --delete-branch --repo ${{ github.repository }} 2>&1); then
+              if [[ "$out" == *"Auto merge is not allowed for this repository"* ]]; then
+                echo "::warning::PR #$pr_number: $out"
+                continue
+              fi
+              printf '%s\n' "$out"
+              exit 1
+            fi
+            if [ -n "$out" ]; then
+              printf '%s\n' "$out"
+            fi
+          done <<< "$pr_numbers"
 
       # Output release info for debugging
       - name: Release info
