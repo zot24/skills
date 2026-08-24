@@ -1,8 +1,21 @@
 {
   "name": "tower",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, staff only the required seats, and verify through acceptance gates so 'done' is an exit code, not a claim.",
-  "keywords": ["herdr", "control-tower", "orchestration", "gates", "acceptance-criteria", "verification", "gate-check", "completion-marker", "definition-of-done"],
-  "author": { "name": "zot24", "email": "hi@zot24.com" },
+  "keywords": [
+    "herdr",
+    "control-tower",
+    "orchestration",
+    "gates",
+    "acceptance-criteria",
+    "verification",
+    "gate-check",
+    "completion-marker",
+    "definition-of-done"
+  ],
+  "author": {
+    "name": "zot24",
+    "email": "hi@zot24.com"
+  },
   "repository": "https://github.com/zot24/skills"
 }
