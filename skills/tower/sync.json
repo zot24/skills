@@ -1,6 +1,6 @@
 {
   "name": "tower",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Control-tower operating protocol plus acceptance gates for a herdr agent fleet",
   "sources": [
     {
