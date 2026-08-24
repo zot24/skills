@@ -7,8 +7,9 @@ agents, including the acceptance gates that decide when a job is done.
   verify independently. See `skills/tower/SKILL.md` and `skills/tower/docs/`.
 - Operating loop: at **session start** read the work graph and the status board; **catalog**
   entitled vs missing; settle every **unpaid ask** before starting a new job; **reconvene**
-  with one owner table when a marker lands. Dispatch, watch, staffing, and gates stay as they
-  are.
+  with one owner table when a marker lands; **escalate** to the owner queue; do not trust a
+  handoff note for liveness. A write starts on a worktree workspace, with agent names
+  `<slug>-<N>-<role>`. Dispatch, watch, staffing, and gates stay as they are.
 - Gates: a gates file of `CHECK` / `EXPECT` / `EVIDENCE` outcomes verified by the vendored
   zero-dependency checker `scripts/gate-check.mjs` (from Leonxlnx/unlazy, MIT).
   Done = exit 0. An empty marker is never done.

@@ -97,13 +97,14 @@ beforehand would have caught all three.
 
 ## Step 4 — start the pane, labelled
 
-Split on the home tab unless the task has its own worktree. Label **before** the first prompt:
-agent names are for the CLI, pane labels are for the human looking at the grid.
+For a write, branch, or PR, split on the **worktree workspace**, not home `main` —
+[layout](layout.md). Split on the home tab only for a read on `main`. Label **before** the first
+prompt: agent names are for the CLI, pane labels are for the human looking at the grid.
 
 ```bash
-herdr pane split --pane "$HERDR_PANE_ID" --direction right --ratio 0.42 --cwd <repo> --no-focus
-herdr pane rename <new_pane_id> "<role> · <short-task>"      # from .result.pane.pane_id
-herdr agent start <name> --kind <kind> --pane <new_pane_id> -- <agent-args>
+herdr pane split --pane "$HERDR_PANE_ID" --direction right --ratio 0.42 --cwd <worktree> --no-focus
+herdr pane rename <new_pane_id> "#<N> · <role> · <short-task>"
+herdr agent start <slug>-<N>-<role> --kind <kind> --pane <new_pane_id> -- <agent-args>
 ```
 
 Agent names match `[a-z][a-z0-9_-]{0,31}` and must be unique among live agents. Native agent

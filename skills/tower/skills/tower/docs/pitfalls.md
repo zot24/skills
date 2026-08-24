@@ -94,6 +94,13 @@ herdr confidently described a fleet that had not existed for a week. → Rebuild
 **A second tab on the same checkout.** Two agents on one working tree: one agent's `git checkout`
 silently rewrites the other's edits. → An extra tab means an extra worktree and branch.
 
+**Implementing on home `main`.** A second agent on the home checkout rewrites the working tree.
+→ Worktree is the default implement seat; `herdr worktree list`, then `open` or `create`.
+
+**Treating a worktree workspace as staffed because the checkout exists.** No live named agent is
+a miss. → Start the required seats on that workspace, or pick another. Do not call this
+`unknown`-means-unstaffed.
+
 **Two agents prompting one developer.** Duplicates and loses work. → Only the mentor prompts a
 developer; reviewer and QA report to the mentor.
 
