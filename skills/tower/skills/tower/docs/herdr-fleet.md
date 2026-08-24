@@ -1,7 +1,11 @@
-# herdr-fleet — dispatch and supervise panes
+# herdr-fleet — house dispatch and supervise
 
-Folded from the former house skill `herdr-fleet`. Not a separate plugin. This file is the
-index of fleet cuts already published, plus the leftovers that had no home.
+**HOUSE.** Folded from the former house skill `herdr-fleet`. Dispatch/supervise. Not a
+separate plugin. **Not** the official herdr CLI skill (`ogulcancelik/herdr`, install
+separately). Official CLI contract: [herdr-skill-upstream.md](herdr-skill-upstream.md)
+(synced pointer only).
+
+This file is the index of fleet cuts already published, plus the leftovers that had no home.
 
 | Cut | Where |
 |---|---|

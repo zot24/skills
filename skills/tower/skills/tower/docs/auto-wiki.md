@@ -4,6 +4,9 @@ The published script lives in this package: `scripts/auto-wiki.py`. Do not keep 
 copier in a consumer repo. A hook **calls** this script. It does not paste a source file
 into a wiki article.
 
+nvk `wiki-manager` stays a **separate install**. This script rewrites high-level Project
+pages from a git diff. It does not compile the hub. It is not wiki-manager.
+
 ## Pattern
 
 ```

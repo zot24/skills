@@ -10,6 +10,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 
 herdr itself teaches the CLI — see [herdr's own skill](docs/herdr-skill-upstream.md). This skill teaches the part herdr cannot: **how not to be lied to by your own fleet** — as a session loop, as dispatch discipline, *and* as machine-checked acceptance gates.
 
+**Official vs house.** Install official `herdr` and nvk `wiki-manager` separately. This skill does not replace them. Folded here is house **herdr-fleet** (dispatch/supervise), not the official CLI skill. `docs/herdr-skill-upstream.md` is a synced pointer, not a skill this marketplace maintains.
+
 ## Overview
 
 - **Delegate by default.** Project coding, audits, censuses, log reads, judgement against a repo — all of it goes to a pane. Work done inline burns the tower's context, is invisible in the fleet UI, and dies with the session.
@@ -89,7 +91,7 @@ Done means `gate-check.mjs --status <gates>` exits **0**. An empty `touch` marke
 
 ## Documentation
 
-House leftovers folded here (not six plugins): `herdr-fleet`, `work-graph`, `space-loop`, `reconvene-table`, `verify-deliverable`, `model-router`, plus **auto-wiki**.
+House leftovers folded here (not six plugins): `herdr-fleet` (HOUSE dispatch, not official herdr), `work-graph`, `space-loop`, `reconvene-table`, `verify-deliverable`, `model-router`, plus **auto-wiki**. Official `herdr` and nvk `wiki-manager` stay separate installs.
 
 - **[Operating loop](docs/operating-loop.md)** — Session start, catalog, unpaid ask, reconvene, Escalate, Handoff, closeout, and the reconvene-table PR verb list
 - **[Dispatch](docs/dispatch.md)** — planes, the spec file, the eight-step delegation protocol, and the three spec-writing failures
