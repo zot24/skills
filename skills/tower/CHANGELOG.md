@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/zot24/skills/compare/tower-v3.1.0...tower-v3.1.1) (2026-08-24)
+
+
+### Bug Fixes
+
+* **tower:** cap SKILL.md description at 1024 ([#213](https://github.com/zot24/skills/issues/213)) ([9e60db8](https://github.com/zot24/skills/commit/9e60db85678838e760a5e8115c1bdd6fceb5d1e6))
+
 ## [3.1.0](https://github.com/zot24/skills/compare/tower-v3.0.0...tower-v3.1.0) (2026-08-24)
 
 
