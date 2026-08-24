@@ -8,8 +8,9 @@ allowed-tools: Read, Write, Edit, Bash
 
 Expert at building authority and engagement on X (Twitter) through distribution engineering,
 algorithm-aware content design, and conversation tactics — grounded in the `xai-org/x-algorithm`
-codebase at snapshot `c65aa17` (2026-08-14), which clarified weight semantics and added the
-Brazil 2026 election filter on top of the 2026-08-13 scoring-weights release.
+codebase at snapshot `28e414f` (2026-08-21), which raised reply-spam/ranking eligibility to 80k
+followers and wired semantic-ID diversity into slate context on top of the 2026-08-14 scoring
+semantics release.
 
 ## Overview
 
@@ -24,9 +25,13 @@ Brazil 2026 election filter on top of the 2026-08-13 scoring-weights release.
 - **Account standing gates everything** — spam/slop labels drop *every* post from out-of-network
   for 30 days while followers see you normally
 - **Mutuals compound** — a mutually-followed author gets +15.0 on reply weight for root posts;
-  follow-graph bool features are now wired into Phoenix candidate/history tensors
-- **Conversation leverage** — replies are Grok-scored 0–3; spam/reply-ranking eligibility widened
-  to threads where target+root are ≤30k followers (was 15k)
+  follow-graph bool features are wired into Phoenix candidate/history tensors
+- **Conversation leverage** — replies are Grok-scored 0–3; spam/reply-ranking eligibility now
+  covers threads where target+root are ≤80k followers (was 30k; was 15k before that)
+- **Semantic diversity context** — slate context now tracks 3-level semantic-ID recurrence and
+  rank gaps, and feeds them into VMRanker (author-diversity math still uses author `k` only)
+- **Muted-keyword surface expanded on Following** — Following timeline mute matching also scans
+  quoted text and ancestor texts, not just the root post body
 - **Monetization alignment** — Original Content Rewards pays on verified impressions on *original*
   posts in the Home Timeline
 - **Freshness hardens after 14d** — stale posts zero engagement-count features in Phoenix when the
@@ -65,12 +70,13 @@ don't monetize either.
 ### 6. Reply Quality Over Volume — This Is The Riskiest Lever
 Replies are Grok-scored 0–3. Below ~1,000 followers spam scrutiny is elevated, and
 `fast_reply_spam_post` carries a 30-day `SpamHighRecall` label. `bdsm/` reads posting *cadence*
-directly. Reply-spam / reply-ranking tasks now also cover mid-tier threads (≤30k followers on
-target and root). Five excellent replies beat fifty mediocre ones by a wide margin.
+directly. Reply-spam / reply-ranking tasks now cover threads up to ≤80k followers on target and
+root. Five excellent replies beat fifty mediocre ones by a wide margin.
 
 ### 7. Volume and Repetition Both Decay
 Author diversity: your 2nd post in a feed load keeps 62.5%, your 3rd 43.75%. VMRanker separately
-demotes posts similar to their neighbours. Post less, and don't rephrase yourself.
+demotes posts similar to their neighbours, and now also receives semantic-ID recurrence features
+from slate context. Post less, and don't rephrase yourself or flood one topic cluster.
 
 ### 8. Originality Is Attributed, Paid, and Enforced
 Original Content Rewards pays on qualified impressions: **Premium viewers**, **Home Timeline**,
@@ -82,22 +88,27 @@ Phoenix can mark posts older than ~14 days as stale and zero their engagement-co
 (`IS_STALE_POST14D`). Design for timely distribution; do not rely on ancient high-count posts to
 keep ranking on raw fav/view features alone.
 
+### 10. Account-level NSFW bleeds into ranking features
+Phoenix now receives an author-NSFW safety bit (`SAFETY_BIT_AUTHOR_NSFW` via
+`nsfw_author_phoenix`). Adult-marked accounts are not only a visibility problem — they are a
+model-input problem on every non-retweet candidate.
+
 ## Documentation
 
 - **[Scoring Weights](docs/scoring-weights.md)** - The published blend weights with `file:line`
   citations, correct P(action) semantics, bidirectional-follow boost, OON factors, author
-  diversity, params off by default
+  diversity, semantic-ID slate context, params off by default
 - **[Algorithm Signals](docs/algorithm-signals.md)** - Which signals exist, candidate sources,
   network alignment, facepile, stale-post / cold-start notes, how to prioritize
 - **[Visibility Filtering](docs/visibility-filtering.md)** - ALLOW/INTERSTITIAL/DROP, the
-  out-of-network-only drop rules, Brazil 2026 election filter, Under the Hood
+  out-of-network-only drop rules, Brazil 2026 election filter, muted-keyword Following expansion
 - **[Account Standing](docs/account-standing.md)** - agatha, user-cred-v2 PageRank, bdsm behaviour
   model, the enforcement label chain and its 30-day TTLs
 - **[Content Quality Screening](docs/content-quality.md)** - Banger Screen outputs, reply spam
   buckets, 0–3 reply rubric, the ten safety categories
 - **[Content Strategy](docs/content-strategy.md)** - Hooks, clusters, attention, diversity decay,
   freshness
-- **[Conversation Tactics](docs/conversation-tactics.md)** - Reply scoring, spam risk (≤30k),
+- **[Conversation Tactics](docs/conversation-tactics.md)** - Reply scoring, spam risk (≤80k),
   thread hijacking, social proof
 - **[Authority Building](docs/authority-building.md)** - Follow triggers, share signals,
   network alignment, positioning
@@ -115,10 +126,12 @@ keep ranking on raw fav/view features alone.
 3. **Ask: could this make someone mute, block or report?** Negatives still dominate risk, even
    after correcting the weight-ratio myth
 4. **Ask: does this earn a reply, quote, DM share, or follow?** Those are what score
-5. **Check it reads as human** — not templated, not your last post rephrased
+5. **Check it reads as human** — not templated, not your last post rephrased, not the same
+   semantic cluster as the post you just shipped
 6. **Post to your profile** first
 7. **Wait 10–30 minutes**, then find active threads (20–200 likes, your topic)
-8. **Reply with quality, at human pace** — extend the idea, don't self-promote
+8. **Reply with quality, at human pace** — extend the idea, don't self-promote; quality still
+   matters on mid-tier threads up through ~80k
 
 ## Content Formula
 
@@ -130,6 +143,7 @@ clean account standing (no OON drop labels)
 + a reason to follow (unique insight + consistent content identity)
 + original and human-sounding (not slop-labelled)
 + timely enough that engagement features still count
++ not a near-duplicate of your last post or the same semantic cluster
 = algorithmic reach → qualified impressions → payout
 ```
 
@@ -138,11 +152,13 @@ clean account standing (no OON drop labels)
 - High-volume or fast-cadence replies (`fast_reply_spam_post`, 30-day `SpamHighRecall`)
 - Generic / templated / AI-shaped content (`llm_slop_user`, `llm_slop_post`)
 - Rephrasing your own last post (VMRanker demotion, `SpamEmbeddingMajorityPoster`)
+- Flooding one topic/semantic cluster in a short window (SID recurrence now lives in slate context)
 - Burst posting on a mechanical schedule (`bdsm/` reads inter-action timing)
 - Deliberate antagonism (agatha scores blocks/reports relative to favorites)
 - Posting too frequently (author diversity decay attenuates each successive post)
 - Dropping naked links (`MALICIOUS_URL_DROP` keys on the link, and it can fire retroactively)
 - Risky avatar / banner imagery (`NSFW_AVATAR_IMAGE_USER_DROP` costs you *all* OON reach)
+- Adult-labelled account state leaking into Phoenix via `nsfw_author_phoenix`
 - Posting before building your own content
 - Leading with theory instead of concrete examples
 - Building a reply-heavy strategy for income (reply impressions don't monetize)
@@ -151,10 +167,11 @@ clean account standing (no OON drop labels)
 - Chasing `profile_click` (weighted 0.0)
 - Treating weight ratios as raw count equivalences ("1 report = N likes") — wrong since 2026-08-14
 - Relying on weeks-old posts to keep ranking on accumulated fav/view counts alone
+- Treating mid-size creator threads (30k–80k) as "safe from reply ranking" — they are not
 
 ## Currency
 
 Analytical docs are hand-derived from the source files cached in `docs/upstream/`, at snapshot
-`c65aa17` (2026-08-14). CI copies those files but **cannot** regenerate the prose. If a cached
+`28e414f` (2026-08-21). CI copies those files but **cannot** regenerate the prose. If a cached
 file's diff shows a changed or removed constant, the analysis needs re-deriving by hand — see
 `sync.json` → `snapshot_commit`.

@@ -1,5 +1,5 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/home-mixer/params/param.rs
-> Snapshot: c65aa17 (2026-08-14)
+> Snapshot: 28e414f (2026-08-21)
 
 // mirrored from config feature-switch defaults; last sync 2026-08-12T04:09:22Z
 use xai_feature_switches::param;
@@ -244,6 +244,12 @@ param!(
     LogSlateContext,
     bool,
     "rust_home_mixer_log_slate_context",
+    false
+);
+param!(
+    UseServedSlateContext,
+    bool,
+    "rust_home_mixer_use_served_slate_context",
     false
 );
 param!(
@@ -920,6 +926,13 @@ param!(
     "rust_home_mixer_ads_blender",
     "partition_organic_low_risk"
 );
+
+param!(
+    EnableAdsBrandSafetyVerdictV2,
+    bool,
+    "rust_home_mixer_ads_bs_v2_exp_enabled",
+    false
+);
 param!(
     AdsTimeGapTSec,
     f64,
@@ -1013,6 +1026,13 @@ param!(
     EnableTopicFeedbackContext,
     bool,
     "rust_home_mixer_enable_topic_feedback_context",
+    false
+);
+
+param!(
+    EnableAiTrendFeedbackContext,
+    bool,
+    "rust_home_mixer_enable_ai_trend_feedback_context",
     false
 );
 

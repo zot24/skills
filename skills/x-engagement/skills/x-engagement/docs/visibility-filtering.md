@@ -1,11 +1,12 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/visibility-filtering/rules/registry.rs (cached at upstream/visibility-filtering-registry.md) -->
-<!-- Snapshot: c65aa17, 2026-08-14 — Brazil filter is in home-mixer, not the VF registry -->
+<!-- Snapshot: 28e414f, 2026-08-21 — Brazil filter is in home-mixer, not the VF registry -->
 
 # Visibility Filtering
 
 Published **2026-08-13**, with an additional For You candidate filter on **2026-08-14**
-(`Brazil2026ElectionFilter`). This is the system that decides whether a post can be shown at all —
-separately from, and after, ranking.
+(`Brazil2026ElectionFilter`), and Following-timeline muted-keyword expansion on **2026-08-21**.
+This is the system that decides whether a post can be shown at all — separately from, and after,
+ranking.
 
 **Ranking sets the order. Visibility filtering sets whether you're in the list.** Optimizing
 scoring signals is pointless for a post that gets dropped here.
@@ -103,6 +104,24 @@ Not part of the `visibility-filtering/` registry — it runs in the Phoenix cand
 Practical: this is a **jurisdiction-specific OON-style drop with an explicit follow carve-out**.
 It is not a general spam/safety label. Creators outside that list are unaffected. Open-source
 makes the exact membership and logic auditable.
+
+## Muted keywords — Following now matches quotes and ancestors (2026-08-21)
+
+Home Mixer split the old `MutedKeywordFilter` into timeline-specific filters:
+
+| Timeline | Filter | Text surfaces matched |
+|---|---|---|
+| For You (Phoenix pipeline) | `ViewerMutedKeywordFilter` | candidate `tweet_text` |
+| Following (reverse-chron) | `FollowingViewerMutedKeywordFilter` | `tweet_text` **+** `quoted_tweet_text` **+** `ancestor_texts` |
+
+Following also gained `QuotedPostTextHydrator` and richer ancestor text hydration so those fields
+exist before the mute match runs
+(`home-mixer/candidate_pipeline/reverse_chron_posts_pipeline.rs`,
+`following_viewer_muted_keyword_filter.rs:55-64`).
+
+Practical: if viewers mute a phrase that appears in a parent tweet or a quoted post, your reply
+or quote-tweet can still be filtered out of *their Following timeline* even when your own body is
+clean. Keyword hygiene is conversational now, not post-body-only.
 
 ## Practical implications
 

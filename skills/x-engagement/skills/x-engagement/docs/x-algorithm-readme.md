@@ -1,5 +1,5 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/README.md
-> Snapshot: c65aa17 (2026-08-14)
+> Snapshot: 28e414f (2026-08-21)
 
 # X For You Feed Algorithm
 

@@ -35,11 +35,14 @@ Or use natural language:
 "What signals does the X algorithm actually weight?"
 ```
 
-## Key Algorithm Facts (from xai-org/x-algorithm @ `c65aa17`, 2026-08-14)
+## Key Algorithm Facts (from xai-org/x-algorithm @ `28e414f`, 2026-08-21)
 
 - **Weights multiply P(action), not raw counts** (clarified 2026-08-14) — do not say "1 report cancels N likes"
 - **Brazil2026ElectionFilter** — listed electoral-court accounts dropped from For You unless the viewer follows them
-- **Reply spam/ranking mid-tier threshold** 15k → **30k** followers on target+root
+- **Reply spam/ranking mid-tier threshold** 15k → 30k → **80k** followers on target+root
+- **Semantic-ID slate context** — 3-level SID recurrence/gaps feed VMRanker (author decay still uses author `k`)
+- **Following muted keywords** match quote + ancestor text, not only the post body
+- **Author NSFW bit** (`nsfw_author_phoenix`) enters Phoenix features on non-retweets
 - **Stale ~14d** posts can have engagement-count features zeroed in Phoenix
 
 Published blend weights, from `home-mixer/params/param.rs`:

@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm (direct codebase analysis) -->
-<!-- Snapshot: c65aa17, 2026-08-14 -->
+<!-- Snapshot: 28e414f, 2026-08-21 -->
 
 # X Algorithm Signals Reference
 
@@ -148,6 +148,36 @@ ship and distribute while fresh.
 picks among the top-K sampled before falling back to score. Defaults: α0=0.75, β0=49.25, K=5.
 Until production enables the flag, behaviour remains argmax-by-score among cold-start eligibles.
 
+As of 2026-08-21, tracked cold-start impression counting is **post-id only** — the helper no longer
+increments counts under `author_id` (`author_cold_start.rs` `count_tracked_ids`). Treat cold-start
+as a per-post explore path, not an author-level impression bucket.
+
+## Semantic-ID slate context (2026-08-21)
+
+`SlateContext` now carries 3-level semantic-ID recurrence and rank gaps
+(`home-mixer/models/candidate.rs:90-96`):
+
+- `sid_known`, `sid_k_l1` / `sid_k_l2` / `sid_k_l3`
+- `sid_gap_l1` / `sid_gap_l2` / `sid_gap_l3`
+
+`ranking_scorer.rs` computes those fields while building slate context from each candidate's
+`semantic_ids` prefixes. Author-diversity multipliers still use only author `k`
+(`author_diversity_multipliers` → `context.k`). The SID fields are forwarded into VMRanker and can
+be restored from a served slate context when `UseServedSlateContext` is on (default **false**).
+
+Practical read: near-duplicate takes in the same semantic cluster get a stronger diversity path
+than author-decay alone. Vary the cluster, not only the author cadence.
+
+## Author NSFW bit into Phoenix (2026-08-21)
+
+Non-retweet candidates now set `safety_label_mask` with `SAFETY_BIT_AUTHOR_NSFW` when
+`nsfw_author_phoenix` is true (`candidate.rs`, gizmoduck hydrator). That bit is a ranking-feature
+input, separate from OON visibility drops. Adult-labelled account state is expensive even when a
+single post looks clean.
+
+Author follower count is also passed into Phoenix for non-retweets (`followers` on the author
+proto). Model inputs now include scale signals, not only engagement heads.
+
 ## Facepile Social Proof
 
 If people the viewer follows have replied to your post, a facepile of their avatars is shown.
@@ -180,7 +210,10 @@ What the code does support:
 5. **Write things worth sending to one specific person.** DM share 5.0, copy-link share 20.0.
 6. **Hold attention** — but as a means to the above, not for `cont_dwell_time` (0.004) itself.
 7. **Post less, better, fresher.** Author diversity decay plus VMRanker both penalize volume and
-   repetition; stale-post feature zeroing weakens old count-heavy posts.
+   repetition; semantic-ID recurrence now lives in slate context too; stale-post feature zeroing
+   weakens old count-heavy posts.
+8. **Keep account NSFW clean.** `nsfw_author_phoenix` is a Phoenix feature bit, not only a
+   visibility label.
 
 ## Old patterns
 

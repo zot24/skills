@@ -120,17 +120,25 @@ counts, not only yours. Small accounts talking in small threads draw the most sc
 **Under 1,000 followers: quality > volume on replies.** Five excellent replies outperform fifty
 mediocre ones and avoid spam detection.
 
-### Mid-tier threshold raised to 30k (2026-08-14)
+### Mid-tier threshold raised to 80k (2026-08-21)
 
 `grox/flows/reply_spam/task_filter.py`:
 
-| Filter | When eligible | Threshold (was → now) |
+| Filter | When eligible | Threshold history |
 |---|---|---|
-| `TaskSpamFilter` | spam detection task runs unless *both* reply-target and root are **above** the threshold | 15,000 → **30,000** |
-| `TaskReplyRankingFilter` | reply quality ranking runs when *both* reply-target and root are **≤** threshold | 15,000 → **30,000** |
+| `TaskSpamFilter` | spam detection task runs unless *both* reply-target and root are **above** the threshold | 15k → 30k (2026-08-14) → **80,000** |
+| `TaskReplyRankingFilter` | reply quality ranking runs when *both* reply-target and root are **≤** threshold | 15k → 30k (2026-08-14) → **80,000** |
 
-Effect: more mid-size threads (accounts in the 15k–30k band) now go through reply-spam detection
-and/or Grok reply ranking. Reply quality still matters past "small account" territory.
+Constants: `FOLLOWER_COUNT_THRESHOLD_FOR_SPAM_DETECTION = 80000` (`task_filter.py:17`) and
+`FOLLOWER_COUNT_THRESHOLD_FOR_REPLY_RANKING = 80000` (`task_filter.py:185`).
+
+Effect: the 30k–80k creator band is no longer a free pass. Most active mid-tier threads now go
+through reply-spam detection and/or Grok reply ranking. Reply quality is a mid-tier problem, not
+only a small-account problem.
+
+Also renamed/retargeted in this snapshot: the stream generator is now
+`ReplyRankingTaskGenerator` on topic `content-understanding-realtime-unified-posts-v3`
+(`grox/flows/reply_spam/constants.py`, `generators.py`) — infrastructure rename, same playbook.
 
 ### The reply-volume trap
 

@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs (cached at upstream/home-mixer-params.md) -->
-<!-- Snapshot: c65aa17, 2026-08-14 -->
+<!-- Snapshot: 28e414f, 2026-08-21 -->
 
 # Published Scoring Weights
 
@@ -189,6 +189,17 @@ one is on.
 Consequence beyond author diversity: posting several near-identical takes hurts even across
 different authors. Topic clusters work; near-duplicate phrasings of the same post do not.
 
+### Semantic-ID fields now ride with slate context (2026-08-21)
+
+While author-diversity multipliers still use only author `k`, `compute_slate_contexts` now also
+fills 3-level semantic-ID recurrence + rank-gap fields on `SlateContext`
+(`ranking_scorer.rs`, `candidate.rs:90-96`). Those fields are sent into VMRanker
+(`vm_ranker.rs`) and can be restored from Phoenix serve-time context when
+`UseServedSlateContext` is enabled (default **false**, `param.rs`).
+
+Read: diversity pressure is no longer "same author only." Same semantic cluster, repeated in one
+feed load, is now an explicit model/rerank feature path.
+
 ## Params that are OFF by default
 
 Published defaults, easy to mistake for live behaviour:
@@ -201,6 +212,9 @@ Published defaults, easy to mistake for live behaviour:
 | `EnableClickDwellLowFavRatePenalty` | `false` | runtime key |
 | `EnableMultiplicativePostUnexplored` | `false` | runtime key |
 | `EnableColdStartThompsonSampling` | `false` | added 2026-08-14 |
+| `UseServedSlateContext` | `false` | added 2026-08-21 |
+| `EnableAdsBrandSafetyVerdictV2` | `false` | added 2026-08-21 |
+| `EnableAiTrendFeedbackContext` | `false` | added 2026-08-21 |
 
 These are runtime-overridable params (the string keys are override handles), so a `false` default
 does not prove the feature is off in production — only that the published default is off. Treat

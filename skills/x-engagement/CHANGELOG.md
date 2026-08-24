@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/zot24/skills/compare/x-engagement-v1.3.0...x-engagement-v1.4.0) (2026-08-24)
+
+
+### Features
+
+* **x-engagement:** track x-algorithm `28e414f` (2026-08-21) — reply-spam/ranking 80k, SID slate context, Following mute surface, NSFW Phoenix bit
+
 ## [1.3.0](https://github.com/zot24/skills/compare/x-engagement-v1.2.2...x-engagement-v1.3.0) (2026-08-18)
 
 

@@ -149,11 +149,14 @@ floor 0.25) your 2nd post keeps **62.5%** of its score and your 3rd **43.75%**, 
 floor.
 
 A second penalty stacks on top: `vm-ranker/` reorders by embedding dissimilarity, so posts that
-resemble each other are demoted even across different authors.
+resemble each other are demoted even across different authors. As of 2026-08-21, slate context
+also tracks 3-level semantic-ID recurrence (`sid_k_l*`, `sid_gap_l*`) and forwards it into
+VMRanker — so flooding one topic cluster is a diversity problem even when the author-decay math
+only keys on author `k`.
 
 **Quality beats quantity, and variety beats repetition.** One excellent post outperforms three
-average ones that split your author score budget — and three rephrasings of the same take are
-worse still.
+average ones that split your author score budget — and three rephrasings of the same take, or
+three posts in the same semantic cluster, are worse still.
 
 ## Screening and Eligibility
 
