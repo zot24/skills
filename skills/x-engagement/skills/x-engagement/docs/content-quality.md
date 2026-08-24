@@ -1,6 +1,6 @@
 <!-- Source: https://github.com/xai-org/x-algorithm — grox/flows/upa/, grox/flows/reply_spam/, grox/flows/ptos/ -->
 <!-- Cached: upstream/banger-screen-state.md -->
-<!-- Snapshot: c65aa17, 2026-08-14 -->
+<!-- Snapshot: 28e414f, 2026-08-21 -->
 
 # Content Quality Screening
 
@@ -91,9 +91,13 @@ Note the code buckets on **the replied-to user's and the root author's** followe
 scrutiny attaches to the conversation you are replying into, not only to your own account size.
 Small accounts talking to small accounts get the most scrutiny.
 
+Eligibility for those reply-spam / reply-ranking tasks now covers conversations where **both**
+the reply-target and root author are ≤ **80,000** followers
+(`task_filter.py:17`, `task_filter.py:185` — was 30k on 2026-08-14, 15k before that).
+
 Related enforcement, with 30-day label TTLs: `fast_reply_spam_post` → `SpamHighRecall`, and
 `llm_slop_post` → `RiskyHighVizReply` (`enforcement_post.yaml:39-58`).
-→ **[Account Standing](account-standing.md)**
+→ **[Account Standing](account-standing.md)** · **[Conversation Tactics](conversation-tactics.md)**
 
 <details>
 <summary>Old name: SpamEapiLowFollowerClassifier</summary>
