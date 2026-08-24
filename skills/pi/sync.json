@@ -188,8 +188,14 @@
       "target": "skills/pi/docs/package-tui.md",
       "type": "raw",
       "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/main/packages/coding-agent/CHANGELOG.md",
+      "target": "skills/pi/docs/changelog-coding-agent.md",
+      "type": "raw",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",
-  "notes": "25 extract-content pages from https://pi.dev/docs/latest plus 6 raw GitHub files (root README/AGENTS/CONTRIBUTING and packages/agent, ai, tui READMEs). extract-content output from pi.dev carries ~27% heading-anchor / search-widget chrome (anchors start with <a , so the shared sync-skill.sh filter does not drop them). Accept the chrome. Do not hand-strip committed docs. Do not edit the shared extract_content filter in this skill. discover-pages.sh crawls the HTML hub only (docs.json is a strict subset). Platform Setup slugs are denylisted."
+  "notes": "25 extract-content pages from https://pi.dev/docs/latest plus 7 raw GitHub files (root README/AGENTS/CONTRIBUTING, packages/agent, ai, tui READMEs, and packages/coding-agent/CHANGELOG.md). extract-content output from pi.dev carries ~27% heading-anchor / search-widget chrome (anchors start with <a , so the shared sync-skill.sh filter does not drop them). Accept the chrome. Do not hand-strip committed docs. Do not edit the shared extract_content filter in this skill. discover-pages.sh crawls the HTML hub only (docs.json is a strict subset). Platform Setup slugs are denylisted. The sync-pi-on-release.yml workflow triggers on new GitHub releases. packages/coding-agent/CHANGELOG.md is ~540KB (~2.5x the largest other committed skill doc); that size is expected, not a sync bug."
 }
