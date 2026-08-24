@@ -61,7 +61,7 @@ Important options:
 
 A single-file model can sit directly in the model directory. Put multimodal and multi-shard models in separate subdirectories:
 
-```
+``` text
 ~/models/
 ├── llama-3.2-1b-Q4_K_M.gguf
 ├── gemma-3-4b-it-Q4_K_M/
@@ -83,7 +83,7 @@ Restart the router after manually adding files. For per-model context sizes and 
 
 Start Pi and configure the provider:
 
-```
+``` text
 /login llama.cpp
 ```
 
@@ -109,7 +109,7 @@ If the server uses an API key, start `llama-server` with the matching `--api-key
 
 Run:
 
-```
+``` text
 /llama
 ```
 

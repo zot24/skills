@@ -64,14 +64,14 @@ Use `/trust` in interactive mode to save a project trust decision for future ses
 <a href="#model-thinking" class="heading-anchor" aria-label="Permalink: Model &amp; Thinking" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#model-thinking"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `defaultProvider` | string | \- | Default provider (e.g., `"anthropic"`, `"openai"`) |
-| `defaultModel` | string | \- | Default model ID |
-| `defaultThinkingLevel` | string | \- | `"off"`, `"minimal"`, `"low"`, `"medium"`, `"high"`, `"xhigh"`, `"max"` |
-| `hideThinkingBlock` | boolean | `false` | Hide thinking blocks in output |
-| `showCacheMissNotices` | boolean | `false` | Show transcript notices for significant prompt-cache misses and compaction or branch-summary usage |
-| `thinkingBudgets` | object | \- | Custom token budgets per thinking level. Anthropic, Google, and Bedrock use these natively. OpenAI-compatible models use them when `compat.thinkingTokenBudgetField` (or `supportsThinkingTokenBudget`) is set. |
+| Setting                | Type    | Default | Description                                                                                                                                                                                                     |
+|------------------------|---------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `defaultProvider`      | string  | \-      | Default provider (e.g., `"anthropic"`, `"openai"`)                                                                                                                                                              |
+| `defaultModel`         | string  | \-      | Default model ID                                                                                                                                                                                                |
+| `defaultThinkingLevel` | string  | \-      | `"off"`, `"minimal"`, `"low"`, `"medium"`, `"high"`, `"xhigh"`, `"max"`                                                                                                                                         |
+| `hideThinkingBlock`    | boolean | `false` | Hide thinking blocks in output                                                                                                                                                                                  |
+| `showCacheMissNotices` | boolean | `false` | Show transcript notices for significant prompt-cache misses and compaction or branch-summary usage                                                                                                              |
+| `thinkingBudgets`      | object  | \-      | Custom token budgets per thinking level. Anthropic, Google, and Bedrock use these natively. OpenAI-compatible models use them when `compat.thinkingTokenBudgetField` (or `supportsThinkingTokenBudget`) is set. |
 
 
 #### thinkingBudgets
@@ -96,25 +96,25 @@ Use `/trust` in interactive mode to save a project trust decision for future ses
 <a href="#ui-display" class="heading-anchor" aria-label="Permalink: UI &amp; Display" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#ui-display"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `theme` | string | `"dark"` | Theme name (`"dark"`, `"light"`, or custom) |
-| `externalEditor` | string | `$VISUAL`, then `$EDITOR`, then Notepad on Windows or `nano` elsewhere | Command for Ctrl+G external editor; takes precedence over environment variables |
-| `quietStartup` | boolean | `false` | Hide startup header |
-| `defaultProjectTrust` | string | `"ask"` | Fallback project trust behavior: `"ask"`, `"always"`, or `"never"`. Global setting only |
-| `collapseChangelog` | boolean | `false` | Show condensed changelog after updates |
-| `enableInstallTelemetry` | boolean | `true` | Send an anonymous install/update version ping after first install or changelog-detected updates. This does not control update checks |
-| `enableAnalytics` | boolean | `false` | Opt-in analytics data sharing. Currently only asked for during the experimental first-time setup (`PI_EXPERIMENTAL=1`) |
-| `trackingId` | string | \- | Analytics tracking identifier, generated when `enableAnalytics` is turned on |
-| `doubleEscapeAction` | string | `"tree"` | Action for double-escape: `"tree"`, `"fork"`, or `"none"` |
-| `treeFilterMode` | string | `"default"` | Default filter for `/tree`: `"default"`, `"no-tools"`, `"user-only"`, `"labeled-only"`, `"all"` |
-| `editorPaddingX` | number | `0` | Horizontal padding for input editor (0-3) |
-| `outputPad` | number | `1` | Horizontal padding for user messages, assistant messages, and thinking (0 or 1) |
-| `autocompleteMaxVisible` | number | `5` | Max visible items in autocomplete dropdown (3-20) |
-| `showHardwareCursor` | boolean | `false` | Show the terminal cursor while TUI positions it for IME support |
-| `tuiMode` | string | `"regular"` | Interactive TUI mode: `"regular"` or experimental `"fullscreen"`. Changes from `/settings` apply immediately; `--tui-mode` overrides this setting at startup |
-| `fullscreenExitOutput` | string | `"transcript"` | Fullscreen exit output: `"transcript"` prints the final transcript and resume hint, while `"resume-hint"` restores the previous screen and prints only the resume hint. Has no effect in regular TUI mode |
-| `fullscreenScrollbar` | string | `"auto"` | Fullscreen transcript scrollbar: `"auto"` shows it temporarily while scrolling, `"always"` reserves the rightmost column and keeps it visible, and `"hidden"` hides it. Has no effect in regular TUI mode |
+| Setting                  | Type    | Default                                                                | Description                                                                                                                                                                                               |
+|--------------------------|---------|------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `theme`                  | string  | `"dark"`                                                               | Theme name (`"dark"`, `"light"`, or custom)                                                                                                                                                               |
+| `externalEditor`         | string  | `$VISUAL`, then `$EDITOR`, then Notepad on Windows or `nano` elsewhere | Command for Ctrl+G external editor; takes precedence over environment variables                                                                                                                           |
+| `quietStartup`           | boolean | `false`                                                                | Hide startup header                                                                                                                                                                                       |
+| `defaultProjectTrust`    | string  | `"ask"`                                                                | Fallback project trust behavior: `"ask"`, `"always"`, or `"never"`. Global setting only                                                                                                                   |
+| `collapseChangelog`      | boolean | `false`                                                                | Show condensed changelog after updates                                                                                                                                                                    |
+| `enableInstallTelemetry` | boolean | `true`                                                                 | Send an anonymous install/update version ping after first install or changelog-detected updates. This does not control update checks                                                                      |
+| `enableAnalytics`        | boolean | `false`                                                                | Opt-in analytics data sharing. Currently only asked for during the experimental first-time setup (`PI_EXPERIMENTAL=1`)                                                                                    |
+| `trackingId`             | string  | \-                                                                     | Analytics tracking identifier, generated when `enableAnalytics` is turned on                                                                                                                              |
+| `doubleEscapeAction`     | string  | `"tree"`                                                               | Action for double-escape: `"tree"`, `"fork"`, or `"none"`                                                                                                                                                 |
+| `treeFilterMode`         | string  | `"default"`                                                            | Default filter for `/tree`: `"default"`, `"no-tools"`, `"user-only"`, `"labeled-only"`, `"all"`                                                                                                           |
+| `editorPaddingX`         | number  | `0`                                                                    | Horizontal padding for input editor (0-3)                                                                                                                                                                 |
+| `outputPad`              | number  | `1`                                                                    | Horizontal padding for user messages, assistant messages, and thinking (0 or 1)                                                                                                                           |
+| `autocompleteMaxVisible` | number  | `5`                                                                    | Max visible items in autocomplete dropdown (3-20)                                                                                                                                                         |
+| `showHardwareCursor`     | boolean | `false`                                                                | Show the terminal cursor while TUI positions it for IME support                                                                                                                                           |
+| `tuiMode`                | string  | `"regular"`                                                            | Interactive TUI mode: `"regular"` or experimental `"fullscreen"`. Changes from `/settings` apply immediately; `--tui-mode` overrides this setting at startup                                              |
+| `fullscreenExitOutput`   | string  | `"transcript"`                                                         | Fullscreen exit output: `"transcript"` prints the final transcript and resume hint, while `"resume-hint"` restores the previous screen and prints only the resume hint. Has no effect in regular TUI mode |
+| `fullscreenScrollbar`    | string  | `"auto"`                                                               | Fullscreen transcript scrollbar: `"auto"` shows it temporarily while scrolling, `"always"` reserves the rightmost column and keeps it visible, and `"hidden"` hides it. Has no effect in regular TUI mode |
 
 For VS Code, include `--wait` so pi resumes after the editor exits:
 
@@ -140,9 +140,9 @@ Set `PI_SKIP_VERSION_CHECK=1` to disable the Pi version update check. Use `--off
 <a href="#network" class="heading-anchor" aria-label="Permalink: Network" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#network"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `httpProxy` | string | \- | HTTP proxy URL applied as `HTTP_PROXY` and `HTTPS_PROXY`. Global setting only. |
+| Setting     | Type   | Default | Description                                                                    |
+|-------------|--------|---------|--------------------------------------------------------------------------------|
+| `httpProxy` | string | \-      | HTTP proxy URL applied as `HTTP_PROXY` and `HTTPS_PROXY`. Global setting only. |
 
 ``` json
 {
@@ -156,9 +156,9 @@ Set `PI_SKIP_VERSION_CHECK=1` to disable the Pi version update check. Use `--off
 <a href="#warnings" class="heading-anchor" aria-label="Permalink: Warnings" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#warnings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `warnings.anthropicExtraUsage` | boolean | `true` | Show a warning when Anthropic subscription auth may use paid extra usage |
+| Setting                        | Type    | Default | Description                                                              |
+|--------------------------------|---------|---------|--------------------------------------------------------------------------|
+| `warnings.anthropicExtraUsage` | boolean | `true`  | Show a warning when Anthropic subscription auth may use paid extra usage |
 
 ``` json
 {
@@ -174,11 +174,11 @@ Set `PI_SKIP_VERSION_CHECK=1` to disable the Pi version update check. Use `--off
 <a href="#compaction" class="heading-anchor" aria-label="Permalink: Compaction" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#compaction"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `compaction.enabled` | boolean | `true` | Enable auto-compaction |
-| `compaction.reserveTokens` | number | `16384` | Tokens reserved for LLM response |
-| `compaction.keepRecentTokens` | number | `20000` | Recent tokens to keep (not summarized) |
+| Setting                       | Type    | Default | Description                            |
+|-------------------------------|---------|---------|----------------------------------------|
+| `compaction.enabled`          | boolean | `true`  | Enable auto-compaction                 |
+| `compaction.reserveTokens`    | number  | `16384` | Tokens reserved for LLM response       |
+| `compaction.keepRecentTokens` | number  | `20000` | Recent tokens to keep (not summarized) |
 
 ``` json
 {
@@ -196,10 +196,10 @@ Set `PI_SKIP_VERSION_CHECK=1` to disable the Pi version update check. Use `--off
 <a href="#branch-summary" class="heading-anchor" aria-label="Permalink: Branch Summary" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#branch-summary"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `branchSummary.reserveTokens` | number | `16384` | Tokens reserved for branch summarization |
-| `branchSummary.skipPrompt` | boolean | `false` | Skip "Summarize branch?" prompt on `/tree` navigation (defaults to no summary) |
+| Setting                       | Type    | Default | Description                                                                    |
+|-------------------------------|---------|---------|--------------------------------------------------------------------------------|
+| `branchSummary.reserveTokens` | number  | `16384` | Tokens reserved for branch summarization                                       |
+| `branchSummary.skipPrompt`    | boolean | `false` | Skip "Summarize branch?" prompt on `/tree` navigation (defaults to no summary) |
 
 
 ### Retry
@@ -207,14 +207,14 @@ Set `PI_SKIP_VERSION_CHECK=1` to disable the Pi version update check. Use `--off
 <a href="#retry" class="heading-anchor" aria-label="Permalink: Retry" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#retry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `retry.enabled` | boolean | `true` | Enable automatic agent-level retry on transient errors |
-| `retry.maxRetries` | number | `3` | Maximum agent-level retry attempts |
-| `retry.baseDelayMs` | number | `2000` | Base delay for agent-level exponential backoff (2s, 4s, 8s) |
-| `retry.provider.timeoutMs` | number | SDK default | Provider/SDK request timeout in milliseconds |
-| `retry.provider.maxRetries` | number | `0` | Provider/SDK retry attempts |
-| `retry.provider.maxRetryDelayMs` | number | `60000` | Max server-requested delay before failing (60s) |
+| Setting                          | Type    | Default     | Description                                                 |
+|----------------------------------|---------|-------------|-------------------------------------------------------------|
+| `retry.enabled`                  | boolean | `true`      | Enable automatic agent-level retry on transient errors      |
+| `retry.maxRetries`               | number  | `3`         | Maximum agent-level retry attempts                          |
+| `retry.baseDelayMs`              | number  | `2000`      | Base delay for agent-level exponential backoff (2s, 4s, 8s) |
+| `retry.provider.timeoutMs`       | number  | SDK default | Provider/SDK request timeout in milliseconds                |
+| `retry.provider.maxRetries`      | number  | `0`         | Provider/SDK retry attempts                                 |
+| `retry.provider.maxRetryDelayMs` | number  | `60000`     | Max server-requested delay before failing (60s)             |
 
 When a provider requests a retry delay longer than `retry.provider.maxRetryDelayMs`, the request fails immediately with an informative error instead of waiting silently. Set it to `0` to disable the limit.
 
@@ -241,13 +241,13 @@ Keep `retry.provider.maxRetries` at `0` unless provider-level retries are explic
 <a href="#message-delivery" class="heading-anchor" aria-label="Permalink: Message Delivery" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#message-delivery"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `steeringMode` | string | `"one-at-a-time"` | How steering messages are sent: `"all"` or `"one-at-a-time"` |
-| `followUpMode` | string | `"one-at-a-time"` | How follow-up messages are sent: `"all"` or `"one-at-a-time"` |
-| `transport` | string | `"auto"` | Preferred transport for providers that support multiple transports: `"sse"`, `"websocket"`, `"websocket-cached"`, or `"auto"` |
-| `httpIdleTimeoutMs` | number | `300000` | HTTP header/body idle timeout in milliseconds, also used by providers with explicit stream idle timeouts. Set to `0` to disable. |
-| `websocketConnectTimeoutMs` | number | `15000` | WebSocket connect/open handshake timeout in milliseconds for providers that support WebSocket transports. Set to `0` to disable. |
+| Setting                     | Type   | Default           | Description                                                                                                                      |
+|-----------------------------|--------|-------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `steeringMode`              | string | `"one-at-a-time"` | How steering messages are sent: `"all"` or `"one-at-a-time"`                                                                     |
+| `followUpMode`              | string | `"one-at-a-time"` | How follow-up messages are sent: `"all"` or `"one-at-a-time"`                                                                    |
+| `transport`                 | string | `"auto"`          | Preferred transport for providers that support multiple transports: `"sse"`, `"websocket"`, `"websocket-cached"`, or `"auto"`    |
+| `httpIdleTimeoutMs`         | number | `300000`          | HTTP header/body idle timeout in milliseconds, also used by providers with explicit stream idle timeouts. Set to `0` to disable. |
+| `websocketConnectTimeoutMs` | number | `15000`           | WebSocket connect/open handshake timeout in milliseconds for providers that support WebSocket transports. Set to `0` to disable. |
 
 
 ### Terminal & Images
@@ -255,13 +255,13 @@ Keep `retry.provider.maxRetries` at `0` unless provider-level retries are explic
 <a href="#terminal-images" class="heading-anchor" aria-label="Permalink: Terminal &amp; Images" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#terminal-images"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `terminal.showImages` | boolean | `true` | Show images in terminal (if supported) |
-| `terminal.imageWidthCells` | number | `60` | Preferred inline image width in terminal cells |
-| `terminal.clearOnShrink` | boolean | `false` | Clear empty rows when content shrinks (can cause flicker) |
-| `images.autoResize` | boolean | `true` | Resize images to 2000x2000 max. Applies to `@file` attachments, `read`, and images returned by tools |
-| `images.blockImages` | boolean | `false` | Block all images from being sent to LLM |
+| Setting                    | Type    | Default | Description                                                                                          |
+|----------------------------|---------|---------|------------------------------------------------------------------------------------------------------|
+| `terminal.showImages`      | boolean | `true`  | Show images in terminal (if supported)                                                               |
+| `terminal.imageWidthCells` | number  | `60`    | Preferred inline image width in terminal cells                                                       |
+| `terminal.clearOnShrink`   | boolean | `false` | Clear empty rows when content shrinks (can cause flicker)                                            |
+| `images.autoResize`        | boolean | `true`  | Resize images to 2000x2000 max. Applies to `@file` attachments, `read`, and images returned by tools |
+| `images.blockImages`       | boolean | `false` | Block all images from being sent to LLM                                                              |
 
 
 ### Shell
@@ -269,11 +269,11 @@ Keep `retry.provider.maxRetries` at `0` unless provider-level retries are explic
 <a href="#shell" class="heading-anchor" aria-label="Permalink: Shell" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#shell"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `shellPath` | string | \- | Custom shell path (e.g., for Cygwin on Windows); supports a leading `~` for the home directory |
-| `shellCommandPrefix` | string | \- | Prefix for every bash command (e.g., `"shopt -s expand_aliases"`) |
-| `npmCommand` | string\[\] | \- | Command argv used for npm package lookup/install operations (e.g., `["mise", "exec", "node@20", "--", "npm"]`) |
+| Setting              | Type       | Default | Description                                                                                                    |
+|----------------------|------------|---------|----------------------------------------------------------------------------------------------------------------|
+| `shellPath`          | string     | \-      | Custom shell path (e.g., for Cygwin on Windows); supports a leading `~` for the home directory                 |
+| `shellCommandPrefix` | string     | \-      | Prefix for every bash command (e.g., `"shopt -s expand_aliases"`)                                              |
+| `npmCommand`         | string\[\] | \-      | Command argv used for npm package lookup/install operations (e.g., `["mise", "exec", "node@20", "--", "npm"]`) |
 
 Windows paths in JSON must use forward slashes or escaped backslashes:
 
@@ -303,15 +303,23 @@ Windows paths in JSON must use forward slashes or escaped backslashes:
 <a href="#tools" class="heading-anchor" aria-label="Permalink: Tools" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `defaultTools` | string\[\] | \- | Built-in tools enabled initially. When omitted, Pi uses its standard defaults |
+| Setting        | Type       | Default | Description                                                                   |
+|----------------|------------|---------|-------------------------------------------------------------------------------|
+| `defaultTools` | string\[\] | \-      | Built-in tools enabled initially. When omitted, Pi uses its standard defaults |
 
-`defaultTools` selects the built-in tools enabled at startup. Extension and SDK custom tools remain enabled:
+`defaultTools` selects the built-in tools enabled at startup. Extension and SDK custom tools remain enabled. Available built-ins are `read`, `bash`, `powershell`, `edit`, `write`, `grep`, `find`, and `ls`:
 
 ``` json
 {
   "defaultTools": ["bash", "edit", "write"]
+}
+```
+
+On Windows, select `powershell` instead of `bash`, or include both:
+
+``` json
+{
+  "defaultTools": ["read", "powershell", "edit", "write"]
 }
 ```
 
@@ -323,9 +331,9 @@ An empty array starts with no built-in tools while preserving extension and SDK 
 <a href="#sessions" class="heading-anchor" aria-label="Permalink: Sessions" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#sessions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `sessionDir` | string | \- | Directory where session files are stored. Accepts absolute or relative paths, plus `~`. |
+| Setting      | Type   | Default | Description                                                                             |
+|--------------|--------|---------|-----------------------------------------------------------------------------------------|
+| `sessionDir` | string | \-      | Directory where session files are stored. Accepts absolute or relative paths, plus `~`. |
 
 ``` json
 { "sessionDir": ".pi/sessions" }
@@ -339,9 +347,9 @@ When multiple sources specify a session directory, precedence is `--session-dir`
 <a href="#model-cycling" class="heading-anchor" aria-label="Permalink: Model Cycling" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#model-cycling"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `enabledModels` | string\[\] | \- | Model patterns for Ctrl+P cycling (same format as `--models` CLI flag) |
+| Setting         | Type       | Default | Description                                                            |
+|-----------------|------------|---------|------------------------------------------------------------------------|
+| `enabledModels` | string\[\] | \-      | Model patterns for Ctrl+P cycling (same format as `--models` CLI flag) |
 
 ``` json
 {
@@ -355,10 +363,10 @@ When multiple sources specify a session directory, precedence is `--session-dir`
 <a href="#markdown" class="heading-anchor" aria-label="Permalink: Markdown" data-copy="" data-copy-text="https://pi.dev/docs/latest/settings#markdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `markdown.codeBlockIndent` | string | `" "` | Indentation for code blocks |
-| `markdown.mermaid` | string | `"streaming"` | Mermaid rendering mode: `"off"`, `"final"`, or `"streaming"` |
+| Setting                    | Type   | Default       | Description                                                  |
+|----------------------------|--------|---------------|--------------------------------------------------------------|
+| `markdown.codeBlockIndent` | string | `" "`         | Indentation for code blocks                                  |
+| `markdown.mermaid`         | string | `"streaming"` | Mermaid rendering mode: `"off"`, `"final"`, or `"streaming"` |
 
 
 ### Resources
@@ -370,14 +378,14 @@ These settings define where to load extensions, skills, prompts, and themes from
 
 Paths in `~/.pi/agent/settings.json` resolve relative to `~/.pi/agent`. Paths in `.pi/settings.json` resolve relative to `.pi`. Absolute paths and `~` are supported.
 
-| Setting | Type | Default | Description |
-|----|----|----|----|
-| `packages` | array | `[]` | npm/git packages to load resources from |
-| `extensions` | string\[\] | `[]` | Local extension file paths or directories |
-| `skills` | string\[\] | `[]` | Local skill file paths or directories |
-| `prompts` | string\[\] | `[]` | Local prompt template paths or directories |
-| `themes` | string\[\] | `[]` | Local theme file paths or directories |
-| `enableSkillCommands` | boolean | `true` | Register skills as `/skill:name` commands |
+| Setting               | Type       | Default | Description                                |
+|-----------------------|------------|---------|--------------------------------------------|
+| `packages`            | array      | `[]`    | npm/git packages to load resources from    |
+| `extensions`          | string\[\] | `[]`    | Local extension file paths or directories  |
+| `skills`              | string\[\] | `[]`    | Local skill file paths or directories      |
+| `prompts`             | string\[\] | `[]`    | Local prompt template paths or directories |
+| `themes`              | string\[\] | `[]`    | Local theme file paths or directories      |
+| `enableSkillCommands` | boolean    | `true`  | Register skills as `/skill:name` commands  |
 
 Arrays support glob patterns and exclusions. Use `!pattern` to exclude. Use `+path` to force-include an exact path and `-path` to force-exclude an exact path.
 

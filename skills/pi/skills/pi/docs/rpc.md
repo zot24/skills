@@ -1092,29 +1092,29 @@ Events are streamed to stdout as JSON lines during agent operation. Events do no
 <a href="#event-types" class="heading-anchor" aria-label="Permalink: Event Types" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#event-types"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Event | Description |
-|----|----|
-| `agent_start` | Agent begins processing |
-| `agent_end` | One low-level agent run completes (may still be followed by retry, compaction, or queued continuations) |
-| `agent_settled` | Agent run is fully settled; no automatic retry, compaction retry, or queued continuation remains |
-| `turn_start` | New turn begins |
-| `turn_end` | Turn completes (includes assistant message and tool results) |
-| `message_start` | Message begins |
-| `message_update` | Streaming update (text/thinking/toolcall deltas) |
-| `message_end` | Message completes |
-| `bash_execution_update` | Direct RPC bash command output chunk |
-| `tool_execution_start` | Tool begins execution |
-| `tool_execution_update` | Tool execution progress (streaming output) |
-| `tool_execution_end` | Tool completes |
-| `queue_update` | Pending steering/follow-up queue changed |
-| `compaction_start` | Compaction begins |
-| `compaction_end` | Compaction completes |
-| `auto_retry_start` | Auto-retry begins (after transient error) |
-| `auto_retry_end` | Auto-retry completes (success or final failure) |
-| `summarization_retry_scheduled` | Retry scheduled for a transient compaction or branch-summary summarization error |
-| `summarization_retry_attempt_start` | Retried summarization request starts |
-| `summarization_retry_finished` | Summarization retry loop completes |
-| `extension_error` | Extension threw an error |
+| Event                               | Description                                                                                             |
+|-------------------------------------|---------------------------------------------------------------------------------------------------------|
+| `agent_start`                       | Agent begins processing                                                                                 |
+| `agent_end`                         | One low-level agent run completes (may still be followed by retry, compaction, or queued continuations) |
+| `agent_settled`                     | Agent run is fully settled; no automatic retry, compaction retry, or queued continuation remains        |
+| `turn_start`                        | New turn begins                                                                                         |
+| `turn_end`                          | Turn completes (includes assistant message and tool results)                                            |
+| `message_start`                     | Message begins                                                                                          |
+| `message_update`                    | Streaming update (text/thinking/toolcall deltas)                                                        |
+| `message_end`                       | Message completes                                                                                       |
+| `bash_execution_update`             | Direct RPC bash command output chunk                                                                    |
+| `tool_execution_start`              | Tool begins execution                                                                                   |
+| `tool_execution_update`             | Tool execution progress (streaming output)                                                              |
+| `tool_execution_end`                | Tool completes                                                                                          |
+| `queue_update`                      | Pending steering/follow-up queue changed                                                                |
+| `compaction_start`                  | Compaction begins                                                                                       |
+| `compaction_end`                    | Compaction completes                                                                                    |
+| `auto_retry_start`                  | Auto-retry begins (after transient error)                                                               |
+| `auto_retry_end`                    | Auto-retry completes (success or final failure)                                                         |
+| `summarization_retry_scheduled`     | Retry scheduled for a transient compaction or branch-summary summarization error                        |
+| `summarization_retry_attempt_start` | Retried summarization request starts                                                                    |
+| `summarization_retry_finished`      | Summarization retry loop completes                                                                      |
+| `extension_error`                   | Extension threw an error                                                                                |
 
 
 ### agent_start

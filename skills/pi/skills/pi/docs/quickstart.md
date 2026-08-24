@@ -91,7 +91,7 @@ Pi can use subscription providers through `/login`, or API-key providers through
 
 Start pi and run:
 
-```
+``` text
 /login
 ```
 
@@ -122,7 +122,7 @@ See [Providers](/docs/latest/providers) for all supported providers, environment
 
 Once pi starts, type a request and press Enter:
 
-```
+``` text
 Summarize this repository and tell me how to run its checks.
 ```
 
@@ -188,7 +188,7 @@ Images or text can be pasted with Ctrl+V (Alt+V on Windows); images can also be 
 
 In interactive mode:
 
-```
+``` text
 !npm run lint
 ```
 

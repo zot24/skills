@@ -184,12 +184,12 @@ To share extensions via npm or git as pi packages, see [packages.md](/docs/lates
 <a href="#available-imports" class="heading-anchor" aria-label="Permalink: Available Imports" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#available-imports"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Package | Purpose |
-|----|----|
+| Package                           | Purpose                                                      |
+|-----------------------------------|--------------------------------------------------------------|
 | `@earendil-works/pi-coding-agent` | Extension types (`ExtensionAPI`, `ExtensionContext`, events) |
-| `typebox` | Schema definitions for tool parameters |
-| `@earendil-works/pi-ai` | AI utilities (`StringEnum` for Google-compatible enums) |
-| `@earendil-works/pi-tui` | TUI components for custom rendering |
+| `typebox`                         | Schema definitions for tool parameters                       |
+| `@earendil-works/pi-ai`           | AI utilities (`StringEnum` for Google-compatible enums)      |
+| `@earendil-works/pi-tui`          | TUI components for custom rendering                          |
 
 npm dependencies work too. Add a `package.json` next to your extension (or in a parent directory), run `npm install`, and imports from `node_modules/` are resolved automatically.
 
@@ -2454,7 +2454,7 @@ pi.registerTool({
 <a href="#overriding-built-in-tools" class="heading-anchor" aria-label="Permalink: Overriding Built-in Tools" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#overriding-built-in-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Extensions can override built-in tools (`read`, `bash`, `edit`, `write`, `grep`, `find`, `ls`) by registering a tool with the same name. Interactive mode displays a warning when this happens.
+Extensions can override built-in tools (`read`, `bash`, `powershell`, `edit`, `write`, `grep`, `find`, `ls`) by registering a tool with the same name. Interactive mode displays a warning when this happens.
 
 ``` bash
 # Extension's read tool replaces built-in read
@@ -2480,6 +2480,7 @@ Built-in tool implementations:
 
 - [read.ts](https://github.com/earendil-works/pi-mono/blob/main/packages/coding-agent/src/core/tools/read.ts) - `ReadToolDetails`
 - [bash.ts](https://github.com/earendil-works/pi-mono/blob/main/packages/coding-agent/src/core/tools/bash.ts) - `BashToolDetails`
+- [powershell.ts](https://github.com/earendil-works/pi-mono/blob/main/packages/coding-agent/src/core/tools/powershell.ts) - `PowerShellToolDetails`
 - [edit.ts](https://github.com/earendil-works/pi-mono/blob/main/packages/coding-agent/src/core/tools/edit.ts)
 - [write.ts](https://github.com/earendil-works/pi-mono/blob/main/packages/coding-agent/src/core/tools/write.ts)
 - [grep.ts](https://github.com/earendil-works/pi-mono/blob/main/packages/coding-agent/src/core/tools/grep.ts) - `GrepToolDetails`
@@ -2519,11 +2520,11 @@ pi.registerTool({
 });
 ```
 
-**Operations interfaces:** `ReadOperations`, `WriteOperations`, `EditOperations`, `BashOperations`, `LsOperations`, `GrepOperations`, `FindOperations`
+**Operations interfaces:** `ReadOperations`, `WriteOperations`, `EditOperations`, `BashOperations`, `PowerShellOperations`, `LsOperations`, `GrepOperations`, `FindOperations`
 
 For `user_bash`, extensions can reuse pi's local shell backend via `createLocalBashOperations()` instead of reimplementing local process spawning, shell resolution, and process-tree termination.
 
-The bash tool also supports a spawn hook to adjust the command, cwd, or env before execution:
+The `bash` and `powershell` tools also support a spawn hook to adjust the command, cwd, or env before execution:
 
 ``` typescript
 import { createBashTool } from "@earendil-works/pi-coding-agent";
@@ -2537,7 +2538,7 @@ const bashTool = createBashTool(cwd, {
 });
 ```
 
-`createBashTool()` exposes the current session to commands through `PI_SESSION_ID`, `PI_SESSION_FILE`, `PI_PROVIDER`, `PI_MODEL`, and `PI_REASONING_LEVEL`. Injection happens before `spawnHook`, so hooks receive these values in `env` and preserve them when they spread the existing environment as above. Set `exposeSessionEnvironment: false` to disable them:
+`createBashTool()` and `createPowerShellTool()` expose the current session to commands through `PI_SESSION_ID`, `PI_SESSION_FILE`, `PI_PROVIDER`, `PI_MODEL`, and `PI_REASONING_LEVEL`. Injection happens before `spawnHook`, so hooks receive these values in `env` and preserve them when they spread the existing environment as above. Set `exposeSessionEnvironment: false` to disable them:
 
 ``` typescript
 const bashTool = createBashTool(cwd, {
@@ -2545,7 +2546,7 @@ const bashTool = createBashTool(cwd, {
 });
 ```
 
-See [Bash tool session environment](/docs/latest/environment-variables#bash-tool-session-environment) for variable semantics. See [examples/extensions/ssh.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/ssh.ts) for a complete SSH example with `--ssh` flag.
+See [Shell tool session environment](/docs/latest/environment-variables#shell-tool-session-environment) for variable semantics. See [examples/extensions/ssh.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/ssh.ts) for a complete SSH example with `--ssh` flag.
 
 
 ### Output Truncation
@@ -3416,12 +3417,12 @@ const highlighted = highlightCode(code, lang, theme);
 <a href="#mode-behavior" class="heading-anchor" aria-label="Permalink: Mode Behavior" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#mode-behavior"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Mode | `ctx.mode` | `ctx.hasUI` | Notes |
-|----|----|----|----|
-| Interactive | `"tui"` | `true` | Full TUI with terminal rendering |
-| RPC (`--mode rpc`) | `"rpc"` | `true` | Dialogs and notifications via JSON protocol; `custom()` returns `undefined`. See [rpc.md](/docs/latest/rpc) |
-| JSON (`--mode json`) | `"json"` | `false` | Event stream to stdout; UI methods are no-ops |
-| Print (`-p`) | `"print"` | `false` | Extensions run but can't prompt |
+| Mode                 | `ctx.mode` | `ctx.hasUI` | Notes                                                                                                       |
+|----------------------|------------|-------------|-------------------------------------------------------------------------------------------------------------|
+| Interactive          | `"tui"`    | `true`      | Full TUI with terminal rendering                                                                            |
+| RPC (`--mode rpc`)   | `"rpc"`    | `true`      | Dialogs and notifications via JSON protocol; `custom()` returns `undefined`. See [rpc.md](/docs/latest/rpc) |
+| JSON (`--mode json`) | `"json"`   | `false`     | Event stream to stdout; UI methods are no-ops                                                               |
+| Print (`-p`)         | `"print"`  | `false`     | Extensions run but can't prompt                                                                             |
 
 Use `ctx.mode === "tui"` before TUI-specific features (`custom()`, component factories, terminal input). Use `ctx.hasUI` before dialog and notification methods that work in both TUI and RPC modes.
 
@@ -3433,86 +3434,86 @@ Use `ctx.mode === "tui"` before TUI-specific features (`custom()`, component fac
 
 All examples in [examples/extensions/](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions).
 
-| Example | Description | Key APIs |
-|----|----|----|
-| **Tools** |  |  |
-| `hello.ts` | Minimal tool registration | `registerTool` |
-| `question.ts` | Tool with user interaction | `registerTool`, `ui.select` |
-| `questionnaire.ts` | Multi-step wizard tool | `registerTool`, `ui.custom` |
-| `todo.ts` | Stateful tool with persistence | `registerTool`, `appendEntry`, `renderResult`, session events |
-| `dynamic-tools.ts` | Register tools after startup and during commands | `registerTool`, `session_start`, `registerCommand` |
-| `structured-output.ts` | Final structured-output tool with `terminate: true` | `registerTool`, terminating tool results |
-| `truncated-tool.ts` | Output truncation example | `registerTool`, `truncateHead` |
-| `tool-override.ts` | Override built-in read tool | `registerTool` (same name as built-in) |
-| **Commands** |  |  |
-| `pirate.ts` | Modify system prompt per-turn | `registerCommand`, `before_agent_start` |
-| `summarize.ts` | Conversation summary command | `registerCommand`, `ui.custom` |
-| `handoff.ts` | Cross-provider model handoff | `registerCommand`, `ui.editor`, `ui.custom` |
-| `qna.ts` | Q&A with custom UI | `registerCommand`, `ui.custom`, `setEditorText` |
-| `send-user-message.ts` | Inject user messages | `registerCommand`, `sendUserMessage` |
-| `reload-runtime.ts` | Reload command and LLM tool handoff | `registerCommand`, `ctx.reload()`, `sendUserMessage` |
-| `shutdown-command.ts` | Graceful shutdown command | `registerCommand`, `shutdown()` |
-| **Events & Gates** |  |  |
-| `permission-gate.ts` | Block dangerous commands | `on("tool_call")`, `ui.confirm` |
-| `project-trust.ts` | Decide or defer project trust from a user/global or CLI extension | `on("project_trust")`, trust UI, required trust result |
-| `protected-paths.ts` | Block writes to specific paths | `on("tool_call")` |
-| `confirm-destructive.ts` | Confirm session changes | `on("session_before_switch")`, `on("session_before_fork")` |
-| `dirty-repo-guard.ts` | Warn on dirty git repo | `on("session_before_*")`, `exec` |
-| `input-transform.ts` | Transform user input | `on("input")` |
-| `input-transform-streaming.ts` | Streaming-aware input transform | `on("input")`, `streamingBehavior` |
-| `model-status.ts` | React to model changes | `on("model_select")`, `setStatus` |
-| `provider-payload.ts` | Inspect payloads and provider response headers | `on("before_provider_request")`, `on("after_provider_response")` |
-| `system-prompt-header.ts` | Display system prompt info | `on("agent_start")`, `getSystemPrompt` |
-| `claude-rules.ts` | Load rules from files | `on("session_start")`, `on("before_agent_start")` |
-| `prompt-customizer.ts` | Add context-aware tool guidance using `systemPromptOptions` | `on("before_agent_start")`, `BuildSystemPromptOptions` |
-| `file-trigger.ts` | File watcher triggers messages | `sendMessage` |
-| **Compaction & Sessions** |  |  |
-| `custom-compaction.ts` | Custom compaction summary | `on("session_before_compact")` |
-| `trigger-compact.ts` | Trigger compaction manually | `compact()` |
-| `git-checkpoint.ts` | Git stash on turns | `on("turn_start")`, `on("session_before_fork")`, `exec` |
-| `git-merge-and-resolve.ts` | Fetch, merge, and resolve conflicts | `on("agent_end")`, `exec`, `sendUserMessage` |
-| `auto-commit-on-exit.ts` | Commit on shutdown | `on("session_shutdown")`, `exec` |
-| **UI Components** |  |  |
-| `status-line.ts` | Footer status indicator | `setStatus`, session events |
-| `working-indicator.ts` | Customize the streaming working indicator | `setWorkingIndicator`, `registerCommand` |
-| `github-issue-autocomplete.ts` | Add `#1234` issue completions on top of built-in autocomplete by preloading recent open issues from `gh issue list` | `addAutocompleteProvider`, `on("session_start")`, `exec` |
-| `custom-footer.ts` | Replace footer entirely | `registerCommand`, `setFooter` |
-| `custom-header.ts` | Replace startup header | `on("session_start")`, `setHeader` |
-| `modal-editor.ts` | Vim-style modal editor | `setEditorComponent`, `CustomEditor` |
-| `rainbow-editor.ts` | Custom editor styling | `setEditorComponent` |
-| `widget-placement.ts` | Widget above/below editor | `setWidget` |
-| `overlay-test.ts` | Overlay components | `ui.custom` with overlay options |
-| `overlay-qa-tests.ts` | Comprehensive overlay tests | `ui.custom`, all overlay options |
-| `notify.ts` | Simple notifications | `ui.notify` |
-| `timed-confirm.ts` | Dialogs with timeout | `ui.confirm` with timeout/signal |
-| `mac-system-theme.ts` | Auto-switch theme | `setTheme`, `exec` |
-| **Complex Extensions** |  |  |
-| `plan-mode/` | Full plan mode implementation | All event types, `registerCommand`, `registerShortcut`, `registerFlag`, `setStatus`, `setWidget`, `sendMessage`, `setActiveTools` |
-| `preset.ts` | Saveable presets (model, tools, thinking) | `registerCommand`, `registerShortcut`, `registerFlag`, `setModel`, `setActiveTools`, `setThinkingLevel`, `appendEntry` |
-| `tools.ts` | Toggle tools on/off UI | `registerCommand`, `setActiveTools`, `SettingsList`, session events |
-| **Remote & Sandbox** |  |  |
-| `ssh.ts` | SSH remote execution | `registerFlag`, `on("user_bash")`, `on("before_agent_start")`, tool operations |
-| `interactive-shell.ts` | Persistent shell session | `on("user_bash")` |
-| `sandbox/` | Sandboxed tool execution | Tool operations |
-| `gondolin/` | Route built-in tools and `!` commands into a Gondolin micro-VM | Tool operations, built-in tool overrides, `on("user_bash")` |
-| `subagent/` | Spawn sub-agents | `registerTool`, `exec` |
-| **Games** |  |  |
-| `snake.ts` | Snake game | `registerCommand`, `ui.custom`, keyboard handling |
-| `space-invaders.ts` | Space Invaders game | `registerCommand`, `ui.custom` |
-| `doom-overlay/` | Doom in overlay | `ui.custom` with overlay |
-| **Providers** |  |  |
-| `custom-provider-anthropic/` | Custom Anthropic proxy | `registerProvider` |
-| `custom-provider-gitlab-duo/` | GitLab Duo integration | `registerProvider` with OAuth |
-| **Messages & Communication** |  |  |
-| `message-renderer.ts` | Custom message rendering | `registerMessageRenderer`, `sendMessage` |
-| `entry-renderer.ts` | TUI-only custom entry rendering | `registerEntryRenderer`, `appendEntry` |
-| `event-bus.ts` | Inter-extension events | `pi.events` |
-| **Session Metadata** |  |  |
-| `session-name.ts` | Name sessions for selector | `setSessionName`, `getSessionName` |
-| `bookmark.ts` | Bookmark entries for /tree | `setLabel` |
-| **Misc** |  |  |
-| `inline-bash.ts` | Inline bash in tool calls | `on("tool_call")` |
-| `bash-spawn-hook.ts` | Adjust bash command, cwd, and env before execution | `createBashTool`, `spawnHook` |
-| `with-deps/` | Extension with npm dependencies | Package structure with `package.json` |
+| Example                        | Description                                                                                                         | Key APIs                                                                                                                          |
+|--------------------------------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| **Tools**                      |                                                                                                                     |                                                                                                                                   |
+| `hello.ts`                     | Minimal tool registration                                                                                           | `registerTool`                                                                                                                    |
+| `question.ts`                  | Tool with user interaction                                                                                          | `registerTool`, `ui.select`                                                                                                       |
+| `questionnaire.ts`             | Multi-step wizard tool                                                                                              | `registerTool`, `ui.custom`                                                                                                       |
+| `todo.ts`                      | Stateful tool with persistence                                                                                      | `registerTool`, `appendEntry`, `renderResult`, session events                                                                     |
+| `dynamic-tools.ts`             | Register tools after startup and during commands                                                                    | `registerTool`, `session_start`, `registerCommand`                                                                                |
+| `structured-output.ts`         | Final structured-output tool with `terminate: true`                                                                 | `registerTool`, terminating tool results                                                                                          |
+| `truncated-tool.ts`            | Output truncation example                                                                                           | `registerTool`, `truncateHead`                                                                                                    |
+| `tool-override.ts`             | Override built-in read tool                                                                                         | `registerTool` (same name as built-in)                                                                                            |
+| **Commands**                   |                                                                                                                     |                                                                                                                                   |
+| `pirate.ts`                    | Modify system prompt per-turn                                                                                       | `registerCommand`, `before_agent_start`                                                                                           |
+| `summarize.ts`                 | Conversation summary command                                                                                        | `registerCommand`, `ui.custom`                                                                                                    |
+| `handoff.ts`                   | Cross-provider model handoff                                                                                        | `registerCommand`, `ui.editor`, `ui.custom`                                                                                       |
+| `qna.ts`                       | Q&A with custom UI                                                                                                  | `registerCommand`, `ui.custom`, `setEditorText`                                                                                   |
+| `send-user-message.ts`         | Inject user messages                                                                                                | `registerCommand`, `sendUserMessage`                                                                                              |
+| `reload-runtime.ts`            | Reload command and LLM tool handoff                                                                                 | `registerCommand`, `ctx.reload()`, `sendUserMessage`                                                                              |
+| `shutdown-command.ts`          | Graceful shutdown command                                                                                           | `registerCommand`, `shutdown()`                                                                                                   |
+| **Events & Gates**             |                                                                                                                     |                                                                                                                                   |
+| `permission-gate.ts`           | Block dangerous commands                                                                                            | `on("tool_call")`, `ui.confirm`                                                                                                   |
+| `project-trust.ts`             | Decide or defer project trust from a user/global or CLI extension                                                   | `on("project_trust")`, trust UI, required trust result                                                                            |
+| `protected-paths.ts`           | Block writes to specific paths                                                                                      | `on("tool_call")`                                                                                                                 |
+| `confirm-destructive.ts`       | Confirm session changes                                                                                             | `on("session_before_switch")`, `on("session_before_fork")`                                                                        |
+| `dirty-repo-guard.ts`          | Warn on dirty git repo                                                                                              | `on("session_before_*")`, `exec`                                                                                                  |
+| `input-transform.ts`           | Transform user input                                                                                                | `on("input")`                                                                                                                     |
+| `input-transform-streaming.ts` | Streaming-aware input transform                                                                                     | `on("input")`, `streamingBehavior`                                                                                                |
+| `model-status.ts`              | React to model changes                                                                                              | `on("model_select")`, `setStatus`                                                                                                 |
+| `provider-payload.ts`          | Inspect payloads and provider response headers                                                                      | `on("before_provider_request")`, `on("after_provider_response")`                                                                  |
+| `system-prompt-header.ts`      | Display system prompt info                                                                                          | `on("agent_start")`, `getSystemPrompt`                                                                                            |
+| `claude-rules.ts`              | Load rules from files                                                                                               | `on("session_start")`, `on("before_agent_start")`                                                                                 |
+| `prompt-customizer.ts`         | Add context-aware tool guidance using `systemPromptOptions`                                                         | `on("before_agent_start")`, `BuildSystemPromptOptions`                                                                            |
+| `file-trigger.ts`              | File watcher triggers messages                                                                                      | `sendMessage`                                                                                                                     |
+| **Compaction & Sessions**      |                                                                                                                     |                                                                                                                                   |
+| `custom-compaction.ts`         | Custom compaction summary                                                                                           | `on("session_before_compact")`                                                                                                    |
+| `trigger-compact.ts`           | Trigger compaction manually                                                                                         | `compact()`                                                                                                                       |
+| `git-checkpoint.ts`            | Git stash on turns                                                                                                  | `on("turn_start")`, `on("session_before_fork")`, `exec`                                                                           |
+| `git-merge-and-resolve.ts`     | Fetch, merge, and resolve conflicts                                                                                 | `on("agent_end")`, `exec`, `sendUserMessage`                                                                                      |
+| `auto-commit-on-exit.ts`       | Commit on shutdown                                                                                                  | `on("session_shutdown")`, `exec`                                                                                                  |
+| **UI Components**              |                                                                                                                     |                                                                                                                                   |
+| `status-line.ts`               | Footer status indicator                                                                                             | `setStatus`, session events                                                                                                       |
+| `working-indicator.ts`         | Customize the streaming working indicator                                                                           | `setWorkingIndicator`, `registerCommand`                                                                                          |
+| `github-issue-autocomplete.ts` | Add `#1234` issue completions on top of built-in autocomplete by preloading recent open issues from `gh issue list` | `addAutocompleteProvider`, `on("session_start")`, `exec`                                                                          |
+| `custom-footer.ts`             | Replace footer entirely                                                                                             | `registerCommand`, `setFooter`                                                                                                    |
+| `custom-header.ts`             | Replace startup header                                                                                              | `on("session_start")`, `setHeader`                                                                                                |
+| `modal-editor.ts`              | Vim-style modal editor                                                                                              | `setEditorComponent`, `CustomEditor`                                                                                              |
+| `rainbow-editor.ts`            | Custom editor styling                                                                                               | `setEditorComponent`                                                                                                              |
+| `widget-placement.ts`          | Widget above/below editor                                                                                           | `setWidget`                                                                                                                       |
+| `overlay-test.ts`              | Overlay components                                                                                                  | `ui.custom` with overlay options                                                                                                  |
+| `overlay-qa-tests.ts`          | Comprehensive overlay tests                                                                                         | `ui.custom`, all overlay options                                                                                                  |
+| `notify.ts`                    | Simple notifications                                                                                                | `ui.notify`                                                                                                                       |
+| `timed-confirm.ts`             | Dialogs with timeout                                                                                                | `ui.confirm` with timeout/signal                                                                                                  |
+| `mac-system-theme.ts`          | Auto-switch theme                                                                                                   | `setTheme`, `exec`                                                                                                                |
+| **Complex Extensions**         |                                                                                                                     |                                                                                                                                   |
+| `plan-mode/`                   | Full plan mode implementation                                                                                       | All event types, `registerCommand`, `registerShortcut`, `registerFlag`, `setStatus`, `setWidget`, `sendMessage`, `setActiveTools` |
+| `preset.ts`                    | Saveable presets (model, tools, thinking)                                                                           | `registerCommand`, `registerShortcut`, `registerFlag`, `setModel`, `setActiveTools`, `setThinkingLevel`, `appendEntry`            |
+| `tools.ts`                     | Toggle tools on/off UI                                                                                              | `registerCommand`, `setActiveTools`, `SettingsList`, session events                                                               |
+| **Remote & Sandbox**           |                                                                                                                     |                                                                                                                                   |
+| `ssh.ts`                       | SSH remote execution                                                                                                | `registerFlag`, `on("user_bash")`, `on("before_agent_start")`, tool operations                                                    |
+| `interactive-shell.ts`         | Persistent shell session                                                                                            | `on("user_bash")`                                                                                                                 |
+| `sandbox/`                     | Sandboxed tool execution                                                                                            | Tool operations                                                                                                                   |
+| `gondolin/`                    | Route built-in tools and `!` commands into a Gondolin micro-VM                                                      | Tool operations, built-in tool overrides, `on("user_bash")`                                                                       |
+| `subagent/`                    | Spawn sub-agents                                                                                                    | `registerTool`, `exec`                                                                                                            |
+| **Games**                      |                                                                                                                     |                                                                                                                                   |
+| `snake.ts`                     | Snake game                                                                                                          | `registerCommand`, `ui.custom`, keyboard handling                                                                                 |
+| `space-invaders.ts`            | Space Invaders game                                                                                                 | `registerCommand`, `ui.custom`                                                                                                    |
+| `doom-overlay/`                | Doom in overlay                                                                                                     | `ui.custom` with overlay                                                                                                          |
+| **Providers**                  |                                                                                                                     |                                                                                                                                   |
+| `custom-provider-anthropic/`   | Custom Anthropic proxy                                                                                              | `registerProvider`                                                                                                                |
+| `custom-provider-gitlab-duo/`  | GitLab Duo integration                                                                                              | `registerProvider` with OAuth                                                                                                     |
+| **Messages & Communication**   |                                                                                                                     |                                                                                                                                   |
+| `message-renderer.ts`          | Custom message rendering                                                                                            | `registerMessageRenderer`, `sendMessage`                                                                                          |
+| `entry-renderer.ts`            | TUI-only custom entry rendering                                                                                     | `registerEntryRenderer`, `appendEntry`                                                                                            |
+| `event-bus.ts`                 | Inter-extension events                                                                                              | `pi.events`                                                                                                                       |
+| **Session Metadata**           |                                                                                                                     |                                                                                                                                   |
+| `session-name.ts`              | Name sessions for selector                                                                                          | `setSessionName`, `getSessionName`                                                                                                |
+| `bookmark.ts`                  | Bookmark entries for /tree                                                                                          | `setLabel`                                                                                                                        |
+| **Misc**                       |                                                                                                                     |                                                                                                                                   |
+| `inline-bash.ts`               | Inline bash in tool calls                                                                                           | `on("tool_call")`                                                                                                                 |
+| `bash-spawn-hook.ts`           | Adjust bash command, cwd, and env before execution                                                                  | `createBashTool`, `spawnHook`                                                                                                     |
+| `with-deps/`                   | Extension with npm dependencies                                                                                     | Package structure with `package.json`                                                                                             |
 
 

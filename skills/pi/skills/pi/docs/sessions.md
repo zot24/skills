@@ -57,18 +57,18 @@ For the JSONL file format and SessionManager API, see [Session Format](/docs/lat
 <a href="#session-commands" class="heading-anchor" aria-label="Permalink: Session Commands" data-copy="" data-copy-text="https://pi.dev/docs/latest/sessions#session-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Command | Description |
-|----|----|
-| `/resume` | Browse and select previous sessions |
-| `/new` | Start a new session |
-| `/name <name>` | Set the current session display name |
-| `/session` | Show session info |
-| `/tree` | Navigate the current session tree |
-| `/fork` | Create a new session from a previous user message |
-| `/clone` | Duplicate the current active branch into a new session |
+| Command             | Description                                                        |
+|---------------------|--------------------------------------------------------------------|
+| `/resume`           | Browse and select previous sessions                                |
+| `/new`              | Start a new session                                                |
+| `/name <name>`      | Set the current session display name                               |
+| `/session`          | Show session info                                                  |
+| `/tree`             | Navigate the current session tree                                  |
+| `/fork`             | Create a new session from a previous user message                  |
+| `/clone`            | Duplicate the current active branch into a new session             |
 | `/compact [prompt]` | Summarize older context; see [Compaction](/docs/latest/compaction) |
-| `/export [file]` | Export session to HTML |
-| `/share` | Upload as private GitHub gist with shareable HTML link |
+| `/export [file]`    | Export session to HTML                                             |
+| `/share`            | Upload as private GitHub gist with shareable HTML link             |
 
 
 ## Resuming and Deleting Sessions
@@ -97,7 +97,7 @@ When available, pi uses the `trash` CLI for deletion instead of permanently remo
 
 Use `/name <name>` to set a human-readable session name:
 
-```
+``` text
 /name Refactor auth module
 ```
 
@@ -122,7 +122,7 @@ Sessions are stored as trees. Every entry has an `id` and `parentId`, and the cu
 
 Example shape:
 
-```
+``` text
 ├─ user: "Hello, can you help..."
 │  └─ assistant: "Of course! I can..."
 │     ├─ user: "Let's try approach A..."
@@ -177,12 +177,12 @@ Selecting the root user message resets the leaf to an empty conversation and pla
 <a href="#tree-fork-and-clone" class="heading-anchor" aria-label="Permalink: /tree, /fork, and /clone" data-copy="" data-copy-text="https://pi.dev/docs/latest/sessions#tree-fork-and-clone"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Feature | `/tree` | `/fork` | `/clone` |
-|----|----|----|----|
-| Output | Same session file | New session file | New session file |
-| View | Full tree | User-message selector | Current active branch |
+| Feature     | `/tree`                       | `/fork`                                    | `/clone`                                 |
+|-------------|-------------------------------|--------------------------------------------|------------------------------------------|
+| Output      | Same session file             | New session file                           | New session file                         |
+| View        | Full tree                     | User-message selector                      | Current active branch                    |
 | Typical use | Explore alternatives in place | Start a new session from an earlier prompt | Duplicate current work before continuing |
-| Summary | Optional branch summary | None | None |
+| Summary     | Optional branch summary       | None                                       | None                                     |
 
 Use `/tree` when you want to keep alternatives together. Use `/fork` or `/clone` when you want a separate session file.
 

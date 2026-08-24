@@ -249,22 +249,22 @@ Every theme must define all 51 required color tokens. The optional tokens preser
 <a href="#backgrounds-content-11-required-3-optional" class="heading-anchor" aria-label="Permalink: Backgrounds &amp; Content (11 required, 3 optional)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#backgrounds-content-11-required-3-optional"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Token | Purpose |
-|----|----|
-| `selectedBg` | Selected line background |
-| `scrollbarThumb` | Fullscreen scrollbar thumb background; optional, falls back to `selectedBg` |
-| `searchMatchBg` | Transcript search match background and current-match text; optional, falls back to `selectedBg` |
-| `searchMatchText` | Transcript search match text and current-match background; optional, falls back to `text` |
-| `userMessageBg` | User message background |
-| `userMessageText` | User message text |
-| `customMessageBg` | Extension message background |
-| `customMessageText` | Extension message text |
-| `customMessageLabel` | Extension message label |
-| `toolPendingBg` | Tool box (pending) |
-| `toolSuccessBg` | Tool box (success) |
-| `toolErrorBg` | Tool box (error) |
-| `toolTitle` | Tool title |
-| `toolOutput` | Tool output text |
+| Token                | Purpose                                                                                         |
+|----------------------|-------------------------------------------------------------------------------------------------|
+| `selectedBg`         | Selected line background                                                                        |
+| `scrollbarThumb`     | Fullscreen scrollbar thumb background; optional, falls back to `selectedBg`                     |
+| `searchMatchBg`      | Transcript search match background and current-match text; optional, falls back to `selectedBg` |
+| `searchMatchText`    | Transcript search match text and current-match background; optional, falls back to `text`       |
+| `userMessageBg`      | User message background                                                                         |
+| `userMessageText`    | User message text                                                                               |
+| `customMessageBg`    | Extension message background                                                                    |
+| `customMessageText`  | Extension message text                                                                          |
+| `customMessageLabel` | Extension message label                                                                         |
+| `toolPendingBg`      | Tool box (pending)                                                                              |
+| `toolSuccessBg`      | Tool box (success)                                                                              |
+| `toolErrorBg`        | Tool box (error)                                                                                |
+| `toolTitle`          | Tool title                                                                                      |
+| `toolOutput`         | Tool output text                                                                                |
 
 
 ### Markdown (10 colors)
@@ -323,15 +323,15 @@ Every theme must define all 51 required color tokens. The optional tokens preser
 
 Editor border colors indicating thinking level (visual hierarchy from subtle to prominent):
 
-| Token | Purpose |
-|----|----|
-| `thinkingOff` | Thinking off |
-| `thinkingMinimal` | Minimal thinking |
-| `thinkingLow` | Low thinking |
-| `thinkingMedium` | Medium thinking |
-| `thinkingHigh` | High thinking |
-| `thinkingXhigh` | Extra high thinking |
-| `thinkingMax` | Maximum thinking; optional, falls back to `thinkingXhigh` |
+| Token             | Purpose                                                   |
+|-------------------|-----------------------------------------------------------|
+| `thinkingOff`     | Thinking off                                              |
+| `thinkingMinimal` | Minimal thinking                                          |
+| `thinkingLow`     | Low thinking                                              |
+| `thinkingMedium`  | Medium thinking                                           |
+| `thinkingHigh`    | High thinking                                             |
+| `thinkingXhigh`   | Extra high thinking                                       |
+| `thinkingMax`     | Maximum thinking; optional, falls back to `thinkingXhigh` |
 
 
 ### Bash Mode (1 color)
