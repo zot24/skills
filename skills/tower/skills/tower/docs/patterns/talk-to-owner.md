@@ -11,6 +11,16 @@ Status: **trial**. Owner will confirm the four-line shape.
 
 Do not lead with thread numbers, gate tables, or HAVE/STEAL.
 
+## Cue when you launch someone
+
+The owner cannot see herdr unless you say it. Every time you start or prompt a pane, say it **in the same reply**:
+
+- **who** (role name)
+- **what** (one line)
+- **where** (space label)
+
+Do not launch silently.
+
 ## Autolearn into the skill
 
 When the tower finds something worth keeping (a steal, a failure we paid for, a better loop):
