@@ -84,12 +84,26 @@ function parse(lines) {
   return { gates, abandoned };
 }
 
+function isWordChar(ch) {
+  return /[A-Za-z0-9_]/.test(ch);
+}
+
 function expectMatches(expect, output) {
   const rx = expect.match(/^\/(.+)\/([a-z]*)$/);
   if (rx) {
     try { return new RegExp(rx[1], rx[2]).test(output); } catch { return false; }
   }
-  return output.includes(expect);
+  // Line-anchored prefix at a token boundary. Trim each line. Pass if any
+  // line starts with EXPECT and the next character is end-of-line or a
+  // non-word character. Catches EXPECT: cited on output undercited (the
+  // line does not start with cited) while keeping ALL MET (4 met).
+  const lines = output.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+  for (const line of lines) {
+    if (!line.startsWith(expect)) continue;
+    const next = line.length === expect.length ? "" : line[expect.length];
+    if (next === "" || !isWordChar(next)) return true;
+  }
+  return false;
 }
 
 function tail(output, max = 200) {

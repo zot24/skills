@@ -19,7 +19,12 @@ Scope: children <list child markers or gates files> merged into one working whol
 
 - [ ] N4: nothing regressed in siblings this merge touched
   CHECK: <targeted re-run of affected sibling checks>
-  EXPECT: <success marker>
+  EXPECT: <line-anchored prefix token, or /regex/>
+  EVIDENCE: pending
+
+- [ ] N5: marker observed, not pending
+  CHECK: test -f "$m" && ! grep -qE '^[[:space:]]*EVIDENCE: pending[[:space:]]*$' "$m" && echo marker-observed || echo marker-missing-or-pending
+  EXPECT: marker-observed
   EVIDENCE: pending
 
 <!--
