@@ -106,6 +106,7 @@ House leftovers folded here (not six plugins): `herdr-fleet` (HOUSE dispatch, no
 - **[Work graph](docs/work-graph.md)** — work graph file, unpaid ask, node states, and typed edges
 - **[auto-wiki](docs/auto-wiki.md)** — rewrite wiki pages from a git diff; hook calls this package's script
 - **[Patterns](docs/patterns/README.md)** — adopted loops (catalog). Auto-wiki is the named adopt.
+- **[fusion-opinion](docs/patterns/fusion-opinion.md)** — read-only N opinions + one architect when the spec says `when=fusion-opinion`
 - **[Pitfalls](docs/pitfalls.md)** — the failure catalogue, each with what it actually cost
 - **[CLI reference](docs/cli-reference.md)** — the herdr surface a tower uses, verified against v0.7.5
 - **[Gate format](docs/gate-format.md)** — the file shape, `CHECK` / `EXPECT` / `EVIDENCE`, `ABANDON`, and how to write a gate that means something

@@ -115,6 +115,14 @@ covered. *"Ran the happy path on local, did not test the duplicate-email case"* 
 2. **Creator ≠ verifier, and a different model.** A builder has cost bias on its own work.
 3. **Serial on one repo.** Parallel workers on a shared checkout produce conflicts and
    duplicates. Parallel is for *read-only* work — search, review, census.
+
+**Exception — `when=fusion-opinion`.** A spec that names `when=fusion-opinion` may start
+**2–3 read-only opinion panes** plus **one architect**. The architect is the existing
+**adversary** seat (claude opus). Do not invent a kind. Opinion panes do not edit the
+product tree. They answer the same prompt file with model names hidden (rune / flux /
+drift). Then share. Then opus converges. Still one **writer** if code follows.
+Fusion-opinion itself does not write. Never on a serial write ticket. Never on every
+dispatch. Never five models. Cut: [fusion-opinion](patterns/fusion-opinion.md).
 4. **3–5 concurrent agents max** while one human watches one repo. Hundreds only when each agent
    owns an independent PR.
 5. **Negotiate done before code** — the validation contract first, then implement.

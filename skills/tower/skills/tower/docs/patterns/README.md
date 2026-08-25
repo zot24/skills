@@ -18,6 +18,7 @@ Built in this package: [auto-wiki](../auto-wiki.md) and `scripts/auto-wiki.py`. 
 
 | Pattern | Where it lives | Source |
 |---|---|---|
+| [Fusion-opinion](fusion-opinion.md) | `when=fusion-opinion` only; read-only N opinions + adversary opus | indydevdan `rqZHR-hRllI` |
 | LLM wiki | nvk `wiki-manager` — **separate install** | nvk/llm-wiki · Karpathy |
 | Control tower | this skill | [herdr](https://github.com/herdrdev/herdr) |
 | Fleet trio / space-loop | [space-loop](../space-loop.md) | Factory / Anthropic in [staffing](../staffing.md) |
