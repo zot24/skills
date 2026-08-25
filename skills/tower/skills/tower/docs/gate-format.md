@@ -12,12 +12,12 @@ Scope: <one line>
 
 - [ ] G1: <observable outcome>
   CHECK: <shell command>
-  EXPECT: <substring or /regex/>
+  EXPECT: <line-anchored prefix token, or /regex/>
   EVIDENCE: pending
 
 - [ ] G2: <another outcome>
   CHECK: <command>
-  EXPECT: <substring or /regex/>
+  EXPECT: <line-anchored prefix token, or /regex/>
   EVIDENCE: pending
 ```
 
@@ -29,7 +29,7 @@ Scope: <one line>
 |---|---|
 | `- [ ] G1: title` | One gate. The id is the token before the first colon. The rest is the title |
 | `CHECK:` | A shell command. Indent it under the gate. Optional — omit it for a manual gate |
-| `EXPECT:` | A substring, or `/regex/flags`. Optional |
+| `EXPECT:` | Line-anchored prefix at a token boundary, or `/regex/flags`. Optional. The success token must never be a suffix or interior substring of the failure token |
 | `EVIDENCE:` | `pending` until the checker fills it, or your own quote for a manual gate |
 
 The attribute lines must be indented. An unindented line that starts with `#` or `- ` ends the
@@ -37,8 +37,21 @@ current gate.
 
 ## How a gate passes
 
-- **With `EXPECT`** — the match against combined stdout and stderr decides. The exit code is
-  ignored, because a useful check may exit non-zero by design.
+- **With `EXPECT`** — any trimmed line of combined stdout and stderr must **start with** the
+  token, and the next character must be end-of-line or a non-word character (`[^A-Za-z0-9_]`).
+  Or a `/regex/flags` must match the combined output. The exit code is ignored, because a
+  useful check may exit non-zero by design.
+
+  Worked example (`cited` / `undercited`, hit twice 2026-08-25):
+
+  | Output line | EXPECT | Result |
+  |---|---|---|
+  | `ALL MET (4 met)` | `ALL MET` | PASS — space after the token |
+  | `WORDS_OK     2393` | `WORDS_OK` | PASS — space after the token |
+  | `undercited` | `cited` | FAIL — the line does not start with `cited` |
+  | `under-swept` | `swept` | FAIL — the line does not start with `swept` |
+  | `not-pushed` | `pushed` | FAIL — the line does not start with `pushed` |
+  | `cited` | `cited` | PASS — exact line |
 - **Without `EXPECT`** — the exit code decides. Zero passes.
 
 On a pass the checker rewrites `- [ ]` to `- [x]` and replaces `EVIDENCE: pending` with the last two
@@ -55,8 +68,25 @@ box with `EVIDENCE: pending` is unmet. That is the point of the format.
   after the fact.
 - **Pin the `EXPECT` to something the command controls.** `echo checker-ok` at the end of a `test`
   is a stable marker. A version string is not.
+- **Put the success token at the start of a line.** The checker does a line-anchored prefix
+  match at a token boundary, not a substring search. `EXPECT: cited` passed on output
+  `undercited` under containment (twice, 2026-08-25). A failure token must not *start with* the
+  success token followed by a word character. `citation-ok` / `undercited` is safe; `cited` /
+  `undercited` is not.
 - **Prefer a check that fails when the work is undone.** A gate that passes on an empty repo is
   decoration.
+- **Anchor `EVIDENCE: pending` greps.** `grep -q 'EVIDENCE: pending'` matches a marker line that
+  says "no EVIDENCE: pending". Use
+  `grep -qE '^[[:space:]]*EVIDENCE: pending[[:space:]]*$'`.
+
+Add a final marker-completeness gate (copy from `templates/gates.md`):
+
+```markdown
+- [ ] G9: marker observed, not pending
+  CHECK: test -f "$m" && ! grep -qE '^[[:space:]]*EVIDENCE: pending[[:space:]]*$' "$m" && echo marker-observed || echo marker-missing-or-pending
+  EXPECT: marker-observed
+  EVIDENCE: pending
+```
 
 Good:
 

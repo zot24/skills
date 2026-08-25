@@ -48,8 +48,10 @@ stderr still works.
 
 Matching:
 
-- `EXPECT` present → the combined output must contain the substring, or match `/regex/flags`. The
-  exit code is ignored.
+- `EXPECT` present → any trimmed line of the combined output must start with the token, and
+  the next character must be end-of-line or a non-word character. Or `/regex/flags` must match
+  the combined output. The exit code is ignored. `EXPECT: cited` does not pass on `undercited`.
+  `EXPECT: ALL MET` does pass on `ALL MET (4 met)`.
 - `EXPECT` absent → exit status `0` passes.
 - A regex that does not compile never matches. It does not crash the run.
 
