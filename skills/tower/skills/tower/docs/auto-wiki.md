@@ -51,8 +51,11 @@ and `post-merge` at `scripts/auto-wiki.py` (or a one-line wrapper that `exec`s i
 
 ```bash
 # post-commit (after the enabled test and range = HEAD^..HEAD)
-exec python3 "$TOWER_SKILL_ROOT/scripts/auto-wiki.py" --range "$range" --repo "$root"
+exec python3 "${CLAUDE_PLUGIN_ROOT}/scripts/auto-wiki.py" --range "$range" --repo "$root"
 ```
+
+`${CLAUDE_PLUGIN_ROOT}` is this plugin's root (Claude Code sets it). A hook outside Claude
+must export it to that directory. There is no `TOWER_SKILL_ROOT`.
 
 Open question: whether `zskills install tower` should also write hooks. Do not invent a
 global installer in this package.
@@ -60,6 +63,7 @@ global installer in this package.
 ## CLI
 
 ```bash
+# cwd: ${CLAUDE_PLUGIN_ROOT}
 python3 scripts/auto-wiki.py --range <a>..<b> --repo <git-root> \
   [--wiki <hub>] [--project <rel>] [--map AUTO-WIKI-MAP.tsv] \
   [--allow-branch] [--no-commit]

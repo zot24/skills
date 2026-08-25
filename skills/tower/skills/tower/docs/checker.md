@@ -6,9 +6,10 @@ under MIT. Zero dependencies. Node 16 or later.
 ## Usage
 
 ```bash
-node gate-check.mjs [file ...]              # run unmet gates' checks, update the files
-node gate-check.mjs --status [file ...]     # report only, change nothing
-node gate-check.mjs --timeout 60 [file ...] # per-check timeout in seconds, default 120
+# cwd: ${CLAUDE_PLUGIN_ROOT}
+node scripts/gate-check.mjs [file ...]              # run unmet gates' checks, update the files
+node scripts/gate-check.mjs --status [file ...]     # report only, change nothing
+node scripts/gate-check.mjs --timeout 60 [file ...] # per-check timeout in seconds, default 120
 ```
 
 With no file argument it reads `GATES.md` in the current directory, then every `gates/*.md`.
@@ -34,8 +35,8 @@ so a green gates file is cheap to re-verify.
 This is the mode a parent runs to accept a delivery, and the mode the tower re-runs later.
 
 ```
-  UNMET G4 (unchecked): zot24/skills has an OPEN PR whose files include tower-gates SKILL.md
-gates/2026-08-20-tower-gates.md: 4 gates
+  UNMET G4 (unchecked): zot24/skills has an OPEN PR whose files include tower SKILL.md
+gates/2026-08-20-tower.md: 4 gates
 UNMET: 1 (met: 3)
 ```
 
