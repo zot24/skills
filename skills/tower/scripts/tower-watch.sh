@@ -58,11 +58,13 @@ from pathlib import Path
 marker, prefix = sys.argv[1], sys.argv[2]
 exists = Path(marker).is_file()
 agents, err = [], None
-
-if os.environ.get("HERDR_ENV") == "1":
+herdr_bin = os.environ.get("HERDR_BIN") or "herdr"
+if os.environ.get("HERDR_ENV") != "1":
+    err = "HERDR_ENV!=1"
+else:
     try:
         raw = subprocess.check_output(
-            ["herdr", "agent", "list"], stderr=subprocess.DEVNULL, text=True, timeout=15
+            [herdr_bin, "agent", "list"], stderr=subprocess.DEVNULL, text=True, timeout=15
         )
         for a in (json.loads(raw).get("result") or {}).get("agents") or []:
             name = a.get("name") or ""
@@ -137,8 +139,11 @@ case "$CMD" in
           | python3 -c 'import json,sys
 try:
   d = json.load(sys.stdin)
-  xs = [\"%s=%s\" % (a.get(\"name\") or \"—\", a.get(\"status\")) for a in d.get(\"agents\") or []]
-  print(\" \".join(xs) or \"no-agents\")
+  if d.get(\"herdr_error\"):
+    print(\"unverifiable\")
+  else:
+    xs = [\"%s=%s\" % (a.get(\"name\") or \"—\", a.get(\"status\")) for a in d.get(\"agents\") or []]
+    print(\" \".join(xs) or \"no-agents\")
 except Exception:
   print(\"parse-err\")
 ')

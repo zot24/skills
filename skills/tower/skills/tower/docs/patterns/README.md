@@ -24,6 +24,7 @@ Built in this package: [auto-wiki](../auto-wiki.md) and `scripts/auto-wiki.py`. 
 | Control tower | this skill | [herdr](https://github.com/herdrdev/herdr) |
 | Fleet trio / space-loop | [space-loop](../space-loop.md) | Factory / Anthropic in [staffing](../staffing.md) |
 | Idle is not done | [watch & poke](../watch-and-poke.md) | herdr family · this skill |
+| "Can't tell" is not "dead" | lost contact = unverifiable, never exited | Orca via wiki worktree-orchestrators-2026-08 |
 | Worktree seat | [layout](../layout.md) | herdr worktree |
 | Acceptance gates | [gate format](../gate-format.md) | [unlazy](https://github.com/Leonxlnx/unlazy) |
 | Creator ≠ verifier | [staffing](../staffing.md) | Factory |
@@ -54,7 +55,7 @@ Built in this package: [auto-wiki](../auto-wiki.md) and `scripts/auto-wiki.py`. 
 
 Tickets, not loops: floorplan UI, skill-doctor grade/apply, zskills typed CRUD, release-please auto-merge warn, README 1024-char cap, wiki digest harvest.
 
-STEAL not shipped: live/unverifiable/exited watchers; weekly unused-skill doctor.
+STEAL not shipped: weekly unused-skill doctor.
 
 ## Not a pattern
 
