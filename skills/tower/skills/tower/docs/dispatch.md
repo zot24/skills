@@ -78,6 +78,8 @@ Two more standing guardrails, written out because agents do not infer them:
   change, issue close — unless that action is the explicit point of the task.
 - **A repo's own hooks are its rules working.** A hook that blocks an agent gets routed around
   properly, with a worktree, or surfaced to the human. Copying past it defeats the repo's guard.
+- **Hash-before-rewrite.** If an agent rewrites a file it did not last write, re-read and hash
+  first. Doctrine only — no lock, no receipts, no Context OS kernel. Owner adopted #202 S1 2026-08-25.
 
 ## Step 3 — three spec-writing failures that cost real work
 

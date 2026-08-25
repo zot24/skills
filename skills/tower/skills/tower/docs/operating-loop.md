@@ -21,6 +21,8 @@ Completion: one compact decision summary exists.
 1. Load the [work graph](work-graph.md). Reconcile it from live herdr and which markers exist on
    disk. Never rebuild it from a handoff document.
 2. Read the live map and the status board. Trust the live map over a handoff for liveness.
+   The live map grades fleet contact as `live` / `unverifiable` / `exited`. Lost contact is
+   unverifiable, never exited, and never a reason to re-staff.
 3. Report: fleet, queue head, entitled kinds and models, pin file, dispatch blockers.
 4. Do not start agents. Do not edit product repos.
 

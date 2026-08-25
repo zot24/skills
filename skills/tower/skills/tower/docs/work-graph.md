@@ -29,8 +29,11 @@ rank 1 for fifteen days.
 
 **Unpaid ask.** One owner message with N asks is N nodes. An in-chat question is a node.
 Deferring one sibling does not defer the others. A later message may add a node; it does not
-close an unpaid ask. Pay unpaid asks in the same reply that starts the new job: answer them, or
-name each parked item and why. Dispatch is not payment.
+close an unpaid ask.
+
+**Continuous questions in one session are expected.** Launch or answer every still-open ask.
+Do **not** park an earlier question because a new one arrived. Park only when the owner
+says forget / park / later. Owner 2026-08-25: parking #202 to start #203 was the failure.
 
 ## When to touch it
 

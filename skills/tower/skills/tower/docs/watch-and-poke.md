@@ -53,8 +53,9 @@ scripts/tower-watch.sh stop   --marker <abs-marker>
 ```
 
 `start` backgrounds a poller (default every 120s) that logs the live agents' statuses each tick
-and exits the moment the marker file appears. It costs nothing — no model tokens, one `stat`
-and one `herdr agent list` per tick. The log and pidfile live under
+and exits the moment the marker file appears. A failed or skipped `herdr agent list` is
+`unverifiable`, not `no-agents`. Do not restaff from a failed probe. It costs nothing — no
+model tokens, one `stat` and one `herdr agent list` per tick. The log and pidfile live under
 `$TOWER_ROOT/scratchpad/watch/<sha1-of-marker>.{log,pid}`.
 
 Hand-rolled equivalent, when you want it inline:
