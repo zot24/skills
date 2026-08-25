@@ -86,6 +86,8 @@ What is true, Wrong/gap, You) lives in [operating loop](operating-loop.md).
 
 ## Verify independently — the step everything else exists to protect
 
+Seven-step list (verdict `pass` / `partial` / `fail`): [verify-deliverable](verify-deliverable.md).
+
 After the marker lands, read the deliverable, then **re-check its central claim against the
 source of truth yourself**:
 

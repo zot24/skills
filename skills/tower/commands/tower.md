@@ -26,7 +26,9 @@ Parse the arguments to determine the action:
 | `gates status <file>` | Report only. Change nothing. Report the exit code |
 | `gates verify <file>` | Parent-side acceptance: re-run `--status` and accept only on exit 0 |
 | `close` | Retire agents and panes in the right order; when a workspace may close |
+| `auto-wiki` | Rewrite high-level wiki pages from a git diff. Hook calls `scripts/auto-wiki.py`. Do not paste source |
 
 Load the matching doc from `skills/tower/docs/` before answering: operating-loop.md, dispatch.md,
 watch-and-poke.md, staffing.md, layout.md, closing.md, work-graph.md, pitfalls.md,
-cli-reference.md, gate-format.md, checker.md, workflow.md.
+cli-reference.md, gate-format.md, checker.md, workflow.md, space-loop.md, model-router.md,
+verify-deliverable.md, herdr-fleet.md, auto-wiki.md, patterns/README.md.
