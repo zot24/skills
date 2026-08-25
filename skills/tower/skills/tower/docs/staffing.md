@@ -117,12 +117,16 @@ covered. *"Ran the happy path on local, did not test the duplicate-email case"* 
    duplicates. Parallel is for *read-only* work — search, review, census.
 
 **Exception — `when=fusion-opinion`.** A spec that names `when=fusion-opinion` may start
-**2–3 read-only opinion panes** plus **one architect**. The architect is the existing
-**adversary** seat (claude opus). Do not invent a kind. Opinion panes do not edit the
-product tree. They answer the same prompt file with model names hidden (rune / flux /
-drift). Then share. Then opus converges. Still one **writer** if code follows.
-Fusion-opinion itself does not write. Never on a serial write ticket. Never on every
-dispatch. Never five models. Cut: [fusion-opinion](patterns/fusion-opinion.md).
+**2–3 read-only opinion panes** plus **one architect**. The architect reuses the
+**adversary role**, kind **claude**, model **opus**. That overrides the published
+adversary *kind* in the table above for this `when=` only. Do not invent a herdr kind
+named `architect`. Do not use the tower brain. Mentor and architect stay different
+kinds for this loop (published mentor row is claude; start mentor as a non-opus
+entitled kind, or skip mentor — this pattern has no mentor seat). Opinion panes do
+not edit the product tree. They answer the same prompt file with model names hidden
+(rune / flux / drift). Then share. Then opus converges. Still one **writer** if code
+follows. Fusion-opinion itself does not write. Never on a serial write ticket. Never
+on every dispatch. Never five models. Cut: [fusion-opinion](patterns/fusion-opinion.md).
 4. **3–5 concurrent agents max** while one human watches one repo. Hundreds only when each agent
    owns an independent PR.
 5. **Negotiate done before code** — the validation contract first, then implement.

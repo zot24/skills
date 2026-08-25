@@ -25,7 +25,7 @@ Do not use it for: a serial write, a PR that already has one worker, five models
 2. Start **2–3 read-only opinion panes**. Entitled grok (or other entitled non-architect kinds). **Hide model names** in the brief: **rune / flux / drift** (or A/B/C). Same prompt file to all.
 3. Land-check `working`. Marker + gates still required.
 4. Share the answers (a bundle file, or a second round that names the other notes).
-5. **Architect = adversary, kind claude, model opus.** That is the current expensive design seat. Do not invent a herdr kind named `architect`. Do not use the tower brain as the synthesizer.
+5. **Architect = adversary role, kind claude, model opus.** That overrides the published adversary kind table for this `when=` only. Do not invent a herdr kind named `architect`. Do not use the tower brain as the synthesizer. This pattern has no mentor seat.
 6. The architect converges. One verdict. Grades VERIFIED / INFERRED / NOT DETERMINED.
 
 ## Do not
@@ -33,6 +33,7 @@ Do not use it for: a serial write, a PR that already has one worker, five models
 - Flip board-first (select kind ∩ pin) to “combine don’t select.”
 - Run fusion on every dispatch.
 - Scale to five models (`[17:13]` is the SKIP cue: we use 2–3, not 5).
+- Fusion on the tower brain / Pi.
 - Drop skills.
 
 ## Source
