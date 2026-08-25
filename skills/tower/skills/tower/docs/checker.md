@@ -6,9 +6,10 @@ under MIT. Zero dependencies. Node 16 or later.
 ## Usage
 
 ```bash
-node gate-check.mjs [file ...]              # run unmet gates' checks, update the files
-node gate-check.mjs --status [file ...]     # report only, change nothing
-node gate-check.mjs --timeout 60 [file ...] # per-check timeout in seconds, default 120
+# cwd: ${CLAUDE_PLUGIN_ROOT}
+node scripts/gate-check.mjs [file ...]              # run unmet gates' checks, update the files
+node scripts/gate-check.mjs --status [file ...]     # report only, change nothing
+node scripts/gate-check.mjs --timeout 60 [file ...] # per-check timeout in seconds, default 120
 ```
 
 With no file argument it reads `GATES.md` in the current directory, then every `gates/*.md`.
