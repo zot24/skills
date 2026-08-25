@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/zot24/skills/compare/tower-v3.2.0...tower-v3.2.1) (2026-08-25)
+
+
+### Documentation
+
+* **tower:** fusion-opinion and talk-to-owner patterns ([#218](https://github.com/zot24/skills/issues/218)) ([ae52367](https://github.com/zot24/skills/commit/ae523670ab9f4eb033644a9f32361ce127699ce7)), closes [#196](https://github.com/zot24/skills/issues/196)
+
 ## [3.2.0](https://github.com/zot24/skills/compare/tower-v3.1.1...tower-v3.2.0) (2026-08-25)
 
 
