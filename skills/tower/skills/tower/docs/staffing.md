@@ -19,7 +19,7 @@ tower → PM
 | **Mentor** (`<slug>-<N>-mentor`) | sustained multi-cycle work | claude opus | high |
 | **Worker — judgement** (`<slug>-<N>-worker`) | there is a task | claude opus | high |
 | **Worker — bulk** (`<slug>-<N>-bulk`) | mechanical: rebase, census apply, codemod | kimi `--auto` | medium (no CLI effort flag) |
-| **Adversary** (`<slug>-<N>-adversary`) | an open design or ADR | grok-4.6, ≠ mentor kind | high |
+| **Adversary** (`<slug>-<N>-adversary`) | an open design or ADR | grok-4.6, ≠ mentor kind (see the `when=fusion-opinion` exception below) | high |
 | **Reviewer** (`<slug>-<N>-reviewer`) | a PR or mergeable diff exists | grok-4.6, ≠ author kind | high |
 | **Scout** (`<slug>-<N>-scout`) | read-only code or GitHub census | grok-4.6 | medium |
 | **QA** (`<slug>-<N>-qa`) | a human will click it, or data moves | pi + grok-4.6 | low |
@@ -116,17 +116,6 @@ covered. *"Ran the happy path on local, did not test the duplicate-email case"* 
 3. **Serial on one repo.** Parallel workers on a shared checkout produce conflicts and
    duplicates. Parallel is for *read-only* work — search, review, census.
 
-**Exception — `when=fusion-opinion`.** A spec that names `when=fusion-opinion` may start
-**2–3 read-only opinion panes** plus **one architect**. The architect reuses the
-**adversary role**, kind **claude**, model **opus**. That overrides the published
-adversary *kind* in the table above for this `when=` only. Do not invent a herdr kind
-named `architect`. Do not use the tower brain. Mentor and architect stay different
-kinds for this loop (published mentor row is claude; start mentor as a non-opus
-entitled kind, or skip mentor — this pattern has no mentor seat). Opinion panes do
-not edit the product tree. They answer the same prompt file with model names hidden
-(rune / flux / drift). Then share. Then opus converges. Still one **writer** if code
-follows. Fusion-opinion itself does not write. Never on a serial write ticket. Never
-on every dispatch. Never five models. Cut: [fusion-opinion](patterns/fusion-opinion.md).
 4. **3–5 concurrent agents max** while one human watches one repo. Hundreds only when each agent
    owns an independent PR.
 5. **Negotiate done before code** — the validation contract first, then implement.
@@ -135,6 +124,18 @@ on every dispatch. Never five models. Cut: [fusion-opinion](patterns/fusion-opin
 8. **Harness beats model.** Enforce with tests, markers, and land-checks; agents lie.
 9. **One ticket ≈ one context window.** Review in a *fresh* one.
 10. **A trio keeps the loop moving.** Two agents produce good work that stops.
+
+### Exception — `when=fusion-opinion`
+
+A spec that names `when=fusion-opinion` may start **2–3 read-only opinion panes** plus
+**one architect**. The architect reuses the **adversary role**, kind **claude**, model
+**opus**. That overrides the published adversary *kind* in the table above for this
+`when=` only. Do not invent a herdr kind named `architect`. Do not use the tower brain.
+Skip mentor — this pattern has no mentor seat. Opinion panes do not edit the product
+tree. They answer the same prompt file with model names hidden (rune / flux / drift).
+Then share. Then opus converges. Still one **writer** if code follows. Fusion-opinion
+itself does not write. Never on a serial write ticket. Never on every dispatch. Never
+five models. Cut: [fusion-opinion](patterns/fusion-opinion.md).
 
 ## What not to do
 
