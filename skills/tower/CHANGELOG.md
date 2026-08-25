@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.2](https://github.com/zot24/skills/compare/tower-v3.2.1...tower-v3.2.2) (2026-08-25)
+
+
+### Bug Fixes
+
+* **tower:** resolve documented script paths against the plugin root ([#220](https://github.com/zot24/skills/issues/220)) ([d442c3a](https://github.com/zot24/skills/commit/d442c3acc392fd20014067cfe0c2b3e6785d8bcd))
+
 ## [3.2.1](https://github.com/zot24/skills/compare/tower-v3.2.0...tower-v3.2.1) (2026-08-25)
 
 
