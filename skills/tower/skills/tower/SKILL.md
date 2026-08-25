@@ -12,6 +12,10 @@ herdr itself teaches the CLI — see [herdr's own skill](docs/herdr-skill-upstre
 
 **Official vs house.** Install official `herdr` and nvk `wiki-manager` separately. This skill does not replace them. Folded here is house **herdr-fleet** (dispatch/supervise), not the official CLI skill. `docs/herdr-skill-upstream.md` is a synced pointer, not a skill this marketplace maintains.
 
+## Paths
+
+`${CLAUDE_PLUGIN_ROOT}` is the plugin root: it contains `scripts/`, `commands/`, and `templates/`. This file lives at `${CLAUDE_PLUGIN_ROOT}/skills/tower/SKILL.md`. Bare `scripts/<file>` in this skill is plugin-root-relative. `docs/` and `LICENSE.unlazy` sit next to this file.
+
 ## Overview
 
 - **Delegate by default.** Project coding, audits, censuses, log reads, judgement against a repo — all of it goes to a pane. Work done inline burns the tower's context, is invisible in the fleet UI, and dies with the session.
@@ -43,10 +47,10 @@ herdr agent prompt builder "read the spec at /abs/specs/2026-08-17-thing.md and 
 Write the deliverable to /abs/deliverables/thing.md and the marker to /abs/markers/thing.done when fully done."
 herdr agent get builder | jq -r .result.agent.agent_status   # must be working, not idle
 
-# 4. leave the chat — the marker wakes you
+# 4. leave the chat — the marker wakes you (cwd: ${CLAUDE_PLUGIN_ROOT})
 scripts/tower-watch.sh start --marker /abs/markers/thing.done --prefix builder
 
-# 5. accept only through the gates
+# 5. accept only through the gates (cwd: ${CLAUDE_PLUGIN_ROOT})
 node scripts/gate-check.mjs --status /abs/gates/thing.md       # exit 0 or it is not done
 ```
 
@@ -78,7 +82,7 @@ Reuse **unlazy v2** enforcement via the vendored checker. Do not rebuild it. Do 
 Every spec names a gates file. Each gate is one observable outcome with `CHECK` / `EXPECT` / `EVIDENCE`. Format: [gate format](docs/gate-format.md). Parent workflow: [gates workflow](docs/workflow.md).
 
 ```bash
-CHECKER="${CLAUDE_PLUGIN_ROOT}/skills/tower/scripts/gate-check.mjs"
+CHECKER="${CLAUDE_PLUGIN_ROOT}/scripts/gate-check.mjs"
 node "$CHECKER" gates/<name>.md             # run unmet checks, flip boxes, write evidence
 node "$CHECKER" --status gates/<name>.md    # report only, change nothing
 ```

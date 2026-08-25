@@ -45,6 +45,7 @@ agent has *stopped*, never that it has *succeeded*.
 ## The watch loop
 
 ```bash
+# cwd: ${CLAUDE_PLUGIN_ROOT}
 scripts/tower-watch.sh start  --marker <abs-marker> --prefix <agent-prefix> [--interval 120]
 scripts/tower-watch.sh once   --marker <abs-marker> --prefix <agent-prefix>
 scripts/tower-watch.sh status --marker <abs-marker>

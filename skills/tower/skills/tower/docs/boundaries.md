@@ -31,8 +31,9 @@ Two things travel with the file and must not be dropped:
 
 1. The four-line header at the top of `gate-check.mjs`, which names the source and points at the
    licence.
-2. `LICENSE.unlazy`, the upstream MIT text. It sits one directory above `scripts/`, which is exactly
-   what the header's `../LICENSE.unlazy` refers to.
+2. `LICENSE.unlazy`, the upstream MIT text. It lives next to `SKILL.md` at the skill root.
+   `scripts/` lives at the plugin root. They are sibling subtrees, not parent/child.
+   The header's `../LICENSE.unlazy` is the upstream relative pointer, not this package's layout.
 
 MIT requires the copyright notice and the permission notice in every copy. Moving the file without
 them breaks the licence.

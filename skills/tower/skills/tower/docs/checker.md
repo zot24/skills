@@ -34,8 +34,8 @@ so a green gates file is cheap to re-verify.
 This is the mode a parent runs to accept a delivery, and the mode the tower re-runs later.
 
 ```
-  UNMET G4 (unchecked): zot24/skills has an OPEN PR whose files include tower-gates SKILL.md
-gates/2026-08-20-tower-gates.md: 4 gates
+  UNMET G4 (unchecked): zot24/skills has an OPEN PR whose files include tower SKILL.md
+gates/2026-08-20-tower.md: 4 gates
 UNMET: 1 (met: 3)
 ```
 

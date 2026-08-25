@@ -61,8 +61,8 @@ box with `EVIDENCE: pending` is unmet. That is the point of the format.
 Good:
 
 ```markdown
-- [ ] G4: zot24/skills has an OPEN PR whose title names tower-gates
-  CHECK: gh pr list --repo zot24/skills --state open --json number,title --jq '[.[] | select(.title | test("tower-gates";"i")) | .number] | if length>0 then "pr-open" else "none" end'
+- [ ] G4: zot24/skills has an OPEN PR whose title names tower
+  CHECK: gh pr list --repo zot24/skills --state open --json number,title --jq '[.[] | select(.title | test("tower";"i")) | .number] | if length>0 then "pr-open" else "none" end'
   EXPECT: pr-open
   EVIDENCE: pending
 ```
@@ -90,7 +90,7 @@ Replace `pending` with a quote, a `file:line`, or a URL, and tick the box:
 
 ```markdown
 - [x] G5: the licence header survives the copy
-  EVIDENCE: skills/tower-gates/skills/tower-gates/scripts/gate-check.mjs:2 "Vendored from Leonxlnx/unlazy (MIT)"
+  EVIDENCE: skills/tower/scripts/gate-check.mjs:2 "Vendored from Leonxlnx/unlazy (MIT)"
 ```
 
 `pending` is still unmet. The checker never fills a manual gate for you.
