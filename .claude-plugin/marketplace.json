@@ -160,7 +160,7 @@
       "name": "tower",
       "source": "./skills/tower",
       "description": "Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, staff only the required seats, and verify through acceptance gates so 'done' is an exit code, not a claim.",
-      "version": "3.2.1"
+      "version": "3.2.2"
     },
     {
       "name": "pi",
