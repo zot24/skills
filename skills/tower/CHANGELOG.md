@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/zot24/skills/compare/tower-v3.1.1...tower-v3.2.0) (2026-08-25)
+
+
+### Features
+
+* **tower:** fold house leftovers and add auto-wiki ([#216](https://github.com/zot24/skills/issues/216)) ([45e7fe7](https://github.com/zot24/skills/commit/45e7fe776eb8c962e75628a2ce3d8635aa80dd63)), closes [#191](https://github.com/zot24/skills/issues/191)
+
 ## [3.1.1](https://github.com/zot24/skills/compare/tower-v3.1.0...tower-v3.1.1) (2026-08-24)
 
 
