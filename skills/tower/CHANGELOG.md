@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.2.3](https://github.com/zot24/skills/compare/tower-v3.2.2...tower-v3.2.3) (2026-08-26)
+
+
+### Bug Fixes
+
+* **tower:** document three unsound gate patterns ([#225](https://github.com/zot24/skills/issues/225)) ([6207601](https://github.com/zot24/skills/commit/62076016787dab6b172c300ca865a897e83bd924))
+* **tower:** line-anchor EXPECT match at a token boundary ([#224](https://github.com/zot24/skills/issues/224)) ([74caaab](https://github.com/zot24/skills/commit/74caaab1e2f7e8f308e96992b577db107967f92c))
+
+
+### Documentation
+
+* **tower:** ship Can't-tell-is-not-dead liveness vocabulary ([#222](https://github.com/zot24/skills/issues/222)) ([a116ba4](https://github.com/zot24/skills/commit/a116ba4b3bd442a9b5efb34662727f167d670416))
+
 ## [3.2.2](https://github.com/zot24/skills/compare/tower-v3.2.1...tower-v3.2.2) (2026-08-25)
 
 
