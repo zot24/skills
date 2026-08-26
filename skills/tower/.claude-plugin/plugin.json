@@ -1,6 +1,6 @@
 {
   "name": "tower",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "Run a control tower over a fleet of herdr agents — delegate every project task to a pane, dispatch from a spec file, watch a completion marker, staff only the required seats, and verify through acceptance gates so 'done' is an exit code, not a claim.",
   "keywords": [
     "herdr",
