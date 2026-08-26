@@ -28,6 +28,15 @@ Scope: children <list child markers or gates files> merged into one working whol
   EVIDENCE: pending
 
 <!--
+Trap (a): grep -q 'EVIDENCE: pending' matches a complete marker that mentions
+the phrase. Anchor '^[[:space:]]*EVIDENCE: pending[[:space:]]*$' (N5 above).
+Trap (b): do not assert a remote branch still exists; that is transient
+world-state. Assert a property of the work.
+Trap (c): scan credential values (ghp_, AKIA, xox[baprs]-, sk-, JWT), never
+dictionary words (password|secret|api_key).
+-->
+
+<!--
 Branch gates exist because finished parts do not imply a finished whole.
 Do not mark N1 by trusting child reports: re-run their checks yourself.
 -->

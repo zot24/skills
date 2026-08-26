@@ -78,6 +78,12 @@ box with `EVIDENCE: pending` is unmet. That is the point of the format.
 - **Anchor `EVIDENCE: pending` greps.** `grep -q 'EVIDENCE: pending'` matches a marker line that
   says "no EVIDENCE: pending". Use
   `grep -qE '^[[:space:]]*EVIDENCE: pending[[:space:]]*$'`.
+- **Assert a property of the work, not a transient state of the world.** A remote
+  branch, a live PID, "the PR is still OPEN" as the proof that you opened one —
+  those are world-state. They fail when the work *succeeds* (merge deletes the
+  branch). See trap (b) below.
+- **Scan credential *values*, never dictionary words.** `grep -E 'password|secret|api_key'`
+  flags prose. See trap (c) below.
 
 Add a final marker-completeness gate (copy from `templates/gates.md`):
 
@@ -106,6 +112,97 @@ Weak:
 ```
 
 The weak one passes whenever `gh` runs. It proves nothing about this job.
+
+## Three traps that shipped 2026-08-25
+
+Abstract rules did not survive contact. These three did. Copy the fixed shape,
+not the slogan.
+
+### (a) Self-referential `EVIDENCE: pending` grep — hit on thread #215
+
+A completeness gate shipped as:
+
+```bash
+test -f "$m" && ! grep -q 'EVIDENCE: pending' "$m" && echo marker-observed
+```
+
+A **complete** marker whose evidence line read `no EVIDENCE: pending` contains
+that substring. The gate failed the finished job. The substring `EVIDENCE: pending`
+is not the same object as an unmet evidence attribute.
+
+Fixed (this is what `templates/gates.md` ships):
+
+```bash
+test -f "$m" && ! grep -qE '^[[:space:]]*EVIDENCE: pending[[:space:]]*$' "$m" && echo marker-observed || echo marker-missing-or-pending
+```
+
+Only a whole attribute line of `EVIDENCE: pending` (optional indent, optional
+trailing space) counts. Prose that *mentions* the phrase does not.
+
+### (b) Transient world-state encoded as an invariant — hit on PR #224
+
+A gate asserted "branch `fix/tower-gate-matching` still exists on the remote":
+
+```bash
+gh pr view fix/tower-gate-matching --json state -q .state
+# EXPECT: OPEN
+```
+
+The owner merged. GitHub deleted the branch. The sweep had done nothing wrong.
+The gate failed because success removed the thing it was watching.
+
+That is a transient state of the world. A gate must assert a **property of the
+work**.
+
+| Wrong (world-state) | Right (property of the work) |
+|---|---|
+| Branch `fix/…` still exists | `main` contains the merge commit / PR state is `MERGED` |
+| PID 41211 is running | the binary at this path is executable and its `--help` matches |
+| "the PR is still OPEN" as proof you opened one | `gh pr view <n> --json number,title` names this change; state may be OPEN or MERGED |
+
+Worked rewrite for a "we shipped a PR" gate after the merge is allowed:
+
+```markdown
+- [ ] G8: zot24/skills has PR #<n> for this change (OPEN or MERGED)
+  CHECK: s=$(gh pr view <n> --json state,title -q '[.state,.title] | join(" ")'); echo "$s" | grep -qE '^(OPEN|MERGED) ' && echo pr-present || echo pr-absent
+  EXPECT: pr-present
+  EVIDENCE: pending
+```
+
+`OPEN` is a snapshot, not an invariant, unless the spec says "do not merge"
+*and* the gate's job is to catch a merge. Even then, pin a PR *number* or a
+title, not a branch that GitHub will delete.
+
+### (c) Dictionary-word secret scanner — hit on digest Phase B, n=8 false positives
+
+A gate used:
+
+```bash
+grep -rlE '(api[_-]?key|secret|password|Bearer [A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,})'
+```
+
+It flagged 8 session digests whose only matches were the English phrases
+**"offline password vault"** and **"NO new secret"**. Zero real credentials.
+A security gate that cries wolf every run is one you learn to wave through,
+and then it misses a real key.
+
+Scan **values**, not words:
+
+```bash
+grep -RE '(ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}|sk-[A-Za-z0-9]{20,}|eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}|(api[_-]?key|password)\s*=\s*["'\''][^"'\'']{16,}["'\''])'
+```
+
+| Match this | Do not match this |
+|---|---|
+| `ghp_` + 36 alphanumerics (GitHub PAT) | the word `password` |
+| `AKIA` + 16 alphanumerics (AWS key id) | the word `secret` |
+| `xox[baprs]-` Slack token | `api_key` as English |
+| `sk-` + 20+ alphanumerics (vendor secret) | `NO new secret` |
+| JWT `eyJ` header.payload.sig | `offline password vault` |
+| `key="…"` / `password="…"` with 16+ chars | the bare identifier |
+
+`Bearer` + a long token is a value. `Bearer` alone is a word. Keep the
+length-bound token; drop the English.
 
 ## Manual gates
 
