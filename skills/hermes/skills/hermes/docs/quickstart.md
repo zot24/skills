@@ -8,7 +8,7 @@
 On this page
 
 
-# Quickstart
+# Hermes Agent Quickstart
 
 
 This guide gets you from zero to a working Hermes setup that survives real use. Install, choose a provider, verify a working chat, and know exactly what to do when something breaks.

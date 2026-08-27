@@ -333,7 +333,7 @@ Inspect recent attempts with `hermes cron runs [job-id] --limit 20` (alias: `his
 
 ### Repeated-failure review nudge<a href="#repeated-failure-review-nudge" class="hash-link" aria-label="Direct link to Repeated-failure review nudge" translate="no" title="Direct link to Repeated-failure review nudge">​</a>
 
-Each job tracks a `failure_streak` — consecutive runs where the agent failed (delivery failures don't count). When a *recurring* job's streak reaches the threshold, the failure message delivered to chat gains a review nudge telling you the job has failed N runs in a row and suggesting you fix, pause (`hermes cron pause <job>`), or remove it. Any successful run resets the streak, and `hermes cron list` shows the streak alongside a failing job's last run. One-shot jobs never nudge.
+Each job tracks a `failure_streak` — consecutive failed runs (delivery failures don't count). A run that fails before the agent is reached at all — a bad import after a half-applied update, a provider client that cannot be constructed — counts and alerts the same as one the agent itself failed. When a *recurring* job's streak reaches the threshold, the failure message delivered to chat gains a review nudge telling you the job has failed N runs in a row and suggesting you fix, pause (`hermes cron pause <job>`), or remove it. Any successful run resets the streak, and `hermes cron list` shows the streak alongside a failing job's last run. One-shot jobs never nudge.
 
 
 ``` prism-code
@@ -342,38 +342,67 @@ cron:
 ```
 
 
+### Failure incidents: acknowledge a known failure<a href="#failure-incidents-acknowledge-a-known-failure" class="hash-link" aria-label="Direct link to Failure incidents: acknowledge a known failure" translate="no" title="Direct link to Failure incidents: acknowledge a known failure">​</a>
+
+A recurring job that keeps failing with the *same* error pings you on every run. Each failure is also recorded as a durable **incident**, keyed by the job plus a normalized signature of the error text, in the same per-profile ledger database as the execution history.
+
+
+``` prism-code
+hermes cron incidents                 # list incidents (newest activity first)
+hermes cron incidents --state alerted # filter: detected | alerted | closed
+hermes cron incidents ack <id>        # acknowledge — stop re-pinging
+```
+
+
+Acknowledging an incident silences the per-run failure ping for that exact signature only. Nothing else changes: the run history still records every failure, the failure streak keeps counting, and the moment the job starts failing with a *different* error a new incident is minted and alerts fire again. A successful run doesn't touch incidents — they are per-signature, not per-job.
+
+Incident lifecycle: `detected` (failure recorded) → `alerted` (at least one failure ping reached delivery) → `closed` (acknowledged; terminal for that signature). Stored error text is secret-redacted and truncated before it is written.
+
+Recording is always on and costs nothing to ignore — no ping is ever suppressed until you explicitly `ack`.
+
 ## Delivery options<a href="#delivery-options" class="hash-link" aria-label="Direct link to Delivery options" translate="no" title="Direct link to Delivery options">​</a>
 
 When scheduling jobs, you specify where the output goes:
 
-| Option                     | Description                                                  | Example                        |
-|----------------------------|--------------------------------------------------------------|--------------------------------|
-| `"origin"`                 | Back to where the job was created                            | Default on messaging platforms |
-| `"local"`                  | Save to local files only (`~/.hermes/cron/output/`)          | Default on CLI                 |
-| `"telegram"`               | Telegram home channel                                        | Uses `TELEGRAM_HOME_CHANNEL`   |
-| `"telegram:123456"`        | Specific Telegram chat by ID                                 | Direct delivery                |
-| `"telegram:-100123:17585"` | Specific Telegram topic                                      | `chat_id:thread_id` format     |
-| `"discord"`                | Discord home channel                                         | Uses `DISCORD_HOME_CHANNEL`    |
-| `"discord:#engineering"`   | Specific Discord channel                                     | By channel name                |
-| `"slack"`                  | Slack home channel                                           |                                |
-| `"whatsapp"`               | WhatsApp home                                                |                                |
-| `"signal"`                 | Signal                                                       |                                |
-| `"matrix"`                 | Matrix home room                                             |                                |
-| `"mattermost"`             | Mattermost home channel                                      |                                |
-| `"email"`                  | Email                                                        |                                |
-| `"sms"`                    | SMS via Twilio                                               |                                |
-| `"homeassistant"`          | Home Assistant                                               |                                |
-| `"dingtalk"`               | DingTalk                                                     |                                |
-| `"feishu"`                 | Feishu/Lark                                                  |                                |
-| `"wecom"`                  | WeCom                                                        |                                |
-| `"weixin"`                 | Weixin (WeChat)                                              |                                |
-| `"bluebubbles"`            | BlueBubbles (iMessage)                                       |                                |
-| `"qqbot"`                  | QQ Bot (Tencent QQ)                                          |                                |
-| `"all"`                    | Fan out to every connected home channel                      | Resolved at fire time          |
-| `"telegram,discord"`       | Fan out to a specific set of channels                        | Comma-separated list           |
-| `"origin,all"`             | Deliver to the origin **plus** every other connected channel | Combine any tokens             |
+| Option                     | Description                                                               | Example                        |
+|----------------------------|---------------------------------------------------------------------------|--------------------------------|
+| `"origin"`                 | Back to where the job was created                                         | Default on messaging platforms |
+| `"local"`                  | Save to local files only (`~/.hermes/cron/output/`)                       | Default on CLI                 |
+| `"telegram"`               | Telegram home channel                                                     | Uses `TELEGRAM_HOME_CHANNEL`   |
+| `"telegram:123456"`        | Specific Telegram chat by ID                                              | Direct delivery                |
+| `"telegram:-100123:17585"` | Specific Telegram topic                                                   | `chat_id:thread_id` format     |
+| `"discord"`                | Discord home channel                                                      | Uses `DISCORD_HOME_CHANNEL`    |
+| `"discord:#engineering"`   | Specific Discord channel                                                  | By channel name                |
+| `"slack"`                  | Slack home channel                                                        |                                |
+| `"whatsapp"`               | WhatsApp home                                                             |                                |
+| `"signal"`                 | Signal                                                                    |                                |
+| `"matrix"`                 | Matrix home room                                                          |                                |
+| `"mattermost"`             | Mattermost home channel                                                   |                                |
+| `"email"`                  | Email                                                                     |                                |
+| `"sms"`                    | SMS via Twilio                                                            |                                |
+| `"homeassistant"`          | Home Assistant                                                            |                                |
+| `"dingtalk"`               | DingTalk                                                                  |                                |
+| `"feishu"`                 | Feishu/Lark                                                               |                                |
+| `"wecom"`                  | WeCom                                                                     |                                |
+| `"weixin"`                 | Weixin (WeChat)                                                           |                                |
+| `"bluebubbles"`            | BlueBubbles (iMessage)                                                    |                                |
+| `"qqbot"`                  | QQ Bot (Tencent QQ)                                                       |                                |
+| `"bot-chat"`               | This profile's canonical Bot Chat — the bot reads the output and responds | Machine-local                  |
+| `"bot-chat:research"`      | Another local profile's Bot Chat                                          | Validated at create time       |
+| `"all"`                    | Fan out to every connected home channel                                   | Resolved at fire time          |
+| `"telegram,discord"`       | Fan out to a specific set of channels                                     | Comma-separated list           |
+| `"origin,all"`             | Deliver to the origin **plus** every other connected channel              | Combine any tokens             |
 
 The agent's final response is automatically delivered to the configured `deliver:` target — the agent does not send messages itself, so there is nothing to call in the cron prompt.
+
+### Bot Chat delivery (`bot-chat`)<a href="#bot-chat-delivery-bot-chat" class="hash-link" aria-label="Direct link to bot-chat-delivery-bot-chat" translate="no" title="Direct link to bot-chat-delivery-bot-chat">​</a>
+
+`bot-chat` delivers the output **into a profile's canonical "Bot Chat" session as a real message**. Unlike every other target — where the recipient is a human reading a channel — the recipient here is the bot itself: it receives the output as an incoming message, acts on anything that needs action, and responds in its chat. Use it when scheduled output should be *processed*, not just posted.
+
+- `bot-chat` (bare) targets the job's own profile.
+- `bot-chat:<profile>` targets another profile **on the same machine**. Names are validated against `hermes profile list` when the job is created; profiles on other gateways or machines can never be targeted, so same-named profiles across machines are unambiguous.
+- Each delivery costs the target bot one full agent turn — mind the schedule frequency.
+- Composes with other targets (`bot-chat,telegram`) but is never included in `all`.
 
 ### Routing intent (`all`)<a href="#routing-intent-all" class="hash-link" aria-label="Direct link to routing-intent-all" translate="no" title="Direct link to routing-intent-all">​</a>
 
@@ -433,12 +462,18 @@ cron:
 ```
 
 
-Behaviour is **thread-preferred**, scoped to the job's origin chat:
+Behaviour is **thread-preferred**, scoped to the job's own conversation:
 
 - **Thread-capable platforms** (Telegram topics, Discord/Slack threads): each delivery opens its own dedicated thread and the brief is seeded into that thread's session, so a reply in-thread continues with full context. A recurring job (e.g. a daily brief) opens a fresh thread per run, keeping each delivery's follow-up discussion isolated.
 - **DM-only platforms** (WhatsApp, Signal, SMS): no threads exist, so the brief is mirrored into the origin DM session instead — the DM itself is the continuation surface.
 
-Only the origin chat is ever touched: fan-out / broadcast targets (`all`, explicit other-chat deliveries) are never made continuable. The mirror is written as a labelled user turn (`[Cron delivery: <task name>]`), which keeps the conversation history alternation-safe across all model providers.
+Only the job's **own conversation** is ever touched:
+
+- the **origin chat** the job was created in;
+- the **home-channel fallback** when `deliver: origin` captured no origin (jobs created by scripts or the API rather than from a live gateway chat) — the user's primary conversation standing in for the origin;
+- a job's **single explicit `platform:chat` target**, but only when the job itself opts in with `attach_to_session: true` — the job author declares that target a conversation. The global `mirror_delivery` flag alone never makes an explicitly-addressed chat continuable.
+
+Broadcast / fan-out targets (`all`, bare-platform home channels) are never made continuable. The mirror is written as a labelled user turn (`[Cron delivery: <task name>]`), which keeps the conversation history alternation-safe across all model providers.
 
 #### Flat, in-channel continuation (Slack)<a href="#flat-in-channel-continuation-slack" class="hash-link" aria-label="Direct link to Flat, in-channel continuation (Slack)" translate="no" title="Direct link to Flat, in-channel continuation (Slack)">​</a>
 
@@ -527,6 +562,20 @@ cron:
 
 
 Or set the `HERMES_CRON_MEDIA_SEND_TIMEOUT` environment variable. The resolution order is: env var → config.yaml → 300s default. A timed-out attachment is recorded in the job's run status as a partial delivery failure (the text still delivers).
+
+## Bot Chat delivery timeout<a href="#bot-chat-delivery-timeout" class="hash-link" aria-label="Direct link to Bot Chat delivery timeout" translate="no" title="Direct link to Bot Chat delivery timeout">​</a>
+
+A `bot-chat` delivery runs a full agent turn in the target bot's chat, so its bound is minutes, not seconds — 600s by default:
+
+
+``` prism-code
+# ~/.hermes/config.yaml
+cron:
+  bot_chat_delivery_timeout_seconds: 900
+```
+
+
+A timed-out delivery is recorded in `last_delivery_error`; the bot's turn may still complete on its own.
 
 ## No-agent mode (script-only jobs)<a href="#no-agent-mode-script-only-jobs" class="hash-link" aria-label="Direct link to No-agent mode (script-only jobs)" translate="no" title="Direct link to No-agent mode (script-only jobs)">​</a>
 
@@ -996,7 +1045,9 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#gateway-scheduler-behavior" class="table-of-contents__link toc-highlight">Gateway scheduler behavior</a>
   - <a href="#execution-history" class="table-of-contents__link toc-highlight">Execution history</a>
   - <a href="#repeated-failure-review-nudge" class="table-of-contents__link toc-highlight">Repeated-failure review nudge</a>
+  - <a href="#failure-incidents-acknowledge-a-known-failure" class="table-of-contents__link toc-highlight">Failure incidents: acknowledge a known failure</a>
 - <a href="#delivery-options" class="table-of-contents__link toc-highlight">Delivery options</a>
+  - <a href="#bot-chat-delivery-bot-chat" class="table-of-contents__link toc-highlight">Bot Chat delivery (<code>bot-chat</code>)</a>
   - <a href="#routing-intent-all" class="table-of-contents__link toc-highlight">Routing intent (<code>all</code>)</a>
   - <a href="#telegram-cron-topic-telegram_cron_thread_id" class="table-of-contents__link toc-highlight">Telegram cron topic (<code>TELEGRAM_CRON_THREAD_ID</code>)</a>
   - <a href="#response-wrapping" class="table-of-contents__link toc-highlight">Response wrapping</a>
@@ -1004,6 +1055,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#silent-suppression" class="table-of-contents__link toc-highlight">Silent suppression</a>
 - <a href="#script-timeout" class="table-of-contents__link toc-highlight">Script timeout</a>
 - <a href="#media-send-timeout" class="table-of-contents__link toc-highlight">Media send timeout</a>
+- <a href="#bot-chat-delivery-timeout" class="table-of-contents__link toc-highlight">Bot Chat delivery timeout</a>
 - <a href="#no-agent-mode-script-only-jobs" class="table-of-contents__link toc-highlight">No-agent mode (script-only jobs)</a>
   - <a href="#the-agent-sets-these-up-for-you" class="table-of-contents__link toc-highlight">The agent sets these up for you</a>
 - <a href="#chaining-jobs-with-context_from" class="table-of-contents__link toc-highlight">Chaining jobs with <code>context_from</code></a>

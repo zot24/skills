@@ -113,6 +113,8 @@ The pre-checked rows come from:
 2.  **The manifest's `tools.default_enabled`** if the entry declares one (some catalog entries pre-prune mutating or rarely-useful tools)
 3.  **Everything** if neither applies
 
+Some entries with very large auto-generated surfaces (e.g. `cloudflare`, ~3,300 OpenAPI endpoint tools) instead declare `tools.default_excluded` — a curated block-list of names and glob patterns. Installing one of these skips the checklist entirely and writes `tools.exclude`; everything not matched stays enabled, including tools the server adds later. Edit `mcp_servers.<name>.tools.exclude` in config.yaml to re-enable a family.
+
 Submit the checklist with ENTER. Only the checked tools end up in `mcp_servers.<name>.tools.include`. If you select everything, no filter is written (cleanest config shape, identical behavior).
 
 **If the probe fails** (server unreachable, OAuth not yet completed, backing service not running), the install still succeeds: the manifest's `tools.default_enabled` is applied directly (if declared), or no filter is written (if not). Re-run `hermes mcp configure <name>` once the server is reachable to refine.
@@ -202,7 +204,7 @@ Use HTTP servers when:
 
 ### OAuth-authenticated HTTP servers<a href="#oauth-authenticated-http-servers" class="hash-link" aria-label="Direct link to OAuth-authenticated HTTP servers" translate="no" title="Direct link to OAuth-authenticated HTTP servers">​</a>
 
-Most hosted MCP servers (Linear, Sentry, Atlassian, Asana, Figma, Stripe, …) require OAuth 2.1 instead of a static bearer token. Set `auth: oauth` and Hermes handles discovery, client identification, PKCE, token exchange, refresh, and step-up auth via the MCP Python SDK.
+Most hosted MCP servers (Cloudflare, Linear, Sentry, Atlassian, Asana, Figma, Stripe, …) require OAuth 2.1 instead of a static bearer token. Set `auth: oauth` and Hermes handles discovery, client identification, PKCE, token exchange, refresh, and step-up auth via the MCP Python SDK.
 
 Hermes identifies itself with a [Client ID Metadata Document](/docs/reference/mcp-config-reference#client-identification-cimd-and-dcr) on servers that support one, and falls back to Dynamic Client Registration on those that don't. Both are automatic; there is nothing to configure.
 
@@ -508,6 +510,8 @@ mcp_servers:
 
 
 Only those MCP server tools are registered.
+
+Entries in `include`/`exclude` may also be glob patterns (`*`, `?`, `[...]`, matched case-sensitively): `include: ["*_dns_*"]` registers every tool whose name contains `_dns_`. Plain entries without metacharacters stay exact-match. Globs are the practical way to filter servers that expose thousands of auto-generated endpoint tools by product family.
 
 ### Blacklist server tools<a href="#blacklist-server-tools" class="hash-link" aria-label="Direct link to Blacklist server tools" translate="no" title="Direct link to Blacklist server tools">​</a>
 
