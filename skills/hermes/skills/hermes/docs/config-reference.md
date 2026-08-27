@@ -19,6 +19,15 @@ database:
   # Optional WAL sizing pragmas (integers). Unset = SQLite defaults.
   # wal_autocheckpoint: 1000     # pages between automatic checkpoints
   # journal_size_limit: 67108864 # cap the WAL/journal file size in bytes
+  #
+  # Durability level for every state.db connection: OFF, NORMAL, FULL, EXTRA
+  # (or 0-3). Unset leaves SQLite's default, which is baked in at compile time
+  # (SQLITE_DEFAULT_WAL_SYNCHRONOUS) and therefore differs between the bundled
+  # interpreter, a distro python3 and a Homebrew one. Set it if you need to
+  # know which one you are running rather than infer it. On macOS this is a
+  # floor, not a pin: values below FULL are refused because Darwin's fsync()
+  # does not guarantee write ordering, while EXTRA is honored normally.
+  # synchronous: FULL
 
 # =============================================================================
 # Runtime Limits
@@ -496,6 +505,12 @@ browser:
   extension_control:
     enabled: false
 
+  # Maximum characters of snapshot content before truncate-and-store.
+  # Increase for long pages (for example, documentation or financial reports),
+  # or decrease to reduce context usage. Minimum: 1000; default: 15000
+  # (same per-page budget as web_extract).
+  # snapshot_threshold: 15000
+
 # =============================================================================
 # Tool Loop Guardrails
 # =============================================================================
@@ -537,6 +552,21 @@ compression:
   # Enable automatic context compression (default: true)
   # Set to false if you prefer to manage context manually or want errors on overflow
   enabled: true
+
+  # Fail closed before lossy compaction unless an active memory provider that
+  # implements the pre-compress checkpoint contract (API v2) confirms its
+  # durable checkpoint (default: false). With this on and no checkpoint, the
+  # compaction attempt errors with BLOCKED_MISSING_PREREQUISITE and the
+  # uncompressed transcript is preserved for a later retry. The gate binds to
+  # every compaction authority: server-side native compaction
+  # (codex_responses_native) is suppressed while armed, post-turn
+  # micro-compaction is forced off (no checkpoint hook in its path), and the
+  # codex_app_server API mode is refused at agent init (the codex agent
+  # compacts its own thread — no checkpoint can be guaranteed there). Only
+  # enable it with a checkpoint-capable provider configured — see
+  # website/docs/developer-guide/memory-provider-plugin.md
+  # ("Pre-Compress Checkpoints").
+  checkpoint_required: false
 
   # Opt-in compression progress notices on chat platforms (default: false).
   # By design, routine automatic compression is SILENT on human-facing chat
@@ -881,6 +911,19 @@ max_concurrent_sessions: null
 # explicitly want one shared "room brain" per group/channel.
 group_sessions_per_user: true
 
+# Startup sweep of session rows orphaned by a dead gateway process.
+# The normal disconnect cleanup runs on an in-process grace timer, so a
+# gateway restart (update, crash, systemd) leaves those rows permanently
+# "active". On every gateway boot — stdio TUI *and* the desktop/dashboard
+# WS sidecar — tui/desktop/subagent rows whose start time AND newest
+# message are both older than the session TTL (HERMES_TUI_SESSION_TTL_S,
+# default 6h) are closed with end_reason "startup_orphan_reap".
+# Messaging-platform sessions (Telegram, Discord, ...) are never touched;
+# live in-memory sessions are excluded; swept sessions stay resumable.
+#
+# dashboard:
+#   startup_orphan_sweep: true
+
 # ─────────────────────────────────────────────────────────────────────────────
 # API Server — per-client model routing
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1182,6 +1225,10 @@ platform_toolsets:
 #       # Render live tool calls as Slack-native plan/task cards. This explicit
 #       # opt-in works even though Slack text tool_progress defaults to off.
 #       native_task_cards: false
+#       # Suppress automatic link-preview cards without removing clickable links.
+#       # Omit either key to preserve Slack's default for that preview type.
+#       unfurl_links: false
+#       unfurl_media: false
 #   webhook:
 #     extra:
 #       # Route scripts default to a 30 second timeout. Scripts must live under

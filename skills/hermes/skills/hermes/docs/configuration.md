@@ -8,7 +8,7 @@
 On this page
 
 
-# Configuration
+# Hermes Agent Configuration
 
 
 All settings are stored in the `~/.hermes/` directory for easy access.
@@ -86,6 +86,37 @@ runtime:
 
 
 The default is `4096`. Hermes clamps the target to the operating system's hard limit and never lowers a process that already has a higher soft limit. Set the value to `0`, `false`, or `null` to disable the adjustment. On Windows and in sandboxes where the limit cannot be changed, startup continues without changing the limit.
+
+## Database Settings<a href="#database-settings" class="hash-link" aria-label="Direct link to Database Settings" translate="no" title="Direct link to Database Settings">​</a>
+
+The `database:` section controls how Hermes opens its SQLite state database (`state.db`), which stores sessions, messages, and gateway routing:
+
+
+``` prism-code
+database:
+  # Journal mode for state.db: wal (default) or delete.
+  # Use delete on filesystems where WAL is unsafe (network mounts, some
+  # virtiofs setups). Note: an existing on-disk WAL database is never
+  # live-downgraded — Hermes keeps WAL and logs an error telling you the
+  # configured delete did not apply. To convert an existing database, stop
+  # every process using it and run a one-time offline
+  # `PRAGMA journal_mode=DELETE` on the file.
+  journal_mode: wal
+
+  # Durability level for every state.db connection: OFF, NORMAL, FULL,
+  # EXTRA (or 0-3). Unset leaves SQLite's compile-time default, which
+  # differs between interpreter builds. On macOS this is a floor, not a
+  # pin: values below FULL are refused to protect against Darwin fsync
+  # reordering; EXTRA is honored.
+  # synchronous: FULL
+
+  # Optional WAL sizing pragmas (integers). Unset = SQLite defaults.
+  # wal_autocheckpoint: 1000     # pages between automatic checkpoints
+  # journal_size_limit: 67108864 # cap the WAL/journal size in bytes
+```
+
+
+Hermes also warns (once per process per database) when an existing database's on-disk journal mode is silently flipped to WAL on open — for example a database an operator had manually converted to `delete` — and names `database.journal_mode` as the setting that makes the choice stick.
 
 ## Environment Variable Substitution<a href="#environment-variable-substitution" class="hash-link" aria-label="Direct link to Environment Variable Substitution" translate="no" title="Direct link to Environment Variable Substitution">​</a>
 
@@ -260,6 +291,7 @@ terminal:
   # Cross-process container reuse (defaults match the "one long-lived
   # container shared across sessions" contract — see Container lifecycle).
   docker_persist_across_processes: true   # Reuse container across Hermes restarts
+  docker_shared_container_key: ""         # Opt in trusted profiles to one identity
   docker_orphan_reaper: true              # Sweep abandoned Exited containers at startup
 
   # Cross-backend lifecycle settings (apply to docker as well)
@@ -282,9 +314,9 @@ Every Hermes-managed container is tagged with three labels so subsequent process
 
 - `hermes-agent=1` — marks it as Hermes-managed
 - `hermes-task-id=<sanitized task_id>` — keys the per-task reuse probe
-- `hermes-profile=<sanitized profile name>` — scopes reuse and reaping to the active Hermes profile
+- `hermes-profile=<sanitized profile name>` — scopes reuse and reaping to the active Hermes profile by default; when `docker_shared_container_key` is set, its sanitized value is used instead
 
-On startup, Hermes runs `docker ps --filter label=hermes-task-id=<id> --filter label=hermes-profile=<profile>` and **attaches to the existing container** when it finds one. If the container is `exited` (e.g. after a Docker daemon restart), it's `docker start`'d and reused — filesystem state and any installed packages survive, but in-container background processes do not.
+On startup, Hermes runs `docker ps --filter label=hermes-task-id=<id> --filter label=hermes-profile=<identity>` and **attaches to the existing container** when it finds one. The identity is the active profile unless `docker_shared_container_key` explicitly opts trusted profiles into a common value. If the container is `exited` (e.g. after a Docker daemon restart), it's `docker start`'d and reused — filesystem state and any installed packages survive, but in-container background processes do not.
 
 When a Hermes process exits — `/quit`, closing a TUI session, gateway shutdown, even SIGKILL — the cleanup path is a **no-op for the container in default mode**. The container keeps running. The next Hermes process attaches to it in milliseconds via the label probe. This is the behavior the "one long-lived container shared across sessions" contract requires: it's the only way background processes (npm watchers, dev servers, long-running pytest) survive across sessions.
 
@@ -301,6 +333,7 @@ Edge cases worth knowing:
 
 - **OOM kill of in-container PID 1** transitions the container to `Exited`. Next reuse will `docker start` it; filesystem state survives, bg processes do not.
 - **Switching profiles** isolates containers from each other — a container labeled `hermes-profile=work` is invisible to a Hermes process running under `hermes-profile=research`. The orphan reaper is profile-scoped too, so cross-profile containers don't get reaped accidentally, but they also won't get cleaned up automatically until you start Hermes again under their original profile.
+- **Explicit cross-profile sharing** — set the same non-empty `docker_shared_container_key` under `terminal:` for profiles that intentionally collaborate in one trusted workspace. This replaces only their container identity label; task, egress, and network compatibility checks still apply. Profiles without the key remain isolated. The identity label is derived from the key with a short digest suffix, so similar-looking keys (`team/workspace` vs `team_workspace`) never collide into one container. **Important: a shared container is created once, by whichever profile starts it first** — that profile's `docker_image`, volumes, shm size, and other immutable Docker settings win, and later profiles attach to it as-is; differing settings in their configs are ignored until the container is removed and recreated. Profiles sharing a key should agree on image and mounts.
 
 Parallel subagents spawned via `delegate_task(tasks=[...])` share this one container — concurrent `cd`, env mutations, and writes to the same path will collide. If a subagent needs an isolated sandbox, it must register a per-task image override via `register_task_env_overrides()`, which RL and benchmark environments (TerminalBench2, HermesSweEnv, etc.) do automatically for their per-task Docker images.
 
@@ -328,6 +361,7 @@ Every key under `terminal:` has an env-var override of the form `TERMINAL_<KEY_U
 | `TERMINAL_DOCKER_RUN_AS_HOST_USER`         | `docker_run_as_host_user`         | `true` / `false`                                                                                           |
 | `TERMINAL_DOCKER_NETWORK`                  | `docker_network`                  | `true` / `false` — default `true`; `false` = `--network=none`                                              |
 | `TERMINAL_DOCKER_PERSIST_ACROSS_PROCESSES` | `docker_persist_across_processes` | `true` / `false` — default `true`                                                                          |
+| `TERMINAL_DOCKER_SHARED_CONTAINER_KEY`     | `docker_shared_container_key`     | Explicit shared identity for trusted profiles; empty by default                                            |
 | `TERMINAL_DOCKER_ORPHAN_REAPER`            | `docker_orphan_reaper`            | `true` / `false` — default `true`                                                                          |
 | `TERMINAL_CONTAINER_CPU`                   | `container_cpu`                   | CPU cores                                                                                                  |
 | `TERMINAL_CONTAINER_MEMORY`                | `container_memory`                | MB                                                                                                         |
@@ -879,7 +913,7 @@ compression:
   threshold: 0.50                                   # Compress at this % of context limit
   threshold_tokens: null                            # Absolute token cap (optional) — takes lower of ratio vs absolute
   target_ratio: 0.20                                # Fraction of threshold to preserve as recent tail
-  tail_mode: legacy                                 # Tail retention: "legacy" (0.20×window verbatim tail) or "lean" (clamped 2.5% tail, 10K-25K, with digests + anchor index + session_search recovery pointers in the summary — ~3x fewer retained tokens after compaction)
+  tail_mode: lean                                   # Tail retention: "lean" (default — clamped 2.5% tail, 10K-25K, with digests + anchor index + session_search recovery pointers in the summary; ~3x fewer retained tokens after compaction) or "legacy" (0.20×threshold verbatim tail)
   protect_last_n: 20                                # Min recent messages to keep uncompressed
   protect_first_n: 3                                # Non-system head messages pinned across compactions (0 = pin nothing)
   in_place: true                                    # Compact on the same session id (no rotation) — see below
@@ -1254,7 +1288,7 @@ prompt_caching:
 
 ## Auxiliary Models<a href="#auxiliary-models" class="hash-link" aria-label="Direct link to Auxiliary Models" translate="no" title="Direct link to Auxiliary Models">​</a>
 
-Hermes uses "auxiliary" models for side tasks like image analysis, web page summarization, browser screenshot analysis, session-title generation, and context compression. By default (`auxiliary.*.provider: "auto"`), Hermes routes every auxiliary task to your **main chat model** — the same provider/model you picked in `hermes model`. You don't need to configure anything to get started, but be aware that on expensive reasoning models (Opus, MiniMax M2.7, etc.) auxiliary tasks add meaningful cost. If you want cheap-and-fast side tasks regardless of your main model, set `auxiliary.<task>.provider` and `auxiliary.<task>.model` explicitly (for example, Gemini Flash on OpenRouter for vision and web extraction).
+Hermes uses "auxiliary" models for side tasks like image analysis, browser screenshot analysis, session-title generation, and context compression. By default (`auxiliary.*.provider: "auto"`), Hermes routes every auxiliary task to your **main chat model** — the same provider/model you picked in `hermes model`. You don't need to configure anything to get started, but be aware that on expensive reasoning models (Opus, MiniMax M2.7, etc.) auxiliary tasks add meaningful cost. If you want cheap-and-fast side tasks regardless of your main model, set `auxiliary.<task>.provider` and `auxiliary.<task>.model` explicitly (for example, Gemini Flash on OpenRouter for vision). (Web extraction is not an auxiliary task: `web_extract` and browser snapshots truncate long content deterministically and store the full text for `read_file` paging — no LLM involved.)
 
 
 Earlier builds split aggregator users (OpenRouter, Nous Portal) onto a cheap provider-side default. That was surprising — users who paid for an aggregator subscription would see a different model handling their auxiliary traffic. `auto` now uses the main model for everyone, and per-task overrides in `config.yaml` still win (see [Full auxiliary config reference](#full-auxiliary-config-reference) below).
@@ -1270,7 +1304,6 @@ $ hermes model
 → Configure auxiliary models
 
 [ ] vision               currently: auto / main model
-[ ] web_extract          currently: auto / main model
 [ ] title_generation     currently: openrouter / google/gemini-3-flash-preview
 [ ] tts_audio_tags       currently: auto / main model
 [ ] compression          currently: auto / main model
@@ -1290,7 +1323,7 @@ If you do not want Hermes to auto-generate titles after the first exchange, set 
 
 ### Stream-only endpoints<a href="#stream-only-endpoints" class="hash-link" aria-label="Direct link to Stream-only endpoints" translate="no" title="Direct link to Stream-only endpoints">​</a>
 
-Some OpenAI-compatible endpoints reject non-streaming chat requests outright (e.g. Tencent Copilot returns HTTP 400 `"Non-stream chat request is currently not supported"`). Interactive chat already streams, but auxiliary tasks (title generation, compression, web extraction) use non-streaming calls and would fail on every attempt. Hermes always treats `copilot.tencent.com` as stream-only; for any other such endpoint, list a URL substring under `auxiliary.stream_only_base_urls`:
+Some OpenAI-compatible endpoints reject non-streaming chat requests outright (e.g. Tencent Copilot returns HTTP 400 `"Non-stream chat request is currently not supported"`). Interactive chat already streams, but auxiliary tasks (title generation, compression, vision) use non-streaming calls and would fail on every attempt. Hermes always treats `copilot.tencent.com` as stream-only; for any other such endpoint, list a URL substring under `auxiliary.stream_only_base_urls`:
 
 
 ``` prism-code
@@ -1327,7 +1360,7 @@ Auxiliary task blocks additionally accept a `reasoning_effort` knob:
 |--------------------|---------------------------------------------------------------------------------------------------------------|----------------------------|
 | `reasoning_effort` | Thinking level for that task's LLM calls: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`, `ultra` | not set (provider default) |
 
-This is the per-task counterpart of the global `agent.reasoning_effort`: run compression at `low` or vision at `none` to cut side-task latency and cost when your main model is an expensive reasoning model, without touching your main chat behavior. It works on every auxiliary task block (`vision`, `web_extract`, `compression`, `title_generation`, `curator`, `background_review`, ...), across all three auxiliary wire formats (chat completions, Codex Responses, Anthropic Messages). An explicit `extra_body.reasoning` on the same task wins over the shorthand.
+This is the per-task counterpart of the global `agent.reasoning_effort`: run compression at `low` or vision at `none` to cut side-task latency and cost when your main model is an expensive reasoning model, without touching your main chat behavior. It works on every auxiliary task block (`vision`, `compression`, `title_generation`, `curator`, `background_review`, ...), across all three auxiliary wire formats (chat completions, Codex Responses, Anthropic Messages). An explicit `extra_body.reasoning` on the same task wins over the shorthand.
 
 MoA is the one exception: reasoning depth for Mixture-of-Agents is configured **per slot** in the MoA preset (`moa.presets.<name>.reference_models[].reasoning_effort` / `aggregator.reasoning_effort`), not on the `moa_reference`/`moa_aggregator` auxiliary blocks — see [Mixture of Agents](/docs/user-guide/features/mixture-of-agents).
 
@@ -1373,14 +1406,6 @@ auxiliary:
                                # CPU-bound encode step so a video-frame fan-out can't saturate
                                # every core and starve the event loop; LLM calls stay fully
                                # concurrent. Minimum 1; values < 1 are ignored.
-
-  # Web page summarization + browser page text extraction
-  web_extract:
-    provider: "auto"
-    model: ""                  # e.g. "google/gemini-2.5-flash"
-    base_url: ""
-    api_key: ""
-    timeout: 360               # seconds (6min) — per-attempt LLM summarization
 
   # Dangerous command approval classifier
   approval:
@@ -1461,7 +1486,7 @@ auxiliary:
 ```
 
 
-Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 120s, web_extract 360s, approval 30s, compression 120s. Increase these if you use slow local models for auxiliary tasks. Vision also has a separate `download_timeout` (default 30s) for the HTTP image download — increase this for slow connections or self-hosted image servers.
+Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 120s, approval 30s, compression 120s. Increase these if you use slow local models for auxiliary tasks. Vision also has a separate `download_timeout` (default 30s) for the HTTP image download — increase this for slow connections or self-hosted image servers.
 
 
 Context compression has its own `compression:` block for thresholds and an `auxiliary.compression:` block for model/provider settings — see [Context Compression](#context-compression) above. The primary fallback chain uses a top-level `fallback_providers:` list — see [Fallback Providers](/docs/integrations/providers#fallback-providers). All three follow the same provider/model/base_url pattern.
@@ -1495,7 +1520,7 @@ Each entry supports the same three knobs as any auxiliary task config:
 | `model`    | Model name for that provider                                              |
 | `base_url` | (Optional) Custom OpenAI-compatible endpoint                              |
 
-`fallback_chain` is available on any auxiliary task — `compression`, `vision`, `web_extract`, `approval`, `skills_hub`, `mcp`, etc.
+`fallback_chain` is available on any auxiliary task — `compression`, `vision`, `approval`, `skills_hub`, `mcp`, etc.
 
 ### Limiting auxiliary concurrency<a href="#limiting-auxiliary-concurrency" class="hash-link" aria-label="Direct link to Limiting auxiliary concurrency" translate="no" title="Direct link to Limiting auxiliary concurrency">​</a>
 
@@ -1679,18 +1704,14 @@ If you use Codex OAuth as your main model provider, vision works automatically �
 
 Auxiliary models can also be configured via environment variables. However, `config.yaml` is the preferred method — it's easier to manage and supports all options including `base_url` and `api_key`.
 
-| Setting              | Environment Variable             |
-|----------------------|----------------------------------|
-| Vision provider      | `AUXILIARY_VISION_PROVIDER`      |
-| Vision model         | `AUXILIARY_VISION_MODEL`         |
-| Vision endpoint      | `AUXILIARY_VISION_BASE_URL`      |
-| Vision API key       | `AUXILIARY_VISION_API_KEY`       |
-| Web extract provider | `AUXILIARY_WEB_EXTRACT_PROVIDER` |
-| Web extract model    | `AUXILIARY_WEB_EXTRACT_MODEL`    |
-| Web extract endpoint | `AUXILIARY_WEB_EXTRACT_BASE_URL` |
-| Web extract API key  | `AUXILIARY_WEB_EXTRACT_API_KEY`  |
+| Setting         | Environment Variable        |
+|-----------------|-----------------------------|
+| Vision provider | `AUXILIARY_VISION_PROVIDER` |
+| Vision model    | `AUXILIARY_VISION_MODEL`    |
+| Vision endpoint | `AUXILIARY_VISION_BASE_URL` |
+| Vision API key  | `AUXILIARY_VISION_API_KEY`  |
 
-Compression and fallback model settings are config.yaml-only.
+Compression and fallback model settings are config.yaml-only. (`AUXILIARY_WEB_EXTRACT_*` variables are obsolete — web extraction no longer uses an auxiliary LLM.)
 
 
 Run `hermes config` to see your current auxiliary model settings. Overrides only show up when they differ from the defaults.
@@ -2151,6 +2172,10 @@ When `redact_pii` is `true`, the gateway redacts personally identifiable informa
 **Platform support:** Redaction applies to WhatsApp, Signal, and Telegram. Discord and Slack are excluded because their mention systems (`<@user_id>`) require the real ID in the LLM context.
 
 Hashes are deterministic — the same user always maps to the same hash, so the model can still distinguish between users in group chats. Routing and delivery use the original values internally.
+
+### OpenAI Codex request identity<a href="#openai-codex-request-identity" class="hash-link" aria-label="Direct link to OpenAI Codex request identity" translate="no" title="Direct link to OpenAI Codex request identity">​</a>
+
+OpenAI requires third-party Codex harnesses to identify themselves. ChatGPT-authenticated requests to the official Codex endpoint automatically send `originator: hermes-agent` and `User-Agent: HermesAgent/<version>`. The existing ChatGPT account header is preserved. No additional prompt content or telemetry request is sent. Direct OpenAI API requests and custom proxy endpoints are unchanged.
 
 ## Speech-to-Text (STT)<a href="#speech-to-text-stt" class="hash-link" aria-label="Direct link to Speech-to-Text (STT)" translate="no" title="Direct link to Speech-to-Text (STT)">​</a>
 
@@ -2696,6 +2721,8 @@ The delegation provider uses the same credential resolution as CLI/gateway start
 
 **Width and depth:** `max_concurrent_children` caps how many subagents run in parallel per batch (default `3`, floor of 1, no ceiling). Can also be set via the `DELEGATION_MAX_CONCURRENT_CHILDREN` env var. When the model submits a `tasks` array longer than the cap, `delegate_task` returns a tool error explaining the limit rather than silently truncating. `max_spawn_depth` controls the delegation tree depth (clamped to 1-3). At the default `1`, delegation is flat: children cannot spawn grandchildren, and passing `role="orchestrator"` silently degrades to `leaf`. Raise to `2` so orchestrator children can spawn leaf grandchildren; `3` for three-level trees. The agent opts into orchestration per call via `role="orchestrator"`; `orchestrator_enabled: false` forces every child back to leaf regardless. Cost scales multiplicatively — at `max_spawn_depth: 3` with `max_concurrent_children: 3`, the tree can reach 3×3×3 = 27 concurrent leaf agents. See [Subagent Delegation → Depth Limit and Nested Orchestration](/docs/user-guide/features/delegation#depth-limit-and-nested-orchestration) for usage patterns.
 
+**Child process notifications:** background processes started by subagents route their completion/watch notifications to the parent conversation, but those are **suppressed** there by default — the child's consolidated result is the deliverable. Set `delegation.surface_child_process_notifications: true` to deliver them (with subagent attribution). Delegation results themselves are never suppressed. See [Subagent Delegation → Child background-process notifications](/docs/user-guide/features/delegation#child-background-process-notifications).
+
 ## Clarify<a href="#clarify" class="hash-link" aria-label="Direct link to Clarify" translate="no" title="Direct link to Clarify">​</a>
 
 Configure how long the gateway waits for a response to a clarifying question. The canonical key is `agent.clarify_timeout` (default `3600` seconds); a legacy top-level `clarify.timeout` is still honored if explicitly set:
@@ -2802,6 +2829,10 @@ dashboard:
   drain_auth:                 # Drain-control service-credential gate (dashboard_auth/drain plugin)
     scope: "drain"            # capability label on the verified principal
     min_secret_chars: 43      # entropy bar (url-safe-b64 chars; 43 ≈ 256 bits)
+  ws_ping_interval: 20.0      # Non-loopback WebSocket keepalive ping interval (seconds)
+  ws_ping_timeout: 20.0       # Non-loopback WebSocket keepalive pong timeout (seconds)
+  ws_orphan_reap_grace_s: 20.0 # Grace before a WS-detached session is reaped (seconds)
+  startup_orphan_sweep: true  # Close session rows orphaned by a dead gateway process at boot
 ```
 
 
@@ -2809,12 +2840,16 @@ dashboard:
 - `show_token_analytics` — off by default. The Analytics page and token/cost figures are a **local lower-bound estimate** (they exclude auxiliary calls, retries, fallbacks, and cache writes), so they can read far below the provider bill. Set `true` only if you understand they're not billing.
 - `public_url` — when set, this is the complete authority (scheme + host + optional path prefix) the OAuth `redirect_uri` is built from. Set it for deploys behind reverse proxies that don't reliably forward `X-Forwarded-*` headers. Leave empty to use proxy-header reconstruction.
 - `oauth` / `basic_auth` / `drain_auth` — auth provider config read by the bundled dashboard-auth plugins. The drain secret itself is **not** set here; it's provisioned via the `HERMES_DASHBOARD_DRAIN_SECRET` env var. See [Web Dashboard](/docs/user-guide/features/web-dashboard) for full auth setup.
+- `ws_ping_interval` / `ws_ping_timeout` — WebSocket keepalive tuning for non-loopback binds (loopback connections never ping). Raise these on high-latency links (Tailscale, distant SSH tunnels) where the 20 s defaults can manufacture spurious 1006 disconnects.
+- `ws_orphan_reap_grace_s` — how long a WS-detached session waits before the orphan reaper collects it. Raise alongside the keepalive values if clients reconnect slowly. (`HERMES_TUI_WS_ORPHAN_REAP_GRACE_S` remains as an internal override.)
+- `startup_orphan_sweep` (default `true`) — the WS-orphan reap timer above is in-process, so a gateway restart (update, crash, systemd) before it fires leaves the session row open forever — phantom "active" work in `/resume` and dashboards. On every gateway boot — both the stdio TUI (`entry.main`) and the desktop/dashboard WebSocket sidecar (`handle_ws`) — rows with source `tui` / `desktop` / `subagent` whose start time **and** newest message are both older than the session TTL (`HERMES_TUI_SESSION_TTL_S`, default 6 hours) are closed with `end_reason: startup_orphan_reap`. Messaging-platform sessions (Telegram, Discord, …) are never touched, live in-memory sessions (a client that already resumed) are excluded, and swept sessions remain resumable.
 
 
 - <a href="#directory-structure" class="table-of-contents__link toc-highlight">Directory Structure</a>
 - <a href="#managing-configuration" class="table-of-contents__link toc-highlight">Managing Configuration</a>
 - <a href="#configuration-precedence" class="table-of-contents__link toc-highlight">Configuration Precedence</a>
 - <a href="#runtime-limits" class="table-of-contents__link toc-highlight">Runtime Limits</a>
+- <a href="#database-settings" class="table-of-contents__link toc-highlight">Database Settings</a>
 - <a href="#environment-variable-substitution" class="table-of-contents__link toc-highlight">Environment Variable Substitution</a>
   - <a href="#provider-timeouts" class="table-of-contents__link toc-highlight">Provider Timeouts</a>
 - <a href="#update-behavior" class="table-of-contents__link toc-highlight">Update Behavior</a>
@@ -2891,6 +2926,7 @@ dashboard:
   - <a href="#runtime-metadata-footer-gateway-only" class="table-of-contents__link toc-highlight">Runtime-metadata footer (gateway only)</a>
   - <a href="#per-platform-progress-overrides" class="table-of-contents__link toc-highlight">Per-platform progress overrides</a>
 - <a href="#privacy" class="table-of-contents__link toc-highlight">Privacy</a>
+  - <a href="#openai-codex-request-identity" class="table-of-contents__link toc-highlight">OpenAI Codex request identity</a>
 - <a href="#speech-to-text-stt" class="table-of-contents__link toc-highlight">Speech-to-Text (STT)</a>
   - <a href="#transcription-prompt-vocabulary-hints" class="table-of-contents__link toc-highlight">Transcription prompt (vocabulary hints)</a>
 - <a href="#voice-mode-cli" class="table-of-contents__link toc-highlight">Voice Mode (CLI)</a>
