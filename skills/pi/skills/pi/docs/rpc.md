@@ -206,6 +206,34 @@ Response:
 ```
 
 
+#### clear_queue
+
+<a href="#clear-queue" class="heading-anchor" aria-label="Permalink: clear_queue" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#clear-queue"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Remove queued steering and follow-up messages and return their text.
+
+``` json
+{"type": "clear_queue"}
+```
+
+Response:
+
+``` json
+{
+  "type": "response",
+  "command": "clear_queue",
+  "success": true,
+  "data": {
+    "steering": ["Change direction"],
+    "followUp": ["Summarize when finished"]
+  }
+}
+```
+
+To implement interactive Esc behavior, send `clear_queue` before `abort`, then restore the returned text in the client editor. `abort` continues queued messages when they remain in the session.
+
+
 #### new_session
 
 <a href="#new-session" class="heading-anchor" aria-label="Permalink: new_session" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#new-session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
