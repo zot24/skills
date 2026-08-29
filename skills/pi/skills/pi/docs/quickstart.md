@@ -200,7 +200,7 @@ The command output is sent to the model. Use `!!command` to run a command withou
 <a href="#switch-models" class="heading-anchor" aria-label="Permalink: Switch models" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#switch-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Use `/model` or Ctrl+L to choose a model. Use Shift+Tab to cycle thinking level. Use Ctrl+P / Shift+Ctrl+P to cycle through scoped models.
+Use `/model` or Ctrl+L to choose a model for the current session. Press Ctrl+S in the model picker to save the highlighted model as the startup default. Use `/thinking` to choose a thinking level for the current session, or Ctrl+S in that picker to save the startup default thinking level. Use Shift+Tab to cycle thinking level. Use Ctrl+P / Shift+Ctrl+P to cycle through scoped models.
 
 
 ### Continue later
