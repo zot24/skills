@@ -1,0 +1,94 @@
+> Source: https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/quick-start.mdx
+
+---
+title: Quick Start Guide
+description: Get up and running with Apprise in minutes.
+sidebar:
+  order: 3
+---
+
+
+Now that you have Apprise installed, let's send your first notification. Choose your preferred method below.
+
+
+The quickest way to test Apprise is via the command line.
+
+```bash
+# Send a notification to a specific service
+apprise -t "Hello" -b "World" \
+    "discord://webhook_id/webhook_token"
+```
+
+
+If you are a developer, here is how you use Apprise in a Python script:
+
+```python
+import apprise
+
+# Create an Apprise instance
+apobj = apprise.Apprise()
+
+# Add notification services using URLs
+apobj.add('mailto://user:pass@gmail.com')
+apobj.add('discord://webhook_id/webhook_token')
+
+# Send a notification
+apobj.notify(
+    body='This is a test notification!',
+    title='Hello World',
+)
+```
+
+
+Ensure your Apprise API container is running (see [Installation](/getting-started/installation/)).
+
+### 1. Stateless (Fastest)
+
+You can send a notification immediately without configuring anything on the server by passing the URLs in the request.
+
+```bash
+# Send a notification via curl
+curl -X POST \
+  -d 'urls=discord://webhook_id/webhook_token' \
+  -d 'body=Hello World' \
+  http://localhost:8000/notify
+```
+
+### 2. The Web Interface
+
+The API includes a built-in Configuration Manager at `http://localhost:8000`.
+
+#### Step 1: Choose a Key
+
+Configurations are stored under a unique **Config ID** (or Key). Pick a keyword (e.g., `my-alerts`) to get started.
+
+![Apprise API Login](./images/api-screen-1.png)
+
+#### Step 2: Add Configuration
+
+Enter your Apprise URLs (TEXT or YAML format) and save them to your Key.
+
+![Apprise API Configuration](./images/api-screen-2.png)
+
+#### Step 3: Review & Tag
+
+Verify your URLs are loaded. You can see which **tags** are assigned to them, allowing you to target specific groups later.
+
+![Apprise API Review](./images/api-screen-3.png)
+
+#### Step 4: Send Notification
+
+Switch to the **Notifications** tab. Select the tags you want to target (or leave blank to notify all) and fire away.
+
+![Apprise API Send](./images/api-screen-4.png)
+
+### Developer API (Swagger)
+
+Apprise API follows the OpenAPI 3.0 specification. You can find the `swagger.yaml` spec [in the root of the repository](https://github.com/caronc/apprise-api/blob/master/swagger.yaml).
+
+
+## Next Steps
+
+- **Learn the Syntax:** Understand how [Apprise URLs](/getting-started/universal-syntax/) work.
+- **Configure It:** Learn how to use [Configuration Files](/getting-started/configuration/) to manage your URLs.
+- **Find Services:** Browse the [Supported Services](/services/) catalog.
