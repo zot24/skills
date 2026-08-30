@@ -1,0 +1,238 @@
+> Source: https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/formatting.mdx
+
+---
+title: Formatting
+description: Send plain text, Markdown, and HTML, with graceful fallbacks.
+sidebar:
+  order: 6
+---
+
+Apprise can deliver **plain text**, **Markdown**, and **HTML**, then adapt what you send to what each service can actually accept. For example, a service that only supports text will still receive your notification, but any rich formatting will be reduced appropriately.
+
+## Message Formats
+
+Apprise does **not** automatically guess your content type. Instead, you tell Apprise **what kind of content you are providing**, and Apprise uses that knowledge to make intelligent, per-service delivery decisions.
+
+Apprise recognises four **input format states**:
+
+| State                 | Description                                                            |
+| :-------------------- | :--------------------------------------------------------------------- |
+| _(implicit)_ **none** | No format declared. Content is passed through unchanged.               |
+| **text**              | Plain text input. Apprise may simplify content for text-only services. |
+| **markdown**          | Markdown input. Apprise may convert or simplify as needed.             |
+| **html**              | HTML input. Apprise may strip or convert markup as required.           |
+
+:::note
+
+- The `none` state is implicit. It is used automatically when no format is provided.
+- The `none` state cannot be explicitly set via the CLI, Library, or API.
+
+  :::
+
+**In short**: Apprise preserves your content whenever possible, and only adapts it when a destination cannot support what you provided.
+
+### Declaring Input vs Transforming Output
+
+When you specify a format (such as `text`, `markdown`, or `html`), you are **describing your input**, not forcing a specific output format.
+
+Apprise uses this information to determine **whether any transformation is necessary** for a given destination.
+
+- If the destination service natively supports the declared format, content is passed through unchanged
+- If the destination cannot support the declared format, Apprise performs the minimal conversion required
+- If no conversion is required, no transformation occurs
+
+In other words, Apprise only intervenes **when there is a mismatch** between the declared input format and what the upstream provider can support. It can only do this when you have provided an input format to work with.
+
+For example:
+
+- An **HTML** message sent to Email may be delivered as rich HTML
+- The **same HTML** message sent to SMS will be converted to readable plain text
+- A **Markdown** message sent to a chat service may retain formatting
+- That **same Markdown** message sent to a text-only service will be simplified automatically
+
+This makes destinations more compatible _without_ requiring you to manually tailor content per service.
+
+### What Happens if you do not Specify a Format?
+
+If you do **not** specify a format, Apprise assumes slightly different states depending on which component you're using:
+
+| Interface                    | Default input format                                                                                                           |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| [CLI](../../cli/)            | `text`                                                                                                                         |
+| [Python API](../../library/) | `none` - content passed as is unless `body_format` is provided in the `notify()` call or preset in the `AppriseAsset()` object |
+| [Apprise-API](../../api/)    | `none` - content passed as is unless `format` is provided in `/notify/` payload                                                |
+
+With the exception of the CLI, if no `input_format` is specified:
+
+- Content is passed **as-is**
+- No conversion or sanitisation occurs within Apprise
+- Any markup (HTML, Markdown, etc.) is treated as literal text
+
+This behaviour is intentional and useful when:
+
+- You already know the destination is text-only
+- You want exact control over what is sent
+
+Declaring the correct input format is optional, but doing so allows Apprise to assist more effectively across mixed destinations.
+
+## CLI Examples
+
+Use `--input-format` to tell Apprise how to interpret your body content.
+
+```bash
+# Markdown body
+apprise -t "Release" -b "**v1.2.3** is now live" \
+  --input-format=markdown \
+  "discord://..."
+
+# HTML body
+apprise -t "Build Report" -b "<b>Success</b>: artifacts uploaded" \
+  --input-format=html \
+  "mailto://user:pass@example.com"
+```
+
+## Python Library Examples
+
+Use `body_format` to specify the message format you are providing.
+
+```python
+from apprise import Apprise
+from apprise import NotifyFormat
+
+apobj = Apprise()
+apobj.add("discord://...")
+
+# Markdown input
+apobj.notify(
+    title="Status",
+    body="**All checks passed**",
+    body_format=NotifyFormat.MARKDOWN,
+)
+
+# HTML input
+apobj.notify(
+    title="Build Report",
+    body="<b>Success</b>: artifacts uploaded",
+    body_format=NotifyFormat.HTML,
+)
+```
+
+## Apprise-API Examples
+
+For JSON payloads, use the `format` field:
+
+```bash
+# Stateless Example
+curl -X POST http://localhost:8000/notify/ \
+  -d 'urls=["discord://..."]' \
+  -d 'title=Status' \
+  -d 'body=**All checks passed**' \
+  -d 'format=markdown'
+
+# Stateful Example
+curl -X POST http://localhost:8000/notify/team-alerts/\
+  -d 'tags=outage' \
+  -d 'type=failure' \
+  -d 'title=Outage Report' \
+  -d 'body=<strong>File Server is no longer responding</strong>' \
+  -d 'format=html'
+```
+
+If you're using Apprise already, consider just using the [Apprise API Service](../../services/apprise_api/) to simplify Stateful queries:
+
+```bash
+# --config= allows you to source an upstream Apprise API for your
+# configuration.
+apprise --config=http://localhost:8000/cfg/team-alerts/ \
+  --tag=outage \
+  --input-format=html \
+  --notification-type=failure \
+  --title "Outage Report" \
+  --body "<strong>File Server is no longer responding</strong>"
+```
+
+:::tip[For Developers]
+If you are already using the API heavily (especially for multi-language examples and multipart uploads), the [API Integrations](../../api/integrations/) page is the canonical reference.
+:::
+
+:::tip[For Admins]
+Provided the Apprise API server has not enabled the `APPRISE_CONFIG_LOCK`, you can put your Apprise API configuration URL in one of the default configuations the Apprise CLI looks for to make your query even easier to use:
+
+```yaml
+# ~/.config/apprise/apprise.yaml
+include http://localhost:8000/cfg/team-alerts/
+```
+
+Now your CLI command simplifies significantly:
+
+```bash
+apprise --tag=outage --input-format=html --notification-type=failure \
+  --title "Outage Report" \
+  --body "<strong>File Server is no longer responding</strong>"
+```
+
+:::
+
+## Selecting an Output Format (Upstream Delivery)
+
+In addition to declaring the **input format**, some services allow you to select how content is delivered **upstream** by specifying a `format=` parameter directly in the service URL.
+
+This does **not** describe the input you are providing. Instead, it instructs the service plugin which delivery route or representation to use, _if supported_.
+
+### How Input and Output Formats Work Together
+
+- **Input format** (`body_format`, `--input-format`, API `format`)  
+  Tells Apprise _what kind of content you are providing_
+
+- **Output format** (`?format=` on a service URL)  
+  Tells the service plugin _how to deliver that content upstream_
+
+When both are specified, Apprise will correctly adapt the content as needed before handing it off to the selected upstream delivery route.
+
+If the upstream service does **not** support the requested output format, it is silently ignored and the service’s default behaviour is used instead.
+
+### Examples
+
+#### Email
+
+Email supports multiple delivery formats.
+
+```text
+# Default behaviour (HTML email)
+mailto://user:pass@example.com
+
+# Force plain-text email delivery
+mailto://user:pass@example.com?format=text
+```
+
+In this case:
+
+- `format=html` is unnecessary because HTML is the default
+- `format=text` explicitly selects the plain-text delivery route
+- `format=markdown` is ignored because email does not support Markdown delivery
+
+#### Services with Multiple Endpoints
+
+Some services expose different API endpoints depending on format support.
+
+In these cases, setting `format=` may:
+
+- Select a different upstream endpoint
+- Change how content is rendered by the service
+- Bypass formatting transformations entirely
+
+This behaviour is **plugin-specific** and only applies when the service explicitly supports multiple output formats.
+
+### When Is This Useful?
+
+Specifying an output format is useful when:
+
+- You want to force a specific delivery type (for example, text-only email)
+- The service supports multiple content representations
+- You are sending content _as-is_ and need to route it through a specific upstream path
+
+If a service does not support the requested output format, Apprise safely falls back to the default behaviour.
+
+:::tip
+Need to send files alongside your message? See [Attachments](../attachments/) for sending images, logs, PDFs, and other artifacts.
+:::

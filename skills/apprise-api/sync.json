@@ -1,0 +1,206 @@
+{
+  "name": "apprise-api",
+  "version": "1.0.0",
+  "description": "Apprise API (caronc/apprise-api) — deploy, configure, and use the self-hosted notification gateway for 100+ services",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-api/master/README.md",
+      "target": "skills/apprise-api/docs/readme-upstream.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/index.md",
+      "target": "skills/apprise-api/docs/api-introduction.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/deployment.mdx",
+      "target": "skills/apprise-api/docs/deployment.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/usage.mdx",
+      "target": "skills/apprise-api/docs/usage.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/endpoints.md",
+      "target": "skills/apprise-api/docs/endpoints.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/integrations.mdx",
+      "target": "skills/apprise-api/docs/integrations.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/reference/index.md",
+      "target": "skills/apprise-api/docs/reference-index.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/reference/environment.md",
+      "target": "skills/apprise-api/docs/environment-variables.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/reference/response-codes.md",
+      "target": "skills/apprise-api/docs/response-codes.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/reference/openapi.md",
+      "target": "skills/apprise-api/docs/openapi.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/index.mdx",
+      "target": "skills/apprise-api/docs/getting-started.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/universal-syntax.md",
+      "target": "skills/apprise-api/docs/universal-syntax.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/configuration.mdx",
+      "target": "skills/apprise-api/docs/configuration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/formatting.mdx",
+      "target": "skills/apprise-api/docs/formatting.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/attachments.mdx",
+      "target": "skills/apprise-api/docs/attachments.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/services/index.md",
+      "target": "skills/apprise-api/docs/services.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/services/apprise_api/index.md",
+      "target": "skills/apprise-api/docs/apprise-url-scheme.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/qa/tag-matching.md",
+      "target": "skills/apprise-api/docs/tag-matching.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/qa/error-lookup.md",
+      "target": "skills/apprise-api/docs/error-lookup.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/qa/special-characters.md",
+      "target": "skills/apprise-api/docs/special-characters.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/qa/data-overflow.md",
+      "target": "skills/apprise-api/docs/data-overflow.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/cli/usage.mdx",
+      "target": "skills/apprise-api/docs/cli-usage.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/guides/hassio.mdx",
+      "target": "skills/apprise-api/docs/guide-home-assistant.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/guides/fail2ban.mdx",
+      "target": "skills/apprise-api/docs/guide-fail2ban.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/cli/index.md",
+      "target": "skills/apprise-api/docs/cli.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/cli/persistent-storage.md",
+      "target": "skills/apprise-api/docs/cli-persistent-storage.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/installation.mdx",
+      "target": "skills/apprise-api/docs/getting-started-installation.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/quick-start.mdx",
+      "target": "skills/apprise-api/docs/getting-started-quick-start.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/guides/index.md",
+      "target": "skills/apprise-api/docs/guides.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/qa/formatting-issues.md",
+      "target": "skills/apprise-api/docs/qa-formatting-issues.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/qa/index.md",
+      "target": "skills/apprise-api/docs/qa.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/qa/pyinstaller.md",
+      "target": "skills/apprise-api/docs/qa-pyinstaller.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/qa/resource-usage.mdx",
+      "target": "skills/apprise-api/docs/qa-resource-usage.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache"
+}

@@ -1,0 +1,87 @@
+> Source: https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/cli/index.md
+
+---
+title: Command Line Interface
+description: Send notifications directly from your terminal using the Apprise CLI.
+sidebar:
+  label: "Introduction"
+  order: 1
+---
+
+The Apprise CLI (`apprise`) is a lightweight command-line tool that allows you to send notifications to virtually any service directly from your terminal. It is ideal for system administrators, DevOps engineers, and automation scripts.
+
+## Installing the CLI
+
+The `apprise` command is included with the Apprise core installation.
+
+Most users install it via `pip install apprise`.
+
+Docker images primarily target the **Apprise API**, though the CLI is available inside the container for operational use.
+
+For full installation options, see [Installation](/getting-started/installation/).
+
+## Basic Usage
+
+The syntax is designed to be intuitive. You simply provide the notification details and the destination URLs.
+
+```bash
+# General Syntax
+apprise -t "Title" -b "Body" "service-url://..."
+```
+
+### Sending a Simple Notification
+
+To send a notification, provide a title (`-t`) and a body (`-b`), followed by one or more Apprise URLs.
+
+```bash
+# Send a notification to Discord
+apprise -t "Task Complete" -b " The backup finished successfully." \
+    "discord://webhook_id/webhook_token"
+```
+
+### Chaining Multiple Services
+
+You can notify multiple services at once by listing them sequentially. By default,
+Apprise sends notifications asynchronously for better performance.
+
+Use `--disable-async` to send notifications synchronously, processing each service
+one at a time in the order they are loaded.
+
+```bash
+# Notify Discord and Email simultaneously
+apprise -vv -t "Server Alert" -b "High CPU usage detected." \
+   -n "warning" \
+   "discord://webhook_id/webhook_token" \
+   "mailto://user:pass@gmail.com"
+```
+
+:::tip
+Adding `-v` (verbose) is useful for debugging. It prints delivery status and
+diagnostic information to the console. Verbosity increases with each additional
+`v` (for example `-vv`, `-vvv`), with higher levels producing more detailed output.
+:::
+
+## Piping Input (stdin)
+
+The CLI works seamlessly with standard input (`stdin`). If you do not specify a body (`-b`), Apprise listens for input from the pipe. This makes it perfect for monitoring logs or capturing command output.
+
+```bash
+# Send the contents of a file
+cat /proc/cpuinfo | apprise -t "CPU Info" \
+   "mailto://user:pass@gmail.com"
+
+# Send the result of a command
+uptime | apprise "discord://webhook_id/webhook_token"
+```
+
+## Loading Configuration
+
+While you can pass URLs directly to the command, it is often cleaner to use a configuration file. This keeps secrets out of your command history and allows you to manage complex notification groups.
+
+```bash
+# Load configuration from a file and send a message
+apprise --config "/etc/apprise/config.yml" \
+    --body "System is going down for maintenance"
+```
+
+For more details on how to structure your configuration files, see the [Configuration](/getting-started/configuration/) guide.

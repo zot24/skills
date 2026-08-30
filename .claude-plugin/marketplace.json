@@ -167,6 +167,12 @@
       "source": "./skills/pi",
       "description": "Expert on Pi (pi.dev, @earendil-works/pi-coding-agent) — the minimal terminal coding harness. Extend, improve, custom providers, extensions, skills, themes.",
       "version": "1.1.2"
+    },
+    {
+      "name": "apprise-api",
+      "source": "./skills/apprise-api",
+      "description": "Deploy, configure, and drive the Apprise API (caronc/apprise-api) — a self-hosted notification gateway that fans one HTTP request out to 100+ services, with stateful config keys, tag routing, attachments, and webhook payload mapping.",
+      "version": "1.0.0"
     }
   ]
 }

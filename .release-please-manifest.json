@@ -4,6 +4,7 @@
   "skills/agent-browser": "2.2.12",
   "skills/agent-skills": "1.3.3",
   "skills/ai-sdk": "1.1.11",
+  "skills/apprise-api": "1.0.0",
   "skills/beads": "1.1.0",
   "skills/chat-sdk": "2.0.4",
   "skills/claude-code-expert": "2.1.4",

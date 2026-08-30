@@ -1,0 +1,235 @@
+> Source: https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/usage.mdx
+
+---
+title: API Usage
+description: Learn how to send stateless and stateful notifications via the Apprise API.
+sidebar:
+  order: 3
+---
+
+<style>{`
+  /* Existing styling to ensure block behavior */
+  .theme-aware-sf-diagram img,
+  .theme-aware-sl-diagram img {
+    display: block;
+    width: 100%;
+  }
+
+  /* Force Dark SVG when the Astro Starlight toggle is set to 'dark' */
+  :root[data-theme="dark"] .theme-aware-sl-diagram img {
+    content: url("../images/stateless-api-integration-dark.svg");
+  }
+  :root[data-theme="dark"] .theme-aware-sf-diagram img {
+    content: url("../images/stateful-api-integration-dark.svg");
+  }
+
+  /* Force Light SVG when the Astro Starlight toggle is set to 'light' */
+  :root[data-theme="light"] .theme-aware-sl-diagram img {
+    content: url("../images/stateless-api-integration-light.svg");
+  }
+  :root[data-theme="light"] .theme-aware-sf-diagram img {
+    content: url("../images/stateful-api-integration-light.svg");
+  }
+`}</style>
+
+This guide covers the core functionality of the Apprise API: sending notifications. You can send notifications in two ways:
+
+1. **Stateless:** You provide the configuration URLs in the request payload.
+1. **Stateful:** You reference a pre-saved configuration Key.
+
+## Response Formats
+
+By default, endpoints return `text/plain`. If you prefer JSON, send `Accept: application/json`.
+
+For notification endpoints (`/notify` and `/notify/{KEY}`), you can also request a simple HTML log view by sending `Accept: text/html`. This is mainly useful for human testing in a browser.
+
+## Stateless Notifications
+
+<picture class="theme-aware-sl-diagram">
+  <source
+    srcset="../images/stateless-api-integration-dark.svg"
+    media="(prefers-color-scheme: dark)"
+  />
+  <img
+    src="../images/stateless-api-integration-light.svg"
+    alt="Stateless API Integration"
+    loading="lazy"
+  />
+</picture>
+
+Stateless notifications are ideal for "sidecar" usage where you don't want to manage persistent configuration on the server. You must provide the `urls` parameter in every request.
+
+### Basic JSON Request
+
+The most common method is sending a JSON payload to `/notify`.
+
+**Endpoint:** `POST /notify`
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": "mailto://user:pass@gmail.com",
+    "body": "Backup completed successfully.",
+    "title": "System Status"
+  }' \
+  http://localhost:8000/notify
+```
+
+### File Attachments
+
+To send attachments, use `multipart/form-data`. The API accepts standard file uploads or remote URLs. Use `attach` as the recommended field name. The aliases `attachment` and `attachments` are also accepted.
+
+For JSON payloads that supply remote or encoded attachment values, use the same field names.
+
+```bash
+# Upload a local file
+curl -X POST \
+    -F "urls=discord://webhook_id/token" \
+    -F "body=See attached log." \
+    -F "attach=@/var/log/syslog" \
+    http://localhost:8000/notify
+
+# Reference a remote URL (Apprise will download and forward it)
+curl -X POST \
+    -F "urls=discord://webhook_id/token" \
+    -F "body=Security Camera Snapshot" \
+    -F "attach=http://camera-ip/snapshot.jpg" \
+    http://localhost:8000/notify
+```
+
+## Stateful Notifications
+
+<picture class="theme-aware-sf-diagram">
+  <source
+    srcset="../images/stateful-api-integration-dark.svg"
+    media="(prefers-color-scheme: dark)"
+  />
+  <img
+    src="../images/stateful-api-integration-light.svg"
+    alt="Stateful API Integration"
+    loading="lazy"
+  />
+</picture>
+
+Stateful notifications allow you to simplify your client code. You store the complex URLs on the server once, assigned to a **Key**, and your client simply references that Key.
+
+**Endpoint:** `POST /notify/{KEY}`
+
+### Sending to a Key
+
+If you have saved a configuration under the key `my-alerts`:
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "body": "Database connection failed",
+    "type": "warning"
+  }' \
+  http://localhost:8000/notify/my-alerts
+```
+
+### Tagging
+
+Stateful configurations support tagging, allowing you to notify specific subgroups of your saved URLs.
+
+The value passed in the `tag` field follows these rules:
+
+| `tag` value        | Selected services                         |
+| ------------------ | ----------------------------------------- |
+| `"TagA"`           | Has `TagA`                                |
+| `"TagA TagB"`      | Has `TagA` **AND** `TagB`                 |
+| `"TagA+TagB"`      | Has `TagA` **AND** `TagB`                 |
+| `"TagA&TagB"`      | Has `TagA` **AND** `TagB`                 |
+| `"TagA,TagB"`      | Has `TagA` **OR** `TagB`                  |
+| `"TagA\|TagB"`     | Has `TagA` **OR** `TagB`                  |
+| `"TagA TagC,TagB"` | Has (`TagA` **AND** `TagC`) **OR** `TagB` |
+
+```bash
+# Notify services tagged "devops" OR "admin"
+curl -X POST -d '{"tag": "devops,admin", "body": "..."}' ...
+
+# Notify services tagged "devops" AND "critical"
+curl -X POST -d '{"tag": "devops critical", "body": "..."}' ...
+
+# Notify services matching ('comment' AND 'create') OR 'admin'
+curl -X POST -d '{"tag": "comment create,admin", "body": "..."}' ...
+```
+
+## Payload Mapping (Hooks)
+
+Sometimes you cannot change the payload format sent by a third-party tool (e.g., Grafana, Prometheus). Apprise API allows you to map incoming fields to Apprise-compatible fields using query parameters prefixed with a colon (`:`).
+
+:::note
+Mapping keys are passed in the query string and must be URL encoded if they contain special characters.
+:::
+
+### Mapping Rules
+
+| Syntax                           | Effect                                       |
+| -------------------------------- | -------------------------------------------- |
+| `?:incoming_field=apprise_field` | Rename `incoming_field` to the Apprise field |
+| `?:incoming_field=`              | Remove `incoming_field` from the payload     |
+| `?:apprise_field=literal value`  | Hard-code `apprise_field` to a fixed string  |
+
+**Example** — your tool sends `{"message": "Server Down", "severity": "high"}`, but Apprise expects `body` and `type`:
+
+```bash
+curl -X POST \
+  -d '{"message": "Server Down", "severity": "high"}' \
+  "http://localhost:8000/notify/my-alerts?:message=body&:severity=type"
+```
+
+### Nested Field Mapping
+
+When the incoming payload uses nested objects or arrays, reference them on the source side of the rule using **dot-notation** for nested objects and **bracket-notation** for array elements. Both can be freely combined.
+
+#### Nested Objects (Dot-Notation)
+
+Use a dot-separated path to walk into nested dictionaries:
+
+```bash
+# Payload from a monitoring tool:
+# { "event": { "title": "CPU spike", "state": "critical" },
+#   "component": { "name": "web-server-01" } }
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"event":{"title":"CPU spike","state":"critical"},"component":{"name":"web-server-01"}}' \
+  "http://localhost:8000/notify/my-alerts?:event.title=title&:event.state=type&:component.name=body"
+```
+
+#### Array Elements (Bracket-Notation)
+
+Append `[N]` directly after the key name to dereference index `N` of that array. Multiple subscripts and mixing with dot-notation are both supported:
+
+```bash
+# Payload from a forum / project-management webhook (e.g. Scoold / Para):
+# { "items": [ { "title": "New post", "objectURI": "https://example.com/q/1234" } ] }
+curl -g -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"items":[{"title":"New post","objectURI":"https://example.com/q/1234"}]}' \
+  "http://localhost:8000/notify/my-alerts?:items[0].title=title&:items[0].objectURI=body"
+```
+
+:::note
+`curl` treats brackets in URLs as globbing syntax, so `-g` (or `--globoff`) is required when using mapping paths such as `items[0].title`. Keep the URL quoted so your shell passes it through unchanged.
+:::
+
+Chained subscripts traverse nested arrays:
+
+```text
+# Source key          What it resolves to
+items[0]              first element of the items array
+items[0].objectURI    .objectURI of the first element
+matrix[0][1]          row 0, column 1 of a 2-D array
+a[0][1][2].value[3]   nested arrays -> dict -> array
+```
+
+**Rules and limits:**
+
+- Only the **source** side may use path notation; the target must be a flat Apprise field (`title`, `body`, `type`, `format`, `tag`, etc.).
+- `N` in `[N]` must be a non-negative integer. Both `key[abc]` (non-integer) and `key[0` / `key0]` (unmatched bracket) are rejected with a `WARNING`.
+- If any step in the path cannot be resolved (missing key, index out of range, or a non-list node encountered at an index step), the server returns **400** and logs a `WARNING` — no notification is sent. This lets you catch misconfigured rules without silently dropping messages.
+- **Depth** is counted as the total number of individual traversal operations — each dict-key lookup _and_ each array-index dereference counts as one step. For example, `items[0].objectURI` is **3** steps (`items` -> `[0]` -> `objectURI`), and `a[0][1][2].b[3]` is **6** steps.
+- The maximum traversal depth defaults to **5**. Adjust it with the `APPRISE_WEBHOOK_MAPPING_MAX_DEPTH` environment variable.

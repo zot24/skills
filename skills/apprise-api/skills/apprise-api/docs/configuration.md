@@ -1,0 +1,635 @@
+> Source: https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/configuration.mdx
+
+---
+title: Configuration
+description: Learn how to configure Apprise using YAML or TEXT formats.
+sidebar:
+  order: 4
+---
+
+
+Configuration allows you to identify all of your notification services in one place, while supporting grouping, tagging, and keeping secrets out of your shell history.
+
+Apprise configuration is **portable**. The same configuration file can be used by the CLI, the API server, and the Python library without modification.
+
+Consider using configuration files when:
+
+- You want to reuse the same notification setup across scripts or systems
+- You want to keep credentials out of your shell history
+- You want to group services or simplify references to your Apprise URLs with tags
+- You want the same configuration to work with the CLI, API, and Python library
+
+If you only need a one-off notification, inline URLs are sufficient. For anything beyond that, configuration files are recommended.
+
+## Supported Configuration Formats
+
+Apprise supports two configuration formats. Both describe the same information, but YAML can express more structure.
+
+- **TEXT**: Simple, line-based, and easy to read. Best for small or manual setups.
+- **YAML**: Structured and standardised. Better suited for larger configurations and automation tools.
+
+
+## TEXT Configuration
+
+TEXT configuration is line-based.
+
+- Blank lines are ignored
+- Comments start with `#` or `;`
+- Each URL can optionally be prefixed with one or more tags
+- You can define tag groups
+- You can include other configuration sources
+
+TEXT configuration is ideal when:
+
+- You want the simplest possible setup
+- You are managing only a few services
+- You prefer minimal syntax
+
+### Basic TEXT Syntax
+
+```apache
+# Email notifications
+mailto://user:password@gmail.com
+
+# Discord notifications
+discord://webhook_id/webhook_token
+```
+
+### Parameter Priority in TEXT Configuration
+
+TEXT URLs -- and any URL passed directly via the CLI or Python library -- follow a two-level priority. The same rule applies globally whenever no YAML token block is involved:
+
+1. **Query-string parameters** (`?key=value`) -- override URL-path values, including aliases (e.g. `?pass=` is treated as `?password=`).
+2. **URL-path values** (lowest) -- credentials and host parsed directly from the URL string (e.g. `user:pass@host:port`).
+
+YAML configuration adds a third, higher-priority level on top of these two: [YAML token sub-keys](#yaml-configuration) always win over both.
+
+## TEXT Tagging and Grouping
+
+Tags let you organize notification services into logical groups such as `personal`, `ops`, or `critical`. You can then target groups without changing your destination URLs.
+
+### TEXT Tagging Examples
+
+You can categorize services by placing tags before the URL, separated by an equals sign (`=`).
+
+```apache
+# Syntax: tag=url
+# Associates the 'desktop' tag with this notification
+desktop=gnome://
+
+# You can assign multiple tags using commas or spaces
+# This URL is part of 'tv' AND 'kitchen'
+tv,kitchen=kodi://user:pass@kitchen.host
+```
+
+### Grouping Tags with TEXT Configuration
+
+You can include other configuration files to keep your setup clean. This is excellent for separating secrets from general logic.
+
+```apache
+# 1. Define your base services
+user1=mailto://credentials
+user2=mailto://credentials
+
+# 2. Define a group
+# Notifying 'friends' will notify 'user1' and 'user2'
+friends = user1, user2
+```
+
+### TEXT Includes
+
+You can import other configuration files (local or remote) using the `include` keyword.
+
+```apache
+# Read from another Apprise configuation file on the local server
+include /etc/apprise/secrets.conf
+
+# Read from an Apprise API server
+include https://my-config-server.com/get/my-key/
+```
+
+:::note
+The Apprise API Server will not `include` files identified as being stored local to the server for security reasons.
+:::
+
+
+## YAML Configuration
+
+YAML configuration is structured and is best for larger setups. But it also provides optional `asset` configuration (branding and defaults) which isn't available with TEXT configuration.
+
+### Basic YAML Syntax
+
+All services are listed under a `urls` list.
+
+```yaml
+urls:
+  - json://localhost
+  - slack://tokenA/tokenB/tokenC
+```
+
+### YAML vs TEXT for Complex Parameters
+
+One of the most practical advantages of YAML over TEXT is that **parameters can be moved out of the URL and written as normal YAML values**. In a plain URL, any value that contains special characters -- spaces, `@`, `#`, angle brackets -- must be percent-encoded before it can appear in the URL. In YAML, those same values can be written as plain strings with no URL encoding required.
+
+Consider an SMTP email URL with a complex password, a display-name sender address, and a private PGP key path:
+
+**As a single URL (TEXT format or inline CLI argument):**
+
+```text
+mailtos://joe:myP%40ss%23w0rd%21@example.com?smtp=smtp.example.com&from=Joe+User%3Cjoe%40example.com%3E&pgp=sign&pgpprv=%2Fhome%2Fjoe%2FMy+Keys%2Fprivate.asc
+```
+
+**As YAML — no encoding, immediately readable:**
+
+```yaml
+urls:
+  - mailtos://example.com:
+      password: "myP@ss#w0rd!"
+      smtp: smtp.example.com
+      from: "Joe User <joe@example.com>"
+      pgp: sign
+      pgpprv: "/home/joe/My Keys/private.asc"
+```
+
+YAML sub-keys follow a strict three-level priority — the highest level wins when the same field is set by more than one source:
+
+1. **YAML token sub-keys** (highest) — always override everything else.
+2. **URL query-string parameters** (e.g. `?smtp=...`, `?user=abc`) — override URL-path values.
+3. **URL-path values** (lowest) — the `user`, `password`, `host`, and `port` parsed from the URL itself (e.g. `user:pass@host:port`).
+
+Every common URL component — `user`, `password`, `host`, `port`, and `verify` — as well as every service-specific parameter from a plugin's `## Parameter Breakdown` table can be supplied as a sub-key.
+
+This means the URL itself can be as minimal as just the schema, with all credentials and options in the YAML block and no URL encoding required anywhere. The [email service](/services/email/) is shown above, but the same approach works for any Apprise service.
+
+The same pattern works for any service. The XMPP example below keeps the URL minimal — the `host:` sub-key overrides the hostname parsed from the URL, while `user:` and `password:` supply credentials that were never in the URL at all:
+
+```yaml
+urls:
+  - xmpp://chat.example.com:
+      user: alerts@example.com
+      password: "correct horse battery staple"
+      host: xmpp.example.com
+      verify: yes
+      to: ops-room@example.com
+```
+
+### YAML URL Entry Forms
+
+A `urls:` entry can take four distinct forms. Each form controls how many service instances are created and how parameter values are applied.
+
+
+One URL entry creates one service instance. Token keys map directly to plugin parameters and override any value already in the URL.
+
+Tokens may be written either indented one level under the URL key (**child form**, standard YAML nesting) or at the same indentation level as the URL key (**sibling form**). Both produce identical results.
+
+**Child form:**
+
+```yaml
+urls:
+  - mailtos://smtp.example.com:
+      user: sender@example.com
+      password: "myP@ss#w0rd!"
+      to: recipient@example.com
+```
+
+**Sibling form** (equivalent):
+
+```yaml
+urls:
+  - mailtos://smtp.example.com:
+    user: sender@example.com
+    password: "myP@ss#w0rd!"
+    to: recipient@example.com
+```
+
+When all credentials are supplied as YAML tokens, omit them from the URL entirely -- a bare `schema://` is all that is needed:
+
+```yaml
+urls:
+  - mailtos://:
+    user: sender@example.com
+    password: "myP@ss#w0rd!"
+    smtp: smtp.example.com
+    from: sender@example.com
+    to: recipient@example.com
+```
+
+:::note
+The older `mailtos://_:` form (with a `_` placeholder) is still accepted and produces the same result. Either style works.
+:::
+
+:::note
+In YAML token blocks, both `password:` and `pass:` are accepted -- `pass:` is automatically normalized to `password:` by Apprise. When both keys appear in the same block, `password:` takes precedence.
+:::
+
+
+When a plugin parameter accepts multiple values (such as `to:` for multiple recipients), supply them as a comma-separated string **or** as a YAML list under that key. Either way, **one service instance** is created with all values in its target list -- this is not the same as creating multiple instances.
+
+**Comma-separated** (equivalent to `?to=user1,user2` in the URL):
+
+```yaml
+urls:
+  - mailtos://smtp.example.com:
+      user: sender@example.com
+      password: secret
+      to: user1@example.com, user2@example.com
+```
+
+**YAML list** (same result, easier to read for long lists):
+
+```yaml
+urls:
+  - mailtos://smtp.example.com:
+      user: sender@example.com
+      password: secret
+      to:
+        - user1@example.com
+        - user2@example.com
+```
+
+The same syntax applies to `tag:` and any other list-type parameter.
+
+
+When the child value of a URL key is a YAML **list**, Apprise creates one service instance per list entry. Each entry's tokens override values from the URL independently -- entries do **not** inherit tokens from each other.
+
+```yaml
+urls:
+  - mailto://user:pass@gmail.com:
+      - to: manager@example.com
+        tag: boss
+      - to: coworker@example.com
+        tag: new-hire
+```
+
+This loads two `mailto://` services. Both inherit `user:pass@gmail.com` from the URL. Each instance gets its own `to` and `tag`; neither sees the other entry's values.
+
+:::caution
+To create multiple instances, the list must be indented as a **child** of the URL key (one level deeper), not at the same level as the URL key. Multiple targets for a single instance use the comma-separated or YAML-list token form shown in the "Multiple Targets" tab instead.
+:::
+
+
+Combine a child-indented list (one instance per entry) with sibling tokens (at the same indentation level as the URL key) to share settings across every generated instance.
+
+Per-entry tokens take priority over sibling tokens for any key that both define.
+
+```yaml
+urls:
+  - mailtos://smtp.example.com:
+      - to: manager@example.com
+        tag: boss
+      - to: coworker@example.com
+        tag: new-hire
+    user: sender@example.com
+    password: shared_secret
+```
+
+This creates two `mailtos://` instances. The sibling tokens `user:` and `password:` are applied to both. Each entry's own `to:` and `tag:` are per-instance and override any sibling value for the same key.
+
+
+## YAML Tagging and Grouping
+
+Tags let you organize notification services into logical groups such as `personal`, `ops`, or `critical`. You can then target groups without changing your destination URLs.
+
+### YAML Tagging Examples
+
+Assign one tag:
+
+```yaml
+version: 1
+urls:
+  - discord://webhook_id/webhook_token:
+      tag: ops
+```
+
+Assign multiple tags:
+
+```yaml
+version: 1
+urls:
+  - mailto://user:password@gmail.com:
+      tag:
+        - personal
+        - after-hours
+```
+
+### Reusing One URL with Multiple YAML Entries
+
+A child-indented YAML list under a URL key creates one service instance per list entry. This is covered in detail in the [Multiple Instances](#yaml-url-entry-forms) and [Multiple Instances + Shared Tokens](#yaml-url-entry-forms) tabs above.
+
+:::caution
+A misplaced `-` bullet can silently split one intended entry into several independent instances, each with only a subset of the intended parameters.
+
+```yaml
+# Intended: one instance with two targets
+urls:
+  - schema://host:
+      to: user1@example.com, user2@example.com  # correct: one instance
+
+# Accidental: two independent instances, each missing the other's config
+urls:
+  - schema://host:
+      - to: user1@example.com   # instance 1 -- only sees its own keys
+      - to: user2@example.com   # instance 2 -- only sees its own keys
+```
+
+This split is intentional and useful when different instances genuinely need different settings. But if the goal is one instance with multiple targets, use a comma-separated value or a YAML list under the key instead.
+:::
+
+### Grouping Tags with YAML Configuration
+
+You can apply tags to every URL in a file using `tag` (or `tags`) at the root:
+
+```yaml
+version: 1
+tag: org-default
+
+urls:
+  - discord://webhook_id/webhook_token
+  - mailto://user:password@gmail.com
+```
+
+You can also tag your individual Apprise URLs with the same identifier
+
+```yaml
+version: 1
+
+urls:
+  - discord://webhook_id/webhook_token:
+      tag: ops
+  - slack://token_a/token_b/token_c:
+      tag: ops
+  - mailto://user:password@gmail.com:
+      tag: ops
+```
+
+You can also leverage the `groups` directive to create new tag identifiers and identify which existing tags will be encompased in them.
+
+```yaml
+version: 1
+
+groups:
+  critical: ops, after-hours
+
+urls:
+  - discord://webhook_id/webhook_token:
+      tag: ops
+
+  - mailto://user:password@gmail.com:
+      tag: after-hours
+```
+
+### Asset Configuration
+
+Asset configuration lets you tune defaults and branding. Effectively you can override the default Apprise branding (Icons, App ID) sent to the upstream service.
+
+:::note
+Branding is only available with YAML configuration only.
+:::
+
+Asset keys have a few rules:
+
+- Keys that start with `_` or end with `_` are ignored
+- Only asset keys that already exist and are string or boolean values can be set
+- Values must be strings or booleans, with strings converted to booleans when the underlying default is boolean
+
+A practical subset of commonly used keys is shown below; simply not over-riding an entry uses its default value.
+
+```yaml
+version: 1
+
+asset:
+  #
+  # Branding
+  #
+
+  # A shortened identify to describe the application
+  app_id: Apprise
+  # A default description of the notification (used in some upstream services)
+  app_desc: Apprise Notifications
+  # Where can people go to get more information on your application?
+  app_url: https://github.com/caronc/apprise
+
+  #
+  # Behaviour defaults
+  #
+
+  # notifications are issued sequentially if this is set to false (default = true)
+  async_mode: true
+
+  # Convert \r or \n into their actual <CR> and <LF> characters when processing body string
+  # (default = false)
+  interpret_escapes: false
+
+  # credentials are protected when written to logging (default = true)
+  secure_logging: true
+
+  # Encoding used when reading configuration from disk
+  encoding: utf-8
+
+  #
+  # Themes
+  #
+
+  # The default theme used when resolving icons
+  theme: default
+
+  # Optionaly override icon URL paths (advanced)
+  # Defaults are pullled from:
+  #   http://github.com/caronc/apprise/tree/master/apprise/assets/themes/default
+  image_url_mask: https://example.local/assets/themes/{THEME}/apprise-{TYPE}-{XY}{EXTENSION}
+  image_url_logo: https://example.local/assets/themes/{THEME}/apprise-logo.png
+  image_path_mask: /apprise/installation/assets/themes/{THEME}/apprise-{TYPE}-{XY}{EXTENSION}
+
+  # Let Apprise know in advance what you will be feeding it;
+  # Values are:
+  #   - null: (default) pass content along as is
+  #   - "text": content being passed in is in a "text" format (default for CLI tool)
+  #   - "html": content being passed in is HTML
+  #   - "markdown": content being provided is in Markdown format.
+  body_format: null
+
+urls:
+  - discord://webhook_id/webhook_token:
+      tag: ops
+
+  - mailto://user:password@gmail.com:
+      tag: after-hours
+```
+
+Timezone can also be set under `asset` using `timezone` (or `tz`) to control the default timezone used by Apprise.
+
+### Grouping
+
+YAML allows for recursive group definitions (Groups containing Groups).
+
+```yaml
+groups:
+  - finance: user1, user2
+  - devteam: user3, user4
+  # Recursive group
+  - company: finance, devteam, boss
+
+urls:
+  - mailto://credentials:
+      - tag: user1
+```
+
+### YAML Includes
+
+You can import other configurations by leveraging the optional `include:` section
+
+```yaml
+include:
+  # Read from another Apprise configuation file on the local server
+  - /etc/apprise/secrets.yml
+  # Read from an Apprise API server
+  - https://my-config-server.com/get/my-key/
+```
+
+:::note
+You can not set up the Apprise API Server to include local file
+:::
+
+
+## Targeting Tags when Sending
+
+Tag filtering is consistent across tools. For example, with the CLI you can target a group by tag:
+
+General filter expressions follow:
+
+| Filter                        | Selected services                          |
+| ----------------------------- | ------------------------------------------ |
+| `--tag TagA`                  | Has `TagA`                                 |
+| `--tag TagA,TagB`             | Has `TagA` **AND** `TagB`                  |
+| `--tag 'TagA' --tag 'TagB`    | Has `TagA` **OR** `TagB`                   |
+| `--tag 'TagA,TagC --tag TagB` | Has ( `TagA` **AND** `TagC`) **OR** `TagB` |
+
+:::note
+When you use a comma, you are applying a filter: you are telling Apprise to narrow down the list to only those specific services that possess every tag you listed. To widen the list to include multiple different groups, simply repeat the `--tag` (`-g`) switch.
+:::
+
+Example:
+
+```bash
+apprise --tag="ops,critical" \
+   --body="Notify services that have the tag ops AND critical associated with it"
+
+apprise --tag="ops" --tag "critical" \
+   --body="Notify all services that have either 'ops' AND/OR 'critical' associated with it"
+```
+
+## Loading Configuration
+
+Whether you use TEXT or YAML, you load your configuration into the CLI or Library the same way.
+
+### CLI Usage
+
+You can load a file using the `--config` (or `-c`) flag. You can specify this flag multiple times to load multiple files.
+
+```bash
+# Load a local file
+apprise --config=/etc/apprise/config.yml --body="test"
+
+# Load from a URL
+apprise --config=https://myserver.com/cfg/apprise --body="test"
+```
+
+## Default Configuration Locations
+
+If you do not specify a configuration file via the CLI (`--config`), Apprise automatically loads a default configuration file for you.
+
+
+The following configuration files are scanned in the order identified below; the first match is loaded and nothing further is processed thereafter.
+
+1. `~/.apprise`
+1. `~/.apprise.conf`
+1. `~/.apprise.yml`
+1. `~/.apprise.yaml`
+1. `~/.config/apprise`
+1. `~/.config/apprise.conf`
+1. `~/.config/apprise.yml`
+1. `~/.config/apprise.yaml`
+1. `~/.apprise/apprise`
+1. `~/.apprise/apprise.conf`
+1. `~/.apprise/apprise.yml`
+1. `~/.apprise/apprise.yaml`
+1. `~/.config/apprise/apprise`
+1. `~/.config/apprise/apprise.conf`
+1. `~/.config/apprise/apprise.yml`
+1. `~/.config/apprise/apprise.yaml`
+
+The following global paths are also searched if nothing is found above:
+
+1. `/etc/apprise`
+1. `/etc/apprise.yml`
+1. `/etc/apprise.yaml`
+1. `/etc/apprise/apprise`
+1. `/etc/apprise/apprise.conf`
+1. `/etc/apprise/apprise.yml`
+1. `/etc/apprise/apprise.yaml`
+
+
+The following configuration files are scanned in the order identified below; the first match is loaded and nothing further is processed thereafter.
+
+1. `%APPDATA%\Apprise\apprise`
+1. `%APPDATA%\Apprise\apprise.conf`
+1. `%APPDATA%\Apprise\apprise.yml`
+1. `%APPDATA%\Apprise\apprise.yaml`
+1. `%LOCALAPPDATA%\Apprise\apprise`
+1. `%LOCALAPPDATA%\Apprise\apprise.conf`
+1. `%LOCALAPPDATA%\Apprise\apprise.yml`
+1. `%LOCALAPPDATA%\Apprise\apprise.yaml`
+
+The following global paths are also searched if nothing is found above:
+
+1. `%ALLUSERSPROFILE%\Apprise\apprise`
+1. `%ALLUSERSPROFILE%\Apprise\apprise.conf`
+1. `%ALLUSERSPROFILE%\Apprise\apprise.yml`
+1. `%ALLUSERSPROFILE%\Apprise\apprise.yaml`
+1. `%PROGRAMFILES%\Apprise\apprise`
+1. `%PROGRAMFILES%\Apprise\apprise.conf`
+1. `%PROGRAMFILES%\Apprise\apprise.yml`
+1. `%PROGRAMFILES%\Apprise\apprise.yaml`
+1. `%COMMONPROGRAMFILES%\Apprise\apprise`
+1. `%COMMONPROGRAMFILES%\Apprise\apprise.conf`
+1. `%COMMONPROGRAMFILES%\Apprise\apprise.yml`
+1. `%COMMONPROGRAMFILES%\Apprise\apprise.yaml`
+
+Assuming we were the user `foobar` and Microsoft Windows was installed on the `C:\` drive; the above can be interprted as:
+
+| Environment Variable  | Example Translation               |
+| --------------------- | --------------------------------- |
+| `%APPDATA%`           | `C:\Users\foobar\AppData\Roaming` |
+| `%LOCALAPPDATA%`      | `C:\Users\foobar\AppData\Local`   |
+| `%ALLUSERSPROFILE%`   | `C:\ProgramData`                  |
+| `%PROGRAMFILES%`      | `C:\Program Files`                |
+| `%COMMONPROGRAMFILES` | `C:\Program Files\Common Files`   |
+
+
+:::tip[Did you know?]
+Apprise automatically determines the format (TEXT vs YAML) based on the file extension (`.yml` or `.yaml`). If your file has no extension, it defaults to TEXT unless valid YAML structure is detected.
+:::
+
+## Reserved Tags
+
+There are two special tags you can use to control notification behavior.
+
+| Tag      | Description                                                                                                                                                         |
+| :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `always` | If you assign the tag `always` to a URL in your config, it will **ALWAYS** trigger, even if you are filtering for a different tag via the CLI.                      |
+| `all`    | Used when _sending_ a notification (e.g. `apprise --tag=all`). This tells Apprise to ignore all filters and notify **every** service defined in your configuration. |
+
+For advanced tagging features -- priority-based escalation chains, exclusive priority filtering, per-service retry and wait, and per-call retry overrides -- see [Tag Routing & Retry](../../library/tag-routing/).
+
+## Private Web Hosted Configuration
+
+If you are hosting your configuration on a private web server, Apprise detects the format based on the **Content-Type** header returned by the server, or by an explicit URL parameter.
+
+| Format   | HTTP Content-Type                 | URL Force Override       |
+| :------- | :-------------------------------- | :----------------------- |
+| **YAML** | `text/yaml`, `application/x-yaml` | `http://...?format=yaml` |
+| **TEXT** | `text/plain`                      | `http://...?format=text` |
+
+:::note
+If you're using a hosting of the Apprise API, your `include` URLs look like: `http://apprise-host/get/<key>`
+:::

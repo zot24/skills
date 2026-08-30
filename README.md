@@ -35,6 +35,7 @@ An opinionated selection of skills for daily dev workflows.
 | [tower](./skills/tower) | Run a control tower over a fleet of herdr agents — session start, catalog, unpaid ask, dispatch from a spec file, watch a completion marker, reconvene with an owner table, and verify through acceptance gates so "done" is an exit code |
 | [pr-standard](./skills/pr-standard) | House standard for GitHub pull request descriptions — the six ASD-STE100 writing rules, the four-label pack (type, `priority:*`, `t-shirt:*`, `area:*`), the required body shape with a mermaid diagram, and the forked-chat workflow |
 | [skill-release-preflight](./skills/skill-release-preflight) | Three checks before pushing to this repo — never hand-edit a release-please version, run `check-consistency.sh` locally, and read `gh label list` before `gh pr create` |
+| [apprise-api](./skills/apprise-api) | Deploy, configure, and drive the Apprise API (caronc/apprise-api) — the self-hosted notification gateway that fans one HTTP request out to 100+ services, with stateful config keys, tag routing, attachments, and webhook payload mapping |
 
 ## Installation
 
@@ -149,6 +150,12 @@ Format: `/skill-name:command-name [arguments]`
 /immich:immich backup                 # Database + filesystem backup
 /immich:immich library /mnt/photos    # External library setup
 /immich:immich upload /path/to/photos # CLI bulk upload
+
+# Apprise notification gateway
+/apprise-api:apprise-api deploy           # Docker / Compose / Kubernetes setup
+/apprise-api:apprise-api configure        # APPRISE_* environment variables
+/apprise-api:apprise-api key my-alerts    # Manage a stateful config key
+/apprise-api:apprise-api troubleshoot 424 # Diagnose a response code
 ```
 
 ### Natural Language
@@ -166,6 +173,7 @@ You can also just describe what you want:
 "How do I get user context from Honcho for my chatbot?"
 "Write a viral X/Twitter post about AI"
 "Set up a safe delete alias so I don't accidentally delete everything"
+"Deploy an Apprise API container and route my alerts to Discord and ntfy"
 ```
 
 The skills auto-activate based on context.
@@ -716,6 +724,28 @@ Deploy, configure, and manage AdGuard Home — network-wide DNS ad blocking and 
 ```
 
 [Full documentation](./skills/adguard/README.md)
+
+### apprise-api
+
+Deploy, configure, and drive the Apprise API — a self-hosted notification gateway that turns one HTTP request into notifications across 100+ services:
+
+- **deploy** — Docker, Docker Compose, hardened rootless Kubernetes
+- **configure** — every `APPRISE_*` environment variable, TEXT and YAML config
+- **notify** — stateless (`/notify`) and stateful (`/notify/{KEY}`) requests
+- **key** — save, read, and delete configuration keys
+- **tags** — AND/OR tag expressions to route to a subset of saved URLs
+- **attach** — file upload, remote URL, and JSON attachment forms
+- **webhook** — remap third-party JSON payloads onto title/body
+- **troubleshoot** — response codes, error lookup, URL escaping
+
+```bash
+/apprise-api:apprise-api deploy
+/apprise-api:apprise-api configure
+/apprise-api:apprise-api key my-alerts
+/apprise-api:apprise-api troubleshoot 424
+```
+
+[Full documentation](./skills/apprise-api/README.md)
 
 ## Adding New Skills
 
