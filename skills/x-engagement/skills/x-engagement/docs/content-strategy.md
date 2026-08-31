@@ -103,18 +103,19 @@ All four elements must be present for maximum impact.
 
 ## Dwell — What It's Actually Worth
 
-The published weights deflate this considerably (`home-mixer/params/param.rs`):
+The published weights keep this in perspective (`home-mixer/params/param.rs`):
 
-- `dwell` (binary): **0.0** — predicted, but contributes nothing
-- `cont_dwell_time`: **0.004** — the smallest non-zero positive in the model
+- `dwell` (binary): **0.05** as of 2026-08-28 (was 0.0) — same tier as photo expand
+- `cont_dwell_time`: **0.004** — still tiny
 - `not_dwelled`: **−0.02** — the smallest term in the model, period
 
-So a post that holds attention but earns nothing else scores near zero, and a hook that fails to
-hold costs you almost nothing directly. **"Optimize for dwell" is not supported by the weights.**
+So a post that holds attention but earns nothing else still scores near zero, and a hook that
+fails to hold costs you almost nothing directly. **"Optimize for dwell" is still not the
+playbook.** The 2026-08-28 change undoes the 0.0 default; it does not make dwell the payoff.
 
 Attention is still worth designing for, but as a *means*: nobody replies, quotes, DM-shares or
 follows from a post they didn't read. Hold attention to earn the 4.0–5.0 actions, not for the
-0.004.
+0.05.
 
 The real penalty for thin content isn't the scroll-past — it's `not_interested` (−43.2) and
 `mute_author` (−58.8). Boring is cheap; irritating is expensive. And irritating is *not* the same
@@ -148,15 +149,15 @@ multiplier** to each successive post from the same author. With published defaul
 floor 0.25) your 2nd post keeps **62.5%** of its score and your 3rd **43.75%**, tailing to a 25%
 floor.
 
-A second penalty stacks on top: `vm-ranker/` reorders by embedding dissimilarity, so posts that
-resemble each other are demoted even across different authors. As of 2026-08-21, slate context
-also tracks 3-level semantic-ID recurrence (`sid_k_l*`, `sid_gap_l*`) and forwards it into
-VMRanker — so flooding one topic cluster is a diversity problem even when the author-decay math
+A second penalty stacks on top: `vm-ranker/` reorders by embedding dissimilarity (DPP-only as of
+2026-08-28), so posts that resemble each other are demoted even across different authors. Slate
+context now also carries Phoenix reconstruction-similarity (`recon_cos_milli`, `recon_count_above`,
+`recon_gap_above`) — flooding one cluster is a diversity problem even when the author-decay math
 only keys on author `k`.
 
 **Quality beats quantity, and variety beats repetition.** One excellent post outperforms three
 average ones that split your author score budget — and three rephrasings of the same take, or
-three posts in the same semantic cluster, are worse still.
+three posts that look like items already shown, are worse still.
 
 ## Screening and Eligibility
 

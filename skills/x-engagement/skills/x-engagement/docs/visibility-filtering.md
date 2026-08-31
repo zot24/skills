@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/visibility-filtering/rules/registry.rs (cached at upstream/visibility-filtering-registry.md) -->
-<!-- Snapshot: 28e414f, 2026-08-21 — Brazil filter is in home-mixer, not the VF registry -->
+<!-- Snapshot: bc8e5f0, 2026-08-28 — Brazil filter is in home-mixer, not the VF registry -->
 
 # Visibility Filtering
 
@@ -27,19 +27,19 @@ dropped contaminates conversations built on you.
 
 ## The part that matters most: OON-only drops
 
-Rules are grouped into policies by `SafetyLevel` (`registry.rs:26-30`). Two matter here:
+Rules are grouped into policies by `SafetyLevel` (`registry.rs:26-37`). Two matter here:
 
-- `TimelineHome` → `timeline_home_policy()` (`registry.rs:134-136`)
-- `TimelineHomeRecommendations` → `timeline_home_recommendations_policy()` (`registry.rs:138-170`)
+- `TimelineHome` → `timeline_home_policy()` (`registry.rs:139-141`)
+- `TimelineHomeRecommendations` → `timeline_home_recommendations_policy()` (`registry.rs:143-175`)
 
 Recommendations policy = **the same base rules plus an extra `oon_drops` list**
-(`registry.rs:140-167`).
+(`registry.rs:145-172`).
 
 **This is the core asymmetry: a set of labels drops your post only when it is a recommendation to
 someone who does not follow you. The identical post stays visible to your followers.** You can be
 cut off from all new-audience reach while your timeline looks completely normal.
 
-The OON-only drop list (`registry.rs:141-167`):
+The OON-only drop list (`registry.rs:145-172`):
 
 | Rule | What it keys on |
 |---|---|
@@ -70,7 +70,7 @@ acceptable because followers still see you.
 
 ## Base rules (both in-network and OON)
 
-`base_home_rules()` (`registry.rs:101-132`) — these drop or gate for everyone:
+`base_home_rules()` (`registry.rs:106-137`) — these drop or gate for everyone:
 
 - Author state: suspended, deactivated, erased, offboarded, protected
 - Viewer relationship: viewer blocks author, viewer mutes author, muted retweets
@@ -92,8 +92,8 @@ resurface. Separately, Phoenix can zero engagement-count features on ~14-day-old
 Not part of the `visibility-filtering/` registry — it runs in the Phoenix candidate pipeline as
 `Brazil2026ElectionFilter` (`home-mixer/filters/brazil_2026_election_filter.rs`).
 
-- Hardcoded set of user IDs reported to Brazil's Electoral Court for the 2026 election (~665
-  accounts in the open-source list; usernames included for transparency).
+- Hardcoded set of user IDs reported to Brazil's Electoral Court for the 2026 election
+  (usernames included for transparency; README notes the **account list was updated 2026-08-27**).
 - **Removes** from For You recommendations posts whose author is on the list **unless the viewer
   already follows that author**.
 - Also removes retweets of listed authors, quotes of listed authors, and replies whose ancestor
@@ -122,6 +122,19 @@ exist before the mute match runs
 Practical: if viewers mute a phrase that appears in a parent tweet or a quoted post, your reply
 or quote-tweet can still be filtered out of *their Following timeline* even when your own body is
 clean. Keyword hygiene is conversational now, not post-body-only.
+
+## Following drops blocked quotes and retweets (2026-08-28)
+
+The Following (reverse-chron) pipeline now hydrates blocked-by on **quoted and retweeted authors**
+(`FollowingBlockedByHydrator`) and drops candidates via `AuthorSocialgraphFilter` when:
+
+- the viewer muted or blocked the author
+- the author blocks the viewer
+- the quoted author blocks the viewer, or the viewer blocks the quoted author
+- the viewer blocks the retweeted user
+
+Practical: quoting or retweeting someone who has blocked a follower hides that quote/RT from
+that follower's Following timeline. This is Following-path only, not For You ranking.
 
 ## Practical implications
 

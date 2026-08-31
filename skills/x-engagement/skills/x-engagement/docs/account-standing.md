@@ -1,6 +1,6 @@
 <!-- Source: https://github.com/xai-org/x-algorithm — abuse-enforcement-service/, agatha/, user-cred-v2/, bdsm/ -->
 <!-- Cached: upstream/enforcement-user-rules.md, upstream/enforcement-post-rules.md -->
-<!-- Snapshot: 28e414f, 2026-08-21 -->
+<!-- Snapshot: bc8e5f0, 2026-08-28 -->
 
 # Account Standing
 
@@ -130,8 +130,14 @@ labelled llm_slop_user
 Note `fast_reply_spam_post` and `RiskyHighVizReply` — replies are specifically modelled, and speed
 is a signal. A high-volume reply strategy is the exact shape these rules describe.
 
-`SpamEmbeddingMajorityPoster` (`enforcement_user.yaml:59+`) targets accounts whose posts cluster
+`SpamEmbeddingMajorityPoster` (`enforcement_user.yaml`) targets accounts whose posts cluster
 tightly in embedding space — i.e. saying the same thing repeatedly in different words.
+
+As of 2026-08-28, `panda_reports_embedding_v10_rough_spam` (`enforcement_user.yaml`) maps that
+score label to `act_suspend_user` with `perm: false` and policy `PlatformManipulation`. This is
+a **user suspend**, not a 30-day OON drop — higher severity than `SpamHighRecall`, still
+non-permanent. Combined with report-driven embedding scores, coordinated or high-volume report
+patterns can skip the label TTL and go straight to a temporary suspend.
 
 ## What this changes about the playbook
 

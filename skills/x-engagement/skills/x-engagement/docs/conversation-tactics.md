@@ -82,11 +82,21 @@ Always post your content first. Then use other conversations to bring readers ba
 ## Reply Quality Is Scored by Grok
 
 Replies are quality-scored by Grok on a **0–3 rubric**, enforced in code
-(`grox/flows/reply_spam/classifier_reply_ranking.py:163-169` raises on any score outside it).
-Higher-scored replies get more thread visibility. The scoring uses contextual signals including
-the parent post and engagement data.
+(`grox/flows/reply_spam/classifier_reply_ranking.py` raises on any score outside it).
+Higher-scored replies get more thread visibility. As of 2026-08-28 the scorer prompt includes
+**follower counts** for the reply author, the in-between thread authors, and the root author's
+bio (`include_follower_count=True` on `ReplyRankingPromptParams`).
 
 **This means reply quality is not just social — it's algorithmic.** Weak replies get buried. Strong replies get surfaced.
+
+Two write-path details that change the playbook:
+
+1. **No 60-second scoring rate-limit.** The Redis TTL that skipped re-scoring the same reply
+   within 60s was removed. Every eligible reply can be scored immediately.
+2. **Ratchet-down only.** The write path skips the update if the new ranking score is *better*
+   than the stored one — a worse score overwrites a better one, not the reverse. A later thin
+   reply cannot be "fixed" by a better rescore of the same tweet; a later worse rescore *can*
+   bury you.
 
 ### What makes a high-scoring reply
 
@@ -120,25 +130,26 @@ counts, not only yours. Small accounts talking in small threads draw the most sc
 **Under 1,000 followers: quality > volume on replies.** Five excellent replies outperform fifty
 mediocre ones and avoid spam detection.
 
-### Mid-tier threshold raised to 80k (2026-08-21)
+### Mid-tier threshold raised to 120k (2026-08-28)
 
 `grox/flows/reply_spam/task_filter.py`:
 
 | Filter | When eligible | Threshold history |
 |---|---|---|
-| `TaskSpamFilter` | spam detection task runs unless *both* reply-target and root are **above** the threshold | 15k → 30k (2026-08-14) → **80,000** |
-| `TaskReplyRankingFilter` | reply quality ranking runs when *both* reply-target and root are **≤** threshold | 15k → 30k (2026-08-14) → **80,000** |
+| `TaskSpamFilter` | spam detection task runs unless *both* reply-target and root are **above** the threshold | 15k → 30k (2026-08-14) → 80k (2026-08-21) → **120,000** |
+| `TaskReplyRankingFilter` | reply quality ranking runs when *both* reply-target and root are **≤** threshold | 15k → 30k (2026-08-14) → 80k (2026-08-21) → **120,000** |
 
-Constants: `FOLLOWER_COUNT_THRESHOLD_FOR_SPAM_DETECTION = 80000` (`task_filter.py:17`) and
-`FOLLOWER_COUNT_THRESHOLD_FOR_REPLY_RANKING = 80000` (`task_filter.py:185`).
+Constants: `FOLLOWER_COUNT_THRESHOLD_FOR_SPAM_DETECTION = 120000` (`task_filter.py:17`) and
+`FOLLOWER_COUNT_THRESHOLD_FOR_REPLY_RANKING = 120000` (`task_filter.py:185`).
 
-Effect: the 30k–80k creator band is no longer a free pass. Most active mid-tier threads now go
-through reply-spam detection and/or Grok reply ranking. Reply quality is a mid-tier problem, not
-only a small-account problem.
+Effect: the 80k–120k creator band is no longer a free pass. Combined with the removed 60s
+rate-limit, most active mid-tier threads now go through reply-spam detection and/or Grok reply
+ranking on every reply. Reply quality is a mid-tier *and large-mid* problem, not only a
+small-account problem.
 
-Also renamed/retargeted in this snapshot: the stream generator is now
-`ReplyRankingTaskGenerator` on topic `content-understanding-realtime-unified-posts-v3`
-(`grox/flows/reply_spam/constants.py`, `generators.py`) — infrastructure rename, same playbook.
+Recovery of missed jobs now injects **both** `PlanReplyRanking` and `PlanSpamComment`
+(`ReplyRankingTaskGenerator.generate_recovery`) — a missed reply can be spam-scored on replay,
+not only quality-ranked.
 
 ### The reply-volume trap
 

@@ -1,11 +1,11 @@
 {
   "name": "x-engagement",
-  "version": "1.4.0",
-  "description": "X (Twitter) engagement playbook grounded in xai-org/x-algorithm codebase - published scoring weights with correct P(action) semantics, visibility filtering, reply-spam/ranking at 80k, semantic-ID slate context, muted-keyword Following expansion, account standing, Original Content Rewards monetization",
+  "version": "1.5.0",
+  "description": "X (Twitter) engagement playbook grounded in xai-org/x-algorithm codebase - published scoring weights with correct P(action) semantics, visibility filtering, reply-spam/ranking at 120k, DwellWeight 0.05 / VqvWeight 0.0, VMRanker DPP-only, view_count_on_home cold start, account standing, Original Content Rewards monetization",
   "upstream_repo": "https://github.com/xai-org/x-algorithm",
-  "snapshot_commit": "28e414f",
-  "snapshot_date": "2026-08-21",
-  "notes": "The analytical docs (scoring-weights, algorithm-signals, visibility-filtering, account-standing, content-quality) are hand-derived from the source files cached under docs/upstream/. CI copies files; it cannot regenerate prose. When a source below 404s, or its diff shows a removed constant, those docs need re-deriving by hand - then bump snapshot_commit. 2026-08-21 (28e414f): reply spam/ranking threshold 30k→80k; SlateContext semantic-ID k/gap L1-L3 into VMRanker; UseServedSlateContext; Following muted keywords match quote+ancestors; nsfw_author_phoenix→SAFETY_BIT_AUTHOR_NSFW; author followers into Phoenix; cold-start counts post-id only; BrandSafety V2 + AI trend feedback params off by default; BDSM min_actions public sentinel 999999.",
+  "snapshot_commit": "bc8e5f0",
+  "snapshot_date": "2026-08-28",
+  "notes": "The analytical docs (scoring-weights, algorithm-signals, visibility-filtering, account-standing, content-quality) are hand-derived from the source files cached under docs/upstream/. CI copies files; it cannot regenerate prose. When a source below 404s, or its diff shows a removed constant, those docs need re-deriving by hand - then bump snapshot_commit. 2026-08-28 (bc8e5f0): reply spam/ranking threshold 80k\u2192120k; 60s reply scoring rate-limit removed; ranking-score writes ratchet-down only; Grok reply scorer sees follower counts; DwellWeight 0.0\u21920.05, VqvWeight 0.05\u21920.0, VideoOpen 0.05\u21920.07; PhoenixAggregationType DENSE_WITH_LONG_DWELL; VMRanker DPP-only (SID no longer computed into reranker request); SlateContext recon_* from Phoenix proto; UseServedSlateContext and EnableMpnScoring removed; MultiplierPreOffset false; EnableAdsBrandSafetyVerdictV2 true; cold-start uses view_count_on_home, TsTopK 5\u21922; panda_reports_embedding_v10_rough_spam non-perm PlatformManipulation suspend; Following blocked-by hydrator for quotes/RTs; Brazil election list updated 2026-08-27.",
   "sources": [
     {
       "url": "https://raw.githubusercontent.com/xai-org/x-algorithm/main/README.md",

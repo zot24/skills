@@ -1,6 +1,7 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/abuse-enforcement-service/service-lib/rules/enforcement_user.yaml
+> Snapshot: bc8e5f0 (2026-08-28)
 
-# mirrored from GrowthBook dynamic config; last sync 2026-08-12T16:22:21Z
+# mirrored from GrowthBook dynamic config; last sync 2026-08-26T16:31:18Z
 
 for_entity: user
 
@@ -43,6 +44,12 @@ rules:
   - id: anchor_campaign_suspend_cse
     when: '"anchor_campaign_suspend_cse" in score.labels'
     then: { kind: act_suspend_user, perm: true, policy: "Cse" }
+
+  - id: panda_reports_embedding_v10_rough_spam
+    when: '"panda_reports_embedding_v10_rough_spam" in score.labels'
+    then: { kind: act_suspend_user, perm: false, policy: "PlatformManipulation" }
+
+
 
   - id: already_spam_high_recall_labeled_llm_slop
     when: '"llm_slop_user" in score.labels && "SpamHighRecall" in user.labels'
@@ -202,6 +209,17 @@ rules:
       kind: act_add_labels_v2
       labels: ["SpamHighRecall"]
       ttl_msec: 2592000000   
+
+  - id: platform_row_without_requested_actions
+    when: '"abuse_platform_requested_actions" in score.labels && size(score.requested_actions) == 0'
+    then:
+      kind: skip
+      reason: platform_row_without_requested_actions
+
+  - id: act_requested_actions
+    when: "size(score.requested_actions) > 0"
+    then:
+      kind: act_requested_actions
 
   - id: act_suspend
     when: "true"

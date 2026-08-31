@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.0](https://github.com/zot24/skills/compare/x-engagement-v1.4.0...x-engagement-v1.5.0) (2026-08-31)
+
+### Features
+
+* **x-engagement:** track x-algorithm `bc8e5f0` (2026-08-28) — reply-spam/ranking 120k, DwellWeight 0.05, VqvWeight 0.0, VMRanker DPP-only, view_count_on_home cold start
+
 ## [1.4.0](https://github.com/zot24/skills/compare/x-engagement-v1.3.0...x-engagement-v1.4.0) (2026-08-24)
 
 

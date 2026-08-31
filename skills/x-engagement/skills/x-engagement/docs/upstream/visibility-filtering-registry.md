@@ -1,4 +1,5 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/visibility-filtering/rules/registry.rs
+> Snapshot: bc8e5f0 (2026-08-28)
 
 use crate::models::{HydratedTweetCandidate, VfAction, ViewerFeatures};
 use crate::rules::nsfw_age_gating::{
@@ -72,6 +73,11 @@ impl Policies {
     ) -> Verdict {
         let context = RuleContext::new(level, viewer, candidate);
         evaluate_rules(self.select(level), &context)
+    }
+
+    #[cfg(test)]
+    pub(crate) fn wired_rule_names(&self, level: SafetyLevel) -> Vec<&'static str> {
+        self.select(level).iter().map(|rule| rule.name()).collect()
     }
 
     pub fn rule_counts(&self) -> (usize, usize) {
@@ -174,10 +180,8 @@ fn timeline_home_recommendations_policy() -> Vec<Box<dyn Rule>> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::models::{
-        HydratedTweetCandidate, MediaFeature, TweetFeatures, Viewer, ViewerFeatures,
-    };
-    use std::collections::HashMap;
+    use crate::models::{HydratedTweetCandidate, MediaFeature, TweetFeatures, ViewerFeatures};
+    use crate::rules::fixtures::{author_viewer, candidate, viewer, VIEWER_ID};
 
     struct RecommendationsOnlyRule;
 
@@ -226,15 +230,8 @@ mod tests {
 
     #[test]
     fn filter_all_rule_drops_even_self_view() {
-        let candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            ..Default::default()
-        };
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(100),
-            ..Default::default()
-        };
+        let candidate = candidate().build();
+        let viewer = author_viewer();
         assert!(matches!(
             FilterAllRule.evaluate(&crate::rules::test_context(&viewer, &candidate)),
             VfAction::Drop(_)
@@ -244,11 +241,7 @@ mod tests {
     #[test]
     fn filter_all_policy_drops_pristine_candidate() {
         let policies = Policies::new();
-        let candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            ..Default::default()
-        };
+        let candidate = candidate().build();
         let verdict = policies.evaluate(
             SafetyLevel::FilterAll,
             &ViewerFeatures::default(),
@@ -267,17 +260,15 @@ mod tests {
     #[test]
     fn dmca_media_drops_recommendations_only() {
         let policies = Policies::new();
-        let candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            tweet_features: TweetFeatures {
+        let candidate = candidate()
+            .with_tweet_features(TweetFeatures {
                 media: MediaFeature {
                     has_dmca_media: true,
                     ..Default::default()
                 },
                 ..Default::default()
-            },
-            ..Default::default()
-        };
+            })
+            .build();
 
         let timeline_home = policies.evaluate(
             SafetyLevel::TimelineHome,
@@ -298,22 +289,16 @@ mod tests {
     fn tweet_nsfw_flag_drops_recommendations_only() {
         use crate::models::NsfwFeature;
         let policies = Policies::new();
-        let candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            tweet_features: TweetFeatures {
+        let candidate = candidate()
+            .with_tweet_features(TweetFeatures {
                 nsfw: NsfwFeature {
                     user: true,
                     admin: false,
                 },
                 ..Default::default()
-            },
-            ..Default::default()
-        };
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
+            })
+            .build();
+        let viewer = viewer(VIEWER_ID);
 
         let timeline_home = policies
             .evaluate(SafetyLevel::TimelineHome, &viewer, &candidate)
@@ -334,29 +319,16 @@ mod tests {
 
     #[test]
     fn nsfw_author_interstitials_in_network_but_drops_oon() {
-        use crate::models::{AuthorFeatures, TweetFeatures};
+        use crate::models::AuthorFeatures;
         let policies = Policies::new();
-        let candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            author_features: AuthorFeatures {
+        let candidate = candidate()
+            .with_media()
+            .with_author_features(AuthorFeatures {
                 is_nsfw_user: true,
                 ..Default::default()
-            },
-            tweet_features: TweetFeatures {
-                media: MediaFeature {
-                    has_media: true,
-                    ..Default::default()
-                },
-                ..Default::default()
-            },
-            ..Default::default()
-        };
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            allows_sensitive_media: false,
-            ..Default::default()
-        };
+            })
+            .build();
+        let viewer = viewer(VIEWER_ID);
 
         let in_network = policies
             .evaluate(SafetyLevel::TimelineHome, &viewer, &candidate)
@@ -381,23 +353,15 @@ mod tests {
 
     #[test]
     fn egregious_nsfw_does_not_drop() {
-        use crate::models::{SafetyLabel, SafetyLabelMap, SafetyLabelType};
+        use crate::models::SafetyLabelType;
         use xai_x_thrift::user_labels::LabelValue;
         let policies = Policies::new();
 
-        let mut labels = HashMap::new();
-        labels.insert(SafetyLabelType::EGREGIOUS_NSFW, SafetyLabel::default());
-        let tweet_candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            safety_labels: SafetyLabelMap::new(labels),
-            ..Default::default()
-        };
+        let tweet_candidate = candidate()
+            .with_label(SafetyLabelType::EGREGIOUS_NSFW)
+            .build();
         let user_candidate = candidate_with_author_user_label(LabelValue::EGREGIOUS_NSFW, false);
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
+        let viewer = viewer(VIEWER_ID);
 
         for candidate in [&tweet_candidate, &user_candidate] {
             let in_network = policies
@@ -417,111 +381,11 @@ mod tests {
         }
     }
 
-    #[test]
-    fn spam_high_recall_drops_oon_but_allows_in_network() {
-        use crate::models::{SafetyLabel, SafetyLabelMap, SafetyLabelType};
-        let policies = Policies::new();
-        let mut labels = HashMap::new();
-        labels.insert(SafetyLabelType::SPAM_HIGH_RECALL, SafetyLabel::default());
-        let candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            safety_labels: SafetyLabelMap::new(labels),
-            ..Default::default()
-        };
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
-
-        let in_network = policies
-            .evaluate(SafetyLevel::TimelineHome, &viewer, &candidate)
-            .action;
-        assert!(
-            matches!(in_network, VfAction::Allow),
-            "in-network SpamHighRecall should allow (Scala drops it OON only), got {in_network:?}"
-        );
-
-        let oon = policies
-            .evaluate(
-                SafetyLevel::TimelineHomeRecommendations,
-                &viewer,
-                &candidate,
-            )
-            .action;
-        assert!(
-            matches!(oon, VfAction::Drop(_)),
-            "OON SpamHighRecall should drop, got {oon:?}"
-        );
-    }
-
-    #[test]
-    fn malicious_url_drops_oon_but_allows_in_network() {
-        use crate::models::{SafetyLabel, SafetyLabelMap, SafetyLabelType};
-        let policies = Policies::new();
-        let mut labels = HashMap::new();
-        labels.insert(SafetyLabelType::MALICIOUS_URL, SafetyLabel::default());
-        let candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            safety_labels: SafetyLabelMap::new(labels),
-            ..Default::default()
-        };
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
-
-        let in_network = policies
-            .evaluate(SafetyLevel::TimelineHome, &viewer, &candidate)
-            .action;
-        assert!(
-            matches!(in_network, VfAction::Allow),
-            "in-network MaliciousUrl should allow (Scala drops it OON only), got {in_network:?}"
-        );
-
-        let oon = policies.evaluate(
-            SafetyLevel::TimelineHomeRecommendations,
-            &viewer,
-            &candidate,
-        );
-        assert!(
-            matches!(oon.action, VfAction::Drop(_)),
-            "OON MaliciousUrl should drop, got {:?}",
-            oon.action
-        );
-        assert_eq!(oon.decided_by, Some("MaliciousUrlOonDropRule"));
-
-        let author = ViewerFeatures {
-            viewer: Viewer::LoggedIn(100),
-            ..Default::default()
-        };
-        let oon_author = policies
-            .evaluate(
-                SafetyLevel::TimelineHomeRecommendations,
-                &author,
-                &candidate,
-            )
-            .action;
-        assert!(
-            matches!(oon_author, VfAction::Allow),
-            "OON MaliciousUrl should allow author, got {oon_author:?}"
-        );
-    }
-
     fn fosnr_candidate(
         label: crate::models::SafetyLabelType,
         follows: bool,
     ) -> HydratedTweetCandidate {
-        use crate::models::{SafetyLabel, SafetyLabelMap};
-        let mut labels = HashMap::new();
-        labels.insert(label, SafetyLabel::default());
-        let mut c = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            safety_labels: SafetyLabelMap::new(labels),
-            ..Default::default()
-        };
+        let mut c = candidate().with_label(label).build();
         c.relationship.viewer_follows_author = follows;
         c
     }
@@ -530,10 +394,7 @@ mod tests {
     fn fosnr_labels_drop_non_author_non_follower_on_both_surfaces() {
         use crate::models::SafetyLabelType;
         let policies = Policies::new();
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
+        let viewer = viewer(VIEWER_ID);
         for label in [
             SafetyLabelType::FOSNR_HATEFUL_CONDUCT,
             SafetyLabelType::FOSNR_VIOLENT_SPEECH,
@@ -558,10 +419,7 @@ mod tests {
     fn fosnr_never_drops_author() {
         use crate::models::SafetyLabelType;
         let policies = Policies::new();
-        let author = ViewerFeatures {
-            viewer: Viewer::LoggedIn(100),
-            ..Default::default()
-        };
+        let author = author_viewer();
         for label in [
             SafetyLabelType::FOSNR_HATEFUL_CONDUCT,
             SafetyLabelType::FOSNR_VIOLENT_SPEECH,
@@ -587,14 +445,8 @@ mod tests {
     fn fosnr_abuse_insults_drops_oon_but_allows_in_network() {
         use crate::models::SafetyLabelType;
         let policies = Policies::new();
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
-        let author = ViewerFeatures {
-            viewer: Viewer::LoggedIn(100),
-            ..Default::default()
-        };
+        let viewer = viewer(VIEWER_ID);
+        let author = author_viewer();
 
         for follows in [true, false] {
             let candidate = fosnr_candidate(SafetyLabelType::FOSNR_ABUSE_INSULTS, follows);
@@ -635,24 +487,19 @@ mod tests {
 
     #[test]
     fn geo_restricted_media_drops_oon_but_allows_in_network() {
-        use crate::models::TweetFeatures;
         let policies = Policies::new();
-        let candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            tweet_features: TweetFeatures {
+        let candidate = candidate()
+            .with_tweet_features(TweetFeatures {
                 media: MediaFeature {
                     geo_deny_list: vec!["de".to_string()],
                     ..Default::default()
                 },
                 ..Default::default()
-            },
-            ..Default::default()
-        };
+            })
+            .build();
         let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
             country_code: Some("de".to_string()),
-            ..Default::default()
+            ..viewer(VIEWER_ID)
         };
 
         let in_network = policies
@@ -678,20 +525,10 @@ mod tests {
 
     #[test]
     fn nsfw_text_drops_oon_but_allows_in_network() {
-        use crate::models::{SafetyLabel, SafetyLabelMap, SafetyLabelType};
+        use crate::models::SafetyLabelType;
         let policies = Policies::new();
-        let mut labels = HashMap::new();
-        labels.insert(SafetyLabelType::NSFW_TEXT, SafetyLabel::default());
-        let candidate = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            safety_labels: SafetyLabelMap::new(labels),
-            ..Default::default()
-        };
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
+        let candidate = candidate().with_label(SafetyLabelType::NSFW_TEXT).build();
+        let viewer = viewer(VIEWER_ID);
 
         let in_network = policies
             .evaluate(SafetyLevel::TimelineHome, &viewer, &candidate)
@@ -718,17 +555,7 @@ mod tests {
         label: xai_x_thrift::user_labels::LabelValue,
         follows: bool,
     ) -> HydratedTweetCandidate {
-        use crate::models::{AuthorFeatures, UserLabelSet};
-        use std::collections::HashSet;
-        let mut c = HydratedTweetCandidate {
-            tweet_id: 1,
-            author_id: 100,
-            author_features: AuthorFeatures {
-                user_labels: UserLabelSet::new(HashSet::from([label])),
-                ..Default::default()
-            },
-            ..Default::default()
-        };
+        let mut c = candidate().with_author_user_label(label).build();
         c.relationship.viewer_follows_author = follows;
         c
     }
@@ -738,10 +565,7 @@ mod tests {
         use xai_x_thrift::user_labels::LabelValue;
         let policies = Policies::new();
         let candidate = candidate_with_author_user_label(LabelValue::NSFW_AVATAR_IMAGE, false);
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
+        let viewer = viewer(VIEWER_ID);
 
         let in_network = policies
             .evaluate(SafetyLevel::TimelineHome, &viewer, &candidate)
@@ -770,10 +594,7 @@ mod tests {
         let policies = Policies::new();
         let candidate =
             candidate_with_author_user_label(LabelValue::RECOMMENDATIONS_BLACKLIST, false);
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
+        let viewer = viewer(VIEWER_ID);
 
         let in_network = policies
             .evaluate(SafetyLevel::TimelineHome, &viewer, &candidate)
@@ -801,10 +622,7 @@ mod tests {
         use xai_x_thrift::user_labels::LabelValue;
         let policies = Policies::new();
         let candidate = candidate_with_author_user_label(LabelValue::ABUSIVE_HIGH_RECALL, true);
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
+        let viewer = viewer(VIEWER_ID);
 
         for level in [
             SafetyLevel::TimelineHome,
@@ -823,10 +641,7 @@ mod tests {
         use xai_x_thrift::user_labels::LabelValue;
         let policies = Policies::new();
         let candidate = candidate_with_author_user_label(LabelValue::ABUSIVE_HIGH_RECALL, false);
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
+        let viewer = viewer(VIEWER_ID);
 
         let in_network = policies
             .evaluate(SafetyLevel::TimelineHome, &viewer, &candidate)
@@ -847,68 +662,5 @@ mod tests {
             oon.action
         );
         assert_eq!(oon.decided_by, Some("AbusiveHighRecallRule"));
-    }
-
-    #[test]
-    fn nsfw_near_perfect_drops_oon_but_allows_in_network() {
-        use xai_x_thrift::user_labels::LabelValue;
-        let policies = Policies::new();
-        let candidate = candidate_with_author_user_label(LabelValue::NSFW_NEAR_PERFECT, false);
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
-
-        let in_network = policies
-            .evaluate(SafetyLevel::TimelineHome, &viewer, &candidate)
-            .action;
-        assert!(
-            matches!(in_network, VfAction::Allow),
-            "in-network NsfwNearPerfect should allow, got {in_network:?}"
-        );
-
-        let oon = policies.evaluate(
-            SafetyLevel::TimelineHomeRecommendations,
-            &viewer,
-            &candidate,
-        );
-        assert!(
-            matches!(oon.action, VfAction::Drop(_)),
-            "OON NsfwNearPerfect should drop, got {:?}",
-            oon.action
-        );
-        assert_eq!(oon.decided_by, Some("NsfwNearPerfectAuthorRule"));
-    }
-
-    #[test]
-    fn do_not_amplify_drops_oon_non_follower_but_allows_follower() {
-        use xai_x_thrift::user_labels::LabelValue;
-        let policies = Policies::new();
-        let viewer = ViewerFeatures {
-            viewer: Viewer::LoggedIn(999),
-            ..Default::default()
-        };
-
-        let non_follower = candidate_with_author_user_label(LabelValue::DO_NOT_AMPLIFY, false);
-        let oon = policies.evaluate(
-            SafetyLevel::TimelineHomeRecommendations,
-            &viewer,
-            &non_follower,
-        );
-        assert!(
-            matches!(oon.action, VfAction::Drop(_)),
-            "OON DoNotAmplify non-follower should drop, got {:?}",
-            oon.action
-        );
-        assert_eq!(oon.decided_by, Some("DoNotAmplifyNonFollowerRule"));
-
-        let follower = candidate_with_author_user_label(LabelValue::DO_NOT_AMPLIFY, true);
-        let action = policies
-            .evaluate(SafetyLevel::TimelineHomeRecommendations, &viewer, &follower)
-            .action;
-        assert!(
-            matches!(action, VfAction::Allow),
-            "OON DoNotAmplify follower should allow, got {action:?}"
-        );
     }
 }
