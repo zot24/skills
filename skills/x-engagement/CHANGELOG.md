@@ -2,6 +2,13 @@
 
 ## [1.5.0](https://github.com/zot24/skills/compare/x-engagement-v1.4.0...x-engagement-v1.5.0) (2026-08-31)
 
+
+### Features
+
+* **x-engagement:** track x-algorithm bc8e5f0 (2026-08-28) ([#232](https://github.com/zot24/skills/issues/232)) ([dbe3fe7](https://github.com/zot24/skills/commit/dbe3fe72de90fc796ac97862f3dab2a24a2e5a80))
+
+## [1.5.0](https://github.com/zot24/skills/compare/x-engagement-v1.4.0...x-engagement-v1.5.0) (2026-08-31)
+
 ### Features
 
 * **x-engagement:** track x-algorithm `bc8e5f0` (2026-08-28) — reply-spam/ranking 120k, DwellWeight 0.05, VqvWeight 0.0, VMRanker DPP-only, view_count_on_home cold start
