@@ -1,6 +1,6 @@
 <!-- Source: https://github.com/xai-org/x-algorithm — grox/flows/upa/, grox/flows/reply_spam/, grox/flows/ptos/ -->
 <!-- Cached: upstream/banger-screen-state.md -->
-<!-- Snapshot: 28e414f, 2026-08-21 -->
+<!-- Snapshot: bc8e5f0, 2026-08-28 -->
 
 # Content Quality Screening
 
@@ -92,8 +92,10 @@ scrutiny attaches to the conversation you are replying into, not only to your ow
 Small accounts talking to small accounts get the most scrutiny.
 
 Eligibility for those reply-spam / reply-ranking tasks now covers conversations where **both**
-the reply-target and root author are ≤ **80,000** followers
-(`task_filter.py:17`, `task_filter.py:185` — was 30k on 2026-08-14, 15k before that).
+the reply-target and root author are ≤ **120,000** followers
+(`task_filter.py:17`, `task_filter.py:185` — was 80k on 2026-08-21, 30k on 2026-08-14, 15k
+before that). The 60-second scoring rate-limit is gone; every eligible reply can be scored
+immediately. Ranking-score writes are ratchet-down only (a worse score overwrites a better one).
 
 Related enforcement, with 30-day label TTLs: `fast_reply_spam_post` → `SpamHighRecall`, and
 `llm_slop_post` → `RiskyHighVizReply` (`enforcement_post.yaml:39-58`).
@@ -119,6 +121,7 @@ if not (0 <= score <= 3):
 ```
 
 Higher-scored replies get more thread visibility. Reply quality is algorithmic, not just social.
+As of 2026-08-28 the prompt includes follower counts (`include_follower_count=True`).
 
 Also in that flow: `classifier_coordinated_spam.py` — replies are additionally checked for
 **coordinated** behaviour across accounts, not just individual quality.

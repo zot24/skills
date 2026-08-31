@@ -10,7 +10,7 @@ Expert at crafting high-engagement [X (Twitter)](https://x.com) content — grou
 - **Quality screening** — Banger Initial Screen outputs, taxonomy classification, slop scoring
 - **Hooks + attention** — First line stops the scroll; substance converts it into an action that actually scores
 - **Follow triggers** — Why follows compound across scoring, retrieval and enforcement, even at a weight of 4.0
-- **Reply strategy** — Grok scores replies 0–3; elevated spam scrutiny under 1,000 followers, and why volume is the riskiest lever
+- **Reply strategy** — Grok scores replies 0–3; elevated spam scrutiny under 1,000 followers; mid-tier coverage through 120k; volume is the riskiest lever
 - **Threads + clusters** — Interconnected posts that drive cross-traffic
 - **Authority building** — Mutual-follow boost, share signals, network alignment, positioning
 - **Monetization** — Original Content Rewards: eligibility, qualified impressions (Premium viewers × Home Timeline × original posts), what counts as original, payout rules
@@ -35,13 +35,15 @@ Or use natural language:
 "What signals does the X algorithm actually weight?"
 ```
 
-## Key Algorithm Facts (from xai-org/x-algorithm @ `28e414f`, 2026-08-21)
+## Key Algorithm Facts (from xai-org/x-algorithm @ `bc8e5f0`, 2026-08-28)
 
 - **Weights multiply P(action), not raw counts** (clarified 2026-08-14) — do not say "1 report cancels N likes"
-- **Brazil2026ElectionFilter** — listed electoral-court accounts dropped from For You unless the viewer follows them
-- **Reply spam/ranking mid-tier threshold** 15k → 30k → **80k** followers on target+root
-- **Semantic-ID slate context** — 3-level SID recurrence/gaps feed VMRanker (author decay still uses author `k`)
-- **Following muted keywords** match quote + ancestor text, not only the post body
+- **Brazil2026ElectionFilter** — listed electoral-court accounts dropped from For You unless the viewer follows them (list updated 2026-08-27)
+- **Reply spam/ranking mid-tier threshold** 15k → 30k → 80k → **120k** followers on target+root
+- **DwellWeight 0.05** (was 0.0); **VqvWeight 0.0** (was 0.05); Phoenix aggregation `DENSE_WITH_LONG_DWELL`
+- **VMRanker is DPP-only** — SID recurrence is no longer computed into the reranker request
+- **Cold start uses `view_count_on_home`**; Thompson-sampling TopK (off by default) is 2
+- **Following blocked-by** hydrator drops quotes/RTs of people who blocked the viewer
 - **Author NSFW bit** (`nsfw_author_phoenix`) enters Phoenix features on non-retweets
 - **Stale ~14d** posts can have engagement-count features zeroed in Phoenix
 
@@ -57,7 +59,8 @@ Published blend weights, from `home-mixer/params/param.rs`:
 | `follow_author` | 4.0 | Not the top weight — but the only action that compounds |
 | `retweet` / `favorite` | 1.0 / 0.5 | Likes are near-table-stakes |
 | `cont_dwell_time` | 0.004 | Attention is a precondition, not the payoff |
-| `dwell` / `profile_click` | **0.0** | Predicted, but contribute nothing |
+| `dwell` | **0.05** | Small (was 0.0) — same tier as photo expand, not a primary lever |
+| `vqv` / `profile_click` | **0.0** | Predicted, but contribute nothing |
 | `not_dwelled` | −0.02 | Smallest term in the model — a weak hook costs little directly |
 | Author diversity | ×0.625 / ×0.438 | Your 2nd and 3rd post in one feed load |
 | OON weight | ×0.75 | Reaching non-followers costs 25% of your score |

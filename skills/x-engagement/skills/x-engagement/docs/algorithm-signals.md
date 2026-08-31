@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm (direct codebase analysis) -->
-<!-- Snapshot: 28e414f, 2026-08-21 -->
+<!-- Snapshot: bc8e5f0, 2026-08-28 -->
 
 # X Algorithm Signals Reference
 
@@ -50,9 +50,8 @@ Ranking decides **order**. It does not decide whether you are eligible to appear
 | `profile_click` | Viewer taps through to your profile |
 | `post_unexplored` | Exploration term for posts with little engagement history |
 
-Three of these carry a **default weight of 0.0** — `dwell`, `profile_click` and `quoted_vqv`.
-They are predicted but contribute nothing to the score. See
-[Scoring Weights](scoring-weights.md).
+Three of these carry a **default weight of 0.0** — `vqv`, `profile_click` and `quoted_vqv`.
+`dwell` is **0.05** as of 2026-08-28 (was 0.0). See [Scoring Weights](scoring-weights.md).
 
 ## Negative Signals
 
@@ -68,7 +67,8 @@ The spread here is the most important *risk* fact in the model — not a raw cou
 Negative feedback weights are large because those actions are rare; score contribution is still
 `weight × P(action|viewer)`. Upstream (2026-08-14) rejects "one report cancels roughly 47
 replies." `not_dwelled`, by contrast, is the weakest term in the entire weight table; a hook that
-fails to hold costs you almost nothing *directly*.
+fails to hold costs you almost nothing *directly*. Binary `dwell` is now 0.05 — small, not
+a reason to write for dwell instead of replies.
 
 Note that `report`, `mute_author` and `block_author` also feed **account-level** labels via
 `agatha/`, which is where the durable cost lives. → **[Account Standing](account-standing.md)**.
@@ -87,7 +87,8 @@ Defaults `decay = 0.5`, `floor = 0.25`: your 2nd post keeps 62.5%, your 3rd 43.7
 best post.**
 
 A second, separate diversity penalty runs after scoring: `vm-ranker/` reorders by embedding
-dissimilarity, so near-duplicate posts are demoted even across authors.
+dissimilarity (DPP). As of 2026-08-28 the reranker request is DPP-only — no Phoenix scores,
+head weights, or SID fields in the request.
 
 ## Out-of-Network Weight
 
@@ -145,28 +146,30 @@ ship and distribute while fresh.
 
 `AuthorColdStart` can boost a low-impression eligible post into a higher slot. A 2026-08-14 option
 (`EnableColdStartThompsonSampling`, **default false**) samples Beta(α0+favs, β0+imps−favs) and
-picks among the top-K sampled before falling back to score. Defaults: α0=0.75, β0=49.25, K=5.
-Until production enables the flag, behaviour remains argmax-by-score among cold-start eligibles.
+picks among the top-K sampled before falling back to score. Defaults: α0=0.75, β0=49.25, **K=2**
+(was 5). Until production enables the flag, behaviour remains argmax-by-score among cold-start
+eligibles.
 
-As of 2026-08-21, tracked cold-start impression counting is **post-id only** — the helper no longer
-increments counts under `author_id` (`author_cold_start.rs` `count_tracked_ids`). Treat cold-start
-as a per-post explore path, not an author-level impression bucket.
+As of 2026-08-21, tracked cold-start impression counting is **post-id only**. As of 2026-08-28 the
+impression numerator is **`view_count_on_home`** (Home Timeline impressions), falling back to
+`view_count` only if the Home field is missing. Global views do not buy the explore slot.
+Treat cold-start as a per-post, Home-Timeline explore path.
 
-## Semantic-ID slate context (2026-08-21)
+## Slate context: SID fields stay, reconstruction similarity is new (2026-08-28)
 
-`SlateContext` now carries 3-level semantic-ID recurrence and rank gaps
-(`home-mixer/models/candidate.rs:90-96`):
+`SlateContext` still carries 3-level semantic-ID fields **and** new Phoenix reconstruction
+features (`home-mixer/models/candidate.rs`):
 
-- `sid_known`, `sid_k_l1` / `sid_k_l2` / `sid_k_l3`
-- `sid_gap_l1` / `sid_gap_l2` / `sid_gap_l3`
+- `sid_known`, `sid_k_l1` / `sid_k_l2` / `sid_k_l3`, `sid_gap_l*`
+- `recon_cos_milli`, `recon_count_above`, `recon_gap_above`
 
-`ranking_scorer.rs` computes those fields while building slate context from each candidate's
-`semantic_ids` prefixes. Author-diversity multipliers still use only author `k`
-(`author_diversity_multipliers` → `context.k`). The SID fields are forwarded into VMRanker and can
-be restored from a served slate context when `UseServedSlateContext` is on (default **false**).
+`ranking_scorer.rs` **no longer computes** SID recurrence. The SID + `recon_*` values are copied
+from the Phoenix proto. Author-diversity multipliers still use only author `k`. VMRanker is
+DPP-only and does not take those fields in its request. `UseServedSlateContext` was removed.
 
-Practical read: near-duplicate takes in the same semantic cluster get a stronger diversity path
-than author-decay alone. Vary the cluster, not only the author cadence.
+Practical read: near-duplicate takes still lose to DPP reordering, and Phoenix now exposes how
+similar a candidate is to items already shown (`recon_*`). Vary the cluster, not only the author
+cadence. Do not teach "SID recurrence feeds VMRanker" — that path was unwired in this snapshot.
 
 ## Author NSFW bit into Phoenix (2026-08-21)
 
@@ -208,10 +211,11 @@ What the code does support:
    impression — a compounding return the per-impression score can't express. Follow edges are now
    explicit Phoenix features too.
 5. **Write things worth sending to one specific person.** DM share 5.0, copy-link share 20.0.
-6. **Hold attention** — but as a means to the above, not for `cont_dwell_time` (0.004) itself.
-7. **Post less, better, fresher.** Author diversity decay plus VMRanker both penalize volume and
-   repetition; semantic-ID recurrence now lives in slate context too; stale-post feature zeroing
-   weakens old count-heavy posts.
+6. **Hold attention** — as a means to the above. Binary `dwell` is 0.05; `cont_dwell_time` is
+   0.004. Neither is the payoff.
+7. **Post less, better, fresher.** Author diversity decay plus VMRanker (DPP-only) both penalize
+   volume and repetition; Phoenix `recon_*` similarity now lives in slate context; stale-post
+   feature zeroing weakens old count-heavy posts.
 8. **Keep account NSFW clean.** `nsfw_author_phoenix` is a Phoenix feature bit, not only a
    visibility label.
 
@@ -225,8 +229,8 @@ rewarded disproportionately," put DM share second, and listed dwell maximization
 `not_dwelled` as a significant penalty.
 
 The published weights do not support that ordering. `follow_author` is 4.0 — below reply, quote
-and DM share, and far below copy-link share. `dwell` is weighted 0.0. `not_dwelled` is −0.02, the
-smallest term in the model.
+and DM share, and far below copy-link share. `dwell` is 0.05 as of 2026-08-28 (was 0.0).
+`not_dwelled` is −0.02, the smallest term in the model. `vqv` is now 0.0.
 
 Kept here so anyone who acted on the old guidance can see precisely what changed.
 

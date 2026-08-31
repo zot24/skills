@@ -119,5 +119,5 @@ not a ranking. → **[Scoring Weights](scoring-weights.md)**
 | 6 | repost | 1.0 | Broadly relatable, low-friction to forward |
 | 7 | like | 0.5 | Table stakes — the baseline |
 
-Not worth designing for: `dwell` (0.0), `profile_click` (0.0), and avoiding `not_dwelled` (−0.02).
+Not worth designing for: `dwell` (0.05 — small), `vqv` (0.0), `profile_click` (0.0), and avoiding `not_dwelled` (−0.02).
 Hold attention because it earns rows 2–5, not for its own weight.

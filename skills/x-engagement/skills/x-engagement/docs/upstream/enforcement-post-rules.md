@@ -1,6 +1,7 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/abuse-enforcement-service/service-lib/rules/enforcement_post.yaml
+> Snapshot: bc8e5f0 (2026-08-28)
 
-# mirrored from GrowthBook dynamic config; last sync 2026-08-06T16:20:00Z
+# mirrored from GrowthBook dynamic config; last sync 2026-08-25T16:15:48Z
 
 for_entity: post
 
@@ -76,6 +77,11 @@ rules:
       kind: act_suspend_user
       perm: true
       policy: Cse
+
+  - id: act_requested_actions
+    when: "size(score.requested_actions) > 0"
+    then:
+      kind: act_requested_actions
 
   - id: post_no_actionable_label
     when: "true"

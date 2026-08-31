@@ -42,7 +42,7 @@ Parse the arguments to determine the action:
 
 **Published weights** (`home-mixer/params/param.rs`): copy-link share 20.0 · mutual-follow reply
 boost +15.0 · reply/quote/DM-share 5.0 · follow_author 4.0 · share 2.0 · repost 1.0 · like 0.5 ·
-cont_dwell_time 0.004 · **dwell 0.0** · **profile_click 0.0** ‖ report −234.0 · mute −58.8 ·
+cont_dwell_time 0.004 · **dwell 0.05** · **vqv 0.0** · **profile_click 0.0** ‖ report −234.0 · mute −58.8 ·
 not_interested −43.2 · block −31.2 · **not_dwelled −0.02**
 
 **Read weights correctly:** upstream states they blend action value with base rate
@@ -60,7 +60,8 @@ rules fires *only* for out-of-network recommendations, many keyed on account-lev
 current schema has no `quality_score`. Do not repeat it.
 
 **Reply rules:** Grok scores replies 0–3; ≤ 1,000 followers = elevated spam scrutiny;
-`fast_reply_spam_post` carries a 30-day `SpamHighRecall` label. Volume is the riskiest lever.
+coverage through ≤120k on target+root; `fast_reply_spam_post` carries a 30-day `SpamHighRecall`
+label. Volume is the riskiest lever. Worse ranking scores overwrite better ones.
 
 **Author diversity:** 2nd post in a feed load keeps 62.5%, 3rd 43.75%. VMRanker separately demotes
 posts similar to their neighbours.

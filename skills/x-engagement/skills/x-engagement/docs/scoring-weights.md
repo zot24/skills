@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs (cached at upstream/home-mixer-params.md) -->
-<!-- Snapshot: 28e414f, 2026-08-21 -->
+<!-- Snapshot: bc8e5f0, 2026-08-28 -->
 
 # Published Scoring Weights
 
@@ -47,47 +47,55 @@ tiers actually are.
 
 | Action | Weight | `param.rs` |
 |---|---:|---|
-| `share_via_copy_link` | 20.0 | `:326-330` |
-| `reply` (bidirectional-follow boost) | +15.0 | `:284-289` |
-| `reply` | 5.0 | `:283` |
-| `quote` | 5.0 | `:332` |
-| `share_via_dm` | 5.0 | `:319-324` |
-| `follow_author` | **4.0** | `:345-350` |
-| `share` | 2.0 | `:318` |
-| `retweet` | 1.0 | `:296` |
-| `favorite` (like) | 0.5 | `:282` |
-| `click` | 0.4 | `:309` |
-| `open_link` | 0.2 | `:310` |
-| `photo_expand` | 0.05 | `:297-302` |
-| `video_open` | 0.05 | `:303-308` |
-| `vqv` (video quality view) | 0.05 | `:317` |
-| `quoted_click` | 0.05 | `:333-338` |
-| `post_unexplored` | 0.02 | `:351-356` |
-| `cont_dwell_time` | 0.004 | `:375-380` |
-| `dwell` | **0.0** | `:331` |
-| `profile_click` | **0.0** | `:311-316` |
-| `quoted_vqv` | 0.0 | `:339-344` |
-| `cont_click_dwell_time` | 0.0 | `:381-386` |
+| `share_via_copy_link` | 20.0 | `:352-355` |
+| `reply` (bidirectional-follow boost) | +15.0 | `:310-315` |
+| `reply` | 5.0 | `:309` |
+| `quote` | 5.0 | `:358` |
+| `share_via_dm` | 5.0 | `:345-350` |
+| `follow_author` | **4.0** | `:371-376` |
+| `share` | 2.0 | `:344` |
+| `retweet` | 1.0 | `:322` |
+| `favorite` (like) | 0.5 | `:308` |
+| `click` | 0.4 | `:335` |
+| `open_link` | 0.2 | `:336` |
+| `video_open` | **0.07** | `:329-334` |
+| `photo_expand` | 0.05 | `:323-328` |
+| `dwell` | **0.05** | `:357` |
+| `quoted_click` | 0.05 | `:359-364` |
+| `post_unexplored` | 0.02 | `:377-382` |
+| `cont_dwell_time` | 0.004 | `:401-406` |
+| `vqv` (video quality view) | **0.0** | `:343` |
+| `profile_click` | **0.0** | `:337-342` |
+| `quoted_vqv` | 0.0 | `:365-370` |
+| `cont_click_dwell_time` | 0.0 | `:407-412` |
 
 ## Negative weights
 
 | Action | Weight | `param.rs` |
 |---|---:|---|
-| `report` | −234.0 | `:442` |
-| `mute_author` | −58.8 | `:436-441` |
-| `not_interested` | −43.2 | `:424-429` |
-| `block_author` | −31.2 | `:430-435` |
-| `not_dwelled` | **−0.02** | `:443-448` |
+| `report` | −234.0 | `:469` |
+| `mute_author` | −58.8 | `:463-470` |
+| `not_interested` | −43.2 | `:451-458` |
+| `block_author` | −31.2 | `:457-464` |
+| `not_dwelled` | **−0.02** | `:470-477` |
 
 All of the above are read into the weighted scorer at
-`home-mixer/scorers/ranking_scorer.rs:74-103`.
+`home-mixer/scorers/ranking_scorer.rs` (`WeightedScorer::from_params`).
+
+Changed vs `28e414f` (2026-08-21): `DwellWeight` 0.0 → **0.05**, `VideoOpenWeight` 0.05 → **0.07**,
+`VqvWeight` 0.05 → **0.0**. Phoenix scoring aggregation is now `DENSE_WITH_LONG_DWELL`
+(`param.rs:121-126`); retrieval aggregation stays `DENSE_WITH_SHORT_DWELL`.
 
 ## What the numbers actually change
 
-**Binary dwell is worth zero.** `DwellWeight` defaults to `0.0`. Only `cont_dwell_time` scores,
-at `0.004` — the smallest non-zero positive in the model. Holding attention is still worth
-designing for (it feeds reposts, replies and follows), but "the algorithm rewards dwell" is not a
-claim the defaults support.
+**Binary dwell is small, not zero.** `DwellWeight` defaults to `0.05` — the same tier as
+`photo_expand`, two orders of magnitude below reply/quote (5.0). `cont_dwell_time` still scores
+at `0.004`. Holding attention is worth designing for because it feeds reposts, replies and
+follows. "The algorithm rewards dwell" is still the wrong headline; "dwell is back as a primary
+lever" is also wrong. The 2026-08-28 change undoes the 0.0 default, not the hierarchy.
+
+**`vqv` now scores nothing.** Video *open* moved 0.05 → 0.07; watching a substantial portion
+(`vqv`) dropped 0.05 → 0.0. Opening a video is the live term; quality-view duration is not.
 
 **`not_dwelled` is the weakest penalty in the model, not a headline risk.** At `−0.02` it is four
 orders of magnitude below `report`. A hook that doesn't deliver costs you roughly nothing
@@ -121,11 +129,11 @@ that reason, not because the weight is highest. It isn't.
 
 ## The bidirectional-follow reply boost
 
-`BidirectionalFollowReplyWeightBoost = 15.0` (`param.rs:284-289`), applied at
-`ranking_scorer.rs:180-193`. Upstream ships a design note for it:
+`BidirectionalFollowReplyWeightBoost = 15.0` (`param.rs:310-315`), applied at
+`ranking_scorer.rs` (`reply_weight_for`). Upstream ships a design note for it:
 [`upstream/bidirectional-boost.md`](upstream/bidirectional-boost.md).
 
-Eligibility is narrow (`ranking_scorer.rs:180-184`) — all three must hold:
+Eligibility is narrow — all three must hold:
 
 - the candidate is a **root post** (not a reply)
 - it is **not a retweet**
@@ -140,25 +148,25 @@ Note this is a property of the *relationship*, not something a single post can m
 ## Out-of-network weighting
 
 Scores for out-of-network content are multiplied down after the weighted sum
-(`ranking_scorer.rs:679-700`):
+(`ranking_scorer.rs`, `oon_weight_factor`):
 
 | Factor | Value | Source |
 |---|---:|---|
-| `OonWeightFactor` | 0.75 | `param.rs:246-251` |
-| `TopicOonWeightFactor` | 0.5 | `param.rs:266-271` |
+| `OonWeightFactor` | 0.75 | `param.rs:248-253` |
+| `TopicOonWeightFactor` | 0.5 | `param.rs:267-272` |
 | `NEW_USER_OON_WEIGHT_FACTOR` | 0.00001 | `config.rs:38` |
 
 Reaching non-followers costs a flat 25% of your score; topic-based OON costs 50%. You need to
 out-score in-network content by that margin to surface.
 
 The new-user factor is **suppression, not a boost** — `0.00001` is near-total. It applies to
-accounts younger than `NewUserAgeThresholdSecs`, which **defaults to `0`** (`param.rs:272-277`),
+accounts younger than `NewUserAgeThresholdSecs`, which **defaults to `0`** (`param.rs:273-278`),
 so with published defaults the branch is dead (`age < 0` is never true) and every OON candidate
 takes the 0.75 factor.
 
 ## Author diversity decay
 
-`ranking_scorer.rs:614-615`:
+`ranking_scorer.rs` (`diversity_multiplier`):
 
 ```rust
 multiplier = (1.0 - floor) * decay_factor.powf(exponent) + floor
@@ -183,57 +191,68 @@ not compound — each extra post competes against your own best one.
 
 `vm-ranker/` reorders already-scored posts with a **determinantal point process** over their
 embeddings, trading a little score for less similarity between neighbours
-(`README.md`, Ranking table). `EnableVMRanker` defaults to **`true`** (`param.rs:578-583`) — this
+(`README.md`, Ranking table). `EnableVMRanker` defaults to **`true`** (`param.rs:605-610`) — this
 one is on.
+
+As of 2026-08-28, VMRanker is **DPP-only**. The request no longer carries Phoenix scores, head
+weights, or SID fields (`vm_ranker.rs`). `ranking_scorer.rs` no longer computes SID recurrence
+into `SlateContext`. `UseServedSlateContext` and `EnableMpnScoring` were removed.
 
 Consequence beyond author diversity: posting several near-identical takes hurts even across
 different authors. Topic clusters work; near-duplicate phrasings of the same post do not.
 
-### Semantic-ID fields now ride with slate context (2026-08-21)
+### Reconstruction similarity on slate context (2026-08-28)
 
-While author-diversity multipliers still use only author `k`, `compute_slate_contexts` now also
-fills 3-level semantic-ID recurrence + rank-gap fields on `SlateContext`
-(`ranking_scorer.rs`, `candidate.rs:90-96`). Those fields are sent into VMRanker
-(`vm_ranker.rs`) and can be restored from Phoenix serve-time context when
-`UseServedSlateContext` is enabled (default **false**, `param.rs`).
+`SlateContext` still has the 3-level SID fields (`sid_known`, `sid_k_l*`, `sid_gap_l*`) **plus**
+Phoenix reconstruction-similarity features (`home-mixer/models/candidate.rs`):
 
-Read: diversity pressure is no longer "same author only." Same semantic cluster, repeated in one
-feed load, is now an explicit model/rerank feature path.
+- `recon_cos_milli` — cosine similarity to already-shown items, milli-scaled
+- `recon_count_above` — how many already-shown items sit above a similarity bar
+- `recon_gap_above` — rank gap to the nearest already-shown similar item
+
+Those values are copied from the Phoenix proto (`sid_k1`/`recon_*` on the candidate), not
+recomputed in ranking_scorer. Read: diversity pressure is "same author" (multiplier) **and**
+"looks like something already in this slate" (reconstruction features). Vary the cluster, not
+only the author cadence.
 
 ## Params that are OFF by default
 
 Published defaults, easy to mistake for live behaviour:
 
-| Param | Default | `param.rs` |
+| Param | Default | Notes |
 |---|---|---|
 | `EnableMutualFollowJaccardHydration` | `false` | runtime key |
 | `EnableFollowingRepliedUsersFacepile` | `false` | runtime key |
-| `EnableMpnScoring` | `false` | runtime key |
 | `EnableClickDwellLowFavRatePenalty` | `false` | runtime key |
 | `EnableMultiplicativePostUnexplored` | `false` | runtime key |
 | `EnableColdStartThompsonSampling` | `false` | added 2026-08-14 |
-| `UseServedSlateContext` | `false` | added 2026-08-21 |
-| `EnableAdsBrandSafetyVerdictV2` | `false` | added 2026-08-21 |
+| `MultiplierPreOffset` | `false` | added 2026-08-28; replaced `EnableMpnScoring` |
 | `EnableAiTrendFeedbackContext` | `false` | added 2026-08-21 |
 
 These are runtime-overridable params (the string keys are override handles), so a `false` default
 does not prove the feature is off in production — only that the published default is off. Treat
 tactics built on them as speculative.
 
+**Flipped on in this snapshot:** `EnableAdsBrandSafetyVerdictV2` now defaults to **`true`**
+(`param.rs:910`). Ads-path only — not a creator ranking lever.
+
+**Removed:** `UseServedSlateContext`, `EnableMpnScoring`.
+
 ### Cold-start Thompson sampling (off by default)
 
 `home-mixer/scorers/author_cold_start.rs` can optionally pick the cold-start boost slot with
-Thompson sampling over a Beta prior on fav/view rate (`EnableColdStartThompsonSampling`, default
-`false`). Published priors: `ColdStartBetaAlpha0=0.75`, `ColdStartBetaBeta0=49.25`,
-`ColdStartTsTopK=5`, `ColdStartImpressionScale=1.0`. When off (default), cold-start still picks by
-argmax score among low-impression eligible posts. Practical takeaway if/when enabled: low-data
-posts get a structured explore path — freshness and early positive rate matter more than raw
-count lead.
+Thompson sampling over a Beta prior on fav / **Home Timeline impression** rate
+(`EnableColdStartThompsonSampling`, default `false`). Impression counting now uses
+`view_count_on_home` (falls back to `view_count` only if the Home field is missing). Published
+priors: `ColdStartBetaAlpha0=0.75`, `ColdStartBetaBeta0=49.25`, `ColdStartTsTopK=2` (was 5),
+`ColdStartImpressionScale=1.0`. When off (default), cold-start still picks by argmax score among
+low-impression eligible posts. Practical takeaway if/when enabled: fewer candidates are sampled
+(TopK 2), and global views do not buy the explore slot — Home Timeline impressions do.
 
 ## Verifying any of this
 
 ```bash
-grep -n "Weight\|WeightFactor" docs/upstream/home-mixer-params.md
+grep -n "Weight\\|WeightFactor" docs/upstream/home-mixer-params.md
 ```
 
 All `param.rs:NNN` citations above are **upstream** line numbers. The cached copies carry a

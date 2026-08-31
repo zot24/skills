@@ -1,7 +1,7 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/home-mixer/params/param.rs
-> Snapshot: 28e414f (2026-08-21)
+> Snapshot: bc8e5f0 (2026-08-28)
 
-// mirrored from config feature-switch defaults; last sync 2026-08-12T04:09:22Z
+// mirrored from config feature-switch defaults; last sync 2026-08-28T20:07:44Z
 use xai_feature_switches::param;
 
 param!(
@@ -83,7 +83,7 @@ param!(
     ShadowTrafficPhoenixClusterRates,
     Vec<String>,
     "rust_home_mixer_shadow_traffic_phoenix_cluster_rates",
-    vec!["Experiment6Fou:1.5".to_string()]
+    vec![]
 );
 param!(
     ShadowTrafficDefaultPercent,
@@ -125,7 +125,7 @@ param!(
     PhoenixAggregationType,
     String,
     "rust_home_mixer_phoenix_aggregation_type",
-    "DENSE_WITH_SHORT_DWELL"
+    "DENSE_WITH_LONG_DWELL"
 );
 param!(
     PhoenixRetrievalAggregationType,
@@ -246,23 +246,17 @@ param!(
     "rust_home_mixer_log_slate_context",
     false
 );
-param!(
-    UseServedSlateContext,
-    bool,
-    "rust_home_mixer_use_served_slate_context",
-    false
-);
+param!(RerankerHeadTag, i64, "rust_home_mixer_reranker_head_tag", 0);
 param!(
     OonWeightFactor,
     f64,
     "rust_home_mixer_oon_weight_factor",
     0.75
 );
-
 param!(
-    EnableMpnScoring,
+    MultiplierPreOffset,
     bool,
-    "rust_home_mixer_enable_mpn_scoring",
+    "rust_home_mixer_multiplier_pre_offset",
     false
 );
 
@@ -339,7 +333,7 @@ param!(
     VideoOpenWeight,
     f64,
     "rust_home_mixer_video_open_weight",
-    0.05
+    0.07
 );
 param!(ClickWeight, f64, "rust_home_mixer_click_weight", 0.4);
 param!(OpenLinkWeight, f64, "rust_home_mixer_open_link_weight", 0.2);
@@ -349,7 +343,7 @@ param!(
     "rust_home_mixer_profile_click_weight",
     0.0
 );
-param!(VqvWeight, f64, "rust_home_mixer_vqv_weight", 0.05);
+param!(VqvWeight, f64, "rust_home_mixer_vqv_weight", 0.0);
 param!(ShareWeight, f64, "rust_home_mixer_share_weight", 2.0);
 param!(
     ShareViaDmWeight,
@@ -363,7 +357,7 @@ param!(
     "rust_home_mixer_share_via_copy_link_weight",
     20.0
 );
-param!(DwellWeight, f64, "rust_home_mixer_dwell_weight", 0.0);
+param!(DwellWeight, f64, "rust_home_mixer_dwell_weight", 0.05);
 param!(QuoteWeight, f64, "rust_home_mixer_quote_weight", 5.0);
 param!(
     QuotedClickWeight,
@@ -629,18 +623,6 @@ param!(
     "Experiment3"
 );
 param!(
-    VMRankerValueModelId,
-    String,
-    "rust_home_mixer_vm_ranker_value_model_id",
-    "dpp"
-);
-param!(
-    VMRankerSendHeadWeights,
-    bool,
-    "rust_home_mixer_vm_ranker_send_head_weights",
-    false
-);
-param!(
     VMRankerDppTheta,
     f64,
     "rust_home_mixer_vm_ranker_dpp_theta",
@@ -718,7 +700,7 @@ param!(
     ColdStartTsTopK,
     u32,
     "rust_home_mixer_cold_start_ts_top_k",
-    5
+    2
 );
 param!(
     ColdStartImpressionScale,
@@ -931,7 +913,7 @@ param!(
     EnableAdsBrandSafetyVerdictV2,
     bool,
     "rust_home_mixer_ads_bs_v2_exp_enabled",
-    false
+    true
 );
 param!(
     AdsTimeGapTSec,
