@@ -1,5 +1,5 @@
 {
   "name": "beads",
   "description": "Expert on beads (`bd`) — the dependency-aware, Dolt-backed issue tracker built for AI coding agents. Ready-queue workflow, hash IDs, dependency types, formulas → protos → molecules, gates and wisps, Dolt sync, and Claude Code / IDE wiring.",
-  "version": "1.1.0"
+  "version": "1.1.1"
 }

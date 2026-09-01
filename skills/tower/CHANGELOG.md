@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.4](https://github.com/zot24/skills/compare/tower-v3.2.3...tower-v3.2.4) (2026-09-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#236](https://github.com/zot24/skills/issues/236)) ([6a33a8e](https://github.com/zot24/skills/commit/6a33a8ef1c9b951c4734e99acebf38944675165a))
+
 ## [3.2.3](https://github.com/zot24/skills/compare/tower-v3.2.2...tower-v3.2.3) (2026-08-26)
 
 
