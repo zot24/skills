@@ -3,7 +3,7 @@
 ---
 title: Slack
 description: Slack adapter with single-workspace and multi-workspace OAuth support.
-tagline: Build bots for Slack workspaces with full support for threads, reactions, native streaming, scheduled messages, modals, slash commands, and the Assistants API.
+tagline: Build bots for Slack workspaces with full support for threads, reactions, Agent Sessions, native streaming, scheduled messages, modals, and slash commands.
 package: @chat-adapter/slack
 ---
 
@@ -474,9 +474,13 @@ The package still installs the full Slack adapter dependencies. The subpaths kee
 
 ## Advanced
 
+### Inbound attachments
+
+Incoming file attachments expose a lazy `fetchData()`. Downloads go through a guarded fetcher that refuses private and internal addresses (including after redirects), limits responses to 25 MB, and times out after 30 seconds. The bot token is sent only to trusted Slack origins and never follows a redirect to another host. Override `createFileTransport()` in a subclass to route downloads through a proxy.
+
 ### Agents
 
-Everything for building an AI agent on Slack: the Agent messaging experience (`agent_view`), the Assistants API (suggested prompts, status, titles), native streaming, and feedback buttons.
+Everything for building an AI agent on Slack: the Agent messaging experience (`agent_view`), Agent Sessions, suggested prompts, native streaming, and feedback buttons.
 
 #### Agent messaging experience
 
@@ -486,6 +490,10 @@ Slack's Agent messaging experience (`agent_view` manifest mode) supersedes the o
 const slack = createSlackAdapter({ agentView: true });
 ```
 
+Slack deprecated `assistant_view` on August 20, 2026 and will retire it in
+February 2027. Chat SDK keeps the legacy path available when `agentView` is
+false, but new and migrated apps should use Agent messaging now.
+
 With `agentView: true`:
 
 * `onAppHomeOpened` is the DM-open signal (Slack no longer signals DM-open via `assistant_thread_started` under `agent_view`), and it fires regardless of the opened tab — branch on `event.tab` (`"home"` vs `"messages"`) if you also publish a Home view.
@@ -493,9 +501,10 @@ With `agentView: true`:
 * `getAppContext(message)` returns the folded active-view context on a DM message.
 * `setSuggestedPrompts(channelId, undefined, prompts)` may omit the thread reference — prompts sit at the top of the agent conversation. A `suggestedPrompts` config entry is applied automatically on every Messages-tab open.
 * DM messages are threaded per Slack's model (each user message is a thread root). Threads returned by `openDM()` keep working: when the conversation-scoped thread is subscribed, incoming top-level DM messages route to it, so `onSubscribedMessage` and per-thread state behave as before.
+* New sessions are titled from the first line of the root message by default. Set `sessionTitle: false` to disable this, or pass a resolver to customize it.
 
 
-  Because bot replies are threaded under each user message, channel-level history (`channel.messages`, `conversations.history`) only returns the user's side of a DM conversation. If you build AI conversation history for DMs, use [transcripts](/docs/conversation-history) (which record both roles across thread IDs) instead of channel history — otherwise the model never sees its own previous replies.
+  Because bot replies are threaded under each user message, channel-level history (`channel.messages`, `conversations.history`) only returns the user's side of a DM conversation. If you build AI conversation history for DMs, use [user history](/docs/history) (which records both roles across thread IDs) instead of channel history — otherwise the model never sees its own previous replies.
 
 
 Add the event subscription and scope to your manifest:
@@ -505,15 +514,74 @@ oauth_config:
   scopes:
     bot:
       - assistant:write
+      - chat:write
 
 settings:
   event_subscriptions:
     bot_events:
       - app_home_opened
       - app_context_changed
+      - agent_session_stopped
+      - agent_session_title_changed
 ```
 
-#### Slack Assistants API
+#### Agent Sessions API
+
+With `agentView: true`, `startTyping()` transitions the session to
+`processing`. Slack shows its standard Working indicator and a native stop
+button. Chat SDK returns the session to `active` after posts and streams; use
+`setSessionStatus()` directly for `suspended` or `closed` states.
+
+```typescript
+await thread.startTyping();
+
+const result = await agent.stream({
+  prompt: message.text,
+  abortSignal: thread.signal,
+});
+await thread.post(result.fullStream);
+```
+
+Always pass `thread.signal` to model APIs. When the user clicks Slack's stop
+button, Chat SDK aborts that signal locally and through the configured shared
+state adapter, stops rendering the stream, and transitions the session out of
+`processing`.
+
+```typescript
+bot.onAgentSessionStopped(async (event) => {
+  await releaseExternalResources(event.threadId);
+});
+
+bot.onAgentSessionTitleChanged(async (event) => {
+  await syncTitle(event.threadId, event.title);
+});
+```
+
+The `SlackAdapter` exposes:
+
+| Method                                                      | Description                                          |
+| ----------------------------------------------------------- | ---------------------------------------------------- |
+| `setSessionStatus(channelId, threadTs, status)`             | Set `processing`, `active`, `suspended`, or `closed` |
+| `setAssistantTitle(channelId, threadTs, title)`             | Rename the agent session                             |
+| `setSuggestedPrompts(channelId, threadTs, prompts, title?)` | Show prompt suggestions                              |
+| `publishHomeView(userId, view)`                             | Publish a Home tab view                              |
+| `startTyping(threadId)`                                     | Set the agent session to `processing`                |
+
+`setAssistantStatus` and `setAssistantTitle` remain compatibility methods:
+under `agentView`, they map to `agents.sessions.*`; under legacy
+`assistant_view`, they call `assistant.threads.*`. Custom status text and
+`loadingMessages` only apply to the legacy experience.
+
+Customize automatic titles with `sessionTitle`:
+
+```typescript
+const slack = createSlackAdapter({
+  agentView: true,
+  sessionTitle: ({ text }) => text.split("\n", 1)[0]?.slice(0, 80) ?? null,
+});
+```
+
+#### Legacy Slack Assistants API
 
 The adapter supports Slack's [Assistants API](https://api.slack.com/docs/apps/ai). Register handlers on the `Chat` instance:
 
@@ -560,7 +628,7 @@ const slack = createSlackAdapter({
 });
 ```
 
-`loadingMessages` becomes the default for `startTyping(threadId)` and `setAssistantStatus(...)` when no explicit status/messages are passed.
+`loadingMessages` becomes the default for `startTyping(threadId)` and `setAssistantStatus(...)` in legacy `assistant_view` when no explicit status/messages are passed.
 
 The `SlackAdapter` exposes:
 
@@ -647,6 +715,8 @@ display_information:
   description: A bot built with chat-sdk
 
 features:
+  agent_view:
+    agent_description: A bot built with Chat SDK
   bot_user:
     display_name: My Bot
     always_online: true
@@ -655,6 +725,7 @@ oauth_config:
   scopes:
     bot:
       - app_mentions:read
+      - assistant:write
       - channels:history
       - channels:read
       - chat:write
@@ -678,8 +749,10 @@ settings:
       - message.im
       - message.mpim
       - member_joined_channel
-      - assistant_thread_started
-      - assistant_thread_context_changed
+      - app_home_opened
+      - app_context_changed
+      - agent_session_stopped
+      - agent_session_title_changed
   interactivity:
     is_enabled: true
     request_url: https://your-domain.com/api/webhooks/slack

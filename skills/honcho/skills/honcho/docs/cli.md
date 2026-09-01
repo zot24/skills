@@ -20,32 +20,68 @@
   ```
 </CodeGroup>
 
+This only installs the `honcho` command. It does not start a server. Use `honcho start --setup` (Docker + an LLM provider key) when you want a local stack.
+
 ## Quick Start
 
 ```bash theme={null}
-honcho init        # confirm/set apiKey + Honcho URL in ~/.honcho/config.json
-honcho doctor      # verify your config + connectivity
-honcho             # show banner + command list
+honcho init                 # Honcho API key or browser login + server URL (talk *to* Honcho)
+honcho start --setup basic  # local stack: LLM provider key + Docker (not set by init)
+honcho doctor               # verify your config + connectivity
+honcho                      # show banner + command list
 ```
+
+`honcho init` authenticates the CLI against a Honcho server. It does **not** configure the LLM key a local stack needs — that is `honcho start --setup`.
+
+## Local stack
+
+`honcho start --setup basic` is the fastest way to run Honcho on your machine. It does **not** require cloning the Honcho repo. The wizard prompts for an LLM provider and API key, writes them into the profile `.env`, pulls `ghcr.io/plastic-labs/honcho:latest`, **pins that digest**, and starts API + deriver + Postgres + Redis via Docker.
+
+Default profile is `local` (`--profile` / `HONCHO_PROFILE`). First start copies the image `config.toml.example` into the profile directory; later starts leave that file alone so your edits persist — including when you re-pin the image. Delete `config.toml` yourself if you want a fresh copy from a new image. Pass `--image` to pin a different tag or digest. Ports bind to `127.0.0.1`; if 8000/5432/6379 are taken, the CLI remaps them (or pass `--api-port` / `--db-port` / `--redis-port`). Auth is off (`AUTH_USE_AUTH=false`).
+
+Pass `--setup basic` or `--setup advanced` for an interactive wizard that writes curated LLM/feature overrides into the profile `.env` (environment variables win over `config.toml`). This is TTY-only. `basic` covers provider and chat model; `advanced` also covers embeddings, deriver/dialectic models, dreams, and deriver flush. Re-running `--setup` while the stack is up recreates the API and deriver containers.
+
+This does **not** change `environmentUrl` in the shared config file. To talk to the local stack:
+
+```bash theme={null}
+HONCHO_BASE_URL=http://127.0.0.1:8000 honcho workspace list
+honcho init --base-url http://127.0.0.1:8000   # persist local as the CLI default
+```
+
+```bash theme={null}
+honcho start --setup basic
+honcho start --setup advanced
+LLM_OPENAI_API_KEY=sk-... honcho start   # skip the wizard if the key is already in the env
+honcho status
+honcho stop            # keep data
+honcho stop --wipe     # also delete volumes
+```
+
+To **develop the server** (live reload, from-source image), see [Local Environment Setup](/docs/v3/contributing/self-hosting).
 
 ## Configuration
 
 The CLI resolves config in this order: **flag → env var → config file → default**.
 
-| Value       | File key         | Env var               | Flag                 | Persisted? |
-| ----------- | ---------------- | --------------------- | -------------------- | ---------- |
-| API key     | `apiKey`         | `HONCHO_API_KEY`      | —                    | Yes        |
-| API URL     | `environmentUrl` | `HONCHO_BASE_URL`     | —                    | Yes        |
-| Workspace   | —                | `HONCHO_WORKSPACE_ID` | `-w` / `--workspace` | No         |
-| Peer        | —                | `HONCHO_PEER_ID`      | `-p` / `--peer`      | No         |
-| Session     | —                | `HONCHO_SESSION_ID`   | `-s` / `--session`   | No         |
-| JSON output | —                | `HONCHO_JSON`         | `--json`             | No         |
+| Value       | File key         | Env var                  | Flag                 | Persisted? |
+| ----------- | ---------------- | ------------------------ | -------------------- | ---------- |
+| API key     | `apiKey`         | `HONCHO_API_KEY`         | —                    | Yes        |
+| API URL     | `environmentUrl` | `HONCHO_BASE_URL`        | —                    | Yes        |
+| Workspace   | —                | `HONCHO_WORKSPACE_ID`    | `-w` / `--workspace` | No         |
+| Peer        | —                | `HONCHO_PEER_ID`         | `-p` / `--peer`      | No         |
+| Session     | —                | `HONCHO_SESSION_ID`      | `-s` / `--session`   | No         |
+| JSON output | —                | `HONCHO_JSON`            | `--json`             | No         |
+| Update nag  | —                | `HONCHO_NO_UPDATE_CHECK` | —                    | No         |
+| Local stack | —                | `HONCHO_PROFILE`         | `--profile`          | No         |
 
 ### Persisted config
 
-The CLI shares `~/.honcho/config.json` with sibling Honcho tools. It owns only
+The CLI shares `~/.honcho/config.json` with sibling Honcho tools. It owns
 `apiKey` and `environmentUrl` at the top level — everything else (`hosts`,
 `sessions`, etc.) is written by other tools and left untouched on save.
+On managed servers that advertise the device grant in OAuth metadata,
+`honcho init` can log you in via the browser; tokens auto-refresh
+and are stored under `oauth` without deleting a shared `apiKey`.
 
 ```json theme={null}
 {
@@ -56,14 +92,14 @@ The CLI shares `~/.honcho/config.json` with sibling Honcho tools. It owns only
 ```
 
 
-  Per-command scoping (workspace / peer / session) is handled via `-w` / `-p` / `-s`
+  Per-command targeting (workspace / peer / session) is handled via `-w` / `-p` / `-s`
   flags or `HONCHO_*` env vars. **Not** persisted as CLI defaults. This is
   deliberate: every invocation is explicit about what it operates on.
 
 
 ### Runtime overrides
 
-Workspace, peer, and session scoping are **per-command only** — pass flags or
+Workspace, peer, and session targeting are **per-command only** — pass flags or
 `HONCHO_*` env vars on every invocation.
 
 ```bash theme={null}
@@ -91,6 +127,8 @@ Every command adapts its output to the context:
 * **TTY** — human-readable tables via Rich.
 * **Piped or redirected** — JSON automatically (detected via `isatty`).
 * **`--json` flag / `HONCHO_JSON=1`** — force JSON regardless of terminal.
+
+Interactive sessions may print a one-line upgrade hint on stderr at most once a day when a newer `honcho-cli` is on PyPI (`uv tool upgrade honcho-cli`). JSON/piped output skips it; set `HONCHO_NO_UPDATE_CHECK=1` to disable it.
 
 Collection commands emit JSON arrays; single-resource commands emit JSON objects. Errors are always structured:
 
@@ -654,6 +692,76 @@ List, inspect, view, create, delete, and manage conversation sessions and their 
       Filter by peer ID. Short alias: `-p`.
     </ParamField>
 
+
+## honcho start
+
+Start a local Honcho stack (API, deriver, Postgres, Redis).
+
+Requires Docker. Uses cloud LLM providers. Does not change the CLI's
+configured server URL — pass HONCHO\_BASE\_URL to talk to this stack.
+`--setup basic` or `--setup advanced` runs an interactive config wizard.
+
+```bash theme={null}
+honcho start
+```
+
+<ParamField path="--profile" type="string" default="local">
+  Local stack profile name.
+</ParamField>
+
+<ParamField path="--api-port" type="string">
+  Host port for the API.
+</ParamField>
+
+<ParamField path="--db-port" type="string">
+  Host port for Postgres.
+</ParamField>
+
+<ParamField path="--redis-port" type="string">
+  Host port for Redis.
+</ParamField>
+
+<ParamField path="--setup" type="string">
+  Interactive config wizard: basic (provider/model) or advanced (embeddings, deriver, dialectic, dreams, flush).
+</ParamField>
+
+<ParamField path="--image" type="string">
+  Honcho image to pull and pin by digest (default: ghcr.io/plastic-labs/honcho:latest).
+</ParamField>
+
+<ParamField path="--timeout" type="string" default="180">
+  Seconds to wait for /health after compose up.
+</ParamField>
+
+## honcho status
+
+Show local stack endpoints and container health.
+
+With no `--profile`, lists every stack under `~/.honcho/profiles/`.
+
+```bash theme={null}
+honcho status
+```
+
+<ParamField path="--profile" type="string">
+  Limit to this profile. Omit to show every local stack.
+</ParamField>
+
+## honcho stop
+
+Stop the local stack started by `honcho start`. Keeps data unless --wipe.
+
+```bash theme={null}
+honcho stop
+```
+
+<ParamField path="--profile" type="string" default="local">
+  Local stack profile name.
+</ParamField>
+
+<ParamField path="--wipe" type="boolean">
+  Also delete volumes (Postgres data).
+</ParamField>
 
 ## honcho workspace
 

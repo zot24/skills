@@ -8,7 +8,7 @@ prerequisites:
   - /docs/getting-started
 related:
   - /docs/concurrency
-  - /docs/conversation-history
+  - /docs/history
   - /docs/testing
 ---
 

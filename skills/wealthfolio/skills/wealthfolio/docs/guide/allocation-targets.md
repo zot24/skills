@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,7 +93,7 @@ Define a target portfolio, see how far each holding has drifted, and generate a 
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 
 Allocation Targets, introduced in **3.5**, lets you define the portfolio you *want*, see how far your actual holdings have **drifted** from it, and generate a **rebalance plan** that tells you exactly what to buy or sell.

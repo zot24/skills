@@ -147,6 +147,53 @@ const res = await firecrawl.map('https://firecrawl.dev', { limit: 10 });
 console.log(res.links);
 ```
 
+### Running an Agent
+
+Hand a research or extraction task to an agent with the `agent` method. Pass a `prompt`, an optional `schema` to shape the output, and `maxCredits` to cap what the run can spend.
+
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
+import { z } from 'zod';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+const result = await firecrawl.agent({
+  prompt: "Find the founders of Firecrawl",
+  schema: z.object({
+    founders: z.array(z.object({
+      name: z.string().describe("Full name of the founder"),
+      role: z.string().describe("Role or position").optional(),
+      background: z.string().describe("Professional background").optional()
+    })).describe("List of founders")
+  }),
+  model: "spark-2",
+  maxCredits: 100
+});
+
+console.log(result.data);
+```
+
+Agent runs are asynchronous. Use `startAgent` to get a job ID back immediately, then poll it with `getAgentStatus`.
+
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+// Start an agent job
+const started = await firecrawl.startAgent({
+  prompt: "Find the founders of Firecrawl"
+});
+
+// Check the status
+if (started.id) {
+  const status = await firecrawl.getAgentStatus(started.id);
+  console.log(status.status, status.data);
+}
+```
+
+Every run also records an execution trace and output snapshots, which you can read with `getAgentTrace` and `getAgentSnapshot`. See [Agent](/features/agent) for the event schema and the full parameter list.
+
 ### Crawling a Website with WebSockets
 
 Stream crawl results in real time with `watcher(jobId, options)`. You receive each page as it is crawled instead of waiting for the entire job to finish.

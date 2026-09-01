@@ -64,10 +64,23 @@ paths:
                   model:
                     type: string
                     enum:
+                      - spark-2
                       - spark-1-pro
                       - spark-1-mini
-                    default: spark-1-pro
-                    description: Model preset used for the agent run
+                    default: spark-2
+                    description: >-
+                      Model preset used for the agent run. Every new run
+                      executes on spark-2; Spark 1 names only appear on legacy
+                      runs.
+                  effort:
+                    type: string
+                    enum:
+                      - low
+                      - medium
+                      - high
+                    description: >-
+                      Reasoning budget used for the agent run (only present for
+                      runs that set effort)
                   error:
                     type: string
                     description: Error message (only present when status is failed)
@@ -76,6 +89,26 @@ paths:
                     format: date-time
                   creditsUsed:
                     type: number
+        '400':
+          description: Bad request — the job ID is not a valid UUID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid job ID format. Job ID must be a valid UUID.
+        '404':
+          description: Agent job not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Agent job not found
       security:
         - bearerAuth: []
 components:

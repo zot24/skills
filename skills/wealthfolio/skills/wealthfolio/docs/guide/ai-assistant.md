@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,7 +93,7 @@ Ask natural-language questions about your portfolio. Run fully local with Ollama
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 The AI Assistant is a chat interface that answers questions about your portfolio by running typed queries against your local database. Ask “what did I earn in dividends last year?” and it’ll figure out the right query, run it, and answer with real numbers.
 

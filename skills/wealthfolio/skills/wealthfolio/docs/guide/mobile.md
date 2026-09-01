@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,7 +93,7 @@ Wealthfolio on iOS, the road for Android, and the PWA workaround for self-hosted
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 Wealthfolio’s mobile story has three parts: a native iOS app, a Progressive Web App (PWA) for self-hosted users on any phone, and an Android version that’s planned but not yet built. This guide covers what’s available today.
 
@@ -106,7 +106,7 @@ Wealthfolio’s mobile story has three parts: a native iOS app, a Progressive We
 
 ## 1 · iOS app
 
-Wealthfolio for iOS is a full native build of the same engine that powers the desktop app, packaged for iPhone and iPad. It does everything the desktop does, with a layout tuned for touch:
+Wealthfolio for iOS is a full native build of the same engine that powers the desktop app, packaged for iPhone and iPad. It does everything the desktop does, with a layout tuned for touch. Wealthfolio 3.7 requires iOS or iPadOS 16 or newer.
 
 - Portfolio dashboard, holdings, activities, performance, goals.
 - Manual entry and CSV import (use a cloud share like iCloud Drive or Dropbox to get the file onto the device).

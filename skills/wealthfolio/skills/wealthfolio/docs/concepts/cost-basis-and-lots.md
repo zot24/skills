@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,7 +93,7 @@ How Wealthfolio tracks the cost basis of long and short lots, through splits, tr
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 Every share you buy creates a **long lot**; every explicit Sell Short creates a signed **short lot**. A lot is a unit of cost basis that follows that position until it’s closed. Lot accounting is what makes the difference between “you sold some Apple, here’s your gain” and “you sold these specific shares bought on this date at this price, here’s your gain and your remaining basis.”
 

@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,7 +93,7 @@ Find and fix portfolio data issues in Wealthfolio — orphan activities, negativ
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 The Health Center is the place to start when something looks off — a number doesn’t add up, a holding shows a strange spike, an account has negative cash. It runs a series of checks against your portfolio across six categories and proposes fixes for whatever it finds.
 

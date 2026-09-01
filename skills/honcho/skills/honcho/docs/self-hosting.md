@@ -10,6 +10,8 @@
 
 This guide helps you set up a local environment to run Honcho for development, testing, or self-hosting.
 
+**Just want a running instance?** `uv tool install honcho-cli` only installs the `honcho` command. Then run [`honcho start --setup`](/docs/v3/documentation/reference/cli#local-stack) (Docker + an LLM provider key) — that pulls a published image and starts API, deriver, Postgres, and Redis. The rest of this page is for building from source, contributing, or deploying without the CLI.
+
 ## Overview
 
 By the end of this guide, you'll have:
@@ -27,7 +29,7 @@ Before you begin, ensure you have the following installed:
 
 * **uv** - Python package manager: `curl -LsSf https://astral.sh/uv/install.sh | sh` or `brew install uv`
 * **Git** - [Download from git-scm.com](https://git-scm.com/downloads)
-* **Docker** (required for Docker setup, not needed for manual setup) - [Download from docker.com](https://www.docker.com/products/docker-desktop/)
+* **Docker** - required for the CLI local stack and the compose-from-source path; not needed for a fully manual setup. [Download from docker.com](https://www.docker.com/products/docker-desktop/)
 
 ### Database Options
 
@@ -65,12 +67,22 @@ DERIVER_MODEL_CONFIG__OVERRIDES__BASE_URL=https://openrouter.ai/api/v1
   For recommended model tiers per feature, using multiple providers, or direct vendor API keys, see the [Configuration Guide](./configuration#llm-configuration).
 
 
-  **Community quick-start**: [elkimek/honcho-self-hosted](https://github.com/elkimek/honcho-self-hosted) provides a one-command installer with pre-configured model tiers, interactive provider setup, and Hermes Agent integration.
+## Personal local stack (CLI)
 
+Recommended if you want Honcho running locally without cloning this repo or building an image. Install the CLI, then run the setup wizard:
 
-## Docker Setup (Recommended)
+```bash theme={null}
+uv tool install honcho-cli
+honcho start --setup basic   # prompts for LLM provider + key, then starts Docker
+```
 
-Docker Compose handles the database, Redis, and Honcho server. The compose file **builds the image from source** (there is no pre-built image on Docker Hub). This requires Docker with BuildKit enabled — see [Troubleshooting](./troubleshooting#docker-build-fails-with-permission-errors) if the build fails.
+`honcho start` pulls `ghcr.io/plastic-labs/honcho:latest`, pins that digest, and starts API + deriver + Postgres + Redis. Stack files live under `~/.honcho/profiles/local/`. It does **not** rewrite `environmentUrl` in `~/.honcho/config.json` (that file is shared with plugins). Talk to the stack with `HONCHO_BASE_URL=http://127.0.0.1:8000`, or run `honcho init --base-url http://127.0.0.1:8000` to persist local as the CLI default.
+
+See the [CLI reference](/docs/v3/documentation/reference/cli#local-stack) for `--setup`, profiles, `--image`, ports, `honcho status` / `stop`, and pointing the CLI at local.
+
+## From source (Docker Compose)
+
+Docker Compose in this repo handles the database, Redis, and Honcho server. The compose file **builds the image from source** so you can develop against local code. A pre-built image is published at `ghcr.io/plastic-labs/honcho:latest` (what `honcho start` uses); it is not on Docker Hub. Building from source requires Docker with BuildKit enabled — see [Troubleshooting](./troubleshooting#docker-build-fails-with-permission-errors) if the build fails.
 
 The compose file is production-oriented by default (ports bound to `127.0.0.1`, restart policies, caching enabled). For development, uncomment the source mounts and monitoring services inside the file.
 
@@ -328,6 +340,7 @@ const client = new Honcho({
 ### Next Steps
 
 * **Configure Honcho**: Visit the [Configuration Guide](./configuration) for model tiers, provider options, and tuning
+* **Use the CLI**: install with `uv tool install honcho-cli`, then [`honcho start --setup`](/docs/v3/documentation/reference/cli#local-stack) for a local stack; inspect with `honcho workspace inspect` / `honcho doctor`
 * **Explore the API**: Check out the [API Reference](../api-reference/introduction)
 * **Try the SDKs**: See our [guides](../guides) for examples
 * **Join the community**: [Discord](https://discord.gg/honcho)
@@ -341,12 +354,13 @@ Running into issues? See the [Troubleshooting Guide](./troubleshooting) for deta
 * Deriver not processing messages
 * Database connection and migration issues
 * Docker and Redis problems
+* CLI local stack (`honcho start`) — missing LLM key, health timeout, still talking to api.honcho.dev
 
 **Quick checks:**
 
 * Verify the server is running: `curl http://localhost:8000/health`
-* Check logs: `docker compose logs api` (Docker) or check terminal output (manual setup)
-* Ensure migrations ran: `uv run alembic upgrade head`
+* Check logs: `docker compose logs api` (from-source Docker), `docker compose -p honcho-local logs` (`honcho start`), or terminal output (manual setup)
+* Ensure migrations ran: `uv run alembic upgrade head` (from-source only; `honcho start` runs them in the image entrypoint)
 
 ## Production Considerations
 

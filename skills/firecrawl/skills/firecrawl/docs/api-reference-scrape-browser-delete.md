@@ -10,7 +10,7 @@
 
 Use this endpoint to stop the interactive browser session for a scrape job. Stopping the session releases browser resources and finalizes billing.
 
-Credits are billed based on session duration: **2 credits per browser minute**, prorated by the second.
+Credits are billed based on session duration: **7 credits per browser minute** if the session used a `prompt`, or **2 credits per browser minute** if it did not. Duration is prorated by the second, with a minimum charge of one browser minute.
 
 ## Path Parameters
 

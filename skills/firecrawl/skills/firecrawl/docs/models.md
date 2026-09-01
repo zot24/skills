@@ -8,58 +8,38 @@
 
 > Choose the right model for your agent extraction tasks.
 
-Firecrawl Agent offers two models optimized for different use cases. Choose the right model based on your extraction complexity and cost requirements.
+Firecrawl Agent runs on **Spark 2**, the default model for every run. It removes the accuracy-versus-cost decision the Spark 1 models called for: it is cheaper and faster than both of them while matching Spark 1 Pro's accuracy, and it completes a higher share of runs.
 
 ## Available Models
 
-| Model          | Cost            | Accuracy | Best For                              |
-| -------------- | --------------- | -------- | ------------------------------------- |
-| `spark-1-mini` | **60% cheaper** | Standard | Most tasks (default)                  |
-| `spark-1-pro`  | Standard        | Higher   | Complex research, critical extraction |
+| Model          | Status      | Notes                                                             |
+| -------------- | ----------- | ----------------------------------------------------------------- |
+| `spark-2`      | **Default** | Lowest cost, fastest run time, accuracy comparable to Spark 1 Pro |
+| `spark-1-pro`  | Deprecated  | Former default for complex tasks; routes to `spark-2`             |
+| `spark-1-mini` | Deprecated  | Former low-cost Spark 1 option; routes to `spark-2`               |
 
 
-  **Start with Spark 1 Mini** (default) — it handles most extraction tasks well at 60% lower cost. Switch to Pro only for complex multi-domain research or when accuracy is critical.
+  **Spark 1 models are deprecated.** The `spark-1-pro` and `spark-1-mini` names remain accepted for backwards compatibility, but every request — with or without the `model` parameter — executes on `spark-2`.
 
 
-## Spark 1 Mini (Default)
+## Spark 2
 
-`spark-1-mini` is our efficient model, ideal for straightforward data extraction tasks.
+`spark-2` is our newest agent model and powers every agent run.
 
-**Use Mini when:**
+**Highlights:**
 
-* Extracting simple data points (contact info, pricing, etc.)
-* Working with well-structured websites
-* Cost efficiency is a priority
-* Running high-volume extraction jobs
+* Lowest cost per run and fastest run time
+* Accuracy comparable to the former Spark 1 flagship
+* Handles everything from simple lookups to multi-domain research
+* The only model with a reasoning budget: pass `effort` (`low`, `medium`, or `high`) to control how hard it thinks
 
-**Example use cases:**
+## Spark 1 models (deprecated)
 
-* Extracting product prices from e-commerce sites
-* Gathering contact information from company pages
-* Pulling basic metadata from articles
-* Simple data point lookups
-
-## Spark 1 Pro
-
-`spark-1-pro` is our flagship model, designed for maximum accuracy on complex extraction tasks.
-
-**Use Pro when:**
-
-* Performing complex competitive analysis
-* Extracting data that requires deep reasoning
-* Accuracy is critical for your use case
-* Dealing with ambiguous or hard-to-find data
-
-**Example use cases:**
-
-* Multi-domain competitive analysis
-* Complex research tasks requiring reasoning
-* Extracting nuanced information from multiple sources
-* Critical business intelligence gathering
+`spark-1-pro` and `spark-1-mini` are deprecated. Their names remain accepted for backwards compatibility, but requests that use them route to `spark-2` — legacy code keeps working, it just runs Spark 2. There is nothing to migrate.
 
 ## Specifying a Model
 
-Pass the `model` parameter to select which model to use:
+The `model` parameter is optional — every request runs `spark-2`:
 
 <CodeGroup>
   ```python Python
@@ -67,17 +47,13 @@ Pass the `model` parameter to select which model to use:
 
   app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # Using Spark 1 Mini (default - can be omitted)
+  # Spark 2 is the default — every run executes on it
   result = app.agent(
       prompt="Find the pricing of Firecrawl",
-      model="spark-1-mini"
+      model="spark-2"
   )
 
-  # Using Spark 1 Pro for complex tasks
-  result = app.agent(
-      prompt="Compare all enterprise features and pricing across Firecrawl, Apify, and ScrapingBee",
-      model="spark-1-pro"
-  )
+  # Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
 
   print(result.data)
   ```
@@ -87,84 +63,41 @@ Pass the `model` parameter to select which model to use:
 
   const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  // Using Spark 1 Mini (default - can be omitted)
+  // Spark 2 is the default — every run executes on it
   const result = await firecrawl.agent({
     prompt: "Find the pricing of Firecrawl",
-    model: "spark-1-mini"
+    model: "spark-2"
   });
 
-  // Using Spark 1 Pro for complex tasks
-  const resultPro = await firecrawl.agent({
-    prompt: "Compare all enterprise features and pricing across Firecrawl, Apify, and ScrapingBee",
-    model: "spark-1-pro"
-  });
+  // Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
 
   console.log(result.data);
   ```
 
   ```bash cURL
-  # Using Spark 1 Mini (default)
+  # Spark 2 is the default — every run executes on it
   curl -X POST "https://api.firecrawl.dev/v2/agent" \
     -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
       "prompt": "Find the pricing of Firecrawl",
-      "model": "spark-1-mini"
+      "model": "spark-2"
     }'
 
-  # Using Spark 1 Pro for complex tasks
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "prompt": "Compare all enterprise features and pricing across Firecrawl, Apify, and ScrapingBee",
-      "model": "spark-1-pro"
-    }'
+  # Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
   ```
 </CodeGroup>
 
-## Model Comparison
-
-| Feature          | Spark 1 Mini | Spark 1 Pro   |
-| ---------------- | ------------ | ------------- |
-| **Cost**         | 60% cheaper  | Standard      |
-| **Accuracy**     | Standard     | Higher        |
-| **Speed**        | Fast         | Fast          |
-| **Best for**     | Most tasks   | Complex tasks |
-| **Reasoning**    | Standard     | Advanced      |
-| **Multi-domain** | Good         | Excellent     |
-
 ## Pricing by Model
 
-Both models use dynamic, credit-based pricing that scales with task complexity:
+All models use dynamic, credit-based pricing that scales with task complexity:
 
-* **Spark 1 Mini**: Uses approximately 60% fewer credits than Pro for equivalent tasks
-* **Spark 1 Pro**: Standard credit consumption for maximum accuracy
+* **Spark 2**: Uses substantially fewer credits than either Spark 1 model for equivalent tasks
+* **Spark 1 models (deprecated)**: Requests route to Spark 2 and are billed accordingly
 
 
   Credit usage varies based on prompt complexity, data processed, and output structure — regardless of model selected.
 
-
-## Choosing the Right Model
-
-```
-                    ┌─────────────────────────────────┐
-                    │   What type of task?            │
-                    └─────────────────────────────────┘
-                                   │
-                    ┌──────────────┴──────────────┐
-                    ▼                             ▼
-          ┌─────────────────┐           ┌─────────────────┐
-          │  Simple/Direct  │           │ Complex/Research│
-          │  extraction     │           │ multi-domain    │
-          └─────────────────┘           └─────────────────┘
-                    │                             │
-                    ▼                             ▼
-          ┌─────────────────┐           ┌─────────────────┐
-          │  spark-1-mini   │           │  spark-1-pro    │
-          │  (60% cheaper)  │           │  (higher acc.)  │
-          └─────────────────┘           └─────────────────┘
-```
 
 ## API Reference
 

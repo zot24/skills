@@ -69,7 +69,7 @@ Shell Plugins
 
 Related topics
 
-<a href="/cli/shell-plugins/terraform" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password to securely authenticate Terraform</span></a><a href="/cli/shell-plugins/aws" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password to securely authenticate the AWS CLI</span></a><a href="/cli/shell-plugins/pipedream" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password to securely authenticate Pipedream CLI</span></a>
+<a href="/cli/shell-plugins/terraform" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password to securely authenticate Terraform</span></a><a href="/cli/shell-plugins/aws" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password to securely authenticate the AWS CLI</span></a><a href="/cli/shell-plugins/pulumi" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password to securely authenticate the Pulumi CLI</span></a>
 
 
 Was this page helpful?

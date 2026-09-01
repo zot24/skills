@@ -99,6 +99,22 @@ The server sends frame messages with base64-encoded images:
 
 `metadata.timestamp` is the capture time in epoch milliseconds. Comparing it against the clock when the frame is drawn gives the age of what is on screen, which is the number worth watching on a constrained link.
 
+### URL messages<a href="#url-messages" aria-label="Link to this section">#</a>
+
+On Chrome, the server sends URL updates for full-document, History API, and fragment navigation in the active tab's main frame:
+
+
+``` shiki
+{
+  "type": "url",
+  "url": "https://example.com/dashboard#activity",
+  "timestamp": 1785038682238
+}
+```
+
+
+Navigation inside child frames or background tabs does not emit a URL message or replace the active tab's cached URL.
+
 ### Status messages<a href="#status-messages" aria-label="Link to this section">#</a>
 
 Connection and screencast status:

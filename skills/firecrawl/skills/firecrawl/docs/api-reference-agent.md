@@ -68,13 +68,68 @@ paths:
                 model:
                   type: string
                   enum:
+                    - spark-2
                     - spark-1-mini
                     - spark-1-pro
-                  default: spark-1-mini
+                  default: spark-2
                   description: >-
-                    The model to use for the agent task. spark-1-mini (default)
-                    is 60% cheaper, spark-1-pro offers higher accuracy for
-                    complex tasks
+                    The model to use for the agent task. spark-2 is the default
+                    and the model every run executes on. The Spark 1 model names
+                    remain accepted for backwards compatibility but are
+                    deprecated and route to spark-2.
+                effort:
+                  type: string
+                  enum:
+                    - low
+                    - medium
+                    - high
+                  description: >-
+                    Reasoning budget for the agent task. Every run executes on
+                    spark-2, so effort can be sent with or without model.
+                webhook:
+                  type: object
+                  description: >-
+                    A webhook specification object. Subscribes to agent
+                    lifecycle events (agent.started, agent.action,
+                    agent.completed, agent.failed, agent.cancelled).
+                  properties:
+                    url:
+                      type: string
+                      format: uri
+                      description: The URL to send webhook events to.
+                    headers:
+                      type: object
+                      description: Headers to send to the webhook URL.
+                      additionalProperties:
+                        type: string
+                    metadata:
+                      type: object
+                      description: >-
+                        Custom metadata that will be included in all webhook
+                        payloads for this agent job.
+                      additionalProperties:
+                        type: string
+                    events:
+                      type: array
+                      description: >-
+                        The events to send to the webhook URL. Defaults to all
+                        events.
+                      items:
+                        type: string
+                        enum:
+                          - started
+                          - action
+                          - completed
+                          - failed
+                          - cancelled
+                      default:
+                        - started
+                        - action
+                        - completed
+                        - failed
+                        - cancelled
+                  required:
+                    - url
                 auditMetadata:
                   $ref: '#/components/schemas/AuditMetadata'
                 threatProtection:
@@ -94,6 +149,18 @@ paths:
                   id:
                     type: string
                     format: uuid
+        '400':
+          description: >-
+            Bad request — the request body failed validation (for example an
+            invalid JSON schema).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid JSON schema: ...'
         '402':
           description: Payment required
           content:
@@ -104,6 +171,23 @@ paths:
                   error:
                     type: string
                     example: Payment required to access this resource.
+        '403':
+          description: >-
+            Forbidden — a provided URL is blocked by the team's threat
+            protection policy.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: >-
+                      This URL (https://example.com) is blocked by your
+                      organization's threat protection policy (rule: blocklist).
+                      If you believe this is a mistake, contact your
+                      organization administrator to adjust the policy (e.g.
+                      whitelist the domain).
         '429':
           description: Too many requests
           content:
@@ -114,6 +198,16 @@ paths:
                   error:
                     type: string
                     example: Rate limit exceeded.
+        '500':
+          description: Internal server error — the agent service could not be reached.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Failed to passthrough agent request.
       security:
         - bearerAuth: []
 components:

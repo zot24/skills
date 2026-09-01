@@ -200,7 +200,9 @@ The adapter honors `request.signal`, so calling `stop()` from `useChat` short-ci
 
 ### Message persistence
 
-`persistMessageHistory` defaults to `true`. Web has no platform-side history API, so the only way for handlers to see prior turns via `thread.messages` is through the configured state adapter's cache. Set it to `false` only if your handler re-derives history from the request body's `messages[]`.
+`persistMessageHistory` defaults to `true`. Web has no platform-side history API, so the only way for handlers to see prior turns via `thread.messages` is through the configured state adapter's cache.
+
+The request body's `messages[]` array is not an alternative history source. A browser controls it entirely, so the adapter consumes only the latest user message and strips tool parts from it: a client cannot inject forged tool-call or approval state, and it cannot rewrite earlier turns. Text, file, and custom `data-*` parts pass through to `message.raw` unchanged. Setting `persistMessageHistory: false` therefore leaves handlers with only the current message.
 
 ### Framework integrations
 

@@ -83,7 +83,7 @@ You can set a peer card directly. This is useful for bootstrapping a peer with k
 
 ## Directional Peer Cards
 
-Peer cards follow the same observer-observed model as [representations](/docs/v3/documentation/features/advanced/representation-scopes). When `observe_others` is enabled, a peer can have a **different** card for each peer it observes.
+Peer cards follow the same observer-observed model as [representations](/docs/v3/documentation/features/advanced/directional-representations). When `observe_others` is enabled, a peer can have a **different** card for each peer it observes.
 
 For example, if Alice and Bob are in a session together and Alice has `observe_others: true`, Alice will build her own peer card for Bob--separate from Honcho's peer card for Bob. You can read and write these directional cards using the `target` parameter.
 

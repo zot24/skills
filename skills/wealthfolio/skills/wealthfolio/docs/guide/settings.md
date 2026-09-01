@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -88,12 +88,12 @@ Settings Reference
 
 # Settings Reference
 
-Configure Wealthfolio — base currency and timezone, accounts and portfolios, data, market-data and AI connections, and appearance.
+Configure Wealthfolio — base currency and timezone, language and region formats, accounts and portfolios, data, market-data and AI connections, and appearance.
 
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 
 Open **Settings** from the bottom of the sidebar. Options are grouped into **Preferences**, **Finance**, **Data**, **Connections**, and **Extensions**, plus **About**.
@@ -123,6 +123,19 @@ Wealthfolio also handles currency variants automatically — for example pence v
 
 
 Manually added rates aren’t auto-updated, so review them periodically.
+
+
+### Language & Region
+
+Two independent settings, so changing the interface language never changes your financial and date conventions:
+
+- **Language** — the language of UI text and control labels. Wealthfolio ships English, Français, Deutsch, Español, 简体中文, 日本語, and 한국어.
+- **Region & formats** — dates, times, decimal separators, percentages, and currency presentation. Eleven options: System, Canada, United States, United Kingdom, France, Germany, Spain, Mexico, China, Japan, and South Korea. Date order (`dd/MM/yyyy` vs. `MM/dd/yyyy`) and 12- vs. 24-hour time follow the region you pick, and the page shows a live preview of dates, numbers, currency, and time.
+
+**System** takes the operating system’s own locale, which covers regions without a dedicated entry. Amount fields accept your region’s decimal separator, and add-ons receive the same locale settings as the app.
+
+
+The separate **Region & formats** setting arrived in 3.7. Before that, formatting followed the interface language.
 
 
 ### Appearance
@@ -201,6 +214,7 @@ On This Page
 
 - <a href="#preferences" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Preferences</a>
   - <a href="#general" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">General</a>
+  - <a href="#language--region" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Language &amp; Region</a>
   - <a href="#appearance" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Appearance</a>
 - <a href="#finance" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Finance</a>
   - <a href="#accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Accounts</a>

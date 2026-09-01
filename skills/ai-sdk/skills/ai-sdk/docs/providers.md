@@ -95,6 +95,7 @@ The open-source community has created the following providers:
 - [ZeroEntropy Provider](/providers/community-providers/zeroentropy) (`zeroentropy-ai-provider`)
 - [Crusoe Provider](/providers/community-providers/crusoe) (`crusoe-ai-provider`)
 - [Neon AI Gateway Provider](/providers/community-providers/neon-ai-gateway) (`@neon/ai-sdk-provider`)
+- [Interfaze Provider](/providers/community-providers/interfaze) (`@interfaze-ai/ai-sdk`)
 
 ## Self-Hosted Models
 
@@ -159,10 +160,9 @@ Here are the capabilities of popular models:
 | [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-3.5`                        |    |          |   |       |
 | [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-small-latest`                      |    |          |   |       |
 | [Mistral](/providers/ai-sdk-providers/mistral)     | `pixtral-12b-2409`                          |    |          |   |       |
-| [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-chat`                             |    |          |   |       |
-| [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-reasoner`                         |    |          |   |       |
+| [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-v4-flash`                         |    |          |   |       |
+| [DeepSeek](/providers/ai-sdk-providers/deepseek)   | `deepseek-v4-pro`                           |    |          |   |       |
 | [Cerebras](/providers/ai-sdk-providers/cerebras)   | `gpt-oss-120b`                              |    |          |   |       |
-| [Cerebras](/providers/ai-sdk-providers/cerebras)   | `zai-glm-4.7`                               |    |          |   |       |
 | [Cerebras](/providers/ai-sdk-providers/cerebras)   | `gemma-4-31b`                               |    |          |   |       |
 | [Groq](/providers/ai-sdk-providers/groq)           | `meta-llama/llama-4-scout-17b-16e-instruct` |    |          |   |       |
 | [Groq](/providers/ai-sdk-providers/groq)           | `llama-3.3-70b-versatile`                   |    |          |   |       |

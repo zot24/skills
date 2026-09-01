@@ -16,10 +16,10 @@ Firecrawl Developer is an index built for coding agents. It covers issues, merge
 * Recover the discussion behind an error message
 
 
-  To give your agent access to the Developer Index, we strongly recommend using our [CLI](/sdks/cli) or [MCP](/mcp-server), combined with our [**dedicated developer skill**](https://github.com/firecrawl/skills/blob/main/skills/firecrawl-developer-index/SKILL.md), which you can install with:
+  To give your agent access to the Developer Index, we strongly recommend using our [CLI](/sdks/cli) or [MCP](/mcp-server), combined with our [**dedicated developer skill**](https://github.com/firecrawl/cli/tree/main/skills/firecrawl-developer-index), which you can install with:
 
   ```bash
-  npx skills add firecrawl/skills@firecrawl-developer-index
+  npx -y firecrawl-cli@latest setup developer-index
   ```
 
 
@@ -34,7 +34,7 @@ Firecrawl Developer is an index built for coding agents. It covers issues, merge
 
 Send a natural-language question and get back ranked developer results with the passages that matched. This is the path to reach for when you want developer sources only, with the result type, repository, and documentation source filters available.
 
-A developer search costs 2 credits per 10 results, rounded up (1–10 results = 2 credits, 11–20 = 4 credits, and so on). No API key is needed to get started; send one for higher rate limits.
+A developer search costs 2 credits per 10 results, rounded up (1–10 results = 2 credits, 11–20 = 4 credits, and so on). No API key is needed to get started; add one for higher rate limits.
 
 <CodeGroup>
   ```bash cURL
@@ -60,9 +60,9 @@ curl -X POST https://api.firecrawl.dev/v2/search/developer \
   }'
 ```
 
-Each result carries a stable `id` such as `issue:owner/repo#123`, a `type` of `doc`, `issue`, `pull_request`, or `readme`, a `url`, and its matched `passages` in markdown, so tables and code blocks survive. `title` is frequently absent on `doc` results, where the source page carries no usable title, so fall back to `url` rather than assuming the field is present.
+Each result carries a stable `id` such as `issue:owner/repo#123`, a `url`, and its matched `passages` in markdown, so tables and code blocks survive. The artifact kind is encoded in the `id` prefix: `doc:`, `issue:`, `pull_request:`, or `readme:`. `title` is frequently absent on `doc` results, where the source page carries no usable title, so fall back to `url` rather than assuming the field is present.
 
-Alongside the results, `coverage` reports the outcome for each result type and `reranked` reports whether the ranked list went through the reranking stage. Check `coverage` when a result type you expected is missing: `skipped` means your `types` value did not ask for that type, while `degraded` or `unavailable` means the gap came from the index or from a filter, not from the query.
+When you scope a search with `sources` or `repos`, the response echoes them back with an `indexed` flag per entry, so you can distinguish an id that is not in the index from a query that simply found nothing. See the [developer search reference](/api-reference/endpoint/developer-search) for the echo shape.
 
 Optional filters narrow the search:
 
@@ -72,7 +72,7 @@ Optional filters narrow the search:
 * `skills` set to `only` limits the search to indexed agent-skill files
 * `language`, `topic`, `license`, `min_stars`, `max_stars`, `archived`, and `fork` filter on repository attributes, such as `language=Rust`, `topic=async`, or `license=MIT`
 
-Those seven filters describe a code repository, so sending one without a `sources` scope returns no `doc` results and reports `doc` as `unavailable` in `coverage`. Read [how the repository filters scope a search](/api-reference/endpoint/developer-search#how-the-repository-filters-scope-a-search) before you send one.
+Those seven filters describe a code repository, so sending one without a `sources` scope returns no `doc` results. Read [how the repository filters scope a search](/api-reference/endpoint/developer-search#how-the-repository-filters-scope-a-search) before you send one.
 
 See the [developer search reference](/api-reference/endpoint/developer-search) for every filter's type and bounds, how `repos` and `sources` scope a search, and the full response schema.
 
@@ -82,7 +82,7 @@ See the [developer search reference](/api-reference/endpoint/developer-search) f
 
 ## Add developer results to a web search
 
-Pass `developer` in the `categories` array on `/search` when you are already calling `/search` and want developer results weighed alongside ordinary web results in a single call. The API returns them in a `developer` group next to `web`, and both SDKs expose that group as `.developer`.
+Pass `developer` as the only entry in the `categories` array on `/search`. The response returns developer results in the standard `web` group, each tagged `category: "developer"`. The `developer` category cannot be combined with other categories.
 
 No API key is needed to get started — `/search` accepts keyless requests, and the `developer` category comes with it, subject to the [keyless allowance](/rate-limits#keyless-no-api-key). Send a key for higher rate limits.
 
@@ -112,7 +112,7 @@ No API key is needed to get started — `/search` accepts keyless requests, and 
       categories=["developer"],
       limit=10,
   )
-  for item in result.developer or []:
+  for item in result.web or []:
       print(item.url, item.title)
   ```
 
@@ -128,13 +128,13 @@ No API key is needed to get started — `/search` accepts keyless requests, and 
     categories: ["developer"],
     limit: 10,
   });
-  for (const item of result.developer ?? []) {
+  for (const item of result.web ?? []) {
     console.log(item.url, item.title);
   }
   ```
 </CodeGroup>
 
-Developer results in this group carry `url`, `title`, `description`, and `position`, the same shape as a web result, plus `category: "developer"`. Web results in the same response have no `category`, so it is the field to key on if you merge the two groups. Results arrive in their own group rather than in `web`, so SDK users read them with `result.developer`.
+Developer results carry `url`, `title`, `description`, and `position`, the same shape as a web result, plus `category: "developer"`. SDK users read them from `result.web`.
 
 This surface returns the web result shape, not the ranked developer shape. For the matched passages and the index filters, use the [developer search endpoint](#search-the-developer-index).
 

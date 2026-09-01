@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,7 +93,7 @@ Get started with Wealthfolio — a private, open-source investment tracker and p
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 
 Wealthfolio is a private, open-source investment tracker and personal finance app. Your data lives on your own machine in a local SQLite file — no subscriptions, no cloud, no lock-in.
@@ -137,6 +137,9 @@ Run Wealthfolio on infrastructure you control.
 
 
 <a href="/docs/guide/self-hosting/" class="absolute inset-0"><span class="sr-only">View</span></a>
+
+
+Wealthfolio 3.7 requires macOS 12+ and iOS/iPadOS 16+. Windows uses the evergreen WebView2 runtime; Linux installations should keep WebKitGTK updated.
 
 
 Each version keeps its own local database — your data stays on your device (or your server, if self-hosted). To sync across devices with end-to-end encryption, or pull activities automatically from your broker, see <a href="/connect" class="font-medium underline underline-offset-4">Wealthfolio Connect</a>.

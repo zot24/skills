@@ -1,7 +1,7 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/visibility-filtering/rules/registry.rs
-> Snapshot: bc8e5f0 (2026-08-28)
 
 use crate::models::{HydratedTweetCandidate, VfAction, ViewerFeatures};
+use crate::params::NsfwGatingCountries;
 use crate::rules::nsfw_age_gating::{
     SensitiveViewerLoggedOutDropRule, SensitiveViewerNoStatedAgeDropRule,
     SensitiveViewerUnderageDropRule,
@@ -23,6 +23,7 @@ use crate::rules::tweet_label_drops as tweet_label;
 use crate::rules::user_label_drops as user_label;
 use crate::rules::user_rules::{self as author, ProtectedAuthorDropRule};
 use crate::rules::{evaluate_rules, Rule, RuleContext, Verdict};
+use std::sync::Arc;
 use xai_visibility_filtering::models::FilteredReason;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -50,10 +51,14 @@ pub struct Policies {
 
 impl Policies {
     pub fn new() -> Self {
+        Self::with_nsfw_gating_countries(Arc::new(NsfwGatingCountries::new()))
+    }
+
+    pub fn with_nsfw_gating_countries(gating_countries: Arc<NsfwGatingCountries>) -> Self {
         Self {
             filter_all: vec![Box::new(FilterAllRule)],
-            timeline_home: timeline_home_policy(),
-            timeline_home_recommendations: timeline_home_recommendations_policy(),
+            timeline_home: timeline_home_policy(&gating_countries),
+            timeline_home_recommendations: timeline_home_recommendations_policy(&gating_countries),
         }
     }
 
@@ -106,7 +111,7 @@ impl Rule for FilterAllRule {
     }
 }
 
-fn base_home_rules() -> Vec<Box<dyn Rule>> {
+fn base_home_rules(gating_countries: &Arc<NsfwGatingCountries>) -> Vec<Box<dyn Rule>> {
     vec![
         Box::new(author::SUSPENDED_AUTHOR_DROP),
         Box::new(author::DEACTIVATED_AUTHOR_DROP),
@@ -130,7 +135,9 @@ fn base_home_rules() -> Vec<Box<dyn Rule>> {
         Box::new(DropLocalLawsTakendownPostRule),
         Box::new(SensitiveViewerLoggedOutDropRule),
         Box::new(SensitiveViewerUnderageDropRule),
-        Box::new(SensitiveViewerNoStatedAgeDropRule),
+        Box::new(SensitiveViewerNoStatedAgeDropRule::new(Arc::clone(
+            gating_countries,
+        ))),
         Box::new(DropExclusiveTweetContentRule),
         Box::new(NSFW_HIGH_PRECISION_INTERSTITIAL),
         Box::new(GORE_AND_VIOLENCE_INTERSTITIAL),
@@ -139,12 +146,14 @@ fn base_home_rules() -> Vec<Box<dyn Rule>> {
     ]
 }
 
-fn timeline_home_policy() -> Vec<Box<dyn Rule>> {
-    base_home_rules()
+fn timeline_home_policy(gating_countries: &Arc<NsfwGatingCountries>) -> Vec<Box<dyn Rule>> {
+    base_home_rules(gating_countries)
 }
 
-fn timeline_home_recommendations_policy() -> Vec<Box<dyn Rule>> {
-    let mut rules = base_home_rules();
+fn timeline_home_recommendations_policy(
+    gating_countries: &Arc<NsfwGatingCountries>,
+) -> Vec<Box<dyn Rule>> {
+    let mut rules = base_home_rules(gating_countries);
     let oon_drops: Vec<Box<dyn Rule>> = vec![
         Box::new(DropTweetsWithDmcaMediaRule),
         Box::new(DropTweetsWithGeoRestrictedMediaRule),
@@ -226,6 +235,44 @@ mod tests {
                 .action,
             VfAction::Drop(_)
         ));
+    }
+
+    #[test]
+    fn refreshed_config_country_reaches_the_wired_rule() {
+        let gating_countries = Arc::new(NsfwGatingCountries::new());
+        let policies = Policies::with_nsfw_gating_countries(Arc::clone(&gating_countries));
+        let candidate = candidate()
+            .with_label(crate::models::SafetyLabelType::NSFW_HIGH_PRECISION)
+            .with_media()
+            .build();
+        let viewer = ViewerFeatures {
+            viewer_age: crate::models::ViewerAge::NotStated,
+            country_code: Some("us".into()),
+            ..viewer(VIEWER_ID)
+        };
+
+        let verdict = policies.evaluate(SafetyLevel::TimelineHome, &viewer, &candidate);
+        assert!(!matches!(verdict.action, VfAction::Drop(_)));
+
+        gating_countries.refresh_from(
+            &xai_feature_switches::FeatureSwitches::load_string(
+                r#"
+rust_vf:
+  parameters:
+    rust_vf_nsfw_gating_countries:
+      type: array
+      default:
+      - "us"
+"#,
+            )
+            .unwrap(),
+        );
+        let verdict = policies.evaluate(SafetyLevel::TimelineHome, &viewer, &candidate);
+        assert!(matches!(verdict.action, VfAction::Drop(_)));
+        assert_eq!(
+            verdict.decided_by,
+            Some("SensitiveViewerNoStatedAgeDropRule")
+        );
     }
 
     #[test]

@@ -2,455 +2,438 @@
 
 
 
-<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2.5 font-semibold md:hidden" rel="noreferrer noopener" target="_blank"><strong>umami</strong></a>
+<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2 text-xl font-bold text-foreground tracking-[-0.03em]" target="_blank" rel="noreferrer"><img src="/logo.svg" class="h-6 w-auto dark:hidden" /><img src="/logo.svg" class="hidden h-6 w-auto dark:block" /><span>umami</span></a>
 
 
-Search
+<a href="https://github.com/umami-software/umami" class="inline-flex items-center rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-foreground size-8 justify-center" target="_blank" rel="noreferrer" aria-label="Umami on GitHub"></a>
 
 
-<a href="/docs" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="true">Documentation</a><a href="/docs/guides" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Guides</a><a href="/docs/api" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">API Reference</a><a href="/docs/cloud" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Cloud</a><a href="https://v2.umami.is" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" target="_blank" rel="noopener noreferrer">v2</a>
+Menu
 
 
-<a href="https://github.com/umami-software/umami" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&amp;_svg]:size-4.5 text-fd-muted-foreground max-lg:hidden" rel="noreferrer noopener" target="_blank" aria-label="GitHub" data-active="false"></a>
+Configuration
 
 
 # Environment variables
+
+
+Copy page
 
 
 You can configure Umami with the use of environment variables. They go into the same `.env` file as your `DATABASE_URL`.
 
 ------------------------------------------------------------------------
 
-## <a href="#runtime-variables" class="peer" data-card="">Runtime variables</a>
+## Runtime variables<a href="#runtime-variables" class="heading-anchor" aria-label="Permalink to “Runtime variables”">#</a>
 
 Runtime variables are recognized when Umami is running. You can set your environment variables prior to starting the application.
 
-### <a href="#app_secret" class="peer" data-card="">APP_SECRET</a>
+### APP_SECRET<a href="#app_secret" class="heading-anchor" aria-label="Permalink to “APP_SECRET”">#</a>
 
-`v1.0.0`
 
 A random string used to secure authentication tokens. Each installation should have a unique value. You can generate one with:
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>openssl rand -hex 32</code></pre>
-</figure>
+``` code-block
+openssl rand -hex 32
+```
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>APP_SECRET = &quot;random string&quot;</code></pre>
-</figure>
+``` code-block
+APP_SECRET = "random string"
+```
 
-### <a href="#client_ip_header" class="peer" data-card="">CLIENT_IP_HEADER</a>
 
-`v1.24.0`
+### CLIENT_IP_HEADER<a href="#client_ip_header" class="heading-anchor" aria-label="Permalink to “CLIENT_IP_HEADER”">#</a>
+
 
 HTTP header to check for the client's IP address. This is useful when you're behind a proxy that uses non-standard headers.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>CLIENT_IP_HEADER = &quot;header name&quot;</code></pre>
-</figure>
+``` code-block
+CLIENT_IP_HEADER = "header name"
+```
 
-### <a href="#collect_api_endpoint" class="peer" data-card="">COLLECT_API_ENDPOINT</a>
 
-`v1.34.0`
+### COLLECT_API_ENDPOINT<a href="#collect_api_endpoint" class="heading-anchor" aria-label="Permalink to “COLLECT_API_ENDPOINT”">#</a>
+
 
 Allows you to send metrics to a location different than the default `/api/send`. This is to help you avoid some [ad blockers](/docs/bypass-ad-blockers).
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>COLLECT_API_ENDPOINT = &quot;/my-custom-route&quot;</code></pre>
-</figure>
+``` code-block
+COLLECT_API_ENDPOINT = "/my-custom-route"
+```
 
-### <a href="#cors_max_age" class="peer" data-card="">CORS_MAX_AGE</a>
 
-`v2.0.0`
+### CORS_MAX_AGE<a href="#cors_max_age" class="heading-anchor" aria-label="Permalink to “CORS_MAX_AGE”">#</a>
+
 
 How many seconds a CORS preflight should last. Default is 24 hours.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>CORS_MAX_AGE = 86400</code></pre>
-</figure>
+``` code-block
+CORS_MAX_AGE = 86400
+```
 
-### <a href="#database_url" class="peer" data-card="">DATABASE_URL</a>
 
-`v1.0.0`
+### DATABASE_URL<a href="#database_url" class="heading-anchor" aria-label="Permalink to “DATABASE_URL”">#</a>
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>DATABASE_URL = &quot;connection string&quot;</code></pre>
-</figure>
+``` code-block
+DATABASE_URL = "connection string"
+```
+
 
 Connection string for your database. This is the only required variable.
 
-### <a href="#debug" class="peer" data-card="">DEBUG</a>
+### DEBUG<a href="#debug" class="heading-anchor" aria-label="Permalink to “DEBUG”">#</a>
 
-`v2.0.0`
 
 Console logging for specific areas of the application. Values include `umami:auth`, `umami:clickhouse`, `umami:kafka`, `umami:middleware`, and `umami:prisma`.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>DEBUG = &quot;umami:*&quot;</code></pre>
-</figure>
+``` code-block
+DEBUG = "umami:*"
+```
 
-### <a href="#disable_bot_check" class="peer" data-card="">DISABLE_BOT_CHECK</a>
 
-`v2.0.0`
+### DISABLE_BOT_CHECK<a href="#disable_bot_check" class="heading-anchor" aria-label="Permalink to “DISABLE_BOT_CHECK”">#</a>
+
 
 By default bots are excluded from statistics. This disables checking for bots.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>DISABLE_BOT_CHECK = 1</code></pre>
-</figure>
+``` code-block
+DISABLE_BOT_CHECK = 1
+```
 
-### <a href="#disable_login" class="peer" data-card="">DISABLE_LOGIN</a>
 
-`v1.26.0`
+### DISABLE_LOGIN<a href="#disable_login" class="heading-anchor" aria-label="Permalink to “DISABLE_LOGIN”">#</a>
+
 
 Disables the login page for the application.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>DISABLE_LOGIN = 1</code></pre>
-</figure>
+``` code-block
+DISABLE_LOGIN = 1
+```
 
-### <a href="#disable_updates" class="peer" data-card="">DISABLE_UPDATES</a>
 
-`v1.33.0`
+### DISABLE_TELEMETRY<a href="#disable_telemetry" class="heading-anchor" aria-label="Permalink to “DISABLE_TELEMETRY”">#</a>
 
-Disables the check for new versions of Umami.
-
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
-
-<pre class="min-w-full w-max *:flex *:flex-col"><code>DISABLE_UPDATES = 1</code></pre>
-</figure>
-
-### <a href="#disable_telemetry" class="peer" data-card="">DISABLE_TELEMETRY</a>
-
-`v2.0.0`
 
 Umami collects completely anonymous telemetry data in order help improve the application. You can choose to disable this if you don't want to participate.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>DISABLE_TELEMETRY = 1</code></pre>
-</figure>
+``` code-block
+DISABLE_TELEMETRY = 1
+```
 
-### <a href="#enable_test_console" class="peer" data-card="">ENABLE_TEST_CONSOLE</a>
 
-`v2.0.0`
+### DISABLE_UPDATES<a href="#disable_updates" class="heading-anchor" aria-label="Permalink to “DISABLE_UPDATES”">#</a>
+
+
+Disables the check for new versions of Umami.
+
+
+``` code-block
+DISABLE_UPDATES = 1
+```
+
+
+### ENABLE_TEST_CONSOLE<a href="#enable_test_console" class="heading-anchor" aria-label="Permalink to “ENABLE_TEST_CONSOLE”">#</a>
+
 
 Enables the internal test page, `{host}/console`. Admin access is required. Users can manually fire pageviews and events to their websites.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>ENABLE_TEST_CONSOLE = 1</code></pre>
-</figure>
+``` code-block
+ENABLE_TEST_CONSOLE = 1
+```
 
-### <a href="#favicon_url" class="peer" data-card="">FAVICON_URL</a>
 
-`v2.18.0`
+### FAVICON_URL<a href="#favicon_url" class="heading-anchor" aria-label="Permalink to “FAVICON_URL”">#</a>
+
 
 The URL of the service for displaying website icons.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>FAVICON_URL = &quot;service URL&quot;</code></pre>
-</figure>
+``` code-block
+FAVICON_URL = "service URL"
+```
+
 
 The default is `icons.duckduckgo.com`:
 
-- <a href="https://icons.duckduckgo.com/ip3/%7B%7Bdomain%7D%7D.ico" rel="noreferrer noopener" target="_blank">https://icons.duckduckgo.com/ip3/{{domain}}.ico</a>
+- <https://icons.duckduckgo.com/ip3/%7B%7Bdomain%7D%7D.ico>
 
 Some alternatives you can use:
 
-- <a href="https://www.google.com/s2/favicons?domain=%7B%7Bdomain%7D%7D" rel="noreferrer noopener" target="_blank">https://www.google.com/s2/favicons?domain={{domain}}</a>
-- <a href="https://logo.clearbit.com/%7B%7Bdomain%7D%7D" rel="noreferrer noopener" target="_blank">https://logo.clearbit.com/{{domain}}</a>
+- <https://www.google.com/s2/favicons?domain=%7B%7Bdomain%7D%7D>
+- <https://logo.clearbit.com/%7B%7Bdomain%7D%7D>
 
-### <a href="#geo_database_url" class="peer" data-card="">GEO_DATABASE_URL</a>
+### GEO_DATABASE_URL<a href="#geo_database_url" class="heading-anchor" aria-label="Permalink to “GEO_DATABASE_URL”">#</a>
 
-`v2.0.0`
 
 The URL for downloading a MaxMind-compatible GeoIP database in MMDB format. This is used for IP-based location detection when location headers from a CDN are not available.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>GEO_DATABASE_URL = &quot;https://example.com/GeoLite2-City.mmdb&quot;</code></pre>
-</figure>
+``` code-block
+GEO_DATABASE_URL = "https://example.com/GeoLite2-City.mmdb"
+```
 
-### <a href="#hostname--port" class="peer" data-card="">HOSTNAME / PORT</a>
 
-`v1.0.0`
+### HOSTNAME / PORT<a href="#hostname--port" class="heading-anchor" aria-label="Permalink to “HOSTNAME / PORT”">#</a>
+
 
 If you are running on an environment which requires you to bind to a specific hostname or port, such as Heroku, you can add these variables and start your app with `npm run start-env` instead of `npm start`.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>HOSTNAME = &quot;my.hostname.com&quot;
-PORT = 3000</code></pre>
-</figure>
+``` code-block
+HOSTNAME = "my.hostname.com"
+PORT = 3000
+```
 
-### <a href="#ignore_ip" class="peer" data-card="">IGNORE_IP</a>
 
-`v1.0.0`
+### IGNORE_IP<a href="#ignore_ip" class="heading-anchor" aria-label="Permalink to “IGNORE_IP”">#</a>
+
 
 You can provide a comma-delimited list of IP addresses and CIDR ranges to exclude from data collection.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>IGNORE_IP = &quot;192.168.0.1, 10.0.0.0/24, 2001:db8::/32&quot;</code></pre>
-</figure>
+``` code-block
+IGNORE_IP = "192.168.0.1, 10.0.0.0/24, 2001:db8::/32"
+```
 
-### <a href="#log_query" class="peer" data-card="">LOG_QUERY</a>
 
-`v2.0.0`
+### LOG_QUERY<a href="#log_query" class="heading-anchor" aria-label="Permalink to “LOG_QUERY”">#</a>
+
 
 If you are running in development mode, this will log database queries to the console for debugging.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>LOG_QUERY = 1</code></pre>
-</figure>
+``` code-block
+LOG_QUERY = 1
+```
 
-### <a href="#private_mode" class="peer" data-card="">PRIVATE_MODE</a>
 
-`v2.11.0`
+### PRIVATE_MODE<a href="#private_mode" class="heading-anchor" aria-label="Permalink to “PRIVATE_MODE”">#</a>
+
 
 Disables all external network calls. Note, this will also disable all website icons since they come from duckduckgo.com.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>PRIVATE_MODE = 1</code></pre>
-</figure>
+``` code-block
+PRIVATE_MODE = 1
+```
 
-### <a href="#redis_url" class="peer" data-card="">REDIS_URL</a>
 
-`v3.0.1`
+### REDIS_URL<a href="#redis_url" class="heading-anchor" aria-label="Permalink to “REDIS_URL”">#</a>
+
 
 Optional Redis connection string used for caching and coordination features. If omitted, Redis-backed features stay disabled.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>REDIS_URL = &quot;redis://localhost:6379&quot;</code></pre>
-</figure>
+``` code-block
+REDIS_URL = "redis://localhost:6379"
+```
 
-### <a href="#remove_trailing_slash" class="peer" data-card="">REMOVE_TRAILING_SLASH</a>
 
-`v1.26.0`
+### REMOVE_TRAILING_SLASH<a href="#remove_trailing_slash" class="heading-anchor" aria-label="Permalink to “REMOVE_TRAILING_SLASH”">#</a>
+
 
 Removes the trailing slash from all incoming urls.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>REMOVE_TRAILING_SLASH = 1</code></pre>
-</figure>
+``` code-block
+REMOVE_TRAILING_SLASH = 1
+```
 
-### <a href="#salt_rotation" class="peer" data-card="">SALT_ROTATION</a>
 
-`v3.1.0`
+### SALT_ROTATION<a href="#salt_rotation" class="heading-anchor" aria-label="Permalink to “SALT_ROTATION”">#</a>
+
 
 Controls how often the anonymous session salt rotates for generated session identifiers. The default is `month`.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>SALT_ROTATION = &quot;month&quot;</code></pre>
-</figure>
+``` code-block
+SALT_ROTATION = "month"
+```
 
-### <a href="#skip_location_headers" class="peer" data-card="">SKIP_LOCATION_HEADERS</a>
 
-`v2.15.0`
+### SKIP_LOCATION_HEADERS<a href="#skip_location_headers" class="heading-anchor" aria-label="Permalink to “SKIP_LOCATION_HEADERS”">#</a>
+
 
 Skips using known location headers for country/region/city detection and forces using the local geo database.
 
 This is useful in environments where only the country (without region or city) header is set from the proxy or CDN (like Cloudflare’s `CF-IPCountry` when Network \> IP Geolocation is switched to On).
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>SKIP_LOCATION_HEADERS = 1</code></pre>
-</figure>
+``` code-block
+SKIP_LOCATION_HEADERS = 1
+```
 
-### <a href="#tracker_script_name" class="peer" data-card="">TRACKER_SCRIPT_NAME</a>
 
-`v1.26.0`
+### TRACKER_SCRIPT_NAME<a href="#tracker_script_name" class="heading-anchor" aria-label="Permalink to “TRACKER_SCRIPT_NAME”">#</a>
+
 
 Allows you to assign a custom name to the tracker script different from the default `script.js`. This is to help you avoid some [ad blockers](/docs/bypass-ad-blockers).
 
 The `.js` extension is not required. The value can also be any path you choose, for example `/path/to/tracker`.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>TRACKER_SCRIPT_NAME = &quot;custom-script-name.js&quot;</code></pre>
-</figure>
+``` code-block
+TRACKER_SCRIPT_NAME = "custom-script-name.js"
+```
 
-### <a href="#use_uuidv7" class="peer" data-card="">USE_UUIDV7</a>
 
-`v3.0.2`
+### TWO_FACTOR_ENCRYPTION_KEY<a href="#two_factor_encryption_key" class="heading-anchor" aria-label="Permalink to “TWO_FACTOR_ENCRYPTION_KEY”">#</a>
 
-Uses UUIDv7 instead of UUIDv4 for generated random identifiers. Deterministic IDs derived from analytics data are unchanged.
-
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
-
-<pre class="min-w-full w-max *:flex *:flex-col"><code>USE_UUIDV7 = 1</code></pre>
-</figure>
-
-### <a href="#two_factor_encryption_key" class="peer" data-card="">TWO_FACTOR_ENCRYPTION_KEY</a>
-
-`v3.3.0`
 
 A 64-character hex string (256-bit key) used to encrypt [two-factor authentication](/docs/two-factor-authentication) secrets. Required before any user can enable 2FA. You can generate one with:
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>openssl rand -hex 32</code></pre>
-</figure>
+``` code-block
+openssl rand -hex 32
+```
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>TWO_FACTOR_ENCRYPTION_KEY = &quot;random hex string&quot;</code></pre>
-</figure>
+``` code-block
+TWO_FACTOR_ENCRYPTION_KEY = "random hex string"
+```
+
+
+### USE_UUIDV7<a href="#use_uuidv7" class="heading-anchor" aria-label="Permalink to “USE_UUIDV7”">#</a>
+
+
+Uses UUIDv7 instead of UUIDv4 for generated random identifiers. Deterministic IDs derived from analytics data are unchanged.
+
+
+``` code-block
+USE_UUIDV7 = 1
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#build-time-variables" class="peer" data-card="">Build time variables</a>
+## Build time variables<a href="#build-time-variables" class="heading-anchor" aria-label="Permalink to “Build time variables”">#</a>
 
 Build time variables are only recognized during the build process. This also includes building custom Docker images. You need to set your environment variables prior to building the application.
 
-### <a href="#allowed_frame_urls" class="peer" data-card="">ALLOWED_FRAME_URLS</a>
+### ALLOWED_FRAME_URLS<a href="#allowed_frame_urls" class="heading-anchor" aria-label="Permalink to “ALLOWED_FRAME_URLS”">#</a>
 
-`v2.3.0`
 
 A space-delimited list of urls allowed to host the application in an iframe.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>ALLOWED_FRAME_URLS = &quot;URLs&quot;</code></pre>
-</figure>
+``` code-block
+ALLOWED_FRAME_URLS = "URLs"
+```
 
-### <a href="#base_path" class="peer" data-card="">BASE_PATH</a>
 
-`v1.9.0`
+### BASE_PATH<a href="#base_path" class="heading-anchor" aria-label="Permalink to “BASE_PATH”">#</a>
+
 
 If you want to host Umami under a subdirectory. You may need to update your reverse proxy settings to correctly handle the BASE_PATH prefix.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>BASE_PATH = &quot;/custom&quot;</code></pre>
-</figure>
+``` code-block
+BASE_PATH = "/custom"
+```
 
-### <a href="#database_type" class="peer" data-card="">DATABASE_TYPE</a>
 
-`v2.0.0`
+### BUILD_GEO<a href="#build_geo" class="heading-anchor" aria-label="Permalink to “BUILD_GEO”">#</a>
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
-
-<pre class="min-w-full w-max *:flex *:flex-col"><code>DATABASE_TYPE = &quot;postgresql&quot;</code></pre>
-</figure>
-
-The type of DB to be used. This is only required for the Docker build.
-
-### <a href="#default_currency--default_locale" class="peer" data-card="">DEFAULT_CURRENCY / DEFAULT_LOCALE</a>
-
-`v3.1.0`
-
-Sets the default currency and locale used by the application UI before a user chooses their own preferences.
-
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
-
-<pre class="min-w-full w-max *:flex *:flex-col"><code>DEFAULT_CURRENCY = &quot;USD&quot;
-DEFAULT_LOCALE = &quot;en-US&quot;</code></pre>
-</figure>
-
-### <a href="#direct_database_url" class="peer" data-card="">DIRECT_DATABASE_URL</a>
-
-`v3.2.0`
-
-Direct PostgreSQL connection string used for Prisma migrations during `check-db`. This is useful when `DATABASE_URL` points to a pooled connection that should not be used for migration commands.
-
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
-
-<pre class="min-w-full w-max *:flex *:flex-col"><code>DIRECT_DATABASE_URL = &quot;connection string&quot;</code></pre>
-</figure>
-
-### <a href="#force_ssl" class="peer" data-card="">FORCE_SSL</a>
-
-`v1.0.0`
-
-This will send a HTTP `Strict-Transport-Security` response header with all requests. See <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security" rel="noreferrer noopener" target="_blank">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security</a>.
-
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
-
-<pre class="min-w-full w-max *:flex *:flex-col"><code>FORCE_SSL = 1</code></pre>
-</figure>
-
-### <a href="#skip_db_check" class="peer" data-card="">SKIP_DB_CHECK</a>
-
-`v2.0.0`
-
-Skips the `check-db` step in the build process. Used for Docker builds.
-
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
-
-<pre class="min-w-full w-max *:flex *:flex-col"><code>SKIP_DB_CHECK = 1</code></pre>
-</figure>
-
-### <a href="#skip_db_migration" class="peer" data-card="">SKIP_DB_MIGRATION</a>
-
-`v2.0.0`
-
-Skips the Prisma migration step in the build process. Setting `SKIP_DB_CHECK` also skips this step.
-
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
-
-<pre class="min-w-full w-max *:flex *:flex-col"><code>SKIP_DB_MIGRATION = 1</code></pre>
-</figure>
-
-### <a href="#skip_build_geo" class="peer" data-card="">SKIP_BUILD_GEO</a>
-
-`v3.1.0`
-
-Skips the local GeoIP database setup step in the build process.
-
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
-
-<pre class="min-w-full w-max *:flex *:flex-col"><code>SKIP_BUILD_GEO = 1</code></pre>
-</figure>
-
-### <a href="#build_geo" class="peer" data-card="">BUILD_GEO</a>
-
-`v3.0.0`
 
 Run the local GeoIP database setup step even in Vercel environment.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>BUILD_GEO = 1</code></pre>
-</figure>
-
-
-<a href="/docs/enable-share-url" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
+``` code-block
+BUILD_GEO = 1
+```
 
 
-Enable Share URL
+### DATABASE_TYPE<a href="#database_type" class="heading-anchor" aria-label="Permalink to “DATABASE_TYPE”">#</a>
 
 
-Previous Page
-
-<a href="/docs/enable-cloudflare-headers" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full text-end"></a>
-
-
-Enable Cloudflare headers
+``` code-block
+DATABASE_TYPE = "postgresql"
+```
 
 
-Next Page
+The type of DB to be used. This is only required for the Docker build.
+
+### DEFAULT_CURRENCY / DEFAULT_LOCALE<a href="#default_currency--default_locale" class="heading-anchor" aria-label="Permalink to “DEFAULT_CURRENCY / DEFAULT_LOCALE”">#</a>
 
 
-### On this page
+Sets the default currency and locale used by the application UI before a user chooses their own preferences.
 
 
-<a href="#runtime-variables" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Runtime variables</a><a href="#app_secret" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">APP_SECRET</a><a href="#client_ip_header" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">CLIENT_IP_HEADER</a><a href="#collect_api_endpoint" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">COLLECT_API_ENDPOINT</a><a href="#cors_max_age" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">CORS_MAX_AGE</a><a href="#database_url" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">DATABASE_URL</a><a href="#debug" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">DEBUG</a><a href="#disable_bot_check" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">DISABLE_BOT_CHECK</a><a href="#disable_login" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">DISABLE_LOGIN</a><a href="#disable_updates" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">DISABLE_UPDATES</a><a href="#disable_telemetry" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">DISABLE_TELEMETRY</a><a href="#enable_test_console" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">ENABLE_TEST_CONSOLE</a><a href="#favicon_url" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">FAVICON_URL</a><a href="#geo_database_url" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">GEO_DATABASE_URL</a><a href="#hostname--port" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">HOSTNAME / PORT</a><a href="#ignore_ip" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">IGNORE_IP</a><a href="#log_query" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">LOG_QUERY</a><a href="#private_mode" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">PRIVATE_MODE</a><a href="#redis_url" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">REDIS_URL</a><a href="#remove_trailing_slash" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">REMOVE_TRAILING_SLASH</a><a href="#salt_rotation" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">SALT_ROTATION</a><a href="#skip_location_headers" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">SKIP_LOCATION_HEADERS</a><a href="#tracker_script_name" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">TRACKER_SCRIPT_NAME</a><a href="#use_uuidv7" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">USE_UUIDV7</a><a href="#two_factor_encryption_key" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">TWO_FACTOR_ENCRYPTION_KEY</a><a href="#build-time-variables" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Build time variables</a><a href="#allowed_frame_urls" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">ALLOWED_FRAME_URLS</a><a href="#base_path" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">BASE_PATH</a><a href="#database_type" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">DATABASE_TYPE</a><a href="#default_currency--default_locale" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">DEFAULT_CURRENCY / DEFAULT_LOCALE</a><a href="#direct_database_url" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">DIRECT_DATABASE_URL</a><a href="#force_ssl" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">FORCE_SSL</a><a href="#skip_db_check" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">SKIP_DB_CHECK</a><a href="#skip_db_migration" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">SKIP_DB_MIGRATION</a><a href="#skip_build_geo" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">SKIP_BUILD_GEO</a><a href="#build_geo" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">BUILD_GEO</a>
+``` code-block
+DEFAULT_CURRENCY = "USD"
+DEFAULT_LOCALE = "en-US"
+```
+
+
+### DIRECT_DATABASE_URL<a href="#direct_database_url" class="heading-anchor" aria-label="Permalink to “DIRECT_DATABASE_URL”">#</a>
+
+
+Direct PostgreSQL connection string used for Prisma migrations during `check-db`. This is useful when `DATABASE_URL` points to a pooled connection that should not be used for migration commands.
+
+
+``` code-block
+DIRECT_DATABASE_URL = "connection string"
+```
+
+
+### FORCE_SSL<a href="#force_ssl" class="heading-anchor" aria-label="Permalink to “FORCE_SSL”">#</a>
+
+
+This will send a HTTP `Strict-Transport-Security` response header with all requests. See <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security>.
+
+
+``` code-block
+FORCE_SSL = 1
+```
+
+
+### SKIP_BUILD_GEO<a href="#skip_build_geo" class="heading-anchor" aria-label="Permalink to “SKIP_BUILD_GEO”">#</a>
+
+
+Skips the local GeoIP database setup step in the build process.
+
+
+``` code-block
+SKIP_BUILD_GEO = 1
+```
+
+
+### SKIP_DB_CHECK<a href="#skip_db_check" class="heading-anchor" aria-label="Permalink to “SKIP_DB_CHECK”">#</a>
+
+
+Skips the `check-db` step in the build process. Used for Docker builds.
+
+
+``` code-block
+SKIP_DB_CHECK = 1
+```
+
+
+### SKIP_DB_MIGRATION<a href="#skip_db_migration" class="heading-anchor" aria-label="Permalink to “SKIP_DB_MIGRATION”">#</a>
+
+
+Skips the Prisma migration step in the build process. Setting `SKIP_DB_CHECK` also skips this step.
+
+
+``` code-block
+SKIP_DB_MIGRATION = 1
+```
+
+
+<a href="/docs/enable-share-url" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Enable Share URL</span></span></a><a href="/docs/enable-cloudflare-headers" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Enable Cloudflare headers</span></span></a>
+
+
+On this page
 
 

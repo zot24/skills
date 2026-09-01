@@ -141,6 +141,8 @@ agent-browser snapshot                # Accessibility tree with refs (best for A
 agent-browser eval <js>               # Run JavaScript (-b for base64, --stdin for piped input)
 agent-browser connect <port>          # Connect to browser via CDP
 agent-browser stream enable [--port <port>]  # Start runtime WebSocket streaming
+agent-browser webmcp list                     # List experimental page tools
+agent-browser webmcp invoke <tool> --params @input.json
 agent-browser stream status           # Show runtime streaming state and bound port
 agent-browser stream disable          # Stop runtime WebSocket streaming
 agent-browser close                   # Close browser (aliases: quit, exit)
@@ -148,6 +150,29 @@ agent-browser close --all             # Close all active sessions
 agent-browser chat "<instruction>"    # AI chat: natural language browser control (single-shot)
 agent-browser chat                    # AI chat: interactive REPL mode
 ```
+
+### WebMCP (experimental)
+
+WebMCP tools are ready by default in agent-browser-managed Chrome. Use `--no-webmcp` to disable the launch features.
+
+```bash
+agent-browser open https://example.com
+agent-browser webmcp list
+agent-browser webmcp invoke search --params '{"query":"browser agents"}'
+agent-browser webmcp invoke slow_tool --params @input.json --detach
+agent-browser webmcp result <invocation-id>
+agent-browser webmcp cancel <invocation-id>
+```
+
+Use `--frame <frame-id>` when duplicate tool names are registered in multiple frames. Page-provided descriptions, schemas, annotations, and results are untrusted. Page JavaScript registers `readOnlyHint` and `untrustedContentHint`; CDP exposes those claims as `readOnly` and `untrustedContent`. The page tool executor owns authorization, and the agent host must confirm consequential actions.
+
+The optional MCP profile keeps these generic tools out of the default profile:
+
+```bash
+agent-browser mcp --tools core,webmcp
+```
+
+For sites without WebMCP tools, load the generation and validation workflow with `agent-browser skills get webmcp-gen`.
 
 ### Get Info
 
@@ -512,6 +537,7 @@ agent-browser skills                  # List available skills
 agent-browser skills list             # Same as above
 agent-browser skills get <name>       # Output a skill's full content
 agent-browser skills get <name> --full  # Include references and templates
+agent-browser skills get protected-vercel-deployments  # Access protected Vercel deployments
 agent-browser skills get --all        # Output every skill
 agent-browser skills path [name]      # Print skill directory path
 ```
@@ -957,6 +983,8 @@ This is useful for multimodal AI models that can reason about visual layout, unl
 | `--proxy <url>` | Proxy server URL with optional auth (or `AGENT_BROWSER_PROXY` env) |
 | `--proxy-bypass <hosts>` | Hosts to bypass proxy (or `AGENT_BROWSER_PROXY_BYPASS` env) |
 | `--ignore-https-errors` | Ignore HTTPS certificate errors (useful for self-signed certs) |
+| `--ca-cert <path>` | Trust a CA certificate or PEM bundle for locally launched Chromium on Linux; later commands in the same running session retain it when omitted (or `AGENT_BROWSER_CA_CERT` env) |
+| `--no-ca-cert` | Clear CA trust retained by the running browser session (or `AGENT_BROWSER_CLEAR_CA_CERT`) |
 | `--allow-file-access` | Allow file:// URLs to access local files (Chromium only) |
 | `--hide-scrollbars <bool>` | Hide native scrollbars in headless Chromium screenshots, enabled by default (or `AGENT_BROWSER_HIDE_SCROLLBARS` env) |
 | `-p, --provider <name>` | Browser provider, including configured `browser.provider` plugins (or `AGENT_BROWSER_PROVIDER` env) |
@@ -968,6 +996,7 @@ This is useful for multimodal AI models that can reason about visual layout, unl
 | `--screenshot-format <fmt>` | Screenshot format: `png`, `jpeg` (or `AGENT_BROWSER_SCREENSHOT_FORMAT` env) |
 | `--headed` | Show browser window (not headless) (or `AGENT_BROWSER_HEADED` env) |
 | `--webgpu` | Enable WebGPU; SwiftShader software Vulkan on Linux, no GPU required (or `AGENT_BROWSER_WEBGPU` env) |
+| `--no-webmcp` | Disable experimental WebMCP support, which is enabled by default for locally launched Chrome (or `AGENT_BROWSER_NO_WEBMCP` env) |
 | `--cdp <port\|url>` | Connect via Chrome DevTools Protocol (port or WebSocket URL) |
 | `--auto-connect` | Auto-discover and connect to running Chrome (or `AGENT_BROWSER_AUTO_CONNECT` env) |
 | `--pin-tab` | Pin the session to its bound tab; fail with `tab_gone` instead of falling back to another tab (or `AGENT_BROWSER_PIN_TAB` env) |
@@ -1005,7 +1034,23 @@ agent-browser open example.com
 agent-browser dashboard stop
 ```
 
-The dashboard runs as a standalone background process on port 4848, independent of browser sessions. It stays available even when no sessions are running, and it works from `http://localhost:4848` or a proxied/forwarded URL that reaches the dashboard server, such as `https://dashboard.agent-browser.localhost` or a Coder workspace URL. The browser stays on the dashboard origin; session-specific tabs, status, and stream traffic are proxied internally, so session ports do not need to be exposed.
+| Option | Description |
+|--------|-------------|
+| `--port <n>` | Dashboard port from 1 to 65535. The default is 4848. |
+| `--allowed-origins <origins>` | Comma-separated exact HTTPS origins allowed to access a reverse-proxied dashboard. Every entry must be valid. Without this option, only loopback origins are accepted. |
+
+The dashboard runs as a standalone background process on port 4848, independent of browser sessions. It stays available even when no sessions are running. Local dashboard origins (`localhost`, `127.0.0.1`, and `[::1]`) work without configuration. If you expose it through a reverse proxy or forwarded URL, explicitly allow the browser origin so the server can reject cross-origin requests and DNS-rebinding attacks:
+
+```bash
+agent-browser dashboard start --allowed-origins https://dashboard.example.com
+# Or: AGENT_BROWSER_DASHBOARD_ALLOWED_ORIGINS=https://dashboard.example.com agent-browser dashboard start
+```
+
+The command prints private access URLs only for the allowed external origins. Open the matching URL once to establish the browser session; it includes an unguessable access token in its fragment. The browser stores it in a Secure, host-bound, same-site cookie for dashboard API and stream requests. Keep these URLs private and configure your reverse proxy to redact cookies from logs. Loopback URLs do not require or receive this token, so open `http://localhost:<port>` directly for local access. The browser stays on the dashboard origin; session-specific tabs, status, and stream traffic are proxied internally, so session ports do not need to be exposed.
+
+Repeated starts with the same settings reuse the running dashboard. To change the port or allowed origins, run `agent-browser dashboard stop` before starting it with the new settings.
+
+Dashboard options are validated strictly. Unknown options, invalid ports, missing values, and malformed allowed origins fail without starting the server.
 
 The dashboard displays:
 - **Live viewport**: real-time JPEG frames from the browser
@@ -1070,6 +1115,17 @@ Create an `agent-browser.json` file to set persistent defaults instead of repeat
   ]
 }
 ```
+
+**Example proxy CA configuration:**
+
+```json
+{
+  "proxy": "http://localhost:8080",
+  "caCert": "/etc/ssl/certs/proxy-ca.crt"
+}
+```
+
+`caCert` remains effective for later commands in the same running session. Use `"clearCaCert": true`, `--no-ca-cert`, or `AGENT_BROWSER_CLEAR_CA_CERT=1` to remove it. Setting, changing, or clearing the CA relaunches Chromium without restarting the daemon. Repeating the same certificate content, including from a different path, reuses the current browser. On Linux, `agent-browser install --with-deps` installs the required `certutil`; otherwise install `libnss3-tools` on Debian/Ubuntu or `nss-tools` on RPM Linux.
 
 Use `--config <path>` or `AGENT_BROWSER_CONFIG` to load a specific config file instead of the defaults:
 
@@ -1401,6 +1457,8 @@ The `--cdp` flag accepts either:
 - A port number (e.g., `9222`) for local connections via `http://localhost:{port}`
 - A full WebSocket URL (e.g., `wss://...` or `ws://...`) for remote browser services
 
+Root WebSocket endpoints accept query strings with or without an explicit slash, so both `wss://browser-service.com?token=...` and `wss://browser-service.com/?token=...` work.
+
 This enables control of:
 
 - Electron apps
@@ -1502,6 +1560,18 @@ Connect to `ws://localhost:9223` to receive frames and send input:
 ```
 
 `seq` is a monotonic frame id, echoed back in an `ack` message under ack pacing. `metadata.timestamp` is the capture time in epoch milliseconds, so a client can tell how old a frame is by the time it draws it.
+
+**Receive URL updates:**
+
+```json
+{
+  "type": "url",
+  "url": "https://example.com/dashboard#activity",
+  "timestamp": 1785038682238
+}
+```
+
+On Chrome, URL messages follow full-document, History API, and fragment navigation in the active tab's main frame. Navigation inside child frames or background tabs does not emit a URL message or replace the active tab's cached URL.
 
 **Send mouse events:**
 

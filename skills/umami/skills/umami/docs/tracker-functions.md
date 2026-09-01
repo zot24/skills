@@ -2,30 +2,31 @@
 
 
 
-<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2.5 font-semibold md:hidden" rel="noreferrer noopener" target="_blank"><strong>umami</strong></a>
+<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2 text-xl font-bold text-foreground tracking-[-0.03em]" target="_blank" rel="noreferrer"><img src="/logo.svg" class="h-6 w-auto dark:hidden" /><img src="/logo.svg" class="hidden h-6 w-auto dark:block" /><span>umami</span></a>
 
 
-Search
+<a href="https://github.com/umami-software/umami" class="inline-flex items-center rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-foreground size-8 justify-center" target="_blank" rel="noreferrer" aria-label="Umami on GitHub"></a>
 
 
-<a href="/docs" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="true">Documentation</a><a href="/docs/guides" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Guides</a><a href="/docs/api" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">API Reference</a><a href="/docs/cloud" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Cloud</a><a href="https://v2.umami.is" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" target="_blank" rel="noopener noreferrer">v2</a>
+Menu
 
 
-<a href="https://github.com/umami-software/umami" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&amp;_svg]:size-4.5 text-fd-muted-foreground max-lg:hidden" rel="noreferrer noopener" target="_blank" aria-label="GitHub" data-active="false"></a>
+Tracking
 
 
 # Tracker functions
 
 
-The Umami tracker exposes a function that you can call on your website if you want more control over your tracking. By default everything is automatically collected, but you can disable this using `data-auto-track="false"` and sending the data yourself. See [Tracker configuration](/docs/tracker-configuration).
+Copy page
 
-## <a href="#functions" class="peer" data-card="">Functions</a>
 
-`v2.0.0`
+The Umami tracker exposes a function that you can call on your website if you want more control over your tracking. By default everything is automatically collected, but you can disable automatic pageviews using `data-auto-pageview="false"` and send them yourself with `umami.track()`. Use `data-auto-track="false"` only if you want to disable tracker initialization entirely. See [Tracker configuration](/docs/tracker-configuration).
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+## Functions<a href="#functions" class="heading-anchor" aria-label="Permalink to “Functions”">#</a>
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>// Tracks the current page
+
+``` code-block
+// Tracks the current page
 umami.track();
 
 // Custom payload
@@ -44,22 +45,22 @@ umami.identify(unique_id: string);
 umami.identify(unique_id: string, data: object);
 
 // Session data without ID
-umami.identify(data: object);</code></pre>
-</figure>
+umami.identify(data: object);
+```
 
-## <a href="#pageviews" class="peer" data-card="">Pageviews</a>
 
-`v2.0.0`
+## Pageviews<a href="#pageviews" class="heading-anchor" aria-label="Permalink to “Pageviews”">#</a>
+
 
 Track a page view.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track();</code></pre>
-</figure>
+``` code-block
+umami.track();
+```
+
 
 By default the tracker automatically collects the following properties:
-
 
 | Property   | Description                        |
 |------------|------------------------------------|
@@ -71,61 +72,62 @@ By default the tracker automatically collects the following properties:
 | `url`      | Page URL                           |
 | `website`  | Website ID (required)              |
 
-
 If you wish to send your own custom payload, pass in an object to the function:
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track({ website: &#39;e676c9b4-11e4-4ef1-a4d7-87001773e9f2&#39;, url: &#39;/home&#39;, title: &#39;Home page&#39; });</code></pre>
-</figure>
+``` code-block
+umami.track({ website: 'e676c9b4-11e4-4ef1-a4d7-87001773e9f2', url: '/home', title: 'Home page' });
+```
+
 
 The above will only send the properties `website`, `url` and `title`. If you want to include existing properties, pass in a function:
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track(props =&gt; ({ ...props, url: &#39;/home&#39;, title: &#39;Home page&#39; }));</code></pre>
-</figure>
+``` code-block
+umami.track(props => ({ ...props, url: '/home', title: 'Home page' }));
+```
 
-## <a href="#events" class="peer" data-card="">Events</a>
 
-`v2.0.0`
+## Events<a href="#events" class="heading-anchor" aria-label="Permalink to “Events”">#</a>
+
 
 Track an event with a given name.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track(&#39;signup-button&#39;);</code></pre>
-</figure>
+``` code-block
+umami.track('signup-button');
+```
 
-## <a href="#event-data" class="peer" data-card="">Event Data</a>
 
-`v2.0.0`
+## Event Data<a href="#event-data" class="heading-anchor" aria-label="Permalink to “Event Data”">#</a>
+
 
 Track an event with dynamic data.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track(&#39;signup-button&#39;, { plan: &#39;newsletter&#39;, id: 123 });</code></pre>
-</figure>
+``` code-block
+umami.track('signup-button', { plan: 'newsletter', id: 123 });
+```
+
 
 When tracking events, the default properties are included in the payload. This is equivalent to running:
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track(props =&gt; ({
+``` code-block
+umami.track(props => ({
   ...props,
-  name: &#39;signup-button&#39;,
+  name: 'signup-button',
   data: {
-    plan: &#39;newsletter&#39;,
+    plan: 'newsletter',
     id: 123,
   },
-}));</code></pre>
-</figure>
+}));
+```
 
-## <a href="#event-data-limits" class="peer" data-card="">Event Data Limits</a>
+
+## Event Data Limits<a href="#event-data-limits" class="heading-anchor" aria-label="Permalink to “Event Data Limits”">#</a>
 
 Event Data can work with any JSON data. There are a few rules in place to maintain performance.
-
 
 | Data Type | Limit                                                   |
 |-----------|---------------------------------------------------------|
@@ -134,70 +136,53 @@ Event Data can work with any JSON data. There are a few rules in place to mainta
 | Arrays    | Converted to a string, max length of 500.               |
 | Objects   | Max of 50 properties. Arrays are considered 1 property. |
 
-
-## <a href="#overriding-event-timestamps" class="peer" data-card="">Overriding Event Timestamps</a>
+## Overriding Event Timestamps<a href="#overriding-event-timestamps" class="heading-anchor" aria-label="Permalink to “Overriding Event Timestamps”">#</a>
 
 You can override the event timestamp by adding a UNIX timestamp in seconds to the payload:
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.track(props =&gt; ({
+``` code-block
+umami.track(props => ({
   ...props,
-  name: &#39;signup-button&#39;,
+  name: 'signup-button',
   timestamp: 1771523787, // new Date().getTime() / 1000
-}));</code></pre>
-</figure>
+}));
+```
 
-## <a href="#sessions" class="peer" data-card="">Sessions</a>
 
-`v2.13.0`
+## Sessions<a href="#sessions" class="heading-anchor" aria-label="Permalink to “Sessions”">#</a>
+
 
 Pass in your own ID to identify a user.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.identify(&#39;unique_id&#39;);</code></pre>
-</figure>
+``` code-block
+umami.identify('unique_id');
+```
 
-## <a href="#session-data" class="peer" data-card="">Session Data</a>
 
-`v2.13.0`
+## Session Data<a href="#session-data" class="heading-anchor" aria-label="Permalink to “Session Data”">#</a>
+
 
 Save data about the current session.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.identify(&#39;unique_id&#39;, { name: &#39;Bob&#39;, email: &#39;[email protected]&#39; });</code></pre>
-</figure>
+``` code-block
+umami.identify('unique_id', { name: 'Bob', email: '[email protected]' });
+```
+
 
 To save data without a unique ID, pass in only a JSON object.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>umami.identify({ name: &#39;Bob&#39;, email: &#39;[email protected]&#39; });</code></pre>
-</figure>
-
-
-<a href="/docs/track-outbound-links" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
+``` code-block
+umami.identify({ name: 'Bob', email: '[email protected]' });
+```
 
 
-Track outbound links
+<a href="/docs/exclude-my-own-visits" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Exclude my own visits</span></span></a><a href="/docs/tracker-configuration" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Tracker configuration</span></span></a>
 
 
-Previous Page
-
-<a href="/docs/tracker-configuration" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full text-end"></a>
-
-
-Tracker configuration
-
-
-Next Page
-
-
-### On this page
-
-
-<a href="#functions" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Functions</a><a href="#pageviews" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Pageviews</a><a href="#events" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Events</a><a href="#event-data" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Event Data</a><a href="#event-data-limits" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Event Data Limits</a><a href="#overriding-event-timestamps" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Overriding Event Timestamps</a><a href="#sessions" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Sessions</a><a href="#session-data" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Session Data</a>
+On this page
 
 

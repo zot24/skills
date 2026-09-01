@@ -33,7 +33,7 @@ The `/agent` endpoint is Firecrawl's most advanced offering—the successor to `
 * **Autonomous Navigation**: The agent searches and navigates deep into sites to find your data
 * **Deep Web Search**: Autonomously discovers information across multiple domains and pages
 * **Parallel Processing**: Processes multiple sources simultaneously for faster results
-* **Models Available**: `spark-1-mini` (default, 60% cheaper) and `spark-1-pro` (higher accuracy)
+* **Model**: Every run executes on `spark-2` (the default). Spark 1 models are deprecated and route to `spark-2`
 
 ### Example
 
@@ -56,7 +56,7 @@ The `/agent` endpoint is Firecrawl's most advanced offering—the successor to `
   result = app.agent(
       prompt="Find the founders of Firecrawl",
       schema=FoundersSchema,
-      model="spark-1-mini",
+      model="spark-2",
       max_credits=100
   )
 
@@ -78,7 +78,7 @@ The `/agent` endpoint is Firecrawl's most advanced offering—the successor to `
         background: z.string().describe("Professional background").optional()
       })).describe("List of founders")
     }),
-    model: "spark-1-mini",
+    model: "spark-2",
     maxCredits: 100
   });
 
@@ -91,7 +91,7 @@ The `/agent` endpoint is Firecrawl's most advanced offering—the successor to `
     -H "Content-Type: application/json" \
     -d '{
       "prompt": "Find the founders of Firecrawl",
-      "model": "spark-1-mini",
+      "model": "spark-2",
       "maxCredits": 100,
       "schema": {
         "type": "object",
@@ -406,7 +406,7 @@ result = app.agent(
     urls=["https://example.com"],  # Optional - can omit entirely
     prompt="Extract product information from example.com",
     schema=schema,
-    model="spark-1-mini"  # or "spark-1-pro" for higher accuracy
+    model="spark-2"  # the default; Spark 1 models are deprecated and route to "spark-2"
 )
 ```
 

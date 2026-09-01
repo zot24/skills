@@ -2,28 +2,31 @@
 
 
 
-<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2.5 font-semibold md:hidden" rel="noreferrer noopener" target="_blank"><strong>umami</strong></a>
+<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2 text-xl font-bold text-foreground tracking-[-0.03em]" target="_blank" rel="noreferrer"><img src="/logo.svg" class="h-6 w-auto dark:hidden" /><img src="/logo.svg" class="hidden h-6 w-auto dark:block" /><span>umami</span></a>
 
 
-Search
+<a href="https://github.com/umami-software/umami" class="inline-flex items-center rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-foreground size-8 justify-center" target="_blank" rel="noreferrer" aria-label="Umami on GitHub"></a>
 
 
-<a href="/docs" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Documentation</a><a href="/docs/guides" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Guides</a><a href="/docs/api" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="true">API Reference</a><a href="/docs/cloud" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Cloud</a><a href="https://v2.umami.is" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" target="_blank" rel="noopener noreferrer">v2</a>
+Menu
 
 
-<a href="https://github.com/umami-software/umami" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&amp;_svg]:size-4.5 text-fd-muted-foreground max-lg:hidden" rel="noreferrer noopener" target="_blank" aria-label="GitHub" data-active="false"></a>
+Endpoints
 
 
 # Sessions
+
+
+Copy page
 
 
 Operations around Sessions and Session data.
 
 **Endpoints**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>GET /api/websites/:websiteId/sessions
+``` code-block
+GET /api/websites/:websiteId/sessions
 GET /api/websites/:websiteId/sessions/stats
 GET /api/websites/:websiteId/sessions/weekly
 GET /api/websites/:websiteId/sessions/:sessionId
@@ -32,17 +35,17 @@ GET /api/websites/:websiteId/sessions/:sessionId/properties
 GET /api/websites/:websiteId/session-data/properties
 GET /api/websites/:websiteId/session-data/values
 GET /api/websites/:websiteId/session-data-pivot
-GET /api/websites/:websiteId/session-data/stats</code></pre>
-</figure>
+GET /api/websites/:websiteId/session-data/stats
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#filters" class="peer" data-card="">Filters</a>
+## Filters<a href="#filters" class="heading-anchor" aria-label="Permalink to “Filters”">#</a>
 
 All Endpoints marked with `filters` can now be filtered with the parameters below.
 
 **Parameters**
-
 
 | Parameter     | Type   | Description                                      |
 |---------------|--------|--------------------------------------------------|
@@ -69,15 +72,13 @@ All Endpoints marked with `filters` can now be filtered with the parameters belo
 | `segment`     | uuid   | (optional) UUID of segment.                      |
 | `cohort`      | uuid   | (optional) UUID of cohort.                       |
 
-
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidsessions" class="peer" data-card="">GET /api/websites/:websiteId/sessions</a>
+## GET /api/websites/:websiteId/sessions<a href="#get-apiwebsiteswebsiteidsessions" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/sessions”">#</a>
 
 Gets website session details within a given time range.
 
 **Parameters**
-
 
 | Parameter  | Type   | Description                                                   |
 |------------|--------|---------------------------------------------------------------|
@@ -88,64 +89,63 @@ Gets website session details within a given time range.
 | `pageSize` | number | (optional, default 20) Determines how many results to return. |
 | `filters`  | \-     | Can accept filter parameters.                                 |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;data&quot;: [
+``` code-block
+{
+  "data": [
     {
-      &quot;id&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;hostname&quot;: &quot;umami.is&quot;,
-      &quot;browser&quot;: &quot;chrome&quot;,
-      &quot;os&quot;: &quot;Mac OS&quot;,
-      &quot;device&quot;: &quot;desktop&quot;,
-      &quot;screen&quot;: &quot;1800x1169&quot;,
-      &quot;language&quot;: &quot;en-US&quot;,
-      &quot;country&quot;: &quot;SE&quot;,
-      &quot;region&quot;: &quot;SE-AB&quot;,
-      &quot;city&quot;: &quot;Stockholm&quot;,
-      &quot;firstAt&quot;: &quot;2025-10-21T13:35:51Z&quot;,
-      &quot;lastAt&quot;: &quot;2025-10-21T15:00:09Z&quot;,
-      &quot;visits&quot;: 2,
-      &quot;views&quot;: 18,
-      &quot;createdAt&quot;: &quot;2025-10-21T15:00:09Z&quot;
+      "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "hostname": "umami.is",
+      "browser": "chrome",
+      "os": "Mac OS",
+      "device": "desktop",
+      "screen": "1800x1169",
+      "language": "en-US",
+      "country": "SE",
+      "region": "SE-AB",
+      "city": "Stockholm",
+      "firstAt": "2025-10-21T13:35:51Z",
+      "lastAt": "2025-10-21T15:00:09Z",
+      "visits": 2,
+      "views": 18,
+      "createdAt": "2025-10-21T15:00:09Z"
     },
     {
-      &quot;id&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;hostname&quot;: &quot;umami.is&quot;,
-      &quot;browser&quot;: &quot;safari&quot;,
-      &quot;os&quot;: &quot;Mac OS&quot;,
-      &quot;device&quot;: &quot;desktop&quot;,
-      &quot;screen&quot;: &quot;1512x982&quot;,
-      &quot;language&quot;: &quot;en-IN&quot;,
-      &quot;country&quot;: &quot;IN&quot;,
-      &quot;region&quot;: &quot;IN-GJ&quot;,
-      &quot;city&quot;: &quot;Bhavnagar&quot;,
-      &quot;firstAt&quot;: &quot;2025-10-21T14:59:47Z&quot;,
-      &quot;lastAt&quot;: &quot;2025-10-21T14:59:48Z&quot;,
-      &quot;visits&quot;: 1,
-      &quot;views&quot;: 1,
-      &quot;createdAt&quot;: &quot;2025-10-21T14:59:48Z&quot;
+      "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "hostname": "umami.is",
+      "browser": "safari",
+      "os": "Mac OS",
+      "device": "desktop",
+      "screen": "1512x982",
+      "language": "en-IN",
+      "country": "IN",
+      "region": "IN-GJ",
+      "city": "Bhavnagar",
+      "firstAt": "2025-10-21T14:59:47Z",
+      "lastAt": "2025-10-21T14:59:48Z",
+      "visits": 1,
+      "views": 1,
+      "createdAt": "2025-10-21T14:59:48Z"
     }
   ],
-  &quot;count&quot;: 923,
-  &quot;page&quot;: 1,
-  &quot;pageSize&quot;: 20
-}</code></pre>
-</figure>
+  "count": 923,
+  "page": 1,
+  "pageSize": 20
+}
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidsessionsstats" class="peer" data-card="">GET /api/websites/:websiteId/sessions/stats</a>
+## GET /api/websites/:websiteId/sessions/stats<a href="#get-apiwebsiteswebsiteidsessionsstats" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/sessions/stats”">#</a>
 
 Gets summarized website session statistics.
 
 **Parameters**
-
 
 | Parameter | Type   | Description                         |
 |-----------|--------|-------------------------------------|
@@ -153,29 +153,29 @@ Gets summarized website session statistics.
 | `endAt`   | number | Timestamp (in ms) of end date.      |
 | `filters` | \-     | Can accept filter parameters.       |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;pageviews&quot;: {
-    &quot;value&quot;: 2924
+``` code-block
+{
+  "pageviews": {
+    "value": 2924
   },
-  &quot;visitors&quot;: {
-    &quot;value&quot;: 905
+  "visitors": {
+    "value": 905
   },
-  &quot;visits&quot;: {
-    &quot;value&quot;: 1050
+  "visits": {
+    "value": 1050
   },
-  &quot;countries&quot;: {
-    &quot;value&quot;: 84
+  "countries": {
+    "value": 84
   },
-  &quot;events&quot;: {
-    &quot;value&quot;: 517
+  "events": {
+    "value": 517
   }
-}</code></pre>
-</figure>
+}
+```
+
 
 - `pageviews`: Page hits
 - `visitors`: Number of unique visitors
@@ -185,12 +185,11 @@ Gets summarized website session statistics.
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidsessionsweekly" class="peer" data-card="">GET /api/websites/:websiteId/sessions/weekly</a>
+## GET /api/websites/:websiteId/sessions/weekly<a href="#get-apiwebsiteswebsiteidsessionsweekly" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/sessions/weekly”">#</a>
 
 Get collected count of sessions by hour of weekday.
 
 **Parameters**
-
 
 | Parameter  | Type   | Description                         |
 |------------|--------|-------------------------------------|
@@ -199,12 +198,11 @@ Get collected count of sessions by hour of weekday.
 | `timezone` | string | Timezone (ex. America/Los_Angeles). |
 | `filters`  | \-     | Can accept filter parameters.       |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 58, 57, 65, 53, 58, 135],
   [117, 124, 132, 127, 135, 142, 141, 138, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -212,146 +210,147 @@ Get collected count of sessions by hour of weekday.
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidsessionssessionid" class="peer" data-card="">GET /api/websites/:websiteId/sessions/:sessionId</a>
+## GET /api/websites/:websiteId/sessions/:sessionId<a href="#get-apiwebsiteswebsiteidsessionssessionid" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/sessions/:sessionId”">#</a>
 
 Gets session details for an individual session
 
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;id&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-  &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-  &quot;distinctId&quot;: &quot;&quot;,
-  &quot;browser&quot;: &quot;chrome&quot;,
-  &quot;os&quot;: &quot;Mac OS&quot;,
-  &quot;device&quot;: &quot;desktop&quot;,
-  &quot;screen&quot;: &quot;1800x1169&quot;,
-  &quot;language&quot;: &quot;en-US&quot;,
-  &quot;country&quot;: &quot;SE&quot;,
-  &quot;region&quot;: &quot;SE-AB&quot;,
-  &quot;city&quot;: &quot;Stockholm&quot;,
-  &quot;firstAt&quot;: &quot;2025-10-21T13:35:51Z&quot;,
-  &quot;lastAt&quot;: &quot;2025-10-21T15:00:09Z&quot;,
-  &quot;visits&quot;: 2,
-  &quot;views&quot;: 18,
-  &quot;events&quot;: 12,
-  &quot;totaltime&quot;: 1609
-}</code></pre>
-</figure>
+``` code-block
+{
+  "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "distinctId": "",
+  "browser": "chrome",
+  "os": "Mac OS",
+  "device": "desktop",
+  "screen": "1800x1169",
+  "language": "en-US",
+  "country": "SE",
+  "region": "SE-AB",
+  "city": "Stockholm",
+  "firstAt": "2025-10-21T13:35:51Z",
+  "lastAt": "2025-10-21T15:00:09Z",
+  "visits": 2,
+  "views": 18,
+  "events": 12,
+  "totaltime": 1609
+}
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidsessionssessionidactivity" class="peer" data-card="">GET /api/websites/:websiteId/sessions/:sessionId/activity</a>
+## GET /api/websites/:websiteId/sessions/:sessionId/activity<a href="#get-apiwebsiteswebsiteidsessionssessionidactivity" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/sessions/:sessionId/activity”">#</a>
 
 Gets session activity for an individual session
 
 **Parameters**
-
 
 | Parameter | Type   | Description                         |
 |-----------|--------|-------------------------------------|
 | `startAt` | number | Timestamp (in ms) of starting date. |
 | `endAt`   | number | Timestamp (in ms) of end date.      |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;createdAt&quot;: &quot;2025-10-21T15:00:09Z&quot;,
-    &quot;urlPath&quot;: &quot;/blog&quot;,
-    &quot;urlQuery&quot;: &quot;&quot;,
-    &quot;referrerDomain&quot;: &quot;umami.is&quot;,
-    &quot;eventId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;eventType&quot;: 1,
-    &quot;eventName&quot;: &quot;&quot;,
-    &quot;visitId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;hasData&quot;: 0
+    "createdAt": "2025-10-21T15:00:09Z",
+    "urlPath": "/blog",
+    "urlQuery": "",
+    "referrerDomain": "umami.is",
+    "eventId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "eventType": 1,
+    "eventName": "",
+    "visitId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "hasData": 0
   },
   {
-    &quot;createdAt&quot;: &quot;2025-10-21T14:56:30Z&quot;,
-    &quot;urlPath&quot;: &quot;/docs&quot;,
-    &quot;urlQuery&quot;: &quot;&quot;,
-    &quot;referrerDomain&quot;: &quot;umami.is&quot;,
-    &quot;eventId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;eventType&quot;: 1,
-    &quot;eventName&quot;: &quot;&quot;,
-    &quot;visitId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;hasData&quot;: 0
+    "createdAt": "2025-10-21T14:56:30Z",
+    "urlPath": "/docs",
+    "urlQuery": "",
+    "referrerDomain": "umami.is",
+    "eventId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "eventType": 1,
+    "eventName": "",
+    "visitId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "hasData": 0
   },
   {
-    &quot;createdAt&quot;: &quot;2025-10-21T14:56:30Z&quot;,
-    &quot;urlPath&quot;: &quot;/&quot;,
-    &quot;urlQuery&quot;: &quot;&quot;,
-    &quot;referrerDomain&quot;: &quot;umami.is&quot;,
-    &quot;eventId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;eventType&quot;: 1,
-    &quot;eventName&quot;: &quot;&quot;,
-    &quot;visitId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;hasData&quot;: 0
+    "createdAt": "2025-10-21T14:56:30Z",
+    "urlPath": "/",
+    "urlQuery": "",
+    "referrerDomain": "umami.is",
+    "eventId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "eventType": 1,
+    "eventName": "",
+    "visitId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "hasData": 0
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidsessionssessionidproperties" class="peer" data-card="">GET /api/websites/:websiteId/sessions/:sessionId/properties</a>
+## GET /api/websites/:websiteId/sessions/:sessionId/properties<a href="#get-apiwebsiteswebsiteidsessionssessionidproperties" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/sessions/:sessionId/properties”">#</a>
 
 Gets session properties for an individual session
 
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;dataKey&quot;: &quot;email&quot;,
-    &quot;dataType&quot;: 1,
-    &quot;stringValue&quot;: &quot;[email protected]&quot;,
-    &quot;numberValue&quot;: null,
-    &quot;dateValue&quot;: null,
-    &quot;createdAt&quot;: &quot;2025-10-22T02:28:17Z&quot;
+    "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "dataKey": "email",
+    "dataType": 1,
+    "stringValue": "[email protected]",
+    "numberValue": null,
+    "dateValue": null,
+    "createdAt": "2025-10-22T02:28:17Z"
   },
   {
-    &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;dataKey&quot;: &quot;id&quot;,
-    &quot;dataType&quot;: 1,
-    &quot;stringValue&quot;: &quot;910bfde0-21dd-4d24-804d-716035e92ddc&quot;,
-    &quot;numberValue&quot;: null,
-    &quot;dateValue&quot;: null,
-    &quot;createdAt&quot;: &quot;2025-10-22T02:28:17Z&quot;
+    "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "dataKey": "id",
+    "dataType": 1,
+    "stringValue": "910bfde0-21dd-4d24-804d-716035e92ddc",
+    "numberValue": null,
+    "dateValue": null,
+    "createdAt": "2025-10-22T02:28:17Z"
   },
   {
-    &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;dataKey&quot;: &quot;name&quot;,
-    &quot;dataType&quot;: 1,
-    &quot;stringValue&quot;: &quot;Bob Aol&quot;,
-    &quot;numberValue&quot;: null,
-    &quot;dateValue&quot;: null,
-    &quot;createdAt&quot;: &quot;2025-10-22T02:28:17Z&quot;
+    "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "dataKey": "name",
+    "dataType": 1,
+    "stringValue": "Bob Aol",
+    "numberValue": null,
+    "dateValue": null,
+    "createdAt": "2025-10-22T02:28:17Z"
   }
-]</code></pre>
-</figure>
+]
+```
 
-## <a href="#get-apiwebsiteswebsiteidsession-dataproperties" class="peer" data-card="">GET /api/websites/:websiteId/session-data/properties</a>
+
+## GET /api/websites/:websiteId/session-data/properties<a href="#get-apiwebsiteswebsiteidsession-dataproperties" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/session-data/properties”">#</a>
 
 Gets session data counts by property name
 
 **Parameters**
-
 
 | Parameter      | Type   | Description                                            |
 |----------------|--------|--------------------------------------------------------|
@@ -360,39 +359,38 @@ Gets session data counts by property name
 | `propertyName` | string | (optional) Filter results to a specific property name. |
 | `filters`      | \-     | Can accept filter parameters.                          |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;propertyName&quot;: &quot;id&quot;,
-    &quot;total&quot;: 1039
+    "propertyName": "id",
+    "total": 1039
   },
   {
-    &quot;propertyName&quot;: &quot;region&quot;,
-    &quot;total&quot;: 1039
+    "propertyName": "region",
+    "total": 1039
   },
   {
-    &quot;propertyName&quot;: &quot;name&quot;,
-    &quot;total&quot;: 1039
+    "propertyName": "name",
+    "total": 1039
   },
   {
-    &quot;propertyName&quot;: &quot;email&quot;,
-    &quot;total&quot;: 1039
+    "propertyName": "email",
+    "total": 1039
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidsession-datavalues" class="peer" data-card="">GET /api/websites/:websiteId/session-data/values</a>
+## GET /api/websites/:websiteId/session-data/values<a href="#get-apiwebsiteswebsiteidsession-datavalues" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/session-data/values”">#</a>
 
 Gets session data counts for a given property
 
 **Parameters**
-
 
 | Parameter      | Type   | Description                                                             |
 |----------------|--------|-------------------------------------------------------------------------|
@@ -402,31 +400,30 @@ Gets session data counts for a given property
 | `dataType`     | number | (optional) Filter by data type (1=string, 2=number, 3=date, 4=boolean). |
 | `filters`      | \-     | Can accept filter parameters.                                           |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;value&quot;: &quot;EU&quot;,
-    &quot;total&quot;: 626
+    "value": "EU",
+    "total": 626
   },
   {
-    &quot;value&quot;: &quot;US&quot;,
-    &quot;total&quot;: 462
+    "value": "US",
+    "total": 462
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidsession-data-pivot" class="peer" data-card="">GET /api/websites/:websiteId/session-data-pivot</a>
+## GET /api/websites/:websiteId/session-data-pivot<a href="#get-apiwebsiteswebsiteidsession-data-pivot" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/session-data-pivot”">#</a>
 
 Gets session data in a pivoted format, with each row representing a session and its properties as parallel arrays.
 
 **Parameters**
-
 
 | Parameter      | Type   | Description                                                   |
 |----------------|--------|---------------------------------------------------------------|
@@ -437,35 +434,34 @@ Gets session data in a pivoted format, with each row representing a session and 
 | `pageSize`     | number | (optional, default 20) Determines how many results to return. |
 | `filters`      | \-     | Can accept filter parameters.                                 |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;data&quot;: [
+``` code-block
+{
+  "data": [
     {
-      &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;distinctId&quot;: &quot;user-123&quot;,
-      &quot;createdAt&quot;: &quot;2025-10-15T16:26:28Z&quot;,
-      &quot;propertyKeys&quot;: [&quot;plan&quot;, &quot;role&quot;],
-      &quot;propertyValues&quot;: [&quot;pro&quot;, &quot;admin&quot;]
+      "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "distinctId": "user-123",
+      "createdAt": "2025-10-15T16:26:28Z",
+      "propertyKeys": ["plan", "role"],
+      "propertyValues": ["pro", "admin"]
     }
   ],
-  &quot;count&quot;: 50,
-  &quot;page&quot;: 1,
-  &quot;pageSize&quot;: 20
-}</code></pre>
-</figure>
+  "count": 50,
+  "page": 1,
+  "pageSize": 20
+}
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidsession-datastats" class="peer" data-card="">GET /api/websites/:websiteId/session-data/stats</a>
+## GET /api/websites/:websiteId/session-data/stats<a href="#get-apiwebsiteswebsiteidsession-datastats" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/session-data/stats”">#</a>
 
 Gets aggregated activity statistics for sessions grouped by a given property value.
 
 **Parameters**
-
 
 | Parameter      | Type   | Description                         |
 |----------------|--------|-------------------------------------|
@@ -474,54 +470,37 @@ Gets aggregated activity statistics for sessions grouped by a given property val
 | `propertyName` | string | Property name to group by.          |
 | `filters`      | \-     | Can accept filter parameters.       |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;label&quot;: &quot;pro&quot;,
-    &quot;activity&quot;: 342,
-    &quot;sessions&quot;: 89,
-    &quot;visits&quot;: 201,
-    &quot;views&quot;: 1450,
-    &quot;events&quot;: 892
+    "label": "pro",
+    "activity": 342,
+    "sessions": 89,
+    "visits": 201,
+    "views": 1450,
+    "events": 892
   },
   {
-    &quot;label&quot;: &quot;free&quot;,
-    &quot;activity&quot;: 158,
-    &quot;sessions&quot;: 44,
-    &quot;visits&quot;: 91,
-    &quot;views&quot;: 630,
-    &quot;events&quot;: 310
+    "label": "free",
+    "activity": 158,
+    "sessions": 44,
+    "visits": 91,
+    "views": 630,
+    "events": 310
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 Results are ordered by `activity` descending. Maximum 100 rows returned.
 
 
-<a href="/docs/api/reports" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
+<a href="/docs/api/reports" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Reports</span></span></a><a href="/docs/api/share" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Share</span></span></a>
 
 
-Reports
-
-
-Previous Page
-
-<a href="/docs/api/share" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full text-end"></a>
-
-
-Share
-
-
-Next Page
-
-
-### On this page
-
-
-<a href="#filters" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Filters</a><a href="#get-apiwebsiteswebsiteidsessions" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions</a><a href="#get-apiwebsiteswebsiteidsessionsstats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/stats</a><a href="#get-apiwebsiteswebsiteidsessionsweekly" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/weekly</a><a href="#get-apiwebsiteswebsiteidsessionssessionid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/:sessionId</a><a href="#get-apiwebsiteswebsiteidsessionssessionidactivity" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/:sessionId/activity</a><a href="#get-apiwebsiteswebsiteidsessionssessionidproperties" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/sessions/:sessionId/properties</a><a href="#get-apiwebsiteswebsiteidsession-dataproperties" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data/properties</a><a href="#get-apiwebsiteswebsiteidsession-datavalues" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data/values</a><a href="#get-apiwebsiteswebsiteidsession-data-pivot" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data-pivot</a><a href="#get-apiwebsiteswebsiteidsession-datastats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/session-data/stats</a>
+On this page
 
 

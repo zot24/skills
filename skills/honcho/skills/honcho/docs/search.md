@@ -53,6 +53,20 @@ Search across all content in your workspace - sessions, peers, and messages:
   ```
 </CodeGroup>
 
+Pass `scope` on workspace search to restrict matches to that
+[scope](/docs/v3/documentation/features/advanced/scopes)'s member sessions. A scope
+with no members returns nothing.
+
+<CodeGroup>
+  ```python Python
+  results = honcho.search("budget planning", scope="therapy")
+  ```
+
+  ```typescript TypeScript
+  const results = await honcho.search("budget planning", { scope: "therapy" });
+  ```
+</CodeGroup>
+
 ### Session Search
 
 Search within a specific session's conversation history:

@@ -221,17 +221,17 @@ op item create `
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_1lb156llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3qm2acllktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_1mb156llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3sm2acllktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_1nb156llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3um2acllktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -239,7 +239,7 @@ op item create `
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1j156llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_362acllktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -257,7 +257,7 @@ op item create `
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -268,17 +268,17 @@ op item create `
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_3al356llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7la6acllktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_3cl356llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7pa6acllktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_3el356llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7ta6acllktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -286,7 +286,7 @@ op item create `
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_35356llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6a6acllktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -304,7 +304,7 @@ op item create `
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -339,17 +339,17 @@ op item create `
 
     <div class="flex-1 flex items-center justify-end gap-1.5 print:hidden">
 
-    <div id="base-ui-_R_3b5m356llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7mbc6acllktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_3d5m356llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7qbc6acllktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_3f5m356llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7ubc6acllktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -359,7 +359,7 @@ op item create `
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-xt bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_pm356llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1jc6acllktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -415,7 +415,7 @@ op item create `
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 

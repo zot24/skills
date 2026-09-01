@@ -33,7 +33,11 @@ gl-inet/docs4.x
 
 # Set Up WireGuard Client on GL.iNet Routers<a href="#set-up-wireguard-client-on-glinet-routers" class="headerlink" title="Permanent link">¶</a>
 
-**Note**: This guide applies to firmware v4.7 and later. For earlier versions, please refer [here](../wireguard_client_v4.6/).
+The content on this page is based on firmware v4.7 and above. If your device is running a different firmware version, use the selector below to switch to the corresponding guide.
+
+
+- [Firmware v4.6 and earlier](../wireguard_client_v4.6/)
+
 
 ------------------------------------------------------------------------
 

@@ -254,7 +254,7 @@ firecrawl search "machine learning" --pretty
 firecrawl search "AI" --sources web,news,images
 
 # Search with category filters
-firecrawl search "react hooks" --categories github
+firecrawl search "react hooks" --categories developer
 firecrawl search "machine learning" --categories research,pdf
 
 # Time-based filtering
@@ -280,7 +280,7 @@ firecrawl search "firecrawl" --pretty -o results.json
 | ---------------------------- | ------------------------------------------------------------------------------------------- |
 | `--limit <number>`           | Maximum results (default: 5, max: 100)                                                      |
 | `--sources <sources>`        | Sources to search: `web`, `images`, `news` (comma-separated)                                |
-| `--categories <categories>`  | Filter by category: `github`, `research`, `pdf`, `developer` (comma-separated)              |
+| `--categories <categories>`  | Filter by category: `research`, `pdf`, `developer` (comma-separated)                        |
 | `--tbs <value>`              | Time filter: `qdr:h` (hour), `qdr:d` (day), `qdr:w` (week), `qdr:m` (month), `qdr:y` (year) |
 | `--location <location>`      | Geo-targeting (e.g., "Berlin,Germany")                                                      |
 | `--country <code>`           | ISO country code (default: US)                                                              |
@@ -559,8 +559,10 @@ firecrawl agent "Get product details" --urls https://example.com --schema-file s
 #### Agent Options
 
 ```bash CLI theme={null}
-# Use Spark 1 Pro for higher accuracy
-firecrawl agent "Competitive analysis across multiple domains" --model spark-1-pro --wait
+# Spark 2 is the default — every run executes on it
+firecrawl agent "Competitive analysis across multiple domains" --model spark-2 --wait
+
+# Deprecated: Spark 1 model names are still accepted, but route to spark-2.
 
 # Set max credits to limit costs
 firecrawl agent "Gather contact information from company websites" --max-credits 100 --wait
@@ -583,21 +585,21 @@ firecrawl agent "Find pricing information" --urls https://example.com --wait -o 
 
 **Available Options:**
 
-| Option                      | Description                                                                            |
-| --------------------------- | -------------------------------------------------------------------------------------- |
-| `--urls <urls>`             | Optional list of URLs to focus the agent on (comma-separated)                          |
-| `--model <model>`           | Model to use: `spark-1-mini` (default, 60% cheaper) or `spark-1-pro` (higher accuracy) |
-| `--schema <json>`           | JSON schema for structured output (inline JSON string)                                 |
-| `--schema-file <path>`      | Path to JSON schema file for structured output                                         |
-| `--max-credits <number>`    | Maximum credits to spend (job fails if limit reached)                                  |
-| `--webhook <url-or-json>`   | Webhook URL or configuration                                                           |
-| `--status`                  | Check status of existing agent job                                                     |
-| `--cancel`                  | Cancel an active agent job by job ID                                                   |
-| `--wait`                    | Wait for agent to complete before returning results                                    |
-| `--poll-interval <seconds>` | Polling interval when waiting (default: 5)                                             |
-| `--timeout <seconds>`       | Timeout when waiting (default: no timeout)                                             |
-| `--output <path>`           | Save output to file                                                                    |
-| `--json`                    | Output as JSON format                                                                  |
+| Option                      | Description                                                                                                                |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `--urls <urls>`             | Optional list of URLs to focus the agent on (comma-separated)                                                              |
+| `--model <model>`           | Model to use. Defaults to `spark-2`, the model every run executes on. Spark 1 models are deprecated and route to `spark-2` |
+| `--schema <json>`           | JSON schema for structured output (inline JSON string)                                                                     |
+| `--schema-file <path>`      | Path to JSON schema file for structured output                                                                             |
+| `--max-credits <number>`    | Maximum credits to spend (job fails if limit reached)                                                                      |
+| `--webhook <url-or-json>`   | Webhook URL or configuration                                                                                               |
+| `--status`                  | Check status of existing agent job                                                                                         |
+| `--cancel`                  | Cancel an active agent job by job ID                                                                                       |
+| `--wait`                    | Wait for agent to complete before returning results                                                                        |
+| `--poll-interval <seconds>` | Polling interval when waiting (default: 5)                                                                                 |
+| `--timeout <seconds>`       | Timeout when waiting (default: no timeout)                                                                                 |
+| `--output <path>`           | Save output to file                                                                                                        |
+| `--json`                    | Output as JSON format                                                                                                      |
 
 ***
 

@@ -241,7 +241,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="min-w-0 flex-1 w-0 rounded-tl-xl" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px" component-part="scroll-area">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1b8pillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_2mhj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -285,11 +285,11 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="flex flex-1 overflow-hidden">
 
-    <div id="base-ui-_R_1j8pillktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" orientation="horizontal" activation-direction="none" role="tabpanel" tabindex="0" index="-1">
+    <div id="base-ui-_R_36hj4llktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" orientation="horizontal" activation-direction="none" role="tabpanel" tabindex="0" index="-1">
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-xt bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:100%;background-color:#FFFFFF;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_dj8pillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_r6hj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -303,17 +303,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
 
     </div>
 
     </div>
 
-    <div id="base-ui-_R_2j8pillktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" data-hidden="" orientation="horizontal" activation-direction="none" hidden="" role="tabpanel" tabindex="0" inert="" index="-1">
+    <div id="base-ui-_R_56hj4llktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" data-hidden="" orientation="horizontal" activation-direction="none" hidden="" role="tabpanel" tabindex="0" inert="" index="-1">
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-xt bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:100%;background-color:#FFFFFF;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_ej8pillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_t6hj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -327,17 +327,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
 
     </div>
 
     </div>
 
-    <div id="base-ui-_R_3j8pillktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" data-hidden="" orientation="horizontal" activation-direction="none" hidden="" role="tabpanel" tabindex="0" inert="" index="-1">
+    <div id="base-ui-_R_76hj4llktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" data-hidden="" orientation="horizontal" activation-direction="none" hidden="" role="tabpanel" tabindex="0" inert="" index="-1">
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-xt bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:100%;background-color:#FFFFFF;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_fj8pillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_v6hj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -351,7 +351,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -397,7 +397,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="min-w-0 flex-1 w-0 rounded-tl-xl" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px" component-part="scroll-area">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1bcpillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_2mpj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -441,11 +441,11 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="flex flex-1 overflow-hidden">
 
-    <div id="base-ui-_R_1jcpillktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" orientation="horizontal" activation-direction="none" role="tabpanel" tabindex="0" index="-1">
+    <div id="base-ui-_R_36pj4llktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" orientation="horizontal" activation-direction="none" role="tabpanel" tabindex="0" index="-1">
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-xt bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:100%;background-color:#FFFFFF;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_djcpillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_r6pj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -459,17 +459,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
 
     </div>
 
     </div>
 
-    <div id="base-ui-_R_2jcpillktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" data-hidden="" orientation="horizontal" activation-direction="none" hidden="" role="tabpanel" tabindex="0" inert="" index="-1">
+    <div id="base-ui-_R_56pj4llktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" data-hidden="" orientation="horizontal" activation-direction="none" hidden="" role="tabpanel" tabindex="0" inert="" index="-1">
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-xt bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:100%;background-color:#FFFFFF;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_ejcpillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_t6pj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -483,17 +483,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
 
     </div>
 
     </div>
 
-    <div id="base-ui-_R_3jcpillktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" data-hidden="" orientation="horizontal" activation-direction="none" hidden="" role="tabpanel" tabindex="0" inert="" index="-1">
+    <div id="base-ui-_R_76pj4llktbsnlhjiuasnpfiutb_" class="w-full min-w-full max-w-full h-full max-h-full relative focus-visible:outline-hidden before:content-[''] before:absolute before:inset-0 before:z-10 before:pointer-events-none before:rounded-xt focus-visible:before:outline focus-visible:before:outline-1 focus-visible:before:-outline-offset-2 focus-visible:before:outline-primary dark:focus-visible:before:outline-primary-light data-hidden:hidden [&_[data-component-part=code-block-root]]:rounded-xt!" data-hidden="" orientation="horizontal" activation-direction="none" hidden="" role="tabpanel" tabindex="0" inert="" index="-1">
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-xt bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:100%;background-color:#FFFFFF;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_fjcpillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_v6pj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -507,7 +507,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#FFFFFF;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -589,17 +589,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_1laj399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3ql66ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_1maj399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3sl66ij4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_1naj399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3ul66ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -607,7 +607,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1ij399illktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_3566ij4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -625,7 +625,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -636,17 +636,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_1lb3399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3qm66ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_1mb3399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3sm66ij4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_1nb3399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3um66ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -654,7 +654,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1j3399illktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_3666ij4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -672,7 +672,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -687,17 +687,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_1lal399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3qla6ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_1mal399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3sla6ij4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_1nal399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3ula6ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -705,7 +705,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1il399illktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_35a6ij4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -723,7 +723,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -734,17 +734,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_1lb5399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3qma6ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_1mb5399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3sma6ij4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_1nb5399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3uma6ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -752,7 +752,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1j5399illktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_36a6ij4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -770,7 +770,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -785,17 +785,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_1lan399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3qle6ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_1man399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3sle6ij4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_1nan399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3ule6ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -803,7 +803,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1in399illktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_35e6ij4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -821,7 +821,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -832,17 +832,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_1lb7399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3qme6ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_1mb7399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3sme6ij4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_1nb7399illktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3ume6ij4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -850,7 +850,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1j7399illktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_36e6ij4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -868,7 +868,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -953,17 +953,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_6lb69pillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_famcjj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_6pb69pillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fimcjj4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_6tb69pillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fqmcjj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -971,7 +971,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6b69pillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cmcjj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -989,7 +989,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -1003,17 +1003,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_6ld69pillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_faqcjj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_6pd69pillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fiqcjj4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_6td69pillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fqqcjj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -1021,7 +1021,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6d69pillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cqcjj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -1039,7 +1039,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -1053,17 +1053,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_6lf69pillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_faucjj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_6pf69pillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fiucjj4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_6tf69pillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fqucjj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -1071,7 +1071,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6f69pillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cucjj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -1089,7 +1089,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -1171,17 +1171,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_6lb6dpillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_famcrj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_6pb6dpillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fimcrj4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_6tb6dpillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fqmcrj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -1189,7 +1189,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6b6dpillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cmcrj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -1207,7 +1207,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -1221,17 +1221,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_6ld6dpillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_faqcrj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_6pd6dpillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fiqcrj4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_6td6dpillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fqqcrj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -1239,7 +1239,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6d6dpillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cqcrj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -1257,7 +1257,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -1271,17 +1271,17 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_6lf6dpillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_faucrj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_6pf6dpillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fiucrj4llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_6tf6dpillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fqucrj4llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -1289,7 +1289,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6f6dpillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cucrj4llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -1307,7 +1307,7 @@ pulumi plugin install resource onepassword <version> --server github://api.githu
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 

@@ -81,7 +81,7 @@ op plugin clear <plugin-executable> [flags]
 
 
 ``` shiki
-       --all     Clear all configurations for this plugin that apply to this directory
+        --all     Clear all configurations for this plugin that apply to this directory
                   and/or terminal session, including the global default.
    -f, --force   Apply immediately without asking for confirmation.
 ```

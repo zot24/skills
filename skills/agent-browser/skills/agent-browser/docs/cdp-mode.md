@@ -49,6 +49,8 @@ The `--cdp` flag accepts either:
 - A port number (e.g., `9222`) for local connections via `http://localhost:{port}`
 - A full WebSocket URL (e.g., `wss://...` or `ws://...`) for remote browser services
 
+Root WebSocket endpoints accept query strings with or without an explicit slash, so both `wss://browser-service.com?token=...` and `wss://browser-service.com/?token=...` work.
+
 ## Auto-Connect<a href="#auto-connect" aria-label="Link to this section">#</a>
 
 Use `--auto-connect` to automatically discover and connect to a running Chrome instance without specifying a port:

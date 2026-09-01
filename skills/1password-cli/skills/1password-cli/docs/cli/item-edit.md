@@ -243,17 +243,17 @@ op item edit "HBO Max" `
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_qlgjillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_1tb174llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_r5gjillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_1ub174llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_rlgjillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_1vb174llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -261,7 +261,7 @@ op item edit "HBO Max" `
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_pgjillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1j174llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -279,7 +279,7 @@ op item edit "HBO Max" `
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -290,17 +290,17 @@ op item edit "HBO Max" `
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_qlhjillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_1tb374llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_r5hjillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_1ub374llktbsnlhjiuasnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_rlhjillktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_1vb374llktbsnlhjiuasnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -308,7 +308,7 @@ op item edit "HBO Max" `
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_phjillktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1j374llktbsnlhjiuasnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -326,7 +326,7 @@ op item edit "HBO Max" `
 
     </div>
 
-    <div class="print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
+    <div class="code-block-fade-overlay print:hidden" fade-overlay="true" aria-hidden="true" style="--fade-color-light:#ffffff;--fade-color-dark:#0B0C0E">
 
     </div>
 
@@ -335,7 +335,7 @@ op item edit "HBO Max" `
 
 
 ``` shiki
-    cat newItem.json | op item edit <item>
+ cat newItem.json | op item edit <item>
 ```
 
 

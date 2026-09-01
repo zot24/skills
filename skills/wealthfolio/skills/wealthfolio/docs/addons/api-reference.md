@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,12 +93,12 @@ Complete reference for Wealthfolio addon APIs.
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 
 # API Reference
 
-Complete reference for APIs available to Wealthfolio addons. All functions require appropriate permissions in `manifest.json`.
+Complete reference for APIs available to Wealthfolio addons. Data and privileged host APIs require appropriate permissions in `manifest.json`; baseline UI, packaged assets, query, storage, toast, and logging capabilities do not.
 
 ## Context Overview
 
@@ -111,6 +111,7 @@ export interface AddonContext {
   };
   sidebar: SidebarAPI;
   router: RouterAPI;
+  assets: AddonAssets;
   onDisable: (callback: () => void) => void;
   api: HostAPI;
 }
@@ -119,11 +120,9 @@ export interface AddonContext {
 Basic usage:
 
 ``` mb-4
-export default function enable(ctx: AddonContext) {
-  // Access APIs from event handlers, effects, or async helpers
-  void ctx.api.accounts.getAll().then((accounts) => {
-    ctx.api.logger.info(`Loaded ${accounts.length} accounts`);
-  });
+export default async function enable(ctx: AddonContext) {
+  const accounts = await ctx.api.accounts.getAll();
+  ctx.api.logger.info(`Loaded ${accounts.length} accounts`);
 
   // UI integration
   ctx.sidebar.addItem({
@@ -133,12 +132,73 @@ export default function enable(ctx: AddonContext) {
     /* ... */
   });
 
+  const logoUrl = await ctx.assets.getUrl('assets/logo.png');
+  ctx.api.logger.debug(`Loaded private asset ${logoUrl}`);
+
   // Cleanup
   ctx.onDisable(() => {
     // cleanup code
   });
 }
 ```
+
+## Packaged Assets API
+
+`ctx.assets` exposes private non-JavaScript/CSS files indexed from `assets/**` and `dist/assets/**`. JavaScript and CSS in those roots remain runtime modules and styles. No manifest asset list or permission is required. This API was added in Wealthfolio 3.7, so addons using it must set `minWealthfolioVersion` to `3.7.0` or newer.
+
+``` mb-4
+interface AddonAsset {
+  path: string;
+  mimeType: string;
+  size: number;
+}
+
+interface AddonAssets {
+  list(): readonly AddonAsset[];
+  has(path: string): boolean;
+  getBlob(path: string): Promise<Blob>;
+  getUrl(path: string): Promise<string>;
+}
+```
+
+### `list(): readonly AddonAsset[]`
+
+Lists public logical paths and metadata. Host filesystem paths and internal opaque identifiers are never exposed.
+
+### `has(path: string): boolean`
+
+Checks a normalized logical package path. Invalid and traversing paths return `false`.
+
+### `getBlob(path: string): Promise<Blob>`
+
+Loads asset bytes lazily and verifies them against the indexed package generation. Concurrent calls share a load; failed calls may be retried.
+
+``` mb-4
+const configBlob = await ctx.assets.getBlob('assets/config.json');
+const config = JSON.parse(await configBlob.text());
+
+const wasmBlob = await ctx.assets.getBlob('dist/assets/module.wasm');
+await WebAssembly.instantiate(await wasmBlob.arrayBuffer());
+```
+
+### `getUrl(path: string): Promise<string>`
+
+Returns a cached Blob URL scoped to the current addon sandbox. Wealthfolio revokes it automatically on reload or disable; never persist it in storage.
+
+``` mb-4
+const logoUrl = await ctx.assets.getUrl('assets/logo.png');
+const fontUrl = await ctx.assets.getUrl('dist/assets/font.woff2');
+```
+
+Packaged CSS resolves local `url(...)` values relative to the CSS file. Root-relative values resolve from the package root, while `data:` and `blob:` values are preserved. Remote CSS URLs and `@import` are rejected. JavaScript and JSX asset strings are not rewritten, so use `getUrl()` for images, fonts, media, and other URL consumers.
+
+Package limits are 256 entries across code and assets, 5 MiB per file, and 25 MiB total. Asset roots must be directories and symlinks are rejected.
+
+Blob URLs may be used by images, fonts, media elements, and WebAssembly. Worker and service-worker entry points, popups, direct network access, and remote CSS imports are intentionally unavailable inside the addon sandbox.
+
+
+`ctx.assets` is the private package registry. The similarly named `ctx.api.assets` domain below reads and updates financial instruments.
+
 
 ## API Domains
 
@@ -152,7 +212,8 @@ The API is organized into host-brokered domains:
 | **Activities**          | Trading transactions    | `getAll`, `create`, `import`, `search`, `update`                          |
 | **Market**              | Market data and symbols | `searchTicker`, `sync`, `getProviders`, `fetchDividends`                  |
 | **Performance**         | Performance metrics     | `calculateHistory`, `calculateSummary`                                    |
-| **Assets**              | Asset profiles          | `getProfile`, `updateProfile`, `updateQuoteMode`                          |
+| **Packaged Assets**     | Private package files   | `list`, `has`, `getBlob`, `getUrl`                                        |
+| **Financial Assets**    | Asset profiles          | `getProfile`, `updateProfile`, `updateQuoteMode`                          |
 | **Quotes**              | Price quotes            | `update`, `getHistory`                                                    |
 | **Goals**               | Financial goals         | `getAll`, `create`, `update`, `getFunding`, `saveFunding`                 |
 | **Contribution Limits** | Investment limits       | `getAll`, `create`, `update`, `calculateDeposits`                         |
@@ -950,7 +1011,7 @@ await ctx.api.storage.delete('prefs');
 
 ## Network API
 
-Send brokered HTTPS requests to hosts declared in `manifest.json`. Browser `fetch` still has normal CORS restrictions and should not be used for secrets or authorization headers.
+Send brokered HTTPS requests to hosts declared in `manifest.json`. The addon iframe has an opaque origin and is intentionally network-free; do not use direct browser `fetch` for addon integrations. The broker enforces approved hosts and injects authorization without exposing the secret value to request-building code.
 
 ### Manifest
 
@@ -1009,6 +1070,7 @@ Network requests are constrained:
 - Redirects are disabled
 - Request bodies are limited to 1 MB
 - Response bodies are limited to 2 MB
+- Response bodies are text. Package binary images, fonts, media, and Wasm with `ctx.assets` instead
 - `Authorization` cannot be supplied in `headers`; use `auth.secretKey`
 - Supported methods: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`
 
@@ -1240,7 +1302,7 @@ const accounts = await queryClient.fetchQuery({
 });
 ```
 
-When the addon calls `invalidateQueries` or `refetchQueries` on this client with a string query key, Wealthfolio mirrors that request to the host cache.
+When the addon calls `invalidateQueries` or `refetchQueries` with a string or string-array query key (directly or in a TanStack Query filters object), Wealthfolio mirrors that request to the host cache. Host-originated invalidations do not mutate the addon cache automatically; subscribe to relevant domain events when the addon must react to changes made elsewhere.
 
 #### `invalidateQueries(queryKey: string | string[]): void`
 
@@ -1274,31 +1336,20 @@ ctx.api.query.refetchQueries(['accounts', 'holdings']);
 Combine Query API with event listeners for reactive data updates:
 
 ``` mb-4
-export default function enable(ctx: AddonContext) {
-  let unlistenPortfolio: (() => void) | undefined;
-  let unlistenMarket: (() => void) | undefined;
-
+export default async function enable(ctx: AddonContext) {
   // Invalidate relevant queries when portfolio updates
-  void ctx.api.events.portfolio
-    .onUpdateComplete(() => {
-      ctx.api.query.invalidateQueries(['portfolio', 'holdings', 'performance']);
-    })
-    .then((unlisten) => {
-      unlistenPortfolio = unlisten;
-    });
+  const unlistenPortfolio = await ctx.api.events.portfolio.onUpdateComplete(() => {
+    ctx.api.query.invalidateQueries(['portfolio', 'holdings', 'performance']);
+  });
 
   // Invalidate market data queries when sync completes
-  void ctx.api.events.market
-    .onSyncComplete(() => {
-      ctx.api.query.invalidateQueries(['quotes', 'assets']);
-    })
-    .then((unlisten) => {
-      unlistenMarket = unlisten;
-    });
+  const unlistenMarket = await ctx.api.events.market.onSyncComplete(() => {
+    ctx.api.query.invalidateQueries(['quotes', 'assets']);
+  });
 
   ctx.onDisable(() => {
-    unlistenPortfolio?.();
-    unlistenMarket?.();
+    unlistenPortfolio();
+    unlistenMarket();
   });
 }
 ```
@@ -1315,7 +1366,7 @@ Prefer declaring sidebar entries in `manifest.json` under `contributes.links.sid
 
 ``` mb-4
 "contributes": {
-  "routes": [{ "id": "my-addon", "path": "/addons/my-addon" }],
+  "routes": [{ "id": "my-addon" }],
   "links": {
     "sidebar": [
       { "id": "my-addon", "route": "my-addon", "label": "My Addon", "icon": "wallet", "order": 100 }
@@ -1324,7 +1375,7 @@ Prefer declaring sidebar entries in `manifest.json` under `contributes.links.sid
 }
 ```
 
-A **route** is a durable addon page (host-renderable before the addon boots — the lazy-activation surface); a **link** is a placement in a host slot (only `"sidebar"` is consumed today) that references a declared `route` id of the same addon. The runtime `router.add({ id })` **must** equal `contributes.routes[].id`.
+A **route** is a durable addon page (host-renderable before the addon boots — the lazy-activation surface); a **link** is a placement in a host slot (only `"sidebar"` is consumed today) that references a declared `route` id of the same addon. The runtime `router.add({ id })` **must** equal `contributes.routes[].id`. Omit `path` for the root at `/addons/<manifest.id>`; nested routes use a relative suffix such as `reports/:year`. Absolute paths, traversal, queries, and fragments are rejected in the manifest.
 
 #### `addItem(item: SidebarItem): SidebarItemHandle`
 
@@ -1483,17 +1534,13 @@ const newActivities = await ctx.api.activities.saveMany({
 ### Real-time Updates
 
 ``` mb-4
-export default function enable(ctx: AddonContext) {
-  const unsubscribers: Array<() => void> = [];
-
+export default async function enable(ctx: AddonContext) {
   // Listen for multiple events
-  void Promise.all([
+  const unsubscribers = await Promise.all([
     ctx.api.events.portfolio.onUpdateComplete(() => refreshData()),
     ctx.api.events.market.onSyncComplete(() => updatePrices()),
     ctx.api.events.import.onDrop((event) => handleImport(event)),
-  ]).then((listeners) => {
-    unsubscribers.push(...listeners);
-  });
+  ]);
 
   // Clean up all listeners
   ctx.onDisable(() => {
@@ -1573,13 +1620,14 @@ const holdings: Holding[] = await ctx.api.portfolio.getHoldings(accounts[0].id);
 ------------------------------------------------------------------------
 
 
-<a href="/docs/addons/getting-started/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Getting Started</a> <a href="/docs/faq/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">FAQ</a>
+<a href="/docs/addons/v3-7-assets/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">v3.7 Compatibility &amp; Assets</a> <a href="/docs/faq/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">FAQ</a>
 
 
 On This Page
 
 - <a href="#api-reference" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">API Reference</a>
   - <a href="#context-overview" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Context Overview</a>
+  - <a href="#packaged-assets-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Packaged Assets API</a>
   - <a href="#api-domains" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">API Domains</a>
   - <a href="#accounts-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Accounts API</a>
   - <a href="#portfolio-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Portfolio API</a>

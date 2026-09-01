@@ -18,13 +18,16 @@ Give your scripts, browser extensions, and AI agents a direct line into your Obs
     + [Cursor](#cursor)
     + [Other clients](#other-clients)
 - [API overview](#api-overview)
+  * [Browser clients and response headers](#browser-clients-and-response-headers)
 - [Patching notes](#patching-notes)
   * [Raw-content mode](#raw-content-mode)
 - [Targeting specific sections](#targeting-specific-sections)
 - [Searching](#searching)
 - [MCP (Model Context Protocol)](#mcp-model-context-protocol)
+  * [Protocol revisions](#protocol-revisions)
   * [Connecting a client](#connecting-a-client)
   * [Available tools](#available-tools)
+  * [Binary files and attachments](#binary-files-and-attachments)
   * [Available resources](#available-resources)
 - [API Extensions](#api-extensions)
   * [Typed extension API](#typed-extension-api)
@@ -47,7 +50,7 @@ Access your vault through the **REST API** or the **built-in [MCP server](https:
 - **Open files in Obsidian** — tell Obsidian to open a specific note in its UI
 - **Extend the API** — other plugins can register their own routes via the [API extension interface](https://github.com/coddingtonbear/obsidian-local-rest-api/wiki/Adding-your-own-API-Routes-via-an-Extension)
 
-All requests are served over HTTPS with a self-signed certificate and gated behind API key authentication.
+All requests are served over HTTPS with a locally generated certificate and gated behind API key authentication.
 
 ## Quick start
 
@@ -79,11 +82,11 @@ curl -k -X PATCH \
   https://127.0.0.1:27124/vault/path/to/note.md
 ```
 
-To avoid certificate warnings, you can download and trust the certificate from `https://127.0.0.1:27124/obsidian-local-rest-api.crt`, or point your HTTP client at it directly.
+To avoid certificate warnings, you can download the plugin's certificate authority from `https://127.0.0.1:27124/obsidian-local-rest-api.crt` and trust it in your OS or browser, or point your HTTP client at it directly (for example `curl --cacert obsidian-local-rest-api.crt ...`). The plugin generates its own certificate authority on first run and serves a server certificate signed by it, so the download is a CA certificate rather than the server certificate itself. That CA is name-constrained: it can only vouch for `127.0.0.1`, `localhost`, your configured binding host, and the hostnames you list under **Subject alternative names**, so trusting it does not let it (or anyone who obtains its key) impersonate other sites.
 
 ### MCP clients
 
-The MCP server runs at `https://127.0.0.1:27124/mcp/` and requires that you provide your bearer token for authentication via an `Authorization` header (i.e. `Authorization: Bearer <your-api-key>`). Because the plugin uses a self-signed certificate, you may need to either trust the certificate in your OS/client, or use the plain HTTP endpoint at `http://127.0.0.1:27123/mcp/` (enable it under **Settings → Local REST API → Enable HTTP server**).
+The MCP server runs at `https://127.0.0.1:27124/mcp/` and requires that you provide your bearer token for authentication via an `Authorization` header (i.e. `Authorization: Bearer <your-api-key>`). Because the plugin uses a locally generated certificate authority, you may need to either trust that certificate in your OS/client, or use the plain HTTP endpoint at `http://127.0.0.1:27123/mcp/` (enable it under **Settings → Local REST API → Enable HTTP server**).
 
 #### Claude Code
 
@@ -172,6 +175,12 @@ Any MCP client that supports the Streamable HTTP transport can connect to `https
 | `/mcp/` | GET POST | MCP (Model Context Protocol) server — connect AI agents directly to your vault |
 
 For full request/response details, see the [interactive docs](https://coddingtonbear.github.io/obsidian-local-rest-api/).
+
+### Browser clients and response headers
+
+Several endpoints answer in a response header rather than in the body: `Content-Location` tells you where a write actually landed, `Markdown-Patch-Warnings` reports what a `PATCH` had to work around, `Deprecation` warns that a format is sunsetting, and `Mcp-Session-Id` carries the session for a sessionful MCP connection.
+
+Browsers hide response headers from JavaScript unless the server opts them in, so the API sends `Access-Control-Expose-Headers: *` and all of them are readable with `response.headers.get(...)`. Safari honours the wildcard from 15.4 onward; older browsers see only the [CORS-safelisted headers](https://developer.mozilla.org/en-US/docs/Glossary/CORS-safelisted_response_header). Requests made with `credentials: "include"` are not supported — the API authenticates with a bearer token and sends `Access-Control-Allow-Origin: *`, which browsers reject for credentialed requests.
 
 ## Patching notes
 
@@ -287,6 +296,14 @@ The plugin includes a built-in MCP server at `/mcp/` so AI agents and MCP-compat
 
 **Transport:** Streamable HTTP — API key authentication required.
 
+### Protocol revisions
+
+The endpoint serves the `2026-07-28` revision plus the sessionful revisions from `2024-10-07` through `2025-11-25`, choosing per request, so clients on either can share it.
+
+The `2026-07-28` revision is stateless: there is no `initialize` handshake and no session, so the plugin neither issues nor reads the `Mcp-Session-Id` header. Each request carries its own protocol version and client identity in `params._meta`, repeats them in the `MCP-Protocol-Version`, `Mcp-Method`, and `Mcp-Name` headers, and is answered on its own. Clients can call `server/discover` to learn the supported revisions and capabilities up front.
+
+Clients that open with an `initialize` request are served the sessionful revision they negotiate: the handshake returns an `Mcp-Session-Id`, `GET /mcp/` opens that session's notification stream, and `DELETE /mcp/` ends it. Sessions exist only on this path, and they are what keeps the handshake's `listChanged` capabilities honest: when another plugin registers or removes an MCP tool, every live session is notified, while `2026-07-28` clients hear about it on a `subscriptions/listen` stream.
+
 ### Connecting a client
 
 Connect your MCP client to `https://127.0.0.1:27124/mcp/`. Authentication uses a bearer token — find your API key under **Settings → Local REST API**, then pass it as:
@@ -298,9 +315,9 @@ Authorization: Bearer <your-api-key>
 The exact config syntax varies by client; see the [Quick start](#mcp-clients) examples above or consult your client's documentation for Streamable HTTP remote MCP servers.
 
 > [!WARNING]
-> To connect to the MCP server securely, your client must trust the plugin's self-signed certificate. You can download and trust it from `https://127.0.0.1:27124/obsidian-local-rest-api.crt`, or configure your client to skip TLS verification for `127.0.0.1`.
+> To connect to the MCP server securely, your client must trust the plugin's locally generated certificate authority. You can download and trust it from `https://127.0.0.1:27124/obsidian-local-rest-api.crt`, or configure your client to skip TLS verification for `127.0.0.1`.
 >
-> If trusting a self-signed certificate is not possible in your environment, you can connect insecurely using `http://127.0.0.1:27123/mcp/`
+> If trusting a locally generated certificate is not possible in your environment, you can connect insecurely using `http://127.0.0.1:27123/mcp/`
 > instead of `https://127.0.0.1:27124/mcp/` if you have enabled the HTTP endpoint under **Settings → Local REST API → Enable HTTP server**.
 
 ### Available tools
@@ -308,8 +325,10 @@ The exact config syntax varies by client; see the [Quick start](#mcp-clients) ex
 | Tool | Description |
 |---|---|
 | `vault_list` | List files and subdirectories inside a vault directory |
-| `vault_read` | Read a file's content, frontmatter, tags, and stat |
+| `vault_read` | Read a text file's content, frontmatter, tags, and stat; refuses anything that is not valid UTF-8 |
+| `vault_read_binary` | Read a file as raw bytes, base64-encoded, for attachments `vault_read` would corrupt |
 | `vault_write` | Create or overwrite a vault file |
+| `vault_write_binary` | Create or overwrite a vault file from base64-encoded raw bytes |
 | `vault_append` | Append content to the end of a vault file |
 | `vault_patch` | Patch a specific heading, block reference, or frontmatter field |
 | `vault_delete` | Delete a vault file (moves to trash by default) |
@@ -323,6 +342,16 @@ The exact config syntax varies by client; see the [Quick start](#mcp-clients) ex
 | `command_list` | List all registered Obsidian commands |
 | `command_execute` | Execute an Obsidian command by ID |
 | `open_file` | Open a file in the Obsidian UI |
+
+### Binary files and attachments
+
+The REST API has always handled binary content: `GET /vault/<path>` returns raw bytes with a `Content-Type` derived from the file extension, and `PUT /vault/<path>` accepts a body of any content type and stores it byte-for-byte. Neither has a practical size limit.
+
+MCP tools are a different story, because a tool's arguments and results pass through the model. `vault_read` and `vault_write` are text tools — they decode and encode UTF-8, which is lossy for anything that is not text — so reading an attachment with `vault_read` and writing the result back destroys the file. `vault_read_binary` and `vault_write_binary` exist for those files, and carry the bytes base64-encoded.
+
+`vault_write_binary` refuses a payload it cannot decode cleanly rather than writing the bytes it managed to salvage.
+
+Because base64 costs roughly 0.35-0.45 tokens per byte of context, both binary tools refuse files over 1 MiB. That ceiling is a context guard, not a storage limit — move larger attachments over the REST endpoints above.
 
 ### Available resources
 

@@ -2,8 +2,8 @@
 
 ---
 title: Twilio
-description: Twilio SMS and MMS adapter for Chat SDK.
-tagline: Build SMS and MMS bots with Twilio Messaging webhooks and the Messages API.
+description: Twilio SMS, MMS, and RCS adapter for Chat SDK.
+tagline: Build SMS, MMS, and RCS bots with Twilio Messaging webhooks and the Messages API.
 package: @chat-adapter/twilio
 ---
 
@@ -70,6 +70,60 @@ createTwilioAdapter({
   webhookUrl: "https://your-domain.com/api/webhooks/twilio",
 });
 ```
+
+## RCS setup
+
+
+  RCS uses the same webhook URL and adapter as SMS/MMS — no separate endpoint is needed.
+
+
+To enable RCS rich messaging:
+
+1. **Register an RCS Sender** in the Twilio Console under Messaging → RCS Senders. Carrier approval typically takes 4–6 weeks.
+2. **Add the RCS Sender and an SMS phone number** to a Messaging Service so Twilio can auto-fallback to SMS when RCS is unavailable.
+3. **Set `TWILIO_MESSAGING_SERVICE_SID`** to the Messaging Service SID (starts with `MG`).
+4. Point the Messaging Service webhook to the same URL as your SMS webhook — the adapter handles both channels.
+
+When an RCS-capable sender is detected (`MG…` Messaging Service or `rcs:` address), the adapter automatically:
+
+* Sends cards as Twilio Content API templates (rich cards with buttons) over RCS
+* Includes an SMS text fallback in every template so non-RCS recipients get a usable message
+* Routes inbound taps of buttons rendered by Chat SDK to `onAction` handlers
+
+Inbound RCS messages are keyed to the Messaging Service (or configured RCS sender), so replies go back out over RCS. Plain SMS threads keep their phone-number thread ids even when the number belongs to a Messaging Service, and `openDM` prefers `phoneNumber` over `messagingServiceSid` and `rcsSenderId`, so enabling RCS does not change the thread ids of existing conversations.
+
+Button taps from templates that Chat SDK did not send (for example Studio flows or pre-created WhatsApp templates) are not turned into actions: when they carry a message body they arrive as regular messages, matching the adapter's behavior before RCS support.
+
+### Handling button taps
+
+```typescript title="lib/bot.ts" lineNumbers
+bot.onAction(async (action) => {
+  if (action.actionId === "approve") {
+    await action.thread.post(`Approved: ${action.value}`);
+  }
+});
+```
+
+### Sending rich cards
+
+```typescript title="send-card.ts" lineNumbers
+import { Actions, Button, Card, CardText } from "chat";
+
+await thread.post({
+  card: Card({
+    title: "Deploy v1.2.3",
+    children: [
+      CardText("Ready to deploy to production?"),
+      Actions([
+        Button({ id: "approve", label: "Approve", value: "v1.2.3" }),
+        Button({ id: "reject", label: "Reject" }),
+      ]),
+    ],
+  }),
+});
+```
+
+Over RCS, this renders as a rich card with tappable buttons. Over SMS, it falls back to plain text.
 
 ## Media
 
@@ -150,8 +204,10 @@ For live calls, `updateTwilioCall()` in `@chat-adapter/twilio/api` can post repl
 ### Notes
 
 * Twilio does not support message edits, reactions, modals, or typing indicators for SMS.
-* Cards render as plain text fallback. Buttons and select menus are not interactive over SMS.
+* Cards render as rich RCS content when the sender is a Messaging Service (`MG…`) or RCS address; otherwise they fall back to plain text.
+* RCS read receipts (`EventType=READ`) are parsed and logged but not surfaced to Chat SDK handlers (no delivery API exists today).
 * `fetchMessages` uses the Messages API and is best for phone-number based threads. Messaging Service history can be less precise because inbound webhooks identify the receiving phone number, not only the Messaging Service SID.
+* Content templates are created on demand and reused by a stable name derived from the card's content, so identical cards share one template across restarts. Cards that embed changing values (timestamps, order ids, user names) produce a new template per unique body, and Twilio keeps Content resources until you delete them. Keep card bodies stable, or pre-create templates, for high-volume use.
 
 ## Feature support
 

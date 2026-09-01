@@ -560,6 +560,18 @@
       "target": "skills/chat-sdk/docs/contributing-vendor-official.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/api/history.md",
+      "target": "skills/chat-sdk/docs/api-history.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/docs/history.md",
+      "target": "skills/chat-sdk/docs/history.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache"

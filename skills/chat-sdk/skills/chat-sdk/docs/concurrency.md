@@ -159,14 +159,15 @@ const bot = new Chat({
 
 ### All options
 
-| Option            | Strategies             | Default         | Description                                                                      |
-| ----------------- | ---------------------- | --------------- | -------------------------------------------------------------------------------- |
-| `strategy`        | all                    | `"drop"`        | The concurrency strategy to use                                                  |
-| `maxQueueSize`    | queue, burst           | `10`            | Maximum queued messages per thread                                               |
-| `onQueueFull`     | queue, burst           | `"drop-oldest"` | Whether to evict the oldest or reject the newest message when the queue is full  |
-| `queueEntryTtlMs` | queue, debounce, burst | `90000`         | TTL for queued entries in milliseconds. Expired entries are discarded on dequeue |
-| `debounceMs`      | debounce, burst        | `1500`          | Debounce window in milliseconds                                                  |
-| `maxConcurrent`   | concurrent             | `Infinity`      | Max concurrent handlers per thread                                               |
+| Option              | Strategies                   | Default         | Description                                                                                                                                                                   |
+| ------------------- | ---------------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `strategy`          | all                          | `"drop"`        | The concurrency strategy to use                                                                                                                                               |
+| `maxQueueSize`      | queue, burst                 | `10`            | Maximum queued messages per thread                                                                                                                                            |
+| `onQueueFull`       | queue, burst                 | `"drop-oldest"` | Whether to evict the oldest or reject the newest message when the queue is full                                                                                               |
+| `queueEntryTtlMs`   | queue, debounce, burst       | `90000`         | TTL for queued entries in milliseconds. Expired entries are discarded on dequeue                                                                                              |
+| `debounceMs`        | debounce, burst              | `1500`          | Debounce window in milliseconds                                                                                                                                               |
+| `maxLockLifetimeMs` | drop, queue, debounce, burst | `600000`        | Max total time one handler run may keep renewing its thread lock. After this, renewal stops and the lock lapses at its TTL, so a hung handler cannot block the thread forever |
+| `maxConcurrent`     | concurrent                   | `Infinity`      | Max concurrent handlers per thread                                                                                                                                            |
 
 
   `maxConcurrent` only applies to the `concurrent` strategy. Pairing it with any other strategy logs a warning and the value is ignored. Setting `maxConcurrent` to a value less than `1` throws at construction time — `0` would deadlock the strategy and is rejected up front.
