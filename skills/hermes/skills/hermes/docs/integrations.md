@@ -33,27 +33,26 @@ Hermes supports multiple AI inference providers out of the box. Use `hermes mode
 
 The `web_search` and `web_extract` tools support eight backend providers, configured via `config.yaml` or `hermes tools`:
 
-| Backend                 | Env Var                     | Search | Extract | Crawl |
-|-------------------------|-----------------------------|--------|---------|-------|
-| **Firecrawl** (default) | `FIRECRAWL_API_KEY`         | ✔      | ✔       | ✔     |
-| **SearXNG**             | `SEARXNG_URL`               | ✔      | —       | —     |
-| **Brave** (free tier)   | `BRAVE_SEARCH_API_KEY`      | ✔      | —       | —     |
-| **DuckDuckGo** (ddgs)   | *(none)*                    | ✔      | —       | —     |
-| **Tavily**              | `TAVILY_API_KEY` (optional) | ✔      | ✔       | —     |
-| **Exa**                 | `EXA_API_KEY`               | ✔      | ✔       | —     |
-| **Parallel**            | `PARALLEL_API_KEY`          | ✔      | ✔       | —     |
-| **xAI**                 | `XAI_API_KEY`               | ✔      | —       | —     |
+| Backend                 | Env Var                | Search | Extract | Crawl |
+|-------------------------|------------------------|--------|---------|-------|
+| **Firecrawl** (default) | `FIRECRAWL_API_KEY`    | ✔      | ✔       | ✔     |
+| **SearXNG**             | `SEARXNG_URL`          | ✔      | —       | —     |
+| **Brave** (free tier)   | `BRAVE_SEARCH_API_KEY` | ✔      | —       | —     |
+| **DuckDuckGo** (ddgs)   | *(none)*               | ✔      | —       | —     |
+| **Exa**                 | `EXA_API_KEY`          | ✔      | ✔       | —     |
+| **Parallel**            | `PARALLEL_API_KEY`     | ✔      | ✔       | —     |
+| **xAI**                 | `XAI_API_KEY`          | ✔      | —       | —     |
 
 Quick setup example:
 
 
 ``` prism-code
 web:
-  backend: firecrawl    # firecrawl | searxng | brave-free | ddgs | tavily | exa | parallel | xai
+  backend: firecrawl    # firecrawl | searxng | brave-free | ddgs | keenable | exa | parallel | xai
 ```
 
 
-If `web.backend` is not set, the backend is auto-detected from whichever API key is available. Self-hosted Firecrawl is also supported via `FIRECRAWL_API_URL`. Selecting Tavily in `hermes tools` works without a key.
+If `web.backend` is not set, the backend is auto-detected from whichever API key is available. Self-hosted Firecrawl is also supported via `FIRECRAWL_API_URL`.
 
 ## Browser Automation<a href="#browser-automation" class="hash-link" aria-label="Direct link to Browser Automation" translate="no" title="Direct link to Browser Automation">​</a>
 
