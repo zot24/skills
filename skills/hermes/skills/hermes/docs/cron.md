@@ -33,6 +33,8 @@ All of this is available to Hermes itself through the `cronjob` tool, so you can
 - **`cron.model` / `cron.model_provider`** — a cron-fleet default: every unpinned job runs on this model, independent of your chat model. Set it once (`hermes config set cron.model <name>`) and switching your chat model with `hermes model` or `/model` never touches your cron fleet.
 - **Global default** — only when neither of the above is set does a job follow `hermes model`. In this case Hermes **snapshots** the provider and model at creation, and if the global default later changes the job **fails closed**: it skips the run, makes no inference call, and alerts you **once** — the job stays skipped (and silent) on subsequent ticks until you act or the config is restored (#44585). For recurring or otherwise repeatable jobs, pin the provider/model explicitly (`hermes cron edit <job_id> --provider <provider> --model <model>`) to proceed. A consumed finite one-shot cannot be updated; create a new future one-shot with an explicit provider and model instead. This prevents an unattended job from silently inheriting a switch to a paid provider/model. Setting `cron.model` (or a per-job pin) is the deliberate way to route cron spend, and the drift guard does not engage for an axis covered by it. Operators who instead want unpinned jobs to track the changing global default can [disable the drift guard](#letting-unpinned-jobs-track-global-defaults).
 
+Whichever provider a job resolves to, its provider-specific request settings (e.g. `request_overrides` such as `extra_body`/`extra_headers` for custom providers) carry into the scheduled run just like an interactive session.
+
 `hermes setup --portal` is the lowest-friction option for unattended runs since OAuth refresh is automatic. See [Nous Portal](/docs/integrations/nous-portal).
 
 
@@ -48,7 +50,7 @@ Cron-run sessions cannot recursively create more cron jobs. Hermes disables cron
 
 
 ``` prism-code
-/cron add 30m "Remind me to check the build"
+/cron add "in 30m" "Remind me to check the build"
 /cron add "every 2h" "Check server status"
 /cron add "every 1h" "Summarize new feed items" --skill blogwatcher
 /cron add "every 1h" "Use both skills and combine the result" --skill blogwatcher --skill maps
@@ -194,7 +196,7 @@ When `workdir` is set:
 - Pass `--workdir ""` (or `workdir=""` via the tool) on edit to clear it and restore the old behaviour
 
 
-Jobs with a `workdir` run sequentially on the scheduler tick, not in the parallel pool. This is deliberate: the cron worker applies the job workdir through process-global terminal state, so two workdir jobs running at the same time would corrupt each other's cwd. Workdir-less jobs still run in parallel as before.
+Each agent run binds its `workdir` to that run's unique task identity. Workdir jobs therefore use the normal parallel pool without mutating process-global terminal state or leaking paths between concurrent runs. Set `cron.max_parallel_jobs` if you want to limit total cron concurrency.
 
 
 ## Editing jobs<a href="#editing-jobs" class="hash-link" aria-label="Direct link to Editing jobs" translate="no" title="Direct link to Editing jobs">​</a>
@@ -359,6 +361,27 @@ Acknowledging an incident silences the per-run failure ping for that exact signa
 Incident lifecycle: `detected` (failure recorded) → `alerted` (at least one failure ping reached delivery) → `closed` (acknowledged; terminal for that signature). Stored error text is secret-redacted and truncated before it is written.
 
 Recording is always on and costs nothing to ignore — no ping is ever suppressed until you explicitly `ack`.
+
+### Fleet health check: `hermes cron doctor`<a href="#fleet-health-check-hermes-cron-doctor" class="hash-link" aria-label="Direct link to fleet-health-check-hermes-cron-doctor" translate="no" title="Direct link to fleet-health-check-hermes-cron-doctor">​</a>
+
+`hermes cron doctor` is a read-only health check over every active job. It prints grouped, per-job issues and exits `1` when anything actionable is found (`0` when healthy), so it works from a terminal, a watchdog script, or a CI-style smoke check:
+
+
+``` prism-code
+hermes cron doctor
+```
+
+
+Checks per active job:
+
+- last run failed (`last_status` not ok, with the recorded error),
+- last delivery failed (the output was produced but never reached you),
+- `next_run_at` missing, or parked in the past beyond a 15-minute ticker grace window — the "job is silently not firing" signal (scheduler dead, gateway down, or a wedged fire-claim),
+- script missing, not a file, or resolving outside `HERMES_HOME/scripts`,
+- `no_agent` job with no script,
+- configured `workdir` that no longer exists.
+
+Doctor never mutates jobs or state — it only reports. Pair it with `hermes cron incidents` (durable failure records) and `hermes cron runs` (attempt ledger) when digging into a flagged job.
 
 ## Delivery options<a href="#delivery-options" class="hash-link" aria-label="Direct link to Delivery options" translate="no" title="Direct link to Delivery options">​</a>
 
@@ -746,9 +769,9 @@ The agent's final response is automatically delivered to the job's `deliver:` ta
 
 
 ``` prism-code
-30m     → Run once in 30 minutes
-2h      → Run once in 2 hours
-1d      → Run once in 1 day
+in 30m  → Run once in 30 minutes
+in 2h   → Run once in 2 hours
+in 1d   → Run once in 1 day
 ```
 
 
@@ -756,11 +779,28 @@ The agent's final response is automatically delivered to the job's `deliver:` ta
 
 
 ``` prism-code
+30m          → Every 30 minutes (bare durations are recurring)
 every 30m    → Every 30 minutes
 every 2h     → Every 2 hours
 every 1d     → Every day
+every hour   → Every hour (bare unit = 1)
 ```
 
+
+### Natural day/time schedules (recurring)<a href="#natural-daytime-schedules-recurring" class="hash-link" aria-label="Direct link to Natural day/time schedules (recurring)" translate="no" title="Direct link to Natural day/time schedules (recurring)">​</a>
+
+
+``` prism-code
+every monday 9am         → Weekly, Mondays at 9:00 AM
+every day at 9am         → Daily at 9:00 AM
+weekdays at 9am          → Weekdays at 9:00 AM
+weekends at 10am         → Saturdays and Sundays at 10:00 AM
+daily at 7am             → Daily at 7:00 AM
+monday, wednesday at 9am → Mondays and Wednesdays at 9:00 AM
+```
+
+
+Times accept `9am`, `9:30pm`, `14:00`, bare 24-hour hours (`at 7`), `noon`, and `midnight`. These forms compile to cron expressions internally (they require the `croniter` package, installed by default).
 
 ### Cron expressions<a href="#cron-expressions" class="hash-link" aria-label="Direct link to Cron expressions" translate="no" title="Direct link to Cron expressions">​</a>
 
@@ -768,6 +808,7 @@ every 1d     → Every day
 ``` prism-code
 0 9 * * *       → Daily at 9:00 AM
 0 9 * * 1-5     → Weekdays at 9:00 AM
+0 9 * * MON-FRI → Weekdays at 9:00 AM (named weekdays/months accepted)
 0 */6 * * *     → Every 6 hours
 30 8 1 * *      → First of every month at 8:30 AM
 0 0 * * 0       → Every Sunday at midnight
@@ -784,11 +825,11 @@ every 1d     → Every day
 
 ## Repeat behavior<a href="#repeat-behavior" class="hash-link" aria-label="Direct link to Repeat behavior" translate="no" title="Direct link to Repeat behavior">​</a>
 
-| Schedule type               | Default repeat | Behavior           |
-|-----------------------------|----------------|--------------------|
-| One-shot (`30m`, timestamp) | 1              | Runs once          |
-| Interval (`every 2h`)       | forever        | Runs until removed |
-| Cron expression             | forever        | Runs until removed |
+| Schedule type                  | Default repeat | Behavior           |
+|--------------------------------|----------------|--------------------|
+| One-shot (`in 30m`, timestamp) | 1              | Runs once          |
+| Interval (`every 2h`)          | forever        | Runs until removed |
+| Cron expression                | forever        | Runs until removed |
 
 You can override it:
 
@@ -1046,6 +1087,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#execution-history" class="table-of-contents__link toc-highlight">Execution history</a>
   - <a href="#repeated-failure-review-nudge" class="table-of-contents__link toc-highlight">Repeated-failure review nudge</a>
   - <a href="#failure-incidents-acknowledge-a-known-failure" class="table-of-contents__link toc-highlight">Failure incidents: acknowledge a known failure</a>
+  - <a href="#fleet-health-check-hermes-cron-doctor" class="table-of-contents__link toc-highlight">Fleet health check: <code>hermes cron doctor</code></a>
 - <a href="#delivery-options" class="table-of-contents__link toc-highlight">Delivery options</a>
   - <a href="#bot-chat-delivery-bot-chat" class="table-of-contents__link toc-highlight">Bot Chat delivery (<code>bot-chat</code>)</a>
   - <a href="#routing-intent-all" class="table-of-contents__link toc-highlight">Routing intent (<code>all</code>)</a>
@@ -1065,6 +1107,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
 - <a href="#schedule-formats" class="table-of-contents__link toc-highlight">Schedule formats</a>
   - <a href="#relative-delays-one-shot" class="table-of-contents__link toc-highlight">Relative delays (one-shot)</a>
   - <a href="#intervals-recurring" class="table-of-contents__link toc-highlight">Intervals (recurring)</a>
+  - <a href="#natural-daytime-schedules-recurring" class="table-of-contents__link toc-highlight">Natural day/time schedules (recurring)</a>
   - <a href="#cron-expressions" class="table-of-contents__link toc-highlight">Cron expressions</a>
   - <a href="#iso-timestamps" class="table-of-contents__link toc-highlight">ISO timestamps</a>
 - <a href="#repeat-behavior" class="table-of-contents__link toc-highlight">Repeat behavior</a>

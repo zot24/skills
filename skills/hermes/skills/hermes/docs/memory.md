@@ -332,6 +332,21 @@ With `enabled: false`, automatic post-turn forks do not spawn; manual `/refine` 
 
 Fork usage is persisted in `session_model_usage` with `task='background_review'` and a completion line is written to `agent.log` (`Background review complete: thread=bg-review calls=… in=… out=… result=…`).
 
+### Allowing a narrowly scoped extra review tool (`extra_tools`)<a href="#allowing-a-narrowly-scoped-extra-review-tool-extra_tools" class="hash-link" aria-label="Direct link to allowing-a-narrowly-scoped-extra-review-tool-extra_tools" translate="no" title="Direct link to allowing-a-narrowly-scoped-extra-review-tool-extra_tools">​</a>
+
+Background review can use memory, skill-management, and read-only file tools by default. If a profile provides another tool that is safe for unattended review, opt it in by name:
+
+
+``` prism-code
+auxiliary:
+  background_review:
+    extra_tools:
+      - propose_shared_memory
+```
+
+
+The tool must already be available to the parent agent; this setting only adds it to the review fork's runtime whitelist. It does not enable arbitrary tools, and tools not listed here remain denied. Keep the list narrow and prefer tools that stage a proposal for human review rather than applying external or destructive changes directly. The default is an empty list.
+
 ## Controlling skill writes (`skills.write_approval`)<a href="#controlling-skill-writes-skillswrite_approval" class="hash-link" aria-label="Direct link to controlling-skill-writes-skillswrite_approval" translate="no" title="Direct link to controlling-skill-writes-skillswrite_approval">​</a>
 
 Skills use the same on/off gate, but the review UX differs because a `SKILL.md` is far too large to read in a chat bubble:
@@ -396,6 +411,7 @@ See the [Memory Providers](/docs/user-guide/features/memory-providers) guide for
 - <a href="#background-review-notifications-displaymemory_notifications" class="table-of-contents__link toc-highlight">Background review notifications (<code>display.memory_notifications</code>)</a>
 - <a href="#running-the-review-on-a-cheaper-model-auxiliarybackground_review" class="table-of-contents__link toc-highlight">Running the review on a cheaper model (<code>auxiliary.background_review</code>)</a>
   - <a href="#disabling-automatic-reviews-enabled" class="table-of-contents__link toc-highlight">Disabling automatic reviews (<code>enabled</code>)</a>
+  - <a href="#allowing-a-narrowly-scoped-extra-review-tool-extra_tools" class="table-of-contents__link toc-highlight">Allowing a narrowly scoped extra review tool (<code>extra_tools</code>)</a>
 - <a href="#controlling-skill-writes-skillswrite_approval" class="table-of-contents__link toc-highlight">Controlling skill writes (<code>skills.write_approval</code>)</a>
 - <a href="#external-memory-providers" class="table-of-contents__link toc-highlight">External Memory Providers</a>
 
