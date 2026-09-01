@@ -1,6 +1,6 @@
 {
   "name": "firecrawl",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Firecrawl — web scraping, crawling, search, and browser automation API for AI agents",
   "sources": [
     {
