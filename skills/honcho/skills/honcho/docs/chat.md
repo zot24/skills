@@ -113,10 +113,16 @@ session:
   ```
 </CodeGroup>
 
-To scope a request to a *set* of sessions, use the session allowlist — a
+To restrict a request to a *set* of sessions, use the session allowlist — a
 constrained `filters` body on the endpoint. See
 [Scoping Recall to Sessions](/docs/v3/documentation/features/advanced/using-filters#scoping-recall-to-sessions)
 for the accepted shapes and for what an allowlist changes about the answer.
+
+Pass `scope="therapy"` to answer from that [scope](/docs/v3/documentation/features/advanced/scopes)'s
+own representation of the peer. A list (`scope=["therapy", "intake"]`) is an
+allowlist of those scopes' sessions, not named-scope depth.
+`honcho.chat(scope=)` is always the allowlist arm, even with one name. Details
+are on the [scopes page](/docs/v3/documentation/features/advanced/scopes#the-two-arms).
 
 ## Structured Outputs
 

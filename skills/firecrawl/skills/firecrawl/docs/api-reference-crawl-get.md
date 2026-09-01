@@ -137,6 +137,122 @@ components:
             properties:
               markdown:
                 type: string
+              pages:
+                type: array
+                nullable: true
+                description: >-
+                  Physical per-page markdown for PDFs. Present only when the
+                  request set the `pages` PDF parser option.
+                items:
+                  type: object
+                  properties:
+                    pageNumber:
+                      type: integer
+                      description: 1-based physical PDF page number.
+                    markdown:
+                      type: string
+              blocks:
+                type: array
+                nullable: true
+                description: >-
+                  Per-page typed layout blocks for PDFs. Present only when the
+                  request set the `blocks` PDF parser option.
+                items:
+                  type: object
+                  properties:
+                    pageNumber:
+                      type: integer
+                      description: 1-based physical PDF page number.
+                    width:
+                      type: number
+                      nullable: true
+                      description: >-
+                        Page render width in px — the anchor for denormalizing
+                        bbox coordinates. Null for pages that never rendered.
+                    height:
+                      type: number
+                      nullable: true
+                      description: >-
+                        Page render height in px. Null for pages that never
+                        rendered.
+                    status:
+                      type: string
+                      description: 'Page-level rollup: ok | partial | failed.'
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            description: >-
+                              Stable within a response: p<page>.b<index in
+                              reading order>.
+                          type:
+                            type: string
+                            description: >-
+                              Block type: title, section_header, text, table,
+                              formula, figure, caption, page_number,
+                              page_header, page_footer. New types may appear
+                              over time.
+                          label:
+                            type: string
+                            nullable: true
+                            description: >-
+                              Raw layout-model label, passthrough for forward
+                              compatibility.
+                          bbox:
+                            type: array
+                            nullable: true
+                            minItems: 4
+                            maxItems: 4
+                            items:
+                              type: number
+                            description: >-
+                              [x0, y0, x1, y1] normalized 0-1 relative to the
+                              page width/height. Multiply by the page
+                              width/height to get pixel coordinates. Null when
+                              the page has no known dimensions.
+                          content:
+                            type: string
+                            description: >-
+                              Markdown fragment this block contributed to the
+                              document markdown.
+                          markdownSpan:
+                            type: array
+                            nullable: true
+                            minItems: 2
+                            maxItems: 2
+                            items:
+                              type: integer
+                            description: >-
+                              [start, end) character offsets into the document
+                              markdown covering this block's fragment. Null when
+                              a post-processing transform rewrote the fragment.
+                          readingOrder:
+                            type: integer
+                          source:
+                            type: string
+                            nullable: true
+                            description: >-
+                              Pipeline path that produced the block (for example
+                              native_text, layout_ocr, tsr, formula_model,
+                              full_page).
+                          confidence:
+                            type: object
+                            properties:
+                              layout:
+                                type: number
+                                nullable: true
+                                description: >-
+                                  Layout-model detection score (0-1). Null when
+                                  the page bypassed layout analysis.
+                              ocr:
+                                type: number
+                                nullable: true
+                                description: >-
+                                  Text confidence when the source path provides
+                                  one; null otherwise.
               html:
                 type: string
                 nullable: true
@@ -145,6 +261,13 @@ components:
                 type: string
                 nullable: true
                 description: Raw HTML content of the page if `includeRawHtml`  is true
+              rawBase64:
+                type: string
+                nullable: true
+                description: >-
+                  The Base64-encoded original HTTP response body if `rawBase64`
+                  is in `formats`. A bare Base64 string, not a data URI. The
+                  MIME type is in `metadata.contentType`.
               links:
                 type: array
                 items:

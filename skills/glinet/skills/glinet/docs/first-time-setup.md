@@ -24,6 +24,8 @@ gl-inet/docs4.x
 
 <a href="../produce_a_wired_connection/" class="md-nav__link"><span class="md-ellipsis"> Connect Ethernet-only device to Wi-Fi </span></a>
 
+<a href="../connecting_10g_sfp_plus_port_on_flint4/" class="md-nav__link"><span class="md-ellipsis"> Connecting 10G SFP+ port on Flint 4 </span></a>
+
 
 <a href="../../tutorials/" class="md-nav__link"><span class="md-ellipsis"> Tutorials </span></a> <span class="md-nav__icon md-icon"></span>
 

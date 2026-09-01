@@ -1508,6 +1508,96 @@
       "target": "skills/firecrawl/docs/partner-credits.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/en/v2.md",
+      "target": "skills/firecrawl/docs/_llms-v2.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/es.md",
+      "target": "skills/firecrawl/docs/es.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/es/v2.md",
+      "target": "skills/firecrawl/docs/_llms-v2.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/es/v2/documentacion.md",
+      "target": "skills/firecrawl/docs/_llms-documentacion.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/fr.md",
+      "target": "skills/firecrawl/docs/fr.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/fr/v2.md",
+      "target": "skills/firecrawl/docs/_llms-v2.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/fr/v2/documentation.md",
+      "target": "skills/firecrawl/docs/_llms-documentation.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/ja.md",
+      "target": "skills/firecrawl/docs/ja.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/ja/v2.md",
+      "target": "skills/firecrawl/docs/_llms-v2.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/pt-br.md",
+      "target": "skills/firecrawl/docs/pt-br.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/pt-br/v2.md",
+      "target": "skills/firecrawl/docs/_llms-v2.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/pt-br/v2/documentacao.md",
+      "target": "skills/firecrawl/docs/_llms-documentacao.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/zh.md",
+      "target": "skills/firecrawl/docs/zh.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/zh/v2.md",
+      "target": "skills/firecrawl/docs/_llms-v2.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/migrate-to-v2.md",
+      "target": "skills/firecrawl/docs/migrate-to-v2.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

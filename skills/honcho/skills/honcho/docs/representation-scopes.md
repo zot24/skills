@@ -4,9 +4,9 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Representation Scopes
+# Directional Representations
 
-> Advanced configuration and querying for representations
+> How peers build and query representations of other peers
 
 Assuming reasoning is enabled, you can control the perspectives representations are built from. This page covers:
 
@@ -220,7 +220,7 @@ The `target` parameter also works with the chat endpoint:
 Under the hood, Honcho stores representations as (observer, observed) pairs in internal collections:
 
 * **Collection**: A unique (observer, observed, workspace) tuple containing documents
-* **Documents**: Individual conclusions and artifacts (deductive, inductive, abductive conclusions, summaries, peer cards) with session scoping
+* **Documents**: Individual conclusions and artifacts (deductive, inductive, abductive conclusions, summaries, peer cards) with per-session filtering
 
 When you retrieve with `target`, Honcho fetches documents from the specific (observer, observed) collection. When you retrieve without `target`, it fetches from the (peer, peer) collection—the peer's self-representation.
 
@@ -232,7 +232,7 @@ This architecture enables:
 
 ## Semantic Search Parameters
 
-Both `representation()` and `chat()` support semantic filtering to retrieve a subset of relevant conclusions. You can optionally filter by session — pass `session` to scope to a single session, or use the REST-only [session allowlist](/docs/v3/documentation/features/advanced/using-filters#scoping-recall-to-sessions) to scope to a set of sessions:
+Both `representation()` and `chat()` support semantic filtering to retrieve a subset of relevant conclusions. You can optionally filter by session — pass `session` to restrict to a single session, or use the REST-only [session allowlist](/docs/v3/documentation/features/advanced/using-filters#scoping-recall-to-sessions) to restrict to a set of sessions:
 
 | Parameter               | Type    | Description                               |
 | ----------------------- | ------- | ----------------------------------------- |
@@ -272,7 +272,7 @@ Directional representations update automatically through the reasoning pipeline 
 2. The message sender has `observe_me=true` (or session-level equivalent)
 3. Other peers in the session have `observe_others=true`
 
-The pipeline respects scoping—Honcho's representations reason over messages across all sessions, while directional representations only reason over messages from sessions where the observer was an active participant.
+The pipeline respects these boundaries—Honcho's representations reason over messages across all sessions, while directional representations only reason over messages from sessions where the observer was an active participant.
 
 ### Peer Join Order Matters
 

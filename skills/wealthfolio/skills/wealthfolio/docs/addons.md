@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,10 +93,10 @@ Learn how to build addons for Wealthfolio to extend its functionality with custo
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 
-Wealthfolio addons are TypeScript modules that extend the application’s functionality through a sandboxed runtime. This guide covers how to build, test, and distribute addons for Wealthfolio 3.6 and later.
+Wealthfolio addons are TypeScript modules that extend the application’s functionality through a sandboxed runtime. This guide covers how to build, test, and distribute addons for Wealthfolio 3.7 and later. Existing 3.6 addons remain supported; see <a href="/docs/addons/v3-7-assets/" class="font-medium underline underline-offset-4">v3.7 compatibility and assets</a> before adopting the new asset API.
 
 
 **New to addon development?** Start with our <a href="/docs/addons/getting-started/" class="font-medium underline underline-offset-4">Quick Start Guide</a> to create your first addon.
@@ -107,10 +107,10 @@ Wealthfolio addons are TypeScript modules that extend the application’s functi
 Addons are TypeScript/React-based extensions that provide access to Wealthfolio’s financial data and UI system through a brokered API bridge.
 
 **Technical Foundation**  
-Each addon is an ES module that exports an `enable(ctx)` function. Wealthfolio loads the module inside a sandboxed iframe and passes an `AddonContext` object with access to APIs, route rendering, events, logging, secrets, and network access.
+Each addon is an ES module that exports an `enable(ctx)` function. Wealthfolio loads the module inside a sandboxed iframe and passes an `AddonContext` object with access to APIs, route rendering, private packaged assets, events, logging, secrets, and network access.
 
 **Integration Capabilities**  
-Addons declare their pages and navigation in `manifest.json` (`contributes.routes` + `contributes.links`), so the host builds the sidebar and knows every route **without running addon code**. Routes must live under the addon’s own namespace, such as `/addons/hello-world` for `hello-world-addon`. An addon with declared routes boots **lazily** — its `enable(ctx)` runs on the first visit to one of its routes, then renders inside its own iframe.
+Addons declare their pages and navigation in `manifest.json` (`contributes.routes` + `contributes.links`), so the host builds the sidebar and knows every route **without running addon code**. Routes must live under the addon’s own namespace, such as `/addons/hello-world-addon` for `hello-world-addon`. An addon with declared routes boots **lazily** — its `enable(ctx)` runs on the first visit to one of its routes, then renders inside its own iframe.
 
 **Development Environment**  
 Built with TypeScript, React, and modern web APIs. Includes hot-reload development server, comprehensive type definitions, and host-provided dependencies to keep addon bundles small.
@@ -172,7 +172,7 @@ const MyAddonRoute = () => (
   </QueryClientProvider>
 );
 
-const enable: AddonEnableFunction = (ctx) => {
+const enable: AddonEnableFunction = async (ctx) => {
   addonCtx = ctx;
 
   // The sidebar entry and route are declared in manifest.json `contributes`, so
@@ -185,19 +185,14 @@ const enable: AddonEnableFunction = (ctx) => {
   });
 
   // Listen to events
-  let unlistenPortfolio: (() => void) | undefined;
-  void ctx.api.events.portfolio
-    .onUpdateComplete(() => {
-      // Handle portfolio updates
-    })
-    .then((unlisten) => {
-      unlistenPortfolio = unlisten;
-    });
+  const unlistenPortfolio = await ctx.api.events.portfolio.onUpdateComplete(() => {
+    // Handle portfolio updates
+  });
 
   // Cleanup. The host owns the React root, so there is no root to unmount.
   ctx.onDisable(() => {
     addonCtx = undefined;
-    unlistenPortfolio?.();
+    unlistenPortfolio();
   });
 };
 
@@ -241,7 +236,7 @@ const accounts = await ctx.api.accounts.getAll();
 | `secrets`             | High       | set, get, use, delete                                       |
 
 
-**Baseline capabilities are implicit.** `ui` (sidebar/router/navigation), `query`, `toast`, `logger`, and `storage` are granted to every addon and are **not** declared in `permissions`. Only the data domains above plus `files`, `network`, `secrets`, `events`, `snapshots`, and `settings` need a declaration.
+**Baseline capabilities are implicit.** `ui` (sidebar/router/navigation), private packaged `assets`, `query`, `toast`, `logger`, and `storage` are granted to every addon and are **not** declared in `permissions`. Only the data domains above plus `files`, `network`, `secrets`, `events`, `snapshots`, and `settings` need a declaration.
 
 #### 3. User Approval
 
@@ -258,6 +253,7 @@ interface AddonContext {
   };
   sidebar: SidebarAPI;
   router: RouterAPI;
+  assets: AddonAssets;
   onDisable: (callback: () => void) => void;
   api: {
     accounts: AccountsAPI;
@@ -308,17 +304,20 @@ The development tools include a hot-reload server:
 # Start development server
 npm run dev:server
 
-# Available on localhost:3001-3003
+# Available on localhost:3001
 # Auto-discovered by Wealthfolio
 ```
 
 ``` mb-4
 Development Server Structure:
-├─ /health          # Health check
-├─ /status          # Build status
-├─ /manifest.json   # Addon manifest
-└─ /addon.js        # Built addon code
+├─ /health                         # Health check
+├─ /status                         # Build status and generation
+├─ /runtime-package                # Manifest, runtime files, asset metadata
+├─ /runtime-files                  # JavaScript and CSS
+└─ /runtime-assets/:id?generation= # Lazy asset bytes
 ```
+
+Wealthfolio 3.7 requires `@wealthfolio/addon-dev-tools` 3.7 or newer. Runtime packages are immutable generations, so hot reload cannot mix asset metadata from one build with bytes from another. A 404 or 405 for `/runtime-package` means the development server must be upgraded and restarted.
 
 ## Project Structure
 
@@ -331,7 +330,7 @@ hello-world-addon/
 │   ├── pages/              # Addon pages
 │   ├── utils/              # Utility functions
 │   └── types/              # Type definitions
-├── assets/                 # Static assets (optional)
+├── assets/                 # Private static assets (optional)
 ├── dist/                   # Built files (generated)
 ├── manifest.json           # Addon metadata and permissions
 ├── package.json            # NPM package configuration
@@ -350,11 +349,11 @@ hello-world-addon/
   "main": "dist/addon.js",
   "description": "Addon description",
   "author": "Your Name",
-  "sdkVersion": "3.6.1",
-  "minWealthfolioVersion": "3.6.1",
+  "sdkVersion": "3.7.0",
+  "minWealthfolioVersion": "3.7.0",
   "enabled": true,
   "contributes": {
-    "routes": [{ "id": "my-addon", "path": "/addons/my-addon" }],
+    "routes": [{ "id": "my-addon" }],
     "links": {
       "sidebar": [
         {
@@ -369,8 +368,8 @@ hello-world-addon/
   },
   "permissions": [],
   "hostDependencies": {
-    "@wealthfolio/addon-sdk": "^3.6.1",
-    "@wealthfolio/ui": "^3.6.0",
+    "@wealthfolio/addon-sdk": "^3.7.0",
+    "@wealthfolio/ui": "^3.7.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }
@@ -378,6 +377,26 @@ hello-world-addon/
 ```
 
 A **route** (`contributes.routes`) is a durable addon page the host can render before the addon boots; a **link** (`contributes.links`, only the `"sidebar"` slot is consumed today) places a declared route in a host slot. The runtime `router.add({ id })` must use the same `id` as its declared route. Navigation and the baseline `ui` capability need no `permissions` entry.
+
+## Packaged Assets
+
+Wealthfolio 3.7 indexes non-JavaScript/CSS files below `assets/**` and `dist/assets/**` automatically. JavaScript and CSS in those roots remain runtime modules and styles. There is no manifest asset list and no asset permission.
+
+``` mb-4
+export default async function enable(ctx: AddonContext) {
+  const logoUrl = await ctx.assets.getUrl('assets/logo.png');
+  const configBlob = await ctx.assets.getBlob('assets/config.json');
+  const config = JSON.parse(await configBlob.text());
+
+  ctx.api.logger.debug(`Loaded ${ctx.assets.list().length} assets`);
+}
+```
+
+`ctx.assets` contains files private to the addon package. It is unrelated to `ctx.api.assets`, which manages financial instruments. `getUrl()` returns a sandbox-local Blob URL that is cached for the addon lifetime and revoked on reload or disable; do not persist it.
+
+Local CSS `url(...)` references are rewritten relative to the stylesheet. `data:` and `blob:` URLs are preserved. Remote CSS URLs and `@import` are rejected, and JavaScript/JSX strings are not rewritten, so components must call `getUrl()` explicitly. Package remote images, fonts, media, and Wasm rather than fetching them in the opaque iframe.
+
+See <a href="/docs/addons/v3-7-assets/" class="font-medium underline underline-offset-4">v3.7 compatibility and assets</a> for package limits, failure behavior, and the development-tools migration.
 
 ## Lifecycle Management
 
@@ -474,6 +493,7 @@ Use the addon dev tools template when possible. It configures host dependencies 
 export default defineConfig({
   plugins: [react()],
   build: {
+    target: ['chrome107', 'edge107', 'firefox104', 'safari16'],
     lib: {
       entry: 'src/addon.tsx',
       fileName: () => 'addon.js',
@@ -499,7 +519,7 @@ export default defineConfig({
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
-    "dev:server": "wealthfolio dev",
+    "dev:server": "wealthfolio-addon dev",
     "clean": "rm -rf dist",
     "package": "zip -r $npm_package_name-$npm_package_version.zip manifest.json dist/ assets/ README.md -x \"*.map\"",
     "bundle": "pnpm clean && pnpm build && pnpm package",
@@ -526,6 +546,7 @@ export default defineConfig({
 ## Security Model
 
 - Each addon runs in a sandboxed iframe with a brokered API bridge
+- The iframe has an opaque origin; direct browser storage, filesystem paths, and top-level navigation are unavailable
 - Routes are limited to the addon’s own `/addon/<namespace>` or `/addons/<namespace>` path
 - Manifest permissions are enforced at runtime
 - Static analysis detects additional API usage during installation
@@ -533,6 +554,7 @@ export default defineConfig({
 - Secrets are stored in the OS keyring and scoped by addon ID
 - Bearer authorization headers are injected by the backend from add-on-scoped secrets
 - Addon network requests are audited locally
+- Brokered network responses are text; package binary resources with the addon
 
 ## Publishing
 
@@ -555,6 +577,14 @@ Explore available APIs
 
 
 <a href="/docs/addons/api-reference/" class="absolute inset-0"><span class="sr-only">View</span></a>
+
+
+### 📦 v3.7 Assets
+
+Package images, fonts, media, configuration, and Wasm
+
+
+<a href="/docs/addons/v3-7-assets/" class="absolute inset-0"><span class="sr-only">View</span></a>
 
 
 ### 💡 Examples
@@ -593,6 +623,7 @@ On This Page
   - <a href="#development-server" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Development Server</a>
 - <a href="#project-structure" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Project Structure</a>
   - <a href="#manifest-file" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Manifest File</a>
+- <a href="#packaged-assets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Packaged Assets</a>
 - <a href="#lifecycle-management" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Lifecycle Management</a>
   - <a href="#installation-process" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Installation Process</a>
   - <a href="#lazy-activation" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Lazy Activation</a>

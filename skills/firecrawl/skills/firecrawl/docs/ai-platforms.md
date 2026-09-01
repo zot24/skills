@@ -10,11 +10,6 @@
 
 AI platform builders and teams use Firecrawl to power knowledge bases, chatbots, and enable customers to build AI applications with web data.
 
-## Start with a Template
-
-
-  Instant AI chatbots for websites with web knowledge integration
-
 
   **Get started with templates and examples.** Build AI-powered applications with web data.
 

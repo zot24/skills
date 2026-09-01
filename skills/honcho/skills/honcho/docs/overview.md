@@ -93,6 +93,9 @@ Welcome to Honcho. We're excited to have you at the frontier of AI with us 🫡.
     Build your first stateful agent in minutes
 
 
+    Inspect a deployment, or `honcho start --setup` a local stack
+
+
     Deep dive into how Honcho's primitives fit together
 
 

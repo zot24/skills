@@ -52,6 +52,38 @@ paths:
                 properties:
                   success:
                     type: boolean
+        '400':
+          description: Bad request — the job ID is not a valid UUID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid job ID format. Job ID must be a valid UUID.
+        '404':
+          description: Agent job not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Agent job not found
+        '409':
+          description: >-
+            Conflict — the agent job has already finished or has already been
+            cancelled.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Agent already finished
       security:
         - bearerAuth: []
 components:

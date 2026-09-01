@@ -275,7 +275,7 @@ set -x OP_BIOMETRIC_UNLOCK_ENABLED false
 ### 
 
 
-<a href="#if-you-see-a-connection-error" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#if-you-see-a-lost-connection-no-accounts-configured-or-connection-reset-error" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 - <div id="mac-3">
@@ -309,16 +309,35 @@ set -x OP_BIOMETRIC_UNLOCK_ENABLED false
   </div>
 
 
-1.  Make sure you’re using the latest version of the 1Password desktop app.
-2.  Restart the app.
+1.  Open and unlock the 1Password desktop app.
+2.  Select your account or collection at the top of the sidebar.
+3.  Select **Settings** \> **<a href="onepassword://settings/developers" class="link" target="_blank" rel="noreferrer">Developer</a>** and make sure **Integrate with 1Password CLI** is selected.
 
 
-1.  Make sure you’re using the latest version of the 1Password desktop app.
-2.  Restart the app.
+3.  Select **Settings** \> **General**.
+4.  Make sure “Keep 1Password in the menu bar” is selected.
 
 
-1.  Make sure you’re using the latest version of the 1Password desktop app.
-2.  Restart the app.
+1.  Open and unlock the 1Password desktop app.
+2.  Select your account or collection at the top of the sidebar.
+3.  Select **Settings** \> **<a href="onepassword://settings/developers" class="link" target="_blank" rel="noreferrer">Developer</a>** and make sure **Integrate with 1Password CLI** is selected.
+
+
+1.  Open and unlock the 1Password desktop app.
+2.  Select your account or collection at the top of the sidebar.
+3.  Select **Settings** \> **General**.
+4.  Make sure “Keep 1Password in the notification area” is selected.
+
+
+1.  Open and unlock the 1Password desktop app.
+2.  Select your account or collection at the top of the sidebar.
+3.  Select **Settings** \> **<a href="onepassword://settings/developers" class="link" target="_blank" rel="noreferrer">Developer</a>** and make sure **Integrate with 1Password CLI** is selected.
+
+
+1.  Open and unlock the 1Password desktop app.
+2.  Select your account or collection at the top of the sidebar.
+3.  Select **Settings** \> **General**.
+4.  Make sure “Keep 1Password in the system tray” is selected.
 
 
 - <div id="mac-4">
@@ -352,22 +371,19 @@ set -x OP_BIOMETRIC_UNLOCK_ENABLED false
   </div>
 
 
-1.  Open and unlock the 1Password desktop app.
-2.  Select your account or collection at the top of the sidebar.
-3.  Select **Settings** \> **General**.
-4.  Make sure “Keep 1Password in the menu bar” is selected.
+Open **System Settings** \> **General** \> **Login Items** and make sure **Allow in background** is turned on for 1Password.
 
 
-1.  Open and unlock the 1Password desktop app.
-2.  Select your account or collection at the top of the sidebar.
-3.  Select **Settings** \> **General**.
-4.  Make sure “Keep 1Password in the notification area” is selected.
+1.  Make sure you’re using the latest version of the 1Password desktop app.
+2.  Restart the app.
 
 
-1.  Open and unlock the 1Password desktop app.
-2.  Select your account or collection at the top of the sidebar.
-3.  Select **Settings** \> **General**.
-4.  Make sure “Keep 1Password in the system tray” is selected.
+1.  Make sure you’re using the latest version of the 1Password desktop app.
+2.  Restart the app.
+
+
+1.  Make sure you’re using the latest version of the 1Password desktop app.
+2.  Restart the app.
 
 
 ### 

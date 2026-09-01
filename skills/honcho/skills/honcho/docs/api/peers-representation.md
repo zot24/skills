@@ -29,7 +29,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.12
+  version: 3.1.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -116,6 +116,25 @@ components:
             only the 'session_id' key: a session id, a list of session ids, or
             {"in": [...]}. When session_id is also set, it must be included in
             the allowlist.
+        scope:
+          anyOf:
+            - type: string
+            - items:
+                type: string
+              type: array
+              maxItems: 100
+              minItems: 1
+            - type: 'null'
+          title: Scope
+          description: >-
+            Optional (unprefixed) scope name(s) to confine the representation. A
+            single scope reads the scope's own representation of the target
+            peer, formed only from the scope's member sessions. A list of scopes
+            restricts the representation to conclusions from the union of the
+            scopes' member sessions (explicit allowlist, fail-closed: an empty
+            union yields an empty representation). Mutually exclusive with
+            `filters` and `session_id`. Requires a workspace- or admin-level
+            key.
         target:
           anyOf:
             - type: string

@@ -24,7 +24,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.12
+  version: 3.1.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -110,6 +110,25 @@ components:
             [...]}. Recall (conclusions and messages) is restricted to the
             allowlist; unsupported keys are rejected. When session_id is also
             set, it must be included in the allowlist.
+        scope:
+          anyOf:
+            - type: string
+            - items:
+                type: string
+              type: array
+              maxItems: 100
+              minItems: 1
+            - type: 'null'
+          title: Scope
+          description: >-
+            Optional (unprefixed) scope name(s) to confine recall. A single
+            scope answers from the scope's own representation of the target
+            peer: conclusion recall is confined to what the scope observed and
+            message recall to the scope's member sessions. A list of scopes
+            restricts recall to the union of the scopes' member sessions
+            (explicit allowlist, fail-closed: an empty union recalls nothing).
+            Mutually exclusive with `filters` and `session_id`. Requires a
+            workspace- or admin-level key.
         target:
           anyOf:
             - type: string

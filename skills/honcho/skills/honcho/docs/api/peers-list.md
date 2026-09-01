@@ -23,7 +23,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.12
+  version: 3.1.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -109,6 +109,18 @@ components:
               type: object
             - type: 'null'
           title: Filters
+        kind:
+          anyOf:
+            - type: string
+              enum:
+                - scope
+                - all
+            - type: 'null'
+          title: Kind
+          description: >-
+            Which kinds of peers to list. Omitted (default): regular peers only
+            (scope peers are excluded). 'scope': scope peers only. 'all': every
+            peer.
       type: object
       title: PeerGet
     Page_Peer_:

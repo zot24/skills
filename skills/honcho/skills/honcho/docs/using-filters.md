@@ -731,7 +731,7 @@ Use wildcards (\*) to match any value for a field:
 
 ### Filtering Conclusions
 
-Conclusions are scoped to an observer/observed peer pair (accessed via
+Conclusions belong to an observer/observed peer pair (accessed via
 `peer.conclusions` for self-conclusions or `peer.conclusions_of(target)` for
 conclusions about another peer). The observer and observed are filled in
 automatically by the scope, so the `filters` you pass add to them.
@@ -847,7 +847,7 @@ a **session allowlist**, restricting what the request can recall to the sessions
 you name — conclusions on both endpoints, and on chat the messages the agent
 reads as well.
 
-This is how you scope recall to more than one session. The `session_id`
+This is how you restrict recall to more than one session. The `session_id`
 parameter pins a request to exactly one session; an allowlist accepts a set.
 
 Only the `session_id` key is supported here, in three shapes:
@@ -879,10 +879,34 @@ Only the `session_id` key is supported here, in three shapes:
   ```
 </CodeGroup>
 
+Both SDKs expose this as a `sessions` option, which goes on the wire as the
+`filters` body above:
 
-  The session allowlist is REST-only today. The SDKs cover the single-session case
-  with `session`, but do not yet expose the allowlist — call the endpoint directly
-  when you need a set of sessions.
+<CodeGroup>
+  ```python Python
+  answer = user.chat("What did the user ask about billing?",
+                     sessions=["support-chat-1", "support-chat-2"])
+
+  rep = user.representation(sessions=["support-chat-1", "support-chat-2"])
+  ```
+
+  ```typescript TypeScript
+  const answer = await user.chat("What did the user ask about billing?", {
+    sessions: ["support-chat-1", "support-chat-2"],
+  });
+
+  const rep = await user.representation({
+    sessions: ["support-chat-1", "support-chat-2"],
+  });
+  ```
+</CodeGroup>
+
+
+  If the same set of sessions is a boundary you reuse, name it: a
+  [scope](/docs/v3/documentation/features/advanced/scopes) is a persistent version of
+  this allowlist, and querying a single scope recalls at full depth rather than
+  `explicit`-only. `sessions` is the right tool when the set is decided
+  per-request.
 
 
 ### Rules
@@ -911,7 +935,7 @@ dropped filter here would widen recall instead of narrowing it.
 
 ### What Changes Under an Allowlist
 
-Scoping recall by session narrows what the reasoning agent can draw on:
+Restricting recall by session narrows what the reasoning agent can draw on:
 
 * **Only `explicit` conclusions are recalled.** Dream-derived conclusions
   (`deductive`, `inductive`) are synthesized across sessions, so they can't be

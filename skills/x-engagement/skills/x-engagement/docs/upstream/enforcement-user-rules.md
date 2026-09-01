@@ -1,5 +1,4 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/abuse-enforcement-service/service-lib/rules/enforcement_user.yaml
-> Snapshot: bc8e5f0 (2026-08-28)
 
 # mirrored from GrowthBook dynamic config; last sync 2026-08-26T16:31:18Z
 

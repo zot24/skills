@@ -2,29 +2,31 @@
 
 
 
-<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2.5 font-semibold md:hidden" rel="noreferrer noopener" target="_blank"><strong>umami</strong></a>
+<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2 text-xl font-bold text-foreground tracking-[-0.03em]" target="_blank" rel="noreferrer"><img src="/logo.svg" class="h-6 w-auto dark:hidden" /><img src="/logo.svg" class="hidden h-6 w-auto dark:block" /><span>umami</span></a>
 
 
-Search
+<a href="https://github.com/umami-software/umami" class="inline-flex items-center rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-foreground size-8 justify-center" target="_blank" rel="noreferrer" aria-label="Umami on GitHub"></a>
 
 
-<a href="/docs" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Documentation</a><a href="/docs/guides" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Guides</a><a href="/docs/api" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="true">API Reference</a><a href="/docs/cloud" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Cloud</a><a href="https://v2.umami.is" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" target="_blank" rel="noopener noreferrer">v2</a>
+Menu
 
 
-<a href="https://github.com/umami-software/umami" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&amp;_svg]:size-4.5 text-fd-muted-foreground max-lg:hidden" rel="noreferrer noopener" target="_blank" aria-label="GitHub" data-active="false"></a>
+API
 
 
 # Sending stats
 
 
-## <a href="#post-apisend" class="peer" data-card="">POST /api/send</a>
+Copy page
+
+
+## POST /api/send<a href="#post-apisend" class="heading-anchor" aria-label="Permalink to “POST /api/send”">#</a>
 
 To register an `event`, you need to send a `POST` to `/api/send` with the following data:
 
 For **Umami Cloud** send a POST to `https://cloud.umami.is/api/send`.
 
 **Parameters**
-
 
 | Parameter          | Type   | Description                                   |
 |--------------------|--------|-----------------------------------------------|
@@ -41,28 +43,28 @@ For **Umami Cloud** send a POST to `https://cloud.umami.is/api/send`.
 | `payload.data`     | object | (optional) Additional data for the event.     |
 | `type`             | string | One of `event`, `identify`, or `performance`. |
 
-
 **Sample payload**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;payload&quot;: {
-    &quot;hostname&quot;: &quot;your-hostname&quot;,
-    &quot;language&quot;: &quot;en-US&quot;,
-    &quot;referrer&quot;: &quot;&quot;,
-    &quot;screen&quot;: &quot;1920x1080&quot;,
-    &quot;title&quot;: &quot;dashboard&quot;,
-    &quot;url&quot;: &quot;/&quot;,
-    &quot;website&quot;: &quot;your-website-id&quot;,
-    &quot;name&quot;: &quot;event-name&quot;,
-    &quot;data&quot;: {
-      &quot;foo&quot;: &quot;bar&quot;
+``` code-block
+{
+  "payload": {
+    "hostname": "your-hostname",
+    "language": "en-US",
+    "referrer": "",
+    "screen": "1920x1080",
+    "title": "dashboard",
+    "url": "/",
+    "website": "your-website-id",
+    "name": "event-name",
+    "data": {
+      "foo": "bar"
     }
   },
-  &quot;type&quot;: &quot;event&quot;
-}</code></pre>
-</figure>
+  "type": "event"
+}
+```
+
 
 Note, for `/api/send` requests you do not need to send an authentication token.
 
@@ -70,22 +72,23 @@ Also, you need to send a proper `User-Agent` HTTP header or your request won't b
 
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;cache&quot;: &quot;xxxxxxxxxxxxxxx&quot;,
-  &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-  &quot;visitId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
-}</code></pre>
-</figure>
+``` code-block
+{
+  "cache": "xxxxxxxxxxxxxxx",
+  "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "visitId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+}
+```
+
 
 **Programmatically**
 
 You can generate most of these values programmatically with JavaScript using the browser APIs. For example:
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>const data = {
+``` code-block
+const data = {
   payload: {
     hostname: window.location.hostname,
     language: navigator.language,
@@ -93,81 +96,67 @@ You can generate most of these values programmatically with JavaScript using the
     screen: `${window.screen.width}x${window.screen.height}`,
     title: document.title,
     url: window.location.pathname,
-    website: &#39;your-website-id&#39;,
-    name: &#39;event-name&#39;,
+    website: 'your-website-id',
+    name: 'event-name',
   },
-  type: &#39;event&#39;,
-};</code></pre>
-</figure>
+  type: 'event',
+};
+```
 
-## <a href="#post-apibatch" class="peer" data-card="">POST /api/batch</a>
+
+## POST /api/batch<a href="#post-apibatch" class="heading-anchor" aria-label="Permalink to “POST /api/batch”">#</a>
 
 To send multiple events in a single request, POST a JSON **array** to `/api/batch`. Each element of the array has the same shape as an `/api/send` request body. Like `/api/send`, this endpoint does not require an authentication token but does require a valid `User-Agent` header.
 
 **Sample payload**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;payload&quot;: {
-      &quot;hostname&quot;: &quot;your-hostname&quot;,
-      &quot;url&quot;: &quot;/page-1&quot;,
-      &quot;website&quot;: &quot;your-website-id&quot;,
-      &quot;name&quot;: &quot;event-name&quot;
+    "payload": {
+      "hostname": "your-hostname",
+      "url": "/page-1",
+      "website": "your-website-id",
+      "name": "event-name"
     },
-    &quot;type&quot;: &quot;event&quot;
+    "type": "event"
   },
   {
-    &quot;payload&quot;: {
-      &quot;hostname&quot;: &quot;your-hostname&quot;,
-      &quot;url&quot;: &quot;/page-2&quot;,
-      &quot;website&quot;: &quot;your-website-id&quot;,
-      &quot;name&quot;: &quot;event-name&quot;
+    "payload": {
+      "hostname": "your-hostname",
+      "url": "/page-2",
+      "website": "your-website-id",
+      "name": "event-name"
     },
-    &quot;type&quot;: &quot;event&quot;
+    "type": "event"
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 Each item is forwarded to `/api/send`, so all `type` values and payload fields supported there are also supported here.
 
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;size&quot;: 2,
-  &quot;processed&quot;: 2,
-  &quot;errors&quot;: 0,
-  &quot;details&quot;: [],
-  &quot;cache&quot;: &quot;xxxxxxxxxxxxxxx&quot;
-}</code></pre>
-</figure>
+``` code-block
+{
+  "size": 2,
+  "processed": 2,
+  "errors": 0,
+  "details": [],
+  "cache": "xxxxxxxxxxxxxxx"
+}
+```
+
 
 If any items fail, `errors` is the failure count and `details` lists each failure along with its `index` in the submitted array.
 
 
-<a href="/docs/api/authentication" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
+<a href="/docs/api/authentication" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Authentication</span></span></a><a href="/docs/api/admin" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Admin</span></span></a>
 
 
-Authentication
-
-
-Previous Page
-
-<a href="/docs/api/admin" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full text-end"></a>
-
-
-Admin
-
-
-Next Page
-
-
-### On this page
-
-
-<a href="#post-apisend" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/send</a><a href="#post-apibatch" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">POST /api/batch</a>
+On this page
 
 

@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,7 +93,7 @@ Create your first Wealthfolio addon in 5 minutes.
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 
 ## Prerequisites
@@ -165,6 +165,7 @@ hello-world-addon/
 │   ├── utils/              # Utility functions
 │   └── types/              # Type definitions
 ├── dist/                   # Built files (generated)
+├── assets/                 # Private static assets (optional)
 ├── manifest.json           # Addon metadata and permissions
 ├── package.json            # NPM package configuration
 ├── vite.config.ts          # Build configuration
@@ -184,11 +185,11 @@ hello-world-addon/
   "description": "My first Wealthfolio addon",
   "author": "Your Name",
   "main": "dist/addon.js",
-  "sdkVersion": "3.6.1",
-  "minWealthfolioVersion": "3.6.1",
+  "sdkVersion": "3.7.0",
+  "minWealthfolioVersion": "3.7.0",
   "enabled": true,
   "contributes": {
-    "routes": [{ "id": "hello-world", "path": "/addons/hello-world" }],
+    "routes": [{ "id": "hello-world" }],
     "links": {
       "sidebar": [
         {
@@ -203,8 +204,8 @@ hello-world-addon/
   },
   "permissions": [],
   "hostDependencies": {
-    "@wealthfolio/addon-sdk": "^3.6.1",
-    "@wealthfolio/ui": "^3.6.0",
+    "@wealthfolio/addon-sdk": "^3.7.0",
+    "@wealthfolio/ui": "^3.7.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }
@@ -213,7 +214,7 @@ hello-world-addon/
 
 Navigation is **declarative**. A `contributes.routes` entry is a durable addon page — the host can render it (and build the sidebar) before your addon boots, so nothing runs until the route is first visited. A `contributes.links` entry places that route in a host slot (only `"sidebar"` is consumed today) and references a declared route `id`. The runtime `router.add({ id })` you register in `addon.tsx` **must use the same `id`** as its declared route.
 
-Baseline capabilities — `ui`, `query`, `toast`, `logger`, and `storage` — are implicit and never declared in `permissions`. Only data domains and `files`, `network`, `secrets`, `events`, `snapshots`, and `settings` need an entry.
+Baseline capabilities — `ui`, private packaged `assets`, `query`, `toast`, `logger`, and `storage` — are implicit and never declared in `permissions`. Only data domains and `files`, `network`, `secrets`, `events`, `snapshots`, and `settings` need an entry.
 
 ## Main Addon File
 
@@ -257,7 +258,7 @@ const enable: AddonEnableFunction = (ctx) => {
   // match `contributes.routes[].id`.
   ctx.router.add({
     id: 'hello-world',
-    path: '/addons/hello-world',
+    path: '/addons/hello-world-addon',
     component: HelloWorldRoute,
   });
 
@@ -274,10 +275,35 @@ export default enable;
 ```
 
 
-Hand the host a `component` and let it own the single React root — do **not** call `createRoot` yourself (a per-route root leaves an orphaned tree whose re-renders never reach the DOM). The component receives the current route as a `{ location }` prop; the sandbox has no react-router provider, so `useLocation()` / `useParams()` are unavailable. `render` remains as a legacy imperative escape hatch, but `component` is preferred.
+Hand the host a `component` and let it own the single React root — do **not** call `createRoot` yourself (a per-route root leaves an orphaned tree whose re-renders never reach the DOM). The component receives the current route as a `{location}` prop; the sandbox has no react-router provider, so `useLocation()` / `useParams()` are unavailable. `render` remains as a legacy imperative escape hatch, but `component` is preferred.
 
 
 The sidebar `icon` (declared in `contributes.links`) is one of a curated set of <a href="https://phosphoricons.com" class="font-medium underline underline-offset-4">Phosphor</a> names, typed as `AddonIconName`. See the full list in the <a href="/docs/addons/api-reference/#sidebar-icons" class="font-medium underline underline-offset-4">API reference</a>.
+
+
+## Add Packaged Assets
+
+Non-JavaScript/CSS files below `assets/**` and generated files below `dist/assets/**` are indexed automatically in Wealthfolio 3.7. JavaScript and CSS in those roots remain runtime modules and styles. You do not add an `assets` field or permission to the manifest.
+
+``` mb-4
+export async function loadAddonResources(ctx: AddonContext) {
+  const logoUrl = await ctx.assets.getUrl('assets/logo.png');
+  const configBlob = await ctx.assets.getBlob('assets/config.json');
+  const config = JSON.parse(await configBlob.text());
+
+  return { config, logoUrl };
+}
+```
+
+- `list()` returns public path, MIME type, and size metadata.
+- `has(path)` checks whether a logical package path exists.
+- `getBlob(path)` lazily loads verified bytes.
+- `getUrl(path)` creates one sandbox-local Blob URL and automatically revokes it when the addon stops or reloads.
+
+Local CSS `url(...)` references are rewritten relative to the CSS file. Remote CSS URLs and `@import` are rejected; JavaScript and JSX asset strings are not rewritten, so use `getUrl()`. Addons using this API must set `sdkVersion` and `minWealthfolioVersion` to `3.7.0`.
+
+
+`ctx.assets` is the package asset registry. `ctx.api.assets` is the separate financial-instrument API. See <a href="/docs/addons/v3-7-assets/" class="font-medium underline underline-offset-4">v3.7 compatibility and assets</a> for limits and migration guidance.
 
 
 ## Start Development
@@ -303,6 +329,11 @@ Watching for changes...
 - Hot Module Replacement for component updates
 - Auto-discovery by Wealthfolio
 - Error recovery with overlay messages
+- Coherent `/runtime-package` generations for code, CSS, and private assets
+
+
+Wealthfolio 3.7 requires `@wealthfolio/addon-dev-tools` 3.7 or newer. A 404 or 405 for `/runtime-package` means the development server is too old; upgrade it and restart `pnpm dev:server`.
+
 
 ### Available Commands
 
@@ -423,8 +454,8 @@ function HelloWorldPage({ ctx }: { ctx: AddonContext }) {
 }
 
 // Capture the context at enable time so the route wrapper can supply it (and a
-// shared QueryClientProvider) to the page. The QueryClientProvider shares one
-// cache across route navigations.
+// QueryClientProvider) to the page. The QueryClient is scoped to this addon and
+// reused across route navigations; invalidations/refetches are bridged to the host.
 let addonCtx: AddonContext | undefined;
 
 const HelloWorldRoute = () => (
@@ -438,7 +469,7 @@ const enable: AddonEnableFunction = (ctx) => {
 
   ctx.router.add({
     id: 'hello-world',
-    path: '/addons/hello-world',
+    path: '/addons/hello-world-addon',
     component: HelloWorldRoute,
   });
 
@@ -462,11 +493,11 @@ Update `manifest.json` to include account access:
   "description": "My first Wealthfolio addon",
   "author": "Your Name",
   "main": "dist/addon.js",
-  "sdkVersion": "3.6.1",
-  "minWealthfolioVersion": "3.6.1",
+  "sdkVersion": "3.7.0",
+  "minWealthfolioVersion": "3.7.0",
   "enabled": true,
   "contributes": {
-    "routes": [{ "id": "hello-world", "path": "/addons/hello-world" }],
+    "routes": [{ "id": "hello-world" }],
     "links": {
       "sidebar": [
         {
@@ -488,8 +519,8 @@ Update `manifest.json` to include account access:
   ],
   "hostDependencies": {
     "@tanstack/react-query": "^5.90.0",
-    "@wealthfolio/addon-sdk": "^3.6.1",
-    "@wealthfolio/ui": "^3.6.0",
+    "@wealthfolio/addon-sdk": "^3.7.0",
+    "@wealthfolio/ui": "^3.7.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }
@@ -547,6 +578,7 @@ export default function enable(ctx: AddonContext) {
 - Source maps for debugging
 - Real-time TypeScript checking
 - Hot Module Replacement
+- Coherent runtime package and lazy asset generations
 
 ## IDE Setup
 
@@ -600,12 +632,12 @@ pnpm format
 ``` mb-4
 {
   "scripts": {
-    "dev:server": "wealthfolio dev",
+    "dev:server": "wealthfolio-addon dev",
     "build": "vite build",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "bundle": "pnpm build && zip -r addon.zip manifest.json dist/ -x \"*.map\""
+    "bundle": "pnpm build && zip -r addon.zip manifest.json dist/ assets/ -x \"*.map\""
   }
 }
 ```
@@ -644,6 +676,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
+    target: ['chrome107', 'edge107', 'firefox104', 'safari16'],
     lib: {
       entry: 'src/addon.tsx',
       formats: ['es'],
@@ -672,17 +705,19 @@ You now understand:
 - Hot reload development
 - API integration for portfolio data
 - UI integration with navigation
+- Private packaged assets and their sandbox lifecycle
 
 Continue with:
 
 - <a href="/docs/addons/api-reference/" class="font-medium underline underline-offset-4">API Reference</a> - All available APIs
+- <a href="/docs/addons/v3-7-assets/" class="font-medium underline underline-offset-4">v3.7 Compatibility &amp; Assets</a> - Migration and packaging rules
 - <a href="https://github.com/wealthfolio/wealthfolio-addons/tree/main/official" class="font-medium underline underline-offset-4">Examples</a> - Real addon implementations
 
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/addons/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Overview</a> <a href="/docs/addons/api-reference/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">API Reference</a>
+<a href="/docs/addons/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Overview</a> <a href="/docs/addons/v3-7-assets/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">v3.7 Compatibility &amp; Assets</a>
 
 
 On This Page
@@ -692,6 +727,7 @@ On This Page
 - <a href="#create-new-addon" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Create New Addon</a>
 - <a href="#manifest-file" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Manifest File</a>
 - <a href="#main-addon-file" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Main Addon File</a>
+- <a href="#add-packaged-assets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Add Packaged Assets</a>
 - <a href="#start-development" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Start Development</a>
   - <a href="#hot-reload-features" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Hot Reload Features</a>
   - <a href="#available-commands" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Available Commands</a>

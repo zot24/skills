@@ -940,6 +940,13 @@ If you download using a BitTorrent client, the process is slightly different:
 
 > Note: If using a reverse proxy (example: <a href="http://mydomain.com/sonarr" class="is-external-link">mydomain.com/sonarr</a>) you would enter '/sonarr' for URL Base.
 
+- Allowed Hosts - Which hostnames (including FQDN, Fully Qualified Domain Names) or IP Addresses Sonarr will accept as a valid host. This setting is required if Authentication Required is not set to `Enabled`. This is the host portion of the address you enter in your address bar of your browser to access Sonarr.
+
+  - IP Address: `192.168.50.1`
+  - Hostname: `sonarr`
+  - FQDN: `sonarr.example.com`
+  - Wildcard subdomain: `*.example.com` - For example `sonarr.example.com`, `tv.example.com` or any other subdomain would be accepted.
+
 - Instance Name - Instance name in tab and for Syslog app name
 
 > If you are running multiple instances, this will add the instance name to the web browser tab name.
@@ -959,6 +966,9 @@ If you download using a BitTorrent client, the process is slightly different:
   - Enabled - Validate all HTTPS certificates (recommended)
   - Disabled for Local Addresses - Validate all HTTPS certificates except those on localhost and the LAN
   - Disabled - Do not validate any HTTPS certificates
+- Trusted Networks - Use to limit which IP Addresses/Networks Sonarr will trust for Reverse Proxies. You should only enter IP Addresses/Networks that you trust for reverse proxies that are properly configured to send the correct headers. Supported formats include:
+  - IP Address: `192.168.50.1` or `fd12:3456:789a::1`
+  - Subnet (CIDR format): `192.168.50.0/24` or `fc00::/7`
 
 ## <a href="#proxy" class="toc-anchor">¶</a> Proxy
 

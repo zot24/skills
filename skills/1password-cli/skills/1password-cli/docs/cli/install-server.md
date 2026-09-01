@@ -83,7 +83,7 @@ COPY --from=1password/op:2 /usr/local/bin/op /usr/local/bin/op
 
 Related topics
 
-<a href="/connect/cli" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password CLI with a Connect server</span></a><a href="/ci-cd/jenkins" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Load secrets from 1Password into Jenkins</span></a><a href="/cli/connect" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password CLI with Connect</span></a>
+<a href="/connect/cli" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password CLI with a Connect server</span></a><a href="/cli/connect" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password CLI with Connect</span></a><a href="/environments/mcp-server" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use the 1Password MCP Server to manage your 1Password Environments</span></a>
 
 
 Was this page helpful?

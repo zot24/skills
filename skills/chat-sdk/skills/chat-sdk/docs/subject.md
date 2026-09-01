@@ -7,7 +7,7 @@ type: guide
 prerequisites:
   - /docs/handling-events
 related:
-  - /docs/conversation-history
+  - /docs/history
 ---
 
 # Message Subject

@@ -82,7 +82,7 @@ bot.onSubscribedMessage(async (thread, message) => {
 
     if (attachment.fetchData) {
       const data = await attachment.fetchData();
-      console.log(`Downloaded ${data.length} bytes`);
+      console.log(`Downloaded ${data.byteLength} bytes`);
     }
   }
 });
@@ -90,17 +90,17 @@ bot.onSubscribedMessage(async (thread, message) => {
 
 ### Attachment properties
 
-| Property        | Type                                | Description                                                              |
-| --------------- | ----------------------------------- | ------------------------------------------------------------------------ |
-| `type`          | `string`                            | Attachment type (e.g., "image", "file")                                  |
-| `url`           | `string` (optional)                 | Public URL                                                               |
-| `name`          | `string` (optional)                 | Filename                                                                 |
-| `mimeType`      | `string` (optional)                 | MIME type                                                                |
-| `size`          | `number` (optional)                 | File size in bytes                                                       |
-| `width`         | `number` (optional)                 | Image width                                                              |
-| `height`        | `number` (optional)                 | Image height                                                             |
-| `fetchData`     | `() => Promise<Buffer>` (optional)  | Download the file data                                                   |
-| `fetchMetadata` | `Record<string, string>` (optional) | Platform-specific IDs for reconstructing `fetchData` after serialization |
+| Property        | Type                                              | Description                                                              |
+| --------------- | ------------------------------------------------- | ------------------------------------------------------------------------ |
+| `type`          | `string`                                          | Attachment type (e.g., "image", "file")                                  |
+| `url`           | `string` (optional)                               | Public URL                                                               |
+| `name`          | `string` (optional)                               | Filename                                                                 |
+| `mimeType`      | `string` (optional)                               | MIME type                                                                |
+| `size`          | `number` (optional)                               | File size in bytes                                                       |
+| `width`         | `number` (optional)                               | Image width                                                              |
+| `height`        | `number` (optional)                               | Image height                                                             |
+| `fetchData`     | `() => Promise<Buffer \| ArrayBuffer>` (optional) | Download the file data                                                   |
+| `fetchMetadata` | `Record<string, string>` (optional)               | Platform-specific IDs for reconstructing `fetchData` after serialization |
 
 
 ---

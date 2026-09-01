@@ -51,7 +51,6 @@ Examples: `"US"`, `"DE"`, `"FR"`, `"JP"`, `"UK"`, `"CA"`.
 
 Filter search results by specific categories using the `categories` parameter:
 
-* **`github`**: Search within GitHub repositories, code, issues, and documentation
 * **`research`**: Restrict web search to academic and research **websites** (arxiv.org, nature.com, ieee.org, pubmed.ncbi.nlm.nih.gov, biorxiv.org, medrxiv.org, and similar). Returns ordinary web page results with snippets — not paper records
 * **`pdf`**: Search for PDFs
 * **`developer`**: Search the [Developer Index](/features/developer) — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites
@@ -67,7 +66,7 @@ Filter search results by specific categories using the `categories` parameter:
 ```json theme={null}
 {
   "query": "machine learning",
-  "categories": ["github", "research"],
+  "categories": ["research", "pdf"],
   "limit": 10
 }
 ```
@@ -108,16 +107,16 @@ Each result includes a `category` field indicating its source:
   "data": {
     "web": [
       {
-        "url": "https://github.com/example/ml-project",
-        "title": "Machine Learning Project",
-        "description": "Implementation of ML algorithms",
-        "category": "github"
-      },
-      {
         "url": "https://arxiv.org/abs/2024.12345",
         "title": "ML Research Paper",
         "description": "Latest advances in machine learning",
         "category": "research"
+      },
+      {
+        "url": "https://example.com/ml-survey.pdf",
+        "title": "ML Survey",
+        "description": "A survey of machine learning methods",
+        "category": "pdf"
       }
     ]
   }
@@ -228,12 +227,12 @@ paths:
                   items:
                     oneOf:
                       - type: object
-                        title: GitHub
+                        title: Developer
                         properties:
                           type:
                             type: string
                             enum:
-                              - github
+                              - developer
                         required:
                           - type
                       - type: object
@@ -729,6 +728,35 @@ components:
                     description: >-
                       Maximum number of pages to parse from the PDF. Must be a
                       positive integer up to 10000.
+                  pages:
+                    type: boolean
+                    default: false
+                    description: >-
+                      Include physical per-page markdown alongside the document
+                      markdown. Populates the `pages` field on the document as
+                      an array of { pageNumber, markdown }. No additional cost.
+                  blocks:
+                    type: boolean
+                    default: false
+                    description: >-
+                      Include per-page typed layout blocks alongside the
+                      document markdown. Populates the `blocks` field on the
+                      document: typed blocks (title, section_header, text,
+                      table, formula, figure, caption, ...) with normalized
+                      bounding boxes, reading order, character-span links into
+                      the markdown, and per-block confidence. No additional
+                      cost.
+                  pageMarkers:
+                    type: boolean
+                    default: false
+                    description: >-
+                      Annotate page breaks in the document markdown: pages are
+                      joined with `\n\n---\n\n<!-- page N -->\n\n`, where N is
+                      the 1-based physical page of the content that follows.
+                      Markers appear between pages only (no leading marker for
+                      page 1), and numbering may skip pages merged across a page
+                      break — use `pages: true` when every physical page is
+                      needed. No new response field; no additional cost.
                 required:
                   - type
                 additionalProperties: false
@@ -997,8 +1025,8 @@ components:
             Specifies the type of proxy to use.
 
              - **basic**: Proxies for scraping sites with none to basic anti-bot solutions. Fast and usually works.
-             - **enhanced**: Enhanced proxies for scraping sites with advanced anti-bot solutions. Slower, but more reliable on certain sites. Costs up to 5 credits per request.
-             - **auto**: Firecrawl will automatically retry scraping with enhanced proxies if the basic proxy fails. If the retry with enhanced is successful, 5 credits will be billed for the scrape. If the first attempt with basic is successful, only the regular cost will be billed.
+             - **enhanced**: Enhanced proxies for scraping sites with advanced anti-bot solutions. Slower, but more reliable on certain sites. Billed at the same credit cost as basic.
+             - **auto**: Firecrawl will automatically retry scraping with enhanced proxies if the basic proxy fails. Enhanced proxies carry no credit surcharge, so either way only the regular cost is billed.
           default: auto
         storeInCache:
           type: boolean
@@ -1162,6 +1190,15 @@ components:
             required:
               - type
           - type: object
+            title: Raw Base64
+            properties:
+              type:
+                type: string
+                enum:
+                  - rawBase64
+            required:
+              - type
+          - type: object
             title: Links
             properties:
               type:
@@ -1226,6 +1263,15 @@ components:
               prompt:
                 type: string
                 description: The prompt to use for the JSON output
+              checkPromptInjection:
+                type: boolean
+                description: >-
+                  When enabled, scans the scraped page content for prompt
+                  injection attempts before running the extraction. If an
+                  injection is detected, the request fails with a 403 and error
+                  code SCRAPE_PROMPT_INJECTION_DETECTED. Adds 4 credits when the
+                  check runs. Defaults to false.
+                default: false
             required:
               - type
           - type: object

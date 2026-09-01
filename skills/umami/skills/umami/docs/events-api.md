@@ -2,28 +2,31 @@
 
 
 
-<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2.5 font-semibold md:hidden" rel="noreferrer noopener" target="_blank"><strong>umami</strong></a>
+<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2 text-xl font-bold text-foreground tracking-[-0.03em]" target="_blank" rel="noreferrer"><img src="/logo.svg" class="h-6 w-auto dark:hidden" /><img src="/logo.svg" class="hidden h-6 w-auto dark:block" /><span>umami</span></a>
 
 
-Search
+<a href="https://github.com/umami-software/umami" class="inline-flex items-center rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-foreground size-8 justify-center" target="_blank" rel="noreferrer" aria-label="Umami on GitHub"></a>
 
 
-<a href="/docs" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Documentation</a><a href="/docs/guides" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Guides</a><a href="/docs/api" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="true">API Reference</a><a href="/docs/cloud" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Cloud</a><a href="https://v2.umami.is" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" target="_blank" rel="noopener noreferrer">v2</a>
+Menu
 
 
-<a href="https://github.com/umami-software/umami" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&amp;_svg]:size-4.5 text-fd-muted-foreground max-lg:hidden" rel="noreferrer noopener" target="_blank" aria-label="GitHub" data-active="false"></a>
+Endpoints
 
 
 # Events
+
+
+Copy page
 
 
 Operations around Events and Event data.
 
 **Endpoints**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>GET /api/websites/:websiteId/events
+``` code-block
+GET /api/websites/:websiteId/events
 GET /api/websites/:websiteId/events/stats
 GET /api/websites/:websiteId/event-data
 GET /api/websites/:websiteId/event-data/:eventId
@@ -32,15 +35,15 @@ GET /api/websites/:websiteId/event-data/fields
 GET /api/websites/:websiteId/event-data/properties
 GET /api/websites/:websiteId/event-data/values
 GET /api/websites/:websiteId/event-data/stats
-GET /api/websites/:websiteId/event-data-pivot</code></pre>
-</figure>
+GET /api/websites/:websiteId/event-data-pivot
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#filters" class="peer" data-card="">Filters</a>
+## Filters<a href="#filters" class="heading-anchor" aria-label="Permalink to “Filters”">#</a>
 
 All Endpoints marked with `filters` can now be filtered with the parameters below.
-
 
 | Parameter     | Type   | Description                    |
 |---------------|--------|--------------------------------|
@@ -67,15 +70,13 @@ All Endpoints marked with `filters` can now be filtered with the parameters belo
 | `segment`     | uuid   | UUID of segment.               |
 | `cohort`      | uuid   | UUID of cohort.                |
 
-
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidevents" class="peer" data-card="">GET /api/websites/:websiteId/events</a>
+## GET /api/websites/:websiteId/events<a href="#get-apiwebsiteswebsiteidevents" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/events”">#</a>
 
 Gets website event details within a given time range.
 
 **Parameters**
-
 
 | Parameter  | Type   | Description                                                   |
 |------------|--------|---------------------------------------------------------------|
@@ -86,70 +87,69 @@ Gets website event details within a given time range.
 | `pageSize` | number | (optional, default 20) Determines how many results to return. |
 | `filters`  | object | Can accept filter parameters.                                 |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;data&quot;: [
+``` code-block
+{
+  "data": [
     {
-      &quot;id&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;createdAt&quot;: &quot;2025-10-15T16:26:28Z&quot;,
-      &quot;hostname&quot;: &quot;umami.is&quot;,
-      &quot;urlPath&quot;: &quot;/docs/api&quot;,
-      &quot;urlQuery&quot;: &quot;&quot;,
-      &quot;referrerPath&quot;: &quot;&quot;,
-      &quot;referrerQuery&quot;: &quot;&quot;,
-      &quot;referrerDomain&quot;: &quot;&quot;,
-      &quot;country&quot;: &quot;US&quot;,
-      &quot;city&quot;: &quot;Scott&quot;,
-      &quot;device&quot;: &quot;desktop&quot;,
-      &quot;os&quot;: &quot;Mac OS&quot;,
-      &quot;browser&quot;: &quot;chrome&quot;,
-      &quot;pageTitle&quot;: &quot;API – Docs - Umami&quot;,
-      &quot;eventType&quot;: 1,
-      &quot;eventName&quot;: &quot;&quot;,
-      &quot;hasData&quot;: 0
+      "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "createdAt": "2025-10-15T16:26:28Z",
+      "hostname": "umami.is",
+      "urlPath": "/docs/api",
+      "urlQuery": "",
+      "referrerPath": "",
+      "referrerQuery": "",
+      "referrerDomain": "",
+      "country": "US",
+      "city": "Scott",
+      "device": "desktop",
+      "os": "Mac OS",
+      "browser": "chrome",
+      "pageTitle": "API – Docs - Umami",
+      "eventType": 1,
+      "eventName": "",
+      "hasData": 0
     },
     {
-      &quot;id&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;createdAt&quot;: &quot;2025-10-15T16:26:23Z&quot;,
-      &quot;hostname&quot;: &quot;umami.is&quot;,
-      &quot;urlPath&quot;: &quot;/docs/sessions&quot;,
-      &quot;urlQuery&quot;: &quot;&quot;,
-      &quot;referrerPath&quot;: &quot;/docs/distinct-ids&quot;,
-      &quot;referrerQuery&quot;: &quot;&quot;,
-      &quot;referrerDomain&quot;: &quot;umami.is&quot;,
-      &quot;country&quot;: &quot;PL&quot;,
-      &quot;city&quot;: &quot;Warsaw&quot;,
-      &quot;device&quot;: &quot;desktop&quot;,
-      &quot;os&quot;: &quot;Mac OS&quot;,
-      &quot;browser&quot;: &quot;chrome&quot;,
-      &quot;pageTitle&quot;: &quot;Sessions – Docs - Umami&quot;,
-      &quot;eventType&quot;: 2,
-      &quot;eventName&quot;: &quot;login-button-header&quot;,
-      &quot;hasData&quot;: 0
+      "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "createdAt": "2025-10-15T16:26:23Z",
+      "hostname": "umami.is",
+      "urlPath": "/docs/sessions",
+      "urlQuery": "",
+      "referrerPath": "/docs/distinct-ids",
+      "referrerQuery": "",
+      "referrerDomain": "umami.is",
+      "country": "PL",
+      "city": "Warsaw",
+      "device": "desktop",
+      "os": "Mac OS",
+      "browser": "chrome",
+      "pageTitle": "Sessions – Docs - Umami",
+      "eventType": 2,
+      "eventName": "login-button-header",
+      "hasData": 0
     }
   ],
-  &quot;count&quot;: 2,
-  &quot;page&quot;: 1,
-  &quot;pageSize&quot;: 20
-}</code></pre>
-</figure>
+  "count": 2,
+  "page": 1,
+  "pageSize": 20
+}
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteideventsstats" class="peer" data-card="">GET /api/websites/:websiteId/events/stats</a>
+## GET /api/websites/:websiteId/events/stats<a href="#get-apiwebsiteswebsiteideventsstats" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/events/stats”">#</a>
 
 Gets aggregated event statistics within a given time range, with optional period comparison.
 
 **Parameters**
-
 
 | Parameter | Type   | Description                                     |
 |-----------|--------|-------------------------------------------------|
@@ -158,35 +158,34 @@ Gets aggregated event statistics within a given time range, with optional period
 | `compare` | string | (optional) Comparison period (`prev` \| `yoy`). |
 | `filters` | object | (optional) Can accept filter parameters.        |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-    &quot;data&quot;: {
-        &quot;events&quot;: 753,
-        &quot;visitors&quot;: 607,
-        &quot;visits&quot;: 687,
-        &quot;uniqueEvents&quot;: 8,
-        &quot;comparison&quot;: {
-            &quot;events&quot;: 1809,
-            &quot;visitors&quot;: 1374,
-            &quot;visits&quot;: 1655,
-            &quot;uniqueEvents&quot;: 10
+``` code-block
+{
+    "data": {
+        "events": 753,
+        "visitors": 607,
+        "visits": 687,
+        "uniqueEvents": 8,
+        "comparison": {
+            "events": 1809,
+            "visitors": 1374,
+            "visits": 1655,
+            "uniqueEvents": 10
         }
     }
-}</code></pre>
-</figure>
+}
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidevent-data" class="peer" data-card="">GET /api/websites/:websiteId/event-data</a>
+## GET /api/websites/:websiteId/event-data<a href="#get-apiwebsiteswebsiteidevent-data" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/event-data”">#</a>
 
 Gets event data for a website within a given time range, grouped by event.
 
 **Parameters**
-
 
 | Parameter  | Type   | Description                                                   |
 |------------|--------|---------------------------------------------------------------|
@@ -196,114 +195,114 @@ Gets event data for a website within a given time range, grouped by event.
 | `pageSize` | number | (optional, default 20) Determines how many results to return. |
 | `filters`  | object | Can accept filter parameters.                                 |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;data&quot;: [
+``` code-block
+{
+  "data": [
     {
-      &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;eventId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;eventName&quot;: &quot;button-click&quot;,
-      &quot;eventProperties&quot;: [
+      "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "eventId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "eventName": "button-click",
+      "eventProperties": [
         {
-          &quot;dataKey&quot;: &quot;id&quot;,
-          &quot;stringValue&quot;: &quot;signup-btn&quot;,
-          &quot;numberValue&quot;: null,
-          &quot;dateValue&quot;: null,
-          &quot;dataType&quot;: 1,
-          &quot;createdAt&quot;: &quot;2025-10-15T16:26:28Z&quot;
+          "dataKey": "id",
+          "stringValue": "signup-btn",
+          "numberValue": null,
+          "dateValue": null,
+          "dataType": 1,
+          "createdAt": "2025-10-15T16:26:28Z"
         },
         {
-          &quot;dataKey&quot;: &quot;name&quot;,
-          &quot;stringValue&quot;: &quot;Sign Up&quot;,
-          &quot;numberValue&quot;: null,
-          &quot;dateValue&quot;: null,
-          &quot;dataType&quot;: 1,
-          &quot;createdAt&quot;: &quot;2025-10-15T16:26:28Z&quot;
+          "dataKey": "name",
+          "stringValue": "Sign Up",
+          "numberValue": null,
+          "dateValue": null,
+          "dataType": 1,
+          "createdAt": "2025-10-15T16:26:28Z"
         }
       ]
     },
     {
-      &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;eventId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;eventName&quot;: &quot;revenue-demo&quot;,
-      &quot;eventProperties&quot;: [
+      "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "eventId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "eventName": "revenue-demo",
+      "eventProperties": [
         {
-          &quot;dataKey&quot;: &quot;currency&quot;,
-          &quot;stringValue&quot;: &quot;USD&quot;,
-          &quot;numberValue&quot;: null,
-          &quot;dateValue&quot;: null,
-          &quot;dataType&quot;: 1,
-          &quot;createdAt&quot;: &quot;2025-10-10T12:31:03Z&quot;
+          "dataKey": "currency",
+          "stringValue": "USD",
+          "numberValue": null,
+          "dateValue": null,
+          "dataType": 1,
+          "createdAt": "2025-10-10T12:31:03Z"
         },
         {
-          &quot;dataKey&quot;: &quot;revenue&quot;,
-          &quot;stringValue&quot;: &quot;40.0000&quot;,
-          &quot;numberValue&quot;: 40,
-          &quot;dateValue&quot;: null,
-          &quot;dataType&quot;: 2,
-          &quot;createdAt&quot;: &quot;2025-10-10T12:31:03Z&quot;
+          "dataKey": "revenue",
+          "stringValue": "40.0000",
+          "numberValue": 40,
+          "dateValue": null,
+          "dataType": 2,
+          "createdAt": "2025-10-10T12:31:03Z"
         }
       ]
     }
   ],
-  &quot;count&quot;: 2,
-  &quot;page&quot;: 1,
-  &quot;pageSize&quot;: 20
-}</code></pre>
-</figure>
+  "count": 2,
+  "page": 1,
+  "pageSize": 20
+}
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidevent-dataeventid" class="peer" data-card="">GET /api/websites/:websiteId/event-data/:eventId</a>
+## GET /api/websites/:websiteId/event-data/:eventId<a href="#get-apiwebsiteswebsiteidevent-dataeventid" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/event-data/:eventId”">#</a>
 
 Gets event-data for an individual event
 
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;eventId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;urlPath&quot;: &quot;/&quot;,
-    &quot;eventName&quot;: &quot;revenue-demo&quot;,
-    &quot;dataKey&quot;: &quot;currency&quot;,
-    &quot;stringValue&quot;: &quot;USD&quot;,
-    &quot;numberValue&quot;: null,
-    &quot;dateValue&quot;: null,
-    &quot;dataType&quot;: 1,
-    &quot;createdAt&quot;: &quot;2025-10-10T12:31:03Z&quot;
+    "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "eventId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "urlPath": "/",
+    "eventName": "revenue-demo",
+    "dataKey": "currency",
+    "stringValue": "USD",
+    "numberValue": null,
+    "dateValue": null,
+    "dataType": 1,
+    "createdAt": "2025-10-10T12:31:03Z"
   },
   {
-    &quot;websiteId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;eventId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-    &quot;urlPath&quot;: &quot;/&quot;,
-    &quot;eventName&quot;: &quot;revenue-demo&quot;,
-    &quot;dataKey&quot;: &quot;revenue&quot;,
-    &quot;stringValue&quot;: &quot;40.0000&quot;,
-    &quot;numberValue&quot;: 40,
-    &quot;dateValue&quot;: null,
-    &quot;dataType&quot;: 2,
-    &quot;createdAt&quot;: &quot;2025-10-10T12:31:03Z&quot;
+    "websiteId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "eventId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "urlPath": "/",
+    "eventName": "revenue-demo",
+    "dataKey": "revenue",
+    "stringValue": "40.0000",
+    "numberValue": 40,
+    "dateValue": null,
+    "dataType": 2,
+    "createdAt": "2025-10-10T12:31:03Z"
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidevent-dataevents" class="peer" data-card="">GET /api/websites/:websiteId/event-data/events</a>
+## GET /api/websites/:websiteId/event-data/events<a href="#get-apiwebsiteswebsiteidevent-dataevents" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/event-data/events”">#</a>
 
 Gets event data names, properties, and counts
 
 **Parameters**
-
 
 | Parameter | Type   | Description                         |
 |-----------|--------|-------------------------------------|
@@ -312,123 +311,120 @@ Gets event data names, properties, and counts
 | `event`   | string | (optional) Event name filter.       |
 | `filters` | object | Can accept filter parameters.       |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;eventName&quot;: &quot;button-click&quot;,
-    &quot;propertyName&quot;: &quot;id&quot;,
-    &quot;dataType&quot;: 1,
-    &quot;total&quot;: 4
+    "eventName": "button-click",
+    "propertyName": "id",
+    "dataType": 1,
+    "total": 4
   },
   {
-    &quot;eventName&quot;: &quot;button-click&quot;,
-    &quot;propertyName&quot;: &quot;name&quot;,
-    &quot;dataType&quot;: 1,
-    &quot;total&quot;: 4
+    "eventName": "button-click",
+    "propertyName": "name",
+    "dataType": 1,
+    "total": 4
   },
   {
-    &quot;eventName&quot;: &quot;track-product&quot;,
-    &quot;propertyName&quot;: &quot;price&quot;,
-    &quot;dataType&quot;: 2,
-    &quot;total&quot;: 2
+    "eventName": "track-product",
+    "propertyName": "price",
+    "dataType": 2,
+    "total": 2
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidevent-datafields" class="peer" data-card="">GET /api/websites/:websiteId/event-data/fields</a>
+## GET /api/websites/:websiteId/event-data/fields<a href="#get-apiwebsiteswebsiteidevent-datafields" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/event-data/fields”">#</a>
 
 Gets event data property and value counts within a given time range.
 
 **Parameters**
 
-
 | Parameter | Type   | Description                         |
 |-----------|--------|-------------------------------------|
 | `startAt` | number | Timestamp (in ms) of starting date. |
 | `endAt`   | number | Timestamp (in ms) of end date.      |
 | `filters` | object | Can accept filter parameters.       |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;propertyName&quot;: &quot;age&quot;,
-    &quot;dataType&quot;: 2,
-    &quot;value&quot;: &quot;33&quot;,
-    &quot;total&quot;: 1
+    "propertyName": "age",
+    "dataType": 2,
+    "value": "33",
+    "total": 1
   },
   {
-    &quot;propertyName&quot;: &quot;age&quot;,
-    &quot;dataType&quot;: 2,
-    &quot;value&quot;: &quot;31&quot;,
-    &quot;total&quot;: 4
+    "propertyName": "age",
+    "dataType": 2,
+    "value": "31",
+    "total": 4
   },
   {
-    &quot;propertyName&quot;: &quot;gender&quot;,
-    &quot;dataType&quot;: 1,
-    &quot;value&quot;: &quot;female&quot;,
-    &quot;total&quot;: 4
+    "propertyName": "gender",
+    "dataType": 1,
+    "value": "female",
+    "total": 4
   },
   {
-    &quot;propertyName&quot;: &quot;gender&quot;,
-    &quot;dataType&quot;: 1,
-    &quot;value&quot;: &quot;male&quot;,
-    &quot;total&quot;: 1
+    "propertyName": "gender",
+    "dataType": 1,
+    "value": "male",
+    "total": 1
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidevent-dataproperties" class="peer" data-card="">GET /api/websites/:websiteId/event-data/properties</a>
+## GET /api/websites/:websiteId/event-data/properties<a href="#get-apiwebsiteswebsiteidevent-dataproperties" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/event-data/properties”">#</a>
 
 Gets event name and property counts for a website.
 
 **Parameters**
 
-
 | Parameter | Type   | Description                         |
 |-----------|--------|-------------------------------------|
 | `startAt` | number | Timestamp (in ms) of starting date. |
 | `endAt`   | number | Timestamp (in ms) of end date.      |
 | `filters` | object | Can accept filter parameters.       |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;eventName&quot;: &quot;revenue-demo&quot;,
-    &quot;propertyName&quot;: &quot;revenue&quot;,
-    &quot;total&quot;: 122
+    "eventName": "revenue-demo",
+    "propertyName": "revenue",
+    "total": 122
   },
   {
-    &quot;eventName&quot;: &quot;revenue-demo&quot;,
-    &quot;propertyName&quot;: &quot;currency&quot;,
-    &quot;total&quot;: 122
+    "eventName": "revenue-demo",
+    "propertyName": "currency",
+    "total": 122
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidevent-datavalues" class="peer" data-card="">GET /api/websites/:websiteId/event-data/values</a>
+## GET /api/websites/:websiteId/event-data/values<a href="#get-apiwebsiteswebsiteidevent-datavalues" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/event-data/values”">#</a>
 
 Gets event data counts for a given event and property
 
 **Parameters**
-
 
 | Parameter      | Type   | Description                         |
 |----------------|--------|-------------------------------------|
@@ -438,31 +434,30 @@ Gets event data counts for a given event and property
 | `propertyName` | string | Property name.                      |
 | `filters`      | object | Can accept filter parameters.       |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;value&quot;: &quot;Male&quot;,
-    &quot;total&quot;: 28
+    "value": "Male",
+    "total": 28
   },
   {
-    &quot;value&quot;: &quot;Female&quot;,
-    &quot;total&quot;: 26
+    "value": "Female",
+    "total": 26
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidevent-datastats" class="peer" data-card="">GET /api/websites/:websiteId/event-data/stats</a>
+## GET /api/websites/:websiteId/event-data/stats<a href="#get-apiwebsiteswebsiteidevent-datastats" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/event-data/stats”">#</a>
 
 Gets aggregated website events, properties, and records within a given time range.
 
 **Parameters**
-
 
 | Parameter | Type   | Description                         |
 |-----------|--------|-------------------------------------|
@@ -470,28 +465,27 @@ Gets aggregated website events, properties, and records within a given time rang
 | `endAt`   | number | Timestamp (in ms) of end date.      |
 | `filters` | object | Can accept filter parameters.       |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>[
+``` code-block
+[
   {
-    &quot;events&quot;: 16,
-    &quot;properties&quot;: 13,
-    &quot;records&quot;: 26
+    "events": 16,
+    "properties": 13,
+    "records": 26
   }
-]</code></pre>
-</figure>
+]
+```
+
 
 ------------------------------------------------------------------------
 
-## <a href="#get-apiwebsiteswebsiteidevent-data-pivot" class="peer" data-card="">GET /api/websites/:websiteId/event-data-pivot</a>
+## GET /api/websites/:websiteId/event-data-pivot<a href="#get-apiwebsiteswebsiteidevent-data-pivot" class="heading-anchor" aria-label="Permalink to “GET /api/websites/:websiteId/event-data-pivot”">#</a>
 
 Gets event data for a website in a pivoted format, with each row representing an event and its properties as parallel arrays.
 
 **Parameters**
-
 
 | Parameter   | Type   | Description                                                   |
 |-------------|--------|---------------------------------------------------------------|
@@ -502,50 +496,32 @@ Gets event data for a website in a pivoted format, with each row representing an
 | `pageSize`  | number | (optional, default 20) Determines how many results to return. |
 | `filters`   | object | Can accept filter parameters.                                 |
 
-
 **Sample response**
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
-  &quot;data&quot;: [
+``` code-block
+{
+  "data": [
     {
-      &quot;eventId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;sessionId&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
-      &quot;eventName&quot;: &quot;signup&quot;,
-      &quot;urlPath&quot;: &quot;/register&quot;,
-      &quot;createdAt&quot;: &quot;2025-10-15T16:26:28Z&quot;,
-      &quot;propertyKeys&quot;: [&quot;plan&quot;, &quot;source&quot;],
-      &quot;propertyValues&quot;: [&quot;pro&quot;, &quot;organic&quot;]
+      "eventId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "eventName": "signup",
+      "urlPath": "/register",
+      "createdAt": "2025-10-15T16:26:28Z",
+      "propertyKeys": ["plan", "source"],
+      "propertyValues": ["pro", "organic"]
     }
   ],
-  &quot;count&quot;: 100,
-  &quot;page&quot;: 1,
-  &quot;pageSize&quot;: 20
-}</code></pre>
-</figure>
+  "count": 100,
+  "page": 1,
+  "pageSize": 20
+}
+```
 
 
-<a href="/docs/api/admin" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
+<a href="/docs/api/admin" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Admin</span></span></a><a href="/docs/api/links" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Links</span></span></a>
 
 
-Admin
-
-
-Previous Page
-
-<a href="/docs/api/links" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full text-end"></a>
-
-
-Links
-
-
-Next Page
-
-
-### On this page
-
-
-<a href="#filters" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Filters</a><a href="#get-apiwebsiteswebsiteidevents" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/events</a><a href="#get-apiwebsiteswebsiteideventsstats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/events/stats</a><a href="#get-apiwebsiteswebsiteidevent-data" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data</a><a href="#get-apiwebsiteswebsiteidevent-dataeventid" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/:eventId</a><a href="#get-apiwebsiteswebsiteidevent-dataevents" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/events</a><a href="#get-apiwebsiteswebsiteidevent-datafields" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/fields</a><a href="#get-apiwebsiteswebsiteidevent-dataproperties" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/properties</a><a href="#get-apiwebsiteswebsiteidevent-datavalues" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/values</a><a href="#get-apiwebsiteswebsiteidevent-datastats" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data/stats</a><a href="#get-apiwebsiteswebsiteidevent-data-pivot" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">GET /api/websites/:websiteId/event-data-pivot</a>
+On this page
 
 

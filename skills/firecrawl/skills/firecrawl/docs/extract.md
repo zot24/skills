@@ -426,6 +426,32 @@ curl -X POST https://api.firecrawl.dev/v2/scrape \
 
 - `schema`: JSON Schema describing the structured output you want (required for schema-based extraction).
 - `prompt`: Optional prompt to guide extraction (also used for no-schema extraction).
+- `checkPromptInjection`: Optional boolean (default `false`). When enabled, Firecrawl scans the scraped page content for prompt injection attempts before running the extraction. See <a href="#prompt-injection-detection" class="link">Prompt injection detection</a>.
+
+
+### 
+
+
+<a href="#prompt-injection-detection" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+{
+  "url": "https://example.com",
+  "formats": [
+    {
+      "type": "json",
+      "schema": { "type": "object", "properties": { "title": { "type": "string" } } },
+      "checkPromptInjection": true
+    }
+  ]
+}
+```
+
+
+- A dedicated classifier call inspects the scraped page content (it runs in parallel with the extraction, so enabling it does not slow down clean scrapes).
+- If a prompt injection attempt is detected, the request fails with an HTTP `403` and the error code `SCRAPE_PROMPT_INJECTION_DETECTED` — no extraction output is returned.
+- The check is billed as **+4 credits** on top of the standard JSON format cost when it runs. If the scrape fails after the check has run (including when an injection is detected and the request is blocked), **5 credits** are billed instead of the usual 0 for a failed scrape, since the classifier call still ran.
 
 
 ## 

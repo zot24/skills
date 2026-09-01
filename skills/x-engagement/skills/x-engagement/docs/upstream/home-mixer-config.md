@@ -1,5 +1,4 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/home-mixer/params/config.rs
-> Snapshot: bc8e5f0 (2026-08-28)
 
 pub const FS_PATH: &str = "/usr/local/config/features/home-mixer/main/rust_home_mixer.yml";
 

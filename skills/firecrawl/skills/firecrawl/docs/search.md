@@ -261,28 +261,9 @@ for (const item of result.web ?? []) {
 <a href="#search-categories" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- `github`: Search within GitHub repositories, code, issues, and documentation
 - `research`: Restrict web search to academic and research **websites** (arxiv.org, nature.com, ieee.org, pubmed.ncbi.nlm.nih.gov, biorxiv.org, medrxiv.org, and similar). Returns ordinary web page results with snippets — not paper records. To search papers themselves, use the <a href="/features/research" class="link">Research Index</a>
 - `pdf`: Search for PDFs
 - `developer`: Search the <a href="/features/developer" class="link">Developer Index</a> — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites
-
-
-### 
-
-
-<a href="#github-category-search" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-``` shiki
-curl -X POST https://api.firecrawl.dev/v2/search \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer fc-YOUR_API_KEY" \
-  -d '{
-    "query": "web scraping python",
-    "categories": ["github"],
-    "limit": 10
-  }'
-```
 
 
 ### 
@@ -338,7 +319,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Authorization: Bearer fc-YOUR_API_KEY" \
   -d '{
     "query": "neural networks",
-    "categories": ["github", "research"],
+    "categories": ["research", "pdf"],
     "limit": 15
   }'
 ```
@@ -398,16 +379,16 @@ curl -X POST https://api.firecrawl.dev/v2/search \
   "data": {
     "web": [
       {
-        "url": "https://github.com/example/neural-network",
-        "title": "Neural Network Implementation",
-        "description": "A PyTorch implementation of neural networks",
-        "category": "github"
-      },
-      {
         "url": "https://arxiv.org/abs/2024.12345",
         "title": "Advances in Neural Network Architecture",
         "description": "Research paper on neural network improvements",
         "category": "research"
+      },
+      {
+        "url": "https://example.com/neural-networks.pdf",
+        "title": "Neural Networks Survey",
+        "description": "A survey of neural network architectures",
+        "category": "pdf"
       }
     ]
   }
@@ -983,8 +964,7 @@ curl -X POST https://api.firecrawl.dev/v2/search \
     "limit": 5,
     "enterprise": ["zdr"],
     "scrapeOptions": {
-      "formats": ["markdown"],
-      "zeroDataRetention": true
+      "formats": ["markdown"]
     }
   }'
 ```
@@ -998,12 +978,10 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 
 - **Basic scrape**: 1 credit per webpage
 - **PDF parsing**: 1 credit per PDF page
-- **Enhanced proxy mode**: 4 additional credits per webpage
 - **JSON mode**: 4 additional credits per webpage
 
 
 - Set `parsers: []` if PDF parsing isn’t required
-- Use `proxy: "basic"` instead of `"enhanced"` when possible, or set it to `"auto"`
 - Limit the number of search results with the `limit` parameter
 
 ## 

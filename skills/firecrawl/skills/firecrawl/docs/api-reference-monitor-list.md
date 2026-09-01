@@ -417,6 +417,35 @@ components:
                     description: >-
                       Maximum number of pages to parse from the PDF. Must be a
                       positive integer up to 10000.
+                  pages:
+                    type: boolean
+                    default: false
+                    description: >-
+                      Include physical per-page markdown alongside the document
+                      markdown. Populates the `pages` field on the document as
+                      an array of { pageNumber, markdown }. No additional cost.
+                  blocks:
+                    type: boolean
+                    default: false
+                    description: >-
+                      Include per-page typed layout blocks alongside the
+                      document markdown. Populates the `blocks` field on the
+                      document: typed blocks (title, section_header, text,
+                      table, formula, figure, caption, ...) with normalized
+                      bounding boxes, reading order, character-span links into
+                      the markdown, and per-block confidence. No additional
+                      cost.
+                  pageMarkers:
+                    type: boolean
+                    default: false
+                    description: >-
+                      Annotate page breaks in the document markdown: pages are
+                      joined with `\n\n---\n\n<!-- page N -->\n\n`, where N is
+                      the 1-based physical page of the content that follows.
+                      Markers appear between pages only (no leading marker for
+                      page 1), and numbering may skip pages merged across a page
+                      break — use `pages: true` when every physical page is
+                      needed. No new response field; no additional cost.
                 required:
                   - type
                 additionalProperties: false
@@ -685,8 +714,8 @@ components:
             Specifies the type of proxy to use.
 
              - **basic**: Proxies for scraping sites with none to basic anti-bot solutions. Fast and usually works.
-             - **enhanced**: Enhanced proxies for scraping sites with advanced anti-bot solutions. Slower, but more reliable on certain sites. Costs up to 5 credits per request.
-             - **auto**: Firecrawl will automatically retry scraping with enhanced proxies if the basic proxy fails. If the retry with enhanced is successful, 5 credits will be billed for the scrape. If the first attempt with basic is successful, only the regular cost will be billed.
+             - **enhanced**: Enhanced proxies for scraping sites with advanced anti-bot solutions. Slower, but more reliable on certain sites. Billed at the same credit cost as basic.
+             - **auto**: Firecrawl will automatically retry scraping with enhanced proxies if the basic proxy fails. Enhanced proxies carry no credit surcharge, so either way only the regular cost is billed.
           default: auto
         storeInCache:
           type: boolean
@@ -788,6 +817,15 @@ components:
             required:
               - type
           - type: object
+            title: Raw Base64
+            properties:
+              type:
+                type: string
+                enum:
+                  - rawBase64
+            required:
+              - type
+          - type: object
             title: Links
             properties:
               type:
@@ -852,6 +890,15 @@ components:
               prompt:
                 type: string
                 description: The prompt to use for the JSON output
+              checkPromptInjection:
+                type: boolean
+                description: >-
+                  When enabled, scans the scraped page content for prompt
+                  injection attempts before running the extraction. If an
+                  injection is detected, the request fails with a 403 and error
+                  code SCRAPE_PROMPT_INJECTION_DETECTED. Adds 4 credits when the
+                  check runs. Defaults to false.
+                default: false
             required:
               - type
           - type: object

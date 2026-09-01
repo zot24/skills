@@ -53,13 +53,6 @@
     * [GitHub Repo](https://github.com/firecrawl/firesearch)
 
 
-    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGVhOTdxaDhxZGJ6bnAwaDB3bWp3bXpnYzN1NDBrazJ1MGpvOG51aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZAOM1psWWVQYeAaS38/giphy.gif" alt="Firestarter" width="100%" />
-
-    **Use Case**: Instantly create AI chatbots for any website with RAG-powered search
-
-    * [GitHub Repo](https://github.com/firecrawl/firestarter)
-
-
     <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzZyaXVlOXoyaGJmMGV5YzBlbXNod2U5emRrZ2lqZTM1eGI1aHlzZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/irNt0XtSKmenMRqMre/giphy.gif" alt="AI Ready Website" width="100%" />
 
     **Use Case**: Transform any website into AI-ready structured data

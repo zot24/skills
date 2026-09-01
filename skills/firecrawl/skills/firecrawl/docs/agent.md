@@ -94,7 +94,7 @@ class FoundersSchema(BaseModel):
 result = app.agent(
     prompt="Find the founders of Firecrawl",
     schema=FoundersSchema,
-    model="spark-1-mini",
+    model="spark-2",
     max_credits=100
 )
 
@@ -117,7 +117,7 @@ const result = await firecrawl.agent({
       background: z.string().describe("Professional background").optional()
     })).describe("List of founders")
   }),
-  model: "spark-1-mini",
+  model: "spark-2",
   maxCredits: 100
 });
 
@@ -131,7 +131,7 @@ curl -X POST "https://api.firecrawl.dev/v2/agent" \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "Find the founders of Firecrawl",
-    "model": "spark-1-mini",
+    "model": "spark-2",
     "maxCredits": 100,
     "schema": {
       "type": "object",
@@ -256,6 +256,7 @@ curl -X POST "https://api.firecrawl.dev/v2/agent" \
 
 - **Default method**: `agent()` waits and returns final results
 - **Start then poll**: Use `start_agent` (Python) or `startAgent` (Node) to get a Job ID immediately, then poll with `get_agent_status` / `getAgentStatus`
+- **Push instead of poll**: Pass a `webhook` when you start the job to receive <a href="/webhooks/events#agent-events" class="link">agent events</a> as the run progresses and finishes
 
 
 Job results are available via the API for 24 hours after completion. After this period, you can still view your agent history and results in the <a href="https://www.firecrawl.dev/app/logs" class="link" target="_blank" rel="noreferrer">activity logs</a>.
@@ -323,12 +324,11 @@ curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
 <a href="#possible-states" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Status       | Description                                |
-|--------------|--------------------------------------------|
-| `processing` | The agent is still working on your request |
-| `completed`  | Extraction finished successfully           |
-| `failed`     | An error occurred during extraction        |
-| `cancelled`  | The job was cancelled by the user          |
+| Status       | Description                                                                                                                      |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `processing` | The agent is still working on your request                                                                                       |
+| `completed`  | Extraction finished successfully                                                                                                 |
+| `failed`     | An error occurred during extraction, or the job was cancelled (cancelled jobs report `failed` with a cancellation error message) |
 
 
 #### 
@@ -381,6 +381,407 @@ curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
 ## 
 
 
+<a href="#listing-agent-runs" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+# List your most recent agent runs
+page = app.list_agents()
+
+for run in page.agents:
+    print(run.id, run.status, run.target_hint)
+
+# Fetch the next page using the cursor from `next`
+if page.next:
+    before = int(page.next.split("before=")[-1])
+    older = app.list_agents(before=before)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+// List your most recent agent runs
+const page = await firecrawl.listAgents();
+
+for (const run of page.agents ?? []) {
+  console.log(run.id, run.status, run.targetHint);
+}
+
+// Fetch the next page using the cursor from `next`
+if (page.next) {
+  const before = Number(new URL(page.next).searchParams.get("before"));
+  const older = await firecrawl.listAgents({ before });
+}
+```
+
+
+``` shiki
+curl -X GET "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+
+# Fetch the next page (unix ms timestamp from the previous page's `next` URL)
+curl -X GET "https://api.firecrawl.dev/v2/agent?before=1756600000000" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```
+
+
+## 
+
+
+<a href="#following-a-run-in-progress" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| Surface       | What you get                                                                                                                                                                                                           | Best for                                                            |
+|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| Trace polling | Full detail: every event the run has emitted so far, including tool calls, reasoning summaries, progress phases, and artifact changes                                                                                  | Building your own progress UI, or debugging what a run actually did |
+| Webhooks      | Push delivery, coarse-grained: the five agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See <a href="/webhooks/events" class="link">webhook events</a> | Reacting to a run finishing without holding a poll loop open        |
+| Live view     | A human-watchable view of the agent’s browser. Request the trace with `?liveView=true` and each entry in `activeBrowserSessions` carries a `liveViewUrl`                                                               | Watching a run navigate in real time                                |
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+import time
+from collections import defaultdict
+
+from firecrawl import Firecrawl
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+agent_job = app.start_agent(prompt="Find the founders of Firecrawl")
+seen = set()
+finished = False
+quiet_polls = 0
+
+while True:
+    trace = app.get_agent_trace(agent_job.id)
+
+    # producer_sequence is monotonic per emitting agent, so group first.
+    by_agent = defaultdict(list)
+    for event in trace.events or []:
+        by_agent[event.agent.id].append(event)
+
+    new_events = 0
+    for agent_id, events in by_agent.items():
+        for event in sorted(events, key=lambda e: e.producer_sequence):
+            if event.event_id not in seen:
+                seen.add(event.event_id)
+                new_events += 1
+                print(agent_id, event.producer_sequence, event.type)
+
+    if not finished:
+        finished = app.get_agent_status(agent_job.id).status != "processing"
+    elif new_events:
+        quiet_polls = 0
+    else:
+        # Tail window: events can land for a moment after the run finishes.
+        quiet_polls += 1
+        if quiet_polls == 3:
+            break
+
+    time.sleep(5)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+const started = await firecrawl.startAgent({ prompt: "Find the founders of Firecrawl" });
+const seen = new Set();
+let finished = false;
+let quietPolls = 0;
+
+for (;;) {
+  const trace = await firecrawl.getAgentTrace(started.id);
+
+  // producerSequence is monotonic per emitting agent, so group first.
+  const byAgent = new Map();
+  for (const event of trace.events ?? []) {
+    const bucket = byAgent.get(event.agent.id) ?? [];
+    bucket.push(event);
+    byAgent.set(event.agent.id, bucket);
+  }
+
+  let newEvents = 0;
+  for (const [agentId, events] of byAgent) {
+    for (const event of events.sort((a, b) => a.producerSequence - b.producerSequence)) {
+      if (seen.has(event.eventId)) continue;
+      seen.add(event.eventId);
+      newEvents++;
+      console.log(agentId, event.producerSequence, event.type);
+    }
+  }
+
+  if (!finished) {
+    finished = (await firecrawl.getAgentStatus(started.id)).status !== "processing";
+  } else if (newEvents) {
+    quietPolls = 0;
+  } else {
+    // Tail window: events can land for a moment after the run finishes.
+    if (++quietPolls === 3) break;
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+}
+```
+
+
+``` shiki
+# Print only the events you haven't seen yet, and keep polling through a short
+# tail window after the run finishes.
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+: > "$tmp/seen.txt"
+finished=0
+quiet=0
+
+while [ "$quiet" -lt 3 ]; do
+  curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID/trace" \
+    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  | jq -r '.events | group_by(.agent.id)[] | sort_by(.producerSequence)[]
+           | "\(.eventId) \(.agent.id) \(.producerSequence) \(.type)"' > "$tmp/poll.txt"
+
+  new=$(grep -vxF -f "$tmp/seen.txt" "$tmp/poll.txt")
+  [ -n "$new" ] && echo "$new"
+  cp "$tmp/poll.txt" "$tmp/seen.txt"
+
+  if [ "$finished" = 0 ]; then
+    status=$(curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID" \
+      -H "Authorization: Bearer $FIRECRAWL_API_KEY" | jq -r '.status')
+    [ "$status" = "processing" ] || finished=1
+  elif [ -n "$new" ]; then
+    quiet=0
+  else
+    quiet=$((quiet + 1))
+  fi
+
+  sleep 5
+done
+```
+
+
+## 
+
+
+<a href="#execution-traces-and-snapshots" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+# Execution trace of a run: ordered events (tool calls, reasoning, artifacts)
+trace = app.get_agent_trace("JOB_ID")
+
+for event in trace.events or []:
+    print(event.type)
+
+# Include currently active browser sessions while the run is in flight
+live = app.get_agent_trace("JOB_ID", live_view=True)
+for session in live.active_browser_sessions or []:
+    print(session.live_view_url)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+// Execution trace of a run: ordered events (tool calls, reasoning, artifacts)
+const trace = await firecrawl.getAgentTrace("JOB_ID");
+
+for (const event of trace.events ?? []) {
+  console.log(event.type);
+}
+
+// Include currently active browser sessions while the run is in flight
+const live = await firecrawl.getAgentTrace("JOB_ID", { liveView: true });
+console.log(live.activeBrowserSessions);
+```
+
+
+``` shiki
+curl "https://api.firecrawl.dev/v2/agent/JOB_ID/trace" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+
+# Include currently active browser sessions while the run is in flight
+curl "https://api.firecrawl.dev/v2/agent/JOB_ID/trace?liveView=true" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+# artifact.updated trace events reference snapshot content by snapshotId
+snapshot = app.get_agent_snapshot("JOB_ID", "SNAPSHOT_ID")
+
+print(snapshot.snapshot)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+// artifact.updated trace events reference snapshot content by snapshotId
+const snapshot = await firecrawl.getAgentSnapshot("JOB_ID", "SNAPSHOT_ID");
+
+console.log(snapshot.snapshot);
+```
+
+
+``` shiki
+curl "https://api.firecrawl.dev/v2/agent/JOB_ID/snapshots/SNAPSHOT_ID" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```
+
+
+Traces and snapshots are recorded on Spark 2 runs, which is every new run; jobs started on Spark 1 models before their retirement do not have them. See the <a href="/api-reference/endpoint/agent-trace" class="link">trace</a> and <a href="/api-reference/endpoint/agent-snapshot" class="link">snapshot</a> API references for the full event schema, and the <a href="/api-reference/errors#agent" class="link">Agent errors</a> catalog for the failures these endpoints return.
+
+
+## 
+
+
+<a href="#getting-the-agent’s-source-data" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+import json
+
+from firecrawl import Firecrawl
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+trace = app.get_agent_trace("JOB_ID")
+
+for event in trace.events or []:
+    if event.type != "artifact.updated":
+        continue
+
+    kind = event.artifact.kind
+    if kind not in ("markdown", "html", "json"):
+        continue
+
+    snapshot = app.get_agent_snapshot("JOB_ID", event.artifact.snapshot_id)
+
+    # markdown, html, and text snapshots are the content itself.
+    # json snapshots are JSON-encoded, so decode those.
+    content = json.loads(snapshot.snapshot) if kind == "json" else snapshot.snapshot
+
+    print(kind, event.artifact.path, content)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+const trace = await firecrawl.getAgentTrace("JOB_ID");
+
+for (const event of trace.events ?? []) {
+  if (event.type !== "artifact.updated") continue;
+
+  const kind = event.artifact.kind;
+  if (!["markdown", "html", "json"].includes(kind)) continue;
+
+  const snapshot = await firecrawl.getAgentSnapshot("JOB_ID", event.artifact.snapshotId);
+
+  // markdown, html, and text snapshots are the content itself.
+  // json snapshots are JSON-encoded, so decode those.
+  const content = kind === "json" ? JSON.parse(snapshot.snapshot) : snapshot.snapshot;
+
+  console.log(kind, event.artifact.path, content);
+}
+```
+
+
+``` shiki
+# Fetch every markdown, html, or json artifact the run wrote.
+curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID/trace" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+| jq -r '.events[]
+         | select(.type == "artifact.updated")
+         | select(.artifact.kind == "markdown" or .artifact.kind == "html" or .artifact.kind == "json")
+         | "\(.artifact.kind) \(.artifact.snapshotId)"' \
+| while read -r kind snapshot_id; do
+    body=$(curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID/snapshots/$snapshot_id" \
+      -H "Authorization: Bearer $FIRECRAWL_API_KEY")
+
+    # markdown and html snapshots are the content itself; json is JSON-encoded.
+    if [ "$kind" = "json" ]; then
+      printf '%s' "$body" | jq -r '.snapshot | fromjson'
+    else
+      printf '%s' "$body" | jq -r '.snapshot'
+    fi
+  done
+```
+
+
+- **Artifacts are the run’s output, not a page-by-page archive.** What a run writes to an artifact depends on how it works through your prompt, so treat the artifact set as what that particular run produced rather than a guaranteed record of every page it opened.
+- **Tool results carry the rest.** Each `tool_call.finished` event includes a `result` field holding what that tool returned, which is where content that never became an artifact shows up.
+
+## 
+
+
 <a href="#share-agent-runs" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
@@ -390,33 +791,16 @@ curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
 <a href="#model-selection" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Model          | Cost            | Accuracy | Best For                              |
-|----------------|-----------------|----------|---------------------------------------|
-| `spark-1-mini` | **60% cheaper** | Standard | Most tasks (default)                  |
-| `spark-1-pro`  | Standard        | Higher   | Complex research, critical extraction |
-
-
 ### 
 
 
-<a href="#spark-1-mini-default" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#spark-2" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- Extracting simple data points (contact info, pricing, etc.)
-- Working with well-structured websites
-- Cost efficiency is a priority
-- Running high-volume extraction jobs
-
-### 
-
-
-<a href="#spark-1-pro" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
-
-
-- Performing complex competitive analysis
-- Extracting data that requires deep reasoning
-- Accuracy is critical for your use case
-- Dealing with ambiguous or hard-to-find data
+- Lowest cost per run
+- Fastest run time
+- Accuracy comparable to the former Spark 1 flagship
+- The only model with a reasoning budget: pass `effort` (`low`, `medium`, or `high`) to control how hard it thinks
 
 ### 
 
@@ -438,17 +822,13 @@ from firecrawl import Firecrawl
 
 app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-# Using Spark 1 Mini (default - can be omitted)
+# Spark 2 is the default — every run executes on it
 result = app.agent(
     prompt="Find the pricing of Firecrawl",
-    model="spark-1-mini"
+    model="spark-2"
 )
 
-# Using Spark 1 Pro for complex tasks
-result = app.agent(
-    prompt="Compare all enterprise features and pricing across Firecrawl, Apify, and ScrapingBee",
-    model="spark-1-pro"
-)
+# Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
 
 print(result.data)
 ```
@@ -459,40 +839,29 @@ import { Firecrawl } from 'firecrawl';
 
 const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-// Using Spark 1 Mini (default - can be omitted)
+// Spark 2 is the default — every run executes on it
 const result = await firecrawl.agent({
   prompt: "Find the pricing of Firecrawl",
-  model: "spark-1-mini"
+  model: "spark-2"
 });
 
-// Using Spark 1 Pro for complex tasks
-const resultPro = await firecrawl.agent({
-  prompt: "Compare all enterprise features and pricing across Firecrawl, Apify, and ScrapingBee",
-  model: "spark-1-pro"
-});
+// Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
 
 console.log(result.data);
 ```
 
 
 ``` shiki
-# Using Spark 1 Mini (default)
+# Spark 2 is the default — every run executes on it
 curl -X POST "https://api.firecrawl.dev/v2/agent" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "Find the pricing of Firecrawl",
-    "model": "spark-1-mini"
+    "model": "spark-2"
   }'
 
-# Using Spark 1 Pro for complex tasks
-curl -X POST "https://api.firecrawl.dev/v2/agent" \
-  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "prompt": "Compare all enterprise features and pricing across Firecrawl, Apify, and ScrapingBee",
-    "model": "spark-1-pro"
-  }'
+# Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
 ```
 
 
@@ -502,13 +871,16 @@ curl -X POST "https://api.firecrawl.dev/v2/agent" \
 <a href="#parameters" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Parameter    | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|--------------|--------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `prompt`     | string | **Yes**  | Natural language description of the data you want to extract (max 10,000 characters)                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `model`      | string | No       | Model to use: `spark-1-mini` (default) or `spark-1-pro`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `urls`       | array  | No       | Optional list of URLs to focus the extraction                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| `schema`     | object | No       | Optional JSON schema for structured output                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `maxCredits` | number | No       | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails and **no data is returned**. Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
+| Parameter               | Type    | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|-------------------------|---------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `prompt`                | string  | **Yes**  | Natural language description of the data you want to extract (max 10,000 characters)                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `model`                 | string  | No       | Defaults to `spark-2`, the model every run executes on. Spark 1 models are deprecated and route to `spark-2`                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `effort`                | string  | No       | Reasoning budget: `low`, `medium`, or `high`. Every run executes on `spark-2`, so `effort` can be sent with or without `model`                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `urls`                  | array   | No       | Optional list of URLs to focus the extraction                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `schema`                | object  | No       | Optional JSON schema for structured output                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `strictConstrainToURLs` | boolean | No       | If `true`, the agent only visits the URLs provided in the `urls` array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `webhook`               | object  | No       | Webhook to receive agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See the <a href="/api-reference/endpoint/webhook-agent-started" class="link">webhook payloads</a>                                                                                                                                                                                                                                                                                                                    |
+| `maxCredits`            | number  | No       | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails and **no data is returned**. Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
 
 
 ## 
@@ -604,7 +976,7 @@ curl -X POST https://api.firecrawl.dev/v2/support/ask \
 - **Start with free runs**: Use your 5 daily free requests to understand pricing
 - **Set a `maxCredits` parameter**: Limit your spending by setting a maximum number of credits you’re willing to spend. The dashboard caps this at 2,500 credits; to set a higher limit, use the `maxCredits` parameter directly via the API (note: values above 2,500 are always billed as paid requests)
 - **Optimize prompts**: More specific prompts often use fewer credits
-- **Break large tasks into smaller runs**: A single agent run has an output ceiling based on the underlying model’s generation capacity (~150-200 rows of structured data). For large extraction jobs, split by category, region, or URL batch (3-5 URLs per run) and merge the results. This also keeps each run well under the `maxCredits` limit.
+- **Break large tasks into smaller runs**: A single agent run returns roughly 150-200 rows of structured data. For large extraction jobs, split by category, region, or URL batch (3-5 URLs per run) and merge the results. This also keeps each run well under the `maxCredits` limit.
 - **Monitor usage**: Track your consumption through the dashboard
 - **Set expectations**: Complex multi-domain research will use more credits than simple single-page extractions
 

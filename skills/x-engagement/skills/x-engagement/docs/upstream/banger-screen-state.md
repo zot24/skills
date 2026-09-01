@@ -1,5 +1,4 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/grox/flows/upa/state_initial_banger.py
-> Snapshot: bc8e5f0 (2026-08-28)
 
 from dataclasses import dataclass, field
 

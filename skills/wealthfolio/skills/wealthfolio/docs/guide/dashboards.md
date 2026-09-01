@@ -65,7 +65,7 @@
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
@@ -93,7 +93,7 @@ A tour of the home dashboard. What every card means and how to read it.
 
 ------------------------------------------------------------------------
 
-Last updated August 8, 2026
+Last updated August 28, 2026
 
 
 The home dashboard is the at-a-glance view of your portfolio. This page walks through each card so you know what you’re looking at, and where to dig in.
@@ -129,6 +129,19 @@ Account groups (if you’ve set any up) roll up underneath their group name. Han
 The top 5–10 positions by current market value, with allocation percentage. Click any row to open the asset detail page (lots, price history, dividends).
 
 To see every position, use the **Holdings** page from the sidebar.
+
+### Holdings page
+
+The full position list, with a few controls worth knowing:
+
+- **Open / Closed** — the view control before the search box. **Open** is the default and shows what you currently hold. **Closed** shows disposed positions with cost basis, sale proceeds, realized P&L, and realized return in place of the market-value columns (option expiries included). A closed position stays separate from an open one in the same asset, even when a long and a short net to zero.
+- **Type filter** — stocks, ETFs, bonds, and **cash**, which carries its own portfolio weight on desktop and mobile.
+- **Quantity labels** follow the instrument: *shares* for stocks, *units* for ETFs and mutual funds, *bonds* for debt securities, *contracts* for options.
+- **Search** matches instrument name in both views, and sorting is preserved when you switch to a view that doesn’t have the column you sorted by.
+
+The **Insights** tab on the same page gives the sector / region / currency cuts.
+
+The mobile app carries the same controls. See the <a href="/docs/guide/mobile/" class="font-medium underline underline-offset-4">Mobile guide</a>.
 
 ### Asset Allocation
 
@@ -215,6 +228,7 @@ On This Page
   - <a href="#total-portfolio-value" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Total Portfolio Value</a>
   - <a href="#accounts-summary" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Accounts Summary</a>
   - <a href="#top-holdings" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Top Holdings</a>
+  - <a href="#holdings-page" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Holdings page</a>
   - <a href="#asset-allocation" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Asset Allocation</a>
   - <a href="#net-worth-chart" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Net Worth Chart</a>
   - <a href="#net-worth-dashboard" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Net Worth dashboard</a>

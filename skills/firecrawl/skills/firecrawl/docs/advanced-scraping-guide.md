@@ -73,16 +73,17 @@ The `formats` array controls which output types the scraper returns. Default: `[
 
 **String formats**: pass the name directly (e.g. `"markdown"`).
 
-| Format     | Description                                                                                                                       |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `markdown` | Page content converted to clean Markdown.                                                                                         |
-| `html`     | Processed HTML with unnecessary elements removed.                                                                                 |
-| `rawHtml`  | Original HTML exactly as returned by the server.                                                                                  |
-| `links`    | All links found on the page.                                                                                                      |
-| `images`   | All images found on the page.                                                                                                     |
-| `summary`  | An LLM-generated summary of the page content.                                                                                     |
-| `branding` | Extracts brand identity (colors, fonts, typography, spacing, UI components).                                                      |
-| `product`  | Extracts a structured product (title, price, availability, images, variants) from product pages via multi-source structured data. |
+| Format      | Description                                                                                                                                              |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `markdown`  | Page content converted to clean Markdown.                                                                                                                |
+| `html`      | Processed HTML with unnecessary elements removed.                                                                                                        |
+| `rawHtml`   | Original HTML exactly as returned by the server.                                                                                                         |
+| `rawBase64` | Base64-encoded original HTTP response body, as a bare Base64 string. Must be the only format in the request. The MIME type is in `metadata.contentType`. |
+| `links`     | All links found on the page.                                                                                                                             |
+| `images`    | All images found on the page.                                                                                                                            |
+| `summary`   | An LLM-generated summary of the page content.                                                                                                            |
+| `branding`  | Extracts brand identity (colors, fonts, typography, spacing, UI components).                                                                             |
+| `product`   | Extracts a structured product (title, price, availability, images, variants) from product pages via multi-source structured data.                        |
 
 **Object formats**: pass an object with `type` and additional options.
 
@@ -195,14 +196,17 @@ These parameters control which parts of the page appear in the output. When `onl
 | `parsers` | `array` | `["pdf"]` | Controls PDF processing. `[]` to skip parsing and return base64 (1 credit flat). |
 
 ```json theme={null}
-{ "type": "pdf", "mode": "fast" | "auto" | "ocr", "maxPages": 10 }
+{ "type": "pdf", "mode": "fast" | "auto" | "ocr", "maxPages": 10, "pages": true, "blocks": true, "pageMarkers": true }
 ```
 
-| Property   | Type                        | Default      | Description                                                                           |
-| ---------- | --------------------------- | ------------ | ------------------------------------------------------------------------------------- |
-| `type`     | `"pdf"`                     | *(required)* | Parser type.                                                                          |
-| `mode`     | `"fast" \| "auto" \| "ocr"` | `"auto"`     | `fast`: text-based extraction only. `auto`: fast with OCR fallback. `ocr`: force OCR. |
-| `maxPages` | `integer`                   | —            | Cap the number of pages to parse.                                                     |
+| Property      | Type                        | Default      | Description                                                                                                                                                                                                            |
+| ------------- | --------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`        | `"pdf"`                     | *(required)* | Parser type.                                                                                                                                                                                                           |
+| `mode`        | `"fast" \| "auto" \| "ocr"` | `"auto"`     | `fast`: text-based extraction only. `auto`: fast with OCR fallback. `ocr`: force OCR.                                                                                                                                  |
+| `maxPages`    | `integer`                   | —            | Cap the number of pages to parse.                                                                                                                                                                                      |
+| `pages`       | `boolean`                   | `false`      | Also return physical per-page markdown in the document's `pages` field. No additional cost.                                                                                                                            |
+| `blocks`      | `boolean`                   | `false`      | Also return per-page typed layout blocks (normalized bounding boxes, block types, reading order, markdown character spans) in the document's `blocks` field. No additional cost.                                       |
+| `pageMarkers` | `boolean`                   | `false`      | Annotate page breaks in the document markdown with `<!-- page N -->` markers (between pages only; numbering may skip pages merged across a break — see [Parse](/features/parse#page-markers-pdf)). No additional cost. |
 
 ### Actions
 
@@ -450,16 +454,19 @@ Use the JSON format object in `formats` to extract structured data in one pass:
 
 Use the `/v2/agent` endpoint for autonomous, multi-page data extraction. The agent runs asynchronously: you start a job, then poll for results.
 
+[Agent](/features/agent) is the canonical reference for this endpoint, including execution traces, webhooks, and the full parameter list.
+
 ### Agent options
 
-| Parameter               | Type      | Default          | Description                                                                                                                                                               |
-| ----------------------- | --------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `prompt`                | `string`  | *(required)*     | Natural-language instructions describing what data to extract (max 10,000 characters).                                                                                    |
-| `urls`                  | `array`   | —                | URLs to constrain the agent to.                                                                                                                                           |
-| `schema`                | `object`  | —                | JSON schema to structure the extracted data.                                                                                                                              |
-| `maxCredits`            | `number`  | `2500`           | Maximum credits the agent can spend. The dashboard supports up to 2,500; for higher limits, set this via the API (values above 2,500 are always billed as paid requests). |
-| `strictConstrainToURLs` | `boolean` | `false`          | When `true`, the agent only visits the provided URLs.                                                                                                                     |
-| `model`                 | `string`  | `"spark-1-mini"` | AI model to use. `"spark-1-mini"` (default, 60% cheaper) or `"spark-1-pro"` (higher accuracy).                                                                            |
+| Parameter               | Type      | Default      | Description                                                                                                                                                               |
+| ----------------------- | --------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prompt`                | `string`  | *(required)* | Natural-language instructions describing what data to extract (max 10,000 characters).                                                                                    |
+| `urls`                  | `array`   | —            | URLs to constrain the agent to.                                                                                                                                           |
+| `schema`                | `object`  | —            | JSON schema to structure the extracted data.                                                                                                                              |
+| `maxCredits`            | `number`  | `2500`       | Maximum credits the agent can spend. The dashboard supports up to 2,500; for higher limits, set this via the API (values above 2,500 are always billed as paid requests). |
+| `strictConstrainToURLs` | `boolean` | `false`      | When `true`, the agent only visits the provided URLs.                                                                                                                     |
+| `model`                 | `string`  | `"spark-2"`  | AI model to use. Spark 1 models are deprecated and currently route to `"spark-2"`.                                                                                        |
+| `effort`                | `string`  | *(unset)*    | Reasoning budget: `"low"`, `"medium"`, or `"high"`. Every run executes on `"spark-2"`, so you can send `effort` with or without `model`.                                  |
 
 <CodeGroup>
   ```python Python

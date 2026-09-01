@@ -2,111 +2,121 @@
 
 
 
-<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2.5 font-semibold md:hidden" rel="noreferrer noopener" target="_blank"><strong>umami</strong></a>
+<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2 text-xl font-bold text-foreground tracking-[-0.03em]" target="_blank" rel="noreferrer"><img src="/logo.svg" class="h-6 w-auto dark:hidden" /><img src="/logo.svg" class="hidden h-6 w-auto dark:block" /><span>umami</span></a>
 
 
-Search
+<a href="https://github.com/umami-software/umami" class="inline-flex items-center rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-foreground size-8 justify-center" target="_blank" rel="noreferrer" aria-label="Umami on GitHub"></a>
 
 
-<a href="/docs" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Documentation</a><a href="/docs/guides" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Guides</a><a href="/docs/api" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="true">API Reference</a><a href="/docs/cloud" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" data-active="false">Cloud</a><a href="https://v2.umami.is" class="inline-flex items-center gap-2 text-fd-muted-foreground text-sm transition-colors hover:text-fd-accent-foreground data-[active=true]:font-medium data-[active=true]:text-fd-foreground [&amp;_svg]:size-4" target="_blank" rel="noopener noreferrer">v2</a>
+Menu
 
 
-<a href="https://github.com/umami-software/umami" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&amp;_svg]:size-4.5 text-fd-muted-foreground max-lg:hidden" rel="noreferrer noopener" target="_blank" aria-label="GitHub" data-active="false"></a>
+Clients
 
 
 # API client
 
 
-## <a href="#overview" class="peer" data-card="">Overview</a>
+Copy page
+
+
+## Overview<a href="#overview" class="heading-anchor" aria-label="Permalink to “Overview”">#</a>
 
 Umami API Client is built in TypeScript and contains functions to call every API endpoint available in Umami.
 
-## <a href="#requirements" class="peer" data-card="">Requirements</a>
+## Requirements<a href="#requirements" class="heading-anchor" aria-label="Permalink to “Requirements”">#</a>
 
-- <a href="https://nodejs.org/" rel="noreferrer noopener" target="_blank">Node.js</a> version 18.18 or newer
+- [Node.js](https://nodejs.org/) version 18.18 or newer
 
-## <a href="#installation" class="peer" data-card="">Installation</a>
+## Installation<a href="#installation" class="heading-anchor" aria-label="Permalink to “Installation”">#</a>
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>npm install @umami/api-client</code></pre>
-</figure>
+``` code-block
+npm install @umami/api-client
+```
 
-## <a href="#configure" class="peer" data-card="">Configure</a>
+
+## Configure<a href="#configure" class="heading-anchor" aria-label="Permalink to “Configure”">#</a>
 
 The following environment variables are required to call your own API.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>UMAMI_API_CLIENT_USER_ID
+``` code-block
+UMAMI_API_CLIENT_USER_ID
 UMAMI_API_CLIENT_SECRET
-UMAMI_API_CLIENT_ENDPOINT</code></pre>
-</figure>
+UMAMI_API_CLIENT_ENDPOINT
+```
+
 
 To access Umami Cloud, these environment variables are required.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>UMAMI_API_KEY
-UMAMI_API_CLIENT_ENDPOINT</code></pre>
-</figure>
+``` code-block
+UMAMI_API_KEY
+UMAMI_API_CLIENT_ENDPOINT
+```
+
 
 More details on accessing Umami Cloud can be found under [API key](/docs/cloud/api-key).
 
-## <a href="#usage" class="peer" data-card="">Usage</a>
+## Usage<a href="#usage" class="heading-anchor" aria-label="Permalink to “Usage”">#</a>
 
 Import the configured api-client and query using the available class methods.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>import { getClient } from &#39;@umami/api-client&#39;;
+``` code-block
+import { getClient } from '@umami/api-client';
 
 const client = getClient();
 
-const { ok, data, status, error } = await client.getWebsites();</code></pre>
-</figure>
+const { ok, data, status, error } = await client.getWebsites();
+```
+
 
 The result will come back in the following format.
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>{
+``` code-block
+{
   ok: boolean;
   status: number;
   data?: T;
   error?: any;
-}</code></pre>
-</figure>
+}
+```
 
-## <a href="#api-client-function-mapping" class="peer" data-card="">API Client function mapping</a>
 
-### <a href="#me" class="peer" data-card="">Me</a>
+## API Client function mapping<a href="#api-client-function-mapping" class="heading-anchor" aria-label="Permalink to “API Client function mapping”">#</a>
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+### Me<a href="#me" class="heading-anchor" aria-label="Permalink to “Me”">#</a>
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>getMe() ⇒ GET /me
+
+``` code-block
+getMe() ⇒ GET /me
 updateMyPassword(data) ⇒ POST /me/password
-getMyWebsites() ⇒ GET /me/websites</code></pre>
-</figure>
+getMyWebsites() ⇒ GET /me/websites
+```
 
-### <a href="#users" class="peer" data-card="">Users</a>
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+### Users<a href="#users" class="heading-anchor" aria-label="Permalink to “Users”">#</a>
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>getUsers() ⇒ GET /users
+
+``` code-block
+getUsers() ⇒ GET /users
 createUser(data) ⇒ POST /users
 getUser(id) ⇒ GET /users/{id}
 updateUser(id, data) ⇒ POST /users/{id}
 deleteUser(id) ⇒ DEL /users/{id}
 getUserWebsites(id) ⇒ GET /users/{id}/websites
-getUserUsage(id, data) ⇒ GET /users/{id}/usage</code></pre>
-</figure>
+getUserUsage(id, data) ⇒ GET /users/{id}/usage
+```
 
-### <a href="#teams" class="peer" data-card="">Teams</a>
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+### Teams<a href="#teams" class="heading-anchor" aria-label="Permalink to “Teams”">#</a>
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>getTeams() ⇒ GET /teams
+
+``` code-block
+getTeams() ⇒ GET /teams
 createTeam(data) ⇒ POST /teams
 joinTeam(data) ⇒ POST /teams/join
 getTeam(id) ⇒ GET /teams/{id}
@@ -116,14 +126,15 @@ getTeamUsers(id) ⇒ GET /teams/{id}/users
 deleteTeamUser(teamId, userId) ⇒ DEL /teams/{teamId}/users/{userId}
 getTeamWebsites(id) ⇒ GET /teams/{id}/websites
 createTeamWebsites(id, data) ⇒ POST /teams/{id}/websites
-deleteTeamWebsite(teamId, websiteId) ⇒ DEL /teams/{teamId}/websites/{websiteId}</code></pre>
-</figure>
+deleteTeamWebsite(teamId, websiteId) ⇒ DEL /teams/{teamId}/websites/{websiteId}
+```
 
-### <a href="#websites" class="peer" data-card="">Websites</a>
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+### Websites<a href="#websites" class="heading-anchor" aria-label="Permalink to “Websites”">#</a>
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>getWebsites() ⇒ GET /websites
+
+``` code-block
+getWebsites() ⇒ GET /websites
 createWebsite(data) ⇒ POST /websites
 getWebsite(id) ⇒ GET /websites/{id}
 updateWebsite(id, data) ⇒ POST /websites/{id}
@@ -133,19 +144,21 @@ getWebsiteEvents(id, data) ⇒ GET /websites/{id}/events
 getWebsiteMetrics(id, data) ⇒ GET /websites/{id}/metrics
 getWebsitePageviews(id, data) ⇒ GET /websites/{id}/pageviews
 resetWebsite(id) ⇒ POST /websites/{id}/reset
-getWebsiteStats(id, data) ⇒ GET /websites/{id}/stats</code></pre>
-</figure>
+getWebsiteStats(id, data) ⇒ GET /websites/{id}/stats
+```
 
-### <a href="#event-data" class="peer" data-card="">Event Data</a>
 
-<figure class="my-4 bg-fd-card rounded-xl shiki relative border shadow-sm outline-none not-prose overflow-hidden text-sm shiki-themes github-light github-dark" dir="ltr" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e" tabindex="0">
+### Event Data<a href="#event-data" class="heading-anchor" aria-label="Permalink to “Event Data”">#</a>
 
-<pre class="min-w-full w-max *:flex *:flex-col"><code>getEventDataEvents(id, data) ⇒ GET /event-data/events
+
+``` code-block
+getEventDataEvents(id, data) ⇒ GET /event-data/events
 getEventDataFields(id, data) ⇒ GET /event-data/fields
-getEventDataStats(id, data) ⇒ GET /event-data/stats</code></pre>
-</figure>
+getEventDataStats(id, data) ⇒ GET /event-data/stats
+```
 
-## <a href="#environment-variables" class="peer" data-card="">Environment Variables</a>
+
+## Environment Variables<a href="#environment-variables" class="heading-anchor" aria-label="Permalink to “Environment Variables”">#</a>
 
 **UMAMI_API_CLIENT_USER_ID = \<user uuid\>**
 
@@ -164,26 +177,9 @@ The endpoint of your Umami API. Example: `https://{yourserver}/api/`
 A unique string provided by Umami Cloud.
 
 
-<a href="/docs/api/users" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full"></a>
+<a href="/docs/api/users" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Users</span></span></a><a href="/docs/api/node-client" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Node Client</span></span></a>
 
 
-Users
-
-
-Previous Page
-
-<a href="/docs/api/node-client" class="flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground @max-lg:col-span-full text-end"></a>
-
-
-Node Client
-
-
-Next Page
-
-
-### On this page
-
-
-<a href="#overview" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Overview</a><a href="#requirements" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Requirements</a><a href="#installation" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Installation</a><a href="#configure" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Configure</a><a href="#usage" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Usage</a><a href="#api-client-function-mapping" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">API Client function mapping</a><a href="#me" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">Me</a><a href="#users" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">Users</a><a href="#teams" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">Teams</a><a href="#websites" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">Websites</a><a href="#event-data" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-6" data-active="false">Event Data</a><a href="#environment-variables" class="prose py-1.5 text-sm text-fd-muted-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary ps-3" data-active="false">Environment Variables</a>
+On this page
 
 

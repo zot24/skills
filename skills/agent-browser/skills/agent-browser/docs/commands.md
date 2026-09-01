@@ -47,6 +47,8 @@ agent-browser snapshot                # Accessibility tree with refs
 agent-browser eval <js>               # Run JavaScript
 agent-browser connect ​​port|url​​      # Connect to browser via CDP
 agent-browser stream enable [--port <port>]  # Start runtime WebSocket streaming
+agent-browser webmcp list                     # List experimental page tools
+agent-browser webmcp invoke <tool> --params @input.json
 agent-browser stream status           # Show runtime streaming state and bound port
 agent-browser stream disable          # Stop runtime WebSocket streaming
 agent-browser close                   # Close browser (aliases: quit, exit)
@@ -511,11 +513,12 @@ agent-browser --profile Default open https://gmail.com  # Reuse a profile's logi
 ``` shiki
 agent-browser dashboard [start]       # Start the dashboard server (default port: 4848)
 agent-browser dashboard start --port <n>  # Start on a specific port
+agent-browser dashboard start --allowed-origins <origins> # Allow exact HTTPS reverse-proxied browser origins
 agent-browser dashboard stop          # Stop the dashboard server
 ```
 
 
-Open the dashboard through `http://localhost:4848` or a proxied/forwarded dashboard URL such as `https://dashboard.agent-browser.localhost`. The browser stays on the dashboard origin; per-session tabs, status, and stream traffic are proxied internally, so session ports do not need to be exposed.
+Loopback dashboard origins are accepted by default without an access token. For a reverse-proxied or forwarded URL, pass its exact browser origin with `--allowed-origins` or set `AGENT_BROWSER_DASHBOARD_ALLOWED_ORIGINS`. Every configured origin must be a valid exact HTTPS origin. Ports must be integers from 1 to 65535. Unknown options, missing values, invalid ports, and malformed origins fail without starting the server. The command prints private tokenized access URLs only for external origins; open the matching URL once to establish the browser session and do not share it. Open the normal `http://localhost:<port>` URL for local access. The browser stays on the dashboard origin; per-session tabs, status, and stream traffic are proxied internally, so session ports do not need to be exposed. Stop the running dashboard before changing the port or allowed origins.
 
 ## Doctor<a href="#doctor" aria-label="Link to this section">#</a>
 
@@ -654,6 +657,8 @@ See [Init Scripts & Extensions](/init-scripts) for launch-time scripts, runtime 
 --proxy <url>            # Proxy server URL
 --proxy-bypass <hosts>   # Hosts to bypass proxy
 --ignore-https-errors    # Ignore HTTPS certificate errors
+--ca-cert <path>         # Trust a CA for locally launched Chromium on Linux
+--no-ca-cert             # Clear CA trust retained by the running session
 --allow-file-access      # Allow file:// URLs to access local files (Chromium only)
 --hide-scrollbars <bool> # Hide native scrollbars in headless Chromium screenshots
 -p, --provider <name>    # Browser provider or configured provider plugin
@@ -665,7 +670,8 @@ See [Init Scripts & Extensions](/init-scripts) for launch-time scripts, runtime 
 --screenshot-format <fmt> # Format: png (default), jpeg (or AGENT_BROWSER_SCREENSHOT_FORMAT)
 --headed                 # Show browser window (not headless)
 --webgpu                 # Enable WebGPU (software Vulkan on Linux, no GPU needed)
---cdp ​​port|url​​         # Connect via Chrome DevTools Protocol (port or WebSocket URL)
+--no-webmcp              # Disable default experimental WebMCP Chrome features (or AGENT_BROWSER_NO_WEBMCP env)
+--cdp ​​port|url​​         # Connect via CDP; root WebSocket query slash is optional
 --auto-connect           # Auto-discover and connect to running Chrome
 --color-scheme <scheme>  # Color scheme: dark, light, no-preference
 --download-path <path>   # Default download directory

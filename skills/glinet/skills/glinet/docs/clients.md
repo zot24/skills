@@ -154,7 +154,7 @@ In the Access Control page, manually input the MAC address of the devices you wa
 
 ## Action<a href="#action" class="headerlink" title="Permanent link">¶</a>
 
-### Client Details<a href="#client-details" class="headerlink" title="Permanent link">¶</a>
+### View Details<a href="#view-details" class="headerlink" title="Permanent link">¶</a>
 
 If you need to view the details of the client device, click the three-dot icon in the rightmost Action column and then click the **View Details** in the drop-down menu.
 
@@ -198,12 +198,13 @@ Add a client to the VPN tunnel list with MAC-based policy. If you need to make d
 
 The current sort rule is displayed in the upper right corner, and you can switch to others.
 
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/sort.jpg" class="glboxshadow" alt="sort" />
+
 The default sort order is as follows:
 
 - The self-device (i.e., the device you are using to access the Admin Panel) always appears at the top.
-- In the Online Clients section, the earlier the device is connected, the higher it appears in the list.
-
-<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/sort.png" class="glboxshadow" alt="sort" />
+- In the Online Clients section, devices are listed higher if they connected earlier.
+- In the Offline Clients section, devices are listed higher if they disconnected earlier.
 
 ## Settings<a href="#settings" class="headerlink" title="Permanent link">¶</a>
 

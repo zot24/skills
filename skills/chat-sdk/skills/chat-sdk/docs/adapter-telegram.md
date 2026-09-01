@@ -16,7 +16,7 @@ package: @chat-adapter/telegram
 ## Quick start
 
 
-  The adapter auto-detects `TELEGRAM_ALLOWED_USER_IDS`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET_TOKEN`, and `TELEGRAM_BOT_USERNAME` from the environment.
+  The adapter auto-detects `TELEGRAM_ALLOWED_USER_IDS`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET_TOKEN`, `TELEGRAM_ALLOW_UNVERIFIED_WEBHOOKS`, `TELEGRAM_BOT_USERNAME`, and `TELEGRAM_MENTION_ON_REPLY` from the environment.
 
 
 ```typescript title="lib/bot.ts" lineNumbers
@@ -78,7 +78,7 @@ const telegram = createTelegramAdapter({
 ## Configuration
 
 
-`botToken` is required — either via config or env var.
+`botToken` is always required. Webhook mode also requires `secretToken` unless `allowUnverifiedWebhooks` is explicitly enabled. Polling mode does not require webhook verification.
 
 ## Authentication
 
@@ -89,6 +89,10 @@ Create a bot via [BotFather](https://t.me/BotFather):
 3. Optionally pick a username and copy it to `TELEGRAM_BOT_USERNAME`.
 
 ## Advanced
+
+### Inbound attachments
+
+Incoming file attachments expose a lazy `fetchData()` served from the configured Bot API host. Downloads are limited to 25 MB and time out after 30 seconds. They use the Web Fetch API, so file downloads keep working in runtimes like Cloudflare Workers.
 
 ### Polling for local development
 
@@ -152,7 +156,8 @@ Pass `{ raw: "..." }` only if you need to ship a fully pre-escaped MarkdownV2 st
 
 ### Notes
 
-* Verified webhook updates with an integer `update_id` are deduplicated for 24 hours through the configured state adapter. Configure `secretToken` and use shared durable state across serverless instances. If state is unavailable, the adapter returns 503 so Telegram retries without dispatching.
+* Accepted webhook updates with an integer `update_id` are deduplicated for 24 hours through the configured state adapter. Use shared durable state across serverless instances. If state is unavailable, the adapter returns 503 so Telegram retries without dispatching.
+* Webhook mode requires `secretToken` unless `allowUnverifiedWebhooks` is explicitly enabled. Polling mode does not require webhook verification.
 * Telegram does not expose full historical message APIs to bots. `fetchMessages` returns adapter-cached messages from the current process.
 * `listThreads` is not available for Telegram chats.
 * Telegram callback data is limited to 64 bytes — keep `Button` `id`/`value` payloads short.
@@ -160,6 +165,7 @@ Pass `{ raw: "..." }` only if you need to ship a fully pre-escaped MarkdownV2 st
 * Multiple `files` or compatible `attachments` are sent as Telegram media groups. `files` upload as documents; `attachments` preserve image, audio, video, or file media type.
 * Incoming media groups are delivered as one message after the album settles, with attachments ordered by Telegram message ID and the shared caption preserved.
 * Other rich card elements (images, select menus, radios) render as fallback text.
+* `Thread.reply()` threads with Bot API `reply_parameters` and sets `allow_sending_without_reply`, so a reply whose target was deleted, never existed, or lives in another forum topic is delivered unthreaded instead of failing. Only the chat half of a composite target id is validated up front.
 
 ## Feature support
 

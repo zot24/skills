@@ -236,6 +236,12 @@
       "target": "skills/wealthfolio/docs/guide/mcp-server.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://wealthfolio.app/docs/addons/v3-7-assets",
+      "target": "skills/wealthfolio/docs/addons/v3-7-assets.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

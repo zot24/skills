@@ -206,6 +206,36 @@ bot.onAssistantContextChanged(async (event) => {
 
 The event shape is identical to `onAssistantThreadStarted`.
 
+### onAgentSessionStopped
+
+Fires after a user clicks Slack's native agent-session stop button. Chat SDK
+aborts the active turn and moves the session out of `processing` before this
+handler runs.
+
+```typescript
+bot.onAgentSessionStopped(async (event) => {
+  await releaseExternalResources(event.threadId);
+});
+```
+
+The event contains `threadId`, `channelId`, `threadTs`,
+`streamingMessageTs`, `userId`, and `adapter`. `streamingMessageTs` lists the
+streaming messages Slack stopped and can be empty when no stream was active.
+
+### onAgentSessionTitleChanged
+
+Fires when a user renames a Slack agent session.
+
+```typescript
+bot.onAgentSessionTitleChanged(async (event) => {
+  await syncTitle(event.threadId, event.title);
+});
+```
+
+The event contains `title`, `previousTitle`, `threadId`, `channelId`,
+`threadTs`, `userId`, and `adapter`. `previousTitle` is omitted when the
+session did not have a title before the change.
+
 ### onAppHomeOpened
 
 Fires when a user opens the bot's Home tab in Slack. Use this to publish a dynamic Home tab view.
@@ -222,6 +252,19 @@ bot.onAppHomeOpened(async (event) => {
 
 
 ## Utility methods
+
+### abortTurn
+
+Abort the active handler turn for a thread. Chat SDK signals work in this
+process immediately and publishes the cancellation through the configured
+state adapter for another serverless instance to observe.
+
+```typescript
+await bot.abortTurn(thread.id);
+```
+
+Platform adapters normally invoke this for native cancellation events. Model
+and tool calls must receive `thread.signal` to stop their own upstream work.
 
 ### webhooks
 
@@ -408,6 +451,34 @@ const data = JSON.parse(payload, reviver) as {
 `Message`, `ThreadImpl`, and `ChannelImpl` retain their automatic Workflow serialization when imported from either `chat` or `chat/serialization`. The dedicated entrypoint guarantees their serializer module graph does not load the Node-only `Chat` conversation context.
 
 The standalone reviver uses lazy adapter resolution - the adapter is looked up from the Chat singleton when first accessed. Call `chat.registerSingleton()` before using thread methods like `post()` (typically inside a `"use step"` function).
+
+### history
+
+Namespaced access to the History API — cross-platform user history, per-thread reads/cache, and per-channel reads.
+
+```typescript
+// User scope — cross-platform, keyed by identity resolver result
+await bot.history.user.append(thread, message);
+const entries = await bot.history.user.list({ userKey, limit: 20 });
+await bot.history.user.delete({ userKey });
+
+// Thread scope — adapter.fetchMessages with cache fallback
+const { messages } = await bot.history.thread.list(thread.id, { limit: 20 });
+
+// Channel scope — platform APIs
+const { messages: channelMessages } = await bot.history.channel.listMessages(
+  channel.id,
+  { limit: 10 }
+);
+const { threads } = await bot.history.channel.listThreads(channel.id, {
+  limit: 20,
+});
+```
+
+See [History API reference](/docs/api/history) for full details and the [History guide](/docs/history) for setup and patterns.
+
+
+  `bot.transcripts` is a deprecated alias for `bot.history.user`. Accessing either when user history is not configured throws.
 
 
 ---

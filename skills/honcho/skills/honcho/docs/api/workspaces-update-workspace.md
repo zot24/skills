@@ -1,0 +1,259 @@
+> Source: https://honcho.dev/docs/v2/api-reference/endpoint/workspaces/update-workspace.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# Update Workspace
+
+> Update a Workspace
+
+
+## OpenAPI
+
+````yaml put /v2/workspaces/{workspace_id}
+openapi: 3.1.0
+info:
+  title: Honcho API
+  summary: The Identity Layer for the Agentic World
+  description: >-
+    Honcho is a platform for giving agents user-centric memory and social
+    cognition
+  contact:
+    name: Plastic Labs
+    url: https://honcho.dev/
+    email: hello@plasticlabs.ai
+  version: 2.5.1
+servers:
+  - url: http://localhost:8000
+    description: Local Development Server
+  - url: https://demo.honcho.dev
+    description: Demo Server
+  - url: https://api.honcho.dev
+    description: Production SaaS Platform
+security: []
+paths:
+  /v2/workspaces/{workspace_id}:
+    put:
+      tags:
+        - workspaces
+      summary: Update Workspace
+      description: Update a Workspace
+      operationId: update_workspace_v2_workspaces__workspace_id__put
+      parameters:
+        - name: workspace_id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the workspace to update
+            title: Workspace Id
+          description: ID of the workspace to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceUpdate'
+              description: Updated workspace parameters
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    WorkspaceUpdate:
+      properties:
+        metadata:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Metadata
+        configuration:
+          anyOf:
+            - $ref: '#/components/schemas/WorkspaceConfiguration'
+            - type: 'null'
+      type: object
+      title: WorkspaceUpdate
+    Workspace:
+      properties:
+        id:
+          type: string
+          title: Id
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        configuration:
+          additionalProperties: true
+          type: object
+          title: Configuration
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+        - id
+        - created_at
+      title: Workspace
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    WorkspaceConfiguration:
+      properties:
+        deriver:
+          anyOf:
+            - $ref: '#/components/schemas/DeriverConfiguration'
+            - type: 'null'
+          description: Configuration for deriver functionality.
+        peer_card:
+          anyOf:
+            - $ref: '#/components/schemas/PeerCardConfiguration'
+            - type: 'null'
+          description: >-
+            Configuration for peer card functionality. If deriver is disabled,
+            peer cards will also be disabled and these settings will be ignored.
+        summary:
+          anyOf:
+            - $ref: '#/components/schemas/SummaryConfiguration'
+            - type: 'null'
+          description: Configuration for summary functionality.
+        dream:
+          anyOf:
+            - $ref: '#/components/schemas/DreamConfiguration'
+            - type: 'null'
+          description: >-
+            Configuration for dream functionality. If deriver is disabled,
+            dreams will also be disabled and these settings will be ignored.
+      additionalProperties: true
+      type: object
+      title: WorkspaceConfiguration
+      description: >-
+        The set of options that can be in a workspace DB-level configuration
+        dictionary.
+
+
+        All fields are optional. Session-level configuration overrides
+        workspace-level configuration, which overrides global configuration.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
+    DeriverConfiguration:
+      properties:
+        enabled:
+          anyOf:
+            - type: boolean
+            - type: 'null'
+          title: Enabled
+          description: Whether to enable deriver functionality.
+        custom_instructions:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Custom Instructions
+          description: >-
+            TODO: currently unused. Custom instructions to use for the deriver
+            on this workspace/session/message.
+      type: object
+      title: DeriverConfiguration
+    PeerCardConfiguration:
+      properties:
+        use:
+          anyOf:
+            - type: boolean
+            - type: 'null'
+          title: Use
+          description: >-
+            Whether to use peer card related to this peer during deriver
+            process.
+        create:
+          anyOf:
+            - type: boolean
+            - type: 'null'
+          title: Create
+          description: Whether to generate peer card based on content.
+      type: object
+      title: PeerCardConfiguration
+    SummaryConfiguration:
+      properties:
+        enabled:
+          anyOf:
+            - type: boolean
+            - type: 'null'
+          title: Enabled
+          description: Whether to enable summary functionality.
+        messages_per_short_summary:
+          anyOf:
+            - type: integer
+              minimum: 10
+            - type: 'null'
+          title: Messages Per Short Summary
+          description: >-
+            Number of messages per short summary. Must be positive, greater than
+            or equal to 10, and less than messages_per_long_summary.
+        messages_per_long_summary:
+          anyOf:
+            - type: integer
+              minimum: 20
+            - type: 'null'
+          title: Messages Per Long Summary
+          description: >-
+            Number of messages per long summary. Must be positive, greater than
+            or equal to 20, and greater than messages_per_short_summary.
+      type: object
+      title: SummaryConfiguration
+    DreamConfiguration:
+      properties:
+        enabled:
+          anyOf:
+            - type: boolean
+            - type: 'null'
+          title: Enabled
+          description: >-
+            Whether to enable dream functionality. If deriver is disabled,
+            dreams will also be disabled and this setting will be ignored.
+      type: object
+      title: DreamConfiguration
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+
+````

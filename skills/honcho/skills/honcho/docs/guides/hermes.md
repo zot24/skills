@@ -70,10 +70,6 @@ Or manually create/edit the config file (checked in order: `$HERMES_HOME/honcho.
 
 For the full list of config fields (`recallMode`, `writeFrequency`, `sessionStrategy`, `dialecticReasoningLevel`, etc.), see the [Hermes memory provider docs](https://hermes-agent.nousresearch.com/docs/user-guide/features/memory-providers#honcho).
 
-
-  **Community quick-start**: [elkimek/honcho-self-hosted](https://github.com/elkimek/honcho-self-hosted) provides a one-command installer with pre-configured model tiers and Hermes Agent integration.
-
-
 ## Verifying the integration
 
 ### 1. Check status

@@ -508,7 +508,7 @@ An AI chat interface where users can ask questions about any topic. The AI assis
         location: z.string().optional().describe('Location for localized results'),
         tbs: z.string().optional().describe('Time filter (qdr:h, qdr:d, qdr:w, qdr:m, qdr:y)'),
         sources: z.array(z.enum(['web', 'news', 'images'])).optional().describe('Result types'),
-        categories: z.array(z.enum(['github', 'research', 'pdf'])).optional().describe('Filter categories'),
+        categories: z.array(z.enum(['developer', 'research', 'pdf'])).optional().describe('Filter categories'),
       }),
       execute: async ({ query, limit, location, tbs, sources, categories }) => {
         console.log('Searching:', query);

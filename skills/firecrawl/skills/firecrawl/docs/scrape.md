@@ -221,6 +221,16 @@ print(doc.markdown)
 ```
 
 
+### 
+
+
+<a href="#response-metadata-and-status-codes" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- **API request status**: the HTTP status of the Firecrawl API call itself, alongside the `success` boolean in the response body. An accepted and processed request returns HTTP `200` with `success: true`, even if the target page underneath returned a non-2xx code.
+- **Page status** (`data.metadata.statusCode`): the HTTP status the target website returned for that page (e.g. `200`, `301`, `404`, `403`, `500`). This is what tells you how the page itself responded.
+
+
 ## 
 
 
@@ -231,6 +241,7 @@ print(doc.markdown)
 - Summary (`summary`)
 - HTML (`html`) - cleaned version of the page’s HTML
 - Raw HTML (`rawHtml`) - unmodified HTML as received from the page
+- Raw Base64 (`rawBase64`) - Base64-encoded original HTTP response body; must be the only format in the request
 - Screenshot (`screenshot`, with options like `fullPage`, `quality`, `viewport`) — screenshot URLs expire after 24 hours
 - Links (`links`)
 - JSON (`json`) - structured output

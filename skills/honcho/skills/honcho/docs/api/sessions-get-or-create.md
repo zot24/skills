@@ -26,7 +26,7 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.0.12
+  version: 3.1.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -104,6 +104,19 @@ components:
           anyOf:
             - $ref: '#/components/schemas/SessionConfiguration'
             - type: 'null'
+        scopes:
+          anyOf:
+            - items:
+                type: string
+              type: array
+              maxItems: 100
+            - type: 'null'
+          title: Scopes
+          description: >-
+            Optional list of (unprefixed) scope names to add this session to.
+            Each scope is created if it does not exist yet. If the session
+            already has messages, its existing documents are backfilled into the
+            scope asynchronously.
       type: object
       required:
         - id
