@@ -22,7 +22,7 @@ Required env vars: `GITHUB_TOKEN`, `GITHUB_REPO`
    - Repository access: target repository only
    - Permissions: Issues (read/write)
    - Generate at: GitHub → Settings → Developer settings → Fine-grained tokens
-2. **Node.js >= 18** (uses `node:crypto`)
+2. **Node.js >= 20** (uses Web Crypto)
 
 ---
 
@@ -58,7 +58,7 @@ Server error  → captureException() directly → GitHub Issues API
 
 ### Security Guidance
 
-The package is **server-side only** (uses `node:crypto`) — it cannot be imported in browser code.
+The package is **server-side only** (token stays off the client) — it cannot be imported in browser code.
 
 The token risk depends on your setup:
 - **Fine-grained PAT with Issues-only on a public repo**: Low risk. Someone with the token can create/close issues — same as anyone can do via the GitHub UI on a public repo.
@@ -222,6 +222,9 @@ try {
 | `rateLimitPerMinute` | `number` | `10` | Max new issues created per minute |
 | `dedupeWindowMs` | `number` | `60000` | Suppress same fingerprint within this window |
 | `reopenClosed` | `boolean` | `true` | Reopen closed issues on error recurrence |
+| `screenshotUpload` | `"user-attachment" \| "branch"` | `"user-attachment"` | Screenshot storage. Default is GitHub user-attachments (`gh --attach`). `"branch"` is GHES / legacy proxy only. |
+
+`captureBugReport({ screenshot })` needs Issues write only. No Contents permission, no `APP_BASE_URL`, no proxy route.
 
 ## Security Recommendations
 
