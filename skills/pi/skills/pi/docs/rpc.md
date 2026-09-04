@@ -162,7 +162,7 @@ See [set_steering_mode](#set_steering_mode) for controlling how steering message
 
 #### follow_up
 
-<a href="#follow-up" class="heading-anchor" aria-label="Permalink: follow_up" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#follow-up"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#follow_up" class="heading-anchor" aria-label="Permalink: follow_up" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#follow_up"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Queue a follow-up message to be processed after the agent finishes. Delivered only when agent has no more tool calls or steering messages. Skill commands and prompt templates are expanded. Extension commands are not allowed (use `prompt` instead).
@@ -193,7 +193,7 @@ See [set_follow_up_mode](#set_follow_up_mode) for controlling how follow-up mess
 <a href="#abort" class="heading-anchor" aria-label="Permalink: abort" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#abort"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Abort the current agent operation.
+Abort the current operation and wait for the session to become idle before responding.
 
 ``` json
 {"type": "abort"}
@@ -208,7 +208,7 @@ Response:
 
 #### clear_queue
 
-<a href="#clear-queue" class="heading-anchor" aria-label="Permalink: clear_queue" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#clear-queue"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#clear_queue" class="heading-anchor" aria-label="Permalink: clear_queue" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#clear_queue"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Remove queued steering and follow-up messages and return their text.
@@ -236,7 +236,7 @@ To implement interactive Esc behavior, send `clear_queue` before `abort`, then r
 
 #### new_session
 
-<a href="#new-session" class="heading-anchor" aria-label="Permalink: new_session" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#new-session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#new_session" class="heading-anchor" aria-label="Permalink: new_session" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#new_session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Start a fresh session. Can be cancelled by a `session_before_switch` extension event handler.
@@ -271,7 +271,7 @@ If an extension cancelled:
 
 #### get_state
 
-<a href="#get-state" class="heading-anchor" aria-label="Permalink: get_state" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-state"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_state" class="heading-anchor" aria-label="Permalink: get_state" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_state"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get current session state.
@@ -309,7 +309,7 @@ The `model` field is a full [Model](#model) object or `null`. The `sessionName` 
 
 #### get_messages
 
-<a href="#get-messages" class="heading-anchor" aria-label="Permalink: get_messages" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_messages" class="heading-anchor" aria-label="Permalink: get_messages" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get all messages in the conversation.
@@ -339,7 +339,7 @@ Messages are `AgentMessage` objects (see [Message Types](#message-types)).
 
 #### set_model
 
-<a href="#set-model" class="heading-anchor" aria-label="Permalink: set_model" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set-model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#set_model" class="heading-anchor" aria-label="Permalink: set_model" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set_model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Switch to a specific model.
@@ -362,7 +362,7 @@ Response contains the full [Model](#model) object:
 
 #### cycle_model
 
-<a href="#cycle-model" class="heading-anchor" aria-label="Permalink: cycle_model" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#cycle-model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#cycle_model" class="heading-anchor" aria-label="Permalink: cycle_model" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#cycle_model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Cycle to the next available model. Returns `null` data if only one model available.
@@ -391,7 +391,7 @@ The `model` field is a full [Model](#model) object.
 
 #### get_available_models
 
-<a href="#get-available-models" class="heading-anchor" aria-label="Permalink: get_available_models" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-available-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_available_models" class="heading-anchor" aria-label="Permalink: get_available_models" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_available_models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 List all configured models.
@@ -421,7 +421,7 @@ Response contains an array of full [Model](#model) objects:
 
 #### set_thinking_level
 
-<a href="#set-thinking-level" class="heading-anchor" aria-label="Permalink: set_thinking_level" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set-thinking-level"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#set_thinking_level" class="heading-anchor" aria-label="Permalink: set_thinking_level" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set_thinking_level"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Set the reasoning/thinking level for models that support it.
@@ -443,7 +443,7 @@ Response:
 
 #### cycle_thinking_level
 
-<a href="#cycle-thinking-level" class="heading-anchor" aria-label="Permalink: cycle_thinking_level" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#cycle-thinking-level"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#cycle_thinking_level" class="heading-anchor" aria-label="Permalink: cycle_thinking_level" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#cycle_thinking_level"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Cycle through available thinking levels. Returns `null` data if model doesn't support thinking.
@@ -466,7 +466,7 @@ Response:
 
 #### get_available_thinking_levels
 
-<a href="#get-available-thinking-levels" class="heading-anchor" aria-label="Permalink: get_available_thinking_levels" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-available-thinking-levels"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_available_thinking_levels" class="heading-anchor" aria-label="Permalink: get_available_thinking_levels" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_available_thinking_levels"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 List the thinking levels supported by the current model. Returns `["off"]` for a model without reasoning support.
@@ -496,7 +496,7 @@ Response:
 
 #### set_steering_mode
 
-<a href="#set-steering-mode" class="heading-anchor" aria-label="Permalink: set_steering_mode" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set-steering-mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#set_steering_mode" class="heading-anchor" aria-label="Permalink: set_steering_mode" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set_steering_mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Control how steering messages (from `steer`) are delivered.
@@ -519,7 +519,7 @@ Response:
 
 #### set_follow_up_mode
 
-<a href="#set-follow-up-mode" class="heading-anchor" aria-label="Permalink: set_follow_up_mode" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set-follow-up-mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#set_follow_up_mode" class="heading-anchor" aria-label="Permalink: set_follow_up_mode" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set_follow_up_mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Control how follow-up messages (from `follow_up`) are delivered.
@@ -592,7 +592,7 @@ Response:
 
 #### set_auto_compaction
 
-<a href="#set-auto-compaction" class="heading-anchor" aria-label="Permalink: set_auto_compaction" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set-auto-compaction"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#set_auto_compaction" class="heading-anchor" aria-label="Permalink: set_auto_compaction" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set_auto_compaction"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Enable or disable automatic compaction when context is nearly full.
@@ -615,7 +615,7 @@ Response:
 
 #### set_auto_retry
 
-<a href="#set-auto-retry" class="heading-anchor" aria-label="Permalink: set_auto_retry" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set-auto-retry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#set_auto_retry" class="heading-anchor" aria-label="Permalink: set_auto_retry" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set_auto_retry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Enable or disable automatic retry on transient errors (overloaded, rate limit, 5xx).
@@ -633,7 +633,7 @@ Response:
 
 #### abort_retry
 
-<a href="#abort-retry" class="heading-anchor" aria-label="Permalink: abort_retry" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#abort-retry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#abort_retry" class="heading-anchor" aria-label="Permalink: abort_retry" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#abort_retry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Abort an in-progress retry (cancel the delay and stop retrying).
@@ -721,7 +721,7 @@ This means:
 
 #### abort_bash
 
-<a href="#abort-bash" class="heading-anchor" aria-label="Permalink: abort_bash" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#abort-bash"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#abort_bash" class="heading-anchor" aria-label="Permalink: abort_bash" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#abort_bash"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Abort a running bash command.
@@ -744,7 +744,7 @@ Response:
 
 #### get_session_stats
 
-<a href="#get-session-stats" class="heading-anchor" aria-label="Permalink: get_session_stats" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-session-stats"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_session_stats" class="heading-anchor" aria-label="Permalink: get_session_stats" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_session_stats"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get token usage, cost statistics, and current context window usage.
@@ -792,7 +792,7 @@ Response:
 
 #### export_html
 
-<a href="#export-html" class="heading-anchor" aria-label="Permalink: export_html" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#export-html"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#export_html" class="heading-anchor" aria-label="Permalink: export_html" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#export_html"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Export session to an HTML file.
@@ -821,7 +821,7 @@ Response:
 
 #### switch_session
 
-<a href="#switch-session" class="heading-anchor" aria-label="Permalink: switch_session" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#switch-session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#switch_session" class="heading-anchor" aria-label="Permalink: switch_session" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#switch_session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Load a different session file. Can be cancelled by a `session_before_switch` extension event handler.
@@ -913,7 +913,7 @@ If an extension cancelled the clone:
 
 #### get_fork_messages
 
-<a href="#get-fork-messages" class="heading-anchor" aria-label="Permalink: get_fork_messages" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-fork-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_fork_messages" class="heading-anchor" aria-label="Permalink: get_fork_messages" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_fork_messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get user messages available for forking.
@@ -941,7 +941,7 @@ Response:
 
 #### get_entries
 
-<a href="#get-entries" class="heading-anchor" aria-label="Permalink: get_entries" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-entries"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_entries" class="heading-anchor" aria-label="Permalink: get_entries" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_entries"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get all session entries in append order (excluding the session header). The session is an append-only tree of entries with stable ids, so an entry id works as a durable cursor: pass the last entry id you have seen as `since` to get only entries strictly after it, even across client restarts. Unlike `get_messages`, this includes pre-compaction history and abandoned branches.
@@ -977,7 +977,7 @@ Response:
 
 #### get_tree
 
-<a href="#get-tree" class="heading-anchor" aria-label="Permalink: get_tree" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_tree" class="heading-anchor" aria-label="Permalink: get_tree" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get the session as a tree of entries. Each node is `{entry, children, label?, labelTimestamp?}`. A well-formed session has a single root; orphaned entries (broken parent chain) also appear as roots.
@@ -1010,7 +1010,7 @@ Response:
 
 #### get_last_assistant_text
 
-<a href="#get-last-assistant-text" class="heading-anchor" aria-label="Permalink: get_last_assistant_text" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-last-assistant-text"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_last_assistant_text" class="heading-anchor" aria-label="Permalink: get_last_assistant_text" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_last_assistant_text"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get the text content of the last assistant message.
@@ -1035,7 +1035,7 @@ Returns `{"text": null}` if no assistant messages exist.
 
 #### set_session_name
 
-<a href="#set-session-name" class="heading-anchor" aria-label="Permalink: set_session_name" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set-session-name"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#set_session_name" class="heading-anchor" aria-label="Permalink: set_session_name" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set_session_name"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Set a display name for the current session. The name appears in session listings and helps identify sessions.
@@ -1064,7 +1064,7 @@ The current session name is available via `get_state` in the `sessionName` field
 
 #### get_commands
 
-<a href="#get-commands" class="heading-anchor" aria-label="Permalink: get_commands" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#get_commands" class="heading-anchor" aria-label="Permalink: get_commands" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#get_commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get available commands (extension commands, prompt templates, and skills). These can be invoked via the `prompt` command by prefixing with `/`.
@@ -1147,7 +1147,7 @@ Events are streamed to stdout as JSON lines during agent operation. Events do no
 
 ### agent_start
 
-<a href="#agent-start" class="heading-anchor" aria-label="Permalink: agent_start" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#agent-start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#agent_start" class="heading-anchor" aria-label="Permalink: agent_start" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#agent_start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted when the agent begins processing a prompt.
@@ -1159,7 +1159,7 @@ Emitted when the agent begins processing a prompt.
 
 ### agent_end
 
-<a href="#agent-end" class="heading-anchor" aria-label="Permalink: agent_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#agent-end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#agent_end" class="heading-anchor" aria-label="Permalink: agent_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#agent_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted when one low-level agent run completes. Contains all messages generated during this run. If `willRetry` is true, an automatic retry will follow.
@@ -1175,7 +1175,7 @@ Emitted when one low-level agent run completes. Contains all messages generated 
 
 ### agent_settled
 
-<a href="#agent-settled" class="heading-anchor" aria-label="Permalink: agent_settled" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#agent-settled"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#agent_settled" class="heading-anchor" aria-label="Permalink: agent_settled" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#agent_settled"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted after the full session-level run settles. At this point Pi will not continue automatically through retry, compaction retry, or queued follow-up messages.
@@ -1187,7 +1187,7 @@ Emitted after the full session-level run settles. At this point Pi will not cont
 
 ### turn_start / turn_end
 
-<a href="#turn-start-turn-end" class="heading-anchor" aria-label="Permalink: turn_start / turn_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#turn-start-turn-end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#turn_start--turn_end" class="heading-anchor" aria-label="Permalink: turn_start / turn_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#turn_start--turn_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A turn consists of one assistant response plus any resulting tool calls and results.
@@ -1207,7 +1207,7 @@ A turn consists of one assistant response plus any resulting tool calls and resu
 
 ### message_start / message_end
 
-<a href="#message-start-message-end" class="heading-anchor" aria-label="Permalink: message_start / message_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#message-start-message-end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#message_start--message_end" class="heading-anchor" aria-label="Permalink: message_start / message_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#message_start--message_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted when a message begins and completes. The `message` field contains an `AgentMessage`.
@@ -1220,7 +1220,7 @@ Emitted when a message begins and completes. The `message` field contains an `Ag
 
 ### message_update (Streaming)
 
-<a href="#message-update-streaming" class="heading-anchor" aria-label="Permalink: message_update (Streaming)" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#message-update-streaming"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#message_update-streaming" class="heading-anchor" aria-label="Permalink: message_update (Streaming)" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#message_update-streaming"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted during streaming of assistant messages. Contains a delta event without a cumulative message snapshot.
@@ -1280,7 +1280,7 @@ Example starting a tool call:
 
 ### bash_execution_update
 
-<a href="#bash-execution-update" class="heading-anchor" aria-label="Permalink: bash_execution_update" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#bash-execution-update"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#bash_execution_update" class="heading-anchor" aria-label="Permalink: bash_execution_update" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#bash_execution_update"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted once for each output chunk from a direct `bash` command. `id` matches the command's `id`, allowing clients to associate output with the correct command.
@@ -1298,7 +1298,7 @@ Events stream all output while the command runs, even if the final `bash` respon
 
 ### tool_execution_start / tool_execution_update / tool_execution_end
 
-<a href="#tool-execution-start-tool-execution-update-tool-execution-end" class="heading-anchor" aria-label="Permalink: tool_execution_start / tool_execution_update / tool_execution_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#tool-execution-start-tool-execution-update-tool-execution-end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tool_execution_start--tool_execution_update--tool_execution_end" class="heading-anchor" aria-label="Permalink: tool_execution_start / tool_execution_update / tool_execution_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#tool_execution_start--tool_execution_update--tool_execution_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted when a tool begins, streams progress, and completes execution.
@@ -1347,7 +1347,7 @@ Use `toolCallId` to correlate events. The `partialResult` in `tool_execution_upd
 
 ### queue_update
 
-<a href="#queue-update" class="heading-anchor" aria-label="Permalink: queue_update" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#queue-update"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#queue_update" class="heading-anchor" aria-label="Permalink: queue_update" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#queue_update"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted whenever the pending steering or follow-up queue changes.
@@ -1363,7 +1363,7 @@ Emitted whenever the pending steering or follow-up queue changes.
 
 ### compaction_start / compaction_end
 
-<a href="#compaction-start-compaction-end" class="heading-anchor" aria-label="Permalink: compaction_start / compaction_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#compaction-start-compaction-end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#compaction_start--compaction_end" class="heading-anchor" aria-label="Permalink: compaction_start / compaction_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#compaction_start--compaction_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted when compaction runs, whether manual or automatic.
@@ -1407,7 +1407,7 @@ If compaction failed (e.g., API quota exceeded), `result` is `null`, `aborted` i
 
 ### auto_retry_start / auto_retry_end
 
-<a href="#auto-retry-start-auto-retry-end" class="heading-anchor" aria-label="Permalink: auto_retry_start / auto_retry_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#auto-retry-start-auto-retry-end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#auto_retry_start--auto_retry_end" class="heading-anchor" aria-label="Permalink: auto_retry_start / auto_retry_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#auto_retry_start--auto_retry_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted when automatic retry is triggered after a transient error (overloaded, rate limit, 5xx).
@@ -1444,7 +1444,7 @@ On final failure (max retries exceeded):
 
 ### summarization_retry_scheduled / summarization_retry_attempt_start / summarization_retry_finished
 
-<a href="#summarization-retry-scheduled-summarization-retry-attempt-start-summarization-retry-finished" class="heading-anchor" aria-label="Permalink: summarization_retry_scheduled / summarization_retry_attempt_start / summarization_retry_finished" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#summarization-retry-scheduled-summarization-retry-attempt-start-summarization-retry-finished"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#summarization_retry_scheduled--summarization_retry_attempt_start--summarization_retry_finished" class="heading-anchor" aria-label="Permalink: summarization_retry_scheduled / summarization_retry_attempt_start / summarization_retry_finished" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#summarization_retry_scheduled--summarization_retry_attempt_start--summarization_retry_finished"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted when compaction or branch-summary summarization retries after a transient provider error. These events use the same retry settings as automatic assistant-turn retries.
@@ -1478,7 +1478,7 @@ For branch summaries, `source` is `"branchSummary"` and no `reason` is present.
 
 ### extension_error
 
-<a href="#extension-error" class="heading-anchor" aria-label="Permalink: extension_error" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#extension-error"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#extension_error" class="heading-anchor" aria-label="Permalink: extension_error" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#extension_error"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted when an extension throws an error.
@@ -1691,7 +1691,7 @@ Set the terminal window/tab title. Fire-and-forget.
 
 #### set_editor_text
 
-<a href="#set-editor-text" class="heading-anchor" aria-label="Permalink: set_editor_text" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set-editor-text"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#set_editor_text" class="heading-anchor" aria-label="Permalink: set_editor_text" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#set_editor_text"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Set the text in the input editor. Fire-and-forget.
@@ -1971,7 +1971,7 @@ for event in read_events():
 
 ## Example: Interactive Client (Node.js)
 
-<a href="#example-interactive-client-node-js" class="heading-anchor" aria-label="Permalink: Example: Interactive Client (Node.js)" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#example-interactive-client-node-js"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#example-interactive-client-nodejs" class="heading-anchor" aria-label="Permalink: Example: Interactive Client (Node.js)" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#example-interactive-client-nodejs"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 See [`test/rpc-example.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/test/rpc-example.ts) for a complete interactive example, or [`src/modes/rpc/rpc-client.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/rpc/rpc-client.ts) for a typed client implementation.

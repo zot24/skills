@@ -73,7 +73,7 @@ Use `/logout` to clear credentials. Tokens are stored in `~/.pi/agent/auth.json`
 
 ### Claude Pro/Max
 
-<a href="#claude-pro-max" class="heading-anchor" aria-label="Permalink: Claude Pro/Max" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#claude-pro-max"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#claude-promax" class="heading-anchor" aria-label="Permalink: Claude Pro/Max" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#claude-promax"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Anthropic subscription auth is active for Claude Pro/Max accounts. Third-party harness usage draws from [extra usage](https://claude.ai/settings/usage) and is billed per token, not against Claude plan limits.
@@ -90,7 +90,7 @@ Anthropic subscription auth is active for Claude Pro/Max accounts. Third-party h
 
 ### xAI (Grok/X subscription)
 
-<a href="#xai-grok-x-subscription" class="heading-anchor" aria-label="Permalink: xAI (Grok/X subscription)" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#xai-grok-x-subscription"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#xai-grokx-subscription" class="heading-anchor" aria-label="Permalink: xAI (Grok/X subscription)" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#xai-grokx-subscription"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - Run `/login xai`, then select **Use a subscription**
@@ -401,7 +401,7 @@ Or set `GOOGLE_APPLICATION_CREDENTIALS` to a service account key file.
 
 ## llama.cpp
 
-<a href="#llama-cpp" class="heading-anchor" aria-label="Permalink: llama.cpp" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#llama-cpp"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#llamacpp" class="heading-anchor" aria-label="Permalink: llama.cpp" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#llamacpp"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Pi supports the llama.cpp router server. Configure it with `/login llama.cpp`, manage loaded models with `/llama`, and select a loaded model with `/model`.

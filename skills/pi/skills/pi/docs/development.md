@@ -54,7 +54,7 @@ The script can be run from any directory. Pi keeps the caller's current working 
 
 ## Forking / Rebranding
 
-<a href="#forking-rebranding" class="heading-anchor" aria-label="Permalink: Forking / Rebranding" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#forking-rebranding"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#forking--rebranding" class="heading-anchor" aria-label="Permalink: Forking / Rebranding" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#forking--rebranding"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Configure via `package.json`:

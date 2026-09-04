@@ -111,7 +111,7 @@ For project-level Claude Code skills, add to `.pi/settings.json`:
 
 1.  At startup, pi scans skill locations and extracts names and descriptions
 2.  The system prompt includes available skills in XML format per the [specification](https://agentskills.io/integrate-skills)
-3.  When a task matches, the agent uses `read` to load the full SKILL.md (models don't always do this; use prompting or `/skill:name` to force it)
+3.  When a task matches, the agent uses `read`, or `bash` when `read` is unavailable, to load the full SKILL.md (models don't always do this; use prompting or `/skill:name` to force it)
 4.  The agent follows the instructions, using relative paths to reference scripts and assets
 
 This is progressive disclosure: only descriptions are always in context, full instructions load on-demand.
@@ -159,7 +159,7 @@ A skill is a directory with a `SKILL.md` file. Everything else is freeform.
 
 ### SKILL.md Format
 
-<a href="#skill-md-format" class="heading-anchor" aria-label="Permalink: SKILL.md Format" data-copy="" data-copy-text="https://pi.dev/docs/latest/skills#skill-md-format"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#skillmd-format" class="heading-anchor" aria-label="Permalink: SKILL.md Format" data-copy="" data-copy-text="https://pi.dev/docs/latest/skills#skillmd-format"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ```` markdown

@@ -135,7 +135,8 @@ vim ~/.pi/agent/themes/my-theme.json
     "text": "",
     "thinkingText": "secondary",
     "selectedBg": "#2d2d30",
-    "scrollbarThumb": "#555566",
+    "scrollbarTrack": "secondary",
+    "scrollbarThumb": "",
     "searchMatchBg": "#2d2d30",
     "searchMatchText": "",
     "userMessageBg": "#2d2d30",
@@ -211,7 +212,7 @@ vim ~/.pi/agent/themes/my-theme.json
 
 - `name` is required, must be unique, and must not contain `/`.
 - `vars` is optional. Define reusable colors here, then reference them in `colors`.
-- `colors` must define all 51 required tokens. `thinkingMax`, `scrollbarThumb`, and the two search highlight tokens are optional and use the fallbacks listed below.
+- `colors` must define all 53 required tokens. `thinkingMax` and the two search highlight tokens are optional and use the fallbacks listed below.
 
 The `$schema` field enables editor auto-completion and validation.
 
@@ -221,38 +222,39 @@ The `$schema` field enables editor auto-completion and validation.
 <a href="#color-tokens" class="heading-anchor" aria-label="Permalink: Color Tokens" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#color-tokens"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Every theme must define all 51 required color tokens. The optional tokens preserve compatibility with existing themes: `thinkingMax` falls back to `thinkingXhigh`, `scrollbarThumb` and `searchMatchBg` fall back to `selectedBg`, and `searchMatchText` falls back to `text`. Other search matches use `searchMatchText` on `searchMatchBg` with an underline; the current match reverses that foreground/background pair and uses bold text.
+Every theme must define all 53 required color tokens. The optional tokens preserve compatibility with existing themes: `thinkingMax` falls back to `thinkingXhigh`, `searchMatchBg` falls back to `selectedBg`, and `searchMatchText` falls back to `text`. Other search matches use `searchMatchText` on `searchMatchBg` with an underline; the current match reverses that foreground/background pair and uses bold text.
 
 
-### Core UI (11 colors)
+### Core UI (13 colors)
 
-<a href="#core-ui-11-colors" class="heading-anchor" aria-label="Permalink: Core UI (11 colors)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#core-ui-11-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-| Token          | Purpose                                       |
-|----------------|-----------------------------------------------|
-| `accent`       | Primary accent (logo, selected items, cursor) |
-| `border`       | Normal borders                                |
-| `borderAccent` | Highlighted borders                           |
-| `borderMuted`  | Subtle borders (editor)                       |
-| `success`      | Success states                                |
-| `error`        | Error states                                  |
-| `warning`      | Warning states                                |
-| `muted`        | Secondary text                                |
-| `dim`          | Tertiary text                                 |
-| `text`         | Default text (usually `""`)                   |
-| `thinkingText` | Thinking block text                           |
+<a href="#core-ui-13-colors" class="heading-anchor" aria-label="Permalink: Core UI (13 colors)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#core-ui-13-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-### Backgrounds & Content (11 required, 3 optional)
+| Token            | Purpose                                                                     |
+|------------------|-----------------------------------------------------------------------------|
+| `accent`         | Primary accent (logo, selected items, cursor)                               |
+| `border`         | Normal borders                                                              |
+| `borderAccent`   | Highlighted borders                                                         |
+| `borderMuted`    | Subtle borders (editor)                                                     |
+| `success`        | Success states                                                              |
+| `error`          | Error states                                                                |
+| `warning`        | Warning states                                                              |
+| `muted`          | Secondary text                                                              |
+| `dim`            | Tertiary text                                                               |
+| `text`           | Default text (usually `""`)                                                 |
+| `thinkingText`   | Thinking block text                                                         |
+| `scrollbarTrack` | Fullscreen scrollbar track foreground                                       |
+| `scrollbarThumb` | Fullscreen scrollbar thumb foreground, shared by normal and expanded states |
 
-<a href="#backgrounds-content-11-required-3-optional" class="heading-anchor" aria-label="Permalink: Backgrounds &amp; Content (11 required, 3 optional)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#backgrounds-content-11-required-3-optional"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+### Backgrounds & Content (11 required, 2 optional)
+
+<a href="#backgrounds--content-11-required-2-optional" class="heading-anchor" aria-label="Permalink: Backgrounds &amp; Content (11 required, 2 optional)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#backgrounds--content-11-required-2-optional"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Token                | Purpose                                                                                         |
 |----------------------|-------------------------------------------------------------------------------------------------|
 | `selectedBg`         | Selected line background                                                                        |
-| `scrollbarThumb`     | Fullscreen scrollbar thumb background; optional, falls back to `selectedBg`                     |
 | `searchMatchBg`      | Transcript search match background and current-match text; optional, falls back to `selectedBg` |
 | `searchMatchText`    | Transcript search match text and current-match background; optional, falls back to `text`       |
 | `userMessageBg`      | User message background                                                                         |
