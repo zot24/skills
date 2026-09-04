@@ -361,7 +361,7 @@ Extensions can intercept and customize both compaction and branch summarization.
 
 ### session_before_compact
 
-<a href="#session-before-compact" class="heading-anchor" aria-label="Permalink: session_before_compact" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#session-before-compact"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_before_compact" class="heading-anchor" aria-label="Permalink: session_before_compact" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#session_before_compact"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before auto-compaction or `/compact`. Can cancel or provide custom summary. See `SessionBeforeCompactEvent` and `CompactionPreparation` in the types file.
@@ -443,7 +443,7 @@ See [custom-compaction.ts](https://github.com/earendil-works/pi/blob/main/packag
 
 ### session_compact_failed
 
-<a href="#session-compact-failed" class="heading-anchor" aria-label="Permalink: session_compact_failed" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#session-compact-failed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_compact_failed" class="heading-anchor" aria-label="Permalink: session_compact_failed" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#session_compact_failed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when manual or automatic compaction fails or is aborted. This is useful for telemetry extensions that need to pair `session_before_compact` attempts with terminal outcomes.
@@ -462,7 +462,7 @@ pi.on("session_compact_failed", async (event, ctx) => {
 
 ### session_before_tree
 
-<a href="#session-before-tree" class="heading-anchor" aria-label="Permalink: session_before_tree" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#session-before-tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_before_tree" class="heading-anchor" aria-label="Permalink: session_before_tree" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#session_before_tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before `/tree` navigation. Always fires regardless of whether user chose to summarize. Can cancel navigation or provide custom summary.

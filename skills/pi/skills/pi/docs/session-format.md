@@ -541,7 +541,7 @@ Key methods for working with sessions programmatically.
 
 ### Instance Methods - Session Management
 
-<a href="#instance-methods-session-management" class="heading-anchor" aria-label="Permalink: Instance Methods - Session Management" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#instance-methods-session-management"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#instance-methods---session-management" class="heading-anchor" aria-label="Permalink: Instance Methods - Session Management" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#instance-methods---session-management"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - `newSession(options?)` - Start a new session (options: `{ parentSession?: string }`)
@@ -551,7 +551,7 @@ Key methods for working with sessions programmatically.
 
 ### Instance Methods - Appending (all return entry ID)
 
-<a href="#instance-methods-appending-all-return-entry-id" class="heading-anchor" aria-label="Permalink: Instance Methods - Appending (all return entry ID)" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#instance-methods-appending-all-return-entry-id"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#instance-methods---appending-all-return-entry-id" class="heading-anchor" aria-label="Permalink: Instance Methods - Appending (all return entry ID)" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#instance-methods---appending-all-return-entry-id"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - `appendMessage(message)` - Add message
@@ -566,7 +566,7 @@ Key methods for working with sessions programmatically.
 
 ### Instance Methods - Tree Navigation
 
-<a href="#instance-methods-tree-navigation" class="heading-anchor" aria-label="Permalink: Instance Methods - Tree Navigation" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#instance-methods-tree-navigation"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#instance-methods---tree-navigation" class="heading-anchor" aria-label="Permalink: Instance Methods - Tree Navigation" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#instance-methods---tree-navigation"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - `getLeafId()` - Current position
@@ -583,7 +583,7 @@ Key methods for working with sessions programmatically.
 
 ### Instance Methods - Context & Info
 
-<a href="#instance-methods-context-info" class="heading-anchor" aria-label="Permalink: Instance Methods - Context &amp; Info" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#instance-methods-context-info"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#instance-methods---context--info" class="heading-anchor" aria-label="Permalink: Instance Methods - Context &amp; Info" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#instance-methods---context--info"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - `buildContextEntries()` - Get active branch entries with compaction applied

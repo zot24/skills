@@ -46,17 +46,19 @@ All components implement:
 interface Component {
   render(width: number): string[];
   handleInput?(data: string): void;
+  handleMouse?(event: TuiMouseEvent): TuiMouseEventResult | undefined;
   wantsKeyRelease?: boolean;
   invalidate(): void;
 }
 ```
 
-| Method               | Description                                                                      |
-|----------------------|----------------------------------------------------------------------------------|
-| `render(width)`      | Return array of strings (one per line). Each line **must not exceed `width`**.   |
-| `handleInput?(data)` | Receive keyboard input when component has focus.                                 |
-| `wantsKeyRelease?`   | If true, component receives key release events (Kitty protocol). Default: false. |
-| `invalidate()`       | Clear cached render state. Called on theme changes.                              |
+| Method                | Description                                                                      |
+|-----------------------|----------------------------------------------------------------------------------|
+| `render(width)`       | Return array of strings (one per line). Each line **must not exceed `width`**.   |
+| `handleInput?(data)`  | Receive keyboard input when component has focus.                                 |
+| `handleMouse?(event)` | Receive normalized pointer input in fullscreen mode.                             |
+| `wantsKeyRelease?`    | If true, component receives key release events (Kitty protocol). Default: false. |
+| `invalidate()`        | Clear cached render state. Called on theme changes.                              |
 
 The TUI appends a full SGR reset and OSC 8 reset at the end of each rendered line. Styles do not carry across lines. If you emit multi-line text with styling, reapply styles per line or use `wrapTextWithAnsi()` so styles are preserved for each wrapped line.
 
@@ -89,7 +91,7 @@ When a `Focusable` component has focus, TUI:
 3.  Positions the hardware terminal cursor at that location
 4.  Shows the hardware cursor only when `showHardwareCursor` is enabled
 
-The cursor remains hidden by default. This keeps the fake cursor rendering, while still positioning the hardware cursor for terminals that track IME candidate windows with hidden cursors. Some terminals require a visible hardware cursor for IME positioning; enable it with `showHardwareCursor`, `setShowHardwareCursor(true)`, or `PI_HARDWARE_CURSOR=1`. The `Editor` and `Input` built-in components already implement this interface.
+The cursor remains hidden by default. This keeps the fake cursor rendering, while still positioning the hardware cursor for terminals that track IME candidate windows with hidden cursors. Some terminals require a visible hardware cursor for IME positioning; enable it with the renderer's `showHardwareCursor` constructor argument or `setShowHardwareCursor(true)`. Pi also maps `PI_HARDWARE_CURSOR=1` to this setting before it creates its renderer. The `Editor` and `Input` built-in components already implement this interface.
 
 
 ### Container Components with Embedded Inputs
@@ -396,6 +398,26 @@ handleInput(data: string) {
 - Arrow keys: `Key.up`, `Key.down`, `Key.left`, `Key.right`
 - With modifiers: `Key.ctrl("c")`, `Key.shift("tab")`, `Key.alt("left")`, `Key.ctrlShift("p")`
 - String format also works: `"enter"`, `"ctrl+c"`, `"shift+tab"`, `"ctrl+shift+p"`
+
+
+## Mouse Input
+
+<a href="#mouse-input" class="heading-anchor" aria-label="Permalink: Mouse Input" data-copy="" data-copy-text="https://pi.dev/docs/latest/tui#mouse-input"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Fullscreen mode routes normalized press, release, click, move, drag, and wheel events to components and overlays. Return `{ handled: true }` to suppress default behavior, `capture: true` to retain drag/release ownership, `focus: true` to request keyboard focus, and `render: true` when a hover or release visibly changes the component. Press, click, drag, and wheel render by default; no-op move/release events do not.
+
+``` typescript
+import { MouseRegion } from "@earendil-works/pi-tui";
+
+const clickable = new MouseRegion(content, (event) => {
+  if (event.type !== "click" || event.button !== "left") return undefined;
+  expanded = !expanded;
+  return { handled: true };
+});
+```
+
+Unhandled wheel input scrolls the nearest `ScrollView`; unhandled primary-button drags retain transcript selection. OSC 8 links take precedence over parent click regions. `Input`, `Editor`, `SelectList`, and `SettingsList` include fullscreen mouse behavior. Regular mode does not capture mouse input because the terminal owns its scrollback.
 
 
 ## Line Width
@@ -847,7 +869,7 @@ pi.registerCommand("fetch", {
 
 ### Pattern 3: Settings/Toggles (SettingsList)
 
-<a href="#pattern-3-settings-toggles-settingslist" class="heading-anchor" aria-label="Permalink: Pattern 3: Settings/Toggles (SettingsList)" data-copy="" data-copy-text="https://pi.dev/docs/latest/tui#pattern-3-settings-toggles-settingslist"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pattern-3-settingstoggles-settingslist" class="heading-anchor" aria-label="Permalink: Pattern 3: Settings/Toggles (SettingsList)" data-copy="" data-copy-text="https://pi.dev/docs/latest/tui#pattern-3-settingstoggles-settingslist"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 For toggling multiple settings. Use `SettingsList` from `@earendil-works/pi-tui` with `getSettingsListTheme()`.
@@ -947,7 +969,7 @@ This only affects the normal streaming working indicator. Compaction and retry l
 
 ### Pattern 5: Widgets Above/Below Editor
 
-<a href="#pattern-5-widgets-above-below-editor" class="heading-anchor" aria-label="Permalink: Pattern 5: Widgets Above/Below Editor" data-copy="" data-copy-text="https://pi.dev/docs/latest/tui#pattern-5-widgets-above-below-editor"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pattern-5-widgets-abovebelow-editor" class="heading-anchor" aria-label="Permalink: Pattern 5: Widgets Above/Below Editor" data-copy="" data-copy-text="https://pi.dev/docs/latest/tui#pattern-5-widgets-abovebelow-editor"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Show persistent content above or below the input editor. Good for todo lists, progress.
@@ -1079,6 +1101,7 @@ export default function (pi: ExtensionAPI) {
 
 - **Extend `CustomEditor`** (not base `Editor`) to get app keybindings (escape to abort, ctrl+d to exit, model switching, etc.)
 - **Call `super.handleInput(data)`** for keys you don't handle
+- **Working status**: custom editors keep the standalone working row by default. Pass `{ embedWorkingStatus: true }` as the fourth `CustomEditor` constructor argument to use the built-in editor-border spinner instead.
 - **Factory pattern**: `setEditorComponent` receives a factory function that gets `tui`, `theme`, and `keybindings`
 - **Pass `undefined`** to restore the default editor: `ctx.ui.setEditorComponent(undefined)`
 
