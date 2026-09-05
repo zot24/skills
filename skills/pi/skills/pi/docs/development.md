@@ -52,6 +52,23 @@ Run from source:
 The script can be run from any directory. Pi keeps the caller's current working directory.
 
 
+### Experimental remote harness
+
+<a href="#experimental-remote-harness" class="heading-anchor" aria-label="Permalink: Experimental remote harness" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#experimental-remote-harness"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+The remote harness server/client integration is development-only. Run it from the repository with:
+
+``` bash
+PI_EXPERIMENTAL=1 ./pi-test.sh server
+PI_EXPERIMENTAL=1 ./pi-test.sh client
+```
+
+`PI_SERVER_DIR` overrides the server profile and socket directory (default: `~/.pi/server`). `PI_SERVER_ID` selects the logical server ID when `--server-id` is omitted.
+
+The `client` and `experimental/plugin` package subpaths resolve only under the `source` condition in a checkout. Their implementations and the server/client commands are excluded from npm packages and standalone binaries. `pi-client`, `pi-protocol`, and `pi-server` are development dependencies of coding-agent, not runtime dependencies. The local SDK and stdio RPC API are unchanged.
+
+
 ## Forking / Rebranding
 
 <a href="#forking--rebranding" class="heading-anchor" aria-label="Permalink: Forking / Rebranding" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#forking--rebranding"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
@@ -108,6 +125,16 @@ Never use `__dirname` directly for package assets.
 npm test                          # Run all tests
 npm test -- test/specific.test.ts # Run specific test
 ```
+
+
+### Published package smoke test
+
+<a href="#published-package-smoke-test" class="heading-anchor" aria-label="Permalink: Published package smoke test" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#published-package-smoke-test"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+After building, run `npm run check:package-install`. It packs the public packages and installs only coding-agent as a direct dependency in a temporary directory outside the repository. Local tarball overrides select declared transitive dependencies without installing development-only packages. The check verifies SDK imports and CLI startup without credentials or model requests.
+
+`npm run check` also checks runtime dependency declarations and rejects excluded development sources pulled into a package's build through imports.
 
 
 ## Project Structure
