@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.3](https://github.com/zot24/skills/compare/pi-v1.1.2...pi-v1.1.3) (2026-09-05)
+
+
+### Bug Fixes
+
+* **pi:** sync for upstream release v0.85.0 ([#240](https://github.com/zot24/skills/issues/240)) ([b33d6b8](https://github.com/zot24/skills/commit/b33d6b88930b2e6460db8944c708403f12373caf))
+* **pi:** sync for upstream release v0.85.1 ([#241](https://github.com/zot24/skills/issues/241)) ([467240b](https://github.com/zot24/skills/commit/467240be75dd82fd223d74a6dee1466cb8d16c0c))
+
 ## [1.1.2](https://github.com/zot24/skills/compare/pi-v1.1.1...pi-v1.1.2) (2026-08-29)
 
 
