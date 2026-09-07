@@ -152,8 +152,9 @@ floor.
 A second penalty stacks on top: `vm-ranker/` reorders by embedding dissimilarity (DPP-only as of
 2026-08-28), so posts that resemble each other are demoted even across different authors. Slate
 context now also carries Phoenix reconstruction-similarity (`recon_cos_milli`, `recon_count_above`,
-`recon_gap_above`) — flooding one cluster is a diversity problem even when the author-decay math
-only keys on author `k`.
+`recon_gap_above`) and exact-duplicate recurrence (`exact_k`, `exact_gap`) — flooding one cluster,
+or shipping the same take twice, is a diversity problem even when the author-decay math only
+keys on author `k`.
 
 **Quality beats quantity, and variety beats repetition.** One excellent post outperforms three
 average ones that split your author score budget — and three rephrasings of the same take, or

@@ -1,6 +1,6 @@
 <!-- Source: https://github.com/xai-org/x-algorithm — abuse-enforcement-service/, agatha/, user-cred-v2/, bdsm/ -->
 <!-- Cached: upstream/enforcement-user-rules.md, upstream/enforcement-post-rules.md -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 -->
+<!-- Snapshot: 902a06fd, 2026-09-04 -->
 
 # Account Standing
 
@@ -66,10 +66,11 @@ If your credibility score is **≥ 50** the post enforcement rules below it are 
 Established accounts in a real network genuinely are treated differently — the same post can be
 labelled on a new account and pass on a credible one.
 
-A `high_follower_count` rule (`enforcement_post.yaml:24-29`) grants the same skip. Its published
-threshold is **deliberately fake** — the file comments *"Prod uses a different follower count
-floor; this is a mock value to reduce gaming."* So the exemption is real; the number is not
-knowable from the repo.
+A `high_follower_count` rule (`enforcement_user.yaml` / `enforcement_post.yaml`) grants the same
+skip. As of 2026-09-04 a `very_high_follower_count` skip sits **above** it in the user-enforcement
+chain (`enforcement_user.yaml:18-23`). Both published thresholds are **deliberately fake** — the
+file comments *"Prod uses a different follower count floor; this is a mock value to reduce
+gaming."* So the exemptions are real; the numbers are not knowable from the repo.
 
 Practical reading: **building graph credibility is a prerequisite, not a nice-to-have.** New
 accounts running aggressive content or reply strategies have no such buffer.
@@ -149,7 +150,9 @@ patterns can skip the label TTL and go straight to a temporary suspend.
 3. **Cadence is scored, not just content.** `bdsm/` reads burstiness and mechanical timing
    directly. Post like a person.
 4. **Reply volume is the highest-risk strategy in the playbook.** `fast_reply_spam_post`,
-   `RiskyHighVizReply`, and the low-follower reply spam classifier all converge on it.
+   `RiskyHighVizReply`, the low-follower reply spam classifier, and as of 2026-09-04
+   `PlanMultiStepReplySpam` (stacked self-replies under someone else's post) all converge on it.
+   Coordinated-spam checks now cover roots with ≥5k followers.
    → See **[Conversation Tactics](conversation-tactics.md)**.
 5. **Credibility ≥ 50 is a buffer worth building before anything aggressive.** Follow graph and
    engagement edges, built slowly, buy you the `pagerank_skipped` path.

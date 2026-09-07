@@ -1,6 +1,6 @@
 <!-- Source: https://github.com/xai-org/x-algorithm — grox/flows/upa/, grox/flows/reply_spam/, grox/flows/ptos/ -->
 <!-- Cached: upstream/banger-screen-state.md -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 -->
+<!-- Snapshot: 902a06fd, 2026-09-04 -->
 
 # Content Quality Screening
 
@@ -97,6 +97,13 @@ the reply-target and root author are ≤ **120,000** followers
 before that). The 60-second scoring rate-limit is gone; every eligible reply can be scored
 immediately. Ranking-score writes are ratchet-down only (a worse score overwrites a better one).
 
+As of 2026-09-04 two more reply-spam paths sit beside that:
+
+- **Multi-step self-reply spam** (`PlanMultiStepReplySpam`) — consecutive self-replies under
+  someone else's tweet (depth ≥ 2, root ≥ 1,000 followers). A hit writes ranking score 0.0.
+- **Coordinated spam** (`TaskCoordinatedSpamFilter`) — deep threads whose root has ≥ **5,000**
+  followers (was 1,000). High PageRank v2 / grey-badge authors skip both.
+
 Related enforcement, with 30-day label TTLs: `fast_reply_spam_post` → `SpamHighRecall`, and
 `llm_slop_post` → `RiskyHighVizReply` (`enforcement_post.yaml:39-58`).
 → **[Account Standing](account-standing.md)** · **[Conversation Tactics](conversation-tactics.md)**
@@ -152,7 +159,8 @@ civic integrity) drop in-network too.
 - [ ] Does it read as written by a person, not generated from a template? (`slop_score`,
       `llm_slop_post`)
 - [ ] Does it add something summarizable — a claim, a number, an experience?
-- [ ] If replying: does it genuinely extend the conversation, and are you replying at a human
-      pace? (`fast_reply_spam_post`)
+- [ ] If replying: does it genuinely extend the conversation, at a human pace, **once**?
+      Don't stack self-replies under someone else's post (`PlanMultiStepReplySpam`,
+      `fast_reply_spam_post`)
 - [ ] Does anything in it, or in your avatar/banner, risk a safety label?
 - [ ] Is it meaningfully different from your last few posts? (VMRanker, `SpamEmbeddingMajorityPoster`)

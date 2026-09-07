@@ -10,7 +10,7 @@ Expert at crafting high-engagement [X (Twitter)](https://x.com) content — grou
 - **Quality screening** — Banger Initial Screen outputs, taxonomy classification, slop scoring
 - **Hooks + attention** — First line stops the scroll; substance converts it into an action that actually scores
 - **Follow triggers** — Why follows compound across scoring, retrieval and enforcement, even at a weight of 4.0
-- **Reply strategy** — Grok scores replies 0–3; elevated spam scrutiny under 1,000 followers; mid-tier coverage through 120k; volume is the riskiest lever
+- **Reply strategy** — Grok scores replies 0–3; elevated spam scrutiny under 1,000 followers; mid-tier coverage through 120k; stacked self-replies under someone else's post are multi-step spam; volume is the riskiest lever
 - **Threads + clusters** — Interconnected posts that drive cross-traffic
 - **Authority building** — Mutual-follow boost, share signals, network alignment, positioning
 - **Monetization** — Original Content Rewards: eligibility, qualified impressions (Premium viewers × Home Timeline × original posts), what counts as original, payout rules
@@ -35,14 +35,16 @@ Or use natural language:
 "What signals does the X algorithm actually weight?"
 ```
 
-## Key Algorithm Facts (from xai-org/x-algorithm @ `bc8e5f0`, 2026-08-28)
+## Key Algorithm Facts (from xai-org/x-algorithm @ `902a06fd`, 2026-09-04)
 
 - **Weights multiply P(action), not raw counts** (clarified 2026-08-14) — do not say "1 report cancels N likes"
-- **Brazil2026ElectionFilter** — listed electoral-court accounts dropped from For You unless the viewer follows them (list updated 2026-08-27)
+- **Brazil2026ElectionFilter** — listed electoral-court accounts dropped from For You unless the viewer follows them (list length **2,554**, was 2,315)
 - **Reply spam/ranking mid-tier threshold** 15k → 30k → 80k → **120k** followers on target+root
-- **DwellWeight 0.05** (was 0.0); **VqvWeight 0.0** (was 0.05); Phoenix aggregation `DENSE_WITH_LONG_DWELL`
-- **VMRanker is DPP-only** — SID recurrence is no longer computed into the reranker request
-- **Cold start uses `view_count_on_home`**; Thompson-sampling TopK (off by default) is 2
+- **Multi-step reply spam** — stacked self-replies under someone else's post (root ≥ 1,000) can be written to ranking score 0.0
+- **Coordinated-spam root coverage** 1k → **5k** followers
+- **DwellWeight 0.05**; **VqvWeight 0.0**; Phoenix scoring *and retrieval* aggregation `DENSE_WITH_LONG_DWELL`
+- **VMRanker is DPP-only** — SID recurrence is no longer computed into the reranker request; slate context now also has `exact_k` / `exact_gap`
+- **Cold start uses `view_count_on_home`**; Thompson-sampling TopK (off by default) is 2; treatment arm is Phoenix MoE only
 - **Following blocked-by** hydrator drops quotes/RTs of people who blocked the viewer
 - **Author NSFW bit** (`nsfw_author_phoenix`) enters Phoenix features on non-retweets
 - **Stale ~14d** posts can have engagement-count features zeroed in Phoenix
@@ -65,7 +67,7 @@ Published blend weights, from `home-mixer/params/param.rs`:
 | Author diversity | ×0.625 / ×0.438 | Your 2nd and 3rd post in one feed load |
 | OON weight | ×0.75 | Reaching non-followers costs 25% of your score |
 
-Weights blend action value with base rate (`param.rs:279-281`) — a large weight often just means
+Weights blend action value with base rate (`param.rs:286`) — a large weight often just means
 a rare action. Score contribution is `weight × P(action)`. Don't read the table as a to-do list.
 
 Beyond ranking, **visibility filtering** decides eligibility: a set of rules drops posts *only*

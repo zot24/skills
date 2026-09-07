@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/visibility-filtering/rules/registry.rs (cached at upstream/visibility-filtering-registry.md) -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 — Brazil filter is in home-mixer, not the VF registry -->
+<!-- Snapshot: 902a06fd, 2026-09-04 — Brazil filter is in home-mixer, not the VF registry -->
 
 # Visibility Filtering
 
@@ -27,19 +27,21 @@ dropped contaminates conversations built on you.
 
 ## The part that matters most: OON-only drops
 
-Rules are grouped into policies by `SafetyLevel` (`registry.rs:26-37`). Two matter here:
+As of 2026-09-04 the rule tables live in `author_rules.rs` and `tweet_rules.rs`; `registry.rs`
+only groups them. Policies are still selected by `SafetyLevel` (`registry.rs:9-13`):
 
-- `TimelineHome` → `timeline_home_policy()` (`registry.rs:139-141`)
-- `TimelineHomeRecommendations` → `timeline_home_recommendations_policy()` (`registry.rs:143-175`)
+- `TimelineHome` → `TIMELINE_HOME_POLICY` (`registry.rs:81-91`, `:101`)
+- `TimelineHomeRecommendations` → `TIMELINE_HOME_RECOMMENDATIONS_POLICY` (`registry.rs:93-105`)
 
-Recommendations policy = **the same base rules plus an extra `oon_drops` list**
-(`registry.rs:145-172`).
+Recommendations policy = **the same shared rules plus an extra recommendation-only list**
+(`TIMELINE_HOME_RECOMMENDATION_ONLY_RULES`, `registry.rs:93-99`).
 
 **This is the core asymmetry: a set of labels drops your post only when it is a recommendation to
 someone who does not follow you. The identical post stays visible to your followers.** You can be
 cut off from all new-audience reach while your timeline looks completely normal.
 
-The OON-only drop list (`registry.rs:145-172`):
+The OON-only drop list (`tweet_rules::OON_TWEET_*` + `author_rules::OON_*`, wired at
+`registry.rs:93-99`):
 
 | Rule | What it keys on |
 |---|---|
@@ -70,7 +72,8 @@ acceptable because followers still see you.
 
 ## Base rules (both in-network and OON)
 
-`base_home_rules()` (`registry.rs:106-137`) — these drop or gate for everyone:
+Shared Home rules (`TIMELINE_HOME_SHARED_RULES`, `registry.rs:81-91`) — these drop or gate for
+everyone:
 
 - Author state: suspended, deactivated, erased, offboarded, protected
 - Viewer relationship: viewer blocks author, viewer mutes author, muted retweets
@@ -93,7 +96,8 @@ Not part of the `visibility-filtering/` registry — it runs in the Phoenix cand
 `Brazil2026ElectionFilter` (`home-mixer/filters/brazil_2026_election_filter.rs`).
 
 - Hardcoded set of user IDs reported to Brazil's Electoral Court for the 2026 election
-  (usernames included for transparency; README notes the **account list was updated 2026-08-27**).
+  (usernames included for transparency; hardcoded list length **2,554**, up from 2,315 on
+  2026-08-28).
 - **Removes** from For You recommendations posts whose author is on the list **unless the viewer
   already follows that author**.
 - Also removes retweets of listed authors, quotes of listed authors, and replies whose ancestor

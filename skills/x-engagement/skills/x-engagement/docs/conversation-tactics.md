@@ -147,9 +147,43 @@ rate-limit, most active mid-tier threads now go through reply-spam detection and
 ranking on every reply. Reply quality is a mid-tier *and large-mid* problem, not only a
 small-account problem.
 
-Recovery of missed jobs now injects **both** `PlanReplyRanking` and `PlanSpamComment`
-(`ReplyRankingTaskGenerator.generate_recovery`) — a missed reply can be spam-scored on replay,
+Recovery of missed jobs now injects `PlanReplyRanking`, `PlanSpamComment`, and as of
+2026-09-04 `PlanMultiStepReplySpam` (`ReplyRankingRecoveryTaskGenerator` in
+`generators.py`). A missed reply can be spam-scored and multi-step-scored on replay,
 not only quality-ranked.
+
+### Multi-step self-reply spam (2026-09-04)
+
+New flow: `grox/flows/reply_spam/task_multi_step_reply_spam.py` +
+`classifier_multi_step_reply_spam.py`, planned by `PlanMultiStepReplySpam`. It is **not**
+the 0–3 quality rubric. It looks for a chain of your own replies sitting under someone
+else's tweet.
+
+Eligibility (`TaskMultiStepReplySpamFilter` in `task_multi_step_reply_spam.py`):
+
+| Gate | What it requires |
+|---|---|
+| Depth | `len(ancestors) ≥ 2` (at least two levels into the thread) |
+| Parent is you | `ancestors[-1].user.id == post.user.id` |
+| Root is not you | skip if you are the root author |
+| Root size | root author ≥ **1,000** followers |
+| Standing skip | high PageRank v2 **or** grey-badge users are skipped |
+
+Gemma then flags `spam_post_indexes` in the thread. Python post-filters drop the hit if
+the newest reply is not in the flagged set, drop posts by other authors, and drop
+singletons. A remaining hit writes ranking score **0.0** and a reply-spam label
+(`TaskWriteMultiStepReplySpamReplyRanking`). The Grox `.j2` prompt is still withheld, so
+this is the published Python contract, not the LLM's internal definition of the spam.
+
+Practical: one quality reply under someone else's post. Do not "own the thread" by
+replying to yourself underneath it. Self-reply threads on *your* posts are skipped
+(you are the root).
+
+### Coordinated spam now covers 5k roots (2026-09-04)
+
+`TaskCoordinatedSpamFilter.FOLLOWER_COUNT_THRESHOLD_FOR_SPAM_DETECTION` moved **1,000 → 5,000**
+(`task_filter.py:97`). Deep-thread coordinated-spam checks (depth ≥ 2, not the root author,
+same high-PageRank / grey-badge skip) now run on mid-size roots, not only tiny ones.
 
 ### The reply-volume trap
 
@@ -173,7 +207,7 @@ The algorithm can show a "facepile" (profile pictures) of people the viewer foll
 a post — but only for viewers who themselves have **≥ 1,000 followers**
 (`home-mixer/candidate_hydrators/following_replied_users_hydrator.rs:13`).
 
-Caveat: `EnableFollowingRepliedUsersFacepile` defaults to `false` (`param.rs:559-564`), so treat
+Caveat: `EnableFollowingRepliedUsersFacepile` defaults to `false` (`param.rs:591-596`), so treat
 this as a real mechanism with an unconfirmed rollout. The tactic below is worth doing regardless —
 quality replies from engaged followers are valuable on their own — just don't count on the
 facepile itself.

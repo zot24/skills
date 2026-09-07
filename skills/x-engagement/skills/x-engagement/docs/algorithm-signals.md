@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm (direct codebase analysis) -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 -->
+<!-- Snapshot: 902a06fd, 2026-09-04 -->
 
 # X Algorithm Signals Reference
 
@@ -123,7 +123,7 @@ jaccard = (matching minhash positions) / (total positions)
 ```
 
 **Gated by `EnableMutualFollowJaccardHydration`, which defaults to `false`**
-(`home-mixer/params/param.rs:759-764`). The code is published; the published default is off.
+(`home-mixer/params/param.rs:821-826`). The code is published; the published default is off.
 Treat network-overlap tactics as plausible rather than established.
 
 What *is* live and load-bearing is the **bidirectional follow reply boost**: +15.0 on reply weight
@@ -148,28 +148,32 @@ ship and distribute while fresh.
 (`EnableColdStartThompsonSampling`, **default false**) samples Beta(α0+favs, β0+imps−favs) and
 picks among the top-K sampled before falling back to score. Defaults: α0=0.75, β0=49.25, **K=2**
 (was 5). Until production enables the flag, behaviour remains argmax-by-score among cold-start
-eligibles.
+eligibles. As of 2026-09-04 the treatment arm only boosts Phoenix MoE candidates
+(`is_phoenix_moe`).
 
 As of 2026-08-21, tracked cold-start impression counting is **post-id only**. As of 2026-08-28 the
 impression numerator is **`view_count_on_home`** (Home Timeline impressions), falling back to
 `view_count` only if the Home field is missing. Global views do not buy the explore slot.
 Treat cold-start as a per-post, Home-Timeline explore path.
 
-## Slate context: SID fields stay, reconstruction similarity is new (2026-08-28)
+## Slate context: SID fields stay, reconstruction + exact-duplicate features (2026-09-04)
 
-`SlateContext` still carries 3-level semantic-ID fields **and** new Phoenix reconstruction
-features (`home-mixer/models/candidate.rs`):
+`SlateContext` still carries 3-level semantic-ID fields **and** Phoenix reconstruction
+features, plus exact-duplicate recurrence (`home-mixer/models/candidate.rs`):
 
 - `sid_known`, `sid_k_l1` / `sid_k_l2` / `sid_k_l3`, `sid_gap_l*`
 - `recon_cos_milli`, `recon_count_above`, `recon_gap_above`
+- `exact_k`, `exact_gap` (added 2026-09-04)
 
-`ranking_scorer.rs` **no longer computes** SID recurrence. The SID + `recon_*` values are copied
-from the Phoenix proto. Author-diversity multipliers still use only author `k`. VMRanker is
-DPP-only and does not take those fields in its request. `UseServedSlateContext` was removed.
+`ranking_scorer.rs` **no longer computes** SID recurrence. The SID + `recon_*` + `exact_*`
+values are copied from the Phoenix proto. Author-diversity multipliers still use only author
+`k`. VMRanker is DPP-only and does not take those fields in its request. `UseServedSlateContext`
+was removed.
 
-Practical read: near-duplicate takes still lose to DPP reordering, and Phoenix now exposes how
-similar a candidate is to items already shown (`recon_*`). Vary the cluster, not only the author
-cadence. Do not teach "SID recurrence feeds VMRanker" — that path was unwired in this snapshot.
+Practical read: near-duplicate takes still lose to DPP reordering, Phoenix still exposes how
+similar a candidate is to items already shown (`recon_*`), and exact copies now have their own
+recurrence fields. Vary the cluster. Do not ship the same take twice. Do not teach
+"SID recurrence feeds VMRanker" — that path was unwired in `bc8e5f0`.
 
 ## Author NSFW bit into Phoenix (2026-08-21)
 
@@ -188,12 +192,12 @@ Restricted to viewers with **≥ 1,000 followers**
 (`home-mixer/candidate_hydrators/following_replied_users_hydrator.rs:13`,
 `VIEWER_FOLLOWERS_THRESHOLD: i64 = 1000`).
 
-Also gated by `EnableFollowingRepliedUsersFacepile`, default `false` (`param.rs:559-564`).
+Also gated by `EnableFollowingRepliedUsersFacepile`, default `false` (`param.rs:591-596`).
 
 ## How to Prioritize
 
 The published weights do **not** give you a clean action ranking, because upstream states
-explicitly (`param.rs:279-281`) that each weight blends "how much an action is valued in ranking
+explicitly (`param.rs:286`) that each weight blends "how much an action is valued in ranking
 **and typical propensities of these actions across the X network**." A large weight often
 compensates for a rare action. Score contribution is `weight × P(action)`, and you control
 `P(action)`, not the weight.
@@ -214,8 +218,8 @@ What the code does support:
 6. **Hold attention** — as a means to the above. Binary `dwell` is 0.05; `cont_dwell_time` is
    0.004. Neither is the payoff.
 7. **Post less, better, fresher.** Author diversity decay plus VMRanker (DPP-only) both penalize
-   volume and repetition; Phoenix `recon_*` similarity now lives in slate context; stale-post
-   feature zeroing weakens old count-heavy posts.
+   volume and repetition; Phoenix `recon_*` similarity and `exact_*` duplicate recurrence now
+   live in slate context; stale-post feature zeroing weakens old count-heavy posts.
 8. **Keep account NSFW clean.** `nsfw_author_phoenix` is a Phoenix feature bit, not only a
    visibility label.
 

@@ -46,7 +46,7 @@ cont_dwell_time 0.004 · **dwell 0.05** · **vqv 0.0** · **profile_click 0.0** 
 not_interested −43.2 · block −31.2 · **not_dwelled −0.02**
 
 **Read weights correctly:** upstream states they blend action value with base rate
-(`param.rs:279-281`). Contribution is `weight × P(action)`. Copy-link is 20.0 because it's rare —
+(`param.rs:286`). Contribution is `weight × P(action)`. Copy-link is 20.0 because it's rare —
 it is not a tactic. Never present the table as a ranked to-do list.
 
 **Negatives dominate risk:** large weights on rare P(mute/block/report) — not raw count math. Avoiding mute/block/report beats
@@ -61,7 +61,9 @@ current schema has no `quality_score`. Do not repeat it.
 
 **Reply rules:** Grok scores replies 0–3; ≤ 1,000 followers = elevated spam scrutiny;
 coverage through ≤120k on target+root; `fast_reply_spam_post` carries a 30-day `SpamHighRecall`
-label. Volume is the riskiest lever. Worse ranking scores overwrite better ones.
+label. Stacked self-replies under someone else's post (`PlanMultiStepReplySpam`) can be written
+to ranking score 0.0. Coordinated-spam checks cover roots ≥5k. Volume is the riskiest lever.
+Worse ranking scores overwrite better ones.
 
 **Author diversity:** 2nd post in a feed load keeps 62.5%, 3rd 43.75%. VMRanker separately demotes
 posts similar to their neighbours.

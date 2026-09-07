@@ -119,7 +119,7 @@ high-trust — it means your content is reference-quality.
 
 One caveat that matters: copy-link's 20.0 is high **because the action is rare**, not because it
 is 4× a DM share in value. Upstream is explicit that weights blend value with base rate
-(`param.rs:279-281`). Don't build tactics around farming copy-links.
+(`param.rs:286`). Don't build tactics around farming copy-links.
 
 **Content that becomes "send this to someone who needs it" material is the goal** — the specific
 share mechanism isn't something you control.
@@ -137,7 +137,7 @@ mutual-follow set and the author's
 (`home-mixer/candidate_hydrators/mutual_follow_jaccard_hydrator.rs:16`).
 
 **It is gated by `EnableMutualFollowJaccardHydration`, which defaults to `false`**
-(`param.rs:759-764`). The code is published; the published default is off. Treat tactics built on
+(`param.rs:821-826`). The code is published; the published default is off. Treat tactics built on
 Jaccard overlap as plausible, not established.
 
 Two mechanisms in the same area *are* live and do support the same conclusion:

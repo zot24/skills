@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs (cached at upstream/home-mixer-params.md) -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 -->
+<!-- Snapshot: 902a06fd, 2026-09-04 -->
 
 # Published Scoring Weights
 
@@ -47,44 +47,46 @@ tiers actually are.
 
 | Action | Weight | `param.rs` |
 |---|---:|---|
-| `share_via_copy_link` | 20.0 | `:352-355` |
-| `reply` (bidirectional-follow boost) | +15.0 | `:310-315` |
-| `reply` | 5.0 | `:309` |
-| `quote` | 5.0 | `:358` |
-| `share_via_dm` | 5.0 | `:345-350` |
-| `follow_author` | **4.0** | `:371-376` |
-| `share` | 2.0 | `:344` |
-| `retweet` | 1.0 | `:322` |
-| `favorite` (like) | 0.5 | `:308` |
-| `click` | 0.4 | `:335` |
-| `open_link` | 0.2 | `:336` |
-| `video_open` | **0.07** | `:329-334` |
-| `photo_expand` | 0.05 | `:323-328` |
-| `dwell` | **0.05** | `:357` |
-| `quoted_click` | 0.05 | `:359-364` |
-| `post_unexplored` | 0.02 | `:377-382` |
-| `cont_dwell_time` | 0.004 | `:401-406` |
-| `vqv` (video quality view) | **0.0** | `:343` |
-| `profile_click` | **0.0** | `:337-342` |
-| `quoted_vqv` | 0.0 | `:365-370` |
-| `cont_click_dwell_time` | 0.0 | `:407-412` |
+| `share_via_copy_link` | 20.0 | `:357-362` |
+| `reply` (bidirectional-follow boost) | +15.0 | `:316-321` |
+| `reply` | 5.0 | `:315` |
+| `quote` | 5.0 | `:364` |
+| `share_via_dm` | 5.0 | `:351-356` |
+| `follow_author` | **4.0** | `:377-382` |
+| `share` | 2.0 | `:350` |
+| `retweet` | 1.0 | `:328` |
+| `favorite` (like) | 0.5 | `:314` |
+| `click` | 0.4 | `:341` |
+| `open_link` | 0.2 | `:342` |
+| `video_open` | **0.07** | `:335-340` |
+| `photo_expand` | 0.05 | `:329-334` |
+| `dwell` | **0.05** | `:363` |
+| `quoted_click` | 0.05 | `:365-370` |
+| `post_unexplored` | 0.02 | `:383-388` |
+| `cont_dwell_time` | 0.004 | `:407-412` |
+| `vqv` (video quality view) | **0.0** | `:349` |
+| `profile_click` | **0.0** | `:343-348` |
+| `quoted_vqv` | 0.0 | `:371-376` |
+| `cont_click_dwell_time` | 0.0 | `:413-418` |
 
 ## Negative weights
 
 | Action | Weight | `param.rs` |
 |---|---:|---|
-| `report` | −234.0 | `:469` |
-| `mute_author` | −58.8 | `:463-470` |
-| `not_interested` | −43.2 | `:451-458` |
-| `block_author` | −31.2 | `:457-464` |
-| `not_dwelled` | **−0.02** | `:470-477` |
+| `report` | −234.0 | `:474` |
+| `mute_author` | −58.8 | `:468-473` |
+| `not_interested` | −43.2 | `:456-461` |
+| `block_author` | −31.2 | `:462-467` |
+| `not_dwelled` | **−0.02** | `:475-480` |
 
 All of the above are read into the weighted scorer at
 `home-mixer/scorers/ranking_scorer.rs` (`WeightedScorer::from_params`).
 
 Changed vs `28e414f` (2026-08-21): `DwellWeight` 0.0 → **0.05**, `VideoOpenWeight` 0.05 → **0.07**,
-`VqvWeight` 0.05 → **0.0**. Phoenix scoring aggregation is now `DENSE_WITH_LONG_DWELL`
-(`param.rs:121-126`); retrieval aggregation stays `DENSE_WITH_SHORT_DWELL`.
+`VqvWeight` 0.05 → **0.0**. Phoenix scoring aggregation is `DENSE_WITH_LONG_DWELL`
+(`param.rs:127-132`). As of 2026-09-04 retrieval aggregation is also `DENSE_WITH_LONG_DWELL`
+(`param.rs:133-138`; was `DENSE_WITH_SHORT_DWELL`). Weights themselves are unchanged vs
+`bc8e5f0`; line numbers shifted because two new params were inserted above this block.
 
 ## What the numbers actually change
 
@@ -191,7 +193,7 @@ not compound — each extra post competes against your own best one.
 
 `vm-ranker/` reorders already-scored posts with a **determinantal point process** over their
 embeddings, trading a little score for less similarity between neighbours
-(`README.md`, Ranking table). `EnableVMRanker` defaults to **`true`** (`param.rs:605-610`) — this
+(`README.md`, Ranking table). `EnableVMRanker` defaults to **`true`** (`param.rs:610-615`) — this
 one is on.
 
 As of 2026-08-28, VMRanker is **DPP-only**. The request no longer carries Phoenix scores, head
@@ -209,11 +211,13 @@ Phoenix reconstruction-similarity features (`home-mixer/models/candidate.rs`):
 - `recon_cos_milli` — cosine similarity to already-shown items, milli-scaled
 - `recon_count_above` — how many already-shown items sit above a similarity bar
 - `recon_gap_above` — rank gap to the nearest already-shown similar item
+- `exact_k` / `exact_gap` — exact-duplicate recurrence in the already-shown slate (added 2026-09-04)
 
-Those values are copied from the Phoenix proto (`sid_k1`/`recon_*` on the candidate), not
-recomputed in ranking_scorer. Read: diversity pressure is "same author" (multiplier) **and**
-"looks like something already in this slate" (reconstruction features). Vary the cluster, not
-only the author cadence.
+Those values are copied from the Phoenix proto (`sid_k1`/`recon_*`/`exact_*` on the candidate),
+not recomputed in ranking_scorer. Read: diversity pressure is "same author" (multiplier),
+"looks like something already in this slate" (`recon_*`), and "this exact item already
+appeared" (`exact_*`). Vary the cluster, not only the author cadence. Do not ship the same
+take twice.
 
 ## Params that are OFF by default
 
@@ -233,8 +237,9 @@ These are runtime-overridable params (the string keys are override handles), so 
 does not prove the feature is off in production — only that the published default is off. Treat
 tactics built on them as speculative.
 
-**Flipped on in this snapshot:** `EnableAdsBrandSafetyVerdictV2` now defaults to **`true`**
-(`param.rs:910`). Ads-path only — not a creator ranking lever.
+**Flipped on in `bc8e5f0`:** `EnableAdsBrandSafetyVerdictV2` defaults to **`true`**
+(`param.rs:921-926`). Ads-path only — not a creator ranking lever. `AdsBlenderType` is now
+`multi_risk` (`param.rs:915`); still ads-path.
 
 **Removed:** `UseServedSlateContext`, `EnableMpnScoring`.
 
