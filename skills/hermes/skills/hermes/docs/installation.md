@@ -235,6 +235,14 @@ The same pattern works on Arch (the installer uses pacman with the same sudo-det
 
 For more diagnostics, run `hermes doctor` — it will tell you exactly what's missing and how to fix it.
 
+### Symlinked home directories and external storage<a href="#symlinked-home-directories-and-external-storage" class="hash-link" aria-label="Direct link to Symlinked home directories and external storage" translate="no" title="Direct link to Symlinked home directories and external storage">​</a>
+
+Hermes supports a symlinked `HERMES_HOME` and symlinked home subdirectories, including `hooks`, `skills`, `sessions`, and `logs`. During home initialization, existing directory links are preserved, and permissions on linked directories (and descendants such as `logs/curator`) are left to their owner.
+
+If a link target is missing, inaccessible, or not a directory, initialization stops with a storage error naming the path and link target. Hermes does **not** replace the link or create its missing target: doing so could write data onto the local disk while an external or NAS volume is unmounted. Check the reported link, restore the mount or correct its target, and verify access permissions before retrying. For a deliberately new dotfiles target, create it yourself only after confirming the intended storage is available.
+
+`hermes doctor` reports these failures as storage problems, not invalid YAML. Keep your existing `config.yaml`; running `hermes setup` is not the repair for an unavailable directory. This is a directory-availability check, not a mount monitor: an existing directory cannot establish that the intended volume is mounted.
+
 ## Install method auto-detection<a href="#install-method-auto-detection" class="hash-link" aria-label="Direct link to Install method auto-detection" translate="no" title="Direct link to Install method auto-detection">​</a>
 
 Hermes auto-detects whether it was installed via the git installer, Docker, or NixOS, and `hermes update` prints the matching update command for that path. There's no env var to set — the detection is based on the install layout (`~/.hermes/hermes-agent/` checkout, Docker image stamp, or Nix store path). `hermes doctor` also surfaces the detected method under its environment summary.
@@ -249,6 +257,7 @@ Hermes auto-detects whether it was installed via the git installer, Docker, or N
 - <a href="#manual--developer-installation" class="table-of-contents__link toc-highlight">Manual / Developer Installation</a>
 - <a href="#non-sudo--system-service-user-installs" class="table-of-contents__link toc-highlight">Non-Sudo / System Service User Installs</a>
 - <a href="#troubleshooting" class="table-of-contents__link toc-highlight">Troubleshooting</a>
+  - <a href="#symlinked-home-directories-and-external-storage" class="table-of-contents__link toc-highlight">Symlinked home directories and external storage</a>
 - <a href="#install-method-auto-detection" class="table-of-contents__link toc-highlight">Install method auto-detection</a>
 
 
