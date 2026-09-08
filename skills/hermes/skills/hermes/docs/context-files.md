@@ -202,12 +202,13 @@ This scanner protects against common injection patterns, but it's not a substitu
 
 ## Size Limits<a href="#size-limits" class="hash-link" aria-label="Direct link to Size Limits" translate="no" title="Direct link to Size Limits">​</a>
 
-| Limit                 | Value                                                                                                                  |
-|-----------------------|------------------------------------------------------------------------------------------------------------------------|
-| Max chars per file    | `context_file_max_chars` when set; otherwise dynamic (scales with model context window, floor 20,000, ceiling 500,000) |
-| Head truncation ratio | 70%                                                                                                                    |
-| Tail truncation ratio | 20%                                                                                                                    |
-| Truncation marker     | 10% (shows char counts and suggests using file tools)                                                                  |
+| Limit                 | Value                                                                                                                                                 |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Max chars per file    | `context_file_max_chars` when set; otherwise dynamic (scales with model context window, floor 20,000, ceiling 500,000)                                |
+| Read timeout per file | `context_file_read_timeout` (default 5 seconds); a file that takes longer to read — e.g. on iCloud Drive, OneDrive or NFS — is skipped with a warning |
+| Head truncation ratio | 70%                                                                                                                                                   |
+| Tail truncation ratio | 20%                                                                                                                                                   |
+| Truncation marker     | 10% (shows char counts and suggests using file tools)                                                                                                 |
 
 When a file exceeds the configured limit, the truncation message reads:
 

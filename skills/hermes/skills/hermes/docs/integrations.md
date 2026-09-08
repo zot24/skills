@@ -48,7 +48,7 @@ Quick setup example:
 
 ``` prism-code
 web:
-  backend: firecrawl    # firecrawl | searxng | brave-free | ddgs | keenable | exa | parallel | xai
+  backend: firecrawl    # firecrawl | searxng | brave-free | ddgs | tavily | perplexity | keenable | exa | parallel | xai
 ```
 
 

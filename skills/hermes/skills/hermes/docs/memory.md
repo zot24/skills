@@ -299,6 +299,8 @@ display:
 
 > This only governs the **gateway** chat notification. The review itself, and writes to your memory/skill stores, are unaffected by this setting. Set it per-platform via `display.platforms.<platform>.memory_notifications`.
 
+Successful skill batches name each applied operation in both `on` and `verbose` mode, including supporting-file writes/removals and skill deletion. Staged writes awaiting approval and rolled-back batches are not reported as completed changes. Batch summaries use the applied results rather than assuming requested writes ran.
+
 ## Running the review on a cheaper model (`auxiliary.background_review`)<a href="#running-the-review-on-a-cheaper-model-auxiliarybackground_review" class="hash-link" aria-label="Direct link to running-the-review-on-a-cheaper-model-auxiliarybackground_review" translate="no" title="Direct link to running-the-review-on-a-cheaper-model-auxiliarybackground_review">​</a>
 
 The review runs on your **main chat model** by default, replaying the conversation — which is already warm in the prompt cache, so it's cheap cache reads. On an expensive main model you can run the review on a cheaper model instead:
@@ -315,6 +317,14 @@ auxiliary:
 When you point it at a model **different** from your main one, the review runs there for substantially lower cost (~3–5× in benchmarks). Because a different model can't reuse your main model's prompt cache anyway, the fork automatically replays a compact **digest** of the conversation (recent turns verbatim + a summary of older ones) rather than the full transcript — minimizing what it writes to the new cache. Capture holds: in testing, memory capture was identical and skill capture near-identical to the main-model review.
 
 Leave it at `auto` (or set it to your main model) and nothing changes — the review keeps running on the main model with the full warm-cache replay.
+
+### Same-model review reasoning<a href="#same-model-review-reasoning" class="hash-link" aria-label="Direct link to Same-model review reasoning" translate="no" title="Direct link to Same-model review reasoning">​</a>
+
+A review using the same model as the parent **always inherits the parent's reasoning effort**. Setting `auxiliary.background_review.reasoning_effort` does not override it, whether the route is `auto` or explicitly selects the parent provider/model.
+
+Reasoning settings, the system prompt, the full conversation snapshot, and tool definitions stay byte-identical to the parent at fork birth so the review can reuse its prompt-cache prefix. Changing only the review's thinking level would break that parity. There is no independent-effort switch for same-model reviews.
+
+To reduce review work without changing the main conversation's effort, adjust `memory.nudge_interval` / `skills.creation_nudge_interval`, disable automatic reviews as described below, or route reviews to a different model. A different-model route uses a digest and does not share the parent's warm prefix; its separate task-effort bug is tracked in <a href="https://github.com/NousResearch/hermes-agent/issues/94825" target="_blank" rel="noopener noreferrer">#94825</a>. These frequency and routing controls do not decouple same-model reasoning.
 
 ### Disabling automatic reviews (`enabled`)<a href="#disabling-automatic-reviews-enabled" class="hash-link" aria-label="Direct link to disabling-automatic-reviews-enabled" translate="no" title="Direct link to disabling-automatic-reviews-enabled">​</a>
 
@@ -346,6 +356,26 @@ auxiliary:
 
 
 The tool must already be available to the parent agent; this setting only adds it to the review fork's runtime whitelist. It does not enable arbitrary tools, and tools not listed here remain denied. Keep the list narrow and prefer tools that stage a proposal for human review rather than applying external or destructive changes directly. The default is an empty list.
+
+### Local models: reviews wait for an idle GPU (`defer`)<a href="#local-models-reviews-wait-for-an-idle-gpu-defer" class="hash-link" aria-label="Direct link to local-models-reviews-wait-for-an-idle-gpu-defer" translate="no" title="Direct link to local-models-reviews-wait-for-an-idle-gpu-defer">​</a>
+
+On a cloud provider the review finishes in seconds and runs alongside whatever you do next. When the review's runtime is the **managed local llama-server** (Settings → Local models), the same fork occupies the GPU your next prompt needs — for minutes on a large model — and sending a new prompt cancels it, discarding the learning. So on the managed local runtime, reviews are **deferred by default**: queued at turn end and executed once the machine has been quiet for a short settle window. Nothing about the review itself changes — same model, same full-transcript replay, same writes — only the execution moment moves.
+
+
+``` prism-code
+auxiliary:
+  background_review:
+    defer: auto            # auto (default) | never
+    defer_max_age_s: 1800  # run a queued review anyway after this long
+```
+
+
+| Value            | Behaviour                                                                                                                                                          |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `auto` (default) | Reviews whose runtime resolves to the managed local server are queued and run at idle; every other runtime (cloud, external servers) spawns immediately as before. |
+| `never`          | Old behavior everywhere: spawn immediately at turn end, even on the managed local GPU.                                                                             |
+
+Queued reviews coalesce per session (a newer turn's snapshot replaces the older one — the review replays the whole conversation, so nothing is lost), a review preempted by a new prompt is re-queued instead of discarded, and a review that has waited longer than `defer_max_age_s` runs even if the machine never goes idle. Explicit `/refine` always runs immediately. The queue is in-memory: reviews still pending when the app exits are dropped, same as an in-flight fork would have been.
 
 ## Controlling skill writes (`skills.write_approval`)<a href="#controlling-skill-writes-skillswrite_approval" class="hash-link" aria-label="Direct link to controlling-skill-writes-skillswrite_approval" translate="no" title="Direct link to controlling-skill-writes-skillswrite_approval">​</a>
 
@@ -410,8 +440,10 @@ See the [Memory Providers](/docs/user-guide/features/memory-providers) guide for
 - <a href="#controlling-memory-writes-write_approval" class="table-of-contents__link toc-highlight">Controlling memory writes (<code>write_approval</code>)</a>
 - <a href="#background-review-notifications-displaymemory_notifications" class="table-of-contents__link toc-highlight">Background review notifications (<code>display.memory_notifications</code>)</a>
 - <a href="#running-the-review-on-a-cheaper-model-auxiliarybackground_review" class="table-of-contents__link toc-highlight">Running the review on a cheaper model (<code>auxiliary.background_review</code>)</a>
+  - <a href="#same-model-review-reasoning" class="table-of-contents__link toc-highlight">Same-model review reasoning</a>
   - <a href="#disabling-automatic-reviews-enabled" class="table-of-contents__link toc-highlight">Disabling automatic reviews (<code>enabled</code>)</a>
   - <a href="#allowing-a-narrowly-scoped-extra-review-tool-extra_tools" class="table-of-contents__link toc-highlight">Allowing a narrowly scoped extra review tool (<code>extra_tools</code>)</a>
+  - <a href="#local-models-reviews-wait-for-an-idle-gpu-defer" class="table-of-contents__link toc-highlight">Local models: reviews wait for an idle GPU (<code>defer</code>)</a>
 - <a href="#controlling-skill-writes-skillswrite_approval" class="table-of-contents__link toc-highlight">Controlling skill writes (<code>skills.write_approval</code>)</a>
 - <a href="#external-memory-providers" class="table-of-contents__link toc-highlight">External Memory Providers</a>
 
