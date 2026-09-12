@@ -58,7 +58,7 @@
       "name": "hermes",
       "source": "./skills/hermes",
       "description": "Expert at understanding and working with Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
-      "version": "1.1.41"
+      "version": "1.1.42"
     },
     {
       "name": "honcho",
@@ -70,7 +70,7 @@
       "name": "gh-issue-tracker",
       "source": "./skills/gh-issue-tracker",
       "description": "Install, configure, and manage gh-issue-tracker — lightweight error tracking that creates GitHub Issues with deduplication, fingerprinting, and rate limiting",
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     {
       "name": "firecrawl",
@@ -166,7 +166,7 @@
       "name": "pi",
       "source": "./skills/pi",
       "description": "Expert on Pi (pi.dev, @earendil-works/pi-coding-agent) — the minimal terminal coding harness. Extend, improve, custom providers, extensions, skills, themes.",
-      "version": "1.1.2"
+      "version": "1.1.3"
     },
     {
       "name": "apprise-api",
