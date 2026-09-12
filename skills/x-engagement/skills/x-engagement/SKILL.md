@@ -8,9 +8,9 @@ allowed-tools: Read, Write, Edit, Bash
 
 Expert at building authority and engagement on X (Twitter) through distribution engineering,
 algorithm-aware content design, and conversation tactics — grounded in the `xai-org/x-algorithm`
-codebase at snapshot `bc8e5f0` (2026-08-28), which raised reply-spam/ranking eligibility to 120k
-followers, re-enabled a small binary-dwell weight, and simplified VMRanker to DPP-only on top of
-the 2026-08-21 80k / SID-slate and 2026-08-14 scoring-semantics releases.
+codebase at snapshot `902a06fd` (2026-09-04), which adds multi-step reply-spam detection, raises
+coordinated-spam root coverage to 5k followers, and switches Phoenix retrieval aggregation to
+`DENSE_WITH_LONG_DWELL` on top of the 2026-08-28 120k / dwell-0.05 / DPP-only release.
 
 ## Overview
 
@@ -24,17 +24,20 @@ the 2026-08-21 80k / SID-slate and 2026-08-14 scoring-semantics releases.
   affect similar users; only Home-Timeline-served actions count
 - **Account standing gates everything** — spam/slop labels drop *every* post from out-of-network
   for 30 days while followers see you normally. A new `panda_reports_embedding_v10_rough_spam`
-  rule can non-permanently suspend for PlatformManipulation
+  rule can non-permanently suspend for PlatformManipulation. A `very_high_follower_count` skip
+  now sits above `high_follower_count` in the user-enforcement chain (threshold is still mocked)
 - **Mutuals compound** — a mutually-followed author gets +15.0 on reply weight for root posts;
   follow-graph bool features are wired into Phoenix candidate/history tensors
-- **Conversation leverage** — replies are Grok-scored 0–3; spam/reply-ranking eligibility now
-  covers threads where target+root are ≤**120k** followers (was 80k; was 30k; was 15k). The 60s
-  scoring rate-limit is gone, and a worse ranking score overwrites a better one
-- **Dwell is small, not zero** — `DwellWeight` is **0.05** (was 0.0); Phoenix scoring aggregation
-  is `DENSE_WITH_LONG_DWELL`. Still far below reply/quote (5.0). `vqv` is now **0.0**
+- **Conversation leverage** — replies are Grok-scored 0–3; spam/reply-ranking eligibility still
+  covers threads where target+root are ≤**120k** followers. **New:** stacked self-replies under
+  someone else's post are classified as multi-step reply spam (`PlanMultiStepReplySpam`) and can
+  be written down to ranking score 0.0 plus a spam label. Coordinated-spam coverage now starts
+  at roots with ≥**5,000** followers (was 1,000)
+- **Dwell is small, not zero** — `DwellWeight` is **0.05**; Phoenix scoring *and retrieval*
+  aggregation are both `DENSE_WITH_LONG_DWELL`. Still far below reply/quote (5.0). `vqv` is **0.0**
 - **VMRanker is DPP-only** — ranking_scorer no longer computes SID fields into the reranker
-  request. SlateContext still carries SID + new Phoenix `recon_*` reconstruction-similarity
-  features from the proto
+  request. SlateContext still carries SID + Phoenix `recon_*` reconstruction-similarity **and**
+  new `exact_k` / `exact_gap` exact-duplicate recurrence from the proto
 - **Following blocks quotes/RTs** — Following timeline hydrates blocked-by on quoted and
   retweeted authors and drops those candidates
 - **Monetization alignment** — Original Content Rewards pays on verified impressions on *original*
@@ -42,7 +45,8 @@ the 2026-08-21 80k / SID-slate and 2026-08-14 scoring-semantics releases.
 - **Freshness hardens after 14d** — stale posts zero engagement-count features in Phoenix when the
   flag is on; old viral posts lose raw-count advantage
 - **Cold start is Home-Timeline impressions** — `view_count_on_home` replaces raw `view_count`;
-  Thompson-sampling TopK (still off by default) is 2, not 5
+  Thompson-sampling TopK (still off by default) is 2, not 5. The treatment arm now only boosts
+  Phoenix MoE candidates
 
 ## Core Principles
 
@@ -50,8 +54,8 @@ the 2026-08-21 80k / SID-slate and 2026-08-14 scoring-semantics releases.
 Visibility filtering runs a set of rules that fire **only for out-of-network recommendations** —
 spam-high-recall, do-not-amplify, abusive, NSFW, compromised. Many are **account-level**. If OON
 reach dies while follower engagement holds, that's the cause, not your hooks. Jurisdiction filters
-(e.g. `Brazil2026ElectionFilter`, list updated 2026-08-27) can also remove listed authors from
-For You unless the viewer follows them.
+(e.g. `Brazil2026ElectionFilter`, list **2,554** accounts as of 2026-09-04) can also remove listed
+authors from For You unless the viewer follows them.
 
 ### 2. Negative Signals Matter — But Read the Math
 `report` −234.0, `mute_author` −58.8, `not_interested` −43.2 versus a top positive of 20.0. Those
@@ -62,8 +66,9 @@ and `agatha/` scores blocks/reports *relative to favorites* as a durable account
 ### 3. Hook → Hold → Earn a Real Action
 `dwell` is weighted **0.05** (same tier as photo expand) and `cont_dwell_time` **0.004**;
 `not_dwelled` is **−0.02**. Attention is still the precondition, not the payoff. Hold the reader
-to earn a reply, quote, DM share or follow — those are what score. Do not treat 0.05 as a reason
-to write long posts for dwell's sake.
+to earn a reply, quote, DM share or follow — those are what score. Retrieval now aggregating
+`DENSE_WITH_LONG_DWELL` does not make dwell the goal; it just means the candidate index prefers
+the same long-dwell signal scoring already used.
 
 ### 4. Follows Compound, Even Though They Aren't Top-Weighted
 `follow_author` is 4.0 — below reply, quote and DM share. But it's the only action that changes
@@ -78,16 +83,19 @@ don't monetize either.
 ### 6. Reply Quality Over Volume — This Is The Riskiest Lever
 Replies are Grok-scored 0–3, and the scorer now sees follower counts. Below ~1,000 followers spam
 scrutiny is elevated, and `fast_reply_spam_post` carries a 30-day `SpamHighRecall` label.
-`bdsm/` reads posting *cadence* directly. Reply-spam / reply-ranking tasks now cover threads up
-to ≤120k followers on target and root. Every reply can be scored immediately (no 60s dedupe),
-and a later worse score replaces a better one. Five excellent replies beat fifty mediocre ones
-by a wide margin.
+`bdsm/` reads posting *cadence* directly. Reply-spam / reply-ranking tasks still cover threads up
+to ≤120k followers on target and root. **Do not chain your own replies under someone else's
+post** — `PlanMultiStepReplySpam` flags consecutive self-replies (depth ≥ 2, parent is you, root
+is not you, root ≥ 1,000 followers) and can zero the ranking score. Coordinated-spam detection
+now runs on deep threads whose root has ≥ 5,000 followers. Five excellent replies beat fifty
+mediocre ones, and one excellent reply beats a self-reply stack.
 
 ### 7. Volume and Repetition Both Decay
 Author diversity: your 2nd post in a feed load keeps 62.5%, your 3rd 43.75%. VMRanker separately
 demotes posts similar to their neighbours via a determinantal point process (DPP). Phoenix
-reconstruction-similarity (`recon_cos_milli`, `recon_count_above`, `recon_gap_above`) is now an
-explicit slate-context feature. Post less, and don't rephrase yourself or flood one topic cluster.
+reconstruction-similarity (`recon_*`) and exact-duplicate recurrence (`exact_k`, `exact_gap`)
+are now explicit slate-context features. Post less, and don't rephrase yourself, ship the same
+take twice, or flood one topic cluster.
 
 ### 8. Originality Is Attributed, Paid, and Enforced
 Original Content Rewards pays on qualified impressions: **Premium viewers**, **Home Timeline**,
@@ -109,7 +117,7 @@ non-retweet candidate.
 
 - **[Scoring Weights](docs/scoring-weights.md)** - The published blend weights with `file:line`
   citations, correct P(action) semantics, bidirectional-follow boost, OON factors, author
-  diversity, dwell 0.05 / vqv 0.0, params off by default
+  diversity, dwell 0.05 / vqv 0.0, retrieval now `DENSE_WITH_LONG_DWELL`, params off by default
 - **[Algorithm Signals](docs/algorithm-signals.md)** - Which signals exist, candidate sources,
   network alignment, facepile, stale-post / cold-start notes, how to prioritize
 - **[Visibility Filtering](docs/visibility-filtering.md)** - ALLOW/INTERSTITIAL/DROP, the
@@ -118,11 +126,11 @@ non-retweet candidate.
 - **[Account Standing](docs/account-standing.md)** - agatha, user-cred-v2 PageRank, bdsm behaviour
   model, the enforcement label chain and its 30-day TTLs
 - **[Content Quality Screening](docs/content-quality.md)** - Banger Screen outputs, reply spam
-  buckets, 0–3 reply rubric, the ten safety categories
+  buckets, 0–3 reply rubric, multi-step / coordinated reply spam, the ten safety categories
 - **[Content Strategy](docs/content-strategy.md)** - Hooks, clusters, attention, diversity decay,
   freshness
 - **[Conversation Tactics](docs/conversation-tactics.md)** - Reply scoring, spam risk (≤120k),
-  thread hijacking, social proof
+  multi-step self-reply spam, thread hijacking, social proof
 - **[Authority Building](docs/authority-building.md)** - Follow triggers, share signals,
   network alignment, positioning
 - **[Monetization](docs/monetization.md)** - Original Content Rewards: eligibility, qualified
@@ -143,8 +151,9 @@ non-retweet candidate.
    cluster as the post you just shipped
 6. **Post to your profile** first
 7. **Wait 10–30 minutes**, then find active threads (20–200 likes, your topic)
-8. **Reply with quality, at human pace** — extend the idea, don't self-promote; quality still
-   matters on mid-tier threads up through ~120k
+8. **Reply with quality, at human pace, once** — extend the idea, don't self-promote, don't
+   stack self-replies under someone else's tweet; quality still matters on mid-tier threads
+   up through ~120k
 
 ## Content Formula
 
@@ -163,8 +172,11 @@ clean account standing (no OON drop labels)
 ## Anti-Patterns
 
 - High-volume or fast-cadence replies (`fast_reply_spam_post`, 30-day `SpamHighRecall`)
+- Stacking self-replies under someone else's post (`PlanMultiStepReplySpam` → ranking 0.0 + spam)
+- Coordinated or deep-thread reply chains on roots with ≥5k followers
 - Generic / templated / AI-shaped content (`llm_slop_user`, `llm_slop_post`)
 - Rephrasing your own last post (VMRanker DPP demotion, `SpamEmbeddingMajorityPoster`)
+- Shipping the same take twice (`exact_k` / `exact_gap` on slate context)
 - Flooding one topic cluster in a short window (Phoenix `recon_*` similarity on slate context)
 - Burst posting on a mechanical schedule (`bdsm/` reads inter-action timing)
 - Deliberate antagonism (agatha scores blocks/reports relative to favorites)
@@ -186,6 +198,6 @@ clean account standing (no OON drop labels)
 ## Currency
 
 Analytical docs are hand-derived from the source files cached in `docs/upstream/`, at snapshot
-`bc8e5f0` (2026-08-28). CI copies those files but **cannot** regenerate the prose. If a cached
+`902a06fd` (2026-09-04). CI copies those files but **cannot** regenerate the prose. If a cached
 file's diff shows a changed or removed constant, the analysis needs re-deriving by hand — see
 `sync.json` → `snapshot_commit`.

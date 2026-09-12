@@ -106,7 +106,7 @@ into a reply, quote or follow, which is where the score actually comes from.
 ## Algorithm-Backed Content Priorities
 
 These are ordered by **what you can realistically influence**, not by raw weight — upstream states
-weights blend action value with base rate (`param.rs:279-281`), so the weight column is context,
+weights blend action value with base rate (`param.rs:286`), so the weight column is context,
 not a ranking. → **[Scoring Weights](scoring-weights.md)**
 
 | Priority | Target | Weight | Content Type |
