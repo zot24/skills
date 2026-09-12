@@ -152,9 +152,13 @@ Leaving these unset keeps the legacy defaults (`HERMES_API_TIMEOUT=1800`s, `HERM
 
 ## Update Behavior<a href="#update-behavior" class="hash-link" aria-label="Direct link to Update Behavior" translate="no" title="Direct link to Update Behavior">​</a>
 
-### Background checks and SSH authentication<a href="#background-checks-and-ssh-authentication" class="hash-link" aria-label="Direct link to Background checks and SSH authentication" translate="no" title="Direct link to Background checks and SSH authentication">​</a>
+### Background checks<a href="#background-checks" class="hash-link" aria-label="Direct link to Background checks" translate="no" title="Direct link to Background checks">​</a>
 
-The startup update check reads the origin URL with the same isolated Git configuration used for its network calls. Global `url.*.insteadOf` rewrites therefore cannot hide an official SSH remote from the public HTTPS check.
+Passive update checks (CLI banner, TUI badge, dashboard, desktop app) ask the GitHub REST API for the tip of `main` and, when it differs from your checkout, the compare endpoint for the exact count and changelog. They never run `git fetch`, and every install asks at most **once per 24 hours** (a failed check retries after an hour). Applying an update (`hermes update`, or the desktop's Update button) always fetches fresh and invalidates the cached answer. Explicit checks — `hermes update --check`, the desktop's "Check for Updates…" menu item, Settings → About → "Check now" — bypass the cache.
+
+### SSH authentication<a href="#ssh-authentication" class="hash-link" aria-label="Direct link to SSH authentication" translate="no" title="Direct link to SSH authentication">​</a>
+
+The startup update check reads the origin URL with the same isolated Git configuration used for its network calls. Global `url.*.insteadOf` rewrites therefore cannot hide an official SSH remote from the public HTTPS path.
 
 Hermes's isolated internal Git commands default to `ssh -o BatchMode=yes`: unknown host keys, passwords, and encrypted keys needing a passphrase fail instead of opening a terminal prompt. Trusted hosts with usable keys or an SSH agent continue to authenticate. This does not change your Git or SSH configuration on disk, or commands you run in the terminal tool.
 
@@ -173,6 +177,8 @@ updates:
 
 
 `pre_update_backup` is the single pre-update safety knob: `quick` (default) snapshots critical state files (pairing data, cron jobs, config, auth; files over 1 GiB are skipped) into `state-snapshots/`; `full` additionally zips all of `HERMES_HOME` into `backups/` and can add minutes on large homes; `off` disables both. Legacy booleans are honored (`true` → `full`, `false` → `off`).
+
+Point-in-time copies of `config.yaml` itself (taken before `hermes setup` rewrites it, before `hermes migrate` edits it, and when the file fails to parse) go to `backups/config/config.yaml.<reason>.<timestamp>`. Identical repeats are skipped and only the newest five per reason are kept, so they never pile up beside `config.yaml`.
 
 For git installs, Hermes auto-stashes dirty tracked files and untracked files before checking out the update branch or pulling. Interactive terminal updates prompt before restoring that stash. Non-interactive updates (desktop/chat app, gateway, or `--yes`) use `updates.non_interactive_local_changes`: `stash` restores local source edits after a successful pull, while `discard` drops the update-created stash after a successful pull. Use `discard` only on managed installs where local source edits are never meant to persist.
 
@@ -1249,6 +1255,8 @@ agent:
 
 
 `verify_on_stop` accepts `true` (on everywhere), `false` (off — the default), or `"auto"` (legacy surface-aware behavior: on for interactive coding surfaces — CLI, TUI, desktop — and programmatic callers; off for messaging surfaces like Telegram/Discord where the verification narrative reads as chat noise). Off is the default everywhere: fresh installs ship `false` and the config migration turned it off on existing installs, so enabling it is an explicit opt-in. The `HERMES_VERIFY_ON_STOP` env var overrides the config value when set.
+
+The evidence that feeds this guard (which test/lint/build commands ran, which files were edited since) lives in `~/.hermes/verification_evidence.db`. That ledger is only written or created while the guard is enabled; with `verify_on_stop: false` nothing is recorded and an existing file can be deleted freely.
 
 For a user/plugin policy gate at the same point — keep the agent going with your own checks — see the [`pre_verify` hook](/docs/user-guide/features/hooks#pre_verify).
 
@@ -3041,7 +3049,8 @@ dashboard:
 - <a href="#environment-variable-substitution" class="table-of-contents__link toc-highlight">Environment Variable Substitution</a>
   - <a href="#provider-timeouts" class="table-of-contents__link toc-highlight">Provider Timeouts</a>
 - <a href="#update-behavior" class="table-of-contents__link toc-highlight">Update Behavior</a>
-  - <a href="#background-checks-and-ssh-authentication" class="table-of-contents__link toc-highlight">Background checks and SSH authentication</a>
+  - <a href="#background-checks" class="table-of-contents__link toc-highlight">Background checks</a>
+  - <a href="#ssh-authentication" class="table-of-contents__link toc-highlight">SSH authentication</a>
 - <a href="#terminal-backend-configuration" class="table-of-contents__link toc-highlight">Terminal Backend Configuration</a>
   - <a href="#backend-overview" class="table-of-contents__link toc-highlight">Backend Overview</a>
   - <a href="#local-backend" class="table-of-contents__link toc-highlight">Local Backend</a>

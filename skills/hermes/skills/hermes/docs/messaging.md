@@ -208,7 +208,7 @@ Gateway conversations do not reset after inactivity or at a daily boundary. Use 
 
 ## Per-Channel Model & System Prompt Overrides<a href="#per-channel-model--system-prompt-overrides" class="hash-link" aria-label="Direct link to Per-Channel Model &amp; System Prompt Overrides" translate="no" title="Direct link to Per-Channel Model &amp; System Prompt Overrides">​</a>
 
-Different channels can run different models and personas from a **single gateway** — e.g. a cheap fast model in `#daily` and a frontier model with a specialist prompt in `#dev`. Configure `channel_overrides` under the platform in `~/.hermes/gateway-config.yaml`:
+Different channels can run different models and personas from a **single gateway** — e.g. a cheap fast model in `#daily` and a frontier model with a specialist prompt in `#dev`. Configure `channel_overrides` under the platform in `~/.hermes/config.yaml`:
 
 
 ``` prism-code
@@ -678,7 +678,7 @@ Once upstream is healthy, `/platform resume <name>` clears the breaker and re-ar
 
 ### Restart notifications<a href="#restart-notifications" class="hash-link" aria-label="Direct link to Restart notifications" translate="no" title="Direct link to Restart notifications">​</a>
 
-When the gateway restarts (or is shut down with in-flight sessions), it can send a one-shot "the agent is back" / "the agent was interrupted" message to each platform's home channel. This is controlled per-platform by the `gateway_restart_notification` flag in `gateway-config.yaml`, which defaults to `true`:
+When the gateway restarts (or is shut down with in-flight sessions), it can send a one-shot "the agent is back" / "the agent was interrupted" message to each platform's home channel. This is controlled per-platform by the `gateway_restart_notification` flag in `config.yaml`, which defaults to `true`:
 
 
 ``` prism-code
@@ -697,7 +697,7 @@ Disable it on noisy or low-priority platforms while leaving it on for your prima
 
 ### Typing indicators<a href="#typing-indicators" class="hash-link" aria-label="Direct link to Typing indicators" translate="no" title="Direct link to Typing indicators">​</a>
 
-While the agent is processing a message, the gateway shows a live typing status on platforms that support it — a "typing…" bubble on Telegram/Discord/Signal, or the "is thinking…" assistant status on Slack. This is controlled per-platform by the `typing_indicator` flag in `gateway-config.yaml`, which defaults to `true`:
+While the agent is processing a message, the gateway shows a live typing status on platforms that support it — a "typing…" bubble on Telegram/Discord/Signal, or the "is thinking…" assistant status on Slack. This is controlled per-platform by the `typing_indicator` flag in `config.yaml`, which defaults to `true`:
 
 
 ``` prism-code
