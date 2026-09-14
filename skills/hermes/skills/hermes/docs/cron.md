@@ -23,6 +23,7 @@ Cron jobs can:
 - deliver results back to the origin chat, local files, or configured platform targets
 - run in fresh agent sessions with the normal static tool list
 - run in **no-agent mode** — a script on a schedule, its stdout delivered verbatim, zero LLM involvement (see the [no-agent mode](#no-agent-mode-script-only-jobs) section below)
+- fire on **external events** — a webhook route with `cron_job` set fires the job the moment something happens (a PR gets feedback, a service posts an alert) instead of waiting for the next scheduled tick. See [Event-Triggered Cron Jobs](/docs/user-guide/messaging/webhooks#event-triggered-cron-jobs).
 
 All of this is available to Hermes itself through the `cronjob` tool, so you can create, pause, edit, and remove jobs by asking in plain language — no CLI required.
 
@@ -31,7 +32,7 @@ All of this is available to Hermes itself through the `cronjob` tool, so you can
 
 - **Per-job pin** — set by *you* via the dashboard, `hermes cron create/edit --model … --provider …`, or by editing `~/.hermes/cron/jobs.json`. Once set, it sticks until you change it. The agent's `cronjob` tool cannot set or change per-job models — inference pins are user-owned.
 - **`cron.model` / `cron.model_provider`** — a cron-fleet default: every unpinned job runs on this model, independent of your chat model. Set it once (`hermes config set cron.model <name>`) and switching your chat model with `hermes model` or `/model` never touches your cron fleet.
-- **Global default** — only when neither of the above is set does a job follow `hermes model`. Hermes **snapshots** the provider and model at creation, and that snapshot is the job's effective pin: if you later switch the global default (`hermes model`, `/model`, `hermes config set model.default …`), the job **keeps running on the model and provider it was created under** and logs one INFO line per run noting the difference. A global model change never stops a scheduled job, and an unattended job never silently inherits a switch to a paid provider/model (#44585). To move a job to the new default, pin it (`hermes cron edit <job_id> --provider <provider> --model <model>`) or set `cron.model` to move the whole fleet at once. Jobs created before snapshots existed keep following the live global default.
+- **Global default** — only when neither of the above is set does a job follow `hermes model`. Hermes **snapshots** the provider and model at creation, and that snapshot is the job's effective pin: if you later switch the global default (`hermes model`, `/model`, `hermes config set model.default …`), the job **keeps running on the model and provider it was created under** and logs one INFO line per run noting the difference. A global model change never stops a scheduled job, and an unattended job never silently inherits a switch to a paid provider/model (#44585). To move a job to the new default, **resnap** it (`hermes cron resnap <job_id>`, or `--all` for every unpinned job) so it adopts the current default while staying unpinned, pin it (`hermes cron edit <job_id> --provider <provider> --model <model>`), or set `cron.model` to move the whole fleet at once. Jobs created before snapshots existed keep following the live global default.
 
 Whichever provider a job resolves to, its provider-specific request settings (e.g. `request_overrides` such as `extra_body`/`extra_headers` for custom providers) carry into the scheduled run just like an interactive session.
 
@@ -115,6 +116,17 @@ hermes config set cron.model <model>                               # every unpin
 
 
 `hermes config set model.default …` and the Desktop model picker list the unpinned jobs that will keep their original model so you can decide deliberately. Stored snapshots are refreshed whenever you edit a job's provider, model, or base URL.
+
+Resnapping refreshes an unpinned job's stored snapshot to the current global resolution without pinning it, so it keeps tracking future changes:
+
+
+``` prism-code
+hermes cron resnap <job_id>   # one job
+hermes cron resnap --all      # every unpinned agent job
+```
+
+
+The agent-facing `cronjob` tool accepts the same action (`action=resnap job_id=<id>` or `action=resnap all=true`). Pinned axes and `no_agent` script jobs are left untouched.
 
 ## Skill-backed cron jobs<a href="#skill-backed-cron-jobs" class="hash-link" aria-label="Direct link to Skill-backed cron jobs" translate="no" title="Direct link to Skill-backed cron jobs">​</a>
 
@@ -330,6 +342,21 @@ On each tick Hermes:
 
 A file lock at `~/.hermes/cron/.tick.lock` prevents overlapping scheduler ticks from double-running the same job batch.
 
+### Restart-safe workers under systemd<a href="#restart-safe-workers-under-systemd" class="hash-link" aria-label="Direct link to Restart-safe workers under systemd" translate="no" title="Direct link to Restart-safe workers under systemd">​</a>
+
+When the gateway runs as a systemd service, each due job is handed to an external worker process launched in a transient user scope (`systemd-run --user --scope`), so restarting the gateway mid-job does not kill the job. Creating that scope needs a user systemd session; hosts without one (containers, minimal LXCs, a service user without linger) cannot provide it.
+
+By default cron then **degrades**: the job still runs as a separate external process with the same execution handoff, but without cgroup isolation, so a gateway restart during the job kills it (the execution ledger records that). One warning is logged per gateway process. To fail closed instead — skip the job and record the error on the job row — set:
+
+
+``` prism-code
+cron:
+  require_restart_safe_scope: true
+```
+
+
+The lasting fix is a user session for the gateway user: `sudo loginctl enable-linger <gateway-user>` (and `XDG_RUNTIME_DIR` / `DBUS_SESSION_BUS_ADDRESS` in the unit for system-level installs), then restart the gateway. Kanban workers always require a scope and fail closed regardless of this key.
+
 ### Execution history<a href="#execution-history" class="hash-link" aria-label="Direct link to Execution history" translate="no" title="Direct link to Execution history">​</a>
 
 Hermes records each claimed cron attempt in the profile-local `~/.hermes/cron/executions.db` before executor or provider dispatch. Attempts move through `claimed`, `running`, and one immutable terminal state: `completed`, `failed`, or `unknown`. After restart, Hermes marks an abandoned attempt `unknown` only when the original PID and process-start fingerprint prove that its owner is gone. Unknown attempts are audit records and are never automatically rerun.
@@ -348,6 +375,19 @@ Each job tracks a `failure_streak` — consecutive failed runs (delivery failure
 ``` prism-code
 cron:
   failure_nudge_threshold: 3   # default; 0 disables the nudge
+```
+
+
+### Automatic re-runs when the model was unreachable<a href="#automatic-re-runs-when-the-model-was-unreachable" class="hash-link" aria-label="Direct link to Automatic re-runs when the model was unreachable" translate="no" title="Direct link to Automatic re-runs when the model was unreachable">​</a>
+
+A recurring job whose run fails with a transient network or DNS error before a single model call was made — the classic case is a fire right after the computer wakes, while the VPN or Wi-Fi is still reconnecting — does not sit out a whole period. The scheduler re-runs it automatically after **5, 15, and 30 minutes** (inspired by Claude Cowork's scheduled-task re-runs), then falls back to the normal schedule. Because zero API calls were made, the re-run is spend-neutral and cannot duplicate any side effect.
+
+While a re-run is pending, the interim failure notice is suppressed — you get the real result when a re-run succeeds, or a normal failure alert once the ladder is exhausted. Any run that reaches the model (success or failure) resets the ladder. One-shot jobs are excluded: their dispatch accounting is at-most-times and a consumed dispatch is never resurrected. Retries never fire past the schedule's own next occurrence when that comes sooner.
+
+
+``` prism-code
+cron:
+  retry_unreachable: false   # default true; disables the automatic re-runs
 ```
 
 
@@ -796,6 +836,21 @@ These misses are stamped on the job record as `last_fire_error` (timestamp + rea
 
 The stamp always reflects **current** auto-fire health: it is overwritten by newer misses and cleared automatically by the next successful run. If you see it, the job and its schedule are fine — the gateway side of the fire path needs attention (most commonly, restart the gateway through its supervisor so it loads the full profile environment: `hermes gateway restart`).
 
+### Local missed-run policy<a href="#local-missed-run-policy" class="hash-link" aria-label="Direct link to Local missed-run policy" translate="no" title="Direct link to Local missed-run policy">​</a>
+
+If the gateway was down (or restarting) when a recurring job's scheduled time passed, the job **catches up once** when the scheduler is back: a slot missed inside a restart gap fires exactly one time, a slot that already ran before the restart is never run again, and a long outage collapses into a single run rather than one run per missed slot. Paused jobs never catch up. Each catch-up shows in `hermes cron list` as `⚠ late` / `⚠ catch-up after missed fire`.
+
+To avoid that catch-up load after a planned gateway stop, set:
+
+
+``` prism-code
+cron:
+  catch_up_missed: false   # default: true
+```
+
+
+Or run `hermes config set cron.catch_up_missed false`. With this opt-out, a recurring job later than its existing grace window (half its period, clamped to 120 seconds–2 hours) is re-anchored to its next future occurrence without firing now. The skip is logged. Jobs inside grace and explicit manual triggers still run normally; if the next occurrence cannot be computed, the existing run-once fallback is preserved. This does not change one-shot expiry, resume behavior, or the hosted-provider sweep below. There is no per-job override.
+
 ### Misfire catch-up<a href="#misfire-catch-up" class="hash-link" aria-label="Direct link to Misfire catch-up" translate="no" title="Direct link to Misfire catch-up">​</a>
 
 When an external scheduler provider is active (managed cron on hosted deployments), the gateway also runs a catch-up sweep: a job whose scheduled time passed with no fire delivered — and whose grace window has elapsed — is claimed and run locally, so an outage in the fire hand-off costs minutes instead of the whole day. The sweep is de-duplicated against late scheduler retries by the same store claim used for normal fires.
@@ -1134,8 +1189,10 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
 - <a href="#agent-managed-scheduling-cron-jobs-that-manage-cron-jobs" class="table-of-contents__link toc-highlight">Agent-managed scheduling (cron jobs that manage cron jobs)</a>
 - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a>
   - <a href="#gateway-scheduler-behavior" class="table-of-contents__link toc-highlight">Gateway scheduler behavior</a>
+  - <a href="#restart-safe-workers-under-systemd" class="table-of-contents__link toc-highlight">Restart-safe workers under systemd</a>
   - <a href="#execution-history" class="table-of-contents__link toc-highlight">Execution history</a>
   - <a href="#repeated-failure-review-nudge" class="table-of-contents__link toc-highlight">Repeated-failure review nudge</a>
+  - <a href="#automatic-re-runs-when-the-model-was-unreachable" class="table-of-contents__link toc-highlight">Automatic re-runs when the model was unreachable</a>
   - <a href="#failure-incidents-acknowledge-a-known-failure" class="table-of-contents__link toc-highlight">Failure incidents: acknowledge a known failure</a>
   - <a href="#fleet-health-check-hermes-cron-doctor" class="table-of-contents__link toc-highlight">Fleet health check: <code>hermes cron doctor</code></a>
 - <a href="#delivery-options" class="table-of-contents__link toc-highlight">Delivery options</a>
@@ -1157,6 +1214,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
 - <a href="#provider-recovery" class="table-of-contents__link toc-highlight">Provider recovery</a>
 - <a href="#run-failures-last_error" class="table-of-contents__link toc-highlight">Run failures (<code>last_error</code>)</a>
 - <a href="#missed-scheduled-fires-last_fire_error" class="table-of-contents__link toc-highlight">Missed scheduled fires (<code>last_fire_error</code>)</a>
+  - <a href="#local-missed-run-policy" class="table-of-contents__link toc-highlight">Local missed-run policy</a>
   - <a href="#misfire-catch-up" class="table-of-contents__link toc-highlight">Misfire catch-up</a>
 - <a href="#schedule-formats" class="table-of-contents__link toc-highlight">Schedule formats</a>
   - <a href="#relative-delays-one-shot" class="table-of-contents__link toc-highlight">Relative delays (one-shot)</a>
