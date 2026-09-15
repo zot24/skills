@@ -105,11 +105,6 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 ```
 
 
-Related topics
-
-<a href="/cli/reference" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password CLI reference</span></a><a href="/cli/shell-plugins/troubleshooting" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password Shell Plugins troubleshooting</span></a>
-
-
 Was this page helpful?
 
 

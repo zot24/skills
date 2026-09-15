@@ -160,11 +160,6 @@ Service accounts
 <a href="#if-you-need-to-change-a-service-account’s-permissions-or-access" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Related topics
-
-<a href="/cli/reference/management-commands/service-account" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">service-account</span></a><a href="/service-accounts/get-started" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get started with 1Password Service Accounts</span></a><a href="/service-accounts/setup-tutorial" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use service accounts with 1Password SDKs</span></a>
-
-
 Was this page helpful?
 
 

@@ -146,10 +146,10 @@ Also, note that for each individual settings page, there are some options at the
 - Colon Replacement Format - Select how colons are handled in episode names
 
   - Delete - Remove colons (e.g. `Series Title Part 1`)
-  - Dash - Replace with a dash (e.g. `Series Title - Part 1`)
-  - Space Dash - Replace with a space and a dash (e.g. `Series Title - Part 1`)
+  - Dash - Replace with a dash (e.g. `Series Title-Part 1`)
+  - Space Dash - Replace with a space and a dash (e.g. `Series Title -Part 1`)
   - Space Dash Space - Replace with a space, dash, and space (e.g. `Series Title - Part 1`)
-  - Smart - Replaces a colon followed by a space with `-`, otherwise deletes the colon (Default)
+  - Smart - Replaces a colon followed by a space with `-`, otherwise replaces it with a dash (Default)
   - Custom - Use a custom replacement string
 
 ### <a href="#standard-episode-format" class="toc-anchor">¶</a> Standard Episode Format
@@ -182,7 +182,7 @@ Standard Episode Format - Set the naming convention for your Standard Series Typ
 - `{Series TitleTheWithoutYear}` = Series Name's Title!, The
 - `{Series CleanTitleTheWithoutYear}` = Series Names Title!, The
 - `{Series TitleFirstCharacter}` = S
-- `{Series Year}` = (2010)
+- `{Series Year}` = 2010
 
 ### <a href="#series-ids" class="toc-anchor">¶</a> Series IDs
 
@@ -222,18 +222,22 @@ Standard Episode Format - Set the naming convention for your Standard Series Typ
 
 - `{MediaInfo Simple}` = x264 DTS
 - `{MediaInfo Full}` = x264 DTS \[EN+DE\]
+- `{MediaInfo Audio}` = DTS
 - `{MediaInfo AudioCodec}` = DTS
 - `{MediaInfo AudioChannels}` = 5.1
 - `{MediaInfo AudioLanguages}` = \[EN+DE\]
 - `{MediaInfo AudioLanguagesAll}` = \[DE\]
 - `{MediaInfo SubtitleLanguages}` = \[EN\]
 - `{MediaInfo SubtitleLanguagesAll}` = \[EN+DE\]
+- `{MediaInfo Video}` = x264
 - `{MediaInfo VideoCodec}` = x264
 - `{MediaInfo VideoBitDepth}` = 8
 - `{MediaInfo VideoDynamicRange}` = HDR
 - `{MediaInfo VideoDynamicRangeType}` = DV HDR10
 
 > `MediaInfo Full`, `AudioLanguages`, and `SubtitleLanguages` support a `:EN+DE` suffix allowing you to filter the languages included in the filename. Use `-DE` to exclude specific languages. Appending + (e.g.: `:EN+`) will output `[EN]`,`[EN+--]` or `[--]` depending on excluded languages. For example `{MediaInfo Full:EN+DE}`.
+
+> `MediaInfo Video` and `MediaInfo Audio` are aliases of `MediaInfo VideoCodec` and `MediaInfo AudioCodec` respectively.
 
 > `AudioLanguages` will not display a language for audio if only one language exists and it is EN (English). To get the desired behavior and as an example display German and English, use {MediaInfo AudioLanguagesAll:DE+EN} instead.
 
@@ -242,8 +246,11 @@ Standard Episode Format - Set the naming convention for your Standard Series Typ
 ### <a href="#other" class="toc-anchor">¶</a> Other
 
 - `{Release Group}` = Rls Grp
+- `{Release Hash}` = 79AFD88
 - `{Custom Formats}` = iNTERNAL or NF
 - `{Custom Format:FormatName}` = AMZN
+
+> `{Release Hash}` outputs the scene release hash when the episode file's release includes one, and produces no output otherwise.
 
 > `{Custom Formats}` outputs every Custom Format that matched the release and has "Include Custom Format when Renaming" enabled, separated by spaces. Add an optional name filter to narrow it: `{Custom Formats:NameA,NameB}` includes only those formats, while `{Custom Formats:-NameA,NameB}` excludes them.
 
@@ -295,7 +302,7 @@ See <a href="/sonarr/settings#standard-episode-format" class="is-internal-link i
 - `{Series TitleTheWithoutYear}` = Series Title, The
 - `{Series CleanTitleTheWithoutYear}` = Series Title, The
 - `{Series TitleFirstCharacter}` = S
-- `{Series Year}` = (2010)
+- `{Series Year}` = 2010
 
 ### <a href="#series-ids-1" class="toc-anchor">¶</a> Series IDs
 
@@ -324,7 +331,7 @@ Name for the `Specials` (Season) folder
 ## <a href="#multi-episode-style" class="toc-anchor">¶</a> Multi-Episode Style
 
 - `Extend` = `S01E01-02-03`
-- `Duplicate` = `S01E01.S01E01`
+- `Duplicate` = `S01E01.S01E02`
 - `Repeat` = `S01E01E02E03`
 - `Scene` = `S01E01-E02-E03`
 - `Range` = `S01E01-03`
@@ -472,7 +479,9 @@ Profiles is where Custom Format Scores are configured.
 - Source - The source where a release was ripped from (e.g. BLURAY).
 - Resolution - The resolution parsed from either the release name or media info (if available).
 - Size - This is matched against the release size. The release size is converted to gigabytes and compared against the min and max values.
-- Group - This is matched against the group that Sonarr parses based on Sonarr's group detection logic.
+- Release Group - This is matched against the release group that Sonarr parses based on Sonarr's group detection logic.
+- Indexer Flag - This is matched against the indexer flags reported for the release (e.g. Freeleech).
+- Release Type - This is matched against the type of release Sonarr parses: Single Episode, Multi-Episode, or Season Pack.
 
 ### <a href="#profiling-settings-and-ranking" class="toc-anchor">¶</a> Profiling Settings and Ranking
 
@@ -501,8 +510,9 @@ Profiles is where Custom Format Scores are configured.
 - Preferred Protocol - This will either be `Usenet` or `Torrent` depending on which download protocol you prefer
 - Usenet Delay - Set by the number of minutes you will want to wait before the download to start
 - Torrent Delay - Set by the number of minutes you will want to wait before the download to start
-- Bypass if Highest Quality - Bypass delay when release has the highest enabled quality profile with the preferred protocol
-- Bypass if Highest Quality - Bypass delay when release has the highest enabled quality profile with the preferred protocol
+- Bypass if Highest Quality - Bypass delay when release has the highest enabled quality in the quality profile with the preferred protocol
+- Bypass if Above Custom Format Score - Bypass delay when release has a score higher than the configured minimum custom format score
+  - Minimum Custom Format Score - Minimum Custom Format Score required to bypass delay for the preferred protocol
 - Tags - With giving this delay profile a tag you will be able to tag a given series to have it play by the rules set here.
 - Wrench icon - This will allow you to edit the delay profile
 - Plus icon (+) - Create a new delay profile
@@ -589,17 +599,18 @@ The timer period can be different for Usenet and Torrents. Each profile can be a
 - HDTV-720p - A re-encode of the final released Blu-ray, but broadcast over HD cable or satellite (1280x720 @ 16:9, any other aspect ratio may be a different resolution). It may be modified for runtime or content depending on the network it came from. This is released usually several months after a retail release, but sometimes upscaled versions of a Standard Definition film are released on cable channels such as STARZ or HBO, and they would be the only HD copies of that specific film available. These are generally MKV or MP4.
 - HDTV-1080p - A re-encode of the final released Blu-ray, but broadcast over HD cable or satellite (1920x1080 @ 16:9, any other aspect ratio may be a different resolution). It may be modified for runtime or content depending on the network it came from. This is released usually several months after a retail release, but sometimes upscaled versions of a Standard Definition film are released on cable channels such as STARZ or HBO, and they would be the only HD copies of that specific film available. These are generally MKV or MP4 container.
 - Raw-HD - A raw feed of an HD stream.
+- WEBDL-720p - WEB-DL (P2P) refers to a file losslessly ripped from a streaming service, such as Netflix, Amazon Video, Hulu, Crunchyroll, Discovery GO, BBC iPlayer, etc., or downloaded via an online distribution website such as iTunes. The quality is quite good, since they are not reencoded. The video (H.264 or H.265) and audio (AC3/AAC) streams are usually extracted from the iTunes or Amazon Video and remuxed into a MKV container without sacrificing quality. An advantage with these releases is that, like BD/DVDRips, they usually have no onscreen network logos. These are nearly as good as a Blu-ray source but can suffer from audio lag or visual artifacts from the adaptive bitrate of streaming services. If a ripper's internet connection drops to a point where the bitrate lowers, the source bitrate could change dynamically, causing variations in picture quality. Most releases that suffer from an extreme amount of visual artifacts are NUKED and a PROPER is generally released to fix any wild variations in adaptive bitrate. This will be in 720p quality.
 - WEBRip-720p - In a WEB-Rip (P2P), the file is often extracted using the HLS or RTMP/E protocols and remuxed from a TS, MP4 or FLV container to MKV. This will be in 720p quality.
 - Bluray-720p - A re-encode of the final released Blu-ray, downscaled to 720p resolution (1280x720 @ 16:9, any other aspect ratio may be a different resolution). If possible this is released PRE retail. It should be excellent quality for the resolution. Bitrates may vary, but these are generally encoded to AVC or HEVC and offer the tradeoff of a small perceived quality reduction over the original source while drastically reducing filesize. These are generally MKV or MP4 container.
 - WEBDL-1080p - WEB-DL (P2P) refers to a file losslessly ripped from a streaming service, such as Netflix, Amazon Video, Hulu, Crunchyroll, Discovery GO, BBC iPlayer, etc., or downloaded via an online distribution website such as iTunes. The quality is quite good, since they are not reencoded. The video (H.264 or H.265) and audio (AC3/AAC) streams are usually extracted from the iTunes or Amazon Video and remuxed into a MKV container without sacrificing quality. An advantage with these releases is that, like BD/DVDRips, they usually have no onscreen network logos. These are nearly as good as a Blu-ray source but can suffer from audio lag or visual artifacts from the adaptive bitrate of streaming services. If a ripper's internet connection drops to a point where the bitrate lowers, the source bitrate could change dynamically, causing variations in picture quality. Most releases that suffer from an extreme amount of visual artifacts are NUKED and a PROPER is generally released to fix any wild variations in adaptive bitrate. This will be in 1080p quality.
 - WEBRip-1080p - In a WEB-Rip (P2P), the file is often extracted using the HLS or RTMP/E protocols and remuxed from a TS, MP4 or FLV container to MKV. This will be in 1080p quality.
 - Bluray-1080p - A re-encode of the final released Blu-ray, at its native 1080p resolution (1920x1080 @ 16:9, any other aspect ratio may be a different resolution). If possible this is released PRE retail. It should be excellent quality and the same resolution as the source. Bitrates may vary, but these are generally encoded to AVC or HEVC and offer the tradeoff of a small perceived quality reduction over the original source while slightly reducing filesize. These are generally MKV or MP4 container.
-- Remux-1080p - A remux is a rip of a Blu-ray or HD DVD disc to another container format or just stripping the disc of menus and bonus material while keeping the contents of its audio and video streams intact (also keeping the current codecs), guaranteeing the exact 1:1 movie quality as on original disc. This is at 1080p quality.
+- Bluray-1080p Remux - A remux is a rip of a Blu-ray or HD DVD disc to another container format or just stripping the disc of menus and bonus material while keeping the contents of its audio and video streams intact (also keeping the current codecs), guaranteeing the exact 1:1 video/episode quality as on original disc. This is at 1080p quality.
 - HDTV-2160p - TVRip is a capture source from an capture card. HDTV stands for captured source from HD television. With an HDTV source, the quality can sometimes even surpass DVD. Movies in this format are starting to grow in popularity. Some advertisement and commercial banner can be seen on some releases during playback. This is at 2160p (4K) quality.
 - WEBDL-2160p - WEB-DL (P2P) refers to a file losslessly ripped from a streaming service, such as Netflix, Amazon Video, Hulu, Crunchyroll, Discovery GO, BBC iPlayer, etc., or downloaded via an online distribution website such as iTunes. The quality is quite good, since they are not reencoded. The video (H.264 or H.265) and audio (AC3/AAC) streams are usually extracted from the iTunes or Amazon Video and remuxed into a MKV container without sacrificing quality. An advantage with these releases is that, like BD/DVDRips, they usually have no onscreen network logos. These are nearly as good as a Blu-ray source but can suffer from audio lag or visual artifacts from the adaptive bitrate of streaming services. If a ripper's internet connection drops to a point where the bitrate lowers, the source bitrate could change dynamically, causing variations in picture quality. Most releases that suffer from an extreme amount of visual artifacts are NUKED and a PROPER is generally released to fix any wild variations in adaptive bitrate. This will be in 2160p (4K) quality.
 - WEBRip-2160p - In a WEB-Rip (P2P), the file is often extracted using the HLS or RTMP/E protocols and remuxed from a TS, MP4 or FLV container to MKV. This will be in 2160p (4k) quality.
 - Bluray-2160p - A re-encode of the final released Blu-ray, at its native 2160p resolution (3840x2160 @ 16:9, any other aspect ratio may be a different resolution). 4K versions of films that are released in generally HEVC codec and could be either 8-bit or 10-bit color reproduction or from an HDR source. slightly reducing filesize. These are generally MKV or MP4 container.
-- Remux-2160p - A remux is a rip of a Blu-ray or HD DVD disc to another container format or just stripping the disc of menus and bonus material while keeping the contents of its audio and video streams intact (also keeping the current codecs), guaranteeing the exact 1:1 movie quality as on original disc. This is at 2160p (4K) quality.
+- Bluray-2160p Remux - A remux is a rip of a Blu-ray or HD DVD disc to another container format or just stripping the disc of menus and bonus material while keeping the contents of its audio and video streams intact (also keeping the current codecs), guaranteeing the exact 1:1 video/episode quality as on original disc. This is at 2160p (4K) quality.
 
 # <a href="#indexers" class="toc-anchor">¶</a> Indexers
 
@@ -663,6 +674,7 @@ The timer period can be different for Usenet and Torrents. Each profile can be a
 - (Advanced Option) Minimum Seeders - The minimum number of seeders required for a release from this tracker to be grabbed.
 - (Advanced Option) Seed Ratio - If empty, use the download client default. Otherwise, the minimum seed ratio required for your download client to meet for releases from this indexer prior to it being paused by your client and removed by Sonarr (Requires Completed Download Handling - Remove enabled)
 - (Advanced Option) Seed Time - If empty, use the download client default. Otherwise, the minimum seed time in minutes required for your download client to meet for releases from this indexer prior to it being paused by your client and removed by Sonarr (Requires Completed Download Handling - Remove enabled)
+- (Advanced Option) Season-Pack Seed Time - If empty, use the Seed Time value above. Otherwise, the minimum seed time in minutes required for season-pack torrents from this indexer, applied instead of the regular Seed Time for those releases.
 - (Advanced Option) Indexer Priority - Priority of this indexer to prefer one indexer over another in release tiebreaker scenarios. 1 is highest priority and 50 is lowest priority.
 - (Advanced Option) Download Client - Select and specify which download client is used for grabs from this indexer
 - (Advanced Option) Fail Downloads - Mark the download are failed if the specified file extensions are encountered.
@@ -738,7 +750,8 @@ Select the download client you wish to add, and there will be a pop-up box to en
 - Older Priority - download client priority for media released not recently
 - (Advanced Option) Client Priority - Priority of the download client. Round-Robin is used for clients of the same type (torrent/usenet) that have the same priority. 1 is highest priority and 50 is lowest priority
 - Completed Download Handling
-  - Remove (Per Client Setting) - Remove completed downloads when finished (usenet) or stopped/complete (torrents). See [Completed Download Handling for more details](#completed-download-handling)
+  - Remove Completed (Per Client Setting) - Remove imported downloads from the download client's history when finished (usenet) or stopped/complete (torrents). See [Completed Download Handling for more details](#completed-download-handling)
+  - Remove Failed (Per Client Setting) - Remove failed downloads from the download client's history.
 
 ### <a href="#torrent-client-settings" class="toc-anchor">¶</a> Torrent Client Settings
 
@@ -757,8 +770,9 @@ Select the download client you wish to add, and there will be a pop-up box to en
 - Initial State - Initial state for torrents (Qbittorrent Only: Forced bypasses all seed thresholds)
 - (Advanced Option) Client Priority - Priority of the download client. Round-Robin is used for clients of the same type (torrent/usenet) that have the same priority. 1 is highest priority and 50 is lowest priority
 - Completed Download Handling
-  - Remove (Per Client Setting) - Remove completed downloads when finished (usenet) or stopped/complete (torrents). See [Completed Download Handling for more details](#completed-download-handling)
+  - Remove Completed (Per Client Setting) - Remove imported downloads from the download client's history when finished (usenet) or stopped/complete (torrents). See [Completed Download Handling for more details](#completed-download-handling)
     - For torrents this requires your download client to pause upon hitting the seed goals. It also requires the seed goals to be supported by Sonarr per the below table. Torrents must also stay in the same category.
+  - Remove Failed (Per Client Setting) - Remove failed downloads from the download client's history.
 
 ### <a href="#torrent-client-remove-download-compatibility" class="toc-anchor">¶</a> Torrent Client Remove Download Compatibility
 
@@ -786,9 +800,11 @@ Select the download client you wish to add, and there will be a pop-up box to en
 
 - (Advanced Global Setting) Enable - Automatically import completed downloads from the download client
 
-- (Per Client Setting) Remove - Remove completed downloads when finished (usenet) or stopped/complete (torrents)
+- (Per Client Setting) Remove Completed - Remove imported downloads from the download client's history when finished (usenet) or stopped/complete (torrents)
 
   - For torrents this requires your download client to pause upon hitting the seed goals. It also requires the seed goals to be supported by Sonarr per the above table. Torrents must also stay in the same category.
+
+- (Per Client Setting) Remove Failed - Remove failed downloads from the download client's history.
 
 ### <a href="#remove-completed-downloads" class="toc-anchor">¶</a> Remove Completed Downloads
 
@@ -823,7 +839,9 @@ If you download using a BitTorrent client, the process is slightly different:
   - Blocklisting (fka 'Blacklisting') allows automatic skipping of nzbs when they fail, this means that nzb will not be automatically downloaded by Sonarr ever again (You can still force the download via a manual search).
   - There are 2 advanced options (on 'Download Client' settings page) that control the behavior of failed downloading in Sonarr, at this time, they are all on by default.
 
-- Redownload - Controls whether or not Sonarr will search for the same file after a failure
+- Redownload Failed - Controls whether or not Sonarr will search for the same file after a failure
+
+- (Advanced Option) Redownload Failed from Interactive Search - Only shown when Redownload Failed is enabled. Automatically search for and attempt to download a different release when the failed release was grabbed from an interactive search.
 
 - (Advanced Option) Remove - Whether or not the download should automatically be removed from Download Client when the failure is detected
 
@@ -858,7 +876,7 @@ If you download using a BitTorrent client, the process is slightly different:
 
 ### <a href="#list-options" class="toc-anchor">¶</a> List Options
 
-- (Advanced Option) List Update Interval - How often should Radarr poll the list for updates? This is provided dependent as per the UI.
+- (Advanced Option) List Update Interval - How often should Sonarr poll the list for updates? This is provider dependent as per the UI.
 - (Advanced Option) Clean Library Level - Series in library will be removed or unmonitored if not in at least one of your list(s)
   - Disabled - Do not clean the library (Recommended)
   - Log Only - Only log the series are not on the list(s) and take no other actions
@@ -946,6 +964,7 @@ If you download using a BitTorrent client, the process is slightly different:
   - Hostname: `sonarr`
   - FQDN: `sonarr.example.com`
   - Wildcard subdomain: `*.example.com` - For example `sonarr.example.com`, `tv.example.com` or any other subdomain would be accepted.
+  - Docker with a `.internal` suffix: `*.internal` - accepts container hostnames such as `sonarr.internal` when you name your containers with a `.internal` suffix.
 
 - Instance Name - Instance name in tab and for Syslog app name
 
@@ -958,9 +977,16 @@ If you download using a BitTorrent client, the process is slightly different:
 ## <a href="#security" class="toc-anchor">¶</a> Security
 
 - Authentication - How would you like to authenticate to access your Sonarr instance
-  - None - You have no authentication to access your Sonarr. Typically if you're the only user of your network, do not have anybody on your network that would care to access your Sonarr or your Sonarr is not exposed to the web
+  - None - No authentication is required to access Sonarr. No longer selectable in the UI for new configurations; existing installs still using it should switch to Basic or Forms
   - Basic (Browser pop-up) - This option when accessing your Sonarr will show a small pop-up allowing you to input a Username and Password
   - Forms (Login Page) - This option will have a familiar looking login screen much like other websites have to allow you to log onto your Sonarr
+  - External - Hands authentication off entirely to a reverse proxy (e.g. Authelia, Organizr) placed in front of Sonarr. Not selectable in the UI; set it via `config.xml` or the `SONARR__AUTH__METHOD` environment variable. Sonarr performs no authentication of its own in this mode, so Authentication Required and Trust CGNAT IP Addresses below have no effect
+- Authentication Required - Controls when the Authentication setting above is enforced
+  - Enabled - Always require authentication (recommended)
+  - Disabled for Local Addresses - Skip authentication for requests Sonarr identifies as coming from localhost or the LAN
+
+> `Disabled for Local Addresses` without a properly configured reverse proxy caused <a href="https://github.com/Sonarr/Sonarr/security/advisories/GHSA-h5qx-5hjf-7c9r" class="is-external-link">CVE-2026-30975 / GHSA-h5qx-5hjf-7c9r</a> (High severity, patched in v4.0.16.2942 nightly / v4.0.16.2944 stable). A caller could spoof the `X-Forwarded-For` header to appear local and skip authentication. "Properly configured" means the proxy's address is listed under Trusted Networks below. Sonarr only trusts `X-Forwarded-For` from addresses in that list and ignores it from anyone else. If you don't run a trusted reverse proxy, set Authentication Required to `Enabled` instead, or put Sonarr behind a VPN/Tailscale rather than exposing it directly.
+
 - API Key - This is how other programs would communicate or have Sonarr communicate to other programs. This key if given to the wrong person with access could do all kinds of things to your library. This is why in the logs the API key is redacted
 - Certificate Validation - Change how strict HTTPS certification validation is
   - Enabled - Validate all HTTPS certificates (recommended)
@@ -970,13 +996,15 @@ If you download using a BitTorrent client, the process is slightly different:
   - IP Address: `192.168.50.1` or `fd12:3456:789a::1`
   - Subnet (CIDR format): `192.168.50.0/24` or `fc00::/7`
 
+> Trust CGNAT IP Addresses - Not exposed in the UI. Set via `config.xml` or the `SONARR__AUTH__TRUSTCGNATIPADDRESSES` environment variable (default `false`, see <a href="/sonarr/environment-variables#environment-variables-table" class="is-internal-link is-valid-page">Environment Variables</a>). When enabled, Sonarr treats CGNAT addresses (`100.64.0.0/10`, the range Tailscale uses) as local for the Authentication Required `Disabled for Local Addresses` check above. It has no effect with any other Authentication Required or Authentication setting.
+
 ## <a href="#proxy" class="toc-anchor">¶</a> Proxy
 
 - Proxy - This option allows you to run the information your Sonarr pulls and searches for through a proxy. This can be useful if you're in a country that does not allow the downloading of Torrent files
 
 - Use Proxy - Enable to use a Proxy
 
-- Proxy Type - Select your proxy type (HTTPS, Socks4, or Socks5)
+- Proxy Type - Select your proxy type (HTTP(S), Socks4, or Socks5)
 
 - Hostname - Enter your proxy hostname (Do not include http/https or any other protocol)
 
@@ -999,7 +1027,7 @@ If you download using a BitTorrent client, the process is slightly different:
 
 ## <a href="#analytics" class="toc-anchor">¶</a> Analytics
 
-- Analytics - Send anonymous usage and error information to Sonarr's servers (SkyHook). This includes information on your browser, which Sonarr WebUI pages you use, error reporting as well as OS and runtime version. We will use this information to prioritize features and bug fixes.
+- Analytics - Send anonymous usage and error information to Sonarr's servers. This includes information on your browser, which Sonarr WebUI pages you use, error reporting as well as OS and runtime version. We will use this information to prioritize features and bug fixes.
 
 ## <a href="#updates" class="toc-anchor">¶</a> Updates
 
@@ -1021,9 +1049,9 @@ If you download using a BitTorrent client, the process is slightly different:
 
 - Folder - This allows you to select the backup location. In docker you will be limited to what you allow the container to see. Paths are relative to the appdata folder; if necessary, you can set an absolute path to backup outside of the appdata folder.
 
-- Interval - How often would you like Sonarr to make a backup
+- Interval - How often would you like Sonarr to make a backup (default: every 7 days)
 
-- Retention - How long would you like Sonarr to hold on to each backup. After a new backup is made the oldest backup will be removed
+- Retention - How long would you like Sonarr to hold on to each backup. After a new backup is made the oldest backup will be removed (default: 28 days)
 
 # <a href="#ui" class="toc-anchor">¶</a> UI
 

@@ -109,7 +109,7 @@ If the download folder and the library folder are on **different filesystems**, 
 
 > Hardlinks are enabled by default. If you are seeing double disk usage, the usual culprits are mismatched mounts (Docker), a download client writing to a different filesystem than the library, or a filesystem that doesn't support hardlinks (some network filesystems, FAT32).
 
-## <a href="#is-lidarr-right-for-your-library" class="toc-anchor">¶</a> Is Lidarr right for your library?
+## <a href="#is-lidarr-right-for-your-library" class="toc-anchor">¶</a> Is Lidarr right for your library
 
 Lidarr is built around the `Release` model. If your library doesn't fit that model, Lidarr will be a frustrating tool no matter how much you tune it. Lidarr **isn't** a good fit for the following situations.
 

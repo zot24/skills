@@ -101,11 +101,6 @@ docker login -u $(op read op://prod/docker/username) -p $(op read op://prod/dock
 ```
 
 
-Related topics
-
-<a href="/environments/read-environment-variables" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Programmatically read 1Password Environments</span></a><a href="/cli/shell-plugins/readme" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password to securely authenticate the ReadMe CLI</span></a><a href="/ai-readable-docs" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Search and read 1Password developer documentation with AI</span></a>
-
-
 Was this page helpful?
 
 

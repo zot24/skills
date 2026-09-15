@@ -26,7 +26,10 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.1.0
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.1.2
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -143,21 +146,83 @@ paths:
             A peer to get context for. If given, response will attempt to
             include representation and card from the perspective of that peer.
             Must be provided with `peer_target`.
+        - name: scope
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            description: >-
+              An (unprefixed) scope name to use as the perspective source: the
+              representation and peer card of `peer_target` are read from the
+              scope's observations instead of the global (or `peer_perspective`)
+              view. Must be provided with `peer_target`; mutually exclusive with
+              `peer_perspective`. Requires a workspace- or admin-level key.
+            title: Scope
+          description: >-
+            An (unprefixed) scope name to use as the perspective source: the
+            representation and peer card of `peer_target` are read from the
+            scope's observations instead of the global (or `peer_perspective`)
+            view. Must be provided with `peer_target`; mutually exclusive with
+            `peer_perspective`. Requires a workspace- or admin-level key.
+        - name: sessions
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - items:
+                  type: string
+                type: array
+              - type: 'null'
+            description: >-
+              Optional allowlist of session IDs confining the representation of
+              `peer_target` to those sessions. This session must be one of them.
+              Recall is restricted to conclusions stated directly in the allowed
+              sessions — conclusions synthesized across sessions are excluded,
+              since their provenance cannot be proven to sit inside the
+              allowlist — and the peer card is omitted for the same reason.
+              Mutually exclusive with `scope` and `limit_to_session`. A
+              peer-scoped key must be an active member of every session named.
+              The 1,000-session cap shared with the recall endpoints applies but
+              is not reachable here: these are repeated query parameters, so a
+              long list exceeds the request-line limit of the server or any
+              proxy in front of it (a 414/431, not a 422) at a few hundred
+              entries. Use a named `scope` for large or reusable session sets.
+            title: Sessions
+          description: >-
+            Optional allowlist of session IDs confining the representation of
+            `peer_target` to those sessions. This session must be one of them.
+            Recall is restricted to conclusions stated directly in the allowed
+            sessions — conclusions synthesized across sessions are excluded,
+            since their provenance cannot be proven to sit inside the allowlist
+            — and the peer card is omitted for the same reason. Mutually
+            exclusive with `scope` and `limit_to_session`. A peer-scoped key
+            must be an active member of every session named. The 1,000-session
+            cap shared with the recall endpoints applies but is not reachable
+            here: these are repeated query parameters, so a long list exceeds
+            the request-line limit of the server or any proxy in front of it (a
+            414/431, not a 422) at a few hundred entries. Use a named `scope`
+            for large or reusable session sets.
         - name: limit_to_session
           in: query
           required: false
           schema:
             type: boolean
             description: >-
-              Only used if `search_query` is provided. Whether to limit the
-              representation to the session (as opposed to everything known
-              about the target peer)
+              Whether to limit the representation to the session (as opposed to
+              everything known about the target peer). Narrows recall the same
+              way `sessions` does, so the same restrictions apply: explicit-only
+              conclusions, and the peer card is omitted because it carries no
+              per-session provenance.
             default: false
             title: Limit To Session
           description: >-
-            Only used if `search_query` is provided. Whether to limit the
-            representation to the session (as opposed to everything known about
-            the target peer)
+            Whether to limit the representation to the session (as opposed to
+            everything known about the target peer). Narrows recall the same way
+            `sessions` does, so the same restrictions apply: explicit-only
+            conclusions, and the peer card is omitted because it carries no
+            per-session provenance.
         - name: search_top_k
           in: query
           required: false

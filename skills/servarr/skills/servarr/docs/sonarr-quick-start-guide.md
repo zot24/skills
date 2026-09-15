@@ -124,7 +124,7 @@ BitTorrent
 - Sonarr will send a download request to your client, and associate it with a label or category name that you have configured in the download client settings.
   - Examples: movies, tv, series, music, etc.
 - Sonarr will monitor your download clients active downloads that use that category name. This monitoring occurs via your download client's API.
-- Completed files are left in their original location to allow you to seed the file (ratio or time can be adjusted in the download client or from within Sonarr under the specific download client). When files are imported to your media folder Sonarr will hardlinkthe file if supported by your setup or copy if not hard links are not supported.
+- Completed files are left in their original location to allow you to seed the file (ratio or time can be adjusted in the download client or from within Sonarr under the specific download client). When files are imported to your media folder Sonarr will hardlink the file if supported by your setup or copy if hard links are not supported.
 - Hard links are enabled by default. <a href="https://trash-guides.info/Hardlinks/Hardlinks-and-Instant-Moves/" class="is-external-link">A hard link will allow not use any additional disk space.</a> The file system and mounts must be the same for your completed download directory and your media library. If the hard link creation fails or your setup does not support hard links then Sonarr will fall back and copy the file.
 - If the "Completed Download Handling - Remove" option is enabled in Sonarr's settings, Sonarr will delete the torrent from your client and ask the client to remove the torrent data, but only if the client reports that seeding is complete and torrent is stopped (paused on completion).
 
@@ -136,7 +136,7 @@ BitTorrent
 
 After setting up your profiles/quality sizes and added your indexers and download client(s) it’s time to import your existing organized media library.
 
-Coming soon - Contributions Welcome
+This is done from the `Library Import` view (accessed via `Add New` =\> `Import Existing Series`). The steps for this are detailed below.
 
 ## <a href="#importing-existing-media" class="toc-anchor">¶</a> Importing Existing Media
 

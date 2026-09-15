@@ -5,28 +5,28 @@
 <img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" loading="lazy" decoding="async" data-fetchpriority="auto" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" loading="lazy" decoding="async" data-fetchpriority="auto" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -41,13 +41,13 @@
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
@@ -59,19 +59,19 @@
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,7 +93,7 @@ Ask natural-language questions about your portfolio. Run fully local with Ollama
 
 ------------------------------------------------------------------------
 
-Last updated August 28, 2026
+Last updated September 13, 2026
 
 The AI Assistant is a chat interface that answers questions about your portfolio by running typed queries against your local database. Ask “what did I earn in dividends last year?” and it’ll figure out the right query, run it, and answer with real numbers.
 
@@ -105,7 +105,7 @@ Want an agent in your editor or Claude Desktop to reach your portfolio instead o
 
 <figure class="my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/ai/welcome.png" class="block rounded-lg border border-border dark:hidden" alt="The AI assistant — ask about your portfolio in plain English" /><img src="https://assets.wealthfolio.app/images/screenshots/ai/welcome-dark.png" class="hidden rounded-lg border border-border dark:block" alt="The AI assistant — ask about your portfolio in plain English" />
-<figcaption>The AI assistant — ask about your portfolio in plain English</figcaption>
+<figcaption><p>The AI assistant — ask about your portfolio in plain English</p></figcaption>
 </figure>
 
 ------------------------------------------------------------------------
@@ -158,7 +158,7 @@ The LLM picks the tools, calls them, and summarizes the results. Your raw activi
 
 ## 3 · Choose a provider
 
-Six providers are supported out of the box. Configure them under **Settings → AI Assistant**.
+Six providers are supported out of the box. Configure them under **Settings → AI Providers**.
 
 
 | Provider               | Where it runs       | Cost                                  | Setup                                        |
@@ -171,7 +171,20 @@ Six providers are supported out of the box. Configure them under **Settings → 
 | **OpenRouter**         | OpenRouter cloud    | Per-token (paid; free tier available) | Add your API key                             |
 
 
-Each provider also accepts a **Custom Endpoint** field, so you can point it at an OpenAI-compatible gateway (LM Studio, vLLM, Together, etc.) without picking a separate provider type.
+Use **Advanced options** to configure a custom endpoint compatible with the selected provider’s API.
+
+### Provider settings
+
+Open a provider’s settings to configure its API key and models:
+
+- **API key:** enter the key and save it. You can remove a saved key when you stop using the provider.
+- **Provider switch:** enable or disable the provider. Choose the model for a conversation in the chat model picker.
+- **Enabled models:** select your favorite models to make them available in the chat model picker. You can include models discovered from the provider as well as catalog models.
+- **Model capabilities:** for models without catalog presets, configure tool calling, vision, and thinking support to match the model. Turning on a capability does not add it to the model itself.
+- **Data access:** choose which groups of portfolio tools this provider may use. Review these permissions for each provider; tool results can be shared with its model when you chat.
+- **Advanced options:** configure a custom endpoint and, where supported, temperature, output token limits, thinking token limits, and provider-specific tuning. Reset overrides to return to the catalog defaults. Available fields depend on the provider.
+
+API keys and custom endpoint URLs have explicit **Save** buttons. Model selections and switches persist as you change them. Numeric and text tuning changes save when you click or tab away from the field. For a custom endpoint, use the API format expected by the selected provider; choose OpenAI for an OpenAI-compatible server.
 
 ### Ollama (recommended for privacy)
 
@@ -190,7 +203,7 @@ ollama pull gemma4:e4b
 ollama serve
 ```
 
-In Wealthfolio: **Settings → AI Assistant → Provider: Ollama**, Server URL `http://localhost:11434`, model `gemma4:e4b`.
+In Wealthfolio: **Settings → AI Providers → Provider: Ollama**, Server URL `http://localhost:11434`, model `gemma4:e4b`.
 
 ### Anthropic, OpenAI, Google AI, Groq, OpenRouter
 
@@ -206,7 +219,7 @@ API keys are encrypted in your Wealthfolio key store before being persisted. The
 
 ### OpenAI-compatible custom endpoints
 
-Each provider exposes a **Custom Endpoint** field — point any of them at an OpenAI-compatible gateway (LM Studio, vLLM, Together, Fireworks, a self-hosted gateway) and use that provider’s model picker. Picking OpenAI + a custom endpoint is the easiest path for “an OpenAI-shaped API that isn’t OpenAI.”
+Choose **OpenAI** and set its custom endpoint to use an OpenAI-compatible gateway such as LM Studio or vLLM, then select a model served by that endpoint. Other provider types expect their own API formats; a custom URL alone does not change the protocol.
 
 **Reasoning models that hide their thinking** (DeepSeek-Reasoner, o1-style) may not return clean function-call output. Use a non-reasoning variant for the assistant — e.g. `deepseek-chat` rather than `deepseek-reasoner`.
 
@@ -236,10 +249,7 @@ If you’re using Ollama, none of the above leaves your machine. If you’re usi
 
 ## 5 · Chat history
 
-Conversations are stored locally and persist across app restarts. Each thread has an auto-generated title (from the first question). To clean up:
-
-- **Delete a thread:** open the thread → **⋯ → Delete**.
-- **Wipe all history:** Settings → AI Assistant → **Clear all conversations**.
+Conversations are stored locally and persist across app restarts. Each thread has an auto-generated title (from the first question). To delete a thread, use its **⋯ → Delete** action in the thread list.
 
 ------------------------------------------------------------------------
 
@@ -289,6 +299,7 @@ On This Page
 - <a href="#1--what-it-can-do" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · What it can do</a>
 - <a href="#2--what-it-cant-do-yet" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · What it can't do (yet)</a>
 - <a href="#3--choose-a-provider" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Choose a provider</a>
+  - <a href="#provider-settings" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Provider settings</a>
   - <a href="#ollama-recommended-for-privacy" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Ollama (recommended for privacy)</a>
   - <a href="#anthropic-openai-google-ai-groq-openrouter" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Anthropic, OpenAI, Google AI, Groq, OpenRouter</a>
   - <a href="#openai-compatible-custom-endpoints" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">OpenAI-compatible custom endpoints</a>

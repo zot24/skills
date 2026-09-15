@@ -4,7 +4,7 @@
 
 ## Chinese
 
-- [Chinese / v2 (202 pages)](https://docs.firecrawl.dev/_llms/zh/v2.md): Documentation for Chinese / v2.
+- [Chinese / v2 (203 pages)](https://docs.firecrawl.dev/_llms/zh/v2.md): Documentation for Chinese / v2.
 
 ### v1
 
@@ -14,7 +14,6 @@
 
 - [介绍](https://docs.firecrawl.dev/zh/introduction.md): 通过一个 API 即可进行网页搜索、抓取任意页面并与之交互。
 - [开始使用](https://docs.firecrawl.dev/zh/mcp-server.md): 通过免密钥访问、账户登录或 API 密钥设置 Firecrawl MCP。
-- [从 v1 迁移到 v2](https://docs.firecrawl.dev/zh/migrate-to-v2.md): 关键变更、对应关系，以及升级到 v2 的前后示例片段。
 - [高级抓取指南](https://docs.firecrawl.dev/zh/advanced-scraping-guide.md): 通过 Firecrawl 的完整 API 接口配置抓取选项、浏览器 actions、爬取、映射以及 代理 端点。
 
 ###### 套餐与计费

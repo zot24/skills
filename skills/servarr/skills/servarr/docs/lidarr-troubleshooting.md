@@ -54,7 +54,7 @@ To provide good and useful logs for sharing:
 
 - To search across old log files in Windows, use the Notepad++ **Find in Files** function.
 
-- **Unix only:** To search across old log files, use `grep`. For example, to find entries for an artist or release named "Shooter": `grep -inr -C 100 -e 'Shooter' /path/to/logs/*.trace*.txt`. If your <a href="/lidarr/appdata-directory" class="is-internal-link is-valid-page">Appdata Directory</a> is in your home folder: `grep -inr -C 100 -e 'Shooter' /home/$User/.config/logs/*.trace*.txt`
+- **Unix only:** To search across old log files, use `grep`. For example, to find entries for an artist or release named "Shooter": `grep -inr -C 100 -e 'Shooter' /path/to/logs/*.trace*.txt`. If your <a href="/lidarr/appdata-directory" class="is-internal-link is-valid-page">Appdata Directory</a> is in your home folder: `grep -inr -C 100 -e 'Shooter' /home/$USER/.config/Lidarr/logs/*.trace*.txt`
 
 ``` prismjs
     * The flags have the following functions
@@ -111,7 +111,7 @@ If an upgrade goes wrong, these steps will help you recover your installation.
 
 ## <a href="#determine-the-issue" class="toc-anchor">¶</a> Determine the issue
 
-- The best place to look when the application won't start after an update is to review the [update logs](#update-logs-location) and see if the update completed successfully. If those don't have an issue then the next step is to look at your regular application log files, before trying to start again, use <a href="/lidarr/settings#logging" class="is-internal-link is-valid-page">Logging</a> and <a href="/lidarr/system#log-files" class="is-internal-link is-valid-page">Log Files</a> to find them and increase the log level.
+- The best place to look when the application won't start after an update is to review the [update logs](#update-logs-location) and see if the update completed successfully. If those don't have an issue then the next step is to look at your regular application log files, before trying to start again, use [Logging](#tracedebug-logs) and <a href="/lidarr/system#log-files" class="is-internal-link is-valid-page">Log Files</a> to find them and increase the log level.
 - Most often, the host system messes with the `/tmp` directory and deletes critical Lidarr files during the upgrade, causing both the upgrade and rollback to fail. In this case, reinstall in-place over the existing installation.
 
 ### <a href="#migration-issue" class="toc-anchor">¶</a> Migration Issue
@@ -184,11 +184,11 @@ Lidarr communicates with your download client via its API through the client's w
 
 ### <a href="#ssl-in-use-and-incorrectly-configured" class="toc-anchor">¶</a> SSL in use and incorrectly configured
 
-Ensure SSL encryption isn't turned on if you're using both your instance and your download client on a local network. See <a href="/lidarr/faq#invalid-certificate-and-other-HTTPS-or-SSL-issues" class="is-internal-link is-valid-page">the SSL FAQ entry</a> for more information.
+Ensure SSL encryption isn't turned on if you're using both your instance and your download client on a local network. See <a href="/radarr/faq#invalid-certificate-and-other-https-or-ssl-issues" class="is-internal-link is-valid-page">the SSL FAQ entry</a> for more information.
 
 ### <a href="#cant-see-share-on-windows" class="toc-anchor">¶</a> Can’t see share on Windows
 
-The default user for a Windows service is `LocalService` which typically doesn’t have access to your shares. Edit the service and set it up to run as your own user, see the FAQ entry <a href="/lidarr/faq#why-cant-see-my-files-on-a-remote-server" class="is-internal-link is-valid-page">why can’t see my files on a remote server</a> for details.
+The default user for a Windows service is `LocalService` which typically doesn’t have access to your shares. Edit the service and set it up to run as your own user, see the FAQ entry <a href="/lidarr/faq#why-cant-lidarr-see-my-files-on-a-remote-server" class="is-internal-link is-valid-page">why can’t Lidarr see my files on a remote server</a> for details.
 
 ### <a href="#mapped-network-drives-arent-reliable" class="toc-anchor">¶</a> Mapped network drives aren't reliable
 
@@ -317,6 +317,12 @@ Lidarr only looks at the 60 most recent downloads in SABnzbd and NZBGet. If you 
 The download client shouldn’t be responsible for removing downloads. Configure usenet clients so they *don’t* remove downloads from history. Set up torrent clients so they *don’t* remove torrents when they’re finished seeding (pause or stop instead). Lidarr communicates with the download client to know what to import. If items are *removed*, Lidarr has nothing to import, even if a folder full of files exists.
 
 For SABnzbd, use the History Retention setting.
+
+### <a href="#removing-a-queue-item-fails-with-a-500-error" class="toc-anchor">¶</a> Removing a queue item fails with a 500 error
+
+If a queued download couldn't be matched to an artist at all (for example, a release parsed as "Unknown Artist" or one where multiple artists matched ambiguously), clicking the plain **Remove** button on that queue item throws an internal server error instead of removing it.
+
+**Workaround:** use **Remove and Blocklist** instead of plain Remove for these items. It takes a different code path that doesn't hit this crash, and removes the item just as effectively; blocklisting only prevents Lidarr from grabbing that exact same release again, which is rarely a downside for something you're removing anyway.
 
 ### <a href="#download-doesnt-match-a-library-item" class="toc-anchor">¶</a> Download doesn't match a library item
 
@@ -466,6 +472,32 @@ You can still add the album to Lidarr and it will appear in your library, but no
 4.  Retry the search. Lidarr can now check sizes and will grab matching releases normally.
 
 > If you can't edit MusicBrainz (for example, the release has a pending vote), the only workaround is **Manual Import**: download the files through other means and use Lidarr’s manual import flow to match and move them.
+
+### <a href="#release-rejected-release-year-does-not-match-album-year" class="toc-anchor">¶</a> Release Rejected: Release year does not match album year
+
+Lidarr checks the release year parsed from a release's title/filename against the album's actual release year before grabbing it. Reject a release outright and you'll see:
+
+``` prismjs
+Release Rejected
+* Release year 2009 does not match album year 2001 8
+```
+
+The trailing number isn't a typo, it's the year difference (8 years, in this example) with no label attached. The rule itself:
+
+- **0-1 years off:** treated as an exact match, no penalty.
+- **2-3 years off:** accepted, small scoring penalty.
+- **4-5 years off:** accepted, larger scoring penalty (lower-confidence match).
+- **More than 5 years off:** rejected outright with the message above.
+
+Lidarr also checks other monitored releases under the same album (reissues, remasters) before rejecting. If one of those has a release date close enough to the parsed year, Lidarr uses that instead of the primary release's year, so a mismatch against the primary release date doesn't automatically fail the release.
+
+These thresholds aren't configurable. If a release is legitimately correct but the album's release date is wrong or missing on MusicBrainz, fix the date there (<a href="/lidarr/metadata-troubleshooting#updating-musicbrainz" class="is-internal-link is-valid-page">Metadata Troubleshooting → Updating MusicBrainz</a>) and let it propagate, or use **Manual Import** to bypass this check entirely, manual import doesn't run the automatic-grab specification pipeline at all.
+
+### <a href="#release-silently-rejected-as-unknown-artist" class="toc-anchor">¶</a> Release silently rejected as "Unknown Artist"
+
+Some rejection reasons only appear in Debug or Trace-level logs, never in the visible **Release Rejected** panel or at Info level. "Unknown Artist" is one of them: if Lidarr can't match the release's parsed artist name against anything in your library or on MusicBrainz, the release is rejected before it reaches the specifications that populate the visible rejection list, so no on-screen reason ever shows for it. Turn logging up to Debug or Trace (see [Turn logging up to trace](#turn-logging-up-to-trace)) to see it as a log line: `Release rejected for the following reasons: [Permanent] Unknown Artist`.
+
+One confirmed cause: some indexers serve release titles with double-HTML-encoded punctuation, for example a literal `&amp;rsquo;` instead of an apostrophe. Lidarr's feed parser only unwraps one layer of HTML-entity encoding before matching, so a double-encoded title (`&amp;rsquo;`, `&amp;amp;`, `&amp;ndash;`) still has a literal entity string sitting where an apostrophe, ampersand, or dash should be, and matching fails silently as a result. There's no in-app fix; if you suspect this, check the raw indexer feed for double-encoded entities and report it to the indexer, or use **Manual Import** to bypass matching for that one release.
 
 ### <a href="#certificate-validation" class="toc-anchor">¶</a> Certificate validation
 

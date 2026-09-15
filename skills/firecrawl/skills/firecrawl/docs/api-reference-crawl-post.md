@@ -53,18 +53,30 @@ paths:
                     parameters will override the generated equivalents.
                 excludePaths:
                   type: array
+                  maxItems: 1000
                   items:
                     type: string
+                    maxLength: 2000
                   description: >-
                     URL pathname regex patterns that exclude matching URLs from
                     the crawl. For example, if you set "excludePaths":
                     ["blog/.*"] for the base URL firecrawl.dev, any results
                     matching that pattern will be excluded, such as
                     https://www.firecrawl.dev/blog/firecrawl-launch-week-1-recap.
+                    Patterns use Rust regex (RE2-style) syntax: look-around and
+                    backreferences are not supported, and a pattern that does
+                    not compile is rejected with a 400. Each field accepts at
+                    most 1000 patterns of at most 2000 characters each, and
+                    includePaths and excludePaths together may contain at most
+                    1000 patterns and 100,000 characters in total. For
+                    keyword-style filtering, send one short pattern per term
+                    rather than combining terms into a single long alternation.
                 includePaths:
                   type: array
+                  maxItems: 1000
                   items:
                     type: string
+                    maxLength: 2000
                   description: >-
                     URL pathname regex patterns that include matching URLs in
                     the crawl. Only the paths that match the specified patterns
@@ -75,6 +87,14 @@ paths:
                     firecrawl.dev/blog, only pages under /blog/ will be included
                     in the results, such as
                     https://www.firecrawl.dev/blog/firecrawl-launch-week-1-recap.
+                    Patterns use Rust regex (RE2-style) syntax: look-around and
+                    backreferences are not supported, and a pattern that does
+                    not compile is rejected with a 400. Each field accepts at
+                    most 1000 patterns of at most 2000 characters each, and
+                    includePaths and excludePaths together may contain at most
+                    1000 patterns and 100,000 characters in total. For
+                    keyword-style filtering, send one short pattern per term
+                    rather than combining terms into a single long alternation.
                 maxDiscoveryDepth:
                   type: integer
                   description: >-

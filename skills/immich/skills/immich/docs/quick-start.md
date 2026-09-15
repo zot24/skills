@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_S8s7">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_VpXs">Skip to main content</a>
 
 
 On this page
@@ -137,7 +137,7 @@ The mobile app can be downloaded from the following places:
 - <a href="https://play.google.com/store/apps/details?id=app.alextran.immich" target="_blank" rel="noopener noreferrer">Google Play Store</a>
 - <a href="https://github.com/immich-app/immich/releases" target="_blank" rel="noopener noreferrer">GitHub Releases (APK)</a>
 - Obtainium: You can get your Obtainium config link from the <a href="https://my.immich.app/utilities" target="_blank" rel="noopener noreferrer">Utilities page of your Immich server</a>.
-- <a href="https://app.futo.org/fdroid/repo/" target="_blank" rel="noopener noreferrer">F-Droid</a>
+- <a href="https://get.immich.app/fdroid" target="_blank" rel="noopener noreferrer">FUTO F-Droid</a>
 
 ### Login to the Mobile App<a href="#login-to-the-mobile-app" class="hash-link" aria-label="Direct link to Login to the Mobile App" translate="no" title="Direct link to Login to the Mobile App">​</a>
 

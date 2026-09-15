@@ -152,11 +152,6 @@ agilebits-inc.1password.com    wendy_appleseed@agilebits.com      ASDU...
 - <a href="/get-started/developer-quickstart" class="link">Developer quickstart</a>
 
 
-Related topics
-
-<a href="/cli/app-integration" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use the 1Password desktop app to sign in to 1Password CLI</span></a><a href="/cli/get-started" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get started with 1Password CLI</span></a><a href="/cli/shell-plugins/github" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password to securely authenticate the GitHub CLI</span></a>
-
-
 Was this page helpful?
 
 

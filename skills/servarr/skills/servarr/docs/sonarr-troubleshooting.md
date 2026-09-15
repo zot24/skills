@@ -199,7 +199,7 @@ Sonarr talks to you download client via it's API and accesses it via the client'
 
 ### <a href="#ssl-in-use-and-incorrectly-configured" class="toc-anchor">¶</a> SSL in use and incorrectly configured
 
-Ensure SSL encryption is not turned on if you're using both your instance and your download client on a local network. See <a href="/sonarr/faq#invalid-certificate-and-other-HTTPS-or-SSL-issues" class="is-internal-link is-valid-page">the SSL FAQ entry</a> for more information.
+Ensure SSL encryption is not turned on if you're using both your instance and your download client on a local network. See <a href="/sonarr/faq#invalid-certificate-and-other-https-or-ssl-issues" class="is-internal-link is-valid-page">the SSL FAQ entry</a> for more information.
 
 ### <a href="#cant-see-share-on-windows" class="toc-anchor">¶</a> Can’t see share on Windows
 
@@ -363,7 +363,7 @@ This can also occur if you have a release in your download client but that media
 
 On TVDB, when episode names are unknown they'll be titled TBA and there is a 24 hour cache on the API. Typically, changes to the TVDB website take 24-48 hours to reach Sonarr due to TVDB cache, Skyhook cache and the series refresh interval.
 
-The <a href="/sonarr/settings#importing" class="is-internal-link is-valid-page">Episode Title Required</a> setting in Sonarr controls import behavior when the title is TBA, but after 24 hours from the episode's air date the release will be imported even if the title is still TBA. There is also no automatic follow up renaming of TBA titled files.
+The <a href="/sonarr/settings#importing" class="is-internal-link is-valid-page">Episode Title Required</a> setting in Sonarr controls import behavior when the title is TBA, but after 48 hours from the episode's air date the release will be imported even if the title is still TBA. There is also no automatic follow up renaming of TBA titled files.
 
 ### <a href="#the-underlying-connection-was-closed-an-unexpected-error-occurred-on-a-send" class="toc-anchor">¶</a> The underlying connection was closed: An unexpected error occurred on a send
 

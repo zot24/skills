@@ -27,7 +27,10 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.1.0
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.1.2
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -73,11 +76,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ScopeStatus'
         '404':
-          description: Not Found
+          description: Scope does not exist
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorResponse'
         '422':
           description: Validation Error
           content:
@@ -110,6 +113,29 @@ components:
         ``state`` is ``pending``/``completed``/``failed`` and ``docs_copied`` is
 
         present once a backfill completes.
+    ErrorResponse:
+      properties:
+        detail:
+          type: string
+          title: Detail
+          description: What went wrong
+      type: object
+      required:
+        - detail
+      title: ErrorResponse
+      description: >-
+        The body returned for every raised HonchoException.
+
+
+        `HTTPValidationError` is FastAPI's own 422 shape, whose `detail` is an
+        array
+
+        of per-field errors. Honcho's handler returns a single message string
+
+        instead (see `honcho_exception_handler` in `src/main.py`), so error
+        codes
+
+        raised from application code document this schema rather than that one.
     HTTPValidationError:
       properties:
         detail:

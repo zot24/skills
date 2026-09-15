@@ -9,16 +9,17 @@
   - [Health](#health)
     - [System Warnings](#system-warnings)
       - [Branch is not a valid release branch](#branch-is-not-a-valid-release-branch)
-      - [Currently installed SQLite version is not supported](#currently-installed-sqlite-version-is-not-supported)
       - [New update is available](#new-update-is-available)
+      - [Cannot install update because startup folder is in an App Translocation folder](#cannot-install-update-because-startup-folder-is-in-an-app-translocation-folder)
       - [Cannot install update because startup folder is not writable by the user](#cannot-install-update-because-startup-folder-is-not-writable-by-the-user)
+      - [Cannot install update because UI folder is not writable by the user](#cannot-install-update-because-ui-folder-is-not-writable-by-the-user)
       - [Updating will not be possible to prevent deleting AppData on Update](#updating-will-not-be-possible-to-prevent-deleting-appdata-on-update)
-      - [Branch is for a previous version](#branch-is-for-a-previous-version)
       - [Could not connect to signalR](#could-not-connect-to-signalr)
       - [Failed to resolve the IP Address for the Configured Proxy Host](#failed-to-resolve-the-ip-address-for-the-configured-proxy-host)
       - [Proxy Failed Test](#proxy-failed-test)
       - [System Time is off by more than 1 day](#system-time-is-off-by-more-than-1-day)
       - [Invalid API Key](#invalid-api-key)
+      - [Allowed Hosts Not Configured](#allowed-hosts-not-configured)
     - [Download Clients](#download-clients)
       - [Download clients are unavailable due to failures](#download-clients-are-unavailable-due-to-failures)
     - [Indexers](#indexers)
@@ -62,10 +63,6 @@ This page contains a list of health checks errors. These health checks are perio
 
 - The branch you have set is not a valid release branch. You will not receive updates. Please change to one of the <a href="/prowlarr/faq#how-do-i-update-prowlarr" class="is-internal-link is-valid-page">current release branches</a>.
 
-#### <a href="#currently-installed-sqlite-version-is-not-supported" class="toc-anchor">¶</a> Currently installed SQLite version is not supported
-
-- Prowlarr stores its data in an SQLite database. The SQLite3 library installed on your system is too old. Prowlarr requires at least version 3.9.0. Note that Prowlarr uses `libSQLite3.so` which may or may not be contained in a SQLite3 upgrade package.
-
 #### <a href="#new-update-is-available" class="toc-anchor">¶</a> New update is available
 
 - Rejoice, the developers have released a new update. This generally means awesome new features and squashed piles of bugs (right?). Apparently you don’t have Auto-Updating enabled, so you’ll have to figure out how to update on your platform. Pressing the Install button on the System =\> Updates page is probably a good starting point.
@@ -74,9 +71,17 @@ This page contains a list of health checks errors. These health checks are perio
 
 > If your installed version is more than 180 days old, this escalates from a Warning to an Error.
 
+#### <a href="#cannot-install-update-because-startup-folder-is-in-an-app-translocation-folder" class="toc-anchor">¶</a> Cannot install update because startup folder is in an App Translocation folder
+
+- macOS Gatekeeper moved Prowlarr's app bundle into a randomized App Translocation folder because it was launched from an unapproved location. Prowlarr cannot write to its own Startup folder from there, so updates fail. Move the app to a stable location such as /Applications and relaunch it to resolve this.
+
 #### <a href="#cannot-install-update-because-startup-folder-is-not-writable-by-the-user" class="toc-anchor">¶</a> Cannot install update because startup folder is not writable by the user
 
 - This means Prowlarr will be unable to update itself. You’ll have to update Prowlarr manually or set the permissions on Prowlarr’s Startup directory (the installation directory) to allow Prowlarr to update itself.
+
+#### <a href="#cannot-install-update-because-ui-folder-is-not-writable-by-the-user" class="toc-anchor">¶</a> Cannot install update because UI folder is not writable by the user
+
+- This means Prowlarr will be unable to update itself. You’ll have to update Prowlarr manually or set the permissions on Prowlarr’s UI directory (inside the installation directory) to allow Prowlarr to update itself.
 
 #### <a href="#updating-will-not-be-possible-to-prevent-deleting-appdata-on-update" class="toc-anchor">¶</a> Updating will not be possible to prevent deleting AppData on Update
 
@@ -87,10 +92,6 @@ This page contains a list of health checks errors. These health checks are perio
 - This means Prowlarr will be unable to update itself without risking data-loss.
 
 - If you’re on linux, you’ll probably have to change the home directory for the user that is running Prowlarr and copy the current contents of the ~/.config/Prowlarr directory to preserve your database.
-
-#### <a href="#branch-is-for-a-previous-version" class="toc-anchor">¶</a> Branch is for a previous version
-
-- The update branch setup in Settings/General is for a previous version of Prowlarr, therefore the instance will not see correct update information in the System/Updates feed and may not receive new updates when released.
 
 #### <a href="#could-not-connect-to-signalr" class="toc-anchor">¶</a> Could not connect to signalR
 
@@ -154,6 +155,11 @@ If Prowlarr is not running on the same machine as your reverse proxy. Replace 12
 #### <a href="#invalid-api-key" class="toc-anchor">¶</a> Invalid API Key
 
 - Your Prowlarr API key is shorter than the required minimum of 20 characters. Update your API key in Settings or the config file to be at least 20 characters long.
+
+#### <a href="#allowed-hosts-not-configured" class="toc-anchor">¶</a> Allowed Hosts Not Configured
+
+- Allowed Hosts is not configured, so Prowlarr will accept requests for any hostname. Set <a href="/prowlarr/settings#host" class="is-internal-link is-valid-page">Allowed Hosts</a> to a comma-separated list of the hostnames and IP addresses Prowlarr should answer to; use `*.` as a wildcard for subdomains (for example `*.example.com`). When Authentication Required is not `Enabled`, at least one host is required and Prowlarr rejects a blank value on save; a blank value is accepted only when Authentication Required is `Enabled`.
+- This warning only appears when Authentication Required is not set to `Enabled`, because restricting hostnames adds no protection once every request must authenticate. The check runs at startup and whenever the config is saved.
 
 ### <a href="#download-clients" class="toc-anchor">¶</a> Download Clients
 
@@ -352,5 +358,17 @@ On the top row there are several options to allow you to control your log files.
   - Prowlarr uses rolling log files limited to 1MB each. The current log file is always prowlarr.txt, for the the other files prowlarr.0.txt is the next newest (the higher the number the older it is) up to 51 log files total. This log file contains `fatal`, `error`, `warn`, and `info` entries.
   - When Debug log level is enabled, additional prowlarr.debug.txt rolling log files will be present, up to 51 files. This log files contains `fatal`, `error`, `warn`, `info`, and `debug` entries. It usually covers a ~40h period.
   - When Trace log level is enabled, additional prowlarr.trace.txt rolling log files will be present, up to 51 files. This log files contains `fatal`, `error`, `warn`, `info`, `debug`, and `trace` entries. Due to trace verbosity it only covers a couple of hours at most.
+
+# <a href="#health-checks-not-present-in-current-releases" class="toc-anchor">¶</a> Health checks not present in current releases
+
+These health checks were removed from current Prowlarr and only appear on older versions. If you see one of them, <a href="/prowlarr/faq#how-do-i-update-prowlarr" class="is-internal-link is-valid-page">update to a supported release</a>.
+
+## <a href="#currently-installed-sqlite-version-is-not-supported" class="toc-anchor">¶</a> Currently installed SQLite version is not supported
+
+Not present in current Prowlarr. <a href="/prowlarr/faq#how-do-i-update-prowlarr" class="is-internal-link is-valid-page">Update to a supported release</a>.
+
+## <a href="#branch-is-for-a-previous-version" class="toc-anchor">¶</a> Branch is for a previous version
+
+Not present in current Prowlarr. <a href="/prowlarr/faq#how-do-i-update-prowlarr" class="is-internal-link is-valid-page">Update to a supported release</a>.
 
 

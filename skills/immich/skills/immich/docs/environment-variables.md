@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_S8s7">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_VpXs">Skip to main content</a>
 
 
 On this page
@@ -46,7 +46,7 @@ These environment variables are used by the `docker-compose.yml` file and do **N
 | `IMMICH_PROCESS_INVALID_IMAGES`     | When `true`, generate thumbnails for invalid images                                                                                                                                                                       |                              | server                   | microservices      |
 | `IMMICH_TRUSTED_PROXIES`            | List of comma-separated IPs set as trusted proxies                                                                                                                                                                        |                              | server                   | api                |
 | `IMMICH_IGNORE_MOUNT_CHECK_ERRORS`  | See [System Integrity](/administration/system-integrity)                                                                                                                                                                  |                              | server                   | api, microservices |
-| `IMMICH_ALLOW_SETUP`                | When `false` disables the `/auth/admin-sign-up` endpoint                                                                                                                                                                  |            `true`            | server                   | api                |
+| `IMMICH_ALLOW_SETUP`                | When `false` disables the `/auth/admin-sign-up` and `/admin/database-backups/start-restore` endpoints                                                                                                                     |            `true`            | server                   | api                |
 
 \*1: `TZ` should be set to a `TZ identifier` from <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List" target="_blank" rel="noopener noreferrer">this list</a>. For example, `TZ="Etc/UTC"`. `TZ` is used by `exiftool` as a fallback in case the timezone cannot be determined from the image metadata. It is also used for logfile timestamps and cron job execution.
 

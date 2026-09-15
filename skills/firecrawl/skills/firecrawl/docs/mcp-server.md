@@ -70,8 +70,17 @@ Configure an API key
 
 
 ``` shiki
-URL: https://mcp.firecrawl.dev/v2/mcp
-Authorization: Bearer <FIRECRAWL_API_KEY>
+{
+  "mcpServers": {
+    "firecrawl": {
+      "type": "http",
+      "url": "https://mcp.firecrawl.dev/v2/mcp",
+      "headers": {
+        "Authorization": "Bearer <FIRECRAWL_API_KEY>"
+      }
+    }
+  }
+}
 ```
 
 

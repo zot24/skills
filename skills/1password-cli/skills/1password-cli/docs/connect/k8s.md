@@ -93,11 +93,6 @@ Integrations
 <a href="#1password-helm-charts" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Related topics
-
-<a href="/secrets-automation/k8s" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use Kubernetes integrations with 1Password service accounts</span></a><a href="/connect/get-started" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get started with a 1Password Connect server</span></a><a href="/connect/ci-cd" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use CI/CD integrations with a 1Password Connect server</span></a>
-
-
 Was this page helpful?
 
 

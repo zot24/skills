@@ -31,7 +31,7 @@ agent-browser keydown <key>           # Hold key down
 agent-browser keyup <key>             # Release key
 agent-browser hover <sel>             # Hover element
 agent-browser focus <sel>             # Focus element
-agent-browser select <sel> <val>      # Select dropdown option
+agent-browser select <sel> <val>      # Select dropdown by value or visible label
 agent-browser check <sel>             # Check checkbox
 agent-browser uncheck <sel>           # Uncheck checkbox
 agent-browser scroll <dir> [px]       # Scroll (up/down/left/right, --selector <sel>)
@@ -56,6 +56,8 @@ agent-browser close --all             # Close all active sessions
 agent-browser mcp                     # Start an MCP stdio server
 ```
 
+
+Browser responses automatically announce WebMCP tools on first discovery and when the catalog changes. Summaries contain only names, brief descriptions, origins, and frame IDs. Choose a relevant tool, then fetch its full schema with `agent-browser webmcp list <tool> --frame <frame-id> --json` before invoking it. Schemas and annotations are never included proactively. Unchanged catalogs and pages without tools add no context. JSON exposes updates as `data.webmcp`; CLI and MCP text include the same bounded summary. See [WebMCP](/webmcp) for update semantics and security.
 
 Clicks fail before dispatch when another element covers the target's click point. The error names the covering element, for example `covered by <div#consent-banner>`. Dismiss or interact with that element, take a fresh snapshot, then retry the original action.
 
@@ -153,13 +155,17 @@ agent-browser wait <selector>         # Wait for element
 agent-browser wait <ms>               # Wait for time
 agent-browser wait --text "Welcome"   # Wait for text (substring match)
 agent-browser wait --url "**/dash"    # Wait for URL pattern
-agent-browser wait --load networkidle # Wait for load state
+agent-browser wait --load domcontentloaded # Wait for DOMContentLoaded
+agent-browser wait --load load        # Wait for the load event
+agent-browser wait --load networkidle # Use only for pages known to become quiet
 agent-browser wait --fn "condition"   # Wait for JS condition
 agent-browser wait --download [path]  # Wait for download
 agent-browser wait --fn "!document.body.innerText.includes('Loading...')"  # Wait for text to disappear
 agent-browser wait "#spinner" --state hidden           # Wait for element to disappear
 ```
 
+
+After a page change, prefer a selector, text, URL, or JavaScript condition that represents the state you need. Use `networkidle` only when the page is known to become quiet, because SSE, WebSockets, polling, and long-polling can keep it from resolving.
 
 ## Downloads<a href="#downloads" aria-label="Link to this section">#</a>
 
@@ -207,7 +213,7 @@ agent-browser set device <name>       # Emulate device ("iPhone 14")
 agent-browser set geo <lat> <lng>     # Set geolocation
 agent-browser set offline [on|off]    # Toggle offline mode
 agent-browser set headers <json>      # Extra HTTP headers
-agent-browser set credentials <u> <p> # HTTP basic auth
+agent-browser set credentials <u> <p> # HTTP basic auth for current and future tabs
 agent-browser set media [dark|light]  # Emulate color scheme (persists for session)
 ```
 
@@ -296,6 +302,8 @@ agent-browser tab close docs    # close by label
 
 Labels are never auto-generated and never rewritten on navigation — an agent that names a tab `docs` keeps that name until the tab is closed. Labels are unique within a session; creating a second tab with an existing label errors.
 
+Tabs opened through `tab new` or `click --new-tab` inherit the session's setup before their first document loads: user agent, `set headers`, `set credentials`, origin-scoped `--headers`, init scripts, `route` rules, and emulation overrides (color scheme, timezone, locale, geolocation, offline). Turning offline mode off or setting headers to `{}` restores the default setup for future tabs.
+
 `tab list --json` also reports each tab's CDP `targetId`, and target ids are accepted anywhere a tab ref is accepted (`tab <targetId>`, `tab close <targetId>`). Unlike `t<N>` ids, which are per-daemon counters, target ids stay stable across daemon restarts. Each session is bound to its active tab by target id and returns to it after a daemon restart; with `--pin-tab` the binding is strict and a closed bound tab produces a `tab_gone` error instead of a silent fallback. JSON errors include `code: "tab_gone"`, `data.targetId`, and optional sanitized `data.lastUrl`. Batch output carries the recovery object under `result`. See [CDP Mode](/cdp-mode) for the multi-session workflow.
 
 Refs (`@e1`, etc.) are scoped to the tab that was active when the snapshot ran, so switch tabs first, then snapshot and interact:
@@ -363,7 +371,7 @@ agent-browser stream disable          # Stop runtime streaming and remove the .s
 
 Streaming is enabled automatically for all sessions. Use these commands to check status, re-enable on a specific port, or disable streaming.
 
-Streaming is separate from file-based recordings. Use [Video Recording](/recording) when you need a saved WebM artifact.
+Streaming is separate from file-based recordings. Use [Video Recording](/recording) when you need a saved WebM or MP4 artifact.
 
 ## Debug<a href="#debug" aria-label="Link to this section">#</a>
 
@@ -373,7 +381,8 @@ agent-browser trace start             # Start trace
 agent-browser trace stop [path]       # Stop and save trace
 agent-browser profiler start          # Start Chrome DevTools profiling
 agent-browser profiler stop [path]    # Stop and save profile (.json)
-agent-browser record start <path>     # Start video recording (WebM)
+agent-browser record start <path>     # Start video recording (.webm/.mp4, 30 fps; needs ffmpeg)
+agent-browser record start <path> --fps 60  # Record at 60 fps (--fps accepts 1-60)
 agent-browser record stop             # Stop and save video
 agent-browser record restart <path>   # Stop current and start new recording
 agent-browser console                 # View console messages
@@ -386,7 +395,7 @@ agent-browser inspect                 # Open Chrome DevTools for the active page
 ```
 
 
-See [Debugging](/debugging) for console, error, dialog, trace, highlight, and DevTools workflows. See [Video Recording](/recording) for `record` workflows and [Profiler](/profiler) for performance profiles.
+Recording requires `ffmpeg` on `PATH`. See [Debugging](/debugging) for console, error, dialog, trace, highlight, and DevTools workflows. See [Video Recording](/recording) for recording requirements and `record` workflows, and [Profiler](/profiler) for performance profiles.
 
 ## Auth vault<a href="#auth-vault" aria-label="Link to this section">#</a>
 
@@ -394,6 +403,8 @@ See [Debugging](/debugging) for console, error, dialog, trace, highlight, and De
 ``` shiki
 agent-browser auth save <name> [opts]    # Save auth profile
 agent-browser auth login <name>          # Login using saved credentials
+agent-browser auth login <name> --no-navigate
+                                          # Use active page after origin validation
 agent-browser auth login <name> --credential-provider <plugin> [--item <ref>] [--url <url>]
                                           # Resolve credentials from plugin
 agent-browser auth login <name> --username-selector <s> --password-selector <s> [--submit-selector <s>]
@@ -421,11 +432,24 @@ Save options:
 
 `auth login` navigates with `load` and then waits for the username/password/submit selectors to appear before interacting. This improves reliability on SPA login pages where fields render after initial page load.
 
+Use `--no-navigate` after an in-page click, challenge clearance, consent dismissal, or other stateful setup that must survive credential entry:
+
+
+``` shiki
+agent-browser open https://example.com/
+agent-browser click "a[href='/login']"
+agent-browser auth login work --no-navigate
+```
+
+
+The flag suppresses only the initial auth-login navigation. It requires an existing active top-level HTTP(S) page and compares that page with the effective credential URL by scheme, host, and effective port. Paths, queries, and fragments may differ. Waiting, filling, clicking submit, and any submit-triggered navigation are unchanged. A command-level `--url` overrides profile or provider URL metadata and acts as the expected-origin constraint rather than a navigation destination.
+
 Plugin login options:
 
 - `--credential-provider <plugin>`: resolve credentials from a configured plugin
 - `--item <ref>`: provider-specific vault item reference
 - `--url <url>`: login URL override
+- `--no-navigate`: use the active top-level page after validating it against the effective credential origin
 - `--username-selector <sel>`: selector override for this login
 - `--password-selector <sel>`: selector override for this login
 - `--submit-selector <sel>`: selector override for this login
@@ -446,6 +470,7 @@ echo "pass" | agent-browser auth save github --url https://github.com/login --us
 agent-browser auth login github
 agent-browser plugin add agent-browser-plugin-vault --name vault
 agent-browser auth login my-app --credential-provider vault --item "My App"
+agent-browser auth login my-app --credential-provider vault --item "My App" --no-navigate --url https://identity.example.com/login
 agent-browser --provider cloud-browser open https://example.com
 agent-browser plugin run captcha captcha.solve --payload '{"siteKey":"...","url":"https://example.com"}'
 agent-browser auth list
@@ -631,7 +656,7 @@ The default output lists violations and incomplete checks with impact, rule ID, 
 ``` shiki
 agent-browser open --init-script <path>           # Register before first navigation (repeatable)
 agent-browser addinitscript <js>                  # Register at runtime (returns identifier)
-agent-browser removeinitscript <identifier>       # Remove a previously registered init script
+agent-browser removeinitscript <identifier>       # Remove from every tab in the session
 ```
 
 
@@ -788,9 +813,9 @@ Chain commands with `&&` in a single shell invocation. The browser persists via 
 
 
 ``` shiki
-agent-browser open example.com && agent-browser wait --load networkidle && agent-browser snapshot -i
+agent-browser open example.com && agent-browser wait --load domcontentloaded && agent-browser snapshot -i
 agent-browser fill @e1 "user@example.com" && agent-browser fill @e2 "pass" && agent-browser click @e3
-agent-browser open example.com && agent-browser wait --load networkidle && agent-browser screenshot page.png
+agent-browser open example.com && agent-browser wait --load load && agent-browser screenshot page.png
 ```
 
 

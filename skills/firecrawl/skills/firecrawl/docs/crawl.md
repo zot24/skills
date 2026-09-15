@@ -640,6 +640,81 @@ curl -X POST https://api.firecrawl.dev/v2/crawl \
 ## 
 
 
+<a href="#execution-and-result-accounting" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#reading-the-status-counters" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| Field                                    | Meaning                                                                                                                                                                   |
+|------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `status`                                 | One of `scraping`, `completed`, `failed`, or `cancelled`                                                                                                                  |
+| `total`                                  | `completed` plus the pages still in flight: active, queued, and backlogged. **Failed pages are not counted.**                                                             |
+| `completed`                              | The number of pages that have been successfully crawled                                                                                                                   |
+| `creditsUsed`                            | Credits consumed by the crawl so far                                                                                                                                      |
+| `createdAt` / `completedAt` / `duration` | Start time, finish time (terminal states only), and elapsed seconds                                                                                                       |
+| `expiresAt`                              | When the results stop being retrievable from the API                                                                                                                      |
+| `next`                                   | URL for the next 10MB page of results. Also emitted whenever `status` is not `completed` — see <a href="#paging-through-results" class="link">Paging through results</a>. |
+
+
+### 
+
+
+<a href="#paging-through-results" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1.  Poll `GET /v2/crawl/{id}` until `status` is one of `completed`, `failed`, or `cancelled`.
+2.  While `next` is present **and** the last page returned a non-empty `data` array, follow `next` to collect the remaining results.
+3.  Stop when `next` is absent, or when a page returns no new documents.
+
+
+### 
+
+
+<a href="#failed-and-blocked-pages" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `errors` — errored scrape jobs, each with `id`, `url`, `error` (the error message), and a `timestamp` of the failure. These are pages Firecrawl itself failed to scrape: network errors, timeouts, and similar. Links to an external site’s homepage that were intentionally skipped are reported here with an error code of `EXTERNAL_LINK`.
+- `robotsBlocked` — URLs that were attempted but blocked by the site’s robots.txt.
+
+
+### 
+
+
+<a href="#what-the-crawler-is-scoped-to-reach" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- **Children only by default.** Crawl ignores sublinks that are not children of the URL you provide. Use `crawlEntireDomain` for sibling and parent paths, `allowSubdomains` for subdomains, and `allowExternalLinks` to follow links off the domain.
+- **`includePaths` / `excludePaths` match the URL pathname**, as regex patterns — not the full URL, and not query parameters. Set `regexOnFullURL: true` to match against the full URL including query strings instead. The starting URL is also checked against `includePaths`: if it does not match, the crawl may return 0 pages.
+- **Path patterns are Rust regex (RE2-style) and are validated up front.** Look-around and backreferences are not supported, and a pattern that does not compile is rejected with a `400` instead of being silently ignored. Each field accepts at most 1000 patterns of at most 2000 characters each, and `includePaths` and `excludePaths` together may contain at most 1000 patterns and 100,000 characters. For keyword-style filtering, send one short pattern per term (`["pricing", "docs", "blog"]`) rather than combining terms into one long alternation.
+- **Sitemap mode.** With the default `sitemap: "include"`, URLs come from the sitemap plus recursive link discovery. `"skip"` uses HTML links only, so sitemap-only pages such as PDFs or deeply nested pages are missed. `"only"` crawls the sitemap plus the start URL and does not discover links from HTML.
+- **`maxDiscoveryDepth`** caps how many link-discovery hops from the root are followed. Pages at the maximum depth are still scraped, but links found on them are not followed.
+- **`limit`** caps the number of pages, and defaults to `10000`.
+- **`ignoreQueryParameters`** avoids re-scraping the same path with different query parameters.
+- **robots.txt is respected** unless `ignoreRobotsTxt` is enabled (Enterprise only).
+
+
+### 
+
+
+<a href="#when-results-vary-between-runs" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- Set `maxConcurrency` to `1`. As the <a href="#configuration-reference" class="link">configuration reference</a> states, `maxConcurrency` is the “maximum concurrent scrapes” — it caps how many requests are in flight at once. That reduces timing-dependent interleaving, but it does not remove run-to-run variation: sitemap discovery is enqueued outside the cap, nested sitemaps are fetched as independent jobs, and the returned `data` array is ordered by finish time rather than discovery order. Setting `delay` also forces concurrency to 1.
+- Use `sitemap: "only"` if the site has a comprehensive sitemap, so the URL set comes from the sitemap rather than from link discovery.
+
+### 
+
+
+<a href="#knowing-when-a-crawl-is-done" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+## 
+
+
 <a href="#configuration-reference" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
@@ -648,8 +723,8 @@ curl -X POST https://api.firecrawl.dev/v2/crawl \
 | `url`                   | `string`   | (required)  | The starting URL to crawl from                                                                                                                                                                                                                                                                                                                                       |
 | `limit`                 | `integer`  | `10000`     | Maximum number of pages to crawl                                                                                                                                                                                                                                                                                                                                     |
 | `maxDiscoveryDepth`     | `integer`  | (none)      | Maximum depth from the root URL based on link-discovery hops, not the number of `/` segments in the URL. Each time a new URL is found on a page, it is assigned a depth one higher than the page it was discovered on. The root site and sitemapped pages have a discovery depth of 0. Pages at the max depth are still scraped, but links on them are not followed. |
-| `includePaths`          | `string[]` | (none)      | URL pathname regex patterns to include. Only matching paths are crawled.                                                                                                                                                                                                                                                                                             |
-| `excludePaths`          | `string[]` | (none)      | URL pathname regex patterns to exclude from the crawl                                                                                                                                                                                                                                                                                                                |
+| `includePaths`          | `string[]` | (none)      | URL pathname regex patterns to include. Only matching paths are crawled. At most 1000 patterns of 2000 characters each; see <a href="#what-the-crawler-is-scoped-to-reach" class="link">scope</a> for the combined limit and regex syntax.                                                                                                                           |
+| `excludePaths`          | `string[]` | (none)      | URL pathname regex patterns to exclude from the crawl. Same limits as `includePaths`.                                                                                                                                                                                                                                                                                |
 | `regexOnFullURL`        | `boolean`  | `false`     | Match `includePaths`/`excludePaths` against the full URL (including query parameters) instead of just the pathname                                                                                                                                                                                                                                                   |
 | `crawlEntireDomain`     | `boolean`  | `false`     | Follow internal links to sibling or parent URLs, not just child paths                                                                                                                                                                                                                                                                                                |
 | `allowSubdomains`       | `boolean`  | `false`     | Follow links to subdomains of the main domain                                                                                                                                                                                                                                                                                                                        |
@@ -676,7 +751,7 @@ curl -X POST https://api.firecrawl.dev/v2/crawl \
 - **Result expiration**: Job results are available via the API for 24 hours after completion. After that, view results in the <a href="https://www.firecrawl.dev/app/logs" class="link" target="_blank" rel="noreferrer">activity logs</a>.
 - **Crawl errors**: The `data` array contains pages Firecrawl successfully scraped. Use the <a href="/api-reference/endpoint/crawl-get-errors" class="link">Get Crawl Errors</a> endpoint to retrieve pages that failed due to network errors, timeouts, or robots.txt blocks.
 - <span id="external-links"></span>**External links**: With `allowExternalLinks: true`, the crawler follows links pointing off your domain and scrapes each linked page once — it does not then crawl the links found on those external pages. Links to an external site’s **homepage** (a root URL with no path, e.g. `https://example.com/`) are intentionally skipped to avoid pulling in an entire unrelated site; these appear in <a href="/api-reference/endpoint/crawl-get-errors" class="link">Get Crawl Errors</a> with the code `EXTERNAL_LINK`. Redirects are followed to their destination — including a link that resolves to its canonical URL (for example `http → https` or the `www` variant) — so only redirects that land on an external homepage are skipped.
-- **Non-deterministic results**: Crawl results may vary between runs of the same configuration. Pages are scraped concurrently, so the order in which links are discovered depends on network timing and which pages finish loading first. This means different branches of a site may be explored to different extents near the depth boundary, especially at higher `maxDiscoveryDepth` values. To get more deterministic results, set `maxConcurrency` to `1` or use `sitemap: "only"` if the site has a comprehensive sitemap.
+- **Non-deterministic results**: Crawl results may vary between runs of the same configuration, because pages are scraped concurrently and link-discovery order depends on network timing. See <a href="#execution-and-result-accounting" class="link">Execution and result accounting</a> for what varies and how to make a run more reproducible.
 
 > <span data-as="p">Are you an AI agent that needs a Firecrawl API key? See <a href="https://www.firecrawl.dev/agent-onboarding/SKILL.md" class="link" target="_blank" rel="noreferrer">firecrawl.dev/agent-onboarding/SKILL.md</a> for automated onboarding instructions.</span>
 

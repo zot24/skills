@@ -5,28 +5,28 @@
 <img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" loading="lazy" decoding="async" data-fetchpriority="auto" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" loading="lazy" decoding="async" data-fetchpriority="auto" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -41,13 +41,13 @@
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
@@ -59,19 +59,19 @@
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,7 +93,7 @@ Learn how to build addons for Wealthfolio to extend its functionality with custo
 
 ------------------------------------------------------------------------
 
-Last updated August 28, 2026
+Last updated September 13, 2026
 
 
 Wealthfolio addons are TypeScript modules that extend the application’s functionality through a sandboxed runtime. This guide covers how to build, test, and distribute addons for Wealthfolio 3.7 and later. Existing 3.6 addons remain supported; see <a href="/docs/addons/v3-7-assets/" class="font-medium underline underline-offset-4">v3.7 compatibility and assets</a> before adopting the new asset API.
@@ -216,24 +216,25 @@ const accounts = await ctx.api.accounts.getAll();
 #### 2. Permission Categories
 
 
-| Category              | Risk Level | Common Functions                                            |
-|-----------------------|------------|-------------------------------------------------------------|
-| `accounts`            | High       | getAll, create                                              |
-| `portfolio`           | High       | getHoldings, getHolding, update, recalculate, valuations    |
-| `activities`          | High       | getAll, search, create, update, saveMany, import            |
-| `market-data`         | Low        | searchTicker, syncHistory, sync, getProviders, dividends    |
-| `assets`              | Medium     | getProfile, updateProfile, updateQuoteMode                  |
-| `quotes`              | Low        | update, getHistory                                          |
-| `performance`         | Medium     | calculateHistory, calculateSummary, calculateAccountsSimple |
-| `currency`            | Low        | getAll, update, add                                         |
-| `financial-planning`  | Medium     | getAll, create, update, getFunding, saveFunding             |
-| `contribution-limits` | Medium     | getAll, create, update, calculateDeposits                   |
-| `settings`            | Medium     | get, update, backupDatabase                                 |
-| `files`               | Medium     | openCsvDialog, openSaveDialog                               |
-| `snapshots`           | High       | getAll, getByDate, save, checkImport, importSnapshots       |
-| `events`              | Low        | onDrop, onUpdateComplete, onSyncComplete                    |
-| `network`             | High       | request                                                     |
-| `secrets`             | High       | set, get, use, delete                                       |
+| Category              | Risk Level | Common Functions                                                     |
+|-----------------------|------------|----------------------------------------------------------------------|
+| `accounts`            | High       | getAll, create                                                       |
+| `portfolio`           | High       | getHoldings, getHolding, update, recalculate                         |
+| `activities`          | High       | getAll, search, create, update, saveMany, import                     |
+| `market-data`         | Low        | searchTicker, syncHistory, sync, getProviders, fetchDividends        |
+| `assets`              | Medium     | getProfile, updateProfile, updateQuoteMode                           |
+| `quotes`              | Low        | update, getHistory                                                   |
+| `performance`         | Medium     | calculateHistory, calculateSummary, calculateAccountsSimple          |
+| `currency`            | Low        | getAll, update, add, getRatesForDates                                |
+| `spending`            | Medium     | isEnabled, getCategories, getRules, saveRule, deleteRule, rerunRules |
+| `financial-planning`  | Medium     | getAll, create, update, getFunding, saveFunding                      |
+| `contribution-limits` | Medium     | getAll, create, update, calculateDeposits                            |
+| `settings`            | Medium     | get, update, backupDatabase                                          |
+| `files`               | Medium     | openCsvDialog, openSaveDialog                                        |
+| `snapshots`           | High       | getAll, getByDate, save, checkImport, importSnapshots                |
+| `events`              | Low        | onDrop, onUpdateComplete, onSyncComplete                             |
+| `network`             | High       | request                                                              |
+| `secrets`             | High       | set, get, use, delete                                                |
 
 
 **Baseline capabilities are implicit.** `ui` (sidebar/router/navigation), private packaged `assets`, `query`, `toast`, `logger`, and `storage` are granted to every addon and are **not** declared in `permissions`. Only the data domains above plus `files`, `network`, `secrets`, `events`, `snapshots`, and `settings` need a declaration.
@@ -251,19 +252,20 @@ interface AddonContext {
   ui: {
     root: HTMLElement;
   };
-  sidebar: SidebarAPI;
-  router: RouterAPI;
+  sidebar: SidebarManager;
+  router: RouterManager;
   assets: AddonAssets;
-  onDisable: (callback: () => void) => void;
+  onDisable(callback: () => void): void;
   api: {
     accounts: AccountsAPI;
     portfolio: PortfolioAPI;
     activities: ActivitiesAPI;
-    market: MarketAPI;
+    market: MarketDataAPI;
     assets: AssetsAPI;
     quotes: QuotesAPI;
     performance: PerformanceAPI;
     exchangeRates: ExchangeRatesAPI;
+    spending: SpendingAPI;
     goals: GoalsAPI;
     contributionLimits: ContributionLimitsAPI;
     settings: SettingsAPI;
@@ -280,6 +282,8 @@ interface AddonContext {
   };
 }
 ```
+
+Formatting helpers and addon-owned translations are documented in the <a href="/docs/addons/localization/" class="font-medium underline underline-offset-4">Addon Localization guide</a>. The translation runtime requires Wealthfolio 3.8 or newer.
 
 ## Development Setup
 
@@ -349,8 +353,8 @@ hello-world-addon/
   "main": "dist/addon.js",
   "description": "Addon description",
   "author": "Your Name",
-  "sdkVersion": "3.7.0",
-  "minWealthfolioVersion": "3.7.0",
+  "sdkVersion": "3.8.0",
+  "minWealthfolioVersion": "3.8.0",
   "enabled": true,
   "contributes": {
     "routes": [{ "id": "my-addon" }],
@@ -368,8 +372,8 @@ hello-world-addon/
   },
   "permissions": [],
   "hostDependencies": {
-    "@wealthfolio/addon-sdk": "^3.7.0",
-    "@wealthfolio/ui": "^3.7.0",
+    "@wealthfolio/addon-sdk": "^3.8.0",
+    "@wealthfolio/ui": "^3.8.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }
@@ -600,13 +604,13 @@ See real addon implementations
 Explore available addons
 
 
-<a href="https://wealthfolio.app/addons" class="absolute inset-0"><span class="sr-only">View</span></a>
+<a href="https://wealthfolio.app/addons/" class="absolute inset-0"><span class="sr-only">View</span></a>
 
 
 ------------------------------------------------------------------------
 
 
-<a href="/docs/guide/self-hosting/reverse-proxy/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Reverse Proxy</a> <a href="/docs/addons/getting-started/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Getting Started</a>
+<a href="/docs/guide/self-hosting/pikapods/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">PikaPods</a> <a href="/docs/addons/getting-started/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Getting Started</a>
 
 
 On This Page

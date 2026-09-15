@@ -109,11 +109,6 @@ gpg --verify op.sig op
 4.  <span data-as="p">Verify the EKU matches 1Password’s EKU of `1.3.6.1.4.1.311.97.661420558.769123285.207353056.500447802`:</span>
 
 
-Related topics
-
-<a href="/cli/app-integration-security" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password app integration security</span></a><a href="/cli/get-started" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get started with 1Password CLI</span></a><a href="/cli/upgrade" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Upgrade to 1Password CLI 2</span></a>
-
-
 Was this page helpful?
 
 

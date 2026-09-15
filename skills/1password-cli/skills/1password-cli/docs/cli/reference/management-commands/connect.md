@@ -405,11 +405,6 @@ op connect vault revoke [flags]
 ```
 
 
-Related topics
-
-<a href="/connect/concepts" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Connect concepts</span></a><a href="/connect/manage-connect" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Manage Connect servers</span></a><a href="/connect" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password Connect</span></a>
-
-
 Was this page helpful?
 
 

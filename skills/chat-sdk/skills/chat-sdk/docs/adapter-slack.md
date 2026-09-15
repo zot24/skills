@@ -559,18 +559,27 @@ bot.onAgentSessionTitleChanged(async (event) => {
 
 The `SlackAdapter` exposes:
 
-| Method                                                      | Description                                          |
-| ----------------------------------------------------------- | ---------------------------------------------------- |
-| `setSessionStatus(channelId, threadTs, status)`             | Set `processing`, `active`, `suspended`, or `closed` |
-| `setAssistantTitle(channelId, threadTs, title)`             | Rename the agent session                             |
-| `setSuggestedPrompts(channelId, threadTs, prompts, title?)` | Show prompt suggestions                              |
-| `publishHomeView(userId, view)`                             | Publish a Home tab view                              |
-| `startTyping(threadId)`                                     | Set the agent session to `processing`                |
+| Method                                                      | Description                                                                              |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `setSessionStatus(channelId, threadTs, status)`             | Set `processing`, `active`, `suspended`, or `closed`                                     |
+| `setAssistantTitle(channelId, threadTs, title)`             | Rename the agent session                                                                 |
+| `setSuggestedPrompts(channelId, threadTs, prompts, title?)` | Show prompt suggestions                                                                  |
+| `publishHomeView(userId, view)`                             | Publish a Home tab view                                                                  |
+| `startTyping(threadId, status?)`                            | Set the agent session to `processing`, or render a custom status label in the loading UX |
 
 `setAssistantStatus` and `setAssistantTitle` remain compatibility methods:
-under `agentView`, they map to `agents.sessions.*`; under legacy
-`assistant_view`, they call `assistant.threads.*`. Custom status text and
-`loadingMessages` only apply to the legacy experience.
+under `agentView`, clearing status and changing titles use `agents.sessions.*`.
+Custom status text uses the legacy `assistant.threads.setStatus` compatibility
+bridge. `setAssistantStatus` sends its `loadingMessages` argument, falls back to
+the adapter's `loadingMessages` config, and otherwise uses the custom status as
+the loading message. Under legacy `assistant_view`, these methods call
+`assistant.threads.*` directly.
+
+Custom labels and native session state are different paths. Use `startTyping()`
+without a custom status when you need native processing state and initiator
+attribution. The legacy endpoint cannot receive `initiator_user_id`, and an
+existing native processing indicator can take precedence over custom labels.
+Do not rely on custom labels alone to provide native stop-button behavior.
 
 Customize automatic titles with `sessionTitle`:
 
@@ -683,6 +692,8 @@ Threads without streaming context fall back to post-and-edit (`chat.update` delt
 ```typescript
 const slack = createSlackAdapter({ nativeStreaming: false });
 ```
+
+Slack expires a native stream after roughly five minutes. A reply that streams longer than that is finalized and continued in a new message: once a segment is four minutes old (`streamSegmentMaxAgeMs`, default `240000`; `Infinity` disables rotation), the adapter rotates at the next paragraph break, or after at most 30 more seconds if none arrives. Across the boundary an open code fence is closed and reopened, a table that continues gets its header repeated, the plan title and any task cards still in progress are replayed so later updates land on them, and with `agentView` the session stays in `processing`. The finalized message keeps its task cards in their last state, and a list split across the boundary restarts its numbering. The `SentMessage` returned by `thread.post()` refers to the last message of the reply. If Slack expires a segment during a long idle gap anyway, the adapter continues in a new message with any text Slack had not confirmed rather than failing the reply.
 
 #### Feedback buttons
 

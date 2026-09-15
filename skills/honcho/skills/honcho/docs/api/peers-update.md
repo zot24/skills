@@ -8,6 +8,8 @@
 
 > Update a Peer's metadata and/or configuration.
 
+Returns 422 if the peer is a scope — use the scopes routes to manage scopes.
+
 
 ## OpenAPI
 
@@ -23,7 +25,10 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.1.0
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.1.2
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -36,7 +41,12 @@ paths:
       tags:
         - peers
       summary: Update Peer
-      description: Update a Peer's metadata and/or configuration.
+      description: >-
+        Update a Peer's metadata and/or configuration.
+
+
+        Returns 422 if the peer is a scope — use the scopes routes to manage
+        scopes.
       operationId: update_peer_v3_workspaces__workspace_id__peers__peer_id__put
       parameters:
         - name: workspace_id

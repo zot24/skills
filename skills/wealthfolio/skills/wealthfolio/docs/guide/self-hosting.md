@@ -5,28 +5,28 @@
 <img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" loading="lazy" decoding="async" data-fetchpriority="auto" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" loading="lazy" decoding="async" data-fetchpriority="auto" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -41,13 +41,13 @@
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
@@ -59,19 +59,19 @@
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -88,17 +88,17 @@ Self-Hosting Wealthfolio
 
 # Self-Hosting Wealthfolio
 
-Run Wealthfolio on your own infrastructure. Pick the platform that fits your setup, from Docker to Unraid, Proxmox, or Coolify.
+Run Wealthfolio on your own infrastructure or choose managed hosting with PikaPods. Explore Docker, Unraid, Proxmox, and Coolify setup guides.
 
 
 ------------------------------------------------------------------------
 
-Last updated August 28, 2026
+Last updated September 13, 2026
 
 
 Wealthfolio is local-first by design. The desktop app keeps everything on your machine. The **web edition** packages the same engine into a single Docker image so you can run it on a homelab, NAS, or VPS and access it from any browser.
 
-This guide is split into platform-specific pages. Pick the one that matches how you already host services.
+Follow a platform-specific guide to run Wealthfolio on your own infrastructure, or explore third-party hosting below.
 
 ## Image
 
@@ -132,6 +132,10 @@ After install, all platforms share the same configuration:
 
 - 📋 <a href="/docs/guide/self-hosting/configuration/" class="font-medium underline underline-offset-4"><strong>Configuration reference</strong></a>: every `WF_*` env var explained, plus Argon2 hash escaping
 - 🌐 <a href="/docs/guide/self-hosting/reverse-proxy/" class="font-medium underline underline-offset-4"><strong>Reverse proxy setup</strong></a>: Nginx, Caddy, Traefik, NPM examples for HTTPS
+
+## Third-party hosting
+
+Prefer to have someone manage the server? Explore <a href="/docs/guide/self-hosting/third-party-hosting/" class="font-medium underline underline-offset-4"><strong>Third-party hosting</strong></a> for managed options, or follow the <a href="/docs/guide/self-hosting/pikapods/" class="font-medium underline underline-offset-4"><strong>PikaPods guide</strong></a> for setup, billing, and backup details.
 
 ## What you’ll need before you start
 
@@ -265,6 +269,7 @@ On This Page
 
 - <a href="#image" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Image</a>
 - <a href="#pick-your-platform" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Pick your platform</a>
+- <a href="#third-party-hosting" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Third-party hosting</a>
 - <a href="#what-youll-need-before-you-start" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">What you'll need before you start</a>
 - <a href="#quick-taste-docker-one-liner" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Quick taste: Docker one-liner</a>
 - <a href="#troubleshooting" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Troubleshooting</a>

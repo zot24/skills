@@ -5,28 +5,28 @@
 <img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" loading="lazy" decoding="async" data-fetchpriority="auto" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" loading="lazy" decoding="async" data-fetchpriority="auto" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -41,13 +41,13 @@
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
@@ -59,19 +59,19 @@
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,12 +93,12 @@ Complete reference for Wealthfolio addon APIs.
 
 ------------------------------------------------------------------------
 
-Last updated August 28, 2026
+Last updated September 13, 2026
 
 
 # API Reference
 
-Complete reference for APIs available to Wealthfolio addons. Data and privileged host APIs require appropriate permissions in `manifest.json`; baseline UI, packaged assets, query, storage, toast, and logging capabilities do not.
+Complete reference for APIs available to Wealthfolio addons. Data and privileged host APIs require appropriate permissions in `manifest.json`; baseline UI, navigation, packaged assets, query, storage, toast, and logging capabilities do not.
 
 ## Context Overview
 
@@ -109,10 +109,10 @@ export interface AddonContext {
   ui: {
     root: HTMLElement;
   };
-  sidebar: SidebarAPI;
-  router: RouterAPI;
+  sidebar: SidebarManager;
+  router: RouterManager;
   assets: AddonAssets;
-  onDisable: (callback: () => void) => void;
+  onDisable(callback: () => void): void;
   api: HostAPI;
 }
 ```
@@ -205,35 +205,36 @@ Blob URLs may be used by images, fonts, media elements, and WebAssembly. Worker 
 The API is organized into host-brokered domains:
 
 
-| Domain                  | Description             | Key Functions                                                             |
-|-------------------------|-------------------------|---------------------------------------------------------------------------|
-| **Accounts**            | Account management      | `getAll`, `create`                                                        |
-| **Portfolio**           | Holdings and valuations | `getHoldings`, `getIncomeSummary`, `update`, `recalculate`                |
-| **Activities**          | Trading transactions    | `getAll`, `create`, `import`, `search`, `update`                          |
-| **Market**              | Market data and symbols | `searchTicker`, `sync`, `getProviders`, `fetchDividends`                  |
-| **Performance**         | Performance metrics     | `calculateHistory`, `calculateSummary`                                    |
-| **Packaged Assets**     | Private package files   | `list`, `has`, `getBlob`, `getUrl`                                        |
-| **Financial Assets**    | Asset profiles          | `getProfile`, `updateProfile`, `updateQuoteMode`                          |
-| **Quotes**              | Price quotes            | `update`, `getHistory`                                                    |
-| **Goals**               | Financial goals         | `getAll`, `create`, `update`, `getFunding`, `saveFunding`                 |
-| **Contribution Limits** | Investment limits       | `getAll`, `create`, `update`, `calculateDeposits`                         |
-| **Exchange Rates**      | Currency rates          | `getAll`, `update`, `add`                                                 |
-| **Settings**            | App configuration       | `get`, `update`, `backupDatabase`                                         |
-| **Files**               | File operations         | `openCsvDialog`, `openSaveDialog`                                         |
-| **Snapshots**           | Holdings snapshots      | `getAll`, `getByDate`, `save`, `checkImport`, `importSnapshots`, `delete` |
-| **Events**              | Real-time events        | `onUpdateComplete`, `onSyncComplete`, `onDrop`                            |
-| **Secrets**             | Secure storage          | `get`, `set`, `delete`                                                    |
-| **Storage**             | Durable key-value store | `get`, `set`, `delete`                                                    |
-| **Network**             | Brokered HTTPS requests | `request`                                                                 |
-| **Logger**              | Logging operations      | `error`, `info`, `warn`, `debug`, `trace`                                 |
-| **Navigation**          | Route navigation        | `navigate`                                                                |
-| **Query**               | React Query integration | `getClient`, `invalidateQueries`, `refetchQueries`                        |
-| **Toast**               | User notifications      | `success`, `error`, `warning`, `info`                                     |
+| Domain                  | Description             | Key Functions                                                                    |
+|-------------------------|-------------------------|----------------------------------------------------------------------------------|
+| **Accounts**            | Account management      | `getAll`, `create`                                                               |
+| **Portfolio**           | Holdings and valuations | `getHoldings`, `getIncomeSummary`, `update`, `recalculate`                       |
+| **Activities**          | Trading transactions    | `getAll`, `create`, `import`, `search`, `update`                                 |
+| **Market**              | Market data and symbols | `searchTicker`, `sync`, `getProviders`, `fetchDividends`                         |
+| **Performance**         | Performance metrics     | `calculateHistory`, `calculateSummary`                                           |
+| **Packaged Assets**     | Private package files   | `list`, `has`, `getBlob`, `getUrl`                                               |
+| **Financial Assets**    | Asset profiles          | `getProfile`, `updateProfile`, `updateQuoteMode`                                 |
+| **Quotes**              | Price quotes            | `update`, `getHistory`                                                           |
+| **Goals**               | Financial goals         | `getAll`, `create`, `update`, `getFunding`, `saveFunding`                        |
+| **Contribution Limits** | Investment limits       | `getAll`, `create`, `update`, `calculateDeposits`                                |
+| **Exchange Rates**      | Currency rates          | `getAll`, `update`, `add`, `getRatesForDates`                                    |
+| **Spending**            | Spend categorization    | `isEnabled`, `getCategories`, `getRules`, `saveRule`, `deleteRule`, `rerunRules` |
+| **Settings**            | App configuration       | `get`, `update`, `backupDatabase`                                                |
+| **Files**               | File operations         | `openCsvDialog`, `openSaveDialog`                                                |
+| **Snapshots**           | Holdings snapshots      | `getAll`, `getByDate`, `save`, `checkImport`, `importSnapshots`, `delete`        |
+| **Events**              | Real-time events        | `onUpdateComplete`, `onSyncComplete`, `onDrop`                                   |
+| **Secrets**             | Secure storage          | `get`, `set`, `delete`                                                           |
+| **Storage**             | Durable key-value store | `get`, `set`, `delete`                                                           |
+| **Network**             | Brokered HTTPS requests | `request`                                                                        |
+| **Logger**              | Logging operations      | `error`, `info`, `warn`, `debug`, `trace`                                        |
+| **Navigation**          | Route navigation        | `navigate`                                                                       |
+| **Query**               | React Query integration | `getClient`, `invalidateQueries`, `refetchQueries`                               |
+| **Toast**               | User notifications      | `success`, `error`, `warning`, `info`                                            |
 
 
 ## Accounts API
 
-Manage user accounts with full CRUD operations.
+Read and create user accounts.
 
 ### `getAll(): Promise<Account[]>`
 
@@ -245,28 +246,41 @@ const accounts = await ctx.api.accounts.getAll();
 interface Account {
   id: string;
   name: string;
+  accountType: AccountType;
+  group?: string;
+  balance: number;
   currency: string;
+  isDefault: boolean;
   isActive: boolean;
-  totalValue?: number;
-  createdAt: string;
-  updatedAt: string;
+  isArchived: boolean;
+  trackingMode: 'TRANSACTIONS' | 'HOLDINGS' | 'NOT_SET';
+  createdAt: Date;
+  updatedAt: Date;
+  platformId?: string;
+  accountNumber?: string;
+  meta?: string;
+  provider?: string;
+  providerAccountId?: string;
 }
 ```
 
-#### `create(account: AccountCreate): Promise<Account>`
+#### `create(account: unknown): Promise<Account>`
 
-Creates a new account with validation.
+Creates a new account. The SDK currently exposes the input as `unknown`; the host validates the payload at runtime.
 
 ``` mb-4
 const newAccount = await ctx.api.accounts.create({
   name: 'My Investment Account',
+  accountType: 'SECURITIES',
   currency: 'USD',
+  isDefault: false,
   isActive: true,
+  trackingMode: 'TRANSACTIONS',
 });
 ```
 
 
-**Data Validation**: Account creation includes validation for currency codes, name uniqueness, and other business rules.
+**Data Validation**: Account creation validates required fields and business rules at runtime. Keep `accountType`, `currency`, and `trackingMode` aligned with Wealthfolio’s account model.
 
 
 ------------------------------------------------------------------------
@@ -287,16 +301,39 @@ const holdings = await ctx.api.portfolio.getHoldings('account-123');
 // Example holding structure
 interface Holding {
   id: string;
+  holdingType: HoldingType;
   accountId: string;
-  symbol: string;
+  instrument?: Instrument | null;
+  assetKind?: AssetKind | null;
   quantity: number;
-  marketValue: number;
-  totalCost: number;
-  averagePrice: number;
-  gainLoss: number;
-  gainLossPercent: number;
-  currency: string;
-  assetType: 'Stock' | 'ETF' | 'Bond' | 'Crypto' | 'Other';
+  openDate?: string | Date | null;
+  lots?: Lot[] | null;
+  localCurrency: string;
+  baseCurrency: string;
+  fxRate?: number | null;
+  marketValue: MonetaryValue;
+  costBasis?: MonetaryValue | null;
+  price?: number | null;
+  unrealizedGain?: MonetaryValue | null;
+  unrealizedGainPct?: number | null;
+  realizedGain?: MonetaryValue | null;
+  realizedGainPct?: number | null;
+  totalGain?: MonetaryValue | null;
+  totalGainPct?: number | null;
+  income?: MonetaryValue | null;
+  totalReturn?: MonetaryValue | null;
+  totalReturnPct?: number | null;
+  returnBasis?: MonetaryValue | null;
+  dayChange?: MonetaryValue | null;
+  dayChangePct?: number | null;
+  prevCloseValue?: MonetaryValue | null;
+  weight: number;
+  asOfDate: string;
+}
+
+interface MonetaryValue {
+  local: number;
+  base: number;
 }
 ```
 
@@ -305,7 +342,7 @@ interface Holding {
 Gets a specific holding with detailed information.
 
 ``` mb-4
-const holding = await ctx.api.portfolio.getHolding('account-123', 'AAPL');
+const holding = await ctx.api.portfolio.getHolding('account-123', 'asset-456');
 ```
 
 #### `update(): Promise<void>`
@@ -378,7 +415,7 @@ Advanced search with pagination and filters.
 
 ``` mb-4
 const results = await ctx.api.activities.search(
-  1, // page
+  0, // zero-based page index
   50, // pageSize
   {
     // filters
@@ -391,34 +428,49 @@ const results = await ctx.api.activities.search(
 );
 ```
 
+### Amount, charges, and review
+
+From 3.8, `amount` is the final cash magnitude including fees and taxes. Runtime readers use the saved total without deducting charges again. All monetary inputs use the activity currency; `fxRate` is expressed as account-currency units per activity-currency unit. A positive supplied rate books BUY/SELL cash in account currency. Without it, trade cash stays in activity currency. Non-trade cash stays in activity currency even with an FX rate; that rate can still affect contribution reporting.
+
+- On create/import, omitted trade totals can be derived from quantity, price, the asset multiplier, fee, and tax. Gross trade totals can be converted to final totals.
+- Import mismatches preserve the total and set `needsReview`. Missing totals that cannot be derived leave imported rows as Draft for review.
+- On manual create/update, `needsReview: false` confirms a custom total. Set it only after the user has checked that amount; do not use it as a default to suppress review.
+- On update, omitting `amount` while changing trade details can recalculate it. Send the intended final amount explicitly when preserving a custom total. Clearing the amount requests calculation from the trade details. A currency-only edit does not convert it.
+- `status` controls inclusion in calculations. `needsReview` is independent.
+
+See <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a> for field meanings and exceptions.
+
 #### `create(activity: ActivityCreate): Promise<Activity>`
 
-Creates a new activity with validation.
+Creates a new activity with validation. Wealthfolio 3.8 adds optional `status` and `needsReview` fields to `ActivityCreate`.
 
 ``` mb-4
 const activity = await ctx.api.activities.create({
   accountId: 'account-123',
   activityType: 'BUY',
-  symbol: 'AAPL',
+  activityDate: '2026-09-04',
+  asset: { symbol: 'AAPL' },
   quantity: 100,
   unitPrice: 150.5,
   currency: 'USD',
-  date: '2024-12-01',
-  isDraft: false,
+  status: 'POSTED',
 });
 ```
 
 #### `update(activity: ActivityUpdate): Promise<Activity>`
 
-Updates an existing activity with conflict detection.
+Updates an existing activity with conflict detection. Wealthfolio 3.8 adds the optional `status` and `needsReview` fields. Omit `asset` to preserve the current asset association; pass `asset: {}` to clear it.
 
 ``` mb-4
 const updated = await ctx.api.activities.update({
-  ...existingActivity,
+  ...editableActivity, // ActivityUpdate
   quantity: 150,
   unitPrice: 145.75,
+  needsReview: false,
 });
 ```
+
+Addons using the review fields or asset patch semantics must set `minWealthfolioVersion` to `3.8.0` or newer.
 
 #### `saveMany(request: ActivityBulkMutationRequest): Promise<ActivityBulkMutationResult>`
 
@@ -427,8 +479,13 @@ Efficiently creates, updates, or deletes multiple activities in a single transac
 ``` mb-4
 const result = await ctx.api.activities.saveMany({
   creates: [
-    { accountId: 'account-123', activityType: 'BUY' /* ... */ },
-    { accountId: 'account-123', activityType: 'DIVIDEND' /* ... */ },
+    {
+      accountId: 'account-123',
+      activityType: 'DIVIDEND',
+      activityDate: '2026-09-04',
+      amount: 25,
+      currency: 'USD',
+    },
   ],
   updates: [],
   deleteIds: [],
@@ -451,9 +508,9 @@ Validates activities before import with error reporting.
 const validated = await ctx.api.activities.checkImport(activities);
 ```
 
-#### `getImportMapping(accountId: string): Promise<ImportMappingData>`
+#### `getImportMapping(accountId: string, contextKind?: string): Promise<ImportMappingData>`
 
-Get import mapping configuration for an account.
+Gets import mapping configuration for an account. `contextKind` defaults to `"ACTIVITY"`.
 
 ``` mb-4
 const mapping = await ctx.api.activities.getImportMapping('account-123');
@@ -474,6 +531,7 @@ const savedMapping = await ctx.api.activities.saveImportMapping(mapping);
 |----------------|------------------------|----------------|--------------------|
 | `BUY`          | Purchase securities    | Decreases cash | Increases quantity |
 | `SELL`         | Dispose of securities  | Increases cash | Decreases quantity |
+| `SPLIT`        | Stock split            | No change      | Adjusts quantity   |
 | `DIVIDEND`     | Cash dividend received | Increases cash | No change          |
 | `INTEREST`     | Interest earned        | Increases cash | No change          |
 | `DEPOSIT`      | Add funds              | Increases cash | No change          |
@@ -482,6 +540,9 @@ const savedMapping = await ctx.api.activities.saveImportMapping(mapping);
 | `TRANSFER_OUT` | Assets moved out       | Varies         | Decreases quantity |
 | `FEE`          | Brokerage fees         | Decreases cash | No change          |
 | `TAX`          | Taxes paid             | Decreases cash | No change          |
+| `CREDIT`       | Account credit         | Increases cash | No change          |
+| `ADJUSTMENT`   | Manual adjustment      | Varies         | Varies             |
+| `UNKNOWN`      | Unclassified activity  | Varies         | Varies             |
 
 
 ------------------------------------------------------------------------
@@ -492,7 +553,7 @@ Access market data, search symbols, and sync with external providers.
 
 ### Methods
 
-> Throughout the Market, Assets, and Quotes APIs, `assetId` is an asset’s identifier. For a listed security this is its symbol (e.g. `AAPL`); cash uses `$CASH-<CCY>`.
+> Throughout the Market, Assets, and Quotes APIs, `assetId` is Wealthfolio’s opaque asset ID, not its ticker symbol. Obtain it from an `Asset` or `Holding.instrument`. `fetchDividends()` is the exception: it accepts a ticker symbol.
 
 #### `searchTicker(query: string): Promise<SymbolSearchResult[]>`
 
@@ -510,16 +571,19 @@ Syncs historical market data for all portfolio holdings.
 await ctx.api.market.syncHistory();
 ```
 
-#### `sync(assetIds: string[], refetchAll: boolean): Promise<void>`
+#### `sync(assetIds: string[], refetchAll: boolean, refetchRecentDays?: number): Promise<void>`
 
 Syncs market data for specific assets with cache control.
 
 ``` mb-4
 // Sync latest data (uses cache if recent)
-await ctx.api.market.sync(['AAPL', 'MSFT', 'GOOGL'], false);
+await ctx.api.market.sync(['asset-uuid-1', 'asset-uuid-2'], false);
 
 // Force refresh all data
-await ctx.api.market.sync(['AAPL', 'MSFT', 'GOOGL'], true);
+await ctx.api.market.sync(['asset-uuid-1', 'asset-uuid-2'], true);
+
+// Force-refresh only the most recent seven days
+await ctx.api.market.sync(['asset-uuid-1'], true, 7);
 ```
 
 #### `getProviders(): Promise<MarketDataProviderInfo[]>`
@@ -554,7 +618,7 @@ Access and manage asset profiles and data sources.
 Gets detailed asset profile information.
 
 ``` mb-4
-const asset = await ctx.api.assets.getProfile('AAPL');
+const asset = await ctx.api.assets.getProfile('asset-uuid-1');
 ```
 
 #### `updateProfile(payload: UpdateAssetProfile): Promise<Asset>`
@@ -563,7 +627,7 @@ Updates asset profile information.
 
 ``` mb-4
 const updatedAsset = await ctx.api.assets.updateProfile({
-  id: 'AAPL',
+  id: 'asset-uuid-1',
   name: 'Apple Inc.',
   kind: 'INVESTMENT',
   // ... displayCode, notes, quoteMode, providerConfig
@@ -575,7 +639,7 @@ const updatedAsset = await ctx.api.assets.updateProfile({
 Switches an asset between market-fetched and manual quotes (`MARKET` or `MANUAL`).
 
 ``` mb-4
-const asset = await ctx.api.assets.updateQuoteMode('AAPL', 'MANUAL');
+const asset = await ctx.api.assets.updateQuoteMode('asset-uuid-1', 'MANUAL');
 ```
 
 ------------------------------------------------------------------------
@@ -591,11 +655,19 @@ Manage price quotes and historical data.
 Updates quote information for an asset.
 
 ``` mb-4
-await ctx.api.quotes.update('AAPL', {
-  symbol: 'AAPL',
-  price: 150.5,
-  date: '2024-12-01',
-  // ... other quote data
+await ctx.api.quotes.update('asset-uuid-1', {
+  id: 'quote-uuid-1',
+  createdAt: '2024-12-01T00:00:00Z',
+  dataSource: 'MANUAL',
+  timestamp: '2024-12-01T00:00:00Z',
+  assetId: 'asset-uuid-1',
+  open: 150,
+  high: 151,
+  low: 149,
+  volume: 0,
+  close: 150.5,
+  adjclose: 150.5,
+  currency: 'USD',
 });
 ```
 
@@ -604,7 +676,7 @@ await ctx.api.quotes.update('AAPL', {
 Gets historical quotes for an asset.
 
 ``` mb-4
-const history = await ctx.api.quotes.getHistory('AAPL');
+const history = await ctx.api.quotes.getHistory('asset-uuid-1');
 ```
 
 ------------------------------------------------------------------------
@@ -678,7 +750,8 @@ const updatedRate = await ctx.api.exchangeRates.update({
   fromCurrency: 'USD',
   toCurrency: 'EUR',
   rate: 0.85,
-  // ... other rate data
+  source: 'MANUAL',
+  timestamp: '2024-12-01T00:00:00Z',
 });
 ```
 
@@ -691,8 +764,85 @@ const newRate = await ctx.api.exchangeRates.add({
   fromCurrency: 'USD',
   toCurrency: 'GBP',
   rate: 0.75,
-  // ... other rate data
+  source: 'MANUAL',
+  timestamp: '2024-12-01T00:00:00Z',
 });
+```
+
+#### `getRatesForDates(pairs: ExchangeRateDateQuery[]): Promise<ExchangeRateDateResult[]>`
+
+Gets one resolved rate for each requested currency pair and date. Dates must use `YYYY-MM-DD`. Resolution follows Wealthfolio’s normal FX rules, including normalized currencies, inverse and triangulated rates, nearest-date lookup, and the latest-rate fallback. Results preserve input order; a pair that cannot be resolved returns `rate: null` and an `error` without failing the batch.
+
+This method requires Wealthfolio 3.8 or newer. Addons using it must set `minWealthfolioVersion` to `3.8.0` or newer.
+
+``` mb-4
+const results = await ctx.api.exchangeRates.getRatesForDates([
+  { fromCurrency: 'USD', toCurrency: 'EUR', date: '2026-09-04' },
+  { fromCurrency: 'CAD', toCurrency: 'JPY', date: '2026-09-04' },
+]);
+```
+
+------------------------------------------------------------------------
+
+## Spend Categorization API
+
+Classify activities into Wealthfolio’s expense, income, or savings taxonomies using reusable categorization rules. Rules continue to apply to future matching imports.
+
+This API requires Wealthfolio 3.8 or newer and the medium-risk `spending` permission. Declare only the methods your addon calls from `isEnabled`, `getCategories`, `getRules`, `saveRule`, `deleteRule`, and `rerunRules`.
+
+### Methods
+
+#### `isEnabled(): Promise<boolean>`
+
+Returns whether Spending is enabled. Categories and stored rules remain available while Spending is disabled, but `rerunRules()` returns `0` until Spending is enabled.
+
+#### `getCategories(kind?: SpendCategoryKind): Promise<SpendCategory[]>`
+
+Lists selectable categories with their display paths. Omit `kind` to load all three taxonomies.
+
+``` mb-4
+const categories = await ctx.api.spending.getCategories('expense');
+```
+
+#### `getRules(): Promise<CategorizationRule[]>`
+
+Lists the rules created by the current addon through `saveRule()`.
+
+``` mb-4
+const rules = await ctx.api.spending.getRules();
+```
+
+#### `saveRule(rule: CategorizationRuleInput): Promise<CategorizationRule>`
+
+Creates or updates a rule identified by the addon’s stable `ruleKey`. Reusing the same key updates the existing rule instead of creating a duplicate.
+
+``` mb-4
+const saved = await ctx.api.spending.saveRule({
+  ruleKey: 'my-addon-rule-1',
+  name: 'Groceries via MyBank',
+  pattern: 'MYBANK GROCERY',
+  matchType: 'contains',
+  kind: 'expense',
+  categoryId: 'cat_groceries',
+  activityType: 'WITHDRAWAL',
+  accountId: 'account-123',
+});
+```
+
+#### `deleteRule(ruleKey: string): Promise<void>`
+
+Deletes the rule created with this `ruleKey`. This is a no-op when the rule does not exist.
+
+``` mb-4
+await ctx.api.spending.deleteRule('my-addon-rule-1');
+```
+
+#### `rerunRules(onlyUncategorized?: boolean): Promise<number>`
+
+Re-runs all categorization rules and returns the number of matching activities. The argument defaults to `true`, preserving existing assignments. Passing `false` may replace rule-, AI-, history-, or import-sourced assignments; manual assignments are always preserved.
+
+``` mb-4
+const matched = await ctx.api.spending.rerunRules();
 ```
 
 ------------------------------------------------------------------------
@@ -717,11 +867,9 @@ Creates a new contribution limit.
 
 ``` mb-4
 const limit = await ctx.api.contributionLimits.create({
-  name: 'RRSP 2024',
-  limitType: 'RRSP',
-  maxAmount: 30000,
-  year: 2024,
-  // ... other limit data
+  groupName: 'RRSP',
+  contributionYear: 2024,
+  limitAmount: 30000,
 });
 ```
 
@@ -731,9 +879,9 @@ Updates an existing contribution limit.
 
 ``` mb-4
 const updatedLimit = await ctx.api.contributionLimits.update('limit-123', {
-  name: 'Updated RRSP 2024',
-  maxAmount: 31000,
-  // ... other updated data
+  groupName: 'RRSP',
+  contributionYear: 2024,
+  limitAmount: 31000,
 });
 ```
 
@@ -767,10 +915,10 @@ Creates a new goal.
 
 ``` mb-4
 const goal = await ctx.api.goals.create({
-  name: 'Retirement Fund',
+  goalType: 'retirement',
+  title: 'Retirement Fund',
   targetAmount: 500000,
   targetDate: '2040-01-01',
-  // ... other goal data
 });
 ```
 
@@ -799,7 +947,12 @@ Saves funding rules for a specific goal.
 
 ``` mb-4
 const savedFunding = await ctx.api.goals.saveFunding('goal-123', [
-  { goalId: 'goal-123', accountId: 'account-456', percentage: 50 },
+  {
+    id: 'allocation-123',
+    goalId: 'goal-123',
+    accountId: 'account-456',
+    sharePercent: 50,
+  },
   // ... other funding rules
 ]);
 ```
@@ -1288,12 +1441,14 @@ Access an addon-owned React Query client and ask the host to refresh selected ca
 
 ### Methods
 
-#### `getClient(): QueryClient`
+#### `getClient(): unknown`
 
-Gets a QueryClient instance for the addon sandbox. This is not the raw host QueryClient.
+Gets the sandbox’s addon-local QueryClient as an opaque bridge value. Cast it to the exported `QueryClient` type before using TanStack Query methods. This is not the raw host QueryClient.
 
 ``` mb-4
-const queryClient = ctx.api.query.getClient();
+import type { QueryClient } from '@wealthfolio/addon-sdk';
+
+const queryClient = ctx.api.query.getClient() as QueryClient;
 
 // Use standard React Query methods
 const accounts = await queryClient.fetchQuery({
@@ -1377,7 +1532,7 @@ Prefer declaring sidebar entries in `manifest.json` under `contributes.links.sid
 
 A **route** is a durable addon page (host-renderable before the addon boots — the lazy-activation surface); a **link** is a placement in a host slot (only `"sidebar"` is consumed today) that references a declared `route` id of the same addon. The runtime `router.add({ id })` **must** equal `contributes.routes[].id`. Omit `path` for the root at `/addons/<manifest.id>`; nested routes use a relative suffix such as `reports/:year`. Absolute paths, traversal, queries, and fragments are rejected in the manifest.
 
-#### `addItem(item: SidebarItem): SidebarItemHandle`
+#### `addItem(config: SidebarItemConfig): SidebarItemHandle`
 
 For dynamic, runtime-added entries:
 
@@ -1464,40 +1619,17 @@ Addon routes must stay inside the addon’s namespace. For an addon with id `my-
 
 ## Error Handling
 
-### API Error Types
-
-``` mb-4
-interface APIError {
-  code: string;
-  message: string;
-  details?: any;
-}
-```
-
-Common error codes:
-
-- `PERMISSION_DENIED` - Insufficient permissions
-- `NOT_FOUND` - Resource not found
-- `VALIDATION_ERROR` - Invalid data provided
-- `NETWORK_ERROR` - Connection issues
-- `RATE_LIMITED` - Too many requests
-
 ### Best Practices
+
+Host API failures reject their promise with an error. Handle failures at the user action boundary and show a useful message without exposing financial data.
 
 ``` mb-4
 try {
   const accounts = await ctx.api.accounts.getAll();
 } catch (error) {
-  if (error.code === 'PERMISSION_DENIED') {
-    ctx.api.logger.error('Missing account permissions');
-    // Show user-friendly message
-  } else if (error.code === 'NETWORK_ERROR') {
-    ctx.api.logger.warn('Network issue, retrying...');
-    // Implement retry logic
-  } else {
-    ctx.api.logger.error('Unexpected error:', error);
-    // General error handling
-  }
+  const message = error instanceof Error ? error.message : String(error);
+  ctx.api.logger.error(`Unable to load accounts: ${message}`);
+  ctx.api.toast.error('Unable to load accounts');
 }
 ```
 
@@ -1519,13 +1651,11 @@ const activities = await Promise.all([
 const newActivities = await ctx.api.activities.saveMany({
   creates: [
     {
-      /* activity 1 */
-    },
-    {
-      /* activity 2 */
-    },
-    {
-      /* activity 3 */
+      accountId: 'account-1',
+      activityType: 'DEPOSIT',
+      activityDate: '2026-09-04',
+      amount: 1000,
+      currency: 'USD',
     },
   ],
 });
@@ -1593,7 +1723,7 @@ import type {
   Account,
   Activity,
   Holding,
-  PerformanceHistory,
+  PerformanceResult,
   PerformanceSummary,
   // ... and many more
 } from '@wealthfolio/addon-sdk';
@@ -1620,7 +1750,7 @@ const holdings: Holding[] = await ctx.api.portfolio.getHoldings(accounts[0].id);
 ------------------------------------------------------------------------
 
 
-<a href="/docs/addons/v3-7-assets/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">v3.7 Compatibility &amp; Assets</a> <a href="/docs/faq/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">FAQ</a>
+<a href="/docs/addons/localization/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Localization</a> <a href="/docs/faq/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">FAQ</a>
 
 
 On This Page
@@ -1637,6 +1767,7 @@ On This Page
   - <a href="#quotes-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Quotes API</a>
   - <a href="#performance-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Performance API</a>
   - <a href="#exchange-rates-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Exchange Rates API</a>
+  - <a href="#spend-categorization-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Spend Categorization API</a>
   - <a href="#contribution-limits-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Contribution Limits API</a>
   - <a href="#goals-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Goals API</a>
   - <a href="#settings-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Settings API</a>

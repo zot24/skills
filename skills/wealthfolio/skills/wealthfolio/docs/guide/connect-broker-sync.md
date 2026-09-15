@@ -5,28 +5,28 @@
 <img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" loading="lazy" decoding="async" data-fetchpriority="auto" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" loading="lazy" decoding="async" data-fetchpriority="auto" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -41,13 +41,13 @@
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
@@ -59,19 +59,19 @@
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,9 +93,9 @@ Automatically pull activities from your brokerage and sync your data across devi
 
 ------------------------------------------------------------------------
 
-Last updated August 28, 2026
+Last updated September 13, 2026
 
-<a href="/connect" class="font-medium underline underline-offset-4">Wealthfolio Connect</a> is an optional paid service that adds two things on top of the free local-first app:
+<a href="/connect/" class="font-medium underline underline-offset-4">Wealthfolio Connect</a> is an optional paid service that adds two things on top of the free local-first app:
 
 1.  **Automatic broker sync.** Activities pulled directly from your brokerage, no CSV exports required.
 2.  **End-to-end encrypted device sync.** Keep desktop, iOS, and self-hosted instances in step without anyone (us included) being able to read your portfolio.
@@ -108,6 +108,12 @@ The core app stays exactly the same with or without Connect. This guide covers w
 </figure>
 
 ------------------------------------------------------------------------
+
+## Checking imported amounts
+
+The saved amount is the final cash paid or received, including fees and taxes. If an imported total conflicts with the trade details, Wealthfolio keeps it and marks it **Needs review**. Incomplete final amounts can leave an imported row as Draft. Check the row against your broker statement. The review flag is separate from the activity status: a flagged Posted row still affects balances. See <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a> for the rules.
+
+When upgrading to 3.8, update all devices using device sync before adding or editing activities, so they use the same amount rules.
 
 ## 1 · What Connect does (and doesn’t)
 
@@ -131,7 +137,7 @@ Connect is opt-in. If you only want manual + CSV imports, you never need it.
 
 ## 2 · Supported brokerages
 
-Connect uses <a href="https://snaptrade.com" class="font-medium underline underline-offset-4">SnapTrade</a> to talk to your broker. SnapTrade supports the major US, Canadian, and select international brokers. Full list at <a href="/connect/brokerages" class="font-medium underline underline-offset-4">/connect/brokerages</a>.
+Connect uses <a href="https://snaptrade.com" class="font-medium underline underline-offset-4">SnapTrade</a> to talk to your broker. SnapTrade supports the major US, Canadian, and select international brokers. Full list at <a href="/connect/brokerages/" class="font-medium underline underline-offset-4">/connect/brokerages</a>.
 
 Highlights:
 
@@ -145,12 +151,12 @@ If your broker isn’t listed, request it via <a href="https://snaptrade.com/bro
 
 ## 3 · Set up broker sync
 
-1.  **Subscribe** to Connect at <a href="/connect" class="font-medium underline underline-offset-4">wealthfolio.app/connect</a>.
+1.  **Subscribe** to Connect at <a href="/connect/" class="font-medium underline underline-offset-4">wealthfolio.app/connect</a>.
 2.  **Sign in** to Connect from the desktop or iOS app via Settings → **Connect**.
-3.  **Link a brokerage**: Settings → **Connected Accounts** → **Add brokerage**. You’ll be redirected to SnapTrade’s OAuth flow, log into your broker, and grant read-only access.
-4.  **First sync** runs immediately and pulls all available history (typically the last 1–2 years, broker-dependent). Subsequent syncs run automatically once per day, or on demand via **Sync now**.
+3.  **Link a brokerage**: Settings → **Connected Accounts** → **Add brokerage**. You’ll be redirected to SnapTrade’s hosted connection portal. Depending on the institution, you may authorize OAuth on the brokerage website, provide broker-issued API credentials or a reporting token, or authenticate inside the hosted portal. Wealthfolio requests a read-only connection in every case.
+4.  **First sync** runs immediately and pulls the history the connection makes available. The range varies by brokerage and account. Subsequent syncs run automatically once per day, or on demand via **Sync now**.
 
-Wealthfolio never sees your broker password. SnapTrade handles the OAuth handshake and returns activity data over an encrypted channel.
+Wealthfolio never receives your broker password. When OAuth is available, you sign in on the brokerage website. For a non-OAuth connection, credentials or API tokens are entered directly into SnapTrade’s hosted portal and stored there encrypted so SnapTrade can maintain the connection. SnapTrade returns the authorized account data through Wealthfolio Connect to your device over encrypted channels.
 
 ------------------------------------------------------------------------
 
@@ -158,7 +164,7 @@ Wealthfolio never sees your broker password. SnapTrade handles the OAuth handsha
 
 Each linked brokerage creates one or more **Connect accounts** in Wealthfolio. They look like manual accounts, except:
 
-- Activities flow in automatically. You can’t edit synced rows directly (it’d get overwritten on the next sync). To override a synced activity, use an **`ADJUSTMENT`** activity on the same date.
+- Activities flow in automatically. You can correct imported activities; user edits are tracked and protected during broker sync. Check flagged rows against your statement rather than adding another activity for the same event.
 - Each Connect account shows its **last sync time** and a **status badge** (synced, syncing, error).
 - You can mix synced and manual activities in adjacent accounts; performance metrics combine them seamlessly.
 
@@ -194,7 +200,7 @@ By default, Connect accounts inherit names from your broker (“Joint Brokerage 
 
 - **Joint accounts:** SnapTrade returns the same joint account once per linked login. If both spouses link the same brokerage, the joint account appears twice. Disable one of the duplicates from Settings → Accounts (toggle Active off) rather than deleting it. Deletion breaks the Connect link.
 - **Single-active connection brokers:** E\*Trade and a few others only allow one active SnapTrade session per user. Re-authenticating on a second device disconnects the first.
-- **Pending activities:** brokers occasionally publish dividends with no share count or trades with no price. Connect imports these as `Pending`. They show up in the activity list, and you can edit them once your broker fills in the missing data.
+- **Incomplete activities:** brokers occasionally publish reinvestments with no share count or trades with no price. Rows that cannot be completed can be imported as **Draft** with **Needs review**. Check their status and complete the missing details before confirming them as Posted.
 
 ------------------------------------------------------------------------
 
@@ -212,7 +218,7 @@ Your broker’s OAuth token expired (most brokers expire after 90 days). Setting
 
 ### A synced activity looks wrong
 
-Don’t edit the synced row; the next sync will overwrite. Instead, add a balancing `ADJUSTMENT` activity on the same date. If a sync is consistently wrong (e.g. broker sends FX-converted amounts in your base currency by mistake), file a ticket via <a href="https://discord.gg/WDMCY6aPWK" class="font-medium underline underline-offset-4">Discord</a>. We forward to SnapTrade when needed.
+Open the activity and correct the relevant details, including its final amount and currency. User changes are tracked so broker sync can protect them. If a sync is consistently wrong, such as importing totals in the wrong currency, file a ticket via <a href="https://discord.gg/WDMCY6aPWK" class="font-medium underline underline-offset-4">Discord</a>. We forward to SnapTrade when needed.
 
 ### Sync is stuck on “syncing…” for hours
 
@@ -230,6 +236,7 @@ Cancel and retry: Settings → **Connected Accounts** → **Sync now**. If it fa
 
 On This Page
 
+- <a href="#checking-imported-amounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Checking imported amounts</a>
 - <a href="#1--what-connect-does-and-doesnt" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · What Connect does (and doesn't)</a>
 - <a href="#2--supported-brokerages" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Supported brokerages</a>
 - <a href="#3--set-up-broker-sync" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Set up broker sync</a>

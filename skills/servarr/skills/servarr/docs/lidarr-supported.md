@@ -57,7 +57,7 @@ This page is the disambiguation target for all **More Info** links in the Lidarr
   - Watches a folder for `.nzb` files. Use this if your Usenet client doesn't have a direct API integration.
   - <a href="/lidarr/settings#download-clients" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 - <span id="utorrent">uTorrent</span>
-  - Avoid uTorrent. It's adware and has a history of including spyware. Most users choose qBittorrent.
+  - Long-standing BitTorrent client. Past versions bundled adware in the installer, which led many users toward alternatives such as qBittorrent.
   - <a href="/lidarr/settings#download-clients" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 - <span id="vuze">Vuze</span>
   - Java-based BitTorrent client with an advanced feature set including swarm merging and built-in search.
@@ -78,7 +78,7 @@ This page is the disambiguation target for all **More Info** links in the Lidarr
   - <a href="/lidarr/settings#indexer-settings" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 
 - <span id="gazelle">Gazelle API</span>
-  - Used by Gazelle-based private trackers such as Redacted (formerly <a href="http://What.CD" class="is-external-link">What.CD</a>).
+  - Generic indexer for Gazelle-based private trackers. If your tracker has its own dedicated entry on this page, for example Redacted, use that entry instead; use Gazelle API only for Gazelle-based trackers without a specific Lidarr indexer type.
   - <a href="/lidarr/settings#indexer-settings" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 
 - <span id="headphones">Headphones VIP</span>
@@ -199,7 +199,7 @@ This page is the disambiguation target for all **More Info** links in the Lidarr
 
 ## <a href="#lists" class="toc-anchor">¶</a> Lists
 
-- <span id="customlist">Custom List</span>
+- <span id="customimport">Custom List</span>
   - Import artists from a manually maintained list.
 - <span id="headphonesimport">Headphones</span>
   - Import artists from a <a href="https://github.com/rembo10/headphones" class="is-external-link">Headphones</a> instance.
@@ -222,11 +222,16 @@ This page is the disambiguation target for all **More Info** links in the Lidarr
 
 ## <a href="#metadata" class="toc-anchor">¶</a> Metadata
 
+Each consumer below is configured separately under **Settings → Metadata**. Enabling a consumer expands its own settings block with **Artist Metadata**, **Album Metadata**, **Artist Images**, and **Album Images** toggles, distinct from the **Write Metadata to Audio Files** panel used for tagging audio files themselves.
+
 - <span id="xbmcmetadata">Kodi (XBMC) / Emby</span>
-  - Generates `.nfo` sidecar files for artist and album folders, compatible with Kodi and Emby/Jellyfin.
+  - Writes `artist.nfo` and `album.nfo` sidecar files. Also writes images: for artists, the poster as `folder.jpg` alongside banner, fanart, and logo/clearlogo files; for albums, the cover as `folder.jpg` and disc art as `discart.jpg`. Compatible with Kodi and Emby/Jellyfin.
+  - <a href="/lidarr/settings#metadata" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 - <span id="roksboxmetadata">Roksbox</span>
-  - Generates metadata files compatible with Roksbox media players.
+  - Writes `.xml` track metadata files. For artist images, writes a single image, the poster if one exists, otherwise the first available image, named after the artist folder itself. Doesn't write album images.
+  - <a href="/lidarr/settings#metadata" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 - <span id="wdtvmetadata">WDTV</span>
-  - Generates metadata files compatible with WD TV media players.
+  - Writes `.xml` track metadata files only. The Artist Images and Album Images toggles appear in its settings but don't do anything; this consumer never writes image files.
+  - <a href="/lidarr/settings#metadata" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 
 

@@ -51,14 +51,14 @@ Dependencies have a type that determines whether they block work.
 
 **Non-blocking types** (graph annotations only):
 
-| Type              | Meaning                                                   |
-| ----------------- | --------------------------------------------------------- |
-| `related`         | Informational link                                        |
-| `tracks`          | Tracks progress of another issue                          |
-| `discovered-from` | Found during work on another issue                        |
-| `caused-by`       | Root cause link                                           |
-| `validates`       | Test or verification link                                 |
-| `supersedes`      | Replaced by a newer issue (`bd supersede old --with new`) |
+| Type              | Meaning                                                       |
+| ----------------- | ------------------------------------------------------------- |
+| `related`         | Informational link                                            |
+| `tracks`          | Tracks progress of another issue                              |
+| `discovered-from` | Found during work on another issue                            |
+| `caused-by`       | Root cause link                                               |
+| `validates`       | Test or verification link                                     |
+| `supersedes`      | Replaced by a different issue (`bd supersede old --with new`) |
 
 Specify with `--type`:
 
@@ -159,11 +159,14 @@ cycles before committing.
 Dependencies can reference issues in other beads rigs:
 
 ```bash theme={null}
-bd dep add local-issue external:other-project:remote-issue
+bd dep add local-issue external:other-project:checkout-ready
 ```
 
-External dependencies always block. When the remote issue closes,
-`bd ready` reflects the change (checked at query time).
+Configure the project path under `external_projects`, then label a target
+project issue `provides:checkout-ready`. The dependency blocks until an issue
+with that label is closed. `bd ready`, `bd blocked`, and `bd dep tree` resolve
+the capability at query time; an unconfigured or unavailable project remains
+blocking.
 
 ## Gates
 

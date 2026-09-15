@@ -247,11 +247,6 @@ op vault list --account agilebits
 <a href="#appendix-find-an-account-shorthand-or-id" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Related topics
-
-<a href="/events-api/reference/sign-in-attempt" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Retrieves events for both successful and failed attempts to sign into a 1Password account</span></a><a href="/get-started/get-data-and-analytics" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get data and analytics for your 1Password account</span></a><a href="/cli/reference/management-commands/account" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">account</span></a>
-
-
 Was this page helpful?
 
 

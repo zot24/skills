@@ -4,7 +4,7 @@
 
 ## French
 
-- [French / v2 (202 pages)](https://docs.firecrawl.dev/_llms/fr/v2.md): Documentation for French / v2.
+- [French / v2 (203 pages)](https://docs.firecrawl.dev/_llms/fr/v2.md): Documentation for French / v2.
 
 ### v1
 
@@ -14,7 +14,6 @@
 
 - [Introduction](https://docs.firecrawl.dev/fr/introduction.md): Recherchez sur le web, extrayez n’importe quelle page et interagissez avec elle, le tout via une seule API.
 - [Premiers pas](https://docs.firecrawl.dev/fr/mcp-server.md): Configurez Firecrawl MCP avec un accès sans clé, une connexion à un compte ou une clé API.
-- [Migration v1 → v2](https://docs.firecrawl.dev/fr/migrate-to-v2.md): Principales modifications, correspondances et exemples avant/après pour mettre à niveau votre intégration vers la v2.
 - [Guide avancé de scraping](https://docs.firecrawl.dev/fr/advanced-scraping-guide.md): Configurez les options de scraping, les actions du navigateur, le crawl, la cartographie et le point de terminaison de l'agent grâce à l’ensemble de la surface de l’API Firecrawl.
 
 ###### Offres et facturation
@@ -43,7 +42,7 @@
 - [Scraping plus rapide](https://docs.firecrawl.dev/fr/features/fast-scraping.md): Accélérez vos scrapes de 500 % grâce au paramètre maxAge
 - [Scrape par lots](https://docs.firecrawl.dev/fr/features/batch-scrape.md): Scraper plusieurs URL en une seule tâche par lots
 - [Mode JSON - Résultat structuré](https://docs.firecrawl.dev/fr/features/llm-extract.md): Extraire des données structurées à partir de pages via des LLM
-- [Suivi des modifications](https://docs.firecrawl.dev/fr/features/change-tracking.md): Détecter et surveiller les changements dans le contenu web entre les extractions
+- [Suivi des modifications](https://docs.firecrawl.dev/fr/features/change-tracking.md): Détecter et surveiller les changements dans le contenu web entre les scrape
 - [Mode avancé](https://docs.firecrawl.dev/fr/features/enhanced-mode.md): Utilisez des proxies avancés pour un scraping fiable sur des sites complexes
 - [Proxys](https://docs.firecrawl.dev/fr/features/proxies.md): Découvrez les types de proxy, les emplacements et la façon dont Firecrawl sélectionne des proxy pour vos requêtes.
 

@@ -141,11 +141,6 @@ done
 - <a href="/cli/shell-plugins/multiple-accounts" class="link">Use shell plugins with multiple accounts</a>
 
 
-Related topics
-
-<a href="/service-accounts" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password Service Accounts</span></a><a href="/connect" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password Connect</span></a><a href="/cli" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password CLI</span></a>
-
-
 Was this page helpful?
 
 

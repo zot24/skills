@@ -185,11 +185,6 @@ rm /usr/local/bin/op
 ```
 
 
-Related topics
-
-<a href="/cli/upgrade" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Upgrade to 1Password CLI 2</span></a><a href="/cli" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password CLI</span></a><a href="/cli/reference" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password CLI reference</span></a>
-
-
 Was this page helpful?
 
 

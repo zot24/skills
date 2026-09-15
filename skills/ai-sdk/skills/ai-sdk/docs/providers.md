@@ -42,7 +42,6 @@ The AI SDK comes with a wide range of providers that you can use to interact wit
 - [Groq Provider](/providers/ai-sdk-providers/groq) (`@ai-sdk/groq`)
 - [Perplexity Provider](/providers/ai-sdk-providers/perplexity) (`@ai-sdk/perplexity`)
 - [ElevenLabs Provider](/providers/ai-sdk-providers/elevenlabs) (`@ai-sdk/elevenlabs`)
-- [LMNT Provider](/providers/ai-sdk-providers/lmnt) (`@ai-sdk/lmnt`)
 - [Hume Provider](/providers/ai-sdk-providers/hume) (`@ai-sdk/hume`)
 - [Rev.ai Provider](/providers/ai-sdk-providers/revai) (`@ai-sdk/revai`)
 - [Deepgram Provider](/providers/ai-sdk-providers/deepgram) (`@ai-sdk/deepgram`)
@@ -96,6 +95,7 @@ The open-source community has created the following providers:
 - [Crusoe Provider](/providers/community-providers/crusoe) (`crusoe-ai-provider`)
 - [Neon AI Gateway Provider](/providers/community-providers/neon-ai-gateway) (`@neon/ai-sdk-provider`)
 - [Interfaze Provider](/providers/community-providers/interfaze) (`@interfaze-ai/ai-sdk`)
+- [Telnyx Provider](/providers/community-providers/telnyx) (`@telnyx/ai-sdk-provider`)
 
 ## Self-Hosted Models
 
@@ -120,6 +120,7 @@ Here are the capabilities of popular models:
 | [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-4`                                    |    |          |   |       |
 | [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-3`                                    |    |          |   |       |
 | [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-3-mini`                               |    |          |   |       |
+| [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-6-astra`                               |    |          |   |       |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6`                                   |    |          |   |       |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6-luna`                              |    |          |   |       |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5.6-sol`                               |    |          |   |       |
@@ -143,6 +144,7 @@ Here are the capabilities of popular models:
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-codex`                               |    |          |   |       |
 | [OpenAI](/providers/ai-sdk-providers/openai)       | `gpt-5-chat-latest`                         |    |          |   |       |
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-sonnet-5`                           |    |          |   |       |
+| [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-fable-5-1`                          |    |          |   |       |
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-fable-5`                            |    |          |   |       |
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-8`                           |    |          |   |       |
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-7`                           |    |          |   |       |
@@ -152,6 +154,11 @@ Here are the capabilities of popular models:
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-1`                           |    |          |   |       |
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-opus-4-0`                           |    |          |   |       |
 | [Anthropic](/providers/ai-sdk-providers/anthropic) | `claude-sonnet-4-0`                         |    |          |   |       |
+| [Google](/providers/ai-sdk-providers/google)       | `gemini-3.8-flash`                          |    |          |   |       |
+| [Google](/providers/ai-sdk-providers/google)       | `gemini-3.1-pro-preview`                    |    |          |   |       |
+| [Google](/providers/ai-sdk-providers/google)       | `gemini-3-pro-preview`                      |    |          |   |       |
+| [Google](/providers/ai-sdk-providers/google)       | `gemini-2.5-pro`                            |    |          |   |       |
+| [Google](/providers/ai-sdk-providers/google)       | `gemini-2.5-flash`                          |    |          |   |       |
 | [Mistral](/providers/ai-sdk-providers/mistral)     | `pixtral-large-latest`                      |    |          |   |       |
 | [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-large-latest`                      |    |          |   |       |
 | [Mistral](/providers/ai-sdk-providers/mistral)     | `mistral-medium-latest`                     |    |          |   |       |

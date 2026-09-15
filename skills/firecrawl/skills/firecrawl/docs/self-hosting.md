@@ -238,7 +238,7 @@ curl \
 
 - **Still evaluating?** Keep the API on a trusted network and run `docker compose down` when you are finished.
 - **Adding an open-source capability?** Use <a href="#self-hosted-feature-support" class="link">Self-hosted feature support</a> to find the required provider or service, then test that path on its own.
-- **Changing Firecrawl code?** Switch to <a href="/contributing/guide" class="link">Running Locally</a> for the contributor development environment.
+- **Changing Firecrawl code?** Switch to <a href="/contributing/guide" class="link">Contributor Setup</a> for the development environment.
 - **Connecting a client?** Point the <a href="/sdks/cli#connect-the-cli-to-self-hosted-firecrawl" class="link">Firecrawl CLI</a> or <a href="/mcp-server/local#connect-mcp-to-self-hosted-firecrawl" class="link">local MCP server</a> at your verified API URL.
 - **Moving to Kubernetes?** Start with the versioned Kubernetes or Helm references linked from <a href="https://github.com/firecrawl/firecrawl/blob/main/SELF_HOST.md" class="link" target="_blank" rel="noreferrer"><code>SELF_HOST.md</code></a>, then make the production decisions above explicit for your platform.
 - **Want managed infrastructure or Cloud-only capabilities?** Compare <a href="/contributing/open-source-or-cloud" class="link">Open Source vs Cloud</a>.

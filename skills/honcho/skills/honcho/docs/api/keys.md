@@ -9,6 +9,17 @@
 > Create a new Key
 
 
+  Requires an admin key. On Honcho Cloud (`api.honcho.dev`) the returned key is a
+  real cloud key on the calling key's instance, attributed to its owner and
+  revocable from the [API Keys page](https://app.honcho.dev/api-keys). On a
+  self-hosted instance it returns an error when `AUTH_USE_AUTH` is disabled.
+
+  Provide at least one of `workspace_id`, `peer_id`, or `session_id` — a request
+  carrying none of them is rejected. A key scoped to a peer or a session must also
+  carry its `workspace_id`. On Honcho Cloud, pass either `admin=true` or a
+  `workspace_id`.
+
+
 ## OpenAPI
 
 ````yaml post /v3/keys
@@ -23,7 +34,10 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.1.0
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.1.2
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform

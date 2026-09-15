@@ -19,6 +19,10 @@ layout blocks, or structured JSON.
 * **Any common format**: PDF, Word, Excel, PowerPoint, OpenDocument, EPUB, CSV, HTML
 * **Zero Data Retention** support
 
+Not sure whether you want Parse or [Scrape](/features/scrape)? This walks through the differences:
+
+<iframe src="https://www.youtube.com/embed/119uEEBQRrA" title="Firecrawl Parse vs Scrape Explained in 5 Minutes" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" style={{ width: '100%', aspectRatio: '16 / 9', height: 'auto', borderRadius: '0.5rem' }} />
+
 ## Quickstart
 
 <CodeGroup>

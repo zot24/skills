@@ -17,6 +17,7 @@
       - [Failed to resolve the IP Address for the Configured Proxy Host](#failed-to-resolve-the-ip-address-for-the-configured-proxy-host)
       - [Proxy Failed Test](#proxy-failed-test)
       - [System Time is off by more than 1 day](#system-time-is-off-by-more-than-1-day)
+      - [Allowed Hosts Not Configured](#allowed-hosts-not-configured)
     - [Download Clients](#download-clients)
       - [No download client is available](#no-download-client-is-available)
       - [Unable to communicate with download client](#unable-to-communicate-with-download-client)
@@ -36,7 +37,7 @@
       - [No indexers available with automatic search enabled, Sonarr will not provide any automatic search results](#no-indexers-available-with-automatic-search-enabled-sonarr-will-not-provide-any-automatic-search-results)
       - [No indexers available with RSS sync enabled, Sonarr will not grab new releases automatically](#no-indexers-available-with-rss-sync-enabled-sonarr-will-not-grab-new-releases-automatically)
       - [No indexers are enabled](#no-indexers-are-enabled)
-      - [Enabled indexers do not support searching](#enabled-indexers-do-not-support-searching)
+      - [All search-capable indexers are temporarily unavailable due to recent indexer errors](#all-search-capable-indexers-are-temporarily-unavailable-due-to-recent-indexer-errors)
       - [No indexers available with Interactive Search Enabled](#no-indexers-available-with-interactive-search-enabled)
       - [Indexers are unavailable due to failures](#indexers-are-unavailable-due-to-failures)
       - [Jackett All Endpoint Used](#jackett-all-endpoint-used)
@@ -83,7 +84,7 @@
 
 #### <a href="#new-update-is-available" class="toc-anchor">¶</a> New update is available
 
-- Rejoice, the developers have released a new update. This generally means awesome new features and squashed piles of bugs (right?). Apparently you do not have Auto-Updating enabled, so you will have to figure out how to update on your platform. Pressing the Install button on the System =\> Updates page is probably a good starting point.
+- A newer version of Sonarr is available. This warning fires once your installed build is more than 14 days old and a newer release exists, regardless of whether Auto-Updating is enabled. On a native install, go to System =\> Updates and press Install. On Docker, do not press Install inside the container; instead pull the new image tag and recreate the container.
 
 > This warning will not appear if your current version is less than 14 days old
 
@@ -116,6 +117,11 @@ Your configured proxy failed to test successfully, review the HTTP error provide
 
 System time is off by more than 1 day. Scheduled tasks may not run correctly until the time is corrected  
 Review your system time and ensure it is synced to an authoritative time server and accurate
+
+#### <a href="#allowed-hosts-not-configured" class="toc-anchor">¶</a> Allowed Hosts Not Configured
+
+- Allowed Hosts is not configured, so Sonarr will accept requests for any hostname. Set <a href="/sonarr/settings#host" class="is-internal-link is-valid-page">Allowed Hosts</a> to a comma-separated list of the hostnames and IP addresses Sonarr should answer to; use `*.` as a wildcard for subdomains (for example `*.example.com`). When Authentication Required is not `Enabled`, at least one host is required and Sonarr rejects a blank value on save; a blank value is accepted only when Authentication Required is `Enabled`.
+- This warning only appears when Authentication Required is not set to `Enabled`, because restricting hostnames adds no protection once every request must authenticate. The check runs at startup and whenever the config is saved.
 
 ### <a href="#download-clients" class="toc-anchor">¶</a> Download Clients
 
@@ -238,9 +244,9 @@ If you no longer use this download client, disable it in Sonarr to prevent the e
 
 - Sonarr requires indexers to be able to discover new releases. All your indexers are disabled or you do not have any indexers added.
 
-#### <a href="#enabled-indexers-do-not-support-searching" class="toc-anchor">¶</a> Enabled indexers do not support searching
+#### <a href="#all-search-capable-indexers-are-temporarily-unavailable-due-to-recent-indexer-errors" class="toc-anchor">¶</a> All search-capable indexers are temporarily unavailable due to recent indexer errors
 
-- None of the indexers you have enabled and available support searching. This means Sonarr will only be able to find new releases via the RSS feeds. But searching for series (either Automatic Search or Manual Search) will never return any results. The only way to remedy it is to add another indexer.
+- Every indexer capable of searching has recently failed and is in Sonarr's failure backoff, so no indexer is currently available for a search. This is transient, not a sign that your enabled indexers lack search support. Resolve the underlying indexer errors (check System =\> Logs and the indexer's status) rather than adding another indexer; once an indexer passes its `Test` or the backoff period elapses, it becomes available again.
 
 #### <a href="#no-indexers-available-with-interactive-search-enabled" class="toc-anchor">¶</a> No indexers available with Interactive Search Enabled
 
@@ -301,9 +307,7 @@ If you no longer use this download client, disable it in Sonarr to prevent the e
 
 - A root folder is added to Sonarr and does not exist or is not accessible.
 
-- This error is typically identified if a Series is looking for a root folder but that root folder is no longer available.
-
-- This error may also be if a list is still pointed at a root folder but that root folder is no longer available.
+- This check only evaluates the root folders your existing series use, so it fires when a Series is looking for a root folder but that root folder is no longer available. An import list pointed at a missing root folder is a separate check; see [Import List Missing Root Folder](#import-list-missing-root-folder).
 
 - If you would like to remove this warning simply find the series that is still using the old root folder and edit it to the correct root folder.
 

@@ -68,11 +68,6 @@ Concepts
 | `OP_SERVICE_ACCOUNT_TOKEN`    | Configures 1Password CLI to <a href="/service-accounts/use-with-1password-cli" class="link">authenticate with a service account</a>.                                                                                                                                                                                             |
 
 
-Related topics
-
-<a href="/environments/read-environment-variables" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Programmatically read 1Password Environments</span></a><a href="/cli/secret-references" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use secret references with 1Password CLI</span></a><a href="/cli/get-started" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get started with 1Password CLI</span></a>
-
-
 Was this page helpful?
 
 

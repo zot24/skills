@@ -4,7 +4,7 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Run Firecrawl locally for development
+# Contributor setup for Firecrawl
 
 > Set up the Firecrawl API development environment, verify a local scrape, and run the source-owned test harness before contributing.
 

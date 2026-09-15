@@ -272,11 +272,6 @@ op group user revoke [flags]
 ```
 
 
-Related topics
-
-<a href="/events-api/audit-events" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Audit events</span></a><a href="/cli/grant-revoke-vault-permissions" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Grant and revoke vault permissions</span></a><a href="/events-api/beta/audit-events" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Audit events catalog</span></a>
-
-
 Was this page helpful?
 
 

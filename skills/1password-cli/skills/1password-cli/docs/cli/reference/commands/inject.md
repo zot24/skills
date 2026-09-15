@@ -106,11 +106,6 @@ db_password: fX6nWkhANeyGE27SQGhYQ
 ```
 
 
-Related topics
-
-<a href="/k8s/injector" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Kubernetes Injector</span></a><a href="/cli/secret-references" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use secret references with 1Password CLI</span></a><a href="/cli/secrets-config-files" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Load secrets into config files</span></a>
-
-
 Was this page helpful?
 
 

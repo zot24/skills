@@ -23,6 +23,8 @@ Advanced features give you fine-grained control over Honcho's behavior and imple
 ## Querying & Data
 
 * [Search](/docs/v3/documentation/features/advanced/search) - Search across peers, sessions, and messages
+* [Workspace Chat](/docs/v3/documentation/features/chat#workspace-chat) - Ask a question across every peer in a workspace
 * [Filters](/docs/v3/documentation/features/advanced/using-filters) - Filter queries with advanced parameters
 * [Streaming Responses](/docs/v3/documentation/features/advanced/streaming-response) - Stream dialectic responses in real-time
 * [File Uploads](/docs/v3/documentation/features/advanced/file-uploads) - Ingest files into peer memory
+* [Deleting Data](/docs/v3/documentation/features/advanced/deleting-data) - Delete sessions, workspaces, and conclusions

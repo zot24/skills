@@ -202,11 +202,6 @@ ops_eyJ...EXAMPLE-TOKEN-REDACTED
 <a href="#responsible-disclosure" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-Related topics
-
-<a href="/sdks/desktop-app-integrations" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password SDK local integration security</span></a><a href="/service-accounts/terraform" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use the 1Password Terraform provider with service accounts</span></a><a href="/connect/security" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">About 1Password Connect Server security</span></a>
-
-
 Was this page helpful?
 
 

@@ -270,11 +270,6 @@ View a field JSON object
 - <a href="/get-started/build-integrations" class="link">Workflow: Build integrations with 1Password</a>
 
 
-Related topics
-
-<a href="/cli/reference/management-commands/item" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">item</span></a><a href="/cli/item-edit" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Edit items</span></a><a href="/cli/item-create" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Create items</span></a>
-
-
 Was this page helpful?
 
 

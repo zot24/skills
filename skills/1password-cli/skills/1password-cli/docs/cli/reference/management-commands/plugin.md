@@ -81,7 +81,7 @@ op plugin clear <plugin-executable> [flags]
 
 
 ``` shiki
-        --all     Clear all configurations for this plugin that apply to this directory
+       --all     Clear all configurations for this plugin that apply to this directory
                   and/or terminal session, including the global default.
    -f, --force   Apply immediately without asking for confirmation.
 ```
@@ -155,11 +155,6 @@ op plugin list [flags]
 ``` shiki
 op plugin run <command>... [flags]
 ```
-
-
-Related topics
-
-<a href="/cli/shell-plugins/uninstall" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Uninstall shell plugins</span></a><a href="/cli/shell-plugins/test" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Test shell plugins</span></a><a href="/cli/shell-plugins/troubleshooting" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password Shell Plugins troubleshooting</span></a>
 
 
 Was this page helpful?

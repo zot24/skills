@@ -12,29 +12,6 @@ Firecrawl monitoring runs recurring checks and notifies you or your agent when s
 
 All monitor types share the same workflow: choose one or more targets, set a schedule, add an optional plain-language goal, and receive webhook, email, or Slack notifications when something matters. This page covers shared configuration. For target-specific setup and examples, go to the [Page](/features/monitoring-page), [Website](/features/monitoring-website), or [Entire web-scale](/features/monitoring-web-scale) monitoring page.
 
-<div className="firecrawl-cta-box">
-  <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
-    <Icon icon="sack-dollar" color="#ff4d00" size={22} />
-
-    <div className="firecrawl-cta-title" style={{ margin: 0 }}>
-      <span style={{ color: "#ff4d00" }}>Bounty: 5,000 credit reward</span>
-      <span style={{ fontWeight: 400 }}> for feedback on government and legal sources</span>
-    </div>
-  </div>
-
-  <p className="firecrawl-cta-description">
-    To qualify, complete a high-signal interview (thoughtful, concrete use cases, etc) with our Firecrawl Feedback Assistant. Only takes a few minutes, can be stopped at any time, and is both human/agent-friendly (just paste the link into your agentic harness!). Most useful if you search or scrape government, court, regulatory, or public-record sites and have hit their quirks firsthand.
-  </p>
-
-  <a href={"https://www.firecrawl.dev/survey/u90t8?src=" + (props.src || "docs-gov-legal")} className="firecrawl-cta-btn-primary firecrawl-cta-btn-inline">
-    Start the interview
-  </a>
-
-  <p className="firecrawl-cta-description" style={{ fontSize: "12px", fontStyle: "italic", margin: "12px 0 0 0" }}>
-    Include your email to be eligible. Interviews are reviewed for quality at the end of each week.
-  </p>
-</div>
-
 
     Watch one or more known URLs, diff each scrape against the last snapshot, and alert on meaningful page changes.
 
@@ -205,7 +182,7 @@ The minimum interval is 5 minutes. API responses always return the normalized cr
 
 ## Change tracking
 
-[Page](/features/monitoring-page) and [website](/features/monitoring-website) monitors diff each page's markdown by default and report `same`, `changed`, `new`, `removed`, or `error`. When you want to detect changes in **specific structured fields** (price, headline, in-stock flag, the items in a list, etc.), enable JSON-mode change tracking by adding a `changeTracking` format with `modes: ["json"]` to the target's `scrapeOptions`.
+[Page](/features/monitoring-page) and [website](/features/monitoring-website) monitors diff each page's markdown by default and report `same`, `changed`, `new`, `removed`, or `error`. The same diffing is available on a single call through the [change tracking](/features/change-tracking) format when you run the scrape yourself. When you want to detect changes in **specific structured fields** (price, headline, in-stock flag, the items in a list, etc.), enable JSON-mode change tracking by adding a `changeTracking` format with `modes: ["json"]` to the target's `scrapeOptions`.
 
 
   Change tracking applies to `scrape` and `crawl` targets. Entire web-scale (`search`) monitors alert on new results rather than diffing known pages. See [Statuses and dedup](/features/monitoring-web-scale#statuses-and-dedup).
@@ -595,6 +572,8 @@ When a monitor has a `webhook`, Firecrawl can send two monitor events:
 
 `success` is `true` when the check completed without page errors. It is `false` for failed or partial checks, and `error` contains the failure reason when available.
 
+Your endpoint must answer with a `2xx` status within 10 seconds. Failed deliveries are retried three times, after 1, 5, and 15 minutes, and the webhook is marked as failed after that. See [Timeouts and retries](/webhooks/overview#timeouts--retries) for the full table.
+
 ### Email
 
 Email summaries are sent only when a check has changed, new, removed, or errored pages.
@@ -687,12 +666,17 @@ Use `GET /v2/monitor/{monitorId}/checks` to list checks and `GET /v2/monitor/{mo
   ```
 
   ```bash cURL
+  # The monitor id comes from Create monitor or List monitors, and the check id
+  # from List checks.
+  MONITOR_ID=YOUR_MONITOR_ID
+  CHECK_ID=YOUR_CHECK_ID
+
   curl "https://api.firecrawl.dev/v2/monitor/$MONITOR_ID/checks/$CHECK_ID?limit=25&status=changed" \
     -H "Authorization: Bearer $FIRECRAWL_API_KEY"
   ```
 </CodeGroup>
 
-List checks can be filtered by check `status`: `queued`, `running`, `completed`, `failed`, `partial`, or `skipped_overlap`.
+List checks can be filtered by check `status`: `queued`, `running`, `completed`, `failed`, `partial`, `skipped_overlap`, or `skipped_no_credits`. That is the complete set. See [Skipped checks and paused monitors](#skipped-checks-and-paused-monitors) for what the two skip statuses mean.
 
 The check detail response includes `estimatedCredits`, `actualCredits`, summary counts, and a paginated `pages` array. `estimatedCredits` is the upper-bound reservation for the check; `actualCredits` is the final amount charged after Firecrawl knows how many pages changed and needed judging. Use the top-level `next` URL to fetch the next page of results, matching crawl pagination. You can filter pages by `status`: `same`, `new`, `changed`, `removed`, or `error`. Each changed page includes inline `diff` data; pages from JSON-mode monitors also include a `snapshot` with the current extraction.
 
@@ -917,6 +901,34 @@ The check detail response includes `estimatedCredits`, `actualCredits`, summary 
     }
     ```
 
+
+## Skipped checks and paused monitors
+
+A scheduled check can end without running. It is recorded with a skip status, not a failure, and it is not charged.
+
+| Status               | What happened                                                                                                                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `skipped_overlap`    | The previous check for this monitor was still running when this one came due, so this one was skipped instead of running alongside it. The next scheduled check runs normally.                                |
+| `skipped_no_credits` | The credit check for this monitor refused the run. `actualCredits` is `0` and `error` says why. This covers both a team that has run out of credits and a partner-granted job whose partner has withdrawn it. |
+
+A `skipped_no_credits` check resolves itself as soon as the reason does. Adding credits is enough. Nothing needs to be reset on the monitor.
+
+### There is no failure counter to read
+
+Firecrawl does not keep or return an aggregate failure count, an error rate, or a consecutive-skip count on a monitor. The monitor object returns `status`, `nextRunAt`, `lastRunAt`, `currentCheckId` and `lastCheckSummary`, and a check returns its own `status` and `error`. None of those is a running total.
+
+If you want a streak or a rate, derive it from the checks list. `GET /v2/monitor/{monitorId}/checks` returns checks newest first, so counting the leading run of a status gives you the current streak, and one check with a different status ends it.
+
+### Automatic pausing
+
+Firecrawl pauses a monitor in one case. When a monitor runs on credits granted through a [partner integration](/partner-credits) and the partner withdraws that job, every check is skipped with `skipped_no_credits` and an error saying the partner has revoked the job. That condition never clears on its own, so after three consecutive skips of that kind Firecrawl sets the monitor's `status` to `paused` and clears `nextRunAt`, which stops the schedule.
+
+Two things follow from this.
+
+* Running out of credits does not pause a monitor. A team over its balance keeps its schedule and keeps recording `skipped_no_credits` checks until credits are available again.
+* The pause is a state change, not a notification. There is no pause webhook event and no pause email. Read `status` on the monitor to see it, and use `PATCH /v2/monitor/{monitorId}` to set it back to `active` once the underlying access is restored.
+
+A paused monitor keeps its configuration and its check history. Pausing is not deleting.
 
 ## Pricing
 

@@ -61,11 +61,6 @@ Concepts
 | `TRANSFER_SUSPENDED` | The user was provisioned and didn’t set up their account before they were deprovisioned.                                                                                                                                        |
 
 
-Related topics
-
-<a href="/users-api/get-user" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get a user</span></a><a href="/users-api/suspend-user" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Suspend a user</span></a><a href="/users-api/list-users" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">List users</span></a>
-
-
 Was this page helpful?
 
 

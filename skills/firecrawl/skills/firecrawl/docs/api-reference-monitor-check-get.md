@@ -131,6 +131,7 @@ components:
             - failed
             - partial
             - skipped_overlap
+            - skipped_no_credits
         trigger:
           type: string
           enum:

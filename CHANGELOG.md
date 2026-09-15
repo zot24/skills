@@ -3,6 +3,153 @@
 All notable documentation sync changes to this project.
 
 
+## [2026-09-15] Documentation Sync
+
+**Updated skills:** umbrel-app claude-code-expert agent-browser chat-sdk ai-sdk agent-skills hermes honcho firecrawl servarr adguard immich glinet umami wealthfolio 1password-cli x-engagement beads tower pi apprise-api
+
+
+### umbrel-app
+Updated: readme-upstream.md
+Updated: umbrel-core.md
+Updated: community-template.md
+
+### claude-code-expert
+
+
+### agent-browser
+Updated: readme-upstream.md
+Updated: installation.md
+Updated: quick-start.md
+Updated: commands.md
+Updated: selectors.md
+
+### chat-sdk
+Updated: adapter-community-baileys.md
+Updated: adapter-community-blooio.md
+Updated: adapter-community-cloudflare-do.md
+Updated: adapter-community-mattermost.md
+Updated: adapter-community-mysql.md
+
+### ai-sdk
+Updated: readme-upstream.md
+Updated: getting-started.md
+Updated: core-overview.md
+Updated: ui-overview.md
+Updated: tools.md
+
+### agent-skills
+Updated: readme-upstream.md
+Updated: specification.md
+Updated: what-are-skills.md
+Updated: integrate-skills.md
+Updated: skill-creation-quickstart.md
+
+### hermes
+Updated: installation.md
+Updated: quickstart.md
+Updated: learning-path.md
+Updated: cli.md
+Updated: configuration.md
+
+### honcho
+Updated: overview.md
+Updated: quickstart.md
+Updated: vibecoding.md
+Updated: architecture.md
+Updated: design-patterns.md
+
+### firecrawl
+Updated: readme-upstream.md
+Updated: quickstart.md
+Updated: scrape.md
+Updated: search.md
+Updated: crawl.md
+
+### servarr
+Updated: recyclarr-config.md
+Updated: sonarr.md
+Updated: radarr.md
+Updated: lidarr.md
+Updated: prowlarr.md
+
+### adguard
+Updated: readme-upstream.md
+Updated: getting-started.md
+Updated: configuration.md
+Updated: docker.md
+Updated: encryption.md
+
+### immich
+Updated: readme-upstream.md
+Updated: quick-start.md
+Updated: requirements.md
+Updated: environment-variables.md
+Updated: backup-and-restore.md
+
+### glinet
+Updated: first-time-setup.md
+Updated: internet-wan.md
+Updated: wireless.md
+Updated: lan-dns.md
+Updated: vpn-dashboard.md
+
+### umami
+Updated: readme-upstream.md
+Updated: api-client.md
+Updated: node-client.md
+Updated: authentication.md
+Updated: sending-stats.md
+
+### wealthfolio
+Updated: addons.md
+Updated: api-reference.md
+Updated: getting-started.md
+Updated: concepts.md
+Updated: activity-types.md
+
+### 1password-cli
+Updated: get-started.md
+Updated: app-integration.md
+Updated: sign-in-manually.md
+Updated: use-multiple-accounts.md
+Updated: secret-references.md
+
+### x-engagement
+Updated: x-algorithm-readme.md
+Updated: home-mixer-params.md
+Updated: home-mixer-config.md
+Updated: visibility-filtering-registry.md
+Updated: banger-screen-state.md
+
+### beads
+Updated: intro.md
+Updated: installation.md
+Updated: quickstart.md
+Updated: ide-setup.md
+Updated: core-concepts.md
+
+### tower
+Updated: readme-upstream.md
+Updated: herdr-skill-upstream.md
+
+### pi
+Updated: index.md
+Updated: quickstart.md
+Updated: usage.md
+Updated: providers.md
+Updated: llama-cpp.md
+
+### apprise-api
+Updated: readme-upstream.md
+Updated: api-introduction.md
+Updated: deployment.md
+Updated: usage.md
+Updated: endpoints.md
+
+---
+
+
+
 ## [2026-09-01] Documentation Sync
 
 **Updated skills:** claude-code-expert agent-browser chat-sdk ai-sdk agent-skills hermes honcho firecrawl servarr obsidian adguard glinet umami wealthfolio 1password-cli x-engagement beads tower

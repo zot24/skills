@@ -9,18 +9,17 @@
   - [Health](#health)
     - [System Warnings](#system-warnings)
       - [Branch is not a valid release branch](#branch-is-not-a-valid-release-branch)
-      - [Update to .NET version](#update-to-net-version)
-        - [Fixing Docker installs](#fixing-docker-installs)
-        - [Fixing FreeBSD installs](#fixing-freebsd-installs)
-        - [Fixing Standalone installs](#fixing-standalone-installs)
-      - [Currently installed mono version is old and unsupported](#currently-installed-mono-version-is-old-and-unsupported)
       - [Currently installed SQLite version is not supported](#currently-installed-sqlite-version-is-not-supported)
-      - [Database Failed Integrity Check](#database-failed-integrity-check)
       - [New update is available](#new-update-is-available)
+      - [Cannot install update because startup folder is in an App Translocation folder](#cannot-install-update-because-startup-folder-is-in-an-app-translocation-folder)
       - [Cannot install update because startup folder is not writable by the user](#cannot-install-update-because-startup-folder-is-not-writable-by-the-user)
+      - [Cannot install update because UI folder is not writable by the user](#cannot-install-update-because-ui-folder-is-not-writable-by-the-user)
       - [Updating will not be possible to prevent deleting AppData on Update](#updating-will-not-be-possible-to-prevent-deleting-appdata-on-update)
       - [Branch is for a previous version](#branch-is-for-a-previous-version)
+      - [Movie Folder Format uses deprecated tokens](#movie-folder-format-uses-deprecated-tokens)
+      - [Kometa metadata is deprecated](#kometa-metadata-is-deprecated)
       - [Could not connect to signalR](#could-not-connect-to-signalr)
+      - [Reverse Proxy Websocket Configuration](#reverse-proxy-websocket-configuration)
         - [Nginx](#nginx)
         - [Apache2](#apache2)
         - [Caddy](#caddy)
@@ -30,6 +29,7 @@
       - [PTP Indexer Settings Out of Date](#ptp-indexer-settings-out-of-date)
       - [Invalid API Key](#invalid-api-key)
       - [Package Maintainer Message](#package-maintainer-message)
+      - [Allowed Hosts Not Configured](#allowed-hosts-not-configured)
     - [Download Clients](#download-clients)
       - [No download client is available](#no-download-client-is-available)
       - [Unable to communicate with download client](#unable-to-communicate-with-download-client)
@@ -88,105 +88,11 @@
 
 - The branch you have set is not a valid release branch. You will not receive updates. Please change to one of the <a href="/radarr/faq#how-do-i-update-radarr" class="is-internal-link is-valid-page">current release branches</a>.
 
-#### <a href="#update-to-net-version" class="toc-anchor">¶</a> Update to .NET version
-
-- Newer versions of Radarr are targeted for .NET6 or newer. Mono builds are not provided nor supported starting with v4. v3.2.2 is the last version of Radarr to support legacy mono builds. You are running one of these legacy mono builds, but your platform supports .NET.
-
-See the below entries for how to switch from unsupported, end-of-life mono versions to dotnet.
-
-- [Fixing Docker installs](#fixing-docker-installs)
-- [Fixing FreeBSD installs](#fixing-freebsd-installs)
-- [Fixing Standalone installs](#fixing-standalone-installs)
-
-##### <a href="#fixing-docker-installs" class="toc-anchor">¶</a> Fixing Docker installs
-
-- Ensure your branch is correct for your docker maintainer and repull your container
-
-##### <a href="#fixing-freebsd-installs" class="toc-anchor">¶</a> Fixing FreeBSD installs
-
-- Simply update the Radarr Port with `pkg update && pkg upgrade`
-- (Optional) Remove the mono package if you wish
-
-##### <a href="#fixing-standalone-installs" class="toc-anchor">¶</a> Fixing Standalone installs
-
-Errors such as:
-
-``` prismjs
-Cannot open assembly '/opt/Radarr/Radarr': File does not contain a valid CIL image
-```
-
-- Back-Up your existing configuration before the next step.
-- This should only happen on Linux hosts. Do not install .NET runtime or SDK from Microsoft.
-- To remedy, download the correct build for your architecture and replace your existing binaries (application)
-- In short you will need to delete your existing binaries (contents or folder of /opt/Radarr) and replace with the contents of the .tar.gz you just downloaded and then update your service file to not use mono.
-
-> DO NOT JUST EXTRACT THE DOWNLOAD OVER THE TOP OF YOUR EXISTING BINARIES.  
-> YOU MUST DELETE THE OLD ONES FIRST.
-
-- The below is a community developed script to remove your mono installation and replace it with the .NET installation. Contributions and corrections are welcome.
-- This assumes you are on the `master` Radarr branch, so update the variable if needed
-- This assumes that Radarr runs as the user `radarr`, so update the variables if needed
-- This assumes Radarr is installed at `/opt/Radarr`, so update the variables if needed
-
-``` prismjs
-#!/bin/bash
-## User Variables
-installdir="/opt/Radarr"
-APPUSER="radarr"
-branch="master"
-## /User Variables
-app="radarr"
-ARCH=$(dpkg --print-architecture)
-# Stop \*arr
-sudo systemctl stop $app
-# get arch
-dlbase="https://$app.servarr.com/v1/update/$branch/updatefile?os=linux&runtime=netcore"
-case "$ARCH" in
-"amd64") DLURL="${dlbase}&arch=x64" ;;
-"armhf") DLURL="${dlbase}&arch=arm" ;;
-"arm64") DLURL="${dlbase}&arch=arm64" ;;
-*)
-    echo_error "Arch not supported"
-    exit 1
-    ;;
-esac
-echo "Downloading..."
-wget --content-disposition "$DLURL"
-tar -xvzf ${app^}.*.tar.gz
-echo "Installation files downloaded and extracted"
-echo "Moving existing installation"
-sudo mv "$installdir/" "$installdir.old/"
-echo "Installing..."
-sudo mv "${app^}" "$installdir"
-sudo chown $APPUSER:$APPUSER -R $installdir
-sudo sed -i "s|ExecStart=/usr/bin/mono --debug /opt/${app^}/${app^}.exe|ExecStart=/opt/${app^}/${app^}|g" /etc/systemd/system/$app.service
-sudo sed -i "s|ExecStart=/usr/bin/mono /opt/${app^}/${app^}.exe|ExecStart=/opt/${app^}/${app^}|g" /etc/systemd/system/$app.service
-sudo systemctl daemon-reload
-echo "App Installed"
-sudo rm -rf "$installdir.old/"
-rm -rf "${app^}.*.tar.gz"
-sudo systemctl start $app
-```
-
-#### <a href="#currently-installed-mono-version-is-old-and-unsupported" class="toc-anchor">¶</a> Currently installed mono version is old and unsupported
-
-- Radarr is written in .NET and required Mono to run on very old ARM processors. Mono 5.20 is the absolute minimum for Radarr.
-- The upgrade procedure for Mono varies per platform.
-
-> Mono is no longer supported starting in Radarr version 4.0
-
 #### <a href="#currently-installed-sqlite-version-is-not-supported" class="toc-anchor">¶</a> Currently installed SQLite version is not supported
 
 - Radarr stores its data in an SQLite database. The SQLite3 library installed on your system is too old. Radarr requires at least version 3.9.0.
 
 > Note that Radarr uses `libSQLite3.so` which may or may not be contained in a SQLite3 upgrade package.
-
-#### <a href="#database-failed-integrity-check" class="toc-anchor">¶</a> Database Failed Integrity Check
-
-- Your database(s) failed a <a href="https://www.sqlite.org/pragma.html#pragma_integrity_check" class="is-external-link">SQLite Pragma Integrity Check</a> and have some corruption.
-- If `Radarr.db` is corrupt <a href="/radarr/faq#i-am-getting-an-error-database-disk-image-is-malformed" class="is-internal-link is-valid-page">please see this FAQ Entry</a>
-- If `logs.db` is corrupt: Stop Radarr, delete `logs.db` and any `logs.wal` files.
-- If both are corrupt, review the respective processes above.
 
 #### <a href="#new-update-is-available" class="toc-anchor">¶</a> New update is available
 
@@ -194,9 +100,18 @@ sudo systemctl start $app
 
 > This warning will not appear if your current version is less than 14 days old
 
+#### <a href="#cannot-install-update-because-startup-folder-is-in-an-app-translocation-folder" class="toc-anchor">¶</a> Cannot install update because startup folder is in an App Translocation folder
+
+- macOS Gatekeeper can silently relocate an unopened, un-trusted copy of Radarr into a randomized, read-only App Translocation path. Radarr detects when it is running from that path and refuses to auto-update, since it cannot write to a translocated location.
+- Move Radarr to a normal folder (e.g. `/Applications`) and launch it from there so macOS stops translocating it, then retry the update.
+
 #### <a href="#cannot-install-update-because-startup-folder-is-not-writable-by-the-user" class="toc-anchor">¶</a> Cannot install update because startup folder is not writable by the user
 
 - This means Radarr will be unable to update itself. You’ll have to update Radarr manually or set the permissions on Radarr’s Startup directory (the installation directory) to allow Radarr to update itself.
+
+#### <a href="#cannot-install-update-because-ui-folder-is-not-writable-by-the-user" class="toc-anchor">¶</a> Cannot install update because UI folder is not writable by the user
+
+- This means Radarr will be unable to update itself. You’ll have to update Radarr manually or set the permissions on Radarr’s UI directory (inside the installation directory) to allow Radarr to update itself.
 
 #### <a href="#updating-will-not-be-possible-to-prevent-deleting-appdata-on-update" class="toc-anchor">¶</a> Updating will not be possible to prevent deleting AppData on Update
 
@@ -212,10 +127,20 @@ sudo systemctl start $app
 
 - The update branch setup in Settings/General is for a previous version of Radarr, therefore the instance will not see correct update information in the System/Updates feed and may not receive new updates when released.
 
-#### <a href="#could-not-connect-to-signalr" class="toc-anchor">¶</a> Could not connect to signalR
+#### <a href="#movie-folder-format-uses-deprecated-tokens" class="toc-anchor">¶</a> Movie Folder Format uses deprecated tokens
 
-- signalR drives the dynamic UI updates, so if your browser cannot connect to signalR on your server you won’t see any real time updates in the UI.
-- The most common occurrence of this is use of a reverse proxy or cloudflare
+- Your <a href="/radarr/settings#movie-folder-format" class="is-internal-link is-valid-page">Movie Folder Format</a> includes one or more tokens that are deprecated for folder names, such as `{Original Title}`, `{Release Group}`, `{Edition Tags}`, `{Quality Full}`, or the `{MediaInfo ...}` tokens. These are file-naming tokens, not folder-naming tokens, and Radarr will not save the format until they are removed.
+- Edit your Movie Folder Format and remove the deprecated tokens, keeping only the tokens listed under <a href="/radarr/settings#movie-naming-2" class="is-internal-link is-valid-page">Movie Naming</a>.
+
+#### <a href="#kometa-metadata-is-deprecated" class="toc-anchor">¶</a> Kometa metadata is deprecated
+
+- The <a href="/radarr/supported#kometametadata" class="is-internal-link is-valid-page">Kometa</a> metadata consumer is deprecated. Radarr will stop creating Kometa metadata files, and support will be removed completely in a future v6 release.
+- Disable the Kometa metadata consumer in Settings =\> Metadata to clear this warning.
+
+#### <a href="#reverse-proxy-websocket-configuration" class="toc-anchor">¶</a> Reverse Proxy Websocket Configuration
+
+- Radarr uses signalR to drive dynamic UI updates in the browser. If your reverse proxy does not pass websocket connections through, the UI will not receive real-time updates.
+- The most common occurrence of this is use of a reverse proxy or Cloudflare.
 - Cloudflare needs websockets enabled.
 
 ##### <a href="#nginx" class="toc-anchor">¶</a> Nginx
@@ -286,6 +211,11 @@ Note: you will also need to add the websocket directive to your radarr configura
 #### <a href="#package-maintainer-message" class="toc-anchor">¶</a> Package Maintainer Message
 
 - Your package maintainer has provided a message. This is typically used to communicate important information about your Radarr installation or package.
+
+#### <a href="#allowed-hosts-not-configured" class="toc-anchor">¶</a> Allowed Hosts Not Configured
+
+- Allowed Hosts is not configured, so Radarr will accept requests for any hostname. Set <a href="/radarr/settings#host" class="is-internal-link is-valid-page">Allowed Hosts</a> to a comma-separated list of the hostnames and IP addresses Radarr should answer to; use `*.` as a wildcard for subdomains (for example `*.example.com`). When Authentication Required is not `Enabled`, at least one host is required and Radarr rejects a blank value on save; a blank value is accepted only when Authentication Required is `Enabled`.
+- This warning only appears when Authentication Required is not set to `Enabled`, because restricting hostnames adds no protection once every request must authenticate. The check runs at startup and whenever the config is saved.
 
 ### <a href="#download-clients" class="toc-anchor">¶</a> Download Clients
 
@@ -611,5 +541,17 @@ A mount containing a movie path is read only and is not writable by the user Rad
   - Radarr uses rolling log files limited to 1MB each. The current log file is always radarr.txt, for the the other files radarr.0.txt is the next newest (the higher the number the older it is) up to 51 log files total. This log file contains `fatal`, `error`, `warn`, and `info` entries.
   - When Debug log level is enabled, additional radarr.debug.txt rolling log files will be present, up to 51 files. This log files contains `fatal`, `error`, `warn`, `info`, and `debug` entries. It usually covers a ~40h period.
   - When Trace log level is enabled, additional radarr.trace.txt rolling log files will be present, up to 51 files. This log files contains `fatal`, `error`, `warn`, `info`, `debug`, and `trace` entries. Due to trace verbosity it only covers a couple of hours at most.
+
+# <a href="#unsupported-legacy-build-health-checks" class="toc-anchor">¶</a> Unsupported legacy build health checks
+
+These health checks only appear on unsupported, end-of-life builds (legacy Mono, before the switch to .NET) and are not present in current releases. If you see one of them, your install is on an unsupported build. <a href="/radarr/faq#how-do-i-update-radarr" class="is-internal-link is-valid-page">Update to a supported release</a>.
+
+## <a href="#update-to-net-version" class="toc-anchor">¶</a> Update to .NET version
+
+Unsupported legacy mono build. <a href="/radarr/faq#how-do-i-update-radarr" class="is-internal-link is-valid-page">Update to a supported release</a>.
+
+## <a href="#currently-installed-mono-version-is-old-and-unsupported" class="toc-anchor">¶</a> Currently installed mono version is old and unsupported
+
+Unsupported legacy mono build. <a href="/radarr/faq#how-do-i-update-radarr" class="is-internal-link is-valid-page">Update to a supported release</a>.
 
 

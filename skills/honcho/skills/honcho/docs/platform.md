@@ -65,6 +65,8 @@ The **Performance** page provides comprehensive monitoring with usage metrics, h
 
 The [API Keys](https://app.honcho.dev/api-keys) page allows you to create and manage authentication tokens for different environments. You can create admin-level keys with full instance access or scope keys to a specific `Workspace`, `Peer`, or `Session`.
 
+Keys can also be created programmatically. `POST /v3/keys` with an admin key returns a real cloud key on that key's instance, attributed to its owner and revocable from the [API Keys](https://app.honcho.dev/api-keys) page.
+
 Scoped keys are authorized by their narrowest claim and never widen to the whole workspace:
 
 * A **peer-scoped** key acts on its own peer, plus **read-only** access to the sessions its peer is an active member of (context, summaries, peers, its own per-session config, search, and message reads). It cannot write to those sessions or act on other peers.
@@ -115,7 +117,7 @@ Click into any peer to navigate to their respective utilities page. Next to the 
 Utilities include:
 
 * **Message search** across all sessions for a `Peer`
-* **Chat** to query `Peer` representations with an optional session scope (results vary based on the `Peer`'s configuration)
+* **Chat** to query `Peer` representations with an optional session scope (results vary based on the `Peer`'s configuration). [Workspace chat](/docs/v3/documentation/features/chat#workspace-chat) is available through the API and SDKs only.
 
 <Frame>
   <img src="https://mintcdn.com/plasticlabs/lVyHfvNDd8wveJyM/images/app-screenshots/chat-endpoint.png?fit=max&auto=format&n=lVyHfvNDd8wveJyM&q=85&s=7b45b0dcf3da581478cfc8e3c0e499c5" alt="Chat Endpoint" width="1200" height="800" loading="lazy" decoding="async" fetchpriority="low" data-path="images/app-screenshots/chat-endpoint.png" />
