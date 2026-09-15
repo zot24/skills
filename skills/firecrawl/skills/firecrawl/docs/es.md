@@ -4,7 +4,7 @@
 
 ## Spanish
 
-- [Spanish / v2 (202 pages)](https://docs.firecrawl.dev/_llms/es/v2.md): Documentation for Spanish / v2.
+- [Spanish / v2 (203 pages)](https://docs.firecrawl.dev/_llms/es/v2.md): Documentation for Spanish / v2.
 
 ### v1
 
@@ -14,7 +14,6 @@
 
 - [Introducción](https://docs.firecrawl.dev/es/introduction.md): Busca en la web, haz scraping de cualquier página e interactúa con ella, todo desde una sola API.
 - [Primeros pasos](https://docs.firecrawl.dev/es/mcp-server.md): Configura Firecrawl MCP con acceso sin clave, inicio de sesión en la cuenta o una clave de API.
-- [Migración de v1 a v2](https://docs.firecrawl.dev/es/migrate-to-v2.md): Cambios clave, correspondencias y ejemplos de antes y después para actualizar tu integración a v2.
 - [Guía avanzada de scraping](https://docs.firecrawl.dev/es/advanced-scraping-guide.md): Configura opciones de scraping, acciones del navegador, rastreo, mapeo y el endpoint del agente con todas las capacidades de la API de Firecrawl.
 
 ###### Planes y facturación
@@ -23,7 +22,7 @@
 - [Límites de tasa](https://docs.firecrawl.dev/es/rate-limits.md): Límites de tasa para distintos planes y solicitudes de API
 - [Créditos de socio](https://docs.firecrawl.dev/es/partner-credits.md): Cómo funcionan los créditos de socio de Firecrawl, incluidos los requisitos, la caducidad y los límites del plan
 
-###### Enterprise
+###### Empresa
 
 - [Enterprise](https://docs.firecrawl.dev/es/enterprise.md): Planes Enterprise, seguridad y funciones de Firecrawl a gran escala
 - [Restricciones de IP](https://docs.firecrawl.dev/es/features/ip-restrictions.md): Restringe las claves de API de tu equipo a una lista de permitido de direcciones IP o rangos CIDR, para que solo funcionen desde redes aprobadas. Aplicadas en el servidor.

@@ -1466,6 +1466,30 @@
       "target": "skills/honcho/docs/scopes.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/api-reference/endpoint/workspaces/chat-workspace.md",
+      "target": "skills/honcho/docs/api/workspaces-chat-workspace.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/documentation/features/advanced/deleting-data.md",
+      "target": "skills/honcho/docs/deleting-data.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/documentation/features/advanced/evidence.md",
+      "target": "skills/honcho/docs/evidence.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/guides/integrations/deepseek-harness.md",
+      "target": "skills/honcho/docs/guides/deepseek-harness.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

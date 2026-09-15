@@ -75,11 +75,6 @@ CLI
 - <a href="/get-started/developer-quickstart" class="link">Developer quickstart</a>
 
 
-Related topics
-
-<a href="/get-started/manage-organization" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Programmatically manage your 1Password organization</span></a><a href="/events-api/generic-scripts" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password Events API generic scripts</span></a><a href="/events-api/get-started" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get started with the 1Password Events API</span></a>
-
-
 Was this page helpful?
 
 

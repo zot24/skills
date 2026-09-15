@@ -37,6 +37,10 @@ bot.onNewMention(async (thread, message) => {
 });
 ```
 
+## Mentions
+
+Incoming Teams mentions are supported. Outgoing `@name` text, including multi-word names, stays plain text and does not notify the user. The adapter does not resolve display names into user identities or generate mention entities. Teams requires [matching mention text and entities](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/conversations/channel-and-group-conversations#add-mentions-to-your-messages) for a real mention; `<at>` markup alone is not sufficient.
+
 ## Configuration
 
 
@@ -130,7 +134,7 @@ createTeamsAdapter({
 
 ### Conversation routing
 
-Incoming thread IDs preserve the Teams conversation type when the legacy ID-prefix heuristic would route it incorrectly. This keeps correctly classified IDs stable while selecting the buffered fallback for group chats whose IDs begin with `a:`. Thread IDs created by older adapter versions remain supported.
+Incoming thread IDs preserve the Teams conversation type when the legacy ID-prefix heuristic would route it incorrectly. When Teams omits `conversationType`, the adapter falls back to `conversation.isGroup` and the activity's team context. This keeps correctly classified IDs stable while selecting the buffered fallback for group chats whose IDs begin with `a:`. Thread IDs created by older adapter versions remain supported.
 
 ### Incoming attachments
 
@@ -203,6 +207,23 @@ By default, Teams bots only receive messages when directly @-mentioned. The RSC 
 
 Run `teams app doctor <appId>` to diagnose common issues — bot registration, AAD app health, manifest consistency, and endpoint reachability.
 
+## Bot joins
+
+`onMemberJoinedChannel` fires when a `conversationUpdate` activity adds this bot to a channel or group chat. `adapter.botUserId` is the Teams bot ID (`28:<appId>`), so the same bot-join guard works across adapters:
+
+```typescript
+bot.onMemberJoinedChannel(async (event) => {
+  if (event.userId !== event.adapter.botUserId) {
+    return;
+  }
+  await bot.channel(event.channelId).post("Hello! Thanks for adding me.");
+});
+```
+
+For team installations, `channelId` identifies the channel selected during installation, not the team ID. `inviterId` comes from the activity sender. Pass your platform's `waitUntil` to the webhook handler to track asynchronous welcome handlers.
+
+This dispatches bot joins only. Personal installs, ordinary member additions, removals, and `installationUpdate` activities do not emit this event. See Microsoft's [conversation event documentation](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/conversations/subscribe-to-conversation-events#members-added) for the underlying payloads.
+
 ## Low-level APIs
 
 Use the low-level Teams subpaths when your app already owns routing, state, sessions, or workflow execution and only needs Teams-specific primitives.
@@ -217,7 +238,7 @@ Use the low-level Teams subpaths when your app already owns routing, state, sess
 | `@chat-adapter/teams/modals`  | Runtime-free Task Module Adaptive Card helpers and submit parsing                          |
 
 
-  The webhook subpath parses Activities only. It does not verify Microsoft Bot Framework JWTs. For production request validation, use `createTeamsAdapter` or the Microsoft Teams SDK request pipeline before handing the Activity to these helpers.
+  The webhook subpath parses Activities only. It does not verify Microsoft Bot Framework JWTs. Authenticate the request with the Microsoft Teams SDK request pipeline before handing the Activity to these helpers, or use `createTeamsAdapter`. The Connector helpers restrict `serviceUrl` to Microsoft-owned hosts, but that does not authenticate the Activity.
 
 
 ### Webhooks
@@ -229,6 +250,8 @@ import { postTeamsMessage } from "@chat-adapter/teams/api";
 import { readTeamsWebhook } from "@chat-adapter/teams/webhook";
 
 export async function POST(request: Request) {
+  // Authenticate the Bot Framework JWT before parsing the request. This
+  // example assumes your routing layer already performed that verification.
   const payload = await readTeamsWebhook(request, {
     botAppId: process.env.TEAMS_APP_ID,
   });

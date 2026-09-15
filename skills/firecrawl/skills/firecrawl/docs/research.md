@@ -27,6 +27,10 @@ The index covers roughly 43 million paper abstracts. The majority of the corpus 
 
 ## How this relates to `/search`
 
+
+  From 2026-11-16, `categories: ["research"]` on `/search` searches this index and returns the same paper records in `data.research`. The table below describes its behavior until then. See [search categories](/features/search#search-categories).
+
+
 Firecrawl has two things named "research", and they are not the same feature:
 
 |                            | Research Index (this page)                                                                      | `/search` with `categories: ["research"]`                                                                  |

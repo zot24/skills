@@ -133,7 +133,7 @@ npx -y firecrawl-cli@latest init --all --browser
 - **MCP Server**: Connect Firecrawl to any AI tool via the <a href="/mcp-server" class="link">Model Context Protocol</a>.
 
 
-<a href="" class="link firecrawl-cta-btn-primary firecrawl-cta-btn-inline" target="_blank" rel="noreferrer"><span data-as="p">Start the interview</span></a>
+<a href="https://www.firecrawl.dev/survey/dsag9?src=docs-introduction" class="firecrawl-cta-btn-primary firecrawl-cta-btn-inline"><span data-as="p">Start the interview</span></a>
 
 
 ------------------------------------------------------------------------

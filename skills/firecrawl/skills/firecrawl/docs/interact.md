@@ -18,7 +18,7 @@
 Search...
 
 
-Core Endpoints
+Interact / Browser Sandbox
 
 
 Interact after scraping
@@ -36,7 +36,7 @@ Interact after scraping
 <a href="/ai-onboarding" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium hover:text-gray-800 dark:hover:text-gray-300 text-gray-800 dark:text-gray-200">Build with AI</a>
 
 
-Core Endpoints
+Interact / Browser Sandbox
 
 
 # Interact after scraping
@@ -45,8 +45,11 @@ Core Endpoints
 Interact with a page you fetched by prompting or running code.
 
 
-<a href="" class="link firecrawl-cta-btn-primary firecrawl-cta-btn-inline" target="_blank" rel="noreferrer"><span data-as="p">Start the interview</span></a>
-
+- **Scrape behind a login** — sign in once, then read the pages that only appear after authentication. See <a href="#persistent-profiles-with-scrape-+-interact" class="link">Persistent Profiles with Scrape + Interact</a>.
+- **Click through pagination** — advance the page and pull each set of results, reusing one session. See <a href="#interact-via-prompting" class="link">Interact via prompting</a> and <a href="#session-lifecycle" class="link">Session Lifecycle</a>.
+- **Fill and submit a form** — type into fields and submit, from a prompt or from Playwright code. See <a href="#interact-via-prompting" class="link">Interact via prompting</a> and <a href="#running-code" class="link">Running Code</a>.
+- **Reuse an authenticated session** — save browser state to a named profile and load it on later scrapes. See <a href="#persistent-profiles-with-scrape-+-interact" class="link">Persistent Profiles with Scrape + Interact</a>.
+- **Start a session without scraping first** — open a standalone browser you drive directly. See <a href="/features/browser" class="link">Browser Sandbox</a>.
 
 ## 
 
@@ -223,7 +226,14 @@ console.log(response.output);
 
 
 ``` shiki
+# Scrape first to get a scrapeId
 # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://www.amazon.com", "formats": ["markdown"]}')
+
+SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+
 curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
   -H "Content-Type: application/json" \
   -d '{
@@ -316,7 +326,14 @@ console.log(response.result);
 
 
 ``` shiki
+# Scrape first to get a scrapeId
 # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com", "formats": ["markdown"]}')
+
+SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+
 curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
   -H "Content-Type: application/json" \
   -d '{
@@ -406,7 +423,14 @@ console.log(response.stdout);
 
 
 ``` shiki
+# Scrape first to get a scrapeId
 # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com", "formats": ["markdown"]}')
+
+SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+
 curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
   -H "Content-Type: application/json" \
   -d '{
@@ -491,8 +515,15 @@ await app.interact(scrapeId, {
 
 
 ``` shiki
-# Take a snapshot to see interactive elements
+# Scrape first to get a scrapeId
 # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com", "formats": ["markdown"]}')
+
+SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
+
+# Take a snapshot to see interactive elements
 curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
   -H "Content-Type: application/json" \
   -d '{"code": "agent-browser snapshot -i", "language": "bash"}'
@@ -668,6 +699,8 @@ await app.stopInteraction(scrapeId);
 
 
 ``` shiki
+# SCRAPE_ID is the scrapeId returned by your earlier POST /v2/scrape call,
+# for example: SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
 # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
 curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
 ```

@@ -240,11 +240,6 @@ op account list [flags]
 ```
 
 
-Related topics
-
-<a href="/cli/reference/management-commands/service-account" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">service-account</span></a><a href="/service-accounts/manage-service-accounts" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Manage service accounts</span></a><a href="/partnership-api/reference/get-billing-account" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get billing account</span></a>
-
-
 Was this page helpful?
 
 

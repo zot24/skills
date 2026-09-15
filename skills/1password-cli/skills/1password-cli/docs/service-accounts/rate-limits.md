@@ -89,11 +89,6 @@ Service accounts
 - <a href="https://support.1password.com/contact/" class="link" target="_blank" rel="noreferrer">Contact 1Password support.</a>
 
 
-Related topics
-
-<a href="/sdks/concepts" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password SDK concepts</span></a><a href="/events-api/rate-limits" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Rate limits</span></a><a href="/cli/reference/management-commands/service-account" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">service-account</span></a>
-
-
 Was this page helpful?
 
 

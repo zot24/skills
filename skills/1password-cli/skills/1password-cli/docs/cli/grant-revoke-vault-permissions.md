@@ -190,11 +190,6 @@ op vault group revoke --no-input --group "IT" --vault Prod --permissions allow_m
 - <a href="/get-started/administrator-quickstart" class="link">Administrator quickstart</a>
 
 
-Related topics
-
-<a href="/cli/vault-permissions" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">About vault permissions</span></a><a href="/cli/recover-users" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Recover accounts using 1Password CLI</span></a><a href="/cli/use-cases" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use cases</span></a>
-
-
 Was this page helpful?
 
 

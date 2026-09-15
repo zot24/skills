@@ -108,9 +108,6 @@ firecrawl login
 ```
 
 
-<a href="" class="link firecrawl-cta-btn-primary firecrawl-cta-btn-inline" target="_blank" rel="noreferrer"><span data-as="p">Start the interview</span></a>
-
-
 ### 
 
 
@@ -261,7 +258,7 @@ for (const item of result.web ?? []) {
 <a href="#search-categories" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- `research`: Restrict web search to academic and research **websites** (arxiv.org, nature.com, ieee.org, pubmed.ncbi.nlm.nih.gov, biorxiv.org, medrxiv.org, and similar). Returns ordinary web page results with snippets — not paper records. To search papers themselves, use the <a href="/features/research" class="link">Research Index</a>
+- `research`: Restrict web search to academic and research websites (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, and similar). Changes on 2026-11-16 to search the <a href="/features/research" class="link">Research Index</a> and return paper records, see the warning below
 - `pdf`: Search for PDFs
 - `developer`: Search the <a href="/features/developer" class="link">Developer Index</a> — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites
 
@@ -991,6 +988,17 @@ curl -X POST https://api.firecrawl.dev/v2/search \
 
 
 > <span data-as="p">Are you an AI agent that needs a Firecrawl API key? See <a href="https://www.firecrawl.dev/agent-onboarding/SKILL.md" class="link" target="_blank" rel="noreferrer">firecrawl.dev/agent-onboarding/SKILL.md</a> for automated onboarding instructions.</span>
+
+## 
+
+
+<a href="#measured-performance" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| Metric                                | Value                                                     | Source                                                                                                                                  | Date                                   | n / ±                                                                                                                                                                                       |
+|---------------------------------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Agent Score (Mean Relevant × Quality) | 14.58, rank 2 of 8 (Mean Relevant 4.30/5, Quality 3.39/5) | <a href="https://aimultiple.com/agentic-search" class="link" target="_blank" rel="noreferrer">AIMultiple — Agentic Search Benchmark</a> | Dec 2025 (source updated May 25, 2026) | 95% CI 13.12–15.98, n=100 AI/LLM-domain queries drawn from AIMultiple’s own organic search traffic (10,000 bootstrap resamples); the source notes results don’t generalize to other domains |
+
 
 ## 
 

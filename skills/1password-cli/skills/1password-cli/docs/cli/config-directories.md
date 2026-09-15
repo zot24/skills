@@ -63,11 +63,6 @@ Install
 6.  `${XDG_CONFIG_HOME}/op`
 
 
-Related topics
-
-<a href="/cli/get-started" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get started with 1Password CLI</span></a><a href="/get-started/secure-developers" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Set up your team to use 1Password developer tools</span></a><a href="/cli/reference/management-commands/plugin" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">plugin</span></a>
-
-
 Was this page helpful?
 
 

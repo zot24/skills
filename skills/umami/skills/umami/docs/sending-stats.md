@@ -154,7 +154,7 @@ Each item is forwarded to `/api/send`, so all `type` values and payload fields s
 If any items fail, `errors` is the failure count and `details` lists each failure along with its `index` in the submitted array.
 
 
-<a href="/docs/api/authentication" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Authentication</span></span></a><a href="/docs/api/admin" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Admin</span></span></a>
+<a href="/docs/api/authentication" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Authentication</span></span></a><a href="/docs/api/common-endpoints" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Common endpoints</span></span></a>
 
 
 On this page

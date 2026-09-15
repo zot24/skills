@@ -82,6 +82,12 @@ pnpm link --global
 ```
 
 
+## Windows browser sessions<a href="#windows-browser-sessions" aria-label="Link to this section">#</a>
+
+Headless Chrome runs on a private Windows desktop. This prevents hidden browser windows from leaving visible rectangles on your desktop, including with affected Chrome 150 builds. It applies to bundled and custom Chrome executables and to windows created later in the session. Automation, screenshots, and GPU rendering continue through CDP.
+
+Use `--headed` to show Chrome on the interactive desktop. Sessions with extensions also use the interactive desktop. Agent-browser owns the Chrome processes it launches: Windows terminates the entire Chrome tree when its daemon exits or is forcibly killed. Browsers attached with `--cdp` or `--auto-connect` remain externally owned.
+
 ## Linux dependencies<a href="#linux-dependencies" aria-label="Link to this section">#</a>
 
 On Linux, install system dependencies:

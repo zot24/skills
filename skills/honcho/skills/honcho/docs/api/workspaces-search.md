@@ -9,6 +9,9 @@
 > Search messages in a Workspace using optional filters. Use `limit` to control the number of
 results returned.
 
+Pass `scope` to restrict the search to a scope's member sessions. A scope
+with no member sessions returns no results (fail-closed).
+
 
 ## OpenAPI
 
@@ -24,7 +27,10 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.1.0
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.1.2
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -42,6 +48,12 @@ paths:
         control the number of
 
         results returned.
+
+
+        Pass `scope` to restrict the search to a scope's member sessions. A
+        scope
+
+        with no member sessions returns no results (fail-closed).
       operationId: search_workspace_v3_workspaces__workspace_id__search_post
       parameters:
         - name: workspace_id
@@ -55,7 +67,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MessageSearchOptions'
+              $ref: '#/components/schemas/WorkspaceMessageSearchOptions'
               description: Message search parameters
       responses:
         '200':
@@ -79,7 +91,7 @@ paths:
         - HTTPBearer: []
 components:
   schemas:
-    MessageSearchOptions:
+    WorkspaceMessageSearchOptions:
       properties:
         query:
           type: string
@@ -99,10 +111,20 @@ components:
           title: Limit
           description: Number of results to return
           default: 10
+        scope:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Scope
+          description: >-
+            Optional (unprefixed) scope name restricting search to the scope's
+            member sessions. A scope with no member sessions returns no results.
+            Mutually exclusive with a 'session_id' key in `filters`.
       type: object
       required:
         - query
-      title: MessageSearchOptions
+      title: WorkspaceMessageSearchOptions
+      description: Workspace-level message search options, extended with `scope`.
     Message:
       properties:
         id:

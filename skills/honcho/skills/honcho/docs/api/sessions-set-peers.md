@@ -10,6 +10,8 @@
 
 This will fully replace the current set of Peers in the Session.
 
+Scope peers cannot be set here; scope membership is managed via the scopes routes.
+
 
 ## OpenAPI
 
@@ -25,7 +27,10 @@ info:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 3.1.0
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.1.2
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -44,6 +49,10 @@ paths:
 
 
         This will fully replace the current set of Peers in the Session.
+
+
+        Scope peers cannot be set here; scope membership is managed via the
+        scopes routes.
       operationId: >-
         set_session_peers_v3_workspaces__workspace_id__sessions__session_id__peers_put
       parameters:

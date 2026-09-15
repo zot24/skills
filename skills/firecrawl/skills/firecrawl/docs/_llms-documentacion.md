@@ -7,7 +7,7 @@
 ### Primeros pasos
 
 - [Introducción](https://docs.firecrawl.dev/es/introduction.md): Busca en la web, haz scraping de cualquier página e interactúa con ella, todo desde una sola API.
-- [CLI](https://docs.firecrawl.dev/es/sdks/cli.md): Las skills de Firecrawl son una forma sencilla de que agentes de IA como Claude Code, Antigravity y OpenCode usen Firecrawl a través de la CLI.
+- [CLI](https://docs.firecrawl.dev/es/sdks/cli.md): Las skills de Firecrawl son una forma sencilla de que agentes de IA como Codex, Claude Code, Cursor y OpenCode usen Firecrawl a través de la CLI.
 - [Desarrolla con IA](https://docs.firecrawl.dev/es/ai-onboarding.md): Todo lo que necesitas para integrar tu agente de IA con Firecrawl.
 - [Guía avanzada de scraping](https://docs.firecrawl.dev/es/advanced-scraping-guide.md): Configura opciones de scraping, acciones del navegador, rastreo, mapeo y el endpoint del agente con todas las capacidades de la API de Firecrawl.
 
@@ -33,8 +33,6 @@
 - [Registro de auditoría SIEM](https://docs.firecrawl.dev/es/features/siem.md): Envía un evento de auditoría estructurado a tu propio SIEM por cada scraping que realiza tu equipo, comenzando con Microsoft Sentinel. Entrega del lado del servidor.
 
 ### Endpoints principales
-
-- [Interact tras el scraping](https://docs.firecrawl.dev/es/features/interact.md): Interactúa con una página que has obtenido mediante prompts o ejecutando código.
 
 #### Búsqueda
 
@@ -62,6 +60,11 @@
 - [Supervisión de páginas](https://docs.firecrawl.dev/es/features/monitoring-page.md): Supervisa URLs conocidas y recibe alertas cuando haya cambios significativos en la página
 - [Supervisión de sitios web](https://docs.firecrawl.dev/es/features/monitoring-website.md): Rastrea un sitio web de forma programada y detecta cambios en todas las páginas descubiertas
 - [Monitorización a escala de toda la web](https://docs.firecrawl.dev/es/features/monitoring-web-scale.md): Ejecuta búsquedas web siempre activas y envía alertas cuando aparezcan nuevos resultados coincidentes
+
+#### Interacción / sandbox del navegador
+
+- [Interact tras el scraping](https://docs.firecrawl.dev/es/features/interact.md): Interactúa con una página que has obtenido mediante prompts o ejecutando código.
+- [sandbox del navegador](https://docs.firecrawl.dev/es/features/browser.md): Un sandbox del navegador seguro donde los agentes pueden interactuar con la web.
 
 ### Más
 
@@ -206,6 +209,6 @@
 
 ### Contribuciones
 
-- [Código abierto o Firecrawl Cloud](https://docs.firecrawl.dev/es/contributing/open-source-or-cloud.md): Elige entre alojar Firecrawl por tu cuenta para controlar la infraestructura y Firecrawl Cloud para llegar a producción por la vía gestionada más rápida.
-- [Ejecutar Firecrawl localmente para desarrollo](https://docs.firecrawl.dev/es/contributing/guide.md): Configura el entorno de desarrollo de la API de Firecrawl, verifica un scraping local y ejecuta el conjunto de pruebas del repositorio antes de contribuir.
+- [Código abierto o Firecrawl Cloud](https://docs.firecrawl.dev/es/contributing/open-source-or-cloud.md): Elige entre autogestionar Firecrawl para controlar la infraestructura y Firecrawl Cloud para llegar a producción por la vía gestionada más rápida.
+- [Configuración para colaboradores de Firecrawl](https://docs.firecrawl.dev/es/contributing/guide.md): Configura el entorno de desarrollo de la API de Firecrawl, verifica un scraping local y ejecuta el entorno de prueba del repositorio antes de contribuir.
 - [Autoalojamiento de Firecrawl](https://docs.firecrawl.dev/es/contributing/self-host.md): Autoaloja Firecrawl con Docker Compose, verifica un scraping local, comprende las limitaciones del código abierto y prepara la infraestructura para producción.

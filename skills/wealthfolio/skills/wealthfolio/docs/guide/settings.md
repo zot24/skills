@@ -5,28 +5,28 @@
 <img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" loading="lazy" decoding="async" data-fetchpriority="auto" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" loading="lazy" decoding="async" data-fetchpriority="auto" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -41,13 +41,13 @@
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
@@ -59,19 +59,19 @@
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,7 +93,7 @@ Configure Wealthfolio — base currency and timezone, language and region format
 
 ------------------------------------------------------------------------
 
-Last updated August 28, 2026
+Last updated September 13, 2026
 
 
 Open **Settings** from the bottom of the sidebar. Options are grouped into **Preferences**, **Finance**, **Data**, **Connections**, and **Extensions**, plus **About**.
@@ -107,41 +107,46 @@ Open **Settings** from the bottom of the sidebar. Options are grouped into **Pre
 
 ### General
 
-- **Base Currency** — the currency every total and report is converted to. All balances and transactions are converted using market exchange rates (see <a href="#exchange-rates" class="font-medium underline underline-offset-4">Exchange rates</a>).
-- **Timezone** — the timezone used for dates, daily buckets, and yearly contribution-limit boundaries.
-- **Automatic Updates** — when enabled, Wealthfolio checks for app updates on startup.
+**Base Currency** is the reporting currency for consolidated portfolio values. Changing it changes how those values are presented; it does not rewrite the currencies on your accounts, activities, or security quotes. Choose a currency and click **Save**. See <a href="/docs/concepts/market-data-and-fx/" class="font-medium underline underline-offset-4">Market Data &amp; FX</a> for how conversions work.
+
+#### Language & Region
+
+These controls live on the **General** page and save when you change them:
+
+- **Language** changes interface text independently of number and date formatting. Supported languages include English, French, German, Spanish, Brazilian Portuguese, Italian, Simplified Chinese, Traditional Chinese, Japanese, and Korean.
+- **Region & formats** controls date order, decimal separators, percentages, currency presentation, and 12- or 24-hour time. Choose System, Canada, United States, United Kingdom, France, Germany, Spain, Mexico, Brazil, Portugal, China, Taiwan, Japan, South Korea, or Italy. **System** follows the locale reported by your browser or app environment, including regions without a dedicated option. Check the live date, number, currency, and time previews.
+- **Timezone** controls local date and time display and date boundaries, including annual contribution periods. Select the timezone you want Wealthfolio to use.
+
+Amount fields accept your region’s decimal separator. Changing the interface language alone does not change your financial formatting conventions.
 
 #### Exchange rates
 
-Exchange rates are added and refreshed automatically from your market-data providers. The **General** page lists the current rates so you can review them, and lets you **add a custom rate** for any pair the providers don’t cover:
+Review currency pairs, their rates, sources, and timestamps under **General**. To add a pair:
 
-1.  Click **Add rate**.
-2.  Choose the **From** and **To** currencies and enter the **rate**.
-3.  Save.
+1.  Click **Add rate** and choose the **From** and **To** currencies.
+2.  Choose a **Source**. For **Manual**, enter a rate greater than zero. For a market-data provider, Wealthfolio fetches the rate instead of asking you to enter it.
+3.  Save the pair.
 
-Wealthfolio also handles currency variants automatically — for example pence vs. pounds (`GBp` ↔ `GBP`, 100 : 1) for securities priced in cents.
+The direction matters: a rate of `1.35` from USD to CAD means USD 1 is CAD 1.35. You can edit a manual rate in the table. Provider rates are refreshed through market-data sync and cannot be edited inline. You can also delete a pair after confirming; if your holdings or activities need it, you may need to recreate it for accurate calculations.
 
-
-Manually added rates aren’t auto-updated, so review them periodically.
-
-
-### Language & Region
-
-Two independent settings, so changing the interface language never changes your financial and date conventions:
-
-- **Language** — the language of UI text and control labels. Wealthfolio ships English, Français, Deutsch, Español, 简体中文, 日本語, and 한국어.
-- **Region & formats** — dates, times, decimal separators, percentages, and currency presentation. Eleven options: System, Canada, United States, United Kingdom, France, Germany, Spain, Mexico, China, Japan, and South Korea. Date order (`dd/MM/yyyy` vs. `MM/dd/yyyy`) and 12- vs. 24-hour time follow the region you pick, and the page shows a live preview of dates, numbers, currency, and time.
-
-**System** takes the operating system’s own locale, which covers regions without a dedicated entry. Amount fields accept your region’s decimal separator, and add-ons receive the same locale settings as the app.
+Wealthfolio handles currency variants such as pence and pounds (`GBp` and `GBP`) automatically. See <a href="/docs/concepts/market-data-and-fx/" class="font-medium underline underline-offset-4">Market Data &amp; FX</a> for conversion behavior and <a href="/docs/guide/custom-providers/" class="font-medium underline underline-offset-4">Market Data Providers</a> for provider configuration.
 
 
-The separate **Region & formats** setting arrived in 3.7. Before that, formatting followed the interface language.
+Manual rates are not refreshed automatically. Review them periodically.
 
+
+#### Automatic Updates
+
+Enable startup update checks for the desktop app. The switch saves immediately and controls checking for updates, not unattended installation. This section is hidden on mobile. Self-hosted deployments are updated through their hosting setup; see <a href="/docs/guide/self-hosting/" class="font-medium underline underline-offset-4">Self-hosting</a>.
 
 ### Appearance
 
-- **Theme** — Light, Dark, or follow your system.
-- **Font** — choose Mono, Serif, or Sans for the interface.
+- **Theme**: Light, Dark, or follow your system.
+- **Font**: Mono, Serif, or Sans for the interface.
+- **Navigation style**: Sidebar or Floating Bar.
+- **Show menu bar**: show or hide the application menu bar.
+
+Appearance changes save as you make them. Navigation style and menu bar controls are hidden on mobile.
 
 ## Finance
 
@@ -165,33 +170,33 @@ Opt accounts into spending, manage categorization rules, budgets, and life event
 
 ### Securities
 
-Review and manage the instruments in your portfolio — tickers, custom/alternative assets, and their data settings.
+Review and manage the instruments in your portfolio, including their details and data settings. See <a href="/docs/guide/assets/" class="font-medium underline underline-offset-4">Assets &amp; Securities</a> for the full guide.
 
 ### Classifications
 
-Edit the taxonomies (asset class, industry/sector, region, risk, and custom groups) that power <a href="/docs/guide/dashboards/" class="font-medium underline underline-offset-4">Portfolio Insights</a> and <a href="/docs/guide/allocation-targets/" class="font-medium underline underline-offset-4">Allocation Targets</a>. AI can help fill in missing tags.
+Edit the classifications (asset class, industry/sector, region, risk, and custom groups) that power <a href="/docs/guide/dashboards/" class="font-medium underline underline-offset-4">Portfolio Insights</a> and <a href="/docs/guide/allocation-targets/" class="font-medium underline underline-offset-4">Allocation Targets</a>. AI can help fill in missing tags. See <a href="/docs/guide/assets/#classify-your-assets" class="font-medium underline underline-offset-4">Classify your assets</a> for assignments, weights, and custom classifications.
 
 ### Backup & Export
 
-Export your data or back up your local database. See <a href="/docs/guide/data-export/" class="font-medium underline underline-offset-4">Export &amp; Backup</a>.
+Use the **Backup** tab to create or restore a database backup and the **Export** tab for CSV, JSON, or SQLite exports. Desktop and iOS support restore in the app. Web mode lets you create, download, and delete server backups; restoration requires stopping the server. See <a href="/docs/guide/data-export/" class="font-medium underline underline-offset-4">Export &amp; Backup</a> for steps and platform differences.
 
 ## Connections
 
 ### Wealthfolio Connect
 
-Optional, end-to-end-encrypted brokerage and device sync. See <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync</a>.
+Connect a brokerage to import holdings and activities, or sync your data between devices. Device sync uses end-to-end encryption. See <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync</a>.
 
 ### Market Data
 
-Choose which built-in providers are active and add your own. See <a href="/docs/guide/custom-providers/" class="font-medium underline underline-offset-4">Market Data Providers</a>.
+Enable providers, configure API keys, set provider priority, and review sync status or errors. You can also add custom providers and override the provider or symbol for an individual security. See <a href="/docs/guide/custom-providers/" class="font-medium underline underline-offset-4">Market Data Providers</a>.
 
 ### AI Providers
 
-Connect an AI provider (or a local model) and pick a default model for the <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a>.
+Connect a hosted provider or local model, enable the providers and models available in the chat picker, and control each provider’s data access. Advanced options include custom endpoints and provider tuning. See <a href="/docs/guide/ai-assistant/#provider-settings" class="font-medium underline underline-offset-4">AI provider settings</a> for keys, model capabilities, and save behavior.
 
 ### AI Agent Access
 
-Create and manage scoped access tokens for AI agents and the MCP server. See <a href="/docs/guide/mcp-server/" class="font-medium underline underline-offset-4">MCP Server</a>.
+Start or stop the MCP server, configure auto-start and audit logging, and create or revoke scoped access tokens. Desktop and web controls differ; this entry is hidden in mobile Settings. See <a href="/docs/guide/mcp-server/" class="font-medium underline underline-offset-4">MCP Server</a>.
 
 ## Extensions
 
@@ -201,7 +206,7 @@ Install and manage community add-ons that extend Wealthfolio. See <a href="/docs
 
 ## About
 
-App version, links, and update controls.
+Review the app version and project links. Desktop update controls let you check for a new release; update availability depends on your platform.
 
 
 ------------------------------------------------------------------------
@@ -214,7 +219,6 @@ On This Page
 
 - <a href="#preferences" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Preferences</a>
   - <a href="#general" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">General</a>
-  - <a href="#language--region" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Language &amp; Region</a>
   - <a href="#appearance" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Appearance</a>
 - <a href="#finance" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Finance</a>
   - <a href="#accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Accounts</a>

@@ -4,7 +4,7 @@
 
 ## Brazilian Portuguese
 
-- [Brazilian Portuguese / v2 (202 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.md): Documentation for Brazilian Portuguese / v2.
+- [Brazilian Portuguese / v2 (203 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.md): Documentation for Brazilian Portuguese / v2.
 
 ### v1
 
@@ -14,7 +14,6 @@
 
 - [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): Faça uma busca na web, faça scraping de qualquer página e interaja com ela, tudo por meio de uma única API.
 - [Primeiros passos](https://docs.firecrawl.dev/pt-BR/mcp-server.md): Configure o Firecrawl MCP com acesso sem chave, login na conta ou uma chave de API.
-- [Migração da v1 para a v2](https://docs.firecrawl.dev/pt-BR/migrate-to-v2.md): Principais mudanças, mapeamentos e exemplos de antes e depois para atualizar sua integração para a v2.
 - [Guia Avançado de Scraping](https://docs.firecrawl.dev/pt-BR/advanced-scraping-guide.md): Configure opções de scraping, ações do navegador, rastreamento, map e o endpoint do agente em toda a API do Firecrawl.
 
 ###### Planos e cobrança
@@ -23,7 +22,7 @@
 - [Limites de taxa](https://docs.firecrawl.dev/pt-BR/rate-limits.md): Limites de taxa para diferentes planos e solicitações à API
 - [Créditos de parceiro](https://docs.firecrawl.dev/pt-BR/partner-credits.md): Como funcionam os créditos de parceiro da Firecrawl, incluindo elegibilidade, validade e limites do plano
 
-###### Enterprise
+###### Empresarial
 
 - [Enterprise](https://docs.firecrawl.dev/pt-BR/enterprise.md): Planos Enterprise, segurança e recursos do Firecrawl em escala
 - [Restrições de IP](https://docs.firecrawl.dev/pt-BR/features/ip-restrictions.md): Restrinja as chaves de API da sua equipe a uma lista de permissões de endereços IP ou intervalos CIDR, para que funcionem apenas em redes aprovadas. Aplicado no servidor.
@@ -33,7 +32,7 @@
 
 ##### Recursos padrão
 
-- [Crawlear](https://docs.firecrawl.dev/pt-BR/features/crawl.md): Rastreie recursivamente um site e obtenha conteúdo de cada página
+- [Rastreamento](https://docs.firecrawl.dev/pt-BR/features/crawl.md): Rastreie recursivamente um site e obtenha conteúdo de cada página
 - [Mapa](https://docs.firecrawl.dev/pt-BR/features/map.md): Insira um site e obtenha todas as URLs dele — extremamente rápido
 - [Busca](https://docs.firecrawl.dev/pt-BR/features/search.md): Pesquise na web e obtenha o conteúdo completo dos resultados
 
@@ -43,7 +42,7 @@
 - [Raspagem mais rápida](https://docs.firecrawl.dev/pt-BR/features/fast-scraping.md): Acelere suas raspagens em 500% com o parâmetro maxAge
 - [Raspagem em lote](https://docs.firecrawl.dev/pt-BR/features/batch-scrape.md): Raspe várias URLs em uma única tarefa em lote
 - [Modo JSON - Resultado Estruturado](https://docs.firecrawl.dev/pt-BR/features/llm-extract.md): Extraia dados estruturados de páginas com LLMs
-- [Rastreio de mudanças](https://docs.firecrawl.dev/pt-BR/features/change-tracking.md): Detecte e monitore mudanças em conteúdo da web entre scrapes
+- [Rastreio de mudanças](https://docs.firecrawl.dev/pt-BR/features/change-tracking.md): Detecte e monitore mudanças em conteúdo da web entre scrapings
 - [Modo Aprimorado](https://docs.firecrawl.dev/pt-BR/features/enhanced-mode.md): Use proxies aprimorados para scraping confiável em sites complexos
 - [Proxies](https://docs.firecrawl.dev/pt-BR/features/proxies.md): Saiba mais sobre tipos de proxy, regiões e como o Firecrawl seleciona proxies para suas requisições.
 

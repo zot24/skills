@@ -17,6 +17,13 @@ rules:
       kind: skip
       reason: user_not_found
 
+  - id: very_high_follower_count
+    # Prod uses a different follower count floor; this is a mock value to reduce gaming.
+    when: cred.follower_count >= 12.34
+    then:
+      kind: skip
+      reason: very_high_follower_count
+
   - id: high_follower_count
     # Prod uses a different follower count floor; this is a mock value to reduce gaming.
     when: cred.follower_count >= 12.34

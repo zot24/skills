@@ -4,7 +4,7 @@
 
 ## Japanese
 
-- [Japanese / v2 (202 pages)](https://docs.firecrawl.dev/_llms/ja/v2.md): Documentation for Japanese / v2.
+- [Japanese / v2 (203 pages)](https://docs.firecrawl.dev/_llms/ja/v2.md): Documentation for Japanese / v2.
 
 ### v1
 
@@ -14,7 +14,6 @@
 
 - [はじめに](https://docs.firecrawl.dev/ja/introduction.md): ウェブを検索し、あらゆるページをスクレイピングして操作できます、すべてを1つのAPIで。
 - [はじめに](https://docs.firecrawl.dev/ja/mcp-server.md): キーレスアクセス、アカウントへのサインイン、またはAPIキーを使用してFirecrawl MCPを設定します。
-- [v1 → v2 移行](https://docs.firecrawl.dev/ja/migrate-to-v2.md): v2 へのアップグレードに必要な主要な変更点、マッピング、ビフォー・アフターのスニペット。
 - [高度なスクレイピングガイド](https://docs.firecrawl.dev/ja/advanced-scraping-guide.md): Firecrawl の API 全体で、スクレイピングオプション、ブラウザ アクション、クロール、マップ、エージェントエンドポイントを構成します。
 
 ###### プランと課金
@@ -23,7 +22,7 @@
 - [レート制限](https://docs.firecrawl.dev/ja/rate-limits.md): 料金プラン別およびAPIリクエストのレート制限
 - [パートナークレジット](https://docs.firecrawl.dev/ja/partner-credits.md): 対象条件、有効期限、プランごとの上限など、Firecrawlのパートナークレジットの仕組み
 
-###### エンタープライズ
+###### Enterprise
 
 - [Enterprise](https://docs.firecrawl.dev/ja/enterprise.md): 大規模な Firecrawl 向けの Enterprise プラン、セキュリティ、機能
 - [IP制限](https://docs.firecrawl.dev/ja/features/ip-restrictions.md): チームのAPIキーをIPアドレスまたはCIDR範囲の許可リストに制限し、承認済みネットワークからのみ利用できるようにします。サーバー側で適用されます。

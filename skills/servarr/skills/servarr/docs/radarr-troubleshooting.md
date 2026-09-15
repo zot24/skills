@@ -197,11 +197,11 @@ Radarr talks to you download client via it's API and accesses it via the client'
 
 ### <a href="#ssl-in-use-and-incorrectly-configured" class="toc-anchor">¶</a> SSL in use and incorrectly configured
 
-Ensure SSL encryption is not turned on if you're using both your instance and your download client on a local network. See <a href="/radarr/faq#invalid-certificate-and-other-HTTPS-or-SSL-issues" class="is-internal-link is-valid-page">the SSL FAQ entry</a> for more information.
+Ensure SSL encryption is not turned on if you're using both your instance and your download client on a local network. See <a href="/radarr/faq#invalid-certificate-and-other-https-or-ssl-issues" class="is-internal-link is-valid-page">the SSL FAQ entry</a> for more information.
 
 ### <a href="#cant-see-share-on-windows" class="toc-anchor">¶</a> Can’t see share on Windows
 
-The default user for a Windows service is `LocalService` which typically doesn’t have access to your shares. Edit the service and set it up to run as your own user, see the FAQ entry <a href="/radarr/faq#why-cant-i-see-my-files-on-a-remote-server" class="is-internal-link is-valid-page">why can’t see my files on a remote server</a> for details.
+The default user for a Windows service is `LocalService` which typically doesn’t have access to your shares. Edit the service and set it up to run as your own user, see the FAQ entry <a href="/radarr/faq#why-can-radarr-not-see-my-files-on-a-remote-server" class="is-internal-link is-valid-page">why can’t see my files on a remote server</a> for details.
 
 ### <a href="#mapped-network-drives-are-not-reliable" class="toc-anchor">¶</a> Mapped network drives are not reliable
 

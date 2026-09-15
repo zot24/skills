@@ -59,7 +59,7 @@ As of Prowlarr v1, Authentication is Mandatory.
 
 ### <a href="#authentication-method" class="toc-anchor">¶</a> Authentication Method
 
-- `Basic` (Browser pop-up) - Basic Auth is not supported as of Prowlarr v1
+- `Basic` (Browser pop-up) - Removed in Prowlarr v2.0.0; a `Basic` value left in the config is rewritten to `Forms` on load
 - `Forms` (Login Page) - This option will have a familiar looking login screen much like other websites have to allow you to log onto your Prowlarr. This is recommended.
 - `External` - Configurable via Config File Only
   - Disables app authentication completely. *Use at your own risk especially if exposed to the internet* Suggested only if you use an **external authentication** such as Authelia, Authetik, NGINX Basic auth, etc. you can prevent needing to double authenticate by shutting down the app, setting `<AuthenticationMethod>External</AuthenticationMethod>` in the <a href="/prowlarr/appdata-directory" class="is-internal-link is-valid-page">config file</a>, and restarting the app. **Note that multiple `AuthenticationMethod` entries in the file are not supported and only the topmost value will be used**
@@ -292,7 +292,7 @@ To request a feature for Prowlarr, first search on GitHub to ensure no similar r
   - Continue with the steps noted below
 - This means your SQLite database that stores most of the information for Prowlarr is corrupt. Your options are to try (a) backup(s), try recovering the existing database, try recovering the backup(s), or if all else fails starting over with a fresh new database.
 - This error may show if the database file is not writable by the user/group \*Arr is running as. Permissions being the cause will likely only be an issue for new installs, migrated installs to a new server, if you recently modified your appdata directory permissions, or if you changed the user and group \*Arr run as.
-- Your best and first option is to [try restoring from a backup](#how-do-i-backuprestore-my-prowlarr)
+- Your best and first option is to [try restoring from a backup](#how-do-i-backuprestore-prowlarr)
 - You can also try recovering your database. This is typically the only option for when this issue occurs after an update. Try the <a href="/useful-tools#recovering-a-corrupt-db" class="is-internal-link is-valid-page">sqlite3 <code>.recover</code> command</a>
   - If your sqlite does not have `.recover` or you wish a more GUI (i.e. Windows) friendly way then follow <a href="/useful-tools#recovering-a-corrupt-db-ui" class="is-internal-link is-valid-page">our instructions on this wiki.</a>
 - Another possible cause of you getting an error with your Database is that you're placing your database on a network drive (nfs or smb or something else not local). **SQLite is designed for situations where the data and application coexist on the same machine.** Thus your \*Arr AppData Folder (/config mount for docker) MUST be on local storage. <a href="https://www.sqlite.org/draft/useovernet.html" class="is-external-link">SQLite and network drives not play nice together and will cause a malformed database eventually</a>.

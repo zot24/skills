@@ -254,11 +254,6 @@ op document list [flags]
 ```
 
 
-Related topics
-
-<a href="/sdks/files" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Manage files using 1Password SDKs</span></a><a href="/sdks/concepts" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password SDK concepts</span></a><a href="/ai-readable-docs" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Search and read 1Password developer documentation with AI</span></a>
-
-
 Was this page helpful?
 
 

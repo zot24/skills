@@ -171,11 +171,6 @@ Similarly, to revoke a broader permission like `view_items`, any narrower depend
 - <a href="/get-started/administrator-quickstart" class="link">Administrator quickstart</a>
 
 
-Related topics
-
-<a href="/sdks/concepts" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password SDK concepts</span></a><a href="/cli/grant-revoke-vault-permissions" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Grant and revoke vault permissions</span></a><a href="/sdks/vault-permissions" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Manage vault permissions using 1Password SDKs</span></a>
-
-
 Was this page helpful?
 
 

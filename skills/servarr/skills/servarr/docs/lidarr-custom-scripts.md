@@ -33,6 +33,8 @@ Lidarr passes data to your script through environment variables. The variables a
 
 > **Variable names are lowercase.** The Lidarr source code defines these variables in Title_Case (for example, `Lidarr_EventType`), but Lidarr builds the environment variable list with .NET's `StringDictionary`, which lowercases every key before passing it to your script. The actual names your script receives are all lowercase, as shown in the tables below. Environment variable names are case-sensitive on Linux and macOS, so scripts on those platforms must use the lowercase form. Windows treats environment variable names as case-insensitive, but using the lowercase form keeps scripts portable across platforms.
 
+> **On Download Failure and On Import Failure never fire for Custom Script.** Both checkboxes appear in **Settings → Connect** for every notification type, including Custom Script, but they're permanently disabled there. Custom Script is one of the few notification types that doesn't implement these two events at all, unlike Discord, Slack, Webhook, and most others. If you need a script to run on a failed download or a failed import, there's no event hook for it today; route those through a notification type that does support it (for example, a Webhook or Discord connection) instead.
+
 ### <a href="#common-variables-all-events" class="toc-anchor">¶</a> Common variables (all events)
 
 These three variables are present in every event.
@@ -100,6 +102,8 @@ Fired after Lidarr has successfully imported a downloaded album into the library
 | `lidarr_addedtrackpaths`      | Pipe-separated list of imported track file paths                  |
 | `lidarr_deletedpaths`         | Pipe-separated list of file paths deleted/replaced during upgrade |
 | `lidarr_deleteddateadded`     | Pipe-separated list of date-added values for deleted files        |
+
+> **Manual Import only fires this event when "Replace Existing Files" is checked.** The dialog's Replace Existing Files toggle is passed straight through as the flag that gates this event, so a Manual Import with that box unchecked (the common case for a first-time import with nothing to replace) completes successfully but never fires On Release Import or On Upgrade. If a script needs to react to every import including plain Manual Imports, use [On Track Retag](#track-retag) instead, provided **Write Tags** is enabled, since it fires for any tag write regardless of how the file arrived.
 
 ### <a href="#rename" class="toc-anchor">¶</a> Rename
 
@@ -381,6 +385,25 @@ curl -s -X POST "$WEBHOOK_URL" \
     -d "{\"content\": \"$MESSAGE\"}"
 ```
 
+### <a href="#trigger-beets-tag-enrichment-on-track-retag-shell" class="toc-anchor">¶</a> Trigger beets tag enrichment on Track Retag (shell)
+
+Runs <a href="https://beets.io/" class="is-external-link">beets</a> against a file's directory every time Lidarr rewrites its tags, whether from import, a manual retag, or the periodic **All files, keep in sync with MusicBrainz** check. This layers beets' extra MusicBrainz fields on top of whatever Lidarr just wrote, without a separate scheduler. See <a href="/lidarr/beets-integration#pattern-3-trigger-beets-from-lidarrs-own-sync-schedule" class="is-internal-link is-valid-page">Beets Integration: Pattern 3</a> for the full setup, required beets configuration, and trade-offs.
+
+``` prismjs
+#!/bin/sh
+set -euo pipefail
+
+if [ "$lidarr_eventtype" = "Test" ]; then exit 0; fi
+if [ "$lidarr_eventtype" != "TrackRetag" ]; then exit 0; fi
+
+BEETS_CONFIG="/opt/scripts/beets-import-script.yaml"
+
+DIR=$(dirname "$lidarr_trackfile_path")
+beet --config="$BEETS_CONFIG" import --quiet "$DIR"
+```
+
+> This registers on **On Track Retag** only, which requires **Write Tags** to stay enabled in Settings → Metadata. That's the opposite of <a href="/lidarr/beets-integration" class="is-internal-link is-valid-page">Beets Integration</a>'s import-script pattern, which assumes Lidarr's own tag writing is disabled.
+
 ## <a href="#external-resources" class="toc-anchor">¶</a> External resources
 
 - <a href="https://github.com/Lidarr/Lidarr/blob/develop/src/NzbDrone.Core/Notifications/CustomScript/CustomScript.cs" class="is-external-link">Lidarr/Lidarr: CustomScript.cs</a>: the authoritative source for all environment variables, event types, and their values
@@ -388,6 +411,6 @@ curl -s -X POST "$WEBHOOK_URL" \
 ## <a href="#see-also" class="toc-anchor">¶</a> See also
 
 - <a href="/lidarr/settings#connections" class="is-internal-link is-valid-page">Settings: Connect</a>: where you register scripts in the Lidarr UI
-- <a href="/lidarr/beets-integration" class="is-internal-link is-valid-page">Beets Integration</a>: using a custom script to invoke beets for tag enrichment after import
+- <a href="/lidarr/beets-integration" class="is-internal-link is-valid-page">Beets Integration</a>: using a custom script to invoke beets for tag enrichment, on import or on Lidarr's own retag schedule
 
 

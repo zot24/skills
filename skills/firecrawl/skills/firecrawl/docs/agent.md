@@ -49,9 +49,6 @@ Gather data wherever it lives on the web.
 - Full comparison: <a href="/developer-guides/usage-guides/choosing-the-data-extractor" class="link">Choosing the Data Extractor</a>.
 
 
-<a href="" class="link firecrawl-cta-btn-primary firecrawl-cta-btn-inline" target="_blank" rel="noreferrer"><span data-as="p">Start the interview</span></a>
-
-
 - **No URLs Required**: Just describe what you need via `prompt` parameter. URLs are optional
 - **Deep Web Search**: Autonomously searches and navigates deep into sites to find your data
 - **Reliable and Accurate**: Works with a wide variety of queries and use cases

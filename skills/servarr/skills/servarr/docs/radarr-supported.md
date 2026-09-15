@@ -254,7 +254,7 @@ This page is the disambiguation page for all `supported` wiki links (i.e. typica
 
   Twitter
 
-  - See this <a href="/useful-tools#twitter" class="is-internal-link is-valid-page">Tips and Tricks entry</a>
+  - See this <a href="/useful-tools#twitter-connect" class="is-internal-link is-valid-page">Tips and Tricks entry</a>
 
   </div>
 
@@ -282,13 +282,8 @@ This page is the disambiguation page for all `supported` wiki links (i.e. typica
 
   IMDb Lists
 
-  - To add your IMDb Watchlist, go to your list and click edit. Make sure privacy setting is set to public. In the address bar you will find the `lsxxxxxx` number that you will need to enter into Radarr
-
-    1.  Go to your IMDB List Settings
-    2.  Ensure Privacy is set to `Public` (i.e. `Disabled)`
-    3.  Use the `ls` number within the URL
-
-  ![imdb-list-ls.png](/assets/radarr/imdb-list-ls.png)
+  - The List/User ID field accepts `top250` (IMDb Top 250), `popular` (IMDb Most Popular), or an IMDb user ID of the form `ur12345678` (imports that user's public lists).
+  - Custom IMDb lists and watchlists (the `ls`-number lists) are no longer supported. IMDb changed how those lists are served, so Radarr can no longer read them.
 
   </div>
 
@@ -483,7 +478,7 @@ This page is the disambiguation page for all `supported` wiki links (i.e. typica
   - Movie Metadata - Create a `<filename>.nfo` with the movie metadata
   - (Advanced Option) Movie Metadata URL - Create `movie.nfo` with TMDb and IMDb movie URLs
   - Metadata Language - Select the language Radarr should use to write the metadata if available in that language
-  - Movie Images - Create various Season images including posters and banners
+  - Movie Images - Create movie images such as `fanart.jpg` and `poster.jpg`
   - Use Movie.nfo - Write the nfo file as `movie.nfo` rather than the default
   - Collection Name - Radarr will write the collection name to the .nfo file
 - <span id="roksboxmetadata">Roksbox</span>
@@ -492,7 +487,7 @@ This page is the disambiguation page for all `supported` wiki links (i.e. typica
   - Movie Images - Create `Movie.jpg`
 - <span id="wdtvmetadata">WDTV</span>
   - Enable - Enable metadata file creation for this metadata type
-  - Movie Metadata - Create `<filename>.xml` for each episode
+  - Movie Metadata - Create `<filename>.xml` for each movie
   - Movie Images - Create `folder.jpg`
 
 

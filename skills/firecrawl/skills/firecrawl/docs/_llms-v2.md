@@ -9,7 +9,7 @@
 #### Get Started
 
 - [Introduction](https://docs.firecrawl.dev/introduction.md): Search the web, scrape any page, and interact with it, all through one API.
-- [CLI](https://docs.firecrawl.dev/sdks/cli.md): Firecrawl skills are an easy way for AI agents such as Claude Code, Antigravity and OpenCode to use Firecrawl through the CLI.
+- [CLI](https://docs.firecrawl.dev/sdks/cli.md): Firecrawl skills are an easy way for AI agents such as Codex, Claude Code, Cursor, and OpenCode to use Firecrawl through the CLI.
 - [Build with AI](https://docs.firecrawl.dev/ai-onboarding.md): Everything you need to onboard your AI agent to Firecrawl.
 - [Advanced Scraping Guide](https://docs.firecrawl.dev/advanced-scraping-guide.md): Configure scrape options, browser actions, crawl, map, and the agent endpoint with Firecrawl's full API surface.
 
@@ -35,8 +35,6 @@
 - [SIEM Audit Logging](https://docs.firecrawl.dev/features/siem.md): Stream a structured audit event for every scrape your team runs to your own SIEM, starting with Microsoft Sentinel. Delivered server-side.
 
 #### Core Endpoints
-
-- [Interact after scraping](https://docs.firecrawl.dev/features/interact.md): Interact with a page you fetched by prompting or running code.
 
 ##### Search
 
@@ -64,6 +62,11 @@
 - [Page monitoring](https://docs.firecrawl.dev/features/monitoring-page.md): Watch known URLs and get alerted on meaningful page changes
 - [Website monitoring](https://docs.firecrawl.dev/features/monitoring-website.md): Crawl a website on a schedule and detect changes across every discovered page
 - [Entire web-scale monitoring](https://docs.firecrawl.dev/features/monitoring-web-scale.md): Run always-on web searches and alert when new matching results appear
+
+##### Interact / Browser Sandbox
+
+- [Interact after scraping](https://docs.firecrawl.dev/features/interact.md): Interact with a page you fetched by prompting or running code.
+- [Browser Sandbox](https://docs.firecrawl.dev/features/browser.md): A secure browser sandbox where agents can interact with the web.
 
 #### More
 
@@ -209,7 +212,7 @@
 #### Contributing
 
 - [Open source or Firecrawl Cloud](https://docs.firecrawl.dev/contributing/open-source-or-cloud.md): Choose between self-hosting Firecrawl for infrastructure control and Firecrawl Cloud for the fastest managed path to production.
-- [Run Firecrawl locally for development](https://docs.firecrawl.dev/contributing/guide.md): Set up the Firecrawl API development environment, verify a local scrape, and run the source-owned test harness before contributing.
+- [Contributor setup for Firecrawl](https://docs.firecrawl.dev/contributing/guide.md): Set up the Firecrawl API development environment, verify a local scrape, and run the source-owned test harness before contributing.
 - [Self-hosting Firecrawl](https://docs.firecrawl.dev/contributing/self-host.md): Self-host Firecrawl with Docker Compose, verify a local scrape, understand open-source limits, and prepare the stack for production.
 
 ### SDKs
@@ -229,7 +232,7 @@
 - [.NET](https://docs.firecrawl.dev/sdks/dotnet.md): Firecrawl .NET SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
 - [PHP](https://docs.firecrawl.dev/sdks/php.md): Firecrawl PHP SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
 - [Elixir](https://docs.firecrawl.dev/sdks/elixir.md): Firecrawl Elixir SDK is an auto-generated client for the Firecrawl API v2, built with Req and NimbleOptions.
-- [CLI](https://docs.firecrawl.dev/sdks/cli.md): Firecrawl skills are an easy way for AI agents such as Claude Code, Antigravity and OpenCode to use Firecrawl through the CLI.
+- [CLI](https://docs.firecrawl.dev/sdks/cli.md): Firecrawl skills are an easy way for AI agents such as Codex, Claude Code, Cursor, and OpenCode to use Firecrawl through the CLI.
 
 ### API Reference
 
@@ -251,7 +254,7 @@
 - [Cancel Batch Scrape](https://docs.firecrawl.dev/api-reference/endpoint/batch-scrape-delete.md)
 - [Get Batch Scrape Errors](https://docs.firecrawl.dev/api-reference/endpoint/batch-scrape-get-errors.md)
 
-#### Interact Endpoints
+#### Interact / Browser Sandbox Endpoints
 
 - [Create Interact Session](https://docs.firecrawl.dev/api-reference/endpoint/browser-create.md): Start a standalone Interact browser session you drive with code (no prior scrape required).
 - [Execute Code in a Session](https://docs.firecrawl.dev/api-reference/endpoint/browser-execute.md): Run Playwright or agent-browser code in a standalone Interact session.
@@ -350,7 +353,7 @@
 
 #### AI Tools
 
-- [CLI](https://docs.firecrawl.dev/sdks/cli.md): Firecrawl skills are an easy way for AI agents such as Claude Code, Antigravity and OpenCode to use Firecrawl through the CLI.
+- [CLI](https://docs.firecrawl.dev/sdks/cli.md): Firecrawl skills are an easy way for AI agents such as Codex, Claude Code, Cursor, and OpenCode to use Firecrawl through the CLI.
 - [OpenClaw](https://docs.firecrawl.dev/quickstarts/openclaw.md): Use Firecrawl with OpenClaw to give your agents web scraping, search, and browser automation capabilities.
 
 ##### MCP

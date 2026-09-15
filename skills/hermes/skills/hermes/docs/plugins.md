@@ -19,6 +19,9 @@ Official<span class="tierCount_yk6q">0</span>
 Community<span class="tierCount_yk6q">0</span>
 
 
+All categories
+
+
 ### Loading the catalog…
 
 

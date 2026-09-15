@@ -7,7 +7,7 @@
 ### Primeiros passos
 
 - [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): Faça uma busca na web, faça scraping de qualquer página e interaja com ela, tudo por meio de uma única API.
-- [CLI](https://docs.firecrawl.dev/pt-BR/sdks/cli.md): As skills do Firecrawl são uma forma simples de agentes de IA, como Claude Code, Antigravity e OpenCode, usarem o Firecrawl via CLI.
+- [CLI](https://docs.firecrawl.dev/pt-BR/sdks/cli.md): As skills do Firecrawl são uma forma simples de agentes de IA, como Codex, Claude Code, Cursor e OpenCode, usarem o Firecrawl via CLI.
 - [Desenvolva com IA](https://docs.firecrawl.dev/pt-BR/ai-onboarding.md): Tudo o que você precisa para conectar seu agente de IA ao Firecrawl.
 - [Guia Avançado de Scraping](https://docs.firecrawl.dev/pt-BR/advanced-scraping-guide.md): Configure opções de scraping, ações do navegador, rastreamento, map e o endpoint do agente em toda a API do Firecrawl.
 
@@ -34,8 +34,6 @@
 
 ### Endpoints principais
 
-- [Interaja após o scraping](https://docs.firecrawl.dev/pt-BR/features/interact.md): Interaja com uma página que você obteve usando prompts ou executando código.
-
 #### Busca
 
 - [Busca](https://docs.firecrawl.dev/pt-BR/features/search.md): Pesquise na web e obtenha o conteúdo completo dos resultados
@@ -49,7 +47,7 @@
 - [Raspagem mais rápida](https://docs.firecrawl.dev/pt-BR/features/fast-scraping.md): Acelere suas raspagens em 500% com o parâmetro maxAge
 - [Raspagem em lote](https://docs.firecrawl.dev/pt-BR/features/batch-scrape.md): Raspe várias URLs em uma única tarefa em lote
 - [Modo JSON - Resultado Estruturado](https://docs.firecrawl.dev/pt-BR/features/llm-extract.md): Extraia dados estruturados de páginas com LLMs
-- [Rastreio de mudanças](https://docs.firecrawl.dev/pt-BR/features/change-tracking.md): Detecte e monitore mudanças em conteúdo da web entre scrapes
+- [Rastreio de mudanças](https://docs.firecrawl.dev/pt-BR/features/change-tracking.md): Detecte e monitore mudanças em conteúdo da web entre scrapings
 - [Modo Aprimorado](https://docs.firecrawl.dev/pt-BR/features/enhanced-mode.md): Use proxies aprimorados para scraping confiável em sites complexos
 - [Modo Lockdown](https://docs.firecrawl.dev/pt-BR/features/lockdown.md): Modo de scraping somente com cache para conformidade e ambientes isolados da rede. Sem tráfego de saída.
 - [Ocultação de PII](https://docs.firecrawl.dev/pt-BR/features/pii-redaction.md): Oculte informações de identificação pessoal nos resultados de scraping e parse
@@ -63,11 +61,16 @@
 - [Monitoramento de site](https://docs.firecrawl.dev/pt-BR/features/monitoring-website.md): Rastreie um site em intervalos programados e detecte mudanças em todas as páginas descobertas
 - [Monitoramento em escala de toda a web](https://docs.firecrawl.dev/pt-BR/features/monitoring-web-scale.md): Execute buscas na web contínuas e receba alertas quando novos resultados correspondentes aparecerem
 
+#### Interagir / Browser Sandbox
+
+- [Interaja após o scraping](https://docs.firecrawl.dev/pt-BR/features/interact.md): Interaja com uma página que você obteve usando prompts ou executando código.
+- [Sandbox de Navegador](https://docs.firecrawl.dev/pt-BR/features/browser.md): Um sandbox de navegador seguro onde agentes podem interagir com a web.
+
 ### Mais
 
 - [Parse](https://docs.firecrawl.dev/pt-BR/features/parse.md): Transforme documentos — PDFs, Word, Excel, PowerPoint e muito mais — em markdown limpo, conteúdo por página, blocos de layout e JSON estruturado
 - [Mapa](https://docs.firecrawl.dev/pt-BR/features/map.md): Insira um site e obtenha todas as URLs dele — extremamente rápido
-- [Crawlear](https://docs.firecrawl.dev/pt-BR/features/crawl.md): Rastreie recursivamente um site e obtenha conteúdo de cada página
+- [Rastreamento](https://docs.firecrawl.dev/pt-BR/features/crawl.md): Rastreie recursivamente um site e obtenha conteúdo de cada página
 
 ### Guias de início rápido
 
@@ -207,5 +210,5 @@
 ### Como contribuir
 
 - [Código aberto ou Firecrawl Cloud](https://docs.firecrawl.dev/pt-BR/contributing/open-source-or-cloud.md): Escolha entre hospedar o Firecrawl por conta própria para controlar a infraestrutura ou usar o Firecrawl Cloud como o caminho gerenciado mais rápido para produção.
-- [Execute o Firecrawl localmente para desenvolvimento](https://docs.firecrawl.dev/pt-BR/contributing/guide.md): Configure o ambiente de desenvolvimento da API do Firecrawl, verifique um scraping local e execute o conjunto de testes do código-fonte antes de contribuir.
+- [Configuração para contribuidores do Firecrawl](https://docs.firecrawl.dev/pt-BR/contributing/guide.md): Configure o ambiente de desenvolvimento da API do Firecrawl, verifique um scraping local e execute o conjunto de testes do código-fonte antes de contribuir.
 - [Auto-hospedagem do Firecrawl](https://docs.firecrawl.dev/pt-BR/contributing/self-host.md): Hospede o Firecrawl por conta própria com Docker Compose, verifique um scraping local, entenda as limitações do código aberto e prepare a stack para produção.

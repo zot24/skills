@@ -68,11 +68,6 @@ op update [flags]
 ```
 
 
-Related topics
-
-<a href="/connect/api-reference/update-vault-item" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Update an Item</span></a><a href="/api-reference/scim/update-a-user" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Update a user</span></a><a href="/api-reference/contracts/create-or-update-a-contract" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Create or update a contract</span></a>
-
-
 Was this page helpful?
 
 

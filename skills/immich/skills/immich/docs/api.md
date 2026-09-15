@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_S8s7">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_VpXs">Skip to main content</a>
 
 
 On this page
@@ -23,7 +23,7 @@ mise open-api
 ```
 
 
-You can find the generated client SDK in the `packages/sdk/client` for Typescript SDK and `mobile/openapi` for Dart SDK.
+You can find the generated client SDK in the `packages/sdk/client` for Typescript SDK and `mobile/generated/openapi` for Dart SDK.
 
 
 - <a href="#generator" class="table-of-contents__link toc-highlight">Generator</a>

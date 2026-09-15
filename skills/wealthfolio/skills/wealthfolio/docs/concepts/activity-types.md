@@ -5,28 +5,28 @@
 <img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" loading="lazy" decoding="async" data-fetchpriority="auto" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" loading="lazy" decoding="async" data-fetchpriority="auto" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
 
 
-<a href="/download" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -41,13 +41,13 @@
 #### Concepts
 
 
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
+<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
 
 
 #### User Guide
 
 
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
+<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
 
 
 #### Sync & AI
@@ -59,19 +59,19 @@
 #### Self-Hosting
 
 
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a>
+<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
 
 
 #### Addon Development
 
 
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
+<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
 
 
 #### Reference
 
 
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
+<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
 
 
 #### Connect
@@ -93,9 +93,11 @@ How Wealthfolio models trades, cash flows, income, transfers, subtypes, and posi
 
 ------------------------------------------------------------------------
 
-Last updated August 28, 2026
+Last updated September 13, 2026
 
-Activities are the atomic events that drive portfolio state in Wealthfolio—every trade, cash movement, fee, or corporate action is recorded as an **activity**. Accurate performance, cash-flow, and tax reporting all start with choosing the right activity type.
+Every trade, cash movement, fee, or stock split is recorded as an **activity**. Choosing the right type helps Wealthfolio calculate your balances and returns.
+
+**Amount is the final total paid or received, including fees and taxes.** Wealthfolio uses this saved total for cash balances. It does not deduct the fee or tax again. See <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a> for each field, examples, and the special rules for splits, transfers, and reinvested income.
 
 ------------------------------------------------------------------------
 
@@ -126,12 +128,16 @@ Activities are the atomic events that drive portfolio state in Wealthfolio—eve
 ### Trading Activities
 
 
-| Type      | What It Does                                                                                                  | Cash Impact                                         | Holdings Impact                                                                     |
-|-----------|---------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|-------------------------------------------------------------------------------------|
-| **BUY**   | Purchase a security. With Close Position intent, buys back a short stock/ETF lot or short option contract.    | Cash decreases by total cost (qty x price + fees)   | Opens/increases a long lot, or reduces a short lot                                  |
-| **SELL**  | Sell a security you hold. With Open Position intent, opens/increases a short stock/ETF lot or written option. | Cash increases by net proceeds (qty x price - fees) | Closes long lots FIFO, or opens/increases a signed short lot when explicitly marked |
-| **SPLIT** | Record a stock split or reverse split. Adjusts share count and per-share cost so total value stays the same.  | No change                                           | Quantity and unit cost adjusted; total cost basis unchanged                         |
+| Type      | What It Does                                                                                                  | Cash Impact                                      | Holdings Impact                                                                     |
+|-----------|---------------------------------------------------------------------------------------------------------------|--------------------------------------------------|-------------------------------------------------------------------------------------|
+| **BUY**   | Purchase a security. With Close Position intent, buys back a short stock/ETF lot or short option contract.    | Cash decreases by the saved final amount         | Opens/increases a long lot, or reduces a short lot                                  |
+| **SELL**  | Sell a security you hold. With Open Position intent, opens/increases a short stock/ETF lot or written option. | Cash usually increases by the saved final amount | Closes long lots FIFO, or opens/increases a signed short lot when explicitly marked |
+| **SPLIT** | Record a stock split or reverse split. Adjusts share count and per-share cost so total value stays the same.  | No change                                        | Quantity and unit cost adjusted; total cost basis unchanged                         |
 
+
+For a calculated trade total, Wealthfolio uses quantity × unit price × asset multiplier, then adds fees and taxes for a buy or subtracts them for a sell. You can confirm a different final total from your statement. A sell can cost cash if its charges exceed its proceeds and the trade details support that result.
+
+For a split, `amount` is the split ratio, such as `2` for a 2-for-1 split. It is not money.
 
 ### Income Activities
 
@@ -287,18 +293,16 @@ You can freely mix the two styles — for example, backfill long-held shares wit
 
 ------------------------------------------------------------------------
 
-## 6 · How Fees Work
+## 6 · How Fees and Taxes Work
 
-Fees can be recorded in two ways, depending on the situation:
+Enter the **final amount** from your statement, then enter any included fee and tax in their own fields. Those fields explain the charges and help calculate income and returns. They do not cause a second cash deduction.
 
+For example, buying 10 shares at \$100 with a \$5 fee and \$2 tax gives a final amount of **\$1,007**. Selling the same shares at \$100 with those charges gives **\$993**. A \$100 dividend with \$15 withheld has an amount of **\$85** and tax of **\$15**.
 
-| Method                      | When to Use                                                               | How It Works                                                                                                                                 |
-|-----------------------------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| **Inline fee on a trade**   | The fee is part of a BUY or SELL order                                    | Add the fee amount directly on the BUY/SELL activity. For buys, the fee increases your cost basis. For sells, the fee reduces your proceeds. |
-| **Standalone FEE activity** | The fee is not tied to a specific trade (account fee, advisory fee, etc.) | Create a separate `FEE` activity. Cash is reduced by the fee amount.                                                                         |
+For a separate account fee, create a **FEE** activity with the amount charged. Use **TAX** for a separate tax deduction.
 
 
-**Never double-count fees.** If your broker statement shows a \$10 commission on a BUY order, either include it as the fee on the BUY activity *or* create a separate FEE activity — not both.
+Record each charge once. If it is already included in an activity’s final amount, do not also create a separate FEE or TAX activity for it. If your statement lists separate cash movements, record the trade or income and the separate charge with amounts that add up to the actual cash movement.
 
 
 ------------------------------------------------------------------------
@@ -309,7 +313,7 @@ Transfers come in two flavors:
 
 ### Cash Transfers
 
-Record a `TRANSFER_OUT` on the source account and a `TRANSFER_IN` on the destination account for the same amount. No security/symbol is needed.
+Record a `TRANSFER_OUT` on the source account and a `TRANSFER_IN` on the destination account. Enter the final cash that left and arrived. If there are no charges and both accounts use the same currency, these amounts match. No security/symbol is needed. A fee or tax entered on a cash transfer is already included in its amount.
 
 ### Securities Transfers
 
@@ -318,7 +322,7 @@ When you transfer a stock or other holding between accounts, Wealthfolio preserv
 1.  `TRANSFER_OUT` on the source account (specify the security and quantity)
 2.  `TRANSFER_IN` on the destination account (same security and quantity)
 
-The receiving account inherits the original purchase cost, so your gain/loss calculations remain accurate.
+The receiving account inherits the original purchase cost, so your gain/loss calculations remain accurate. A security transfer moves shares, not the cash value of those shares. Its fee can still reduce cash. Do not enter the position value as a cash payment.
 
 
 **Tip:** If the transfer is from an external source (not another Wealthfolio account), a `TRANSFER_IN` by itself is fine — you don’t need a matching `TRANSFER_OUT`.
@@ -329,17 +333,17 @@ The receiving account inherits the original purchase cost, so your gain/loss cal
 ## 8 · Key Rules & Gotchas
 
 
-| Topic                          | What to Know                                                                                                                                     | Why It Matters                                                                 |
-|--------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
-| **Lot selection**              | FIFO (First In, First Out) is the default method. When you sell, the oldest shares are sold first.                                               | Affects your realized profit/loss and tax calculations.                        |
-| **Fractional shares**          | Quantities support up to eight decimal places.                                                                                                   | You can accurately track fractional share purchases and crypto holdings.       |
-| **Retroactive entries**        | Activities can be inserted for any past date — Wealthfolio recalculates all balances automatically.                                              | You can backfill historical trades at any time without breaking anything.      |
-| **Multi-currency**             | Currency conversion uses the exchange rate on the trade date.                                                                                    | Keeps cross-currency returns and cash balances matching your broker statement. |
-| **Options multiplier**         | For options, the price is per-share but each contract covers multiple shares (typically 100). The multiplier is applied automatically.           | Ensures correct cost basis for option positions.                               |
-| **Options intent**             | Options need explicit Open or Close intent: BTO, STO, BTC, or STC.                                                                               | Prevents an option close from being interpreted as a new position.             |
-| **Short positions**            | Plain stock/ETF sells do not open shorts. Use Sell Short, then Buy to Cover.                                                                     | Prevents accidental negative positions from oversells.                         |
-| **Inline fees vs. standalone** | `BUY`/`SELL` can include an inline fee, or you can log a separate `FEE`. Never do both for the same charge.                                      | Avoids double-counting expenses.                                               |
-| **CSV import format**          | CSV files must be UTF-8 encoded with ISO-8601 dates (`2025-03-15`), decimal points (not commas), and headers matching the expected column names. | Prevents import errors.                                                        |
+| Topic                          | What to Know                                                                                                                           | Why It Matters                                                                 |
+|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| **Lot selection**              | FIFO (First In, First Out) is the default method. When you sell, the oldest shares are sold first.                                     | Affects your realized profit/loss and tax calculations.                        |
+| **Fractional shares**          | Quantities support up to eight decimal places.                                                                                         | You can accurately track fractional share purchases and crypto holdings.       |
+| **Retroactive entries**        | Activities can be inserted for any past date — Wealthfolio recalculates all balances automatically.                                    | You can backfill historical trades at any time without breaking anything.      |
+| **Multi-currency**             | Currency conversion uses the exchange rate on the trade date.                                                                          | Keeps cross-currency returns and cash balances matching your broker statement. |
+| **Options multiplier**         | For options, the price is per-share but each contract covers multiple shares (typically 100). The multiplier is applied automatically. | Ensures correct cost basis for option positions.                               |
+| **Options intent**             | Options need explicit Open or Close intent: BTO, STO, BTC, or STC.                                                                     | Prevents an option close from being interpreted as a new position.             |
+| **Short positions**            | Plain stock/ETF sells do not open shorts. Use Sell Short, then Buy to Cover.                                                           | Prevents accidental negative positions from oversells.                         |
+| **Inline fees vs. standalone** | `BUY`/`SELL` can include an inline fee, or you can log a separate `FEE`. Never do both for the same charge.                            | Avoids double-counting expenses.                                               |
+| **CSV import format**          | Map your columns and choose the date and number formats used by your file. See the CSV Import guide.                                   | Prevents import errors.                                                        |
 
 
 ------------------------------------------------------------------------
@@ -349,7 +353,7 @@ The receiving account inherits the original purchase cost, so your gain/loss cal
 ------------------------------------------------------------------------
 
 
-<a href="/docs/concepts/tracking-modes/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Tracking Modes</a> <a href="/docs/concepts/cost-basis-and-lots/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Cost Basis &amp; Lots</a>
+<a href="/docs/concepts/tracking-modes/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Tracking Modes</a> <a href="/docs/concepts/activity-fields/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Activity Fields</a>
 
 
 On This Page
@@ -372,7 +376,7 @@ On This Page
 - <a href="#5--workflow-styles" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Workflow Styles</a>
   - <a href="#simple-holdings-only" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Simple (Holdings-Only)</a>
   - <a href="#full-transaction-level" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Full (Transaction-Level)</a>
-- <a href="#6--how-fees-work" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">6 · How Fees Work</a>
+- <a href="#6--how-fees-and-taxes-work" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">6 · How Fees and Taxes Work</a>
 - <a href="#7--how-transfers-work" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">7 · How Transfers Work</a>
   - <a href="#cash-transfers" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Cash Transfers</a>
   - <a href="#securities-transfers" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Securities Transfers</a>

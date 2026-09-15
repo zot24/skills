@@ -561,11 +561,6 @@ op vault user revoke --vault VAULT --user USER \
 ```
 
 
-Related topics
-
-<a href="/events-api/audit-events" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Audit events</span></a><a href="/cli/vault-permissions" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">About vault permissions</span></a><a href="/connect/api-reference/get-vaults" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Get all Vaults</span></a>
-
-
 Was this page helpful?
 
 

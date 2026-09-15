@@ -382,6 +382,14 @@ List, create, chat with, search, and manage peers and their representations.
       Reasoning level: minimal, low, medium, high, max. Short alias: `-r`.
     </ParamField>
 
+    <ParamField path="--scope" type="string">
+      Recall only from this scope. Repeat or comma-separate for several (explicit conclusions only). Excludes -s and --sessions.
+    </ParamField>
+
+    <ParamField path="--sessions" type="string">
+      Recall only from these session IDs (repeat or comma-separate); explicit conclusions only. Excludes -s and --scope.
+    </ParamField>
+
 
     Create or get a peer.
 
@@ -470,6 +478,84 @@ List, create, chat with, search, and manage peers and their representations.
     <ParamField path="--peer" type="string">
       Peer ID (uses default if omitted). Short alias: `-p`.
     </ParamField>
+
+
+## honcho scope
+
+List, create, inspect, and manage scopes — named session sets that bound recall.
+
+
+    Add existing sessions to a scope. History is backfilled asynchronously — poll `honcho scope status`.
+
+    ```bash
+    honcho scope add-sessions <name> <session_ids>
+    ```
+
+    <ParamField path="name" type="string" required />
+
+    <ParamField path="session_ids" type="string" required />
+
+
+    Create or get a scope, optionally adding sessions to it.
+
+    ```bash
+    honcho scope create <name>
+    ```
+
+    <ParamField path="name" type="string" required />
+
+    <ParamField path="--sessions" type="string">
+      Sessions to add (repeat or comma-separate). History backfills asynchronously; see `honcho scope status`.
+    </ParamField>
+
+    <ParamField path="--metadata" type="string">
+      JSON metadata to associate with the scope.
+    </ParamField>
+
+
+    Inspect a scope: metadata, member sessions, and backfill state.
+
+    ```bash
+    honcho scope inspect <name>
+    ```
+
+    <ParamField path="name" type="string" required />
+
+
+    List scopes in the workspace.
+
+    ```bash
+    honcho scope list
+    ```
+
+
+    Remove a session from a scope. Its conclusions are reconciled out asynchronously.
+
+    ```bash
+    honcho scope remove-session <name> <session_id>
+    ```
+
+    <ParamField path="name" type="string" required />
+
+    <ParamField path="session_id" type="string" required />
+
+
+    List the sessions that are members of a scope (longest-standing first).
+
+    ```bash
+    honcho scope sessions <name>
+    ```
+
+    <ParamField path="name" type="string" required />
+
+
+    Per-session backfill state. Recall through the scope is complete once nothing is pending.
+
+    ```bash
+    honcho scope status <name>
+    ```
+
+    <ParamField path="name" type="string" required />
 
 
 ## honcho session
@@ -765,7 +851,24 @@ honcho stop
 
 ## honcho workspace
 
-List, create, inspect, delete, and search workspaces.
+List, create, inspect, chat, delete, and search workspaces.
+
+
+    Query the dialectic across all peers in the workspace.
+
+    ```bash
+    honcho workspace chat <query>
+    ```
+
+    <ParamField path="query" type="string" required />
+
+    <ParamField path="--reasoning" type="string">
+      Reasoning level: minimal, low, medium, high, max. Short alias: `-r`.
+    </ParamField>
+
+    <ParamField path="--scope" type="string">
+      Recall only from this scope. Repeat or comma-separate for several (explicit conclusions only). Excludes -s.
+    </ParamField>
 
 
     Create or get a workspace.
@@ -849,6 +952,9 @@ List, create, inspect, delete, and search workspaces.
     </ParamField>
 
 
+  `honcho peer chat` covers peer chat only. [Workspace chat](/docs/v3/documentation/features/chat#workspace-chat) has no CLI command yet; use the API or SDKs.
+
+
 ## Workflows
 
 ### Inspect an unfamiliar workspace
@@ -913,7 +1019,7 @@ honcho session view <session_id> --last 50
 
 ### Dialectic returns bad answers
 
-When `honcho peer chat` or the dialectic API is hallucinating or missing context.
+When `honcho peer chat`, `honcho workspace chat`, or the dialectic API is hallucinating or missing context.
 
 ```bash theme={null}
 # What does the peer card actually say?
@@ -924,6 +1030,13 @@ honcho conclusion search "topic" --observer <peer_id> --json
 
 # Reproduce the query against the CLI
 honcho peer chat <peer_id> "what do you know about X?" --json
+
+# Confine recall to a named scope
+honcho peer chat <peer_id> "what happened here?" --scope my-project --json
+
+# Cross-peer question — not tied to one peer
+honcho workspace chat "what themes show up across peers?" --json
+honcho workspace chat "what happened in this project?" --scope my-project --json
 ```
 
 ## Scripting & automation

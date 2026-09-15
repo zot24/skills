@@ -14,6 +14,8 @@ Honcho's search functionality allows you to find relevant messages and conversat
   Search is hybrid: it combines full-text (keyword) matching with semantic (vector) similarity. Keyword matches are available the instant a message is created. Semantic matches depend on the message's embedding, which is generated in the background, so a freshly created message may take a few seconds to surface in semantic results. If you need to assert on semantic results immediately after writing (for example in tests), wait briefly or poll.
 
 
+Search returns the messages themselves. When you want a synthesized answer across the workspace rather than a result list, use [workspace chat](/docs/v3/documentation/features/chat#workspace-chat).
+
 ## Search Scopes
 
 ### Workspace Search

@@ -117,6 +117,9 @@ for the full allowlist rules.
   # Get or create — idempotent; passing metadata updates the existing scope
   therapy = honcho.scope("therapy")
 
+  # Look up without creating — raises NotFoundError if the scope doesn't exist
+  existing = honcho.get_scope("therapy")
+
   # Add existing sessions (max 100 per call)
   therapy.add_sessions(["therapy-session-1", "therapy-session-2"])
 
@@ -140,6 +143,9 @@ for the full allowlist rules.
 
   // Get or create — idempotent; passing metadata updates the existing scope
   const therapy = await honcho.scope("therapy");
+
+  // Look up without creating — rejects with NotFoundError if the scope doesn't exist
+  const existing = await honcho.getScope("therapy");
 
   // Add existing sessions (max 100 per call)
   await therapy.addSessions(["therapy-session-1", "therapy-session-2"]);
@@ -168,6 +174,10 @@ for the full allowlist rules.
     -H "Content-Type: application/json" \
     -d '{"id": "therapy"}'
 
+  # Look up without creating (404 if missing)
+  curl "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy" \
+    -H "Authorization: Bearer $HONCHO_API_KEY"
+
   # Add sessions
   curl -X POST "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/sessions" \
     -H "Authorization: Bearer $HONCHO_API_KEY" \
@@ -186,7 +196,9 @@ for the full allowlist rules.
 
 Scope IDs are unprefixed, must match `^[a-zA-Z0-9_-]+$`, and are at most 506
 characters. Get-or-create is idempotent: if the scope already exists, the same
-call returns it, and any `metadata` you pass is written onto it.
+call returns it, and any `metadata` you pass is written onto it. When a lookup
+must not create a scope — resolving a user-supplied name, for example — use
+`get_scope` / `getScope` instead, which fails with a not-found error.
 
 
   Every scopes route — and every read that passes `scope` — requires a
@@ -242,13 +254,13 @@ empty result means none have — not that the scope is empty.
 
 `scope` is accepted on these surfaces:
 
-| Surface                                                       | Accepts             | Notes                                                                                                                              |
-| ------------------------------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| [`peer.chat()`](/docs/v3/documentation/features/chat)              | one scope or a list | Confines both conclusion recall and the messages the agent reads                                                                   |
-| `peer.representation()`                                       | one scope or a list | Confines conclusion recall                                                                                                         |
-| [`session.context()`](/docs/v3/documentation/features/get-context) | one scope only      | Perspective source for `peer_target`'s representation and card. Requires `peer_target`; mutually exclusive with `peer_perspective` |
-| `honcho.search()`                                             | one scope only      | Restricts message search to the scope's member sessions                                                                            |
-| `honcho.chat()`                                               | one scope or a list | Always the allowlist arm — even a single name. There is no observer to swap                                                        |
+| Surface                                                           | Accepts             | Notes                                                                                                                              |
+| ----------------------------------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [`peer.chat()`](/docs/v3/documentation/features/chat)                  | one scope or a list | Confines both conclusion recall and the messages the agent reads                                                                   |
+| `peer.representation()`                                           | one scope or a list | Confines conclusion recall                                                                                                         |
+| [`session.context()`](/docs/v3/documentation/features/get-context)     | one scope only      | Perspective source for `peer_target`'s representation and card. Requires `peer_target`; mutually exclusive with `peer_perspective` |
+| `honcho.search()`                                                 | one scope only      | Restricts message search to the scope's member sessions                                                                            |
+| [`honcho.chat()`](/docs/v3/documentation/features/chat#workspace-chat) | one scope or a list | Always the allowlist arm — even a single name. There is no observer to swap, and no `target`                                       |
 
 <CodeGroup>
   ```python Python
@@ -299,7 +311,8 @@ empty result means none have — not that the scope is empty.
 requires `peer_target`). Like the session allowlist, it **fails closed**: a
 contradiction is rejected with a `422` rather than silently widened, a scope
 with no member sessions recalls nothing, and an empty list (`scope=[]`) is
-rejected rather than treated as "no boundary". Per-surface caps and error
+rejected rather than treated as "no boundary". On workspace chat the same
+exclusion holds: pass `scope` or `session_id`, never both. Per-surface caps and error
 shapes are in the [API reference](/docs/v3/api-reference/endpoint/scopes/get-or-create-scope).
 
 ## Provenance, Not Topic

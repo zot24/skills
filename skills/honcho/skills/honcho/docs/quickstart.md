@@ -229,6 +229,18 @@ Now ask Honcho what it's learned--this is where the magic happens:
   ```
 </CodeGroup>
 
+Peer chat answers about one peer. Once a workspace has several, `honcho.chat()` asks across all of them:
+
+<CodeGroup>
+  ```python Python
+  response = honcho.chat("What themes appear across every peer in this workspace?")
+  ```
+
+  ```typescript TypeScript
+  const response = await honcho.chat("What themes appear across every peer in this workspace?");
+  ```
+</CodeGroup>
+
 
   Honcho needs a short amount of time to process messages you write to it. There are several utilities to [check the status](/docs/v3/documentation/features/advanced/queue-status) of the queue. Honcho also offers numerous ways to query reasoning to fit latency needs: see the [Get Context](/docs/v3/documentation/features/get-context) page.
 

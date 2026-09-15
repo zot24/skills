@@ -288,11 +288,6 @@ op://dev/Stripe/publishable-key
 - <a href="/get-started/secure-developer-secrets" class="link">Workflow: Secure local development</a>
 
 
-Related topics
-
-<a href="/ci-cd/circle-ci" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Load secrets from 1Password into CircleCI</span></a><a href="/ci-cd/github-actions" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Load secrets from 1Password into GitHub Actions</span></a><a href="/cli/secrets-template-syntax" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Template syntax</span></a>
-
-
 Was this page helpful?
 
 

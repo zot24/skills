@@ -60,9 +60,9 @@ If you later decide to switch from one service to another, your application logi
 
 This makes notifications portable, maintainable, and easy to reason about.
 
-## The Three Pillars of Apprise
+## The Four Pillars of Apprise
 
-Apprise is unique because it isn't just a library; it is a platform that exists in three complementary forms.
+Apprise is more than a library. Its four tools work together to support applications, automation, shared servers, and mobile access.
 
 ### 1. The Python Library
 
@@ -112,6 +112,12 @@ You can:
 
 This is especially useful for microservices, shared infrastructure, and teams that want centralized control.
 
+### 4. Apprise Mobile
+
+_For users on the go_
+
+Apprise Mobile is the Android interface for your self-hosted Apprise API. Use it to view saved servers, create notification URLs, and send notifications from your phone.
+
 ## Key Features
 
 - **{/_ SERVICES:COUNT _/} supported services**, from popular chat platforms to specialized gateways
@@ -127,3 +133,4 @@ This is especially useful for microservices, shared infrastructure, and teams th
 | Building a Python application             | [The Python Library](/library/) |
 | Automating scripts or system tasks        | [The CLI Tool](/cli/)           |
 | Centralizing notifications across systems | [The API Server](/api/)         |
+| Using your API from your phone            | [Apprise Mobile](/mobile/)      |

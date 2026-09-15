@@ -95,11 +95,6 @@ op item create --category ssh --title "RSA SSH Key" --ssh-generate-key RSA,2048
 - <a href="/get-started/secure-ssh-git-workflows" class="link">Workflow: Secure your SSH &amp; Git workflows</a>
 
 
-Related topics
-
-<a href="/ssh/manage-keys" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Manage SSH keys</span></a><a href="/ssh" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">1Password for SSH &amp; Git</span></a><a href="/ssh/public-key-autofill" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Autofill public keys</span></a>
-
-
 Was this page helpful?
 
 

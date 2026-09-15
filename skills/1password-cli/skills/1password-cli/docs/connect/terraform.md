@@ -313,7 +313,7 @@ terraform import onepassword_item.<item_name> vaults/<vault_uuid>/items/<item_uu
 ##### Schema
 
 
-<table class="m-0 min-w-full w-full max-w-none table [&amp;_td]:min-w-[150px] [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums">
+<table class="m-0 min-w-full w-full max-w-none table [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums [&amp;_td]:min-w-[150px]">
 <colgroup>
 <col style="width: 20%" />
 <col style="width: 20%" />
@@ -547,7 +547,7 @@ Password recipes can only be added to Login and Password items.
 <a href="#item-resource-section-field" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-<table class="m-0 min-w-full w-full max-w-none table [&amp;_td]:min-w-[150px] [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums">
+<table class="m-0 min-w-full w-full max-w-none table [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums [&amp;_td]:min-w-[150px]">
 <colgroup>
 <col style="width: 20%" />
 <col style="width: 20%" />
@@ -694,7 +694,7 @@ resource "onepassword_item" "demo_db" {
 ##### Schema
 
 
-<table class="m-0 min-w-full w-full max-w-none table [&amp;_td]:min-w-[150px] [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums">
+<table class="m-0 min-w-full w-full max-w-none table [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums [&amp;_td]:min-w-[150px]">
 <colgroup>
 <col style="width: 20%" />
 <col style="width: 20%" />
@@ -844,7 +844,7 @@ resource "onepassword_item" "demo_db" {
 <a href="#item-data-source-section-field" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-<table class="m-0 min-w-full w-full max-w-none table [&amp;_td]:min-w-[150px] [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums">
+<table class="m-0 min-w-full w-full max-w-none table [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums [&amp;_td]:min-w-[150px]">
 <colgroup>
 <col style="width: 20%" />
 <col style="width: 20%" />
@@ -1039,11 +1039,6 @@ ephemeral "onepassword_item" "example_by_uuid" {
 - <a href="https://github.com/1Password/terraform-provider-onepassword/blob/main/CHANGELOG.md" class="link" target="_blank" rel="noreferrer">Changelog</a>
 - <a href="/get-started/secure-deployment" class="link">Workflow: Secure your deployments</a>
 - <a href="/get-started/build-integrations" class="link">Workflow: Build integrations with 1Password</a>
-
-
-Related topics
-
-<a href="/terraform" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use the 1Password Terraform provider</span></a><a href="/service-accounts/terraform" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use the 1Password Terraform provider with service accounts</span></a><a href="/cli/shell-plugins/terraform" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use 1Password to securely authenticate Terraform</span></a>
 
 
 Was this page helpful?

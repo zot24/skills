@@ -58,8 +58,7 @@ This page is the disambiguation page for all "supported" wiki links (i.e. typica
   - Newznab is a standardized API used by many usenet indexing sites. Many presets are available, but all require an API key to be accessible.
   - Indexer Applications like <a href="/prowlarr" class="is-internal-link is-valid-page">Prowlarr</a> and <a href="https://github.com/theotherp/nzbhydra2" class="is-external-link">NZBHydra2</a> can provide advanced capabilities such as stat tracking.
 - <span id="omgwtfnzbs">omgwtfnzbs</span>
-  - A defunct legacy implementation of a private usenet indexer. Use Newznab instead.
-  - <a href="/sonarr/settings#indexer-settings" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
+  - The native omgwtfnzbs implementation has been removed from Sonarr. Add it via the generic Newznab indexer instead.
 
 ## <a href="#torrents" class="toc-anchor">¶</a> Torrents
 
@@ -125,7 +124,7 @@ This page is the disambiguation page for all "supported" wiki links (i.e. typica
 - <span id="discord">Discord</span>
   - By far one of the most common ways to push notifications of actions happening on your Sonarr
   - Supported field types:  
-    `Overview, Rating, Genres, Quality, Group, Size, Links, Release, Poster, Fanart, CustomFormats, CustomFormatScore, Indexer`
+    `Overview, Rating, Genres, Quality, Group, Size, Links, Release, Poster, Fanart, Indexer, CustomFormats, CustomFormatScore`
 - <span id="email">Email</span>
   - Simply send yourself or somebody you want to annoy with email. If you're using Gmail, you need to enable less secure apps. If you're using Gmail and have 2-factor authentication enabled you need to use an App Specific password.
 
@@ -200,7 +199,7 @@ This page is the disambiguation page for all "supported" wiki links (i.e. typica
 - <span id="telegram">Telegram</span>
 - <span id="trakt">Trakt</span>
 - <span id="twitter">Twitter</span>
-  - See this <a href="/useful-tools#twitter" class="is-internal-link is-valid-page">Tips and Tricks entry</a>
+  - See this <a href="/useful-tools#twitter-connect" class="is-internal-link is-valid-page">Tips and Tricks entry</a>
 - <span id="webhook">Webhook</span>
 
 ## <a href="#deprecated-notifications" class="toc-anchor">¶</a> Deprecated Notifications
@@ -217,6 +216,7 @@ This page is the disambiguation page for all "supported" wiki links (i.e. typica
   - <a href="/sonarr/settings#import-lists" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 - <span id="imdblistimport">IMDb Lists</span>
   - <a href="/sonarr/settings#import-lists" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
+  - The IMDb import list was removed from Sonarr (February 2025) because IMDb changed how `ls`-number lists are served and the feature became defunct. Users on older versions may still see this option, but it will not function.
 - <span id="myanimelistimport">MyAnimeList</span>
   - <a href="/sonarr/settings#import-lists" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 - <span id="pleximport">Plex Watchlist</span>

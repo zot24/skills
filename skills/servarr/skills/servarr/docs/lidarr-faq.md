@@ -118,7 +118,7 @@ Imports fail in one of a few ways:
 - **The download finished but Lidarr won't import it.** This is almost always a match-quality rejection. Lidarr couldn't find a MusicBrainz release that resembles the file well enough. See <a href="/lidarr/import-troubleshooting" class="is-internal-link is-valid-page">Import Troubleshooting</a> for the match-quality rules, the fingerprinting fallback, when manual import is the expected path, and how to drive it.
 - **You're importing an existing library and the match fails.** See <a href="/lidarr/importing-existing-library" class="is-internal-link is-valid-page">Importing an Existing Library</a> for the fresh-install walkthrough and the lenience rules that apply to library imports.
 - **Lidarr can't read or write the folder.** The user account Lidarr runs as must have read and write access to both the download folder and the destination root folder. On Linux this is a UID/GID/permissions issue on a mount; on Windows it's Lidarr running as `LocalService` which can't reach a network share. See [Why can't Lidarr see my files on a remote server?](#why-cant-lidarr-see-my-files-on-a-remote-server) for the Windows case.
-- **Untagged or badly tagged files.** Files with generic filenames like `track01.mp3` and no tags give Lidarr nothing to match on. Run a tagger such as <a href="https://picard.musicbrainz.org/" class="is-external-link">MusicBrainz Picard</a> or <a href="https://harmony.pulsewidth.org.uk/" class="is-external-link">Harmony</a> before importing. See \[Import Troubleshooting → Untagged or badly tagged files\](/lidarr/import-troubleshooting#untagged-or-badly tagged-files).
+- **Untagged or badly tagged files.** Files with generic filenames like `track01.mp3` and no tags give Lidarr nothing to match on. Run a tagger such as <a href="https://picard.musicbrainz.org/" class="is-external-link">MusicBrainz Picard</a> or <a href="https://harmony.pulsewidth.org.uk/" class="is-external-link">Harmony</a> before importing. See <a href="/lidarr/import-troubleshooting#untagged-or-badly-tagged-files" class="is-internal-link is-valid-page">Import Troubleshooting → Untagged or badly tagged files</a>.
 
 ### <a href="#i-copied-files-into-lidarrs-root-folder-but-lidarr-cant-see-them" class="toc-anchor">¶</a> I copied files into Lidarr's root folder but Lidarr can't see them
 
@@ -264,17 +264,17 @@ See the dedicated <a href="/vpn" class="is-internal-link is-valid-page">VPN Guid
 
 If Lidarr is reachable from outside your LAN, enable authentication. Trackers and indexers increasingly require it.
 
-As of Lidarr v2, **authentication is mandatory.** The config file must include `AuthenticationType` and `AuthenticationMethod`.
+As of Lidarr v2, **authentication is mandatory.** The config file must include `AuthenticationMethod` and `AuthenticationRequired`.
 
 #### <a href="#authentication-method" class="toc-anchor">¶</a> Authentication Method
 
-- `Basic` — browser-native username/password pop-up. Deprecated; a future major version will drop it.
+- `Basic` - browser-native username/password pop-up. Removed in Lidarr v3.0.0; an existing `Basic` config is converted to `Forms` on load.
 - `Forms` — login page. Recommended for all UI-exposed installs.
 - `External` — disables app authentication entirely. Only use this for installs behind an external authentication layer (Authelia, Authentik, nginx auth). Configurable via the config file only. Don't use this unless the external auth is actually enforced on the request path.
 
 #### <a href="#authentication-required" class="toc-anchor">¶</a> Authentication Required
 
-If the UI only needs auth on remote access (not on LAN), set **Settings → General → Security → Authentication Required** to *Disabled For Local Addresses*. In the config file that's `<AuthenticationType>DisabledForLocalAddresses</AuthenticationType>`. The other valid value is `Enabled`.
+If the UI only needs auth on remote access (not on LAN), set **Settings → General → Security → Authentication Required** to *Disabled For Local Addresses*. In the config file that's `<AuthenticationRequired>DisabledForLocalAddresses</AuthenticationRequired>`. The other valid value is `Enabled`.
 
 ### <a href="#help-i-have-locked-myself-out" class="toc-anchor">¶</a> Help I have locked myself out
 

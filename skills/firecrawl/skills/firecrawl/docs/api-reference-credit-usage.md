@@ -56,7 +56,7 @@ paths:
                         type: number
                         description: >-
                           Number of credits in the plan. This does not include
-                          coupon credits or credits added by auto-reload.
+                          coupon credits or credits added by pay-as-you-go.
                         example: 500000
                       billingPeriodStart:
                         type: string

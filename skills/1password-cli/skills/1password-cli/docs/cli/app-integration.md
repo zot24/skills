@@ -439,11 +439,6 @@ Open **System Settings** \> **General** \> **Login Items** and make sure **Allow
 - <a href="/get-started/developer-quickstart" class="link">Developer quickstart</a>
 
 
-Related topics
-
-<a href="/cli/use-multiple-accounts" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Use multiple 1Password accounts with 1Password CLI</span></a><a href="/cli/sign-in-manually" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Sign in to your 1Password account manually</span></a><a href="/cli/upgrade" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Upgrade to 1Password CLI 2</span></a>
-
-
 Was this page helpful?
 
 

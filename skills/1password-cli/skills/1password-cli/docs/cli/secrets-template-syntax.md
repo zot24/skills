@@ -146,11 +146,6 @@ will be resolved to
 - <a href="/get-started/developer-quickstart" class="link">Developer quickstart</a>
 
 
-Related topics
-
-<a href="/cli/secret-reference-syntax" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Secret reference syntax</span></a><a href="/cli/secrets-config-files" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Load secrets into config files</span></a><a href="/cli/secrets-environment-variables" class="flex items-center gap-2 rounded-lg py-1.5 text-gray-950 dark:text-gray-50 hover:text-primary dark:hover:text-primary-light"><span class="text-sm tracking-[-0.1px] line-clamp-1">Load secrets into the environment</span></a>
-
-
 Was this page helpful?
 
 

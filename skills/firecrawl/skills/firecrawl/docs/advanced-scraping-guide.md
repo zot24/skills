@@ -588,6 +588,8 @@ When using the `/v2/crawl` endpoint, you can customize crawling behavior with th
   The starting URL is also checked against `includePaths`. If it does not match any of the patterns, the crawl may return 0 pages.
 
 
+Patterns use Rust regex (RE2-style) syntax, so look-around and backreferences are not supported; a pattern that does not compile is rejected with a `400`. Each field accepts at most 1000 patterns of at most 2000 characters each, and `includePaths` and `excludePaths` together may contain at most 1000 patterns and 100,000 characters. For keyword-based filtering, send one short pattern per term instead of combining terms into a single long alternation.
+
 #### Crawl scope
 
 | Parameter            | Type         | Default | Description                                                  |
@@ -656,7 +658,8 @@ Here is the API Reference for it: [Map Endpoint Documentation](https://docs.fire
 
 ### Allowing Firecrawl to scrape your website
 
-* **User Agent**: Allow `FirecrawlAgent` in your firewall or security rules.
+* **robots.txt**: Firecrawl reads `robots.txt` before it crawls a site, and applies the rules written for the user-agent token `FirecrawlAgent` as well as the rules written for `*`. Use `FirecrawlAgent` to allow or disallow Firecrawl in `robots.txt`.
+* **User agent**: `FirecrawlAgent` is the token Firecrawl matches against when it applies `robots.txt` rules. Do not assume it is also the `User-Agent` header on the fetch itself. Allow-list Firecrawl with a `robots.txt` directive rather than with a firewall or WAF rule that matches a `User-Agent` string.
 * **IP addresses**: Firecrawl does not use a fixed set of outbound IPs.
 
 ### Allowing your application to call the Firecrawl API

@@ -66,6 +66,8 @@ Hermes will discover the MCP server's tools and use them like any other tool.
 
 Hermes ships a curated catalog of MCP servers that Nous staff has reviewed and merged. They're disabled by default — install only what you actually want.
 
+In the desktop app you can also ask: "add the Linear MCP". The agent calls `manage_connections` with an `mcp: true` target, an approval card appears in the chat, and Install writes the same config the CLI would. On the CLI and in messaging apps the agent relays the commands below instead.
+
 
 ``` prism-code
 hermes mcp                # interactive picker (default)
