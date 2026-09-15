@@ -1,7 +1,7 @@
 {
   "name": "apprise-api",
   "description": "Deploy, configure, and drive the Apprise API (caronc/apprise-api) — a self-hosted notification gateway that fans one HTTP request out to 100+ services, with stateful config keys, tag routing, attachments, and webhook payload mapping.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "zot24"
   },
