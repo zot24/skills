@@ -4,9 +4,27 @@
 
 ## [Unreleased]
 
+## [0.86.1] - 2026-09-20
+
+### New Features
+
+- **Meta Muse provider** — Sign in with Meta using `/login meta` or use `META_API_KEY` to access Muse Spark models. See [Meta (Muse subscription)](docs/providers.md#meta-muse-subscription).
+
+### Added
+
+- Added Meta (Muse subscription) login via `/login meta` with automatic Model API key refresh, plus `META_API_KEY` support ([#9096](https://github.com/earendil-works/pi/pull/9096) by [@xl0](https://github.com/xl0)).
+
+### Changed
+
+- Enabled Node's persistent compile cache before loading the bundled CLI runtime, reducing repeat launch time.
+
 ### Fixed
 
 - Fixed `/bug` descriptions dropping line breaks from pasted diagnostics.
+- Fixed `/bug` hints appearing for user cancellations and retryable provider failures such as service unavailability.
+- Fixed clipboard copy failing in containers and WSL without WSLg by restoring the OSC 52 fallback when no display is available, and added a verified Windows clipboard backend for WSL ([#9688](https://github.com/earendil-works/pi/issues/9688)).
+- Fixed inherited z.ai `Prompt too long` errors not being recognized as context overflow ([#9805](https://github.com/earendil-works/pi/issues/9805)).
+- Fixed inherited Cerebras models advertising unsupported strict tool schemas, which caused HTTP 400 errors when strict and non-strict tools were mixed ([#9804](https://github.com/earendil-works/pi/pull/9804) by [@EdenGottlieb](https://github.com/EdenGottlieb)).
 
 ## [0.86.0] - 2026-09-19
 
@@ -40,6 +58,7 @@
 
 ### Changed
 
+- Enabled Node's persistent compile cache before loading the bundled CLI runtime, reducing repeat launch time.
 - Made `--resume` session results appear progressively, using file modification times to prioritize all-folder loading and cancelling outstanding transcript reads after selection.
 - Reduced `--continue` startup time by checking candidate session headers in modification-time order and stopping after the newest matching session.
 - Replaced the external native clipboard dependency with bundled asynchronous macOS, Windows, and X11 helpers while preserving platform command and OSC 52 fallbacks ([#9163](https://github.com/earendil-works/pi/pull/9163)).
@@ -126,6 +145,7 @@
 - Added inherited OpenAI-compatible `vllmPriority` and `supportsMaxOutputTokens` model settings for vLLM scheduler priority and OpenAI Responses output-token limits ([#9004](https://github.com/earendil-works/pi/pull/9004) by [@AppleDannyClegg](https://github.com/AppleDannyClegg), [#8941](https://github.com/earendil-works/pi/pull/8941) by [@scturtle](https://github.com/scturtle)).
 - Added inherited LaTeX rendering for relational algebra join symbols ([#9050](https://github.com/earendil-works/pi/pull/9050) by [@haoqixu](https://github.com/haoqixu)).
 - Added a clickable "Jump to latest message" label with the `tui.altScreen.bottom` shortcut to the fullscreen transcript while it is scrolled up ([#9080](https://github.com/earendil-works/pi/pull/9080) by [@rwachtler](https://github.com/rwachtler)).
+- Added Meta (Muse subscription) login via `/login meta` with automatic Model API key refresh, plus `META_API_KEY` support.
 
 ### Changed
 
