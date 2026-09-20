@@ -57,18 +57,19 @@ For the JSONL file format and SessionManager API, see [Session Format](/docs/lat
 <a href="#session-commands" class="heading-anchor" aria-label="Permalink: Session Commands" data-copy="" data-copy-text="https://pi.dev/docs/latest/sessions#session-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Command             | Description                                                        |
-|---------------------|--------------------------------------------------------------------|
-| `/resume`           | Browse and select previous sessions                                |
-| `/new`              | Start a new session                                                |
-| `/name <name>`      | Set the current session display name                               |
-| `/session`          | Show session info                                                  |
-| `/tree`             | Navigate the current session tree                                  |
-| `/fork`             | Create a new session from a previous user message                  |
-| `/clone`            | Duplicate the current active branch into a new session             |
-| `/compact [prompt]` | Summarize older context; see [Compaction](/docs/latest/compaction) |
-| `/export [file]`    | Export session to HTML                                             |
-| `/share`            | Upload as private GitHub gist with shareable HTML link             |
+| Command              | Description                                                              |
+|----------------------|--------------------------------------------------------------------------|
+| `/resume`            | Browse and select previous sessions                                      |
+| `/new`               | Start a new session                                                      |
+| `/name <name>`       | Set the current session display name                                     |
+| `/session`           | Show session info                                                        |
+| `/tree`              | Navigate the current session tree                                        |
+| `/fork`              | Create a new session from a previous user message                        |
+| `/clone`             | Duplicate the current active branch into a new session                   |
+| `/compact [prompt]`  | Summarize older context; see [Compaction](/docs/latest/compaction)       |
+| `/export [file]`     | Export session to HTML                                                   |
+| `/share`             | Upload as private GitHub gist with shareable HTML link                   |
+| `/bug [description]` | Report a bug to the Pi developers; see [Reporting Bugs](#reporting-bugs) |
 
 
 ## Resuming and Deleting Sessions
@@ -201,6 +202,40 @@ When prompted, choose one of:
 3.  summarize with custom focus instructions
 
 See [Compaction](/docs/latest/compaction) for branch summarization internals and extension hooks.
+
+
+## Reporting Bugs
+
+<a href="#reporting-bugs" class="heading-anchor" aria-label="Permalink: Reporting Bugs" data-copy="" data-copy-text="https://pi.dev/docs/latest/sessions#reporting-bugs"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+`/bug [description]` collects a bug report for the Pi developers. The report is not shared publicly. The dialog asks for an optional description and whether to include the session transcript. If you decline the transcript, pi offers to have the current model write a summary of what went wrong instead; the transcript is sent to your provider with your credentials, and only the summary is attached.
+
+The last step chooses where the report goes:
+
+- **Upload Report** sends it to the Pi developers through `radius.pi.dev`. No login is required; if you are logged into Radius, the report is attributed to your account so the developers can follow up. If the upload fails, pi offers to export the zip instead.
+- **Export as Zip** writes a zip archive to the current directory. Attach it to an issue or send it to the developers yourself.
+
+Both contain the same files:
+
+| File               | Content                                                                                                                                                                                                                |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `report.json`      | pi version, runtime, OS, terminal, current model and provider configuration, loaded extensions, and settings. API keys, header values, URL credentials, and the analytics tracking id are never included.              |
+| `diagnostics.json` | Provider and runtime error diagnostics attached to assistant messages across the whole session (failed or aborted turns, retries, error messages), plus any recorded crashes. Always included; message content is not. |
+| `session.jsonl`    | The current branch of the session, only when you chose to include it. It contains file contents and command output read during the session.                                                                            |
+| `summary.md`       | The model-written summary, only when you chose to generate one.                                                                                                                                                        |
+
+Each report has a UUID. pi shows it after upload or export and records it in the session as a `pi.bug-report` entry so you can refer to it later.
+
+Set `PI_RADIUS_GATEWAY` to upload to a different Radius deployment.
+
+
+### Crashes
+
+<a href="#crashes" class="heading-anchor" aria-label="Permalink: Crashes" data-copy="" data-copy-text="https://pi.dev/docs/latest/sessions#crashes"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+When pi exits because of an uncaught exception or a fatal runtime error, it stores the error message and stack trace in `~/.pi/agent/crashes.json` (the newest five). The next interactive start shows a warning once; running `/bug` attaches the stored crashes to `diagnostics.json` and removes the file after the report is uploaded or exported. Resume the crashed session with `pi -r` first if you want the transcript in the report.
 
 
 ## Session Format
