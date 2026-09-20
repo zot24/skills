@@ -113,7 +113,7 @@ Anthropic subscription auth is active for Claude Pro/Max accounts. Third-party h
 <a href="#radius" class="heading-anchor" aria-label="Permalink: Radius" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#radius"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Radius is a dynamic `pi-messages` gateway. `/login radius` stores OAuth tokens in `auth.json`; the gateway catalog is refreshed independently and cached in `models-store.json`. Custom Radius gateways can be declared in `models.json` with `"oauth": "radius"` and a gateway `baseUrl`.
+Radius is a `pi-messages` gateway. Pi ships the public Radius model catalog for immediate and offline model lookup, then overlays it with the effective gateway catalog after authentication. `/login radius` stores OAuth tokens in `auth.json`; refreshed catalogs are cached in `models-store.json`. Custom Radius gateways can be declared in `models.json` with `"oauth": "radius"` and a gateway `baseUrl`; they do not inherit the public `radius.pi.dev` catalog.
 
 
 ## API Keys

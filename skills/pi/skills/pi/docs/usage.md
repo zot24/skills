@@ -74,31 +74,32 @@ See [Keybindings](/docs/latest/keybindings) for all shortcuts and customization.
 
 Type `/` in the editor to open command completion. Extensions can register custom commands, skills are available as `/skill:name`, and prompt templates expand via `/templatename`.
 
-| Command                            | Description                                                                |
-|------------------------------------|----------------------------------------------------------------------------|
-| `/login`, `/logout`                | Manage OAuth or API-key credentials                                        |
-| [`/llama`](/docs/latest/llama-cpp) | Download, load, and unload llama.cpp router models                         |
-| `/model`                           | Switch models; Ctrl+S in the picker saves the startup default              |
-| `/thinking`                        | Switch thinking level; Ctrl+S in the picker saves the startup default      |
-| `/scoped-models`                   | Enable/disable models for Ctrl+P cycling                                   |
-| `/settings`                        | Theme, message delivery, transport, and other preferences                  |
-| `/resume`                          | Pick from previous sessions                                                |
-| `/new`                             | Start a new session                                                        |
-| `/name <name>`                     | Set session display name                                                   |
-| `/session`                         | Show session file, ID, messages, tokens, and cost                          |
-| `/tree`                            | Jump to any point in the session and continue from there                   |
-| `/trust`                           | Save project trust decision for future sessions                            |
-| `/fork`                            | Create a new session from a previous user message                          |
-| `/clone`                           | Duplicate the current active branch into a new session                     |
-| `/compact [prompt]`                | Manually compact context, optionally with custom instructions              |
-| `/copy`                            | Copy last assistant message to clipboard                                   |
-| `/export [file]`                   | Export session to HTML or JSONL                                            |
-| `/import <file>`                   | Import and resume a session from a JSONL file                              |
-| `/share`                           | Upload as private GitHub gist with shareable HTML link                     |
-| `/reload`                          | Reload keybindings, extensions, skills, prompts, themes, and context files |
-| `/hotkeys`                         | Show all keyboard shortcuts                                                |
-| `/changelog`                       | Display version history                                                    |
-| `/quit`                            | Quit pi                                                                    |
+| Command                            | Description                                                                             |
+|------------------------------------|-----------------------------------------------------------------------------------------|
+| `/login`, `/logout`                | Manage OAuth or API-key credentials                                                     |
+| [`/llama`](/docs/latest/llama-cpp) | Download, load, and unload llama.cpp router models                                      |
+| `/model`                           | Switch models; Ctrl+S in the picker saves the startup default                           |
+| `/thinking`                        | Switch thinking level; Ctrl+S in the picker saves the startup default                   |
+| `/scoped-models`                   | Enable/disable models for Ctrl+P cycling                                                |
+| `/settings`                        | Theme, message delivery, transport, and other preferences                               |
+| `/resume`                          | Pick from previous sessions                                                             |
+| `/new`                             | Start a new session                                                                     |
+| `/name <name>`                     | Set session display name                                                                |
+| `/session`                         | Show session file, ID, messages, tokens, and cost                                       |
+| `/tree`                            | Jump to any point in the session and continue from there                                |
+| `/trust`                           | Save project trust decision for future sessions                                         |
+| `/fork`                            | Create a new session from a previous user message                                       |
+| `/clone`                           | Duplicate the current active branch into a new session                                  |
+| `/compact [prompt]`                | Manually compact context, optionally with custom instructions                           |
+| `/copy`                            | Copy last assistant message to clipboard                                                |
+| `/export [file]`                   | Export session to HTML or JSONL                                                         |
+| `/import <file>`                   | Import and resume a session from a JSONL file                                           |
+| `/share`                           | Upload as private GitHub gist with shareable HTML link                                  |
+| `/bug [description]`               | Report a bug to the Pi developers; see [Sessions](/docs/latest/sessions#reporting-bugs) |
+| `/reload`                          | Reload keybindings, extensions, skills, prompts, themes, and context files              |
+| `/hotkeys`                         | Show all keyboard shortcuts                                                             |
+| `/changelog`                       | Display version history                                                                 |
+| `/quit`                            | Quit pi                                                                                 |
 
 
 ## Message Queue
