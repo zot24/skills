@@ -7,21 +7,12 @@ use crate::rules::{author_rules, tweet_rules};
 use crate::rules::{RuleContext, Verdict};
 use std::sync::Arc;
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, strum::IntoStaticStr)]
+#[strum(serialize_all = "snake_case")]
 pub enum SafetyLevel {
     FilterAll,
     TimelineHome,
     TimelineHomeRecommendations,
-}
-
-impl SafetyLevel {
-    pub fn as_str(self) -> &'static str {
-        match self {
-            SafetyLevel::FilterAll => "filter_all",
-            SafetyLevel::TimelineHome => "timeline_home",
-            SafetyLevel::TimelineHomeRecommendations => "timeline_home_recommendations",
-        }
-    }
 }
 
 pub(super) struct Policy {

@@ -60,8 +60,9 @@ rules fires *only* for out-of-network recommendations, many keyed on account-lev
 current schema has no `quality_score`. Do not repeat it.
 
 **Reply rules:** Grok scores replies 0–3; ≤ 1,000 followers = elevated spam scrutiny;
-coverage through ≤120k on target+root; `fast_reply_spam_post` carries a 30-day `SpamHighRecall`
-label. Volume is the riskiest lever. Worse ranking scores overwrite better ones.
+spam detection through ≤200k on target+root; quality ranking on large threads;
+`fast_reply_spam_post` carries a 30-day `SpamHighRecall` label. Volume is the riskiest lever.
+Worse ranking scores overwrite better ones.
 
 **Author diversity:** 2nd post in a feed load keeps 62.5%, 3rd 43.75%. VMRanker separately demotes
 posts similar to their neighbours.

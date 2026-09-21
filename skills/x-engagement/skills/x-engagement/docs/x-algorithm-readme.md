@@ -7,6 +7,7 @@ This repository contains the core code that determines which posts a viewer sees
 ## Table of Contents
 
 - [Notable Updates](#notable-updates)
+  - [September 18th, 2026](#september-18th-2026)
   - [August 14th, 2026](#august-14th-2026)
   - [August 13th, 2026](#august-13th-2026)
 - [Overview](#overview)
@@ -28,6 +29,10 @@ This repository contains the core code that determines which posts a viewer sees
 
 
 ## Notable Updates
+
+### September 18th, 2026
+
+- **[Under the Hood](#under-the-hood-label-transparency-tool).** Reports now include information about whether one's account or posts have had their visibility limited because of required compliance with law(s). For example, you'll be able to see if any of your posts were withheld from showing in a country following a legal demand — and which country.
 
 ### August 14th, 2026
 
@@ -312,6 +317,7 @@ These produce the scores and labels that Visibility Filtering reads.
 | [`safety-label-user-agg/`](safety-label-user-agg/)             | Labels an account for what its posts collected.                                                                                                                                                               |
 | [`visibility-filtering-client/`](visibility-filtering-client/) | The client callers use to reach visibility filtering, and the post safety-label types it answers with.                                                                                                        |
 | [`under-the-hood/`](under-the-hood/)                           | Builds the per-account [Under the Hood](#under-the-hood-label-transparency-tool) report: daily jobs collect the labels applied to an account and its posts, which the serving layer aggregates over a period. |
+| [`takedowns/`](takedowns/)                                     | Produces the takedown-reason list that [`rules/context.rs`](visibility-filtering/rules/context.rs) applies: the tweet entity service merges a post's own reasons with its author's account-level ones. |
 
 
 ---

@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/visibility-filtering/rules/registry.rs (cached at upstream/visibility-filtering-registry.md) -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 — Brazil filter is in home-mixer, not the VF registry -->
+<!-- Snapshot: 8b258297, 2026-09-18 — Brazil filter is in home-mixer, not the VF registry -->
 
 # Visibility Filtering
 
@@ -27,35 +27,28 @@ dropped contaminates conversations built on you.
 
 ## The part that matters most: OON-only drops
 
-Rules are grouped into policies by `SafetyLevel` (`registry.rs:26-37`). Two matter here:
+Rules are grouped into policies by `SafetyLevel` (`registry.rs:10-14`). Two matter here:
 
-- `TimelineHome` → `timeline_home_policy()` (`registry.rs:139-141`)
-- `TimelineHomeRecommendations` → `timeline_home_recommendations_policy()` (`registry.rs:143-175`)
+- `TimelineHome` → `TIMELINE_HOME_POLICY` (`registry.rs:92`)
+- `TimelineHomeRecommendations` → `TIMELINE_HOME_RECOMMENDATIONS_POLICY` (`registry.rs:93-96`)
 
-Recommendations policy = **the same base rules plus an extra `oon_drops` list**
-(`registry.rs:145-172`).
+Shared home rules live in `TIMELINE_HOME_SHARED_RULES` (`registry.rs:72-82`). Recommendations
+policy = those plus `TIMELINE_HOME_RECOMMENDATION_ONLY_RULES` (`registry.rs:84-90`) — the
+OON-only extra drops, now split across `author_rules::*` and `tweet_rules::*`.
 
 **This is the core asymmetry: a set of labels drops your post only when it is a recommendation to
 someone who does not follow you. The identical post stays visible to your followers.** You can be
 cut off from all new-audience reach while your timeline looks completely normal.
 
-The OON-only drop list (`registry.rs:145-172`):
+The OON-only extra groups (`registry.rs:84-90`):
 
-| Rule | What it keys on |
+| Group | What it keys on |
 |---|---|
-| `SPAM_HIGH_RECALL_DROP` | Post labelled spam at high recall |
-| `SPAM_HIGH_RECALL_USER_DROP` | **Account** labelled spam at high recall |
-| `DO_NOT_AMPLIFY_DROP` | Post marked do-not-amplify |
-| `DO_NOT_AMPLIFY_NON_FOLLOWER_USER_DROP` | Account marked do-not-amplify to non-followers |
-| `MALICIOUS_URL_DROP` | Post links to a flagged URL |
-| `ABUSIVE_HIGH_RECALL_USER_DROP` | Account labelled abusive at high recall |
-| `COMPROMISED_USER_DROP` | Account flagged compromised |
-| `READ_ONLY_USER_DROP` | Account in read-only state |
-| `IMPERSONATION_HIGH_PRECISION_USER_DROP` | Account flagged impersonation |
-| `FOSNR_ABUSE_INSULTS_OON_DROP` | Insults/abuse, out-of-network only |
-| `NSFW_*` / `GORE_AND_VIOLENCE_*` (post, user, avatar, banner, card, text) | Adult / graphic content labels |
-| `DropTweetsWithDmcaMediaRule` | DMCA-flagged media |
-| `DropTweetsWithGeoRestrictedMediaRule` | Geo-restricted media |
+| `tweet_rules::RECS_MEDIA_DROPS` | DMCA / geo-restricted media |
+| `author_rules::OON_NSFW_AUTHOR_DROPS` | NSFW avatar/banner/author labels, out-of-network |
+| `tweet_rules::OON_TWEET_FLAG_DROPS` | Do-not-amplify and similar tweet flags |
+| `tweet_rules::OON_TWEET_LABEL_DROPS` | Spam-high-recall, malicious URL, and related post labels |
+| `author_rules::OON_USER_LABEL_DROPS` | Account-level spam / abusive / compromised / read-only / impersonation |
 
 Note how many are **account-level**, not post-level. `SPAM_HIGH_RECALL_USER_DROP`,
 `ABUSIVE_HIGH_RECALL_USER_DROP` and the NSFW avatar/banner rules suppress *everything you post*
@@ -70,18 +63,15 @@ acceptable because followers still see you.
 
 ## Base rules (both in-network and OON)
 
-`base_home_rules()` (`registry.rs:106-137`) — these drop or gate for everyone:
+`TIMELINE_HOME_SHARED_RULES` (`registry.rs:72-82`) — these drop or gate for everyone:
 
-- Author state: suspended, deactivated, erased, offboarded, protected
-- Viewer relationship: viewer blocks author, viewer mutes author, muted retweets
-- Post labels: `PDNA_DROP`, `BOUNCE_DROP`, `SPAM_DROP`, `FOR_EMERGENCY_USE_ONLY_DROP`
-- FOSNR policy drops: hateful conduct, violent speech, abuse, civic integrity
-- `NullcastedTweetDropRule`, `DropStaleTweetsRule`
-- Legal: `DropLegalTakendownPostRule`, `DropLocalLawsTakendownPostRule`
-- Age gating for sensitive content: logged-out, underage, no stated age
-- `DropExclusiveTweetContentRule` (subscriber-only)
-- Interstitials: `NSFW_HIGH_PRECISION_INTERSTITIAL`, `GORE_AND_VIOLENCE_INTERSTITIAL`,
-  `NSFW_CARD_IMAGE_INTERSTITIAL`, `NsfwAuthorInterstitialRule`
+- Author state: suspended, deactivated, erased, offboarded, protected (`AUTHOR_STATE_DROPS`)
+- Viewer relationship: viewer blocks author, viewer mutes author, muted retweets (`SOCIALGRAPH_DROPS`)
+- Post labels: `PDNA_DROP`, `BOUNCE_DROP`, `SPAM_DROP`, `FOR_EMERGENCY_USE_ONLY_DROP` (`TWEET_LABEL_DROPS`)
+- TES / legal: `TES_HOME_DROPS` (includes legal takedown / local-law withhold)
+- Age gating for sensitive content: logged-out, underage, no stated age (`SENSITIVE_VIEWER_DROPS`)
+- `NULLCAST_DROP`, exclusive/subscriber-only (`EXCLUSIVE_TWEET_DROP`)
+- Interstitials: NSFW media + NSFW author (`NSFW_MEDIA_INTERSTITIALS`, `NSFW_AUTHOR_INTERSTITIAL`)
 
 Note `DropStaleTweetsRule` — posts age out regardless of engagement. Old content does not
 resurface. Separately, Phoenix can zero engagement-count features on ~14-day-old candidates when
@@ -93,7 +83,8 @@ Not part of the `visibility-filtering/` registry — it runs in the Phoenix cand
 `Brazil2026ElectionFilter` (`home-mixer/filters/brazil_2026_election_filter.rs`).
 
 - Hardcoded set of user IDs reported to Brazil's Electoral Court for the 2026 election
-  (usernames included for transparency; README notes the **account list was updated 2026-08-27**).
+  (usernames included for transparency; README notes the **account list was updated 2026-08-27**,
+  and the source list grew again by 2026-09-18 — ~2,779 IDs in `brazil_2026_election_filter.rs`).
 - **Removes** from For You recommendations posts whose author is on the list **unless the viewer
   already follows that author**.
 - Also removes retweets of listed authors, quotes of listed authors, and replies whose ancestor
@@ -160,6 +151,11 @@ xAI shipped a transparency tool alongside this release — **Under the Hood** �
 visibility-limiting labels applied to your account and posts, including whether a label was
 applied manually rather than by an automated system (`README.md`, "Under the Hood Label
 Transparency Tool").
+
+As of **2026-09-18**, those reports also include **legal-compliance withholdings**: whether an
+account or post had visibility limited because of required compliance with law, including
+country-level takedowns (`README.md`, Notable Updates). A reach drop that is geo-specific is
+more likely a legal withhold than a spam label — check UTH before rewriting hooks.
 
 This is the only way to confirm a suppression hypothesis rather than guess at it. Check it before
 concluding anything about your reach.

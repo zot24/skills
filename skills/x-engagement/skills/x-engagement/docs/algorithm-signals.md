@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm (direct codebase analysis) -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 -->
+<!-- Snapshot: 8b258297, 2026-09-18 -->
 
 # X Algorithm Signals Reference
 
@@ -76,7 +76,7 @@ Note that `report`, `mute_author` and `block_author` also feed **account-level**
 ## Author Diversity Penalty
 
 A decay multiplier is applied to posts from the same author within one feed response
-(`home-mixer/scorers/ranking_scorer.rs:614-615`):
+(`home-mixer/scorers/ranking_scorer.rs`, `diversity_multiplier`):
 
 ```rust
 multiplier = (1.0 - floor) * decay_factor.powf(exponent) + floor

@@ -130,22 +130,34 @@ counts, not only yours. Small accounts talking in small threads draw the most sc
 **Under 1,000 followers: quality > volume on replies.** Five excellent replies outperform fifty
 mediocre ones and avoid spam detection.
 
-### Mid-tier threshold raised to 120k (2026-08-28)
+### Mid-tier spam vs large-thread ranking (corrected 2026-09-18)
 
-`grox/flows/reply_spam/task_filter.py`:
+`grox/flows/reply_spam/task_filter.py` — these are **not** the same eligibility. The skip
+reason on ranking has always been `low_blast_radius`. Earlier versions of this skill inverted
+ranking (they said it ran on ≤120k threads). The code does the opposite.
 
-| Filter | When eligible | Threshold history |
+| Filter | Runs when | Threshold now |
 |---|---|---|
-| `TaskSpamFilter` | spam detection task runs unless *both* reply-target and root are **above** the threshold | 15k → 30k (2026-08-14) → 80k (2026-08-21) → **120,000** |
-| `TaskReplyRankingFilter` | reply quality ranking runs when *both* reply-target and root are **≤** threshold | 15k → 30k (2026-08-14) → 80k (2026-08-21) → **120,000** |
+| `TaskSpamFilter` | **both** reply-target and root are **≤** threshold (skip if either is above) | 15k → 30k → 80k → 120k → 150k → **200,000** (`GROK_GEMMA_FOLLOWER_SPLIT`) |
+| `TaskReplyRankingFilter` | at least one of target/root is **above** the threshold (skip both ≤ as `low_blast_radius`) | same 200,000 constant |
+| `TaskCoordinatedSpamFilter` | root is **≥** threshold, thread depth ≥ 2, replier not high PageRank / grey badge | 1k → 5k → 30k → **50,000** |
 
-Constants: `FOLLOWER_COUNT_THRESHOLD_FOR_SPAM_DETECTION = 120000` (`task_filter.py:17`) and
-`FOLLOWER_COUNT_THRESHOLD_FOR_REPLY_RANKING = 120000` (`task_filter.py:185`).
+Constants: `GROK_GEMMA_FOLLOWER_SPLIT = 200_000` (`constants.py`),
+`FOLLOWER_COUNT_THRESHOLD_FOR_SPAM_DETECTION = GROK_GEMMA_FOLLOWER_SPLIT` (`task_filter.py:18`),
+`FOLLOWER_COUNT_THRESHOLD_FOR_REPLY_RANKING = GROK_GEMMA_FOLLOWER_SPLIT` (`task_filter.py:186`),
+coordinated `50000` (`task_filter.py:98`).
 
-Effect: the 80k–120k creator band is no longer a free pass. Combined with the removed 60s
-rate-limit, most active mid-tier threads now go through reply-spam detection and/or Grok reply
-ranking on every reply. Reply quality is a mid-tier *and large-mid* problem, not only a
-small-account problem.
+Practical:
+
+- Replying in **mid-size** threads (target+root both ≤200k) is a **spam-detection** problem.
+  A specialized Gemma reply-spam model (`oai-gemma4-26b-reply-spam`) is used when
+  max(root, target) followers > 150k (`GEMMA_REPLY_SPAM_MIN_FOLLOWERS`).
+- Replying under **large** accounts is a **Grok 0–3 ranking** problem. Quality still decides
+  thread visibility there.
+- Stacked self-replies (≥2 hops) still have a dedicated `PlanMultiStepReplySpam` path.
+
+The 60s scoring rate-limit is gone. Combined with ratchet-down ranking writes, every eligible
+reply can be scored immediately and a worse rescore sticks.
 
 Recovery of missed jobs now injects **both** `PlanReplyRanking` and `PlanSpamComment`
 (`ReplyRankingTaskGenerator.generate_recovery`) — a missed reply can be spam-scored on replay,
