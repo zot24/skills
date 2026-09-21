@@ -1,6 +1,6 @@
 <!-- Source: https://github.com/xai-org/x-algorithm — grox/flows/upa/, grox/flows/reply_spam/, grox/flows/ptos/ -->
 <!-- Cached: upstream/banger-screen-state.md -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 -->
+<!-- Snapshot: 8b258297, 2026-09-18 -->
 
 # Content Quality Screening
 
@@ -91,11 +91,19 @@ Note the code buckets on **the replied-to user's and the root author's** followe
 scrutiny attaches to the conversation you are replying into, not only to your own account size.
 Small accounts talking to small accounts get the most scrutiny.
 
-Eligibility for those reply-spam / reply-ranking tasks now covers conversations where **both**
-the reply-target and root author are ≤ **120,000** followers
-(`task_filter.py:17`, `task_filter.py:185` — was 80k on 2026-08-21, 30k on 2026-08-14, 15k
-before that). The 60-second scoring rate-limit is gone; every eligible reply can be scored
-immediately. Ranking-score writes are ratchet-down only (a worse score overwrites a better one).
+Eligibility is split (`task_filter.py`):
+
+- **Spam detection** runs when **both** the reply-target and root author are ≤ **200,000**
+  followers (`GROK_GEMMA_FOLLOWER_SPLIT`; was 120k at `bc8e5f0`). Skip if either is above.
+- **Reply ranking** (0–3 Grok score) **skips** that band as `low_blast_radius` and runs when at
+  least one of target/root is **above** 200k.
+- **Coordinated spam** runs when the root is ≥ **50,000** followers (was 1k), thread depth ≥ 2,
+  and the replier is not high PageRank / grey badge.
+- Inside the spam band, a specialized Gemma reply-spam model is used when max(root, target)
+  followers > 150k (`GEMMA_REPLY_SPAM_MIN_FOLLOWERS`).
+
+The 60-second scoring rate-limit is gone; every eligible reply can be scored immediately.
+Ranking-score writes are ratchet-down only (a worse score overwrites a better one).
 
 Related enforcement, with 30-day label TTLs: `fast_reply_spam_post` → `SpamHighRecall`, and
 `llm_slop_post` → `RiskyHighVizReply` (`enforcement_post.yaml:39-58`).
@@ -145,6 +153,10 @@ These produce labels consumed by visibility filtering. Note that several map to 
 rather than drops (adult and graphic media) — the post stays in the feed behind a tap-through.
 Others map to unconditional drops, and the FOSNR variants (hateful conduct, violent speech, abuse,
 civic integrity) drop in-network too.
+
+As of 2026-09-18, Grox also runs a dedicated vision flow for
+`media_injected_adult_infrared_video_spam_detection` — night-vision / infrared adult video spam.
+Do not treat "weird camera" adult clips as a loophole; they have their own detector.
 
 ## Practical Checklist Before Posting
 

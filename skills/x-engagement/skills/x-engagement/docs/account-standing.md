@@ -1,6 +1,6 @@
 <!-- Source: https://github.com/xai-org/x-algorithm — abuse-enforcement-service/, agatha/, user-cred-v2/, bdsm/ -->
 <!-- Cached: upstream/enforcement-user-rules.md, upstream/enforcement-post-rules.md -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 -->
+<!-- Snapshot: 8b258297, 2026-09-18 -->
 
 # Account Standing
 

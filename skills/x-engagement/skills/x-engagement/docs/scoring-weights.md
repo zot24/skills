@@ -1,5 +1,5 @@
 <!-- Source: https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs (cached at upstream/home-mixer-params.md) -->
-<!-- Snapshot: bc8e5f0, 2026-08-28 -->
+<!-- Snapshot: 8b258297, 2026-09-18 -->
 
 # Published Scoring Weights
 
@@ -47,44 +47,52 @@ tiers actually are.
 
 | Action | Weight | `param.rs` |
 |---|---:|---|
-| `share_via_copy_link` | 20.0 | `:352-355` |
-| `reply` (bidirectional-follow boost) | +15.0 | `:310-315` |
-| `reply` | 5.0 | `:309` |
-| `quote` | 5.0 | `:358` |
-| `share_via_dm` | 5.0 | `:345-350` |
-| `follow_author` | **4.0** | `:371-376` |
-| `share` | 2.0 | `:344` |
-| `retweet` | 1.0 | `:322` |
-| `favorite` (like) | 0.5 | `:308` |
-| `click` | 0.4 | `:335` |
-| `open_link` | 0.2 | `:336` |
-| `video_open` | **0.07** | `:329-334` |
-| `photo_expand` | 0.05 | `:323-328` |
-| `dwell` | **0.05** | `:357` |
-| `quoted_click` | 0.05 | `:359-364` |
-| `post_unexplored` | 0.02 | `:377-382` |
-| `cont_dwell_time` | 0.004 | `:401-406` |
-| `vqv` (video quality view) | **0.0** | `:343` |
-| `profile_click` | **0.0** | `:337-342` |
-| `quoted_vqv` | 0.0 | `:365-370` |
-| `cont_click_dwell_time` | 0.0 | `:407-412` |
+| `share_via_copy_link` | 20.0 | `:369-373` |
+| `reply` (bidirectional-follow boost) | +15.0 | `:328-333` |
+| `reply` | 5.0 | `:327` |
+| `quote` | 5.0 | `:376` |
+| `share_via_dm` | 5.0 | `:363-368` |
+| `follow_author` | **4.0** | `:389-394` |
+| `share` | 2.0 | `:362` |
+| `retweet` | 1.0 | `:340` |
+| `favorite` (like) | 0.5 | `:326` |
+| `click` | 0.4 | `:353` |
+| `open_link` | 0.2 | `:354` |
+| `video_open` | **0.07** | `:347-352` |
+| `photo_expand` | 0.05 | `:341-346` |
+| `dwell` | **0.05** | `:375` |
+| `quoted_click` | 0.05 | `:377-382` |
+| `post_unexplored` | 0.02 | `:395-400` |
+| `cont_dwell_time` | 0.004 | `:419-424` |
+| `vqv` (video quality view) | **0.0** | `:361` |
+| `profile_click` | **0.0** | `:355-360` |
+| `quoted_vqv` | 0.0 | `:383-388` |
+| `cont_click_dwell_time` | 0.0 | `:425-430` |
 
 ## Negative weights
 
 | Action | Weight | `param.rs` |
 |---|---:|---|
-| `report` | −234.0 | `:469` |
-| `mute_author` | −58.8 | `:463-470` |
-| `not_interested` | −43.2 | `:451-458` |
-| `block_author` | −31.2 | `:457-464` |
-| `not_dwelled` | **−0.02** | `:470-477` |
+| `report` | −234.0 | `:462` |
+| `mute_author` | −58.8 | `:456-461` |
+| `not_interested` | −43.2 | `:444-449` |
+| `block_author` | −31.2 | `:450-455` |
+| `not_dwelled` | **−0.02** | `:463-468` |
 
 All of the above are read into the weighted scorer at
 `home-mixer/scorers/ranking_scorer.rs` (`WeightedScorer::from_params`).
 
 Changed vs `28e414f` (2026-08-21): `DwellWeight` 0.0 → **0.05**, `VideoOpenWeight` 0.05 → **0.07**,
-`VqvWeight` 0.05 → **0.0**. Phoenix scoring aggregation is now `DENSE_WITH_LONG_DWELL`
-(`param.rs:121-126`); retrieval aggregation stays `DENSE_WITH_SHORT_DWELL`.
+`VqvWeight` 0.05 → **0.0**. Phoenix scoring aggregation is `DENSE_WITH_LONG_DWELL`
+(`param.rs:140-143`). Retrieval aggregation is now the same
+(`PhoenixRetrievalAggregationType`, `param.rs:146-149`) — it is **not** short-dwell.
+
+As of `8b258297` (2026-09-18) the experimental dwell-regret path is gone:
+`home-mixer/scorers/value_model_gate.rs` deleted, `ValueModelMode` / `DwellRegret*` params
+removed, `EnableClickDwellLowFavRatePenalty` removed. Scoring is the weighted sum in
+`ranking_scorer.rs`. `EnableCdwellOnImpr` (default `false`, `param.rs:432-435`) would multiply
+the click-dwell term by `click_score` if ever flipped on; `ContClickDwellTimeWeight` is still
+0.0 so it does not move the live score.
 
 ## What the numbers actually change
 
@@ -129,7 +137,7 @@ that reason, not because the weight is highest. It isn't.
 
 ## The bidirectional-follow reply boost
 
-`BidirectionalFollowReplyWeightBoost = 15.0` (`param.rs:310-315`), applied at
+`BidirectionalFollowReplyWeightBoost = 15.0` (`param.rs:328-333`), applied at
 `ranking_scorer.rs` (`reply_weight_for`). Upstream ships a design note for it:
 [`upstream/bidirectional-boost.md`](upstream/bidirectional-boost.md).
 
@@ -152,15 +160,15 @@ Scores for out-of-network content are multiplied down after the weighted sum
 
 | Factor | Value | Source |
 |---|---:|---|
-| `OonWeightFactor` | 0.75 | `param.rs:248-253` |
-| `TopicOonWeightFactor` | 0.5 | `param.rs:267-272` |
+| `OonWeightFactor` | 0.75 | `param.rs:266-271` |
+| `TopicOonWeightFactor` | 0.5 | `param.rs:285-290` |
 | `NEW_USER_OON_WEIGHT_FACTOR` | 0.00001 | `config.rs:38` |
 
 Reaching non-followers costs a flat 25% of your score; topic-based OON costs 50%. You need to
 out-score in-network content by that margin to surface.
 
 The new-user factor is **suppression, not a boost** — `0.00001` is near-total. It applies to
-accounts younger than `NewUserAgeThresholdSecs`, which **defaults to `0`** (`param.rs:273-278`),
+accounts younger than `NewUserAgeThresholdSecs`, which **defaults to `0`** (`param.rs:291-296`),
 so with published defaults the branch is dead (`age < 0` is never true) and every OON candidate
 takes the 0.75 factor.
 
@@ -172,7 +180,7 @@ takes the 0.75 factor.
 multiplier = (1.0 - floor) * decay_factor.powf(exponent) + floor
 ```
 
-Defaults: `AuthorDiversityDecay = 0.5`, `AuthorDiversityFloor = 0.25` (`param.rs:229-239`).
+Defaults: `AuthorDiversityDecay = 0.5`, `AuthorDiversityFloor = 0.25` (`param.rs:247-257`).
 `exponent` is your post's position among *your own* posts in that feed response, best-scoring
 first.
 
@@ -191,7 +199,7 @@ not compound — each extra post competes against your own best one.
 
 `vm-ranker/` reorders already-scored posts with a **determinantal point process** over their
 embeddings, trading a little score for less similarity between neighbours
-(`README.md`, Ranking table). `EnableVMRanker` defaults to **`true`** (`param.rs:605-610`) — this
+(`README.md`, Ranking table). `EnableVMRanker` defaults to **`true`** (`param.rs:503-506`) — this
 one is on.
 
 As of 2026-08-28, VMRanker is **DPP-only**. The request no longer carries Phoenix scores, head
@@ -221,22 +229,28 @@ Published defaults, easy to mistake for live behaviour:
 
 | Param | Default | Notes |
 |---|---|---|
-| `EnableMutualFollowJaccardHydration` | `false` | runtime key |
-| `EnableFollowingRepliedUsersFacepile` | `false` | runtime key |
-| `EnableClickDwellLowFavRatePenalty` | `false` | runtime key |
+| `EnableMutualFollowJaccardHydration` | `false` | runtime key (`param.rs:714-717`) |
+| `EnableFollowingRepliedUsersFacepile` | `false` | runtime key (`param.rs:484-487`) |
+| `EnableCdwellOnImpr` | `false` | if on, click-dwell term becomes `click_dwell_time * click_score` |
+| `EnableFavHoldout` | `false` | if on, randomly withholds high-fav posts from some viewers (2–15% by fav count) |
+| `PhoenixColdStartMaxResults` | `0` | extra Phoenix cold-retrieval slice (`ForYouPhoenixRetrievalCold`); 0 = off |
 | `EnableMultiplicativePostUnexplored` | `false` | runtime key |
 | `EnableColdStartThompsonSampling` | `false` | added 2026-08-14 |
-| `MultiplierPreOffset` | `false` | added 2026-08-28; replaced `EnableMpnScoring` |
+| `MultiplierPreOffset` | `false` | replaced `EnableMpnScoring` |
 | `EnableAiTrendFeedbackContext` | `false` | added 2026-08-21 |
+| `EnableAdsBrandSafetyVerdictV2` | `false` | ads-path only; was `true` at `bc8e5f0`, back to `false` (`param.rs:814-817`) |
 
 These are runtime-overridable params (the string keys are override handles), so a `false` default
 does not prove the feature is off in production — only that the published default is off. Treat
 tactics built on them as speculative.
 
-**Flipped on in this snapshot:** `EnableAdsBrandSafetyVerdictV2` now defaults to **`true`**
-(`param.rs:910`). Ads-path only — not a creator ranking lever.
+**Removed:** `UseServedSlateContext`, `EnableMpnScoring`, `EnableClickDwellLowFavRatePenalty`,
+`ValueModelMode`, `DwellRegret*` params, `value_model_gate.rs`.
 
-**Removed:** `UseServedSlateContext`, `EnableMpnScoring`.
+`FavHoldoutFilter` (`home-mixer/filters/fav_holdout_filter.rs`) is an inventory experiment:
+posts with more likes are more likely to be hidden from a hashed slice of viewers (0% at ≤1 fav,
+~15% above 10k favs). When the flag is off (default), likes still buy impressions as usual. Do
+not treat a like-count as guaranteed For You inventory while this experiment could be on.
 
 ### Cold-start Thompson sampling (off by default)
 

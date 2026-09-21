@@ -8,9 +8,11 @@ allowed-tools: Read, Write, Edit, Bash
 
 Expert at building authority and engagement on X (Twitter) through distribution engineering,
 algorithm-aware content design, and conversation tactics — grounded in the `xai-org/x-algorithm`
-codebase at snapshot `bc8e5f0` (2026-08-28), which raised reply-spam/ranking eligibility to 120k
-followers, re-enabled a small binary-dwell weight, and simplified VMRanker to DPP-only on top of
-the 2026-08-21 80k / SID-slate and 2026-08-14 scoring-semantics releases.
+codebase at snapshot `8b258297` (2026-09-18). Ranking is weighted-sum only (the dwell-regret
+value-model path was deleted). Reply spam and reply ranking are **not** the same eligibility:
+spam detection covers threads whose target+root are both ≤**200k**; Grok quality-ranking runs
+on **large** threads (skip reason `low_blast_radius`). Under the Hood now surfaces legal /
+country withholdings. Blend weights are unchanged from 2026-08-28.
 
 ## Overview
 
@@ -27,11 +29,16 @@ the 2026-08-21 80k / SID-slate and 2026-08-14 scoring-semantics releases.
   rule can non-permanently suspend for PlatformManipulation
 - **Mutuals compound** — a mutually-followed author gets +15.0 on reply weight for root posts;
   follow-graph bool features are wired into Phoenix candidate/history tensors
-- **Conversation leverage** — replies are Grok-scored 0–3; spam/reply-ranking eligibility now
-  covers threads where target+root are ≤**120k** followers (was 80k; was 30k; was 15k). The 60s
-  scoring rate-limit is gone, and a worse ranking score overwrites a better one
-- **Dwell is small, not zero** — `DwellWeight` is **0.05** (was 0.0); Phoenix scoring aggregation
-  is `DENSE_WITH_LONG_DWELL`. Still far below reply/quote (5.0). `vqv` is now **0.0**
+- **Conversation leverage** — replies are Grok-scored 0–3. **Spam detection** runs when both
+  reply-target and root are ≤**200k** followers (`GROK_GEMMA_FOLLOWER_SPLIT`; was 120k). **Reply
+  ranking** is the opposite: it *skips* those mid-size threads as `low_blast_radius` and scores
+  replies into **larger** conversations. Coordinated-spam checks fire when the root is ≥**50k**.
+  The 60s scoring rate-limit is gone, and a worse ranking score overwrites a better one
+- **Dwell is small, not zero** — `DwellWeight` is **0.05**; Phoenix scoring **and retrieval**
+  aggregation are both `DENSE_WITH_LONG_DWELL`. Still far below reply/quote (5.0). `vqv` is **0.0**.
+  There is no dwell-regret / value-model gate — `value_model_gate.rs` was deleted
+- **Legal visibility** — Under the Hood reports now include whether an account or post was
+  withheld for legal compliance, including which country
 - **VMRanker is DPP-only** — ranking_scorer no longer computes SID fields into the reranker
   request. SlateContext still carries SID + new Phoenix `recon_*` reconstruction-similarity
   features from the proto
@@ -78,10 +85,10 @@ don't monetize either.
 ### 6. Reply Quality Over Volume — This Is The Riskiest Lever
 Replies are Grok-scored 0–3, and the scorer now sees follower counts. Below ~1,000 followers spam
 scrutiny is elevated, and `fast_reply_spam_post` carries a 30-day `SpamHighRecall` label.
-`bdsm/` reads posting *cadence* directly. Reply-spam / reply-ranking tasks now cover threads up
-to ≤120k followers on target and root. Every reply can be scored immediately (no 60s dedupe),
-and a later worse score replaces a better one. Five excellent replies beat fifty mediocre ones
-by a wide margin.
+`bdsm/` reads posting *cadence* directly. Spam detection covers target+root ≤200k; Grok reply
+ranking covers the large-thread side of that split. Every eligible reply can be scored
+immediately (no 60s dedupe), and a later worse score replaces a better one. Five excellent
+replies beat fifty mediocre ones by a wide margin.
 
 ### 7. Volume and Repetition Both Decay
 Author diversity: your 2nd post in a feed load keeps 62.5%, your 3rd 43.75%. VMRanker separately
@@ -121,8 +128,8 @@ non-retweet candidate.
   buckets, 0–3 reply rubric, the ten safety categories
 - **[Content Strategy](docs/content-strategy.md)** - Hooks, clusters, attention, diversity decay,
   freshness
-- **[Conversation Tactics](docs/conversation-tactics.md)** - Reply scoring, spam risk (≤120k),
-  thread hijacking, social proof
+- **[Conversation Tactics](docs/conversation-tactics.md)** - Reply scoring, spam (≤200k) vs
+  ranking (large threads), thread hijacking, social proof
 - **[Authority Building](docs/authority-building.md)** - Follow triggers, share signals,
   network alignment, positioning
 - **[Monetization](docs/monetization.md)** - Original Content Rewards: eligibility, qualified
@@ -143,8 +150,8 @@ non-retweet candidate.
    cluster as the post you just shipped
 6. **Post to your profile** first
 7. **Wait 10–30 minutes**, then find active threads (20–200 likes, your topic)
-8. **Reply with quality, at human pace** — extend the idea, don't self-promote; quality still
-   matters on mid-tier threads up through ~120k
+8. **Reply with quality, at human pace** — extend the idea, don't self-promote. Mid-tier
+   threads (≤200k) are spam-scored; large threads are quality-ranked
 
 ## Content Formula
 
@@ -180,12 +187,13 @@ clean account standing (no OON drop labels)
 - Chasing `vqv` or `profile_click` (both weighted 0.0)
 - Treating weight ratios as raw count equivalences ("1 report = N likes") — wrong since 2026-08-14
 - Relying on weeks-old posts to keep ranking on accumulated fav/view counts alone
-- Treating mid-size creator threads (80k–120k) as "safe from reply ranking" — they are not
-- Spray-and-pray replies now that every reply can be scored immediately and a worse score sticks
+- Treating mid-size creator threads (≤200k) as free of reply-spam detection — they are not
+- Treating large-account threads as unscored — Grok reply ranking skips the small side (`low_blast_radius`) and runs on the large side
+- Spray-and-pray replies now that every eligible reply can be scored immediately and a worse score sticks
 
 ## Currency
 
 Analytical docs are hand-derived from the source files cached in `docs/upstream/`, at snapshot
-`bc8e5f0` (2026-08-28). CI copies those files but **cannot** regenerate the prose. If a cached
+`8b258297` (2026-09-18). CI copies those files but **cannot** regenerate the prose. If a cached
 file's diff shows a changed or removed constant, the analysis needs re-deriving by hand — see
 `sync.json` → `snapshot_commit`.
