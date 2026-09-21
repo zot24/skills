@@ -54,7 +54,7 @@ iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 | 📖 **[快速入门教程](/docs/zh-Hans/getting-started/quickstart)**                    | 第一次对话及值得尝试的核心功能                                     |
 | 🗺️ **[学习路径](/docs/zh-Hans/getting-started/learning-path)**                     | 根据你的经验水平找到合适的文档                                     |
 | ⚙️ **[配置](/docs/zh-Hans/user-guide/configuration)**                              | 配置文件、提供商、模型及选项                                       |
-| 💬 **[消息网关](/docs/zh-Hans/user-guide/messaging)**                              | 配置 Telegram、Discord、Slack、WhatsApp、Teams 等平台              |
+| 💬 **[消息网关](/docs/zh-Hans/user-guide/messaging/)**                             | 配置 Telegram、Discord、Slack、WhatsApp、Teams 等平台              |
 | 🔧 **[工具与工具集](/docs/zh-Hans/user-guide/features/tools)**                     | 70+ 内置工具及其配置方式                                           |
 | 🧠 **[记忆系统](/docs/zh-Hans/user-guide/features/memory)**                        | 跨会话持续增长的持久记忆                                           |
 | 📚 **[技能系统](/docs/zh-Hans/user-guide/features/skills)**                        | 智能体创建并复用的程序性记忆                                       |
@@ -86,8 +86,8 @@ iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 
 本文档的机器可读入口：
 
-- **<a href="/docs/zh-Hans/assets/files/llms-dffc5b193656db49af48829a9dbaa0b5.txt" target="_blank"><code>/llms.txt</code></a>** — 每个文档页面的精选索引，附简短描述。约 17 KB，可安全加载到 LLM 上下文中。
-- **<a href="/docs/zh-Hans/assets/files/llms-full-35d639cd6f642d5fb1e86ea42708bace.txt" target="_blank"><code>/llms-full.txt</code></a>** — 所有文档页面拼接为单一 markdown 文件，支持一次性摄取。约 1.8 MB。
+- **<a href="/docs/zh-Hans/assets/files/llms-e0fe80d14e8d4e55c5d48b683f0f4bbf.txt" target="_blank"><code>/llms.txt</code></a>** — 每个文档页面的精选索引，附简短描述。约 17 KB，可安全加载到 LLM 上下文中。
+- **<a href="/docs/zh-Hans/assets/files/llms-full-49a0d0ecd181e61c1c7096b5edf4a2fd.txt" target="_blank"><code>/llms-full.txt</code></a>** — 所有文档页面拼接为单一 markdown 文件，支持一次性摄取。约 1.8 MB。
 
 两个文件同样可通过 `/docs/llms.txt` 和 `/docs/llms-full.txt` 访问。每次部署时全新生成。
 

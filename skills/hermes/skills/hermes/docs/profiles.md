@@ -15,13 +15,27 @@ Run multiple independent Hermes agents on the same machine — each with its own
 
 ## What are profiles?<a href="#what-are-profiles" class="hash-link" aria-label="Direct link to What are profiles?" translate="no" title="Direct link to What are profiles?">​</a>
 
-A profile is a separate Hermes home directory. Each profile gets its own directory containing its own `config.yaml`, `.env`, `SOUL.md`, memories, sessions, skills, cron jobs, and state database. Profiles let you run separate agents for different purposes — a coding assistant, a personal bot, a research agent — without mixing up Hermes state.
+A profile is a separate Hermes home directory. Each profile gets its own directory containing its own `config.yaml`, `.env`, `SOUL.md`, memories, sessions, skills, cron jobs, and state database. Hermes recognises a directory under `~/.hermes/profiles/` as a profile only when it carries one of those identity files (`config.yaml`, `.env`, `SOUL.md`, `profile.yaml`, `auth.json`, `state.db`); a bare directory left behind by logging or cron is ignored by `profile list`, gateways and `-p`. Profiles let you run separate agents for different purposes — a coding assistant, a personal bot, a research agent — without mixing up Hermes state.
 
 
 Never point two agent processes at the same profile (the same Hermes home). Both write memory automatically, and each loads the other's writes into its system prompt at session start — so two writers on one home compound each other's state until it stops being anything you configured. Profiles exist exactly to prevent this; agents that need shared memory should use an [external memory provider](/docs/user-guide/features/memory-providers) instead.
 
 
 When you create a profile, it automatically becomes its own command. Create a profile called `coder` and you immediately have `coder chat`, `coder setup`, `coder gateway start`, etc.
+
+### Profiles, agents, and bots<a href="#profiles-agents-and-bots" class="hash-link" aria-label="Direct link to Profiles, agents, and bots" translate="no" title="Direct link to Profiles, agents, and bots">​</a>
+
+These terms describe different parts of Hermes:
+
+- **Profile** is the persistent home for an assistant's configuration and data. It keeps the same state across conversations and restarts.
+
+- **Agent** is the running Hermes assistant that uses that configuration and state. "Hermes Agent" also names the product.
+
+- **Bot Mode bot** is a profile presented as a named entry in the desktop's [Bot Mode](/docs/user-guide/bot-mode) roster, with an avatar and a persistent Bot Chat. The same profile remains accessible from the CLI. Every Bot is a profile, but not every profile is a Bot: a profile becomes a Bot when Bot Mode stores its roster presentation (title, avatar, section, hidden state) in the profile's metadata and pins its canonical Bot Chat. A profile you only ever drive from the CLI, Docker, or a gateway and never add to the roster stays a plain profile.
+
+- **Messaging bot** is an account on a platform such as Telegram, Discord, or Slack, connected to Hermes through the gateway. Its [bot token](#different-bot-tokens) identifies that platform account.
+
+- **Subagent** is a child assistant spawned by [`delegate_task`](/docs/user-guide/features/delegation) for a task, with a fresh conversation. A separate conversation is different from a separate profile.
 
 ## Quick start<a href="#quick-start" class="hash-link" aria-label="Direct link to Quick start" translate="no" title="Direct link to Quick start">​</a>
 
@@ -71,6 +85,19 @@ hermes profile create work --clone
 
 Copies your current profile's `config.yaml`, `.env`, `SOUL.md`, skills, and the curated memory files `memories/MEMORY.md` and `memories/USER.md` into the new profile — memory is treated as part of the agent's identity, like `SOUL.md`. Sessions, `state.db`, cron jobs and everything else start empty. For a blank memory as well, create the profile without `--clone` or delete the two files afterwards; the agent never falls back to another profile's memory when they are absent. Edit `~/.hermes/profiles/work/.env` for different API keys, or `~/.hermes/profiles/work/SOUL.md` for a different personality.
 
+#### Keep a clone's imported agent setups synced (`--sync-imports`)<a href="#keep-a-clones-imported-agent-setups-synced---sync-imports" class="hash-link" aria-label="Direct link to keep-a-clones-imported-agent-setups-synced---sync-imports" translate="no" title="Direct link to keep-a-clones-imported-agent-setups-synced---sync-imports">​</a>
+
+If the source profile has run [`hermes import-agent`](/docs/user-guide/import-from-other-agents), its `import-sync.json` records which external Claude Code / Codex trees it imported. `--clone` leaves that manifest behind, so the clone gets a one-off copy of those skills and memories and stops there. Add `--sync-imports` to carry the manifest over:
+
+
+``` prism-code
+hermes profile create work --clone --sync-imports
+hermes -p work import-agent --sync        # pulls changes from the same ~/.claude / ~/.codex
+```
+
+
+This is explicit, opt-in and one-directional, and it links the clone to the **external agent trees only** — never to the source profile. Both profiles stay independent islands: editing the source's `config.yaml`, `SOUL.md` or skills afterwards never reaches the clone. `--clone-all` copies the manifest as part of the full copy.
+
 ### Clone everything (`--clone-all`)<a href="#clone-everything---clone-all" class="hash-link" aria-label="Direct link to clone-everything---clone-all" translate="no" title="Direct link to clone-everything---clone-all">​</a>
 
 
@@ -79,7 +106,7 @@ hermes profile create backup --clone-all
 ```
 
 
-Copies **everything** — config, API keys, personality, all memories, skills, plugins. A complete working snapshot. Per-profile history is excluded (session history, `state.db`, `backups/`, `state-snapshots/`, `checkpoints/`) — these belong to the source profile and can reach tens of GB. **Cron jobs are not cloned** either: they are scheduled work bound to the source profile and its delivery channel, and a clone that inherited them would run every job twice (two gateways, same job ids). The new profile starts with an empty `cron/`. For a full backup including history and cron jobs, use `hermes profile export` or `hermes backup` instead.
+Copies **everything** — config, API keys, personality, all memories, skills, plugins. A complete working snapshot. Per-profile history is excluded (session history, `state.db`, `backups/`, `state-snapshots/`, `checkpoints/`) — these belong to the source profile and can reach tens of GB. When cloning from the default profile, the local-model runtime trees (`models/`, `runtimes/`, `node/` — downloaded weights and managed binaries, re-fetched on demand) are skipped too, as `hermes backup` already does. **Cron jobs are not cloned** either: they are scheduled work bound to the source profile and its delivery channel, and a clone that inherited them would run every job twice (two gateways, same job ids). The new profile starts with an empty `cron/`. For a full backup including history and cron jobs, use `hermes profile export` or `hermes backup` instead.
 
 
 Anthropic (Claude Pro/Max), OpenAI Codex, and xAI OAuth logins use **single-use refresh tokens** — a copy of one is not a second credential, it is the same credential with two owners, and the first profile to refresh it revokes it for every other copy. `--clone-all` (and the dashboard's credential mirroring) therefore drops those OAuth rows from the clone. The new profile keeps reading the login from the root `~/.hermes/auth.json`, and a token refresh performed inside any profile is written back to root, so all profiles stay signed in. Static API keys are copied as usual. To give a profile its own separate OAuth login, run `hermes -p <name> auth add <provider>` inside it.
@@ -303,6 +330,8 @@ User-modified skills are never overwritten.
 hermes profile list           # show all profiles with status
 hermes profile show coder     # detailed info for one profile
 hermes profile rename coder dev-bot   # rename (updates alias + service)
+hermes profile migrate-identity coder dev-bot   # retry a rename's identity migration
+hermes profile purge-identity dev-bot   # retry a delete's identity purge
 hermes profile export coder   # pack into coder.tar.gz (shareable; keys stripped)
 hermes profile import coder.tar.gz   # install an archive as a new profile
 ```
@@ -401,6 +430,7 @@ Use an export file for a one-time handoff or a move; use a distribution for an a
 
 
 - <a href="#what-are-profiles" class="table-of-contents__link toc-highlight">What are profiles?</a>
+  - <a href="#profiles-agents-and-bots" class="table-of-contents__link toc-highlight">Profiles, agents, and bots</a>
 - <a href="#quick-start" class="table-of-contents__link toc-highlight">Quick start</a>
 - <a href="#creating-a-profile" class="table-of-contents__link toc-highlight">Creating a profile</a>
   - <a href="#blank-profile" class="table-of-contents__link toc-highlight">Blank profile</a>

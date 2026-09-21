@@ -55,7 +55,7 @@ hermes config set OPENROUTER_API_KEY sk-or-...  # Saves to .env
 ```
 
 
-The `hermes config set` command automatically routes values to the right file — API keys are saved to `.env`, everything else to `config.yaml`.
+The `hermes config set` command automatically routes values to the right file — every `UPPER_SNAKE` name (`OPENROUTER_API_KEY`, `DISCORD_HOME_CHANNEL`, `TELEGRAM_GROUP_ALLOWED_USERS`, `HERMES_TIMEZONE`, …) is an environment variable and is saved to `.env`, never to `config.yaml`; dotted settings go to `config.yaml`. Any other `UPPER_SNAKE` name is saved to `.env` as-is (it is exported to the process environment for plugins and skills); names on the env writer's denylist (`HERMES_YOLO_MODE`, `PATH`, …) are refused. A known key written under the wrong prefix (`gateway.discord.foo`, where `discord.foo` is itself a known key) is refused with a did-you-mean before anything is written; pass `--force` to write it anyway. Any other unknown path under a known section (a typo such as `agent.max_turnz`, or a runtime-read key with no seeded default) is written together with a did-you-mean notice, since the schema alone cannot tell the two apart. `hermes config get` on such a path prints the value from your file together with a stderr notice that Hermes may not read it, so a leftover key cannot silently pass for a live setting.
 
 
 ## Configuration Precedence<a href="#configuration-precedence" class="hash-link" aria-label="Direct link to Configuration Precedence" translate="no" title="Direct link to Configuration Precedence">​</a>
@@ -95,12 +95,15 @@ The `database:` section controls how Hermes opens its SQLite state database (`st
 ``` prism-code
 database:
   # Journal mode for state.db: wal (default) or delete.
-  # Use delete on filesystems where WAL is unsafe (network mounts, some
-  # virtiofs setups). Note: an existing on-disk WAL database is never
+  # Use delete on filesystems where WAL is unsafe (network mounts). On
+  # virtiofs/9p bind mounts (Docker Desktop, Podman on macOS, OrbStack)
+  # Hermes detects the mount and creates fresh databases in delete mode
+  # automatically. Note: an existing on-disk WAL database is never
   # live-downgraded — Hermes keeps WAL and logs an error telling you the
-  # configured delete did not apply. To convert an existing database, stop
-  # every process using it and run a one-time offline
-  # `PRAGMA journal_mode=DELETE` on the file.
+  # configured delete did not apply (or that the WAL database sits on a
+  # cross-VM mount). To convert an existing database, stop
+  # every process using it and run
+  # `hermes sessions set-journal-mode delete` (see Sessions).
   journal_mode: wal
 
   # Durability level for every state.db connection: OFF, NORMAL, FULL,
@@ -116,7 +119,7 @@ database:
 ```
 
 
-Hermes also warns (once per process per database) when an existing database's on-disk journal mode is silently flipped to WAL on open — for example a database an operator had manually converted to `delete` — and names `database.journal_mode` as the setting that makes the choice stick.
+Hermes also warns (once per process per database) when an existing database's on-disk journal mode is silently flipped to WAL on open — for example a database an operator had manually converted to `delete` — and names `database.journal_mode` as the setting that makes the choice stick. The reverse never happens automatically: a database that is already in WAL mode is not live-downgraded when you set `journal_mode: delete` (a downgrade under open connections can corrupt it). `hermes doctor` warns `<db> is in WAL mode despite database.journal_mode=delete` until you stop every Hermes process for the profile and run `hermes sessions set-journal-mode delete` (it refuses while anything still holds the file and verifies the converted header). Under that warning it names the processes currently holding the database (`<db> is held by PID <n> (<command>)`) so you know what to stop; when the holder scan is partial or unavailable it says `cannot prove the database is quiet` instead of giving an all-clear.
 
 ## Environment Variable Substitution<a href="#environment-variable-substitution" class="hash-link" aria-label="Direct link to Environment Variable Substitution" translate="no" title="Direct link to Environment Variable Substitution">​</a>
 
@@ -146,7 +149,7 @@ For AI provider setup (OpenRouter, Anthropic, Copilot, custom endpoints, self-ho
 
 You can set `providers.<id>.request_timeout_seconds` for a provider-wide request timeout, plus `providers.<id>.models.<model>.timeout_seconds` for a model-specific override. Applies to the primary turn client on every transport (OpenAI-wire, native Anthropic, Anthropic-compatible), the fallback chain, rebuilds after credential rotation, and (for OpenAI-wire) the per-request timeout kwarg — so the configured value wins over the legacy `HERMES_API_TIMEOUT` env var.
 
-You can also set `providers.<id>.stale_timeout_seconds` for the non-streaming stale-call detector, plus `providers.<id>.models.<model>.stale_timeout_seconds` for a model-specific override. This wins over the legacy `HERMES_API_CALL_STALE_TIMEOUT` env var.
+You can also set `providers.<id>.stale_timeout_seconds` for the non-streaming stale-call detector, plus `providers.<id>.models.<model>.stale_timeout_seconds` for a model-specific override. This wins over the legacy `HERMES_API_CALL_STALE_TIMEOUT` env var. The same key is the streaming stale-stream deadline: an explicit value is used as-is — the implicit context-size tiers (240s above 50k tokens, 300s above 100k) and the reasoning-model floors apply only to the 180s default, so an explicit value can shorten how long a hung stream is tolerated.
 
 Leaving these unset keeps the legacy defaults (`HERMES_API_TIMEOUT=1800`s, `HERMES_API_CALL_STALE_TIMEOUT=90`s, native Anthropic 900s). The non-streaming stale detector is auto-disabled for local endpoints when left implicit and can scale upward for very large contexts. Not currently wired for AWS Bedrock (both `bedrock_converse` and AnthropicBedrock SDK paths use boto3 with its own timeout configuration). See the commented example in <a href="https://github.com/NousResearch/hermes-agent/blob/main/cli-config.yaml.example" target="_blank" rel="noopener noreferrer"><code>cli-config.yaml.example</code></a>.
 
@@ -198,6 +201,7 @@ terminal:
   timeout: 180      # Per-command timeout in seconds
   home_mode: auto   # auto | real | profile — subprocess HOME policy
   env_passthrough: []  # Env var names to forward to sandboxed execution (terminal + execute_code)
+  sync_back_max_bytes: 2147483648  # Remote backends: refuse to extract a state archive larger than this (bytes)
   singularity_image: "docker://nikolaik/python-nodejs:python3.11-nodejs20"  # Container image for Singularity backend
   modal_image: "nikolaik/python-nodejs:python3.11-nodejs20"                 # Container image for Modal backend
   daytona_image: "nikolaik/python-nodejs:python3.11-nodejs20"               # Container image for Daytona backend
@@ -205,6 +209,8 @@ terminal:
 
 
 `terminal.temp_dir` controls where Hermes puts session temp artifacts on the local backend — background-process logs/pid/exit files, code-execution sandboxes, and spilled tool results. When it's empty (the default), Hermes honors an explicit `TMPDIR`/`TMP`/`TEMP` from the environment and otherwise uses a managed directory on real storage at `~/.hermes/cache/terminal` instead of `/tmp` — on many distros (Arch-based setups in particular) `/tmp` is a small RAM-backed tmpfs that Hermes session artifacts can fill under load. The managed directory is auto-pruned: artifacts older than 72 hours are swept hourly by gateway housekeeping and once per process on CLI-only installs. Set `temp_dir` to an existing absolute path to redirect session temp anywhere else; user-set paths are never auto-pruned.
+
+Independently of `terminal.temp_dir`, every Hermes process (CLI, TUI, gateway, Desktop backend, cron) and every child it launches gets `TMPDIR`, `TMP` and `TEMP` pointed at **`~/.hermes/cache/scratch`** (per profile) at startup, so `tempfile.mkdtemp()`, `mktemp`, browser profiles and probe scripts all land on real storage instead of a RAM-backed system temp dir. The system prompt names this directory as the scratch directory. Hermes only sets these when they are not already set — a `TMPDIR` exported by you or by the OS (macOS `/var/folders`, Windows `%TEMP%`) is left alone. Entries older than 72 hours are pruned at startup (at most once per hour). `hermes doctor` reports the directory and its size.
 
 `desktop.font_family` sets the font for chat and the rest of the Hermes Desktop interface (the terminal pane has its own key above). Give it one installed family name (for example, `OpenDyslexic` or `Atkinson Hyperlegible`) or a CSS font stack; Hermes keeps the active theme's own stack behind it so CJK and emoji glyphs still resolve, and an empty value uses the theme's font. Edit it in **Settings → Appearance → Chat Font**.
 
@@ -569,7 +575,8 @@ When in doubt, set `terminal.backend` back to `local` and verify that commands r
 
 For the **SSH**, **Modal**, and **Daytona** backends, Hermes pushes your `~/.hermes/` state (credential files, skills, cache) into the remote sandbox during the session, and on teardown **syncs changed state files back** to their original host locations. Files that differ from what was originally pushed (compared by content hash) are applied back in place; new remote files under a synced directory (e.g. a skill the agent created remotely) are mapped back to the corresponding host path. Upload-only credential files are never overwritten on the host.
 
-- The sync-back retries up to 3 times with backoff and refuses to extract remote archives larger than 2 GiB.
+- The sync-back retries up to 3 times with backoff and refuses to extract remote archives larger than 2 GiB; set `terminal.sync_back_max_bytes` (bytes) in `config.yaml` to raise the cap for a larger state tree. Live sockets under the remote `~/.hermes/` (e.g. `gateway.sock`) are skipped rather than failing the transfer.
+- The downloaded archive is staged under the system temp directory (`hermes-sync-back-<pid>-*`); leftovers from a hard-killed process are reclaimed on the next sync-back.
 - Docker and Singularity use bind mounts (live host filesystem view) and don't need this.
 - This covers Hermes state (`~/.hermes/`), **not** arbitrary working-tree files inside the sandbox — have the agent copy important artifacts out explicitly (e.g. `scp`, `modal volume put`) before the sandbox is destroyed.
 
@@ -693,6 +700,8 @@ Security tradeoff:
 
 Use the opt-in only when you intentionally want the container to work on live host files.
 
+A host path in `terminal.cwd` (for example `C:\Users\me\project` on Windows, or a desktop/TUI session's workspace) never becomes the container's working directory: when it is the directory mounted at `/workspace`, file tools and terminal commands use `/workspace`; otherwise the container keeps its own working directory. If a file tool still cannot enter its working directory, the error names the invalid `terminal.cwd` for the active backend rather than the shell's raw `cd:` line.
+
 ### Persistent Shell<a href="#persistent-shell" class="hash-link" aria-label="Direct link to Persistent Shell" translate="no" title="Direct link to Persistent Shell">​</a>
 
 By default, each terminal command runs in its own subprocess — working directory, environment variables, and shell variables reset between commands. When **persistent shell** is enabled, a single long-lived bash process is kept alive across `execute()` calls so that state survives between commands.
@@ -716,7 +725,7 @@ hermes config set terminal.persistent_shell false
 
 **What persists across commands:**
 
-- Working directory (`cd /tmp` sticks for the next command)
+- Working directory (`cd ~/project` sticks for the next command)
 - Exported environment variables (`export FOO=bar`)
 - Shell variables (`MY_VAR=hello`)
 
@@ -769,6 +778,21 @@ hermes config set skills.config.myplugin.path ~/myplugin-data
 
 
 For details on declaring config settings in your own skills, see [Creating Skills — Config Settings](/docs/developer-guide/creating-skills#config-settings-configyaml).
+
+### Auto-loading skills every session<a href="#auto-loading-skills-every-session" class="hash-link" aria-label="Direct link to Auto-loading skills every session" translate="no" title="Direct link to Auto-loading skills every session">​</a>
+
+Pin skills so they are fully loaded at the start of every new session, on every surface:
+
+
+``` prism-code
+skills:
+  auto_load:
+    - my-workflow
+    - github-pr-workflow
+```
+
+
+Resolved once per session when the system prompt is first built (so the prompt stays cache-stable; edits apply to the next session). Missing or disabled skills warn and are skipped; `--ignore-rules` / `HERMES_IGNORE_RULES=1` suppresses the list. Profile-scoped. See [CLI — persistent auto-load](/docs/user-guide/cli#persistent-auto-load-via-config).
 
 ### Guard on agent-created skill writes<a href="#guard-on-agent-created-skill-writes" class="hash-link" aria-label="Direct link to Guard on agent-created skill writes" translate="no" title="Direct link to Guard on agent-created skill writes">​</a>
 
@@ -975,9 +999,9 @@ compression:
   enabled: true                                     # Toggle compression on/off
   progress_notices: false                           # Opt-in: deliver routine compression progress notices to chat platforms — see below
   threshold: 0.50                                   # Compress at this % of context limit
-  threshold_tokens: null                            # Absolute token cap (optional) — takes lower of ratio vs absolute
+  threshold_tokens: 256000                          # Absolute token cap — takes lower of ratio vs absolute
   target_ratio: 0.20                                # Fraction of threshold to preserve as recent tail
-  tail_mode: lean                                   # Tail retention: "lean" (default — clamped 2.5% tail, 10K-25K, with a detailed session log + anchor index + session_search recovery pointers in the summary, all from ONE auxiliary summarizer call; ~3x fewer retained tokens after compaction) or "legacy" (0.20×threshold verbatim tail)
+  tail_mode: lean                                   # Tail retention: "lean" (default — clamped 2.5% tail, 10K-25K, never above 20% of the window, with a detailed session log + anchor index + session_search recovery pointers in the summary, all from ONE auxiliary summarizer call; ~3x fewer retained tokens after compaction) or "legacy" (0.20×threshold verbatim tail)
   protect_last_n: 20                                # Min recent messages to keep uncompressed
   protect_first_n: 3                                # Non-system head messages pinned across compactions (0 = pin nothing)
   in_place: true                                    # Compact on the same session id (no rotation) — see below
@@ -1009,6 +1033,8 @@ Older configs with `compression.summary_model`, `compression.summary_provider`, 
 
 `hygiene_hard_message_limit` is a gateway-only **pre-compression safety valve**. It exists to break a death spiral: when API calls keep disconnecting on an oversized session, the gateway never receives token-usage data, so the token-based threshold can't fire, so the transcript keeps growing and disconnects get worse. This count-based floor fires on message count alone (always known, regardless of API failures) to force compression and recover the session. Default `5000` — far above any normal session, including large-context (1M+) models doing thousands of short turns, which compress on the token threshold long before this. Raise it further for unusual platforms, lower it to force more aggressive compression. Editing this value on a running gateway takes effect on the next message (see below).
 
+The same limit is also a **fail-closed bound on what the model is sent** whenever hygiene does not land by the time a turn starts — the turn-hold budget expired, the summary timed out or failed, a failure cooldown is active, another compression is still in flight, or compression is disabled. In that case the gateway keeps the leading system/setup rows plus the newest messages, total at most `hygiene_hard_message_limit`, and never starts the kept tail on an orphaned tool result. Only the payload of that one turn is clipped: the transcript on disk is untouched, nothing is deleted, and a summary that lands later is adopted as-is. This is what keeps a week-long DM from feeding the model the full uncompressed history when a compression pass keeps missing.
+
 `hygiene_timeout_seconds` is the gateway's **inactivity budget** for this pre-agent compression pass — not a total wall-clock cap. The compression summary call streams from the model, and each arriving token counts as forward progress: a slow reasoning model that is still generating keeps extending its own deadline, so slow-but-healthy summary models are never cut off mid-generation. Only when the summary model produces **no output** for this many seconds (backend down, hung connection, silent provider) does the gateway warn the user, continue the incoming message without compression, and record a temporary per-session failure cooldown instead of appearing stuck.
 
 `hygiene_total_ceiling_seconds` (default `600`) bounds the total wait even while tokens are still moving, so a degenerate trickle stream can't hold a turn hostage indefinitely. It is clamped to at least `hygiene_timeout_seconds`.
@@ -1019,19 +1045,19 @@ Older configs with `compression.summary_model`, `compression.summary_provider`, 
 
 The value is the **first rung** of an escalating ladder, not a fixed interval: consecutive failures for the same session wait `1x`, `3x`, then `9x` this value, capped at one hour. A session whose summary model is permanently broken therefore backs off instead of retrying forever on a fixed interval, and a run that actually shrinks the transcript resets it to the first rung. Escalation is per-session and process-local — a gateway restart resets it to the first rung while the cooldown deadline itself survives.
 
-`context_timeout_seconds` (default `120`) is the same **inactivity budget** for in-agent `compress_context` — the conversation loop, preflight compaction, and manual `/compress` — so a hung summary model cannot stall a session indefinitely. Streamed summary tokens extend the wait; only a silent worker is cut off. On timeout Hermes retries the summary once against the first entry of `auxiliary.compression.fallback_chain` (using that entry's own `timeout` when it declares one) — a stalled route never raises, so the auxiliary client's own fallback handling cannot see it. Only if that attempt also fails, or no fallback chain is configured, does Hermes skip compaction, keep the existing messages, and warn the user. Set to `0` to disable. Gateway session hygiene keeps its own `hygiene_timeout_seconds` path and is not double-wrapped.
+`context_timeout_seconds` (default `120`) is the same **inactivity budget** for in-agent `compress_context` — the conversation loop, preflight compaction, and manual `/compress` — so a hung summary model cannot stall a session indefinitely. Streamed summary tokens extend the wait; only a silent worker is cut off. The budget is floored at the auxiliary compression request's own timeout (`auxiliary.compression.timeout`, minimum 300s), so the host never gives up on a silent summariser before the request itself would — a reasoning summariser thinking before its first token, or a route that cannot stream, gets the same budget the provider call has. On timeout Hermes retries the summary once against the first entry of `auxiliary.compression.fallback_chain` (using that entry's own `timeout` when it declares one) — a stalled route never raises, so the auxiliary client's own fallback handling cannot see it. If that attempt also fails, or no fallback chain is configured, what happens next depends on whether the request still fits the model's context window: a request that fits is sent uncompressed this turn (the summary-failure cooldown stops the retry from repeating every turn); a request above the window cannot be sent at all, so Hermes commits its deterministic fallback summary (old tool results pruned, a static handoff in place of the summarised middle) instead of ending the turn — ending the turn with the "compression timed out" recovery result (and, on the messaging gateway, the automatic session reset) is the last resort, reached only when even the deterministic pass cannot shrink the transcript. Set to `0` to disable. A preflight pass that reclaims nothing on a request still above the window ends the turn immediately with guidance to start a new session (`/new`) instead of sending a request the model cannot accept. Gateway session hygiene keeps its own `hygiene_timeout_seconds` path and is not double-wrapped.
 
-`context_total_ceiling_seconds` (default `600`) bounds the in-agent **pre-commit** wait (summary / stream phase) even while tokens are still moving. It is clamped to at least `context_timeout_seconds`. The exact guarantee: **the summary phase is bounded by this ceiling; the commit phase is logged and surfaced if it exceeds it.** Once the worker has entered the compression commit fence and SessionDB mutation is in flight, the commit is never abandoned mid-flight — that would risk transcript divergence — but the wait is no longer silent: if the commit runs past the ceiling, Hermes logs the overrun (WARNING, escalating to ERROR on repeat), sends a one-shot warning through the user-visible warning channel, and keeps waiting in bounded increments until the commit completes. When the ceiling expires during the summary phase, the summary model's stream is closed at that same instant on every auxiliary wire (chat.completions, Codex Responses, Anthropic Messages) — an abandoned summary is not billed to completion on a connection nobody is waiting for, and its session lease is freed for the next attempt.
+`context_total_ceiling_seconds` (default `600`) bounds the in-agent **pre-commit** wait (summary / stream phase) even while tokens are still moving. It is clamped to at least `context_timeout_seconds`. For a request already above the model's context window the pre-commit wait is bounded by one `context_timeout_seconds` budget instead of this ceiling: such a request cannot be sent uncompressed anyway, and a summary that keeps streaming while reclaiming nothing would otherwise hold the session (and the Desktop UI) for the full ceiling on every turn — the deterministic fallback summary then carries the compaction. Raise `context_timeout_seconds` if your summariser legitimately needs longer. The exact guarantee: **the summary phase is bounded by this ceiling; the commit phase is logged and surfaced if it exceeds it.** Once the worker has entered the compression commit fence and SessionDB mutation is in flight, the commit is never abandoned mid-flight — that would risk transcript divergence — but the wait is no longer silent: if the commit runs past the ceiling, Hermes logs the overrun (WARNING, escalating to ERROR on repeat), sends a one-shot warning through the user-visible warning channel, and keeps waiting in bounded increments until the commit completes. When the ceiling expires during the summary phase, the summary model's stream is closed at that same instant on every auxiliary wire (chat.completions, Codex Responses, Anthropic Messages) — an abandoned summary is not billed to completion on a connection nobody is waiting for, and its session lease is freed for the next attempt.
 
 `protect_first_n` controls how many **non-system** head messages are pinned across every compaction. Default `3` — the opening user/assistant exchange survives every summarizer pass so the original goal stays visible. On long-running rolling-compaction sessions where the opening turn is no longer relevant, set `protect_first_n: 0` to pin nothing but the system prompt + summary + tail. The system prompt itself is always preserved regardless of this setting.
 
 `in_place` (default `true`) controls what happens to the session identity when compaction fires. When `true`, compaction rewrites the message list and rebuilds the system prompt **without rotating the session id** — the conversation keeps one durable id for its whole life (no `parent_session_id` chain, no `name #2` / `#3` renumbering in session lists). Compaction is non-destructive: the live context is compacted, but the pre-compaction turns are soft-archived under the same id (marked inactive/compacted) — still searchable via `session_search` and recoverable, not deleted. Hooks see the mode via the `in_place` field on the `session:compress` event. Set `in_place: false` to restore the legacy behavior where each compaction rotates to a new session id linked to the old one.
 
-`threshold_tokens` sets an optional **absolute token cap** for the compression trigger. When set, compression fires at the lower of the ratio-based `threshold` and this absolute count — so compression never fires later than the user's preferred token number regardless of which model is active. This solves the problem where switching between models with different context windows (e.g. 1M → 400K) shifts the absolute trigger point. The cap is clamped to the model's context length, so setting it higher than the model supports is safe — the ratio-based threshold is used instead. Default `null` (disabled — ratio-based threshold only). The cap survives model switches and fallback activations.
+`threshold_tokens` sets an **absolute token cap** for the compression trigger. Compression fires at the lower of the ratio-based `threshold` and this absolute count, so large-window models cannot silently defer compaction to hundreds of thousands of tokens. The default is `256000`: it bounds a 1M model's default 50% trigger at 256K, while any lower proportional trigger still wins (including the 272K Codex window). The cap survives model switches and fallback activations and is clamped to the model's context length. Set it to `null` to restore ratio-only behavior, or choose a different positive count for your workload.
 
 `idle_compact_after_seconds` is an **opt-in, time-based** trigger that complements the size-based `threshold`. Default `0` (disabled). When set above 0, a session that resumes after at least that many seconds of inactivity compacts its accumulated history up front, before the first reply — so a long-lived thread (e.g. a Telegram conversation you come back to hours later) doesn't re-read its full stale context on every subsequent turn. It never fires when the context is already at or below the post-compression target (`threshold × target_ratio`), and it honors the same failure-cooldown, anti-thrash, and per-session lock guards as every automatic compaction. Example: `idle_compact_after_seconds: 1800` compacts after 30 minutes idle.
 
-`proactive_prune_tokens` enables a deterministic, no-LLM prune of old tool-result payloads that runs independently of `threshold`. On large-window models the `threshold` compaction (≈50% of the window) rarely fires, so bulky tool outputs (terminal dumps, file reads, web extracts) ride along in history and get re-sent on every subsequent turn. When re-sent history exceeds `proactive_prune_tokens` (default `0` = off; try `48000` to enable), the prune dedupes identical results, summarizes older oversized ones, and truncates large tool-call arguments — protecting the most recent `protect_last_n` messages and never calling the model. Full outputs stay recoverable from the session store. `proactive_prune_min_result_chars` (default `8000`, clamped to ≥ 200) sets the size below which a tool result is left untouched. `proactive_prune_min_reclaim_tokens` (default `4096`) prevents a prune from committing unless it reclaims at least that many tokens — a committed prune rewrites already-sent history and invalidates the provider's prompt-cache prefix, so this gate keeps those cache breaks episodic and amortized (one meaningful break, like a compression boundary) instead of firing on every tool iteration. This runs only under the built-in `compressor` engine; other context engines inherit a no-op.
+`proactive_prune_tokens` enables a deterministic, no-LLM prune of old tool-result payloads that runs independently of `threshold`. On large-window models the `threshold` compaction (≈50% of the window) rarely fires, so bulky tool outputs (terminal dumps, file reads, web extracts) ride along in history and get re-sent on every subsequent turn. When re-sent history exceeds `proactive_prune_tokens` (default `0` = off; try `48000` to enable), the prune dedupes identical results, summarizes older oversized ones, and truncates large tool-call arguments — protecting the most recent `protect_last_n` messages and never calling the model. That protection is not absolute: every compaction also runs a *pressure* pass that demotes tool results and truncates tool-call arguments **inside** the protected tail when the tail alone exceeds 1.5× its token budget (it is not gated on `proactive_prune_tokens`). Both passes rewrite only the history copy the model re-reads — a tool call is executed from the provider's live response, never from history, so an already-dispatched call's arguments are never altered by either pass. Full outputs stay recoverable from the session store. `proactive_prune_min_result_chars` (default `8000`, clamped to ≥ 200) sets the size below which a tool result is left untouched. `proactive_prune_min_reclaim_tokens` (default `4096`) prevents a prune from committing unless it reclaims at least that many tokens — a committed prune rewrites already-sent history and invalidates the provider's prompt-cache prefix, so this gate keeps those cache breaks episodic and amortized (one meaningful break, like a compression boundary) instead of firing on every tool iteration. This runs only under the built-in `compressor` engine; other context engines inherit a no-op.
 
 
 As of recent releases, editing `model.context_length` or any `compression.*` key in `config.yaml` on a running gateway takes effect on the next message — no gateway restart, no `/reset`, no session rotation required. The cached-agent signature includes these keys, so the gateway transparently rebuilds the agent when it sees a change. API keys and tool/skill config still require the usual reload paths.
@@ -1084,6 +1110,24 @@ Points at a custom OpenAI-compatible endpoint. Uses `OPENAI_API_KEY` for auth.
 | `auto` (default)                 | not set                          | Auto-detect best available provider                 |
 | `nous` / `openrouter` / etc.     | not set                          | Force that provider, use its auth                   |
 | any                              | set                              | Use the custom endpoint directly (provider ignored) |
+
+### Stream progress timeout (Responses routes)<a href="#stream-progress-timeout-responses-routes" class="hash-link" aria-label="Direct link to Stream progress timeout (Responses routes)" translate="no" title="Direct link to Stream progress timeout (Responses routes)">​</a>
+
+When the summary runs over a Responses stream (the `openai-codex` provider, or any route the auxiliary client drives through the Responses API), two timeouts apply, and they are independent:
+
+- `auxiliary.compression.timeout` — the overall request budget (default 120s).
+- `auxiliary.compression.no_progress_timeout` — how long the stream may go without a **substantive** event (a text/reasoning delta or a completed output item) before the attempt aborts with `Codex auxiliary Responses stream stalled: no new output for Ns`. Default **60s** when unset. Keepalive and lifecycle frames (`response.in_progress`, pings) do not count as progress; every substantive event re-arms the window, so a slow but progressing summary is never cut off by it.
+
+Raising `timeout` alone does **not** widen the progress window — a request configured for 600s still aborts after a 60s gap. Set `no_progress_timeout` to change that gap; the effective window is capped at `timeout`, and the host's hard deadline / cancellation still win. The host's own inactivity budget is the outer cap here: in-agent compaction gives up on a silent summariser after `compression.context_timeout_seconds` (default 120s, floored at the effective `auxiliary.compression.timeout`, itself at least 300s) and gateway hygiene after `compression.hygiene_timeout_seconds` (default 30s), so a `no_progress_timeout` larger than the applicable host budget is silently cut short by it. The key is per task (`auxiliary.<task>.no_progress_timeout`), so widening it for compression does not change other auxiliary tasks. A value that is not a positive number is ignored with a warning in the log and the 60s default applies.
+
+
+``` prism-code
+auxiliary:
+  compression:
+    provider: openai-codex
+    timeout: 600
+    no_progress_timeout: 180   # tolerate a 3-minute silent gap on a long reasoning summary
+```
 
 
 The summary model **must** have a context window at least as large as your main agent model's. The compressor sends the full middle section of the conversation to the summary model — if that model's context window is smaller than the main model's, the summarization call will fail with a context length error. When this happens, the middle turns are **dropped without a summary**, losing conversation context silently. If you override the model, verify its context length meets or exceeds your main model's.
@@ -1157,9 +1201,9 @@ agent:
 ```
 
 
-`max_size` and `idle_ttl_secs` bound the cache by count and by time. Neither knows how many bytes it holds, so `memory_high_mb` adds a third bound: once the gateway's own anonymous resident memory crosses the budget, it sheds least-recently-used transcripts, which reload from the stored session on the next turn. Lower it if the gateway is competing for memory with other services; raise it (or set `0` to switch the pass off) if you would rather keep every prefix warm.
+`max_size` and `idle_ttl_secs` bound the cache by count and by time. Neither knows how many bytes it holds, so `memory_high_mb` adds a third bound: once anonymous memory crosses the budget, it sheds least-recently-used transcripts, which reload from the stored session on the next turn. Lower it if the gateway is competing for memory with other services; raise it (or set `0` to switch the pass off) if you would rather keep every prefix warm.
 
-`auto` derives the budget from the memory limit the gateway actually runs under — the cgroup limit for a container or systemd unit, total RAM otherwise — so a `MemoryMax`/`MemoryHigh` on the unit is respected without a second number to keep in sync.
+`auto` derives the budget from the memory limit the gateway actually runs under — the cgroup limit for a container or systemd unit, total RAM otherwise — so a `MemoryMax`/`MemoryHigh` on the unit is respected without a second number to keep in sync. Under such a limit the measurement is scoped the same way: the cgroup's own anonymous charge (`memory.stat` `anon`), which includes child processes such as `execute_code` kernels and terminal commands that count against the unit's limit. Uncapped, the gateway's own anonymous RSS is measured.
 
 Sessions that are mid-turn, the `protect_recent` most recently used ones, and any session whose transcript has not finished being written to disk are never shed. Eviction is logged at WARNING with the measured RSS and the sessions dropped:
 
@@ -1207,6 +1251,7 @@ agent:
                                # "unlimited"/"inf"/"infinity"/"infinite"/0/-1 = no limit
   budget_warning_ratio: null   # Optional one-time checkpoint warning, e.g. 0.75
   api_max_retries: 3           # Retries per provider before fallback engages (default: 3)
+  auto_recovery_cycles: 5      # Wait-and-retry cycles after retries + fallback are spent on an outage (0 = off)
 ```
 
 
@@ -1215,6 +1260,8 @@ agent:
 `agent.budget_warning_ratio` is off by default for ordinary and delegated conversations. When set to a value strictly between `0` and `1` alongside a finite `max_turns`, Hermes appends one model-visible checkpoint notice to the latest tool result after the threshold is reached. The notice rearms each conversation turn and uses each agent's own iteration budget. It only appends to a current tool-result tail, never an older turn, and does not add a synthetic user/system message or change the existing exhaustion grace call. Dispatcher-owned Kanban workers receive a completion checkpoint at 90% by default (an explicit ratio changes that threshold), while their tools are still available. The checkpoint asks for verified completion or a durable progress comment, not premature success.
 
 `agent.api_max_retries` controls how many times Hermes retries a provider API call on transient errors (rate limits, connection drops, 5xx) **before** fallback-provider switching engages. The default is `3` — four attempts total. If you have [fallback providers](/docs/user-guide/features/fallback-providers) configured and want to fail over faster, drop this to `0` so the first transient error on your primary immediately hands off to the fallback instead of churning retries against the flaky endpoint.
+
+`agent.auto_recovery_cycles` is the safety net *after* both the retries and the fallback chain are spent. When the failure is a transient outage (HTTP 5xx, an `overloaded`/529 response, a connect or read timeout) and no answer text has reached you yet, Hermes does not end the turn with "API failed after N retries" — it waits and tries again, up to this many cycles (default `5`), with a jittered 15/30/60/60/60 s schedule. A provider `Retry-After` header wins over the schedule (honoured up to 120 s). Every surface shows the same line while it waits — `⏳ Provider temporarily unavailable — retrying automatically in 30s (cycle 2/5); press Esc to stop` on the CLI/TUI/Desktop, a status bubble on messaging platforms (`send /stop to cancel`), a `hermes.status` SSE event on the API server, and a log line for cron jobs. Pressing Esc (or `/stop`) cancels the wait immediately. Fallback still comes first: with a fallback chain configured, exhaustion moves to the next provider as before, and the ladder only engages once the chain has nothing left. Authentication, billing, request-format, entitlement and content-policy errors never enter the ladder. Set `0` to disable it.
 
 ## Wall-Clock Run Budget<a href="#wall-clock-run-budget" class="hash-link" aria-label="Direct link to Wall-Clock Run Budget" translate="no" title="Direct link to Wall-Clock Run Budget">​</a>
 
@@ -1279,28 +1326,36 @@ goals:
 
 Hermes has separate timeout layers for streaming, plus a stale detector for non-streaming calls. The stale detectors auto-adjust for local providers only when you leave them at their implicit defaults.
 
-| Timeout                    | Default | Local providers                                               | Config / env                                                                         |
-|----------------------------|---------|---------------------------------------------------------------|--------------------------------------------------------------------------------------|
-| Socket read timeout        | 120s    | Auto-raised to 1800s                                          | `HERMES_STREAM_READ_TIMEOUT`                                                         |
-| Stale stream detection     | 180s    | Raised to a 900s ceiling (`agent.local_stream_stale_timeout`) | `HERMES_STREAM_STALE_TIMEOUT`                                                        |
-| Stale non-stream detection | 90s     | Auto-disabled when left implicit                              | `providers.<id>.stale_timeout_seconds` or `HERMES_API_CALL_STALE_TIMEOUT`            |
-| API call (non-streaming)   | 1800s   | Unchanged                                                     | `providers.<id>.request_timeout_seconds` / `timeout_seconds` or `HERMES_API_TIMEOUT` |
+| Timeout                                      | Default | Local providers                                                 | Config / env                                                                         |
+|----------------------------------------------|---------|-----------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| Socket read timeout                          | 120s    | Auto-raised to 1800s                                            | `HERMES_STREAM_READ_TIMEOUT`                                                         |
+| Stale stream detection                       | 180s    | Raised to a 900s ceiling (`agent.local_stream_stale_timeout`)   | `HERMES_STREAM_STALE_TIMEOUT`                                                        |
+| Stale non-stream detection                   | 90s     | Auto-disabled when left implicit                                | `providers.<id>.stale_timeout_seconds` or `HERMES_API_CALL_STALE_TIMEOUT`            |
+| Responses first-event watchdog               | 120s    | Raised to the 900s ceiling (`agent.local_stream_stale_timeout`) | `HERMES_CODEX_TTFB_TIMEOUT_SECONDS`                                                  |
+| API call (non-streaming)                     | 1800s   | Unchanged                                                       | `providers.<id>.request_timeout_seconds` / `timeout_seconds` or `HERMES_API_TIMEOUT` |
+| Post-terminal stream drain (Codex/Responses) | 2s      | Unchanged                                                       | `agent.stream_drain_timeout`                                                         |
 
 The **socket read timeout** controls how long httpx waits for the next chunk of data from the provider. Local LLMs can take minutes for prefill on large contexts before producing the first token, so Hermes raises this to 30 minutes when it detects a local endpoint. If you explicitly set `HERMES_STREAM_READ_TIMEOUT`, that value is always used regardless of endpoint detection.
 
 The **stale stream detection** kills connections that receive SSE keep-alive pings but no actual content. For local providers (which don't send keep-alive pings during prefill) the default is raised to a finite 900-second ceiling instead of the 180s base — configurable via `agent.local_stream_stale_timeout` or the `HERMES_LOCAL_STREAM_STALE_TIMEOUT` env var.
 
+The **Responses first-event watchdog** (Codex / `codex_responses` transport, including custom providers declared with the Responses transport) aborts and reconnects a request that accepts the connection but emits no stream event within 120 seconds. A local server prefilling a large context legitimately stays silent longer than that, so on local endpoints the implicit default is raised to the same ceiling as the stale stream detector (`agent.local_stream_stale_timeout` / `HERMES_LOCAL_STREAM_STALE_TIMEOUT`, 900s). An explicit `HERMES_CODEX_TTFB_TIMEOUT_SECONDS` is always used as-is (`0` disables the watchdog).
+
 The **stale non-stream detection** kills non-streaming calls that produce no response for too long. By default Hermes disables this on local endpoints to avoid false positives during long prefills. If you explicitly set `providers.<id>.stale_timeout_seconds`, `providers.<id>.models.<model>.stale_timeout_seconds`, or `HERMES_API_CALL_STALE_TIMEOUT`, that explicit value is honored even on local endpoints.
+
+The **post-terminal stream drain** bounds how long a Codex/Responses stream keeps reading after its terminal `response.completed` frame (a courtesy so the relay finalizer can run). Some relays never close the SSE socket after the terminal frame; without a bound the turn wedged until the stale-stream watchdog fired and discarded the already-billed response, then retried. After `agent.stream_drain_timeout` seconds the stream is closed and the completed response is returned. Endpoints that close the connection normally finish the drain immediately and never wait this long; set `0` to skip the drain entirely.
 
 This budget bounds every non-streaming call. A provider that accepts a request and then goes silent — connection held open, no bytes, no error — is aborted at the stale timeout and retried, rather than hanging until the much longer socket read timeout (or, for an unattended cron run, until something external kills the process).
 
-The periodic provider-wait notice appears only after at least **60 seconds of silence**. The Codex Responses **waiting status** describes silence, not total generation time: active stream events (including reasoning) keep it quiet. If events stop, it reports time without stream events instead of claiming no response has arrived; the notice clears when events resume. When a reconnect starts a fresh first-event watchdog phase, the waiting status follows that phase. This display behavior does not extend the separate wall-clock stale-call budget or change watchdog timeouts. Chat-completion streams likewise clear their silence warning promptly when chunks resume, without replacing a local model-loading status.
+The periodic provider-wait notice appears only after at least **60 seconds of silence**. The Codex Responses **waiting status** describes silence, not total generation time: active stream events (including reasoning) keep it quiet. If events stop, it reports time without stream events instead of claiming no response has arrived; the notice clears when events resume. When a reconnect starts a fresh first-event watchdog phase, the waiting status follows that phase. This display behavior does not extend the separate wall-clock stale-call budget or change watchdog timeouts. The status is shown once per silence (after 60s), in neutral wording that names the wait phase (`waiting for the first provider event` vs `provider stream active; Ns without stream events`) and the watchdog that would reconnect (`TTFB`, `stream idle`, or `wall-clock stale`) with the seconds left before it fires; it is rewritten only when the phase changes or that deadline is near, not on every 30s liveness heartbeat. Chat-completion streams follow the same rule (`waiting for the first stream chunk` / `stream open; Ns without stream output`, `stream stale` watchdog) and likewise clear their silence notice promptly when chunks resume, without replacing a local model-loading status.
 
 Cron jobs and delegated subagents stream too. They run the request inline on their own thread (the interrupt worker other sessions use wedges inside the gateway's nested thread pools), but the wire request is still `stream: true`, so the **stale stream detection** budget above governs them — every token counts as liveness, so a reasoning model that thinks for minutes is not mistaken for a hung provider, and edge proxies that kill silent connections keep seeing bytes.
 
 ### Disabling API streaming<a href="#disabling-api-streaming" class="hash-link" aria-label="Direct link to Disabling API streaming" translate="no" title="Direct link to Disabling API streaming">​</a>
 
 `model.streaming: false` forces non-streaming requests for the whole session — parent and subagents alike. It is an escape hatch for self-hosted OpenAI-compatible servers whose *streaming* tool-call path is broken (for example vLLM with `--tool-call-parser qwen3_xml` plus a reasoning parser can leak tool-call markup into plain text and return zero `tool_calls`, so delegated tasks silently no-op). Default is `true`; leave it unless you hit that class of bug, since non-streaming calls lose the liveness properties described above. This is separate from `display.streaming`, which only controls token rendering in the terminal.
+
+Hermes also switches a session to non-streaming on its own when streaming cannot make progress: the provider reports that streaming is not supported, or an OpenAI-compatible gateway answers a streaming request with a contentless SSE frame (a bare `data:` / `event: ping` keepalive with no payload, typical of a degraded relay). The turn is retried without streaming, a warning is shown, and streaming stays off for the rest of that session.
 
 
 ``` prism-code
@@ -1408,6 +1463,12 @@ The **Delegation** entry is special: it routes the model used by `delegate_task`
 
 If you do not want Hermes to auto-generate titles after the first exchange, set `auxiliary.title_generation.enabled: false`. Manual titles still work through `/title` and `hermes sessions rename`.
 
+To keep the instant derived title (the first line of your opening message) but never spend a model call upgrading it, set `auxiliary.title_generation.model_upgrade_enabled: false`. No background `auto-title` thread starts and no automatic title-model request is sent; the explicit repair command `hermes sessions retitle-skills` still calls the model. `enabled: false` still disables both stages.
+
+On a `custom` main provider (llama.cpp, Ollama, vLLM, LM Studio and other self-hosted OpenAI-compatible servers) the title model call is sent **after** the turn's reply has arrived, not concurrently with it, unless `auxiliary.title_generation` is pinned to another provider or `base_url`. A single-slot local server that receives the `json_schema` title request while decoding the reply can otherwise answer the reply with `{"title": ...}`, which is then stored and replayed as the assistant's turn.
+
+In Hermes Desktop, a plain-text paste over 3,000 characters becomes a generated `.txt` attachment. The first ~1,000 characters of that paste are handed to the title stages as a title-only hint (the agent turn still sees only the attachment reference), so a "summarize this" plus a large paste is named after the pasted topic. Files you attach yourself are never read for titling.
+
 ### Stream-only endpoints<a href="#stream-only-endpoints" class="hash-link" aria-label="Direct link to Stream-only endpoints" translate="no" title="Direct link to Stream-only endpoints">​</a>
 
 Some OpenAI-compatible endpoints reject non-streaming chat requests outright (e.g. Tencent Copilot returns HTTP 400 `"Non-stream chat request is currently not supported"`). Interactive chat already streams, but auxiliary tasks (title generation, compression, vision) use non-streaming calls and would fail on every attempt. Hermes always treats `copilot.tencent.com` as stream-only; for any other such endpoint, list a URL substring under `auxiliary.stream_only_base_urls`:
@@ -1447,7 +1508,9 @@ Auxiliary task blocks additionally accept a `reasoning_effort` knob:
 |--------------------|---------------------------------------------------------------------------------------------------------------|----------------------------|
 | `reasoning_effort` | Thinking level for that task's LLM calls: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`, `ultra` | not set (provider default) |
 
-This is the per-task counterpart of the global `agent.reasoning_effort`: run compression at `low` or vision at `none` to cut side-task latency and cost when your main model is an expensive reasoning model, without touching your main chat behavior. It applies to auxiliary-client tasks such as `vision`, `compression`, `title_generation`, and `curator`, across all three auxiliary wire formats (chat completions, Codex Responses, Anthropic Messages). An explicit `extra_body.reasoning` on the same task wins over the shorthand.
+This is the per-task counterpart of the global `agent.reasoning_effort`: run compression at `low` or vision at `none` to cut side-task latency and cost when your main model is an expensive reasoning model, without touching your main chat behavior. It applies to auxiliary-client tasks such as `vision`, `compression`, `title_generation`, and `curator`, across all three auxiliary wire formats (chat completions, Codex Responses, Anthropic Messages). An explicit `extra_body.reasoning` on the same task wins over the shorthand. A caller that turns thinking off for its own call (title generation does — a 64-token title has no room for reasoning) wins over both: the task-level effort is dropped for that request instead of being sent beside the provider's thinking-off field.
+
+If the endpoint rejects the reasoning field outright (a chat-only model behind an OpenAI-compatible relay answering `400 Unrecognized request argument supplied: reasoning_effort`, or the reversed wording `400 reasoning_effort 'none' unsupported; use minimal|low|medium|high|xhigh`), the auxiliary call is retried once with every reasoning field omitted, so the task (for example the session title) still completes with the endpoint's default behaviour. The main conversation applies the same recovery: when a route rejects the reasoning-off request Hermes sends for a thinking-only truncated continuation, the disable is dropped for the rest of the session and the request is retried with the route's default.
 
 **Background review is different:** a same-model review fork always inherits the parent's reasoning effort. `auxiliary.background_review.reasoning_effort` is ignored on that path, including when the parent provider/model is explicitly selected. This preserves byte-identical reasoning settings, system prompt, full conversation snapshot, and tool definitions for prompt-cache parity; there is no independent-effort switch for same-model reviews. See [background review reasoning](/docs/user-guide/features/memory#same-model-review-reasoning). When the review is routed to a different provider/model, `reasoning_effort` applies to that routed fork (unset = the routed provider's default). Hermes prints a one-time warning when the key is set but the review runs on the main model.
 
@@ -1465,7 +1528,13 @@ auxiliary:
 
 When `base_url` is set, Hermes ignores the provider and calls that endpoint directly (using `api_key` or `OPENAI_API_KEY` for auth). When only `provider` is set, Hermes uses that provider's built-in auth and base URL.
 
-Available providers for auxiliary tasks: `auto`, `main`, plus any provider in the [provider registry](/docs/reference/environment-variables) — `openrouter`, `nous`, `openai-codex`, `copilot`, `copilot-acp`, `anthropic`, `gemini`, `qwen-oauth`, `zai`, `kimi-coding`, `kimi-coding-cn`, `minimax`, `minimax-cn`, `minimax-oauth`, `deepseek`, `nvidia`, `xai`, `xai-oauth`, `ollama-cloud`, `alibaba`, `bedrock`, `huggingface`, `arcee`, `xiaomi`, `kilocode`, `opencode-zen`, `opencode-go`, `opencode-free`, `commandcode`, `commandcode-anthropic`, `ai-gateway`, `azure-foundry` — or any named custom provider from your `providers:` dict (e.g. `provider: "beans"`).
+Available providers for auxiliary tasks: `auto`, `main`, plus any provider in the [provider registry](/docs/reference/environment-variables) — `openrouter`, `nous`, `openai-codex`, `copilot`, `copilot-acp`, `anthropic`, `gemini`, `qwen-oauth`, `zai`, `kimi-coding`, `kimi-coding-cn`, `minimax`, `minimax-cn`, `minimax-oauth`, `deepseek`, `nvidia`, `xai`, `xai-oauth`, `ollama-cloud`, `alibaba`, `bedrock`, `huggingface`, `arcee`, `xiaomi`, `kilocode`, `opencode-zen`, `opencode-go`, `commandcode`, `commandcode-anthropic`, `ai-gateway`, `azure-foundry` — or any named custom provider from your `providers:` dict (e.g. `provider: "beans"`).
+
+Local OpenAI-compatible servers work under their own names too: `provider: ollama` (also `vllm`, `llamacpp`, `llama.cpp`) with a `base_url` such as `http://127.0.0.1:11434` and an empty `api_key` routes through the custom endpoint with a placeholder key, and a bare `host:port` base_url gets the `/v1` suffix automatically.
+
+`provider: openai` is a direct-API alias: it routes through the custom endpoint at the block's `base_url`, else `OPENAI_BASE_URL`, else `https://api.openai.com/v1`, authenticated with `api_key` or `OPENAI_API_KEY`. Every auxiliary task resolves it the same way — `compression`/`vision`/`title_generation` as well as `background_review`, `curator` and MoA slots — so removing `base_url` while keeping `provider: openai` moves that task to the public OpenAI endpoint. A `providers.openai` entry in your `providers:` dict takes precedence and keeps its own endpoint and key.
+
+When a routed `auxiliary.<task>` block cannot be resolved (unknown provider, missing endpoint or credentials), the task runs on the main model and Hermes says so: `background_review` emits a one-time user-visible warning naming the provider and reason (plus a `WARNING` line in `agent.log` per review), and `hermes doctor` resolves every routed `auxiliary.<task>` block through the same resolver and reports the ones that fail.
 
 
 `minimax-oauth` logs in via browser OAuth (no API key needed). Run `hermes model` and select **MiniMax (OAuth)** to authenticate. Auxiliary tasks use `MiniMax-M2.7-highspeed` automatically. See the [MiniMax OAuth guide](/docs/guides/minimax-oauth).
@@ -1515,6 +1584,8 @@ auxiliary:
   # Context compression timeout (separate from compression.* config)
   compression:
     timeout: 120               # seconds — compression summarizes long conversations, needs more time
+    # no_progress_timeout: 60   # Responses-stream routes (openai-codex) only: seconds a summary stream
+    #                           # may go without a substantive event before the attempt fails fast
     # fallback_chain:           # Optional — providers to try on rate-limit / connectivity failure
     #   - provider: nous
     #     model: deepseek/deepseek-chat
@@ -1529,6 +1600,7 @@ auxiliary:
   # set e.g. "English" or "Japanese" to pin titles to one language.
   title_generation:
     enabled: true              # set false to disable auto-title generation
+    model_upgrade_enabled: true  # set false to keep the instant derived title, never call a model
     provider: "auto"
     model: ""
     base_url: ""
@@ -1575,7 +1647,7 @@ auxiliary:
 ```
 
 
-Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 120s, approval 30s, compression 120s. Increase these if you use slow local models for auxiliary tasks. Vision also has a separate `download_timeout` (default 30s) for the HTTP image download — increase this for slow connections or self-hosted image servers.
+Each auxiliary task has a configurable `timeout` (in seconds). Defaults: vision 120s, approval 30s, compression 120s, title generation 30s, every other task 30s. Increase these if you use slow local models for auxiliary tasks — a reasoning model that emits a thinking block before its answer routinely needs more than 30s for a title, and a request that hits the deadline is logged as `Auxiliary <task>: request to <base_url> timed out after <N>s (raise auxiliary.<task>.timeout …)` before Hermes tries the fallback chain. Title generation, compression and vision give up on the primary route after one full timeout window (no same-provider retry) so a slow model cannot multiply the wait. Vision also has a separate `download_timeout` (default 30s) for the HTTP image download — increase this for slow connections or self-hosted image servers.
 
 
 Context compression has its own `compression:` block for thresholds and an `auxiliary.compression:` block for model/provider settings — see [Context Compression](#context-compression) above. The primary fallback chain uses a top-level `fallback_providers:` list — see [Fallback Providers](/docs/integrations/providers#fallback-providers). All three follow the same provider/model/base_url pattern.
@@ -1610,6 +1682,10 @@ Each entry supports the same three knobs as any auxiliary task config:
 | `base_url` | (Optional) Custom OpenAI-compatible endpoint                              |
 
 `fallback_chain` is available on any auxiliary task — `compression`, `vision`, `approval`, `skills_hub`, `mcp`, etc.
+
+### Native vision embed budgets (top-level `vision:`)<a href="#native-vision-embed-budgets-top-level-vision" class="hash-link" aria-label="Direct link to native-vision-embed-budgets-top-level-vision" translate="no" title="Direct link to native-vision-embed-budgets-top-level-vision">​</a>
+
+Separate from `auxiliary.vision` (which picks the describer model): when the *main* model is vision-capable, `vision_analyze` and browser screenshots embed real pixels into tool results that are re-sent every later turn. `vision.embed_target_bytes` (default `262144`, clamped 64 KiB..4 MiB) sizes one embed; `vision.max_calls_per_image` caps how often the same image may be embedded per session (unset = 3 inside delegated subagents, unlimited for the main agent; `0` = unlimited). See [Vision → Native embeds ride the session](/docs/user-guide/features/vision#native-embeds-ride-the-session-visionembed_target_bytes-and-visionmax_calls_per_image).
 
 ### Limiting auxiliary concurrency<a href="#limiting-auxiliary-concurrency" class="hash-link" aria-label="Direct link to Limiting auxiliary concurrency" translate="no" title="Direct link to Limiting auxiliary concurrency">​</a>
 
@@ -1685,7 +1761,7 @@ These options apply to **auxiliary task configs** (`auxiliary:`, `compression:`)
 | `"auto"`          | Best available (default). Vision tries OpenRouter → Nous → Codex.                                                                                                                                                                                                                           | —                                                      |
 | `"openrouter"`    | Force OpenRouter — routes to any model (Gemini, GPT-4o, Claude, etc.)                                                                                                                                                                                                                       | `OPENROUTER_API_KEY`                                   |
 | `"nous"`          | Force Nous Portal                                                                                                                                                                                                                                                                           | `hermes auth`                                          |
-| `"codex"`         | Force Codex OAuth (ChatGPT account). Supports vision (gpt-5.3-codex).                                                                                                                                                                                                                       | `hermes model` → ChatGPT or Codex Subscription         |
+| `"codex"`         | Force Codex OAuth (ChatGPT account). Set `model` explicitly (e.g. `gpt-5.4`).                                                                                                                                                                                                               | `hermes model` → ChatGPT or Codex Subscription         |
 | `"minimax-oauth"` | Force MiniMax OAuth (browser login, no API key). Uses MiniMax-M2.7-highspeed for auxiliary tasks.                                                                                                                                                                                           | `hermes model` → MiniMax (OAuth)                       |
 | `"xai-oauth"`     | Force xAI Grok OAuth (browser login for SuperGrok or X Premium+ subscribers, no API key). Same OAuth token covers chat, TTS, image, video, and transcription.                                                                                                                               | `hermes model` → xAI Grok OAuth (SuperGrok / Premium+) |
 | `"main"`          | Use your active custom/main endpoint. This can come from `OPENAI_BASE_URL` + `OPENAI_API_KEY` or from a custom endpoint saved via `hermes model` / `config.yaml`. Works with OpenAI, local models, or any OpenAI-compatible API. **Auxiliary tasks only — not valid for `model.provider`.** | Custom endpoint credentials + base URL                 |
@@ -1752,7 +1828,7 @@ auxiliary:
 auxiliary:
   vision:
     provider: "codex"     # uses your ChatGPT OAuth token
-    # model defaults to gpt-5.3-codex (supports vision)
+    model: "gpt-5.4"      # no implicit default on the Codex route
 ```
 
 
@@ -1819,11 +1895,27 @@ agent:
 
 When unset (default), reasoning effort defaults to "medium" — a balanced level that works well for most tasks. Setting a value overrides it — higher reasoning effort gives better results on complex tasks at the cost of more tokens and latency.
 
+### Answer length (`text_verbosity`)<a href="#answer-length-text_verbosity" class="hash-link" aria-label="Direct link to answer-length-text_verbosity" translate="no" title="Direct link to answer-length-text_verbosity">​</a>
+
+Responses-API models (OpenAI GPT-5 family and later, direct OpenAI, ChatGPT Codex and Azure routes) also accept a separate knob for how long the final natural-language answer is, independent of reasoning depth:
+
+
+``` prism-code
+agent:
+  text_verbosity: ""   # empty = not sent (provider default). Options: low, medium, high
+```
+
+
+Hermes sends it as the top-level Responses `text: {verbosity: ...}` field only on Responses-family routes; it is never sent on `chat_completions`, Anthropic or xAI requests, and an empty or unknown value sends nothing. Structured-output (`text.format`) set through `request_overrides` is passed through unchanged.
+
 
 These models use *adaptive* thinking and don't accept the usual `reasoning.effort` field — OpenRouter ignores it for them. Hermes transparently routes your `reasoning_effort` to OpenRouter's `verbosity` parameter instead (which maps to Anthropic's `output_config.effort`), so the same effort knob keeps working with the levels supported by the selected model. `none` (or unset) leaves the model on its own adaptive default. The native Anthropic provider already controls effort directly and is unaffected.
 
 
 For other models routed through OpenRouter, Hermes reads the live model catalog's reasoning metadata (`supported_parameters` + per-model `reasoning.supported_efforts`) to decide whether to send reasoning controls at all and to clamp your requested effort to the nearest level the route actually supports (always downward — e.g. `ultra` becomes `high` on a route that stops at `high`, never a silent escalation). New reasoning-capable vendors work automatically without waiting for a Hermes update; when the catalog is unreachable or a model isn't listed, Hermes falls back to its built-in model-family list and passes your effort through unchanged.
+
+
+`ultra` is a Hermes-internal ladder step: no provider wire accepts it, so every route clamps it to its strongest level (`max` on GPT-5.6 Codex and OpenAI-compatible routes, `xhigh` on older Codex models). The effort pickers and `/reasoning` status show this as `ultra (sends max on this route)` so the level you see is the level that is sent.
 
 
 You can also change the reasoning effort at runtime with the `/reasoning` command:
@@ -1860,10 +1952,38 @@ The key matching is **spelling-tolerant** — any reasonable spelling will match
 
 - `claude-opus-4.5`, `claude-opus-4-5`, `claude-opus.4.5` (dots and dashes are interchangeable)
 - `anthropic/claude-opus-4.5`, `openrouter/anthropic/claude-opus-4.5` (provider prefix optional)
+- A key prefixed with a named custom provider (`ollama-local/qwen3.6:27b-q4_k_m`) also applies when the request carries only the bare model id (`qwen3.6:27b-q4_k_m`), which is what fallback entries and `providers:` routes send
 - Exact matches take precedence over variants
 
+#### Custom reasoning tier names<a href="#custom-reasoning-tier-names" class="hash-link" aria-label="Direct link to Custom reasoning tier names" translate="no" title="Direct link to Custom reasoning tier names">​</a>
 
-There is no `hermes config set` support for `reasoning_overrides` keys — edit the YAML file directly. This is because model names often contain dots (e.g. `claude-opus-4.5`), which conflict with the CLI's dotted-key syntax.
+Some OpenAI-compatible endpoints expose thinking tiers outside the standard ladder (a relay serving `fast`/`thinking` instead of `low`…`max`). A bare string outside the ladder is rejected with `Unknown reasoning_effort '<value>', using default (medium)` so a typo can never reach the wire. To request a provider's own tier name, use the explicit dict form — the `effort` value is sent verbatim as the top-level `reasoning_effort` field:
+
+
+``` prism-code
+agent:
+  reasoning_effort:
+    enabled: true
+    effort: thinking            # sent as-is
+  reasoning_overrides:
+    "my-relay/lumo-max":        # dict form works per model too
+      enabled: true
+      effort: fast
+```
+
+
+`enabled: false` in the dict form turns thinking off, the same as `reasoning_effort: none`.
+
+The dict form is set by editing `config.yaml` directly: the `/reasoning` menus, `hermes model`, and the dashboard's auxiliary-model pickers only offer the standard ladder (the TUI status and setup wizard still show the custom tier name once it is configured).
+
+
+Model ids contain dots (`claude-opus-4.5`, `qwen3.6:27b`), which `hermes config set` treats as nesting separators. Escape them with a backslash to write the literal key — `hermes config set 'agent.reasoning_overrides.ollama-local/qwen3\.6:27b-q4_k_m' low` — or edit the YAML directly. See [Dots inside key names](/docs/reference/cli-commands#dots-inside-key-names).
+
+
+`reasoning_effort: none` is sent explicitly as `reasoning.effort: "none"` on models that accept it (GPT-5.x): omitting the field would leave the model's default effort on (GPT-5.6 defaults to `medium`). An unset effort is the only state that omits the field. Chat-era models on `api.openai.com` (`gpt-4o`, `gpt-4.1`, their `-mini` variants and fine-tunes) reject any `reasoning` parameter, so Hermes sends none for them regardless of the configured effort instead of failing with `400 Unsupported parameter: 'reasoning.effort'`. If a model rejects `none`, Hermes warns, drops the disable for the session and retries with the model's default.
+
+
+A custom `base_url` (`http://localhost:11434/v1`, a vLLM, SGLang or router endpoint) receives the resolved effort — `agent.reasoning_effort` or the matching per-model override — as the standard top-level `reasoning_effort` request field, clamped to the values the OpenAI-compatible wire accepts (`none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`). An unset effort is sent as `medium` here too, the same default the Nous Portal and OpenRouter routes apply — leaving the field off would hand the choice to the endpoint, and a hosted reasoning model's own default can be its ceiling (kimi-k3 defaults to `max`: about 3x the reasoning tokens and latency of `medium`). The field stays off for a model the catalog or `model_overrides` mark `supports_reasoning: false`, for a local Ollama model pulled without the `thinking` capability, and for the rest of a session after the endpoint answered `400` to the field. The nested `reasoning` object is reserved for endpoints known to accept it (Nous Portal, OpenRouter reasoning-capable models, GitHub Models) because arbitrary servers reject unknown fields with HTTP 400. If your server reads its thinking budget from a different field (Ollama's `think`, vLLM's `chat_template_kwargs`, a router-specific key), set it under the custom provider's [`extra_body`](/docs/integrations/providers#named-custom-providers), which is merged into every request routed there.
 
 
 **Resolution priority:**
@@ -1873,7 +1993,7 @@ There is no `hermes config set` support for `reasoning_overrides` keys — edit 
 3.  Global `agent.reasoning_effort`
 4.  Provider default
 
-The override applies automatically everywhere: CLI startup, messaging gateway, Desktop/TUI, cron jobs, `/model` mid-session switches, and fallback model activation.
+The override applies automatically everywhere: CLI startup, `hermes -p` one-shots, messaging gateway, Desktop/TUI, ACP sessions, cron jobs, `/model` mid-session switches (including a switch issued before the first message), session resume (`--resume`, `/resume`), `/new`, and fallback model activation.
 
 ## Fast Mode<a href="#fast-mode" class="hash-link" aria-label="Direct link to Fast Mode" translate="no" title="Direct link to Fast Mode">​</a>
 
@@ -1897,6 +2017,24 @@ agent:
 `/fast normal|fast|auto|cold` switches the mode for the session; add `--global` to persist to `config.yaml`. `/fast` alone shows the current mode.
 
 **Cost note:** both providers bill fast requests at a multiplier on standard rates (Anthropic: \$10 / \$50 per MTok in/out on Opus 4.8 and Opus 5), stacking with prompt-cache pricing. `auto`/`cold` bound that premium to the window only. Fast params are only sent to the first-party endpoint that supports them (`api.openai.com` / Codex subscription, `api.anthropic.com`, `api.x.ai`); OpenRouter, Nous Portal, Copilot, Azure, Bedrock, and custom `base_url` routes never receive them in any mode. Only the per-request parameter changes between requests — the system prompt, tools, and messages stay byte-identical, so the prompt cache survives the window boundary.
+
+### Fast tiers behind a gateway or proxy<a href="#fast-tiers-behind-a-gateway-or-proxy" class="hash-link" aria-label="Direct link to Fast tiers behind a gateway or proxy" translate="no" title="Direct link to Fast tiers behind a gateway or proxy">​</a>
+
+The first-party-only rule is deliberate: a fast-tier parameter is a billing instruction, and Hermes only sends it to the endpoint whose price list it knows. If you run an OpenAI-compatible gateway, router, or proxy that exposes its own priority tier (its own `service_tier` value, or a differently named field), request it through that provider's `extra_body` instead of `agent.service_tier`. `extra_body` on a [named custom provider](/docs/integrations/providers#named-custom-providers) is merged into **every** chat-completions request routed to that endpoint, survives gateway turns and `/fast` changes, and is dropped again when you `/model` away from the provider:
+
+
+``` prism-code
+providers:
+  my-gateway:
+    api: https://gateway.example.com/v1
+    key_env: MY_GATEWAY_KEY
+    default_model: fast-lane-model
+    extra_body:
+      service_tier: priority     # whatever tier value your gateway documents
+```
+
+
+Differences from `agent.service_tier`: the tier is always on for that provider (no `auto`/`cold` window), `/fast` does not toggle it, and Hermes does not validate the value — the gateway decides what it accepts and what it bills.
 
 ## Tool-Use Enforcement<a href="#tool-use-enforcement" class="hash-link" aria-label="Direct link to Tool-Use Enforcement" translate="no" title="Direct link to Tool-Use Enforcement">​</a>
 
@@ -2010,7 +2148,7 @@ This mirrors Claude Code's per-session WebSearch and subagent caps (v2.1.212), w
 
 ### Runtime anti-stall guards<a href="#runtime-anti-stall-guards" class="hash-link" aria-label="Direct link to Runtime anti-stall guards" translate="no" title="Direct link to Runtime anti-stall guards">​</a>
 
-Complementing the failure-based guardrails above, `agent.stall_guards` (default `true`) enables two conservative runtime guards against wasted turns. First, an **identical-call loop breaker**: when the same tool is called 3+ consecutive times with identical arguments *and* returns an identical result, a short one-line notice is appended to that tool result telling the model not to repeat the call — in warning-only sessions it never blocks the call, and legitimately-repeatable pollers (`process`, `*_get_result`, `*_poll`) are exempt. When hard stops are active (explicit `hard_stop_enabled`, or an unattended gateway/cron platform), the same streak also becomes a hard stop once it reaches `hard_stop_after.idempotent_no_progress` consecutive identical calls — for **any** tool, not just the read-only ones the `idempotent_no_progress` guardrail tracks — so a model replaying the same successful `terminal` or `skill_view` call is halted instead of running out the iteration budget (`identical_call_streak_halt`). Second, a **continue-intent recovery**: when the model ends a turn with no tool calls but its short reply trails off announcing an action ("Let me now update the file…"), Hermes re-prompts it to act via the same bounded continuation mechanism used for intent-ack recovery (max 2 re-prompts per turn). Both are cache-safe (notices are added at result construction, never retroactively) and can be disabled together:
+Complementing the failure-based guardrails above, `agent.stall_guards` (default `true`) enables two conservative runtime guards against wasted turns. First, an **identical-call loop breaker**: when the same tool is called 3+ consecutive times with identical arguments *and* returns an identical result, a short one-line notice is appended to that tool result telling the model not to repeat the call — in warning-only sessions it never blocks the call, and legitimately-repeatable pollers (`process_manage`, `*_get_result`, `*_poll`) are exempt. When hard stops are active (explicit `hard_stop_enabled`, or an unattended gateway/cron platform), the same streak also becomes a hard stop once it reaches `hard_stop_after.idempotent_no_progress` consecutive identical calls — for **any** tool, not just the read-only ones the `idempotent_no_progress` guardrail tracks — so a model replaying the same successful `terminal` or `skill_view` call is halted instead of running out the iteration budget (`identical_call_streak_halt`). Second, a **continue-intent recovery**: when the model ends a turn with no tool calls but its short reply trails off announcing an action ("Let me now update the file…"), Hermes re-prompts it to act via the same bounded continuation mechanism used for intent-ack recovery (max 2 re-prompts per turn). Both are cache-safe (notices are added at result construction, never retroactively) and can be disabled together:
 
 
 ``` prism-code
@@ -2054,6 +2192,7 @@ tts:
     voice: "alloy"              # alloy, echo, fable, onyx, nova, shimmer
     speed: 1.0                  # Speed multiplier (clamped to 0.25–4.0 by the API)
     base_url: "https://api.openai.com/v1"  # Override for OpenAI-compatible TTS endpoints
+    pcm_sample_rate: 24000      # Streaming PCM rate; overridden by the endpoint's X-Audio-Sample-Rate header
   minimax:
     speed: 1.0                  # Speech speed multiplier
     # base_url: ""              # Optional: override for OpenAI-compatible TTS endpoints
@@ -2093,6 +2232,7 @@ display:
   focus_view: false       # CLI focus view (/focus) — reduced output, display-only
   platforms: {}           # Per-platform display overrides (see below)
   interim_assistant_messages: true  # Gateway: send natural mid-turn assistant updates as separate messages
+  suppress_warning_notifications: false  # Opt-in: hide automatic warning/diagnostic notices (see messaging guide)
   show_commentary: true   # Codex models: deliver commentary-channel progress narration as visible mid-turn updates
   skin: default           # Built-in or custom CLI skin (see user-guide/features/skins)
   personality: ""         # Legacy cosmetic field still surfaced in some summaries
@@ -2159,13 +2299,13 @@ Both keys are display-only and CLI-only: they are suppressed in quiet mode, when
 
 ### File-mutation verifier<a href="#file-mutation-verifier" class="hash-link" aria-label="Direct link to File-mutation verifier" translate="no" title="Direct link to File-mutation verifier">​</a>
 
-When `display.file_mutation_verifier` is `true` (default), Hermes appends a one-line advisory to the assistant's final response whenever a `write_file` or `patch` call failed during the turn and was never superseded by a successful write to the same path. This catches the "batch of parallel patches, half silently fail, model summarises success" class of over-claim without requiring you to manually run `git status` after every edit.
+When `display.file_mutation_verifier` is `true` (default), Hermes appends a one-line advisory to the assistant's final response whenever a `write_file` or `patch` call failed during the turn and the target file was neither written successfully afterwards (under any spelling of its path) nor otherwise changed on disk before the turn ended. This catches the "batch of parallel patches, half silently fail, model summarises success" class of over-claim without requiring you to manually run `git status` after every edit.
 
 Example footer:
 
 
 ``` prism-code
-⚠️ File-mutation verifier: 3 file(s) were NOT modified this turn despite any wording above that may suggest otherwise. Run `git status` or `read_file` to confirm.
+⚠️ File-mutation verifier: 3 file edit(s) FAILED this turn despite any wording above that may suggest otherwise. Run `git status` or `read_file` to confirm what actually landed.
   • concepts/automatic-organization.md — [patch] Could not find match for old_string
   • concepts/lora.md — [patch] Could not find match for old_string
   • concepts/rag-pipeline.md — [patch] Could not find match for old_string
@@ -2174,7 +2314,7 @@ Example footer:
 
 Set `file_mutation_verifier: false` (or `HERMES_FILE_MUTATION_VERIFIER=0`) to suppress the footer. The verifier only fires when real failures are outstanding at turn end — a model that retries a failed patch and succeeds within the same turn will not trigger it for that file.
 
-**Trust the verifier over the model's summary.** The footer means the listed files were **not** modified on disk, even if the assistant's closing message says the task is done. Common causes:
+**Trust the verifier over the model's summary.** The footer means the listed edit calls **failed** and Hermes saw no later change to those files, even if the assistant's closing message says the task is done. It only tracks `write_file`/`patch` receipts plus a modification-time check at turn end, so run `git status` or `read_file` to confirm what actually landed. Common causes:
 
 - **Write denied** — path is on the credential denylist or outside `HERMES_WRITE_SAFE_ROOT` (see [File write safety](/docs/user-guide/security#file-write-safety))
 - **Patch mismatch** — `old_string` did not match the file on disk
@@ -2184,13 +2324,13 @@ Example footer when writes are blocked:
 
 
 ``` prism-code
-⚠️ File-mutation verifier: 2 file(s) were NOT modified this turn despite any wording above that may suggest otherwise. Run `git status` or `read_file` to confirm.
+⚠️ File-mutation verifier: 2 file edit(s) FAILED this turn despite any wording above that may suggest otherwise. Run `git status` or `read_file` to confirm what actually landed.
   • ~/.hermes/cron/jobs.json — [patch] Write denied: '…' is outside HERMES_WRITE_SAFE_ROOT (/path/to/project)
   • ~/.hermes/scripts/monitor.py — [write_file] Write denied: '…' is outside HERMES_WRITE_SAFE_ROOT (/path/to/project)
 ```
 
 
-If writes to Hermes state (cron jobs, skills, scripts under `~/.hermes/`) are failing, check whether `HERMES_WRITE_SAFE_ROOT` is set in your environment. For cron changes, use the `cronjob` tool or `hermes cron edit` instead of patching `jobs.json` directly.
+If writes to Hermes state (cron jobs, skills, scripts under `~/.hermes/`) are failing, check whether `HERMES_WRITE_SAFE_ROOT` is set in your environment. For cron changes, use the `cronjob_manage` tool or `hermes cron edit` instead of patching `jobs.json` directly.
 
 ### UI language for static messages<a href="#ui-language-for-static-messages" class="hash-link" aria-label="Direct link to UI language for static messages" translate="no" title="Direct link to UI language for static messages">​</a>
 
@@ -2271,14 +2411,15 @@ display:
 
 Supported fields:
 
-| Field         | Renders                                  | Example        |
-|---------------|------------------------------------------|----------------|
-| `model`       | Bare model id, vendor prefix dropped     | `gpt-5.4`      |
-| `context_pct` | Last-call context occupancy as a percent | `5%`           |
-| `latency`     | Wall-clock duration of the turn          | `22s`, `1m05s` |
-| `cwd`         | Home-relative working directory          | `~`            |
+| Field          | Renders                                                                                                                                                                                                                                                   | Example                             |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+| `model`        | Bare model id, vendor prefix dropped                                                                                                                                                                                                                      | `gpt-5.4`                           |
+| `context_pct`  | Last-call context occupancy as a percent                                                                                                                                                                                                                  | `5%`                                |
+| `latency`      | Wall-clock duration of the turn                                                                                                                                                                                                                           | `22s`, `1m05s`                      |
+| `served_model` | The model that actually answered, when it differs from the one you configured: the deployment a routing proxy reported in its `x-litellm-model-id` (or `x-litellm-model-api-base`) response header, or the fallback model Hermes switched to for the turn | `hermes-router → gpt-4o-2024-11-20` |
+| `cwd`          | Home-relative working directory                                                                                                                                                                                                                           | `~`                                 |
 
-The default field set is `["model", "context_pct", "cwd"]`. `latency` is opt-in — add it to `fields` to use it. Fields whose data is unavailable are skipped silently rather than rendering an empty slot.
+The default field set is `["model", "context_pct", "cwd"]`. `latency` and `served_model` are opt-in — add them to `fields` to use them. `served_model` renders nothing when the served model is the configured one (or when the proxy sends no such header), so behind a routing proxy or an active fallback it is the field that makes the switch visible. Fields whose data is unavailable are skipped silently rather than rendering an empty slot.
 
 The `/footer` slash command toggles this at runtime in any session.
 
@@ -2310,7 +2451,7 @@ display:
 ```
 
 
-From the CLI, use the canonical path — `hermes config set display.platforms.telegram.streaming false`. The shorthand `hermes config set platforms.telegram.streaming false` is accepted too: because per-platform *display* settings (`streaming`, `show_reasoning`, `tool_progress`, …) are only ever read from `display.platforms`, `config set`/`get`/`unset` redirect that shorthand to the canonical key and print a note. Connection keys under the top-level `platforms.<name>` block (`token`, `enabled`, `reply_to_mode`, `extra`) are not redirected.
+From the CLI, use the canonical path — `hermes config set display.platforms.telegram.streaming false`. The shorthand `hermes config set platforms.telegram.streaming false` is accepted too: because per-platform *display* settings (`streaming`, `show_reasoning`, `tool_progress`, …) are only ever read from `display.platforms`, `config set`/`get`/`unset` redirect that shorthand to the canonical key and print a note. Connection keys under the top-level `platforms.<name>` block (`token`, `enabled`, `reply_to_mode`, `extra`) are not redirected. Writing them under the nested prefix (`hermes config set gateway.platforms.telegram.enabled true`) is redirected to the top-level `platforms.telegram.enabled` with a note: the gateway reads both blocks, but the top-level one wins on shared keys, so a nested write would be silently shadowed by an existing top-level value.
 
 Platforms without an override fall back to the global `tool_progress` value. Valid platform keys: `telegram`, `discord`, `slack`, `signal`, `whatsapp`, `matrix`, `mattermost`, `email`, `sms`, `homeassistant`, `dingtalk`, `feishu`, `wecom`, `weixin`, `bluebubbles`, `qqbot`. The legacy `display.tool_progress_overrides` key still loads for backward compatibility but is deprecated and migrated into `display.platforms` on first load.
 
@@ -2374,11 +2515,15 @@ stt:
   openai:
     model: "whisper-1"         # whisper-1 | gpt-4o-mini-transcribe | gpt-4o-transcribe | gpt-transcribe
     language: ""               # per-provider override of stt.language
+    timeout: 60                # seconds per transcription request; raise for self-hosted model cold starts
+    max_retries: 1             # SDK transport retries (connection errors, 408/409/429/5xx); 0 = single attempt
   # model: "whisper-1"         # Legacy fallback key still respected
 ```
 
 
 Language resolution is the same for **every** STT provider (local, groq, openai, mistral, xai, elevenlabs, deepinfra, command providers, and plugins): `stt.<provider>.language` → `stt.language` → `HERMES_LOCAL_STT_LANGUAGE` env var → provider auto-detect. **The default is `stt.language: "en"`** — Whisper auto-detection frequently misidentifies short or accented clips, which shows up as voice notes transcribed in the wrong language. Non-English speakers should set `stt.language` to their language code once (e.g. `"es"`, `"zh"`, `"uk"`); set it to `""` to restore auto-detection for multilingual use.
+
+`stt.openai.timeout` and `stt.openai.max_retries` shape the OpenAI-SDK transcription client that the `openai`, `groq` and `deepinfra` providers share (there are no per-provider siblings yet, and the SDK reads no environment variables for these). The defaults are `60` / `1` rather than the previous fixed 30 s / no retries because a self-hosted OpenAI-compatible endpoint can take longer than 30 s to load its model on the first request, which used to lose that voice message outright. The trade-off: an unreachable backend now holds a voice message for up to two attempts × the timeout before Hermes gives up; set `timeout: 30` and `max_retries: 0` for the old shape.
 
 Set `stt.echo_transcripts: false` when the gateway should transcribe voice notes for the agent but must not post the raw transcript back to the chat (for example, customer-facing WhatsApp bots).
 
@@ -2513,7 +2658,7 @@ When the cap is reached, Hermes returns a direct limit message naming which surf
 
 The canonical key is top-level `max_concurrent_sessions`. Hermes also accepts `gateway.max_concurrent_sessions` as a fallback, but the top-level key wins when both are set.
 
-The cap is enforced with a local runtime lease file and is best-effort: Hermes fails open if the registry cannot be read or locked so users are not stranded. It is intended for a single host/profile runtime, not a shared `$HERMES_HOME` mounted across multiple machines.
+The cap is enforced with a local runtime lease file and is best-effort: Hermes fails open if the registry cannot be read or locked so users are not stranded. It is intended for a single host/profile runtime, not a shared `$HERMES_HOME` mounted across multiple machines. A lease whose owning process exists but whose liveness cannot be proved (for example an unreadable `/proc` entry inside a container after `hermes update` restarts the backend) still counts toward the cap and still fences its own session id, but it no longer blocks claiming or releasing a different session.
 
 Control whether shared chats keep one conversation per room or one conversation per participant:
 
@@ -2544,8 +2689,28 @@ whatsapp:
 
 
 - `pair` is the default for chat-style DM platforms. Hermes denies access, but replies with a one-time pairing code in DMs.
+
 - `ignore` silently drops unauthorized DMs.
+
+- `decline` sends one short, polite decline instead of a pairing code, then stays silent toward that sender for 24 hours. Override the default text:
+
+  <div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+  <div class="codeBlockContent_QJqH">
+
+  ``` prism-code
+  unauthorized_dm_behavior: decline
+  unauthorized_dm_decline_message: "Sorry, this assistant is private."
+  ```
+
+  </div>
+
+  </div>
+
+  `hermes gateway setup` offers this as "Politely decline unknown senders" when you leave the allowlist empty; it writes `platforms.<platform>.unauthorized_dm_behavior: decline`.
+
 - Email defaults to `ignore` unless `platforms.email.unauthorized_dm_behavior: pair` is set, because inboxes can contain unrelated unread mail.
+
 - Platform sections override the global default, so you can keep pairing enabled broadly while making one platform quieter.
 
 ## Quick Commands<a href="#quick-commands" class="hash-link" aria-label="Direct link to Quick Commands" translate="no" title="Direct link to Quick Commands">​</a>
@@ -2595,6 +2760,8 @@ human_delay:
   max_ms: 2500                 # Maximum delay (custom mode)
 ```
 
+
+Each profile's own `config.yaml` is read, so multiplexed profiles keep independent pacing; there is no process-environment override. In `custom` mode a non-integer, negative or inverted `min_ms`/`max_ms` pair is rejected with a warning naming the key and the `natural` range (800–2500 ms) is used instead.
 
 ## Code Execution<a href="#code-execution" class="hash-link" aria-label="Direct link to Code Execution" translate="no" title="Direct link to Code Execution">​</a>
 
@@ -2715,6 +2882,10 @@ timezone: "America/New_York"   # IANA timezone (default: "" = server-local time)
 
 Supported values: any IANA timezone identifier (e.g. `America/New_York`, `Europe/London`, `Asia/Kolkata`, `UTC`). Leave empty or omit for server-local time.
 
+`hermes doctor` (and the startup config check) reports a value the runtime cannot load — a typo such as `Asia/Tokio` would otherwise silently put the agent clock and every cron schedule on server-local time. `HERMES_TIMEZONE` overrides this key when set.
+
+The agent clock, cron schedules and time-aware tools follow this zone on every OS. Code run through `execute_code` also inherits it as `TZ` on Linux and macOS; on Windows those children keep the OS-configured zone instead (the Windows C runtime only parses POSIX-form `TZ` strings, and an IANA name there produces a wrong UTC offset), so set the Windows zone itself when child scripts must render local time in this zone.
+
 ## Discord<a href="#discord" class="hash-link" aria-label="Direct link to Discord" translate="no" title="Direct link to Discord">​</a>
 
 Configure Discord-specific behavior for the messaging gateway:
@@ -2725,12 +2896,14 @@ discord:
   require_mention: true          # Require @mention to respond in server channels
   free_response_channels: ""     # Comma-separated channel IDs where bot responds without @mention
   auto_thread: true              # Auto-create threads on @mention in channels
+  free_response_auto_thread: false  # Free-response channels also auto-thread (default: reply inline)
 ```
 
 
 - `require_mention` — when `true` (default), the bot only responds in server channels when mentioned with `@BotName`. DMs always work without mention.
 - `free_response_channels` — comma-separated list of channel IDs where the bot responds to every message without requiring a mention.
 - `auto_thread` — when `true` (default), mentions in channels automatically create a thread for the conversation, keeping channels clean (similar to Slack threading).
+- `free_response_auto_thread` — when `true`, channels in `free_response_channels` also auto-create a thread per top-level message. Default `false`: free-response channels reply inline. Requires `auto_thread: true`.
 
 ## Security<a href="#security" class="hash-link" aria-label="Direct link to Security" translate="no" title="Direct link to Security">​</a>
 
@@ -2751,7 +2924,7 @@ security:
 ```
 
 
-- `redact_secrets` — when `true`, automatically detects and redacts patterns that look like API keys, tokens, and passwords in tool output before it enters the conversation context and logs. **On by default**. Set to `false` explicitly only when you need raw credential-like strings for debugging or redactor development.
+- `redact_secrets` — when `true`, automatically detects and redacts patterns that look like API keys, tokens, and passwords in tool output before it enters the conversation context and logs. **On by default**. Set to `false` explicitly only when you need raw credential-like strings for debugging or redactor development. Reading a secret-bearing file (`.env`-style files, shell rc/profile files, the Hermes `config.yaml` under `HERMES_HOME` and its `backups/config/` copies) with `read_file`, `search_files` or a terminal `cat`/`grep` also masks credential-shaped assignments (`SOME_API_TOKEN: …`) with a non-reusable `«redacted-secret»` marker, whatever the value looks like; ordinary source and project config files keep only the vendor-prefix patterns so fixtures such as `MAX_TOKENS: 100` are never mangled.
 - `tirith_enabled` — when `true`, terminal commands are scanned by <a href="https://github.com/sheeki03/tirith" target="_blank" rel="noopener noreferrer">Tirith</a> before execution to detect potentially dangerous operations.
 - `tirith_path` — path to the tirith binary. Set this if tirith is installed in a non-standard location.
 - `tirith_timeout` — maximum seconds to wait for a tirith scan. Commands proceed if the scan times out.
@@ -2882,6 +3055,7 @@ delegation:
   worktree_isolation: false                 # Give each child its own git worktree branched from HEAD (local backend + git repos only; inspired by Muse Code). See Subagent Delegation → Worktree Isolation.
   max_spawn_depth: 1                        # Delegation tree depth cap (1-3, clamped). 1 = flat (default): parent spawns leaves that cannot delegate. 2 = orchestrator children can spawn leaf grandchildren. 3 = three levels.
   orchestrator_enabled: true                # Global kill switch. When false, role="orchestrator" is ignored and every child is forced to leaf regardless of max_spawn_depth.
+  oneshot_max_children: 2                   # Total subagents a one-shot run (hermes chat -q / --oneshot) may spawn; 0 = unlimited. Interactive and gateway sessions are never capped by this.
 ```
 
 
@@ -2912,13 +3086,15 @@ The delegation provider uses the same credential resolution as CLI/gateway start
 
 **Precedence:** `delegation.base_url` in config → `delegation.provider` in config → parent provider (inherited). `delegation.model` in config → parent model (inherited). Setting just `model` without `provider` changes only the model name while keeping the parent's credentials (useful for switching models within the same provider like OpenRouter).
 
+**One-shot runs:** a finite `hermes chat -q` / `--oneshot` session has no later turn to consume delegated results and no later session to learn for, so it runs a smaller footprint: `skill_manage` is not offered (skills are still listed and loadable with `skill_view`), the skills prompt asks for domain skills only rather than process skills, and `oneshot_max_children` caps the total subagents the run may spawn (default `2`, `0` = unlimited). Past the cap `delegate_task` returns a tool error telling the agent to finish inline.
+
 **Width and depth:** `max_concurrent_children` caps how many subagents run in parallel per batch (default `3`, floor of 1, no ceiling). Can also be set via the `DELEGATION_MAX_CONCURRENT_CHILDREN` env var. When the model submits a `tasks` array longer than the cap, `delegate_task` returns a tool error explaining the limit rather than silently truncating. `max_spawn_depth` controls the delegation tree depth (clamped to 1-3). At the default `1`, delegation is flat: children cannot spawn grandchildren, and passing `role="orchestrator"` silently degrades to `leaf`. Raise to `2` so orchestrator children can spawn leaf grandchildren; `3` for three-level trees. The agent opts into orchestration per call via `role="orchestrator"`; `orchestrator_enabled: false` forces every child back to leaf regardless. Cost scales multiplicatively — at `max_spawn_depth: 3` with `max_concurrent_children: 3`, the tree can reach 3×3×3 = 27 concurrent leaf agents. See [Subagent Delegation → Depth Limit and Nested Orchestration](/docs/user-guide/features/delegation#depth-limit-and-nested-orchestration) for usage patterns.
 
 **Child process notifications:** background processes started by subagents route their completion/watch notifications to the parent conversation, but those are **suppressed** there by default — the child's consolidated result is the deliverable. Set `delegation.surface_child_process_notifications: true` to deliver them (with subagent attribution). Delegation results themselves are never suppressed. See [Subagent Delegation → Child background-process notifications](/docs/user-guide/features/delegation#child-background-process-notifications).
 
 ## Clarify<a href="#clarify" class="hash-link" aria-label="Direct link to Clarify" translate="no" title="Direct link to Clarify">​</a>
 
-Configure how long the gateway waits for a response to a clarifying question. The canonical key is `agent.clarify_timeout` (default `3600` seconds); a legacy top-level `clarify.timeout` is still honored if explicitly set:
+Configure how long Hermes waits for a response to a clarifying question. One value covers every surface — the classic CLI modal, the TUI/Desktop card, and the messaging gateway. The canonical key is `agent.clarify_timeout` (default `3600` seconds; `0` or less = unlimited); a legacy top-level `clarify.timeout` is still honored if explicitly set:
 
 
 ``` prism-code
@@ -2926,6 +3102,8 @@ agent:
   clarify_timeout: 3600        # Seconds to wait for user clarification response (0 or less = unlimited)
 ```
 
+
+When the timeout expires, the agent unblocks with a "user did not respond" sentinel and continues on its own. A clarify prompt is never cut by the generic per-tool deadline (`timeouts.tools.sequential_call`); only `agent.clarify_timeout` bounds the wait.
 
 ## Context Files (SOUL.md, AGENTS.md)<a href="#context-files-soulmd-agentsmd" class="hash-link" aria-label="Direct link to Context Files (SOUL.md, AGENTS.md)" translate="no" title="Direct link to Context Files (SOUL.md, AGENTS.md)">​</a>
 
@@ -2983,7 +3161,7 @@ network:
 ```
 
 
-`force_ipv4` — on servers with broken or unreachable IPv6, Python resolves AAAA records first and can hang for the full TCP timeout before falling back to IPv4. Set this to `true` to skip IPv6 entirely and connect over IPv4 directly.
+`force_ipv4` — on servers with broken or unreachable IPv6, Python resolves AAAA records first and can hang for the full TCP timeout before falling back to IPv4. Hermes already races IPv6 and IPv4 for every outbound connection it makes (Happy Eyeballs, RFC 8305: the IPv4 attempt starts 250 ms after IPv6 and whichever connects first wins), so an advertised-but-blackholed IPv6 route costs about a quarter second per connection instead of the full timeout. This covers the gateway's WebSocket dials (relay connector, platform adapters) as well as HTTP. Set this to `true` only when you want to skip IPv6 entirely and connect over IPv4 directly. `hermes doctor` runs an `IPv6 route` check that detects a dead IPv6 path and points at this setting.
 
 ## Onboarding<a href="#onboarding" class="hash-link" aria-label="Direct link to Onboarding" translate="no" title="Direct link to Onboarding">​</a>
 
@@ -3041,7 +3219,7 @@ dashboard:
 - `ssh_isolated_idle_grace_s` (default `900`) — a Desktop-owned `hermes serve --isolated` backend reached over SSH is detached from the SSH session on purpose, so a laptop that sleeps mid-connection cannot tear it down; each dark-wake reconnect used to leave another backend holding `state.db`. The backend now retires itself once no client WebSocket has been connected for this long and no agent turn is running (a turn keeps it alive; an unreadable turn state keeps it alive too). Set high if you rely on a detached backend finishing long work after the laptop sleeps. Such backends also send a slow WebSocket ping (60 s, 10 min timeout) so a half-open tunnel is noticed.
 - `ws_orphan_reap_grace_s` — how long a WS-detached session waits before the orphan reaper collects it. Raise alongside the keepalive values if clients reconnect slowly. Periodic session maintenance also completes cleanup for closed sockets and re-arms a missing orphan timer, so a detached chat cannot keep its ownership lease solely because its initial cleanup or timer was lost. Reconnecting cancels that timer; active delegated work and healthy running turns remain protected by the normal orphan-reaper checks. (`HERMES_TUI_WS_ORPHAN_REAP_GRACE_S` remains as an internal override.)
 - `ws_orphan_activity_stale_s` (default `600`) — how long a detached **running** turn's activity clock (the same clock the `agent.turn_liveness` watchdog samples: API waits, stream tokens, tool heartbeats) must be idle before the orphan reaper interrupts it. A client-absent turn that is still actively producing keeps running to completion detached — closing the laptop, backgrounding the mobile app, or a desktop update no longer cancels healthy long turns; only a genuinely wedged turn is interrupted. Set `0` to interrupt at the grace window regardless of activity (old behavior).
-- `startup_orphan_sweep` (default `true`) — the WS-orphan reap timer above is in-process, so a gateway restart (update, crash, systemd) before it fires leaves the session row open forever — phantom "active" work in `/resume` and dashboards. On every gateway boot — both the stdio TUI (`entry.main`) and the desktop/dashboard WebSocket sidecar (`handle_ws`) — rows with source `tui` / `desktop` / `subagent` whose start time **and** newest message are both older than the session TTL (`HERMES_TUI_SESSION_TTL_S`, default 6 hours) are closed with `end_reason: startup_orphan_reap`. Messaging-platform sessions (Telegram, Discord, …) are never touched, live in-memory sessions (a client that already resumed) are excluded, and swept sessions remain resumable.
+- `startup_orphan_sweep` (default `true`) — the WS-orphan reap timer above is in-process, so a gateway restart (update, crash, systemd) before it fires leaves the session row open forever — phantom "active" work in `/resume` and dashboards. On every gateway boot — both the stdio TUI (`entry.main`) and the desktop/dashboard WebSocket sidecar (`handle_ws`) — rows with source `tui` / `desktop` / `subagent` / `unknown` (a row the token-accounting guard had to materialize itself) whose start time **and** newest message are both older than the session TTL (`HERMES_TUI_SESSION_TTL_S`, default 6 hours) are closed with `end_reason: startup_orphan_reap`. Messaging-platform sessions (Telegram, Discord, …) are never touched, live in-memory sessions (a client that already resumed) are excluded, and swept sessions remain resumable.
 
 
 - <a href="#directory-structure" class="table-of-contents__link toc-highlight">Directory Structure</a>
@@ -3072,6 +3250,7 @@ dashboard:
   - <a href="#optional-mount-the-launch-directory-into-workspace" class="table-of-contents__link toc-highlight">Optional: Mount the Launch Directory into <code>/workspace</code></a>
   - <a href="#persistent-shell" class="table-of-contents__link toc-highlight">Persistent Shell</a>
 - <a href="#skill-settings" class="table-of-contents__link toc-highlight">Skill Settings</a>
+  - <a href="#auto-loading-skills-every-session" class="table-of-contents__link toc-highlight">Auto-loading skills every session</a>
   - <a href="#guard-on-agent-created-skill-writes" class="table-of-contents__link toc-highlight">Guard on agent-created skill writes</a>
   - <a href="#write-approval-for-skill-writes" class="table-of-contents__link toc-highlight">Write approval for skill writes</a>
 - <a href="#memory-configuration" class="table-of-contents__link toc-highlight">Memory Configuration</a>
@@ -3085,6 +3264,7 @@ dashboard:
   - <a href="#full-reference" class="table-of-contents__link toc-highlight">Full reference</a>
   - <a href="#common-setups" class="table-of-contents__link toc-highlight">Common setups</a>
   - <a href="#how-the-three-knobs-interact" class="table-of-contents__link toc-highlight">How the three knobs interact</a>
+  - <a href="#stream-progress-timeout-responses-routes" class="table-of-contents__link toc-highlight">Stream progress timeout (Responses routes)</a>
 - <a href="#gateway-turn-lease-timeout" class="table-of-contents__link toc-highlight">Gateway Turn Lease Timeout</a>
 - <a href="#session-stall-watchdog" class="table-of-contents__link toc-highlight">Session Stall Watchdog</a>
 - <a href="#reconnect-attention-escalation" class="table-of-contents__link toc-highlight">Reconnect Attention Escalation</a>
@@ -3106,6 +3286,7 @@ dashboard:
   - <a href="#the-universal-config-pattern" class="table-of-contents__link toc-highlight">The universal config pattern</a>
   - <a href="#full-auxiliary-config-reference" class="table-of-contents__link toc-highlight">Full auxiliary config reference</a>
   - <a href="#per-task-fallback-chain-for-auxiliary-tasks" class="table-of-contents__link toc-highlight">Per-task fallback chain for auxiliary tasks</a>
+  - <a href="#native-vision-embed-budgets-top-level-vision" class="table-of-contents__link toc-highlight">Native vision embed budgets (top-level <code>vision:</code>)</a>
   - <a href="#limiting-auxiliary-concurrency" class="table-of-contents__link toc-highlight">Limiting auxiliary concurrency</a>
   - <a href="#openrouter-routing--pareto-code-for-auxiliary-tasks" class="table-of-contents__link toc-highlight">OpenRouter routing &amp; Pareto Code for auxiliary tasks</a>
   - <a href="#changing-the-vision-model" class="table-of-contents__link toc-highlight">Changing the Vision Model</a>
@@ -3113,7 +3294,9 @@ dashboard:
   - <a href="#common-setups-1" class="table-of-contents__link toc-highlight">Common Setups</a>
   - <a href="#environment-variables-legacy" class="table-of-contents__link toc-highlight">Environment Variables (legacy)</a>
 - <a href="#reasoning-effort" class="table-of-contents__link toc-highlight">Reasoning Effort</a>
+  - <a href="#answer-length-text_verbosity" class="table-of-contents__link toc-highlight">Answer length (<code>text_verbosity</code>)</a>
 - <a href="#fast-mode" class="table-of-contents__link toc-highlight">Fast Mode</a>
+  - <a href="#fast-tiers-behind-a-gateway-or-proxy" class="table-of-contents__link toc-highlight">Fast tiers behind a gateway or proxy</a>
 - <a href="#tool-use-enforcement" class="table-of-contents__link toc-highlight">Tool-Use Enforcement</a>
   - <a href="#what-it-injects" class="table-of-contents__link toc-highlight">What it injects</a>
   - <a href="#when-to-turn-it-on" class="table-of-contents__link toc-highlight">When to turn it on</a>

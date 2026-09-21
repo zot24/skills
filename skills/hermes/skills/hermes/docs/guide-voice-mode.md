@@ -537,7 +537,7 @@ That progression keeps the debugging surface small.
 ## Where to read next<a href="#where-to-read-next" class="hash-link" aria-label="Direct link to Where to read next" translate="no" title="Direct link to Where to read next">​</a>
 
 - [Voice Mode feature reference](/docs/user-guide/features/voice-mode)
-- [Messaging Gateway](/docs/user-guide/messaging)
+- [Messaging Gateway](/docs/user-guide/messaging/)
 - [Discord setup](/docs/user-guide/messaging/discord)
 - [Telegram setup](/docs/user-guide/messaging/telegram)
 - [Configuration](/docs/user-guide/configuration)
