@@ -9,7 +9,9 @@ Hermes Agent
 
 # Plugin Catalog
 
-Reviewed, SHA-pinned plugins you can install with one command.
+Give Hermes new powers. Memory, voice, messaging, browsing, Desktop panes and more, built by the community.
+
+Built a plugin? <a href="/docs/user-guide/features/plugin-catalog#submitting-a-plugin-to-the-catalog" class="heroLink_q0bw">Submit it to the catalog →</a>
 
 
 All<span class="tierCount_yk6q">0</span>
@@ -17,6 +19,13 @@ All<span class="tierCount_yk6q">0</span>
 Official<span class="tierCount_yk6q">0</span>
 
 Community<span class="tierCount_yk6q">0</span>
+
+
+Most starred
+
+Newest
+
+Recently updated
 
 
 All categories

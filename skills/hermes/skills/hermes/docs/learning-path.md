@@ -28,11 +28,11 @@ First-time users almost always want `hermes setup --portal` — one OAuth covers
 
 ## By Experience Level<a href="#by-experience-level" class="hash-link" aria-label="Direct link to By Experience Level" translate="no" title="Direct link to By Experience Level">​</a>
 
-| Level            | Goal                                                                               | Recommended Reading                                                                                                                                                                                                                                           | Time Estimate |
-|------------------|------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| **Beginner**     | Get up and running, have basic conversations, use built-in tools                   | [Installation](/docs/getting-started/installation) → [Quickstart](/docs/getting-started/quickstart) → [CLI Usage](/docs/user-guide/cli) → [Configuration](/docs/user-guide/configuration)                                                                     | ~1 hour       |
-| **Intermediate** | Set up messaging bots, use advanced features like memory, cron jobs, and skills    | [Sessions](/docs/user-guide/sessions) → [Messaging](/docs/user-guide/messaging) → [Tools](/docs/user-guide/features/tools) → [Skills](/docs/user-guide/features/skills) → [Memory](/docs/user-guide/features/memory) → [Cron](/docs/user-guide/features/cron) | ~2–3 hours    |
-| **Advanced**     | Build custom tools, create skills, train models with RL, contribute to the project | [Architecture](/docs/developer-guide/architecture) → [Adding Tools](/docs/developer-guide/adding-tools) → [Creating Skills](/docs/developer-guide/creating-skills) → [Contributing](/docs/developer-guide/contributing)                                       | ~4–6 hours    |
+| Level            | Goal                                                                               | Recommended Reading                                                                                                                                                                                                                                            | Time Estimate |
+|------------------|------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| **Beginner**     | Get up and running, have basic conversations, use built-in tools                   | [Installation](/docs/getting-started/installation) → [Quickstart](/docs/getting-started/quickstart) → [CLI Usage](/docs/user-guide/cli) → [Configuration](/docs/user-guide/configuration)                                                                      | ~1 hour       |
+| **Intermediate** | Set up messaging bots, use advanced features like memory, cron jobs, and skills    | [Sessions](/docs/user-guide/sessions) → [Messaging](/docs/user-guide/messaging/) → [Tools](/docs/user-guide/features/tools) → [Skills](/docs/user-guide/features/skills) → [Memory](/docs/user-guide/features/memory) → [Cron](/docs/user-guide/features/cron) | ~2–3 hours    |
+| **Advanced**     | Build custom tools, create skills, train models with RL, contribute to the project | [Architecture](/docs/developer-guide/architecture) → [Adding Tools](/docs/developer-guide/adding-tools) → [Creating Skills](/docs/developer-guide/creating-skills) → [Contributing](/docs/developer-guide/contributing)                                        | ~4–6 hours    |
 
 ## By Use Case<a href="#by-use-case" class="hash-link" aria-label="Direct link to By Use Case" translate="no" title="Direct link to By Use Case">​</a>
 
@@ -59,7 +59,7 @@ Deploy Hermes Agent as a bot on your favorite messaging platform.
 
 1.  [Installation](/docs/getting-started/installation)
 2.  [Configuration](/docs/user-guide/configuration)
-3.  [Messaging Overview](/docs/user-guide/messaging)
+3.  [Messaging Overview](/docs/user-guide/messaging/)
 4.  [Telegram Setup](/docs/user-guide/messaging/telegram)
 5.  [Discord Setup](/docs/user-guide/messaging/discord)
 6.  [Voice Mode](/docs/user-guide/features/voice-mode)

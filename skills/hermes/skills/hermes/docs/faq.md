@@ -200,6 +200,8 @@ terminal:
 
 Missing files are skipped silently. Sourcing happens in bash, so files that rely on zsh-only syntax may error — if that's a concern, source just the PATH-setting portion (e.g. nvm's `nvm.sh` directly) rather than the whole rc file.
 
+Independently of the init files, every terminal command's `PATH` is completed with the standard system directories (`/usr/local/bin`, `/opt/homebrew/bin`, …), the Hermes-managed runtime dirs, and `~/.local/bin` when it exists (the `pip --user` / `pipx` / `uv tool` install target) — appended after your own entries, so precedence is unchanged. This covers backends started with a thin non-interactive PATH (systemd, GUI launchers, the Desktop SSH remote backend) without any configuration.
+
 To disable the auto-source behaviour (strict login-shell semantics only):
 
 
@@ -256,6 +258,22 @@ To isolate the source:
 4.  If an explicit tool error appears, use its exact text when reporting the problem.
 
 See [Security](/docs/user-guide/security) for Hermes' documented execution controls and [Providers](/docs/integrations/providers) for provider configuration.
+
+#### "Could not open a stream to `<host>` after N attempts (request X KB)"<a href="#could-not-open-a-stream-to-host-after-n-attempts-request-x-kb" class="hash-link" aria-label="Direct link to could-not-open-a-stream-to-host-after-n-attempts-request-x-kb" translate="no" title="Direct link to could-not-open-a-stream-to-host-after-n-attempts-request-x-kb">​</a>
+
+**Meaning:** every connect attempt to that endpoint failed before a single stream event arrived, so nothing was billed; the normal retry/fallback chain still runs afterwards. The line names the host actually contacted, how many attempts were made, and the serialized request size — the three things that separate an outage from a request-size limit.
+
+**Solution:** if the request is large (hundreds of KB — long coding sessions reach this once the context grows) and short new chats work, the endpoint or a proxy in front of it is likely rejecting bodies that size: raise its body limit, or run `/compress` to shrink the context. If the request is small, the endpoint is unreachable — check the `base_url`, then retry with `/retry`. `logs/agent.log` records the exception chain for each attempt.
+
+#### Messaging replies: "interrupted mid-request" vs "not running or is unreachable" vs "could not reach"<a href="#messaging-replies-interrupted-mid-request-vs-not-running-or-is-unreachable-vs-could-not-reach" class="hash-link" aria-label="Direct link to Messaging replies: &quot;interrupted mid-request&quot; vs &quot;not running or is unreachable&quot; vs &quot;could not reach&quot;" translate="no" title="Direct link to Messaging replies: &quot;interrupted mid-request&quot; vs &quot;not running or is unreachable&quot; vs &quot;could not reach&quot;">​</a>
+
+Chat surfaces (Telegram, Discord, Slack, …) never show the raw transport exception; the gateway maps it to one of three short replies, and the difference tells you where to look:
+
+| Reply                                                                                                                  | What happened                                                                                                                                    | What to do                                                                             |
+|------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| "The connection to the AI model service was **interrupted mid-request** — usually transient."                          | An established connection was cut (`Connection reset by peer`, EOF, `RemoteProtocolError`). The endpoint answered the connect, so it is running. | `/retry`. If it recurs on large requests, see the "stream" entry above.                |
+| "The AI model service isn't reachable right now — the configured model endpoint is **not running or is unreachable**." | Nothing accepted the connection (`Connection refused`, no route to host, DNS failure).                                                           | Start the model server / check `base_url`, then `/retry`; `hermes doctor` on the host. |
+| "Hermes **could not reach** the AI model service (no further detail from the SDK)."                                    | The SDK reported a generic `APIConnectionError` and kept no cause; neither of the above is certain.                                              | `/retry`; `hermes doctor` if it persists. The raw exception is in `hermes logs`.       |
 
 #### `/model` only shows one provider / can't switch providers<a href="#model-only-shows-one-provider--cant-switch-providers" class="hash-link" aria-label="Direct link to model-only-shows-one-provider--cant-switch-providers" translate="no" title="Direct link to model-only-shows-one-provider--cant-switch-providers">​</a>
 
@@ -360,6 +378,8 @@ If this happens on the first long conversation, Hermes may have the wrong contex
 Look at the CLI startup line — it shows the detected context length (e.g., `📊 Context limit: 128000 tokens`). You can also check with `/usage` during a session.
 
 **Local servers (llama.cpp, Ollama) that go silent instead of erroring:** when a provider rejects a request as too large, Hermes compacts the conversation and rebuilds the request. Hermes re-measures the *complete* rebuilt request (system prompt + tool schemas + messages) before retrying, and runs further bounded compaction passes if it is still over the threshold. If the request still cannot fit, the turn ends with `Context length exceeded: compression could not reduce the rebuilt request below the safe threshold` rather than sending an oversized request that llama.cpp would silently truncate (`stop processing: n_tokens = 65535, truncated = 1` in the server log). If you hit that message, the fix is almost always the configured `context_length` above: make it match the server's actual `-c` / `--ctx-size`.
+
+**"The model server rejected this request as too large, but this conversation is only about N tokens…":** the server said "context exceeded" without quoting any measurement, while Hermes's own estimate of the request is far below the window it knows for the model — so it does **not** compress or blame the conversation, and the turn stays retryable. On single-slot local servers (LM Studio, Ollama) this is almost always another request holding the server's context at that moment — typically a background memory review from an earlier session (`thread=bg-review` in `logs/agent.log`). Wait a moment and `/retry`. If it recurs with no other Hermes process running, the server is loading the model with a smaller window than Hermes assumes: raise the server's context setting or lower `model.context_length` to match it.
 
 To fix context detection, set it explicitly:
 
@@ -651,7 +671,7 @@ node --version
 npx --version
 
 # Test the server manually
-npx -y @modelcontextprotocol/server-filesystem /tmp
+npx -y @modelcontextprotocol/server-filesystem /path/to/allowed/dir
 ```
 
 
@@ -732,7 +752,7 @@ This isolation is also the reason to never run two agents against the *same* pro
 
 ### How many profiles can I run?<a href="#how-many-profiles-can-i-run" class="hash-link" aria-label="Direct link to How many profiles can I run?" translate="no" title="Direct link to How many profiles can I run?">​</a>
 
-There is no hard limit. Each profile is just a directory under `~/.hermes/profiles/`. The practical limit depends on your disk space and how many concurrent gateways your system can handle (each gateway is a lightweight Python process). Running dozens of profiles is fine; each idle profile uses no resources.
+There is no hard limit. Each profile is a directory under `~/.hermes/profiles/` that carries at least one identity file (`config.yaml`, `.env`, `SOUL.md`, `profile.yaml`, `auth.json` or `state.db`); a bare directory without one (a leftover from a log rotation or cron tick) is not a profile — it is not listed or served, `-p <name>` reports it as missing, and `hermes profile create <name>` refuses to overwrite it until you move or remove it. The practical limit depends on your disk space and how many concurrent gateways your system can handle (each gateway is a lightweight Python process). Running dozens of profiles is fine; each idle profile uses no resources.
 
 ------------------------------------------------------------------------
 

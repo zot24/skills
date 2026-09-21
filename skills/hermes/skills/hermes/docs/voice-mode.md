@@ -116,6 +116,17 @@ ELEVENLABS_API_KEY=***           # ElevenLabs — premium quality
 If `faster-whisper` is installed, voice mode works with **zero API keys** for STT. The model (~150 MB for `base`) downloads automatically on first use.
 
 
+The first download normally comes from `huggingface.co`. If that host is unavailable on your network, export an accessible mirror in the shell or service that starts Hermes:
+
+
+``` prism-code
+HF_ENDPOINT=https://your-hugging-face-mirror.example
+HF_HUB_DISABLE_XET=1
+```
+
+
+Disabling Xet avoids authentication failures from Xet's separate CAS hosts when a mirror is in use. After the model is cached, Hermes loads that snapshot without an online revision check.
+
 ------------------------------------------------------------------------
 
 ## CLI Voice Mode<a href="#cli-voice-mode" class="hash-link" aria-label="Direct link to CLI Voice Mode" translate="no" title="Direct link to CLI Voice Mode">​</a>
@@ -516,7 +527,7 @@ tts:
     voice: "en-US-AriaNeural"      # 322 voices, 74 languages
   elevenlabs:
     voice_id: "pNInz6obpgDQGcFmaJgB"    # Adam
-    model_id: "eleven_multilingual_v2"
+    model_id: "eleven_multilingual_v2"   # or eleven_v3, eleven_flash_v2_5, ... (Desktop Settings → Voice accepts any model id)
   openai:
     model: "gpt-4o-mini-tts"
     voice: "alloy"                 # alloy, echo, fable, onyx, nova, shimmer
