@@ -28,874 +28,169 @@ On this page
 # Custom Providers
 
 
-Extensions can register custom model providers via `pi.registerProvider()`. This enables:
-
-- **Proxies** - Route requests through corporate proxies or API gateways
-- **Custom endpoints** - Use self-hosted or private model deployments
-- **OAuth/SSO** - Add authentication flows for enterprise providers
-- **Custom APIs** - Implement streaming for non-standard LLM APIs
-
-
-## Example Extensions
-
-<a href="#example-extensions" class="heading-anchor" aria-label="Permalink: Example Extensions" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#example-extensions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+A provider extension connects Pi to a model service that needs custom authentication, model discovery, request handling, or streaming. If the service already speaks a supported API, configure it in `models.json` instead.
 
+Provider extensions run inside Pi and can inspect credentials, prompts, tool definitions, model responses, and usage. Treat them as trusted code and avoid logging secrets or provider payloads.
 
-See these complete provider examples:
-
-- [`examples/extensions/custom-provider-anthropic/`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/custom-provider-anthropic)
-- [`examples/extensions/custom-provider-gitlab-duo/`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/custom-provider-gitlab-duo)
-
-
-## Table of Contents
-
-<a href="#table-of-contents" class="heading-anchor" aria-label="Permalink: Table of Contents" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#table-of-contents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-- [Example Extensions](#example-extensions)
-- [Quick Reference](#quick-reference)
-- [Override Existing Provider](#override-existing-provider)
-- [Register New Provider](#register-new-provider)
-- [Unregister Provider](#unregister-provider)
-- [OAuth Support](#oauth-support)
-- [Custom Streaming API](#custom-streaming-api)
-- [Context Overflow Errors](#context-overflow-errors)
-- [Testing Your Implementation](#testing-your-implementation)
-- [Config Reference](#config-reference)
-- [Model Definition Reference](#model-definition-reference)
-
-
-## Quick Reference
-
-<a href="#quick-reference" class="heading-anchor" aria-label="Permalink: Quick Reference" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#quick-reference"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+## Choose the smallest integration
 
-Extensions can register either a complete pi-ai `Provider` or use the legacy provider-config form. Prefer a complete provider when custom authentication, filtering, refresh, or streaming behavior is required. Pi composes `models.json` overrides above registered native providers.
+<a href="#choose-the-smallest-integration" class="heading-anchor" aria-label="Permalink: Choose the smallest integration" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#choose-the-smallest-integration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-``` typescript
-import { createProvider, openAICompletionsApi } from "@earendil-works/pi-ai";
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
-export default function (pi: ExtensionAPI) {
-  pi.registerProvider(createProvider({
-    id: "native-local",
-    name: "Native Local",
-    baseUrl: "http://localhost:8080/v1",
-    auth: {
-      apiKey: {
-        name: "Local server API key",
-        async login(interaction) {
-          return {
-            type: "api_key",
-            key: await interaction.prompt({ type: "secret", message: "API key" })
-          };
-        },
-        async resolve({ credential }) {
-          return credential?.key
-            ? { auth: { apiKey: credential.key }, source: "stored API key" }
-            : undefined;
-        }
-      }
-    },
-    models: [],
-    api: openAICompletionsApi()
-  }));
-
-  // Legacy provider-config form:
-  // Override baseUrl for existing provider
-  pi.registerProvider("anthropic", {
-    baseUrl: "https://proxy.example.com"
-  });
-
-  // Register new provider with models
-  pi.registerProvider("my-provider", {
-    name: "My Provider",
-    baseUrl: "https://api.example.com",
-    apiKey: "$MY_API_KEY",
-    api: "openai-completions",
-    models: [
-      {
-        id: "my-model",
-        name: "My Model",
-        reasoning: false,
-        input: ["text", "image"],
-        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-        contextWindow: 128000,
-        maxTokens: 4096
-      }
-    ]
-  });
-}
-```
-
-The extension factory can also be `async`. For dynamic model discovery, fetch and register models in the factory instead of `session_start`. pi waits for the factory before startup continues, so the provider is available during interactive startup and to `pi --list-models`.
-
-
-## Override Existing Provider
-
-<a href="#override-existing-provider" class="heading-anchor" aria-label="Permalink: Override Existing Provider" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#override-existing-provider"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-The simplest use case: redirect an existing provider through a proxy.
-
-``` typescript
-// All Anthropic requests now go through your proxy
-pi.registerProvider("anthropic", {
-  baseUrl: "https://proxy.example.com"
-});
-
-// Add custom headers to OpenAI requests
-pi.registerProvider("openai", {
-  headers: {
-    "X-Custom-Header": "value"
-  }
-});
-
-// Both baseUrl and headers
-pi.registerProvider("google", {
-  baseUrl: "https://ai-gateway.corp.com/google",
-  headers: {
-    "X-Corp-Auth": "$CORP_AUTH_TOKEN"  // env var or literal
-  }
-});
-```
-
-When only `baseUrl` and/or `headers` are provided (no `models`), all existing models for that provider are preserved with the new endpoint.
-
-
-## Register New Provider
-
-<a href="#register-new-provider" class="heading-anchor" aria-label="Permalink: Register New Provider" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#register-new-provider"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-To add a completely new provider, specify `models` along with the required configuration.
-
-If the model list comes from a remote endpoint, use an async extension factory:
-
-``` typescript
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-
-export default async function (pi: ExtensionAPI) {
-  const response = await fetch("http://localhost:1234/v1/models");
-  const payload = (await response.json()) as {
-    data: Array<{
-      id: string;
-      name?: string;
-      context_window?: number;
-      max_tokens?: number;
-    }>;
-  };
-
-  pi.registerProvider("local-openai", {
-    baseUrl: "http://localhost:1234/v1",
-    apiKey: "$LOCAL_OPENAI_API_KEY",
-    api: "openai-completions",
-    models: payload.data.map((model) => ({
-      id: model.id,
-      name: model.name ?? model.id,
-      reasoning: false,
-      input: ["text"],
-      cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-      contextWindow: model.context_window ?? 128000,
-      maxTokens: model.max_tokens ?? 4096,
-    })),
-  });
-}
-```
-
-This registers the fetched models before startup finishes.
-
-``` typescript
-pi.registerProvider("my-llm", {
-  baseUrl: "https://api.my-llm.com/v1",
-  apiKey: "$MY_LLM_API_KEY",  // env var reference
-  api: "openai-completions",  // which streaming API to use
-  models: [
-    {
-      id: "my-llm-large",
-      name: "My LLM Large",
-      reasoning: true,        // supports extended thinking
-      input: ["text", "image"],
-      cost: {
-        input: 3.0,           // $/million tokens
-        output: 15.0,
-        cacheRead: 0.3,
-        cacheWrite: 3.75
-      },
-      contextWindow: 200000,
-      maxTokens: 16384
-    }
-  ]
-});
-```
-
-When `models` is provided, it **replaces** all existing models for that provider.
-
-`apiKey` and custom header values use the same config value syntax as `models.json`: `!command` at the start executes a command for the whole value, `$ENV_VAR` and `${ENV_VAR}` interpolate environment variables, `$$` emits a literal `$`, and `$!` emits a literal `!`.
-
-
-## Unregister Provider
-
-<a href="#unregister-provider" class="heading-anchor" aria-label="Permalink: Unregister Provider" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#unregister-provider"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Use `pi.unregisterProvider(name)` to remove a provider that was previously registered via `pi.registerProvider(name, ...)`:
-
-``` typescript
-// Register
-pi.registerProvider("my-llm", {
-  baseUrl: "https://api.my-llm.com/v1",
-  apiKey: "$MY_LLM_API_KEY",
-  api: "openai-completions",
-  models: [
-    {
-      id: "my-llm-large",
-      name: "My LLM Large",
-      reasoning: true,
-      input: ["text", "image"],
-      cost: { input: 3.0, output: 15.0, cacheRead: 0.3, cacheWrite: 3.75 },
-      contextWindow: 200000,
-      maxTokens: 16384
-    }
-  ]
-});
-
-// Later, remove it
-pi.unregisterProvider("my-llm");
-```
-
-Unregistering removes that provider's dynamic models, API key fallback, OAuth provider registration, and custom stream handler registrations. Any built-in models or provider behavior that were overridden are restored.
-
-Calls made after the initial extension load phase are applied immediately, so no `/reload` is required.
-
-
-### API Types
-
-<a href="#api-types" class="heading-anchor" aria-label="Permalink: API Types" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#api-types"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-The `api` field determines which streaming implementation is used:
-
-| API                       | Use for                                     |
-|---------------------------|---------------------------------------------|
-| `anthropic-messages`      | Anthropic Claude API and compatibles        |
-| `openai-completions`      | OpenAI Chat Completions API and compatibles |
-| `openai-responses`        | OpenAI Responses API                        |
-| `azure-openai-responses`  | Azure OpenAI Responses API                  |
-| `openai-codex-responses`  | OpenAI Codex Responses API                  |
-| `mistral-conversations`   | Native Mistral Chat Completions streaming   |
-| `google-generative-ai`    | Google Generative AI API                    |
-| `google-vertex`           | Google Vertex AI API                        |
-| `bedrock-converse-stream` | Amazon Bedrock Converse API                 |
-
-Most OpenAI-compatible providers work with `openai-completions`. Use model-level `thinkingLevelMap` for model-specific thinking levels, and `compat` for provider quirks. The `xhigh` and `max` levels are opt-in, require non-null map entries, and may be separated by unsupported holes:
-
-``` typescript
-models: [{
-  id: "custom-model",
-  // ...
-  reasoning: true,
-  thinkingLevelMap: {              // map pi levels to provider values; null hides unsupported levels
-    minimal: null,
-    low: null,
-    medium: null,
-    high: "default",
-    xhigh: null,
-    max: "max"
-  },
-  compat: {
-    supportsDeveloperRole: false,   // use "system" instead of "developer"
-    supportsReasoningEffort: true,
-    maxTokensField: "max_tokens",   // instead of "max_completion_tokens"
-    requiresToolResultName: true,   // tool results need name field
-    thinkingFormat: "qwen",        // top-level enable_thinking: true
-    cacheControlFormat: "anthropic" // Anthropic-style cache_control markers
-  }
-}]
-```
-
-Use `openrouter` for OpenRouter-style `reasoning: { effort }` controls. Use `together` for Together-style `reasoning: { enabled }` controls; with `supportsReasoningEffort`, it also sends `reasoning_effort`. Use `qwen-chat-template` for local Qwen-compatible servers that read `chat_template_kwargs.enable_thinking` and need `preserve_thinking`. Use `cacheControlFormat: "anthropic"` for OpenAI-compatible providers that expose Anthropic-style prompt caching via `cache_control` on the system prompt, last tool definition, and last user, assistant, or tool-result text content.
-
-For Anthropic-compatible providers using `api: "anthropic-messages"`, set `compat.forceAdaptiveThinking: true` on models or providers whose upstream model requires adaptive thinking (`thinking.type: "adaptive"` plus `output_config.effort`). Built-in adaptive Claude models set this automatically. Set `compat.allowEmptySignature: true` only for providers that emit empty thinking signatures and expect `signature: ""` on replay.
-
-> Migration note: Mistral moved from `openai-completions` to `mistral-conversations`. Use `mistral-conversations` for native Mistral models. If you intentionally route Mistral-compatible/custom endpoints through `openai-completions`, set `compat` flags explicitly as needed.
-
-
-### Auth Header
-
-<a href="#auth-header" class="heading-anchor" aria-label="Permalink: Auth Header" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#auth-header"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-If your provider expects `Authorization: Bearer <key>` but doesn't use a standard API, set `authHeader: true`:
-
-``` typescript
-pi.registerProvider("custom-api", {
-  baseUrl: "https://api.example.com",
-  apiKey: "$MY_API_KEY",
-  authHeader: true,  // adds Authorization: Bearer header
-  api: "openai-completions",
-  models: [...]
-});
-```
-
-The key is resolved for each request. An explicit request `Authorization` header takes precedence over the generated value.
-
-
-## OAuth Support
-
-<a href="#oauth-support" class="heading-anchor" aria-label="Permalink: OAuth Support" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#oauth-support"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Add OAuth/SSO authentication that integrates with `/login`:
-
-``` typescript
-import type { OAuthCredentials, OAuthLoginCallbacks } from "@earendil-works/pi-ai";
-
-pi.registerProvider("corporate-ai", {
-  baseUrl: "https://ai.corp.com/v1",
-  api: "openai-responses",
-  models: [...],
-  oauth: {
-    name: "Corporate AI (SSO)",
-
-    async login(callbacks: OAuthLoginCallbacks): Promise<OAuthCredentials> {
-      const method = await callbacks.onSelect({
-        message: "Select login method:",
-        options: [
-          { id: "browser", label: "Browser OAuth" },
-          { id: "device", label: "Device code" }
-        ]
-      });
-      if (!method) throw new Error("Login cancelled");
-
-      let code: string;
-      if (method === "device") {
-        callbacks.onDeviceCode({
-          userCode: "ABCD-1234",
-          verificationUri: "https://sso.corp.com/device",
-          intervalSeconds: 5,
-          expiresInSeconds: 900
-        });
-        code = await pollDeviceCodeUntilComplete();
-      } else {
-        callbacks.onAuth({ url: "https://sso.corp.com/authorize?..." });
-        code = await callbacks.onPrompt({ message: "Enter SSO code:" });
-      }
+| Requirement                                     | Use                                                                  |
+|-------------------------------------------------|----------------------------------------------------------------------|
+| Add models behind a supported API               | [`models.json`](/docs/latest/models#configure-a-compatible-endpoint) |
+| Change an existing provider endpoint or headers | `models.json` or a small provider extension                          |
+| Discover models dynamically                     | A provider with `refreshModels`                                      |
+| Add a `/login` flow                             | A provider with native or legacy OAuth configuration                 |
+| Implement an unsupported wire protocol          | A provider with `stream` or `streamSimple`                           |
 
-      // Exchange for tokens (your implementation)
-      const tokens = await exchangeCodeForTokens(code);
+A provider extension is an [extension](/docs/latest/extensions), so it follows the same loading, trust, reload, and error behavior.
 
-      return {
-        refresh: tokens.refreshToken,
-        access: tokens.accessToken,
-        expires: Date.now() + tokens.expiresIn * 1000
-      };
-    },
 
-    async refreshToken(credentials: OAuthCredentials, signal: AbortSignal): Promise<OAuthCredentials> {
-      const tokens = await refreshAccessToken(credentials.refresh, signal);
-      return {
-        refresh: tokens.refreshToken ?? credentials.refresh,
-        access: tokens.accessToken,
-        expires: Date.now() + tokens.expiresIn * 1000
-      };
-    },
+## Register a provider
 
-    getApiKey(credentials: OAuthCredentials): string {
-      return credentials.access;
-    }
-  }
-});
-```
-
-After registration, users can authenticate via `/login corporate-ai`.
-
-
-### OAuthLoginCallbacks
-
-<a href="#oauthlogincallbacks" class="heading-anchor" aria-label="Permalink: OAuthLoginCallbacks" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#oauthlogincallbacks"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-The `callbacks` object provides UI-neutral interactions for the provider-owned flow:
-
-``` typescript
-interface OAuthLoginCallbacks {
-  // Open URL in browser (for OAuth redirects)
-  onAuth(params: { url: string }): void;
-
-  // Show device code (for device authorization flow)
-  onDeviceCode(params: {
-    userCode: string;
-    verificationUri: string;
-    intervalSeconds?: number;
-    expiresInSeconds?: number;
-  }): void;
-
-  // Show transient progress
-  onProgress?(message: string): void;
-
-  // Prompt user for input (for manual token entry)
-  onPrompt(params: { message: string }): Promise<string>;
-
-  // Show an interactive selector, e.g. to choose browser OAuth vs device code
-  onSelect(params: {
-    message: string;
-    options: { id: string; label: string }[];
-  }): Promise<string | undefined>;
-}
-```
-
-
-### OAuthCredentials
-
-<a href="#oauthcredentials" class="heading-anchor" aria-label="Permalink: OAuthCredentials" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#oauthcredentials"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Credentials are persisted in `~/.pi/agent/auth.json`:
-
-``` typescript
-interface OAuthCredentials {
-  refresh: string;   // Refresh token (for refreshToken())
-  access: string;    // Access token (returned by getApiKey())
-  expires: number;   // Expiration timestamp in milliseconds
-}
-```
-
-
-## Custom Streaming API
-
-<a href="#custom-streaming-api" class="heading-anchor" aria-label="Permalink: Custom Streaming API" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#custom-streaming-api"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-For providers with non-standard APIs, implement `streamSimple`. Study the existing API implementations before writing your own:
-
-**Reference implementations:**
-
-- [anthropic-messages.ts](https://github.com/earendil-works/pi/blob/main/packages/ai/src/api/anthropic-messages.ts) - Anthropic Messages API
-- [mistral-conversations.ts](https://github.com/earendil-works/pi/blob/main/packages/ai/src/api/mistral-conversations.ts) - Mistral Conversations API
-- [openai-completions.ts](https://github.com/earendil-works/pi/blob/main/packages/ai/src/api/openai-completions.ts) - OpenAI Chat Completions
-- [openai-responses.ts](https://github.com/earendil-works/pi/blob/main/packages/ai/src/api/openai-responses.ts) - OpenAI Responses API
-- [google-generative-ai.ts](https://github.com/earendil-works/pi/blob/main/packages/ai/src/api/google-generative-ai.ts) - Google Generative AI
-- [bedrock-converse-stream.ts](https://github.com/earendil-works/pi/blob/main/packages/ai/src/api/bedrock-converse-stream.ts) - AWS Bedrock
-
-
-### Stream Pattern
-
-<a href="#stream-pattern" class="heading-anchor" aria-label="Permalink: Stream Pattern" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#stream-pattern"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-All providers follow the same pattern. The context is a normalized transcript: the system prompt and tool declarations live in its system messages, so read them with `getCurrentSystemPrompt(context.messages)` and `getCurrentTools(context.messages)` rather than expecting `context.systemPrompt` or `context.tools`. Models that accept system messages mid-conversation can send them in place; otherwise call `collapseSystemMessages(context)` first to fold later system messages into the leading one.
-
-``` typescript
-import {
-  type AssistantMessage,
-  type AssistantMessageEventStream,
-  type Model,
-  type SimpleStreamOptions,
-  type TranscriptContext,
-  calculateCost,
-  collapseSystemMessages,
-  createAssistantMessageEventStream,
-  getCurrentSystemPrompt,
-  getCurrentTools,
-} from "@earendil-works/pi-ai";
-
-function streamMyProvider(
-  model: Model<any>,
-  context: TranscriptContext,
-  options?: SimpleStreamOptions
-): AssistantMessageEventStream {
-  const stream = createAssistantMessageEventStream();
-  const transcript = collapseSystemMessages(context);
-  const systemPrompt = getCurrentSystemPrompt(transcript.messages);
-  const tools = getCurrentTools(transcript.messages);
-
-  (async () => {
-    // Initialize output message
-    const output: AssistantMessage = {
-      role: "assistant",
-      content: [],
-      api: model.api,
-      provider: model.provider,
-      model: model.id,
-      usage: {
-        input: 0,
-        output: 0,
-        cacheRead: 0,
-        cacheWrite: 0,
-        totalTokens: 0,
-        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
-      },
-      stopReason: "pending",
-      timestamp: Date.now(),
-    };
-
-    try {
-      // Push start event
-      stream.push({ type: "start", partial: output });
-
-      // Make API request and process response...
-      // Push content events as they arrive and set stopReason from the terminal event.
-      if (output.stopReason === "pending") {
-        throw new Error("Provider stream ended without a stop reason");
-      }
-      if (output.stopReason === "error" || output.stopReason === "aborted") {
-        throw new Error(output.errorMessage || "An unknown error occurred");
-      }
-
-      // Push done event
-      stream.push({
-        type: "done",
-        reason: output.stopReason,
-        message: output
-      });
-      stream.end();
-    } catch (error) {
-      output.stopReason = options?.signal?.aborted ? "aborted" : "error";
-      output.errorMessage = error instanceof Error ? error.message : String(error);
-      stream.push({ type: "error", reason: output.stopReason, error: output });
-      stream.end();
-    }
-  })();
-
-  return stream;
-}
-```
-
-
-### Event Types
-
-<a href="#event-types" class="heading-anchor" aria-label="Permalink: Event Types" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#event-types"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Push events via `stream.push()` in this order:
-
-1.  `{ type: "start", partial: output }` - Stream started
-
-2.  Content events (repeatable, track `contentIndex` for each block):
-
-    - `{ type: "text_start", contentIndex, partial }` - Text block started
-    - `{ type: "text_delta", contentIndex, delta, partial }` - Text chunk
-    - `{ type: "text_end", contentIndex, content, partial }` - Text block ended
-    - `{ type: "thinking_start", contentIndex, partial }` - Thinking started
-    - `{ type: "thinking_delta", contentIndex, delta, partial }` - Thinking chunk
-    - `{ type: "thinking_end", contentIndex, content, partial }` - Thinking ended
-    - `{ type: "toolcall_start", contentIndex, partial }` - Tool call started
-    - `{ type: "toolcall_delta", contentIndex, delta, partial }` - Tool call JSON chunk
-    - `{ type: "toolcall_end", contentIndex, toolCall, partial }` - Tool call ended
+<a href="#register-a-provider" class="heading-anchor" aria-label="Permalink: Register a provider" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#register-a-provider"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-3.  `{ type: "done", reason, message }` or `{ type: "error", reason, error }` - Stream ended
 
-The `partial` field in each event contains the current `AssistantMessage` state. Update `output.content` as you receive data, then include `output` as the `partial`.
+Call `pi.registerProvider()` from the extension factory. Pi waits for asynchronous factories before startup continues, so providers registered there are available to startup model selection and `pi --list-models`.
 
+There are two registration forms:
 
-### Content Blocks
+- Register a complete `Provider` from `@earendil-works/pi-ai` for native authentication, filtering, discovery, refresh, and streaming behavior.
+- Register a provider name with `ProviderConfig` for the legacy configuration form used by existing extensions.
 
-<a href="#content-blocks" class="heading-anchor" aria-label="Permalink: Content Blocks" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#content-blocks"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Prefer a complete provider for new integrations that own more than static endpoint and model metadata. Pi composes `models.json` overrides above a registered native provider.
 
-
-Add content blocks to `output.content` as they arrive:
-
-``` typescript
-// Text block
-output.content.push({ type: "text", text: "" });
-stream.push({ type: "text_start", contentIndex: output.content.length - 1, partial: output });
+Registering only `baseUrl` or `headers` for an existing provider preserves its built-in models. Supplying `models` in the legacy form replaces the models supplied by that registration.
 
-// As text arrives
-const block = output.content[contentIndex];
-if (block.type === "text") {
-  block.text += delta;
-  stream.push({ type: "text_delta", contentIndex, delta, partial: output });
-}
-
-// When block completes
-stream.push({ type: "text_end", contentIndex, content: block.text, partial: output });
-```
-
-
-### Tool Calls
-
-<a href="#tool-calls" class="heading-anchor" aria-label="Permalink: Tool Calls" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#tool-calls"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Tool calls require accumulating JSON and parsing:
-
-``` typescript
-// Start tool call
-output.content.push({
-  type: "toolCall",
-  id: toolCallId,
-  name: toolName,
-  arguments: {}
-});
-stream.push({ type: "toolcall_start", contentIndex: output.content.length - 1, partial: output });
+Calls made after initial extension loading take effect immediately. Use `pi.unregisterProvider()` to remove the dynamic provider and restore built-in behavior that it replaced.
 
-// Accumulate JSON
-let partialJson = "";
-partialJson += jsonDelta;
-try {
-  block.arguments = JSON.parse(partialJson);
-} catch {}
-stream.push({ type: "toolcall_delta", contentIndex, delta: jsonDelta, partial: output });
+See the checked [GitLab Duo provider](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/custom-provider-gitlab-duo) for a complete registration that delegates streaming to built-in API implementations.
 
-// Complete
-stream.push({
-  type: "toolcall_end",
-  contentIndex,
-  toolCall: { type: "toolCall", id, name, arguments: block.arguments },
-  partial: output
-});
-```
 
+## Provide authentication
 
-### Usage and Cost
+<a href="#provide-authentication" class="heading-anchor" aria-label="Permalink: Provide authentication" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#provide-authentication"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-<a href="#usage-and-cost" class="heading-anchor" aria-label="Permalink: Usage and Cost" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#usage-and-cost"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Static providers can resolve an API key from a literal, environment interpolation, or a command. These values use the same syntax as `models.json`:
 
-Update usage from API response and calculate cost:
+- `$NAME` and `${NAME}` read environment variables.
+- A leading `!command` uses command output.
+- `$$` emits a literal `$`.
+- `$!` emits a literal leading `!`.
 
-``` typescript
-output.usage.input = response.usage.input_tokens;
-output.usage.output = response.usage.output_tokens;
-output.usage.cacheRead = response.usage.cache_read_tokens ?? 0;
-output.usage.cacheWrite = response.usage.cache_write_tokens ?? 0;
-output.usage.totalTokens = output.usage.input + output.usage.output +
-                           output.usage.cacheRead + output.usage.cacheWrite;
-calculateCost(model, output.usage);
-```
+Use native provider authentication when the integration needs stored credentials, custom resolution, provider-scoped environment, or multiple login methods.
 
+An OAuth provider supplies a display name, login flow, token refresh, and access-token resolution. After registration it appears in `/login`, and Pi stores returned credentials in `~/.pi/agent/auth.json`.
 
-### Context Overflow Errors
+OAuth callbacks are UI-neutral. They can open an authorization URL, show a device code, report progress, request input, or ask the user to choose a login method. Honor cancellation and the supplied abort signal during network requests.
 
-<a href="#context-overflow-errors" class="heading-anchor" aria-label="Permalink: Context Overflow Errors" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#context-overflow-errors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Never write access tokens, refresh tokens, authorization headers, or complete provider responses to ordinary logs.
 
 
-When a request exceeds the model's context window, pi can recover automatically by compacting the conversation and retrying. This recovery only kicks in if pi recognizes the failure as an overflow.
+## Supply and refresh models
 
-Detection runs on the finalized assistant message:
+<a href="#supply-and-refresh-models" class="heading-anchor" aria-label="Permalink: Supply and refresh models" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#supply-and-refresh-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-- `stopReason === "error"`
-- `errorMessage` matches one of pi's known overflow patterns (see [`packages/ai/src/utils/overflow.ts`](https://github.com/earendil-works/pi/blob/main/packages/ai/src/utils/overflow.ts))
 
-If your provider returns overflow errors with a message pi does not recognize, normalize the error from the same extension that registers the provider. Use a `message_end` handler to rewrite the assistant message so its `errorMessage` starts with a phrase pi recognizes. The generic fallback `context_length_exceeded` is the safest choice.
+Every model needs an ID, display name, input capabilities, context window, output limit, reasoning support, and cost metadata. Choose the API implementation at the provider level unless one model requires an override.
 
-``` typescript
-const MY_PROVIDER_OVERFLOW_PATTERN = /your provider's overflow phrase/i;
+Set `promptCache.short` or `promptCache.long` to the provider's best-effort cache lifetime in seconds when Pi should keep an idle prompt cache warm. Leave them unset to disable cache warming for that retention tier.
 
-export default function (pi: ExtensionAPI) {
-  pi.registerProvider("my-provider", { /* ... */ });
+Compatibility flags describe verified differences in an otherwise supported API. Do not enable them based only on an endpoint claiming compatibility.
 
-  pi.on("message_end", (event, ctx) => {
-    const message = event.message;
-    if (message.role !== "assistant") return;
-    if (message.stopReason !== "error") return;
-    if (
-      message.provider !== "my-provider" &&
-      ctx.model?.provider !== "my-provider"
-    )
-      return;
+Confirm the request fields and response behavior against the actual server.
 
-    const errorMessage = message.errorMessage ?? "";
-    if (errorMessage.includes("context_length_exceeded")) return;
-    if (!MY_PROVIDER_OVERFLOW_PATTERN.test(errorMessage)) return;
+Use `refreshModels` when the available catalog comes from a live service. Pass `context.signal` to blocking I/O so callers can cancel refreshes.
 
-    return {
-      message: {
-        ...message,
-        errorMessage: `context_length_exceeded: ${errorMessage}`,
-      },
-    };
-  });
-}
-```
+The two registration forms have different refresh contracts:
 
-`message_end` runs before pi tracks the assistant message for auto-compaction, so the rewritten `errorMessage` is what pi checks. With this in place, pi will:
+- A complete `Provider` returns nothing. It calls `context.publish({ update })` to install provider-owned model state, after which its synchronous `getModels()` exposes the latest list.
+- Legacy `ProviderConfig.refreshModels` returns model definitions. Pi replaces that registration’s live models with the returned list and applies any requested persistence.
 
-1.  Detect the overflow from `errorMessage`.
-2.  Drop the failed assistant message from live context.
-3.  Run compaction.
-4.  Retry the request once.
+Publish persisted catalog data only when it should survive across runs. A live service such as llama.cpp can update its in-memory list without persisting it; a remote catalog can retain a snapshot for offline startup.
 
-Guard the rewrite carefully:
 
-- Scope it to your provider (`message.provider` and `ctx.model?.provider`) so unrelated errors from other providers are untouched.
-- Match a provider-specific pattern, not pi's generic overflow patterns. Rewriting rate-limit or throttling errors (`rate limit`, `too many requests`) would falsely trigger compaction instead of pi's normal retry-with-backoff path.
-- Skip when `errorMessage` already includes `context_length_exceeded` so the handler is idempotent.
+## Reuse a supported streaming API
 
+<a href="#reuse-a-supported-streaming-api" class="heading-anchor" aria-label="Permalink: Reuse a supported streaming API" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#reuse-a-supported-streaming-api"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-### Registration
 
-<a href="#registration" class="heading-anchor" aria-label="Permalink: Registration" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#registration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Use one of Pi AI’s API implementations whenever the provider protocol matches it.
 
+Supported implementations cover Anthropic Messages, OpenAI Chat Completions and Responses, Google Generative AI and Vertex, Azure OpenAI Responses, Mistral Conversations, and Bedrock Converse.
 
-Register your stream function:
+The provider can still customize authentication, base URLs, headers, model filtering, and discovery while delegating request conversion and streaming to an existing API implementation.
 
-``` typescript
-pi.registerProvider("my-provider", {
-  baseUrl: "https://api.example.com",
-  apiKey: "$MY_API_KEY",
-  api: "my-custom-api",
-  models: [...],
-  streamSimple: streamMyProvider
-});
-```
+This is safer than copying a stream implementation because it preserves Pi’s message conversion, tool handling, usage accounting, cancellation, and compatibility behavior.
 
 
-## Testing Your Implementation
+## Implement custom streaming
 
-<a href="#testing-your-implementation" class="heading-anchor" aria-label="Permalink: Testing Your Implementation" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#testing-your-implementation"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#implement-custom-streaming" class="heading-anchor" aria-label="Permalink: Implement custom streaming" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#implement-custom-streaming"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Test your provider against the same test suites used by built-in providers. Copy and adapt these test files from [packages/ai/test/](https://github.com/earendil-works/pi/tree/main/packages/ai/test):
+Implement `streamSimple` only when no existing API implementation can represent the service. Study the implementations under [`packages/ai/src/api`](https://github.com/earendil-works/pi/tree/main/packages/ai/src/api) first.
 
-| Test                               | Purpose                           |
-|------------------------------------|-----------------------------------|
-| `stream.test.ts`                   | Basic streaming, text output      |
-| `tokens.test.ts`                   | Token counting and usage          |
-| `abort.test.ts`                    | AbortSignal handling              |
-| `empty.test.ts`                    | Empty/minimal responses           |
-| `context-overflow.test.ts`         | Context window limits             |
-| `image-limits.test.ts`             | Image input handling              |
-| `unicode-surrogate.test.ts`        | Unicode edge cases                |
-| `tool-call-without-result.test.ts` | Tool call edge cases              |
-| `image-tool-result.test.ts`        | Images in tool results            |
-| `total-tokens.test.ts`             | Total token calculation           |
-| `cross-provider-handoff.test.ts`   | Context handoff between providers |
+The stream receives a normalized `TranscriptContext`. System prompts and tool declarations live in transcript system messages, so read them with `getCurrentSystemPrompt(context.messages)` and `getCurrentTools(context.messages)` rather than expecting `context.systemPrompt` or `context.tools`. A model that supports mid-conversation system messages can receive them in place; otherwise call `collapseSystemMessages(context)` to fold later system messages into the leading one.
 
-Run tests with your provider/model pairs to verify compatibility.
+A custom stream must:
 
+1.  Create an assistant message with provider, model, timestamp, pending stop reason, content, and zeroed usage.
+2.  After request setup succeeds, emit one `start` event before content events.
+3.  Update the message while emitting balanced text, thinking, and tool-call events.
+4.  Finalize usage, cost, content, and stop reason.
+5.  Emit exactly one terminal `done` or `error` event and close the stream.
+6.  Convert cancellation into an aborted result.
 
-## Config Reference
+Request setup can fail before `start`; in that case the stream can terminate directly with `error`. Missing request authentication may also throw synchronously before a stream is returned.
 
-<a href="#config-reference" class="heading-anchor" aria-label="Permalink: Config Reference" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#config-reference"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Content indexes refer to blocks in the assistant message. Update each block before emitting the event whose `partial` field exposes that state. Tool-call arguments must contain valid parsed input by `toolcall_end`.
 
+The stream must also honor request instrumentation supplied through `SimpleStreamOptions`:
 
-``` typescript
-interface ProviderConfig {
-  /** Display name for the provider in UI such as /login. */
-  name?: string;
+- Call `options.onPayload` before sending the provider request and use any replacement payload it returns.
+- Call `options.onResponse` after receiving the response but before consuming its body.
+- Pass through the abort signal and provider-scoped environment.
 
-  /** API endpoint URL. Required when defining models. */
-  baseUrl?: string;
+These hooks power extension request inspection and response-header events. Omitting them makes the provider behave differently from Pi’s built-in providers.
 
-  /** API key literal, env interpolation ($ENV_VAR or ${ENV_VAR}), or !command. Required when defining models (unless oauth). */
-  apiKey?: string;
 
-  /** API type for streaming. Required at provider or model level when defining models. */
-  api?: Api;
+## Report failures and usage
 
-  /** Custom streaming implementation for non-standard APIs. Receives a normalized transcript. */
-  streamSimple?: (
-    model: Model<Api>,
-    context: TranscriptContext,
-    options?: SimpleStreamOptions
-  ) => AssistantMessageEventStream;
+<a href="#report-failures-and-usage" class="heading-anchor" aria-label="Permalink: Report failures and usage" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#report-failures-and-usage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-  /** Custom headers to include in requests. Values use the same resolution syntax as apiKey. */
-  headers?: Record<string, string>;
-
-  /** If true, adds Authorization: Bearer header with the resolved API key. */
-  authHeader?: boolean;
-
-  /** Models to register. If provided, replaces all existing models for this provider. */
-  models?: ProviderModelConfig[];
-
-  /** OAuth provider for /login support. */
-  oauth?: {
-    name: string;
-    login(callbacks: OAuthLoginCallbacks): Promise<OAuthCredentials>;
-    refreshToken(credentials: OAuthCredentials, signal: AbortSignal): Promise<OAuthCredentials>;
-    getApiKey(credentials: OAuthCredentials): string;
-  };
-}
-```
-
-
-## Model Definition Reference
-
-<a href="#model-definition-reference" class="heading-anchor" aria-label="Permalink: Model Definition Reference" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#model-definition-reference"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-``` typescript
-interface ProviderModelConfig {
-  /** Model ID (e.g., "claude-sonnet-4-20250514"). */
-  id: string;
-
-  /** Display name (e.g., "Claude 4 Sonnet"). */
-  name: string;
-
-  /** API type override for this specific model. */
-  api?: Api;
-
-  /** API endpoint URL override for this specific model. */
-  baseUrl?: string;
-
-  /** Whether the model supports extended thinking. */
-  reasoning: boolean;
-
-  /** Maps pi thinking levels to provider/model-specific values; null marks a level unsupported. */
-  thinkingLevelMap?: Partial<Record<"off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max", string | null>>;
-
-  /** Supported input types. */
-  input: ("text" | "image")[];
-
-  /** Cost per million tokens (for usage tracking). */
-  cost: {
-    input: number;
-    output: number;
-    cacheRead: number;
-    cacheWrite: number;
-  };
-
-  /** Best-effort prompt cache lifetime in seconds per retention tier. Unset disables cache warming. */
-  promptCache?: { short?: number; long?: number };
-
-  /** Maximum context window size in tokens. */
-  contextWindow: number;
-
-  /** Maximum output tokens. */
-  maxTokens: number;
-
-  /** Custom headers for this specific model. */
-  headers?: Record<string, string>;
-
-  /** Compatibility settings for the selected API. */
-  compat?: {
-    // openai-completions
-    supportsStore?: boolean;
-    supportsDeveloperRole?: boolean;
-    supportsReasoningEffort?: boolean;
-    supportsUsageInStreaming?: boolean;
-    supportsFinishReason?: boolean;
-    supportsStrictMode?: boolean;
-    supportsOpenAIGrammarTools?: boolean; // openai-completions/openai-responses; false falls back to normal function tools
-    maxTokensField?: "max_completion_tokens" | "max_tokens";
-    requiresToolResultName?: boolean;
-    requiresAssistantAfterToolResult?: boolean;
-    requiresThinkingAsText?: boolean;
-    requiresReasoningContentOnAssistantMessages?: boolean;
-    thinkingFormat?: "openai" | "openrouter" | "deepseek" | "together" | "baseten" | "zai" | "qwen" | "chat-template" | "qwen-chat-template" | "string-thinking" | "ant-ling";
-    chatTemplateKwargs?: Record<string, string | number | boolean | null | { "$var": "thinking.enabled" | "thinking.effort" | "thinking.budget"; omitWhenOff?: boolean }>;
-    chatTemplateArgs?: Record<string, string | number | boolean | null | { "$var": "thinking.enabled" | "thinking.effort" | "thinking.budget"; omitWhenOff?: boolean }>;
-    thinkingTokenBudgetField?: "thinking_token_budget" | "thinking_budget" | "thinking_budget_tokens";
-    supportsThinkingTokenBudget?: boolean;
-    cacheControlFormat?: "anthropic";
-    sessionAffinityFormat?: "openai" | "openai-nosession" | "openrouter";
-    sendSessionAffinityHeaders?: boolean;
-
-    // anthropic-messages
-    supportsEagerToolInputStreaming?: boolean;
-    supportsLongCacheRetention?: boolean;
-    sendSessionAffinityHeaders?: boolean;
-    supportsCacheControlOnTools?: boolean;
-    forceAdaptiveThinking?: boolean;
-    allowEmptySignature?: boolean;
-    supportsStrictTools?: boolean;
-  };
-}
-```
-
-`openrouter` sends `reasoning: { effort }`. `deepseek` sends `thinking: { type: "enabled" | "disabled" }` and `reasoning_effort` when enabled. `together` sends `reasoning: { enabled }` and also `reasoning_effort` when `supportsReasoningEffort` is enabled. `qwen` is for DashScope-style top-level `enable_thinking`. Use `qwen-chat-template` for local Qwen-compatible servers that read `chat_template_kwargs.enable_thinking` and need `preserve_thinking`. Use `chat-template` for configurable `chat_template_kwargs`, for example DeepSeek V3.x behind vLLM with `chatTemplateKwargs: { "thinking": { "$var": "thinking.enabled" } }`. Use `thinkingFormat: "baseten"` with `chatTemplateArgs` when the provider expects toggle values under `chat_template_args` and optionally supports top-level `reasoning_effort`. `thinkingTokenBudgetField` sends a clamped per-level thinking budget as a top-level request field (`thinking_token_budget` on vLLM, `thinking_budget` on Qwen/SGLang, `thinking_budget_tokens` on llama.cpp). `supportsThinkingTokenBudget: true` is an alias for the vLLM field name. Do not combine it with `reasoning_effort` on DashScope Qwen models. `cacheControlFormat: "anthropic"` applies Anthropic-style `cache_control` markers to the system prompt, last tool definition, and last user, assistant, or tool-result text content.
+
+Set a concrete terminal stop reason. Error and aborted messages need an `errorMessage`; successful messages need accurate input, output, cache, total-token, and cost values.
+
+Pi can compact and retry after recognized context-overflow errors. If the service uses an unknown message, normalize only that provider’s overflow response to `context_length_exceeded` in a guarded `message_end` handler.
+
+Do not rewrite rate limits or transient provider failures as context overflow. Those failures use Pi’s normal retry behavior instead.
+
+
+## Test the integration
+
+<a href="#test-the-integration" class="heading-anchor" aria-label="Permalink: Test the integration" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#test-the-integration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Test at least:
+
+- ordinary and empty text responses
+- tool calls and tool results
+- image input and image tool results when supported
+- usage and cost accounting
+- abort behavior
+- context overflow
+- malformed or partial streams
+- Unicode boundaries
+- cross-provider session handoff
+- authentication refresh and cancellation
+
+The provider tests under [`packages/ai/test`](https://github.com/earendil-works/pi/tree/main/packages/ai/test) define the behavior expected from built-in providers. Adapt the relevant suites rather than relying only on manual prompts.
+
+Run the extension directly while developing, then move it to a discovered extension location or distribute it through a [Pi package](/docs/latest/packages). Use `/reload` after changing a discovered provider extension in an active session.
 
 

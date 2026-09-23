@@ -25,408 +25,134 @@ Search documentation
 On this page
 
 
-# Themes
+# Customize Pi with themes
 
 
-> pi can create themes. Ask it to build one for your setup.
-
-Themes are JSON files that define colors for the TUI.
+Themes control the colors Pi uses in interactive mode and HTML exports. Pi includes `dark` and `light` themes. You can select one theme, follow your terminal's light or dark appearance, or create your own palette.
 
 
-## Table of Contents
+## Choose a theme
 
-<a href="#table-of-contents" class="heading-anchor" aria-label="Permalink: Table of Contents" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#table-of-contents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-- [Locations](#locations)
-- [Selecting a Theme](#selecting-a-theme)
-- [Creating a Custom Theme](#creating-a-custom-theme)
-- [Theme Format](#theme-format)
-- [Color Tokens](#color-tokens)
-- [Color Values](#color-values)
-- [Tips](#tips)
+<a href="#choose-a-theme" class="heading-anchor" aria-label="Permalink: Choose a theme" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#choose-a-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Locations
+Open `/settings` and select **Theme**. You can use one theme for every terminal appearance or choose separate themes for light and dark terminals.
 
-<a href="#locations" class="heading-anchor" aria-label="Permalink: Locations" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#locations"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Pi loads themes from:
-
-- Built-in: `dark`, `light`
-- Global: `~/.pi/agent/themes/*.json`
-- Project: `.pi/themes/*.json` (only after the project is trusted)
-- Packages: `themes/` directories or `pi.themes` entries in `package.json`
-- Settings: `themes` array with files or directories
-- CLI: `--theme <path>` (repeatable)
-
-Disable discovery with `--no-themes`.
-
-
-## Selecting a Theme
-
-<a href="#selecting-a-theme" class="heading-anchor" aria-label="Permalink: Selecting a Theme" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#selecting-a-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Select a theme via `/settings` or in `settings.json`:
+The selection is saved as the `theme` [setting](/docs/latest/settings#terminal-and-display):
 
 ``` json
 {
-  "theme": "my-theme"
+  "theme": "dark"
 }
 ```
 
-On first run, pi detects your terminal background and defaults to `dark` or `light`.
+Automatic mode stores the light theme first and the dark theme second:
 
+``` json
+{
+  "theme": "light/dark"
+}
+```
 
-### Initial Theme
+When automatic mode is active, Pi changes themes when the terminal reports an appearance change. Theme names cannot contain `/` because Pi reserves it for this setting format.
 
-<a href="#initial-theme" class="heading-anchor" aria-label="Permalink: Initial Theme" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#initial-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Start an interactive run with a theme without changing the saved setting:
+Use `--use-theme` to choose the initial theme for one invocation without changing the saved setting:
 
 ``` bash
 pi --use-theme light
-```
-
-To follow terminal appearance, use `lightTheme/darkTheme` syntax:
-
-``` bash
 pi --use-theme light/dark
 ```
 
-The CLI value is the initial theme for that run. Choosing another theme later in `/settings` applies it immediately and saves it normally.
-
-
-## Creating a Custom Theme
-
-<a href="#creating-a-custom-theme" class="heading-anchor" aria-label="Permalink: Creating a Custom Theme" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#creating-a-custom-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-1.  Create a theme file:
-
-``` bash
-mkdir -p ~/.pi/agent/themes
-vim ~/.pi/agent/themes/my-theme.json
-```
-
-2.  Define the theme with all required colors (see [Color Tokens](#color-tokens)):
-
-``` json
-{
-  "$schema": "https://raw.githubusercontent.com/earendil-works/pi/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json",
-  "name": "my-theme",
-  "vars": {
-    "primary": "#00aaff",
-    "secondary": 242
-  },
-  "colors": {
-    "accent": "primary",
-    "border": "primary",
-    "borderAccent": "#00ffff",
-    "borderMuted": "secondary",
-    "success": "#00ff00",
-    "error": "#ff0000",
-    "warning": "#ffff00",
-    "muted": "secondary",
-    "dim": 240,
-    "text": "",
-    "thinkingText": "secondary",
-    "selectedBg": "#2d2d30",
-    "scrollbarTrack": "secondary",
-    "scrollbarThumb": "",
-    "searchMatchBg": "#2d2d30",
-    "searchMatchText": "",
-    "userMessageBg": "#2d2d30",
-    "userMessageText": "",
-    "customMessageBg": "#2d2d30",
-    "customMessageText": "",
-    "customMessageLabel": "primary",
-    "toolPendingBg": "#1e1e2e",
-    "toolSuccessBg": "#1e2e1e",
-    "toolErrorBg": "#2e1e1e",
-    "toolTitle": "primary",
-    "toolOutput": "",
-    "mdHeading": "#ffaa00",
-    "mdLink": "primary",
-    "mdLinkUrl": "secondary",
-    "mdCode": "#00ffff",
-    "mdCodeBlock": "",
-    "mdCodeBlockBorder": "secondary",
-    "mdQuote": "secondary",
-    "mdQuoteBorder": "secondary",
-    "mdHr": "secondary",
-    "mdListBullet": "#00ffff",
-    "toolDiffAdded": "#00ff00",
-    "toolDiffRemoved": "#ff0000",
-    "toolDiffContext": "secondary",
-    "syntaxComment": "secondary",
-    "syntaxKeyword": "primary",
-    "syntaxFunction": "#00aaff",
-    "syntaxVariable": "#ffaa00",
-    "syntaxString": "#00ff00",
-    "syntaxNumber": "#ff00ff",
-    "syntaxType": "#00aaff",
-    "syntaxOperator": "primary",
-    "syntaxPunctuation": "secondary",
-    "thinkingOff": "secondary",
-    "thinkingMinimal": "primary",
-    "thinkingLow": "#00aaff",
-    "thinkingMedium": "#00ffff",
-    "thinkingHigh": "#ff00ff",
-    "thinkingXhigh": "#ff0000",
-    "thinkingMax": "#ff0088",
-    "bashMode": "#ffaa00"
-  }
-}
-```
-
-3.  Select the theme via `/settings`.
-
-**Hot reload:** When you edit the currently active custom theme file, pi reloads it automatically for immediate visual feedback.
-
-
-## Theme Format
-
-<a href="#theme-format" class="heading-anchor" aria-label="Permalink: Theme Format" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#theme-format"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-``` json
-{
-  "$schema": "https://raw.githubusercontent.com/earendil-works/pi/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json",
-  "name": "my-theme",
-  "vars": {
-    "blue": "#0066cc",
-    "gray": 242
-  },
-  "colors": {
-    "accent": "blue",
-    "muted": "gray",
-    "text": "",
-    ...
-  }
-}
-```
+See [CLI resources](/docs/latest/cli#resources) for the command-line option.
 
-- `name` is required, must be unique, and must not contain `/`.
-- `vars` is optional. Define reusable colors here, then reference them in `colors`.
-- `colors` must define all 53 required tokens. `thinkingMax` and the two search highlight tokens are optional and use the fallbacks listed below.
 
-The `$schema` field enables editor auto-completion and validation.
+## Create a custom theme
 
+<a href="#create-a-custom-theme" class="heading-anchor" aria-label="Permalink: Create a custom theme" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#create-a-custom-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-## Color Tokens
 
-<a href="#color-tokens" class="heading-anchor" aria-label="Permalink: Color Tokens" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#color-tokens"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Copy one of the [built-in themes](https://github.com/earendil-works/pi/tree/main/packages/coding-agent/src/modes/interactive/theme) or create a new JSON file conforming to the [schema](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json).
 
+1.  Save the file as `<agent-dir>/themes/my-theme.json`. The agent directory defaults to `~/.pi/agent`.
+2.  Set its `name` to `my-theme`.
+3.  Change values in `vars` and `colors`.
+4.  Select `my-theme` through `/settings`.
 
-Every theme must define all 53 required color tokens. The optional tokens preserve compatibility with existing themes: `thinkingMax` falls back to `thinkingXhigh`, `searchMatchBg` falls back to `selectedBg`, and `searchMatchText` falls back to `text`. Other search matches use `searchMatchText` on `searchMatchBg` with an underline; the current match reverses that foreground/background pair and uses bold text.
+Use the theme name as the filename. Pi hot-reloads the active user theme only from `<agent-dir>/themes/<name>.json`. Run `/reload` after adding or changing a theme from any other source.
 
 
-### Core UI (13 colors)
+## Understand the theme file
 
-<a href="#core-ui-13-colors" class="heading-anchor" aria-label="Permalink: Core UI (13 colors)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#core-ui-13-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#understand-the-theme-file" class="heading-anchor" aria-label="Permalink: Understand the theme file" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#understand-the-theme-file"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Token            | Purpose                                                                     |
-|------------------|-----------------------------------------------------------------------------|
-| `accent`         | Primary accent (logo, selected items, cursor)                               |
-| `border`         | Normal borders                                                              |
-| `borderAccent`   | Highlighted borders                                                         |
-| `borderMuted`    | Subtle borders (editor)                                                     |
-| `success`        | Success states                                                              |
-| `error`          | Error states                                                                |
-| `warning`        | Warning states                                                              |
-| `muted`          | Secondary text                                                              |
-| `dim`            | Tertiary text                                                               |
-| `text`           | Default text (usually `""`)                                                 |
-| `thinkingText`   | Thinking block text                                                         |
-| `scrollbarTrack` | Fullscreen scrollbar track foreground                                       |
-| `scrollbarThumb` | Fullscreen scrollbar thumb foreground, shared by normal and expanded states |
+| Property  | Required | Responsibility                                                                            |
+|-----------|----------|-------------------------------------------------------------------------------------------|
+| `$schema` | No       | Enables editor validation and completion against Pi's published schema.                   |
+| `name`    | Yes      | Identifies the theme in selectors and settings. It must be unique and cannot contain `/`. |
+| `vars`    | No       | Defines reusable color values. Variables can reference other variables.                   |
+| `colors`  | Yes      | Assigns colors to terminal UI roles. The schema identifies required and optional roles.   |
+| `export`  | No       | Overrides page and panel backgrounds in HTML exports.                                     |
 
+A color can be written in four forms:
 
-### Backgrounds & Content (11 required, 2 optional)
+| Form               | Example     | Meaning                                                |
+|--------------------|-------------|--------------------------------------------------------|
+| RGB hexadecimal    | `"#00aaff"` | A six-digit RGB color.                                 |
+| 256-color index    | `39`        | An ANSI palette index from `0` through `255`.          |
+| Variable reference | `"primary"` | The value of an entry in `vars`.                       |
+| Terminal default   | `""`        | The terminal's default foreground or background color. |
 
-<a href="#backgrounds--content-11-required-2-optional" class="heading-anchor" aria-label="Permalink: Backgrounds &amp; Content (11 required, 2 optional)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#backgrounds--content-11-required-2-optional"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Pi resolves chained variable references. A missing variable or circular reference makes the theme invalid. Hexadecimal colors use truecolor when supported and are approximated in terminals limited to 256 colors. If colors differ from their hexadecimal values, check your terminal's truecolor detection and contrast settings. See [Configure Your Terminal](/docs/latest/terminal-setup#override-detected-capabilities).
 
+Use the [theme JSON schema](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json) for the exact properties, required colors, and accepted value types.
 
-| Token                | Purpose                                                                                         |
-|----------------------|-------------------------------------------------------------------------------------------------|
-| `selectedBg`         | Selected line background                                                                        |
-| `searchMatchBg`      | Transcript search match background and current-match text; optional, falls back to `selectedBg` |
-| `searchMatchText`    | Transcript search match text and current-match background; optional, falls back to `text`       |
-| `userMessageBg`      | User message background                                                                         |
-| `userMessageText`    | User message text                                                                               |
-| `customMessageBg`    | Extension message background                                                                    |
-| `customMessageText`  | Extension message text                                                                          |
-| `customMessageLabel` | Extension message label                                                                         |
-| `toolPendingBg`      | Tool box (pending)                                                                              |
-| `toolSuccessBg`      | Tool box (success)                                                                              |
-| `toolErrorBg`        | Tool box (error)                                                                                |
-| `toolTitle`          | Tool title                                                                                      |
-| `toolOutput`         | Tool output text                                                                                |
+Pi reports invalid theme files during startup and `/reload`.
 
 
-### Markdown (10 colors)
+## Find the color to change
 
-<a href="#markdown-10-colors" class="heading-anchor" aria-label="Permalink: Markdown (10 colors)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#markdown-10-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#find-the-color-to-change" class="heading-anchor" aria-label="Permalink: Find the color to change" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#find-the-color-to-change"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Token               | Purpose            |
-|---------------------|--------------------|
-| `mdHeading`         | Headings           |
-| `mdLink`            | Link text          |
-| `mdLinkUrl`         | Link URL           |
-| `mdCode`            | Inline code        |
-| `mdCodeBlock`       | Code block content |
-| `mdCodeBlockBorder` | Code block fences  |
-| `mdQuote`           | Blockquote text    |
-| `mdQuoteBorder`     | Blockquote border  |
-| `mdHr`              | Horizontal rule    |
-| `mdListBullet`      | List bullets       |
+Theme colors describe interface roles rather than individual components. Use these groups to find the relevant part of the schema:
 
+| Area                     | Color names                                                                |
+|--------------------------|----------------------------------------------------------------------------|
+| General interface        | `accent`, `border*`, `text`, `muted`, `dim`, `success`, `error`, `warning` |
+| Selection and fullscreen | `selectedBg`, `searchMatch*`, `scrollbar*`                                 |
+| Messages                 | `userMessage*`, `customMessage*`, `thinkingText`                           |
+| Tool execution           | `toolPendingBg`, `toolSuccessBg`, `toolErrorBg`, `toolTitle`, `toolOutput` |
+| Markdown                 | `md*`                                                                      |
+| Tool diffs               | `toolDiff*`                                                                |
+| Syntax highlighting      | `syntax*`                                                                  |
+| Editor modes             | `thinking*`, `bashMode`                                                    |
+| HTML export              | `export.pageBg`, `export.cardBg`, `export.infoBg`                          |
 
-### Tool Diffs (3 colors)
+The schema is the format reference. The built-in themes provide complete values that you can copy and adjust.
 
-<a href="#tool-diffs-3-colors" class="heading-anchor" aria-label="Permalink: Tool Diffs (3 colors)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#tool-diffs-3-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Five colors are optional and inherit another color when omitted:
 
+| Optional color    | Fallback        |
+|-------------------|-----------------|
+| `scrollbarTrack`  | `muted`         |
+| `scrollbarThumb`  | `text`          |
+| `searchMatchBg`   | `selectedBg`    |
+| `searchMatchText` | `text`          |
+| `thinkingMax`     | `thinkingXhigh` |
 
-| Token             | Purpose       |
-|-------------------|---------------|
-| `toolDiffAdded`   | Added lines   |
-| `toolDiffRemoved` | Removed lines |
-| `toolDiffContext` | Context lines |
+If `export` colors are omitted, Pi derives HTML page and panel backgrounds from `userMessageBg`.
 
 
-### Syntax Highlighting (9 colors)
+## Load a theme from a project or package
 
-<a href="#syntax-highlighting-9-colors" class="heading-anchor" aria-label="Permalink: Syntax Highlighting (9 colors)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#syntax-highlighting-9-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#load-a-theme-from-a-project-or-package" class="heading-anchor" aria-label="Permalink: Load a theme from a project or package" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#load-a-theme-from-a-project-or-package"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Token               | Purpose        |
-|---------------------|----------------|
-| `syntaxComment`     | Comments       |
-| `syntaxKeyword`     | Keywords       |
-| `syntaxFunction`    | Function names |
-| `syntaxVariable`    | Variables      |
-| `syntaxString`      | Strings        |
-| `syntaxNumber`      | Numbers        |
-| `syntaxType`        | Types          |
-| `syntaxOperator`    | Operators      |
-| `syntaxPunctuation` | Punctuation    |
+Place a project theme in `.pi/themes/`. Project themes load only after [project trust](/docs/latest/security#understand-project-trust) is granted.
 
+You can also load theme files and directories through the `themes` setting or distribute them in a Pi package. See [Configuration](/docs/latest/configuration), [Settings](/docs/latest/settings#resources), and [Pi Packages](/docs/latest/packages).
 
-### Thinking Level Borders (6 required, 1 optional)
-
-<a href="#thinking-level-borders-6-required-1-optional" class="heading-anchor" aria-label="Permalink: Thinking Level Borders (6 required, 1 optional)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#thinking-level-borders-6-required-1-optional"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Editor border colors indicating thinking level (visual hierarchy from subtle to prominent):
-
-| Token             | Purpose                                                   |
-|-------------------|-----------------------------------------------------------|
-| `thinkingOff`     | Thinking off                                              |
-| `thinkingMinimal` | Minimal thinking                                          |
-| `thinkingLow`     | Low thinking                                              |
-| `thinkingMedium`  | Medium thinking                                           |
-| `thinkingHigh`    | High thinking                                             |
-| `thinkingXhigh`   | Extra high thinking                                       |
-| `thinkingMax`     | Maximum thinking; optional, falls back to `thinkingXhigh` |
-
-
-### Bash Mode (1 color)
-
-<a href="#bash-mode-1-color" class="heading-anchor" aria-label="Permalink: Bash Mode (1 color)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#bash-mode-1-color"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-| Token      | Purpose                                 |
-|------------|-----------------------------------------|
-| `bashMode` | Editor border in bash mode (`!` prefix) |
-
-
-### HTML Export (optional)
-
-<a href="#html-export-optional" class="heading-anchor" aria-label="Permalink: HTML Export (optional)" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#html-export-optional"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-The `export` section controls colors for `/export` HTML output. If omitted, colors are derived from `userMessageBg`.
-
-``` json
-{
-  "export": {
-    "pageBg": "#18181e",
-    "cardBg": "#1e1e24",
-    "infoBg": "#3c3728"
-  }
-}
-```
-
-
-## Color Values
-
-<a href="#color-values" class="heading-anchor" aria-label="Permalink: Color Values" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#color-values"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Four formats are supported:
-
-| Format    | Example     | Description                           |
-|-----------|-------------|---------------------------------------|
-| Hex       | `"#ff0000"` | 6-digit hex RGB                       |
-| 256-color | `39`        | xterm 256-color palette index (0-255) |
-| Variable  | `"primary"` | Reference to a `vars` entry           |
-| Default   | `""`        | Terminal's default color              |
-
-
-### 256-Color Palette
-
-<a href="#256-color-palette" class="heading-anchor" aria-label="Permalink: 256-Color Palette" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#256-color-palette"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-- `0-15`: Basic ANSI colors (terminal-dependent)
-- `16-231`: 6×6×6 RGB cube (`16 + 36×R + 6×G + B` where R,G,B are 0-5)
-- `232-255`: Grayscale ramp
-
-
-### Terminal Compatibility
-
-<a href="#terminal-compatibility" class="heading-anchor" aria-label="Permalink: Terminal Compatibility" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#terminal-compatibility"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Pi uses 24-bit RGB colors. Most modern terminals support this (iTerm2, Kitty, WezTerm, Windows Terminal, VS Code). For older terminals with only 256-color support, pi falls back to the nearest approximation.
-
-Check truecolor support:
-
-``` bash
-echo $COLORTERM  # Should output "truecolor" or "24bit"
-```
-
-
-## Tips
-
-<a href="#tips" class="heading-anchor" aria-label="Permalink: Tips" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#tips"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-**Dark terminals:** Use bright, saturated colors with higher contrast.
-
-**Light terminals:** Use darker, muted colors with lower contrast.
-
-**Color harmony:** Start with a base palette (Nord, Gruvbox, Tokyo Night), define it in `vars`, and reference consistently.
-
-**Testing:** Check your theme with different message types, tool states, markdown content, and long wrapped text.
-
-**VS Code:** Set `terminal.integrated.minimumContrastRatio` to `1` for accurate colors.
-
-
-## Examples
-
-<a href="#examples" class="heading-anchor" aria-label="Permalink: Examples" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#examples"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-See the built-in themes:
-
-- [dark.json](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/theme/dark.json)
-- [light.json](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/theme/light.json)
+Each loaded theme must have a unique name. Pi reports duplicate names as resource collisions.
 
 

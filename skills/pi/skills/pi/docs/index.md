@@ -25,118 +25,64 @@ Search documentation
 On this page
 
 
-# Pi Documentation
+# Pi
 
 
-Pi is a minimal terminal coding harness. It is designed to stay small at the core while being extended through TypeScript extensions, skills, prompt templates, themes, and pi packages.
+Pi is an extensible AI agent that works from your terminal. Give it a goal and a working folder, and it can inspect files, run commands, edit content, and work through multi-step tasks.
+
+Use Pi for software development, research notes, writing projects, data files, or hobby work. You can use Pi as is, prompt it to adapt itself to your workflow, or build other applications powered by Pi using the SDK.
 
 
-## Quick start
+## Start using Pi
 
-<a href="#quick-start" class="heading-anchor" aria-label="Permalink: Quick start" data-copy="" data-copy-text="https://pi.dev/docs/latest#quick-start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Install Pi with npm:
-
-``` bash
-npm install -g --ignore-scripts @earendil-works/pi-coding-agent
-```
-
-`--ignore-scripts` disables dependency lifecycle scripts during install. Pi does not require install scripts for normal npm installs.
-
-On Linux or macOS, you can also use the installer:
-
-``` bash
-curl -fsSL https://pi.dev/install.sh | sh
-```
-
-To uninstall pi itself, use npm for curl and npm installs:
-
-``` bash
-npm uninstall -g @earendil-works/pi-coding-agent
-```
-
-For pnpm, Yarn, or Bun installs, use the matching global remove command: `pnpm remove -g @earendil-works/pi-coding-agent`, `yarn global remove @earendil-works/pi-coding-agent`, or `bun uninstall -g @earendil-works/pi-coding-agent`.
-
-Then run it in a project directory:
-
-``` bash
-pi
-```
-
-Authenticate with `/login` for subscription providers, or set an API key such as `ANTHROPIC_API_KEY` before starting pi.
-
-For the full first-run flow, see [Quickstart](/docs/latest/quickstart).
+<a href="#start-using-pi" class="heading-anchor" aria-label="Permalink: Start using Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest#start-using-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Start here
+New to Pi? Follow the [Quickstart](/docs/latest/quickstart) to install Pi, connect a model, and complete your first task.
 
-<a href="#start-here" class="heading-anchor" aria-label="Permalink: Start here" data-copy="" data-copy-text="https://pi.dev/docs/latest#start-here"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+If Pi is already installed, choose what you want to do:
 
-
-- [Quickstart](/docs/latest/quickstart) - install, authenticate, and run a first session.
-- [Using Pi](/docs/latest/usage) - interactive mode, slash commands, context files, and CLI reference.
-- [Providers](/docs/latest/providers) - subscription and API-key setup for built-in providers.
-- [llama.cpp](/docs/latest/llama-cpp) - run a local router and manage models with `/llama`.
-- [Security](/docs/latest/security) - project trust, sandbox boundaries, and vulnerability reporting.
-- [Containerization](/docs/latest/containerization) - sandbox pi with Gondolin, Docker, or OpenShell.
-- [Settings](/docs/latest/settings) - global and project settings.
-- [Keybindings](/docs/latest/keybindings) - default shortcuts and custom keybindings.
-- [Sessions](/docs/latest/sessions) - session management, branching, and tree navigation.
-- [Compaction](/docs/latest/compaction) - context compaction and branch summarization.
+- [Use Pi interactively](/docs/latest/usage) to add files, run commands, direct ongoing work, and export results.
+- [Choose a model](/docs/latest/models) or connect a subscription, API key, local model, or compatible endpoint.
+- [Continue or branch a session](/docs/latest/sessions) to resume work or explore another approach without losing history.
+- [Configure Pi](/docs/latest/configuration) for your preferences, working folders, instructions, and reusable resources.
+- [Understand how Pi works](/docs/latest/how-pi-works), including tools, context, sessions, and the agent loop.
 
 
-## Customization
+## Customize Pi
 
-<a href="#customization" class="heading-anchor" aria-label="Permalink: Customization" data-copy="" data-copy-text="https://pi.dev/docs/latest#customization"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-- [Extensions](/docs/latest/extensions) - TypeScript modules for tools, commands, events, and custom UI.
-- [Skills](/docs/latest/skills) - Agent Skills for reusable on-demand capabilities.
-- [Prompt templates](/docs/latest/prompt-templates) - reusable prompts that expand from slash commands.
-- [Themes](/docs/latest/themes) - built-in and custom terminal themes.
-- [Pi packages](/docs/latest/packages) - bundle and share extensions, skills, prompts, and themes.
-- [Custom models](/docs/latest/models) - add model entries for supported provider APIs.
-- [Custom providers](/docs/latest/custom-provider) - implement custom APIs and OAuth flows.
+<a href="#customize-pi" class="heading-anchor" aria-label="Permalink: Customize Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest#customize-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Programmatic usage
-
-<a href="#programmatic-usage" class="heading-anchor" aria-label="Permalink: Programmatic usage" data-copy="" data-copy-text="https://pi.dev/docs/latest#programmatic-usage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Pi can reuse prompts, load specialized instructions, add executable integrations, change its terminal interface, connect model services, and distribute these resources as packages. Use the [Quickstart customization chooser](/docs/latest/quickstart#choose-how-to-customize-pi) to select the smallest mechanism that meets your need.
 
 
-- [SDK](/docs/latest/sdk) - embed pi in Node.js applications.
-- [RPC mode](/docs/latest/rpc) - integrate over stdin/stdout JSONL.
-- [JSON event stream mode](/docs/latest/json) - print mode with structured events.
-- [TUI components](/docs/latest/tui) - build custom terminal UI for extensions.
+## Automate or embed Pi
+
+<a href="#automate-or-embed-pi" class="heading-anchor" aria-label="Permalink: Automate or embed Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest#automate-or-embed-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Reference
-
-<a href="#reference" class="heading-anchor" aria-label="Permalink: Reference" data-copy="" data-copy-text="https://pi.dev/docs/latest#reference"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-- [Environment variables](/docs/latest/environment-variables) - Pi process configuration and session metadata available to bash tools.
-- [Session format](/docs/latest/session-format) - JSONL session file format, entry types, and SessionManager API.
+- Use [print mode](/docs/latest/cli#invocation-and-output) for one-off and scripted tasks.
+- Use [JSON event stream mode](/docs/latest/json) to consume structured events from one run.
+- Use [RPC mode](/docs/latest/rpc) to control a separate Pi process.
+- Use the [TypeScript SDK](/docs/latest/sdk) to run Pi inside an application.
 
 
-## Platform setup
+## Find reference and setup information
 
-<a href="#platform-setup" class="heading-anchor" aria-label="Permalink: Platform setup" data-copy="" data-copy-text="https://pi.dev/docs/latest#platform-setup"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-- [Windows](/docs/latest/windows)
-- [Termux on Android](/docs/latest/termux)
-- [tmux](/docs/latest/tmux)
-- [Terminal setup](/docs/latest/terminal-setup)
-- [Shell aliases](/docs/latest/shell-aliases)
+<a href="#find-reference-and-setup-information" class="heading-anchor" aria-label="Permalink: Find reference and setup information" data-copy="" data-copy-text="https://pi.dev/docs/latest#find-reference-and-setup-information"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Development
+Use the reference pages to look up [CLI options](/docs/latest/cli), [settings](/docs/latest/settings), [provider authentication](/docs/latest/providers), [keybindings](/docs/latest/keybindings), and [environment variables](/docs/latest/environment-variables).
 
-<a href="#development" class="heading-anchor" aria-label="Permalink: Development" data-copy="" data-copy-text="https://pi.dev/docs/latest#development"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+For platform-specific help, see [Terminal Setup](/docs/latest/terminal-setup), [Windows](/docs/latest/windows), [tmux](/docs/latest/tmux), [Termux on Android](/docs/latest/termux), or [Containerization](/docs/latest/containerization).
 
 
-- [Development](/docs/latest/development) - local setup, project structure, and debugging.
+## Work safely
+
+<a href="#work-safely" class="heading-anchor" aria-label="Permalink: Work safely" data-copy="" data-copy-text="https://pi.dev/docs/latest#work-safely"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Pi's tools and extensions run with the permissions of the Pi process. Project trust controls which project resources Pi loads, but it does not sandbox tool calls. Review [Security](/docs/latest/security) before using untrusted files, repositories, extensions, or unattended automation.
 
 

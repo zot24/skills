@@ -28,212 +28,110 @@ On this page
 # Quickstart
 
 
-This page gets you from install to a useful first pi session.
+Pi runs in your terminal and works with files on your machine. To use it, you need access to a model through a supported provider. This can be a subscription, an API key, or a local model.
+
+For native Windows setup, read [Windows Setup](/docs/latest/windows). For Android, read [Termux Setup](/docs/latest/termux).
 
 
-## Install
+## 1. Install Pi
 
-<a href="#install" class="heading-anchor" aria-label="Permalink: Install" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#install"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#1-install-pi" class="heading-anchor" aria-label="Permalink: 1. Install Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#1-install-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Pi is distributed as an npm package:
+On macOS or Linux, you can use the installer:
+
+``` bash
+curl -fsSL https://pi.dev/install.sh | sh
+```
+
+Alternatively, install Pi from npm. This requires Node.js 22.19 or newer:
 
 ``` bash
 npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 ```
 
-`--ignore-scripts` disables dependency lifecycle scripts during install. Pi does not require install scripts for normal npm installs.
+Pi does not require dependency lifecycle scripts for a normal npm installation.
 
-
-### Uninstall
-
-<a href="#uninstall" class="heading-anchor" aria-label="Permalink: Uninstall" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#uninstall"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Use the package manager that installed pi. The curl installer uses npm globally, so curl and npm installs are removed with npm:
+Verify the installation:
 
 ``` bash
-# curl installer or npm install -g
-npm uninstall -g @earendil-works/pi-coding-agent
-
-# pnpm
-pnpm remove -g @earendil-works/pi-coding-agent
-
-# Yarn
-yarn global remove @earendil-works/pi-coding-agent
-
-# Bun
-bun uninstall -g @earendil-works/pi-coding-agent
+pi --version
 ```
 
-Uninstalling pi leaves settings, credentials, sessions, and installed pi packages in `~/.pi/agent/`.
 
-Then start pi in the project directory you want it to work on:
+## 2. Start Pi
+
+<a href="#2-start-pi" class="heading-anchor" aria-label="Permalink: 2. Start Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#2-start-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Change to the folder you want Pi to work with, then start it:
 
 ``` bash
-cd /path/to/project
+cd /path/to/folder
 pi
 ```
 
+The working folder helps Pi discover relevant files, instructions, and configuration. Pi also uses it to group saved sessions.
 
-## Authenticate
+<img src="/docs/latest/images/interactive-mode.png" width="750" alt="Pi running in a terminal with a conversation, input editor, and status footer" />
 
-<a href="#authenticate" class="heading-anchor" aria-label="Permalink: Authenticate" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#authenticate"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Pi can use subscription providers through `/login`, or API-key providers through environment variables or the auth file.
+The interface shows your conversation, an editor for prompts and commands, and a footer with the current folder, model, and session status. See [Use Pi in the terminal](/docs/latest/usage) to learn how to add files, run commands, direct ongoing work, and manage results.
 
 
-### Option 1: subscription login
+## 3. Choose a model
 
-<a href="#option-1-subscription-login" class="heading-anchor" aria-label="Permalink: Option 1: subscription login" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#option-1-subscription-login"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#3-choose-a-model" class="heading-anchor" aria-label="Permalink: 3. Choose a model" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#3-choose-a-model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Start pi and run:
+A **model** generates Pi's responses. A **provider** is the service or account Pi uses to access that model.
+
+In Pi, run:
 
 ``` text
 /login
 ```
 
-Then select a provider. Built-in subscription logins include Claude Pro/Max, ChatGPT Plus/Pro (Codex), and GitHub Copilot.
+Choose a provider, then follow the prompts to use a subscription or store an API key. Run `/model` afterward if you want to select a different available model.
+
+See [Choose a model and provider](/docs/latest/models) for supported providers, environment-variable authentication, local models, and custom endpoints.
 
 
-### Option 2: API key
+## 4. Give Pi a task
 
-<a href="#option-2-api-key" class="heading-anchor" aria-label="Permalink: Option 2: API key" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#option-2-api-key"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Set an API key before launching pi:
-
-``` bash
-export ANTHROPIC_API_KEY=sk-ant-...
-pi
-```
-
-You can also run `/login` and select an API-key provider to store the key in `~/.pi/agent/auth.json`.
-
-See [Providers](/docs/latest/providers) for all supported providers, environment variables, and cloud-provider setup.
+<a href="#4-give-pi-a-task" class="heading-anchor" aria-label="Permalink: 4. Give Pi a task" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#4-give-pi-a-task"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## First session
+Pi shows each file read, search, command, and edit it performs. It does not ask before every tool call.
 
-<a href="#first-session" class="heading-anchor" aria-label="Permalink: First session" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#first-session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Once pi starts, type a request and press Enter:
+Enter a task that matches your work, for example:
 
 ``` text
-Summarize this repository and tell me how to run its checks.
+Summarize @meeting-notes.md and save the action items to action-items.md.
 ```
-
-By default, pi gives the model four tools:
-
-- `read` - read files
-- `write` - create or overwrite files
-- `edit` - patch files
-- `bash` - run shell commands
-
-Additional built-in read-only tools (`grep`, `find`, `ls`) are available through tool options. Pi runs in your current working directory and can modify files there. Use git or another checkpointing workflow if you want easy rollback.
-
-
-## Give pi project instructions
-
-<a href="#give-pi-project-instructions" class="heading-anchor" aria-label="Permalink: Give pi project instructions" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#give-pi-project-instructions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Pi loads context files at startup. Add an `AGENTS.md` file to tell it how to work in a project:
-
-``` markdown
-# Project Instructions
-
-- Run `npm run check` after code changes.
-- Do not run production migrations locally.
-- Keep responses concise.
-```
-
-Pi loads:
-
-- `~/.pi/agent/AGENTS.md` for global instructions
-- `AGENTS.md` or `CLAUDE.md` from parent directories and the current directory
-
-If a directory contains `AGENTS.override.md`, Pi loads it instead of `AGENTS.md` or `CLAUDE.md` from that directory.
-
-Restart pi, or run `/reload`, after changing context files.
-
-
-## Common things to try
-
-<a href="#common-things-to-try" class="heading-anchor" aria-label="Permalink: Common things to try" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#common-things-to-try"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-### Reference files
-
-<a href="#reference-files" class="heading-anchor" aria-label="Permalink: Reference files" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#reference-files"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Type `@` in the editor to fuzzy-search files, or pass files on the command line:
-
-``` bash
-pi @README.md "Summarize this"
-pi @src/app.ts @src/app.test.ts "Review these together"
-```
-
-Images or text can be pasted with Ctrl+V (Alt+V on Windows); images can also be dragged into supported terminals.
-
-
-### Run shell commands
-
-<a href="#run-shell-commands" class="heading-anchor" aria-label="Permalink: Run shell commands" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#run-shell-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-In interactive mode:
 
 ``` text
-!npm run lint
+Explain how this repository is structured and how to run its checks.
 ```
 
-The command output is sent to the model. Use `!!command` to run a command without adding its output to the model context.
+``` text
+Compare @previous.csv with @current.csv and summarize the important changes.
+```
+
+Type `@` in the editor to search for a file instead of entering its full path. When Pi finishes, review its response and any changed files. Use version control or backups for important work. For untrusted or unattended work, use a container or another sandbox. See [Security](/docs/latest/security).
 
 
-### Switch models
-
-<a href="#switch-models" class="heading-anchor" aria-label="Permalink: Switch models" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#switch-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Use `/model` or Ctrl+L to choose a model for the current session. Press Ctrl+S in the model picker to save the highlighted model as the startup default. Use `/thinking` to choose a thinking level for the current session, or Ctrl+S in that picker to save the startup default thinking level. Use Shift+Tab to cycle thinking level. Use Ctrl+P / Shift+Ctrl+P to cycle through scoped models.
-
-
-### Continue later
+## Continue later
 
 <a href="#continue-later" class="heading-anchor" aria-label="Permalink: Continue later" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#continue-later"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Sessions are saved automatically:
+Pi saves sessions automatically. Exit Pi, then resume the most recent session for the same working folder with:
 
 ``` bash
-pi -c                  # Continue most recent session
-pi -r                  # Browse previous sessions
-pi --name "my task"    # Set session display name at startup
-pi --session <path|id> # Open a specific session
+pi --continue
 ```
 
-Inside pi, use `/resume`, `/new`, `/tree`, `/fork`, and `/clone` to manage sessions.
-
-
-### Non-interactive mode
-
-<a href="#non-interactive-mode" class="heading-anchor" aria-label="Permalink: Non-interactive mode" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#non-interactive-mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-For one-shot prompts:
-
-``` bash
-pi -p "Summarize this codebase"
-cat README.md | pi -p "Summarize this text"
-pi -p @screenshot.png "What's in this image?"
-```
-
-Use `--mode json` for JSON event output or `--mode rpc` for process integration.
+Use `/resume` to choose another saved session. See [Continue or branch a session](/docs/latest/sessions) for session naming, branching, compaction, export, and sharing.
 
 
 ## Next steps
@@ -241,12 +139,46 @@ Use `--mode json` for JSON event output or `--mode rpc` for process integration.
 <a href="#next-steps" class="heading-anchor" aria-label="Permalink: Next steps" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#next-steps"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-- [Using Pi](/docs/latest/usage) - interactive mode, slash commands, sessions, context files, and CLI reference.
-- [Providers](/docs/latest/providers) - authentication and model setup.
-- [Settings](/docs/latest/settings) - global and project configuration.
-- [Keybindings](/docs/latest/keybindings) - shortcuts and customization.
-- [Pi Packages](/docs/latest/packages) - install shared extensions, skills, prompts, and themes.
+- [Use Pi interactively](/docs/latest/usage) to learn input, commands, shortcuts, and queued messages.
+- [Add instructions](/docs/latest/configuration#context-files) that Pi should follow whenever it works in a folder.
+- [Choose a model and provider](/docs/latest/models).
 
-Platform notes: [Windows](/docs/latest/windows), [Termux](/docs/latest/termux), [tmux](/docs/latest/tmux), [Terminal setup](/docs/latest/terminal-setup), [Shell aliases](/docs/latest/shell-aliases).
+
+### Choose how to customize Pi
+
+<a href="#choose-how-to-customize-pi" class="heading-anchor" aria-label="Permalink: Choose how to customize Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#choose-how-to-customize-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Start with the least powerful mechanism that meets your need:
+
+| Need                                                | Start with                                              |
+|-----------------------------------------------------|---------------------------------------------------------|
+| Give Pi persistent instructions for a folder        | [`AGENTS.md`](/docs/latest/configuration#context-files) |
+| Reuse a prompt from the `/` menu                    | [Prompt template](/docs/latest/prompt-templates)        |
+| Add task-specific instructions and supporting files | [Skill](/docs/latest/skills)                            |
+| Add executable tools, commands, or event handlers   | [Extension](/docs/latest/extensions)                    |
+| Build a custom terminal component                   | [Terminal UI](/docs/latest/tui)                         |
+| Connect an unsupported model service                | [Custom provider](/docs/latest/custom-provider)         |
+| Install or distribute several resources             | [Pi package](/docs/latest/packages)                     |
+
+
+## Uninstall Pi
+
+<a href="#uninstall-pi" class="heading-anchor" aria-label="Permalink: Uninstall Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/quickstart#uninstall-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+If you installed Pi with npm, run:
+
+``` bash
+npm uninstall -g @earendil-works/pi-coding-agent
+```
+
+If you used the installer, run it again and choose **Uninstall Pi**:
+
+``` bash
+curl -fsSL https://pi.dev/install.sh | sh
+```
+
+Neither method removes configuration, credentials, sessions, or installed Pi packages from `~/.pi/agent/`.
 
 
