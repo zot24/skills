@@ -25,127 +25,64 @@ Search documentation
 On this page
 
 
-# Development
+# Pi
 
 
-See [AGENTS.md](https://github.com/earendil-works/pi/blob/main/AGENTS.md) for additional guidelines.
+Pi is an extensible AI agent that works from your terminal. Give it a goal and a working folder, and it can inspect files, run commands, edit content, and work through multi-step tasks.
+
+Use Pi for software development, research notes, writing projects, data files, or hobby work. You can use Pi as is, prompt it to adapt itself to your workflow, or build other applications powered by Pi using the SDK.
 
 
-## Setup
+## Start using Pi
 
-<a href="#setup" class="heading-anchor" aria-label="Permalink: Setup" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#setup"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-``` bash
-git clone https://github.com/earendil-works/pi
-cd pi
-npm install
-npm run build
-```
-
-Run from source:
-
-``` bash
-/path/to/pi/pi-test.sh
-```
-
-The script can be run from any directory. Pi keeps the caller's current working directory.
+<a href="#start-using-pi" class="heading-anchor" aria-label="Permalink: Start using Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest#start-using-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-### Experimental remote harness
+New to Pi? Follow the [Quickstart](/docs/latest/quickstart) to install Pi, connect a model, and complete your first task.
 
-<a href="#experimental-remote-harness" class="heading-anchor" aria-label="Permalink: Experimental remote harness" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#experimental-remote-harness"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+If Pi is already installed, choose what you want to do:
 
-
-The remote harness server/client integration is development-only. Run it from the repository with:
-
-``` bash
-PI_EXPERIMENTAL=1 ./pi-test.sh server
-PI_EXPERIMENTAL=1 ./pi-test.sh client
-```
-
-`PI_SERVER_DIR` overrides the server profile and socket directory (default: `~/.pi/server`). `PI_SERVER_ID` selects the logical server ID when `--server-id` is omitted.
-
-The `client` and `experimental/plugin` package subpaths resolve only under the `source` condition in a checkout. Their implementations and the server/client commands are excluded from npm packages and standalone binaries. `pi-client`, `pi-protocol`, and `pi-server` are development dependencies of coding-agent, not runtime dependencies. The local SDK and stdio RPC API are unchanged.
+- [Use Pi interactively](/docs/latest/usage) to add files, run commands, direct ongoing work, and export results.
+- [Choose a model](/docs/latest/models) or connect a subscription, API key, local model, or compatible endpoint.
+- [Continue or branch a session](/docs/latest/sessions) to resume work or explore another approach without losing history.
+- [Configure Pi](/docs/latest/configuration) for your preferences, working folders, instructions, and reusable resources.
+- [Understand how Pi works](/docs/latest/how-pi-works), including tools, context, sessions, and the agent loop.
 
 
-## Forking / Rebranding
+## Customize Pi
 
-<a href="#forking--rebranding" class="heading-anchor" aria-label="Permalink: Forking / Rebranding" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#forking--rebranding"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Configure via `package.json`:
-
-``` json
-{
-  "piConfig": {
-    "name": "pi",
-    "configDir": ".pi"
-  }
-}
-```
-
-Change `name`, `configDir`, and `bin` field for your fork. Affects CLI banner, config paths, and environment variable names.
+<a href="#customize-pi" class="heading-anchor" aria-label="Permalink: Customize Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest#customize-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Path Resolution
-
-<a href="#path-resolution" class="heading-anchor" aria-label="Permalink: Path Resolution" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#path-resolution"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Pi can reuse prompts, load specialized instructions, add executable integrations, change its terminal interface, connect model services, and distribute these resources as packages. Use the [Quickstart customization chooser](/docs/latest/quickstart#choose-how-to-customize-pi) to select the smallest mechanism that meets your need.
 
 
-Three execution modes: npm install, standalone binary, tsx from source.
+## Automate or embed Pi
 
-**Always use `src/config.ts`** for package assets:
-
-``` typescript
-import { getPackageDir, getThemeDir } from "./config.js";
-```
-
-Never use `__dirname` directly for package assets.
+<a href="#automate-or-embed-pi" class="heading-anchor" aria-label="Permalink: Automate or embed Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest#automate-or-embed-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Debug Command
-
-<a href="#debug-command" class="heading-anchor" aria-label="Permalink: Debug Command" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#debug-command"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-`/debug` (hidden) writes to `~/.pi/agent/pi-debug.log`:
-
-- Rendered TUI lines with ANSI codes
-- Last messages sent to the LLM
+- Use [print mode](/docs/latest/cli#invocation-and-output) for one-off and scripted tasks.
+- Use [JSON event stream mode](/docs/latest/json) to consume structured events from one run.
+- Use [RPC mode](/docs/latest/rpc) to control a separate Pi process.
+- Use the [TypeScript SDK](/docs/latest/sdk) to run Pi inside an application.
 
 
-## Testing
+## Find reference and setup information
 
-<a href="#testing" class="heading-anchor" aria-label="Permalink: Testing" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#testing"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-``` bash
-./test.sh                         # Run non-LLM tests (no API keys needed)
-npm test                          # Run all tests
-npm test -- test/specific.test.ts # Run specific test
-```
+<a href="#find-reference-and-setup-information" class="heading-anchor" aria-label="Permalink: Find reference and setup information" data-copy="" data-copy-text="https://pi.dev/docs/latest#find-reference-and-setup-information"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-### Published package smoke test
+Use the reference pages to look up [CLI options](/docs/latest/cli), [settings](/docs/latest/settings), [provider authentication](/docs/latest/providers), [keybindings](/docs/latest/keybindings), and [environment variables](/docs/latest/environment-variables).
 
-<a href="#published-package-smoke-test" class="heading-anchor" aria-label="Permalink: Published package smoke test" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#published-package-smoke-test"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-After building, run `npm run check:package-install`. It packs the public packages and installs only coding-agent as a direct dependency in a temporary directory outside the repository. Local tarball overrides select declared transitive dependencies without installing development-only packages. The check verifies SDK imports and CLI startup without credentials or model requests.
-
-`npm run check` also checks runtime dependency declarations and rejects excluded development sources pulled into a package's build through imports.
+For platform-specific help, see [Terminal Setup](/docs/latest/terminal-setup), [Windows](/docs/latest/windows), [tmux](/docs/latest/tmux), [Termux on Android](/docs/latest/termux), or [Containerization](/docs/latest/containerization).
 
 
-## Project Structure
+## Work safely
 
-<a href="#project-structure" class="heading-anchor" aria-label="Permalink: Project Structure" data-copy="" data-copy-text="https://pi.dev/docs/latest/development#project-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#work-safely" class="heading-anchor" aria-label="Permalink: Work safely" data-copy="" data-copy-text="https://pi.dev/docs/latest#work-safely"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-    packages/
-      ai/           # LLM provider abstraction
-      agent/        # Agent loop and message types  
-      tui/          # Terminal UI components
-      coding-agent/ # CLI and interactive mode
+Pi's tools and extensions run with the permissions of the Pi process. Project trust controls which project resources Pi loads, but it does not sandbox tool calls. Review [Security](/docs/latest/security) before using untrusted files, repositories, extensions, or unattended automation.
 
 

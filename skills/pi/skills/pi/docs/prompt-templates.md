@@ -28,119 +28,70 @@ On this page
 # Prompt Templates
 
 
-> pi can create prompt templates. Ask it to build one for your workflow.
+Prompt templates turn Markdown files into reusable `/` commands. Use one when you want to reuse the same prompt without adding executable behavior or a larger set of supporting instructions.
 
-Prompt templates are Markdown snippets that expand into full prompts. Type `/name` in the editor to invoke a template, where `name` is the filename without `.md`.
-
-
-## Locations
-
-<a href="#locations" class="heading-anchor" aria-label="Permalink: Locations" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#locations"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+A template can accept arguments and appear in command completion. Pi can load templates from personal configuration, project configuration, an explicit path, or a Pi package. Project configuration loads only after project trust is granted.
 
 
-Pi loads prompt templates from:
+## Create a template
 
-- Global: `~/.pi/agent/prompts/*.md`
-- Project: `.pi/prompts/*.md` (only after the project is trusted)
-- Packages: `prompts/` directories or `pi.prompts` entries in `package.json`
-- Settings: `prompts` array with files or directories
-- CLI: `--prompt-template <path>` (repeatable)
-
-Disable discovery with `--no-prompt-templates`.
+<a href="#create-a-template" class="heading-anchor" aria-label="Permalink: Create a template" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#create-a-template"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Format
-
-<a href="#format" class="heading-anchor" aria-label="Permalink: Format" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#format"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
+Create `~/.pi/agent/prompts/review.md`:
 
 ``` markdown
 ---
 description: Review staged git changes
+argument-hint: "[focus]"
 ---
-Review the staged changes (`git diff --cached`). Focus on:
-- Bugs and logic errors
-- Security issues
-- Error handling gaps
+Review the staged changes. Focus on ${1:-correctness, security, and error handling}.
 ```
 
-- The filename becomes the command name. `review.md` becomes `/review`.
-- `description` is optional. If missing, the first non-empty line is used.
-- `argument-hint` is optional. When set, the hint is displayed before the description in the autocomplete dropdown.
+The filename becomes the command name, so this template is available as `/review`. The `description` appears in command completion. If it is omitted, Pi uses the first non-empty line.
+
+`argument-hint` is optional. Use `<angle brackets>` for required arguments and `[square brackets]` for optional arguments.
+
+Run `/reload` after adding or changing a template in an active session.
 
 
-### Argument Hints
+## Use a template
 
-<a href="#argument-hints" class="heading-anchor" aria-label="Permalink: Argument Hints" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#argument-hints"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#use-a-template" class="heading-anchor" aria-label="Permalink: Use a template" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#use-a-template"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Use `argument-hint` in frontmatter to show expected arguments in autocomplete. Use `<angle brackets>` for required arguments and `[square brackets]` for optional ones:
+Type the template command in the editor:
 
-``` markdown
----
-description: Review PRs from URLs with structured issue and code analysis
-argument-hint: "<PR-URL>"
----
+``` text
+/review
+/review concurrency
 ```
 
-This renders in the autocomplete dropdown as:
+Pi expands the template before the resulting text enters the agent. Extensions receive the raw input first through the `input` event unless an extension command with the same name handles it.
 
-    → pr   <PR-URL>       — Review PRs from URLs with structured issue and code analysis
-      is   <issue>        — Analyze GitHub issues (bugs or feature requests)
-      wr   [instructions] — Finish the current task end-to-end
-      cl   — Audit changelog entries before release
+Templates support these substitutions:
 
+| Syntax               | Result                                 |
+|----------------------|----------------------------------------|
+| `$1`, `$2`, …        | One positional argument                |
+| `$@` or `$ARGUMENTS` | All arguments joined with spaces       |
+| `${1:-default}`      | First argument, or a default value     |
+| `${@:-default}`      | All arguments, or a default value      |
+| `${@:N}`             | Arguments starting at position `N`     |
+| `${@:N:L}`           | `L` arguments starting at position `N` |
 
-## Usage
-
-<a href="#usage" class="heading-anchor" aria-label="Permalink: Usage" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#usage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Type `/` followed by the template name in the editor. Autocomplete shows available templates with descriptions.
-
-    /review                           # Expands review.md
-    /component Button                 # Expands with argument
-    /component Button "click handler" # Multiple arguments
+Arguments follow shell-like quoting, so `/review "API compatibility"` supplies one argument containing a space.
 
 
-## Arguments
+## Add it to Pi
 
-<a href="#arguments" class="heading-anchor" aria-label="Permalink: Arguments" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#arguments"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Templates support positional arguments, defaults, and simple slicing:
-
-- `$1`, `$2`, ... positional args
-- `$@` or `$ARGUMENTS` for all args joined
-- `${1:-default}` uses arg 1 when present/non-empty, otherwise `default`
-- `${@:-default}` or `${ARGUMENTS:-default}` uses all arguments when present/non-empty, otherwise `default`
-- `${@:N}` for args from the Nth position (1-indexed)
-- `${@:N:L}` for `L` args starting at N
-
-Example:
-
-``` markdown
----
-description: Create a component
----
-Create a React component named $1 with features: $@
-```
-
-Default values are useful for optional arguments:
-
-``` markdown
-Summarize the current state in ${1:-7} bullet points.
-```
-
-Usage: `/component Button "onClick handler" "disabled support"`
+<a href="#add-it-to-pi" class="heading-anchor" aria-label="Permalink: Add it to Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#add-it-to-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Loading Rules
+Place the template in your user or project prompt directory. Conventional prompt directories load direct `.md` children only.
 
-<a href="#loading-rules" class="heading-anchor" aria-label="Permalink: Loading Rules" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#loading-rules"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Settings and packages can select nested Markdown files; a package manifest can narrow discovery with explicit paths and globs. See [Settings](/docs/latest/settings#resources) and [Pi Packages](/docs/latest/packages) for these options.
 
-
-- Template discovery in `prompts/` is non-recursive.
-- If you want templates in subdirectories, add them explicitly via `prompts` settings or a package manifest.
+Project templates become commands in the editor after trust is granted. Review their content before trusting an unfamiliar project. See [Security](/docs/latest/security#understand-project-trust).
 
 

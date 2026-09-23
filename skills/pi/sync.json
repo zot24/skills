@@ -194,6 +194,54 @@
       "target": "skills/pi/docs/changelog-coding-agent.md",
       "type": "raw",
       "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/cli",
+      "target": "skills/pi/docs/cli.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/cli-integration",
+      "target": "skills/pi/docs/cli-integration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/configuration",
+      "target": "skills/pi/docs/configuration.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/how-pi-works",
+      "target": "skills/pi/docs/how-pi-works.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/message-types",
+      "target": "skills/pi/docs/message-types.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/rpc-commands",
+      "target": "skills/pi/docs/rpc-commands.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/rpc-extension-ui",
+      "target": "skills/pi/docs/rpc-extension-ui.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/slash-commands",
+      "target": "skills/pi/docs/slash-commands.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

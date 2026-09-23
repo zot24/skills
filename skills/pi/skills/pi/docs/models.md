@@ -25,35 +25,74 @@ Search documentation
 On this page
 
 
-# Custom Models
+# Choose a Model
 
 
-Add custom providers and models (Ollama, vLLM, LM Studio, proxies) via `~/.pi/agent/models.json`.
+For a built-in provider, start with `/login`, then choose a model with `/model`. Use custom model configuration only when Pi does not already include the provider or endpoint you need.
 
 
-## Table of Contents
+## Choose a connection
 
-<a href="#table-of-contents" class="heading-anchor" aria-label="Permalink: Table of Contents" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#table-of-contents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-- [Minimal Example](#minimal-example)
-- [Full Example](#full-example)
-- [Supported APIs](#supported-apis)
-- [Provider Configuration](#provider-configuration)
-- [Model Configuration](#model-configuration)
-- [Prompt Cache Lifetimes](#prompt-cache-lifetimes)
-- [Overriding Built-in Providers](#overriding-built-in-providers)
-- [Per-model Overrides](#per-model-overrides)
-- [Anthropic Messages Compatibility](#anthropic-messages-compatibility)
-- [OpenAI Compatibility](#openai-compatibility)
+<a href="#choose-a-connection" class="heading-anchor" aria-label="Permalink: Choose a connection" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#choose-a-connection"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-## Minimal Example
+| What you have                                            | Recommended setup                                         |
+|----------------------------------------------------------|-----------------------------------------------------------|
+| A supported subscription                                 | Sign in through `/login`                                  |
+| A provider API key                                       | Store it through `/login` or set its environment variable |
+| A local GGUF model                                       | Connect Pi to the llama.cpp router                        |
+| An OpenAI-, Anthropic-, or Google-compatible endpoint    | Add it to `models.json`                                   |
+| A provider with a custom protocol or authentication flow | Build or install a provider extension                     |
 
-<a href="#minimal-example" class="heading-anchor" aria-label="Permalink: Minimal Example" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#minimal-example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+Browse the [model catalog](https://pi.dev/models) for current providers, model IDs, capabilities, context limits, and pricing. Pi starts with its bundled catalog and can overlay newer catalog data from pi.dev. Cached catalog data remains available offline; run `pi update --models` to force a refresh.
 
 
-For local models (Ollama, LM Studio, vLLM), only `id` is required per model:
+## Authenticate
+
+<a href="#authenticate" class="heading-anchor" aria-label="Permalink: Authenticate" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#authenticate"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Run `/login` and select a provider. Pi stores credentials in [`auth.json`](/docs/latest/configuration#agent-directory). Run `/logout` to remove stored credentials for a provider.
+
+You can instead provide an API key through the provider's environment variable. This is useful in CI and other environments where Pi should not write credentials. [Provider Authentication](/docs/latest/providers) lists the variables and cloud-provider setup.
+
+When several credential sources are configured, Pi uses a runtime `--api-key` first, then a stored `auth.json` credential, an `apiKey` from `models.json`, and finally the provider's environment variables or ambient cloud credentials. Provider extensions can define their own authentication behavior.
+
+Keep `auth.json` and any credential commands private. Project settings and extensions can execute inside the Pi process after you trust a project. Review [Security](/docs/latest/security) before loading configuration from an untrusted directory.
+
+
+## Select a model
+
+<a href="#select-a-model" class="heading-anchor" aria-label="Permalink: Select a model" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#select-a-model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Run `/model` to search available models. The picker shows models whose providers have usable authentication. Press `Ctrl+S` on a model to save it as the default for new sessions.
+
+Run `/thinking` to select the thinking level for the current model. Press `Ctrl+S` there to save the startup level. Pi limits the choices to levels supported by the selected model.
+
+`Ctrl+P` cycles through available models. Use `/scoped-models` to control that cycle and save the selection, or configure model patterns through [Settings](/docs/latest/settings#model-cycling).
+
+A session records model and thinking-level changes. Resuming the session restores them without changing defaults for new sessions.
+
+
+## Connect local models
+
+<a href="#connect-local-models" class="heading-anchor" aria-label="Permalink: Connect local models" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#connect-local-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Pi integrates directly with the llama.cpp router. The router discovers GGUF files and loads models on demand. Pi's `/llama` command manages the router, while `/model` selects one of its loaded models.
+
+Follow [Local Models with llama.cpp](/docs/latest/llama-cpp) for server startup, model layout, downloads, and connection troubleshooting.
+
+For Ollama, LM Studio, vLLM, SGLang, and other compatible servers, [configure a compatible endpoint](#configure-a-compatible-endpoint) in `models.json`.
+
+
+## Configure a compatible endpoint
+
+<a href="#configure-a-compatible-endpoint" class="heading-anchor" aria-label="Permalink: Configure a compatible endpoint" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#configure-a-compatible-endpoint"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Use [`models.json`](/docs/latest/configuration#agent-directory) when an endpoint speaks an API Pi already supports. This includes most Ollama, LM Studio, vLLM, SGLang, and proxy deployments.
 
 ``` json
 {
@@ -63,7 +102,6 @@ For local models (Ollama, LM Studio, vLLM), only `id` is required per model:
       "api": "openai-completions",
       "apiKey": "ollama",
       "models": [
-        { "id": "llama3.1:8b" },
         { "id": "qwen2.5-coder:7b" }
       ]
     }
@@ -71,254 +109,17 @@ For local models (Ollama, LM Studio, vLLM), only `id` is required per model:
 }
 ```
 
-The `apiKey` value is a placeholder because Ollama ignores it. pi still treats models as requiring auth before they appear in `/model`, so keyless local servers should keep a dummy value, save a key for that provider with `/login`, or pass `--api-key` when selecting the model.
+The dummy key makes the model available to Pi; Ollama ignores it. For an authenticated endpoint, `apiKey` and header values can use `$NAME` or `${NAME}` environment interpolation, a literal value, or a leading `!command`. Commands in `models.json` run at request time and are not cached by Pi.
 
-Some OpenAI-compatible servers do not understand the `developer` role used for reasoning-capable models. For those providers, set `compat.supportsDeveloperRole` to `false` so pi sends the system prompt as a `system` message instead. If the server also does not support `reasoning_effort`, set `compat.supportsReasoningEffort` to `false` too.
+Opening `/model` reloads the file. A `models` entry adds or replaces a model with the same ID on that provider. Use `modelOverrides` to change metadata for an existing built-in or extension-provided model without replacing the provider's model list. Unknown override IDs are ignored.
 
-You can set `compat` at the provider level to apply to all models, or at the model level to override a specific model. This commonly applies to Ollama, vLLM, SGLang, and similar OpenAI-compatible servers.
 
-``` json
-{
-  "providers": {
-    "ollama": {
-      "baseUrl": "http://localhost:11434/v1",
-      "api": "openai-completions",
-      "apiKey": "ollama",
-      "compat": {
-        "supportsDeveloperRole": false,
-        "supportsReasoningEffort": false
-      },
-      "models": [
-        {
-          "id": "gpt-oss:20b",
-          "reasoning": true
-        }
-      ]
-    }
-  }
-}
-```
+### Describe model input and caching
 
+<a href="#describe-model-input-and-caching" class="heading-anchor" aria-label="Permalink: Describe model input and caching" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#describe-model-input-and-caching"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-## Full Example
 
-<a href="#full-example" class="heading-anchor" aria-label="Permalink: Full Example" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#full-example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Override defaults when you need specific values:
-
-``` json
-{
-  "providers": {
-    "ollama": {
-      "baseUrl": "http://localhost:11434/v1",
-      "api": "openai-completions",
-      "apiKey": "ollama",
-      "models": [
-        {
-          "id": "llama3.1:8b",
-          "name": "Llama 3.1 8B (Local)",
-          "reasoning": false,
-          "input": ["text"],
-          "contextWindow": 128000,
-          "maxTokens": 32000,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
-        }
-      ]
-    }
-  }
-}
-```
-
-The file reloads each time you open `/model`. Edit during session; no restart needed.
-
-
-## Google AI Studio Example
-
-<a href="#google-ai-studio-example" class="heading-anchor" aria-label="Permalink: Google AI Studio Example" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#google-ai-studio-example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Use `google-generative-ai` with a `baseUrl` to add models from Google AI Studio, including custom Gemma 4 entries:
-
-``` json
-{
-  "providers": {
-    "my-google": {
-      "baseUrl": "https://generativelanguage.googleapis.com/v1beta",
-      "api": "google-generative-ai",
-      "apiKey": "$GEMINI_API_KEY",
-      "models": [
-        {
-          "id": "gemma-4-31b-it",
-          "name": "Gemma 4 31B",
-          "input": ["text", "image"],
-          "contextWindow": 262144,
-          "reasoning": true
-        }
-      ]
-    }
-  }
-}
-```
-
-The `baseUrl` is required when adding custom models to the `google-generative-ai` API type.
-
-
-## Supported APIs
-
-<a href="#supported-apis" class="heading-anchor" aria-label="Permalink: Supported APIs" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#supported-apis"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-| API                    | Description                               |
-|------------------------|-------------------------------------------|
-| `openai-completions`   | OpenAI Chat Completions (most compatible) |
-| `openai-responses`     | OpenAI Responses API                      |
-| `anthropic-messages`   | Anthropic Messages API                    |
-| `google-generative-ai` | Google Generative AI                      |
-
-Set `api` at provider level (default for all models) or model level (override per model).
-
-
-## Provider Configuration
-
-<a href="#provider-configuration" class="heading-anchor" aria-label="Permalink: Provider Configuration" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#provider-configuration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-| Field            | Description                                                                                                                     |
-|------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| `baseUrl`        | API endpoint URL                                                                                                                |
-| `api`            | API type (see above)                                                                                                            |
-| `apiKey`         | Optional API key config (see value resolution below). Omit it when auth is provided by `/login`/`auth.json` or CLI `--api-key`. |
-| `oauth`          | Dynamic OAuth provider type. Currently supports `"radius"`; requires the gateway `baseUrl`.                                     |
-| `headers`        | Custom headers (see value resolution below)                                                                                     |
-| `authHeader`     | Set `true` to add `Authorization: Bearer <apiKey>` automatically                                                                |
-| `models`         | Array of model configurations                                                                                                   |
-| `modelOverrides` | Per-model overrides for built-in or extension-registered models on this provider                                                |
-
-For providers with `models`, non-built-in provider configs need `baseUrl` and an `api` value at either provider or model level. `apiKey` is not required to load the file: models become available when auth is configured through `/login`/`auth.json`, CLI `--api-key`, or provider `apiKey`. If no auth is configured, the models load but stay unavailable in `/model` and `--list-models`.
-
-
-### Value Resolution
-
-<a href="#value-resolution" class="heading-anchor" aria-label="Permalink: Value Resolution" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#value-resolution"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-The `apiKey` and `headers` fields support command execution, environment interpolation, and literals:
-
-- **Shell command:** `"!command"` at the start executes the whole value as a command and uses stdout
-
-  ``` json
-  "apiKey": "!security find-generic-password -ws 'anthropic'"
-  "apiKey": "!op read 'op://vault/item/credential'"
-  ```
-
-- **Environment interpolation:** `"$ENV_VAR"` or `"${ENV_VAR}"` uses the value of the named variable. Interpolation works inside larger literals.
-
-  ``` json
-  "apiKey": "$MY_API_KEY"
-  "apiKey": "${KEY_PREFIX}_${KEY_SUFFIX}"
-  ```
-
-  `$FOO_BAR` is the variable `FOO_BAR`; use `${FOO}_BAR` when `BAR` is literal text. Missing environment variables make the value unresolved.
-
-- **Escapes:** `"$$"` emits a literal `"$"`; `"$!"` emits a literal `"!"` without triggering command execution.
-
-  ``` json
-  "apiKey": "$$literal-dollar-prefix"
-  "apiKey": "$!literal-bang-prefix"
-  ```
-
-- **Literal value:** Used directly. Plain uppercase strings such as `MY_API_KEY` are literals; use `$MY_API_KEY` for environment variables.
-
-  ``` json
-  "apiKey": "sk-..."
-  ```
-
-For `models.json`, shell commands are resolved at request time. pi intentionally does not apply built-in TTL, stale reuse, or recovery logic for arbitrary commands. Different commands need different caching and failure strategies, and pi cannot infer the right one.
-
-If your command is slow, expensive, rate-limited, or should keep using a previous value on transient failures, wrap it in your own script or command that implements the caching or TTL behavior you want.
-
-`/model` availability checks use configured auth presence and do not execute shell commands.
-
-
-### Custom Headers
-
-<a href="#custom-headers" class="heading-anchor" aria-label="Permalink: Custom Headers" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#custom-headers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-``` json
-{
-  "providers": {
-    "custom-proxy": {
-      "baseUrl": "https://proxy.example.com/v1",
-      "apiKey": "$MY_API_KEY",
-      "api": "anthropic-messages",
-      "headers": {
-        "x-portkey-api-key": "$PORTKEY_API_KEY",
-        "x-secret": "!op read 'op://vault/item/secret'"
-      },
-      "models": [...]
-    }
-  }
-}
-```
-
-
-## Model Configuration
-
-<a href="#model-configuration" class="heading-anchor" aria-label="Permalink: Model Configuration" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#model-configuration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-| Field              | Required | Default           | Description                                                                                                  |
-|--------------------|----------|-------------------|--------------------------------------------------------------------------------------------------------------|
-| `id`               | Yes      | —                 | Model identifier (passed to the API)                                                                         |
-| `name`             | No       | `id`              | Human-readable model label. Used for matching (`--model` patterns) and shown as secondary model detail text. |
-| `api`              | No       | provider's `api`  | Override provider's API for this model                                                                       |
-| `reasoning`        | No       | `false`           | Supports extended thinking                                                                                   |
-| `thinkingLevelMap` | No       | omitted           | Maps pi thinking levels to provider values and marks unsupported levels (see below)                          |
-| `input`            | No       | `["text"]`        | Input types: `["text"]` or `["text", "image"]`                                                               |
-| `inputLimits`      | No       | omitted           | Request limits and image preprocessing for this model (see below)                                            |
-| `contextWindow`    | No       | `128000`          | Context window size in tokens                                                                                |
-| `maxTokens`        | No       | `16384`           | Maximum output tokens                                                                                        |
-| `samplingParams`   | No       | omitted           | Sampling parameters merged verbatim into every request body (see below)                                      |
-| `cost`             | No       | all zeros         | Per-million-token rates with optional request-wide input pricing tiers                                       |
-| `promptCache`      | No       | omitted           | Best-effort prompt cache lifetime in seconds per retention tier (see below)                                  |
-| `compat`           | No       | provider `compat` | Provider compatibility overrides. Merged with provider-level `compat` when both are set.                     |
-
-A cost tier supplies a complete alternate rate set and applies to the full request when total input usage (`input + cacheRead + cacheWrite`) exceeds `inputTokensAbove`. When multiple tiers match, the highest threshold wins.
-
-``` json
-{
-  "cost": {
-    "input": 5,
-    "output": 30,
-    "cacheRead": 0.5,
-    "cacheWrite": 6.25,
-    "tiers": [
-      {
-        "inputTokensAbove": 272000,
-        "input": 10,
-        "output": 45,
-        "cacheRead": 1,
-        "cacheWrite": 12.5
-      }
-    ]
-  }
-}
-```
-
-Current behavior:
-
-- `/model`, `--list-models`, and the interactive footer display entries by model `id`.
-- The configured `name` is used for model matching and secondary model detail text. It does not replace the footer/status-bar model id.
-
-
-### Image Input Limits
-
-<a href="#image-input-limits" class="heading-anchor" aria-label="Permalink: Image Input Limits" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#image-input-limits"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Use `inputLimits.images.resize` to configure how new images are encoded before they enter conversation history:
+Use `inputLimits.images.resize` to control how Pi encodes new image attachments, `read` results, and tool-result images before storing them in conversation history:
 
 ``` json
 {
@@ -337,406 +138,62 @@ Use `inputLimits.images.resize` to configure how new images are encoded before t
 }
 ```
 
-`maxBytes` is the maximum base64-encoded payload size. Omitted resize fields use pi's conservative defaults: 2000×2000, 4.5 MiB encoded, and JPEG quality 80. Built-in vision models carry that profile explicitly so unknown gateways never receive larger images than before.
-
-Pi applies the selected model's resize profile to `@file` attachments, the `read` tool, and images returned by tools. Images are encoded once before they enter history; changing models does not rewrite historical images or invalidate the cached conversation prefix. The `images.autoResize` setting can disable resizing globally.
-
-The catalog can also record `inputLimits.maxRequestBytes`, `images.maxPerMessage`, and `images.maxPerRequest`. These fields describe hard provider limits; this initial implementation does not yet rewrite or reject conversation history based on them.
+`maxBytes` limits the base64-encoded payload. Omitted resize fields use conservative defaults of 2000 by 2000 pixels, 4.5 MiB encoded, and JPEG quality 80. Images are encoded once; changing models does not rewrite historical images. The catalog can also describe hard request limits with `inputLimits.maxRequestBytes`, `images.maxPerMessage`, and `images.maxPerRequest`, but Pi does not yet rewrite or reject history based on them.
 
 
-### Prompt Cache Lifetimes
-
-<a href="#prompt-cache-lifetimes" class="heading-anchor" aria-label="Permalink: Prompt Cache Lifetimes" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#prompt-cache-lifetimes"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-`promptCache` states how long the provider keeps a prompt cache entry alive for each retention tier pi can request (`short` is the default tier; `long` is used when `PI_CACHE_RETENTION=long`). Values are seconds and are estimates: providers publish ranges, so pick the conservative end.
+Use `promptCache` to declare the provider's best-effort cache lifetime in seconds for the `short` or `long` retention tier:
 
 ``` json
-{
-  "id": "claude-sonnet-5",
-  "promptCache": { "short": 300, "long": 3600 }
-}
+{ "id": "claude-sonnet-5", "promptCache": { "short": 300, "long": 3600 } }
 ```
 
-The built-in catalog fills this in for direct Anthropic (5 min / 1 h). Other providers, including direct OpenAI, have no built-in lifetime until their cache-expiry and replay behavior has been validated for warming. A model without a value for the tier a request used is never warmed; custom models and provider overrides can opt in when the backing cache behavior is known. See [Cache Warming](/docs/latest/settings#cache-warming).
+Choose the conservative end of any published range. A model without a lifetime for the active tier is not eligible for cache warming. A `modelOverrides` entry can set `inputLimits` or `promptCache` for a built-in or extension model, including a model accessed through a validated proxy. See [`cacheWarming`](/docs/latest/settings#model-and-thinking).
 
+Compatibility settings should describe verified differences in the endpoint's request or response behavior. Do not enable them based only on an endpoint advertising OpenAI or Anthropic compatibility.
 
-### Sampling Parameters
 
-<a href="#sampling-parameters" class="heading-anchor" aria-label="Permalink: Sampling Parameters" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#sampling-parameters"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+## Add a custom provider
 
+<a href="#add-a-custom-provider" class="heading-anchor" aria-label="Permalink: Add a custom provider" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#add-a-custom-provider"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-`samplingParams` is a free-form object merged verbatim into every request body for the model, after the fields pi sets itself, so its keys win. Use it to send sampling parameters pi does not model — including server-specific ones like llama.cpp's `min_p` or vLLM's `top_k`:
 
-``` json
-{
-  "id": "deepseek-v4-flash",
-  "samplingParams": {
-    "temperature": 1.0,
-    "top_p": 0.95,
-    "top_k": 0,
-    "min_p": 0.0
-  }
-}
-```
+Use an extension when the provider needs custom streaming, model discovery, or authentication behavior. See [Custom Providers](/docs/latest/custom-provider) for the extension workflow.
 
-Only OpenAI-compatible APIs apply it (`openai-completions`, `openai-responses`, `azure-openai-responses`); other APIs ignore it. Keys override pi's named request fields (for example a `temperature` key here beats the request-level temperature), so prefer it as the single source of sampling truth for a model. In `modelOverrides`, `samplingParams` merges per key with the base model's value.
 
-A constant thinking-token cap can go here too, but it will not follow `thinkingBudgets` or leave room for the answer. Prefer `compat.thinkingTokenBudgetField` (or the `supportsThinkingTokenBudget` alias) for that.
+## Troubleshooting
 
+<a href="#troubleshooting" class="heading-anchor" aria-label="Permalink: Troubleshooting" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#troubleshooting"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-### Thinking Level Map
 
-<a href="#thinking-level-map" class="heading-anchor" aria-label="Permalink: Thinking Level Map" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#thinking-level-map"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+### A model does not appear
 
+<a href="#a-model-does-not-appear" class="heading-anchor" aria-label="Permalink: A model does not appear" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#a-model-does-not-appear"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-Use `thinkingLevelMap` on a model to describe model-specific thinking controls. Keys are pi thinking levels: `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`. Maps may contain holes; for example, a model can expose `high` and `max` without exposing `xhigh`.
 
-Values are tristate:
+Confirm that its provider has usable authentication. Custom models can load from `models.json` but remain unavailable in `/model` until Pi can resolve credentials. For llama.cpp, only models currently loaded by the router appear.
 
-| Value   | Meaning                                                                                                              |
-|---------|----------------------------------------------------------------------------------------------------------------------|
-| omitted | Standard levels through `high` use the provider's default mapping; extended `xhigh` and `max` levels are unsupported |
-| string  | Level is supported and this value is sent to the provider                                                            |
-| `null`  | Level is unsupported and hidden/skipped/clamped away                                                                 |
 
-Example for a model that only supports off, high, and max reasoning:
+### Authentication works in one shell only
 
-``` json
-{
-  "id": "deepseek-v4-pro",
-  "reasoning": true,
-  "thinkingLevelMap": {
-    "minimal": null,
-    "low": null,
-    "medium": null,
-    "high": "high",
-    "xhigh": null,
-    "max": "max"
-  }
-}
-```
+<a href="#authentication-works-in-one-shell-only" class="heading-anchor" aria-label="Permalink: Authentication works in one shell only" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#authentication-works-in-one-shell-only"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-Example for a model where thinking cannot be disabled:
 
-``` json
-{
-  "id": "always-thinking-model",
-  "reasoning": true,
-  "thinkingLevelMap": {
-    "off": null
-  }
-}
-```
-
-Migration: older configs that used `compat.reasoningEffortMap` should move that mapping to model-level `thinkingLevelMap`. Use `null` for levels that should not appear in the UI.
-
-
-## Overriding Built-in Providers
-
-<a href="#overriding-built-in-providers" class="heading-anchor" aria-label="Permalink: Overriding Built-in Providers" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#overriding-built-in-providers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Route a built-in provider through a proxy without redefining models:
+Check whether the key came from an environment variable rather than `auth.json`. Environment variables must be present in the process that starts Pi.
 
-``` json
-{
-  "providers": {
-    "anthropic": {
-      "baseUrl": "https://my-proxy.example.com/v1"
-    }
-  }
-}
-```
 
-All built-in Anthropic models remain available. Existing OAuth or API key auth continues to work.
+### Sign-in opens a browser on a remote machine
 
-To merge custom models into a built-in provider, include the `models` array:
+<a href="#sign-in-opens-a-browser-on-a-remote-machine" class="heading-anchor" aria-label="Permalink: Sign-in opens a browser on a remote machine" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#sign-in-opens-a-browser-on-a-remote-machine"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-``` json
-{
-  "providers": {
-    "anthropic": {
-      "baseUrl": "https://my-proxy.example.com/v1",
-      "apiKey": "$ANTHROPIC_API_KEY",
-      "api": "anthropic-messages",
-      "models": [...]
-    }
-  }
-}
-```
 
-Merge semantics:
-
-- Built-in models are kept.
-- Custom models are upserted by `id` within the provider.
-- If a custom model `id` matches a built-in model `id`, the custom model replaces that built-in model.
-- If a custom model `id` is new, it is added alongside built-in models.
-
-
-## Per-model Overrides
-
-<a href="#per-model-overrides" class="heading-anchor" aria-label="Permalink: Per-model Overrides" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#per-model-overrides"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-Use `modelOverrides` to customize built-in models and matching extension-registered models without replacing the provider's full model list.
-
-``` json
-{
-  "providers": {
-    "openrouter": {
-      "modelOverrides": {
-        "anthropic/claude-sonnet-4": {
-          "name": "Claude Sonnet 4 (Bedrock Route)",
-          "compat": {
-            "openRouterRouting": {
-              "only": ["amazon-bedrock"]
-            }
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-`modelOverrides` supports these fields per model: `name`, `reasoning`, `thinkingLevelMap`, `input`, `inputLimits` (deep-merged), `cost` (partial), `promptCache` (merged per tier), `contextWindow`, `maxTokens`, `samplingParams` (merged per key), `headers`, `compat`.
-
-Use a `promptCache` override to enable cache warming through a proxy whose backing cache you know, for example OpenRouter routed to Anthropic:
-
-``` json
-{
-  "providers": {
-    "openrouter": {
-      "modelOverrides": {
-        "anthropic/claude-sonnet-4": {
-          "promptCache": { "short": 300 }
-        }
-      }
-    }
-  }
-}
-```
-
-Direct OpenAI GPT-5.6 Sol, Terra, and Luna default to a `272000` context window so requests remain within OpenAI's short-context pricing tier. To opt into OpenAI's 1.05M context window, increase it for each model you use:
-
-``` json
-{
-  "providers": {
-    "openai": {
-      "modelOverrides": {
-        "gpt-5.6-sol": {
-          "contextWindow": 1050000
-        }
-      }
-    }
-  }
-}
-```
-
-The override preserves the built-in pricing metadata. Requests with more than 272K total input tokens use GPT-5.6's long-context rates for the entire request. Apply the same override to `gpt-5.6-terra` or `gpt-5.6-luna` when needed.
-
-Behavior notes:
-
-- `modelOverrides` are applied to built-in provider models and matching extension-registered provider models.
-- Unknown model IDs are ignored.
-- You can combine provider-level `baseUrl`/`headers` with `modelOverrides`.
-- Overriding `name` changes model matching and secondary detail text only; the footer and primary model lists continue to show the model `id`.
-- If `models` is also defined for a provider, custom models are merged after built-in overrides. A custom model with the same `id` replaces the overridden built-in model entry.
-
-
-## Anthropic Messages Compatibility
-
-<a href="#anthropic-messages-compatibility" class="heading-anchor" aria-label="Permalink: Anthropic Messages Compatibility" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#anthropic-messages-compatibility"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-For providers or proxies using `api: "anthropic-messages"`, use `compat` to control Anthropic-specific request compatibility.
-
-By default pi sends per-tool `eager_input_streaming: true`. If a proxy or Anthropic-compatible backend rejects that field, set `supportsEagerToolInputStreaming` to `false`. Pi will omit `tools[].eager_input_streaming` and send the legacy `fine-grained-tool-streaming-2025-05-14` beta header for tool-enabled requests instead.
-
-Some Anthropic models require adaptive thinking (`thinking.type: "adaptive"` plus `output_config.effort`) instead of the legacy budget-based thinking payload. Built-in models set this automatically. For custom providers or aliases that route to those models, set `forceAdaptiveThinking` to `true`.
-
-Claude models with per-turn effort support use `supportsMidConvoEffort`. Pi then persists each response's provider effort, reconstructs effort-only system messages on later requests, and sends thinking binding controls with `prefix_mismatch_behavior: "drop_block"` to avoid stale signed-thinking prefixes causing persistent 400 responses. Set this only for the exact supported Claude model on a faithful Anthropic Messages transport; do not enable it for APIs that merely imitate the Messages shape.
-
-Some Anthropic-compatible providers emit thinking blocks with empty signatures and still expect them on replay. Set `allowEmptySignature` to `true` only for those providers; real Anthropic rejects empty thinking signatures.
-
-Built-in Anthropic models enable `supportsStrictTools` in their model metadata. Custom Anthropic-compatible models must set it to `true` when their endpoint accepts strict JSON-schema tool definitions.
-
-``` json
-{
-  "providers": {
-    "anthropic-proxy": {
-      "baseUrl": "https://proxy.example.com",
-      "api": "anthropic-messages",
-      "apiKey": "$ANTHROPIC_PROXY_KEY",
-      "compat": {
-        "supportsEagerToolInputStreaming": false,
-        "supportsLongCacheRetention": true,
-        "forceAdaptiveThinking": true,
-        "allowEmptySignature": true
-      },
-      "models": [
-        {
-          "id": "claude-opus-4-7",
-          "reasoning": true,
-          "input": ["text", "image"]
-        }
-      ]
-    }
-  }
-}
-```
-
-| Field                             | Description                                                                                                                                                                                                     |
-|-----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `supportsEagerToolInputStreaming` | Whether the provider accepts per-tool `eager_input_streaming`. Default: `true`. Set to `false` to omit that field and use the legacy fine-grained tool streaming beta header on tool-enabled requests.          |
-| `supportsLongCacheRetention`      | Whether the provider accepts Anthropic long cache retention (`cache_control.ttl: "1h"`) when cache retention is `long`. Default: `true`.                                                                        |
-| `sendSessionAffinityHeaders`      | Whether to send `x-session-affinity` from the session id when caching is enabled. Default: auto-detected for known providers.                                                                                   |
-| `supportsCacheControlOnTools`     | Whether the provider accepts Anthropic-style `cache_control` markers on tool definitions. Default: `true`.                                                                                                      |
-| `forceAdaptiveThinking`           | Whether to send adaptive thinking (`thinking.type: "adaptive"` plus `output_config.effort`) for this model. Built-in adaptive models set this automatically. Default: `false`.                                  |
-| `supportsMidConvoEffort`          | Whether the exact Claude model transport supports per-turn effort system messages and thinking binding controls. Pi persists native effort levels and always sends `drop_block` when enabled. Default: `false`. |
-| `allowEmptySignature`             | Whether to replay empty thinking signatures as `signature: ""` instead of converting thinking to text. Default: `false`.                                                                                        |
-| `supportsStrictTools`             | Whether the provider accepts strict JSON-schema tool definitions. Default: `false`; built-in Anthropic models enable it in generated metadata.                                                                  |
-| `allowedFallbackModels`           | Up to three server-side fallback models, each with `provider`, `model`, and complete `cost` metadata. An empty array disables fallback.                                                                         |
-
-
-## OpenAI Compatibility
-
-<a href="#openai-compatibility" class="heading-anchor" aria-label="Permalink: OpenAI Compatibility" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#openai-compatibility"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
-
-For providers with partial OpenAI compatibility, use the `compat` field.
-
-- Provider-level `compat` applies defaults to all models under that provider.
-- Model-level `compat` overrides provider-level values for that model.
-
-``` json
-{
-  "providers": {
-    "local-llm": {
-      "baseUrl": "http://localhost:8080/v1",
-      "api": "openai-completions",
-      "compat": {
-        "supportsUsageInStreaming": false,
-        "maxTokensField": "max_tokens"
-      },
-      "models": [...]
-    }
-  }
-}
-```
-
-| Field                                         | Description                                                                                                                                                                                                                                                                                                                                                           |
-|-----------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `supportsStore`                               | Provider supports `store` field                                                                                                                                                                                                                                                                                                                                       |
-| `supportsDeveloperRole`                       | Use `developer` vs `system` role                                                                                                                                                                                                                                                                                                                                      |
-| `supportsReasoningEffort`                     | Support for `reasoning_effort` parameter                                                                                                                                                                                                                                                                                                                              |
-| `supportsUsageInStreaming`                    | Supports `stream_options: { include_usage: true }` (default: `true`)                                                                                                                                                                                                                                                                                                  |
-| `supportsFinishReason`                        | Whether streamed responses include `finish_reason`. When `false`, pi infers `stop` or `toolUse` when the stream ends. Default: `true`.                                                                                                                                                                                                                                |
-| `maxTokensField`                              | Use `max_completion_tokens` or `max_tokens`                                                                                                                                                                                                                                                                                                                           |
-| `requiresToolResultName`                      | Include `name` on tool result messages                                                                                                                                                                                                                                                                                                                                |
-| `requiresAssistantAfterToolResult`            | Insert an assistant message before a user message after tool results                                                                                                                                                                                                                                                                                                  |
-| `requiresThinkingAsText`                      | Convert thinking blocks to plain text                                                                                                                                                                                                                                                                                                                                 |
-| `requiresReasoningContentOnAssistantMessages` | Include empty `reasoning_content` on all replayed assistant messages when reasoning is enabled                                                                                                                                                                                                                                                                        |
-| `thinkingFormat`                              | Use `reasoning_effort`, `openrouter`, `deepseek`, `together`, `baseten`, `zai`, `qwen`, `chat-template`, or `qwen-chat-template` thinking parameters                                                                                                                                                                                                                  |
-| `chatTemplateKwargs`                          | `chat_template_kwargs` values for `thinkingFormat: "chat-template"`; use `{ "$var": "thinking.enabled" }`, `{ "$var": "thinking.effort" }`, or `{ "$var": "thinking.budget" }` for pi-controlled thinking values                                                                                                                                                      |
-| `chatTemplateArgs`                            | `chat_template_args` values for `thinkingFormat: "baseten"`; use `{ "$var": "thinking.enabled" }`, `{ "$var": "thinking.effort" }`, or `{ "$var": "thinking.budget" }` for pi-controlled thinking values                                                                                                                                                              |
-| `thinkingTokenBudgetField`                    | Top-level request field used to cap reasoning tokens from `thinkingBudgets`, clamped so at least 1024 tokens remain for the answer. `"thinking_token_budget"` (vLLM), `"thinking_budget"` (Qwen/DashScope/SGLang), `"thinking_budget_tokens"` (llama.cpp). Off by default; not set on the generated catalog.                                                          |
-| `supportsThinkingTokenBudget`                 | Alias for `thinkingTokenBudgetField: "thinking_token_budget"` (vLLM). Prefer `thinkingTokenBudgetField`. Default: `false`.                                                                                                                                                                                                                                            |
-| `cacheControlFormat`                          | Use Anthropic-style `cache_control` markers on the system prompt, last tool definition, and last user, assistant, or tool-result text content. Currently only `anthropic` is supported.                                                                                                                                                                               |
-| `sendSessionAffinityHeaders`                  | For `openai-completions`, send session-affinity headers from the session id when caching is enabled. Default: `false`.                                                                                                                                                                                                                                                |
-| `sessionAffinityFormat`                       | For `openai-completions` and `openai-responses`, the session-affinity header format: `openai` sends `session_id`/`x-client-request-id` (completions also `x-session-affinity`), `openai-nosession` omits the underscore-containing `session_id` header, `openrouter` sends `x-session-id`. Does not affect the `prompt_cache_key` body param. Default: auto-detected. |
-| `supportsStrictMode`                          | Whether the provider accepts strict JSON-schema function tool definitions. Defaults depend on the API; built-in OpenAI models carry explicit capability metadata.                                                                                                                                                                                                     |
-| `supportsOpenAIGrammarTools`                  | Whether OpenAI-compatible APIs emit custom Lark/regex grammar tools. When `false`, grammar-constrained tools fall back to normal function tools. Default: `false`; the built-in model catalog enables it for GPT-5+ models on OpenAI, OpenAI Codex, Azure OpenAI, GitHub Copilot, opencode, and Cloudflare AI Gateway.                                                |
-| `supportsLongCacheRetention`                  | Whether the provider accepts long cache retention when cache retention is `long`: `prompt_cache_options.ttl: "30m"` for GPT-5.6+ Responses models, `prompt_cache_retention: "24h"` for earlier OpenAI models, or `cache_control.ttl: "1h"` when `cacheControlFormat` is `anthropic`. Default: `true`.                                                                 |
-| `openRouterRouting`                           | OpenRouter provider routing preferences. This object is sent as-is in the `provider` field of the [OpenRouter API request](https://openrouter.ai/docs/guides/routing/provider-selection).                                                                                                                                                                             |
-| `vercelGatewayRouting`                        | Vercel AI Gateway routing config for provider selection (`only`, `order`)                                                                                                                                                                                                                                                                                             |
-
-`openrouter` uses `reasoning: { effort }`. `together` uses `reasoning: { enabled }` and also `reasoning_effort` when `supportsReasoningEffort` is enabled. `qwen` uses top-level `enable_thinking`. Use `qwen-chat-template` for local Qwen-compatible servers that require `chat_template_kwargs.enable_thinking` and `preserve_thinking`. Use `chat-template` for vLLM/Hugging Face chat templates that need configurable `chat_template_kwargs`, such as `chatTemplateKwargs: { "thinking": { "$var": "thinking.enabled" } }` for DeepSeek V3.x templates. Use `thinkingFormat: "baseten"` with `chatTemplateArgs` for providers that expose toggle controls through `chat_template_args` and optionally support top-level `reasoning_effort`.
-
-`thinkingTokenBudgetField` is independent of `thinkingFormat`. Do not enable it on the generated Qwen catalog: those models already send `reasoning_effort`, and DashScope rejects `thinking_budget` together with `reasoning_effort`.
-
-`cacheControlFormat: "anthropic"` is for OpenAI-compatible providers that expose Anthropic-style prompt caching through `cache_control` markers on text content and tool definitions.
-
-Example:
-
-``` json
-{
-  "providers": {
-    "openrouter": {
-      "baseUrl": "https://openrouter.ai/api/v1",
-      "apiKey": "$OPENROUTER_API_KEY",
-      "api": "openai-completions",
-      "models": [
-        {
-          "id": "openrouter/anthropic/claude-3.5-sonnet",
-          "name": "OpenRouter Claude 3.5 Sonnet",
-          "compat": {
-            "openRouterRouting": {
-              "allow_fallbacks": true,
-              "require_parameters": false,
-              "data_collection": "deny",
-              "zdr": true,
-              "enforce_distillable_text": false,
-              "order": ["anthropic", "amazon-bedrock", "google-vertex"],
-              "only": ["anthropic", "amazon-bedrock"],
-              "ignore": ["gmicloud", "friendli"],
-              "quantizations": ["fp16", "bf16"],
-              "sort": {
-                "by": "price",
-                "partition": "model"
-              },
-              "max_price": {
-                "prompt": 10,
-                "completion": 20
-              },
-              "preferred_min_throughput": {
-                "p50": 100,
-                "p90": 50
-              },
-              "preferred_max_latency": {
-                "p50": 1,
-                "p90": 3,
-                "p99": 5
-              }
-            }
-          }
-        }
-      ]
-    }
-  }
-}
-```
-
-Vercel AI Gateway example:
-
-``` json
-{
-  "providers": {
-    "vercel-ai-gateway": {
-      "baseUrl": "https://ai-gateway.vercel.sh/v1",
-      "apiKey": "$AI_GATEWAY_API_KEY",
-      "api": "openai-completions",
-      "models": [
-        {
-          "id": "moonshotai/kimi-k2.5",
-          "name": "Kimi K2.5 (Fireworks via Vercel)",
-          "reasoning": true,
-          "input": ["text", "image"],
-          "cost": { "input": 0.6, "output": 3, "cacheRead": 0, "cacheWrite": 0 },
-          "contextWindow": 262144,
-          "maxTokens": 262144,
-          "compat": {
-            "vercelGatewayRouting": {
-              "only": ["fireworks", "novita"],
-              "order": ["fireworks", "novita"]
-            }
-          }
-        }
-      ]
-    }
-  }
-}
-```
+Complete the provider's headless authentication flow when available. Some providers let you paste the final redirect URL or authorization code back into Pi. See [Authenticate interactively](/docs/latest/providers#authenticate-interactively).
+
+
+### A compatible endpoint rejects requests
+
+<a href="#a-compatible-endpoint-rejects-requests" class="heading-anchor" aria-label="Permalink: A compatible endpoint rejects requests" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#a-compatible-endpoint-rejects-requests"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Check its API type and compatibility settings in `models.json`. The upstream server must support the corresponding request fields and behavior.
 
 
