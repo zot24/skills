@@ -202,12 +202,12 @@ A `/model` switch in a gateway chat applies to that session and now **survives g
 
 ### Delivery Reliability<a href="#delivery-reliability" class="hash-link" aria-label="Direct link to Delivery Reliability" translate="no" title="Direct link to Delivery Reliability">​</a>
 
-Final agent responses are recorded in a durable **delivery ledger** (`state.db`) around each platform send. If the gateway crashes or restarts between producing a response and the platform confirming receipt, the next boot redelivers the stored response instead of losing it — or re-running the whole turn.
+Final agent responses are recorded in a durable **delivery ledger** (`state.db`) around each platform send. If the gateway crashes or restarts between producing a response and the platform confirming receipt, the next boot redelivers the stored response instead of losing it — or re-running the whole turn. The ledger lives in the home the gateway was started from; a multiplexed gateway keeps every served profile's replies there too.
 
 Semantics are honest at-least-once:
 
 - A response whose send **never started** is redelivered as-is.
-- A response that was **mid-send** when the gateway died (the platform may or may not have received it) is redelivered with a visible "♻️ Recovered reply — … may be a duplicate" prefix. Ambiguity is labeled, never silently resent.
+- A response that was **mid-send** when the gateway died (the platform may or may not have received it), including a redelivery an earlier boot was still sending, is redelivered with a visible "♻️ Recovered reply — … may be a duplicate" prefix. Ambiguity is labeled, never silently resent.
 - A final send refused by **flood control** (such as Telegram rate limits) is retried automatically after the recorded penalty expires, without requiring a reconnect or restart. A restart during the penalty adopts the stored reply without spending a retry attempt or re-running the agent. Retries retain the original bot profile, chat and thread. A rate-limit recovery prefix warns that earlier chunks may already have arrived; the ledger cannot infer partial delivery from message length.
 - Any other rejected final send (a platform 5xx, an unclassified error) is retried the same way after a growing backoff (30 s, then 2 min); the last budgeted attempt is left for the next gateway start, so an outage that outlasts the timer never strands the reply. A permanently unreachable chat (blocked bot, deleted group) is not retried.
 - Redelivery is bounded: 3 attempts, 24-hour freshness, then the row is abandoned. Delivered rows are pruned after 7 days.
@@ -597,6 +597,9 @@ The generated plist lives at `~/Library/LaunchAgents/ai.hermes.gateway.plist`. I
 launchd plists are static — if you install new tools (e.g. a new Node.js version via nvm, or ffmpeg via Homebrew) after setting up the gateway, run `hermes gateway install` again to capture the updated PATH. The gateway will detect the stale plist and reload automatically.
 
 
+The plist sets `RunAtLoad`, so loading it starts the gateway. `hermes gateway install --no-start-now`, like answering No to "Start the gateway now?" in `hermes gateway setup`, writes the plist without loading it: the gateway starts at your next login, or when you run `hermes gateway start`. A gateway that launchd is already running is reloaded onto the new plist, not stopped.
+
+
 macOS Local Network Privacy attributes a socket to the executable launchd spawned for the job. A bare venv Python has no application identity, so a launchd-run gateway could not reach LAN hosts (Home Assistant, local model servers) — every connect failed with `errno 65 No route to host` while the same URL worked from Terminal, and no prompt was ever shown to grant it. The generated plist therefore runs the gateway through `/usr/bin/osascript` (`do shell script "exec …"`), whose children macOS treats as osascript's own — an Apple platform binary, exempt from the check. `ps` shows `osascript → stderr_timestamp → gateway run`; stop/restart/KeepAlive behave exactly as before. A plist installed by an older Hermes is refreshed by `hermes gateway install` (or on the next `hermes gateway start`).
 
 
@@ -788,6 +791,8 @@ Set `typing_indicator: false` on any platform where the indicator is unwanted. S
 ### Session resume across gateway restarts<a href="#session-resume-across-gateway-restarts" class="hash-link" aria-label="Direct link to Session resume across gateway restarts" translate="no" title="Direct link to Session resume across gateway restarts">​</a>
 
 When the gateway shuts down with an in-flight tool call or generation, the affected sessions are flagged as `restart_interrupted`. On the next startup, the gateway schedules an auto-resume for each one — the user gets a short heads-up in the chat ("Send any message after restart and I'll try to resume where you left off.") and the session picks up from the last committed turn when they reply.
+
+Only turns that were actually in flight are resumed, and each resumes once. A chat whose turn had already finished is never answered again just because it was active shortly before a crash. If the gateway was killed after the agent finished a reply but before it was sent, the stored reply is delivered (with a "Recovered reply" notice) instead of being regenerated.
 
 This behaviour is on by default and is logged at gateway start:
 

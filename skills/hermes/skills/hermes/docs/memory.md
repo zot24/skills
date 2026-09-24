@@ -323,6 +323,8 @@ Review staged writes from the CLI or any messaging platform:
 
 This is the answer to "the agent saved a wrong assumption about me": set `write_approval: true`, and every save — especially the unprompted background ones — waits for your yes/no before it ever enters your profile.
 
+A staged `replace` or `remove` (the background review stages these even with the gate off) records the full entry it targets, and `/memory pending` shows it. Approval applies to exactly that entry: if it changed after the write was staged, the write is refused and stays pending for you to reject. A `replace`/`remove` staged before this pinning existed has no verifiable target and is refused too: reject it and recreate the change. `/memory approve` lists the full text of every entry it overwrote or removed.
+
 ## Background review notifications (`display.memory_notifications`)<a href="#background-review-notifications-displaymemory_notifications" class="hash-link" aria-label="Direct link to background-review-notifications-displaymemory_notifications" translate="no" title="Direct link to background-review-notifications-displaymemory_notifications">​</a>
 
 After a turn, the background self-improvement review may quietly save a memory or update a skill. This is Hermes' consent-aware learning loop: repeated corrections and durable workflow lessons become compact memory entries or procedural skills, while `write_approval` can stage those writes for review before they affect future sessions. By default it surfaces a short `💾 Memory updated` line in chat so you know it happened. Control how chatty that is:
@@ -461,7 +463,7 @@ On a messaging platform, approve a skill from its gist + metadata, or open `/ski
 
 ## External Memory Providers<a href="#external-memory-providers" class="hash-link" aria-label="Direct link to External Memory Providers" translate="no" title="Direct link to External Memory Providers">​</a>
 
-For deeper, persistent memory that goes beyond MEMORY.md and USER.md, Hermes ships with 8 external memory provider plugins — including Honcho, OpenViking, Mem0, Hindsight, Holographic, RetainDB, ByteRover, and Supermemory.
+For deeper, persistent memory that goes beyond MEMORY.md and USER.md, Hermes ships with 7 external memory provider plugins — Honcho, OpenViking, Mem0, Holographic, RetainDB, ByteRover, and Supermemory — and more, such as Hindsight, are available from the [plugin catalog](/docs/user-guide/features/plugins) via `hermes plugins install <name>`.
 
 External providers run **alongside** built-in memory (never replacing it) and add capabilities like knowledge graphs, semantic search, automatic fact extraction, and cross-session user modeling.
 

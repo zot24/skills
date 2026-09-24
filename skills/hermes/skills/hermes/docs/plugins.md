@@ -14,6 +14,11 @@ Give Hermes new powers. Memory, voice, messaging, browsing, Desktop panes and mo
 Built a plugin? <a href="/docs/user-guide/features/plugin-catalog#submitting-a-plugin-to-the-catalog" class="heroLink_q0bw">Submit it to the catalog →</a>
 
 
+Filters
+
+SourceAll sourcesOfficialCommunityCategoryAll categoriesSortMost starredNewestRecently updated
+
+
 All<span class="tierCount_yk6q">0</span>
 
 Official<span class="tierCount_yk6q">0</span>
