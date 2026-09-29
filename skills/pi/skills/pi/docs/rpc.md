@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -43,9 +38,10 @@ For an in-process Node.js or Bun integration, prefer the [SDK](/docs/latest/sdk)
 <a href="#start-rpc-mode" class="heading-anchor" aria-label="Permalink: Start RPC mode" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#start-rpc-mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` bash
+``` shiki
 pi --mode rpc --no-session
 ```
+
 
 Normal CLI options still select the working folder, model, tools, resources, and session behavior. Common choices include `--provider`, `--model`, `--name`, `--no-session`, and `--session-dir`. See [Command Line](/docs/latest/cli) for the complete, version-specific interface; `pi --help` is authoritative for the installed version.
 
@@ -76,10 +72,12 @@ See [RPC Commands](/docs/latest/rpc-commands), [JSON Event Stream](/docs/latest/
 
 Every command accepts an optional string `id`. A matching response repeats it:
 
-``` json
+
+``` shiki
 {"id":"req-1","type":"get_state"}
 {"id":"req-1","type":"response","command":"get_state","success":true,"data":{"...":"..."}}
 ```
+
 
 Use unique IDs whenever more than one command can be outstanding. Command handling is asynchronous, so clients should correlate by ID rather than response order.
 
@@ -107,10 +105,14 @@ Read stdout continuously. Pi honors stdout backpressure, but a client that stops
 
 A successful `prompt` response means the prompt was accepted, queued, or handled. It does not mean model work completed:
 
-``` json
+
+``` shiki
 {"id":"req-2","type":"prompt","message":"Review this repository"}
-{"id":"req-2","type":"response","command":"prompt","success":true}
+{"id":"req-2","type":"response","command":"prompt","success":true,"data":{"disposition":"started"}}
 ```
+
+
+`data.disposition` reports what happened to the prompt. If it is `"handled"`, no run started for this prompt, so don't wait for `agent_settled`. See [RPC Commands](/docs/latest/rpc-commands#prompt) for all values.
 
 Continue consuming [events](/docs/latest/json) after that response. `agent_end` marks the end of one low-level agent run, but retries, overflow recovery, compaction, steering, or follow-up work can still follow. Wait for `agent_settled` when the client needs to know Pi will not continue automatically.
 
@@ -124,15 +126,19 @@ Subscribe before sending a prompt to avoid missing a fast completion. `RpcClient
 
 A failed command returns one response with `success: false`:
 
-``` json
+
+``` shiki
 {"id":"req-3","type":"response","command":"set_model","success":false,"error":"Model not found: invalid/model"}
 ```
 
+
 Malformed JSON produces a parse response without a request ID:
 
-``` json
+
+``` shiki
 {"type":"response","command":"parse","success":false,"error":"Failed to parse command: Unexpected token..."}
 ```
+
 
 A success response only covers command handling. Provider failures and aborts after a prompt is accepted appear in the message and event stream.
 
@@ -156,7 +162,8 @@ An extension can also request shutdown through its extension context. Pi complet
 
 This Python example uses a binary pipe reader, which splits on LF without treating Unicode separators as protocol boundaries:
 
-``` python
+
+``` shiki
 import json
 import subprocess
 
@@ -186,6 +193,7 @@ while line := process.stdout.readline():
 process.stdin.close()
 process.wait()
 ```
+
 
 For maintained TypeScript clients, use the checked [RPC client example](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-client.ts). It requires a built Pi CLI because the repository example points to `dist/cli.js`.
 

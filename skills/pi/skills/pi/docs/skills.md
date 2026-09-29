@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -42,7 +37,8 @@ Pi implements the [Agent Skills specification](https://agentskills.io/specificat
 
 A skill is a directory containing `SKILL.md`:
 
-``` text
+
+``` shiki
 pdf-tools/
 ├── SKILL.md
 ├── scripts/
@@ -53,9 +49,11 @@ pdf-tools/
     └── template.json
 ```
 
+
 Start `SKILL.md` with frontmatter followed by direct instructions:
 
-``` markdown
+
+``` shiki
 ---
 name: pdf-tools
 description: Extract text and tables from PDF files. Use when reading, converting, or inspecting PDFs.
@@ -65,6 +63,7 @@ description: Extract text and tables from PDF files. Use when reading, convertin
 
 Read `references/formats.md` before converting a document. Run scripts relative to this skill directory.
 ```
+
 
 The description determines when the model considers loading the skill. State both what the skill does and when it applies. Avoid descriptions such as “Helps with PDFs,” which do not provide enough routing information.
 
@@ -82,9 +81,11 @@ When a task matches, the model reads `SKILL.md` and follows its instructions. Th
 
 Arguments after `/skill:name` are appended to the loaded instructions as a user request:
 
-``` text
+
+``` shiki
 /skill:pdf-tools extract report.pdf
 ```
+
 
 Set `disable-model-invocation: true` in frontmatter when a skill should be available only through its explicit command. The `enableSkillCommands` [setting](/docs/latest/settings) controls whether skill commands appear in interactive command discovery; manually entered `/skill:name` commands still work.
 

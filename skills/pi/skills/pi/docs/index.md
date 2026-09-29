@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 

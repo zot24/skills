@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -40,21 +35,26 @@ For native Windows setup, read [Windows Setup](/docs/latest/windows). For Androi
 
 On macOS or Linux, you can use the installer:
 
-``` bash
+
+``` shiki
 curl -fsSL https://pi.dev/install.sh | sh
 ```
 
+
 Alternatively, install Pi from npm. This requires Node.js 22.19 or newer:
 
-``` bash
+
+``` shiki
 npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 ```
+
 
 Pi does not require dependency lifecycle scripts for a normal npm installation.
 
 Verify the installation:
 
-``` bash
+
+``` shiki
 pi --version
 ```
 
@@ -66,10 +66,12 @@ pi --version
 
 Change to the folder you want Pi to work with, then start it:
 
-``` bash
+
+``` shiki
 cd /path/to/folder
 pi
 ```
+
 
 The working folder helps Pi discover relevant files, instructions, and configuration. Pi also uses it to group saved sessions.
 
@@ -87,9 +89,11 @@ A **model** generates Pi's responses. A **provider** is the service or account P
 
 In Pi, run:
 
-``` text
+
+``` shiki
 /login
 ```
+
 
 Choose a provider, then follow the prompts to use a subscription or store an API key. Run `/model` afterward if you want to select a different available model.
 
@@ -105,17 +109,21 @@ Pi shows each file read, search, command, and edit it performs. It does not ask 
 
 Enter a task that matches your work, for example:
 
-``` text
+
+``` shiki
 Summarize @meeting-notes.md and save the action items to action-items.md.
 ```
 
-``` text
+
+``` shiki
 Explain how this repository is structured and how to run its checks.
 ```
 
-``` text
+
+``` shiki
 Compare @previous.csv with @current.csv and summarize the important changes.
 ```
+
 
 Type `@` in the editor to search for a file instead of entering its full path. When Pi finishes, review its response and any changed files. Use version control or backups for important work. For untrusted or unattended work, use a container or another sandbox. See [Security](/docs/latest/security).
 
@@ -127,9 +135,11 @@ Type `@` in the editor to search for a file instead of entering its full path. W
 
 Pi saves sessions automatically. Exit Pi, then resume the most recent session for the same working folder with:
 
-``` bash
+
+``` shiki
 pi --continue
 ```
+
 
 Use `/resume` to choose another saved session. See [Continue or branch a session](/docs/latest/sessions) for session naming, branching, compaction, export, and sharing.
 
@@ -169,15 +179,19 @@ Start with the least powerful mechanism that meets your need:
 
 If you installed Pi with npm, run:
 
-``` bash
+
+``` shiki
 npm uninstall -g @earendil-works/pi-coding-agent
 ```
 
+
 If you used the installer, run it again and choose **Uninstall Pi**:
 
-``` bash
+
+``` shiki
 curl -fsSL https://pi.dev/install.sh | sh
 ```
+
 
 Neither method removes configuration, credentials, sessions, or installed Pi packages from `~/.pi/agent/`.
 

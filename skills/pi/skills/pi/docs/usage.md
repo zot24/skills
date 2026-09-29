@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -121,9 +116,11 @@ After leaving Pi, run `pi --continue` from the same folder to resume its most re
 
 Prefix a command with `!` to run it and include its output in the conversation:
 
-``` text
+
+``` shiki
 !git status
 ```
+
 
 Use `!!` when you want to run a command without sending its output to the model.
 

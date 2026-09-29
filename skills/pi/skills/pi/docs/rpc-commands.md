@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -43,21 +38,27 @@ This reference lists commands accepted on stdin in [RPC mode](/docs/latest/rpc).
 
 Send a user prompt to the agent. The command response is emitted after the prompt is accepted, queued, or handled. Events continue streaming asynchronously after acceptance.
 
-``` json
+
+``` shiki
 {"id": "req-1", "type": "prompt", "message": "Hello, world!"}
 ```
 
+
 With images:
 
-``` json
+
+``` shiki
 {"type": "prompt", "message": "What's in this image?", "images": [{"type": "image", "data": "base64-encoded-data", "mimeType": "image/png"}]}
 ```
 
+
 **During streaming**: If the agent is already streaming, you must specify `streamingBehavior` to queue the message:
 
-``` json
+
+``` shiki
 {"type": "prompt", "message": "New instruction", "streamingBehavior": "steer"}
 ```
+
 
 - `"steer"`: Queue the message while the agent is running. It is delivered after the current assistant turn finishes executing its tool calls, before the next LLM call.
 - `"followUp"`: Wait until the agent finishes. Message is delivered only when agent stops.
@@ -70,9 +71,13 @@ If the agent is streaming and no `streamingBehavior` is specified, the command r
 
 Response:
 
-``` json
-{"id": "req-1", "type": "response", "command": "prompt", "success": true}
+
+``` shiki
+{"id": "req-1", "type": "response", "command": "prompt", "success": true, "data": {"disposition": "started"}}
 ```
+
+
+`data.disposition` is `"handled"` if an extension command or input handler consumed the prompt, `"queued"` if Pi queued it during a run, or `"started"` if Pi accepted it to start a run. This describes the submitted prompt, not independent work started by an extension or a guarantee of completion.
 
 `success: true` means the prompt was accepted, queued, or handled immediately. `success: false` means the prompt was rejected before acceptance. Failures after acceptance are reported through the normal event and message stream, not as a second `response` for the same request id.
 
@@ -86,23 +91,31 @@ The `images` field is optional. Each image uses `ImageContent` format: `{"type":
 
 Queue a steering message while the agent is running. It is delivered after the current assistant turn finishes executing its tool calls, before the next LLM call. Skill commands and prompt templates are expanded. Extension commands are not allowed (use `prompt` instead).
 
-``` json
+
+``` shiki
 {"type": "steer", "message": "Stop and do this instead"}
 ```
 
+
 With images:
 
-``` json
+
+``` shiki
 {"type": "steer", "message": "Look at this instead", "images": [{"type": "image", "data": "base64-encoded-data", "mimeType": "image/png"}]}
 ```
+
 
 The `images` field is optional. Each image uses `ImageContent` format (same as `prompt`).
 
 Response:
 
-``` json
-{"type": "response", "command": "steer", "success": true}
+
+``` shiki
+{"type": "response", "command": "steer", "success": true, "data": {"disposition": "queued"}}
 ```
+
+
+`data.disposition` is `"handled"` if an input handler consumed this steer, or `"queued"` if Pi queued it (including after a handler transformed it). It does not guarantee this message remains queued.
 
 See [set_steering_mode](#set_steering_mode) for controlling how steering messages are processed.
 
@@ -114,23 +127,31 @@ See [set_steering_mode](#set_steering_mode) for controlling how steering message
 
 Queue a follow-up message to be processed after the agent finishes. Delivered only when agent has no more tool calls or steering messages. Skill commands and prompt templates are expanded. Extension commands are not allowed (use `prompt` instead).
 
-``` json
+
+``` shiki
 {"type": "follow_up", "message": "After you're done, also do this"}
 ```
 
+
 With images:
 
-``` json
+
+``` shiki
 {"type": "follow_up", "message": "Also check this image", "images": [{"type": "image", "data": "base64-encoded-data", "mimeType": "image/png"}]}
 ```
+
 
 The `images` field is optional. Each image uses `ImageContent` format (same as `prompt`).
 
 Response:
 
-``` json
-{"type": "response", "command": "follow_up", "success": true}
+
+``` shiki
+{"type": "response", "command": "follow_up", "success": true, "data": {"disposition": "queued"}}
 ```
+
+
+`data.disposition` has the same `"handled"` or `"queued"` meaning as for `steer`, applied to this follow-up.
 
 See [set_follow_up_mode](#set_follow_up_mode) for controlling how follow-up messages are processed.
 
@@ -142,13 +163,16 @@ See [set_follow_up_mode](#set_follow_up_mode) for controlling how follow-up mess
 
 Abort the current operation and wait for the session to become idle before responding.
 
-``` json
+
+``` shiki
 {"type": "abort"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "abort", "success": true}
 ```
 
@@ -160,13 +184,16 @@ Response:
 
 Remove queued steering and follow-up messages and return their text.
 
-``` json
+
+``` shiki
 {"type": "clear_queue"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "clear_queue",
@@ -178,6 +205,7 @@ Response:
 }
 ```
 
+
 To implement interactive Esc behavior, send `clear_queue` before `abort`, then restore the returned text in the client editor. `abort` continues queued messages when they remain in the session.
 
 
@@ -188,25 +216,32 @@ To implement interactive Esc behavior, send `clear_queue` before `abort`, then r
 
 Start a fresh session. Can be canceled by a `session_before_switch` extension event handler.
 
-``` json
+
+``` shiki
 {"type": "new_session"}
 ```
 
+
 With optional parent session tracking:
 
-``` json
+
+``` shiki
 {"type": "new_session", "parentSession": "/path/to/parent-session.jsonl"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "new_session", "success": true, "data": {"cancelled": false}}
 ```
 
+
 If an extension canceled:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "new_session", "success": true, "data": {"cancelled": true}}
 ```
 
@@ -223,13 +258,16 @@ If an extension canceled:
 
 Get current session state.
 
-``` json
+
+``` shiki
 {"type": "get_state"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_state",
@@ -251,6 +289,7 @@ Response:
 }
 ```
 
+
 The `model` field is a full [Model](#model-object) object, or omitted when no model is selected. The `sessionName` field is the display name set via `set_session_name`, or omitted if not set.
 
 
@@ -261,13 +300,16 @@ The `model` field is a full [Model](#model-object) object, or omitted when no mo
 
 Get all messages in the conversation.
 
-``` json
+
+``` shiki
 {"type": "get_messages"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_messages",
@@ -275,6 +317,7 @@ Response:
   "data": {"messages": [...]}
 }
 ```
+
 
 Messages are `AgentMessage` objects (see [Message Types](/docs/latest/message-types)).
 
@@ -291,13 +334,16 @@ Messages are `AgentMessage` objects (see [Message Types](/docs/latest/message-ty
 
 Switch to a specific model.
 
-``` json
+
+``` shiki
 {"type": "set_model", "provider": "anthropic", "modelId": "claude-sonnet-4-20250514"}
 ```
 
+
 Response contains the full [Model](#model-object) object:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "set_model",
@@ -314,13 +360,16 @@ Response contains the full [Model](#model-object) object:
 
 Cycle to the next available model. Returns `null` data if only one model available.
 
-``` json
+
+``` shiki
 {"type": "cycle_model"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "cycle_model",
@@ -333,6 +382,7 @@ Response:
 }
 ```
 
+
 The `model` field is a full [Model](#model-object) object.
 
 
@@ -343,13 +393,16 @@ The `model` field is a full [Model](#model-object) object.
 
 List all configured models.
 
-``` json
+
+``` shiki
 {"type": "get_available_models"}
 ```
 
+
 Response contains an array of full [Model](#model-object) objects:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_available_models",
@@ -373,9 +426,11 @@ Response contains an array of full [Model](#model-object) objects:
 
 Set the reasoning/thinking level for models that support it.
 
-``` json
+
+``` shiki
 {"type": "set_thinking_level", "level": "high"}
 ```
+
 
 Levels: `"off"`, `"minimal"`, `"low"`, `"medium"`, `"high"`, `"xhigh"`, `"max"`
 
@@ -383,7 +438,8 @@ Levels: `"off"`, `"minimal"`, `"low"`, `"medium"`, `"high"`, `"xhigh"`, `"max"`
 
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "set_thinking_level", "success": true}
 ```
 
@@ -395,13 +451,16 @@ Response:
 
 Cycle through available thinking levels. Returns `null` data if model doesn't support thinking.
 
-``` json
+
+``` shiki
 {"type": "cycle_thinking_level"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "cycle_thinking_level",
@@ -418,13 +477,16 @@ Response:
 
 List the thinking levels supported by the current model. Returns `["off"]` for a model without reasoning support.
 
-``` json
+
+``` shiki
 {"type": "get_available_thinking_levels"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_available_thinking_levels",
@@ -448,9 +510,11 @@ Response:
 
 Control how steering messages (from `steer`) are delivered.
 
-``` json
+
+``` shiki
 {"type": "set_steering_mode", "mode": "one-at-a-time"}
 ```
+
 
 Modes:
 
@@ -459,7 +523,8 @@ Modes:
 
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "set_steering_mode", "success": true}
 ```
 
@@ -471,9 +536,11 @@ Response:
 
 Control how follow-up messages (from `follow_up`) are delivered.
 
-``` json
+
+``` shiki
 {"type": "set_follow_up_mode", "mode": "one-at-a-time"}
 ```
+
 
 Modes:
 
@@ -482,7 +549,8 @@ Modes:
 
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "set_follow_up_mode", "success": true}
 ```
 
@@ -499,19 +567,24 @@ Response:
 
 Manually compact conversation context to reduce token usage.
 
-``` json
+
+``` shiki
 {"type": "compact"}
 ```
 
+
 With custom instructions:
 
-``` json
+
+``` shiki
 {"type": "compact", "customInstructions": "Focus on code changes"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "compact",
@@ -534,6 +607,7 @@ Response:
 }
 ```
 
+
 `estimatedTokensAfter` is a heuristic estimate over the rebuilt message context immediately after compaction, not a provider-exact token count. `usage` reports the LLM call or calls that generated the summary and may be omitted by custom compaction handlers.
 
 
@@ -544,13 +618,16 @@ Response:
 
 Enable or disable automatic compaction when context is nearly full.
 
-``` json
+
+``` shiki
 {"type": "set_auto_compaction", "enabled": true}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "set_auto_compaction", "success": true}
 ```
 
@@ -567,13 +644,16 @@ Response:
 
 Enable or disable automatic retry on transient errors (overloaded, rate limit, 5xx).
 
-``` json
+
+``` shiki
 {"type": "set_auto_retry", "enabled": true}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "set_auto_retry", "success": true}
 ```
 
@@ -585,13 +665,16 @@ Response:
 
 Abort an in-progress retry (cancel the delay and stop retrying).
 
-``` json
+
+``` shiki
 {"type": "abort_retry"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "abort_retry", "success": true}
 ```
 
@@ -608,9 +691,11 @@ Response:
 
 Execute a shell command and add output to conversation context. Output streams as `bash_execution_update` events while the command runs; the response contains the final result.
 
-``` json
+
+``` shiki
 {"id": "req-1", "type": "bash", "command": "ls -la"}
 ```
+
 
 Set `excludeFromContext` to `true` when the command output should be stored in the session but omitted from the model context on the next prompt.
 
@@ -618,7 +703,8 @@ Include an `id` to associate streamed `bash_execution_update` events with this c
 
 Response:
 
-``` json
+
+``` shiki
 {
   "id": "req-1",
   "type": "response",
@@ -633,9 +719,11 @@ Response:
 }
 ```
 
+
 If output was truncated, includes `fullOutputPath`:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "bash",
@@ -650,17 +738,22 @@ If output was truncated, includes `fullOutputPath`:
 }
 ```
 
+
 **How bash results reach the LLM:**
 
 The `bash` command executes immediately and returns a `BashResult`. Internally, a `BashExecutionMessage` is created and stored in the agent's message state.
 
 When the next `prompt` command is sent, Pi transforms context messages before sending them to the model. Unless `excludeFromContext` is true, the `BashExecutionMessage` becomes a `UserMessage` with this format:
 
-    Ran `ls -la`
-    ```
-    total 48
-    drwxr-xr-x ...
-    ```
+
+```` shiki
+Ran `ls -la`
+```
+total 48
+drwxr-xr-x ...
+```
+````
+
 
 This means:
 
@@ -675,13 +768,16 @@ This means:
 
 Abort a running bash command.
 
-``` json
+
+``` shiki
 {"type": "abort_bash"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "abort_bash", "success": true}
 ```
 
@@ -698,13 +794,16 @@ Response:
 
 Get token usage, cost statistics, and current context window usage.
 
-``` json
+
+``` shiki
 {"type": "get_session_stats"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_session_stats",
@@ -734,6 +833,7 @@ Response:
 }
 ```
 
+
 `tokens` and `cost` include assistant messages, usage reported by tools, and compaction/branch-summary generation across the full session. `contextUsage` contains the actual current context-window estimate used for compaction and footer display.
 
 `contextUsage` is omitted when no model or context window is available. `contextUsage.tokens` and `contextUsage.percent` are `null` immediately after compaction until a fresh post-compaction assistant response provides valid usage data.
@@ -746,19 +846,24 @@ Response:
 
 Export session to an HTML file.
 
-``` json
+
+``` shiki
 {"type": "export_html"}
 ```
 
+
 With custom path:
 
-``` json
+
+``` shiki
 {"type": "export_html", "outputPath": "/tmp/session.html"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "export_html",
@@ -775,19 +880,24 @@ Response:
 
 Load a different session file. Can be canceled by a `session_before_switch` extension event handler.
 
-``` json
+
+``` shiki
 {"type": "switch_session", "sessionPath": "/path/to/session.jsonl"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "switch_session", "success": true, "data": {"cancelled": false}}
 ```
 
+
 If an extension canceled the switch:
 
-``` json
+
+``` shiki
 {"type": "response", "command": "switch_session", "success": true, "data": {"cancelled": true}}
 ```
 
@@ -799,13 +909,16 @@ If an extension canceled the switch:
 
 Create a new fork from a previous user message on the active branch. Can be canceled by a `session_before_fork` extension event handler. Returns the text of the message being forked from.
 
-``` json
+
+``` shiki
 {"type": "fork", "entryId": "abc123"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "fork",
@@ -814,9 +927,11 @@ Response:
 }
 ```
 
+
 If an extension canceled the fork:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "fork",
@@ -833,13 +948,16 @@ If an extension canceled the fork:
 
 Duplicate the current active branch into a new session at the current position. Can be canceled by a `session_before_fork` extension event handler.
 
-``` json
+
+``` shiki
 {"type": "clone"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "clone",
@@ -848,9 +966,11 @@ Response:
 }
 ```
 
+
 If an extension canceled the clone:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "clone",
@@ -867,13 +987,16 @@ If an extension canceled the clone:
 
 Get user messages available for forking.
 
-``` json
+
+``` shiki
 {"type": "get_fork_messages"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_fork_messages",
@@ -895,19 +1018,24 @@ Response:
 
 Get all session entries in append order (excluding the session header). The session is an append-only tree of entries with stable ids, so an entry id works as a durable cursor: pass the last entry id you have seen as `since` to get only entries strictly after it, even across client restarts. Unlike `get_messages`, this includes pre-compaction history and abandoned branches.
 
-``` json
+
+``` shiki
 {"type": "get_entries"}
 ```
 
+
 With a cursor:
 
-``` json
+
+``` shiki
 {"type": "get_entries", "since": "abc123"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_entries",
@@ -921,6 +1049,7 @@ Response:
 }
 ```
 
+
 `leafId` is the id of the current leaf entry (`null` for an empty session), so a client can tell in one round trip whether the active branch moved. If `since` does not match any entry id, the response is `success: false`.
 
 
@@ -931,13 +1060,16 @@ Response:
 
 Get the session as a tree of entries. Each node is `{entry, children, label?, labelTimestamp?}`. The result is an array because navigation APIs can create multiple roots; orphaned entries with broken parent chains also appear as roots.
 
-``` json
+
+``` shiki
 {"type": "get_tree"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_tree",
@@ -964,13 +1096,16 @@ Response:
 
 Get the text content of the last assistant message.
 
-``` json
+
+``` shiki
 {"type": "get_last_assistant_text"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_last_assistant_text",
@@ -978,6 +1113,7 @@ Response:
   "data": {"text": "The assistant's response..."}
 }
 ```
+
 
 The `text` value is `null` if no assistant text exists.
 
@@ -989,19 +1125,23 @@ The `text` value is `null` if no assistant text exists.
 
 Set a display name for the current session. The name appears in session listings and helps identify sessions.
 
-``` json
+
+``` shiki
 {"type": "set_session_name", "name": "my-feature-work"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "set_session_name",
   "success": true
 }
 ```
+
 
 The current session name is available via `get_state` in the `sessionName` field. To set the initial name when starting RPC mode, pass `--name <name>` or `-n <name>` to the `pi --mode rpc` process.
 
@@ -1018,13 +1158,16 @@ The current session name is available via `get_state` in the `sessionName` field
 
 Get available commands (extension commands, prompt templates, and skills). Run one through the `prompt` command by prefixing its name with `/`.
 
-``` json
+
+``` shiki
 {"type": "get_commands"}
 ```
 
+
 Response:
 
-``` json
+
+``` shiki
 {
   "type": "response",
   "command": "get_commands",
@@ -1046,6 +1189,7 @@ Response:
   }
 }
 ```
+
 
 Each command has:
 
@@ -1072,7 +1216,8 @@ Each command has:
 
 Model commands return the complete configured model definition. Costs are in US dollars per million tokens.
 
-``` json
+
+``` shiki
 {
   "id": "claude-sonnet-4-20250514",
   "name": "Claude Sonnet 4",
@@ -1091,6 +1236,7 @@ Model commands return the complete configured model definition. Costs are in US 
   }
 }
 ```
+
 
 For model configuration, see [Configure a compatible endpoint](/docs/latest/models#configure-a-compatible-endpoint). For TypeScript, use the exported `Model` type from `@earendil-works/pi-ai`.
 

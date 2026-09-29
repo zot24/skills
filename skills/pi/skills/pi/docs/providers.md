@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -59,47 +54,50 @@ Radius authentication uses its gateway catalog and caches refreshed model metada
 
 Environment variables are useful in CI and anywhere Pi should not store the key. Set the variable before starting Pi:
 
-``` bash
+
+``` shiki
 export ANTHROPIC_API_KEY=sk-ant-...
 pi
 ```
 
+
 This table covers providers with a single primary API-key variable. Providers that need additional configuration or support ambient credentials are covered under [Cloud providers](#cloud-providers).
 
-| Provider                           | Environment variable            |
-|------------------------------------|---------------------------------|
-| Anthropic                          | `ANTHROPIC_API_KEY`             |
-| Ant Ling                           | `ANT_LING_API_KEY`              |
-| OpenAI                             | `OPENAI_API_KEY`                |
-| DeepSeek                           | `DEEPSEEK_API_KEY`              |
-| NVIDIA NIM                         | `NVIDIA_API_KEY`                |
-| Google Gemini                      | `GEMINI_API_KEY`                |
-| GitHub Copilot                     | `COPILOT_GITHUB_TOKEN`          |
-| Mistral                            | `MISTRAL_API_KEY`               |
-| Groq                               | `GROQ_API_KEY`                  |
-| Cerebras                           | `CEREBRAS_API_KEY`              |
-| xAI                                | `XAI_API_KEY`                   |
-| OpenRouter                         | `OPENROUTER_API_KEY`            |
-| Vercel AI Gateway                  | `AI_GATEWAY_API_KEY`            |
-| ZAI Coding Plan (Global)           | `ZAI_API_KEY`                   |
-| ZAI Coding Plan (China)            | `ZAI_CODING_CN_API_KEY`         |
-| OpenCode Zen and Go                | `OPENCODE_API_KEY`              |
-| Radius                             | `RADIUS_API_KEY`                |
-| Hugging Face                       | `HF_TOKEN`                      |
-| Fireworks                          | `FIREWORKS_API_KEY`             |
-| Together AI                        | `TOGETHER_API_KEY`              |
-| Baseten                            | `BASETEN_API_KEY`               |
-| Kimi For Coding                    | `KIMI_API_KEY`                  |
-| Meta                               | `META_API_KEY`                  |
-| MiniMax                            | `MINIMAX_API_KEY`               |
-| MiniMax (China)                    | `MINIMAX_CN_API_KEY`            |
-| Moonshot AI (Global and China)     | `MOONSHOT_API_KEY`              |
-| Qwen Token Plan and Individual     | `QWEN_TOKEN_PLAN_API_KEY`       |
-| Qwen Token Plan (China)            | `QWEN_TOKEN_PLAN_CN_API_KEY`    |
-| Xiaomi MiMo                        | `XIAOMI_API_KEY`                |
-| Xiaomi MiMo Token Plan (China)     | `XIAOMI_TOKEN_PLAN_CN_API_KEY`  |
-| Xiaomi MiMo Token Plan (Amsterdam) | `XIAOMI_TOKEN_PLAN_AMS_API_KEY` |
-| Xiaomi MiMo Token Plan (Singapore) | `XIAOMI_TOKEN_PLAN_SGP_API_KEY` |
+| Provider                                                                  | Environment variable            |
+|---------------------------------------------------------------------------|---------------------------------|
+| Anthropic                                                                 | `ANTHROPIC_API_KEY`             |
+| Ant Ling                                                                  | `ANT_LING_API_KEY`              |
+| OpenAI                                                                    | `OPENAI_API_KEY`                |
+| DeepSeek                                                                  | `DEEPSEEK_API_KEY`              |
+| NVIDIA NIM                                                                | `NVIDIA_API_KEY`                |
+| Google Gemini                                                             | `GEMINI_API_KEY`                |
+| GitHub Copilot                                                            | `COPILOT_GITHUB_TOKEN`          |
+| Mistral                                                                   | `MISTRAL_API_KEY`               |
+| Groq                                                                      | `GROQ_API_KEY`                  |
+| Cerebras                                                                  | `CEREBRAS_API_KEY`              |
+| xAI                                                                       | `XAI_API_KEY`                   |
+| OpenRouter                                                                | `OPENROUTER_API_KEY`            |
+| Vercel AI Gateway                                                         | `AI_GATEWAY_API_KEY`            |
+| ZAI Coding Plan (Global)                                                  | `ZAI_API_KEY`                   |
+| ZAI Coding Plan (China)                                                   | `ZAI_CODING_CN_API_KEY`         |
+| OpenCode Zen and Go                                                       | `OPENCODE_API_KEY`              |
+| Radius                                                                    | `RADIUS_API_KEY`                |
+| TypeSafe ([classifier models](/docs/latest/models#use-classifier-models)) | `TYPESAFE_API_KEY`              |
+| Hugging Face                                                              | `HF_TOKEN`                      |
+| Fireworks                                                                 | `FIREWORKS_API_KEY`             |
+| Together AI                                                               | `TOGETHER_API_KEY`              |
+| Baseten                                                                   | `BASETEN_API_KEY`               |
+| Kimi For Coding                                                           | `KIMI_API_KEY`                  |
+| Meta                                                                      | `META_API_KEY`                  |
+| MiniMax                                                                   | `MINIMAX_API_KEY`               |
+| MiniMax (China)                                                           | `MINIMAX_CN_API_KEY`            |
+| Moonshot AI (Global and China)                                            | `MOONSHOT_API_KEY`              |
+| Qwen Token Plan and Individual                                            | `QWEN_TOKEN_PLAN_API_KEY`       |
+| Qwen Token Plan (China)                                                   | `QWEN_TOKEN_PLAN_CN_API_KEY`    |
+| Xiaomi MiMo                                                               | `XIAOMI_API_KEY`                |
+| Xiaomi MiMo Token Plan (China)                                            | `XIAOMI_TOKEN_PLAN_CN_API_KEY`  |
+| Xiaomi MiMo Token Plan (Amsterdam)                                        | `XIAOMI_TOKEN_PLAN_AMS_API_KEY` |
+| Xiaomi MiMo Token Plan (Singapore)                                        | `XIAOMI_TOKEN_PLAN_SGP_API_KEY` |
 
 Anthropic also recognizes `ANTHROPIC_OAUTH_TOKEN` as an API credential and `ANTHROPIC_AUTH_TOKEN` as bearer authentication.
 
@@ -111,7 +109,8 @@ Anthropic also recognizes `ANTHROPIC_OAUTH_TOKEN` as an API credential and `ANTH
 
 To use a secret manager without writing the resolved key to disk, set a provider's `key` in `auth.json` to a command prefixed with `!`:
 
-``` json
+
+``` shiki
 {
   "anthropic": {
     "type": "api_key",
@@ -119,6 +118,7 @@ To use a secret manager without writing the resolved key to disk, set a provider
   }
 }
 ```
+
 
 Pi runs the command when the key is first needed and caches its standard output for the process lifetime. Empty output, a timeout, or a nonzero exit leaves the key unresolved until Pi restarts.
 
@@ -132,7 +132,8 @@ The providers below need additional settings or can use credentials supplied by 
 
 A stored API-key credential can include an `env` object. Its values take priority over the process environment for that provider:
 
-``` json
+
+``` shiki
 {
   "cloudflare-workers-ai": {
     "type": "api_key",
@@ -152,12 +153,14 @@ A stored API-key credential can include an `env` object. Its values take priorit
 
 Set an API key plus either a base URL or resource name:
 
-``` bash
+
+``` shiki
 export AZURE_OPENAI_API_KEY=...
 export AZURE_OPENAI_BASE_URL=https://your-resource.ai.azure.com
 # Or:
 export AZURE_OPENAI_RESOURCE_NAME=your-resource
 ```
+
 
 Resource root URLs under `ai.azure.com`, `cognitiveservices.azure.com`, and `openai.azure.com` are normalized to the OpenAI API path.
 
@@ -169,7 +172,8 @@ Resource root URLs under `ai.azure.com`, `cognitiveservices.azure.com`, and `ope
 
 Bedrock can use a bearer token or an ambient AWS credential source:
 
-``` bash
+
+``` shiki
 # Named profile
 export AWS_PROFILE=your-profile
 
@@ -187,6 +191,7 @@ export AWS_REGION=us-west-2
 # AWS_DEFAULT_REGION is also supported
 ```
 
+
 Pi also supports ECS task credentials and IRSA through the standard `AWS_CONTAINER_CREDENTIALS_*` and `AWS_WEB_IDENTITY_TOKEN_FILE` variables.
 
 
@@ -197,11 +202,13 @@ Pi also supports ECS task credentials and IRSA through the standard `AWS_CONTAIN
 
 The gateway requires a token, account ID, and gateway ID:
 
-``` bash
+
+``` shiki
 export CLOUDFLARE_API_KEY=...
 export CLOUDFLARE_ACCOUNT_ID=...
 export CLOUDFLARE_GATEWAY_ID=...
 ```
+
 
 The account and gateway IDs can come from the process environment or the credential's `env` object in `auth.json`.
 
@@ -215,10 +222,12 @@ The account and gateway IDs can come from the process environment or the credent
 
 Workers AI requires a token and account ID:
 
-``` bash
+
+``` shiki
 export CLOUDFLARE_API_KEY=...
 export CLOUDFLARE_ACCOUNT_ID=...
 ```
+
 
 The account ID can also be stored in the credential's `env` object.
 
@@ -230,23 +239,29 @@ The account ID can also be stored in the credential's `env` object.
 
 Use a Google Cloud API key:
 
-``` bash
+
+``` shiki
 export GOOGLE_CLOUD_API_KEY=...
 ```
 
+
 To use Application Default Credentials, configure a project and location:
 
-``` bash
+
+``` shiki
 export GOOGLE_CLOUD_PROJECT=your-project
 # GCLOUD_PROJECT is also supported
 export GOOGLE_CLOUD_LOCATION=us-central1
 ```
 
+
 Then authenticate:
 
-``` bash
+
+``` shiki
 gcloud auth application-default login
 ```
+
 
 To use a service-account key file instead, set `GOOGLE_APPLICATION_CREDENTIALS` along with the project and location.
 

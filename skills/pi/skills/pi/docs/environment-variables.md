@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -69,18 +64,22 @@ The values are resolved when each command starts. Switching models or changing t
 
 When asked which model or provider is running, inspect these variables instead of inferring the answer from the system prompt:
 
-``` bash
+
+``` shiki
 printf '%s/%s\n' "$PI_PROVIDER" "$PI_MODEL"
 printf 'reasoning=%s session=%s\n' "$PI_REASONING_LEVEL" "$PI_SESSION_ID"
 ```
 
+
 The session file can be inspected directly when the session is persistent:
 
-``` bash
+
+``` shiki
 if [ -n "$PI_SESSION_FILE" ]; then
   tail -n 1 "$PI_SESSION_FILE"
 fi
 ```
+
 
 These variables are injected into the LLM-callable `bash` and `powershell` tools. They are not injected into user-entered `!` or `!!` commands.
 
@@ -92,7 +91,8 @@ These variables are injected into the LLM-callable `bash` and `powershell` tools
 
 Tools created with `createBashTool()` or `createPowerShellTool()` expose the session environment by default when registered with Pi. Injection happens before `spawnHook`, so a hook receives the variables in `ctx.env`:
 
-``` typescript
+
+``` shiki
 const bashTool = createBashTool(cwd, {
   spawnHook: (ctx) => ({
     ...ctx,
@@ -101,14 +101,17 @@ const bashTool = createBashTool(cwd, {
 });
 ```
 
+
 Disable session metadata independently of the spawn hook:
 
-``` typescript
+
+``` shiki
 const powershellTool = createPowerShellTool(cwd, {
   exposeSessionEnvironment: false,
   spawnHook: (ctx) => ctx,
 });
 ```
+
 
 When disabled, Pi removes inherited values for these variables so nested Pi processes do not expose stale parent-session metadata.
 

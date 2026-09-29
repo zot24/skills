@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -72,7 +67,8 @@ All requests have `type: "extension_ui_request"`, a unique `id`, and a `method` 
 
 Prompt the user to choose from a list. Dialog methods with a `timeout` field include the timeout in milliseconds; the agent auto-resolves with `undefined` if the client doesn't respond in time.
 
-``` json
+
+``` shiki
 {
   "type": "extension_ui_request",
   "id": "uuid-1",
@@ -82,6 +78,7 @@ Prompt the user to choose from a list. Dialog methods with a `timeout` field inc
   "timeout": 10000
 }
 ```
+
 
 Expected response: `extension_ui_response` with `value` (the selected option string) or `cancelled: true`.
 
@@ -93,7 +90,8 @@ Expected response: `extension_ui_response` with `value` (the selected option str
 
 Prompt the user for yes/no confirmation.
 
-``` json
+
+``` shiki
 {
   "type": "extension_ui_request",
   "id": "uuid-2",
@@ -103,6 +101,7 @@ Prompt the user for yes/no confirmation.
   "timeout": 5000
 }
 ```
+
 
 Expected response: `extension_ui_response` with `confirmed: true/false` or `cancelled: true`.
 
@@ -114,7 +113,8 @@ Expected response: `extension_ui_response` with `confirmed: true/false` or `canc
 
 Prompt the user for free-form text.
 
-``` json
+
+``` shiki
 {
   "type": "extension_ui_request",
   "id": "uuid-3",
@@ -123,6 +123,7 @@ Prompt the user for free-form text.
   "placeholder": "type something..."
 }
 ```
+
 
 Expected response: `extension_ui_response` with `value` (the entered text) or `cancelled: true`.
 
@@ -134,7 +135,8 @@ Expected response: `extension_ui_response` with `value` (the entered text) or `c
 
 Open a multi-line text editor with optional prefilled content.
 
-``` json
+
+``` shiki
 {
   "type": "extension_ui_request",
   "id": "uuid-4",
@@ -143,6 +145,7 @@ Open a multi-line text editor with optional prefilled content.
   "prefill": "Line 1\nLine 2\nLine 3"
 }
 ```
+
 
 Expected response: `extension_ui_response` with `value` (the edited text) or `cancelled: true`.
 
@@ -154,7 +157,8 @@ Expected response: `extension_ui_response` with `value` (the edited text) or `ca
 
 Display a notification. Fire-and-forget, no response expected.
 
-``` json
+
+``` shiki
 {
   "type": "extension_ui_request",
   "id": "uuid-5",
@@ -163,6 +167,7 @@ Display a notification. Fire-and-forget, no response expected.
   "notifyType": "warning"
 }
 ```
+
 
 The `notifyType` field is `"info"`, `"warning"`, or `"error"`. Defaults to `"info"` if omitted.
 
@@ -174,7 +179,8 @@ The `notifyType` field is `"info"`, `"warning"`, or `"error"`. Defaults to `"inf
 
 Set or clear a status entry in the footer/status bar. Fire-and-forget.
 
-``` json
+
+``` shiki
 {
   "type": "extension_ui_request",
   "id": "uuid-6",
@@ -183,6 +189,7 @@ Set or clear a status entry in the footer/status bar. Fire-and-forget.
   "statusText": "Turn 3 running..."
 }
 ```
+
 
 Send `statusText: undefined` (or omit it) to clear the status entry for that key.
 
@@ -194,7 +201,8 @@ Send `statusText: undefined` (or omit it) to clear the status entry for that key
 
 Set or clear a widget (block of text lines) displayed above or below the editor. Fire-and-forget.
 
-``` json
+
+``` shiki
 {
   "type": "extension_ui_request",
   "id": "uuid-7",
@@ -204,6 +212,7 @@ Set or clear a widget (block of text lines) displayed above or below the editor.
   "widgetPlacement": "aboveEditor"
 }
 ```
+
 
 Send `widgetLines: undefined` (or omit it) to clear the widget. The `widgetPlacement` field is `"aboveEditor"` (default) or `"belowEditor"`. Only string arrays are supported in RPC mode; component factories are ignored.
 
@@ -215,7 +224,8 @@ Send `widgetLines: undefined` (or omit it) to clear the widget. The `widgetPlace
 
 Set the terminal window/tab title. Fire-and-forget.
 
-``` json
+
+``` shiki
 {
   "type": "extension_ui_request",
   "id": "uuid-8",
@@ -232,7 +242,8 @@ Set the terminal window/tab title. Fire-and-forget.
 
 Set the text in the input editor. Fire-and-forget.
 
-``` json
+
+``` shiki
 {
   "type": "extension_ui_request",
   "id": "uuid-9",
@@ -255,7 +266,7 @@ Responses are sent for dialog methods only (`select`, `confirm`, `input`, `edito
 <a href="#value-response-select-input-editor" class="heading-anchor" aria-label="Permalink: Value response (select, input, editor)" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc-extension-ui#value-response-select-input-editor"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` json
+``` shiki
 {"type": "extension_ui_response", "id": "uuid-1", "value": "Allow"}
 ```
 
@@ -265,7 +276,7 @@ Responses are sent for dialog methods only (`select`, `confirm`, `input`, `edito
 <a href="#confirmation-response-confirm" class="heading-anchor" aria-label="Permalink: Confirmation response (confirm)" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc-extension-ui#confirmation-response-confirm"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` json
+``` shiki
 {"type": "extension_ui_response", "id": "uuid-2", "confirmed": true}
 ```
 
@@ -277,7 +288,8 @@ Responses are sent for dialog methods only (`select`, `confirm`, `input`, `edito
 
 Dismiss any dialog method. The extension receives `undefined` (for select/input/editor) or `false` (for confirm).
 
-``` json
+
+``` shiki
 {"type": "extension_ui_response", "id": "uuid-3", "cancelled": true}
 ```
 

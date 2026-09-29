@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -30,7 +25,8 @@ On this page
 
 This page documents Pi's built-in command-line commands and options. Run `pi --help` or append `--help` to a command for the exact interface in your installed version. The top-level help also includes options registered by loaded extensions.
 
-``` sh
+
+``` shiki
 pi [options] [--] [@files...] [messages...]
 pi install <source> [options]
 pi remove <source> [options]
@@ -39,6 +35,7 @@ pi update [target] [options]
 pi list
 pi config [options]
 pi auth <check|print-api-key|print-bearer-token> [options]
+pi mcp <list|login|logout> [options]
 ```
 
 
@@ -47,12 +44,13 @@ pi auth <check|print-api-key|print-bearer-token> [options]
 <a href="#invocation-and-output" class="heading-anchor" aria-label="Permalink: Invocation and output" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#invocation-and-output"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` sh
+``` shiki
 pi
 pi --print "Summarize this repository"
 git diff | pi --print "Review this change"
 pi --mode json "Inspect this repository" > events.jsonl
 ```
+
 
 With terminal stdin and stdout, Pi opens the terminal UI unless `--print`, `--mode json`, or `--mode rpc` selects another interface. When either stream is redirected and neither JSON nor RPC mode is selected, Pi uses print mode. See [CLI Integration](/docs/latest/cli-integration) for choosing between interactive, print, JSON, RPC, and SDK integration.
 
@@ -83,9 +81,10 @@ RPC mode rejects `@file` arguments. JSON and RPC modes reserve stdout for protoc
 <a href="#models" class="heading-anchor" aria-label="Permalink: Models" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` sh
+``` shiki
 pi --model sonnet:high
 ```
+
 
 See [Choose a Model](/docs/latest/models) for model selection and [Provider Authentication](/docs/latest/providers) for credentials.
 
@@ -108,9 +107,10 @@ See [Choose a Model](/docs/latest/models) for model selection and [Provider Auth
 <a href="#sessions" class="heading-anchor" aria-label="Permalink: Sessions" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#sessions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` sh
+``` shiki
 pi --continue
 ```
+
 
 See [Sessions and Context](/docs/latest/sessions) for resuming, forking, naming, and storing sessions.
 
@@ -143,9 +143,10 @@ Constraints:
 <a href="#tools" class="heading-anchor" aria-label="Permalink: Tools" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` sh
+``` shiki
 pi --tools read,grep,find,ls --print "Review this project"
 ```
+
 
 See [Settings](/docs/latest/settings#tools) for configuring the default tool selection.
 
@@ -158,7 +159,7 @@ See [Settings](/docs/latest/settings#tools) for configuring the default tool sel
 - `-nt`, `--no-tools`  
   Starts with all built-in, extension, and custom tools disabled.
 
-Default enabled tools are `read`, `bash`, `edit`, and `write`, unless `defaultTools` changes them.
+Default enabled tools are `read`, `bash`, `edit`, and `write`, unless `defaultTools` changes them. `--tools` replaces the whole selection, so name every tool you want; `defaultTools` also accepts `+name` and `-name` to change the defaults instead.
 
 | Built-in     | Purpose                                           |
 |--------------|---------------------------------------------------|
@@ -171,22 +172,82 @@ Default enabled tools are `read`, `bash`, `edit`, and `write`, unless `defaultTo
 | `find`       | Find paths using glob patterns                    |
 | `ls`         | List directory contents                           |
 
+Built-in extensions add two more tools. They are off by default; the MCP extension turns them on when an MCP server needs them (see [MCP](/docs/latest/mcp#exposure)). To enable them yourself, name them in `--tools` or `defaultTools`.
+
+| Built-in extension | Purpose                                                                                                                                           |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| `codemode`         | Run JavaScript that calls the other tools, for example in parallel with `Promise.allSettled`; only the script's output reaches the model          |
+| `tool_search`      | Search tools that are not declared to the model (`codemode` and `deferred` exposure, such as MCP tools) and declare the matches for the next call |
+
+
+### Enable codemode
+
+<a href="#enable-codemode" class="heading-anchor" aria-label="Permalink: Enable codemode" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#enable-codemode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+To turn on `codemode` for every session, add it to the default tools in `~/.pi/agent/settings.json` or a project's `.pi/settings.json`:
+
+
+``` shiki
+{
+  "defaultTools": ["+codemode"]
+}
+```
+
+
+This keeps `read`, `bash`, `edit`, and `write` and adds `codemode`. For one invocation, list every tool, since `--tools` replaces the selection:
+
+
+``` shiki
+pi --tools read,bash,edit,write,codemode
+```
+
+
+Codemode is useful without MCP: scripts can run several tool calls in parallel, filter large output before it reaches the model, and call classifier models such as TypeSafe's Jev through `models.classify()` (see [Classifier models](/docs/latest/models#use-classifier-models)).
+
+
+### How codemode works
+
+<a href="#how-codemode-works" class="heading-anchor" aria-label="Permalink: How codemode works" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#how-codemode-works"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Codemode scripts run in a QuickJS sandbox that can only reach the other tools, through `tools.<name>(args)`; `ALL_TOOLS` lists them. Output comes from `text(value)`, `image(dataUrlOrImageContent)`, `console.*`, and a top-level `return value`; `exit()` ends the script early. The result starts with `Script completed` or `Script failed`, the wall time, and the output; a failed script keeps its partial output, followed by `Script error:` and the error.
+
+A script may start with an options line such as `// @options: {"max_output_tokens": 2000, "timeout_ms": 60000}`. `max_output_tokens` (default 10000) limits the output: longer output keeps its start and end, and the full text is written to a temp file whose path is included in the result. `timeout_ms` is a hard deadline, unset by default.
+
+While `codemode` is active, `codemode.mode` in [settings](/docs/latest/settings#tools) decides how the other tools are presented. With `on` (default) declared tools keep being declared and their descriptions show how to call them from scripts. With `only` they are hidden from the model and listed in the `codemode` description instead, so the model calls them through scripts.
+
+The `codemode` description lists the callable tools with their TypeScript declarations, grouped by namespace (for example one MCP server). Declarations share a budget of 3000 estimated tokens (`codemode.inlineBudget` in [settings](/docs/latest/settings#tools)); every namespace is still listed with its tool count, and the description says whether the list is complete. Scripts find the rest with `await searchTools(query, { limit, namespace })`, which ranks tools with BM25, and `await describeTool(name)`, or by filtering `ALL_TOOLS`.
+
+Tools with an output schema resolve to structured values: `bash` to `{ output, truncated, full_output_path?, exit_code, wall_time_seconds }`, also for non-zero exit codes, and MCP tools to their `CallToolResult`. Other tools resolve to their text output. The `output` of `bash` is not limited to the 2000 lines or 50KB the model sees: it holds up to 1 MiB, and longer output keeps its first and last 512 KiB around an omission marker, with `truncated` set and the full output in `full_output_path`.
+
+`store(key, value)` and `load(key)` keep JSON values across `codemode` calls: each successful script that stores values appends a `codemode-store` custom entry to the session, so resumed sessions keep the values and each branch sees only the values written on its path. Scripts can also use `models`: `getModelsOfType`, `getAvailableOfType`, and `getModelOfType` list the model catalog, and `classify(model, context)` runs a classifier model with the session's credentials, at most four at a time per script.
+
+
+### Tool search
+
+<a href="#tool-search" class="heading-anchor" aria-label="Permalink: Tool search" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#tool-search"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+`tool_search` is off by default; enable it with `"defaultTools": ["+tool_search"]` or `--tools`. It uses the same ranking as `searchTools()` over tools that are not declared yet and declares the matches for the next model call. Loaded tools are recorded in the session like other tool changes, so they stay declared on that branch.
+
 
 ## Resources
 
 <a href="#resources" class="heading-anchor" aria-label="Permalink: Resources" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` sh
+``` shiki
 pi --extension ./review.ts
 ```
+
 
 See [Configuration](/docs/latest/configuration) for conventional directories and project trust, [Settings](/docs/latest/settings#resources) for configured paths, and [Pi Packages](/docs/latest/packages) for package sources.
 
 - `-e`, `--extension <path>`  
-  Loads an extension file or directory and is repeatable.
+  Loads an extension file or directory, or a built-in extension such as `builtin:mcp`, and is repeatable.
 - `-ne`, `--no-extensions`  
-  Disables discovered and configured extensions. Explicit `-e` paths still load.
+  Disables discovered, configured, and built-in extensions. Explicit `-e` paths still load, so `pi -ne -e builtin:mcp` keeps only the built-in MCP support.
 - `--skill <path>`  
   Loads a skill file or directory and is repeatable.
 - `-ns`, `--no-skills`  
@@ -212,9 +273,10 @@ Resource paths apply only to the current process. Relative paths resolve from th
 <a href="#prompts-and-process" class="heading-anchor" aria-label="Permalink: Prompts and process" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#prompts-and-process"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` sh
+``` shiki
 pi --append-system-prompt ./instructions.md
 ```
+
 
 See [Configuration](/docs/latest/configuration) for saved configuration, [Security](/docs/latest/security#understand-project-trust) for project trust, and [Environment Variables](/docs/latest/environment-variables) for process controls.
 
@@ -245,9 +307,10 @@ Extensions may register additional long-form options. Unknown short options are 
 <a href="#package-commands" class="heading-anchor" aria-label="Permalink: Package commands" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#package-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` sh
+``` shiki
 pi install npm:@scope/package
 ```
+
 
 See [Pi Packages](/docs/latest/packages) for source formats, filtering, installation, and project scope.
 
@@ -302,9 +365,10 @@ Add `--force` to reinstall Pi when the selected update includes Pi.
 <a href="#credential-commands" class="heading-anchor" aria-label="Permalink: Credential commands" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#credential-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` sh
+``` shiki
 pi auth check --provider openai --json
 ```
+
 
 Authentication commands require `--provider <provider>` or `--model <model>`. See [Provider Authentication](/docs/latest/providers) for supported methods.
 
@@ -324,5 +388,26 @@ Authentication commands require `--provider <provider>` or `--model <model>`. Se
 | `--min-expiry <duration>` | `print-bearer-token` | Require remaining token lifetime using `ms`, `s`, `m`, or `h`, such as `30m` |
 
 Credential-printing commands write secrets to stdout.
+
+
+## MCP commands
+
+<a href="#mcp-commands" class="heading-anchor" aria-label="Permalink: MCP commands" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#mcp-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+These commands work outside a session, so agents can run them through `bash`. See [MCP Servers](/docs/latest/mcp).
+
+| Command                                                | Description                                                                                                                                                                                                                                             |
+|--------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `pi mcp add <server> [options] -- <command> [args...]` | Add or replace a stdio server in `mcp.json`; `--env KEY=VALUE` (repeatable) and `--cwd <dir>` set its environment and working directory. Arguments after the command are passed to it                                                                   |
+| `pi mcp add <server> [options] --url <url>`            | Add or replace a streamable HTTP server; `--header KEY=VALUE` (repeatable), `--bearer-token-env-var <NAME>` (sends `Authorization: Bearer ${NAME}`), `--oauth-client-id`, `--oauth-client-secret`, and `--oauth-callback-port` configure authentication |
+| `pi mcp remove <server>`                               | Remove a server from `mcp.json`; stored OAuth credentials are kept                                                                                                                                                                                      |
+| `pi mcp list [--json]`                                 | Connect to every enabled server and print its state, tools, and errors; exit with `1` when a config entry is invalid or an enabled server is not connected                                                                                              |
+| `pi mcp login <server> [--timeout <seconds>]`          | Sign in to an OAuth server: open the authorization page and wait for the browser (default 300 seconds); a terminal also accepts the pasted redirect URL                                                                                                 |
+| `pi mcp logout <server>`                               | Delete the stored OAuth credentials of a server                                                                                                                                                                                                         |
+
+`add` and `remove` change `~/.pi/agent/mcp.json`, or `.pi/mcp.json` in the current directory with `--local` (`-l`). `add` also takes `--exposure <mode>` (see [Exposure](/docs/latest/mcp#exposure)) and does not connect; run `pi mcp list` to check the server.
+
+Project `.pi/mcp.json` files are only read for projects that are already trusted.
 
 

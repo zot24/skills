@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -79,7 +74,8 @@ Plain Docker provides the simplest whole-process container boundary.
 
 Create `Dockerfile.pi`:
 
-``` dockerfile
+
+``` shiki
 FROM node:24-bookworm-slim
 
 RUN apt-get update \
@@ -91,9 +87,11 @@ WORKDIR /workspace
 ENTRYPOINT ["pi"]
 ```
 
+
 Build it from the directory containing the file:
 
-``` bash
+
+``` shiki
 docker build -t pi-sandbox -f Dockerfile.pi .
 ```
 
@@ -105,13 +103,15 @@ docker build -t pi-sandbox -f Dockerfile.pi .
 
 From the working folder you want Pi to access, run:
 
-``` bash
+
+``` shiki
 docker run --rm -it \
   -e ANTHROPIC_API_KEY \
   -v "$PWD:/workspace" \
   -v pi-agent-home:/root/.pi/agent \
   pi-sandbox
 ```
+
 
 Replace `ANTHROPIC_API_KEY` with the credential required by your provider. The named `pi-agent-home` volume keeps container-local settings, credentials, and sessions between runs.
 
@@ -125,9 +125,11 @@ Do not mount the host's `~/.pi/agent` unless the container should have access to
 
 Inside Pi, run:
 
-``` text
+
+``` shiki
 !pwd
 ```
+
 
 The command should report `/workspace`. Changes under `/workspace` write through to the mounted host folder. Remove the bind mount or use a read-only mount when that is not acceptable.
 
@@ -149,7 +151,8 @@ Configure credentials before creating the sandbox. Do not run `/login` inside th
 
 Generate the token with `claude setup-token` on a machine with Claude Code. If an `anthropic` secret is already configured, remove it first so the proxy does not add an API-key header alongside the bearer token:
 
-``` bash
+
+``` shiki
 sbx secret rm anthropic
 
 sbx secret set-custom \
@@ -157,6 +160,7 @@ sbx secret set-custom \
   --env ANTHROPIC_OAUTH_TOKEN \
   --placeholder 'sk-ant-oat01-{rand}'
 ```
+
 
 `sbx secret set-custom` reads the real token from standard input. The sandbox receives an OAuth-shaped placeholder, which the proxy replaces only for requests to the configured host.
 
@@ -170,15 +174,19 @@ For an Anthropic API key, use `sbx secret set anthropic` instead.
 
 Run this from the working folder you want mounted:
 
-``` bash
+
+``` shiki
 sbx run --kit "docker.io/sbx/pi-kit:latest" pi
 ```
 
+
 For an existing sandbox, run Pi non-interactively with:
 
-``` bash
+
+``` shiki
 sbx exec <sandbox-name> -- pi -p "list the failing tests"
 ```
+
 
 See the [Pi kit documentation](https://github.com/docker/sbx-kits-contrib/tree/main/pi) for other providers, troubleshooting, and image pinning.
 
@@ -198,7 +206,8 @@ See the [Pi kit documentation](https://github.com/docker/sbx-kits-contrib/tree/m
 
 Every sandbox requires an active gateway:
 
-``` bash
+
+``` shiki
 openshell gateway add <gateway-url> --name <name>
 openshell gateway select <name>
 ```
@@ -209,9 +218,10 @@ openshell gateway select <name>
 <a href="#create-the-sandbox" class="heading-anchor" aria-label="Permalink: Create the sandbox" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#create-the-sandbox"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` bash
+``` shiki
 openshell sandbox create --name pi-sandbox --from pi -- pi
 ```
+
 
 Pi, its built-in tools, `!` commands, and extension tools run inside the OpenShell boundary.
 
@@ -223,10 +233,12 @@ Pi, its built-in tools, `!` commands, and extension tools run inside the OpenShe
 
 A remote gateway does not bind-mount your host working folder. Clone the repository inside the sandbox or transfer files explicitly:
 
-``` bash
+
+``` shiki
 openshell sandbox upload pi-sandbox ./working-folder /workspace
 openshell sandbox download pi-sandbox /workspace/working-folder ./working-folder-out
 ```
+
 
 OpenShell inference routing can keep raw model credentials outside the sandbox. When configured, point Pi at the corresponding OpenAI-compatible or Anthropic-compatible endpoint exposed by the gateway.
 
@@ -250,7 +262,8 @@ Gondolin requires Node.js 23.6 or newer and QEMU installed through your operatin
 
 From a Pi source checkout:
 
-``` bash
+
+``` shiki
 mkdir -p ~/.pi/agent/extensions
 cp -R packages/coding-agent/examples/extensions/gondolin ~/.pi/agent/extensions/gondolin
 cd ~/.pi/agent/extensions/gondolin
@@ -265,10 +278,12 @@ npm install --ignore-scripts
 
 Run Pi from the working folder you want mounted:
 
-``` bash
+
+``` shiki
 cd /path/to/working-folder
 pi -e ~/.pi/agent/extensions/gondolin
 ```
+
 
 The extension mounts the host working folder at `/workspace` in the VM and overrides `read`, `write`, `edit`, `bash`, `grep`, `find`, and `ls`. File changes under `/workspace` write through to the host.
 

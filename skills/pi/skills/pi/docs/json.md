@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -30,9 +25,11 @@ On this page
 
 JSON mode emits structured progress for one invocation:
 
-``` bash
+
+``` shiki
 pi --mode json "Review this repository"
 ```
+
 
 Pi writes one session header followed by session events, then exits after the supplied prompts finish. RPC mode emits the same session-event shapes but has no session header because it is a bidirectional, long-lived protocol. See [RPC Mode](/docs/latest/rpc).
 
@@ -58,9 +55,11 @@ Read stdout continuously. A reader that stops consuming records can stall Pi whe
 
 The first JSON-mode record is the current [session header](/docs/latest/session-format#sessionheader):
 
-``` json
+
+``` shiki
 {"type":"session","version":3,"id":"uuid","timestamp":"2024-12-03T14:00:00.000Z","cwd":"/path"}
 ```
+
 
 RPC mode does not emit this record. Use [`get_state`](/docs/latest/rpc-commands#get_state) for its current session ID and file.
 
@@ -72,7 +71,8 @@ RPC mode does not emit this record. Use [`get_state`](/docs/latest/rpc-commands#
 
 A basic run produces records like these:
 
-``` json
+
+``` shiki
 {"type":"agent_start"}
 {"type":"turn_start"}
 {"type":"message_start","message":{"role":"user","content":"Review this repository","timestamp":1733234401000}}
@@ -84,6 +84,7 @@ A basic run produces records like these:
 {"type":"agent_end","messages":[{"...":"..."}],"willRetry":false}
 {"type":"agent_settled"}
 ```
+
 
 `agent_end` closes one low-level agent run. Automatic retry, overflow recovery, compaction retry, steering, or follow-up work can still continue. `agent_settled` means Pi has no remaining automatic work for that session-level run.
 
@@ -146,7 +147,8 @@ Use `contentIndex` to identify the content block. Buffer `delta` fields for a li
 
 The top-level `usage` is the latest cumulative provider-reported usage for the assistant response. It can remain zero until completion when a provider does not report usage while streaming.
 
-``` json
+
+``` shiki
 {"type":"message_update","usage":{"input":100,"output":1,"cacheRead":0,"cacheWrite":0,"totalTokens":101,"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0}},"assistantMessageEvent":{"type":"text_delta","contentIndex":0,"delta":"Hello "}}
 ```
 
@@ -164,7 +166,8 @@ The top-level `usage` is the latest cumulative provider-reported usage for the a
 
 Use `toolCallId` to correlate the lifecycle. `partialResult` is the latest partial result supplied by the tool. Whether it replaces or extends an earlier update depends on that tool's result contract.
 
-``` json
+
+``` shiki
 {"type":"tool_execution_start","toolCallId":"call_abc123","toolName":"bash","args":{"command":"ls -la"}}
 {"type":"tool_execution_update","toolCallId":"call_abc123","toolName":"bash","args":{"command":"ls -la"},"partialResult":{"content":[{"type":"text","text":"partial output"}],"details":{}}}
 {"type":"tool_execution_end","toolCallId":"call_abc123","toolName":"bash","result":{"content":[{"type":"text","text":"complete output"}],"details":{}},"isError":false}
@@ -193,15 +196,18 @@ The `entry` value uses a persisted [session entry type](/docs/latest/session-for
 
 `compaction_start` reports why compaction began:
 
-``` json
+
+``` shiki
 {"type":"compaction_start","reason":"threshold"}
 ```
+
 
 `reason` is `"manual"`, `"threshold"`, or `"overflow"`.
 
 `compaction_end` contains the result when compaction succeeds:
 
-``` json
+
+``` shiki
 {
   "type": "compaction_end",
   "reason": "threshold",
@@ -218,6 +224,7 @@ The `entry` value uses a persisted [session entry type](/docs/latest/session-for
 }
 ```
 
+
 If compaction was aborted, `result` is absent and `aborted` is true. If it failed, `result` is absent, `aborted` is false, and `errorMessage` describes the failure. Successful overflow recovery sets `willRetry` to true before Pi retries the prompt.
 
 See [Compaction and Branch Summaries](/docs/latest/compaction) for result semantics.
@@ -230,20 +237,24 @@ See [Compaction and Branch Summaries](/docs/latest/compaction) for result semant
 
 Assistant-turn retry emits:
 
-``` json
+
+``` shiki
 {"type":"auto_retry_start","attempt":1,"maxAttempts":3,"delayMs":2000,"errorMessage":"529 overloaded"}
 {"type":"auto_retry_end","success":true,"attempt":2}
 ```
+
 
 On final failure, `auto_retry_end` has `success: false` and a `finalError` string.
 
 Compaction and branch-summary retry emit:
 
-``` json
+
+``` shiki
 {"type":"summarization_retry_scheduled","attempt":1,"maxAttempts":3,"delayMs":2000,"errorMessage":"terminated"}
 {"type":"summarization_retry_attempt_start","source":"compaction","reason":"threshold"}
 {"type":"summarization_retry_finished"}
 ```
+
 
 For a branch summary, `source` is `"branchSummary"` and `reason` is absent. The `reason` on a compaction retry is `"manual"`, `"threshold"`, or `"overflow"`.
 
@@ -255,15 +266,19 @@ For a branch summary, `source` is `"branchSummary"` and `reason` is absent. The 
 
 A direct RPC [`bash`](/docs/latest/rpc-commands#bash) command emits one `bash_execution_update` for each output chunk. Its optional `id` matches the command ID. The final command response can contain truncated output, but these events stream all output:
 
-``` json
+
+``` shiki
 {"type":"bash_execution_update","id":"req-1","delta":"total 48\n"}
 ```
 
+
 RPC also adds `extension_error` when an extension handler throws:
 
-``` json
+
+``` shiki
 {"type":"extension_error","extensionPath":"/path/to/extension.ts","event":"tool_call","error":"Error message"}
 ```
+
 
 Extension UI records are a separate RPC subprotocol, not `AgentSessionEvent` values. See [RPC Extension UI](/docs/latest/rpc-extension-ui).
 
@@ -275,7 +290,8 @@ Extension UI records are a separate RPC subprotocol, not `AgentSessionEvent` val
 
 The SDK's `AgentSessionEvent` contains cumulative streaming snapshots for in-process consumers. JSON and RPC transform only `message_update`:
 
-``` typescript
+
+``` shiki
 type WithoutPartial<T> = T extends { partial: unknown } ? Omit<T, "partial"> : T;
 
 type JsonAssistantMessageEvent<T> = T extends { type: "toolcall_start"; partial: unknown }
@@ -291,6 +307,7 @@ type JsonAgentSessionEvent =
     };
 ```
 
+
 Use the exported `JsonAgentSessionEvent` type from `@earendil-works/pi-coding-agent`. Its implementation is in [`json-event.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/json-event.ts).
 
 
@@ -301,7 +318,8 @@ Use the exported `JsonAgentSessionEvent` type from `@earendil-works/pi-coding-ag
 
 Print completed messages from a one-shot run:
 
-``` bash
+
+``` shiki
 pi --mode json "List files" 2>/dev/null | jq -c 'select(.type == "message_end")'
 ```
 
