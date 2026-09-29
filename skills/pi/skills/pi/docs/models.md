@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -94,7 +89,8 @@ For Ollama, LM Studio, vLLM, SGLang, and other compatible servers, [configure a 
 
 Use [`models.json`](/docs/latest/configuration#agent-directory) when an endpoint speaks an API Pi already supports. This includes most Ollama, LM Studio, vLLM, SGLang, and proxy deployments.
 
-``` json
+
+``` shiki
 {
   "providers": {
     "ollama": {
@@ -109,6 +105,7 @@ Use [`models.json`](/docs/latest/configuration#agent-directory) when an endpoint
 }
 ```
 
+
 The dummy key makes the model available to Pi; Ollama ignores it. For an authenticated endpoint, `apiKey` and header values can use `$NAME` or `${NAME}` environment interpolation, a literal value, or a leading `!command`. Commands in `models.json` run at request time and are not cached by Pi.
 
 Opening `/model` reloads the file. A `models` entry adds or replaces a model with the same ID on that provider. Use `modelOverrides` to change metadata for an existing built-in or extension-provided model without replacing the provider's model list. Unknown override IDs are ignored.
@@ -121,7 +118,8 @@ Opening `/model` reloads the file. A `models` entry adds or replaces a model wit
 
 Use `inputLimits.images.resize` to control how Pi encodes new image attachments, `read` results, and tool-result images before storing them in conversation history:
 
-``` json
+
+``` shiki
 {
   "id": "vision-model",
   "input": ["text", "image"],
@@ -138,18 +136,62 @@ Use `inputLimits.images.resize` to control how Pi encodes new image attachments,
 }
 ```
 
+
 `maxBytes` limits the base64-encoded payload. Omitted resize fields use conservative defaults of 2000 by 2000 pixels, 4.5 MiB encoded, and JPEG quality 80. Images are encoded once; changing models does not rewrite historical images. The catalog can also describe hard request limits with `inputLimits.maxRequestBytes`, `images.maxPerMessage`, and `images.maxPerRequest`, but Pi does not yet rewrite or reject history based on them.
 
 
 Use `promptCache` to declare the provider's best-effort cache lifetime in seconds for the `short` or `long` retention tier:
 
-``` json
+
+``` shiki
 { "id": "claude-sonnet-5", "promptCache": { "short": 300, "long": 3600 } }
 ```
+
 
 Choose the conservative end of any published range. A model without a lifetime for the active tier is not eligible for cache warming. A `modelOverrides` entry can set `inputLimits` or `promptCache` for a built-in or extension model, including a model accessed through a validated proxy. See [`cacheWarming`](/docs/latest/settings#model-and-thinking).
 
 Compatibility settings should describe verified differences in the endpoint's request or response behavior. Do not enable them based only on an endpoint advertising OpenAI or Anthropic compatibility.
+
+
+## Use classifier models
+
+<a href="#use-classifier-models" class="heading-anchor" aria-label="Permalink: Use classifier models" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#use-classifier-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Classifier models do not chat. They answer typed questions about JSON state: pick one of several choices, answer yes or no, or give a score, each with probabilities. Pi includes TypeSafe's Jev model from these providers:
+
+| Provider                | Model IDs                                   | Authentication                                   |
+|-------------------------|---------------------------------------------|--------------------------------------------------|
+| `typesafe`              | `jev-latest`                                | `TYPESAFE_API_KEY`                               |
+| `openrouter`            | `typesafe/jev-1.13`, `~typesafe/jev-latest` | `OPENROUTER_API_KEY` or `/login`                 |
+| `cloudflare-workers-ai` | `typesafe/jev`                              | `CLOUDFLARE_API_KEY` and `CLOUDFLARE_ACCOUNT_ID` |
+| `vercel-ai-gateway`     | `typesafe-ai/jev`                           | `AI_GATEWAY_API_KEY`                             |
+| `opencode`              | `jev-1.13`, `jev-1.13-free`                 | `OPENCODE_API_KEY`                               |
+
+Chat models on a [llama.cpp router](/docs/latest/llama-cpp#classification) are also listed as classifier models.
+
+Classifier models do not appear in `/model`. The model reaches them through the [`codemode`](/docs/latest/cli#enable-codemode) tool, which is off unless an MCP server turned it on. Enable it with `"defaultTools": ["+codemode"]` in [settings](/docs/latest/settings#tools). Scripts then list classifier models with `models.getAvailableOfType("classifier")` and call `models.classify(model, { state, questions })`:
+
+
+``` shiki
+const jev = await models.getModelOfType("classifier", "typesafe", "jev-latest");
+const result = await models.classify(jev, {
+  state: { message: "The change works, thanks." },
+  questions: {
+    approved: {
+      type: "bool",
+      instructions: "Does the user approve of the result?",
+      criteria: { true: "Approval", false: "No approval" },
+    },
+  },
+});
+return result.answers;
+```
+
+
+When the service reports token counts, as all System One services do, `result.usage` carries them with their cost. Pi adds the usage of a script's classifier calls to the `codemode` tool result, so it counts toward the session cost in the footer and `/session`. The cost uses the model's catalog price; models without one, such as TypeSafe's direct `jev-latest`, report tokens at no cost.
+
+Extensions call classifiers through `ctx.modelRegistry.classify()`, without codemode. [Virtual models](/docs/latest/virtual-models#route-requests) can use them to route requests; see the `jev-router.ts` example.
 
 
 ## Add a custom provider

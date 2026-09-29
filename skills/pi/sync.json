@@ -242,6 +242,18 @@
       "target": "skills/pi/docs/slash-commands.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/mcp",
+      "target": "skills/pi/docs/mcp.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/virtual-models",
+      "target": "skills/pi/docs/virtual-models.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

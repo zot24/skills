@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -49,13 +44,14 @@ Source definitions:
 <a href="#textcontent" class="heading-anchor" aria-label="Permalink: TextContent" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#textcontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface TextContent {
   type: "text";
   text: string;
   textSignature?: string;
 }
 ```
+
 
 `textSignature` contains provider-specific message metadata. Treat it as opaque.
 
@@ -65,13 +61,14 @@ interface TextContent {
 <a href="#imagecontent" class="heading-anchor" aria-label="Permalink: ImageContent" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#imagecontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface ImageContent {
   type: "image";
   data: string;
   mimeType: string;
 }
 ```
+
 
 `data` is base64-encoded image data. `mimeType` identifies its media type, such as `image/png` or `image/jpeg`.
 
@@ -81,7 +78,7 @@ interface ImageContent {
 <a href="#thinkingcontent" class="heading-anchor" aria-label="Permalink: ThinkingContent" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#thinkingcontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface ThinkingContent {
   type: "thinking";
   thinking: string;
@@ -89,6 +86,7 @@ interface ThinkingContent {
   redacted?: boolean;
 }
 ```
+
 
 Thinking signatures contain provider-specific replay data. Treat them as opaque. A redacted block can have no visible thinking text while retaining an encrypted payload in `thinkingSignature`.
 
@@ -98,7 +96,7 @@ Thinking signatures contain provider-specific replay data. Treat them as opaque.
 <a href="#toolcall" class="heading-anchor" aria-label="Permalink: ToolCall" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#toolcall"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface ToolCall {
   type: "toolCall";
   id: string;
@@ -108,6 +106,7 @@ interface ToolCall {
   namespace?: string;
 }
 ```
+
 
 `thoughtSignature` is provider-specific. `namespace` identifies an OpenAI Responses namespace for dynamically loaded or namespaced tools.
 
@@ -119,7 +118,8 @@ interface ToolCall {
 
 Assistant messages always contain usage. Tool results can contain usage when the tool performed nested model work.
 
-``` typescript
+
+``` shiki
 interface Usage {
   input: number;
   output: number;
@@ -138,6 +138,7 @@ interface Usage {
 }
 ```
 
+
 When present, `reasoning` is already included in `output`; do not add it again. `cacheWrite1h` is the subset of `cacheWrite` written with one-hour retention.
 
 
@@ -151,7 +152,7 @@ When present, `reasoning` is already included in `output`; do not add it again. 
 <a href="#systemmessage" class="heading-anchor" aria-label="Permalink: SystemMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#systemmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface SystemMessage {
   role: "system";
   content: string | TextContent[];
@@ -163,6 +164,7 @@ interface SystemMessage {
 }
 ```
 
+
 The leading system message declares the initial prompt and tools. Later system messages can append instructions, replace or remove named prompt sections, and add or remove tools. Replaying them in order yields the current state. A message with `replace: true` discards the earlier state and establishes a complete new baseline.
 
 
@@ -171,7 +173,7 @@ The leading system message declares the initial prompt and tools. Later system m
 <a href="#usermessage" class="heading-anchor" aria-label="Permalink: UserMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#usermessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface UserMessage {
   role: "user";
   content: string | (TextContent | ImageContent)[];
@@ -185,7 +187,7 @@ interface UserMessage {
 <a href="#assistantmessage" class="heading-anchor" aria-label="Permalink: AssistantMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#assistantmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface AssistantMessage {
   role: "assistant";
   content: (TextContent | ThinkingContent | ToolCall)[];
@@ -206,13 +208,15 @@ interface AssistantMessage {
 }
 ```
 
+
 `responseModel` records a concrete provider response model when it differs from the requested model. `responseId`, `providerThinkingLevel`, `diagnostics`, and `rawStopReason` preserve provider or runtime details.
 
 `"pending"` is used for a partial assistant message while it streams. The completed message in `message_end` has a terminal stop reason, and Pi does not persist `"pending"` assistant messages in session JSONL.
 
 A `"deferred"` response has a `DeferredHandle` with the provider data needed to retrieve it:
 
-``` typescript
+
+``` shiki
 interface DeferredHandle {
   provider: string;
   modelId: string;
@@ -230,7 +234,7 @@ interface DeferredHandle {
 <a href="#toolresultmessage" class="heading-anchor" aria-label="Permalink: ToolResultMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#toolresultmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface ToolResultMessage<TDetails = any> {
   role: "toolResult";
   toolCallId: string;
@@ -242,6 +246,7 @@ interface ToolResultMessage<TDetails = any> {
   timestamp: number;
 }
 ```
+
 
 `details` is tool-specific. Optional `usage` reports nested model work performed by the tool and contributes to full-session statistics, but it is not part of the main model-call usage.
 
@@ -261,7 +266,8 @@ The coding-agent package extends `AgentMessage` with four roles.
 
 Created by direct shell commands, including the RPC [`bash`](/docs/latest/rpc-commands#bash) command. It is not an LLM tool result.
 
-``` typescript
+
+``` shiki
 interface BashExecutionMessage {
   role: "bashExecution";
   command: string;
@@ -275,6 +281,7 @@ interface BashExecutionMessage {
 }
 ```
 
+
 Unless `excludeFromContext` is true, Pi converts this message to user-role text before the next model request.
 
 
@@ -285,7 +292,8 @@ Unless `excludeFromContext` is true, Pi converts this message to user-role text 
 
 Created when an extension sends a context message.
 
-``` typescript
+
+``` shiki
 interface CustomMessage<T = unknown> {
   role: "custom";
   customType: string;
@@ -296,6 +304,7 @@ interface CustomMessage<T = unknown> {
 }
 ```
 
+
 Pi converts its content to a user message for model requests. `display` controls terminal rendering; `details` is not sent to the model.
 
 
@@ -304,7 +313,7 @@ Pi converts its content to a user message for model requests. `display` controls
 <a href="#branchsummarymessage" class="heading-anchor" aria-label="Permalink: BranchSummaryMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#branchsummarymessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface BranchSummaryMessage {
   role: "branchSummary";
   summary: string;
@@ -312,6 +321,7 @@ interface BranchSummaryMessage {
   timestamp: number;
 }
 ```
+
 
 Pi creates this context message from a persisted `branch_summary` entry.
 
@@ -321,7 +331,7 @@ Pi creates this context message from a persisted `branch_summary` entry.
 <a href="#compactionsummarymessage" class="heading-anchor" aria-label="Permalink: CompactionSummaryMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#compactionsummarymessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-``` typescript
+``` shiki
 interface CompactionSummaryMessage {
   role: "compactionSummary";
   summary: string;
@@ -329,6 +339,7 @@ interface CompactionSummaryMessage {
   timestamp: number;
 }
 ```
+
 
 Pi creates this context message from a persisted `compaction` entry.
 
@@ -340,7 +351,8 @@ Pi creates this context message from a persisted `compaction` entry.
 
 In the coding agent, the union is equivalent to:
 
-``` typescript
+
+``` shiki
 type AgentMessage =
   | SystemMessage
   | UserMessage
@@ -351,6 +363,7 @@ type AgentMessage =
   | BranchSummaryMessage
   | CompactionSummaryMessage;
 ```
+
 
 At the lower-level agent package, `AgentMessage` is `Message | CustomAgentMessages[keyof CustomAgentMessages]`. Applications can add roles through TypeScript declaration merging, so consumers should tolerate unknown custom roles when they accept messages from an augmented host.
 

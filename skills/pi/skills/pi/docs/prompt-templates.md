@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -40,13 +35,15 @@ A template can accept arguments and appear in command completion. Pi can load te
 
 Create `~/.pi/agent/prompts/review.md`:
 
-``` markdown
+
+``` shiki
 ---
 description: Review staged git changes
 argument-hint: "[focus]"
 ---
 Review the staged changes. Focus on ${1:-correctness, security, and error handling}.
 ```
+
 
 The filename becomes the command name, so this template is available as `/review`. The `description` appears in command completion. If it is omitted, Pi uses the first non-empty line.
 
@@ -62,10 +59,12 @@ Run `/reload` after adding or changing a template in an active session.
 
 Type the template command in the editor:
 
-``` text
+
+``` shiki
 /review
 /review concurrency
 ```
+
 
 Pi expands the template before the resulting text enters the agent. Extensions receive the raw input first through the `input` event unless an extension command with the same name handles it.
 

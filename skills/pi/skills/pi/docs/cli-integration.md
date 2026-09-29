@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -57,9 +52,11 @@ CLI options still select the working directory, model, tools, resources, and ses
 
 Print mode runs the supplied prompts, writes the final assistant text to stdout, and exits:
 
-``` bash
+
+``` shiki
 pi --print "Summarize the changes in this repository"
 ```
+
 
 Use print mode when only the final text is needed, including command substitution, pipelines, and one-shot jobs. Intermediate events are not exposed.
 
@@ -75,9 +72,11 @@ When no mode is selected explicitly, non-TTY stdin or stdout also selects print 
 
 JSON mode writes a session header followed by agent and session events as newline-delimited JSON:
 
-``` bash
+
+``` shiki
 pi --mode json "Review this repository" > events.jsonl
 ```
+
 
 This is structured event output, not a single JSON result or a constraint on the format of the model’s response.
 
@@ -99,9 +98,11 @@ Stdout is reserved for JSONL. Diagnostics and application logging are written to
 
 RPC mode keeps Pi running while another process sends commands and receives responses and events:
 
-``` bash
+
+``` shiki
 pi --mode rpc --no-session
 ```
+
 
 Commands are JSON objects written to stdin. Responses and events are JSON objects written to stdout. Every record occupies one line.
 
@@ -131,7 +132,8 @@ If you are building a client without `RpcClient`, start with [RPC Protocol](/doc
 
 A source fork can change the CLI name and configuration directory through `package.json`:
 
-``` json
+
+``` shiki
 {
   "piConfig": {
     "name": "my-agent",
@@ -139,6 +141,7 @@ A source fork can change the CLI name and configuration directory through `packa
   }
 }
 ```
+
 
 Change the top-level `bin` field to set the executable name. These settings affect the CLI banner, configuration paths, and derived environment variable names.
 

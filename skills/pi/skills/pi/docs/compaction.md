@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -68,7 +63,11 @@ Both use closely related structured formats and track file operations cumulative
 
 Auto-compaction triggers when:
 
-    contextTokens > contextWindow - reserveTokens
+
+``` shiki
+contextTokens > contextWindow - reserveTokens
+```
+
 
 By default, `reserveTokens` is 16384 tokens (configurable in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settings.json`). This leaves room for the LLM's response.
 
@@ -90,37 +89,39 @@ You can also trigger manually with `/compact [instructions]`, where optional ins
 4.  **Append entry**: Save `CompactionEntry` with summary and `firstKeptEntryId`
 5.  **Rebuilds context**: Session rebuilds the context for the next request, using summary + messages from `firstKeptEntryId` onwards
 
-<!-- -->
 
-    Before compaction:
+``` shiki
+Before compaction:
 
-      entry:  0     1     2     3      4     5     6      7      8     9
-            ┌─────┬─────┬─────┬──────┬─────┬─────┬──────┬──────┬─────┬─────┐
-            │ hdr │ usr │ ass │ tool │ usr │ ass │ tool │ tool │ ass │ tool│
-            └─────┴─────┴─────┴──────┴─────┴─────┴──────┴──────┴─────┴─────┘
-                    └────────┬───────┘ └──────────────┬──────────────┘
-                   messagesToSummarize            kept messages
-                                       ↑
-                              firstKeptEntryId (entry 4)
+  entry:  0     1     2     3      4     5     6      7      8     9
+        ┌─────┬─────┬─────┬──────┬─────┬─────┬──────┬──────┬─────┬─────┐
+        │ hdr │ usr │ ass │ tool │ usr │ ass │ tool │ tool │ ass │ tool│
+        └─────┴─────┴─────┴──────┴─────┴─────┴──────┴──────┴─────┴─────┘
+                └────────┬───────┘ └──────────────┬──────────────┘
+               messagesToSummarize            kept messages
+                                   ↑
+                          firstKeptEntryId (entry 4)
 
-    After compaction (new entry appended):
+After compaction (new entry appended):
 
-      entry:  0     1     2     3      4     5     6      7      8     9     10
-            ┌─────┬─────┬─────┬──────┬─────┬─────┬──────┬──────┬─────┬─────┬─────┐
-            │ hdr │ usr │ ass │ tool │ usr │ ass │ tool │ tool │ ass │ tool│ cmp │
-            └─────┴─────┴─────┴──────┴─────┴─────┴──────┴──────┴─────┴─────┴─────┘
-                   └──────────┬──────┘ └──────────────────────┬───────────────────┘
-                     not sent to LLM                    sent to LLM
-                                                             ↑
-                                                  starts from firstKeptEntryId
+  entry:  0     1     2     3      4     5     6      7      8     9     10
+        ┌─────┬─────┬─────┬──────┬─────┬─────┬──────┬──────┬─────┬─────┬─────┐
+        │ hdr │ usr │ ass │ tool │ usr │ ass │ tool │ tool │ ass │ tool│ cmp │
+        └─────┴─────┴─────┴──────┴─────┴─────┴──────┴──────┴─────┴─────┴─────┘
+               └──────────┬──────┘ └──────────────────────┬───────────────────┘
+                 not sent to LLM                    sent to LLM
+                                                         ↑
+                                              starts from firstKeptEntryId
 
-    What the LLM sees:
+What the LLM sees:
 
-      ┌────────┬─────────┬─────┬─────┬──────┬──────┬─────┬──────┐
-      │ system │ summary │ usr │ ass │ tool │ tool │ ass │ tool │
-      └────────┴─────────┴─────┴─────┴──────┴──────┴─────┴──────┘
-           ↑         ↑      └─────────────────┬────────────────┘
-        prompt   from cmp          messages from firstKeptEntryId
+  ┌────────┬─────────┬─────┬─────┬──────┬──────┬─────┬──────┐
+  │ system │ summary │ usr │ ass │ tool │ tool │ ass │ tool │
+  └────────┴─────────┴─────┴─────┴──────┴──────┴─────┴──────┘
+       ↑         ↑      └─────────────────┬────────────────┘
+    prompt   from cmp          messages from firstKeptEntryId
+```
+
 
 On repeated compactions, the summarized span starts at the previous compaction's kept boundary (`firstKeptEntryId`), not at the compaction entry itself, falling back to the entry after the previous compaction if that kept entry cannot be found in the path. A retain-none compaction records its own ID as `firstKeptEntryId`; repeated compaction starts after that entry. This preserves messages that survived the earlier compaction by including them in the next summarization pass as well. Pi also recalculates `tokensBefore` from the rebuilt, context-edited session projection before writing the new `CompactionEntry`, so the token count reflects the actual pre-compaction context being replaced. Omitted raw entries remain stored but do not affect cut selection, summaries, checkpoints, or token estimates.
 
@@ -132,7 +133,8 @@ On repeated compactions, the summarized span starts at the previous compaction's
 
 Recovery preserves the existing lifecycle and queue order. The completed attempt remains visible to `turn_end` and `agent_end`; post-run recovery then repairs persisted model context before a fresh retry:
 
-``` text
+
+``` shiki
 persist final assistant response
 → extension/public turn_end
 → extension/public agent_end
@@ -140,6 +142,7 @@ persist final assistant response
 → for overflow/length: run session_before_compact and append compaction on success
 → start the retry as a fresh run
 ```
+
 
 If recovery compaction fails or is cancelled, Pi keeps the omission edits, appends no compaction, and schedules no internal retry. Existing queued work remains governed by ordinary steering and follow-up rules. `agent_before_settle` sees the repaired projection after recovery processing. Raw transcript history, exports, billing totals, and history-search extensions can still inspect the omitted attempt.
 
@@ -153,21 +156,25 @@ A user-message span starts with a user message and includes all turns until the 
 
 When one user-message span exceeds `keepRecentTokens`, the cut point lands within that span at an assistant message. This is a split user-message span:
 
-    Split user-message span (one span exceeds budget):
 
-      entry:  0     1     2      3     4      5      6     7      8
-            ┌─────┬─────┬─────┬──────┬─────┬──────┬──────┬─────┬──────┐
-            │ hdr │ usr │ ass │ tool │ ass │ tool │ tool │ ass │ tool │
-            └─────┴─────┴─────┴──────┴─────┴──────┴──────┴─────┴──────┘
-                    ↑                                     ↑
-             turnStartIndex = 1                  firstKeptEntryId = 7
-                    │                                     │
-                    └──── turnPrefixMessages (1-6) ───────┘
-                                                          └── kept (7-8)
+``` shiki
+Split user-message span (one span exceeds budget):
 
-      isSplitTurn = true
-      messagesToSummarize = []  (no earlier user-message spans)
-      turnPrefixMessages = [usr, ass, tool, ass, tool, tool]
+  entry:  0     1     2      3     4      5      6     7      8
+        ┌─────┬─────┬─────┬──────┬─────┬──────┬──────┬─────┬──────┐
+        │ hdr │ usr │ ass │ tool │ ass │ tool │ tool │ ass │ tool │
+        └─────┴─────┴─────┴──────┴─────┴──────┴──────┴─────┴──────┘
+                ↑                                     ↑
+         turnStartIndex = 1                  firstKeptEntryId = 7
+                │                                     │
+                └──── turnPrefixMessages (1-6) ───────┘
+                                                      └── kept (7-8)
+
+  isSplitTurn = true
+  messagesToSummarize = []  (no earlier user-message spans)
+  turnPrefixMessages = [usr, ass, tool, ass, tool, tool]
+```
+
 
 For split user-message spans, Pi generates two summaries and merges them:
 
@@ -199,7 +206,8 @@ Preparation advances the kept boundary into a context-invisible suffix only when
 
 Defined in [`session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts):
 
-``` typescript
+
+``` shiki
 interface CompactionEntry<T = unknown> {
   type: "compaction";
   id: string;
@@ -219,6 +227,7 @@ interface CompactionDetails {
   modifiedFiles: string[];
 }
 ```
+
 
 Extensions can store any JSON-serializable data in `details`. The default compaction tracks file operations, but custom extension implementations can use their own structure. Generated and extension-provided summaries store their LLM `usage` when available so session totals include summarization work.
 
@@ -249,22 +258,23 @@ When you use `/tree` to navigate to a different branch, Pi offers to summarize t
 4.  **Generate summary**: Call LLM with structured format
 5.  **Append entry**: Save `BranchSummaryEntry` at navigation point
 
-<!-- -->
 
-    Tree before navigation:
+``` shiki
+Tree before navigation:
 
-             ┌─ B ─ C ─ D (old leaf, being abandoned)
-        A ───┤
-             └─ E ─ F (target)
+         ┌─ B ─ C ─ D (old leaf, being abandoned)
+    A ───┤
+         └─ E ─ F (target)
 
-    Common ancestor: A
-    Entries to summarize: B, C, D
+Common ancestor: A
+Entries to summarize: B, C, D
 
-    After navigation with summary:
+After navigation with summary:
 
-             ┌─ B ─ C ─ D
-        A ───┤
-             └─ E ─ F ─ [summary of B,C,D] (new leaf)
+         ┌─ B ─ C ─ D
+    A ───┤
+         └─ E ─ F ─ [summary of B,C,D] (new leaf)
+```
 
 
 ### Cumulative File Tracking
@@ -284,7 +294,8 @@ File tracking therefore accumulates across default compactions and nested defaul
 
 Defined in [`session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts):
 
-``` typescript
+
+``` shiki
 interface BranchSummaryEntry<T = unknown> {
   type: "branch_summary";
   id: string;
@@ -304,6 +315,7 @@ interface BranchSummaryDetails {
 }
 ```
 
+
 Same as compaction, extensions can store custom data in `details`.
 
 See [`collectEntriesForBranchSummary()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts), [`prepareBranchEntries()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts), and [`generateBranchSummary()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts) for the implementation.
@@ -318,7 +330,8 @@ Both formats include Goal, Constraints & Preferences, Progress, Key Decisions, a
 
 Compaction summaries use this format:
 
-``` markdown
+
+``` shiki
 ## Goal
 [What the user is trying to accomplish]
 
@@ -362,11 +375,15 @@ path/to/changed.ts
 
 Before summarization, messages are serialized to text via [`serializeConversation()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/utils.ts):
 
-    [User]: What they said
-    [Assistant thinking]: Internal reasoning
-    [Assistant]: Response text
-    [Assistant tool calls]: read(path="foo.ts"); edit(path="bar.ts", ...)
-    [Tool result]: Output from tool
+
+``` shiki
+[User]: What they said
+[Assistant thinking]: Internal reasoning
+[Assistant]: Response text
+[Assistant tool calls]: read(path="foo.ts"); edit(path="bar.ts", ...)
+[Tool result]: Output from tool
+```
+
 
 This prevents the model from treating it as a conversation to continue.
 
@@ -388,7 +405,8 @@ Extensions can intercept and customize both compaction and branch summarization.
 
 Fired before auto-compaction or `/compact`. Can cancel or provide custom summary. See `SessionBeforeCompactEvent` and `CompactionPreparation` in the types file.
 
-``` typescript
+
+``` shiki
 pi.on("session_before_compact", async (event, ctx) => {
   const { preparation, branchEntries, customInstructions, reason, willRetry, signal } = event;
 
@@ -429,7 +447,8 @@ pi.on("session_before_compact", async (event, ctx) => {
 
 To generate a summary with your own model, convert messages to text using `serializeConversation`:
 
-``` typescript
+
+``` shiki
 import { convertToLlm, serializeConversation } from "@earendil-works/pi-coding-agent";
 
 pi.on("session_before_compact", async (event, ctx) => {
@@ -460,6 +479,7 @@ pi.on("session_before_compact", async (event, ctx) => {
 });
 ```
 
+
 See [custom-compaction.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/custom-compaction.ts) for a complete example using a different model.
 
 
@@ -470,7 +490,8 @@ See [custom-compaction.ts](https://github.com/earendil-works/pi/blob/main/packag
 
 Fired when manual or automatic compaction fails or is aborted. This is useful for telemetry extensions that need to pair `session_before_compact` attempts with terminal outcomes.
 
-``` typescript
+
+``` shiki
 pi.on("session_compact_failed", async (event, ctx) => {
   const { reason, errorMessage, aborted, willRetry, fromExtension } = event;
   // reason - "manual" (/compact), "threshold", or "overflow"
@@ -489,7 +510,8 @@ pi.on("session_compact_failed", async (event, ctx) => {
 
 Fired before `/tree` navigation. Always fires regardless of whether user chose to summarize. Can cancel navigation or provide custom summary.
 
-``` typescript
+
+``` shiki
 pi.on("session_before_tree", async (event, ctx) => {
   const { preparation, signal } = event;
 
@@ -515,6 +537,7 @@ pi.on("session_before_tree", async (event, ctx) => {
 });
 ```
 
+
 See `SessionBeforeTreeEvent` and `TreePreparation` in the types file.
 
 
@@ -525,7 +548,8 @@ See `SessionBeforeTreeEvent` and `TreePreparation` in the types file.
 
 Configure compaction in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settings.json`:
 
-``` json
+
+``` shiki
 {
   "compaction": {
     "enabled": true,
@@ -534,6 +558,7 @@ Configure compaction in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settin
   }
 }
 ```
+
 
 | Setting            | Default | Description                            |
 |--------------------|---------|----------------------------------------|
@@ -551,7 +576,8 @@ Disable auto-compaction with `"enabled": false`. You can still compact manually 
 
 Use `compaction.modelOverrides` to tune token budgets for different models:
 
-``` json
+
+``` shiki
 {
   "compaction": {
     "reserveTokens": 16384,
@@ -564,6 +590,7 @@ Use `compaction.modelOverrides` to tune token budgets for different models:
   }
 }
 ```
+
 
 For a model with a 1M context window, this override triggers compaction above 600K tokens and keeps the ordinary 20000 recent tokens. Other models retain the ordinary 16384-token reserve. `reserveTokens` also influences summarization output limits, capped by the model's maximum output tokens; it is not solely a trigger threshold.
 

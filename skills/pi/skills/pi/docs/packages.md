@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -40,11 +35,13 @@ A package is an ordinary directory or npm package. It can expose conventional re
 
 Install from npm, git, or a local path:
 
-``` bash
+
+``` shiki
 pi install npm:@example/pi-tools@1.0.0
 pi install git:github.com/example/pi-tools@v1
 pi install ./local-package
 ```
+
 
 `pi list` shows configured packages. Use `pi remove <source>` to remove one and `pi update --extensions` to reconcile package installations. See [Command Line](/docs/latest/cli#package-commands) for every package command and option.
 
@@ -54,7 +51,8 @@ Project packages are installed and loaded only after project trust is resolved. 
 
 Use `--extension` or `-e` to try a package for one invocation without adding it to settings:
 
-``` bash
+
+``` shiki
 pi -e npm:@example/pi-tools
 ```
 
@@ -83,7 +81,8 @@ Relative local paths resolve from the settings file that contains them. A file p
 
 The simplest package uses conventional directories:
 
-``` text
+
+``` shiki
 my-pi-package/
 ├── package.json
 ├── extensions/
@@ -92,11 +91,13 @@ my-pi-package/
 └── themes/
 ```
 
+
 Without a `pi` manifest, Pi discovers TypeScript and JavaScript extensions, skill directories, Markdown prompts, and JSON themes from those directories.
 
 Use an explicit manifest when resources live elsewhere or need filtering:
 
-``` json
+
+``` shiki
 {
   "name": "my-pi-package",
   "keywords": ["pi-package"],
@@ -108,6 +109,7 @@ Use an explicit manifest when resources live elsewhere or need filtering:
   }
 }
 ```
+
 
 Paths are relative to the package root. Arrays accept glob patterns and exclusions. List dot-prefixed or symlinked resource roots directly when traversal through a glob would not discover them.
 
@@ -129,7 +131,9 @@ Pi supplies these packages to extensions and skills:
 - `@earendil-works/pi-tui`
 - `typebox`
 
-Declare imported Pi packages in `peerDependencies` with a `"*"` range and do not bundle them. Other Pi packages used as dependencies must be included in the published tarball and referenced through their `node_modules` resource paths.
+Declare the host-provided packages listed above in `peerDependencies` with a `"*"` range and do not bundle them. Pi suppresses automatic peer installation for managed npm packages and git packages installed with npm, pnpm, or Bun. Local packages are not installed or modified, so their dependency tree remains the package author's responsibility.
+
+Do not list host-provided packages in `dependencies`. A physical copy can bypass Pi's extension module mapping in compiled ESM and create duplicate classes, registries, and initialization work. Pi reports an extension warning when it detects this manifest configuration. Other Pi packages used as dependencies must be included in the published tarball and referenced through their `node_modules` resource paths.
 
 Installed packages load with separate module roots. Do not rely on two packages sharing one dependency instance or one package resolving another package’s undeclared dependency.
 
@@ -141,7 +145,8 @@ Installed packages load with separate module roots. Do not rely on two packages 
 
 The object form in settings narrows which resources load from a package:
 
-``` json
+
+``` shiki
 {
   "packages": [
     {
@@ -154,6 +159,7 @@ The object form in settings narrows which resources load from a package:
 }
 ```
 
+
 For each resource type:
 
 - Omit the property to load everything allowed by the package.
@@ -164,7 +170,7 @@ For each resource type:
 
 Filters narrow the package manifest. They do not expose resources that the package itself did not declare.
 
-Run `pi config` to enable or disable discovered resources. It starts with personal configuration; press Tab to switch scope, or run `pi config --local` to start with project overrides.
+Run `pi config` to enable or disable discovered resources and pi's built-in extensions. It starts with personal configuration; press Tab to switch scope, or run `pi config --local` to start with project overrides.
 
 
 ## Understand scope and identity

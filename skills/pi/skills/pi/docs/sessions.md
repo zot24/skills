@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -38,10 +33,12 @@ Pi saves a conversation as a session. The active branch of that session supplies
 
 Pi saves sessions automatically unless you start it with `--no-session`.
 
-``` bash
+
+``` shiki
 pi --continue
 pi --resume
 ```
+
 
 `--continue` opens the most recent session for the current working directory. `--resume` opens the session picker. In interactive mode, `/resume` opens the same picker and `/new` starts a new session.
 

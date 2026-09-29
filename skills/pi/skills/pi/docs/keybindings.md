@@ -2,11 +2,6 @@
 
 
 
-Documentation
-
-Guides and references for configuring and extending Pi.
-
-
 Navigation
 
 
@@ -42,20 +37,24 @@ Create `<agent-dir>/keybindings.json`. The agent directory defaults to `~/.pi/ag
 
 Map each action identifier to one key or a list of keys:
 
-``` json
+
+``` shiki
 {
   "app.session.new": "ctrl+shift+n",
   "app.session.tree": ["ctrl+shift+t", "alt+shift+t"]
 }
 ```
 
+
 A configured value replaces the default for that action. Use an empty list to disable an action's keybindings:
 
-``` json
+
+``` shiki
 {
   "tui.altScreen.pageUp": []
 }
 ```
+
 
 After editing the file, run `/reload` to apply the changes to the active session.
 
@@ -187,7 +186,7 @@ In fullscreen mode, these actions control the transcript and take precedence ove
 | `app.exit`                 | `ctrl+d`                              | Exit (when editor empty)                                                                                  |
 | `app.suspend`              | `ctrl+z` (None on Windows)            | Suspend to background                                                                                     |
 | `app.editor.external`      | `ctrl+g`                              | Open in external editor (`externalEditor`, `$VISUAL`, `$EDITOR`, Notepad on Windows, or `nano` elsewhere) |
-| `app.clipboard.pasteImage` | `ctrl+v` (`alt+v` on Windows and WSL) | Paste image or text from clipboard                                                                        |
+| `app.clipboard.pasteImage` | `ctrl+v` (`alt+v` on Windows and WSL) | Paste files on macOS, images, or text from clipboard                                                      |
 
 On native Windows, `app.suspend` has no default because Windows terminals do not support Unix job control. If you assign it manually, Pi shows a status message instead of suspending. WSL uses the normal `ctrl+z` and `fg` behavior.
 
