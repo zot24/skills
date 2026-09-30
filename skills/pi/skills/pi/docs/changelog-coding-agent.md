@@ -4,6 +4,20 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed new sessions intermittently ignoring the saved default model, or warning that no models are available, when it belongs to an extension-registered native provider with a stored credential ([#9962](https://github.com/earendil-works/pi/issues/9962)).
+
+## [0.99.1] - 2026-09-29
+
+### New Features
+
+- **GPT-6.1 Sol** — Available on OpenAI, Azure OpenAI, and OpenAI Codex, and now the default OpenAI Codex model. See [Select a model](docs/models.md#select-a-model).
+
+### Added
+
+- Added GPT-6.1 Sol (`gpt-6.1-sol`) to the OpenAI, Azure OpenAI Responses, and OpenAI Codex providers.
+
 ### Changed
 
 - Changed the default OpenAI Codex model to GPT-6.1 Sol (`gpt-6.1-sol`).
