@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/zot24/skills/compare/apprise-api-v1.0.1...apprise-api-v1.0.2) (2026-10-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#269](https://github.com/zot24/skills/issues/269)) ([0667ed7](https://github.com/zot24/skills/commit/0667ed7f768aaa36ac15cd3fc16016fe01078efd))
+
 ## [1.0.1](https://github.com/zot24/skills/compare/apprise-api-v1.0.0...apprise-api-v1.0.1) (2026-09-15)
 
 

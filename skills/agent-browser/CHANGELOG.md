@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.15](https://github.com/zot24/skills/compare/agent-browser-v2.2.14...agent-browser-v2.2.15) (2026-10-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#269](https://github.com/zot24/skills/issues/269)) ([0667ed7](https://github.com/zot24/skills/commit/0667ed7f768aaa36ac15cd3fc16016fe01078efd))
+
 ## [2.2.14](https://github.com/zot24/skills/compare/agent-browser-v2.2.13...agent-browser-v2.2.14) (2026-09-15)
 
 

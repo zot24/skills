@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/zot24/skills/compare/x-engagement-v1.6.0...x-engagement-v1.6.1) (2026-10-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#269](https://github.com/zot24/skills/issues/269)) ([0667ed7](https://github.com/zot24/skills/commit/0667ed7f768aaa36ac15cd3fc16016fe01078efd))
+
 ## [1.6.0](https://github.com/zot24/skills/compare/x-engagement-v1.5.2...x-engagement-v1.6.0) (2026-09-21)
 
 

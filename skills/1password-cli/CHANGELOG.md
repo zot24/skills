@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.7](https://github.com/zot24/skills/compare/1password-cli-v1.1.6...1password-cli-v1.1.7) (2026-10-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#269](https://github.com/zot24/skills/issues/269)) ([0667ed7](https://github.com/zot24/skills/commit/0667ed7f768aaa36ac15cd3fc16016fe01078efd))
+
 ## [1.1.6](https://github.com/zot24/skills/compare/1password-cli-v1.1.5...1password-cli-v1.1.6) (2026-09-15)
 
 
