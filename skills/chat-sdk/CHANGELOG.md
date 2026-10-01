@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.7](https://github.com/zot24/skills/compare/chat-sdk-v2.0.6...chat-sdk-v2.0.7) (2026-10-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#269](https://github.com/zot24/skills/issues/269)) ([0667ed7](https://github.com/zot24/skills/commit/0667ed7f768aaa36ac15cd3fc16016fe01078efd))
+
 ## [2.0.6](https://github.com/zot24/skills/compare/chat-sdk-v2.0.5...chat-sdk-v2.0.6) (2026-09-15)
 
 

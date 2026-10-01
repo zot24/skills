@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.16](https://github.com/zot24/skills/compare/firecrawl-v1.0.15...firecrawl-v1.0.16) (2026-10-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#269](https://github.com/zot24/skills/issues/269)) ([0667ed7](https://github.com/zot24/skills/commit/0667ed7f768aaa36ac15cd3fc16016fe01078efd))
+
 ## [1.0.15](https://github.com/zot24/skills/compare/firecrawl-v1.0.14...firecrawl-v1.0.15) (2026-09-15)
 
 
