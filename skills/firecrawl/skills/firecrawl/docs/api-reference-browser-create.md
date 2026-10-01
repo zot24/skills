@@ -10,31 +10,31 @@
 
 ## Headers
 
-| Header          | Value              |
-| --------------- | ------------------ |
+| Header | Value |
+| - | - |
 | `Authorization` | `Bearer <API_KEY>` |
-| `Content-Type`  | `application/json` |
+| `Content-Type` | `application/json` |
 
 ## Request Body
 
-| Parameter             | Type    | Required | Default | Description                                                                                                                                                  |
-| --------------------- | ------- | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ttl`                 | number  | No       | 600     | Total session lifetime in seconds (30-3600)                                                                                                                  |
-| `activityTtl`         | number  | No       | 300     | Seconds of inactivity before session is destroyed (10-3600)                                                                                                  |
-| `profile`             | object  | No       | —       | Enable persistent storage across sessions. See below.                                                                                                        |
-| `profile.name`        | string  | Yes\*    | —       | Name for the profile (1-128 chars). Sessions with the same name share storage.                                                                               |
-| `profile.saveChanges` | boolean | No       | `true`  | When `true`, browser state is saved back to the profile on close. Set to `false` to load existing data without writing. Only one saver is allowed at a time. |
+| Parameter | Type | Required | Default | Description |
+| - | - | - | - | - |
+| `ttl` | number | No | 600 | Total session lifetime in seconds (30-3600) |
+| `activityTtl` | number | No | 300 | Seconds of inactivity before session is destroyed (10-3600) |
+| `profile` | object | No | — | Enable persistent storage across sessions. See below. |
+| `profile.name` | string | Yes\* | — | Name for the profile (1-128 chars). Sessions with the same name share storage. |
+| `profile.saveChanges` | boolean | No | `true` | When `true`, browser state is saved back to the profile on close. Set to `false` to load existing data without writing. Only one saver is allowed at a time. |
 
 ## Response
 
-| Field                    | Type    | Description                                                         |
-| ------------------------ | ------- | ------------------------------------------------------------------- |
-| `success`                | boolean | Whether the session was created                                     |
-| `id`                     | string  | Unique session identifier                                           |
-| `cdpUrl`                 | string  | WebSocket URL for CDP connections                                   |
-| `liveViewUrl`            | string  | URL to watch the session in real time                               |
-| `interactiveLiveViewUrl` | string  | URL to interact with the session in real time (click, type, scroll) |
-| `expiresAt`              | string  | When the session will expire based on TTL                           |
+| Field | Type | Description |
+| - | - | - |
+| `success` | boolean | Whether the session was created |
+| `id` | string | Unique session identifier |
+| `cdpUrl` | string | WebSocket URL for CDP connections |
+| `liveViewUrl` | string | URL to watch the session in real time |
+| `interactiveLiveViewUrl` | string | URL to interact with the session in real time (click, type, scroll) |
+| `expiresAt` | string | When the session will expire based on TTL |
 
 ### Example Request
 

@@ -6,6 +6,8 @@
 
 # Quickstart
 
+> Give an AI agent persistent memory of its users in minutes: create a workspace and peers, ingest messages across sessions, and pull reasoned context back with one call.
+
 Let's get started with Honcho. In this quickstart, you will:
 
 * Set up a workspace with peers (user and assistant)

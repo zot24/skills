@@ -10,30 +10,30 @@
 
 ## Headers
 
-| Header          | Value              |
-| --------------- | ------------------ |
+| Header | Value |
+| - | - |
 | `Authorization` | `Bearer <API_KEY>` |
-| `Content-Type`  | `application/json` |
+| `Content-Type` | `application/json` |
 
 ## Request Body
 
-| Parameter  | Type   | Required | Default  | Description                                                                              |
-| ---------- | ------ | -------- | -------- | ---------------------------------------------------------------------------------------- |
-| `code`     | string | Yes      | -        | Code to execute (1-100,000 characters)                                                   |
-| `language` | string | No       | `"node"` | Language of the code: `"python"`, `"node"`, or `"bash"` (for agent-browser CLI commands) |
-| `timeout`  | number | No       | -        | Execution timeout in seconds (1-300)                                                     |
+| Parameter | Type | Required | Default | Description |
+| - | - | - | - | - |
+| `code` | string | Yes | - | Code to execute (1-100,000 characters) |
+| `language` | string | No | `"node"` | Language of the code: `"python"`, `"node"`, or `"bash"` (for agent-browser CLI commands) |
+| `timeout` | number | No | - | Execution timeout in seconds (1-300) |
 
 ## Response
 
-| Field      | Type    | Description                                                 |
-| ---------- | ------- | ----------------------------------------------------------- |
-| `success`  | boolean | Whether the code executed successfully                      |
-| `stdout`   | string  | Standard output from the code execution                     |
-| `result`   | string  | Standard output from the code execution                     |
-| `stderr`   | string  | Standard error output from the code execution               |
-| `exitCode` | number  | Exit code of the executed process                           |
-| `killed`   | boolean | Whether the process was killed due to timeout               |
-| `error`    | string  | Error message if execution failed (only present on failure) |
+| Field | Type | Description |
+| - | - | - |
+| `success` | boolean | Whether the code executed successfully |
+| `stdout` | string | Standard output from the code execution |
+| `result` | string | Standard output from the code execution |
+| `stderr` | string | Standard error output from the code execution |
+| `exitCode` | number | Exit code of the executed process |
+| `killed` | boolean | Whether the process was killed due to timeout |
+| `error` | string | Error message if execution failed (only present on failure) |
 
 ### Example Request
 

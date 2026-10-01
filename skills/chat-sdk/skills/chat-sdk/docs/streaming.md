@@ -15,7 +15,7 @@ related:
 # Streaming
 
 
-Chat SDK accepts any `AsyncIterable<string>` as a message, enabling real-time streaming of AI responses and other incremental content to chat platforms. For platforms with native or structured streaming support, you can also stream `StreamChunk` objects for rich content like task progress cards and plan updates.
+Chat SDK accepts any `AsyncIterable<string>` as a message, so you can stream AI responses and other incremental content to chat platforms as it's generated. Streams from the AI SDK and TanStack AI are detected automatically. On platforms with native or structured streaming support, you can also stream `StreamChunk` objects for rich content such as task progress cards and plan updates.
 
 ## AI SDK integration
 
@@ -45,7 +45,7 @@ state adapter.
 
 ### Why `fullStream` over `textStream`?
 
-When AI SDK agents make tool calls between text steps, `textStream` concatenates all text without separators — `"hello.how are you?"` instead of `"hello.\n\nhow are you?"`. The `fullStream` contains explicit `finish-step` events that Chat SDK uses to inject paragraph breaks between steps automatically.
+When AI SDK agents make tool calls between text steps, `textStream` concatenates all text without separators, producing `"hello.how are you?"` instead of `"hello.\n\nhow are you?"`. The `fullStream` contains explicit `finish-step` events that Chat SDK uses to inject paragraph breaks between steps automatically.
 
 Both stream types are auto-detected:
 
@@ -68,6 +68,37 @@ await thread.post(
 );
 ```
 
+## TanStack AI integration
+
+The stream returned by `chat()` from `@tanstack/ai` can be passed straight to `thread.post()`:
+
+```typescript title="lib/bot.ts" lineNumbers
+import { chat } from "@tanstack/ai";
+import { vercelGatewayText } from "@tanstack/ai-vercel-gateway";
+
+bot.onNewMention(async (thread, message) => {
+  const abortController = new AbortController();
+  thread.signal.addEventListener("abort", () => abortController.abort(), {
+    once: true,
+  });
+
+  const stream = chat({
+    adapter: vercelGatewayText("anthropic/claude-opus-5"),
+    messages: [{ role: "user", content: message.text }],
+    abortController,
+  });
+  await thread.post(stream);
+});
+```
+
+TanStack AI streams follow the AG-UI protocol. Chat SDK extracts the text from `TEXT_MESSAGE_CONTENT` deltas and treats each `TEXT_MESSAGE_END` as a paragraph break, so when the tool loop runs several model turns their text is separated by `\n\n` (the same behavior as `finish-step` for the AI SDK). Tool call, reasoning, run, and step events are skipped.
+
+This is for text responses. A structured-output run (`chat({ ..., outputSchema, stream: true })`) streams its JSON as `TEXT_MESSAGE_CONTENT` deltas, so posting that stream would show raw JSON in the channel. Format the result yourself and post the string instead.
+
+TanStack's `chat()` takes an `AbortController` rather than a signal. Forwarding `thread.signal` to it, as above, lets platform cancellation stop model generation.
+
+To feed prior thread history into `chat()` and give it Chat SDK tools, use `toTanStackMessages` and `createTanStackTools` from `chat/ai/tanstack`, covered in [TanStack AI](/docs/ai/tanstack-ai).
+
 ## Custom streams
 
 Any async iterable works:
@@ -86,7 +117,7 @@ await thread.post(stream);
 
 | Platform    | Method                                | Description                                                                                                                                                                                             |
 | ----------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Slack       | Native streaming API                  | Uses Slack's `chatStream` for smooth, real-time updates                                                                                                                                                 |
+| Slack       | Native streaming API                  | Uses Slack's `chatStream` to update the message as chunks arrive                                                                                                                                        |
 | Telegram    | Post + Edit                           | Posts a message then edits it as chunks arrive (throttled to \~1 edit/s). Set `nativeStreaming: true` to use `sendRichMessageDraft` previews in private chats instead, persisted with `sendRichMessage` |
 | Teams       | Native (DMs) / Buffered (group chats) | Uses the Teams SDK's native `stream.emit()` for direct messages; accumulates chunks and posts one final message when no native streamer is active                                                       |
 | Google Chat | Post + Edit                           | Posts a message then edits it as chunks arrive                                                                                                                                                          |
@@ -130,15 +161,13 @@ On Teams, a custom placeholder becomes an informative status during native direc
 
 ## Markdown healing
 
-During streaming, chunks often arrive mid-word or mid-syntax — for example, `**bold` before the closing `**` arrives. The SDK automatically heals incomplete markdown in intermediate renders using [remend](https://www.npmjs.com/package/remend), so messages always display with correct formatting while streaming.
+During streaming, chunks often arrive mid-word or mid-syntax. For example, `**bold` can arrive before the closing `**`. The SDK heals incomplete markdown in intermediate renders using [remend](https://www.npmjs.com/package/remend), so messages display with correct formatting while streaming.
 
 The final message uses the raw accumulated text without healing, so the original markdown is preserved.
 
 ## Table buffering
 
-When streaming content that contains GFM tables (e.g. from an LLM), the SDK automatically buffers potential table headers until a separator line (`|---|---|`) confirms them. This prevents tables from briefly flashing as raw pipe-delimited text before the table structure is complete.
-
-This happens transparently — no configuration needed.
+When streamed content contains GFM tables, as LLM output often does, the SDK buffers potential table headers until a separator line (`|---|---|`) confirms them. This stops tables from briefly flashing as raw pipe-delimited text before the table structure is complete. Table buffering needs no configuration.
 
 ## Structured streaming chunks
 
@@ -209,7 +238,7 @@ Adapters without structured chunk support extract text from `markdown_text` chun
 
 ## Stop blocks (Slack only)
 
-Use `endWith` on `StreamingPlan` to attach Block Kit elements to the final message. This is useful for adding action buttons after a streamed response completes:
+Use `endWith` on `StreamingPlan` to attach Block Kit elements to the final message, such as action buttons that appear after a streamed response completes:
 
 ```typescript title="lib/bot.ts" lineNumbers
 import { StreamingPlan } from "chat";
@@ -232,7 +261,7 @@ await thread.post(planned);
 
 ## Plan API
 
-For step-by-step task progress that lives outside an LLM stream, post a `Plan` directly. `Plan` is a `PostableObject` you can mutate after posting — every mutation re-renders the block in place.
+For step-by-step task progress that lives outside an LLM stream, post a `Plan` directly. `Plan` is a `PostableObject` you can mutate after posting, and each mutation re-renders the block in place.
 
 ```typescript title="lib/bot.ts" lineNumbers
 import { Plan } from "chat";
@@ -269,7 +298,7 @@ Adapters that don't support PostableObject editing (e.g. WhatsApp) render the pl
 | `addTask({ title, children?, autoCompletePrevious? })` | Append a new task. When `autoCompletePrevious` is true (default), existing in-progress tasks are marked complete first; pass `false` for parallel workflows |
 | `updateTask(input)`                                    | Mutate the current (or `{ id }`-targeted) task's `output`, `status`, or `title`                                                                             |
 | `complete({ completeMessage })`                        | Mark all in-progress tasks complete and update the plan title                                                                                               |
-| `reset({ initialMessage })`                            | Discard all tasks and start fresh with a new initial message — useful when re-using a plan handle for a new run                                             |
+| `reset({ initialMessage })`                            | Discard all tasks and start fresh with a new initial message. Use it to reuse a plan handle for a new run                                                   |
 
 ## Streaming with conversation history
 

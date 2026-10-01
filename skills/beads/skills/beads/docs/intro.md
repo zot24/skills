@@ -10,7 +10,7 @@
 
 **Beads** (`bd`) is a Dolt-powered issue tracker designed for AI-supervised coding workflows.
 
-These docs are for the 1.1.0 release of beads — see the [v1.1.0 release notes](https://github.com/gastownhall/beads/releases/tag/v1.1.0).
+These docs are for the 1.3.0 release of beads — see the [v1.3.0 release notes](https://github.com/gastownhall/beads/releases/tag/v1.3.0). Upgrading from 1.2.2 or earlier crosses a schema migration; read [Upgrading](/getting-started/upgrading) first.
 
 ## Why Beads?
 
@@ -46,14 +46,14 @@ bd ready
 
 The whole model on one page: [How Beads Works](/core-concepts/index).
 
-| Concept                                         | Description                                                 |
-| ----------------------------------------------- | ----------------------------------------------------------- |
-| [**Beads (issues)**](/core-concepts/issues)     | Work items with priorities, types, labels, and dependencies |
-| [**Dependencies**](/core-concepts/dependencies) | `blocks`, `parent-child`, `discovered-from`, `related`      |
-| [**Sync**](/core-concepts/sync-concepts)        | Dolt push/pull over your git remote — no server to run      |
-| [**Formulas**](/workflows/formulas)             | Declarative workflow templates (TOML or JSON)               |
-| [**Molecules**](/workflows/molecules)           | Work graphs instantiated from formulas                      |
-| [**Gates**](/workflows/gates)                   | Async coordination primitives (human, timer, GitHub)        |
+| Concept | Description |
+| - | - |
+| [**Beads (issues)**](/core-concepts/issues) | Work items with priorities, types, labels, and dependencies |
+| [**Dependencies**](/core-concepts/dependencies) | `blocks`, `parent-child`, `discovered-from`, `related` |
+| [**Sync**](/core-concepts/sync-concepts) | Dolt push/pull over your git remote — no server to run |
+| [**Formulas**](/workflows/formulas) | Declarative workflow templates (TOML or JSON) |
+| [**Molecules**](/workflows/molecules) | Work graphs instantiated from formulas |
+| [**Gates**](/workflows/gates) | Async coordination primitives (human, timer, GitHub) |
 
 ## For AI Agents
 

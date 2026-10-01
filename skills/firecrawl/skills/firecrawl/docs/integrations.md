@@ -87,6 +87,12 @@ Connect Firecrawl once, then build on live web data from the platform you deploy
 
 
 }
+    href="/integrations/stripe-projects"
+  >
+    Provision a Firecrawl account, API key, and plan from the Stripe Projects CLI
+
+
+}
     href="/quickstarts/vercel-marketplace"
   >
     Add Firecrawl to Vercel projects with automatic API key setup

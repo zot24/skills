@@ -26,13 +26,13 @@ Use the Firecrawl Pipedream app to scrape pages, crawl sites, search the web, ma
 
 ## What you can do
 
-| Capability  | Use case                                                  |
-| ----------- | --------------------------------------------------------- |
-| **Scrape**  | Pull page content when a webhook or schedule fires        |
-| **Crawl**   | Start a multi page crawl job (poll with Get Crawl Data)   |
-| **Search**  | Discover sources before downstream steps                  |
-| **Map**     | List URLs on a site, optionally filtered by a search term |
-| **Extract** | Pull structured data from one or more URLs                |
+| Capability | Use case |
+| - | - |
+| **Scrape** | Pull page content when a webhook or schedule fires |
+| **Crawl** | Start a multi page crawl job (poll with Get Crawl Data) |
+| **Search** | Discover sources before downstream steps |
+| **Map** | List URLs on a site, optionally filtered by a search term |
+| **Extract** | Pull structured data from one or more URLs |
 
 ## Resources
 

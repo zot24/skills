@@ -12,23 +12,23 @@ Firecrawl sends webhook events at each stage of a job's lifecycle, so you can tr
 
 ## Quick Reference
 
-| Event                     | Trigger                                                     |
-| ------------------------- | ----------------------------------------------------------- |
-| `crawl.started`           | Crawl job begins processing                                 |
-| `crawl.page`              | A page is scraped during a crawl                            |
-| `crawl.completed`         | Crawl job finishes and all pages have been processed        |
-| `batch_scrape.started`    | Batch scrape job begins processing                          |
-| `batch_scrape.page`       | A URL is scraped during a batch scrape                      |
-| `batch_scrape.completed`  | All URLs in the batch have been processed                   |
-| `extract.started`         | Extract job begins processing                               |
-| `extract.completed`       | Extraction finishes successfully                            |
-| `extract.failed`          | Extraction fails                                            |
-| `agent.started`           | Agent job begins processing                                 |
-| `agent.action`            | Agent executes a tool (scrape, search, etc.)                |
-| `agent.completed`         | Agent finishes successfully                                 |
-| `agent.failed`            | Agent encounters an error                                   |
-| `agent.cancelled`         | Agent job is cancelled by the user                          |
-| `monitor.page`            | A monitored page scrape finishes                            |
+| Event | Trigger |
+| - | - |
+| `crawl.started` | Crawl job begins processing |
+| `crawl.page` | A page is scraped during a crawl |
+| `crawl.completed` | Crawl job finishes and all pages have been processed |
+| `batch_scrape.started` | Batch scrape job begins processing |
+| `batch_scrape.page` | A URL is scraped during a batch scrape |
+| `batch_scrape.completed` | All URLs in the batch have been processed |
+| `extract.started` | Extract job begins processing |
+| `extract.completed` | Extraction finishes successfully |
+| `extract.failed` | Extraction fails |
+| `agent.started` | Agent job begins processing |
+| `agent.action` | Agent executes a tool (scrape, search, etc.) |
+| `agent.completed` | Agent finishes successfully |
+| `agent.failed` | Agent encounters an error |
+| `agent.cancelled` | Agent job is cancelled by the user |
+| `monitor.page` | A monitored page scrape finishes |
 | `monitor.check.completed` | Monitor check finishes and page-level changes are available |
 
 ## Payload Structure
@@ -45,14 +45,14 @@ All webhook events share this structure:
 }
 ```
 
-| Field      | Type            | Description                               |
-| ---------- | --------------- | ----------------------------------------- |
-| `success`  | boolean         | Whether the operation succeeded           |
-| `type`     | string          | Event type (e.g. `crawl.page`)            |
-| `id`       | string          | Job ID                                    |
-| `data`     | array or object | Event-specific data (see examples below)  |
-| `metadata` | object          | Custom metadata from your webhook config  |
-| `error`    | string          | Error message (when `success` is `false`) |
+| Field | Type | Description |
+| - | - | - |
+| `success` | boolean | Whether the operation succeeded |
+| `type` | string | Event type (e.g. `crawl.page`) |
+| `id` | string | Job ID |
+| `data` | array or object | Event-specific data (see examples below) |
+| `metadata` | object | Custom metadata from your webhook config |
+| `error` | string | Error message (when `success` is `false`) |
 
 ## Crawl Events
 

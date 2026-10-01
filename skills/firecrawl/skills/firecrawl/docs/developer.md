@@ -25,9 +25,9 @@ Firecrawl Developer is an index built for coding agents. It covers issues, merge
 
 ## Endpoints
 
-| Task                                  | Endpoint                                                                          |
-| ------------------------------------- | --------------------------------------------------------------------------------- |
-| Search the developer index            | [`GET` or `POST /search/developer`](/api-reference/endpoint/developer-search)     |
+| Task | Endpoint |
+| - | - |
+| Search the developer index | [`GET` or `POST /search/developer`](/api-reference/endpoint/developer-search) |
 | Add developer results to a web search | [`POST /search`](/api-reference/endpoint/search) with `categories: ["developer"]` |
 
 ## Search the developer index

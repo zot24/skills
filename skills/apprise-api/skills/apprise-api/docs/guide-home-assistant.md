@@ -19,19 +19,6 @@ direct service calls), see the
 [Home Assistant service plugin](/services/homeassistant/) (`hassio://`).
 :::
 
-## Why Use Apprise with Home Assistant
-
-Using Apprise provides several benefits:
-
-- A single configuration file for all notification services
-- Support for dozens of providers (email, Telegram, ntfy, Kodi, and more)
-- Tag-based routing for flexible notification targeting
-- No vendor lock-in at the automation level
-
-Home Assistant remains unaware of provider details. It simply sends messages to Apprise and lets Apprise do the rest.
-
----
-
 ## 1. Installation
 
 Apprise is built into Home Assistant Core. You do not need to install a custom component or add-on. It is available immediately via the `notify` platform.
@@ -41,7 +28,7 @@ Apprise is built into Home Assistant Core. You do not need to install a custom c
 Choose the configuration method that best fits your needs.
 
 
-This method works well for a quick setup or when you don't need to target different services individually. The `url` parameter accepts a single URL or a list of URLs — all of them are notified together on every call.
+This method works well for a quick setup or when you don't need to target different services individually. The `url` parameter accepts a single URL or a list of URLs, and all of them are notified together on every call.
 
 **Edit `configuration.yaml`**
 
@@ -68,7 +55,7 @@ notify:
 ```
 
 :::note[No selective targeting with `url`]
-Every service listed under `url` fires together on every notification call. If you need to send different alerts to different services, use Method 2 or 3 instead — those support tag-based targeting via the `target` field.
+Every service listed under `url` fires together on every notification call. If you need to send different alerts to different services, use Method 2 or 3 instead. Those support tag-based targeting via the `target` field.
 :::
 
 
@@ -152,7 +139,7 @@ mailtos://local-user@example.com
 
 
 :::note
-The `include` will only works if your Apprise API server has `APPRISE_CONFIG_LOCK` is not set to `yes`.
+The `include` requires global administrator credentials when your Apprise API server uses `APPRISE_CONFIG_LOCK=yes`.
 :::
 
 
@@ -172,7 +159,7 @@ notify:
 ```
 
 :::caution[Access Restriction]
-If your Apprise API server is running with `APPRISE_CONFIG_LOCK` enabled, then this method will not work.
+If your Apprise API server uses `APPRISE_CONFIG_LOCK=yes`, this method requires global administrator credentials.
 :::
 
 
@@ -238,7 +225,7 @@ apprise -vv -t "Test" -b "Hello from the CLI" \
 ```
 
 Then confirm Home Assistant can reach the same service by triggering
-the `notify.apprise` service manually from **Developer Tools →
+the `notify.apprise` service manually from **Developer Tools >
 Services**.
 
 ## 5. Discovering Available Notify Services
@@ -248,8 +235,8 @@ example, to push to a mobile device registered in the HA companion
 app), you can use the `hassio://` plugin in your Apprise URLs. To find
 the exact service name:
 
-1. In Home Assistant, open **Developer Tools → Services**.
-2. Filter by domain **notify** — you will see entries like
+1. In Home Assistant, open **Developer Tools > Services**.
+2. Filter by domain **notify**. You will see entries like
    `notify.mobile_app_johns_phone`.
 3. The portion after `notify.` is the service name to use in the
    Apprise URL:

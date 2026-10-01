@@ -73,26 +73,26 @@ The `formats` array controls which output types the scraper returns. Default: `[
 
 **String formats**: pass the name directly (e.g. `"markdown"`).
 
-| Format      | Description                                                                                                                                              |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `markdown`  | Page content converted to clean Markdown.                                                                                                                |
-| `html`      | Processed HTML with unnecessary elements removed.                                                                                                        |
-| `rawHtml`   | Original HTML exactly as returned by the server.                                                                                                         |
+| Format | Description |
+| - | - |
+| `markdown` | Page content converted to clean Markdown. |
+| `html` | Processed HTML with unnecessary elements removed. |
+| `rawHtml` | Original HTML exactly as returned by the server. |
 | `rawBase64` | Base64-encoded original HTTP response body, as a bare Base64 string. Must be the only format in the request. The MIME type is in `metadata.contentType`. |
-| `links`     | All links found on the page.                                                                                                                             |
-| `images`    | All images found on the page.                                                                                                                            |
-| `summary`   | An LLM-generated summary of the page content.                                                                                                            |
-| `branding`  | Extracts brand identity (colors, fonts, typography, spacing, UI components).                                                                             |
-| `product`   | Extracts a structured product (title, price, availability, images, variants) from product pages via multi-source structured data.                        |
+| `links` | All links found on the page. |
+| `images` | All images found on the page. |
+| `summary` | An LLM-generated summary of the page content. |
+| `branding` | Extracts brand identity (colors, fonts, typography, spacing, UI components). |
+| `product` | Extracts a structured product (title, price, availability, images, variants) from product pages via multi-source structured data. |
 
 **Object formats**: pass an object with `type` and additional options.
 
-| Format           | Options                                                                                  | Description                                                                                                             |
-| ---------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `json`           | `prompt?: string`, `schema?: object`                                                     | Extract structured data using an LLM. Provide a JSON schema and/or a natural-language prompt (max 10,000 characters).   |
-| `screenshot`     | `fullPage?: boolean`, `quality?: number`, `viewport?: { width, height }`                 | Capture a screenshot. Max one per request. Viewport max resolution is 7680×4320. Screenshot URLs expire after 24 hours. |
-| `changeTracking` | `modes?: ("json" \| "git-diff")[]`, `tag?: string`, `schema?: object`, `prompt?: string` | Track changes between scrapes. Requires `"markdown"` to also be in the formats array.                                   |
-| `attributes`     | `selectors: [{ selector: string, attribute: string }]`                                   | Extract specific HTML attributes from elements matching CSS selectors.                                                  |
+| Format | Options | Description |
+| - | - | - |
+| `json` | `prompt?: string`, `schema?: object` | Extract structured data using an LLM. Provide a JSON schema and/or a natural-language prompt (max 10,000 characters). |
+| `screenshot` | `fullPage?: boolean`, `quality?: number`, `viewport?: { width, height }` | Capture a screenshot. Max one per request. Viewport max resolution is 7680×4320. Screenshot URLs expire after 24 hours. |
+| `changeTracking` | `modes?: ("json" \| "git-diff")[]`, `tag?: string`, `schema?: object`, `prompt?: string` | Track changes between scrapes. Requires `"markdown"` to also be in the formats array. |
+| `attributes` | `selectors: [{ selector: string, attribute: string }]` | Extract specific HTML attributes from elements matching CSS selectors. |
 
 ### Mobile scraping
 
@@ -175,54 +175,54 @@ If the site still serves a desktop layout despite `mobile: true`, add a mobile U
 
 These parameters control which parts of the page appear in the output. When `onlyMainContent` is `true` (the default), boilerplate (nav, footer, etc.) is stripped. `includeTags` and `excludeTags` are applied against the original page DOM, not the post-filtered result, so your selectors should target elements as they appear in the source HTML. Set `onlyMainContent: false` to use the full page as the starting point for tag filtering.
 
-| Parameter         | Type      | Default | Description                                                                                                                            |
-| ----------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `onlyMainContent` | `boolean` | `true`  | Return only the main content. Set `false` for the full page.                                                                           |
-| `includeTags`     | `array`   | —       | CSS selectors to include — tags, classes, IDs, or attribute selectors (e.g. `["h1", "p", ".main-content", "[data-testid=\"main\"]"]`). |
-| `excludeTags`     | `array`   | —       | CSS selectors to exclude — tags, classes, IDs, or attribute selectors (e.g. `["#ad", "#footer", "[role=\"banner\"]"]`).                |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
+| `onlyMainContent` | `boolean` | `true` | Return only the main content. Set `false` for the full page. |
+| `includeTags` | `array` | — | CSS selectors to include — tags, classes, IDs, or attribute selectors (e.g. `["h1", "p", ".main-content", "[data-testid=\"main\"]"]`). |
+| `excludeTags` | `array` | — | CSS selectors to exclude — tags, classes, IDs, or attribute selectors (e.g. `["#ad", "#footer", "[role=\"banner\"]"]`). |
 
 ### Timing and cache
 
-| Parameter | Type           | Default     | Description                                                                                            |
-| --------- | -------------- | ----------- | ------------------------------------------------------------------------------------------------------ |
-| `waitFor` | `integer` (ms) | `0`         | Extra wait time before scraping, on top of smart-wait. Use sparingly.                                  |
-| `maxAge`  | `integer` (ms) | `172800000` | Return a cached version if fresher than this value (default is 2 days). Set `0` to always fetch fresh. |
-| `timeout` | `integer` (ms) | `60000`     | Max request duration before aborting (default is 60 seconds). Minimum is 1000 (1 second).              |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
+| `waitFor` | `integer` (ms) | `0` | Extra wait time before scraping, on top of smart-wait. Use sparingly. |
+| `maxAge` | `integer` (ms) | `172800000` | Return a cached version if fresher than this value (default is 2 days). Set `0` to always fetch fresh. |
+| `timeout` | `integer` (ms) | `60000` | Max request duration before aborting (default is 60 seconds). Minimum is 1000 (1 second). |
 
 ### PDF parsing
 
-| Parameter | Type    | Default   | Description                                                                      |
-| --------- | ------- | --------- | -------------------------------------------------------------------------------- |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
 | `parsers` | `array` | `["pdf"]` | Controls PDF processing. `[]` to skip parsing and return base64 (1 credit flat). |
 
 ```json theme={null}
 { "type": "pdf", "mode": "fast" | "auto" | "ocr", "maxPages": 10, "pages": true, "blocks": true, "pageMarkers": true }
 ```
 
-| Property      | Type                        | Default      | Description                                                                                                                                                                                                            |
-| ------------- | --------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`        | `"pdf"`                     | *(required)* | Parser type.                                                                                                                                                                                                           |
-| `mode`        | `"fast" \| "auto" \| "ocr"` | `"auto"`     | `fast`: text-based extraction only. `auto`: fast with OCR fallback. `ocr`: force OCR.                                                                                                                                  |
-| `maxPages`    | `integer`                   | —            | Cap the number of pages to parse.                                                                                                                                                                                      |
-| `pages`       | `boolean`                   | `false`      | Also return physical per-page markdown in the document's `pages` field. No additional cost.                                                                                                                            |
-| `blocks`      | `boolean`                   | `false`      | Also return per-page typed layout blocks (normalized bounding boxes, block types, reading order, markdown character spans) in the document's `blocks` field. No additional cost.                                       |
-| `pageMarkers` | `boolean`                   | `false`      | Annotate page breaks in the document markdown with `<!-- page N -->` markers (between pages only; numbering may skip pages merged across a break — see [Parse](/features/parse#page-markers-pdf)). No additional cost. |
+| Property | Type | Default | Description |
+| - | - | - | - |
+| `type` | `"pdf"` | *(required)* | Parser type. |
+| `mode` | `"fast" \| "auto" \| "ocr"` | `"auto"` | `fast`: text-based extraction only. `auto`: fast with OCR fallback. `ocr`: force OCR. |
+| `maxPages` | `integer` | — | Cap the number of pages to parse. |
+| `pages` | `boolean` | `false` | Also return physical per-page markdown in the document's `pages` field. No additional cost. |
+| `blocks` | `boolean` | `false` | Also return per-page typed layout blocks (normalized bounding boxes, block types, reading order, markdown character spans) in the document's `blocks` field. No additional cost. |
+| `pageMarkers` | `boolean` | `false` | Annotate page breaks in the document markdown with `<!-- page N -->` markers (between pages only; numbering may skip pages merged across a break — see [Parse](/features/parse#page-markers-pdf)). No additional cost. |
 
 ### Actions
 
 Run browser actions before scraping. This is useful for dynamic content, navigation, or user-gated pages. You can include up to 50 actions per request, and the combined wait time across all `wait` actions and `waitFor` must not exceed 60 seconds.
 
-| Action              | Parameters                                                               | Description                                                                                                                              |
-| ------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `wait`              | `milliseconds?: number`, `selector?: string`                             | Wait for a fixed duration **or** until an element is visible (provide one, not both). When using `selector`, times out after 30 seconds. |
-| `click`             | `selector: string`, `all?: boolean`                                      | Click an element matching the CSS selector. Set `all: true` to click every match.                                                        |
-| `write`             | `text: string`                                                           | Type text into the currently focused field. You must focus the element with a `click` action first.                                      |
-| `press`             | `key: string`                                                            | Press a keyboard key (e.g. `"Enter"`, `"Tab"`, `"Escape"`).                                                                              |
-| `scroll`            | `direction?: "up" \| "down"`, `selector?: string`                        | Scroll the page or a specific element. Direction defaults to `"down"`.                                                                   |
-| `screenshot`        | `fullPage?: boolean`, `quality?: number`, `viewport?: { width, height }` | Capture a screenshot. Max viewport resolution is 7680×4320.                                                                              |
-| `scrape`            | *(none)*                                                                 | Capture the current page HTML at this point in the action sequence.                                                                      |
-| `executeJavascript` | `script: string`                                                         | Run JavaScript code in the page. Return values are available in the `actions.javascriptReturns` array of the response.                   |
-| `pdf`               | `format?: string`, `landscape?: boolean`, `scale?: number`               | Generate a PDF. Supported formats: `"A0"` through `"A6"`, `"Letter"`, `"Legal"`, `"Tabloid"`, `"Ledger"`. Defaults to `"Letter"`.        |
+| Action | Parameters | Description |
+| - | - | - |
+| `wait` | `milliseconds?: number`, `selector?: string` | Wait for a fixed duration **or** until an element is visible (provide one, not both). When using `selector`, times out after 30 seconds. |
+| `click` | `selector: string`, `all?: boolean` | Click an element matching the CSS selector. Set `all: true` to click every match. |
+| `write` | `text: string` | Type text into the currently focused field. You must focus the element with a `click` action first. |
+| `press` | `key: string` | Press a keyboard key (e.g. `"Enter"`, `"Tab"`, `"Escape"`). |
+| `scroll` | `direction?: "up" \| "down"`, `selector?: string` | Scroll the page or a specific element. Direction defaults to `"down"`. |
+| `screenshot` | `fullPage?: boolean`, `quality?: number`, `viewport?: { width, height }` | Capture a screenshot. Max viewport resolution is 7680×4320. |
+| `scrape` | *(none)* | Capture the current page HTML at this point in the action sequence. |
+| `executeJavascript` | `script: string` | Run JavaScript code in the page. Return values are available in the `actions.javascriptReturns` array of the response. |
+| `pdf` | `format?: string`, `landscape?: boolean`, `scale?: number` | Generate a PDF. Supported formats: `"A0"` through `"A6"`, `"Letter"`, `"Legal"`, `"Tabloid"`, `"Ledger"`. Defaults to `"Letter"`. |
 
 <CodeGroup>
   ```python Python
@@ -458,15 +458,15 @@ Use the `/v2/agent` endpoint for autonomous, multi-page data extraction. The age
 
 ### Agent options
 
-| Parameter               | Type      | Default      | Description                                                                                                                                                               |
-| ----------------------- | --------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `prompt`                | `string`  | *(required)* | Natural-language instructions describing what data to extract (max 10,000 characters).                                                                                    |
-| `urls`                  | `array`   | —            | URLs to constrain the agent to.                                                                                                                                           |
-| `schema`                | `object`  | —            | JSON schema to structure the extracted data.                                                                                                                              |
-| `maxCredits`            | `number`  | `2500`       | Maximum credits the agent can spend. The dashboard supports up to 2,500; for higher limits, set this via the API (values above 2,500 are always billed as paid requests). |
-| `strictConstrainToURLs` | `boolean` | `false`      | When `true`, the agent only visits the provided URLs.                                                                                                                     |
-| `model`                 | `string`  | `"spark-2"`  | AI model to use. Spark 1 models are deprecated and currently route to `"spark-2"`.                                                                                        |
-| `effort`                | `string`  | *(unset)*    | Reasoning budget: `"low"`, `"medium"`, or `"high"`. Every run executes on `"spark-2"`, so you can send `effort` with or without `model`.                                  |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
+| `prompt` | `string` | *(required)* | Natural-language instructions describing what data to extract (max 10,000 characters). |
+| `urls` | `array` | — | URLs to constrain the agent to. |
+| `schema` | `object` | — | JSON schema to structure the extracted data. |
+| `maxCredits` | `number` | `2500` | Maximum credits the agent can spend. The dashboard supports up to 2,500; for higher limits, set this via the API (values above 2,500 are always billed as paid requests). |
+| `strictConstrainToURLs` | `boolean` | `false` | When `true`, the agent only visits the provided URLs. |
+| `model` | `string` | `"spark-2"` | AI model to use. Spark 1 models are deprecated and currently route to `"spark-2"`. |
+| `effort` | `string` | *(unset)* | Reasoning budget: `"low"`, `"medium"`, or `"high"`. Every run executes on `"spark-2"`, so you can send `effort` with or without `model`. |
 
 <CodeGroup>
   ```python Python
@@ -578,10 +578,10 @@ When using the `/v2/crawl` endpoint, you can customize crawling behavior with th
 
 #### Path filtering
 
-| Parameter        | Type      | Default | Description                                                       |
-| ---------------- | --------- | ------- | ----------------------------------------------------------------- |
-| `includePaths`   | `array`   | —       | Regex patterns for URLs to include (pathname only by default).    |
-| `excludePaths`   | `array`   | —       | Regex patterns for URLs to exclude (pathname only by default).    |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
+| `includePaths` | `array` | — | Regex patterns for URLs to include (pathname only by default). |
+| `excludePaths` | `array` | — | Regex patterns for URLs to exclude (pathname only by default). |
 | `regexOnFullURL` | `boolean` | `false` | Match patterns against the full URL instead of just the pathname. |
 
 
@@ -592,27 +592,27 @@ Patterns use Rust regex (RE2-style) syntax, so look-around and backreferences ar
 
 #### Crawl scope
 
-| Parameter            | Type         | Default | Description                                                  |
-| -------------------- | ------------ | ------- | ------------------------------------------------------------ |
-| `maxDiscoveryDepth`  | `integer`    | —       | Max link-depth for discovering new URLs.                     |
-| `limit`              | `integer`    | `10000` | Max pages to crawl.                                          |
-| `crawlEntireDomain`  | `boolean`    | `false` | Explore siblings and parents to cover the entire domain.     |
-| `allowExternalLinks` | `boolean`    | `false` | Follow links to external domains.                            |
-| `allowSubdomains`    | `boolean`    | `false` | Follow subdomains of the main domain.                        |
-| `delay`              | `number` (s) | —       | Delay between scrapes. Setting this forces concurrency to 1. |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
+| `maxDiscoveryDepth` | `integer` | — | Max link-depth for discovering new URLs. |
+| `limit` | `integer` | `10000` | Max pages to crawl. |
+| `crawlEntireDomain` | `boolean` | `false` | Explore siblings and parents to cover the entire domain. |
+| `allowExternalLinks` | `boolean` | `false` | Follow links to external domains. |
+| `allowSubdomains` | `boolean` | `false` | Follow subdomains of the main domain. |
+| `delay` | `number` (s) | — | Delay between scrapes. Setting this forces concurrency to 1. |
 
 #### Sitemap and deduplication
 
-| Parameter                | Type      | Default     | Description                                                                                             |
-| ------------------------ | --------- | ----------- | ------------------------------------------------------------------------------------------------------- |
-| `sitemap`                | `string`  | `"include"` | `"include"`: use sitemap + link discovery. `"skip"`: ignore sitemap. `"only"`: crawl only sitemap URLs. |
-| `deduplicateSimilarURLs` | `boolean` | `true`      | Normalize URL variants (`www.`, `https`, trailing slashes, `index.html`) as duplicates.                 |
-| `ignoreQueryParameters`  | `boolean` | `false`     | Strip query strings before deduplication (e.g. `/page?a=1` and `/page?a=2` become one URL).             |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
+| `sitemap` | `string` | `"include"` | `"include"`: use sitemap + link discovery. `"skip"`: ignore sitemap. `"only"`: crawl only sitemap URLs. |
+| `deduplicateSimilarURLs` | `boolean` | `true` | Normalize URL variants (`www.`, `https`, trailing slashes, `index.html`) as duplicates. |
+| `ignoreQueryParameters` | `boolean` | `false` | Strip query strings before deduplication (e.g. `/page?a=1` and `/page?a=2` become one URL). |
 
 #### Scrape options for crawl
 
-| Parameter       | Type     | Default                     | Description                                                                  |
-| --------------- | -------- | --------------------------- | ---------------------------------------------------------------------------- |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
 | `scrapeOptions` | `object` | `{ formats: ["markdown"] }` | Per-page scrape config. Accepts all [scrape options](#scrape-options) above. |
 
 ### Crawl example
@@ -645,12 +645,12 @@ curl -X POST https://api.firecrawl.dev/v2/map \
 
 ### Map options
 
-| Parameter           | Type      | Default     | Description                         |
-| ------------------- | --------- | ----------- | ----------------------------------- |
-| `search`            | `string`  | —           | Filter links by text match.         |
-| `limit`             | `integer` | `100`       | Max links to return.                |
-| `sitemap`           | `string`  | `"include"` | `"include"`, `"skip"`, or `"only"`. |
-| `includeSubdomains` | `boolean` | `true`      | Include subdomains.                 |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
+| `search` | `string` | — | Filter links by text match. |
+| `limit` | `integer` | `100` | Max links to return. |
+| `sitemap` | `string` | `"include"` | `"include"`, `"skip"`, or `"only"`. |
+| `includeSubdomains` | `boolean` | `true` | Include subdomains. |
 
 Here is the API Reference for it: [Map Endpoint Documentation](https://docs.firecrawl.dev/api-reference/endpoint/map)
 

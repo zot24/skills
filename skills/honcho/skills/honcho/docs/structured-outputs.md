@@ -203,21 +203,21 @@ Honcho supports a conservative subset of JSON Schema that enables the kind of Py
 
 The root of the schema must be `"type": "object"`.
 
-| Construct                                                                      | Support                                                               |
-| ------------------------------------------------------------------------------ | --------------------------------------------------------------------- |
-| `string`, `number`, `integer`, `boolean`, `null`                               | Supported                                                             |
-| `object` with `properties` (nested recursively)                                | Supported                                                             |
-| `array` with `items` (missing `items` yields an untyped list)                  | Supported                                                             |
-| `enum` of strings, integers, booleans, or null                                 | Supported                                                             |
-| `anyOf` / `oneOf` unions (a `null` member makes the field optional)            | Supported                                                             |
-| `type` given as a list (e.g. `["string", "null"]`)                             | Supported                                                             |
-| `required`, `default`, `description`                                           | Supported                                                             |
-| Boolean `additionalProperties`                                                 | Accepted and ignored                                                  |
-| `$ref` into root-level `$defs` / `definitions`                                 | Supported — resolved by inlining (this is what Pydantic and Zod emit) |
-| Recursive `$ref` (a definition that references itself, directly or indirectly) | Rejected (422) — the error will identify the cycle                    |
-| Other `$ref` forms (external URLs, arbitrary JSON pointers)                    | Rejected (422)                                                        |
-| `allOf`, `not`, `if` / `then` / `else`                                         | Rejected (422)                                                        |
-| `patternProperties`, schema-valued `additionalProperties`                      | Rejected (422)                                                        |
+| Construct | Support |
+| - | - |
+| `string`, `number`, `integer`, `boolean`, `null` | Supported |
+| `object` with `properties` (nested recursively) | Supported |
+| `array` with `items` (missing `items` yields an untyped list) | Supported |
+| `enum` of strings, integers, booleans, or null | Supported |
+| `anyOf` / `oneOf` unions (a `null` member makes the field optional) | Supported |
+| `type` given as a list (e.g. `["string", "null"]`) | Supported |
+| `required`, `default`, `description` | Supported |
+| Boolean `additionalProperties` | Accepted and ignored |
+| `$ref` into root-level `$defs` / `definitions` | Supported — resolved by inlining (this is what Pydantic and Zod emit) |
+| Recursive `$ref` (a definition that references itself, directly or indirectly) | Rejected (422) — the error will identify the cycle |
+| Other `$ref` forms (external URLs, arbitrary JSON pointers) | Rejected (422) |
+| `allOf`, `not`, `if` / `then` / `else` | Rejected (422) |
+| `patternProperties`, schema-valued `additionalProperties` | Rejected (422) |
 
 Schemas may nest at most 20 levels deep and contain at most 500 total nodes.
 
@@ -266,13 +266,13 @@ Pydantic and Zod produce these shapes for you: `str | None` in Pydantic emits th
 
 ## Error Handling
 
-| Condition                                                    | Result                                                   |
-| ------------------------------------------------------------ | -------------------------------------------------------- |
-| `response_format` is not a valid JSON Schema object          | `422` validation error                                   |
-| Root type is not `"object"`                                  | `422` validation error                                   |
-| Schema uses an unsupported construct                         | `422` identifying the construct and its path             |
-| Schema contains a recursive `$ref`                           | `422` identifying the cycle (e.g. `cycle: Node -> Node`) |
-| Model fails to produce valid structured output after retries | `500`, same as any LLM failure                           |
+| Condition | Result |
+| - | - |
+| `response_format` is not a valid JSON Schema object | `422` validation error |
+| Root type is not `"object"` | `422` validation error |
+| Schema uses an unsupported construct | `422` identifying the construct and its path |
+| Schema contains a recursive `$ref` | `422` identifying the cycle (e.g. `cycle: Node -> Node`) |
+| Model fails to produce valid structured output after retries | `500`, same as any LLM failure |
 
 ## How It Works
 

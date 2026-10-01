@@ -2,8 +2,8 @@
 
 ---
 title: Zernio
-description: Multi-platform messaging adapter for Chat SDK. Build chatbots that work across Instagram, Facebook, Twitter/X, Telegram, WhatsApp, Bluesky, and Reddit through a single integration.
-tagline: One adapter, seven platforms. Reach Instagram, Facebook, Twitter/X, Telegram, WhatsApp, Bluesky, and Reddit through Zernio without managing each platform's developer program, app review, or token rotation.
+description: Multi-platform messaging adapter for Chat SDK. Build bots that work across Instagram, Facebook, Twitter/X, Telegram, WhatsApp, Bluesky, and Reddit through a single integration.
+tagline: Reach Instagram, Facebook, Twitter/X, Telegram, WhatsApp, Bluesky, and Reddit through Zernio with one adapter, without managing each platform's developer program, app review, or token rotation.
 package: @zernio/chat-sdk-adapter
 ---
 
@@ -13,7 +13,7 @@ package: @zernio/chat-sdk-adapter
 ## Install
 
 
-For production, swap `@chat-adapter/state-memory` for a persistent state adapter such as `@chat-adapter/state-redis` or `@chat-adapter/state-pg`. See [State Adapters](/docs/state-adapters) for all options.
+For production, swap `@chat-adapter/state-memory` for a persistent state adapter such as `@chat-adapter/state-redis` or `@chat-adapter/state-pg`. See [State adapters](/docs/state-adapters) for all options.
 
 ## Quick start
 
@@ -30,7 +30,7 @@ export const bot = new Chat({
   state: createMemoryState(),
 });
 
-// Pattern is a RegExp — `/.*/ ` matches every message.
+// Pattern is a RegExp; `/.*/ ` matches every message.
 bot.onNewMessage(/.*/, async (thread, message) => {
   const platform = (message.raw as { platform: string }).platform;
   await thread.post(`Hello from ${platform}!`);
@@ -38,29 +38,43 @@ bot.onNewMessage(/.*/, async (thread, message) => {
 ```
 
 ```typescript title="app/api/chat-webhook/route.ts" lineNumbers
+import { after } from "next/server";
 import { bot } from "@/lib/bot";
 
 export async function POST(request: Request) {
-  return bot.webhooks.zernio(request);
+  return bot.webhooks.zernio(request, {
+    waitUntil: (task) => after(() => task),
+  });
 }
 ```
 
-## Why Zernio
+## Platform setup
 
-Even with native Chat SDK adapters for each platform, shipping a multi-platform bot still means applying to Meta's developer program, going through App Review, getting WhatsApp Business verification, applying for X elevated access, and managing token rotation across all of them. Zernio replaces that with a dashboard where users connect their own accounts and you get one API key.
+Even with native Chat SDK adapters for each platform, shipping a multi-platform bot still means applying to Meta's developer program, going through App Review, getting WhatsApp Business verification, applying for X elevated access, and managing token rotation across all of them. With Zernio, users connect their own accounts in the Zernio dashboard and you use one API key.
+
+### Get a Zernio API key
+
+Sign up at [zernio.com](https://zernio.com) and create an API key from the dashboard with **read-write** permissions.
+
+### Connect social accounts
+
+Use the Zernio dashboard or API to connect the platform accounts you want the bot to handle.
+
+### Configure a webhook
+
+Point a webhook at your bot's webhook endpoint:
+
+* URL: `https://your-app.com/api/chat-webhook`
+* Events: `message.received` and `comment.received`
+* Secret: a strong shared secret, passed as `ZERNIO_WEBHOOK_SECRET`
+
+### Enable the inbox addon
+
+Enable the inbox addon on your Zernio account to receive message webhooks.
 
 ## Configuration
 
-### Environment variables
-
-| Variable                | Required    | Description                                                   |
-| ----------------------- | ----------- | ------------------------------------------------------------- |
-| `ZERNIO_API_KEY`        | Yes         | Zernio API key for sending messages                           |
-| `ZERNIO_WEBHOOK_SECRET` | Recommended | HMAC-SHA256 secret for verifying inbound webhooks             |
-| `ZERNIO_API_BASE_URL`   | No          | Override the API base URL (default: `https://zernio.com/api`) |
-| `ZERNIO_BOT_NAME`       | No          | Bot display name (default: `"Zernio Bot"`)                    |
-
-### Explicit configuration
+Pass options to `createZernioAdapter()`, or omit them to read from environment variables:
 
 ```typescript
 import { createZernioAdapter } from "@zernio/chat-sdk-adapter";
@@ -73,17 +87,18 @@ const adapter = createZernioAdapter({
 });
 ```
 
-## Setup
+### Environment variables
 
-1. **Get a Zernio API key.** Sign up at [zernio.com](https://zernio.com) and create an API key from the dashboard with **read-write** permissions.
-2. **Connect social accounts.** Use the Zernio dashboard or API to connect the platform accounts you want the bot to handle.
-3. **Configure a webhook** pointing at your bot's webhook endpoint:
-   * **URL:** `https://your-app.com/api/chat-webhook`
-   * **Events:** `message.received` and `comment.received`
-   * **Secret:** strong shared secret, passed as `ZERNIO_WEBHOOK_SECRET`
-4. **Enable the inbox addon** on your Zernio account to receive message webhooks.
+| Variable                | Required    | Description                                                   |
+| ----------------------- | ----------- | ------------------------------------------------------------- |
+| `ZERNIO_API_KEY`        | Yes         | Zernio API key for sending messages                           |
+| `ZERNIO_WEBHOOK_SECRET` | Recommended | HMAC-SHA256 secret for verifying inbound webhooks             |
+| `ZERNIO_API_BASE_URL`   | No          | Override the API base URL (default: `https://zernio.com/api`) |
+| `ZERNIO_BOT_NAME`       | No          | Bot display name (default: `"Zernio Bot"`)                    |
 
-## How it works
+## Webhooks
+
+The quick start's route receives Zernio webhooks. Messages flow through the adapter like this:
 
 ```
 Incoming
@@ -100,22 +115,19 @@ Outgoing
     -> User receives the message on the originating platform
 ```
 
-## Thread ID format
+### Webhook verification
 
-Thread IDs follow the format `zernio:{accountId}:{conversationId}`:
-
-* `accountId` — the Zernio social account ID (which platform account received the message)
-* `conversationId` — the Zernio conversation ID (the specific DM thread)
-* For comments: `zernio:{accountId}:comment:{postId}`
+The adapter automatically verifies webhook signatures when `webhookSecret` is configured. You can also call the verifier directly:
 
 ```typescript
-import { ZernioAdapter } from "@zernio/chat-sdk-adapter";
+import { verifyWebhookSignature } from "@zernio/chat-sdk-adapter";
 
-const adapter = new ZernioAdapter({ apiKey: "..." });
-const { accountId, conversationId } = adapter.decodeThreadId(threadId);
+const isValid = verifyWebhookSignature(rawBody, signature, secret);
 ```
 
 ## Platform support matrix
+
+The [feature support](#feature-support) table summarizes the adapter as a whole. This table shows which features each network supports through Zernio (FB is Facebook, IG is Instagram):
 
 | Feature             |  FB |  IG | Telegram | WhatsApp |  X  | Bluesky | Reddit |
 | ------------------- | :-: | :-: | :------: | :------: | :-: | :-----: | :----: |
@@ -124,15 +136,17 @@ const { accountId, conversationId } = adapter.decodeThreadId(threadId);
 | Lists               |  –  |  –  |     –    |     Y    |  –  |    –    |    –   |
 | Location / Contacts |  –  |  –  |     –    |     Y    |  –  |    –    |    –   |
 | Templates / Flows   |  –  |  –  |     –    |     Y    |  –  |    –    |    –   |
-| Typing              |  Y  |  –  |     Y    |     Y    |  –  |    –    |    –   |
+| Typing              |  Y  |  Y  |     Y    |     Y    |  –  |    –    |    –   |
 | Delete              |  –  |  –  |     Y    |     –    |  Y  |   Self  |  Self  |
-| Reactions           |  –  |  –  |     Y    |     Y    |  –  |    –    |    –   |
+| Reactions           |  Y  |  Y  |     Y    |     Y    |  –  |    –    |    –   |
 | Media               |  Y  |  Y  |     Y    |     Y    |  Y  |    –    |    –   |
 | Edit                |  –  |  –  |     Y    |     –    |  –  |    –    |    –   |
 
+WhatsApp typing indicators need a recent inbound message in the conversation. On Instagram, the indicator only shows while the recipient is signed in.
+
 ## Rich messages
 
-The adapter maps Chat SDK `Card` elements to native platform formats instead of falling back to plain text:
+The adapter maps Chat SDK `Card` elements to native platform formats:
 
 ```typescript
 import { Actions, Button, Card, CardText, LinkButton } from "chat";
@@ -153,9 +167,9 @@ await thread.post(
 );
 ```
 
-Renders as an interactive card on Facebook, Instagram, Telegram, and WhatsApp. Falls back to plain text on X, Bluesky, and Reddit.
+The card renders as an interactive card on Facebook, Instagram, Telegram, and WhatsApp, and falls back to plain text on X, Bluesky, and Reddit.
 
-A card `Select` or `RadioSelect` maps to a WhatsApp **interactive list** (it can't coexist with reply buttons, so the list takes precedence):
+A card `Select` or `RadioSelect` maps to a WhatsApp interactive list. A list can't coexist with reply buttons, so the list takes precedence:
 
 ```typescript
 import { Actions, Card, Select, SelectOption } from "chat";
@@ -181,7 +195,7 @@ await thread.post(
 
 ## WhatsApp rich messages
 
-WhatsApp-only message types that don't map to a Chat SDK card are sent through the exported `ZernioApiClient`, used alongside the adapter. Decode a thread ID to get the `accountId` and `conversationId`:
+Send WhatsApp-only message types that don't map to a Chat SDK card through the exported `ZernioApiClient`, alongside the adapter. [Decode the thread ID](#thread-ids) to get the `accountId` and `conversationId`:
 
 ```typescript
 import { ZernioApiClient } from "@zernio/chat-sdk-adapter";
@@ -217,7 +231,7 @@ await client.reply(conversationId, accountId, "wamid.HBg...", "Thanks, on it!");
 
 ## Inbound interactive replies
 
-When a user taps a reply button, selects a list row, or submits a WhatsApp Flow, it arrives as a normal `onNewMessage` whose interactive context is on `message.raw.metadata`:
+When a user taps a reply button, selects a list row, or submits a WhatsApp Flow, the reply arrives as a normal `onNewMessage` event with its interactive context on `message.raw.metadata`:
 
 ```typescript
 bot.onNewMessage(/.*/, async (thread, message) => {
@@ -235,14 +249,14 @@ bot.onNewMessage(/.*/, async (thread, message) => {
 
 ## Opening conversations
 
-Start a chat with someone who hasn't messaged you yet. `openDM(userId)` is the standard Chat SDK method — because one Zernio account is one channel, namespace the recipient as `"{accountId}:{recipient}"` (a phone/E.164 for WhatsApp). It's resolution-only (no network call); the first `post()` opens the thread:
+To start a chat with someone who hasn't messaged you yet, use the standard Chat SDK `openDM(userId)` method. Because one Zernio account is one channel, namespace the recipient as `"{accountId}:{recipient}"`, using a phone number in E.164 format for WhatsApp. `openDM` only resolves the thread and makes no network call; the first `post()` opens the thread:
 
 ```typescript
 const thread = await bot.openDM("507f1f77bcf86cd799439011:16505551234");
 await thread.post("Hi!"); // WhatsApp: the first message must be an approved template
 ```
 
-For WhatsApp you must open with an approved template (the 24-hour-window rule). `openConversation` sends it and returns the thread ID in one step:
+WhatsApp's 24-hour-window rule means you must open with an approved template. `openConversation` sends it and returns the thread ID in one step:
 
 ```typescript
 const threadId = await adapter.openConversation({
@@ -256,7 +270,7 @@ const threadId = await adapter.openConversation({
 
 ## AI streaming
 
-Stream AI responses using the post+edit pattern — `thread.post()` accepts an `AsyncIterable<string>`, so you can pass the `textStream` from `streamText` directly:
+Stream AI responses using the post-and-edit pattern. `thread.post()` accepts an `AsyncIterable<string>`, so you can pass the `textStream` from `streamText` directly:
 
 ```typescript
 import { openai } from "@ai-sdk/openai";
@@ -303,7 +317,7 @@ bot.onNewMessage(/.*/, async (thread, message) => {
 
 ## API client
 
-The adapter ships a standalone REST client for direct Zernio API calls:
+The adapter includes a standalone REST client for direct Zernio API calls:
 
 ```typescript
 import { ZernioApiClient } from "@zernio/chat-sdk-adapter";
@@ -334,16 +348,6 @@ const convo = await client.createConversation({
 
 It also exposes the WhatsApp rich sends shown above (`sendInteractive`, `sendLocation`, `sendContacts`, `sendTemplate`, `reply`).
 
-## Webhook verification
-
-The adapter automatically verifies webhook signatures when `webhookSecret` is configured. You can also call the verifier directly:
-
-```typescript
-import { verifyWebhookSignature } from "@zernio/chat-sdk-adapter";
-
-const isValid = verifyWebhookSignature(rawBody, signature, secret);
-```
-
 ## Error handling
 
 The adapter maps Zernio API errors to standard Chat SDK error classes:
@@ -355,6 +359,21 @@ The adapter maps Zernio API errors to standard Chat SDK error classes:
 | 404         | `ResourceNotFoundError` | Conversation or message not found      |
 | 429         | `AdapterRateLimitError` | Rate limit hit (includes `retryAfter`) |
 | 5xx         | `NetworkError`          | Server error                           |
+
+## Thread IDs
+
+Thread IDs follow the format `zernio:{accountId}:{conversationId}`:
+
+* `accountId`: the Zernio social account ID, which identifies the platform account that received the message
+* `conversationId`: the Zernio conversation ID for the specific DM thread
+* For comments: `zernio:{accountId}:comment:{postId}`
+
+```typescript
+import { ZernioAdapter } from "@zernio/chat-sdk-adapter";
+
+const adapter = new ZernioAdapter({ apiKey: "..." });
+const { accountId, conversationId } = adapter.decodeThreadId(threadId);
+```
 
 ## Feature support
 

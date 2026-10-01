@@ -12,32 +12,32 @@ Firecrawl MCP exposes tools for finding, extracting, interacting with, and monit
 
 ## Tool availability
 
-| Connection mode                        | Available tools                                               |
-| -------------------------------------- | ------------------------------------------------------------- |
-| Hosted OAuth                           | Full tool surface, subject to plan and team policy            |
-| Hosted API key                         | Full tool surface, subject to plan and team policy            |
-| Hosted keyless                         | `firecrawl_search`, `firecrawl_scrape`, and `firecrawl_parse` |
-| Local with the Firecrawl cloud API     | API-backed tools; direct local-file Parse is unavailable      |
-| Local with a self-hosted Firecrawl API | Tools supported by the services enabled in that deployment    |
+| Connection mode | Available tools |
+| - | - |
+| Hosted OAuth | Full tool surface, subject to plan and team policy |
+| Hosted API key | Full tool surface, subject to plan and team policy |
+| Hosted keyless | `firecrawl_search`, `firecrawl_scrape`, and `firecrawl_parse` |
+| Local with the Firecrawl cloud API | API-backed tools; direct local-file Parse is unavailable |
+| Local with a self-hosted Firecrawl API | Tools supported by the services enabled in that deployment |
 
 Start with [Get Started](/mcp-server) and pick [For Agents](/mcp-server/keyless) or [For Humans](/mcp-server/oauth). Some optional tools can be disabled by environment or team policy.
 
 ## Choose a tool
 
-| Job                           | Tool                                                 | Use it when                                                                                                                                                                            |
-| ----------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Read one page                 | `firecrawl_scrape`                                   | You know the URL and need page content or structured fields.                                                                                                                           |
-| Extract structured data       | `firecrawl_scrape` with JSON format                  | You have the URL and want data matching a prompt or JSON schema.                                                                                                                       |
-| Discover site URLs            | `firecrawl_map`                                      | You need to find pages before deciding what to extract.                                                                                                                                |
-| Search the web                | `firecrawl_search`                                   | You have a query rather than a known URL.                                                                                                                                              |
-| Parse a file                  | `firecrawl_parse`                                    | You need content from a PDF, document, spreadsheet, or HTML file.                                                                                                                      |
-| Extract many pages            | `firecrawl_crawl` and `firecrawl_check_crawl_status` | You need to traverse a site or section. The crawl tool polls the job to a terminal state before returning.                                                                             |
-| Run autonomous research       | `firecrawl_agent` and `firecrawl_agent_status`       | The task spans multiple sources and the exact pages are not known.                                                                                                                     |
-| Operate a live page           | `firecrawl_interact` and `firecrawl_interact_stop`   | You need clicks, form fills, navigation, or dynamic-page extraction.                                                                                                                   |
-| Search scientific literature  | `firecrawl_research_*`                               | You need to find papers, read passages from inside one, or follow citations. Searches the [Research Index](/features/research) of PubMed, bioRxiv, medRxiv, and arXiv paper abstracts. |
-| Answer a programming question | `firecrawl_developer_search`                         | You need primary-source answers from issues, merged pull requests, READMEs, and curated docs.                                                                                          |
-| Monitor changes               | `firecrawl_monitor_*`                                | You need recurring checks, diffs, and webhook or email notifications.                                                                                                                  |
-| Send product feedback         | `firecrawl_search_feedback` and `firecrawl_feedback` | You want to rate search results or report endpoint-level quality.                                                                                                                      |
+| Job | Tool | Use it when |
+| - | - | - |
+| Read one page | `firecrawl_scrape` | You know the URL and need page content or structured fields. |
+| Extract structured data | `firecrawl_scrape` with JSON format | You have the URL and want data matching a prompt or JSON schema. |
+| Discover site URLs | `firecrawl_map` | You need to find pages before deciding what to extract. |
+| Search the web | `firecrawl_search` | You have a query rather than a known URL. |
+| Parse a file | `firecrawl_parse` | You need content from a PDF, document, spreadsheet, or HTML file. |
+| Extract many pages | `firecrawl_crawl` and `firecrawl_check_crawl_status` | You need to traverse a site or section. The crawl tool polls the job to a terminal state before returning. |
+| Run autonomous research | `firecrawl_agent` and `firecrawl_agent_status` | The task spans multiple sources and the exact pages are not known. |
+| Operate a live page | `firecrawl_interact` and `firecrawl_interact_stop` | You need clicks, form fills, navigation, or dynamic-page extraction. |
+| Search scientific literature | `firecrawl_research_*` | You need to find papers, read passages from inside one, or follow citations. Searches the [Research Index](/features/research) of PubMed, bioRxiv, medRxiv, and arXiv paper abstracts. |
+| Answer a programming question | `firecrawl_developer_search` | You need primary-source answers from issues, merged pull requests, READMEs, and curated docs. |
+| Monitor changes | `firecrawl_monitor_*` | You need recurring checks, diffs, and webhook or email notifications. |
+| Send product feedback | `firecrawl_search_feedback` and `firecrawl_feedback` | You want to rate search results or report endpoint-level quality. |
 
 
   The former Extract MCP tool is deprecated and is not part of the current tool surface. Use Scrape with JSON format for a known page, or Agent when Firecrawl must discover the sources. See [Choosing the Data Extractor](/developer-guides/usage-guides/choosing-the-data-extractor) for the full comparison.

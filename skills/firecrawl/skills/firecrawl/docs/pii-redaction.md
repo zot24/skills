@@ -76,11 +76,11 @@ For most requests, use `redactPII: true`. To tune redaction, pass an options obj
 }
 ```
 
-| Option         | Values                                                        | Default      | Description                                                                                                                                         |
-| -------------- | ------------------------------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mode`         | `accurate`, `aggressive`, `fast`                              | `accurate`   | Redaction strategy. `accurate` uses the model-only path, `aggressive` increases recall with additional heuristics, and `fast` skips the model call. |
-| `entities`     | `PERSON`, `EMAIL`, `PHONE`, `LOCATION`, `FINANCIAL`, `SECRET` | All entities | Limit redaction to specific entity buckets.                                                                                                         |
-| `replaceStyle` | `tag`, `mask`, `remove`                                       | `tag`        | Replace spans with tags like `<EMAIL>`, mask them with `*`, or remove the characters entirely.                                                      |
+| Option | Values | Default | Description |
+| - | - | - | - |
+| `mode` | `accurate`, `aggressive`, `fast` | `accurate` | Redaction strategy. `accurate` uses the model-only path, `aggressive` increases recall with additional heuristics, and `fast` skips the model call. |
+| `entities` | `PERSON`, `EMAIL`, `PHONE`, `LOCATION`, `FINANCIAL`, `SECRET` | All entities | Limit redaction to specific entity buckets. |
+| `replaceStyle` | `tag`, `mask`, `remove` | `tag` | Replace spans with tags like `<EMAIL>`, mask them with `*`, or remove the characters entirely. |
 
 
   The Firecrawl CLI and MCP server expose simple boolean redaction. Advanced options are available through the API and SDKs that expose the full `redactPII` options object.

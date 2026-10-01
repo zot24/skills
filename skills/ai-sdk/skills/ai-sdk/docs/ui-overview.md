@@ -1,13 +1,19 @@
 > Source: https://ai-sdk.dev/docs/ai-sdk-ui/overview.md
 
+---
+title: Overview
+description: An overview of AI SDK UI.
+url: "https://ai-sdk.dev/docs/ai-sdk-ui/overview"
+docs_index: /llms.txt
+---
 
-# AI SDK UI
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 AI SDK UI is designed to help you build interactive chat, completion, and assistant applications with ease. It is a **framework-agnostic toolkit**, streamlining the integration of advanced AI functionalities into your applications.
 
 AI SDK UI provides robust abstractions that simplify the complex tasks of managing chat streams and UI updates on the frontend, enabling you to develop dynamic AI-driven interfaces more efficiently. With three main hooks — **`useChat`**, **`useCompletion`**, and **`useObject`** — you can incorporate real-time chat capabilities, text completions, streamed JSON, and interactive assistant features into your app.
 
-- **[`useChat`](/docs/ai-sdk-ui/chatbot)** offers real-time streaming of chat messages, abstracting state management for inputs, messages, loading, and errors, allowing for seamless integration into any UI design.
+- **[`useChat`](/docs/ai-sdk-ui/chatbot)** offers real-time streaming of chat messages and manages message, loading, and error state. Manage input state in your component for seamless integration into any UI design.
 - **[`useCompletion`](/docs/ai-sdk-ui/completion)** enables you to handle text completions in your applications, managing the prompt input and automatically updating the UI as new completions are streamed.
 - **[`useObject`](/docs/ai-sdk-ui/object-generation)** is a hook that allows you to consume streamed JSON objects, providing a simple way to handle and display structured data in your application.
 
@@ -22,11 +28,11 @@ Here is a comparison of the supported functions across these frameworks:
 
 |                                                                 | [useChat](/docs/reference/ai-sdk-ui/use-chat) | [useCompletion](/docs/reference/ai-sdk-ui/use-completion) | [useObject](/docs/reference/ai-sdk-ui/use-object) | [MCP Apps](/docs/ai-sdk-core/mcp-apps) |
 | --------------------------------------------------------------- | --------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------- | -------------------------------------- |
-| React `@ai-sdk/react`                                           |                                      |                                                  |                                          |                               |
-| Vue.js `@ai-sdk/vue`                                            |                                      |                                                  |                                          |                               |
-| Svelte `@ai-sdk/svelte`                                         |  Chat                                |  Completion                                      |  StructuredObject                        |                               |
-| Angular `@ai-sdk/angular`                                       |  Chat                                |  Completion                                      |  StructuredObject                        |                               |
-| [SolidJS](https://github.com/kodehort/ai-sdk-solid) (community) |                                      |                                                  |                                          |                               |
+| React `@ai-sdk/react`                                           | ✓                                             | ✓                                                         | ✓                                                 | ✓                                      |
+| Vue.js `@ai-sdk/vue`                                            | ✓                                             | ✓                                                         | ✓                                                 | ✗                                      |
+| Svelte `@ai-sdk/svelte`                                         | ✓ Chat                                        | ✓ Completion                                              | ✓ StructuredObject                                | ✗                                      |
+| Angular `@ai-sdk/angular`                                       | ✓ Chat                                        | ✓ Completion                                              | ✓ StructuredObject                                | ✗                                      |
+| [SolidJS](https://github.com/kodehort/ai-sdk-solid) (community) | ✓                                             | ✓                                                         | ✓                                                 | ✗                                      |
 
 ## Framework Examples
 
@@ -41,23 +47,10 @@ Explore these example implementations for different frameworks:
 
 Please check out the [AI SDK UI API Reference](/docs/reference/ai-sdk-ui) for more details on each function.
 
+---
 
-## Navigation
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
 
-- [Overview](/docs/ai-sdk-ui/overview)
-- [Chatbot](/docs/ai-sdk-ui/chatbot)
-- [Chatbot Message Persistence](/docs/ai-sdk-ui/chatbot-message-persistence)
-- [Chatbot Resume Streams](/docs/ai-sdk-ui/chatbot-resume-streams)
-- [Chatbot Tool Usage](/docs/ai-sdk-ui/chatbot-tool-usage)
-- [Generative User Interfaces](/docs/ai-sdk-ui/generative-user-interfaces)
-- [Completion](/docs/ai-sdk-ui/completion)
-- [Object Generation](/docs/ai-sdk-ui/object-generation)
-- [Streaming Custom Data](/docs/ai-sdk-ui/streaming-data)
-- [Error Handling](/docs/ai-sdk-ui/error-handling)
-- [Transport](/docs/ai-sdk-ui/transport)
-- [Reading UIMessage Streams](/docs/ai-sdk-ui/reading-ui-message-streams)
-- [Message Metadata](/docs/ai-sdk-ui/message-metadata)
-- [Stream Protocols](/docs/ai-sdk-ui/stream-protocol)
+For an index of all available documentation, see [/llms.txt](/llms.txt)
 
-
-[Full Sitemap](/sitemap.md)
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

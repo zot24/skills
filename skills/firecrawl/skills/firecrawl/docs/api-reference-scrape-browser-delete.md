@@ -14,18 +14,18 @@ Credits are billed based on session duration: **7 credits per browser minute** i
 
 ## Path Parameters
 
-| Parameter | Type          | Required | Description                                           |
-| --------- | ------------- | -------- | ----------------------------------------------------- |
-| `jobId`   | string (UUID) | Yes      | The scrape job ID associated with the browser session |
+| Parameter | Type | Required | Description |
+| - | - | - | - |
+| `jobId` | string (UUID) | Yes | The scrape job ID associated with the browser session |
 
 ## Response
 
-| Field               | Type    | Description                                    |
-| ------------------- | ------- | ---------------------------------------------- |
-| `success`           | boolean | Whether the session was successfully destroyed |
-| `sessionDurationMs` | number  | Total session duration in milliseconds         |
-| `creditsBilled`     | number  | Number of credits billed for the session       |
-| `error`             | string  | Error message (only present on failure)        |
+| Field | Type | Description |
+| - | - | - |
+| `success` | boolean | Whether the session was successfully destroyed |
+| `sessionDurationMs` | number | Total session duration in milliseconds |
+| `creditsBilled` | number | Number of credits billed for the session |
+| `error` | string | Error message (only present on failure) |
 
 ### Example Request
 
@@ -44,10 +44,10 @@ curl -X DELETE "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-4466
 
 ### Error Codes
 
-| Status | Description                                  |
-| ------ | -------------------------------------------- |
-| `403`  | Session belongs to a different team          |
-| `404`  | No browser session found for this scrape job |
+| Status | Description |
+| - | - |
+| `403` | Session belongs to a different team |
+| `404` | No browser session found for this scrape job |
 
 For detailed usage with examples, see the [Interact feature guide](/features/interact).
 

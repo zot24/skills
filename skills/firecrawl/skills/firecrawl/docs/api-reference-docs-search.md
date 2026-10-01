@@ -46,12 +46,12 @@ curl -X POST https://api.firecrawl.dev/v2/support/docs-search \
 
 ## Response fields
 
-| Field        | Type    | Description                                                      |
-| ------------ | ------- | ---------------------------------------------------------------- |
-| `answer`     | string  | Concise answer grounded in Firecrawl documentation               |
-| `evidence`   | array   | Documentation pages referenced, with `pathOrUrl` and `reason`    |
-| `usage`      | object  | Token consumption (`inputTokens`, `outputTokens`, `totalTokens`) |
-| `durationMs` | integer | Total execution time in milliseconds                             |
+| Field | Type | Description |
+| - | - | - |
+| `answer` | string | Concise answer grounded in Firecrawl documentation |
+| `evidence` | array | Documentation pages referenced, with `pathOrUrl` and `reason` |
+| `usage` | object | Token consumption (`inputTokens`, `outputTokens`, `totalTokens`) |
+| `durationMs` | integer | Total execution time in milliseconds |
 
 For the full feature guide, see the [Ask feature documentation](/features/ask).
 

@@ -11,6 +11,8 @@ On this page
 # FAQ & Troubleshooting
 
 
+Python dependency commands on this page use a [PM-prepared source checkout](/docs/reference/package-management#developer-workflow). After a dependency change, reactivate the checkout and restart Hermes.
+
 Quick answers and fixes for the most common questions and issues.
 
 ------------------------------------------------------------------------
@@ -33,7 +35,7 @@ Hermes Agent works with any OpenAI-compatible API. Supported providers include:
 
 Set your provider with `hermes model` or by editing `~/.hermes/.env`. See the [Environment Variables](/docs/reference/environment-variables) reference for all provider keys.
 
-### Does it work on Windows/Android/Termux/my plataform??<a href="#does-it-work-on-windowsandroidtermuxmy-plataform" class="hash-link" aria-label="Direct link to Does it work on Windows/Android/Termux/my plataform??" translate="no" title="Direct link to Does it work on Windows/Android/Termux/my plataform??">​</a>
+### Does it work on Windows/Android/my platform??<a href="#does-it-work-on-windowsandroidmy-platform" class="hash-link" aria-label="Direct link to Does it work on Windows/Android/my platform??" translate="no" title="Direct link to Does it work on Windows/Android/my platform??">​</a>
 
 See **[Platform Support](/docs/getting-started/platform-support)** for the full platform availability matrix.
 
@@ -160,23 +162,11 @@ ls ~/.local/bin/hermes
 The installer adds `~/.local/bin` to your PATH. If you use a non-standard shell config, add `export PATH="$HOME/.local/bin:$PATH"` manually.
 
 
-#### Python version too old<a href="#python-version-too-old" class="hash-link" aria-label="Direct link to Python version too old" translate="no" title="Direct link to Python version too old">​</a>
+#### Unsupported Python version<a href="#unsupported-python-version" class="hash-link" aria-label="Direct link to Unsupported Python version" translate="no" title="Direct link to Unsupported Python version">​</a>
 
-**Cause:** Hermes requires Python 3.11 or newer.
+Current first-party installations require **Python 3.14**, not an arbitrary newer version. The `>=3.11,<3.15` range in `pyproject.toml` allows older installations to run the updater before switching to 3.14; it does not mean the current runtime supports 3.11–3.13. The installer and packaged distributions provide their pinned interpreter.
 
-**Solution:**
-
-
-``` prism-code
-python3 --version   # Check current version
-
-# Install a newer Python
-sudo apt install python3.12   # Ubuntu/Debian
-brew install python@3.12      # macOS
-```
-
-
-The installer handles this automatically — if you see this error during manual installation, upgrade Python first.
+For a manual source environment, use the [development setup](/docs/developer-guide/contributing#development-setup). Do not replace the interpreter inside an installed app or container. For a managed-install error, run `hermes doctor` and use that installation's [update method](/docs/getting-started/updating).
 
 #### Terminal commands say `node: command not found` (or `nvm`, `pyenv`, `asdf`, …)<a href="#terminal-commands-say-node-command-not-found-or-nvm-pyenv-asdf-" class="hash-link" aria-label="Direct link to terminal-commands-say-node-command-not-found-or-nvm-pyenv-asdf-" translate="no" title="Direct link to terminal-commands-say-node-command-not-found-or-nvm-pyenv-asdf-">​</a>
 
@@ -518,7 +508,7 @@ Configure in `~/.hermes/config.yaml` under your gateway's settings. See the [Mes
 
 ``` prism-code
 # Install core messaging gateway dependencies
-cd ~/.hermes/hermes-agent && uv pip install -e ".[messaging]"  # Telegram, Discord, Slack, and shared gateway deps
+cd ~/.hermes/hermes-agent && python -c "import pm; pm.sync_venv(['messaging'], explicit=True)"  # Telegram, Discord, Slack, and shared gateway deps
 
 # Check for port conflicts
 lsof -i :8080
@@ -670,7 +660,7 @@ hermes chat --continue
 
 ``` prism-code
 # Ensure MCP dependencies are installed (already included in standard install)
-cd ~/.hermes/hermes-agent && uv pip install -e ".[mcp]"
+cd ~/.hermes/hermes-agent && python -c "import pm; pm.sync_venv(['mcp'], explicit=True)"
 
 # For npm-based servers, ensure Node.js is available
 node --version
@@ -733,6 +723,16 @@ See also:
 
 If an MCP server crashes mid-request, Hermes will report a timeout. Check the server's own logs (not just Hermes logs) to diagnose the root cause.
 
+
+------------------------------------------------------------------------
+
+### Skills Issues<a href="#skills-issues" class="hash-link" aria-label="Direct link to Skills Issues" translate="no" title="Direct link to Skills Issues">​</a>
+
+#### The Skills Hub page won't load in the desktop app (403 / blocked)<a href="#the-skills-hub-page-wont-load-in-the-desktop-app-403--blocked" class="hash-link" aria-label="Direct link to The Skills Hub page won&#39;t load in the desktop app (403 / blocked)" translate="no" title="Direct link to The Skills Hub page won&#39;t load in the desktop app (403 / blocked)">​</a>
+
+**Cause:** The docs site (`hermes-agent.nousresearch.com`) is served through Vercel, whose WAF denies some residential IP ranges it considers flagged. If your network is on such a range, every request to the domain returns a 403 block page.
+
+**Solution:** The Skills Hub picker probes the primary domain and automatically falls back to the equivalent GitHub Pages deployment (`nousresearch.github.io/hermes-agent`), which serves the same catalog. If the page still fails on both origins, check whether a proxy, DNS filter, or firewall is blocking both hosts — and report the affected range to the maintainers so it can be reviewed on the deployment side.
 
 ------------------------------------------------------------------------
 
@@ -913,7 +913,7 @@ Skills with very long descriptions are truncated to 40 characters in the Telegra
 
     </div>
 
-    This creates a zip of your entire `~/.hermes/` directory — config, API keys, memories, skills, sessions, and profiles — saved to your home directory as `~/hermes-backup-<timestamp>.zip`.
+    This saves a zip archive at `~/hermes-backup-<timestamp>.zip`. The full backup covers configuration, credentials, memories, skills, sessions, and profiles under the Hermes data root. It is not an application or runtime image.
 
 3.  Copy the zip to the new machine and import it:
 
@@ -953,13 +953,24 @@ The imported profile will have all config, memories, sessions, and skills from t
 
 ### `hermes backup` vs `hermes profile export`<a href="#hermes-backup-vs-hermes-profile-export" class="hash-link" aria-label="Direct link to hermes-backup-vs-hermes-profile-export" translate="no" title="Direct link to hermes-backup-vs-hermes-profile-export">​</a>
 
-| Feature         | `hermes backup`                                 | `hermes profile export`                             |
-|:----------------|:------------------------------------------------|:----------------------------------------------------|
-| **Use Case**    | **Full machine migration**                      | **Porting/sharing a specific profile**              |
-| **Scope**       | Global (entire `~/.hermes` directory)           | Local (single profile directory)                    |
-| **Includes**    | All profiles, global config, API keys, sessions | Single profile: SOUL.md, memories, sessions, skills |
-| **Credentials** | **Included** (`.env` and `auth.json`)           | **Excluded** (stripped for safe sharing)            |
-| **Format**      | `.zip`                                          | `.tar.gz`                                           |
+| Feature         | `hermes backup`                                    | `hermes profile export`                             |
+|:----------------|:---------------------------------------------------|:----------------------------------------------------|
+| **Use Case**    | **Full machine migration**                         | **Porting/sharing a specific profile**              |
+| **Scope**       | Hermes data root, with the exclusions listed below | Single profile directory                            |
+| **Includes**    | All profiles, global config, API keys, sessions    | Single profile: SOUL.md, memories, sessions, skills |
+| **Credentials** | **Included** (`.env` and `auth.json`)              | **Excluded** (stripped for safe sharing)            |
+| **Format**      | `.zip`                                             | `.tar.gz`                                           |
+
+The full backup excludes:
+
+- The source checkout, dependency environments, and downloaded tools, models, and runtimes.
+- Build caches, checkpoints, previous backups, and quick snapshots.
+- Browser profiles, including copies of real-browser credentials.
+- Bytecode, SQLite sidecars, `gateway.pid`, `cron.pid`, and `.backup.lock`.
+
+`hermes backup --quick` saves selected state files instead of a full archive. It is not a replacement for the full backup before a machine migration.
+
+Full backups report files that fail to copy. An archive can therefore exist with missing data. Review the skipped-file report before you remove the source installation. Restored package declarations let PM download dependencies again. Bytecode and SQLite sidecars regenerate locally. The exclusions do not remove `.env` or `auth.json` from the full backup.
 
 **Manual fallback (rsync):** If you prefer to copy files directly, exclude the code repo:
 
@@ -1039,7 +1050,7 @@ If your issue isn't covered here:
 
 - <a href="#frequently-asked-questions" class="table-of-contents__link toc-highlight">Frequently Asked Questions</a>
   - <a href="#what-llm-providers-work-with-hermes" class="table-of-contents__link toc-highlight">What LLM providers work with Hermes?</a>
-  - <a href="#does-it-work-on-windowsandroidtermuxmy-plataform" class="table-of-contents__link toc-highlight">Does it work on Windows/Android/Termux/my plataform??</a>
+  - <a href="#does-it-work-on-windowsandroidmy-platform" class="table-of-contents__link toc-highlight">Does it work on Windows/Android/my platform??</a>
   - <a href="#i-run-hermes-in-wsl2-whats-the-best-way-to-control-my-normal-windows-chrome" class="table-of-contents__link toc-highlight">I run Hermes in WSL2. What's the best way to control my normal Windows Chrome?</a>
   - <a href="#is-my-data-sent-anywhere" class="table-of-contents__link toc-highlight">Is my data sent anywhere?</a>
   - <a href="#can-i-use-it-offline--with-local-models" class="table-of-contents__link toc-highlight">Can I use it offline / with local models?</a>
@@ -1054,6 +1065,7 @@ If your issue isn't covered here:
   - <a href="#messaging-issues" class="table-of-contents__link toc-highlight">Messaging Issues</a>
   - <a href="#performance-issues" class="table-of-contents__link toc-highlight">Performance Issues</a>
   - <a href="#mcp-issues" class="table-of-contents__link toc-highlight">MCP Issues</a>
+  - <a href="#skills-issues" class="table-of-contents__link toc-highlight">Skills Issues</a>
 - <a href="#profiles" class="table-of-contents__link toc-highlight">Profiles</a>
   - <a href="#how-do-profiles-differ-from-just-setting-hermes_home" class="table-of-contents__link toc-highlight">How do profiles differ from just setting HERMES_HOME?</a>
   - <a href="#can-two-profiles-share-the-same-bot-token" class="table-of-contents__link toc-highlight">Can two profiles share the same bot token?</a>

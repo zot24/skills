@@ -16,22 +16,22 @@ related:
 # Handling Events
 
 
-Chat SDK uses an event-driven architecture. You register handlers for different event types, and the SDK routes incoming webhooks to the appropriate handler.
+You register a handler for each type of event your bot cares about, and the SDK routes each incoming webhook to the matching handler.
 
 ## How routing works
 
 When a message arrives, the SDK evaluates handlers in this order:
 
-1. **Direct messages** — if the thread is a DM and any `onDirectMessage` handlers are registered, they fire before `onSubscribedMessage`, `onNewMention`, and pattern handlers.
-2. **Subscribed threads** — if the thread is subscribed, `onSubscribedMessage` fires and no other message handler runs. DMs only reach this step when no `onDirectMessage` handlers are registered.
-3. **Mentions** — if the bot is @-mentioned in an unsubscribed thread, `onNewMention` fires. Unsubscribed DMs without direct handlers are treated as mentions for backward compatibility.
-4. **Pattern matches** — if the message text matches any `onNewMessage` regex patterns, those handlers fire.
+1. Direct messages: if the thread is a DM and any `onDirectMessage` handlers are registered, they fire before `onSubscribedMessage`, `onNewMention`, and pattern handlers.
+2. Subscribed threads: if the thread is subscribed, `onSubscribedMessage` fires and no other message handler runs. DMs reach this step only when no `onDirectMessage` handlers are registered.
+3. Mentions: if the bot is @-mentioned in an unsubscribed thread, `onNewMention` fires. For backward compatibility, unsubscribed DMs are treated as mentions when no `onDirectMessage` handler is registered.
+4. Pattern matches: if the message text matches any `onNewMessage` regex patterns, those handlers fire.
 
 Reactions, slash commands, actions, and modals have their own dedicated routing and are not affected by subscription state.
 
 ## Handling @-mentions
 
-`onNewMention` fires when your bot is @-mentioned in a thread it hasn't subscribed to. This is the primary entry point for new conversations.
+`onNewMention` fires when your bot is @-mentioned in a thread it hasn't subscribed to. Most new conversations with your bot start here.
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onNewMention(async (thread, message) => {
@@ -40,13 +40,7 @@ bot.onNewMention(async (thread, message) => {
 });
 ```
 
-The handler receives a [`Thread`](/docs/api/thread) and a [`Message`](/docs/api/message). Once you call `thread.subscribe()`, future messages in that thread route to `onSubscribedMessage` instead.
-
-### When to use
-
-* **AI assistants** — subscribe on first mention, then respond to all follow-up messages in the thread.
-* **Ticket bots** — create a ticket when mentioned, then track the conversation.
-* **One-shot commands** — respond to a mention without subscribing for bots that don't need ongoing context.
+The handler receives a [`Thread`](/docs/api/thread) and a [`Message`](/docs/api/message). Once you call `thread.subscribe()`, future messages in that thread route to `onSubscribedMessage` instead. If your bot doesn't need ongoing context, respond without subscribing, as the triage bot below does.
 
 ### Example: AI assistant with context
 
@@ -93,12 +87,6 @@ bot.onSubscribedMessage(async (thread, message) => {
 
   Messages sent by the bot itself do not trigger this handler. You don't need to filter out your own messages.
 
-
-### When to use
-
-* **Conversational AI** — maintain a back-and-forth conversation with message history.
-* **Thread monitoring** — watch a thread for updates and react to specific keywords or patterns.
-* **Collaborative workflows** — track all messages in a thread to update external systems.
 
 ### Example: Conversational AI with history
 
@@ -170,7 +158,7 @@ bot.onSubscribedMessage(async (thread, message) => {
 
 ## Handling pattern matches
 
-`onNewMessage` fires for messages matching a regex pattern in threads the bot is **not** subscribed to. Use it for keyword-triggered responses without requiring an @-mention.
+`onNewMessage` fires for messages matching a regex pattern in threads the bot is not subscribed to. Use it for keyword-triggered responses without requiring an @-mention.
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onNewMessage(/^help$/i, async (thread, message) => {
@@ -179,12 +167,6 @@ bot.onNewMessage(/^help$/i, async (thread, message) => {
 ```
 
 The first argument is a `RegExp` that's tested against the message text. Only messages in unsubscribed threads are evaluated.
-
-### When to use
-
-* **Keyword triggers** — respond to specific words or phrases without requiring a mention.
-* **Auto-responders** — detect common questions and provide instant answers.
-* **Escalation detection** — watch for urgent language and alert the right people.
 
 ### Example: FAQ auto-responder
 
@@ -252,12 +234,6 @@ bot.onReaction(async (event) => {
 | `threadId`  | `string`             | Thread ID                                           |
 | `adapter`   | `Adapter`            | The platform adapter                                |
 | `raw`       | `unknown`            | Platform-specific event payload                     |
-
-### When to use
-
-* **Approval workflows** — use thumbs up/down as lightweight approve/reject signals.
-* **Bookmarking** — save messages to an external system when a specific emoji is added.
-* **Polls and voting** — count reactions as votes.
 
 ### Example: Approval workflow
 
@@ -352,9 +328,9 @@ bot.onMessageDeleted(async (event) => {
 
 For button clicks, slash commands, and modal forms, see the dedicated guides:
 
-* **[Slash Commands](/docs/slash-commands)** — handle `/command` invocations from the message composer.
-* **[Actions](/docs/actions)** — handle button clicks and interactive card events.
-* **[Modals](/docs/modals)** — collect structured input through modal dialogs with validation.
+* [Slash Commands](/docs/slash-commands): handle `/command` invocations from the message composer.
+* [Actions](/docs/actions): handle button clicks and interactive card events.
+* [Modals](/docs/modals): collect structured input through modal dialogs with validation.
 
 ## Handling Slack-specific events
 
@@ -386,7 +362,7 @@ cancels upstream generation.
 
 ### Handling assistant threads
 
-`onAssistantThreadStarted` fires when a user opens a new assistant thread in Slack. Use it with the [Slack Assistants API](/adapters/official/slack#slack-assistants-api) to set suggested prompts and status indicators.
+`onAssistantThreadStarted` fires when a user opens a new assistant thread in Slack. Use it with the [Slack Assistants API](/adapters/official/slack#legacy-slack-assistants-api) to set suggested prompts and status indicators.
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onAssistantThreadStarted(async (event) => {
@@ -457,13 +433,13 @@ bot.onAppHomeOpened(async (event) => {
 
 The `event` object includes:
 
-| Property    | Type                              | Description                                                                                                                                                 |
-| ----------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `userId`    | `string`                          | User who opened the Home tab                                                                                                                                |
-| `channelId` | `string`                          | Channel context                                                                                                                                             |
-| `tab`       | `string \| undefined`             | The opened tab (`"home"` or `"messages"`). Under `agentView` the event fires for every tab — branch on this to tell a Home-tab open from the DM-open signal |
-| `entities`  | `AppContextEntity[] \| undefined` | Folded active-view context (`agentView` only)                                                                                                               |
-| `adapter`   | `Adapter`                         | The Slack adapter                                                                                                                                           |
+| Property    | Type                              | Description                                                                                                                                                   |
+| ----------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `userId`    | `string`                          | User who opened the Home tab                                                                                                                                  |
+| `channelId` | `string`                          | Channel context                                                                                                                                               |
+| `tab`       | `string \| undefined`             | The opened tab (`"home"` or `"messages"`). Under `agentView` the event fires for every tab, so branch on this to tell a Home-tab open from the DM-open signal |
+| `entities`  | `AppContextEntity[] \| undefined` | Folded active-view context (`agentView` only)                                                                                                                 |
+| `adapter`   | `Adapter`                         | The Slack adapter                                                                                                                                             |
 
 ### Handling active-view context (Agent messaging)
 
@@ -491,7 +467,7 @@ The `event` object includes:
 
 Each `AppContextEntity` is one of: `{ kind: "channel", channelId }`, `{ kind: "canvas", canvasId }`, `{ kind: "list", listId }`, `{ kind: "message", messageTs, channelId }`, or `{ kind: "unknown", type, value }` (all with optional `teamId`/`enterpriseId`).
 
-Slack also folds this context onto the events the user acts through. `onAppHomeOpened` events carry the same normalized `entities`, and DM messages carry it too — read it at message time with `getAppContext`:
+Slack also folds this context onto the events the user acts through. `onAppHomeOpened` events carry the same normalized `entities`, and so do DM messages. Read the context at message time with `getAppContext`:
 
 ```typescript title="lib/bot.ts" lineNumbers
 import { getAppContext } from "@chat-adapter/slack";
@@ -503,7 +479,7 @@ bot.onDirectMessage((thread, message) => {
 });
 ```
 
-### Handling member joined channel
+## Handling member joined channel
 
 `onMemberJoinedChannel` fires when a member joins a channel. Slack emits it for every user who joins a channel the bot can see. Teams emits it only when the bot itself is added to a channel or group chat. Use it to post welcome messages or onboard users automatically.
 
@@ -529,6 +505,46 @@ The `event` object includes:
 | `channelId` | `string`            | The channel that was joined                                         |
 | `userId`    | `string`            | The user who joined. On Teams this is always the bot (`28:<appId>`) |
 | `inviterId` | `string` (optional) | The user who invited them                                           |
+
+## Installation lifecycle
+
+`onInstalled` and `onUninstalled` receive bot installation and removal events.
+Currently only the Teams adapter emits them, for personal, group chat, and team
+installs.
+
+```typescript
+bot.onInstalled(async (event) => {
+  if (event.adapter.name !== "teams") return;
+  // Persist the destination or start your onboarding flow.
+  await recordInstallation(event);
+});
+
+bot.onUninstalled(async (event) => {
+  if (event.adapter.name !== "teams") return;
+  await removeInstallation(event);
+});
+```
+
+Events include `adapter`, the activity `id`, the `action`, the platform
+`conversationId`, `raw`, and the optional actor `userId`, `tenantId`, and
+`locale`. The optional `channelId` is the normalized Chat destination; persist it
+and post later with `bot.channel(channelId).post()`.
+
+`recordInstallation` and `removeInstallation` are application-owned. For Teams
+team installs, use `event.raw.channelData.team.id` as the installation scope;
+the install and removal events can carry different `conversationId` values.
+Include the bot ID and tenant ID in your persistence key.
+
+`action` is `add`, `add-upgrade`, `remove`, or `remove-upgrade`. The upgrade
+variants mean the app manifest added or removed the bot, so persist and clean
+up for both variants. Routine app upgrades do not emit these events.
+A Teams team or group chat install also
+emits `onMemberJoinedChannel`, so keep each welcome flow in one handler. Make
+side effects idempotent for webhook retries. Handler errors are logged, and
+asynchronous work is registered with the webhook's `waitUntil`.
+
+See [Teams installation lifecycle](/adapters/official/teams#installation-lifecycle)
+for persistence, reinstall cleanup, and proactive messages.
 
 
 ---

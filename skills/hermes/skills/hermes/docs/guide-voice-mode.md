@@ -11,6 +11,8 @@ On this page
 # Use Voice Mode with Hermes
 
 
+Python dependency commands on this page use a [PM-prepared source checkout](/docs/reference/package-management#developer-workflow). After a dependency change, reactivate the checkout and restart Hermes.
+
 This guide is the practical companion to the [Voice Mode feature reference](/docs/user-guide/features/voice-mode).
 
 If the feature page explains what voice mode can do, this guide shows how to actually use it well.
@@ -74,7 +76,7 @@ If that is not solid yet, fix text mode first.
 
 
 ``` prism-code
-cd ~/.hermes/hermes-agent && uv pip install -e ".[voice]"
+cd ~/.hermes/hermes-agent && python -c "import pm; pm.sync_venv(['voice'], explicit=True)"
 ```
 
 
@@ -82,7 +84,7 @@ cd ~/.hermes/hermes-agent && uv pip install -e ".[voice]"
 
 
 ``` prism-code
-cd ~/.hermes/hermes-agent && uv pip install -e ".[messaging]"
+cd ~/.hermes/hermes-agent && python -c "import pm; pm.sync_venv(['messaging'], explicit=True)"
 ```
 
 
@@ -90,25 +92,23 @@ cd ~/.hermes/hermes-agent && uv pip install -e ".[messaging]"
 
 
 ``` prism-code
-cd ~/.hermes/hermes-agent && uv pip install -e ".[tts-premium]"
+cd ~/.hermes/hermes-agent && python -c "import pm; pm.sync_venv(['tts-premium'], explicit=True)"
 ```
 
 
 ### Local NeuTTS (optional)<a href="#local-neutts-optional" class="hash-link" aria-label="Direct link to Local NeuTTS (optional)" translate="no" title="Direct link to Local NeuTTS (optional)">​</a>
 
+The declared `neutts` dependency requires Python below 3.14. The Hermes runtime requires Python 3.14, so requesting this extra does not install NeuTTS there. Choose a compatible provider. A separately managed NeuTTS command provider needs its own supported Python environment.
 
-``` prism-code
-python -m pip install -U neutts[all]
-```
-
-
-### Everything<a href="#everything" class="hash-link" aria-label="Direct link to Everything" translate="no" title="Direct link to Everything">​</a>
+### Combined voice and messaging setup<a href="#combined-voice-and-messaging-setup" class="hash-link" aria-label="Direct link to Combined voice and messaging setup" translate="no" title="Direct link to Combined voice and messaging setup">​</a>
 
 
 ``` prism-code
-cd ~/.hermes/hermes-agent && uv pip install -e ".[all]"
+python -c "import pm; pm.sync_venv(['voice', 'messaging', 'tts-premium', 'edge-tts'], explicit=True)"
 ```
 
+
+The `all` extra is not every optional feature. It does not include these voice and messaging extras.
 
 ## Step 3: install system dependencies<a href="#step-3-install-system-dependencies" class="hash-link" aria-label="Direct link to Step 3: install system dependencies" translate="no" title="Direct link to Step 3: install system dependencies">​</a>
 
@@ -183,15 +183,11 @@ ELEVENLABS_API_KEY=***
 
 ### If you use `hermes setup`<a href="#if-you-use-hermes-setup" class="hash-link" aria-label="Direct link to if-you-use-hermes-setup" translate="no" title="Direct link to if-you-use-hermes-setup">​</a>
 
-If you choose NeuTTS in the setup wizard, Hermes checks whether `neutts` is already installed. If it is missing, the wizard tells you NeuTTS needs the Python package `neutts` and the system package `espeak-ng`, offers to install them for you, installs `espeak-ng` with your platform package manager, and then runs:
+Setup requests declared Python extras through PM. It cannot override their Python-version or platform markers:
 
+The declared `neutts` dependency requires Python below 3.14. The Hermes runtime requires Python 3.14, so requesting this extra does not install NeuTTS there. Choose a compatible provider. A separately managed NeuTTS command provider needs its own supported Python environment.
 
-``` prism-code
-python -m pip install -U neutts[all]
-```
-
-
-If you skip that install or it fails, the wizard falls back to Edge TTS.
+Select another provider if a dependency cannot run on your platform.
 
 ## Step 5: recommended config<a href="#step-5-recommended-config" class="hash-link" aria-label="Direct link to Step 5: recommended config" translate="no" title="Direct link to Step 5: recommended config">​</a>
 
@@ -551,7 +547,7 @@ That progression keeps the debugging surface small.
   - <a href="#messaging-platforms" class="table-of-contents__link toc-highlight">Messaging platforms</a>
   - <a href="#premium-elevenlabs-tts" class="table-of-contents__link toc-highlight">Premium ElevenLabs TTS</a>
   - <a href="#local-neutts-optional" class="table-of-contents__link toc-highlight">Local NeuTTS (optional)</a>
-  - <a href="#everything" class="table-of-contents__link toc-highlight">Everything</a>
+  - <a href="#combined-voice-and-messaging-setup" class="table-of-contents__link toc-highlight">Combined voice and messaging setup</a>
 - <a href="#step-3-install-system-dependencies" class="table-of-contents__link toc-highlight">Step 3: install system dependencies</a>
   - <a href="#macos" class="table-of-contents__link toc-highlight">macOS</a>
   - <a href="#ubuntu--debian" class="table-of-contents__link toc-highlight">Ubuntu / Debian</a>

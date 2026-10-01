@@ -44,11 +44,11 @@ bot.onNewMention(async (thread) => {
   This example uses Redis. Chat SDK also supports [PostgreSQL](/adapters/official/postgres) and [ioredis](/adapters/official/ioredis) as production state adapters. See [State Adapters](/docs/state-adapters) for all options.
 
 
-Each adapter factory auto-detects credentials from environment variables (`SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, `REDIS_URL`, etc.), so you can get started with zero config. Pass explicit values to override. For setup UIs and build scripts, the [`chat/adapters` catalog](/docs/adapters#adapter-catalog-chatadapters) lists official and vendor-official adapter env specs without importing adapter packages.
+Adapter and state factories read their credentials from environment variables such as `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, and `REDIS_URL`, so the example above passes no options. Pass explicit values to override them. For setup UIs and build scripts, the [`chat/adapters` catalog](/docs/adapters#adapter-catalog-chatadapters) lists official and vendor-official adapter env specs without importing adapter packages.
 
 ## Multiple adapters
 
-Register multiple [adapters](/adapters) to deploy your bot across platforms simultaneously:
+Register several [adapters](/adapters) to run the same bot on each of those platforms:
 
 ```typescript title="lib/bot.ts" lineNumbers
 import { Chat } from "chat";
@@ -68,21 +68,23 @@ const bot = new Chat({
 });
 ```
 
-Your event handlers work identically across all registered adapters — the SDK normalizes messages, threads, and reactions into a consistent format. Where platforms differ (rate limits or unsupported features), the SDK throws typed errors. See [Error Handling](/docs/error-handling).
+Your event handlers work the same way for every registered adapter, because the SDK normalizes messages, threads, and reactions into one format. Where platforms differ, such as rate limits or unsupported features, the SDK throws typed errors. See [Error Handling](/docs/error-handling).
 
 ## Configuration options
 
-| Option                             | Type                                                                              | Default    | Description                                                                                                                                                     |
-| ---------------------------------- | --------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `userName`                         | `string`                                                                          | *required* | Default bot username across all adapters                                                                                                                        |
-| `adapters`                         | `Record<string, Adapter>`                                                         | *required* | Map of adapter name to adapter instance                                                                                                                         |
-| `state`                            | `StateAdapter`                                                                    | *required* | State adapter for subscriptions and locking                                                                                                                     |
-| `logger`                           | `Logger \| LogLevel`                                                              | `"info"`   | Logger instance or log level (`"debug"`, `"info"`, `"warn"`, `"error"`, `"silent"`)                                                                             |
-| `dedupeTtlMs`                      | `number`                                                                          | `600000`   | TTL in ms for message deduplication (10 minutes)                                                                                                                |
-| `concurrency`                      | `"drop" \| "queue" \| "debounce" \| "burst" \| "concurrent" \| ConcurrencyConfig` | `"drop"`   | Strategy for overlapping messages on the same thread                                                                                                            |
-| `streamingUpdateIntervalMs`        | `number`                                                                          | `500`      | Update interval in ms for post+edit streaming                                                                                                                   |
-| `fallbackStreamingPlaceholderText` | `string \| null`                                                                  | `"..."`    | Placeholder text while streaming starts. Set to `null` to skip                                                                                                  |
-| `onLockConflict`                   | `'drop' \| 'force' \| (threadId, message) => 'drop' \| 'force'`                   | `"drop"`   | Behavior when a thread lock is already held. `'force'` releases the existing lock and re-acquires it, enabling interrupt/steerability for long-running handlers |
+| Option                             | Type                                                                              | Default         | Description                                                                                                                                                             |
+| ---------------------------------- | --------------------------------------------------------------------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `userName`                         | `string`                                                                          | *required*      | Default bot username across all adapters                                                                                                                                |
+| `adapters`                         | `Record<string, Adapter>`                                                         | *required*      | Map of adapter name to adapter instance                                                                                                                                 |
+| `state`                            | `StateAdapter`                                                                    | *required*      | State adapter for subscriptions and locking                                                                                                                             |
+| `logger`                           | `Logger \| LogLevel`                                                              | `"info"`        | Logger instance or log level (`"debug"`, `"info"`, `"warn"`, `"error"`, `"silent"`)                                                                                     |
+| `dedupeTtlMs`                      | `number`                                                                          | `600000`        | TTL in ms for message deduplication (10 minutes)                                                                                                                        |
+| `concurrency`                      | `"drop" \| "queue" \| "debounce" \| "burst" \| "concurrent" \| ConcurrencyConfig` | `"drop"`        | Strategy for overlapping messages on the same thread                                                                                                                    |
+| `streamingUpdateIntervalMs`        | `number`                                                                          | `500`           | Update interval in ms for post+edit streaming                                                                                                                           |
+| `fallbackStreamingPlaceholderText` | `string \| null`                                                                  | `"..."`         | Placeholder text while streaming starts. Set to `null` to skip                                                                                                          |
+| `lockScope`                        | `"thread" \| "channel" \| function`                                               | Adapter default | Whether messages share a lock per thread or per channel. See [Lock scope](/docs/concurrency#lock-scope)                                                                 |
+| `history`                          | `HistoryConfig`                                                                   |                 | User, thread, and channel history settings. See [History](/docs/history)                                                                                                |
+| `onLockConflict`                   | `'drop' \| 'force' \| (threadId, message) => 'drop' \| 'force'`                   | `"drop"`        | Deprecated: use `concurrency`. Under the `drop` strategy, `'force'` releases the existing lock and re-acquires it so a new message can interrupt a long-running handler |
 
 ## Accessing adapters
 
@@ -111,19 +113,31 @@ See [`getAdapter`](/docs/api/chat#getadapter) for multi-tenant constraints.
 
 ## Webhook routing
 
-The `webhooks` property provides type-safe handlers for each registered adapter. Wire these up to your HTTP framework's routes:
+The `webhooks` property provides a typed handler for each registered adapter. Wire each one to a route in your HTTP framework:
 
 ```typescript title="app/api/webhooks/slack/route.ts" lineNumbers
+import { after } from "next/server";
 import { bot } from "@/lib/bot";
 
-export const POST = bot.webhooks.slack;
+export async function POST(request: Request): Promise<Response> {
+  return bot.webhooks.slack(request, {
+    waitUntil: (task) => after(() => task),
+  });
+}
 ```
 
 ```typescript title="app/api/webhooks/teams/route.ts" lineNumbers
+import { after } from "next/server";
 import { bot } from "@/lib/bot";
 
-export const POST = bot.webhooks.teams;
+export async function POST(request: Request): Promise<Response> {
+  return bot.webhooks.teams(request, {
+    waitUntil: (task) => after(() => task),
+  });
+}
 ```
+
+Your event handlers can keep running after the webhook responds. `waitUntil` keeps the function alive until they finish, so a serverless platform doesn't stop them early. These examples use Next.js `after`. In other Vercel Functions, pass `waitUntil` from `@vercel/functions`.
 
 ## Lifecycle
 
@@ -133,7 +147,7 @@ The Chat instance initializes lazily on the first webhook. You can also initiali
 await bot.initialize();
 ```
 
-For graceful shutdown (e.g. in serverless teardown), call `shutdown`:
+For graceful shutdown, such as during serverless teardown, call `shutdown`:
 
 ```typescript title="lib/bot.ts" lineNumbers
 await bot.shutdown();

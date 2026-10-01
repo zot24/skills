@@ -11,6 +11,8 @@ On this page
 # Hermes Agent Quickstart
 
 
+Python dependency commands on this page use a [PM-prepared source checkout](/docs/reference/package-management#developer-workflow). After a dependency change, reactivate the checkout and restart Hermes.
+
 This guide gets you from zero to a working Hermes setup that survives real use. Install, choose a provider, verify a working chat, and know exactly what to do when something breaks.
 
 ## Prefer to watch?<a href="#prefer-to-watch" class="hash-link" aria-label="Direct link to Prefer to watch?" translate="no" title="Direct link to Prefer to watch?">​</a>
@@ -57,7 +59,9 @@ To easily install the command-line and desktop applications, <a href="https://he
 
 For a command-line only install without Hermes Desktop, run:
 
-#### Linux / macOS / WSL2 / Android (Termux)<a href="#linux--macos--wsl2--android-termux" class="hash-link" aria-label="Direct link to Linux / macOS / WSL2 / Android (Termux)" translate="no" title="Direct link to Linux / macOS / WSL2 / Android (Termux)">​</a>
+For aarch64 Android devices, use the separate [Termux APT guide](/docs/getting-started/termux).
+
+#### Linux / macOS / WSL2<a href="#linux--macos--wsl2" class="hash-link" aria-label="Direct link to Linux / macOS / WSL2" translate="no" title="Direct link to Linux / macOS / WSL2">​</a>
 
 
 ``` prism-code
@@ -73,9 +77,6 @@ Run in powershell:
 ``` prism-code
 iex (irm https://hermes-agent.nousresearch.com/install.ps1) 
 ```
-
-
-If you're installing on a phone, see the dedicated [Termux guide](/docs/getting-started/termux) for the tested manual path, supported extras, and current Android-specific limitations.
 
 
 After it finishes, reload your shell:
@@ -310,17 +311,7 @@ For Docker sandboxes, you can also enable the **egress credential-injection prox
 
 ### Voice mode<a href="#voice-mode" class="hash-link" aria-label="Direct link to Voice mode" translate="no" title="Direct link to Voice mode">​</a>
 
-
-``` prism-code
-# From the Hermes install directory (the curl installer placed it at
-# ~/.hermes/hermes-agent on Linux/macOS or %LOCALAPPDATA%\hermes\hermes-agent on Windows):
-cd ~/.hermes/hermes-agent
-uv pip install --python ./venv/bin/python -e ".[voice]"
-# Includes faster-whisper for free local speech-to-text
-```
-
-
-Then in the CLI: `/voice on`. Press `Ctrl+B` to record. See [Voice Mode](/docs/user-guide/features/voice-mode).
+Run `hermes tools` and configure the Voice providers. Then enable `/voice on` in the CLI and press `Ctrl+B` to record. PM handles missing supported requirements; a dependency change can require a restart. Local Faster-Whisper is not available on every architecture. See [Voice Mode](/docs/user-guide/features/voice-mode).
 
 ### Skills<a href="#skills" class="hash-link" aria-label="Direct link to Skills" translate="no" title="Direct link to Skills">​</a>
 
@@ -377,7 +368,7 @@ hermes acp
 ```
 
 
-(If you installed without `[all]`, run `cd ~/.hermes/hermes-agent && uv pip install -e ".[acp]"` first.)
+(If you installed without `[all]`, run `cd ~/.hermes/hermes-agent && python -c "import pm; pm.sync_venv(['acp'], explicit=True)"` first.)
 
 See [ACP Editor Integration](/docs/user-guide/features/acp).
 

@@ -2,7 +2,7 @@
 
 ---
 title: Chat
-description: The main entry point for creating a multi-platform chat bot.
+description: The class that coordinates adapters, state, and event handlers for a multi-platform chat bot.
 type: reference
 related:
   - /docs/usage
@@ -25,11 +25,21 @@ const bot = new Chat(config);
 ```
 
 
+These options are deprecated but still read, so existing bots keep working:
+
+| Option           | Replacement                                                                                                                       |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `onLockConflict` | `concurrency`. It only applies under the `drop` strategy, where `'force'` releases the held lock instead of throwing `LockError`. |
+| `identity`       | `history.user.identity`                                                                                                           |
+| `transcripts`    | `history.user`                                                                                                                    |
+| `threadHistory`  | `history.thread`                                                                                                                  |
+| `messageHistory` | `history.thread`. It was renamed to `threadHistory` first, which takes precedence when both are set.                              |
+
 ## Event handlers
 
 ### onNewMention
 
-Fires when the bot is @-mentioned in a thread it has **not** subscribed to. This is the primary entry point for new conversations.
+Fires when the bot is @-mentioned in a thread it has not subscribed to. Most bots start new conversations from this handler.
 
 ```typescript
 bot.onNewMention(async (thread, message) => {
@@ -65,7 +75,7 @@ bot.onSubscribedMessage(async (thread, message) => {
 
 ### onNewMessage
 
-Fires for messages matching a regex pattern in **unsubscribed** threads.
+Fires for messages matching a regex pattern in unsubscribed threads.
 
 ```typescript
 bot.onNewMessage(/^!help/i, async (thread, message) => {
@@ -129,15 +139,17 @@ bot.onModalSubmit("feedback", async (event) => {
 
 Returns `ModalResponse | undefined` to control the modal after submission:
 
-* `{ action: "close" }` — close the current view (goes back one level in the stack)
-* `{ action: "clear" }` — close all views and dismiss the modal entirely
-* `{ action: "errors", errors: { fieldId: "message" } }` — show validation errors
-* `{ action: "update", modal: ModalElement }` — replace the modal content
-* `{ action: "push", modal: ModalElement }` — push a new modal view onto the stack
+| Response                                               | Effect                                                       |
+| ------------------------------------------------------ | ------------------------------------------------------------ |
+| `{ action: "close" }`                                  | Closes the current view and goes back one level in the stack |
+| `{ action: "clear" }`                                  | Closes all views and dismisses the modal                     |
+| `{ action: "errors", errors: { fieldId: "message" } }` | Shows validation errors                                      |
+| `{ action: "update", modal: ModalElement }`            | Replaces the modal content                                   |
+| `{ action: "push", modal: ModalElement }`              | Pushes a new modal view onto the stack                       |
 
 ### onOptionsLoad
 
-Fires when an `ExternalSelect` requests options dynamically. The handler is keyed on the select's `id` and must return options synchronously enough for Slack's 3-second budget (the adapter caps the loader at \~2.5s and substitutes an empty result on timeout). Slack-only.
+Fires when an `ExternalSelect` requests options dynamically. Slack only. The handler is keyed on the select's `id` and must return options within Slack's 3-second budget. The adapter caps the loader at about 2.5 seconds and returns an empty result on timeout.
 
 ```typescript
 bot.onOptionsLoad("assignee", async (event) => {
@@ -146,12 +158,12 @@ bot.onOptionsLoad("assignee", async (event) => {
 });
 ```
 
-Return an array of `OptionsLoadGroup` (`{ label, options }[]`) instead of a flat array to render grouped headers (e.g. "Recent" / "All"). Slack limits: max 100 groups, max 100 options per group.
+Return an array of `OptionsLoadGroup` (`{ label, options }[]`) instead of a flat array to render grouped headers, such as "Recent" and "All". Slack allows at most 100 groups and 100 options per group.
 
 
 ### onSlashCommand
 
-Fires when a user invokes a `/command` in the message composer. Currently supported on Slack and Discord.
+Fires when a user invokes a `/command` in the message composer. Supported on Slack and Discord.
 
 ```typescript
 // Specific command
@@ -173,7 +185,7 @@ bot.onSlashCommand(async (event) => {
 
 ### onModalClose
 
-Fires when a user closes a modal (requires `notifyOnClose: true` on the modal).
+Fires when a user closes a modal. Requires `notifyOnClose: true` on the modal.
 
 ```typescript
 bot.onModalClose("feedback", async (event) => { /* ... */ });
@@ -181,7 +193,7 @@ bot.onModalClose("feedback", async (event) => { /* ... */ });
 
 ### onAssistantThreadStarted
 
-Fires when a user opens a new assistant thread (Slack Assistants API). Use this to set suggested prompts, show a status indicator, or send an initial greeting.
+Fires when a user opens a new assistant thread through the Slack Assistants API. Use it to set suggested prompts, show a status indicator, or send an initial greeting.
 
 ```typescript
 bot.onAssistantThreadStarted(async (event) => {
@@ -195,7 +207,7 @@ bot.onAssistantThreadStarted(async (event) => {
 
 ### onAssistantContextChanged
 
-Fires when a user navigates to a different channel while the assistant panel is open (Slack Assistants API). Use this to update suggested prompts or context based on the new channel.
+Fires when a user navigates to a different channel while the Slack Assistants API panel is open. Use it to update suggested prompts or context for the new channel.
 
 ```typescript
 bot.onAssistantContextChanged(async (event) => {
@@ -238,7 +250,7 @@ session did not have a title before the change.
 
 ### onAppHomeOpened
 
-Fires when a user opens the bot's Home tab in Slack. Use this to publish a dynamic Home tab view.
+Fires when a user opens the bot's Home tab in Slack. Use it to publish a dynamic Home tab view.
 
 ```typescript
 bot.onAppHomeOpened(async (event) => {
@@ -250,6 +262,32 @@ bot.onAppHomeOpened(async (event) => {
 });
 ```
 
+
+### onInstalled
+
+Fires when the bot is installed, including when an app upgrade adds the bot to the manifest. Routine upgrades do not emit this event. Only the Teams adapter emits it, for personal, group chat, and team installs.
+
+```typescript
+bot.onInstalled(async (event) => {
+  if (!event.channelId) return;
+  await bot.channel(event.channelId).post("Thanks for installing!");
+});
+```
+
+
+### onUninstalled
+
+Fires when the bot is removed, including when an app upgrade removes it from the manifest. Same event shape as `onInstalled`, with `action` set to `"remove"` or `"remove-upgrade"`. Clean up durable records for both actions, and do not post to the conversation after removal.
+
+```typescript
+bot.onUninstalled(async (event) => {
+  await removeInstallation(event);
+});
+```
+
+`removeInstallation` is application-owned. For Teams team installs, associate
+records with `event.raw.channelData.team.id` as well as `conversationId`, which
+can differ between installation and removal. See the [Teams persistence example](/adapters/official/teams#installation-lifecycle).
 
 ## Utility methods
 
@@ -268,7 +306,7 @@ and tool calls must receive `thread.signal` to stop their own upstream work.
 
 ### webhooks
 
-Type-safe webhook handlers keyed by adapter name. Pass these to your HTTP route handler.
+Typed webhook handlers keyed by adapter name. Call them from your HTTP route handler.
 
 ```typescript
 bot.webhooks.slack(request, { waitUntil });
@@ -285,7 +323,7 @@ const slack = bot.getAdapter("slack");
 
 #### Direct client access
 
-Access the platform's typed native API client directly via an SDK-named getter — `.webClient` on Slack, `.linearClient` on Linear, `.octokit` on GitHub:
+Each adapter exposes its platform's typed native API client through a getter named after the SDK: `.webClient` on Slack, `.linearClient` on Linear, and `.octokit` on GitHub.
 
 ```typescript
 // Slack - full WebClient from @slack/web-api
@@ -306,15 +344,15 @@ const { data: pulls } = await github.rest.pulls.list({
 });
 ```
 
-The client uses the credentials from your adapter config. For multi-tenant / multi-workspace adapters (Slack, Linear, GitHub), it returns the client bound to the credentials for the current webhook request context.
+The client uses the credentials from your adapter config. For multi-tenant or multi-workspace adapters (Slack, Linear, GitHub), it returns the client bound to the credentials for the current webhook request context.
 
 
-  The previous `.client` getter still works on all three adapters as a deprecated alias for `.webClient` / `.linearClient` / `.octokit`.
+  The previous `.client` getter still works on all three adapters as a deprecated alias for `.webClient`, `.linearClient`, and `.octokit`.
 
 
   Multi-tenant adapters (GitHub App without a fixed installation ID, Linear with per-org OAuth, Slack in multi-workspace mode) require a webhook handler context to resolve credentials when the native client getter is accessed. Calling it outside a handler throws.
 
-  For Slack, you can also bind a token explicitly outside a webhook with `adapter.withBotToken(token, () => adapter.webClient.…)` — useful for cron jobs or workflows. The same pattern is required when `botToken` is configured as an async resolver function, since `.webClient` resolves the token synchronously.
+  For Slack, you can also bind a token explicitly outside a webhook with `adapter.withBotToken(token, () => adapter.webClient.…)`, for example in cron jobs or workflows. The same pattern is required when `botToken` is configured as an async resolver function, since `.webClient` resolves the token synchronously.
 
   Single-tenant adapters (PAT, API key, static `botToken` string, or a synchronous `botToken` resolver) work anywhere.
 
@@ -339,7 +377,9 @@ const dm = await bot.openDM(message.author);
 
 ### getUser
 
-Look up user information by user ID. Returns a `UserInfo` object with name, email, avatar, and bot status, or `null` if the user was not found. Supported on Slack, Microsoft Teams, Discord, Google Chat, GitHub, Linear, and Telegram. Other adapters will throw `NOT_SUPPORTED`.
+Look up user information by user ID. Returns a `UserInfo` object with name, email, avatar, and bot status, or `null` if the user was not found.
+
+`bot.getUser` picks the adapter from the format of the user ID, so it only works for platforms whose IDs it can recognize: Slack (`U...` or `W...`), Microsoft Teams (`29:...`), Google Chat (`users/...`), Linear (UUID), and Discord, Telegram, and GitHub (numeric). For other adapters that implement `getUser`, such as X and Twilio, call the adapter directly with `bot.getAdapter("x").getUser(userId)`.
 
 ```typescript
 const user = await bot.getUser("U123456");
@@ -348,31 +388,35 @@ console.log(user?.fullName); // "Alice Smith"
 ```
 
 ```typescript
-// Or with an Author object from a message handler
+// Or with an Author object from a message handler. The adapter is still
+// inferred from author.userId.
 const user = await bot.getUser(message.author);
 ```
 
 
-  **Per-platform constraints:**
+| Platform        | Constraints                                                                                                                                                                                       |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Slack           | Requires the `users:read` and `users:read.email` scopes. The email scope must be granted at OAuth install time.                                                                                   |
+| Discord         | Bot tokens never see email. The `email` OAuth scope only applies to user-context auth.                                                                                                            |
+| Telegram        | Bots can only look up users who have previously messaged them.                                                                                                                                    |
+| Microsoft Teams | Only works for users who previously interacted with the bot, because profiles are cached from webhook activity. `avatarUrl` is not returned because the Graph API requires a separate photo call. |
+| Google Chat     | Same caching constraint as Teams: only users seen in prior webhooks.                                                                                                                              |
+| GitHub          | `email` is only returned if the user made it public or you authenticated with the `user:email` scope.                                                                                             |
+| Linear          | Returns the full profile, including email and avatar, for any active workspace member.                                                                                                            |
+| X               | Returns the name, username, and avatar. `email` is not returned. Call through the adapter, because X's numeric IDs aren't inferred.                                                               |
+| Twilio          | Doesn't call Twilio. Returns a profile built from the phone number, with the number as `userId`, `userName`, and `fullName`.                                                                      |
 
-  * **Slack** — requires both `users:read` and `users:read.email` scopes (the email scope must be granted at OAuth install time).
-  * **Discord** — bot tokens never see email (the `email` OAuth scope only applies in user-context auth).
-  * **Telegram** — bots can only look up users who have previously messaged them.
-  * **Microsoft Teams** — only works for users who previously interacted with the bot (cached from webhook activity). `avatarUrl` is not returned (Graph API requires a separate photo call).
-  * **Google Chat** — same caching constraint as Teams: only users seen in prior webhooks.
-  * **GitHub** — `email` is `null` unless the user made it public, or you authenticated with the `user:email` scope.
-  * **Linear** — full profile (incl. email + avatar) for any active workspace member.
+Fields that aren't available return `undefined`.
 
-  Fields that aren't available return `undefined`. Numeric user IDs (Discord/Telegram/GitHub) can be ambiguous when multiple of those adapters are registered — `bot.getUser` throws a `ChatError` with code `AMBIGUOUS_USER_ID` in that case. Pass an `Author` from a message handler (which already carries the adapter), or call the adapter directly (`adapter.getUser(userId)`).
+Numeric user IDs from Discord, Telegram, and GitHub are ambiguous when more than one of those adapters is registered. In that case `bot.getUser` throws a `ChatError` with code `AMBIGUOUS_USER_ID`, even when you pass an `Author`, because the adapter is inferred from the ID alone. Call the adapter directly instead, for example `thread.adapter.getUser?.(message.author.userId)` inside a handler or `bot.getAdapter("telegram").getUser(userId)` elsewhere.
 
+`bot.getUser` throws a `ChatError` in three cases. Handle them if your bot runs on multiple platforms.
 
-`bot.getUser` throws a `ChatError` in three cases. Handle them if your bot runs on multiple platforms:
-
-| Code                     | When                                                                                         |
-| ------------------------ | -------------------------------------------------------------------------------------------- |
-| `NOT_SUPPORTED`          | The resolved adapter doesn't implement `getUser` (e.g. WhatsApp)                             |
-| `AMBIGUOUS_USER_ID`      | A numeric user ID could belong to more than one registered adapter (Discord/Telegram/GitHub) |
-| `UNKNOWN_USER_ID_FORMAT` | The `userId` string doesn't match any registered platform's ID format                        |
+| Code                     | When                                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------- |
+| `NOT_SUPPORTED`          | The inferred adapter doesn't implement `getUser`                                                  |
+| `AMBIGUOUS_USER_ID`      | A numeric user ID could belong to more than one registered adapter (Discord, Telegram, or GitHub) |
+| `UNKNOWN_USER_ID_FORMAT` | The `userId` string doesn't match any registered platform's ID format                             |
 
 ```typescript
 import { ChatError } from "chat";
@@ -397,7 +441,7 @@ try {
 
 ### thread
 
-Get a Thread handle by its thread ID. Useful for posting to threads outside of webhook contexts (e.g. cron jobs, external triggers).
+Get a `Thread` handle by its thread ID. Use it to post to threads outside a webhook, such as from a cron job or an external trigger.
 
 ```typescript
 const thread = bot.thread("slack:C123ABC:1234567890.123456");
@@ -406,7 +450,7 @@ await thread.post("Hello from a cron job!");
 
 ### channel
 
-Get a Channel by its channel ID.
+Get a `Channel` by its channel ID.
 
 ```typescript
 const channel = bot.channel("slack:C123ABC");
@@ -418,7 +462,7 @@ for await (const msg of channel.messages) {
 
 ### initialize / shutdown
 
-Manually manage the lifecycle. Initialization happens automatically on the first webhook, but you can call it explicitly for non-webhook use cases.
+Manage the lifecycle manually. Initialization happens automatically on the first webhook. Call `initialize()` yourself when the bot does work outside a webhook.
 
 ```typescript
 await bot.initialize();
@@ -426,7 +470,7 @@ await bot.initialize();
 await bot.shutdown();
 ```
 
-During shutdown, the SDK calls the optional `disconnect()` method on each adapter before disconnecting the state adapter. This lets adapters clean up platform connections, close WebSockets, or tear down subscriptions. If any adapter's `disconnect()` fails, the remaining adapters and state adapter still disconnect gracefully.
+During shutdown, the SDK calls the optional `disconnect()` method on each adapter before disconnecting the state adapter. Adapters use it to clean up platform connections, close WebSockets, or tear down subscriptions. If one adapter's `disconnect()` fails, the remaining adapters and the state adapter still disconnect.
 
 ### reviver
 
@@ -436,6 +480,10 @@ Get a `JSON.parse` reviver that deserializes `Thread` and `Message` objects from
 const data = JSON.parse(payload, bot.reviver());
 await data.thread.post("Hello from workflow!");
 ```
+
+Threads and channels restored by `bot.reviver()` stay bound to that bot's adapters and state, and restored threads use that bot's streaming defaults, even if another Chat instance is registered later. When using multiple bots, parse each payload with the receiving bot's reviver. This does not isolate state keys if the bots share the same state store.
+
+The binding is not serialized. If a restored object crosses a Workflow step boundary, automatic deserialization uses the registered singleton again. For multiple bots, pass the serialized data and explicitly restore it with the receiving bot's reviver inside the step.
 
 There is also a workflow-safe serialization entrypoint that works without importing the `Chat` runtime. Use it in Vercel Workflow files so serializer registration does not load Node-only runtime dependencies:
 
@@ -450,22 +498,22 @@ const data = JSON.parse(payload, reviver) as {
 
 `Message`, `ThreadImpl`, and `ChannelImpl` retain their automatic Workflow serialization when imported from either `chat` or `chat/serialization`. The dedicated entrypoint guarantees their serializer module graph does not load the Node-only `Chat` conversation context.
 
-The standalone reviver uses lazy adapter resolution - the adapter is looked up from the Chat singleton when first accessed. Call `chat.registerSingleton()` before using thread methods like `post()` (typically inside a `"use step"` function).
+The standalone reviver resolves adapters lazily, looking them up from the Chat singleton on first access. Call `chat.registerSingleton()` before using thread methods like `post()` (typically inside a `"use step"` function). Once a restored thread or channel resolves its runtime, it retains that Chat instance for its adapter, state, and streaming defaults, even if the singleton changes. Registering the correct bot before first use remains the caller's responsibility; use `bot.reviver()` when the owner must be explicit.
 
 ### history
 
-Namespaced access to the History API — cross-platform user history, per-thread reads/cache, and per-channel reads.
+Namespaced access to the History API: cross-platform user history, per-thread reads and cache, and per-channel reads.
 
 ```typescript
-// User scope — cross-platform, keyed by identity resolver result
+// User scope: cross-platform, keyed by identity resolver result
 await bot.history.user.append(thread, message);
 const entries = await bot.history.user.list({ userKey, limit: 20 });
 await bot.history.user.delete({ userKey });
 
-// Thread scope — adapter.fetchMessages with cache fallback
+// Thread scope: adapter.fetchMessages with cache fallback
 const { messages } = await bot.history.thread.list(thread.id, { limit: 20 });
 
-// Channel scope — platform APIs
+// Channel scope: platform APIs
 const { messages: channelMessages } = await bot.history.channel.listMessages(
   channel.id,
   { limit: 10 }

@@ -10,34 +10,34 @@
 
 ## Headers
 
-| Header          | Value              |
-| --------------- | ------------------ |
+| Header | Value |
+| - | - |
 | `Authorization` | `Bearer <API_KEY>` |
 
 ## Query Parameters
 
-| Parameter | Type   | Required | Description                                           |
-| --------- | ------ | -------- | ----------------------------------------------------- |
-| `status`  | string | No       | Filter by session status: `"active"` or `"destroyed"` |
+| Parameter | Type | Required | Description |
+| - | - | - | - |
+| `status` | string | No | Filter by session status: `"active"` or `"destroyed"` |
 
 ## Response
 
-| Field      | Type    | Description                   |
-| ---------- | ------- | ----------------------------- |
-| `success`  | boolean | Whether the request succeeded |
-| `sessions` | array   | List of session objects       |
+| Field | Type | Description |
+| - | - | - |
+| `success` | boolean | Whether the request succeeded |
+| `sessions` | array | List of session objects |
 
 ### Session Object
 
-| Field                    | Type   | Description                                                         |
-| ------------------------ | ------ | ------------------------------------------------------------------- |
-| `id`                     | string | Unique session identifier                                           |
-| `status`                 | string | Current session status (`"active"` or `"destroyed"`)                |
-| `cdpUrl`                 | string | WebSocket URL for CDP connections                                   |
-| `liveViewUrl`            | string | URL to watch the session in real time                               |
+| Field | Type | Description |
+| - | - | - |
+| `id` | string | Unique session identifier |
+| `status` | string | Current session status (`"active"` or `"destroyed"`) |
+| `cdpUrl` | string | WebSocket URL for CDP connections |
+| `liveViewUrl` | string | URL to watch the session in real time |
 | `interactiveLiveViewUrl` | string | URL to interact with the session in real time (click, type, scroll) |
-| `createdAt`              | string | ISO 8601 timestamp of session creation                              |
-| `lastActivity`           | string | ISO 8601 timestamp of last activity                                 |
+| `createdAt` | string | ISO 8601 timestamp of session creation |
+| `lastActivity` | string | ISO 8601 timestamp of last activity |
 
 ### Example Request
 

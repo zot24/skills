@@ -18,9 +18,9 @@ Firecrawl `/support/ask` is an AI support agent exposed as an API. Describe your
 
 ## Two endpoints
 
-| Endpoint                    | Auth                   | Who it's for         | What it does                                                |
-| --------------------------- | ---------------------- | -------------------- | ----------------------------------------------------------- |
-| `POST /support/ask`         | Your Firecrawl API key | Your agents and apps | Full diagnostic loop scoped to your team                    |
+| Endpoint | Auth | Who it's for | What it does |
+| - | - | - | - |
+| `POST /support/ask` | Your Firecrawl API key | Your agents and apps | Full diagnostic loop scoped to your team |
 | `POST /support/docs-search` | Your Firecrawl API key | Your agents and apps | Docs-grounded answers from Firecrawl's public documentation |
 
 ## Quick start
@@ -63,24 +63,24 @@ curl -X POST https://api.firecrawl.dev/v2/support/ask \
 
 Include as much of this as you have — each piece narrows the diagnosis:
 
-| Detail                       | Why it helps                                                                       |
-| ---------------------------- | ---------------------------------------------------------------------------------- |
-| Job ID                       | Lets the agent read that job's logs, status, and per-page results directly         |
-| Target URL                   | Surfaces site-specific blockers like bot protection, JS rendering, or robots rules |
-| Error message or status code | Separates rate limits and credit exhaustion from scrape-level failures             |
-| What you expected            | Distinguishes a hard failure from a job that "succeeded" with missing content      |
-| `rationale`                  | Tells the agent what the end user is after so it prioritizes the right evidence    |
+| Detail | Why it helps |
+| - | - |
+| Job ID | Lets the agent read that job's logs, status, and per-page results directly |
+| Target URL | Surfaces site-specific blockers like bot protection, JS rendering, or robots rules |
+| Error message or status code | Separates rate limits and credit exhaustion from scrape-level failures |
+| What you expected | Distinguishes a hard failure from a job that "succeeded" with missing content |
+| `rationale` | Tells the agent what the end user is after so it prioritizes the right evidence |
 
 ### What Ask checks for common failures
 
-| Symptom                                  | What the agent investigates                                                                 |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------- |
-| Job status `failed`                      | Job logs, upstream HTTP status, proxy and retry history                                     |
+| Symptom | What the agent investigates |
+| - | - |
+| Job status `failed` | Job logs, upstream HTTP status, proxy and retry history |
 | Crawl returned fewer pages than expected | `limit`, `maxDiscoveryDepth`, `includePaths`/`excludePaths`, sitemap coverage, robots rules |
-| Empty or truncated markdown              | Client-side rendering, `waitFor` timing, required `actions`, `onlyMainContent` trimming     |
-| `401` / `402` / `429` responses          | API key validity and restrictions, remaining credits, plan rate limits                      |
-| Job stuck or timing out                  | Queue state, page-level timeouts, job concurrency for your plan                             |
-| Webhook never fired                      | Delivery attempts, endpoint responses, signature verification failures                      |
+| Empty or truncated markdown | Client-side rendering, `waitFor` timing, required `actions`, `onlyMainContent` trimming |
+| `401` / `402` / `429` responses | API key validity and restrictions, remaining credits, plan rate limits |
+| Job stuck or timing out | Queue state, page-level timeouts, job concurrency for your plan |
+| Webhook never fired | Delivery attempts, endpoint responses, signature verification failures |
 
 Don't have a job ID? Hover a row's URL in [Activity Logs](https://www.firecrawl.dev/app/logs) and click **Copy ID**, or use the `id` returned when you started the job.
 
@@ -92,13 +92,13 @@ Clicking it starts the diagnosis straight away; there's no prompt to write. Fire
 
 The panel that opens gives you:
 
-| Element             | What it is                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------- |
-| Diagnosis           | The agent's explanation of what went wrong and what to change                         |
-| Confidence badge    | High, medium, or low — how sure the agent is in the answer                            |
-| **Validated** badge | Shown when the agent tested its own suggested fix and the test passed                 |
-| Suggested fix       | The corrected parameters as JSON, with a copy button — paste them into your next call |
-| Sources             | Links to the docs pages the answer draws on                                           |
+| Element | What it is |
+| - | - |
+| Diagnosis | The agent's explanation of what went wrong and what to change |
+| Confidence badge | High, medium, or low — how sure the agent is in the answer |
+| **Validated** badge | Shown when the agent tested its own suggested fix and the test passed |
+| Suggested fix | The corrected parameters as JSON, with a copy button — paste them into your next call |
+| Sources | Links to the docs pages the answer draws on |
 
 If the diagnosis doesn't resolve it, **Open support ticket** at the bottom of the panel files a ticket with the agent's analysis already attached, so you don't have to re-explain the failure.
 
@@ -213,17 +213,17 @@ if not doc.markdown or len(doc.markdown) < 100:
 
 ### `/support/ask`
 
-| Parameter   | Type   | Required | Description                                                                                                 |
-| ----------- | ------ | -------- | ----------------------------------------------------------------------------------------------------------- |
-| `question`  | string | Yes      | What to debug (1–8,000 characters)                                                                          |
-| `rationale` | string | No       | Recommended for AI callers. What the end user is trying to accomplish. Helps prioritize evidence gathering. |
-| `context`   | object | No       | Free-form metadata from your agent, included in the debugging prompt                                        |
+| Parameter | Type | Required | Description |
+| - | - | - | - |
+| `question` | string | Yes | What to debug (1–8,000 characters) |
+| `rationale` | string | No | Recommended for AI callers. What the end user is trying to accomplish. Helps prioritize evidence gathering. |
+| `context` | object | No | Free-form metadata from your agent, included in the debugging prompt |
 
 ### `/support/docs-search`
 
-| Parameter  | Type   | Required | Description                                 |
-| ---------- | ------ | -------- | ------------------------------------------- |
-| `question` | string | Yes      | The question to answer (1–8,000 characters) |
+| Parameter | Type | Required | Description |
+| - | - | - | - |
+| `question` | string | Yes | The question to answer (1–8,000 characters) |
 
 ## Response
 
@@ -263,8 +263,8 @@ The actual `answer`, `fixParameters`, and `validation.evidence` are produced per
 
 ## Performance
 
-| Metric  | Typical       | Maximum                   |
-| ------- | ------------- | ------------------------- |
+| Metric | Typical | Maximum |
+| - | - | - |
 | Latency | 15–30 seconds | 60 seconds (hard ceiling) |
 
 ## API Reference

@@ -66,7 +66,7 @@ Configure an API key
 ## 
 
 
-<a href="#add-an-api-key" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#sign-in" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 ``` shiki
@@ -74,10 +74,7 @@ Configure an API key
   "mcpServers": {
     "firecrawl": {
       "type": "http",
-      "url": "https://mcp.firecrawl.dev/v2/mcp",
-      "headers": {
-        "Authorization": "Bearer <FIRECRAWL_API_KEY>"
-      }
+      "url": "https://mcp.firecrawl.dev/v2/mcp-oauth"
     }
   }
 }

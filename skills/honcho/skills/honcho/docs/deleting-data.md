@@ -13,12 +13,12 @@ delete, no trash, and no restore.
 
 ## What can be deleted
 
-| Resource         | Endpoint                                                           | Behavior                               |
-| ---------------- | ------------------------------------------------------------------ | -------------------------------------- |
-| Session          | `DELETE /v3/workspaces/{workspace_id}/sessions/{session_id}`       | `202` — cascade runs in the background |
-| Workspace        | `DELETE /v3/workspaces/{workspace_id}`                             | `202` — cascade runs in the background |
-| Conclusion       | `DELETE /v3/workspaces/{workspace_id}/conclusions/{conclusion_id}` | `204` — immediate                      |
-| Webhook endpoint | `DELETE /v3/workspaces/{workspace_id}/webhooks/{endpoint_id}`      | Immediate                              |
+| Resource | Endpoint | Behavior |
+| - | - | - |
+| Session | `DELETE /v3/workspaces/{workspace_id}/sessions/{session_id}` | `202` — cascade runs in the background |
+| Workspace | `DELETE /v3/workspaces/{workspace_id}` | `202` — cascade runs in the background |
+| Conclusion | `DELETE /v3/workspaces/{workspace_id}/conclusions/{conclusion_id}` | `204` — immediate |
+| Webhook endpoint | `DELETE /v3/workspaces/{workspace_id}/webhooks/{endpoint_id}` | Immediate |
 
 **Peers and individual messages cannot be deleted.** To remove a peer's data,
 delete the sessions it participated in, then delete its remaining conclusions

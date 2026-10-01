@@ -67,13 +67,13 @@ agent-browser get text @e1        # Get heading text
 
 ## Ref lifecycle<a href="#ref-lifecycle" aria-label="Link to this section">#</a>
 
-Refs are invalidated when the page changes. Always re-snapshot after navigation or DOM updates:
+Surviving DOM elements retain their refs across snapshots and same-document updates. Replacing an element or navigating its page or iframe invalidates its refs without recycling IDs. Virtual accessibility nodes have snapshot-local refs. Re-snapshot after interactions to observe changes, and always after navigation:
 
 
 ``` shiki
 agent-browser click @e4      # Navigates to new page
 agent-browser snapshot -i    # Get fresh refs
-agent-browser click @e1      # Use new refs
+agent-browser click @e8      # Use a ref from the new snapshot
 ```
 
 

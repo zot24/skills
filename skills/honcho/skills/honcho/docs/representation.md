@@ -6,6 +6,8 @@
 
 # Peer Representations
 
+> A peer representation is Honcho's evolving, reasoned model of a user or agent, built continually from every message and queried for context.
+
 A representation is the collection of reasoning Honcho has done about a peer over time. It's the continual learning about a peer over every message that's been written to it. Representations evolve dynamically as new messages come in, with Honcho reasoning about them in the background.
 
 When you write messages to Honcho, the reasoning models extract premises, draw conclusions, and scaffold new conclusions as well. All of that reasoning gets stored as the peer's representation. Think of it as Honcho's understanding of who that peer is, what they care about, and how they behave, built through formal logic rather than simple storage.

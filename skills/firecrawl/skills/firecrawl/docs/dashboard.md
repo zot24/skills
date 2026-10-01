@@ -59,25 +59,25 @@ Firecrawl lets you invite teammates to collaborate under a shared account. From 
 
 Every team member is assigned one of two roles: **Admin** or **Member**. You choose the role when sending an invitation.
 
-| Capability                                   | Admin | Member |
-| -------------------------------------------- | :---: | :----: |
-| **General**                                  |       |        |
-| Use the team's API keys and shared resources |   ✓   |    ✓   |
-| **Team management**                          |       |        |
-| View the team member list                    |   ✓   |    ✓   |
-| Leave the team                               |   ✓   |    ✓   |
-| Invite new team members                      |   ✓   |    ✗   |
-| Remove team members                          |   ✓   |    ✗   |
-| Change a member's role                       |   ✓   |    ✗   |
-| Revoke pending invitations                   |   ✓   |    ✗   |
-| Edit the team name                           |   ✓   |    ✗   |
-| **Billing**                                  |       |        |
-| View invoices and usage                      |   ✓   |    ✗   |
-| Apply credit coupons                         |   ✓   |    ✗   |
-| Manage subscription and billing portal       |   ✓   |    ✗   |
-| **Settings**                                 |       |        |
-| View the webhook signing secret              |   ✓   |    ✓   |
-| Regenerate the webhook signing secret        |   ✓   |    ✗   |
-| Delete the team                              |   ✓   |    ✗   |
+| Capability | Admin | Member |
+| - | :-: | :-: |
+| **General** | | |
+| Use the team's API keys and shared resources | ✓ | ✓ |
+| **Team management** | | |
+| View the team member list | ✓ | ✓ |
+| Leave the team | ✓ | ✓ |
+| Invite new team members | ✓ | ✗ |
+| Remove team members | ✓ | ✗ |
+| Change a member's role | ✓ | ✗ |
+| Revoke pending invitations | ✓ | ✗ |
+| Edit the team name | ✓ | ✗ |
+| **Billing** | | |
+| View invoices and usage | ✓ | ✗ |
+| Apply credit coupons | ✓ | ✗ |
+| Manage subscription and billing portal | ✓ | ✗ |
+| **Settings** | | |
+| View the webhook signing secret | ✓ | ✓ |
+| Regenerate the webhook signing secret | ✓ | ✗ |
+| Delete the team | ✓ | ✗ |
 
 In short, **Admins** have full control over team management, billing, and settings, while **Members** can use the team's resources and view usage on the Usage page but cannot access the Billing tab or modify the team.

@@ -12,7 +12,7 @@ related:
 # Cards
 
 
-Card components render natively on each platform — Block Kit on Slack, Adaptive Cards on Teams, embeds or components on Discord, and Google Chat Cards.
+Each adapter renders card components in its platform's native format: Block Kit on Slack, Adaptive Cards on Teams, embeds or Components on Discord, and Cards on Google Chat.
 
 ```typescript
 import { Card, Text, CardLink, Button, Actions, Section, Fields, Field, Divider, Image, LinkButton, Table, Chart } from "chat";
@@ -138,7 +138,7 @@ Table({
 ```
 
 
-On platforms with native table support (Slack, Teams, GitHub, Linear), tables render as formatted tables. On Slack, tables render as paginated, sortable data table blocks. Discord card payloads preserve GFM markdown tables. On other platforms (Google Chat, Telegram), tables render as padded ASCII text.
+On platforms with native table support (Slack, Teams, GitHub, Linear), tables render as formatted tables. On Slack, tables render as paginated, sortable data table blocks. On Teams, tables render as the Adaptive Card `Table` element with grid lines and weighted column widths. Discord card payloads preserve GFM markdown tables. On other platforms (Google Chat, Telegram), tables render as padded ASCII text.
 
 ## Chart
 

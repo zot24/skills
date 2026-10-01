@@ -31,6 +31,9 @@ gl-inet/docs4.x
 <a href="../internet_cellular_v4.10/" class="md-nav__link"><span class="md-ellipsis"> Cellular </span></a>
 
 
+<a href="../../features_update/" class="md-nav__link"><span class="md-ellipsis"> Features Update </span></a> <span class="md-nav__icon md-icon"></span>
+
+
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 

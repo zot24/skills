@@ -77,32 +77,32 @@ The integration breaks down into four parts:
 
 The settings page exposes the main operator workflow directly:
 
-| Action                               | What it does                                                                                                |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| `Validate config`                    | Validates the current plugin configuration before any sync or import work runs.                             |
-| `Test connection`                    | Resolves the API key secret, checks the Honcho connection, and returns the mapped workspace ID.             |
+| Action | What it does |
+| - | - |
+| `Validate config` | Validates the current plugin configuration before any sync or import work runs. |
+| `Test connection` | Resolves the API key secret, checks the Honcho connection, and returns the mapped workspace ID. |
 | `Initialize memory for this company` | Connects Honcho, creates core mappings, imports baseline issue memory, and verifies manual prompt previews. |
-| `Rescan migration sources`           | Scans issue comments and issue documents and writes a fresh import preview.                                 |
-| `Import history`                     | Imports the approved historical preview into Honcho with idempotent ledger checks.                          |
-| `Preview prompt context`             | Builds a manual prompt-context preview for a company or issue without relying on automatic host hooks.      |
-| `Repair mappings`                    | Recreates missing workspace, peer, and session mappings for the current company.                            |
-| `Resync this issue`                  | Replays sync for the current issue from the issue Memory tab.                                               |
+| `Rescan migration sources` | Scans issue comments and issue documents and writes a fresh import preview. |
+| `Import history` | Imports the approved historical preview into Honcho with idempotent ledger checks. |
+| `Preview prompt context` | Builds a manual prompt-context preview for a company or issue without relying on automatic host hooks. |
+| `Repair mappings` | Recreates missing workspace, peer, and session mappings for the current company. |
+| `Resync this issue` | Replays sync for the current issue from the issue Memory tab. |
 
 ## Configuration Defaults And Overrides
 
 ### Default Behavior
 
-| Setting               | Default                  | Use when                                                                                 |
-| --------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
-| `honchoApiKey`        | —                        | Required. Points the plugin at the Paperclip secret containing your Honcho API key.      |
-| `honchoApiBaseUrl`    | `https://api.honcho.dev` | Override this for self-hosted or non-default Honcho deployments.                         |
-| `workspacePrefix`     | `paperclip`              | Change this if you want a different workspace namespace.                                 |
-| `syncIssueComments`   | `true`                   | Turn this off if you do not want comment history imported into Honcho.                   |
-| `syncIssueDocuments`  | `true`                   | Turn this off if you do not want issue document revisions imported.                      |
-| `enablePeerChat`      | `true`                   | Required for the peer chat tool surface.                                                 |
-| `enablePromptContext` | `false`                  | Keep this off on the public-host-compatible path and use manual prompt previews instead. |
-| `observe_me`          | `true`                   | Controls whether agent peers are observed by Honcho.                                     |
-| `observe_others`      | `true`                   | Controls whether agent peers form representations of other peers they interact with.     |
+| Setting | Default | Use when |
+| - | - | - |
+| `honchoApiKey` | — | Required. Points the plugin at the Paperclip secret containing your Honcho API key. |
+| `honchoApiBaseUrl` | `https://api.honcho.dev` | Override this for self-hosted or non-default Honcho deployments. |
+| `workspacePrefix` | `paperclip` | Change this if you want a different workspace namespace. |
+| `syncIssueComments` | `true` | Turn this off if you do not want comment history imported into Honcho. |
+| `syncIssueDocuments` | `true` | Turn this off if you do not want issue document revisions imported. |
+| `enablePeerChat` | `true` | Required for the peer chat tool surface. |
+| `enablePromptContext` | `false` | Keep this off on the public-host-compatible path and use manual prompt previews instead. |
+| `observe_me` | `true` | Controls whether agent peers are observed by Honcho. |
+| `observe_others` | `true` | Controls whether agent peers form representations of other peers they interact with. |
 
 The plugin also accepts additional advanced fields in the settings page, including noise-pattern and metadata-strip controls. Most setups can ignore those and start with the defaults above.
 
@@ -110,17 +110,17 @@ The plugin also accepts additional advanced fields in the settings page, includi
 
 The plugin registers the following Honcho tools for Paperclip agents:
 
-| Tool                           | Description                                                                                   |
-| ------------------------------ | --------------------------------------------------------------------------------------------- |
-| `honcho_get_issue_context`     | Retrieve compact Honcho context for the current issue session.                                |
-| `honcho_search_memory`         | Search Honcho memory within the current workspace, narrowing to the current issue by default. |
-| `honcho_search_messages`       | Search raw Honcho messages.                                                                   |
-| `honcho_search_conclusions`    | Search high-signal summarized Honcho memory.                                                  |
-| `honcho_get_workspace_context` | Retrieve broad workspace recall from Honcho.                                                  |
-| `honcho_get_session`           | Retrieve issue session context from Honcho.                                                   |
-| `honcho_get_agent_context`     | Retrieve peer context for a specific agent.                                                   |
-| `honcho_get_hierarchy_context` | Retrieve delegated-work context when the host provides lineage metadata.                      |
-| `honcho_ask_peer`              | Query Honcho peer chat for a target peer. Requires peer chat to be enabled in plugin config.  |
+| Tool | Description |
+| - | - |
+| `honcho_get_issue_context` | Retrieve compact Honcho context for the current issue session. |
+| `honcho_search_memory` | Search Honcho memory within the current workspace, narrowing to the current issue by default. |
+| `honcho_search_messages` | Search raw Honcho messages. |
+| `honcho_search_conclusions` | Search high-signal summarized Honcho memory. |
+| `honcho_get_workspace_context` | Retrieve broad workspace recall from Honcho. |
+| `honcho_get_session` | Retrieve issue session context from Honcho. |
+| `honcho_get_agent_context` | Retrieve peer context for a specific agent. |
+| `honcho_get_hierarchy_context` | Retrieve delegated-work context when the host provides lineage metadata. |
+| `honcho_ask_peer` | Query Honcho peer chat for a target peer. Requires peer chat to be enabled in plugin config. |
 
 ## Next Steps
 

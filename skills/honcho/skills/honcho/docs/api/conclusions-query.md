@@ -26,7 +26,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.1.2
+  version: 3.2.2
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -146,6 +146,21 @@ components:
             from messages) or 'deductive'/'inductive'/'contradiction' (derived
             during dreaming).
           default: explicit
+        source_ids:
+          items:
+            type: string
+          type: array
+          title: Source Ids
+          description: >-
+            IDs of the conclusions this one was derived from: premises for
+            'deductive', supporting sources for 'inductive', conflicting
+            conclusions for 'contradiction'. Empty for 'explicit' conclusions,
+            which derive from messages rather than from other conclusions.
+        times_derived:
+          type: integer
+          title: Times Derived
+          description: Number of times this conclusion has been independently derived.
+          default: 1
         created_at:
           type: string
           format: date-time

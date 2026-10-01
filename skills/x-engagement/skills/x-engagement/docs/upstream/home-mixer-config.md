@@ -37,6 +37,5 @@ pub const UAS_WINDOW_TIME_MS: i64 = 300_000;
 
 pub const MAX_POST_AGE: u64 = 48 * 60 * 60;
 
-pub const NEW_USER_OON_WEIGHT_FACTOR: f64 = 0.00001;
 pub const NEW_USER_MIN_FOLLOWING: usize = 5;
 pub const NEGATIVE_SCORES_OFFSET: f64 = 0.001;

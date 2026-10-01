@@ -25,22 +25,22 @@ bd setup claude --check     # Verify installation
 bd setup claude --remove    # Uninstall
 ```
 
-| Recipe     | Files written                                                                                 | Details                                   |
-| ---------- | --------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| `claude`   | `.claude/settings.json` (or `~/.claude/settings.json` with `--global`) + `CLAUDE.md` section  | [Claude Code](/integrations/claude-code)  |
-| `cursor`   | `.cursor/rules/beads.mdc`                                                                     | [Cursor](/integrations/cursor)            |
-| `gemini`   | `~/.gemini/settings.json` (or `.gemini/settings.json` with `--project`) + `GEMINI.md` section | [Gemini CLI](/integrations/gemini)        |
-| `copilot`  | `.copilot-plugin/plugin.json` + `.github/copilot-instructions.md`                             | [Copilot CLI](/integrations/copilot-cli)  |
-| `codex`    | `.agents/skills/beads/` + `AGENTS.md` section + `.codex/` hooks                               | [Codex](/integrations/codex)              |
-| `factory`  | `AGENTS.md` section                                                                           | [Factory.ai Droid](/integrations/factory) |
-| `mux`      | `AGENTS.md` section (+ `.mux/` layers with `--project`/`--global`)                            | [Mux](/integrations/mux)                  |
-| `opencode` | `AGENTS.md` section                                                                           | [OpenCode](/integrations/opencode)        |
-| `aider`    | `.aider.conf.yml` + `.aider/BEADS.md` + `.aider/README.md`                                    | [Aider](/integrations/aider)              |
-| `junie`    | `.junie/guidelines.md` + `.junie/mcp/mcp.json`                                                | [Junie](/integrations/junie)              |
-| `windsurf` | `.windsurf/rules/beads.md`                                                                    | [Windsurf](/integrations/windsurf)        |
-| `cody`     | `.cody/rules/beads.md`                                                                        | [Cody](/integrations/cody)                |
-| `kilocode` | `.kilocode/rules/beads.md`                                                                    | [Kilo Code](/integrations/kilocode)       |
-| `kiro`     | `.kiro/steering/beads.md`                                                                     | [Kiro CLI](/integrations/kiro)            |
+| Recipe | Files written | Details |
+| - | - | - |
+| `claude` | `.claude/settings.json` (or `~/.claude/settings.json` with `--global`) + `CLAUDE.md` section | [Claude Code](/integrations/claude-code) |
+| `cursor` | `.cursor/rules/beads.mdc` | [Cursor](/integrations/cursor) |
+| `gemini` | `~/.gemini/settings.json` (or `.gemini/settings.json` with `--project`) + `GEMINI.md` section | [Gemini CLI](/integrations/gemini) |
+| `copilot` | `.copilot-plugin/plugin.json` + `.github/copilot-instructions.md` | [Copilot CLI](/integrations/copilot-cli) |
+| `codex` | `.agents/skills/beads/` + `AGENTS.md` section + `.codex/` hooks | [Codex](/integrations/codex) |
+| `factory` | `AGENTS.md` section | [Factory.ai Droid](/integrations/factory) |
+| `mux` | `AGENTS.md` section (+ `.mux/` layers with `--project`/`--global`) | [Mux](/integrations/mux) |
+| `opencode` | `AGENTS.md` section | [OpenCode](/integrations/opencode) |
+| `aider` | `.aider.conf.yml` + `.aider/BEADS.md` + `.aider/README.md` | [Aider](/integrations/aider) |
+| `junie` | `.junie/guidelines.md` + `.junie/mcp/mcp.json` | [Junie](/integrations/junie) |
+| `windsurf` | `.windsurf/rules/beads.md` | [Windsurf](/integrations/windsurf) |
+| `cody` | `.cody/rules/beads.md` | [Cody](/integrations/cody) |
+| `kilocode` | `.kilocode/rules/beads.md` | [Kilo Code](/integrations/kilocode) |
+| `kiro` | `.kiro/steering/beads.md` | [Kiro CLI](/integrations/kiro) |
 
 `bd prime` is the single source of truth for operational workflow commands. Each integration's instruction file either points to `bd prime` (hook-enabled agents) or carries the full command reference (AGENTS-first agents).
 
@@ -52,10 +52,10 @@ bd setup claude --remove    # Uninstall
 
 Each integration writes one of two **profiles** that control how much content goes into the tool's instruction file (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, or `.github/copilot-instructions.md`):
 
-| Profile   | Used by                                     | Content                                                       |
-| --------- | ------------------------------------------- | ------------------------------------------------------------- |
-| `full`    | Factory, Mux, OpenCode                      | Complete command reference, issue types, priorities, workflow |
-| `minimal` | Claude Code, GitHub Copilot CLI, Gemini CLI | Pointer to `bd prime`, quick reference only (\~60% smaller)   |
+| Profile | Used by | Content |
+| - | - | - |
+| `full` | Factory, Mux, OpenCode | Complete command reference, issue types, priorities, workflow |
+| `minimal` | Claude Code, GitHub Copilot CLI, Gemini CLI | Pointer to `bd prime`, quick reference only (\~60% smaller) |
 
 Hook-enabled agents use the `minimal` profile because `bd prime` injects full context at session start. AGENTS-first agents use the `full` profile because their instruction file remains the primary integration surface. Codex is skill-based instead: it uses `.agents/skills/beads/SKILL.md`, with managed `AGENTS.md` guidance telling Codex when to use the skill.
 
@@ -65,11 +65,11 @@ Hook-enabled agents use the `minimal` profile because `bd prime` injects full co
 
 Template profiles control how much text gets installed. Policy profiles control what an agent is authorized to do at handoff:
 
-| Policy            | Default scope                                                          | Commit/push guidance                                                                                                                                                                             |
-| ----------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `conservative`    | Standalone projects, unknown projects, and one-off assistance          | Use `bd` for task tracking, then report changed files, validation, and proposed commands. Do not commit, push, or run Dolt remote sync without explicit user or orchestrator approval.           |
-| `minimal`         | Hook-first integrations where `bd prime` carries the detailed workflow | Same git authority as conservative; the installed file stays short and points to `bd prime`.                                                                                                     |
-| `team-maintainer` | Repositories that explicitly delegate session close to agents          | Agents may close beads, run quality gates, commit, run `bd dolt push`, and `git push` as part of routine work. Current "do not commit" or "do not push" instructions still override the profile. |
+| Policy | Default scope | Commit/push guidance |
+| - | - | - |
+| `conservative` | Standalone projects, unknown projects, and one-off assistance | Use `bd` for task tracking, then report changed files, validation, and proposed commands. Do not commit, push, or run Dolt remote sync without explicit user or orchestrator approval. |
+| `minimal` | Hook-first integrations where `bd prime` carries the detailed workflow | Same git authority as conservative; the installed file stays short and points to `bd prime`. |
+| `team-maintainer` | Repositories that explicitly delegate session close to agents | Agents may close beads, run quality gates, commit, run `bd dolt push`, and `git push` as part of routine work. Current "do not commit" or "do not push" instructions still override the profile. |
 
 The generated beads section and `bd prime` default to conservative git authority. Set the profile explicitly with the `agent.profile` config key or the `BD_AGENT_PROFILE` environment variable (values: `conservative`, `minimal`, `team-maintainer`; the env var takes precedence; an unrecognized value falls back to `conservative`):
 
@@ -114,11 +114,11 @@ If the [beads Claude Code plugin](/integrations/claude-code-plugin) is installed
 
 **Flags:**
 
-| Flag        | Description                                                                                                            |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `--check`   | Check both hooks and the managed `CLAUDE.md` beads section                                                             |
-| `--remove`  | Remove beads hooks and the managed `CLAUDE.md` beads section                                                           |
-| `--global`  | Install to `~/.claude/settings.json` instead of the project                                                            |
+| Flag | Description |
+| - | - |
+| `--check` | Check both hooks and the managed `CLAUDE.md` beads section |
+| `--remove` | Remove beads hooks and the managed `CLAUDE.md` beads section |
+| `--global` | Install to `~/.claude/settings.json` instead of the project |
 | `--stealth` | Use `bd prime --stealth --hook-json` (flush only, no git operations) — useful in CI/CD where git operations might fail |
 
 Restart Claude Code after installation for the hooks to take effect.
@@ -191,11 +191,11 @@ bd setup aider
 
 This writes three files:
 
-| File               | Purpose                                    |
-| ------------------ | ------------------------------------------ |
-| `.aider.conf.yml`  | Points Aider to read the instructions file |
-| `.aider/BEADS.md`  | Workflow instructions for the AI           |
-| `.aider/README.md` | Quick reference for humans                 |
+| File | Purpose |
+| - | - |
+| `.aider.conf.yml` | Points Aider to read the instructions file |
+| `.aider/BEADS.md` | Workflow instructions for the AI |
+| `.aider/README.md` | Quick reference for humans |
 
 Aider is human-in-the-loop: the AI **suggests** `bd` commands, and you run them with `/run`. See [Aider](/integrations/aider) for the workflow.
 
@@ -249,11 +249,11 @@ Create `.vscode/mcp.json` in your project:
 
 **For all projects:** Add to VS Code user-level MCP config:
 
-| Platform | Path                                               |
-| -------- | -------------------------------------------------- |
-| macOS    | `~/Library/Application Support/Code/User/mcp.json` |
-| Linux    | `~/.config/Code/User/mcp.json`                     |
-| Windows  | `%APPDATA%\Code\User\mcp.json`                     |
+| Platform | Path |
+| - | - |
+| macOS | `~/Library/Application Support/Code/User/mcp.json` |
+| Linux | `~/.config/Code/User/mcp.json` |
+| Windows | `%APPDATA%\Code\User\mcp.json` |
 
 ```json theme={null}
 {
@@ -362,12 +362,12 @@ bd setup --print
 
 **Recipe types:**
 
-| Type        | Description                                   | Used by                        |
-| ----------- | --------------------------------------------- | ------------------------------ |
-| `file`      | Write the template to a single file           | windsurf, cody, kilocode, kiro |
-| `hooks`     | Modify JSON settings to add hooks             | claude, gemini                 |
-| `section`   | Inject a marked section into an existing file | factory, codex, mux, opencode  |
-| `multifile` | Write multiple files                          | aider, copilot, junie          |
+| Type | Description | Used by |
+| - | - | - |
+| `file` | Write the template to a single file | windsurf, cody, kilocode, kiro |
+| `hooks` | Modify JSON settings to add hooks | claude, gemini |
+| `section` | Inject a marked section into an existing file | factory, codex, mux, opencode |
+| `multifile` | Write multiple files | aider, copilot, junie |
 
 Custom recipes added via `--add` are always type `file`.
 

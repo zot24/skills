@@ -47,6 +47,9 @@ gl-inet/docs4.x
 <a href="../nat_settings/" class="md-nav__link"><span class="md-ellipsis"> NAT Settings </span></a>
 
 
+<a href="../../features_update/" class="md-nav__link"><span class="md-ellipsis"> Features Update </span></a> <span class="md-nav__icon md-icon"></span>
+
+
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 
@@ -61,6 +64,16 @@ gl-inet/docs4.x
 
 
 # DNS<a href="#dns" class="headerlink" title="Permanent link">¶</a>
+
+**Note**: The content on this page is based on firmware version v4.10 and earlier.
+
+If your device is running a different firmware version, use the selector below to switch to the corresponding guide.
+
+
+- [Firmware v4.11](../dns_v4.11/)
+
+
+------------------------------------------------------------------------
 
 On the left side of the web Admin Panel, go to **NETWORK** -\> **DNS**.
 
@@ -90,8 +103,7 @@ In this mode, the router will automatically use the DNS server provided by the u
 
 Please refer to the instructions below according to your firmware version.
 
-
-For firmware v4.8 and earlier
+#### For Firmware v4.8 and earlier<a href="#for-firmware-v48-and-earlier" class="headerlink" title="Permanent link">¶</a>
 
 Four encryption types are available: DNS over TLS, DNSCrypt-Proxy, DNS over HTTPS, and Oblivious DNS over HTTPS.
 
@@ -107,8 +119,7 @@ Please select the **Encryption Type** first. The remaining options will change a
 
   <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/dns/dnscrypt-proxy.png" class="glboxshadow" alt="dnscrypt-proxy" />
 
-
-For firmware v4.9 and later
+#### For Firmware v4.9 to v4.10<a href="#for-firmware-v49-to-v410" class="headerlink" title="Permanent link">¶</a>
 
 In addition to Control D, NextDNS and Cloudflare, more DNS providers are now available for Encrypted DNS mode, including **Quad9**, **CleanBrowsing**, **AdGuard DNS**, **Google DNS**, and **OpenDNS**. You can also specify an encrypted DNS server manually as needed.
 
@@ -127,7 +138,6 @@ Select the **DNS Provider** first. The remaining options will change according t
   Next, click **Add a Server** to add at least one DNS server. You can directly enter the URL or stamp format of the encrypted DNS. For a list of public servers, please refer to <a href="https://dnscrypt.info/public-servers" target="_blank">https://dnscrypt.info/public-servers</a>.
 
   <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/dns/encrypted_manual2.png" class="glboxshadow" alt="encrypted manual2" />
-
 
 #### Encryption Type Comparison<a href="#encryption-type-comparison" class="headerlink" title="Permanent link">¶</a>
 

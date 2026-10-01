@@ -40,6 +40,8 @@ agent-browser drag <src> <dst>        # Drag and drop
 agent-browser upload <sel> <files>    # Upload files
 agent-browser screenshot [path]       # Screenshot (--full for full page)
 agent-browser screenshot --annotate   # Annotated screenshot with numbered element labels
+agent-browser screenshot --if-changed # Recommended: skip unchanged images to save tokens
+agent-browser screenshot --threshold 0.01 # Ignore changes affecting at most 1% of pixels
 agent-browser screenshot --screenshot-dir ./shots    # Save to custom directory
 agent-browser screenshot --screenshot-format jpeg --screenshot-quality 80
 agent-browser pdf <path>              # Save page as PDF
@@ -184,12 +186,16 @@ See [Files & Clipboard](/files) for upload, download, local file, screenshot, PD
 
 
 ``` shiki
-agent-browser mouse move <x> <y>      # Move mouse
+agent-browser mouse move <x> <y>      # Move mouse instantly
+agent-browser mouse move 600 400 --duration 250 --steps 24
+agent-browser mouse move 600 400 --human --seed 42
 agent-browser mouse down [button]     # Press button
 agent-browser mouse up [button]       # Release button
 agent-browser mouse wheel <dy> [dx]   # Scroll wheel
 ```
 
+
+Use `--human` with `click`, `drag`, or `mouse move` for curved, eased movement from the current cursor position. For `mouse move`, `--duration` sets the target total milliseconds including browser response time, `--steps` sets the number of events, and `--seed` makes the path reproducible. A slow browser can still extend the requested duration.
 
 ## Clipboard<a href="#clipboard" aria-label="Link to this section">#</a>
 
@@ -320,6 +326,17 @@ agent-browser click @e3         # uses docs's refs
 
 Browsers discard background tabs to save memory, leaving a tab with no renderer to drive. Switching to a discarded tab reactivates it, which reloads the page and resets its unsaved state; the switch result adds `"revived": true` so the reload is visible rather than silent. A tab whose page is paused by a JavaScript dialog is alive rather than discarded: the switch leaves it untouched and adds `"dialogBlocked": true`. Resolve the dialog with `dialog accept` or `dialog dismiss` and the tab keeps its state. Closing the active tab onto a discarded successor revives it the same way and reports `"activeTabRevived": true`.
 
+### Snapshot deltas<a href="#snapshot-deltas" aria-label="Link to this section">#</a>
+
+
+``` shiki
+agent-browser snapshot --delta
+agent-browser snapshot --delta --full
+```
+
+
+`snapshot --delta` returns `full`, `unchanged`, or incremental updates per tab and option set. URL changes or large deltas return full state; `--full` resets the baseline. Apply a delta’s `changes` to ref metadata and `treeChange` to the previous tree: split on newlines, replace `deleteCount` lines at zero-based `startLine` with `lines`, then rejoin. Apply both to `baseRevision` before advancing to `revision`.
+
 ### Iframe support<a href="#iframe-support" aria-label="Link to this section">#</a>
 
 Iframes are detected automatically during snapshots. `Iframe` nodes are resolved and their content is inlined beneath the iframe element in the snapshot output. Refs assigned to elements inside iframes carry frame context, so `click`, `fill`, and other interactions work without manually switching frames.
@@ -383,6 +400,9 @@ agent-browser profiler start          # Start Chrome DevTools profiling
 agent-browser profiler stop [path]    # Stop and save profile (.json)
 agent-browser record start <path>     # Start video recording (.webm/.mp4, 30 fps; needs ffmpeg)
 agent-browser record start <path> --fps 60  # Record at 60 fps (--fps accepts 1-60)
+agent-browser record start <path> --cursor  # Include an animated mouse pointer
+agent-browser record start <path> --contact-sheet # Also save a timestamped PNG summary
+agent-browser record start <path> --contact-sheet-threshold 0.02 # Tune changed-frame selection
 agent-browser record stop             # Stop and save video
 agent-browser record restart <path>   # Stop current and start new recording
 agent-browser console                 # View console messages
@@ -707,6 +727,7 @@ See [Init Scripts & Extensions](/init-scripts) for launch-time scripts, runtime 
 --confirm-actions <list> # Action categories requiring confirmation
 --confirm-interactive    # Interactive confirmation prompts (auto-denies if stdin is not a TTY)
 --engine <name>          # Browser engine: chrome (default), lightpanda
+--input-mode <mode>      # Pointer movement: instant (default), smooth, human
 --idle-timeout <time>    # Auto-shutdown daemon after inactivity (default: 1h; 0 disables)
 --no-auto-dialog         # Disable auto-accept for alert and beforeunload dialogs
 --model <name>           # AI model for chat (or AI_GATEWAY_MODEL env)

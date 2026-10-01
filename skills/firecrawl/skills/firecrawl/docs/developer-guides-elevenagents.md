@@ -28,12 +28,12 @@ The fastest way to give an agent web access. ElevenAgents supports remote MCP se
 2. Select **Custom MCP Server** from the integration library.
 3. Fill in the following fields:
 
-| Field           | Value                                                 |
-| --------------- | ----------------------------------------------------- |
-| **Name**        | Firecrawl                                             |
+| Field | Value |
+| - | - |
+| **Name** | Firecrawl |
 | **Description** | Search, scrape, and parse web content with Firecrawl. |
-| **Server type** | Streamable HTTP                                       |
-| **Server URL**  | `https://mcp.firecrawl.dev/v2/mcp`                    |
+| **Server type** | Streamable HTTP |
+| **Server URL** | `https://mcp.firecrawl.dev/v2/mcp` |
 
 Keyless MCP exposes exactly Search, Scrape, and Parse, with shared limits. [Sign in](/mcp-server/oauth) or [add an API key](/mcp-server/keyless#add-an-api-key) for the broader tool surface. Keep API keys in an environment variable or secret store, never in a URL.
 
@@ -89,12 +89,12 @@ Create a tool that scrapes a single URL and returns its content as markdown.
 2. Click **Add tool** and select **Webhook**.
 3. Configure the tool:
 
-| Field           | Value                                                      |
-| --------------- | ---------------------------------------------------------- |
-| **Name**        | scrape\_website                                            |
+| Field | Value |
+| - | - |
+| **Name** | scrape\_website |
 | **Description** | Scrape content from a URL and return it as clean markdown. |
-| **Method**      | POST                                                       |
-| **URL**         | `https://api.firecrawl.dev/v2/scrape`                      |
+| **Method** | POST |
+| **URL** | `https://api.firecrawl.dev/v2/scrape` |
 
 
   The **Method** field defaults to GET — make sure to change it to **POST**.
@@ -102,17 +102,17 @@ Create a tool that scrapes a single URL and returns its content as markdown.
 
 4. Scroll to the **Headers** section and click **Add header** for authentication:
 
-| Header          | Value                           |
-| --------------- | ------------------------------- |
+| Header | Value |
+| - | - |
 | `Authorization` | `Bearer YOUR_FIRECRAWL_API_KEY` |
 
 Alternatively, if you have workspace auth connections configured, you can use the **Authentication** dropdown instead.
 
 5. Add a **body parameter**:
 
-| Parameter | Type   | Description       | Required |
-| --------- | ------ | ----------------- | -------- |
-| `url`     | string | The URL to scrape | Yes      |
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| `url` | string | The URL to scrape | Yes |
 
 6. Click **Add tool**.
 
@@ -124,21 +124,21 @@ Create a tool that searches the web and returns results with scraped content.
 
 1. Click **Add tool** → **Webhook** again and configure:
 
-| Field           | Value                                                                     |
-| --------------- | ------------------------------------------------------------------------- |
-| **Name**        | search\_web                                                               |
+| Field | Value |
+| - | - |
+| **Name** | search\_web |
 | **Description** | Search the web for a query and return relevant results with page content. |
-| **Method**      | POST                                                                      |
-| **URL**         | `https://api.firecrawl.dev/v2/search`                                     |
+| **Method** | POST |
+| **URL** | `https://api.firecrawl.dev/v2/search` |
 
 2. Add the same `Authorization` header as above.
 
 3. Add **body parameters**:
 
-| Parameter | Type   | Description                                     | Required |
-| --------- | ------ | ----------------------------------------------- | -------- |
-| `query`   | string | The search query                                | Yes      |
-| `limit`   | number | Maximum number of results to return (default 5) | No       |
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| `query` | string | The search query | Yes |
+| `limit` | number | Maximum number of results to return (default 5) | No |
 
 4. Click **Add tool**.
 

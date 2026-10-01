@@ -1,0 +1,177 @@
+> Source: https://honcho.dev/docs/v3/api-reference/endpoint/conclusions/get-conclusion.md
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# Get Conclusion
+
+> Get a single Conclusion by ID.
+
+
+## OpenAPI
+
+````yaml get /v3/workspaces/{workspace_id}/conclusions/{conclusion_id}
+openapi: 3.1.0
+info:
+  title: Honcho API
+  summary: The Identity Layer for the Agentic World
+  description: >-
+    Honcho is a platform for giving agents user-centric memory and social
+    cognition.
+  contact:
+    name: Plastic Labs
+    url: https://honcho.dev/
+    email: hello@plasticlabs.ai
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.2.2
+servers:
+  - url: https://api.honcho.dev
+    description: Production SaaS Platform
+  - url: http://localhost:8000
+    description: Local Development Server
+security: []
+paths:
+  /v3/workspaces/{workspace_id}/conclusions/{conclusion_id}:
+    get:
+      tags:
+        - conclusions
+      summary: Get Conclusion
+      description: Get a single Conclusion by ID.
+      operationId: >-
+        get_conclusion_v3_workspaces__workspace_id__conclusions__conclusion_id__get
+      parameters:
+        - name: workspace_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Workspace Id
+        - name: conclusion_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Conclusion Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conclusion'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    Conclusion:
+      properties:
+        id:
+          type: string
+          title: Id
+        content:
+          type: string
+          title: Content
+        observer_id:
+          type: string
+          title: Observer Id
+          description: The peer who made the conclusion
+        observed_id:
+          type: string
+          title: Observed Id
+          description: The peer the conclusion is about
+        session_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Session Id
+        level:
+          type: string
+          enum:
+            - explicit
+            - deductive
+            - inductive
+            - contradiction
+          title: Level
+          description: >-
+            Reasoning level of the conclusion: 'explicit' (directly extracted
+            from messages) or 'deductive'/'inductive'/'contradiction' (derived
+            during dreaming).
+          default: explicit
+        source_ids:
+          items:
+            type: string
+          type: array
+          title: Source Ids
+          description: >-
+            IDs of the conclusions this one was derived from: premises for
+            'deductive', supporting sources for 'inductive', conflicting
+            conclusions for 'contradiction'. Empty for 'explicit' conclusions,
+            which derive from messages rather than from other conclusions.
+        times_derived:
+          type: integer
+          title: Times Derived
+          description: Number of times this conclusion has been independently derived.
+          default: 1
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+        - id
+        - content
+        - observer_id
+        - observed_id
+        - created_at
+      title: Conclusion
+      description: Conclusion response - external view of a document.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+
+````

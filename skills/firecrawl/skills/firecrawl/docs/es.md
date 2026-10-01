@@ -4,7 +4,7 @@
 
 ## Spanish
 
-- [Spanish / v2 (203 pages)](https://docs.firecrawl.dev/_llms/es/v2.md): Documentation for Spanish / v2.
+- [Spanish / v2 (204 pages)](https://docs.firecrawl.dev/_llms/es/v2.md): Documentation for Spanish / v2.
 
 ### v1
 
@@ -12,7 +12,7 @@
 
 ##### Primeros pasos
 
-- [Introducción](https://docs.firecrawl.dev/es/introduction.md): Busca en la web, haz scraping de cualquier página e interactúa con ella, todo desde una sola API.
+- [Introducción](https://docs.firecrawl.dev/es/introduction.md): La API de datos web para agentes de IA. Busca en la web, haz scraping de cualquier página e interactúa con ella desde una sola API.
 - [Primeros pasos](https://docs.firecrawl.dev/es/mcp-server.md): Configura Firecrawl MCP con acceso sin clave, inicio de sesión en la cuenta o una clave de API.
 - [Guía avanzada de scraping](https://docs.firecrawl.dev/es/advanced-scraping-guide.md): Configura opciones de scraping, acciones del navegador, rastreo, mapeo y el endpoint del agente con todas las capacidades de la API de Firecrawl.
 
@@ -46,10 +46,6 @@
 - [Modo mejorado](https://docs.firecrawl.dev/es/features/enhanced-mode.md): Usa proxies mejorados para realizar scraping fiable en sitios complejos
 - [Proxies](https://docs.firecrawl.dev/es/features/proxies.md): Conoce los tipos de proxy, las ubicaciones y cómo Firecrawl selecciona proxies para tus solicitudes.
 
-##### Funciones del agente
-
-- [Agente FIRE-1 (Beta)](https://docs.firecrawl.dev/es/agents/fire-1.md): Agente de IA que permite la navegación y la interacción inteligentes con páginas web
-
 ##### Webhooks
 
 - [Descripción general](https://docs.firecrawl.dev/es/webhooks/overview.md): Notificaciones en tiempo real para tus operaciones de Firecrawl
@@ -57,7 +53,7 @@
 - [Seguridad](https://docs.firecrawl.dev/es/webhooks/security.md): Verificar la autenticidad de los webhooks
 - [Pruebas](https://docs.firecrawl.dev/es/webhooks/testing.md): Probar y depurar webhooks
 
-##### Panel de control
+##### Dashboard
 
 - [Descripción general](https://docs.firecrawl.dev/es/dashboard.md): Descripción general del panel de control de Firecrawl y sus funciones clave
 

@@ -13,7 +13,7 @@ related:
 # Types
 
 
-Every type exported from `chat/ai`. Pulling these from the subpath keeps the optional `ai` and `zod` peer deps out of bundles that don't import them.
+Types exported from `chat/ai`. Importing from the subpath keeps the optional `ai` and `zod` peer dependencies out of bundles that don't use them.
 
 ```ts
 import type {
@@ -34,12 +34,13 @@ import type {
   ApprovalConfig,
   ToolOptions,
   ToolOverrides,
+  ReadScope,
 } from "chat/ai";
 ```
 
 ## Conversation messages
 
-Used by [`toAiMessages`](/docs/ai/to-ai-messages) and any agent prompt you build by hand. The shapes are structurally compatible with AI SDK's `ModelMessage` so the result is directly assignable to `prompt` / `messages`.
+Used by [`toAiMessages`](/docs/ai/to-ai-messages) and any agent prompt you build by hand. The shapes are structurally compatible with AI SDK's `ModelMessage`, so the result can be passed as `prompt` or `messages`.
 
 ### AiMessage
 
@@ -47,7 +48,7 @@ Used by [`toAiMessages`](/docs/ai/to-ai-messages) and any agent prompt you build
 type AiMessage = AiUserMessage | AiAssistantMessage;
 ```
 
-A single normalized turn in a conversation — the array form is what AI SDK calls expect.
+A single normalized turn in a conversation. AI SDK calls take an array of them.
 
 ### AiUserMessage
 
@@ -69,7 +70,7 @@ interface AiAssistantMessage {
 }
 ```
 
-Assistant turns are always plain strings — `toAiMessages` produces this for any message authored by the bot itself (`author.isMe === true`).
+Assistant turns are always plain strings. `toAiMessages` produces one for any message authored by the bot (`author.isMe === true`).
 
 ### AiMessagePart
 
@@ -98,7 +99,7 @@ interface AiImagePart {
 }
 ```
 
-`DataContent` matches AI SDK's type — `string | Uint8Array | ArrayBuffer | Buffer`.
+`DataContent` matches AI SDK's type: `string | Uint8Array | ArrayBuffer | Buffer`.
 
 ### AiFilePart
 
@@ -111,7 +112,7 @@ interface AiFilePart {
 }
 ```
 
-`toAiMessages` emits text-like attachments (JSON, XML, YAML, source files, etc.) as file parts.
+`toAiMessages` emits image attachments and text-like attachments (JSON, XML, YAML, source files, and similar) as file parts.
 
 ### ToAiMessagesOptions
 
@@ -141,7 +142,7 @@ Returned by [`createChatTools`](/docs/ai/ai-sdk-tools) and used to configure it.
 type ChatBinding = Chat<any, any>;
 ```
 
-Whatever [`Chat`](/docs/api/chat) instance the tools should dispatch operations against. The generics are intentionally loose so any strongly-typed `Chat<TAdapters, TState>` is assignable.
+The [`Chat`](/docs/api/chat) instance the tools dispatch operations against. The generics are loose so that any strongly typed `Chat<TAdapters, TState>` is assignable.
 
 ### ChatTools
 
@@ -149,7 +150,7 @@ Whatever [`Chat`](/docs/api/chat) instance the tools should dispatch operations 
 type ChatTools = ReturnType<typeof createChatTools>;
 ```
 
-Convenience alias for the object returned by `createChatTools` — handy when you want to type a wrapper or pass the toolset around.
+Alias for the object returned by `createChatTools`. Use it to type a wrapper or pass the toolset around.
 
 ### ChatToolPreset
 
@@ -219,9 +220,9 @@ type ApprovalConfig =
 
 Controls the `requireApproval` option:
 
-* `true` (default) — every write tool and `getUser` need approval.
-* `false` — no tool needs approval.
-* object — per-tool override; unspecified approval-gated tools fall back to `true`.
+* `true` (default): every write tool and `getUser` need approval.
+* `false`: no tool needs approval.
+* An object: per-tool overrides. Approval-gated tools you leave out fall back to `true`.
 
 ### ToolOptions
 
@@ -254,7 +255,37 @@ type ToolOverrides = Partial<
 >;
 ```
 
-Per-tool overrides accepted by `createChatTools({ overrides })`. Core fields like `execute`, `inputSchema`, `outputSchema`, `type`, `id`, and `args` are intentionally excluded so tool semantics stay stable across upgrades.
+Per-tool overrides accepted by `createChatTools({ overrides })`. Core fields (`execute`, `inputSchema`, `outputSchema`, `supportsDeferredResults`, `type`, `id`, and `args`) are excluded so tool semantics stay stable across upgrades.
+
+## TanStack AI
+
+The `chat/ai/tanstack` subpath exports its own message and tool shapes, declared locally so nothing from `@tanstack/ai` is imported at runtime:
+
+```ts
+import type {
+  TanStackMessage,
+  TanStackUserMessage,
+  TanStackAssistantMessage,
+  TanStackContentPart,
+  TanStackTextPart,
+  TanStackImagePart,
+  ToTanStackMessagesOptions,
+  TanStackTool,
+  TanStackToolOverrides,
+  TanStackChatToolsOptions,
+} from "chat/ai/tanstack";
+```
+
+| Type                        | Purpose                                                                                                                                                     |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `TanStackMessage`           | `TanStackUserMessage \| TanStackAssistantMessage`, structurally assignable to TanStack AI's `ModelMessage`. Returned by `toTanStackMessages`.               |
+| `TanStackContentPart`       | `TanStackTextPart \| TanStackImagePart`, the parts inside a multipart user message. Text parts use `content`, image parts carry base64 data under `source`. |
+| `ToTanStackMessagesOptions` | `includeNames`, `transformMessage`, and `onUnsupportedAttachment`, mirroring `ToAiMessagesOptions`.                                                         |
+| `TanStackTool`              | A plain tool object (`name`, `description`, `inputSchema`, `execute`, optional `needsApproval`, `metadata`, `lazy`) accepted by `chat({ tools })`.          |
+| `TanStackToolOverrides`     | The subset of `TanStackTool` that `createTanStackTools({ overrides })` lets you change: `description`, `needsApproval`, `metadata`, `lazy`.                 |
+| `TanStackChatToolsOptions`  | Options for `createTanStackTools`: `chat`, `preset`, `requireApproval`, `scope`, `strictScope`, `overrides`.                                                |
+
+`ChatToolName`, `ChatToolPreset`, `ChatWriteToolName`, `ChatApprovalToolName`, `ApprovalConfig`, `ReadScope`, and `ChatBinding` are re-exported from `chat/ai/tanstack` unchanged. Their definitions are in [Tools](#tools) above, and `ReadScope` is described in the [`createChatTools` API](/docs/ai/ai-sdk-tools#api). The TanStack-specific shapes are defined in full on the [TanStack AI](/docs/ai/tanstack-ai#types) page.
 
 
 ---

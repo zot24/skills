@@ -102,45 +102,45 @@ For **self-hosted or local Honcho**:
 
 ### Recall Modes
 
-| Mode               | Behavior                               | Best for                              |
-| ------------------ | -------------------------------------- | ------------------------------------- |
-| `hybrid` (default) | Context injection **and** tool access  | Most users — balanced memory coverage |
-| `context`          | Only inject memory into system prompts | Predictable prompts, no tool calls    |
-| `tools`            | Only expose memory as tools            | Explicit, on-demand retrieval         |
+| Mode | Behavior | Best for |
+| - | - | - |
+| `hybrid` (default) | Context injection **and** tool access | Most users — balanced memory coverage |
+| `context` | Only inject memory into system prompts | Predictable prompts, no tool calls |
+| `tools` | Only expose memory as tools | Explicit, on-demand retrieval |
 
 ### Session Strategies
 
-| Strategy                  | Behavior                                  | Best for                              |
-| ------------------------- | ----------------------------------------- | ------------------------------------- |
-| `per-directory` (default) | One session per working directory         | Most projects                         |
-| `per-repo`                | One session per repository                | Repos with multiple entry directories |
-| `git-branch`              | Session follows the current git branch    | Branch-specific workflows             |
-| `per-session`             | New session per OpenCode session id       | Short-lived isolated work             |
-| `chat-instance`           | Session tied to the current chat instance | Highly ephemeral usage                |
-| `global`                  | One session for everything                | Shared memory across all work         |
+| Strategy | Behavior | Best for |
+| - | - | - |
+| `per-directory` (default) | One session per working directory | Most projects |
+| `per-repo` | One session per repository | Repos with multiple entry directories |
+| `git-branch` | Session follows the current git branch | Branch-specific workflows |
+| `per-session` | New session per OpenCode session id | Short-lived isolated work |
+| `chat-instance` | Session tied to the current chat instance | Highly ephemeral usage |
+| `global` | One session for everything | Shared memory across all work |
 
 ## Operator Commands
 
-| Command            | Description                                                   |
-| ------------------ | ------------------------------------------------------------- |
-| `/honcho:setup`    | First-time setup for cloud or local Honcho                    |
-| `/honcho:status`   | Show effective Honcho status for the current OpenCode project |
-| `/honcho:settings` | Show effective config values and config paths                 |
-| `/honcho:config`   | Change `recallMode`                                           |
+| Command | Description |
+| - | - |
+| `/honcho:setup` | First-time setup for cloud or local Honcho |
+| `/honcho:status` | Show effective Honcho status for the current OpenCode project |
+| `/honcho:settings` | Show effective config values and config paths |
+| `/honcho:config` | Change `recallMode` |
 
 ## Agent Tools
 
 The plugin exposes these tools inside OpenCode:
 
-| Tool                       | Description                                                        |
-| -------------------------- | ------------------------------------------------------------------ |
-| `honcho_setup`             | Validate setup and persist shared credentials or endpoint settings |
-| `honcho_status`            | Show effective runtime status                                      |
-| `honcho_get_config`        | Read effective and persisted settings                              |
-| `honcho_set_config`        | Update a persisted shared setting                                  |
-| `honcho_search`            | Search Honcho session messages                                     |
-| `honcho_chat`              | Query Honcho for reasoning-backed context                          |
-| `honcho_create_conclusion` | Save a durable memory conclusion                                   |
+| Tool | Description |
+| - | - |
+| `honcho_setup` | Validate setup and persist shared credentials or endpoint settings |
+| `honcho_status` | Show effective runtime status |
+| `honcho_get_config` | Read effective and persisted settings |
+| `honcho_set_config` | Update a persisted shared setting |
+| `honcho_search` | Search Honcho session messages |
+| `honcho_chat` | Query Honcho for reasoning-backed context |
+| `honcho_create_conclusion` | Save a durable memory conclusion |
 
 ## Plugin Surfaces
 

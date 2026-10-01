@@ -236,6 +236,12 @@
       "target": "skills/hermes/docs/plugins.md",
       "type": "extract-content",
       "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/getting-started/termux/",
+      "target": "skills/hermes/docs/termux.md",
+      "type": "extract-content",
+      "freshness_days": 7
     }
   ],
   "cache_dir": ".cache",

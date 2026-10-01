@@ -26,14 +26,14 @@ Composio exposes Firecrawl as a toolkit so your agents can search, scrape, crawl
 
 ## What you can do
 
-| Capability       | Use case                                        |
-| ---------------- | ----------------------------------------------- |
-| **Search**       | Discover sources before extraction              |
-| **Scrape**       | Fetch page content for agent context            |
-| **Batch scrape** | Pull many URLs in one job                       |
-| **Crawl**        | Gather multi-page site data                     |
-| **Map**          | List a site's URLs before deciding what to pull |
-| **Extract**      | Return structured fields instead of raw text    |
+| Capability | Use case |
+| - | - |
+| **Search** | Discover sources before extraction |
+| **Scrape** | Fetch page content for agent context |
+| **Batch scrape** | Pull many URLs in one job |
+| **Crawl** | Gather multi-page site data |
+| **Map** | List a site's URLs before deciding what to pull |
+| **Extract** | Return structured fields instead of raw text |
 
 ## Resources
 

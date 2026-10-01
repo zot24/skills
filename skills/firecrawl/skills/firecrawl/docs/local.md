@@ -60,11 +60,11 @@ node --version
 
 ## Configure the Firecrawl API
 
-| Environment variable     | Purpose                                                                                                               |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| `FIRECRAWL_API_KEY`      | Authenticates to the Firecrawl cloud API. It is optional only when a self-hosted API does not require authentication. |
-| `FIRECRAWL_API_URL`      | Sends requests to a self-hosted Firecrawl API instead of the cloud API.                                               |
-| `HTTP_STREAMABLE_SERVER` | Set to `true` to start the local Streamable HTTP transport instead of stdio.                                          |
+| Environment variable | Purpose |
+| - | - |
+| `FIRECRAWL_API_KEY` | Authenticates to the Firecrawl cloud API. It is optional only when a self-hosted API does not require authentication. |
+| `FIRECRAWL_API_URL` | Sends requests to a self-hosted Firecrawl API instead of the cloud API. |
+| `HTTP_STREAMABLE_SERVER` | Set to `true` to start the local Streamable HTTP transport instead of stdio. |
 
 <CodeGroup>
   ```bash Cloud API

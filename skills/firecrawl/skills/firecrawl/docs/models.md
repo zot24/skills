@@ -12,11 +12,11 @@ Firecrawl Agent runs on **Spark 2**, the default model for every run. It removes
 
 ## Available Models
 
-| Model          | Status      | Notes                                                             |
-| -------------- | ----------- | ----------------------------------------------------------------- |
-| `spark-2`      | **Default** | Lowest cost, fastest run time, accuracy comparable to Spark 1 Pro |
-| `spark-1-pro`  | Deprecated  | Former default for complex tasks; routes to `spark-2`             |
-| `spark-1-mini` | Deprecated  | Former low-cost Spark 1 option; routes to `spark-2`               |
+| Model | Status | Notes |
+| - | - | - |
+| `spark-2` | **Default** | Lowest cost, fastest run time, accuracy comparable to Spark 1 Pro |
+| `spark-1-pro` | Deprecated | Former default for complex tasks; routes to `spark-2` |
+| `spark-1-mini` | Deprecated | Former low-cost Spark 1 option; routes to `spark-2` |
 
 
   **Spark 1 models are deprecated.** The `spark-1-pro` and `spark-1-mini` names remain accepted for backwards compatibility, but every request — with or without the `model` parameter — executes on `spark-2`.

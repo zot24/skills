@@ -1598,6 +1598,12 @@
       "target": "skills/firecrawl/docs/migrate-to-v2.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/_llms/en/v2/documentation.md",
+      "target": "skills/firecrawl/docs/_llms-documentation.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

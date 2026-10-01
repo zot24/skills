@@ -6,7 +6,7 @@
 
 ### Primeiros passos
 
-- [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): Faça uma busca na web, faça scraping de qualquer página e interaja com ela, tudo por meio de uma única API.
+- [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): A API de dados da web para agentes de IA. Faça uma busca na web, faça scraping de qualquer página e interaja com ela por meio de uma única API.
 - [CLI](https://docs.firecrawl.dev/pt-BR/sdks/cli.md): As skills do Firecrawl são uma forma simples de agentes de IA, como Codex, Claude Code, Cursor e OpenCode, usarem o Firecrawl via CLI.
 - [Desenvolva com IA](https://docs.firecrawl.dev/pt-BR/ai-onboarding.md): Tudo o que você precisa para conectar seu agente de IA ao Firecrawl.
 - [Guia Avançado de Scraping](https://docs.firecrawl.dev/pt-BR/advanced-scraping-guide.md): Configure opções de scraping, ações do navegador, rastreamento, map e o endpoint do agente em toda a API do Firecrawl.
@@ -68,6 +68,7 @@
 
 ### Mais
 
+- [Alexandria](https://docs.firecrawl.dev/pt-BR/features/alexandria.md): A biblioteca de conhecimento para a superinteligência
 - [Parse](https://docs.firecrawl.dev/pt-BR/features/parse.md): Transforme documentos — PDFs, Word, Excel, PowerPoint e muito mais — em markdown limpo, conteúdo por página, blocos de layout e JSON estruturado
 - [Mapa](https://docs.firecrawl.dev/pt-BR/features/map.md): Insira um site e obtenha todas as URLs dele — extremamente rápido
 - [Rastreamento](https://docs.firecrawl.dev/pt-BR/features/crawl.md): Rastreie recursivamente um site e obtenha conteúdo de cada página
@@ -150,6 +151,7 @@
 - [LlamaIndex](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/llamaindex.md): Use o Firecrawl com o LlamaIndex em aplicações de RAG
 - [Mastra](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/mastra.md): Use o Firecrawl com o Mastra para criar workflows de IA
 - [ElevenAgents](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/elevenagents.md): Dê aos agentes de voz e chat do ElevenLabs acesso à web em tempo real com o Firecrawl
+- [Jev](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/jev.md): Use o Firecrawl com o Jev da TypeSafe para tomar decisões rápidas e estruturadas com base em dados da web
 
 #### Guias práticos
 
@@ -162,6 +164,7 @@
 - [Agente Hermes](https://docs.firecrawl.dev/pt-BR/integrations/hermes.md): Use o Firecrawl como backend padrão de busca na web e extração no Agente Hermes
 - [Replit](https://docs.firecrawl.dev/pt-BR/integrations/replit.md): Conector oficial do Replit para busca na web, scraping e interação com o navegador do Firecrawl
 - [Lovable](https://docs.firecrawl.dev/pt-BR/integrations/lovable.md): Conecte o Firecrawl a aplicativos do Lovable para scraping e rastreamento da web em tempo real
+- [Stripe Projects](https://docs.firecrawl.dev/pt-BR/integrations/stripe-projects.md): Provisione uma conta, uma API key e um plano do Firecrawl pela CLI do Stripe Projects
 - [LangChain](https://docs.firecrawl.dev/pt-BR/integrations/langchain.md): Use o Firecrawl no LangChain como carregador de documentos ou como ferramenta de agente.
 - [LlamaIndex](https://docs.firecrawl.dev/pt-BR/integrations/llamaindex.md): O Firecrawl integra-se ao LlamaIndex como leitor de documentos.
 - [CrewAI](https://docs.firecrawl.dev/pt-BR/integrations/crewai.md): Saiba como usar o Firecrawl com o CrewAI
@@ -172,7 +175,7 @@
 - [Flowise](https://docs.firecrawl.dev/pt-BR/integrations/flowise.md): Aprenda a usar o Firecrawl no Flowise
 - [Zapier](https://docs.firecrawl.dev/pt-BR/integrations/zapier.md): Tutoriais oficiais e modelos de integração do Zapier para automação com o Firecrawl
 - [Make](https://docs.firecrawl.dev/pt-BR/integrations/make.md): Integração oficial e automação de fluxos de trabalho do Firecrawl para o Make
-- [n8n](https://docs.firecrawl.dev/pt-BR/integrations/n8n.md): Aprenda a usar o Firecrawl com o n8n para automatizar o scraping da web com este guia passo a passo completo.
+- [n8n](https://docs.firecrawl.dev/pt-BR/integrations/n8n.md): Aprenda a usar o Firecrawl com o n8n para dar aos seus fluxos de trabalho de IA recursos de busca, scraping e interação com a web.
 - [Pipedream](https://docs.firecrawl.dev/pt-BR/integrations/pipedream.md): Adicione etapas de scraping, rastreamento, busca, mapeamento e extração do Firecrawl aos fluxos de trabalho do Pipedream
 - [Composio](https://docs.firecrawl.dev/pt-BR/integrations/composio.md): Use as ferramentas do Firecrawl em fluxos de trabalho de agentes do Composio
 - [SourceSync.ai](https://docs.firecrawl.dev/pt-BR/integrations/sourcesyncai.md): O Firecrawl integra-se ao SourceSync.ai para recursos de raspagem da web.

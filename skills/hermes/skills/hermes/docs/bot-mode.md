@@ -21,6 +21,19 @@ There is no new primitive to learn: a Bot **is** a Hermes profile — isolated c
 See [Profiles, agents, and bots](/docs/user-guide/profiles#profiles-agents-and-bots) for how Bot Mode relates to messaging bots and delegated subagents.
 
 
+## Coming from profiles?<a href="#coming-from-profiles" class="hash-link" aria-label="Direct link to Coming from profiles?" translate="no" title="Direct link to Coming from profiles?">​</a>
+
+Your profiles keep working exactly as they did; Bot Mode adds the parts a profile alone does not have:
+
+| With plain profiles                                           | With Bot Mode                                                                                                                         |
+|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| A pile of sessions per profile; you pick one or start another | One permanent **Bot Chat** per Bot. Click the Bot and you are back in the same conversation; `/new` compacts it instead of forking it |
+| Switch profiles to talk to a different specialist             | Every Bot sits in one roster with its avatar, latest message, and unread state                                                        |
+| Profiles never talk to each other                             | Bots [message each other](#bot-to-bot-messaging) and share [group chats](#groups-and-group-chats)                                     |
+| Scheduled jobs live in `hermes cron`, apart from any chat     | Each Bot's [routines](#routines) are scheduled and edited beside its chat                                                             |
+
+Nothing moves: config, memory, skills, and credentials stay in `~/.hermes/profiles/<name>/`, and `hermes -p <bot> chat` still opens the same agent.
+
 ## The Bots pane<a href="#the-bots-pane" class="hash-link" aria-label="Direct link to The Bots pane" translate="no" title="Direct link to The Bots pane">​</a>
 
 The roster shows one row per agent profile: avatar, latest-message preview, and timestamp.
@@ -334,6 +347,7 @@ Because Bots are profiles, everything has a terminal equivalent:
 See [Profiles](/docs/user-guide/profiles) for the underlying primitive and [Profile Commands](/docs/reference/profile-commands) for the full CLI reference.
 
 
+- <a href="#coming-from-profiles" class="table-of-contents__link toc-highlight">Coming from profiles?</a>
 - <a href="#the-bots-pane" class="table-of-contents__link toc-highlight">The Bots pane</a>
   - <a href="#organize-bots-into-sections" class="table-of-contents__link toc-highlight">Organize bots into sections</a>
 - <a href="#creating-a-bot" class="table-of-contents__link toc-highlight">Creating a Bot</a>

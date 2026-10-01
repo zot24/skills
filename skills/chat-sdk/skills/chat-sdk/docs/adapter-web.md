@@ -3,7 +3,7 @@
 ---
 title: Web
 description: Web chat adapter that speaks the AI SDK useChat protocol.
-tagline: Lets a Chat SDK bot serve a browser chat UI alongside Slack, Teams, Discord — the same handler fires for every platform. Speaks the AI SDK UI message stream protocol so useChat works out of the box with React, Vue, and Svelte.
+tagline: Serve a browser chat UI from the same Chat SDK bot and handlers you use for Slack, Teams, and Discord. Speaks the AI SDK UI message stream protocol, so useChat works with React, Vue, and Svelte.
 package: @chat-adapter/web
 ---
 
@@ -78,7 +78,7 @@ export async function POST(request: Request): Promise<Response> {
     export default function ChatPage() {
       const { messages, sendMessage, status, stop } = useChat();
       // Render with `ai-elements` (<Conversation>, <Message>, <PromptInput>)
-      // or your own components — `messages`, `sendMessage`, `status` are the
+      // or your own components. `messages`, `sendMessage`, and `status` are the
       // standard AI SDK UI API.
     }
     ```
@@ -89,7 +89,7 @@ export async function POST(request: Request): Promise<Response> {
     <script setup lang="ts">
     import { useChat } from "@chat-adapter/web/vue";
 
-    // Returns a Chat instance — access state directly, don't destructure
+    // Returns a Chat instance: access state directly, don't destructure
     const chat = useChat({ api: "/api/chat" });
     </script>
 
@@ -108,7 +108,7 @@ export async function POST(request: Request): Promise<Response> {
     <script lang="ts">
       import { useChat } from "@chat-adapter/web/svelte";
 
-      // Returns a Chat instance — access state directly, don't destructure
+      // Returns a Chat instance: access state directly, don't destructure
       const chat = useChat({ api: "/api/chat" });
     </script>
 
@@ -121,12 +121,9 @@ export async function POST(request: Request): Promise<Response> {
   </CodeBlockTab>
 </CodeBlockTabs>
 
-## Configuration
-
-
 ## Authentication
 
-`getUser` is the **security boundary** for the Web adapter. Unlike Slack or Teams where the platform signs every webhook, web requests come straight from a browser — you must identify the caller yourself.
+The Web adapter has no platform credentials. Browser requests arrive without a platform signature, so your `getUser` function is the security boundary: it identifies the caller from your own app's session, and returning `null` rejects the request with HTTP 401.
 
 ```typescript title="lib/bot.ts" lineNumbers
 // NextAuth
@@ -150,42 +147,14 @@ createWebAdapter({
 });
 ```
 
-The resolved `user.id` is embedded in the Chat SDK thread id. Ids containing `:` are rejected with HTTP 400 — normalize them inside `getUser` (e.g. base64-encode them) if your auth provider emits ids like `provider:sub`.
+The resolved `user.id` is embedded in the Chat SDK thread ID. IDs containing `:` are rejected with HTTP 400, so normalize them inside `getUser` (for example, by base64-encoding them) if your auth provider emits IDs like `provider:sub`.
 
-## Advanced
+## Configuration
 
-### Threading
 
-By default, each `useChat` conversation maps to one Chat SDK thread:
+## Streaming
 
-```
-web:{user.id}:{conversationId}
-```
-
-`conversationId` is the `id` field useChat sends in its request body. If your client supplies one (`useChat({ id: "support-chat" })`), it's reused across reloads; otherwise a fresh id is generated per request.
-
-Override with `threadIdFor` if you want a single thread per user:
-
-```typescript
-createWebAdapter({
-  userName: "mybot",
-  getUser,
-  threadIdFor: ({ user }) => `web:${user.id}:default`,
-});
-```
-
-The encode/decode helpers are available on the adapter:
-
-```typescript
-adapter.encodeThreadId({ userId: "u1", conversationId: "abc" });
-// → "web:u1:abc"
-adapter.decodeThreadId("web:u1:abc");
-// → { userId: "u1", conversationId: "abc" }
-```
-
-### Streaming
-
-`thread.post` accepts an `AsyncIterable<string | StreamChunk>` and pumps deltas straight onto the SSE response — no edit loop, no rate limiting. Plays nicely with `streamText` from the AI SDK:
+`thread.post` accepts an `AsyncIterable<string | StreamChunk>` and writes deltas directly to the SSE response, without the post-and-edit loop or rate limiting other adapters need. You can pass `streamText` output from the AI SDK:
 
 ```typescript
 import { streamText } from "ai";
@@ -198,17 +167,13 @@ bot.onDirectMessage(async (thread, message) => {
 
 The adapter honors `request.signal`, so calling `stop()` from `useChat` short-circuits the iterator on the server.
 
-### Message persistence
+## Framework integrations
 
-`persistMessageHistory` defaults to `true`. Web has no platform-side history API, so the only way for handlers to see prior turns via `thread.messages` is through the configured state adapter's cache.
+The Web adapter speaks the AI SDK UI message stream protocol, so React, Vue, and Svelte AI SDK clients work against the same server endpoint. The framework subpaths expose `useChat` helpers preconfigured for that endpoint. The `api` and `threadId` options are the same in all three, and the server-side setup doesn't change.
 
-The request body's `messages[]` array is not an alternative history source. A browser controls it entirely, so the adapter consumes only the latest user message and strips tool parts from it: a client cannot inject forged tool-call or approval state, and it cannot rewrite earlier turns. Text, file, and custom `data-*` parts pass through to `message.raw` unchanged. Setting `persistMessageHistory: false` therefore leaves handlers with only the current message.
+### React
 
-### Framework integrations
-
-The Web adapter speaks the AI SDK UI message stream protocol, so React, Vue, and Svelte AI SDK clients work against the same server endpoint. The framework subpaths below expose `useChat` helpers preconfigured for that endpoint.
-
-**React** — `@chat-adapter/web/react` ships a thin convenience wrapper preconfigured with `DefaultChatTransport`. It accepts a few extra options on top of the standard `@ai-sdk/react` API:
+`@chat-adapter/web/react` is a thin wrapper around `@ai-sdk/react`'s `useChat`, preconfigured with `DefaultChatTransport`. It returns destructurable helpers and accepts a few extra options on top of the standard API:
 
 ```tsx
 import { useChat } from "@chat-adapter/web/react";
@@ -219,17 +184,19 @@ const { messages, sendMessage, status, stop, regenerate } = useChat({
 });
 ```
 
-| Option                  | Description                                                                     |
-| ----------------------- | ------------------------------------------------------------------------------- |
-| `api`                   | API endpoint for the Web adapter route. Defaults to `/api/chat`.                |
-| `threadId`              | Chat SDK thread id — surfaces in the request body's `id`. Strongly recommended. |
-| `experimental_throttle` | Throttle wait in ms for chat messages and data updates.                         |
-| `resume`                | Whether to resume an ongoing chat generation stream.                            |
-| ...rest                 | All other options pass through to `@ai-sdk/react`'s `useChat`.                  |
+| Option                  | Description                                                       |
+| ----------------------- | ----------------------------------------------------------------- |
+| `api`                   | API endpoint for the Web adapter route. Defaults to `/api/chat`.  |
+| `threadId`              | Chat SDK thread ID, sent as the request body's `id`. Recommended. |
+| `experimental_throttle` | Throttle wait in ms for chat messages and data updates.           |
+| `resume`                | Whether to resume an ongoing chat generation stream.              |
+| ...rest                 | All other options pass through to `@ai-sdk/react`'s `useChat`.    |
 
-For advanced configuration, use `@ai-sdk/react`'s `useChat` directly — there's nothing magical in the wrapper.
+For anything the wrapper doesn't cover, use `@ai-sdk/react`'s `useChat` directly.
 
-**Vue / Nuxt** — `@chat-adapter/web/vue` exports a `useChat` factory that returns a `Chat` instance (from `@ai-sdk/vue`) whose `messages`, `status`, and `error` properties are Vue-reactive. Access them directly in your template — do not destructure, as that breaks Vue's reactivity tracking:
+### Vue / Nuxt
+
+`@chat-adapter/web/vue` exports a `useChat` factory that returns a `Chat` instance from `@ai-sdk/vue`. Its `messages`, `status`, and `error` properties are Vue-reactive. Access them directly in your template; destructuring breaks Vue's reactivity tracking.
 
 ```vue
 <script setup lang="ts">
@@ -247,7 +214,9 @@ const chat = useChat({ api: "/api/chat", threadId: "support-1" });
 </template>
 ```
 
-**Svelte / SvelteKit** — `@chat-adapter/web/svelte` exports the same factory, returning a `Chat` instance (from `@ai-sdk/svelte`) with Svelte 5 `$state`-backed reactive properties:
+### Svelte / SvelteKit
+
+`@chat-adapter/web/svelte` exports the same factory, returning a `Chat` instance from `@ai-sdk/svelte` with Svelte 5 `$state`-backed reactive properties. As with Vue, the reactive state lives on the object itself.
 
 ```svelte
 <script lang="ts">
@@ -263,7 +232,40 @@ const chat = useChat({ api: "/api/chat", threadId: "support-1" });
 {/each}
 ```
 
-Unlike the React wrapper which wraps `@ai-sdk/react`'s `useChat` hook and returns destructurable helpers, the Vue and Svelte wrappers return a `Chat` class instance — the reactive state lives on the object itself. The `api` and `threadId` options are identical across all three, and the server-side setup never changes.
+## Message persistence
+
+`persistMessageHistory` defaults to `true`. Web has no platform-side history API, so handlers can see prior turns through `thread.messages` only if the configured state adapter has cached them.
+
+The request body's `messages[]` array is not an alternative history source. A browser controls it entirely, so the adapter consumes only the latest user message and strips tool parts from it. A client therefore cannot inject forged tool-call or approval state or rewrite earlier turns. Text, file, and custom `data-*` parts pass through to `message.raw` unchanged. Setting `persistMessageHistory: false` leaves handlers with only the current message.
+
+## Thread IDs
+
+By default, each `useChat` conversation maps to one Chat SDK thread:
+
+```
+web:{user.id}:{conversationId}
+```
+
+`conversationId` is the `id` field `useChat` sends in its request body. If your client supplies one (`useChat({ id: "support-chat" })`), it's reused across reloads; otherwise the adapter generates a fresh ID per request.
+
+Override `threadIdFor` to use a single thread per user:
+
+```typescript
+createWebAdapter({
+  userName: "mybot",
+  getUser,
+  threadIdFor: ({ user }) => `web:${user.id}:default`,
+});
+```
+
+The adapter exposes encode and decode helpers:
+
+```typescript
+adapter.encodeThreadId({ userId: "u1", conversationId: "abc" });
+// → "web:u1:abc"
+adapter.decodeThreadId("web:u1:abc");
+// → { userId: "u1", conversationId: "abc" }
+```
 
 ## Feature support
 

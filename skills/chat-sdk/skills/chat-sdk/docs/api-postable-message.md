@@ -22,7 +22,7 @@ type PostableMessage =
   | PostableObject;
 ```
 
-`PostableObject` covers `Plan` (mutable task lists) and `StreamingPlan` (streams with platform-specific options) — both documented below.
+`PostableObject` covers `Plan` (mutable task lists) and `StreamingPlan` (streams with platform-specific options). Both are documented below.
 
 ## String
 
@@ -34,7 +34,7 @@ await thread.post("Hello world");
 
 ## PostableRaw
 
-Explicit raw text — behaves the same as a plain string.
+Explicit raw text. Behaves the same as a plain string.
 
 ```typescript
 await thread.post({ raw: "Hello world" });
@@ -119,20 +119,23 @@ await thread.post(planned);
 
 An async iterable of strings, `StreamChunk` objects, or stream events. The SDK streams the message in real time using platform-native APIs where available.
 
-You can yield structured `StreamChunk` objects for rich content like task progress cards on platforms that support it (Slack). See [Streaming](/docs/streaming#structured-streaming-chunks-slack-only) for details.
+You can yield structured `StreamChunk` objects for rich content like task progress cards on platforms that support it (Slack). See [Streaming](/docs/streaming#structured-streaming-chunks) for details.
 
-Both AI SDK stream types are supported:
+Both AI SDK stream types and TanStack AI streams are supported:
 
 ```typescript
-// fullStream (recommended) — preserves step boundaries in multi-step agents
+// fullStream (recommended): preserves step boundaries in multi-step agents
 const result = await agent.stream({ prompt: message.text });
 await thread.post(result.fullStream);
 
-// textStream — plain string chunks
+// textStream: plain string chunks
 await thread.post(result.textStream);
+
+// TanStack AI: the stream returned by chat()
+await thread.post(chat({ adapter, messages }));
 ```
 
-When using `fullStream`, the SDK auto-detects `text-delta` and `finish-step` events, extracting text and inserting paragraph breaks between agent steps.
+When using `fullStream`, the SDK auto-detects `text-delta` and `finish-step` events, extracting text and inserting paragraph breaks between agent steps. AG-UI `TEXT_MESSAGE_CONTENT` and `TEXT_MESSAGE_END` events from TanStack AI are handled the same way: deltas become text and each message end becomes a paragraph break between tool-loop turns.
 
 ## FileUpload
 

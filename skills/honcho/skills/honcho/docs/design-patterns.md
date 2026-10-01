@@ -18,18 +18,18 @@
 
 **Workspaces isolate, peers persist, and sessions bound the active context.**
 
-| Decision                               | Recommendation                                                                                                                                                                                                                                                                    |
-| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| How many workspaces?                   | One workspace per application, tool, tenant, or collaboration boundary. Split workspaces only when you need hard isolation between products, customers, environments, or agents.                                                                                                  |
-| When should agents share a workspace?  | When agents collaborate over the same product, project, team, user, customer, or game state. Separate them when they should not see or influence each other's memory.                                                                                                             |
-| Who should be a peer?                  | Any persistent participant whose messages should be attributed or reasoned about: users, agents, assistants, NPCs, students, or customers. Use one peer for the same entity across sessions and platforms.                                                                        |
-| How should I divide sessions?          | Match each session to the active interaction: per-conversation, per-channel, per-task run, per-project, per-import, or other bounded context. Reuse a session when local context should keep accumulating.                                                                        |
-| How does cross-session reasoning work? | Session memory stays local to one session. Peer representations accumulate across every session where the peer is included, and `session.context()` becomes cross-session when you include a peer target.                                                                         |
-| Should I set `observe_me: false`?      | Yes, for deterministic peers Honcho does not need to model, like bots or tool agents. Still save their messages so other peers have session context. Keep it enabled for users and evolving agents.                                                                               |
-| Do I need `observe_others`?            | Only when a peer needs its own perspective on another participant, such as in games, multi-agent systems, or parent/subagent workflows.                                                                                                                                           |
-| When do I need a scope?                | When one peer's history spans contexts that must not leak into each other's recall — but you still want one workspace and one unified peer. Group the confidential sessions into a [scope](/docs/v3/documentation/features/advanced/scopes) and pass it at query time.                 |
-| Peer chat or workspace chat?           | `peer.chat()` for one peer's perspective (personalization, what one agent knows about another). [`honcho.chat()`](/docs/v3/documentation/features/chat#workspace-chat) when the question spans peers: team digests, cross-agent themes, or you don't know which peer holds the answer. |
-| Perspectives or scopes?                | `observe_others` gives a *participant* its own view of another peer. A scope bounds recall to *where things were said*, for a reader that isn't a participant. If the reader is in the session, use perspectives; if you're fencing off a set of sessions, use a scope.           |
+| Decision | Recommendation |
+| - | - |
+| How many workspaces? | One workspace per application, tool, tenant, or collaboration boundary. Split workspaces only when you need hard isolation between products, customers, environments, or agents. |
+| When should agents share a workspace? | When agents collaborate over the same product, project, team, user, customer, or game state. Separate them when they should not see or influence each other's memory. |
+| Who should be a peer? | Any persistent participant whose messages should be attributed or reasoned about: users, agents, assistants, NPCs, students, or customers. Use one peer for the same entity across sessions and platforms. |
+| How should I divide sessions? | Match each session to the active interaction: per-conversation, per-channel, per-task run, per-project, per-import, or other bounded context. Reuse a session when local context should keep accumulating. |
+| How does cross-session reasoning work? | Session memory stays local to one session. Peer representations accumulate across every session where the peer is included, and `session.context()` becomes cross-session when you include a peer target. |
+| Should I set `observe_me: false`? | Yes, for deterministic peers Honcho does not need to model, like bots or tool agents. Still save their messages so other peers have session context. Keep it enabled for users and evolving agents. |
+| Do I need `observe_others`? | Only when a peer needs its own perspective on another participant, such as in games, multi-agent systems, or parent/subagent workflows. |
+| When do I need a scope? | When one peer's history spans contexts that must not leak into each other's recall — but you still want one workspace and one unified peer. Group the confidential sessions into a [scope](/docs/v3/documentation/features/advanced/scopes) and pass it at query time. |
+| Peer chat or workspace chat? | `peer.chat()` for one peer's perspective (personalization, what one agent knows about another). [`honcho.chat()`](/docs/v3/documentation/features/chat#workspace-chat) when the question spans peers: team digests, cross-agent themes, or you don't know which peer holds the answer. |
+| Perspectives or scopes? | `observe_others` gives a *participant* its own view of another peer. A scope bounds recall to *where things were said*, for a reader that isn't a participant. If the reader is in the session, use perspectives; if you're fencing off a set of sessions, use a scope. |
 
 ## Workspace Design
 
@@ -61,13 +61,13 @@ Sessions define the temporal boundaries of an interaction. Where you draw those 
 
 **Common session patterns**
 
-| Pattern          | Session covers               | Example                                                        |
-| ---------------- | ---------------------------- | -------------------------------------------------------------- |
-| Per-conversation | Each new chat thread         | ChatGPT or Claude Code style UI where each thread is a session |
-| Per-channel      | A persistent channel or room | Discord channel, Slack thread                                  |
-| Per-interaction  | A bounded task or encounter  | A support ticket, a game encounter                             |
-| Per-project      | A persistent work area       | Coding agent memory for one repository                         |
-| Per-import       | A batch of external data     | Importing emails or documents for a single peer                |
+| Pattern | Session covers | Example |
+| - | - | - |
+| Per-conversation | Each new chat thread | ChatGPT or Claude Code style UI where each thread is a session |
+| Per-channel | A persistent channel or room | Discord channel, Slack thread |
+| Per-interaction | A bounded task or encounter | A support ticket, a game encounter |
+| Per-project | A persistent work area | Coding agent memory for one repository |
+| Per-import | A batch of external data | Importing emails or documents for a single peer |
 
 Create a **new** session when context resets (new conversation, new day, new topic); **reuse** one when context should keep accumulating (ongoing channel, persistent thread).
 
@@ -84,11 +84,11 @@ So you can start a session fresh or pull in a peer's long-term memory. [`session
 
 Honcho gives you three boundaries at different strengths. Pick the weakest one that solves your problem:
 
-| Boundary                                                | Strength                                                                        | Use when                                                                                       |
-| ------------------------------------------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Workspace**                                           | Hard isolation — nothing crosses, including the peer itself                     | Different products, tenants, or environments                                                   |
+| Boundary | Strength | Use when |
+| - | - | - |
+| **Workspace** | Hard isolation — nothing crosses, including the peer itself | Different products, tenants, or environments |
 | **[Scope](/docs/v3/documentation/features/advanced/scopes)** | Recall boundary — one peer, but queries through the scope see only its sessions | One peer's contexts must not leak into each other (clinical vs. billing, per-reseller support) |
-| **Session allowlist** (`sessions=[...]`)                | Ad-hoc recall restriction, decided per request                                  | The session set varies per query, or you need a quick boundary without provisioning anything   |
+| **Session allowlist** (`sessions=[...]`) | Ad-hoc recall restriction, decided per request | The session set varies per query, or you need a quick boundary without provisioning anything |
 
 Two things scopes are **not**:
 

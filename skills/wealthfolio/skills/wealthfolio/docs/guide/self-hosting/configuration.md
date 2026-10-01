@@ -2,31 +2,28 @@
 
 
 
-<img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
-
-
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -93,7 +90,7 @@ Every WF\_\* environment variable Wealthfolio understands, plus how to escape Ar
 
 ------------------------------------------------------------------------
 
-Last updated September 13, 2026
+Last updated October 1, 2026
 
 
 All Wealthfolio configuration is done through environment variables prefixed with `WF_`. This page is the source of truth. The platform-specific guides link back here for the details.
@@ -107,7 +104,9 @@ All Wealthfolio configuration is done through environment variables prefixed wit
 | `WF_AUTH_PASSWORD_HASH`     | ✅ for web access | —                                                                                             |
 | `WF_CORS_ALLOW_ORIGINS`     | ✅ when auth on   | `*` (rejected with auth on)                                                                   |
 | `WF_LISTEN_ADDR`            | recommended       | `0.0.0.0:8088`                                                                                |
-| `WF_DB_PATH`                | recommended       | `./db/app.db`                                                                                 |
+| `WF_DATA_DIR`               | optional          | Unset (uses `WF_DB_PATH` parent)                                                              |
+| `WF_DB_PATH`                | optional          | `./db/app.db`                                                                                 |
+| `WF_DB_REQUIRE_ENCRYPTION`  | optional          | `false`                                                                                       |
 | `WF_AUTH_REQUIRED`          | optional          | `true`                                                                                        |
 | `WF_AUTH_TOKEN_TTL_MINUTES` | optional          | `60`                                                                                          |
 | `WF_COOKIE_SECURE`          | optional          | `auto`                                                                                        |
@@ -152,7 +151,7 @@ openssl rand -base64 32
 
 **Default:** `<data-root>/secrets.json`
 
-Path to the encrypted secrets file. By default it sits next to your database. Override only if you have a reason (e.g. mounting secrets on a separate volume).
+Path to the encrypted secrets file. By default it sits in the installation directory. An explicit `WF_SECRET_FILE` is independent of `WF_DATA_DIR`; keep the override when changing storage settings.
 
 ## Authentication
 
@@ -320,17 +319,32 @@ Bind address. The default works for Docker out of the box. For local non-Docker 
 Listening on a non-loopback address (anything other than `127.0.0.1`) without setting `WF_AUTH_PASSWORD_HASH` causes the server to refuse to start. Set `WF_AUTH_REQUIRED=false` to opt out (only safe if a reverse proxy authenticates for you).
 
 
+### `WF_DATA_DIR`
+
+**Optional.** Directory holding `profiles.json`, profile databases under `profiles/<uuid>/app.db`, and the default encrypted `secrets.json` file. Relative paths use the server’s working directory; `~` is not expanded.
+
+Existing installations do not need this setting. `WF_DB_PATH` continues to select the installation directory through its parent. If you set both, `WF_DATA_DIR` must be the same directory as the parent of `WF_DB_PATH`, or startup fails before writing data. Existing profile registry entries keep their saved database paths; setting `WF_DATA_DIR` does not move files.
+
+For a fresh installation using only `WF_DATA_DIR`, the legacy database candidate is `<WF_DATA_DIR>/app.db`. Docker images supply `WF_DB_PATH=/data/wealthfolio.db` by default, so explicitly set `WF_DB_PATH=` to clear it when using the directory-only form. Keep the old database path when upgrading an existing installation.
+
 ### `WF_DB_PATH`
 
 **Default:** `./db/app.db`
 
-Path to the SQLite database. Either a file path or a directory (in which case `app.db` is created inside).
+Legacy SQLite file path. Its parent selects the installation directory when `WF_DATA_DIR` is unset. New profiles have separate databases under that directory. Keep this path when upgrading an existing installation.
 
 ``` mb-4
-/data/wealthfolio.db   # Recommended for Docker (with /data volume mount)
-/data                  # Same: app.db gets created inside
+/data/wealthfolio.db   # Docker image default (with /data volume mount)
 ./database/app.db      # Local relative path
 ```
+
+### `WF_DB_REQUIRE_ENCRYPTION`
+
+**Default:** `false`. Requires encrypted profile databases at server startup. For a fresh installation, set it before starting to create encrypted databases. Changing this setting does **not** encrypt an existing database. Stop the server, run `wealthfolio-server db encrypt` for the default profile and `wealthfolio-server db encrypt --profile <UUID>` for each additional profile, then enable the setting and restart. The offline commands need the same master key, storage settings, and data mounts as the server. Keep the master key: it is needed to open encrypted databases and saved encrypted snapshots. See <a href="/docs/guide/data-export/#database-encryption-and-backup-passwords" class="font-medium underline underline-offset-4">Export &amp; Backup</a> for how this differs from a portable backup password.
+
+
+**Existing databases must be encrypted before enabling `WF_DB_REQUIRE_ENCRYPTION`.** The variable enforces the database state; it does not convert a plaintext database. If startup reports a mismatch, the database is not damaged. Either unset the variable to remain plaintext, or stop the service, back up the full data directory, run `wealthfolio-server db encrypt` with the same volume, service user, and master key, then restart with the flag set. Releases before 3.9 ignored the variable, so upgraded databases can be plaintext even when it was already configured.
+
 
 ### `WF_STATIC_DIR`
 
@@ -366,9 +380,9 @@ Wildcard CORS combined with cookie-based auth is a CSRF vector. That’s why the
 
 ### `WF_ADDONS_DIR`
 
-**Default:** parent directory of `WF_DB_PATH`
+**Default:** installation directory (`WF_DATA_DIR` or parent of `WF_DB_PATH`)
 
-Path where Wealthfolio reads installable add-ons from. Defaults to the same directory as your database, so a single `/data` mount holds everything.
+Path where Wealthfolio reads installable add-ons from. Defaults to the installation directory, so a single `/data` mount holds everything.
 
 ## Logging
 
@@ -384,6 +398,7 @@ Log output format: `text` (human-readable, colored) or `json` (structured, ship 
 # Server (default 0.0.0.0:8088 already works inside Docker; included for clarity)
 WF_LISTEN_ADDR=0.0.0.0:8088
 WF_DB_PATH=/data/wealthfolio.db
+# Optional with the path above: WF_DATA_DIR=/data
 
 # Security (required, back up the secret key!)
 WF_SECRET_KEY=replace-with-output-of-openssl-rand-base64-32
@@ -442,7 +457,9 @@ On This Page
   - <a href="#wf_oidc_rp_logout" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_OIDC_RP_LOGOUT</a>
 - <a href="#server" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Server</a>
   - <a href="#wf_listen_addr" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_LISTEN_ADDR</a>
+  - <a href="#wf_data_dir" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_DATA_DIR</a>
   - <a href="#wf_db_path" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_DB_PATH</a>
+  - <a href="#wf_db_require_encryption" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_DB_REQUIRE_ENCRYPTION</a>
   - <a href="#wf_static_dir" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_STATIC_DIR</a>
   - <a href="#wf_request_timeout_ms" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_REQUEST_TIMEOUT_MS</a>
 - <a href="#network" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Network</a>

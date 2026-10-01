@@ -145,15 +145,15 @@ The plugin ships seven actions.
 
 ## Firecrawl Actions
 
-| Tool               | Description                           | Best For                          |
-| ------------------ | ------------------------------------- | --------------------------------- |
-| **Search**         | Web search with optional page content | Grounding answers in live sources |
-| **Scrape**         | Single-page data extraction           | Quick content capture             |
-| **Crawl**          | Multi-page recursive crawling         | Full site extraction              |
-| **Map**            | URL discovery and site mapping        | SEO analysis, URL lists           |
-| **Crawl Job**      | Async job management                  | Long-running operations           |
-| **Create Monitor** | Scheduled re-checks of a target       | Keeping ingested data fresh       |
-| **Monitor Checks** | Monitor details and check results     | Acting only on changed pages      |
+| Tool | Description | Best For |
+| - | - | - |
+| **Search** | Web search with optional page content | Grounding answers in live sources |
+| **Scrape** | Single-page data extraction | Quick content capture |
+| **Crawl** | Multi-page recursive crawling | Full site extraction |
+| **Map** | URL discovery and site mapping | SEO analysis, URL lists |
+| **Crawl Job** | Async job management | Long-running operations |
+| **Create Monitor** | Scheduled re-checks of a target | Keeping ingested data fresh |
+| **Monitor Checks** | Monitor details and check results | Acting only on changed pages |
 
 ## Best Practices
 
@@ -172,13 +172,13 @@ The plugin ships seven actions.
 
 ## Dify vs Other Platforms
 
-| Feature         | Dify                 | Make                | Zapier              | n8n                 |
-| --------------- | -------------------- | ------------------- | ------------------- | ------------------- |
-| **Type**        | LLM app platform     | Workflow automation | Workflow automation | Workflow automation |
-| **Best For**    | AI agents & chatbots | Visual workflows    | Quick automation    | Developer control   |
-| **Pricing**     | Open-source + Cloud  | Operations-based    | Per-task            | Execution-based     |
-| **AI-Native**   | Yes                  | Partial             | Partial             | Partial             |
-| **Self-Hosted** | Yes                  | No                  | No                  | Yes                 |
+| Feature | Dify | Make | Zapier | n8n |
+| - | - | - | - | - |
+| **Type** | LLM app platform | Workflow automation | Workflow automation | Workflow automation |
+| **Best For** | AI agents & chatbots | Visual workflows | Quick automation | Developer control |
+| **Pricing** | Open-source + Cloud | Operations-based | Per-task | Execution-based |
+| **AI-Native** | Yes | Partial | Partial | Partial |
+| **Self-Hosted** | Yes | No | No | Yes |
 
 
   **Pro Tip:** Dify excels at building AI-native applications where agents need dynamic web access. Perfect for chatbots, research assistants, and AI tools that need live data.

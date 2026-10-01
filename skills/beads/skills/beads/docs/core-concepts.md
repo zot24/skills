@@ -39,12 +39,12 @@ name the same thing; the CLI says issue, the product says bead.
 **Dependencies** connect beads into a graph. Two edge types shape what
 agents may work on:
 
-| Type              | Meaning                                        | Affects ready work                                    |
-| ----------------- | ---------------------------------------------- | ----------------------------------------------------- |
-| `blocks`          | hard ordering — the blocker must close first   | **yes**                                               |
-| `parent-child`    | epic/subtask structure                         | **indirectly** — a blocked parent blocks its children |
-| `discovered-from` | provenance — found while working on the parent | no                                                    |
-| `related`         | soft association                               | no                                                    |
+| Type | Meaning | Affects ready work |
+| - | - | - |
+| `blocks` | hard ordering — the blocker must close first | **yes** |
+| `parent-child` | epic/subtask structure | **indirectly** — a blocked parent blocks its children |
+| `discovered-from` | provenance — found while working on the parent | no |
+| `related` | soft association | no |
 
 Workflow steps add two more blocking types (`conditional-blocks`,
 `waits-for`) — see [Molecules](/workflows/molecules). Richer knowledge-graph
@@ -146,10 +146,10 @@ is not the database, not the sync protocol, and not a backup. The full model
 
 ## Storage modes
 
-| Mode                   | Command            | Data lives at          | Writers           |
-| ---------------------- | ------------------ | ---------------------- | ----------------- |
-| **Embedded** (default) | `bd init`          | `.beads/embeddeddolt/` | one (file-locked) |
-| **Server**             | `bd init --server` | `.beads/dolt/`         | many concurrent   |
+| Mode | Command | Data lives at | Writers |
+| - | - | - | - |
+| **Embedded** (default) | `bd init` | `.beads/embeddeddolt/` | one (file-locked) |
+| **Server** | `bd init --server` | `.beads/dolt/` | many concurrent |
 
 Embedded runs Dolt in-process and is right for almost everyone; server mode
 connects to an external `dolt sql-server` for multi-writer setups — see the

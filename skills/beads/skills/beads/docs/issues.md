@@ -34,23 +34,23 @@ bd show bd-42 --json
 
 ## Issue Types
 
-| Type      | Use Case                             |
-| --------- | ------------------------------------ |
-| `bug`     | Something broken that needs fixing   |
-| `feature` | New functionality                    |
-| `task`    | Work item (tests, docs, refactoring) |
-| `epic`    | Large feature with subtasks          |
-| `chore`   | Maintenance (dependencies, tooling)  |
+| Type | Use Case |
+| - | - |
+| `bug` | Something broken that needs fixing |
+| `feature` | New functionality |
+| `task` | Work item (tests, docs, refactoring) |
+| `epic` | Large feature with subtasks |
+| `chore` | Maintenance (dependencies, tooling) |
 
 ## Priorities
 
-| Priority | Level    | Examples                           |
-| -------- | -------- | ---------------------------------- |
-| 0        | Critical | Security, data loss, broken builds |
-| 1        | High     | Major features, important bugs     |
-| 2        | Medium   | Nice-to-have features, minor bugs  |
-| 3        | Low      | Polish, optimization               |
-| 4        | Backlog  | Future ideas                       |
+| Priority | Level | Examples |
+| - | - | - |
+| 0 | Critical | Security, data loss, broken builds |
+| 1 | High | Major features, important bugs |
+| 2 | Medium | Nice-to-have features, minor bugs |
+| 3 | Low | Polish, optimization |
+| 4 | Backlog | Future ideas |
 
 ## Creating Issues
 
@@ -108,12 +108,12 @@ bd dep relate bd-1 bd-2
 
 ### Dependency Types
 
-| Type              | Description                | Ready Queue Impact            |
-| ----------------- | -------------------------- | ----------------------------- |
-| `blocks`          | Hard dependency            | Yes - blocked items not ready |
-| `parent-child`    | Epic/subtask hierarchy     | No                            |
-| `discovered-from` | Tracks origin of discovery | No                            |
-| `related`         | Soft relationship          | No                            |
+| Type | Description | Ready Queue Impact |
+| - | - | - |
+| `blocks` | Hard dependency | Yes - blocked items not ready |
+| `parent-child` | Epic/subtask hierarchy | No |
+| `discovered-from` | Tracks origin of discovery | No |
+| `related` | Soft relationship | No |
 
 ## Hierarchical Issues
 

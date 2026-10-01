@@ -18,11 +18,11 @@
 
 The skill provides three tools that any Zo workflow can call:
 
-| Tool           | Description                                                                 |
-| -------------- | --------------------------------------------------------------------------- |
-| `save_memory`  | Save user or assistant messages to a Honcho session                         |
-| `query_memory` | Ask natural language questions about what Honcho remembers                  |
-| `get_context`  | Retrieve conversation history formatted for LLM use (OpenAI message format) |
+| Tool | Description |
+| - | - |
+| `save_memory` | Save user or assistant messages to a Honcho session |
+| `query_memory` | Ask natural language questions about what Honcho remembers |
+| `get_context` | Retrieve conversation history formatted for LLM use (OpenAI message format) |
 
 ## Setup
 
@@ -103,12 +103,12 @@ messages = get_context(
 
 ## Concept Mapping
 
-| Zo Computer  | Honcho    |
-| ------------ | --------- |
-| Account      | Workspace |
-| User         | Peer      |
-| Conversation | Session   |
-| Message      | Message   |
+| Zo Computer | Honcho |
+| - | - |
+| Account | Workspace |
+| User | Peer |
+| Conversation | Session |
+| Message | Message |
 
 ## Publishing to the Zo Marketplace
 

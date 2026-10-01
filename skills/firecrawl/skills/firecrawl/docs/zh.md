@@ -4,7 +4,7 @@
 
 ## Chinese
 
-- [Chinese / v2 (203 pages)](https://docs.firecrawl.dev/_llms/zh/v2.md): Documentation for Chinese / v2.
+- [Chinese / v2 (204 pages)](https://docs.firecrawl.dev/_llms/zh/v2.md): Documentation for Chinese / v2.
 
 ### v1
 
@@ -12,7 +12,7 @@
 
 ##### 快速开始
 
-- [介绍](https://docs.firecrawl.dev/zh/introduction.md): 通过一个 API 即可进行网页搜索、抓取任意页面并与之交互。
+- [介绍](https://docs.firecrawl.dev/zh/introduction.md): 面向 AI 代理的网页数据 API。通过一个 API 即可进行网页搜索、抓取任意页面并与之交互。
 - [开始使用](https://docs.firecrawl.dev/zh/mcp-server.md): 通过免密钥访问、账户登录或 API 密钥设置 Firecrawl MCP。
 - [高级抓取指南](https://docs.firecrawl.dev/zh/advanced-scraping-guide.md): 通过 Firecrawl 的完整 API 接口配置抓取选项、浏览器 actions、爬取、映射以及 代理 端点。
 
@@ -45,10 +45,6 @@
 - [变更追踪](https://docs.firecrawl.dev/zh/features/change-tracking.md): 在多次抓取之间检测和监控网页内容变更
 - [增强模式](https://docs.firecrawl.dev/zh/features/enhanced-mode.md): 针对复杂网站使用增强代理，实现可靠抓取
 - [代理](https://docs.firecrawl.dev/zh/features/proxies.md): 了解代理类型、位置，以及 Firecrawl 如何为你的请求选择代理。
-
-##### 智能体功能
-
-- [FIRE-1 代理（测试版）](https://docs.firecrawl.dev/zh/agents/fire-1.md): 支持在网页上进行智能导航与交互的 AI 代理
 
 ##### Webhook 回调
 

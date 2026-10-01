@@ -11,7 +11,7 @@ prerequisites:
 # Error Handling
 
 
-The SDK provides typed error classes for common failure scenarios. All errors are importable from the `chat` package.
+Chat SDK throws typed errors for common failures such as rate limits, unsupported features, and lock conflicts. Import the core error classes from the `chat` package.
 
 ```typescript
 import { ChatError, RateLimitError, NotImplementedError, LockError } from "chat";
@@ -21,7 +21,7 @@ import { ChatError, RateLimitError, NotImplementedError, LockError } from "chat"
 
 ### ChatError
 
-Base error class for all SDK errors. Every error below extends `ChatError`. The `code` property carries a machine-readable identifier you can branch on:
+The base class for SDK errors. `RateLimitError`, `NotImplementedError`, and `LockError` all extend `ChatError`. Branch on the machine-readable `code` property:
 
 | Code                     | Thrown by                      | Meaning                                                                                |
 | ------------------------ | ------------------------------ | -------------------------------------------------------------------------------------- |
@@ -55,7 +55,7 @@ try {
 
 ### NotImplementedError
 
-Thrown when you call a feature that a platform doesn't support. For example, calling `addReaction()` on Teams or `schedule()` on adapters without native scheduling support.
+Thrown when you call a feature that a platform doesn't support, such as `addReaction()` on Teams or `schedule()` on an adapter without native scheduling.
 
 ```typescript title="lib/bot.ts" lineNumbers
 import { NotImplementedError } from "chat";
@@ -74,7 +74,7 @@ See the [feature matrix](/docs/platform-adapters) for which features are support
 
 ### LockError
 
-Thrown when the SDK fails to acquire a distributed lock on a thread (used to prevent concurrent processing of messages in the same thread). You can control this behavior with the [`onLockConflict`](/docs/usage#configuration-options) option — set it to `'force'` to release the existing lock instead of throwing.
+Thrown when the SDK can't acquire the distributed lock it uses to stop two messages in the same thread from being processed at once. This happens under the default `drop` [concurrency strategy](/docs/concurrency). To queue, debounce, or run messages in parallel instead, set the `concurrency` option. To release the held lock instead of throwing, set the deprecated [`onLockConflict`](/docs/usage#configuration-options) option to `'force'`.
 
 
 ## Adapter errors
@@ -114,6 +114,29 @@ bot.onNewMention(async (thread, message) => {
   }
 });
 ```
+
+## Propagating webhook handler errors
+
+Message, action, and slash command handler errors are logged but, by default, tasks passed to `waitUntil` fulfill. Hosts that collect and await those tasks can opt in to observing failures and choose an error response:
+
+```typescript
+const tasks: Promise<unknown>[] = [];
+const response = await chat.webhooks.slack(request, {
+  waitUntil: (task) => tasks.push(task),
+  propagateHandlerErrors: true,
+});
+const results = await Promise.allSettled(tasks);
+
+return results.some((result) => result.status === "rejected")
+  ? new Response("Handler failed", { status: 500 })
+  : response;
+```
+
+This option only exposes handler failures through the supplied promise. It does not automatically change a webhook response, including when using Vercel's native `waitUntil`.
+
+Keep handlers short when awaiting them before responding. [Slack requires acknowledgement within three seconds](https://docs.slack.dev/apis/events-api/#responding-to-events), so move long-running work outside the webhook response path.
+
+Error propagation does not guarantee retries or durable delivery. SDK deduplication can skip redelivered events after a handler fails, so returning `500` alone does not ensure the handler runs again.
 
 
 ---

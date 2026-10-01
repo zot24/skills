@@ -148,13 +148,13 @@
 
 ## Firecrawl Actions
 
-| Action             | Use Case                                  |
-| ------------------ | ----------------------------------------- |
-| **/Scrape Page**   | Quick single-page data capture            |
-| **/Crawl Website** | Full site scraping with multiple pages    |
-| **/Extract Data**  | AI-powered extraction with custom schemas |
-| **/Search Data**   | Research automation with search + scrape  |
-| **/Map Data**      | SEO analysis and site structure mapping   |
+| Action | Use Case |
+| - | - |
+| **/Scrape Page** | Quick single-page data capture |
+| **/Crawl Website** | Full site scraping with multiple pages |
+| **/Extract Data** | AI-powered extraction with custom schemas |
+| **/Search Data** | Research automation with search + scrape |
+| **/Map Data** | SEO analysis and site structure mapping |
 
 ## Quick Reference
 
@@ -203,12 +203,12 @@
 
 ## Zapier vs n8n
 
-| Feature          | Zapier                                | n8n                      |
-| ---------------- | ------------------------------------- | ------------------------ |
-| **Setup**        | No-code, cloud-based                  | Self-hosted or cloud     |
-| **Pricing**      | Per-task pricing                      | Execution-based          |
-| **Integrations** | 9,000+ apps                           | 1,000+ apps and services |
-| **Best For**     | Quick automation, non-technical users | Custom logic, developers |
+| Feature | Zapier | n8n |
+| - | - | - |
+| **Setup** | No-code, cloud-based | Self-hosted or cloud |
+| **Pricing** | Per-task pricing | Execution-based |
+| **Integrations** | 9,000+ apps | 1,000+ apps and services |
+| **Best For** | Quick automation, non-technical users | Custom logic, developers |
 
 
   **Pro Tip:** Start with Zapier's pre-built templates and customize as needed. Perfect for quick, no-code automation!

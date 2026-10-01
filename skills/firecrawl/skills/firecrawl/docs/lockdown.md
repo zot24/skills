@@ -107,10 +107,10 @@ To seed the cache, perform a normal (non-lockdown) scrape of the URL first. Subs
 
 ## Billing
 
-| Outcome                                   | Credits   |
-| ----------------------------------------- | --------- |
-| Cache hit                                 | 5 credits |
-| Cache miss (`SCRAPE_LOCKDOWN_CACHE_MISS`) | 1 credit  |
+| Outcome | Credits |
+| - | - |
+| Cache hit | 5 credits |
+| Cache miss (`SCRAPE_LOCKDOWN_CACHE_MISS`) | 1 credit |
 
 Zero Data Retention does not incur an additional charge on lockdown requests — the ZDR cost is waived because lockdown mode is already ZDR by default.
 

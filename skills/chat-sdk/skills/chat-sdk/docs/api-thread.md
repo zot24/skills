@@ -12,7 +12,7 @@ related:
 # Thread
 
 
-A `Thread` is provided to your event handlers and represents a conversation thread on any platform. You can also create thread handles directly using `chat.thread()` or `chat.openDM()`.
+A `Thread` represents a conversation thread on any platform. Event handlers receive one, and you can also create thread handles with `chat.thread()` or `chat.openDM()`.
 
 ## Properties
 
@@ -34,7 +34,8 @@ await thread.post({ ast: root([paragraph([text("Hello")])]) });
 // Card
 await thread.post(Card({ title: "Hi", children: [Text("Hello")] }));
 
-// Stream (fullStream recommended for multi-step agents)
+// Stream (AI SDK fullStream recommended for multi-step agents)
+// TanStack AI chat() streams are also accepted
 await thread.post(result.fullStream);
 
 // Plan (mutable task list)
@@ -46,9 +47,11 @@ await plan.addTask({ title: "Step 1" });
 await thread.post(new StreamingPlan(stream, { groupTasks: "plan" }));
 ```
 
-**Parameters:** `message: string | PostableMessage | CardJSXElement`
+**Parameters:** `message: string | PostableMessage | ChatElement`
 
-**Returns:** `Promise<SentMessage | PostableObject>` — for plain messages and streams, a `SentMessage` with `edit()`, `delete()`, `addReaction()`, and `removeReaction()` methods; for `Plan` / `StreamingPlan` inputs, the same object is returned so you can keep mutating it.
+`ChatElement` covers card and modal elements, whether you write them in JSX or build them with functions such as `Card()`.
+
+**Returns:** `Promise<SentMessage | PostableObject>`. Plain messages and streams return a `SentMessage` with `edit()`, `delete()`, `addReaction()`, and `removeReaction()` methods. `Plan` and `StreamingPlan` inputs return the same object so you can keep mutating it.
 
 See [Posting Messages](/docs/posting-messages) for details on each format.
 
@@ -62,7 +65,7 @@ await thread.reply(message, {
 });
 ```
 
-**Parameters:** `target: string | Message`, `message: string | AdapterPostableMessage | AsyncIterable<string | StreamChunk | StreamEvent> | CardJSXElement`
+**Parameters:** `target: string | Message`, `message: string | AdapterPostableMessage | AsyncIterable<string | StreamChunk | StreamEvent> | ChatElement`
 
 **Returns:** `Promise<SentMessage>`
 
@@ -85,7 +88,7 @@ await thread.postEphemeral(userId, "Only you can see this", {
 
 ## schedule
 
-Schedule a message for future delivery. Currently only supported by the Slack adapter — other adapters throw `NotImplementedError`.
+Schedule a message for future delivery. Only the Slack adapter supports this. Other adapters throw `NotImplementedError`.
 
 ```typescript
 const scheduled = await thread.schedule("Reminder: standup in 5 minutes!", {
@@ -96,7 +99,7 @@ const scheduled = await thread.schedule("Reminder: standup in 5 minutes!", {
 await scheduled.cancel();
 ```
 
-**Parameters:** `message: string | PostableMessage | CardJSXElement`, `options: { postAt: Date }`
+**Parameters:** `message: AdapterPostableMessage | ChatElement`, `options: { postAt: Date }`
 
 **Returns:** `Promise<ScheduledMessage>`
 
@@ -106,7 +109,7 @@ await scheduled.cancel();
 
 ## getParticipants
 
-Get the unique human participants in a thread. Returns deduplicated authors, excluding all bots. Useful for subscribing only to 1:1 conversations and unsubscribing when others join.
+Get the unique human participants in a thread. Returns deduplicated authors and excludes all bots. Use it to subscribe only to 1:1 conversations and unsubscribe when others join.
 
 ```typescript
 const participants = await thread.getParticipants();
@@ -123,7 +126,7 @@ if (participants.length > 1) {
 ```
 
 
-  Each call fetches the full message history to find all participants. On threads with long history this makes multiple API calls to the platform. Consider checking `message.author` against a known set before calling `getParticipants()` on every incoming message.
+  Each call fetches the full message history to find all participants, which takes multiple platform API calls on threads with long history. Consider checking `message.author` against a known set before calling `getParticipants()` on every incoming message.
 
 
 ## subscribe / unsubscribe
@@ -136,7 +139,7 @@ await thread.unsubscribe();
 const subscribed = await thread.isSubscribed();
 ```
 
-Subscriptions persist across restarts via your state adapter.
+Subscriptions persist across restarts through your state adapter.
 
 ## state
 
@@ -260,7 +263,7 @@ await workflow.start("my-workflow", {
 });
 ```
 
-The serialized format includes the thread ID, channel ID, adapter name, DM status, and the current message (if present).
+The serialized format includes the thread ID, channel ID, adapter name, DM status, and the current message when present.
 
 ### Deserialization
 
@@ -271,7 +274,11 @@ const data = JSON.parse(payload, bot.reviver());
 await data.thread.post("Hello from workflow!");
 ```
 
-Under the hood, the reviver calls `ThreadImpl.fromJSON()` and `Message.fromJSON()` for any serialized objects it encounters.
+The reviver calls `ThreadImpl.fromJSON()` and `Message.fromJSON()` for any serialized objects it encounters.
+
+When a restored thread starts streaming, it uses its Chat instance's `fallbackStreamingPlaceholderText` and `streamingUpdateIntervalMs` defaults. `bot.reviver()` binds restored threads to that bot; standalone and Workflow deserialization bind to the registered singleton on first runtime access. These settings are not stored in the serialized payload, so resumed work uses the receiving bot's configuration. An explicit `StreamingPlan` update interval still takes precedence.
+
+If you pass an adapter directly to `ThreadImpl.fromJSON(data, adapter)`, streaming can work without a registered Chat instance, using the default settings. Streaming defaults come only from a Chat instance that has that exact adapter registered, under any key. If the registered instance doesn't own the adapter, state still comes from the registered singleton, as in earlier versions. Prefer `bot.reviver()` to bind ownership explicitly.
 
 ## ScheduledMessage
 

@@ -17,10 +17,10 @@ Upload a local or non-public document and convert it into clean, LLM-ready data.
 
 Use `/parse` when the source document is **a local file** or **not publicly accessible by URL**. If you have a public URL that points to a document, prefer [`/scrape`](/api-reference/endpoint/scrape) — it auto-detects the file type from the extension or content type and parses it the same way.
 
-| Source                                                           | Endpoint                                         |
-| ---------------------------------------------------------------- | ------------------------------------------------ |
+| Source | Endpoint |
+| - | - |
 | Public URL to a document (e.g. `https://example.com/report.pdf`) | [`POST /scrape`](/api-reference/endpoint/scrape) |
-| Local file or non-public bytes (PDF, DOCX, XLSX, HTML, …)        | `POST /parse` (this endpoint)                    |
+| Local file or non-public bytes (PDF, DOCX, XLSX, HTML, …) | `POST /parse` (this endpoint) |
 
 
   **Using Firecrawl through MCP?** Use `firecrawl_parse` for local files. Local MCP can read the file directly when configured with `FIRECRAWL_API_URL`. Remote hosted MCP returns a short-lived upload command first, then parses the returned `uploadRef`. Public document URLs should still use `/scrape`.
@@ -1134,6 +1134,16 @@ components:
               required:
                 - isMenu
                 - sections
+            tools:
+              type: array
+              nullable: true
+              description: >-
+                Tool contracts matched to the scraped page's domain. Present
+                only when `domainTools` is `true` on the request. Requires
+                Alexandria access and no zero data retention (403 otherwise);
+                free.
+              items:
+                $ref: '#/components/schemas/DiscoveredTool'
     ParseFormats:
       type: array
       items:
@@ -1260,6 +1270,90 @@ components:
           type: string
           maxLength: 1024
           description: The username associated with the request.
+    DiscoveredTool:
+      type: object
+      description: >-
+        A catalogued provider tool discovered via Alexandria, semantic search,
+        or domain matching.
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+          description: The tool's identifier, formatted as `provider/capability`.
+        provider:
+          type: string
+          description: The catalogued provider.
+        capability:
+          type: string
+          description: The provider-relative capability.
+        name:
+          type: string
+          description: Human-readable name of the tool.
+        description:
+          type: string
+          description: Human-readable description of what the tool does.
+        creditsCost:
+          type: integer
+          minimum: 0
+          description: Credits charged per execution of this tool.
+        perRecord:
+          type: boolean
+          description: >-
+            Whether `creditsCost` is charged per record returned rather than per
+            call.
+        options:
+          type: array
+          description: The capability's accepted options.
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              name:
+                type: string
+                description: The option name.
+              type:
+                type: string
+                description: The option's data type.
+        response:
+          type: object
+          additionalProperties: true
+          description: Description of the shape of a successful response's `data`.
+          properties:
+            about:
+              type: string
+              description: Human-readable description of the response payload.
+            key:
+              type: string
+              description: >-
+                The key under which the primary payload is returned, when
+                applicable.
+            fields:
+              type: array
+              description: The response's documented fields.
+              items:
+                type: object
+                additionalProperties: true
+        matchedBy:
+          type: array
+          description: Why this tool was surfaced.
+          items:
+            type: string
+            enum:
+              - semantic
+              - domain
+        matchedUrls:
+          type: array
+          description: URLs whose domain matched this tool, when matched by domain.
+          items:
+            type: string
+      required:
+        - id
+        - provider
+        - capability
+        - name
+        - description
+        - creditsCost
+        - perRecord
     RedactPIIEntity:
       type: string
       enum:

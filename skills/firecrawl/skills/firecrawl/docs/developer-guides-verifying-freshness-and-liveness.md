@@ -17,13 +17,13 @@ This guide explains the difference, walks through the `maxAge` tradeoff, and giv
 
 ## Quick Comparison
 
-|                                          | Freshness                                                                     | Liveness                                                                        |
-| ---------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| **Question**                             | Is this content recent, or reused from cache?                                 | Is the object the page describes still active?                                  |
-| **You control it with**                  | The `maxAge` request parameter                                                | Your own domain logic                                                           |
-| **Firecrawl reports**                    | `metadata.cacheState` (`"hit"` or `"miss"`), and `metadata.cachedAt` on a hit | Nothing directly — only page evidence                                           |
-| **Evidence you get**                     | Whether the response came from cache                                          | Page content, `metadata.statusCode`, and `metadata.url` vs `metadata.sourceURL` |
-| **Settled by an HTTP 200 with content?** | **No** — a 200 says nothing about how recent the content is                   | **No** — a 200 only describes the page response                                 |
+| | Freshness | Liveness |
+| - | - | - |
+| **Question** | Is this content recent, or reused from cache? | Is the object the page describes still active? |
+| **You control it with** | The `maxAge` request parameter | Your own domain logic |
+| **Firecrawl reports** | `metadata.cacheState` (`"hit"` or `"miss"`), and `metadata.cachedAt` on a hit | Nothing directly — only page evidence |
+| **Evidence you get** | Whether the response came from cache | Page content, `metadata.statusCode`, and `metadata.url` vs `metadata.sourceURL` |
+| **Settled by an HTTP 200 with content?** | **No** — a 200 says nothing about how recent the content is | **No** — a 200 only describes the page response |
 
 ***
 
@@ -42,12 +42,12 @@ For caching mechanics, common `maxAge` values, cache-hit matching rules, and the
 
 ### Where `maxAge` Applies
 
-| Endpoint                  | Behavior                                                                                                                               |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `/scrape`                 | `maxAge` is honored on the request body                                                                                                |
-| `/crawl`, `/batch/scrape` | `maxAge` is honored inside `scrapeOptions`                                                                                             |
-| `/search`                 | Search applies its own freshness window to the pages it scrapes, so `maxAge` in `scrapeOptions` does not take effect                   |
-| `/parse`                  | `/parse` always processes the file you supply and never serves or stores cached content, so `maxAge` and `storeInCache` have no effect |
+| Endpoint | Behavior |
+| - | - |
+| `/scrape` | `maxAge` is honored on the request body |
+| `/crawl`, `/batch/scrape` | `maxAge` is honored inside `scrapeOptions` |
+| `/search` | Search applies its own freshness window to the pages it scrapes, so `maxAge` in `scrapeOptions` does not take effect |
+| `/parse` | `/parse` always processes the file you supply and never serves or stores cached content, so `maxAge` and `storeInCache` have no effect |
 
 If you need a fresh retrieval of a page you found through `/search`, scrape that URL again with `/scrape` and `maxAge: 0`.
 
@@ -154,13 +154,13 @@ The important boundary is after collection: Firecrawl supplies page evidence; yo
 
 ## Recommendations by Scenario
 
-| Scenario                                                   | Recommended approach                                                     |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------ |
-| Read product copy, docs, or reference content              | Omit `maxAge` and use the default cache window                           |
-| Dashboard or report refreshed on a schedule                | Non-zero `maxAge` sized to your refresh interval                         |
-| Final check before an action that depends on current state | `maxAge: 0` to skip the cache + the checklist above                      |
-| Confirming an object is truly still active                 | Prefer the source's API or status field; treat a scrape as evidence only |
-| Ambiguous rendered page (200 but no positive signal)       | Classify as `unknown`; stop before the irreversible step                 |
+| Scenario | Recommended approach |
+| - | - |
+| Read product copy, docs, or reference content | Omit `maxAge` and use the default cache window |
+| Dashboard or report refreshed on a schedule | Non-zero `maxAge` sized to your refresh interval |
+| Final check before an action that depends on current state | `maxAge: 0` to skip the cache + the checklist above |
+| Confirming an object is truly still active | Prefer the source's API or status field; treat a scrape as evidence only |
+| Ambiguous rendered page (200 but no positive signal) | Classify as `unknown`; stop before the irreversible step |
 
 ***
 

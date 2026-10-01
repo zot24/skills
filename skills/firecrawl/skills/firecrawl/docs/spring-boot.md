@@ -18,7 +18,7 @@
 
     ```kotlin
     dependencies {
-        implementation("com.firecrawl:firecrawl-java:1.2.0")
+        implementation("com.firecrawl:firecrawl-java:1.18.0")
     }
     ```
 
@@ -27,7 +27,7 @@
     <dependency>
         <groupId>com.firecrawl</groupId>
         <artifactId>firecrawl-java</artifactId>
-        <version>1.2.0</version>
+        <version>1.18.0</version>
     </dependency>
     ```
 

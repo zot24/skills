@@ -104,11 +104,11 @@ All settings live in `~/.honcho/config.json` (shared with other Honcho integrati
 
 Controls how Codex conversations map to Honcho sessions:
 
-| Strategy                  | Session name      | Best for                                                  |
-| ------------------------- | ----------------- | --------------------------------------------------------- |
-| `per-directory` (default) | `my-app`          | Most users — each project accumulates its own memory      |
-| `git-branch`              | `my-app-main`     | Feature-branch workflows where context per branch matters |
-| `chat-instance`           | `my-app-019ea7df` | Ephemeral usage — a clean slate per conversation          |
+| Strategy | Session name | Best for |
+| - | - | - |
+| `per-directory` (default) | `my-app` | Most users — each project accumulates its own memory |
+| `git-branch` | `my-app-main` | Feature-branch workflows where context per branch matters |
+| `chat-instance` | `my-app-019ea7df` | Ephemeral usage — a clean slate per conversation |
 
 An explicit `sessions[cwd]` mapping overrides all strategies. Environment overrides: `HONCHO_API_KEY`, `HONCHO_PEER_NAME`, `HONCHO_CONFIG_DIR`.
 
@@ -146,34 +146,34 @@ Both Alice and Bob write to the `team-acme` workspace. Working in the same repo,
 
 Once installed, Codex can call these Honcho tools directly:
 
-| Tool                 | Description                                                 |
-| -------------------- | ----------------------------------------------------------- |
-| `search`             | Semantic search across your session messages                |
-| `chat`               | Ask Honcho a natural-language question about you            |
-| `get_peer_context`   | Fetch the current model of you (representation + peer card) |
-| `get_representation` | Lightweight representation string                           |
-| `create_conclusions` | Save durable insights to memory                             |
-| `list_conclusions`   | List saved conclusions                                      |
-| `query_conclusions`  | Semantic search across derived conclusions                  |
-| `delete_conclusion`  | Remove a conclusion by ID                                   |
+| Tool | Description |
+| - | - |
+| `search` | Semantic search across your session messages |
+| `chat` | Ask Honcho a natural-language question about you |
+| `get_peer_context` | Fetch the current model of you (representation + peer card) |
+| `get_representation` | Lightweight representation string |
+| `create_conclusions` | Save durable insights to memory |
+| `list_conclusions` | List saved conclusions |
+| `query_conclusions` | Semantic search across derived conclusions |
+| `delete_conclusion` | Remove a conclusion by ID |
 
 ## Commands
 
-| Command                | Effect                                              |
-| ---------------------- | --------------------------------------------------- |
-| `codex-honcho install` | Install hooks + MCP + skill                         |
-| `codex-honcho status`  | Installed components, pending queue depth, GUI link |
-| `codex-honcho remove`  | Strip only what this installs                       |
+| Command | Effect |
+| - | - |
+| `codex-honcho install` | Install hooks + MCP + skill |
+| `codex-honcho status` | Installed components, pending queue depth, GUI link |
+| `codex-honcho remove` | Strip only what this installs |
 
 ## What Install Writes
 
-| Path                             | Change                                                                                            |
-| -------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `~/.codex/honcho/`               | staged copy of the bundle the hooks run (kept stable across npm/npx cache eviction)               |
-| `~/.codex/hooks.json`            | adds the four hook entries (merged; your own hooks untouched)                                     |
-| `~/.codex/config.toml`           | sets `[features].hooks = true`; registers `[mcp_servers.honcho]` → `mcp.honcho.dev` (native HTTP) |
-| `~/.codex/skills/honcho-memory/` | the active-recall skill                                                                           |
-| `~/.honcho/config.json`          | persists the resolved `apiKey` + `peerName` (other fields and `hosts.*` blocks preserved)         |
+| Path | Change |
+| - | - |
+| `~/.codex/honcho/` | staged copy of the bundle the hooks run (kept stable across npm/npx cache eviction) |
+| `~/.codex/hooks.json` | adds the four hook entries (merged; your own hooks untouched) |
+| `~/.codex/config.toml` | sets `[features].hooks = true`; registers `[mcp_servers.honcho]` → `mcp.honcho.dev` (native HTTP) |
+| `~/.codex/skills/honcho-memory/` | the active-recall skill |
+| `~/.honcho/config.json` | persists the resolved `apiKey` + `peerName` (other fields and `hosts.*` blocks preserved) |
 
 `codex-honcho remove` reverses exactly these.
 

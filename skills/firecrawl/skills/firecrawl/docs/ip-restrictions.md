@@ -50,10 +50,10 @@ A request from an IP that is not on the allowlist is rejected with a `403`:
 
 ## Error reference
 
-| Status | When                                                                                                                           |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `403`  | The request's IP address is not on the team's allowlist.                                                                       |
-| `500`  | The allowlist could not be verified. Requests fail closed (are rejected) rather than bypassing the restriction. Retry shortly. |
+| Status | When |
+| - | - |
+| `403` | The request's IP address is not on the team's allowlist. |
+| `500` | The allowlist could not be verified. Requests fail closed (are rejected) rather than bypassing the restriction. Retry shortly. |
 
 ## Notes
 

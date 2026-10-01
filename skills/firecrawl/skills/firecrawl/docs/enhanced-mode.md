@@ -16,11 +16,11 @@ Firecrawl provides different proxy types to help you scrape websites with varyin
 
 ## Proxy types
 
-| Type       | Description                                                                   |
-| ---------- | ----------------------------------------------------------------------------- |
-| `basic`    | Standard proxies suitable for most sites                                      |
-| `enhanced` | Enhanced proxies for complex sites                                            |
-| `auto`     | **Recommended.** Tries `basic` first, then retries with `enhanced` on failure |
+| Type | Description |
+| - | - |
+| `basic` | Standard proxies suitable for most sites |
+| `enhanced` | Enhanced proxies for complex sites |
+| `auto` | **Recommended.** Tries `basic` first, then retries with `enhanced` on failure |
 
 If you do not specify a proxy, Firecrawl defaults to `auto`.
 

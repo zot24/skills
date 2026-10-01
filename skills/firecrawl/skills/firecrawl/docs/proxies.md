@@ -16,34 +16,34 @@ Firecrawl provides different proxy types to help you scrape websites with varyin
 
 Firecrawl automatically selects the best proxy based on your specified or detected location. This helps optimize scraping performance and reliability. However, not all locations are currently supported. The following locations are available:
 
-| Country Code | Country Name         | Basic Proxy Support | Enhanced Proxy Support |
-| ------------ | -------------------- | ------------------- | ---------------------- |
-| AE           | United Arab Emirates | Yes                 | No                     |
-| AT           | Austria              | Yes                 | No                     |
-| AU           | Australia            | Yes                 | No                     |
-| BE           | Belgium              | Yes                 | No                     |
-| BR           | Brazil               | Yes                 | No                     |
-| CA           | Canada               | Yes                 | No                     |
-| CH           | Switzerland          | Yes                 | No                     |
-| CN           | China                | Yes                 | No                     |
-| DE           | Germany              | Yes                 | No                     |
-| DK           | Denmark              | Yes                 | No                     |
-| EG           | Egypt                | Yes                 | No                     |
-| ES           | Spain                | Yes                 | No                     |
-| FR           | France               | Yes                 | No                     |
-| GB           | United Kingdom       | Yes                 | No                     |
-| GR           | Greece               | Yes                 | No                     |
-| IL           | Israel               | Yes                 | No                     |
-| IN           | India                | Yes                 | No                     |
-| IT           | Italy                | Yes                 | No                     |
-| JP           | Japan                | Yes                 | No                     |
-| MX           | Mexico               | Yes                 | No                     |
-| NL           | Netherlands          | Yes                 | Yes                    |
-| PL           | Poland               | Yes                 | No                     |
-| QA           | Qatar                | Yes                 | No                     |
-| SE           | Sweden               | Yes                 | No                     |
-| TR           | Turkey               | Yes                 | No                     |
-| US           | United States        | Yes                 | Yes                    |
+| Country Code | Country Name | Basic Proxy Support | Enhanced Proxy Support |
+| - | - | - | - |
+| AE | United Arab Emirates | Yes | No |
+| AT | Austria | Yes | No |
+| AU | Australia | Yes | No |
+| BE | Belgium | Yes | No |
+| BR | Brazil | Yes | No |
+| CA | Canada | Yes | No |
+| CH | Switzerland | Yes | No |
+| CN | China | Yes | No |
+| DE | Germany | Yes | No |
+| DK | Denmark | Yes | No |
+| EG | Egypt | Yes | No |
+| ES | Spain | Yes | No |
+| FR | France | Yes | No |
+| GB | United Kingdom | Yes | No |
+| GR | Greece | Yes | No |
+| IL | Israel | Yes | No |
+| IN | India | Yes | No |
+| IT | Italy | Yes | No |
+| JP | Japan | Yes | No |
+| MX | Mexico | Yes | No |
+| NL | Netherlands | Yes | Yes |
+| PL | Poland | Yes | No |
+| QA | Qatar | Yes | No |
+| SE | Sweden | Yes | No |
+| TR | Turkey | Yes | No |
+| US | United States | Yes | Yes |
 
 The list of supported proxy locations will change over time.
 

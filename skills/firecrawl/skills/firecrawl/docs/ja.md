@@ -4,7 +4,7 @@
 
 ## Japanese
 
-- [Japanese / v2 (203 pages)](https://docs.firecrawl.dev/_llms/ja/v2.md): Documentation for Japanese / v2.
+- [Japanese / v2 (204 pages)](https://docs.firecrawl.dev/_llms/ja/v2.md): Documentation for Japanese / v2.
 
 ### v1
 
@@ -12,7 +12,7 @@
 
 ##### はじめに
 
-- [はじめに](https://docs.firecrawl.dev/ja/introduction.md): ウェブを検索し、あらゆるページをスクレイピングして操作できます、すべてを1つのAPIで。
+- [はじめに](https://docs.firecrawl.dev/ja/introduction.md): AIエージェントのためのウェブデータAPI。ウェブを検索し、あらゆるページをスクレイピングして操作できます、すべてを1つのAPIで。
 - [はじめに](https://docs.firecrawl.dev/ja/mcp-server.md): キーレスアクセス、アカウントへのサインイン、またはAPIキーを使用してFirecrawl MCPを設定します。
 - [高度なスクレイピングガイド](https://docs.firecrawl.dev/ja/advanced-scraping-guide.md): Firecrawl の API 全体で、スクレイピングオプション、ブラウザ アクション、クロール、マップ、エージェントエンドポイントを構成します。
 
@@ -46,11 +46,7 @@
 - [Enhanced Mode](https://docs.firecrawl.dev/ja/features/enhanced-mode.md): 強化プロキシを使用して、複雑なサイトを安定してスクレイピングする
 - [プロキシ](https://docs.firecrawl.dev/ja/features/proxies.md): プロキシの種類やロケーション、Firecrawl がリクエストに対してプロキシを選択する方法について解説します。
 
-##### エージェント機能
-
-- [FIRE-1 エージェント（ベータ）](https://docs.firecrawl.dev/ja/agents/fire-1.md): ウェブページを知的にナビゲートし、対話できる AI エージェント
-
-##### ウェブフック
+##### webhook
 
 - [概要](https://docs.firecrawl.dev/ja/webhooks/overview.md): Firecrawl のオペレーションに対するリアルタイム通知
 - [イベントタイプ](https://docs.firecrawl.dev/ja/webhooks/events.md): Webhook イベントリファレンス

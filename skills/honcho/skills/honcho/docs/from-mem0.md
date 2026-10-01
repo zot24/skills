@@ -248,16 +248,16 @@ Reference the [API Comparison](#api-comparison) to replace your Mem0 API calls w
 
 ### Core Operations
 
-| Operation            | Mem0                                             | Honcho                                                 | Notes                                                |
-| -------------------- | ------------------------------------------------ | ------------------------------------------------------ | ---------------------------------------------------- |
-| **Initialize**       | `MemoryClient(api_key=...)`                      | `Honcho(api_key=...)`                                  |                                                      |
-| **Identity**         | `user_id` string param                           | `peer = honcho.peer("id")`                             | Peers can be users or AI agents                      |
-| **Add messages**     | `client.add(messages, user_id=...)`              | `session.add_messages([peer.message(...)])`            | Session-scoped, triggers reasoning                   |
-| **Add observations** |                                                  | `peer.observations.create([...])`                      | Direct observation or "memory" import, no processing |
-| **Search**           | `client.search(query, filters={"user_id": ...})` | `peer.search(query)` or `peer.observations.query(...)` | Scoped to peer or session                            |
-| **List all**         | `client.get_all(filters={"user_id": ...})`       | `session.get_messages()` or `peer.observations.list()` | Messages or observations                             |
-| **Update**           | `client.update(memory_id, data=...)`             | `honcho.update_message(message, metadata=...)`         | Metadata updates only                                |
-| **Delete**           | `client.delete(memory_id)`                       | `peer.observations.delete(id)` or `session.delete()`   | Observation or session-level                         |
+| Operation | Mem0 | Honcho | Notes |
+| - | - | - | - |
+| **Initialize** | `MemoryClient(api_key=...)` | `Honcho(api_key=...)` | |
+| **Identity** | `user_id` string param | `peer = honcho.peer("id")` | Peers can be users or AI agents |
+| **Add messages** | `client.add(messages, user_id=...)` | `session.add_messages([peer.message(...)])` | Session-scoped, triggers reasoning |
+| **Add observations** | | `peer.observations.create([...])` | Direct observation or "memory" import, no processing |
+| **Search** | `client.search(query, filters={"user_id": ...})` | `peer.search(query)` or `peer.observations.query(...)` | Scoped to peer or session |
+| **List all** | `client.get_all(filters={"user_id": ...})` | `session.get_messages()` or `peer.observations.list()` | Messages or observations |
+| **Update** | `client.update(memory_id, data=...)` | `honcho.update_message(message, metadata=...)` | Metadata updates only |
+| **Delete** | `client.delete(memory_id)` | `peer.observations.delete(id)` or `session.delete()` | Observation or session-level |
 
 ### Honcho-Only Capabilities
 
@@ -275,12 +275,12 @@ Mem0's `search()` returns basic vector, semantic, or raw memory matches. Honcho'
 
 Additional features with **no Mem0 equivalent**:
 
-| Honcho Method               | Description                                               | Use Case                              |
-| --------------------------- | --------------------------------------------------------- | ------------------------------------- |
-| `peer.card()`               | Stable biographical facts (name, preferences, background) | User profiles, personalization        |
-| `session.working_rep(peer)` | Cached psychological analysis (mental state, intentions)  | Real-time adaptation                  |
-| `session.get_summaries()`   | Auto-generated short/long session summaries               | Conversation continuity               |
-| `SessionPeerConfig`         | Configure observation settings (who learns about whom)    | Privacy controls, role-based learning |
+| Honcho Method | Description | Use Case |
+| - | - | - |
+| `peer.card()` | Stable biographical facts (name, preferences, background) | User profiles, personalization |
+| `session.working_rep(peer)` | Cached psychological analysis (mental state, intentions) | Real-time adaptation |
+| `session.get_summaries()` | Auto-generated short/long session summaries | Conversation continuity |
+| `SessionPeerConfig` | Configure observation settings (who learns about whom) | Privacy controls, role-based learning |
 
 ## Next Steps
 

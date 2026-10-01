@@ -39,22 +39,22 @@ curl -X POST https://api.firecrawl.dev/v2/support/ask \
 
 ## Response fields
 
-| Field           | Type           | Description                                                                          |
-| --------------- | -------------- | ------------------------------------------------------------------------------------ |
-| `answer`        | string         | 2-4 sentence prose covering the diagnosis and fix                                    |
-| `confidence`    | string         | `high`, `medium`, or `low`                                                           |
-| `fixParameters` | object \| null | API parameters to apply the fix (e.g., `{"waitFor": 5000}`)                          |
-| `validation`    | object \| null | Whether the fix was tested: `tested`, `result` (success/failure/skipped), `evidence` |
-| `feedback`      | object \| null | Present when the agent gets stuck; `{ blockedBy, attempted }`. Null on success.      |
-| `durationMs`    | integer        | Total execution time in milliseconds                                                 |
+| Field | Type | Description |
+| - | - | - |
+| `answer` | string | 2-4 sentence prose covering the diagnosis and fix |
+| `confidence` | string | `high`, `medium`, or `low` |
+| `fixParameters` | object \| null | API parameters to apply the fix (e.g., `{"waitFor": 5000}`) |
+| `validation` | object \| null | Whether the fix was tested: `tested`, `result` (success/failure/skipped), `evidence` |
+| `feedback` | object \| null | Present when the agent gets stuck; `{ blockedBy, attempted }`. Null on success. |
+| `durationMs` | integer | Total execution time in milliseconds |
 
 ## Status codes
 
-| Code  | Meaning                                         |
-| ----- | ----------------------------------------------- |
-| `200` | Answered or stuck (envelope always returned)    |
-| `400` | Invalid JSON or schema violation                |
-| `401` | Missing or invalid bearer token                 |
+| Code | Meaning |
+| - | - |
+| `200` | Answered or stuck (envelope always returned) |
+| `400` | Invalid JSON or schema violation |
+| `401` | Missing or invalid bearer token |
 | `504` | Hit 60s hard budget — partial envelope returned |
 
 For the feature guide with integration examples, see the [Ask feature documentation](/features/ask).

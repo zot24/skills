@@ -30,13 +30,13 @@ export FIRECRAWL_API_KEY="fc-your-api-key"
 
 `FirecrawlLoader` returns LangChain `Document`s. Choose a `mode`:
 
-| Mode      | What it loads      |
-| --------- | ------------------ |
-| `scrape`  | One page           |
-| `crawl`   | A whole site       |
-| `map`     | Discovered URLs    |
-| `extract` | Structured data    |
-| `search`  | Web search results |
+| Mode | What it loads |
+| - | - |
+| `scrape` | One page |
+| `crawl` | A whole site |
+| `map` | Discovered URLs |
+| `extract` | Structured data |
+| `search` | Web search results |
 
 ```python theme={null}
 from langchain_firecrawl import FirecrawlLoader

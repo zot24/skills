@@ -80,11 +80,11 @@ needs = ["review"]
 
 ## Formula Types
 
-| Type        | Description                     |
-| ----------- | ------------------------------- |
-| `workflow`  | Standard step sequence          |
+| Type | Description |
+| - | - |
+| `workflow` | Standard step sequence |
 | `expansion` | Template for expansion operator |
-| `aspect`    | Cross-cutting concerns          |
+| `aspect` | Cross-cutting concerns |
 
 ## Variables
 

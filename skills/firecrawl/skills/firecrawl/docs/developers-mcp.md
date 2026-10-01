@@ -26,13 +26,13 @@ Give your AI coding assistant the ability to scrape, crawl, and search the web i
 
 Integrate Firecrawl directly into your AI coding workflow through Model Context Protocol. Once configured, your AI assistant gains access to a set of web scraping tools it can call on your behalf:
 
-| Tool             | What it does                                               |
-| ---------------- | ---------------------------------------------------------- |
-| **Scrape**       | Extract content or structured data from a single URL       |
-| **Batch Scrape** | Extract content from multiple known URLs in parallel       |
-| **Map**          | Discover all indexed URLs on a website                     |
-| **Crawl**        | Walk a site section and extract content from every page    |
-| **Search**       | Search the web and optionally extract content from results |
+| Tool | What it does |
+| - | - |
+| **Scrape** | Extract content or structured data from a single URL |
+| **Batch Scrape** | Extract content from multiple known URLs in parallel |
+| **Map** | Discover all indexed URLs on a website |
+| **Crawl** | Walk a site section and extract content from every page |
+| **Search** | Search the web and optionally extract content from results |
 
 Your assistant picks the right tool automatically. Ask it to "read the Next.js docs" and it will scrape. Ask it to "find all blog posts on example.com" and it will map then batch scrape.
 

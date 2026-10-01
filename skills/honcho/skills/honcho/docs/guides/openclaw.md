@@ -84,17 +84,17 @@ OpenClaw uses a multi-agent architecture where a primary agent can spawn **subag
 
 ### Data Retrieval (fast, no LLM)
 
-| Tool                        | Description                                                                                           |
-| --------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `honcho_context`            | User knowledge across all sessions. `detail='card'` for key facts, `'full'` for broad representation. |
-| `honcho_search_conclusions` | Semantic vector search over stored conclusions ranked by relevance.                                   |
-| `honcho_search_messages`    | Find specific messages across all sessions. Filter by sender, date, or metadata.                      |
-| `honcho_session`            | Current session history and summary. Supports semantic search within the session.                     |
+| Tool | Description |
+| - | - |
+| `honcho_context` | User knowledge across all sessions. `detail='card'` for key facts, `'full'` for broad representation. |
+| `honcho_search_conclusions` | Semantic vector search over stored conclusions ranked by relevance. |
+| `honcho_search_messages` | Find specific messages across all sessions. Filter by sender, date, or metadata. |
+| `honcho_session` | Current session history and summary. Supports semantic search within the session. |
 
 ### Q\&A (LLM-powered)
 
-| Tool         | Description                                                                                  |
-| ------------ | -------------------------------------------------------------------------------------------- |
+| Tool | Description |
+| - | - |
 | `honcho_ask` | Ask Honcho a question about the user. `depth='quick'` for facts, `'thorough'` for synthesis. |
 
 ## CLI Commands
@@ -110,11 +110,11 @@ openclaw honcho search <query> [-k N] [-d D]    # Semantic search (topK, maxDist
 
 Run `openclaw honcho setup` to configure interactively, or set values directly in `~/.openclaw/openclaw.json` under `plugins.entries["openclaw-honcho"].config`.
 
-| Key           | Default                    | Description                                                  |
-| ------------- | -------------------------- | ------------------------------------------------------------ |
-| `apiKey`      | —                          | Honcho API key (required for managed; omit for self-hosted). |
-| `workspaceId` | `"openclaw"`               | Honcho workspace ID for memory isolation.                    |
-| `baseUrl`     | `"https://api.honcho.dev"` | API endpoint (for self-hosted instances).                    |
+| Key | Default | Description |
+| - | - | - |
+| `apiKey` | — | Honcho API key (required for managed; omit for self-hosted). |
+| `workspaceId` | `"openclaw"` | Honcho workspace ID for memory isolation. |
+| `baseUrl` | `"https://api.honcho.dev"` | API endpoint (for self-hosted instances). |
 
 ### Self-Hosted Honcho
 
@@ -155,11 +155,11 @@ openclaw gateway restart
 
 When QMD is configured, you get both Honcho and local file tools:
 
-| Tool            | Source | Description                                              |
-| --------------- | ------ | -------------------------------------------------------- |
-| `honcho_*`      | Honcho | Cross-session memory, user modeling, dialectic reasoning |
-| `memory_search` | QMD    | Search local markdown files                              |
-| `memory_get`    | QMD    | Retrieve file content                                    |
+| Tool | Source | Description |
+| - | - | - |
+| `honcho_*` | Honcho | Cross-session memory, user modeling, dialectic reasoning |
+| `memory_search` | QMD | Search local markdown files |
+| `memory_get` | QMD | Retrieve file content |
 
 ## Next Steps
 

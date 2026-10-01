@@ -200,6 +200,30 @@
       "target": "skills/apprise-api/docs/qa-resource-usage.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/index.mdx",
+      "target": "skills/apprise-api/docs/api.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/cli/index.mdx",
+      "target": "skills/apprise-api/docs/cli.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/getting-started/template.mdx",
+      "target": "skills/apprise-api/docs/getting-started-template.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/qa/mobile-qr-password.md",
+      "target": "skills/apprise-api/docs/qa-mobile-qr-password.md",
+      "type": "raw",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache"

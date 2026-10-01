@@ -31,6 +31,7 @@ Firecrawl users can get an API key in two ways. Most users should sign in throug
 * **Docs:** you landed here. Pick the option below that matches how you can sign in.
 * **API `401`:** ID-JAG capable agents can follow the discovery flow in [`auth.md`](https://www.firecrawl.dev/auth.md) Step 1. Everyone else should use the dashboard or CLI.
 * **Direct URL:** follow [`SKILL.md`](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for browser sign-in and setup, or [`auth.md`](https://www.firecrawl.dev/auth.md) for WorkOS ID-JAG registration.
+* **Stripe Projects:** in a project that already uses the Stripe CLI, `stripe projects add firecrawl/api --name firecrawl` provisions the account and writes `FIRECRAWL_API_KEY` to `.env`. See [Stripe Projects](/integrations/stripe-projects).
 
 
     **Default for most users.** Sign in in the browser, run CLI `--browser`, install skills and MCP, or create an API key in the dashboard.
@@ -84,20 +85,20 @@ Firecrawl skills cover three categories. `init` installs CLI and workflow skills
 
 **CLI skills** — for live web work during an agent session:
 
-| Skill                       | Purpose                                            |
-| --------------------------- | -------------------------------------------------- |
-| `firecrawl`                 | Overall CLI command workflow                       |
-| `firecrawl-search`          | Search the web and discover pages                  |
-| `firecrawl-scrape`          | Extract clean content from a known URL             |
-| `firecrawl-interact`        | Interact with scraped pages using prompts or code  |
-| `firecrawl-crawl`           | Bulk-extract content from an entire site           |
-| `firecrawl-map`             | Discover all URLs on a domain                      |
-| `firecrawl-agent`           | Run autonomous web data gathering with a job       |
-| `firecrawl-monitor`         | Detect site changes and get notified               |
-| `firecrawl-parse`           | Parse local documents into markdown                |
-| `firecrawl-download`        | Download a site as local files                     |
-| `firecrawl-research-index`  | Search papers, read passages, and follow citations |
-| `firecrawl-developer-index` | Search issues, pull requests, READMEs, and docs    |
+| Skill | Purpose |
+| - | - |
+| `firecrawl` | Overall CLI command workflow |
+| `firecrawl-search` | Search the web and discover pages |
+| `firecrawl-scrape` | Extract clean content from a known URL |
+| `firecrawl-interact` | Interact with scraped pages using prompts or code |
+| `firecrawl-crawl` | Bulk-extract content from an entire site |
+| `firecrawl-map` | Discover all URLs on a domain |
+| `firecrawl-agent` | Run autonomous web data gathering with a job |
+| `firecrawl-monitor` | Detect site changes and get notified |
+| `firecrawl-parse` | Parse local documents into markdown |
+| `firecrawl-download` | Download a site as local files |
+| `firecrawl-research-index` | Search papers, read passages, and follow citations |
+| `firecrawl-developer-index` | Search issues, pull requests, READMEs, and docs |
 
 The install above includes both index skills. To add just the paper-search one to an existing setup — worth doing when the work is biomedical or scientific literature — run:
 
@@ -107,34 +108,34 @@ npx skills add firecrawl/skills@firecrawl-research-index
 
 **Build skills** — for integrating Firecrawl into application code:
 
-| Skill                        | Purpose                                              |
-| ---------------------------- | ---------------------------------------------------- |
-| `firecrawl-build`            | Choose the right Firecrawl endpoint for your product |
-| `firecrawl-build-onboarding` | Auth and project setup                               |
-| `firecrawl-build-scrape`     | Implement scraping in app code                       |
-| `firecrawl-build-search`     | Implement search in app code                         |
-| `firecrawl-build-interact`   | Implement page interaction in app code               |
+| Skill | Purpose |
+| - | - |
+| `firecrawl-build` | Choose the right Firecrawl endpoint for your product |
+| `firecrawl-build-onboarding` | Auth and project setup |
+| `firecrawl-build-scrape` | Implement scraping in app code |
+| `firecrawl-build-search` | Implement search in app code |
+| `firecrawl-build-interact` | Implement page interaction in app code |
 
 **Workflow skills** — outcome-focused skills that produce a concrete deliverable from Firecrawl web data:
 
-| Skill                            | Outcome                                                               |
-| -------------------------------- | --------------------------------------------------------------------- |
-| `firecrawl-workflows`            | Umbrella skill for choosing the right workflow                        |
-| `firecrawl-deep-research`        | Multi-source sourced research reports                                 |
-| `firecrawl-seo-audit`            | Site maps, on-page SEO checks, SERP comparison, and prioritized fixes |
-| `firecrawl-lead-research`        | Pre-meeting company and person intelligence briefs                    |
-| `firecrawl-lead-gen`             | Prospect list generation from databases and directories               |
-| `firecrawl-qa`                   | Live-site QA reports with issues and reproduction steps               |
-| `firecrawl-competitive-intel`    | Recurring pricing, feature, and changelog monitoring                  |
-| `firecrawl-market-research`      | Market, financial, earnings, and industry research                    |
-| `firecrawl-research-papers`      | Literature reviews from papers, PDFs, and whitepapers                 |
-| `firecrawl-company-directories`  | Directory extraction into structured company lists                    |
-| `firecrawl-dashboard-reporting`  | Metrics extraction from dashboards and internal web tools             |
-| `firecrawl-knowledge-base`       | LLM-ready reference docs, RAG chunks, training data, or docs mirrors  |
-| `firecrawl-knowledge-ingest`     | Auth-gated or JS-heavy docs portal ingestion                          |
-| `firecrawl-demo-walkthrough`     | Product flow walkthroughs and UX teardown reports                     |
-| `firecrawl-shop`                 | Product research and shopping recommendations                         |
-| `firecrawl-website-design-clone` | Extract a website's design system into an agent-ready `DESIGN.md`     |
+| Skill | Outcome |
+| - | - |
+| `firecrawl-workflows` | Umbrella skill for choosing the right workflow |
+| `firecrawl-deep-research` | Multi-source sourced research reports |
+| `firecrawl-seo-audit` | Site maps, on-page SEO checks, SERP comparison, and prioritized fixes |
+| `firecrawl-lead-research` | Pre-meeting company and person intelligence briefs |
+| `firecrawl-lead-gen` | Prospect list generation from databases and directories |
+| `firecrawl-qa` | Live-site QA reports with issues and reproduction steps |
+| `firecrawl-competitive-intel` | Recurring pricing, feature, and changelog monitoring |
+| `firecrawl-market-research` | Market, financial, earnings, and industry research |
+| `firecrawl-research-papers` | Literature reviews from papers, PDFs, and whitepapers |
+| `firecrawl-company-directories` | Directory extraction into structured company lists |
+| `firecrawl-dashboard-reporting` | Metrics extraction from dashboards and internal web tools |
+| `firecrawl-knowledge-base` | LLM-ready reference docs, RAG chunks, training data, or docs mirrors |
+| `firecrawl-knowledge-ingest` | Auth-gated or JS-heavy docs portal ingestion |
+| `firecrawl-demo-walkthrough` | Product flow walkthroughs and UX teardown reports |
+| `firecrawl-shop` | Product research and shopping recommendations |
+| `firecrawl-website-design-clone` | Extract a website's design system into an agent-ready `DESIGN.md` |
 
 ### Choose your path
 

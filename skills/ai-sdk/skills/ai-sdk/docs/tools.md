@@ -1,7 +1,13 @@
 > Source: https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling.md
 
+---
+title: Tool Calling
+description: Learn about tool calling and multi-step calls (using stopWhen) with AI SDK Core.
+url: "https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling"
+docs_index: /llms.txt
+---
 
-# Tool Calling
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 As covered under Foundations, [tools](/docs/foundations/tools) are objects that can be called by the model to perform a specific task.
 Function tools and dynamic tools contain several core elements:
@@ -9,22 +15,19 @@ Function tools and dynamic tools contain several core elements:
 - **`description`**: An optional description of the tool that can influence when the tool is picked. It can be a string or a function that derives the description from the tool's context and experimental sandbox.
 - **`inputSchema`**: A [Zod schema](/docs/foundations/tools#schemas) or a [JSON schema](/docs/reference/ai-sdk-core/json-schema) that defines the input parameters. The schema is consumed by the LLM, and also used to validate the LLM tool calls.
 - **`execute`**: An optional async function that is called with the inputs from the tool call. It produces a value of type `RESULT` (generic type). It is optional because you might want to forward tool calls to the client or to a queue instead of executing them in the same process.
-- **`strict`**: _(optional, boolean)_ Enables strict tool calling when supported by the provider
+- **`strict`**: *(optional, boolean)* Enables strict tool calling when supported by the provider
 
-
-  You can use the [`tool`](/docs/reference/ai-sdk-core/tool) helper function to
-  infer the types of the `execute` parameters.
-
+You can use the [`tool`](/docs/reference/ai-sdk-core/tool) helper function to
+infer the types of the `execute` parameters.
 
 The `tools` parameter of `generateText` and `streamText` is an object that has the tool names as keys and the tools as values:
 
-```ts highlight="7-18"
+```ts {7-18}
 import { z } from 'zod';
 import { generateText, tool, isStepCount } from 'ai';
-__PROVIDER_IMPORT__;
 
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: {
     weather: tool({
       description: 'Get the weather in a location',
@@ -42,10 +45,8 @@ const result = await generateText({
 });
 ```
 
-
-  When a model uses a tool, it is called a "tool call" and the output of the
-  tool is called a "tool result".
-
+When a model uses a tool, it is called a "tool call" and the output of the
+tool is called a "tool result".
 
 Tool calling is not restricted to only text generation.
 You can also use it to render user interfaces (Generative UI).
@@ -61,7 +62,7 @@ model for each generation step. It receives the matching tool `context` from
 `toolsContext` and the current `experimental_sandbox`, if one was provided. If `prepareStep`
 updates `toolsContext` or `experimental_sandbox`, the next step uses those updated values.
 
-```ts highlight="5-16,32-35"
+```ts {5-16,32-35}
 import { generateText, tool } from 'ai';
 import { z } from 'zod';
 
@@ -91,7 +92,7 @@ const shell = tool({
 });
 
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: { shell },
   toolsContext: {
     shell: { projectName: 'web-app' },
@@ -122,10 +123,8 @@ tool({
 });
 ```
 
-
-  Not all providers or models support strict mode. For those that do not, this
-  option is ignored.
-
+Not all providers or models support strict mode. For those that do not, this
+option is ignored.
 
 ## Input Examples
 
@@ -149,10 +148,8 @@ tool({
 });
 ```
 
-
-  Only the Anthropic providers supports tool input examples natively. Other
-  providers ignore the setting.
-
+Only the Anthropic providers supports tool input examples natively. Other
+providers ignore the setting.
 
 ## Tool Execution Approval
 
@@ -167,9 +164,9 @@ The older `needsApproval` property on `tool()` definitions is deprecated. Existi
 
 ### Configure `toolApproval`
 
-```ts highlight="4-6"
+```ts {4-6}
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: { runCommand },
   toolApproval: {
     runCommand: 'user-approval',
@@ -207,9 +204,9 @@ call in one place. The callback receives `toolCall`, `tools`, `toolsContext`,
 `generateText` or `streamText`, typed as the second `ToolApprovalConfiguration`
 type parameter; it defaults to `Context`). It may return `undefined` for the same effect as `'not-applicable'`.
 
-```ts highlight="4-10"
+```ts {4-10}
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: { runCommand },
   toolApproval: ({
     toolCall,
@@ -273,8 +270,11 @@ const messages: ModelMessage[] = [
   { role: 'user', content: 'Remove the most recent file' },
 ];
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: { runCommand },
+  toolApproval: {
+    runCommand: 'user-approval',
+  },
   messages,
 });
 
@@ -321,16 +321,13 @@ their object forms only when you want the result to include an automatic
 `tool-approval-response`, so you can inspect or render the decision without
 prompting the user again.
 
+When a tool execution is denied, consider adding a system instruction like
+"When a tool execution is not approved, do not retry it" to prevent the model
+from attempting the same call again.
 
-  When a tool execution is denied, consider adding a system instruction like
-  "When a tool execution is not approved, do not retry it" to prevent the model
-  from attempting the same call again.
-
-
-  Provider-executed tools are executed provider-side without considering the
-  tool approval setting. `toolApproval` (and the deprecated `needsApproval`)
-  only control tools that the AI SDK executes locally.
-
+Provider-executed tools are executed provider-side without considering the
+tool approval setting. `toolApproval` (and the deprecated `needsApproval`)
+only control tools that the AI SDK executes locally.
 
 ### Dynamic Approval
 
@@ -350,7 +347,7 @@ const paymentTool = tool({
 });
 
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: {
     processPayment: paymentTool,
   },
@@ -389,10 +386,8 @@ The AI SDK provides several built-in stopping conditions:
 
 You can also combine multiple conditions in an array or create custom conditions. See [Loop Control](/docs/agents/loop-control) for more details.
 
-
-  The `stopWhen` conditions are only evaluated when the last step contains tool
-  results.
-
+The `stopWhen` conditions are only evaluated when the last step contains tool
+results.
 
 By default, when you use `generateText` or `streamText`, it triggers a single generation. This works well for many use cases where you can rely on the model's training data to generate a response. However, when you provide tools, the model now has the choice to either generate a normal text response, or generate a tool call. If the model generates a tool call, its generation is complete and that step is finished.
 
@@ -406,19 +401,18 @@ In the following example, there are two steps:
 
 1. **Step 1**
    1. The prompt `'What is the weather in San Francisco?'` is sent to the model.
-   1. The model generates a tool call.
-   1. The tool call is executed.
-1. **Step 2**
+   2. The model generates a tool call.
+   3. The tool call is executed.
+2. **Step 2**
    1. The tool result is sent to the model.
-   1. The model generates a response considering the tool result.
+   2. The model generates a response considering the tool result.
 
-```ts highlight="19-20"
+```ts {19-20}
 import { z } from 'zod';
 import { generateText, tool, isStepCount } from 'ai';
-__PROVIDER_IMPORT__;
 
 const { text, steps } = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: {
     weather: tool({
       description: 'Get the weather in a location',
@@ -436,7 +430,11 @@ const { text, steps } = await generateText({
 });
 ```
 
-You can use `streamText` in a similar way.
+You can use
+
+`streamText`
+
+in a similar way.
 
 ### Steps
 
@@ -446,12 +444,11 @@ It contains all the text, tool calls, tool results, per-step `performance`, and 
 
 #### Example: Extract tool results from all steps
 
-```ts highlight="4,10-11"
+```ts {4,10-11}
 import { generateText } from 'ai';
-__PROVIDER_IMPORT__;
 
 const { steps } = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   stopWhen: isStepCount(10),
   // ...
 });
@@ -469,7 +466,7 @@ When you have multiple steps, the callback is triggered for each step.
 
 The callback receives a `stepNumber` (zero-based) to identify which step just completed:
 
-```tsx highlight="5-8"
+```tsx {5-8}
 import { generateText } from 'ai';
 
 const result = await generateText({
@@ -498,7 +495,7 @@ You can use `onToolExecutionStart` and `onToolExecutionEnd` to observe tool exec
 These callbacks are called right before and after each tool's `execute` function, giving you
 visibility into tool execution timing, inputs, outputs, and errors:
 
-```tsx highlight="5-14"
+```tsx {5-14}
 import { generateText } from 'ai';
 
 const result = await generateText({
@@ -550,7 +547,7 @@ It is called with the following parameters:
 
 You can use it to provide different settings for a step, including modifying the input messages.
 
-```tsx highlight="5-7"
+```tsx {5-7}
 import { generateText } from 'ai';
 
 const result = await generateText({
@@ -698,7 +695,7 @@ When using both static and dynamic tools, use the `dynamic` flag for type narrow
 
 ```ts
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: {
     // Static tool with known types
     weather: weatherTool,
@@ -771,13 +768,12 @@ It supports the following settings:
 - `none`: the model must not call tools
 - `{ type: 'tool', toolName: string (typed) }`: the model must call the specified tool
 
-```ts highlight="19"
+```ts {19}
 import { z } from 'zod';
 import { generateText, tool } from 'ai';
-__PROVIDER_IMPORT__;
 
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: {
     weather: tool({
       description: 'Get the weather in a location',
@@ -804,7 +800,7 @@ When tools are called, they receive additional options as a second parameter.
 The ID of the tool call is forwarded to the tool execution.
 You can use it e.g. when sending tool-call related information with stream data.
 
-```ts highlight="15-21"
+```ts {15-21}
 import {
   streamText,
   tool,
@@ -854,7 +850,7 @@ The messages that were sent to the language model to initiate the response that 
 You can access them in the second parameter of the `execute` function.
 In multi-step calls, the messages contain the text, tool calls, and tool results from all previous steps.
 
-```ts highlight="8-9"
+```ts {8-9}
 import { generateText, tool } from 'ai';
 
 const result = await generateText({
@@ -876,13 +872,12 @@ const result = await generateText({
 The abort signals from `generateText` and `streamText` are forwarded to the tool execution.
 You can access them in the second parameter of the `execute` function and e.g. abort long-running computations or forward them to fetch calls inside tools.
 
-```ts highlight="7,12,15"
+```ts {7,12,15}
 import { z } from 'zod';
 import { generateText, tool } from 'ai';
-__PROVIDER_IMPORT__;
 
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   abortSignal: myAbortSignal, // signal that will be forwarded to tools
   tools: {
     weather: tool({
@@ -905,21 +900,19 @@ const result = await generateText({
 Pass `experimental_sandbox` to `generateText`, `streamText`, or a `ToolLoopAgent`
 call when a tool needs to run commands or code in an execution environment. The experimental sandbox is available to tool description functions and on the second parameter of the tool's `execute` function.
 
-
-  This API is experimental and can change in patch releases. Passing an
-  experimental sandbox does not sandbox the tool itself.
-
+This API is experimental and can change in patch releases. Passing an
+experimental sandbox does not sandbox the tool itself.
 
 Tool code still runs wherever your application runs. Only the operations that your tool explicitly delegates to
 the experimental sandbox, such as `experimental_sandbox.run(...)`,
 run in the experimental sandbox environment.
 
-```ts highlight="7-15,21"
+```ts {7-15,21}
 import { generateText, tool } from 'ai';
 import { z } from 'zod';
 
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: {
     shell: tool({
       inputSchema: z.object({
@@ -984,7 +977,7 @@ between prompt context, runtime context, and tool context, see
 Tool context often contains server-side values such as API keys, access tokens, or internal identifiers.
 Use `telemetry.includeToolsContext` to include selected top-level context properties in telemetry integrations:
 
-```ts highlight="24-30"
+```ts {24-30}
 const weatherTool = tool({
   description: 'Get the weather in a location',
   inputSchema: z.object({
@@ -1004,7 +997,7 @@ const weatherTool = tool({
 });
 
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: { weather: weatherTool },
   toolsContext: {
     weather: {
@@ -1026,13 +1019,11 @@ const result = await generateText({
 Telemetry integrations receive the `weather` tool context as `{ defaultUnit: 'fahrenheit' }`.
 Properties set to `false` or omitted are excluded. If `telemetry.includeToolsContext` is omitted, no tool context properties are included.
 
-
-  `telemetry.includeToolsContext` only filters telemetry integrations. Tool
-  execution, lifecycle callbacks, and returned results still receive the full
-  typed tool context. See [Runtime and Tool
-  Context](/docs/ai-sdk-core/runtime-and-tool-context) for how tool context
-  flows through execution and telemetry.
-
+`telemetry.includeToolsContext` only filters telemetry integrations. Tool
+execution, lifecycle callbacks, and returned results still receive the full
+typed tool context. See [Runtime and Tool
+Context](/docs/ai-sdk-core/runtime-and-tool-context) for how tool context
+flows through execution and telemetry.
 
 ## Tool Input Lifecycle Hooks
 
@@ -1046,13 +1037,12 @@ The following tool input lifecycle hooks are available:
 
 ### Example
 
-```ts highlight="16-24"
+```ts {16-24}
 import { streamText, tool } from 'ai';
-__PROVIDER_IMPORT__;
 import { z } from 'zod';
 
 const result = streamText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: {
     getWeather: tool({
       description: 'Get the weather in a location',
@@ -1094,9 +1084,8 @@ The type inference helpers `TypedToolCall<TOOLS extends ToolSet>`
 and `TypedToolResult<TOOLS extends ToolSet>` can be used to
 extract the tool call and tool result types from the tools.
 
-```ts highlight="18-19,23-24"
+```ts {18-19,23-24}
 import { TypedToolCall, TypedToolResult, generateText, tool } from 'ai';
-__PROVIDER_IMPORT__;
 import { z } from 'zod';
 
 const myToolSet = {
@@ -1121,7 +1110,7 @@ async function generateSomething(prompt: string): Promise<{
   toolResults: Array<MyToolResult>; // typed tool results
 }> {
   return generateText({
-    model: __MODEL__,
+    model: "anthropic/claude-sonnet-5.5",
     tools: myToolSet,
     prompt,
   });
@@ -1243,7 +1232,7 @@ const result = await generateText({
     const tool = tools[toolCall.toolName as keyof typeof tools];
 
     const { output: repairedArgs } = await generateText({
-      model: __MODEL__,
+      model: "anthropic/claude-sonnet-5.5",
       output: Output.object({ schema: tool.inputSchema }),
       prompt: [
         `The model tried to call the tool "${toolCall.toolName}"` +
@@ -1334,13 +1323,12 @@ the AI SDK provides the `activeTools` property.
 It is an array of tool names that are currently active.
 By default, the value is `undefined` and all tools are active.
 
-```ts highlight="8"
+```ts {8}
 import { openai } from '@ai-sdk/openai';
 import { generateText } from 'ai';
-__PROVIDER_IMPORT__;
 
 const { text } = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: myToolSet,
   activeTools: ['firstTool'],
 });
@@ -1357,12 +1345,11 @@ debugging. The list can be partial: tools listed in `toolOrder` are sent first
 in that order, and any remaining tools are sent afterwards in alphabetical
 order. Tool names are typed from your `tools` object.
 
-```ts highlight="7"
+```ts {7}
 import { generateText } from 'ai';
-__PROVIDER_IMPORT__;
 
 const { text } = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: myToolSet,
   toolOrder: ['search', 'readFile'],
   prompt: 'Summarize the latest project notes.',
@@ -1378,16 +1365,19 @@ orders the remaining tools.
 
 ## Multi-modal Tool Results
 
+Multi-modal tool results are experimental and supported by Anthropic, OpenAI,
+and Google (Gemini 3 models).
 
-  Multi-modal tool results are experimental and supported by Anthropic, OpenAI,
-  and Google (Gemini 3 models).
-
-
-For Google, use base64 inline-data file parts
+For Google Generative AI, use base64 inline-data file parts
 (`{ type: 'file', mediaType, data: { type: 'data', data } }`) or base64
 `data:` URLs in URL-style file parts
 (`{ type: 'file', mediaType, data: { type: 'url', url: new URL('data:...') } }`).
 Remote HTTP(S) URLs in tool-result URL parts are not supported.
+
+The [Google Vertex provider](/providers/ai-sdk-providers/google-vertex#tool-result-files)
+also supports direct `gs://` tool-result file references for Gemini 3 and later
+models with supported image and document MIME types. It downloads HTTP(S)
+tool-result URLs and sends their contents as inline data.
 
 In order to send multi-modal tool results, e.g. screenshots, back to the model,
 they need to be converted into a specific format.
@@ -1397,9 +1387,9 @@ that converts the tool result into a content part.
 
 Here is an example for converting a screenshot into a content part:
 
-```ts highlight="23-38"
+```ts {23-38}
 const result = await generateText({
-  model: __MODEL__,
+  model: "anthropic/claude-sonnet-5.5",
   tools: {
     computer: anthropic.tools.computer_20241022({
       // ...
@@ -1449,7 +1439,7 @@ The `tool` helper function is crucial for this, because it ensures correct type 
 
 Here is an example of an extracted tool:
 
-```ts filename="tools/weather-tool.ts" highlight="1,4-5"
+```ts title="tools/weather-tool.ts" {1,4-5}
 import { tool } from 'ai';
 import { z } from 'zod';
 
@@ -1491,55 +1481,10 @@ In most cases, you should define your own AI SDK tools for production applicatio
 
 You can see tools in action using various frameworks in the following examples:
 
-<ExampleLinks
-  examples={[
-    {
-      title: 'Learn to use tools in Node.js',
-      link: '/cookbook/node/call-tools',
-    },
-    {
-      title: 'Learn to use tools in Next.js with Route Handlers',
-      link: '/cookbook/next/call-tools',
-    },
-    {
-      title: 'Learn to use MCP tools in Node.js',
-      link: '/cookbook/node/mcp-tools',
-    },
-  ]}
-/>
+---
 
+For a semantic overview of all documentation, see [/sitemap.md](/sitemap.md)
 
-## Navigation
+For an index of all available documentation, see [/llms.txt](/llms.txt)
 
-- [Overview](/docs/ai-sdk-core/overview)
-- [Generating Text](/docs/ai-sdk-core/generating-text)
-- [Generating Structured Data](/docs/ai-sdk-core/generating-structured-data)
-- [Tool Calling](/docs/ai-sdk-core/tools-and-tool-calling)
-- [Model Context Protocol (MCP)](/docs/ai-sdk-core/mcp-tools)
-- [MCP Apps](/docs/ai-sdk-core/mcp-apps)
-- [Runtime and Tool Context](/docs/ai-sdk-core/runtime-and-tool-context)
-- [Code Mode](/docs/ai-sdk-core/code-mode)
-- [Prompt Engineering](/docs/ai-sdk-core/prompt-engineering)
-- [Settings](/docs/ai-sdk-core/settings)
-- [Reasoning](/docs/ai-sdk-core/reasoning)
-- [Embeddings](/docs/ai-sdk-core/embeddings)
-- [Reranking](/docs/ai-sdk-core/reranking)
-- [Image Generation](/docs/ai-sdk-core/image-generation)
-- [Realtime](/docs/ai-sdk-core/realtime)
-- [Transcription](/docs/ai-sdk-core/transcription)
-- [Translation](/docs/ai-sdk-core/translation)
-- [Speech](/docs/ai-sdk-core/speech)
-- [Video Generation](/docs/ai-sdk-core/video-generation)
-- [File Uploads](/docs/ai-sdk-core/file-uploads)
-- [Language Model Middleware](/docs/ai-sdk-core/middleware)
-- [Skill Uploads](/docs/ai-sdk-core/skill-uploads)
-- [Batch](/docs/ai-sdk-core/batch)
-- [Provider & Model Management](/docs/ai-sdk-core/provider-management)
-- [Error Handling](/docs/ai-sdk-core/error-handling)
-- [Testing](/docs/ai-sdk-core/testing)
-- [Telemetry](/docs/ai-sdk-core/telemetry)
-- [DevTools](/docs/ai-sdk-core/devtools)
-- [Lifecycle Callbacks](/docs/ai-sdk-core/lifecycle-callbacks)
-
-
-[Full Sitemap](/sitemap.md)
+For agent-facing discovery, including API and MCP surfaces, see [/agents.md](/agents.md)

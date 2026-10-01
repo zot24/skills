@@ -67,13 +67,13 @@ That's it — your meetings are now queryable in Honcho. Read on if you want to 
 
 The core idea is straightforward: each Granola meeting becomes a Honcho session, and each participant becomes a peer. Here's the full mapping:
 
-| Granola Concept      | Honcho Concept            | Details                                       |
-| -------------------- | ------------------------- | --------------------------------------------- |
-| Your Granola account | Workspace (`granola`)     | One workspace for all meetings                |
-| Meeting participant  | Peer                      | Email as ID for deduplication across meetings |
-| Individual meeting   | Session (`meeting-{id}`)  | One session per meeting                       |
-| Transcript turns     | Messages with attribution | Two-person calls get full speaker attribution |
-| Meeting summary      | Message from note creator | Multi-person calls store the summary          |
+| Granola Concept | Honcho Concept | Details |
+| - | - | - |
+| Your Granola account | Workspace (`granola`) | One workspace for all meetings |
+| Meeting participant | Peer | Email as ID for deduplication across meetings |
+| Individual meeting | Session (`meeting-{id}`) | One session per meeting |
+| Transcript turns | Messages with attribution | Two-person calls get full speaker attribution |
+| Meeting summary | Message from note creator | Multi-person calls store the summary |
 
 ### Email as Peer ID
 
@@ -179,11 +179,11 @@ alice.chat("What has Alice shipped recently?")
 
 ## Troubleshooting
 
-| Issue                            | Fix                                                                                                          |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Granola OAuth fails              | Ensure you have a paid Granola plan (MCP requires Pro+). Clear cached token and retry.                       |
-| Missing transcripts              | Free tier has no transcript access. The script falls back to summary content.                                |
-| 500 errors from Honcho           | Check for null bytes or control characters in transcript content. The script sanitizes these automatically.  |
+| Issue | Fix |
+| - | - |
+| Granola OAuth fails | Ensure you have a paid Granola plan (MCP requires Pro+). Clear cached token and retry. |
+| Missing transcripts | Free tier has no transcript access. The script falls back to summary content. |
+| 500 errors from Honcho | Check for null bytes or control characters in transcript content. The script sanitizes these automatically. |
 | Rate limiting with many meetings | The script processes sequentially with delays. Honcho ingestion is async — don't poll for immediate results. |
 
 ## Full Script

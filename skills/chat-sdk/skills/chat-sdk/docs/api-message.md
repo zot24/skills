@@ -40,7 +40,7 @@ The detection logic varies by platform:
 | Google Chat | Checks `message.sender.name === botUserId`. The bot user ID is learned dynamically from message annotations when the bot is first @-mentioned.                       |
 
 
-  All adapters return `false` if the bot ID isn't known yet. This is a safe default that prevents the bot from ignoring messages it should process.
+  All adapters return `false` if the bot ID isn't known yet, so the bot doesn't ignore messages it should process.
 
 
 ## MessageMetadata
@@ -62,7 +62,7 @@ Links found in incoming messages are extracted and exposed as `LinkPreview` obje
 | Platform | Link extraction                                       | `fetchMessage()`                                 |
 | -------- | ----------------------------------------------------- | ------------------------------------------------ |
 | Slack    | URLs from `rich_text` blocks or `<url>` text patterns | Slack message links (`*.slack.com/archives/...`) |
-| Others   | Not yet — `links` is always `[]`                      | —                                                |
+| Others   | Not supported yet; `links` is always `[]`             | —                                                |
 
 ## MessageSubject
 

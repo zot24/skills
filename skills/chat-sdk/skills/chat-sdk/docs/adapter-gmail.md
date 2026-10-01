@@ -1,0 +1,266 @@
+> Source: https://chat-sdk.dev/adapters/official/gmail.md
+
+---
+title: Gmail
+description: Gmail adapter for Chat SDK with mailbox notifications and threaded email replies.
+tagline: Receive labelled emails and send threaded replies, or use standalone Gmail APIs without the Chat runtime.
+package: @chat-adapter/gmail
+---
+
+# Gmail
+
+
+## Install
+
+
+## Quick start
+
+
+  The adapter reads its `GMAIL_*` configuration from the environment. Complete [Platform setup](#platform-setup) before starting a mailbox watch. Use Node.js 20 or newer.
+
+
+```typescript title="lib/bot.ts" lineNumbers
+import { Chat } from "chat";
+import { createGmailAdapter } from "@chat-adapter/gmail";
+import { createRedisState } from "@chat-adapter/state-redis";
+
+export const gmail = createGmailAdapter();
+
+export const bot = new Chat({
+  userName: "agent",
+  adapters: { gmail },
+  state: createRedisState(),
+});
+
+bot.onNewMention(async (thread) => {
+  await thread.post("Received, I will review this email.");
+});
+```
+
+Install [Redis state](/adapters/official/redis) and set `REDIS_URL` for this example. Shared persistent state preserves mailbox cursors and processed-message receipts across restarts.
+
+
+```typescript title="app/api/webhooks/gmail/route.ts" lineNumbers
+import { after } from "next/server";
+import { bot } from "@/lib/bot";
+
+export async function POST(request: Request): Promise<Response> {
+  return bot.webhooks.gmail(request, {
+    waitUntil: (task) => after(() => task),
+  });
+}
+```
+
+Eligible incoming emails with the configured label are delivered as mentions. If several arrive in the same conversation during one sync, the adapter dispatches the newest and leaves earlier emails available through thread history. Sending a reply does not require an `@mention` in the email.
+
+
+  `thread.post()` sends a real email immediately. The intake label controls which messages trigger handlers, not which mailbox data the OAuth token can read. Authorize senders before giving them access to privileged actions.
+
+
+## Platform setup
+
+### 1. Authorize a mailbox
+
+Enable the **Gmail API** and **Cloud Pub/Sub API** in your Google Cloud project. Configure an OAuth consent screen and OAuth client, then authorize the mailbox user with [Google's web-server OAuth flow](https://developers.google.com/identity/protocols/oauth2/web-server). Request offline access (`access_type=offline`) to obtain a refresh token.
+
+Use these [Gmail scopes](https://developers.google.com/workspace/gmail/api/auth/scopes):
+
+| Scope                                            | Purpose                                                  |
+| ------------------------------------------------ | -------------------------------------------------------- |
+| `https://www.googleapis.com/auth/gmail.readonly` | Read messages, labels and history, and watch the mailbox |
+| `https://www.googleapis.com/auth/gmail.send`     | Send replies                                             |
+| `https://www.googleapis.com/auth/gmail.compose`  | Optional, for drafts through the standalone API          |
+
+The adapter refreshes access tokens but does not implement the consent flow. A revoked or expired refresh token requires renewed authorization. Before a public launch, review Google's verification requirements for sensitive and restricted scopes.
+
+### 2. Configure Pub/Sub
+
+Follow [Gmail's push setup](https://developers.google.com/workspace/gmail/api/guides/push) and [authenticated push subscription guide](https://docs.cloud.google.com/pubsub/docs/authenticate-push-subscriptions):
+
+1. Create a topic in the Google Cloud project making the Gmail watch request.
+2. Grant `gmail-api-push@system.gserviceaccount.com` the **Pub/Sub Publisher** role on that topic.
+3. Create a separate service account for push authentication, such as `gmail-push@PROJECT.iam.gserviceaccount.com`.
+4. Ensure the Pub/Sub service agent can create OIDC tokens for that account. Grant **Service Account Token Creator** on the push account if needed. The operator configuring the subscription also needs permission to act as that account.
+5. Create an authenticated **push** subscription targeting `https://your-domain.com/api/webhooks/gmail`. Select the push service account and set the audience to that same URL. Keep payload wrapping enabled.
+
+The publisher identity sends events to the topic; the push service account authenticates delivery to your webhook. They are not interchangeable. If your host requires separate platform authentication, configure that as well.
+
+### 3. Select the intake label
+
+Create a Gmail label, such as `Agent`, then use `listGmailLabels()` from `@chat-adapter/gmail/api` to find its ID:
+
+```typescript title="scripts/labels.ts" lineNumbers
+import {
+  createGmailTokenProvider,
+  listGmailLabels,
+} from "@chat-adapter/gmail/api";
+
+const token = createGmailTokenProvider({
+  clientId: process.env.GMAIL_CLIENT_ID!,
+  clientSecret: process.env.GMAIL_CLIENT_SECRET!,
+  refreshToken: process.env.GMAIL_REFRESH_TOKEN!,
+});
+
+const result = await listGmailLabels({
+  mailbox: process.env.GMAIL_MAILBOX!,
+  token,
+});
+
+console.log(result.labels);
+```
+
+Set the environment variables with your own project and mailbox values. [Environment variables](#environment-variables) describes each one.
+
+```bash title=".env.local"
+GMAIL_MAILBOX=agent@example.com
+GMAIL_LABEL_ID=Label_123
+GMAIL_CLIENT_ID=your-client-id
+GMAIL_CLIENT_SECRET=your-client-secret
+GMAIL_REFRESH_TOKEN=your-refresh-token
+GMAIL_TOPIC_NAME=projects/your-project/topics/gmail-events
+GMAIL_SUBSCRIPTION=projects/your-project/subscriptions/gmail-webhook
+GMAIL_PUBSUB_AUDIENCE=https://your-domain.com/api/webhooks/gmail
+GMAIL_PUBSUB_SERVICE_ACCOUNT_EMAIL=gmail-push@your-project.iam.gserviceaccount.com
+REDIS_URL=redis://localhost:6379
+```
+
+[Labels apply to individual messages](https://developers.google.com/workspace/gmail/api/guides/labels). Labelling a conversation affects its existing messages, not future replies. Use a Gmail filter if follow-ups should enter automatically. `thread.subscribe()` does not apply Gmail labels.
+
+### 4. Start and renew the watch
+
+After the webhook is reachable, run this from a server-side setup job with the same environment and state store:
+
+```typescript title="scripts/watch.ts" lineNumbers
+import { bot, gmail } from "@/lib/bot";
+
+await bot.initialize();
+const watch = await gmail.watch();
+console.log(watch.expiration);
+await gmail.sync();
+```
+
+Schedule `watch()` daily and a separate periodic `sync()` to recover missed notifications. Google requires watch renewal at least every seven days and recommends daily renewal. The adapter does not start a scheduler.
+
+The first watch saves a starting cursor; it does not import previously labelled mail. Send or label a new incoming email after setup to test delivery. Renewing a watch preserves the existing cursor, so it does not skip pending changes.
+
+## Configuration
+
+
+Provide either `clientId`, `clientSecret` and `refreshToken`, or `accessToken`. Explicit configuration takes precedence over environment variables; explicit OAuth credentials also take precedence over `GMAIL_ACCESS_TOKEN`. Only the exact environment value `true` enables reply-all.
+
+### Environment variables
+
+| Variable                             | Required                                | Description                                                           |
+| ------------------------------------ | --------------------------------------- | --------------------------------------------------------------------- |
+| `GMAIL_MAILBOX`                      | Yes                                     | Mailbox email address. Use the actual address, not `me`               |
+| `GMAIL_LABEL_ID`                     | Yes                                     | ID of the Gmail label that marks incoming handoffs                    |
+| `GMAIL_SUBSCRIPTION`                 | Yes                                     | Full Pub/Sub subscription name                                        |
+| `GMAIL_CLIENT_ID`                    | Yes, unless `GMAIL_ACCESS_TOKEN` is set | OAuth client ID                                                       |
+| `GMAIL_CLIENT_SECRET`                | Yes, unless `GMAIL_ACCESS_TOKEN` is set | OAuth client secret                                                   |
+| `GMAIL_REFRESH_TOKEN`                | Yes, unless `GMAIL_ACCESS_TOKEN` is set | Mailbox user's OAuth refresh token                                    |
+| `GMAIL_ACCESS_TOKEN`                 | No                                      | Access token used instead of OAuth refresh credentials                |
+| `GMAIL_PUBSUB_AUDIENCE`              | Yes, unless `webhookVerifier` is set    | Expected audience of the Pub/Sub push JWT                             |
+| `GMAIL_PUBSUB_SERVICE_ACCOUNT_EMAIL` | Yes, unless `webhookVerifier` is set    | Service account selected for push authentication                      |
+| `GMAIL_TOPIC_NAME`                   | For `watch()`                           | Full Pub/Sub topic name, unless you pass it to `watch(topicName)`     |
+| `GMAIL_REPLY_ALL`                    | No                                      | Set to `true` to include the original To and Cc recipients in replies |
+
+## Webhooks
+
+Built-in verification checks the Google-signed JWT, issuer, audience, expiration and push service-account email, then validates the wrapped payload and subscription. The root adapter also rejects notifications for a different mailbox.
+
+A custom `webhookVerifier` replaces JWT authentication and takes precedence over audience and service-account configuration. It may read the request body. Falsy results or thrown errors reject the request; subscription, payload and mailbox checks still apply. Never use an always-true verifier on a public endpoint.
+
+## Replies and private delivery
+
+Replies preserve the original subject, Gmail thread ID, `In-Reply-To` and `References`, matching [Gmail's threading requirements](https://developers.google.com/workspace/gmail/api/guides/threads). By default, the recipient is the original `Reply-To`, or `From` when absent.
+
+Set `replyAll: true` to include the original To and Cc recipients, excluding the configured mailbox and duplicates. Bcc recipients are never copied. The adapter does not discover mailbox aliases or expand mailing lists.
+
+`thread.postEphemeral(userId, message, { fallbackToDM: true })` sends a permanent private email to the selected email address only, with no Cc or Bcc. It retains the subject and reply headers in an existing Gmail thread and adds a `(private only)` notice to the body. The result has `usedFallback: true`. Without the fallback, the adapter sends nothing.
+
+Outside an active message handler, reply context comes from the latest incoming email. To return to a group conversation after a private exchange, use `thread.reply(originalMessageId, message)` with the original group message. Replies do not automatically quote earlier bodies or copy attachments.
+
+
+  Thread history can contain both private and group messages. Do not copy private history into a group response or shared model context. A sender's address and a private conversation are not proof that the recipient is authorized to receive secrets.
+
+
+For a new direct email, call `gmail.openDM(address)` and post to the returned route. Each post to that recipient route starts a new email with subject `Private message`; use the returned native thread ID for follow-ups. Calling `openDM()` alone sends nothing.
+
+## Standalone APIs
+
+These entrypoints work without importing the Chat runtime:
+
+| Import                        | Use                                                         |
+| ----------------------------- | ----------------------------------------------------------- |
+| `@chat-adapter/gmail/api`     | OAuth tokens, messages, drafts, labels, history and watches |
+| `@chat-adapter/gmail/format`  | MIME parsing, composition and serializable reply context    |
+| `@chat-adapter/gmail/webhook` | Pub/Sub parsing and authentication                          |
+
+Use the lower-level APIs when your application owns routing, sessions, approvals and retries:
+
+```typescript title="lib/gmail.ts" lineNumbers
+import {
+  createGmailDraft,
+  createGmailTokenProvider,
+  getGmailMessage,
+} from "@chat-adapter/gmail/api";
+import {
+  extractGmailContinuation,
+  parseGmailMessage,
+} from "@chat-adapter/gmail/format";
+
+const token = createGmailTokenProvider({
+  clientId: process.env.GMAIL_CLIENT_ID!,
+  clientSecret: process.env.GMAIL_CLIENT_SECRET!,
+  refreshToken: process.env.GMAIL_REFRESH_TOKEN!,
+});
+
+const options = { mailbox: process.env.GMAIL_MAILBOX!, token };
+const source = await getGmailMessage("native-message-id", options);
+const email = await parseGmailMessage(source);
+const continuation = extractGmailContinuation(email, options.mailbox);
+
+const draft = await createGmailDraft({
+  continuation,
+  text: "Here is the proposed reply.",
+}, options);
+```
+
+`createGmailDraft()` saves without sending. `sendGmailMessage()` sends immediately. Continuations preserve mailbox identity, recipients, subject and reply headers as serializable data. API options accept a token string or resolver, plus optional `fetch` and `signal`.
+
+### Native events and history
+
+`createGmailWebhookVerifier()` verifies authentication and the configured subscription, returning the decoded notification and original wrapped Pub/Sub `envelope`. It does not read messages, store a cursor or dispatch a Chat event. Check `emailAddress` against your authorized mailbox before any reads or routing. `parseGmailNotification()` only parses; it does not authenticate.
+
+`listGmailHistory({ startHistoryId, pageToken }, options)` returns one page of additions, deletions and label changes without fetching email bodies. History can include sent and received mail. Use the specific change arrays instead of also processing the general `messages` references, which can duplicate them.
+
+Keep history IDs and page tokens as opaque strings. Follow every page and save the final history cursor only after processing is durable. The notification's `historyId` is a wake-up signal, not a cursor to save before processing. History order is not email-date order.
+
+`listGmailMessages()` supports search, label filtering and pagination. `getGmailThread()` returns ordered message pointers, not hydrated messages. Call `getGmailMessage()` and `parseGmailMessage()` only for the emails you need.
+
+With standalone APIs, your application owns mailbox serialization, deduplication, cursor persistence, renewal and [expired-history recovery](https://developers.google.com/workspace/gmail/api/guides/sync). A `404` for an old history cursor requires a full sync. Finish processing or durably enqueue the verified event before acknowledging Pub/Sub; do not start untracked background work and return success.
+
+## Thread IDs
+
+```
+gmail:{mailbox}:{threadId}       # Gmail conversation
+gmail:{mailbox}:dm:{recipient}   # recipient route returned by openDM()
+```
+
+Examples: `gmail:YWdlbnRAZXhhbXBsZS5jb20:18c2f0a1b2c3d4e5`, `gmail:YWdlbnRAZXhhbXBsZS5jb20:dm:YWxleEBleGFtcGxlLmNvbQ`.
+
+`mailbox` and `recipient` are base64url-encoded email addresses. `threadId` is the native Gmail thread ID. The channel ID is `gmail:{mailbox}`, so every thread in a mailbox belongs to one channel.
+
+## Limitations
+
+* The root adapter uses durable receipts to suppress already-handled or superseded emails. When history expires, it scans the current intake label, which can include older emails never previously handled.
+* Sent mail, drafts, spam and trash do not trigger handoffs. Label eligibility is checked before loading bodies and again before dispatch.
+* Oversized or malformed emails and failed handler handoffs are recorded and logged without automatic replay. An acknowledged notification means its changes were accounted for, not that every handler succeeded. Inspect logs and reconcile side effects before retrying.
+* Email sending and state writes are not transactional. A failed request can have an unknown send outcome; check the mailbox before sending again. API acceptance does not prove delivery to the recipient.
+* Streamed text is buffered into one email, not live-edited. The adapter limits buffered stream text to 1 MiB and raw incoming or composed outgoing MIME to 25 MiB. These are adapter limits, not Gmail quotas.
+* Sent messages cannot be edited or recalled through the adapter. Cards render as plain text; buttons do not produce actions.
+* `bot.shutdown()` does not unregister the watch. For permanent disconnection, stop scheduled jobs and use `stopGmailMailbox()` from `/api`. It stops notifications for the mailbox, not only this label, and does not revoke OAuth consent or erase state.
+
+## Feature support
+
+

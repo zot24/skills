@@ -9,13 +9,13 @@ sidebar:
 
 Persistent Storage allows Apprise to cache data locally. This greatly reduces the number of API transactions between you and the service(s) you are using.
 
-## Why use Persistent Storage?
+## What Gets Cached
 
 Some services require complex authentication handshakes or resource lookups that are "expensive" to perform every time you send a notification.
 
 - **Matrix:** Login information is cached locally to avoid re-authenticating with the homeserver on every request.
 - **Telegram:** User account details are cached to save extra fetches to the service.
-- **Email (PGP):** When PGP encryption is enabled without supplying explicit key files, Apprise auto-generates a PGP key pair and stores it persistently so the same keys are reused across every run.
+- **Email (PGP):** An encrypted self-send can generate and store the sender's PGP key pair for reuse. External recipient keys are never generated.
 
 ## Storage Locations
 
@@ -78,7 +78,7 @@ You can filter the listing by UID prefix or by passing a full Apprise URL:
 # Filter by 8-char UID prefix (closest match)
 apprise storage list abc1
 
-# Filter by full URL — resolved to its namespace automatically
+# Filter by full URL, resolved to its namespace automatically
 apprise storage list "mailtos://user:pass@example.com"
 ```
 
@@ -97,7 +97,7 @@ By default, Apprise removes data older than 30 days. You can adjust the threshol
 apprise storage prune --storage-prune-days 7
 ```
 
-You can scope a prune to a specific URL, UID prefix, or tag — only storage belonging to the matched plugins is eligible for removal:
+You can scope a prune to a specific URL, UID prefix, or tag. Only storage belonging to the matched plugins is eligible for removal:
 
 ```bash
 # Prune only storage belonging to a specific URL
@@ -118,13 +118,13 @@ To erase all cached data immediately (regardless of age), use the `clear` comman
 apprise storage clear
 ```
 
-You can be more specific by targeting a specific UID, a full URL, or a tag — only the matched plugins' namespaces are cleared:
+You can be more specific by targeting a specific UID, a full URL, or a tag. Only the matched plugins' namespaces are cleared:
 
 ```bash
 # Clear a specific UID (e.g. found via 'apprise storage list')
 apprise storage clear abc123xy
 
-# Clear using a full URL — resolved to its namespace automatically
+# Clear using a full URL, resolved to its namespace automatically
 apprise storage clear "mailtos://user:pass@example.com"
 
 # Clear all URLs associated with the 'family' tag

@@ -127,14 +127,14 @@ Pass `userId` and `sessionId` per request — no session handles to construct. B
 
 `honcho.tools()` gives the model six tools it can call mid-generation to query or update what it knows about the user:
 
-| Tool                        | What it does                                                                                                           |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `honcho_chat`               | Dialectic reasoning — ask natural-language questions about the user; answers synthesized from full interaction history |
-| `honcho_context`            | Short summary of recent context within the session                                                                     |
-| `honcho_search`             | Semantic search over stored conversation messages                                                                      |
-| `honcho_search_conclusions` | Query derived conclusions: personality traits, preferences, behavioral patterns                                        |
-| `honcho_get_representation` | Full synthesized profile of the user                                                                                   |
-| `honcho_save_conclusion`    | Persist an observation about the user for future sessions                                                              |
+| Tool | What it does |
+| - | - |
+| `honcho_chat` | Dialectic reasoning — ask natural-language questions about the user; answers synthesized from full interaction history |
+| `honcho_context` | Short summary of recent context within the session |
+| `honcho_search` | Semantic search over stored conversation messages |
+| `honcho_search_conclusions` | Query derived conclusions: personality traits, preferences, behavioral patterns |
+| `honcho_get_representation` | Full synthesized profile of the user |
+| `honcho_save_conclusion` | Persist an observation about the user for future sessions |
 
 Pass the same `userId` and `sessionId` to `honcho.tools()` so tool calls bind to the same peers as the middleware:
 

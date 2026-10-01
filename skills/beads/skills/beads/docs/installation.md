@@ -14,11 +14,11 @@ Complete installation guide for all platforms.
 
 Beads has several components - here's what they are and when you need them:
 
-| Component                  | What It Is                       | When You Need It                                                |
-| -------------------------- | -------------------------------- | --------------------------------------------------------------- |
-| **bd CLI**                 | Core command-line tool           | Always - this is the foundation                                 |
-| **Claude Code Plugin**     | Slash commands + enhanced UX     | Optional - if you want `/beads:ready`, `/beads:create` commands |
-| **MCP Server (beads-mcp)** | Model Context Protocol interface | Only for MCP-only environments (Claude Desktop, Amp)            |
+| Component | What It Is | When You Need It |
+| - | - | - |
+| **bd CLI** | Core command-line tool | Always - this is the foundation |
+| **Claude Code Plugin** | Slash commands + enhanced UX | Optional - if you want `/beads:ready`, `/beads:create` commands |
+| **MCP Server (beads-mcp)** | Model Context Protocol interface | Only for MCP-only environments (Claude Desktop, Amp) |
 
 **How they relate:**
 
@@ -30,13 +30,13 @@ Beads has several components - here's what they are and when you need them:
 
 **Typical setups:**
 
-| Environment                   | What to Install                            |
-| ----------------------------- | ------------------------------------------ |
+| Environment | What to Install |
+| - | - |
 | Claude Code, Cursor, Windsurf | bd CLI (+ optional Plugin for Claude Code) |
-| GitHub Copilot (VS Code)      | bd CLI + MCP server                        |
-| Claude Desktop (no shell)     | MCP server only                            |
-| Terminal / scripts            | bd CLI only                                |
-| CI/CD pipelines               | bd CLI only                                |
+| GitHub Copilot (VS Code) | bd CLI + MCP server |
+| Claude Desktop (no shell) | MCP server only |
+| Terminal / scripts | bd CLI only |
+| CI/CD pipelines | bd CLI only |
 
 **Are they mutually exclusive?** No - you can have CLI + Plugin + MCP all installed. They don't conflict. But most users only need the CLI.
 
@@ -102,17 +102,17 @@ BEADS_INSTALL_RESIGN_MACOS=1 curl -fsSL https://raw.githubusercontent.com/gastow
 
 ### Comparison of Installation Methods
 
-| Method                 | Best For                            | Updates                            | Prerequisites        | Notes                                         |
-| ---------------------- | ----------------------------------- | ---------------------------------- | -------------------- | --------------------------------------------- |
-| **Homebrew**           | macOS/Linux users                   | `brew upgrade beads`               | Homebrew             | Recommended. Handles everything automatically |
-| **Mise**               | All platforms                       | `mise up`                          | mise                 | Installs the latest GitHub release            |
-| **npm**                | JS/Node.js projects                 | `npm update -g @beads/bd`          | Node.js              | Convenient if npm is your ecosystem           |
-| **bun**                | JS/Bun.js projects                  | `bun install -g --trust @beads/bd` | Bun.js               | Convenient if bun is your ecosystem           |
-| **Install script**     | Quick setup, CI/CD                  | Re-run script                      | curl, bash           | Good for automation and one-liners            |
-| **go install (nocgo)** | Go developers, simplest install     | Re-run command                     | Go 1.24+             | **Server-mode only** (no embedded Dolt)       |
-| **go install (cgo)**   | Go developers wanting embedded mode | Re-run command                     | Go 1.24+, C compiler | Full embedded-Dolt support                    |
-| **From source**        | Contributors only                   | `git pull && go build`             | Go, git              | Full control, can modify code                 |
-| **AUR (Arch)**         | Arch Linux users                    | `yay -Syu`                         | yay/paru             | Community-maintained                          |
+| Method | Best For | Updates | Prerequisites | Notes |
+| - | - | - | - | - |
+| **Homebrew** | macOS/Linux users | `brew upgrade beads` | Homebrew | Recommended. Handles everything automatically |
+| **Mise** | All platforms | `mise up` | mise | Installs the latest GitHub release |
+| **npm** | JS/Node.js projects | `npm update -g @beads/bd` | Node.js | Convenient if npm is your ecosystem |
+| **bun** | JS/Bun.js projects | `bun install -g --trust @beads/bd` | Bun.js | Convenient if bun is your ecosystem |
+| **Install script** | Quick setup, CI/CD | Re-run script | curl, bash | Good for automation and one-liners |
+| **go install (nocgo)** | Go developers, simplest install | Re-run command | Go 1.24+ | **Server-mode only** (no embedded Dolt) |
+| **go install (cgo)** | Go developers wanting embedded mode | Re-run command | Go 1.24+, C compiler | Full embedded-Dolt support |
+| **From source** | Contributors only | `git pull && go build` | Go, git | Full control, can modify code |
+| **AUR (Arch)** | Arch Linux users | `yay -Syu` | yay/paru | Community-maintained |
 
 **TL;DR:** Use Homebrew if available. Use npm if you're in a Node.js environment. Use the script for quick one-off installs or CI.
 

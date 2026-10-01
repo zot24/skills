@@ -1,4 +1,4 @@
-> Source: https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/cli/index.md
+> Source: https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/cli/index.mdx
 
 ---
 title: Command Line Interface
@@ -8,13 +8,37 @@ sidebar:
   order: 1
 ---
 
+<style>{`
+  :root[data-theme="dark"] .apprise-flow img {
+    content: url("/assets/apprise-overview-en-dark.svg");
+  }
+
+  :root[data-theme="light"] .apprise-flow img {
+    content: url("/assets/apprise-overview-en-light.svg");
+  }
+`}</style>
+
 The Apprise CLI (`apprise`) is a lightweight command-line tool that allows you to send notifications to virtually any service directly from your terminal. It is ideal for system administrators, DevOps engineers, and automation scripts.
+
+The CLI is one of the ways into Apprise. It uses the same notification URLs as everything else, and can talk to an Apprise API server instead of sending directly.
+
+<picture class="apprise-flow apprise-flow--cli">
+  <source
+    srcset="/assets/apprise-overview-en-dark.svg"
+    media="(prefers-color-scheme: dark)"
+  />
+  <img
+    src="/assets/apprise-overview-en-light.svg"
+    alt="The Apprise CLI highlighted among the ways to send notifications through Apprise."
+    loading="lazy"
+  />
+</picture>
 
 ## Installing the CLI
 
 The `apprise` command is included with the Apprise core installation.
 
-Most users install it via `pip install apprise`.
+Most users install it via `pip install apprise`. If you use [uv](https://docs.astral.sh/uv/), `uv tool install apprise` does the same thing.
 
 Docker images primarily target the **Apprise API**, though the CLI is available inside the container for operational use.
 
@@ -35,7 +59,7 @@ To send a notification, provide a title (`-t`) and a body (`-b`), followed by on
 
 ```bash
 # Send a notification to Discord
-apprise -t "Task Complete" -b " The backup finished successfully." \
+apprise -t "Task Complete" -b "The backup finished successfully." \
     "discord://webhook_id/webhook_token"
 ```
 

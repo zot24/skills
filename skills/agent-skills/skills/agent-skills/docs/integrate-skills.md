@@ -23,11 +23,11 @@ The guide notes where these differences matter. You don't need to support every 
 
 Every skills-compatible agent follows the same three-tier loading strategy:
 
-| Tier            | What's loaded               | When                                 | Token cost                  |
-| --------------- | --------------------------- | ------------------------------------ | --------------------------- |
-| 1. Catalog      | Name + description          | Session start                        | \~50-100 tokens per skill   |
-| 2. Instructions | Full `SKILL.md` body        | When the skill is activated          | \<5000 tokens (recommended) |
-| 3. Resources    | Scripts, references, assets | When the instructions reference them | Varies                      |
+| Tier | What's loaded | When | Token cost |
+| - | - | - | - |
+| 1. Catalog | Name + description | Session start | \~50-100 tokens per skill |
+| 2. Instructions | Full `SKILL.md` body | When the skill is activated | \<5000 tokens (recommended) |
+| 3. Resources | Scripts, references, assets | When the instructions reference them | Varies |
 
 The model sees the catalog from the start, so it knows what skills are available. When it decides a skill is relevant, it loads the full instructions. If those instructions reference supporting files, the model loads them individually as needed.
 
@@ -48,12 +48,12 @@ Other scopes are possible too — for example, organization-wide skills deployed
 
 Within each scope, consider scanning both a **client-specific directory** and the **`.agents/skills/` convention**:
 
-| Scope   | Path                               | Purpose                       |
-| ------- | ---------------------------------- | ----------------------------- |
+| Scope | Path | Purpose |
+| - | - | - |
 | Project | `<project>/.<your-client>/skills/` | Your client's native location |
-| Project | `<project>/.agents/skills/`        | Cross-client interoperability |
-| User    | `~/.<your-client>/skills/`         | Your client's native location |
-| User    | `~/.agents/skills/`                | Cross-client interoperability |
+| Project | `<project>/.agents/skills/` | Cross-client interoperability |
+| User | `~/.<your-client>/skills/` | Your client's native location |
+| User | `~/.agents/skills/` | Cross-client interoperability |
 
 The `.agents/skills/` paths have emerged as a widely-adopted convention for cross-client skill sharing. While the Agent Skills specification does not mandate where skill directories live (it only defines what goes inside them), scanning `.agents/skills/` means skills installed by other compliant clients are automatically visible to yours, and vice versa.
 
@@ -148,11 +148,11 @@ Record diagnostics so they can be surfaced to the user (in a debug command, log 
 
 At minimum, each skill record needs three fields:
 
-| Field         | Description                          |
-| ------------- | ------------------------------------ |
-| `name`        | From frontmatter                     |
-| `description` | From frontmatter                     |
-| `location`    | Absolute path to the `SKILL.md` file |
+| Field | Description |
+| - | - |
+| `name` | From frontmatter |
+| `description` | From frontmatter |
+| `location` | Absolute path to the `SKILL.md` file |
 
 Store these in an in-memory map keyed by `name` for fast lookup during activation.
 

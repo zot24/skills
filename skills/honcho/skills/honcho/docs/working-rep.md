@@ -96,13 +96,13 @@ Working representations support semantic search to retrieve the most relevant ob
 
 ### Parameters
 
-| Parameter              | Type    | Description                                               |
-| ---------------------- | ------- | --------------------------------------------------------- |
-| `search_query`         | `str`   | Semantic search query to filter relevant observations     |
-| `search_top_k`         | `int`   | Number of semantic search results to include (1-100)      |
-| `search_max_distance`  | `float` | Maximum semantic distance threshold (0.0-1.0)             |
-| `include_most_derived` | `bool`  | Whether to include the most recently derived observations |
-| `max_observations`     | `int`   | Maximum number of observations to include (1-100)         |
+| Parameter | Type | Description |
+| - | - | - |
+| `search_query` | `str` | Semantic search query to filter relevant observations |
+| `search_top_k` | `int` | Number of semantic search results to include (1-100) |
+| `search_max_distance` | `float` | Maximum semantic distance threshold (0.0-1.0) |
+| `include_most_derived` | `bool` | Whether to include the most recently derived observations |
+| `max_observations` | `int` | Maximum number of observations to include (1-100) |
 
 <CodeGroup>
   ```python Python

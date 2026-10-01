@@ -42,7 +42,7 @@ Get Started
 # Introduction
 
 
-Search the web, scrape any page, and interact with it, all through one API.
+The web data API for AI agents. Search the web, scrape any page, and interact with it through one API.
 
 
 ## 

@@ -28,10 +28,10 @@ Each check records page-level results as `same`, `new`, `changed`, `removed`, or
 
 Every monitor has one or more **targets**. The target type determines what each check does:
 
-| Target   | What it watches                  | Setup                                                         |
-| -------- | -------------------------------- | ------------------------------------------------------------- |
-| `scrape` | Known URLs you name              | [Page monitoring](/features/monitoring-page)                  |
-| `crawl`  | Every page discovered by a crawl | [Website monitoring](/features/monitoring-website)            |
+| Target | What it watches | Setup |
+| - | - | - |
+| `scrape` | Known URLs you name | [Page monitoring](/features/monitoring-page) |
+| `crawl` | Every page discovered by a crawl | [Website monitoring](/features/monitoring-website) |
 | `search` | New results across the whole web | [Entire web-scale monitoring](/features/monitoring-web-scale) |
 
 Each monitor accepts 1–50 targets, and you can mix target types in a single monitor. `retentionDays` defaults to `30` and can be set up to `365`.
@@ -906,9 +906,9 @@ The check detail response includes `estimatedCredits`, `actualCredits`, summary 
 
 A scheduled check can end without running. It is recorded with a skip status, not a failure, and it is not charged.
 
-| Status               | What happened                                                                                                                                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `skipped_overlap`    | The previous check for this monitor was still running when this one came due, so this one was skipped instead of running alongside it. The next scheduled check runs normally.                                |
+| Status | What happened |
+| - | - |
+| `skipped_overlap` | The previous check for this monitor was still running when this one came due, so this one was skipped instead of running alongside it. The next scheduled check runs normally. |
 | `skipped_no_credits` | The credit check for this monitor refused the run. `actualCredits` is `0` and `error` says why. This covers both a team that has run out of credits and a partner-granted job whose partner has withdrawn it. |
 
 A `skipped_no_credits` check resolves itself as soon as the reason does. Adding credits is enough. Nothing needs to be reset on the monitor.
@@ -934,14 +934,14 @@ A paused monitor keeps its configuration and its check history. Pausing is not d
 
 Monitors don't introduce a separate per-monitor fee. Each check pays for the underlying scrape, crawl, or search it performs, plus an optional credit per changed page when meaningful-change judging is enabled.
 
-| Component                                                 | Credits                                                                                            |
-| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| Scrape monitor                                            | 1 credit per URL per check                                                                         |
-| Crawl monitor                                             | 1 credit per discovered page per check                                                             |
-| Web monitor                                               | 2 credits per 10 results per check                                                                 |
-| Web monitor judging                                       | 1 credit per result judged, when AI judging is enabled (covers scraping and evaluating the result) |
-| Meaningful change enabled                                 | 1 additional credit per changed page that the judge validates                                      |
-| Format add-ons (JSON, PDF, question, enhanced mode, etc.) | Same as standalone [scrape](/features/scrape)                                                      |
+| Component | Credits |
+| - | - |
+| Scrape monitor | 1 credit per URL per check |
+| Crawl monitor | 1 credit per discovered page per check |
+| Web monitor | 2 credits per 10 results per check |
+| Web monitor judging | 1 credit per result judged, when AI judging is enabled (covers scraping and evaluating the result) |
+| Meaningful change enabled | 1 additional credit per changed page that the judge validates |
+| Format add-ons (JSON, PDF, question, enhanced mode, etc.) | Same as standalone [scrape](/features/scrape) |
 
 ## API reference
 

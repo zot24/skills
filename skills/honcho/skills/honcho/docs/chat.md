@@ -12,11 +12,11 @@ The Chat endpoint is the natural language interface to Honcho's reasoning. Inste
 
 There are two ways to ask:
 
-|              | `peer.chat()`                                                                   | `honcho.chat()`                                                         |
-| ------------ | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Answers from | One peer's representation, from an observer's perspective                       | Every peer in the workspace, with no anchor peer                        |
-| Good for     | Personalization, per-user decisions, "what does this peer know about that peer" | Cross-peer themes, team-wide questions, "what does this workspace know" |
-| Endpoint     | `POST /v3/workspaces/{workspace_id}/peers/{peer_id}/chat`                       | `POST /v3/workspaces/{workspace_id}/chat`                               |
+| | `peer.chat()` | `honcho.chat()` |
+| - | - | - |
+| Answers from | One peer's representation, from an observer's perspective | Every peer in the workspace, with no anchor peer |
+| Good for | Personalization, per-user decisions, "what does this peer know about that peer" | Cross-peer themes, team-wide questions, "what does this workspace know" |
+| Endpoint | `POST /v3/workspaces/{workspace_id}/peers/{peer_id}/chat` | `POST /v3/workspaces/{workspace_id}/chat` |
 
 Most applications start with peer chat. Jump to [Workspace Chat](#workspace-chat) when the question spans more than one peer.
 
@@ -62,13 +62,13 @@ Use `reasoning_level` to trade off speed against depth for a specific chat reque
 
 The reasoning level controls which model the request is routed to, the tools used by the agent, the thinking budget, the maximum tool-iteration count, and output token limits.
 
-| Level     | When to use                         | Notes                                                       |
-| --------- | ----------------------------------- | ----------------------------------------------------------- |
-| `minimal` | Fast factual lookups                | Smallest prefetch window and minimal tools for lower cost.  |
-| `low`     | Default balance                     | Standard tool set and budgets.                              |
-| `medium`  | Multi-step or ambiguous questions   | Calls fewer tools than `low`, but thinks harder and longer. |
-| `high`    | Complex synthesis across sources    | Thinks like `medium`, but uses more tools.                  |
-| `max`     | Deep research, most complex queries | Highest thinking budget, max iterations.                    |
+| Level | When to use | Notes |
+| - | - | - |
+| `minimal` | Fast factual lookups | Smallest prefetch window and minimal tools for lower cost. |
+| `low` | Default balance | Standard tool set and budgets. |
+| `medium` | Multi-step or ambiguous questions | Calls fewer tools than `low`, but thinks harder and longer. |
+| `high` | Complex synthesis across sources | Thinks like `medium`, but uses more tools. |
+| `max` | Deep research, most complex queries | Highest thinking budget, max iterations. |
 
 <CodeGroup>
   ```python Python
@@ -372,15 +372,15 @@ rules.
 
 ### Peer Chat vs Workspace Chat
 
-|                                                 | `peer.chat()`                                          | `honcho.chat()`                         |
-| ----------------------------------------------- | ------------------------------------------------------ | --------------------------------------- |
-| Perspective                                     | Observer peer, optional `target`                       | None, whole workspace                   |
-| `session` / `session_id`                        | Yes                                                    | Yes (message tools only)                |
-| `scope`                                         | Single name swaps the observer; a list is an allowlist | Always an allowlist, even a single name |
-| `filters` (session allowlist)                   | Yes                                                    | No                                      |
-| `reasoning_level`, `response_format`, streaming | Yes                                                    | Yes                                     |
-| Key required                                    | Peer, workspace, or admin                              | Workspace or admin                      |
-| CLI / Explore UI                                | `honcho peer chat`, Explore Chat tab                   | API and SDK only                        |
+| | `peer.chat()` | `honcho.chat()` |
+| - | - | - |
+| Perspective | Observer peer, optional `target` | None, whole workspace |
+| `session` / `session_id` | Yes | Yes (message tools only) |
+| `scope` | Single name swaps the observer; a list is an allowlist | Always an allowlist, even a single name |
+| `filters` (session allowlist) | Yes | No |
+| `reasoning_level`, `response_format`, streaming | Yes | Yes |
+| Key required | Peer, workspace, or admin | Workspace or admin |
+| CLI / Explore UI | `honcho peer chat`, Explore Chat tab | API and SDK only |
 
 ## Integration Patterns
 
