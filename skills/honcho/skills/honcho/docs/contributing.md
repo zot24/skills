@@ -6,6 +6,8 @@
 
 # Contributing Guidelines
 
+> How to contribute to Honcho, the open-source memory layer for AI agents: issues, pull requests, review and what gets accepted.
+
 Thanks for your interest in contributing. This guide covers how work gets accepted, how
 Honcho is put together, and what a mergeable pull request looks like.
 
@@ -51,14 +53,14 @@ issue linkage.
 Roughly, work on Honcho falls along these axes. Knowing which one your idea sits on tells
 you a lot about how likely it is to get approved.
 
-| Axis                     | What it covers                                                                                                                                  |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Observability**        | Understanding how Honcho behaves in production — telemetry, tracing, CloudEvents, metrics.                                                      |
-| **Memory quality**       | Better conclusions from the same input — the deriver, dreamer, and dialectic; eval results.                                                     |
-| **Developer experience** | Fitting cleanly into more application architectures — SDKs, scopes, composable peers, the CLI.                                                  |
-| **Breadth of input**     | Widening what Honcho can ingest and represent — multimodal and non-conversational data.                                                         |
-| **Ubiquity**             | Reachable wherever a developer already works — integrations, self-hosting, alternate vector-store and inference backends, local-first defaults. |
-| **Reliability and cost** | Trustworthy in production — connection and concurrency hardening, queue throughput, cost per token.                                             |
+| Axis | What it covers |
+| - | - |
+| **Observability** | Understanding how Honcho behaves in production — telemetry, tracing, CloudEvents, metrics. |
+| **Memory quality** | Better conclusions from the same input — the deriver, dreamer, and dialectic; eval results. |
+| **Developer experience** | Fitting cleanly into more application architectures — SDKs, scopes, composable peers, the CLI. |
+| **Breadth of input** | Widening what Honcho can ingest and represent — multimodal and non-conversational data. |
+| **Ubiquity** | Reachable wherever a developer already works — integrations, self-hosting, alternate vector-store and inference backends, local-first defaults. |
+| **Reliability and cost** | Trustworthy in production — connection and concurrency hardening, queue throughput, cost per token. |
 
 In practice, **Ubiquity** and **Developer experience** are where outside contributions land
 most easily. A new integration, a self-hosting rough edge, a vector-store or inference
@@ -106,12 +108,12 @@ Enough architecture to find your way around. For the user-facing model — what 
 
 Honcho runs as two cooperating processes over a shared Postgres database and Redis cache.
 
-|       | API server                                                 | Deriver worker                                               |
-| ----- | ---------------------------------------------------------- | ------------------------------------------------------------ |
-| Start | `uv run fastapi dev src/main.py`                           | `uv run python -m src.deriver`                               |
-| Entry | `src/main.py`                                              | `src/deriver/__main__.py`                                    |
-| Does  | Serves HTTP, enqueues background work, returns immediately | Consumes the queue: Deriver, Summarizer, Dreamer, Reconciler |
-| Hosts | The Dialectic agent, inline on the request path            | Everything else                                              |
+| | API server | Deriver worker |
+| - | - | - |
+| Start | `uv run fastapi dev src/main.py` | `uv run python -m src.deriver` |
+| Entry | `src/main.py` | `src/deriver/__main__.py` |
+| Does | Serves HTTP, enqueues background work, returns immediately | Consumes the queue: Deriver, Summarizer, Dreamer, Reconciler |
+| Hosts | The Dialectic agent, inline on the request path | Everything else |
 
 The split is the load-bearing design decision: **an HTTP request never blocks on LLM work**,
 with the single exception of the Dialectic chat endpoint, which is synchronous by nature.
@@ -148,12 +150,12 @@ They share tool definitions in `src/utils/agent_tools.py` and the provider-agnos
 client in `src/llm/`. Each has its own `MODEL_CONFIG` with a fallback chain in
 `src/config.py`.
 
-| Agent          | Where                     | Shape                                                                                                                                                                   |
-| -------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Deriver**    | `src/deriver/`            | A single structured-output call per message batch. Not a tool loop — this is a deliberate cost and latency tradeoff.                                                    |
-| **Dialectic**  | `src/dialectic/`          | The one tool-using agent on the request path. Loops over tools until it can answer. Five reasoning tiers from `minimal` to `max`, each with its own model and tool set. |
-| **Dreamer**    | `src/dreamer/`            | Off-queue consolidation. Two specialist phases (deduction, then induction) that build reasoning trees over existing conclusions.                                        |
-| **Summarizer** | `src/utils/summarizer.py` | Direct LLM call, no tools. Two tiers — short and long summaries at different message counts.                                                                            |
+| Agent | Where | Shape |
+| - | - | - |
+| **Deriver** | `src/deriver/` | A single structured-output call per message batch. Not a tool loop — this is a deliberate cost and latency tradeoff. |
+| **Dialectic** | `src/dialectic/` | The one tool-using agent on the request path. Loops over tools until it can answer. Five reasoning tiers from `minimal` to `max`, each with its own model and tool set. |
+| **Dreamer** | `src/dreamer/` | Off-queue consolidation. Two specialist phases (deduction, then induction) that build reasoning trees over existing conclusions. |
+| **Summarizer** | `src/utils/summarizer.py` | Direct LLM call, no tools. Two tiers — short and long summaries at different message counts. |
 
 Prompts live in `src/deriver/prompts.py`, `src/dialectic/prompts.py`, and
 `src/dreamer/specialists.py`.
@@ -168,22 +170,22 @@ public and internal vocabularies are being reconciled deliberately.
 
 ## Where to change what
 
-| I want to change...          | Start here                                                                         |
-| ---------------------------- | ---------------------------------------------------------------------------------- |
-| An HTTP endpoint             | `src/routers/` — one module per resource                                           |
-| A database query             | `src/crud/` — mirrors the router layout                                            |
-| The database schema          | `src/models.py`, plus a migration in `migrations/versions/`                        |
-| A configuration value        | `src/config.py`, and add it to `config.toml.example` and `.env.template`           |
-| A tool an agent can call     | `src/utils/agent_tools.py` — definitions plus the per-agent tool lists             |
-| A prompt                     | `src/deriver/prompts.py`, `src/dialectic/prompts.py`, `src/dreamer/specialists.py` |
-| LLM provider behavior        | `src/llm/backends/` — `anthropic.py`, `gemini.py`, `openai.py`                     |
-| Embeddings or vector storage | `src/embedding_client.py`, `src/vector_store/`                                     |
-| Telemetry or metrics         | `src/telemetry/` — see the notes in `CLAUDE.md` before adding an event type        |
-| Authentication and scoping   | `src/security.py`, `src/dependencies.py`                                           |
-| The Python or TypeScript SDK | `sdks/python/`, `sdks/typescript/`                                                 |
-| The CLI                      | `honcho-cli/`                                                                      |
-| The MCP server               | `mcp/`                                                                             |
-| Public documentation         | `docs/v3/` — Mintlify; nav lives in `docs/docs.json`                               |
+| I want to change... | Start here |
+| - | - |
+| An HTTP endpoint | `src/routers/` — one module per resource |
+| A database query | `src/crud/` — mirrors the router layout |
+| The database schema | `src/models.py`, plus a migration in `migrations/versions/` |
+| A configuration value | `src/config.py`, and add it to `config.toml.example` and `.env.template` |
+| A tool an agent can call | `src/utils/agent_tools.py` — definitions plus the per-agent tool lists |
+| A prompt | `src/deriver/prompts.py`, `src/dialectic/prompts.py`, `src/dreamer/specialists.py` |
+| LLM provider behavior | `src/llm/backends/` — `anthropic.py`, `gemini.py`, `openai.py` |
+| Embeddings or vector storage | `src/embedding_client.py`, `src/vector_store/` |
+| Telemetry or metrics | `src/telemetry/` — see the notes in `CLAUDE.md` before adding an event type |
+| Authentication and scoping | `src/security.py`, `src/dependencies.py` |
+| The Python or TypeScript SDK | `sdks/python/`, `sdks/typescript/` |
+| The CLI | `honcho-cli/` |
+| The MCP server | `mcp/` |
+| Public documentation | `docs/v3/` — Mintlify; nav lives in `docs/docs.json` |
 
 Tests in `tests/` mirror `src/`. `CLAUDE.md` at the repo root has more detail on house
 conventions, and is worth skimming even if you are not using an agent.
@@ -269,13 +271,13 @@ uv run basedpyright
 Write tests for new functionality, in the directory under `tests/` that mirrors the code you
 changed. Which layer you need depends on what you touched:
 
-| What you changed                                                  | What to run                                                                    |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Anything in `src/`                                                | Unit tests in the matching `tests/` tree — `uv run pytest tests/...`           |
-| Deriver, dialectic, dreamer, or the LLM path                      | Unit tests, and consider `tests/live_llm/` (gated behind `--live-llm`)         |
-| Queue behavior, config hierarchy, multi-turn flows, SDK contracts | `uv run python -m tests.unified.run`                                           |
-| A `/v3` endpoint or deriver queue behavior                        | Actually run the stack and exercise it — not just pytest                       |
-| A migration                                                       | `uv run python scripts/run_alembic_tests.py`; every revision needs a test file |
+| What you changed | What to run |
+| - | - |
+| Anything in `src/` | Unit tests in the matching `tests/` tree — `uv run pytest tests/...` |
+| Deriver, dialectic, dreamer, or the LLM path | Unit tests, and consider `tests/live_llm/` (gated behind `--live-llm`) |
+| Queue behavior, config hierarchy, multi-turn flows, SDK contracts | `uv run python -m tests.unified.run` |
+| A `/v3` endpoint or deriver queue behavior | Actually run the stack and exercise it — not just pytest |
+| A migration | `uv run python scripts/run_alembic_tests.py`; every revision needs a test file |
 
 The TypeScript SDK tests need a running server with a database and Redis, which pytest
 orchestrates. Run them with `uv run pytest tests/ -k typescript` from the repo root —

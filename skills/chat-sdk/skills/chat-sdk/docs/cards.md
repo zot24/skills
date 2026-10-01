@@ -16,7 +16,7 @@ related:
 # Cards
 
 
-Cards let you send structured, interactive messages that render natively on each platform — Block Kit on Slack, Adaptive Cards on Teams, Discord embeds or Components, and Google Chat Cards.
+Cards are structured, interactive messages that each adapter renders in its platform's native format: Block Kit on Slack, Adaptive Cards on Teams, embeds or Components on Discord, and Cards on Google Chat.
 
 ## Setup
 
@@ -124,7 +124,7 @@ The `id` maps to your `onAction` handler. Optional `value` passes extra data:
 <Button id="report" value="bug">Report Bug</Button>
 ```
 
-Set `actionType="modal"` to indicate the button opens a [modal](/docs/modals). The button still triggers your `onAction` handler, where you call `event.openModal()` — this prop tells adapters like Teams to wire up the button for dialog opening:
+Set `actionType="modal"` to indicate the button opens a [modal](/docs/modals). The button still triggers your `onAction` handler, where you call `event.openModal()`. The prop tells adapters such as Teams to wire the button up to open a dialog:
 
 ```tsx title="lib/bot.tsx"
 <Button id="open-feedback" actionType="modal">Give Feedback</Button>
@@ -144,7 +144,7 @@ Optional `tooltip` is hover text for the button. Teams renders it; other adapter
 
 ### CardLink
 
-Inline hyperlink rendered as text. Unlike `LinkButton` (which must be inside `Actions`), `CardLink` can be placed directly in a card alongside other content.
+Inline hyperlink rendered as text. `LinkButton` must be inside `Actions`, but you can place `CardLink` directly in a card alongside other content.
 
 ```tsx title="lib/bot.tsx"
 <CardLink url="https://example.com/order/1234" label="View order details" />
@@ -249,6 +249,23 @@ Optional column alignment:
   align={["left", "right"]}
 />
 ```
+
+On Teams, tables render as the native Adaptive Card `Table` element: grid lines between cells, columns sized by relative weight and a header row marked for accessibility. The optional `widths`, `verticalAlign`, `gridLines` and `gridStyle` props tune that rendering and are ignored on other platforms:
+
+```tsx title="lib/bot.tsx"
+<Table
+  headers={["Service", "Status", "Latency"]}
+  rows={[
+    ["api", "ok", "120 ms"],
+    ["worker", "degraded", "840 ms"],
+  ]}
+  widths={[2, 1, 1]}
+  align={["left", "center", "right"]}
+  gridStyle="emphasis"
+/>
+```
+
+Pass `gridLines={false}` for a borderless table. A table with empty `headers` renders without a header row.
 
 On Slack, tables render as paginated, sortable [data tables](https://docs.slack.dev/reference/block-kit/blocks/data-table-block). The optional `caption` (accessible table description) and `pageSize` (rows per page, 1–100) props tune that rendering and are ignored on other platforms:
 

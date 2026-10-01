@@ -93,13 +93,13 @@ Set `FIRECRAWL_API_KEY` in the environment that starts ADK. Do not put its value
 
 ## Available Tools
 
-| Tool               | Name                           | Description                                                       |
-| ------------------ | ------------------------------ | ----------------------------------------------------------------- |
-| Scrape Tool        | `firecrawl_scrape`             | Scrape content from a single URL with advanced options            |
-| Map Tool           | `firecrawl_map`                | Map a website to discover all indexed URLs on the site            |
-| Search Tool        | `firecrawl_search`             | Search the web and optionally extract content from search results |
-| Crawl Tool         | `firecrawl_crawl`              | Start an asynchronous crawl with advanced options                 |
-| Check Crawl Status | `firecrawl_check_crawl_status` | Check the status of a crawl job                                   |
+| Tool | Name | Description |
+| - | - | - |
+| Scrape Tool | `firecrawl_scrape` | Scrape content from a single URL with advanced options |
+| Map Tool | `firecrawl_map` | Map a website to discover all indexed URLs on the site |
+| Search Tool | `firecrawl_search` | Search the web and optionally extract content from search results |
+| Crawl Tool | `firecrawl_crawl` | Start an asynchronous crawl with advanced options |
+| Check Crawl Status | `firecrawl_check_crawl_status` | Check the status of a crawl job |
 
 ## Configuration
 

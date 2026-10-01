@@ -2,31 +2,28 @@
 
 
 
-<img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
-
-
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -93,7 +90,7 @@ Run Wealthfolio with the official Docker image using docker run. Works on any Li
 
 ------------------------------------------------------------------------
 
-Last updated September 13, 2026
+Last updated October 1, 2026
 
 
 The fastest way to self-host Wealthfolio: pull the official multi-arch image and run it with `docker run`. For a Compose-based setup with restart policies and an env file, see <a href="/docs/guide/self-hosting/docker-compose/" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a>.
@@ -153,6 +150,8 @@ docker run -d \
 
 Open `http://localhost:8088` and log in with the password you hashed.
 
+The command keeps the existing `WF_DB_PATH` layout. On a fresh installation, you can use the explicit installation directory instead: replace `-e WF_DB_PATH=/data/wealthfolio.db` with `-e WF_DATA_DIR=/data` **and** `-e WF_DB_PATH=` (which clears the image’s default). On an existing volume, keep its database path; you may also add `-e WF_DATA_DIR=/data` because the two paths agree. Neither option moves existing data. See <a href="/docs/guide/self-hosting/configuration/#wf_data_dir" class="font-medium underline underline-offset-4">Storage configuration</a>.
+
 
 Inside the container, `WF_LISTEN_ADDR` **must** be `0.0.0.0:PORT`. Binding to `127.0.0.1` makes the app reachable only from inside the container.
 
@@ -193,7 +192,8 @@ When using `--env-file`, Docker keeps `$` characters in the hash as-is. No escap
 
 `/data` is the only mount you need. It holds:
 
-- `wealthfolio.db`: SQLite database with all your portfolio data
+- `profiles.json` and `profiles/<uuid>/app.db`: profile registry and databases
+- `wealthfolio.db`: legacy database for installations using that path
 - `secrets.json`: encrypted broker credentials and API keys
 
 ``` mb-4

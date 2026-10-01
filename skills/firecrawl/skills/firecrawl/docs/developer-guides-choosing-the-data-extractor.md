@@ -12,16 +12,16 @@ Firecrawl offers three approaches for extracting structured data from web pages.
 
 ## Quick Comparison
 
-| Feature             | `/agent`                               | `/extract`                                 | `/scrape` (JSON mode)                     |
-| ------------------- | -------------------------------------- | ------------------------------------------ | ----------------------------------------- |
-| **Status**          | Active                                 | Use `/agent` instead                       | Active                                    |
-| **URL Required**    | No (optional)                          | Yes (wildcards supported)                  | Yes (single URL)                          |
-| **Scope**           | Web-wide discovery                     | Multiple pages/domains                     | Single page                               |
-| **URL Discovery**   | Autonomous web search                  | Crawls from given URLs                     | None                                      |
-| **Processing**      | Asynchronous                           | Asynchronous                               | Synchronous                               |
-| **Schema Required** | No (prompt or schema)                  | No (prompt or schema)                      | No (prompt or schema)                     |
-| **Pricing**         | Dynamic (5 free runs/day)              | Token-based (1 credit = 15 tokens)         | 5 credits/page (1 base + 4 for JSON mode) |
-| **Best For**        | Research, discovery, complex gathering | Multi-page extraction (when you know URLs) | Known single-page extraction              |
+| Feature | `/agent` | `/extract` | `/scrape` (JSON mode) |
+| - | - | - | - |
+| **Status** | Active | Use `/agent` instead | Active |
+| **URL Required** | No (optional) | Yes (wildcards supported) | Yes (single URL) |
+| **Scope** | Web-wide discovery | Multiple pages/domains | Single page |
+| **URL Discovery** | Autonomous web search | Crawls from given URLs | None |
+| **Processing** | Asynchronous | Asynchronous | Synchronous |
+| **Schema Required** | No (prompt or schema) | No (prompt or schema) | No (prompt or schema) |
+| **Pricing** | Dynamic (5 free runs/day) | Token-based (1 credit = 15 tokens) | 5 credits/page (1 base + 4 for JSON mode) |
+| **Best For** | Research, discovery, complex gathering | Multi-page extraction (when you know URLs) | Known single-page extraction |
 
 ## 1. `/agent` Endpoint
 
@@ -352,32 +352,32 @@ For more details, see the [JSON mode documentation](/features/llm-extract).
 
 ### Recommendations by Scenario
 
-| Scenario                                           | Recommended Endpoint            |
-| -------------------------------------------------- | ------------------------------- |
-| "Find all AI startups and their funding"           | `/agent`                        |
-| "Extract data from this specific product page"     | `/scrape` (JSON mode)           |
-| "Get all blog posts from competitor.com"           | `/agent` with URL               |
-| "Monitor prices across multiple known URLs"        | `/scrape` with batch processing |
-| "Research companies in a specific industry"        | `/agent`                        |
+| Scenario | Recommended Endpoint |
+| - | - |
+| "Find all AI startups and their funding" | `/agent` |
+| "Extract data from this specific product page" | `/scrape` (JSON mode) |
+| "Get all blog posts from competitor.com" | `/agent` with URL |
+| "Monitor prices across multiple known URLs" | `/scrape` with batch processing |
+| "Research companies in a specific industry" | `/agent` |
 | "Extract contact info from 50 known company pages" | `/scrape` with batch processing |
 
 ***
 
 ## Pricing
 
-| Endpoint              | Cost                                      | Notes                                 |
-| --------------------- | ----------------------------------------- | ------------------------------------- |
-| `/scrape` (JSON mode) | 5 credits/page (1 base + 4 for JSON mode) | Fixed, predictable                    |
-| `/extract`            | Token-based (1 credit = 15 tokens)        | Variable based on content             |
-| `/agent`              | Dynamic                                   | 5 free runs/day; varies by complexity |
+| Endpoint | Cost | Notes |
+| - | - | - |
+| `/scrape` (JSON mode) | 5 credits/page (1 base + 4 for JSON mode) | Fixed, predictable |
+| `/extract` | Token-based (1 credit = 15 tokens) | Variable based on content |
+| `/agent` | Dynamic | 5 free runs/day; varies by complexity |
 
 ### Example: "Find the founders of Firecrawl"
 
-| Endpoint   | How It Works                                    | Credits Used           |
-| ---------- | ----------------------------------------------- | ---------------------- |
-| `/scrape`  | You find the URL manually, then scrape 1 page   | \~1 credit             |
+| Endpoint | How It Works | Credits Used |
+| - | - | - |
+| `/scrape` | You find the URL manually, then scrape 1 page | \~1 credit |
 | `/extract` | You provide URL(s), it extracts structured data | Variable (token-based) |
-| `/agent`   | Just send the prompt—agent finds and extracts   | \~100–500 credits      |
+| `/agent` | Just send the prompt—agent finds and extracts | \~100–500 credits |
 
 **Tradeoff**: `/scrape` is cheapest but requires you to know the URL. `/agent` costs more but handles discovery automatically.
 

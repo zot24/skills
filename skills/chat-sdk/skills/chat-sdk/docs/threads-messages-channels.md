@@ -22,7 +22,7 @@ related:
 
 A `Thread` represents a conversation thread on any platform. It provides methods for posting messages, managing subscriptions, and accessing message history.
 
-Thread instances are most often supplied by the SDK to your event handlers. You can also construct one explicitly from a thread ID — useful for cron jobs, workflow steps, or any other context outside an inbound webhook:
+Your event handlers usually receive a `Thread` from the SDK. You can also construct one from a thread ID, which is useful in cron jobs, workflow steps, or any other code that runs outside an inbound webhook:
 
 ```typescript title="lib/bot.ts" lineNumbers
 const thread = bot.thread("slack:C123ABC:1234567890.123456");
@@ -38,7 +38,7 @@ For DM-style conversations, use [`bot.openDM(userIdOrAuthor)`](/docs/direct-mess
 await thread.post("Hello world");
 
 // Markdown (converted to each platform's format)
-await thread.post("**Bold** and _italic_ text");
+await thread.post({ markdown: "**Bold** and _italic_ text" });
 
 // Structured message with attachments
 await thread.post({
@@ -49,7 +49,7 @@ await thread.post({
 
 ### Subscribe and unsubscribe
 
-Subscriptions persist across restarts (stored in your state adapter). When a non-DM thread is subscribed, all messages route to `onSubscribedMessage`. DM threads route to `onDirectMessage` first when a direct message handler is registered.
+Subscriptions are stored in your state adapter, so they persist across restarts. When a non-DM thread is subscribed, all messages route to `onSubscribedMessage`. DM threads route to `onDirectMessage` first when a direct message handler is registered.
 
 ```typescript title="lib/bot.ts" lineNumbers
 await thread.subscribe();
@@ -60,7 +60,7 @@ const subscribed = await thread.isSubscribed();
 
 ### Participants
 
-Get the unique human participants in a thread. Returns deduplicated authors, excluding all bots. Useful for deciding whether to subscribe based on how many humans are in the conversation.
+`getParticipants()` returns the unique human authors in a thread and excludes bots. Use it to decide whether to subscribe based on how many people are in the conversation.
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onNewMention(async (thread) => {
@@ -137,14 +137,14 @@ for await (const msg of thread.allMessages) {
 }
 ```
 
-For adapters that lack server-side history APIs (Telegram, WhatsApp), the SDK maintains a per-thread cache in your state adapter. Access it via `bot.history.thread`:
+For adapters without a server-side history API, such as Telegram and WhatsApp, the SDK keeps a per-thread cache in your state adapter. Read it with `bot.history.thread`:
 
 ```typescript title="lib/bot.ts" lineNumbers
 // Platform API first, SDK cache fallback when the adapter returns nothing
 const { messages } = await bot.history.thread.list(thread.id, { limit: 20 });
 ```
 
-To persist a cross-platform per-user transcript (for LLM context, audit, or GDPR), see the [History guide](/docs/history).
+To persist a cross-platform transcript for each user, for LLM context, auditing, or GDPR requests, see the [History guide](/docs/history).
 
 ### Thread state
 
@@ -197,18 +197,18 @@ await scheduled.cancel();
 
 Incoming messages are normalized across platforms into a consistent format:
 
-| Property      | Type                      | Description                                                              |
-| ------------- | ------------------------- | ------------------------------------------------------------------------ |
-| `id`          | `string`                  | Platform message ID                                                      |
-| `threadId`    | `string`                  | Thread ID in `adapter:channel:thread` format                             |
-| `text`        | `string`                  | Plain text content                                                       |
-| `formatted`   | `Root`                    | mdast AST representation                                                 |
-| `raw`         | `unknown`                 | Original platform-specific payload                                       |
-| `author`      | `Author`                  | Message author info                                                      |
-| `metadata`    | `MessageMetadata`         | Timestamps and edit status                                               |
-| `attachments` | `Attachment[]` (optional) | File attachments                                                         |
-| `replyTo`     | `Message` (optional)      | Normalized message this message replies to, when provided by the adapter |
-| `isMention`   | `boolean` (optional)      | Whether the bot was @-mentioned                                          |
+| Property      | Type                      | Description                                                                                                          |
+| ------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `id`          | `string`                  | Platform message ID                                                                                                  |
+| `threadId`    | `string`                  | Thread ID in `adapter:channel:thread` format                                                                         |
+| `text`        | `string`                  | Plain text content                                                                                                   |
+| `formatted`   | `Root`                    | mdast AST representation                                                                                             |
+| `raw`         | `unknown`                 | Original platform-specific payload                                                                                   |
+| `author`      | `Author`                  | Message author info                                                                                                  |
+| `metadata`    | `MessageMetadata`         | Timestamps and edit status                                                                                           |
+| `attachments` | `Attachment[]` (optional) | File attachments                                                                                                     |
+| `replyTo`     | `Message` (optional)      | Normalized message this message replies to, when provided by the adapter                                             |
+| `isMention`   | `boolean` (optional)      | The adapter's mention decision. `true` and `false` are final; `undefined` makes Chat SDK match `@username` in `text` |
 
 ### Author
 
@@ -248,7 +248,7 @@ await sent.removeReaction(emoji.check);
 
 ## Channels
 
-A `Channel` represents the container that holds threads (e.g., a Slack channel, a Teams conversation). Navigate to a channel from a thread or get one directly:
+A `Channel` is the container that holds threads, such as a Slack channel or a Teams conversation. Get a channel from a thread or look one up by ID:
 
 ```typescript title="lib/bot.ts" lineNumbers
 // From a thread
@@ -295,9 +295,9 @@ console.log(info.name, info.memberCount);
 
 ### Channel history
 
-Channel-level history reads from the platform adapter — it is not stored in your state adapter by default. Use `bot.history.channel` for promise-based pagination, or the `Channel` iterators above for async iteration.
+Channel-level history comes from the platform adapter and isn't stored in your state adapter by default. Use `bot.history.channel` for promise-based pagination, or the `Channel` iterators above for async iteration.
 
-**List threads, then pull messages per thread** — the typical drill-down for channel digests or moderation:
+For channel digests or moderation, the usual pattern is to list threads and then fetch the messages in each one:
 
 ```typescript title="lib/bot.ts" lineNumbers
 const channelId = "slack:C123ABC";
@@ -334,7 +334,7 @@ for await (const summary of channel.threads()) {
 }
 ```
 
-**Top-level channel messages** (not thread replies):
+To read top-level channel messages without thread replies, use `listMessages`:
 
 ```typescript title="lib/bot.ts" lineNumbers
 const { messages } = await bot.history.channel.listMessages(channelId, {
@@ -352,16 +352,16 @@ For a one-shot helper that lists threads and prefetches messages for each, see [
 
 All thread IDs follow the pattern `{adapter}:{channel}:{thread}`:
 
-* **Slack**: `slack:C123ABC:1234567890.123456`
-* **Teams**: `teams:{base64(conversationId)}:{base64(serviceUrl)}[:{conversationType}]`
-* **Google Chat**: `gchat:spaces/ABC123:{base64(threadName)}`
-* **Discord**: `discord:{guildId}:{channelId}/{messageId}`
+* Slack: `slack:C123ABC:1234567890.123456`
+* Teams: `teams:{base64(conversationId)}:{base64(serviceUrl)}[:{conversationType}]`
+* Google Chat: `gchat:spaces/ABC123:{base64(threadName)}`
+* Discord: `discord:{guildId}:{channelId}[:{threadId}]`
 
-You typically don't need to construct these yourself — they're provided by the SDK in event handlers.
+You rarely need to build these yourself, because the threads your event handlers receive already carry them.
 
 ## Logging
 
-The `logger` option is optional — if omitted, Chat SDK uses `ConsoleLogger("info")` by default. Each adapter also creates its own child logger automatically.
+If you omit the `logger` option, Chat SDK uses `ConsoleLogger("info")`. Each adapter also creates its own child logger.
 
 ```typescript title="lib/bot.ts" lineNumbers
 // Use defaults (ConsoleLogger at "info" level)
@@ -389,7 +389,7 @@ You can pass child loggers to adapters for prefixed log output, but adapters cre
 
 ```typescript title="lib/bot.ts"
 createSlackAdapter({
-  logger: logger.child("slack"), // optional — auto-created if omitted
+  logger: logger.child("slack"), // optional; auto-created if omitted
 });
 ```
 

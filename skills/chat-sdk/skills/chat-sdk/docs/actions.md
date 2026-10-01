@@ -47,18 +47,18 @@ bot.onAction(async (event) => {
 
 The `event` object passed to action handlers:
 
-| Property    | Type                       | Description                                                                        |
-| ----------- | -------------------------- | ---------------------------------------------------------------------------------- |
-| `actionId`  | `string`                   | The `id` from the Button or Select component                                       |
-| `value`     | `string` (optional)        | The `value` from the Button or selected option                                     |
-| `user`      | `Author`                   | The user who clicked                                                               |
-| `thread`    | `Thread \| null`           | The thread containing the card (null for view-based actions like home tab buttons) |
-| `messageId` | `string`                   | The message containing the card                                                    |
-| `threadId`  | `string`                   | Thread ID                                                                          |
-| `adapter`   | `Adapter`                  | The platform adapter                                                               |
-| `triggerId` | `string` (optional)        | Platform trigger ID (used for opening modals)                                      |
-| `openModal` | `(modal) => Promise<void>` | Open a modal dialog                                                                |
-| `raw`       | `unknown`                  | Platform-specific event payload                                                    |
+| Property    | Type                                                  | Description                                                                        |
+| ----------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `actionId`  | `string`                                              | The `id` from the Button or Select component                                       |
+| `value`     | `string` (optional)                                   | The `value` from the Button or selected option                                     |
+| `user`      | `Author`                                              | The user who clicked                                                               |
+| `thread`    | `Thread \| null`                                      | The thread containing the card (null for view-based actions like home tab buttons) |
+| `messageId` | `string`                                              | The message containing the card                                                    |
+| `threadId`  | `string`                                              | Thread ID                                                                          |
+| `adapter`   | `Adapter`                                             | The platform adapter                                                               |
+| `triggerId` | `string` (optional)                                   | Platform trigger ID (used for opening modals)                                      |
+| `openModal` | `(modal) => Promise<{ viewId: string } \| undefined>` | Open a modal dialog. Resolves to `undefined` if the adapter doesn't support modals |
+| `raw`       | `unknown`                                             | Platform-specific event payload                                                    |
 
 ## Pass data with buttons
 
@@ -100,15 +100,13 @@ bot.onAction("feedback", async (event) => {
 ```
 
 
-  Modals are currently supported on Slack and Teams. Other platforms will receive a no-op
-  or fallback behavior.
+  Only the Slack and Teams adapters support modals. On other platforms, `event.openModal()`
+  logs a warning and resolves to `undefined` without opening anything.
 
 
 ## Callback URLs
 
-Buttons accept a `callbackUrl` prop. When clicked, the action data is POSTed to that URL in addition to firing any `onAction` handler. This pairs naturally with webhook-based workflow engines to build approval flows without any `onAction` handler at all:
-
-Callback tokens are bound to the button action and conversation, expire after seven days, and are consumed on first use. A repeated click or an attempt to move the token to another conversation does not trigger the callback URL again.
+Buttons accept a `callbackUrl` prop. When a user clicks the button, the action data is POSTed to that URL in addition to firing any `onAction` handler. With a webhook-based workflow engine, you can build approval flows without an `onAction` handler:
 
 ```tsx title="lib/bot.tsx" lineNumbers
 bot.onNewMention(async (thread) => {
@@ -130,6 +128,8 @@ bot.onNewMention(async (thread) => {
 });
 ```
 
+Callback tokens are bound to the button action and conversation, expire after seven days, and are consumed on first use. A repeated click or an attempt to move the token to another conversation does not trigger the callback URL again.
+
 ### Callback payload
 
 The POST body sent to the `callbackUrl`:
@@ -147,11 +147,11 @@ The POST body sent to the `callbackUrl`:
 If the button also has a `value` prop, it is included in the payload as `"value"`.
 
 
-  Platform limits apply to encoded button data. Discord's `custom_id` has a 100
-  character limit - if the action ID plus callback token exceed this, posting
-  the card throws a `ValidationError`. Telegram's `callback_data` has a 64 byte
-  limit - buttons that exceed this will throw a `ValidationError`. Keep action
-  IDs short when using `callbackUrl` on these platforms.
+  Platform limits apply to encoded button data. Discord's `custom_id` has a
+  100-character limit, and posting the card throws a `ValidationError` if the
+  action ID plus callback token exceed it. Telegram's `callback_data` has a
+  64-byte limit, and buttons that exceed it also throw a `ValidationError`. Keep
+  action IDs short when using `callbackUrl` on these platforms.
 
 
 For modals, see [callbackUrl on modals](/docs/modals#callback-urls).

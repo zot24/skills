@@ -207,12 +207,12 @@ Positive conditions work the other way around. An unset field matches nothing,
 so equality and `contains` never return those rows. To select them, filter on
 `null` directly:
 
-| Filter                                                | Rows where the field is unset             |
-| ----------------------------------------------------- | ----------------------------------------- |
-| `{"field": "x"}`, `{"field": {"contains": "x"}}`      | Excluded                                  |
-| `{"NOT": [{"field": "x"}]}`, `{"field": {"ne": "x"}}` | Included                                  |
-| `{"field": null}`                                     | Only these                                |
-| `{"field": {"ne": null}}`                             | Excluded — the field must have some value |
+| Filter | Rows where the field is unset |
+| - | - |
+| `{"field": "x"}`, `{"field": {"contains": "x"}}` | Excluded |
+| `{"NOT": [{"field": "x"}]}`, `{"field": {"ne": "x"}}` | Included |
+| `{"field": null}` | Only these |
+| `{"field": {"ne": null}}` | Excluded — the field must have some value |
 
 Of the filterable fields, only a conclusion's `session_id` can be unset: a
 conclusion drawn across a whole workspace belongs to no single session. Every
@@ -794,15 +794,15 @@ A filter value has to be usable against the field it targets. Honcho validates
 this before running the query and returns a `422` with an explanation when it
 doesn't hold, rather than failing mid-query or quietly returning nothing.
 
-| Field                                           | Accepts                                                                |
-| ----------------------------------------------- | ---------------------------------------------------------------------- |
-| Text — `peer_id`, `session_id`, `id`, `content` | Strings                                                                |
-| Numeric — `token_count`                         | Numbers, or numeric strings like `"5"`. Exact for integers of any size |
-| Timestamps — `created_at`                       | ISO 8601 strings such as `"2026-01-01"` or `"2026-01-01T12:00:00Z"`    |
-| Boolean — `is_active`                           | `true` / `false`                                                       |
-| `metadata`                                      | An object, matched by containment — bare or under `contains`           |
-| Fields with fixed values — `level`              | One of the documented values                                           |
-| Any field                                       | `null`, which matches rows where the field is unset                    |
+| Field | Accepts |
+| - | - |
+| Text — `peer_id`, `session_id`, `id`, `content` | Strings |
+| Numeric — `token_count` | Numbers, or numeric strings like `"5"`. Exact for integers of any size |
+| Timestamps — `created_at` | ISO 8601 strings such as `"2026-01-01"` or `"2026-01-01T12:00:00Z"` |
+| Boolean — `is_active` | `true` / `false` |
+| `metadata` | An object, matched by containment — bare or under `contains` |
+| Fields with fixed values — `level` | One of the documented values |
+| Any field | `null`, which matches rows where the field is unset |
 
 Three consequences worth knowing:
 
@@ -915,15 +915,15 @@ Unlike the list endpoints above, this filter **fails closed**: an unrecognized
 key or shape is rejected with `422` rather than ignored, because a silently
 dropped filter here would widen recall instead of narrowing it.
 
-| Rule                                                                  | Behavior                                                  |
-| --------------------------------------------------------------------- | --------------------------------------------------------- |
-| Any key other than `session_id`                                       | `422`                                                     |
-| A shape other than a string, a list of strings, or `{"in": [...]}`    | `422`                                                     |
-| An entry that isn't a well-formed session id — wildcards included     | `422`                                                     |
-| More than 1,000 sessions                                              | `422`                                                     |
-| `session_id` set alongside `filters`                                  | The `session_id` must appear in the allowlist, else `422` |
-| An empty allowlist (`[]`)                                             | Valid, and recalls nothing                                |
-| A peer-scoped key naming a session its peer isn't an active member of | `401` on chat — see below                                 |
+| Rule | Behavior |
+| - | - |
+| Any key other than `session_id` | `422` |
+| A shape other than a string, a list of strings, or `{"in": [...]}` | `422` |
+| An entry that isn't a well-formed session id — wildcards included | `422` |
+| More than 1,000 sessions | `422` |
+| `session_id` set alongside `filters` | The `session_id` must appear in the allowlist, else `422` |
+| An empty allowlist (`[]`) | Valid, and recalls nothing |
+| A peer-scoped key naming a session its peer isn't an active member of | `401` on chat — see below |
 
 
   On chat, a peer-scoped key must be an active member of every session it names —

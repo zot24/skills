@@ -33,23 +33,23 @@ The index covers roughly 43 million paper abstracts. The majority of the corpus 
 
 Firecrawl has two things named "research", and they are not the same feature:
 
-|                            | Research Index (this page)                                                                      | `/search` with `categories: ["research"]`                                                                  |
-| :------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| What it searches           | A paper index of \~43M abstracts — PubMed, bioRxiv, medRxiv, arXiv                              | The open web, restricted to \~14 academic **websites** (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, …) |
-| What you get back          | Ranked paper records: canonical `paperId`, `primaryId`, source ids, title, full abstract, score | Ordinary web results: URL, title, snippet                                                                  |
-| Can it read inside a paper | Yes — passage-level reads via `GET /search/research/papers/{id}`                                | No                                                                                                         |
-| Can it expand by citations | Yes — `GET /search/research/papers/{id}/similar`                                                | No                                                                                                         |
-| Endpoint                   | `GET /search/research/papers`                                                                   | `POST /search`                                                                                             |
+| | Research Index (this page) | `/search` with `categories: ["research"]` |
+| :- | - | - |
+| What it searches | A paper index of \~43M abstracts — PubMed, bioRxiv, medRxiv, arXiv | The open web, restricted to \~14 academic **websites** (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, …) |
+| What you get back | Ranked paper records: canonical `paperId`, `primaryId`, source ids, title, full abstract, score | Ordinary web results: URL, title, snippet |
+| Can it read inside a paper | Yes — passage-level reads via `GET /search/research/papers/{id}` | No |
+| Can it expand by citations | Yes — `GET /search/research/papers/{id}/similar` | No |
+| Endpoint | `GET /search/research/papers` | `POST /search` |
 
 Use the Research Index when you are doing literature work: finding papers, reading them, and following citations. Use [`categories: ["research"]`](/features/search#search-categories) when you want ordinary web pages that happen to live on academic domains.
 
 ## Endpoints
 
-| Task                              | Endpoint                                                                                      |
-| --------------------------------- | --------------------------------------------------------------------------------------------- |
-| Search papers                     | [`GET /search/research/papers`](/api-reference/endpoint/research-search-papers)               |
-| Inspect metadata or read passages | [`GET /search/research/papers/{id}`](/api-reference/endpoint/research-paper)                  |
-| Find related papers               | [`GET /search/research/papers/{id}/similar`](/api-reference/endpoint/research-related-papers) |
+| Task | Endpoint |
+| - | - |
+| Search papers | [`GET /search/research/papers`](/api-reference/endpoint/research-search-papers) |
+| Inspect metadata or read passages | [`GET /search/research/papers/{id}`](/api-reference/endpoint/research-paper) |
+| Find related papers | [`GET /search/research/papers/{id}/similar`](/api-reference/endpoint/research-related-papers) |
 
 ## Search papers
 

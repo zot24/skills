@@ -36,15 +36,15 @@ Choose open source when you need source or infrastructure control. Choose Firecr
 
 ## Compare the operating model
 
-| Decision                                                     | Open source                                       | Firecrawl Cloud                             |
-| ------------------------------------------------------------ | ------------------------------------------------- | ------------------------------------------- |
-| Core scrape, crawl, map, and search APIs                     | Included                                          | Included and managed                        |
-| Fetch and Playwright processing                              | Included in the default stack                     | Managed                                     |
-| LLM-backed extraction and formats                            | Connect an OpenAI-compatible provider or Ollama   | Managed provider path                       |
-| Advanced anti-bot or specialized extraction services         | Run and configure the required service separately | Managed where the Cloud product supports it |
-| Agent, Browser, Interact, dashboard, and enterprise controls | Not included in the default stack                 | Included by product and plan availability   |
-| Security, persistence, availability, and upgrades            | You own them                                      | Firecrawl operates them                     |
-| Usage, limits, and billing                                   | Your infrastructure and provider costs            | Firecrawl plan and credit model             |
+| Decision | Open source | Firecrawl Cloud |
+| - | - | - |
+| Core scrape, crawl, map, and search APIs | Included | Included and managed |
+| Fetch and Playwright processing | Included in the default stack | Managed |
+| LLM-backed extraction and formats | Connect an OpenAI-compatible provider or Ollama | Managed provider path |
+| Advanced anti-bot or specialized extraction services | Run and configure the required service separately | Managed where the Cloud product supports it |
+| Agent, Browser, Interact, dashboard, and enterprise controls | Not included in the default stack | Included by product and plan availability |
+| Security, persistence, availability, and upgrades | You own them | Firecrawl operates them |
+| Usage, limits, and billing | Your infrastructure and provider costs | Firecrawl plan and credit model |
 
 <img src="https://mintcdn.com/firecrawl/vlKm1oZYK3oSRVTM/images/open-source-cloud.png?fit=max&auto=format&n=vlKm1oZYK3oSRVTM&q=85&s=763a6e92c8605d06294ed7ed45df85d0" alt="Firecrawl Cloud vs Open Source" width="2808" height="856" data-path="images/open-source-cloud.png" />
 

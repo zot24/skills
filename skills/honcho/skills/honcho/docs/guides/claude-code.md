@@ -169,13 +169,13 @@ Configure it interactively with `/honcho:config` (under the memory injection set
 
 Injected once when a session opens. Default: `["directives", "summary", "peerCard"]`.
 
-| Component            | What it injects                                                                                                                                                                                                                                                           |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `directives`         | Static memory-usage guidance — tells Claude to treat injected memory as background, use `chat`/`search` for recall, and save insights with `create_conclusion`                                                                                                            |
-| `summary`            | The session's long summary narrative (skipped on a fresh session)                                                                                                                                                                                                         |
-| `peerCard`           | Your peer card — a structured identity/attribute list                                                                                                                                                                                                                     |
-| `peerRepresentation` | Your full derived representation, injected at full length                                                                                                                                                                                                                 |
-| `briefing`           | A nudge for Claude to call the `get_briefing` MCP tool instead of injecting the summary and peer card inline. The tool call renders as an expandable row in the UI, so you can see exactly what was loaded. Use it *in place of* `summary`/`peerCard`, not alongside them |
+| Component | What it injects |
+| - | - |
+| `directives` | Static memory-usage guidance — tells Claude to treat injected memory as background, use `chat`/`search` for recall, and save insights with `create_conclusion` |
+| `summary` | The session's long summary narrative (skipped on a fresh session) |
+| `peerCard` | Your peer card — a structured identity/attribute list |
+| `peerRepresentation` | Your full derived representation, injected at full length |
+| `briefing` | A nudge for Claude to call the `get_briefing` MCP tool instead of injecting the summary and peer card inline. The tool call renders as an expandable row in the UI, so you can see exactly what was loaded. Use it *in place of* `summary`/`peerCard`, not alongside them |
 
 ```json theme={null}
 { "injection": { "sessionStart": ["directives", "briefing"] } }
@@ -185,24 +185,24 @@ Injected once when a session opens. Default: `["directives", "summary", "peerCar
 
 Injected with each non-trivial prompt. Default: `["userContext"]`.
 
-| Component          | What it injects                                                                                                                                                                  |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `userContext`      | A fresh, prompt-scoped context fetch for *you* — conclusions selected by semantic search over your representation, shaped by the retrieval knobs below                           |
-| `assistantContext` | The same context fetch, but for the AI peer — what Honcho has derived about the assistant itself                                                                                 |
-| `sessionContext`   | Recent raw messages from the currently mapped Honcho session, which can span other Claude instances sharing the session name                                                     |
-| `dialectic`        | A reasoned `chat()` answer over your representation, seeded from `dialecticTemplate`. Off by default — it is much slower than a context fetch, so it runs on its own time budget |
+| Component | What it injects |
+| - | - |
+| `userContext` | A fresh, prompt-scoped context fetch for *you* — conclusions selected by semantic search over your representation, shaped by the retrieval knobs below |
+| `assistantContext` | The same context fetch, but for the AI peer — what Honcho has derived about the assistant itself |
+| `sessionContext` | Recent raw messages from the currently mapped Honcho session, which can span other Claude instances sharing the session name |
+| `dialectic` | A reasoned `chat()` answer over your representation, seeded from `dialecticTemplate`. Off by default — it is much slower than a context fetch, so it runs on its own time budget |
 
 ### Retrieval Knobs
 
-| Field                  | Default                | Description                                                                                                                               |
-| ---------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `searchTopK`           | `10`                   | Top-K conclusions pulled by the context fetch's semantic search                                                                           |
-| `maxConclusions`       | `15`                   | Max conclusions injected per context fetch                                                                                                |
-| `searchMaxDistance`    | `0.6`                  | Max cosine distance for the semantic search — lower is stricter                                                                           |
-| `searchQuerySource`    | `"prompt"`             | What drives the per-turn search: the raw `"prompt"` or extracted `"topics"`                                                               |
-| `sessionContextTokens` | `1500`                 | Token budget for the `sessionContext` message fetch                                                                                       |
-| `dialecticTemplate`    | compact factual recall | Query template for the `dialectic` component; the user's prompt is substituted into `%{user_query}`                                       |
-| `dialecticReasoning`   | `"medium"`             | Reasoning tier for the per-turn `dialectic` call — kept separate from the top-level `reasoningLevel` so per-turn dialectic can stay cheap |
+| Field | Default | Description |
+| - | - | - |
+| `searchTopK` | `10` | Top-K conclusions pulled by the context fetch's semantic search |
+| `maxConclusions` | `15` | Max conclusions injected per context fetch |
+| `searchMaxDistance` | `0.6` | Max cosine distance for the semantic search — lower is stricter |
+| `searchQuerySource` | `"prompt"` | What drives the per-turn search: the raw `"prompt"` or extracted `"topics"` |
+| `sessionContextTokens` | `1500` | Token budget for the `sessionContext` message fetch |
+| `dialecticTemplate` | compact factual recall | Query template for the `dialectic` component; the user's prompt is substituted into `%{user_query}` |
+| `dialecticReasoning` | `"medium"` | Reasoning tier for the per-turn `dialectic` call — kept separate from the top-level `reasoningLevel` so per-turn dialectic can stay cheap |
 
 If injected context feels off-topic, lower `searchMaxDistance` (stricter relevance); if it feels too sparse, raise it or bump `searchTopK`.
 
@@ -238,11 +238,11 @@ When it's on, the injected session-start directives steer Claude to use it proac
 
 Session strategy controls how Honcho maps your conversations to sessions:
 
-| Strategy                  | Behavior                                                                            | Best for                                                  |
-| ------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| `per-directory` (default) | One session per project directory. Stable across restarts.                          | Most users — each project accumulates its own memory      |
-| `git-branch`              | Session name includes the current git branch. Switching branches switches sessions. | Feature-branch workflows where context per branch matters |
-| `chat-instance`           | Each Claude Code chat gets its own session. No continuity between restarts.         | Ephemeral usage or when you want a clean slate each time  |
+| Strategy | Behavior | Best for |
+| - | - | - |
+| `per-directory` (default) | One session per project directory. Stable across restarts. | Most users — each project accumulates its own memory |
+| `git-branch` | Session name includes the current git branch. Switching branches switches sessions. | Feature-branch workflows where context per branch matters |
+| `chat-instance` | Each Claude Code chat gets its own session. No continuity between restarts. | Ephemeral usage or when you want a clean slate each time |
 
 Session names are prefixed with your `peerName` by default (e.g., `alice-my-project`). Set `sessionPeerPrefix: false` if you're the only user and want shorter names.
 
@@ -252,10 +252,10 @@ Linked git worktrees resolve to their main repository's session, so a worktree s
 
 Controls how Honcho stores and retrieves conclusions about you. Change it via `set_config` or edit `config.json` directly. Requires a Claude Code restart.
 
-| Mode                | Behavior                                                                                                                                                     | Best for                                                                |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| `unified` (default) | All agents write to your self-observation collection (`observer=you, observed=you`). Conclusions are portable — switch between agents without losing memory. | Most users — a unified context hub across agents                        |
-| `directional`       | Each AI peer keeps its own separate view of you (`observer=aiPeer, observed=you`).                                                                           | Multi-peer workspaces where you want isolated per-agent representations |
+| Mode | Behavior | Best for |
+| - | - | - |
+| `unified` (default) | All agents write to your self-observation collection (`observer=you, observed=you`). Conclusions are portable — switch between agents without losing memory. | Most users — a unified context hub across agents |
+| `directional` | Each AI peer keeps its own separate view of you (`observer=aiPeer, observed=you`). | Multi-peer workspaces where you want isolated per-agent representations |
 
 Switching modes doesn't automatically migrate existing conclusions — each mode reads from a different collection. The [plugin repository](https://github.com/plastic-labs/claude-honcho) ships a `migrate-observations.py` script to copy conclusions between collections.
 
@@ -341,32 +341,32 @@ The plugin logs activity to `~/.honcho/` and to Claude Code's verbose mode, so y
 
 The plugin provides these tools via MCP:
 
-| Tool                 | Description                                                          |
-| -------------------- | -------------------------------------------------------------------- |
-| `search`             | Semantic search across session messages and saved conclusions        |
-| `chat`               | Query Honcho's knowledge about the user (dialectic reasoning)        |
-| `create_conclusion`  | Save insights about the user to memory                               |
-| `list_conclusions`   | List saved conclusions                                               |
-| `query_conclusions`  | Semantic search over saved conclusions                               |
-| `delete_conclusion`  | Delete a conclusion by ID                                            |
-| `get_briefing`       | Load the session briefing: session summary + peer card               |
-| `get_context`        | Retrieve the full context object (representation + peer card)        |
-| `get_representation` | Retrieve the user's representation string                            |
-| `get_config`         | View current configuration and status                                |
-| `set_config`         | Change any configuration field programmatically                      |
-| `honcho_remember`    | Fan-out dialectic recall (only registered when `rememberTool: true`) |
+| Tool | Description |
+| - | - |
+| `search` | Semantic search across session messages and saved conclusions |
+| `chat` | Query Honcho's knowledge about the user (dialectic reasoning) |
+| `create_conclusion` | Save insights about the user to memory |
+| `list_conclusions` | List saved conclusions |
+| `query_conclusions` | Semantic search over saved conclusions |
+| `delete_conclusion` | Delete a conclusion by ID |
+| `get_briefing` | Load the session briefing: session summary + peer card |
+| `get_context` | Retrieve the full context object (representation + peer card) |
+| `get_representation` | Retrieve the user's representation string |
+| `get_config` | View current configuration and status |
+| `set_config` | Change any configuration field programmatically |
+| `honcho_remember` | Fan-out dialectic recall (only registered when `rememberTool: true`) |
 
 ## Skills (Slash Commands)
 
-| Command             | Description                                                          |
-| ------------------- | -------------------------------------------------------------------- |
-| `/honcho:status`    | Show current memory status and connection info                       |
-| `/honcho:config`    | Interactive configuration menu (including memory injection settings) |
-| `/honcho:setup`     | First-time setup — validate API key and create config                |
-| `/honcho:interview` | Interview to capture stable, cross-project user preferences          |
-| `/honcho:briefing`  | Load the session briefing via a visible tool call                    |
-| `/honcho:import`    | Backfill past Claude Code sessions into Honcho memory                |
-| `/honcho:insights`  | Distill memory into CLAUDE.md edits, style rules, and skill ideas    |
+| Command | Description |
+| - | - |
+| `/honcho:status` | Show current memory status and connection info |
+| `/honcho:config` | Interactive configuration menu (including memory injection settings) |
+| `/honcho:setup` | First-time setup — validate API key and create config |
+| `/honcho:interview` | Interview to capture stable, cross-project user preferences |
+| `/honcho:briefing` | Load the session briefing via a visible tool call |
+| `/honcho:import` | Backfill past Claude Code sessions into Honcho memory |
+| `/honcho:insights` | Distill memory into CLAUDE.md edits, style rules, and skill ideas |
 
 ### The Interview
 
@@ -385,19 +385,19 @@ Each answer is saved as a conclusion in Honcho memory and persists across all yo
 
 Environment variables work for initial bootstrap (before a config file exists). Once `~/.honcho/config.json` is written, the config file takes precedence for host-specific fields like `workspace`.
 
-| Variable                 | Required | Default       | Description                                                       |
-| ------------------------ | -------- | ------------- | ----------------------------------------------------------------- |
-| `HONCHO_API_KEY`         | **Yes**  | —             | Your Honcho API key from [app.honcho.dev](https://app.honcho.dev) |
-| `HONCHO_PEER_NAME`       | No       | `$USER`       | Your identity in the memory system                                |
-| `HONCHO_WORKSPACE`       | No       | `claude_code` | Workspace name (used only when no config file exists)             |
-| `HONCHO_AI_PEER`         | No       | `claude`      | AI peer name                                                      |
-| `HONCHO_HOST`            | No       | auto-detected | Force host detection: `claude_code`, `cursor`, or `obsidian`      |
-| `HONCHO_ENDPOINT`        | No       | `production`  | `production`, `local`, or a full URL                              |
-| `HONCHO_ENABLED`         | No       | `true`        | Set to `false` to disable                                         |
-| `HONCHO_SAVE_MESSAGES`   | No       | `true`        | Set to `false` to stop saving messages                            |
-| `HONCHO_SAVE_TOOL_USE`   | No       | `false`       | Set to `true` to save tool action summaries                       |
-| `HONCHO_SAVE_GIT_EVENTS` | No       | `false`       | Set to `true` to save external git state-change events            |
-| `HONCHO_LOGGING`         | No       | `true`        | Set to `false` to disable file logging to `~/.honcho/`            |
+| Variable | Required | Default | Description |
+| - | - | - | - |
+| `HONCHO_API_KEY` | **Yes** | — | Your Honcho API key from [app.honcho.dev](https://app.honcho.dev) |
+| `HONCHO_PEER_NAME` | No | `$USER` | Your identity in the memory system |
+| `HONCHO_WORKSPACE` | No | `claude_code` | Workspace name (used only when no config file exists) |
+| `HONCHO_AI_PEER` | No | `claude` | AI peer name |
+| `HONCHO_HOST` | No | auto-detected | Force host detection: `claude_code`, `cursor`, or `obsidian` |
+| `HONCHO_ENDPOINT` | No | `production` | `production`, `local`, or a full URL |
+| `HONCHO_ENABLED` | No | `true` | Set to `false` to disable |
+| `HONCHO_SAVE_MESSAGES` | No | `true` | Set to `false` to stop saving messages |
+| `HONCHO_SAVE_TOOL_USE` | No | `false` | Set to `true` to save tool action summaries |
+| `HONCHO_SAVE_GIT_EVENTS` | No | `false` | Set to `true` to save external git state-change events |
+| `HONCHO_LOGGING` | No | `true` | Set to `false` to disable file logging to `~/.honcho/` |
 
 ### Using a local Honcho instance
 

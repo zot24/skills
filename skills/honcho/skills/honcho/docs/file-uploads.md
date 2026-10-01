@@ -82,10 +82,10 @@ Honcho currently supports the following file types with more to come:
 
 The upload methods accept the following parameters:
 
-| Parameter | Type   | Required | Description                          |
-| --------- | ------ | -------- | ------------------------------------ |
-| `file`    | File   | Yes      | File to upload                       |
-| `peer_id` | String | Yes      | ID of the peer creating the messages |
+| Parameter | Type | Required | Description |
+| - | - | - | - |
+| `file` | File | Yes | File to upload |
+| `peer_id` | String | Yes | ID of the peer creating the messages |
 
 ## File Processing Details
 

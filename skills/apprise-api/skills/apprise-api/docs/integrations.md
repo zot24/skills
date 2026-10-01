@@ -123,7 +123,7 @@ For integrations, JSON is usually easiest.
 - `body` (required): message content
 - `title` (optional): message title
 - `type` (optional): `info` (default), `success`, `warning`, or `failure`
-- `format` (optional): `text` (default), `markdown`, or `html`
+- `format` (optional): `text`, `markdown`, or `html` -- omitting it skips automatic format conversion unless the server sets `APPRISE_DEFAULT_FORMAT`; blank or `null` forces pass-through even over that default, while limits, overflow, and service-safe packaging still apply
 - `tag` (optional, stateful): route to a subset of saved URLs
 
 ### Tags
@@ -166,7 +166,7 @@ to Apprise fields using query parameters prefixed with a colon (`:`).
 | `?:incoming_field=`              | Remove `incoming_field` from the payload    |
 | `?:apprise_field=literal value`  | Hard-code `apprise_field` to a fixed string |
 
-**Flat field example** — a tool sends `{"message": "Server Down"}`:
+**Flat field example**: a tool sends `{"message": "Server Down"}`:
 
 ```text
 POST /notify/{KEY}?:message=body
@@ -229,8 +229,8 @@ Quick-reference for path expressions:
   Apprise field (`title`, `body`, `type`, `format`, `tag`, etc.).
 - `N` in `[N]` must be a non-negative integer. Both `key[abc]` (non-integer) and
   `key[0` / `key0]` (unmatched bracket) are rejected immediately.
-- If any step is unresolvable — missing key, index out of range, or a non-list node at
-  an index step — the server returns **400** and logs a `WARNING`. No notification is sent,
+- If any step is unresolvable (missing key, index out of range, or a non-list node at
+  an index step), the server returns **400** and logs a `WARNING`. No notification is sent,
   so misconfigured rules are visible in logs rather than silently dropped.
 - **Depth** is the total number of traversal operations: each dict-key lookup _and_ each
   array-index dereference counts as one step. `items[0].objectURI` = 3 steps;

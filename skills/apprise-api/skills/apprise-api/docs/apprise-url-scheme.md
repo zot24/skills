@@ -15,8 +15,14 @@ schemas:
 sample_urls:
   - apprises://{host}/{token}
   - apprises://{host}:{port}/{token}
+  - apprises://:{password}@{host}:{port}/{token}
   - apprises://{user}@{host}:{port}/{token}
   - apprises://{user}:{password}@{host}:{port}/{token}
+
+body_formats:
+  - text: default
+  - html
+  - markdown
 
 has_attachments: true
 has_selfhosted: true
@@ -27,7 +33,7 @@ has_selfhosted: true
 
 ## Account Setup
 
-Get yourself a self-hosted setup of the [Apprise-API](https://github.com/caronc/apprise-api) and use this service to integrate with it remotely.
+Set up a self-hosted [Apprise API](https://github.com/caronc/apprise-api) instance, then use this service to send notifications to it.
 
 ## Syntax
 
@@ -35,6 +41,7 @@ Valid syntax is as follows:
 
 - `apprise://{host}/{token}`
 - `apprise://{host}:{port}/{token}`
+- `apprise://:{password}@{host}:{port}/{token}`
 - `apprise://{user}@{host}:{port}/{token}`
 - `apprise://{user}:{password}@{host}:{port}/{token}`
 
@@ -42,22 +49,33 @@ For a secure connection, just use `apprises` instead.
 
 - `apprises://{host}/{token}`
 - `apprises://{host}:{port}/{token}`
+- `apprises://:{password}@{host}:{port}/{token}`
 - `apprises://{user}@{host}:{port}/{token}`
 - `apprises://{user}:{password}@{host}:{port}/{token}`
 
 ## Parameter Breakdown
 
-| Variable | Required | Description                                                                                                                               |
-| -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| hostname | Yes      | The Web Server's hostname                                                                                                                 |
-| port     | No       | The port our Web server is listening on. By default the port is **80** for **apprise://** and **443** for all **apprises://** references. |
-| user     | No       | If you're system is set up to use HTTP-AUTH, you can provide _username_ for authentication to it.                                         |
-| password | No       | If you're system is set up to use HTTP-AUTH, you can provide _password_ for authentication to it.                                         |
-| tags     | No       | You can optional set the tags you want to supply with your call to the Apprise API server                                                 |
+| Variable | Required | Description                                                                                                                       |
+| -------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| hostname | Yes      | Web server hostname                                                                                                               |
+| port     | No       | Web server port. The default is **80** for **apprise://** and **443** for **apprises://**.                                        |
+| user     | No       | Username used when the server requires HTTP Basic Auth.                                                                           |
+| password | No       | Password used when the server requires HTTP Basic Auth.                                                                           |
+| tags     | No       | Optional tags sent with the request.                                                                                              |
+| version  | No       | Version `2` sends the token in `X-Apprise-Config-ID` and is the default. Version `1` keeps it in the HTTP path for older servers. |
 
 <!-- TEMPLATE:SERVICE-PARAMS -->
 
 ## Examples
+
+Version 2 is used unless `v=1` is specified. The token remains part of the `apprise://` plugin URL, but version 2 sends it to the server in a header instead of the HTTP request path. Use version 1 when connecting to an older Apprise API server:
+
+```bash
+apprise --body="Test Message" \
+   "apprise://apprise.server.local/token?v=1"
+```
+
+### Without Authentication
 
 Send a notification along to an Apprise API server listening on port 80:
 
@@ -68,17 +86,31 @@ apprise -vv --body="Test Message" \
    "apprise://apprise.server.local/token"
 ```
 
-Here is another example where you can call your Apprise server based on Tags provided:
+### With Authentication
+
+Place the saved username and password before the hostname. A password-only administrator login starts with a colon. Version 2 sends the configuration key in `X-Apprise-Config-ID` automatically.
+
+```bash
+# Configuration login with a username and password
+apprise -vv --body="Test Message" \
+   "apprises://user:password@apprise.server.local/token"
+
+# Password-only administrator login
+apprise -vv --body="Test Message" \
+   "apprises://:password@apprise.server.local/token"
+```
+
+You can also select services by tag:
 
 ```bash
 # Assuming our {hostname} is apprise.server.local
 # Assuming our {token} is token
-# Assuming we want to trigger any Notification associated with the {tag} email
+# Send to services associated with the {tag} email
 apprise -vv --body="Test Message" \
    "apprise://apprise.server.local/token?tags=email"
 ```
 
-You can also leverage the Logic of AND and OR when passing Tags:
+Tags support AND and OR expressions:
 
 | `tags=` value    | Selected services                         |
 | ---------------- | ----------------------------------------- |
@@ -104,9 +136,23 @@ apprise -vv --body="Test Message" \
    "apprise://apprise.server.local/token?tags=comment create,admin"
 ```
 
+### Message Formats
+
+This service hands your message to another Apprise server, which then formats it for its own services. To avoid changing your message twice, the title and body are always forwarded exactly as you wrote them. Nothing is converted along the way.
+
+- When you tell Apprise what your message is written in, that format is passed along to the server with the message. The `apprise` command line tool always does this: it uses `text` unless you pick another one with `--input-format` (or `-i`).
+- When the message has no format of its own (for example a Python `notify()` call without `body_format`), you can add `?format=` to the URL (`text`, `html` or `markdown`) to tell the server what your message is written in. The message itself is still sent unchanged.
+- When neither is set, no format is passed along and the server uses its own default.
+
+```bash
+# Our message is written in Markdown; let the server know
+apprise -vv --input-format=markdown --body="**Server** is back up" \
+   "apprise://apprise.server.local/token"
+```
+
 ### Header Manipulation
 
-Some users may require special HTTP headers to be present when they post their data to their server. This can be accomplished by just sticking a plus symbol (**+**) in front of any parameter you specify on your URL string.
+Prefix a URL parameter with a plus sign (**+**) to send it as an HTTP header.
 
 ```bash
 # Below would set the header:
@@ -132,7 +178,7 @@ apprise -vv -t "Test Message Title" -b "Test Message Body" \
    "apprise://localhost:8080/path/apprise/?+X-Token=abcdefg&+X-Apprise=is%20great"
 ```
 
-**Note:** this service is a little redundant because you can already use the CLI and point its configuration to an existing Apprise API server (using the `--config` on the CLI or `AppriseConfig()` class via its own internal API).
+**Note:** The CLI `--config` option and the `AppriseConfig()` class can also load configuration from an Apprise API server.
 
 ```bash
 # A simple example of the Apprise CLI using a Config file instead:
@@ -141,4 +187,8 @@ apprise -vv -t "Test Message Title" -b "Test Message Body" \
 # Assuming our {port} is 8080
 # Assuming our {token} is apprise
 apprise --body="test message" --config=http://localhost:8080/get/apprise
+
+# Authenticated remote configuration
+apprise --body="test message" \
+   --config="http://user:password@localhost:8080/get/apprise"
 ```

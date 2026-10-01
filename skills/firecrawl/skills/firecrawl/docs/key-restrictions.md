@@ -82,13 +82,13 @@ The legacy `v0` API predates these controls, so a key with **any** restriction c
 
 ## Error reference
 
-| Status | When                                                                                                                                           |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `403`  | A requested format is not on the key's allowed-formats list.                                                                                   |
-| `403`  | A content-returning action is used on a format-restricted key.                                                                                 |
-| `403`  | An endpoint is not on the key's allowed-endpoints list.                                                                                        |
-| `403`  | A restricted key calls the legacy `v0` API.                                                                                                    |
-| `500`  | The restriction configuration could not be verified. Requests fail closed (are rejected) rather than bypassing the restriction. Retry shortly. |
+| Status | When |
+| - | - |
+| `403` | A requested format is not on the key's allowed-formats list. |
+| `403` | A content-returning action is used on a format-restricted key. |
+| `403` | An endpoint is not on the key's allowed-endpoints list. |
+| `403` | A restricted key calls the legacy `v0` API. |
+| `500` | The restriction configuration could not be verified. Requests fail closed (are rejected) rather than bypassing the restriction. Retry shortly. |
 
 ## Notes
 

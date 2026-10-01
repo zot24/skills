@@ -4,7 +4,7 @@
 
 ## French
 
-- [French / v2 (203 pages)](https://docs.firecrawl.dev/_llms/fr/v2.md): Documentation for French / v2.
+- [French / v2 (204 pages)](https://docs.firecrawl.dev/_llms/fr/v2.md): Documentation for French / v2.
 
 ### v1
 
@@ -12,7 +12,7 @@
 
 ##### Démarrage rapide
 
-- [Introduction](https://docs.firecrawl.dev/fr/introduction.md): Recherchez sur le web, extrayez n’importe quelle page et interagissez avec elle, le tout via une seule API.
+- [Introduction](https://docs.firecrawl.dev/fr/introduction.md): L’API de web data pour les agents IA. Recherchez sur le web, extrayez n’importe quelle page et interagissez avec elle via une seule API.
 - [Premiers pas](https://docs.firecrawl.dev/fr/mcp-server.md): Configurez Firecrawl MCP avec un accès sans clé, une connexion à un compte ou une clé API.
 - [Guide avancé de scraping](https://docs.firecrawl.dev/fr/advanced-scraping-guide.md): Configurez les options de scraping, les actions du navigateur, le crawl, la cartographie et le point de terminaison de l'agent grâce à l’ensemble de la surface de l’API Firecrawl.
 
@@ -46,10 +46,6 @@
 - [Mode avancé](https://docs.firecrawl.dev/fr/features/enhanced-mode.md): Utilisez des proxies avancés pour un scraping fiable sur des sites complexes
 - [Proxys](https://docs.firecrawl.dev/fr/features/proxies.md): Découvrez les types de proxy, les emplacements et la façon dont Firecrawl sélectionne des proxy pour vos requêtes.
 
-##### Fonctionnalités d’agent
-
-- [Agent FIRE-1 (bêta)](https://docs.firecrawl.dev/fr/agents/fire-1.md): Agent IA permettant une navigation et des interactions intelligentes avec les pages web
-
 ##### Webhooks
 
 - [Vue d’ensemble](https://docs.firecrawl.dev/fr/webhooks/overview.md): Notifications en temps réel pour vos opérations Firecrawl
@@ -57,7 +53,7 @@
 - [Sécurité](https://docs.firecrawl.dev/fr/webhooks/security.md): Vérifiez l’authenticité des webhooks
 - [Tests](https://docs.firecrawl.dev/fr/webhooks/testing.md): Tester et déboguer des webhooks
 
-##### Dashboard
+##### Tableau de bord
 
 - [Vue d’ensemble](https://docs.firecrawl.dev/fr/dashboard.md): Vue d’ensemble du dashboard Firecrawl et de ses principales fonctionnalités
 

@@ -130,22 +130,22 @@ The two menus differ in **cadence**, not in what they can carry.
 
 `injection.perTurn` refreshes as you work:
 
-| Component     | Behavior                                                                                                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Component | Behavior |
+| - | - |
 | `userContext` | A fresh, prompt-scoped bundle of **representation + peer card**, retrieved using your current message as the search query — so recall is associative rather than merely recent |
-| `dialectic`   | A reasoned answer about you, run every `cadence.dialectic` turns. Nothing waits on it after the first turn, so a late answer reaches the next one                              |
+| `dialectic` | A reasoned answer about you, run every `cadence.dialectic` turns. Nothing waits on it after the first turn, so a late answer reaches the next one |
 
 To get the representation without the peer card (or vice versa), name it in `sessionStart` and set `perTurn: []` — at the cost of per-turn refresh.
 
 ### Session Strategies
 
-| Strategy                  | Session name            | Notes                                                              |
-| ------------------------- | ----------------------- | ------------------------------------------------------------------ |
-| `per-directory` (default) | `<peer>-<dir>`          | Stable across restarts and branches                                |
-| `per-repo`                | `<peer>-<repo-root>`    | Same memory from any subdirectory                                  |
-| `git-branch`              | `<peer>-<dir>-<branch>` | Falls back to `per-directory` outside a repo or on a detached HEAD |
-| `per-session`             | `<peer>-chat-<id>`      | A clean slate every restart                                        |
-| `global`                  | `<peer>`                | One memory for everything                                          |
+| Strategy | Session name | Notes |
+| - | - | - |
+| `per-directory` (default) | `<peer>-<dir>` | Stable across restarts and branches |
+| `per-repo` | `<peer>-<repo-root>` | Same memory from any subdirectory |
+| `git-branch` | `<peer>-<dir>-<branch>` | Falls back to `per-directory` outside a repo or on a detached HEAD |
+| `per-session` | `<peer>-chat-<id>` | A clean slate every restart |
+| `global` | `<peer>` | One memory for everything |
 
 
   Prefer the wider scopes. The background Deriver needs a single session to accumulate enough material before it can reason well. `git-branch` splits a project's memory per branch, and `per-session` discards it on every restart.
@@ -166,19 +166,19 @@ Keep `peerName` identical across them too, since conclusions are stored per peer
 
 ## Commands
 
-| Command          | Description                                                                        |
-| ---------------- | ---------------------------------------------------------------------------------- |
-| `/honcho`        | Status: peer, workspace, session, strategy, pending uploads, last sync, last fetch |
-| `/honcho config` | Resolved settings, the file they came from, and any ignored injection components   |
-| `/honcho flush`  | Sync now                                                                           |
+| Command | Description |
+| - | - |
+| `/honcho` | Status: peer, workspace, session, strategy, pending uploads, last sync, last fetch |
+| `/honcho config` | Resolved settings, the file they came from, and any ignored injection components |
+| `/honcho flush` | Sync now |
 
 ## Agent Tools
 
-| Tool              | Description                                                              |
-| ----------------- | ------------------------------------------------------------------------ |
-| `honcho_search`   | Look something up — searches raw messages **and** derived conclusions    |
-| `honcho_chat`     | Ask a question of judgment. Reasons over everything Honcho knows; slower |
-| `honcho_remember` | Save a durable fact, preference, or decision                             |
+| Tool | Description |
+| - | - |
+| `honcho_search` | Look something up — searches raw messages **and** derived conclusions |
+| `honcho_chat` | Ask a question of judgment. Reasons over everything Honcho knows; slower |
+| `honcho_remember` | Save a durable fact, preference, or decision |
 
 Set `injection.tools` to `false` to inject memory without exposing tools.
 

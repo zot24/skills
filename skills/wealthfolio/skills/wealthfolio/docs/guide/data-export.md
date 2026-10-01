@@ -2,31 +2,28 @@
 
 
 
-<img src="/_astro/background-blob.DUVYzKoD.svg" class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" loading="lazy" decoding="async" />
-
-
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="h-8 w-8 transition-transform duration-300 will-change-transform group-hover:[transform:rotateY(-180deg)]" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 font-sans text-lg font-bold tracking-tight transition-colors group-hover:text-primary"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
 
 
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-700 will-change-transform hover:[transform:rotateY(-180deg)] dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/https://assets.wealthfolio.app/images/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="heading hidden font-serif text-xl font-bold tracking-tight transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
+<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
 
 
 <a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
 
 
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 text-xs">Download</a>
+<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
 
 
 <a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
@@ -88,24 +85,23 @@ Export & Backup
 
 # Export & Backup
 
-Export your data to CSV, JSON, or a full SQLite database for backup, migration, or analysis in another tool.
+Export data to CSV or JSON, create profile backups, and restore a portable backup on another device.
 
 
 ------------------------------------------------------------------------
 
-Last updated September 13, 2026
+Last updated October 1, 2026
 
 
-Open **Settings → Backup & Export**. The **Backup** tab manages database backups and restores; the **Export** tab exports data for use elsewhere or creates a SQLite backup.
+Open **Settings → Backup & Export** in the profile you want to back up. The **Backup** tab manages saved snapshots, portable exports, and restores; the **Export** tab exports data for use elsewhere.
 
 ------------------------------------------------------------------------
 
 ## 1 · Run an export
 
 1.  Open **Settings → Backup & Export → Export**.
-2.  Choose **CSV**, **JSON**, or **SQLite**.
-3.  For CSV or JSON, click the export button beside **Accounts**, **Activities**, **Holdings**, **Goals**, or **Portfolio History**. For SQLite, choose **Full database**.
-4.  Complete the save dialog or download offered by your platform. Desktop SQLite exports ask for a folder; iOS uses the native file picker. In web mode, SQLite backups are saved on the server and can be downloaded from the **Backup** tab.
+2.  Choose **CSV** or **JSON**, then select **Accounts**, **Activities**, **Holdings**, **Goals**, or **Portfolio History**.
+3.  Save the file offered by your platform. For a restorable copy of the whole profile, use the **Backup** tab instead.
 
 <img src="https://assets.wealthfolio.app/images/docs/export.webp" class="h-full w-full overflow-hidden object-cover dark:hidden" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio Exports" /><img src="https://assets.wealthfolio.app/images/docs/export-dark.webp" class="hidden h-full w-full overflow-hidden object-cover dark:block" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio Exports" />
 
@@ -114,14 +110,15 @@ Open **Settings → Backup & Export**. The **Backup** tab manages database backu
 ## 2 · Pick the right format
 
 
-| Format            | When to use                                                                                          |
-|-------------------|------------------------------------------------------------------------------------------------------|
-| **CSV**           | Loading into a spreadsheet, sharing one table with someone, importing into another tool.             |
-| **JSON**          | Programmatic processing, scripts, custom dashboards. Preserves nested structures CSV flattens out.   |
-| **Full database** | Complete backup or migration to a new machine. One SQLite file containing every table and every row. |
+| Format                             | When to use                                                                             |
+|------------------------------------|-----------------------------------------------------------------------------------------|
+| **CSV**                            | Loading one table into a spreadsheet or another tool.                                   |
+| **JSON**                           | Programmatic processing; preserves nested structures that CSV flattens out.             |
+| **Password-protected `.wfbackup`** | Keeping a restorable profile copy outside the installation or moving it to another one. |
+| **Unencrypted `.db`**              | An advanced, unprotected database export. Anyone with the file can read its contents.   |
 
 
-For a **backup before a big change** (a major version upgrade, a bulk delete, a tax-time checkpoint) → use **Full database**. It preserves the database tables needed for a full restore. CSV and JSON exports do not include a complete restorable database.
+For a **backup before a big change**, create a snapshot on the **Backup** tab, then export it as a password-protected `.wfbackup` and save it outside the installation. CSV and JSON exports cannot restore a complete profile.
 
 ------------------------------------------------------------------------
 
@@ -131,39 +128,47 @@ Exported activity amounts use the saved final total, including fees and taxes. D
 
 ### Create a backup
 
-Open **Settings → Backup & Export → Backup**:
+Open **Settings → Backup & Export → Backup** and select **Back up now**. The snapshot appears in the list for the current profile. Select **Export** on that snapshot to save a portable copy. Choose a backup password and keep it with your recovery information; Wealthfolio cannot reset it. You can also export an unencrypted `.db` if you need one.
 
-- **Desktop:** create a backup and choose the destination folder.
-- **iOS:** create a backup and use the native file picker to save it to Files.
-- **Web:** create a server backup. The list lets you download a copy or delete a saved backup after confirmation. Download a copy if you need a backup outside the server.
+The initial snapshot stays in the current installation. Desktop and iOS use native file handling for the exported copy; web downloads it through the browser. Check that the export was saved somewhere independent of the device or server. In web mode, **Save original snapshot** is an advanced option: it downloads the original database with its existing encryption, which may require the original server master key to read.
 
-Backups are self-contained SQLite `.db` files. Native backup and restore are currently supported on desktop and iOS; other mobile platforms do not offer these actions.
+Desktop and iOS support restore in the app. Web restore uses an offline server command. Each profile has its own database; repeat the backup for every profile you need to protect.
+
+### Back up multiple profiles
+
+Profiles keep their portfolio data separate. Switch to each profile and create and export its own backup. Restoring a backup replaces only the **selected destination profile**; it does not recreate every profile in the installation. Keep the backup password for each protected export. If you also back up the installation files, include the profile registry and every profile directory, as described <a href="#4--where-the-database-files-live" class="font-medium underline underline-offset-4">below</a>.
+
+### Database encryption and backup passwords
+
+In **Settings → General**, native apps can optionally encrypt the current profile’s local database using a key stored on the device. App lock and database encryption are separate settings. Saved snapshots retain the database’s encryption state when they were created, so an older snapshot may still be unencrypted after you enable encryption.
+
+A password-protected `.wfbackup` uses the password chosen during **Export**, separate from the profile password and installation key. Keep that password: Wealthfolio cannot reset it. An unencrypted `.db` export can be read by anyone with the file, even if the live database is encrypted. For self-hosted servers, database encryption is configured <a href="/docs/guide/self-hosting/configuration/#wf_db_require_encryption" class="font-medium underline underline-offset-4">offline</a>.
 
 ### Restore in the app
 
-On desktop or iOS, open the **Backup** tab, choose the restore action, and select your backup database file. A full SQLite export can also be used.
+On desktop or iOS, open the **Backup** tab in the destination profile. Select **Restore from file** for a `.wfbackup` or unencrypted `.db`, or **Restore** on a saved snapshot. Enter the export password if prompted, review the backup preview, then confirm the replacement.
 
 
 Restoring replaces your current database with the backup; it does not merge the two. Save a current backup before proceeding. CSV and JSON exports cannot be used for a full restore.
 
 
-On desktop, Wealthfolio creates a pre-restore backup and prompts you to restart after restoration. Follow the app’s prompts, then check your accounts and latest activities.
+Wealthfolio saves a snapshot before replacing the destination profile and reopens the app after restoration. Check your accounts and latest activities, then reconnect external services as needed.
 
 ### Restore a self-hosted instance
 
-Web mode has no restore upload action. Stop Wealthfolio (or its container), move the current database aside, and replace the database file at the path set by `WF_DB_PATH` with your backup (default `./db/app.db`). Restart and verify the restored data. See <a href="/docs/guide/self-hosting/configuration/#wf_db_path" class="font-medium underline underline-offset-4">Configuration</a>.
+Web mode has no restore upload action. Stop Wealthfolio (or its container) and run `wealthfolio-server db restore <file>` with the same storage settings, master key, and encryption policy used by the server. Without `--yes`, the command validates the backup and shows a summary without replacing data. Add `--yes` after reviewing it; use `--profile <UUID>` to select a profile other than the default. A protected `.wfbackup` requires `--password-stdin` with the password supplied through a pipe or redirected file. The command saves a pre-restore snapshot. Preserve the complete installation directory and master key, then verify the restored profile after restarting. See <a href="/docs/guide/self-hosting/configuration/#wf_data_dir" class="font-medium underline underline-offset-4">Storage configuration</a>.
 
 ------------------------------------------------------------------------
 
-## 4 · Where the database file lives if you’d rather copy it
+## 4 · Where the database files live
 
-Prefer the built-in backup action while the app is running. For a manual desktop restore, close Wealthfolio, move the existing `app.db` aside, copy your backup to the data directory as `app.db`, and reopen the app:
+Use the **Backup** tab for restores on desktop or iOS. If you are recovering installation files manually, close Wealthfolio first and preserve the **whole data directory**, including `profiles.json`, `profiles/`, and any legacy `app.db`. Include `profiles.json.bak` if present. New profiles store their database at `profiles/<uuid>/app.db`. The Personal profile migrated from an earlier version may still use the original root-level `app.db`. Replacing that root file will not restore a newer profile. Default desktop data directories are:
 
 - **macOS:** `~/Library/Application Support/com.teymz.wealthfolio/`
 - **Windows:** `%APPDATA%\com.teymz.wealthfolio\`
 - **Linux:** `~/.local/share/com.teymz.wealthfolio/`
 
-Stop the app before copying database files manually, or use SQLite’s online backup mechanism for a live copy. Keep the old database until you have verified the restore.
+Keep the existing installation files until you have verified the recovery. Encrypted database files also need their original installation key. For moving data to another installation, export a password-protected `.wfbackup` and use **Restore from file** instead of copying the live database.
 
 ------------------------------------------------------------------------
 
@@ -191,9 +196,11 @@ On This Page
 - <a href="#2--pick-the-right-format" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Pick the right format</a>
 - <a href="#3--round-trip-restore" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Round-trip restore</a>
   - <a href="#create-a-backup" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Create a backup</a>
+  - <a href="#back-up-multiple-profiles" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Back up multiple profiles</a>
+  - <a href="#database-encryption-and-backup-passwords" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Database encryption and backup passwords</a>
   - <a href="#restore-in-the-app" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Restore in the app</a>
   - <a href="#restore-a-self-hosted-instance" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Restore a self-hosted instance</a>
-- <a href="#4--where-the-database-file-lives-if-youd-rather-copy-it" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Where the database file lives if you'd rather copy it</a>
+- <a href="#4--where-the-database-files-live" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Where the database files live</a>
 - <a href="#5--scheduled-exports" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Scheduled exports?</a>
 
 

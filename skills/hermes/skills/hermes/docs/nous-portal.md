@@ -59,15 +59,15 @@ Because routing is per-model and not always through OpenRouter, OpenRouter-speci
 
 The same subscription unlocks the [Tool Gateway](/docs/user-guide/features/tool-gateway), which routes Hermes Agent's tool calls through Nous-managed infrastructure. Five backends, one login:
 
-| Tool                         | Partner     | What it does                                                                                                                                                                           |
-|------------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Web search & extract**     | Firecrawl   | Agent-grade search and full-page extraction. No Firecrawl API key, no rate limit babysitting.                                                                                          |
-| **Image generation**         | FAL         | Nine models under one endpoint: FLUX 2 Klein 9B, FLUX 2 Pro, Z-Image Turbo, Nano Banana Pro (Gemini 3 Pro Image), GPT Image 1.5, GPT Image 2, Ideogram V3, Recraft V4 Pro, Qwen Image. |
-| **Text-to-speech**           | OpenAI TTS  | High-quality TTS without a separate OpenAI key. Enables [voice mode](/docs/user-guide/features/voice-mode) across messaging platforms.                                                 |
-| **Cloud browser automation** | Browser Use | Headless Chromium sessions for `browser_navigate`, `browser_click`, `browser_type`, `browser_vision`. No Browserbase account needed.                                                   |
-| **Cloud terminal sandbox**   | Modal       | Serverless terminal sandboxes for code execution (optional add-on).                                                                                                                    |
+| Tool                         | Partner      | What it does                                                                                                                                                                           |
+|------------------------------|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Web search & extract**     | Nous-managed | Agent-grade search and full-page extraction. No search API key, no rate limit babysitting.                                                                                             |
+| **Image generation**         | FAL          | Nine models under one endpoint: FLUX 2 Klein 9B, FLUX 2 Pro, Z-Image Turbo, Nano Banana Pro (Gemini 3 Pro Image), GPT Image 1.5, GPT Image 2, Ideogram V3, Recraft V4 Pro, Qwen Image. |
+| **Text-to-speech**           | OpenAI TTS   | High-quality TTS without a separate OpenAI key. Enables [voice mode](/docs/user-guide/features/voice-mode) across messaging platforms.                                                 |
+| **Cloud browser automation** | Browser Use  | Headless Chromium sessions for `browser_navigate`, `browser_click`, `browser_type`, `browser_vision`. No Browserbase account needed.                                                   |
+| **Cloud terminal sandbox**   | Modal        | Serverless terminal sandboxes for code execution (optional add-on).                                                                                                                    |
 
-Without the gateway, hooking each of those up means a Firecrawl account, a FAL account, a Browser Use account, an OpenAI key, and a Modal account — five separate signups, five separate dashboards, five separate top-up flows. With the gateway, all of it routes through one subscription.
+Without the gateway, hooking each of those up means a web search account, a FAL account, a Browser Use account, an OpenAI key, and a Modal account — five separate signups, five separate dashboards, five separate top-up flows. With the gateway, all of it routes through one subscription.
 
 You can also enable just specific gateway tools (e.g. web search but not image generation) — see [Mixing the gateway with your own backends](#mixing-the-gateway-with-your-own-backends) below.
 
@@ -77,7 +77,7 @@ Because everything routes through one OAuth-authenticated Portal session, you do
 
 ### Cross-platform parity<a href="#cross-platform-parity" class="hash-link" aria-label="Direct link to Cross-platform parity" translate="no" title="Direct link to Cross-platform parity">​</a>
 
-[Native Windows](/docs/user-guide/windows-native) makes per-tool API key setup its rough edge — installing a Firecrawl account, a FAL account, a Browser Use account, an OpenAI key from Windows is the highest-friction part of getting a useful agent. A Portal subscription smooths that out: one OAuth covers the model and every gateway tool, so Windows users get the same experience as macOS/Linux without manually configuring four backends.
+[Native Windows](/docs/user-guide/windows-native) makes per-tool API key setup its rough edge — installing a web search account, a FAL account, a Browser Use account, an OpenAI key from Windows is the highest-friction part of getting a useful agent. A Portal subscription smooths that out: one OAuth covers the model and every gateway tool, so Windows users get the same experience as macOS/Linux without manually configuring four backends.
 
 ## A note on Hermes 4<a href="#a-note-on-hermes-4" class="hash-link" aria-label="Direct link to A note on Hermes 4" translate="no" title="Direct link to A note on Hermes 4">​</a>
 

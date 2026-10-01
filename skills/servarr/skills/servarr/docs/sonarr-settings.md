@@ -959,12 +959,13 @@ If you download using a BitTorrent client, the process is slightly different:
 > Note: If using a reverse proxy (example: <a href="http://mydomain.com/sonarr" class="is-external-link">mydomain.com/sonarr</a>) you would enter '/sonarr' for URL Base.
 
 - Allowed Hosts - Which hostnames (including FQDN, Fully Qualified Domain Names) or IP Addresses Sonarr will accept as a valid host. This setting is required if Authentication Required is not set to `Enabled`. This is the host portion of the address you enter in your address bar of your browser to access Sonarr.
-
   - IP Address: `192.168.50.1`
   - Hostname: `sonarr`
   - FQDN: `sonarr.example.com`
   - Wildcard subdomain: `*.example.com` - For example `sonarr.example.com`, `tv.example.com` or any other subdomain would be accepted.
   - Docker with a `.internal` suffix: `*.internal` - accepts container hostnames such as `sonarr.internal` when you name your containers with a `.internal` suffix.
+
+> Note: This setting is **not** a list of ips of devices allowed to access Sonarr, its the addresses and ips you to access Sonarr through (i.e. what you type in your browser window, and how other programs connect to Sonarr.)
 
 - Instance Name - Instance name in tab and for Syslog app name
 

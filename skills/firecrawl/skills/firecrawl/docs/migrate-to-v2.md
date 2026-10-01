@@ -6,8 +6,10 @@
 
 # Introduction
 
-> Search the web, scrape any page, and interact with it, all through one API.
+> The web data API for AI agents. Search the web, scrape any page, and interact with it through one API.
 
+
+Firecrawl is the web data API for AI agents. Search, scrape, and interact with the live web to get clean Markdown or structured data.
 
 ## Get started
 

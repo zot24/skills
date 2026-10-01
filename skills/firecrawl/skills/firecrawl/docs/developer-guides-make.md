@@ -159,13 +159,13 @@ Make (formerly Integromat) provides a verified, officially supported Firecrawl i
 
 ## Firecrawl Actions Overview
 
-| Module                | Use Case                         | Best For            |
-| --------------------- | -------------------------------- | ------------------- |
-| **Scrape a Website**  | Single-page data extraction      | Quick data capture  |
-| **Crawl a Website**   | Multi-page content collection    | Full site scraping  |
-| **Extract a Website** | AI-powered structured extraction | Complex data needs  |
-| **Search a Website**  | Search + full content            | Research automation |
-| **Map a Website**     | URL discovery                    | SEO analysis        |
+| Module | Use Case | Best For |
+| - | - | - |
+| **Scrape a Website** | Single-page data extraction | Quick data capture |
+| **Crawl a Website** | Multi-page content collection | Full site scraping |
+| **Extract a Website** | AI-powered structured extraction | Complex data needs |
+| **Search a Website** | Search + full content | Research automation |
+| **Map a Website** | URL discovery | SEO analysis |
 
 ## Best Practices
 
@@ -217,14 +217,14 @@ Make (formerly Integromat) provides a verified, officially supported Firecrawl i
 
 ## Make vs Zapier vs n8n
 
-| Feature            | Make                              | Zapier           | n8n                      |
-| ------------------ | --------------------------------- | ---------------- | ------------------------ |
-| **Setup**          | Visual builder, cloud             | No-code, cloud   | Self-hosted or cloud     |
-| **Pricing**        | Operations-based                  | Per-task pricing | Execution-based          |
-| **Integrations**   | 3,000+ apps                       | 9,000+ apps      | 1,000+ apps and services |
-| **Complexity**     | Advanced workflows                | Simple workflows | Complex workflows        |
-| **Best For**       | Visual automation, mid-complexity | Quick automation | Developer control        |
-| **Learning Curve** | Moderate                          | Easy             | Moderate-Advanced        |
+| Feature | Make | Zapier | n8n |
+| - | - | - | - |
+| **Setup** | Visual builder, cloud | No-code, cloud | Self-hosted or cloud |
+| **Pricing** | Operations-based | Per-task pricing | Execution-based |
+| **Integrations** | 3,000+ apps | 9,000+ apps | 1,000+ apps and services |
+| **Complexity** | Advanced workflows | Simple workflows | Complex workflows |
+| **Best For** | Visual automation, mid-complexity | Quick automation | Developer control |
+| **Learning Curve** | Moderate | Easy | Moderate-Advanced |
 
 
   **Pro Tip:** Make excels at visual workflow design and complex automations. Perfect for teams that need more control than Zapier but prefer visual building over n8n's code-first approach.

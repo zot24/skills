@@ -27,14 +27,14 @@ The `SKILL.md` file must contain YAML frontmatter followed by Markdown content.
 
 ### Frontmatter
 
-| Field           | Required | Constraints                                                                                                       |
-| --------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| `name`          | Yes      | Max 64 characters. Lowercase letters, numbers, and hyphens only. Must not start or end with a hyphen.             |
-| `description`   | Yes      | Max 1024 characters. Non-empty. Describes what the skill does and when to use it.                                 |
-| `license`       | No       | License name or reference to a bundled license file.                                                              |
-| `compatibility` | No       | Max 500 characters. Indicates environment requirements (intended product, system packages, network access, etc.). |
-| `metadata`      | No       | Arbitrary key-value mapping for additional metadata (a map from string keys to string values).                    |
-| `allowed-tools` | No       | Space-separated string of pre-approved tools the skill may use. (Experimental)                                    |
+| Field | Required | Constraints |
+| - | - | - |
+| `name` | Yes | Max 64 characters. Lowercase letters, numbers, and hyphens only. Must not start or end with a hyphen. |
+| `description` | Yes | Max 1024 characters. Non-empty. Describes what the skill does and when to use it. |
+| `license` | No | License name or reference to a bundled license file. |
+| `compatibility` | No | Max 500 characters. Indicates environment requirements (intended product, system packages, network access, etc.). |
+| `metadata` | No | Arbitrary key-value mapping for additional metadata (a map from string keys to string values). |
+| `allowed-tools` | No | Space-separated string of pre-approved tools the skill may use. (Experimental) |
 
 
   **Minimal example:**

@@ -208,27 +208,27 @@ firecrawl https://example.com --timing
 
 **Available Options:**
 
-| Option                   | Short | Description                                                                                                                                                     |
-| ------------------------ | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--url <url>`            | `-u`  | URL to scrape (alternative to positional argument)                                                                                                              |
-| `--format <formats>`     | `-f`  | Output formats (comma-separated): `markdown`, `html`, `rawHtml`, `links`, `screenshot`, `json`, `images`, `summary`, `changeTracking`, `attributes`, `branding` |
-| `--html`                 | `-H`  | Shortcut for `--format html`                                                                                                                                    |
-| `--only-main-content`    |       | Extract only main content                                                                                                                                       |
-| `--wait-for <ms>`        |       | Wait time in milliseconds for JS rendering                                                                                                                      |
-| `--screenshot`           |       | Take a screenshot                                                                                                                                               |
-| `--full-page-screenshot` |       | Take a full page screenshot                                                                                                                                     |
-| `--include-tags <tags>`  |       | HTML tags to include (comma-separated)                                                                                                                          |
-| `--exclude-tags <tags>`  |       | HTML tags to exclude (comma-separated)                                                                                                                          |
-| `--schema <json>`        |       | JSON schema for structured extraction                                                                                                                           |
-| `--schema-file <path>`   |       | Path to JSON schema file                                                                                                                                        |
-| `--actions <json>`       |       | JSON actions array to run during scrape                                                                                                                         |
-| `--actions-file <path>`  |       | Path to JSON actions file                                                                                                                                       |
-| `--proxy <proxy>`        |       | Proxy mode for scraping (for example, `auto` or `basic`)                                                                                                        |
-| `--redact-pii`           |       | Redact personally identifiable information from returned content                                                                                                |
-| `--output <path>`        | `-o`  | Save output to file                                                                                                                                             |
-| `--json`                 |       | Force JSON output even with single format                                                                                                                       |
-| `--pretty`               |       | Pretty print JSON output                                                                                                                                        |
-| `--timing`               |       | Show request timing and other useful information                                                                                                                |
+| Option | Short | Description |
+| - | - | - |
+| `--url <url>` | `-u` | URL to scrape (alternative to positional argument) |
+| `--format <formats>` | `-f` | Output formats (comma-separated): `markdown`, `html`, `rawHtml`, `links`, `screenshot`, `json`, `images`, `summary`, `changeTracking`, `attributes`, `branding` |
+| `--html` | `-H` | Shortcut for `--format html` |
+| `--only-main-content` | | Extract only main content |
+| `--wait-for <ms>` | | Wait time in milliseconds for JS rendering |
+| `--screenshot` | | Take a screenshot |
+| `--full-page-screenshot` | | Take a full page screenshot |
+| `--include-tags <tags>` | | HTML tags to include (comma-separated) |
+| `--exclude-tags <tags>` | | HTML tags to exclude (comma-separated) |
+| `--schema <json>` | | JSON schema for structured extraction |
+| `--schema-file <path>` | | Path to JSON schema file |
+| `--actions <json>` | | JSON actions array to run during scrape |
+| `--actions-file <path>` | | Path to JSON actions file |
+| `--proxy <proxy>` | | Proxy mode for scraping (for example, `auto` or `basic`) |
+| `--redact-pii` | | Redact personally identifiable information from returned content |
+| `--output <path>` | `-o` | Save output to file |
+| `--json` | | Force JSON output even with single format |
+| `--pretty` | | Pretty print JSON output |
+| `--timing` | | Show request timing and other useful information |
 
 ***
 
@@ -276,22 +276,22 @@ firecrawl search "firecrawl" --pretty -o results.json
 
 **Available Options:**
 
-| Option                       | Description                                                                                 |
-| ---------------------------- | ------------------------------------------------------------------------------------------- |
-| `--limit <number>`           | Maximum results (default: 5, max: 100)                                                      |
-| `--sources <sources>`        | Sources to search: `web`, `images`, `news` (comma-separated)                                |
-| `--categories <categories>`  | Filter by category: `research`, `pdf`, `developer` (comma-separated)                        |
-| `--tbs <value>`              | Time filter: `qdr:h` (hour), `qdr:d` (day), `qdr:w` (week), `qdr:m` (month), `qdr:y` (year) |
-| `--location <location>`      | Geo-targeting (e.g., "Berlin,Germany")                                                      |
-| `--country <code>`           | ISO country code (default: US)                                                              |
-| `--timeout <ms>`             | Timeout in milliseconds (default: 60000)                                                    |
-| `--ignore-invalid-urls`      | Exclude URLs invalid for other Firecrawl endpoints                                          |
-| `--scrape`                   | Scrape search results                                                                       |
-| `--scrape-formats <formats>` | Formats for scraped content (default: markdown)                                             |
-| `--only-main-content`        | Include only main content when scraping (default: true)                                     |
-| `--json`                     | Output as JSON                                                                              |
-| `--output <path>`            | Save output to file                                                                         |
-| `--pretty`                   | Pretty print JSON output                                                                    |
+| Option | Description |
+| - | - |
+| `--limit <number>` | Maximum results (default: 5, max: 100) |
+| `--sources <sources>` | Sources to search: `web`, `images`, `news` (comma-separated) |
+| `--categories <categories>` | Filter by category: `research`, `pdf`, `developer` (comma-separated) |
+| `--tbs <value>` | Time filter: `qdr:h` (hour), `qdr:d` (day), `qdr:w` (week), `qdr:m` (month), `qdr:y` (year) |
+| `--location <location>` | Geo-targeting (e.g., "Berlin,Germany") |
+| `--country <code>` | ISO country code (default: US) |
+| `--timeout <ms>` | Timeout in milliseconds (default: 60000) |
+| `--ignore-invalid-urls` | Exclude URLs invalid for other Firecrawl endpoints |
+| `--scrape` | Scrape search results |
+| `--scrape-formats <formats>` | Formats for scraped content (default: markdown) |
+| `--only-main-content` | Include only main content when scraping (default: true) |
+| `--json` | Output as JSON |
+| `--output <path>` | Save output to file |
+| `--pretty` | Pretty print JSON output |
 
 ***
 
@@ -305,13 +305,13 @@ firecrawl developer "how do I configure retries" --limit 10
 
 **Available Options:**
 
-| Option             | Description                                            |
-| ------------------ | ------------------------------------------------------ |
-| `--limit <number>` | Number of results to return (default: 10, max: 100)    |
-| `--skills-only`    | Search only indexed agent-skill files (default: false) |
-| `--json`           | Output as compact JSON                                 |
-| `--output <path>`  | Save output to file                                    |
-| `--pretty`         | Pretty print JSON output                               |
+| Option | Description |
+| - | - |
+| `--limit <number>` | Number of results to return (default: 10, max: 100) |
+| `--skills-only` | Search only indexed agent-skill files (default: false) |
+| `--json` | Output as compact JSON |
+| `--output <path>` | Save output to file |
+| `--pretty` | Pretty print JSON output |
 
 ***
 
@@ -357,19 +357,19 @@ firecrawl map https://example.com --json --pretty -o urls.json
 
 **Available Options:**
 
-| Option                      | Description                                     |
-| --------------------------- | ----------------------------------------------- |
-| `--url <url>`               | URL to map (alternative to positional argument) |
-| `--limit <number>`          | Maximum URLs to discover                        |
-| `--search <query>`          | Filter URLs by search query                     |
-| `--sitemap <mode>`          | Sitemap handling: `include`, `skip`, `only`     |
-| `--include-subdomains`      | Include subdomains                              |
-| `--ignore-query-parameters` | Treat URLs with different params as same        |
-| `--wait`                    | Wait for map to complete                        |
-| `--timeout <seconds>`       | Timeout in seconds                              |
-| `--json`                    | Output as JSON                                  |
-| `--output <path>`           | Save output to file                             |
-| `--pretty`                  | Pretty print JSON output                        |
+| Option | Description |
+| - | - |
+| `--url <url>` | URL to map (alternative to positional argument) |
+| `--limit <number>` | Maximum URLs to discover |
+| `--search <query>` | Filter URLs by search query |
+| `--sitemap <mode>` | Sitemap handling: `include`, `skip`, `only` |
+| `--include-subdomains` | Include subdomains |
+| `--ignore-query-parameters` | Treat URLs with different params as same |
+| `--wait` | Wait for map to complete |
+| `--timeout <seconds>` | Timeout in seconds |
+| `--json` | Output as JSON |
+| `--output <path>` | Save output to file |
+| `--pretty` | Pretty print JSON output |
 
 ***
 
@@ -391,17 +391,17 @@ firecrawl interact stop
 
 **Available Options:**
 
-| Option                 | Description                                    |
-| ---------------------- | ---------------------------------------------- |
-| `-p, --prompt <text>`  | AI prompt (alternative to positional argument) |
-| `-c, --code <code>`    | Code to execute in the live page session       |
-| `-s, --scrape-id <id>` | Scrape job ID (default: last scrape)           |
-| `--python`             | Execute code as Python/Playwright              |
-| `--node`               | Execute code as Node.js/Playwright (default)   |
-| `--bash`               | Execute code as Bash                           |
-| `--timeout <seconds>`  | Timeout in seconds (1-300, default: 30)        |
-| `--output <path>`      | Save output to file                            |
-| `--json`               | Output as JSON format                          |
+| Option | Description |
+| - | - |
+| `-p, --prompt <text>` | AI prompt (alternative to positional argument) |
+| `-c, --code <code>` | Code to execute in the live page session |
+| `-s, --scrape-id <id>` | Scrape job ID (default: last scrape) |
+| `--python` | Execute code as Python/Playwright |
+| `--node` | Execute code as Node.js/Playwright (default) |
+| `--bash` | Execute code as Bash |
+| `--timeout <seconds>` | Timeout in seconds (1-300, default: 30) |
+| `--output <path>` | Save output to file |
+| `--json` | Output as JSON format |
 
 ***
 
@@ -469,31 +469,31 @@ firecrawl crawl https://example.com --wait --pretty -o results.json
 
 **Available Options:**
 
-| Option                         | Description                                       |
-| ------------------------------ | ------------------------------------------------- |
-| `--url <url>`                  | URL to crawl (alternative to positional argument) |
-| `--wait`                       | Wait for crawl to complete                        |
-| `--progress`                   | Show progress indicator while waiting             |
-| `--poll-interval <seconds>`    | Polling interval (default: 5)                     |
-| `--timeout <seconds>`          | Timeout when waiting                              |
-| `--status`                     | Check status of existing crawl job                |
-| `--limit <number>`             | Maximum pages to crawl                            |
-| `--max-depth <number>`         | Maximum crawl depth                               |
-| `--include-paths <paths>`      | Paths to include (comma-separated)                |
-| `--exclude-paths <paths>`      | Paths to exclude (comma-separated)                |
-| `--sitemap <mode>`             | Sitemap handling: `include`, `skip`, `only`       |
-| `--allow-subdomains`           | Include subdomains                                |
-| `--allow-external-links`       | Follow external links                             |
-| `--crawl-entire-domain`        | Crawl entire domain                               |
-| `--ignore-query-parameters`    | Treat URLs with different params as same          |
-| `--delay <ms>`                 | Delay between requests                            |
-| `--max-concurrency <n>`        | Maximum concurrent requests                       |
-| `--scrape-options <json>`      | JSON scrape options passed to each page           |
-| `--scrape-options-file <path>` | Path to scrape options JSON file                  |
-| `--webhook <url-or-json>`      | Webhook URL or configuration                      |
-| `--cancel`                     | Cancel an active crawl job by job ID              |
-| `--output <path>`              | Save output to file                               |
-| `--pretty`                     | Pretty print JSON output                          |
+| Option | Description |
+| - | - |
+| `--url <url>` | URL to crawl (alternative to positional argument) |
+| `--wait` | Wait for crawl to complete |
+| `--progress` | Show progress indicator while waiting |
+| `--poll-interval <seconds>` | Polling interval (default: 5) |
+| `--timeout <seconds>` | Timeout when waiting |
+| `--status` | Check status of existing crawl job |
+| `--limit <number>` | Maximum pages to crawl |
+| `--max-depth <number>` | Maximum crawl depth |
+| `--include-paths <paths>` | Paths to include (comma-separated) |
+| `--exclude-paths <paths>` | Paths to exclude (comma-separated) |
+| `--sitemap <mode>` | Sitemap handling: `include`, `skip`, `only` |
+| `--allow-subdomains` | Include subdomains |
+| `--allow-external-links` | Follow external links |
+| `--crawl-entire-domain` | Crawl entire domain |
+| `--ignore-query-parameters` | Treat URLs with different params as same |
+| `--delay <ms>` | Delay between requests |
+| `--max-concurrency <n>` | Maximum concurrent requests |
+| `--scrape-options <json>` | JSON scrape options passed to each page |
+| `--scrape-options-file <path>` | Path to scrape options JSON file |
+| `--webhook <url-or-json>` | Webhook URL or configuration |
+| `--cancel` | Cancel an active crawl job by job ID |
+| `--output <path>` | Save output to file |
+| `--pretty` | Pretty print JSON output |
 
 ***
 
@@ -519,22 +519,22 @@ Monitor goals should stay short and faithful to the user's intent: say what shou
 
 **Available Options:**
 
-| Option                    | Description                                          |
-| ------------------------- | ---------------------------------------------------- |
-| `--name <name>`           | Monitor name                                         |
-| `--goal <goal>`           | Goal for meaningful-change judging                   |
-| `--cron <expression>`     | Cron schedule, for example `*/30 * * * *`            |
-| `--schedule <text>`       | Natural-language schedule, for example `hourly`      |
-| `--timezone <tz>`         | Schedule timezone, default `UTC`                     |
-| `--page <url>`            | Single page URL to scrape on each check              |
-| `--scrape-urls <list>`    | Comma-separated page URLs to scrape on each check    |
-| `--crawl-url <url>`       | Root URL for a crawl target                          |
-| `--webhook-url <url>`     | Webhook destination                                  |
-| `--webhook-events <list>` | Comma-separated monitor events                       |
-| `--email <list>`          | Comma-separated email recipients                     |
-| `--retention-days <n>`    | Snapshot retention window                            |
-| `--page-status <state>`   | Filter pages on `monitor check`                      |
-| `--state <state>`         | Set monitor state on `monitor update`: active/paused |
+| Option | Description |
+| - | - |
+| `--name <name>` | Monitor name |
+| `--goal <goal>` | Goal for meaningful-change judging |
+| `--cron <expression>` | Cron schedule, for example `*/30 * * * *` |
+| `--schedule <text>` | Natural-language schedule, for example `hourly` |
+| `--timezone <tz>` | Schedule timezone, default `UTC` |
+| `--page <url>` | Single page URL to scrape on each check |
+| `--scrape-urls <list>` | Comma-separated page URLs to scrape on each check |
+| `--crawl-url <url>` | Root URL for a crawl target |
+| `--webhook-url <url>` | Webhook destination |
+| `--webhook-events <list>` | Comma-separated monitor events |
+| `--email <list>` | Comma-separated email recipients |
+| `--retention-days <n>` | Snapshot retention window |
+| `--page-status <state>` | Filter pages on `monitor check` |
+| `--state <state>` | Set monitor state on `monitor update`: active/paused |
 
 ***
 
@@ -585,21 +585,21 @@ firecrawl agent "Find pricing information" --urls https://example.com --wait -o 
 
 **Available Options:**
 
-| Option                      | Description                                                                                                                |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `--urls <urls>`             | Optional list of URLs to focus the agent on (comma-separated)                                                              |
-| `--model <model>`           | Model to use. Defaults to `spark-2`, the model every run executes on. Spark 1 models are deprecated and route to `spark-2` |
-| `--schema <json>`           | JSON schema for structured output (inline JSON string)                                                                     |
-| `--schema-file <path>`      | Path to JSON schema file for structured output                                                                             |
-| `--max-credits <number>`    | Maximum credits to spend (job fails if limit reached)                                                                      |
-| `--webhook <url-or-json>`   | Webhook URL or configuration                                                                                               |
-| `--status`                  | Check status of existing agent job                                                                                         |
-| `--cancel`                  | Cancel an active agent job by job ID                                                                                       |
-| `--wait`                    | Wait for agent to complete before returning results                                                                        |
-| `--poll-interval <seconds>` | Polling interval when waiting (default: 5)                                                                                 |
-| `--timeout <seconds>`       | Timeout when waiting (default: no timeout)                                                                                 |
-| `--output <path>`           | Save output to file                                                                                                        |
-| `--json`                    | Output as JSON format                                                                                                      |
+| Option | Description |
+| - | - |
+| `--urls <urls>` | Optional list of URLs to focus the agent on (comma-separated) |
+| `--model <model>` | Model to use. Defaults to `spark-2`, the model every run executes on. Spark 1 models are deprecated and route to `spark-2` |
+| `--schema <json>` | JSON schema for structured output (inline JSON string) |
+| `--schema-file <path>` | Path to JSON schema file for structured output |
+| `--max-credits <number>` | Maximum credits to spend (job fails if limit reached) |
+| `--webhook <url-or-json>` | Webhook URL or configuration |
+| `--status` | Check status of existing agent job |
+| `--cancel` | Cancel an active agent job by job ID |
+| `--wait` | Wait for agent to complete before returning results |
+| `--poll-interval <seconds>` | Polling interval when waiting (default: 5) |
+| `--timeout <seconds>` | Timeout when waiting (default: no timeout) |
+| `--output <path>` | Save output to file |
+| `--json` | Output as JSON format |
 
 ***
 
@@ -631,13 +631,13 @@ firecrawl --version
 
 These options are available for all commands:
 
-| Option            | Short | Description                                            |
-| ----------------- | ----- | ------------------------------------------------------ |
-| `--status`        |       | Show version, auth, concurrency, and credits           |
-| `--api-key <key>` | `-k`  | Override stored API key for this command               |
-| `--api-url <url>` |       | Use custom API URL (for self-hosted/local development) |
-| `--help`          | `-h`  | Show help for a command                                |
-| `--version`       | `-V`  | Show CLI version                                       |
+| Option | Short | Description |
+| - | - | - |
+| `--status` | | Show version, auth, concurrency, and credits |
+| `--api-key <key>` | `-k` | Override stored API key for this command |
+| `--api-url <url>` | | Use custom API URL (for self-hosted/local development) |
+| `--help` | `-h` | Show help for a command |
+| `--version` | `-V` | Show CLI version |
 
 `init` also accepts `--skip-auth`, `--skip-install`, `--skip-skills`, and `--agent <name>`. See `firecrawl init --help`.
 

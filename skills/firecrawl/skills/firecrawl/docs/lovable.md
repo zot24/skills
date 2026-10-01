@@ -26,10 +26,10 @@ Lovable apps can use Firecrawl to scrape and crawl websites into clean, structur
 
 ## What you can build
 
-| Capability  | Use case                                               |
-| ----------- | ------------------------------------------------------ |
-| **Scrape**  | Turn URLs into clean markdown or structured JSON       |
-| **Crawl**   | Gather pages across a site, including subpages         |
+| Capability | Use case |
+| - | - |
+| **Scrape** | Turn URLs into clean markdown or structured JSON |
+| **Crawl** | Gather pages across a site, including subpages |
 | **Extract** | Pull fields like product details, tables, and metadata |
 
 ## Resources

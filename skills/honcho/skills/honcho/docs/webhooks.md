@@ -81,10 +81,10 @@ Each workspace can register up to `WEBHOOK_MAX_WORKSPACE_LIMIT` endpoints
 
 ## Events
 
-| Event         | When it fires                                      | `data` fields                                                                                      |
-| ------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Event | When it fires | `data` fields |
+| - | - | - |
 | `queue.empty` | A unit of queued background work finished draining | `workspace_id`, `queue_type` (`representation` or `summary`), `session_id`, `observer`, `observed` |
-| `test.event`  | You called `GET /webhooks/test`                    | `workspace_id`                                                                                     |
+| `test.event` | You called `GET /webhooks/test` | `workspace_id` |
 
 
   `queue.empty` is scoped to a single unit of work — one task type for one

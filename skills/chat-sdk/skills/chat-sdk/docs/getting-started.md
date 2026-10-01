@@ -27,7 +27,7 @@ Browse all official, vendor-official, and community adapters on the [Adapters](/
 
 ## Resources
 
-* [The Complete Guide to Chat SDK](https://vercel.com/kb/guide/the-complete-guide-to-chat-sdk?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=getting-started\&utm_content=the-complete-guide-to-chat-sdk) — End-to-end walkthrough that takes you from zero to a deployed multi-platform bot, covering adapters, state, handlers, cards, and streaming.
+* [The Complete Guide to Chat SDK](https://vercel.com/kb/guide/the-complete-guide-to-chat-sdk?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=getting-started\&utm_content=the-complete-guide-to-chat-sdk): an end-to-end walkthrough that takes you from an empty project to a deployed multi-platform bot, covering adapters, state, handlers, cards, and streaming.
 
 See all guides and templates on the [resources](/resources?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=getting-started\&utm_content=resources) page.
 

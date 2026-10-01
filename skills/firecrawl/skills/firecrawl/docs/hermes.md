@@ -18,9 +18,9 @@
 
 Hermes Agent is an open source terminal and desktop agent from Nous Research. It ships with web tools:
 
-| Tool              | What it does                                 |
-| ----------------- | -------------------------------------------- |
-| **`web_search`**  | Search the web and return ranked results     |
+| Tool | What it does |
+| - | - |
+| **`web_search`** | Search the web and return ranked results |
 | **`web_extract`** | Fetch and extract readable content from URLs |
 
 Firecrawl is the **default** provider for both search and extract. Set `FIRECRAWL_API_KEY`, use a self hosted `FIRECRAWL_API_URL`, or use Nous Tool Gateway. If you have credentials for multiple providers, select Firecrawl in `hermes tools` or `config.yaml`. Browser automation through Firecrawl cloud mode is optional.
@@ -53,11 +53,11 @@ hermes setup
 
 ## Capabilities
 
-| Capability           | In Hermes                                 |
-| -------------------- | ----------------------------------------- |
-| **Search**           | Default `web_search` backend              |
-| **Extract / scrape** | Default `web_extract` backend             |
-| **Browser**          | Optional Firecrawl cloud browser provider |
+| Capability | In Hermes |
+| - | - |
+| **Search** | Default `web_search` backend |
+| **Extract / scrape** | Default `web_extract` backend |
+| **Browser** | Optional Firecrawl cloud browser provider |
 
 ### Use Firecrawl for one capability only
 

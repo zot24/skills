@@ -6,6 +6,8 @@
 
 # License
 
+> Honcho, the open-source memory layer for AI agents, is licensed under AGPL-3.0. Full license text.
+
 Honcho is licensed under the AGPL-3.0 License. This is copied below for convenience and also present in the
 [GitHub Repository](https://github.com/plastic-labs/honcho)
 

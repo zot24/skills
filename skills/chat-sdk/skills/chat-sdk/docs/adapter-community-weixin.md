@@ -3,7 +3,7 @@
 ---
 title: Weixin
 description: Community Weixin (WeChat) iLink bot adapter for Chat SDK with long polling, QR login, media, and typing indicators.
-tagline: Community Weixin (WeChat) iLink bot adapter for Chat SDK. Talks to the iLink bot HTTP JSON APIs directly with long polling, QR login, media uploads, and typing indicators.
+tagline: Community Weixin (WeChat) iLink bot adapter for Chat SDK. Calls the iLink bot HTTP JSON APIs directly, with long polling, QR login, media uploads, and typing indicators.
 package: chat-adapter-weixin
 ---
 
@@ -13,12 +13,12 @@ package: chat-adapter-weixin
 ## Install
 
 
+## Quick start
+
 The Weixin adapter requires a [state adapter](/docs/state-adapters). It stores the
 long-polling cursor, per-user context tokens, dedupe markers, and thread history
-through Chat SDK's `StateAdapter`. Any state adapter works — the example uses
+through Chat SDK's `StateAdapter`. Any state adapter works. The example uses
 `@chat-adapter/state-memory`; use Redis or Postgres in production.
-
-## Quick start
 
 ```typescript title="lib/bot.ts" lineNumbers
 import { Chat } from "chat";
@@ -47,13 +47,6 @@ Weixin iLink bots are 1:1 only, so messages arrive through `onDirectMessage`.
 When called with no arguments, `createWeixinAdapter()` reads its credentials from
 environment variables.
 
-## Long polling, not webhooks
-
-Unlike most platform adapters, Weixin has no inbound webhook. The adapter opens a
-long-polling loop against the iLink `getUpdates` endpoint when you call
-`bot.initialize()`, and tears it down on `disconnect()`. There is no
-`/api/webhooks/weixin` route to register.
-
 ## QR login
 
 The bundled CLI acquires `accountId` and `token` by scanning a QR code with the
@@ -68,7 +61,12 @@ weixin-chat-adapter login --save --state-dir ./.weixin-dev
 Use `--save` only as a local-development convenience. In production, pass the
 resulting token through environment variables or your secret manager.
 
-## Environment variables
+## Configuration
+
+All options are auto-detected from environment variables when not provided.
+
+
+### Environment variables
 
 | Variable              | Required | Description                                                                |
 | --------------------- | -------- | -------------------------------------------------------------------------- |
@@ -80,12 +78,21 @@ resulting token through environment variables or your secret manager.
 | `WEIXIN_BOT_TYPE`     | No       | iLink bot type (default: `3`).                                             |
 | `WEIXIN_ROUTE_TAG`    | No       | Optional routing tag forwarded to the iLink API.                           |
 
-## Configuration
+## Transport
 
-All options are auto-detected from environment variables when not provided.
+Weixin has no inbound webhook, unlike most platform adapters. When you call
+`bot.initialize()`, the adapter opens a long-polling loop against the iLink
+`getUpdates` endpoint, and it tears the loop down on `disconnect()`. There is no
+`/api/webhooks/weixin` route to register.
 
+## Messages and media
 
-## Thread ID format
+The adapter strips all markdown formatting, including bold, italic, and code
+blocks, to plain text, because Weixin renders no formatting. It sends and receives images, files, voice, and video, and supports
+typing indicators. Per-user context tokens and dedupe markers persist through
+your `StateAdapter`.
+
+## Thread IDs
 
 ```
 weixin:{base64url(accountId)}:{base64url(userId)}
@@ -95,21 +102,12 @@ Both segments are base64url-encoded so IDs stay delimiter-safe. Every thread is 
 1:1 conversation between the bot account and a single user, so `isDM()` always
 returns `true`.
 
-## Capabilities
-
-* 1:1 direct messages via long polling
-* Plain-text messages (markdown is flattened to plain text — Weixin renders no formatting)
-* Media: images, files, voice, and video (inbound and outbound)
-* Typing indicators
-* Per-user context tokens and dedupe persisted through your `StateAdapter`
-
 ## Limitations
 
-* **No group chats** — iLink bots are 1:1 only; `postChannelMessage` and mentions are not applicable.
-* **Editing and deleting messages** are not supported by the iLink bot API — `editMessage` / `deleteMessage` throw `NotImplementedError`.
-* **Reactions** are not supported — `addReaction` / `removeReaction` throw `NotImplementedError`.
-* **Message history** is not exposed by the API — `fetchMessages` returns an empty array.
-* All formatting (bold, italic, code blocks) is stripped to plain text.
+* iLink bots are 1:1 only, so there are no group chats. `postChannelMessage` and mentions don't apply.
+* The iLink bot API doesn't support editing or deleting messages. `editMessage` and `deleteMessage` throw `NotImplementedError`.
+* Reactions aren't supported. `addReaction` and `removeReaction` throw `NotImplementedError`.
+* The API doesn't expose message history, so `fetchMessages` returns an empty array.
 
 ## Feature support
 

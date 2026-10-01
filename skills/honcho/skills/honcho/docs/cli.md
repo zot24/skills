@@ -63,16 +63,16 @@ To **develop the server** (live reload, from-source image), see [Local Environme
 
 The CLI resolves config in this order: **flag → env var → config file → default**.
 
-| Value       | File key         | Env var                  | Flag                 | Persisted? |
-| ----------- | ---------------- | ------------------------ | -------------------- | ---------- |
-| API key     | `apiKey`         | `HONCHO_API_KEY`         | —                    | Yes        |
-| API URL     | `environmentUrl` | `HONCHO_BASE_URL`        | —                    | Yes        |
-| Workspace   | —                | `HONCHO_WORKSPACE_ID`    | `-w` / `--workspace` | No         |
-| Peer        | —                | `HONCHO_PEER_ID`         | `-p` / `--peer`      | No         |
-| Session     | —                | `HONCHO_SESSION_ID`      | `-s` / `--session`   | No         |
-| JSON output | —                | `HONCHO_JSON`            | `--json`             | No         |
-| Update nag  | —                | `HONCHO_NO_UPDATE_CHECK` | —                    | No         |
-| Local stack | —                | `HONCHO_PROFILE`         | `--profile`          | No         |
+| Value | File key | Env var | Flag | Persisted? |
+| - | - | - | - | - |
+| API key | `apiKey` | `HONCHO_API_KEY` | — | Yes |
+| API URL | `environmentUrl` | `HONCHO_BASE_URL` | — | Yes |
+| Workspace | — | `HONCHO_WORKSPACE_ID` | `-w` / `--workspace` | No |
+| Peer | — | `HONCHO_PEER_ID` | `-p` / `--peer` | No |
+| Session | — | `HONCHO_SESSION_ID` | `-s` / `--session` | No |
+| JSON output | — | `HONCHO_JSON` | `--json` | No |
+| Update nag | — | `HONCHO_NO_UPDATE_CHECK` | — | No |
+| Local stack | — | `HONCHO_PROFILE` | `--profile` | No |
 
 ### Persisted config
 
@@ -142,12 +142,12 @@ Collection commands emit JSON arrays; single-resource commands emit JSON objects
 }
 ```
 
-| Exit code | Meaning                                      |
-| --------- | -------------------------------------------- |
-| `0`       | Success                                      |
-| `1`       | Client error (bad input, resource not found) |
-| `2`       | Server error                                 |
-| `3`       | Auth error (missing or invalid API key)      |
+| Exit code | Meaning |
+| - | - |
+| `0` | Success |
+| `1` | Client error (bad input, resource not found) |
+| `2` | Server error |
+| `3` | Auth error (missing or invalid API key) |
 
 CI pipelines and agent runtimes can branch on these without parsing stderr.
 
@@ -200,6 +200,36 @@ List, search, create, and delete peer conclusions (Honcho's memory atoms).
     </ParamField>
 
 
+    List the conclusions derived FROM a conclusion.
+
+    Walks the reasoning tree upward (premise -> conclusion); `conclusion get`
+    on a conclusion's source\_ids walks it downward. Worth checking before
+    deleting or correcting a fact.
+
+    ```bash
+    honcho conclusion derived <conclusion_id>
+    ```
+
+    <ParamField path="conclusion_id" type="string" required />
+
+    <ParamField path="--limit" type="number" default="10">
+      Max results.
+    </ParamField>
+
+
+    Fetch conclusions by ID, from anywhere in the workspace.
+
+    Pass a conclusion's source\_ids to see the premises it was derived from,
+    and repeat to walk a reasoning chain down to the explicit facts it rests
+    on. IDs that no longer exist are reported rather than failing the command.
+
+    ```bash
+    honcho conclusion get <conclusion_ids>
+    ```
+
+    <ParamField path="conclusion_ids" type="string" required />
+
+
     List conclusions.
 
     ```bash
@@ -216,6 +246,14 @@ List, search, create, and delete peer conclusions (Honcho's memory atoms).
 
     <ParamField path="--limit" type="number" default="10">
       Max results.
+    </ParamField>
+
+    <ParamField path="--level" type="string">
+      Only this reasoning level: explicit, deductive, inductive, contradiction.
+    </ParamField>
+
+    <ParamField path="--derived-from" type="string">
+      Only conclusions derived from this conclusion ID.
     </ParamField>
 
 
@@ -237,6 +275,10 @@ List, search, create, and delete peer conclusions (Honcho's memory atoms).
 
     <ParamField path="--top-k" type="number" default="10">
       Max results.
+    </ParamField>
+
+    <ParamField path="--level" type="string">
+      Only this reasoning level: explicit, deductive, inductive, contradiction.
     </ParamField>
 
 
@@ -388,6 +430,10 @@ List, create, chat with, search, and manage peers and their representations.
 
     <ParamField path="--sessions" type="string">
       Recall only from these session IDs (repeat or comma-separate); explicit conclusions only. Excludes -s and --scope.
+    </ParamField>
+
+    <ParamField path="--evidence" type="boolean">
+      Also report what the answer was built from: the conclusions and messages read and the tools called.
     </ParamField>
 
 
@@ -868,6 +914,10 @@ List, create, inspect, chat, delete, and search workspaces.
 
     <ParamField path="--scope" type="string">
       Recall only from this scope. Repeat or comma-separate for several (explicit conclusions only). Excludes -s.
+    </ParamField>
+
+    <ParamField path="--evidence" type="boolean">
+      Also report what the answer was built from: the conclusions and messages read and the tools called.
     </ParamField>
 
 

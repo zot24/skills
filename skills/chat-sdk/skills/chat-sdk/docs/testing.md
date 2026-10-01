@@ -2,7 +2,7 @@
 
 ---
 title: Testing
-description: Test your bot handlers and custom adapters with @chat-adapter/tests — Vitest factories, custom matchers, and a setup file.
+description: Test your bot handlers and custom adapters with @chat-adapter/tests, which provides Vitest factories, custom matchers, and a setup file.
 type: guide
 prerequisites:
   - /docs/getting-started
@@ -23,11 +23,11 @@ The [`@chat-adapter/tests`](https://www.npmjs.com/package/@chat-adapter/tests) p
 pnpm add -D @chat-adapter/tests
 ```
 
-`chat` and `vitest` are peer dependencies — they should already be in your project.
+`chat` and `vitest` are peer dependencies, so install them in your project if they aren't there already.
 
 ## Setup file (recommended)
 
-Auto-register all matchers by adding the package's setup file to your Vitest config:
+Register all matchers automatically by adding the package's setup file to your Vitest config:
 
 ```typescript title="vitest.config.ts" lineNumbers
 import { defineConfig } from "vitest/config";
@@ -68,22 +68,22 @@ import {
 
 ## Matchers
 
-| Matcher                                                           | Asserts                                                                         |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| `expect(adapter).toHavePosted(threadId, textPattern?)`            | `adapter.postMessage` was called for this thread                                |
-| `expect(adapter).toHaveEdited(threadId, messageId, textPattern?)` | `adapter.editMessage` was called for this message                               |
-| `expect(adapter).toHaveDeleted(threadId, messageId)`              | `adapter.deleteMessage` was called for this message                             |
-| `expect(adapter).toHaveReactedWith(threadId, messageId, emoji)`   | `adapter.addReaction` was called with the emoji (string or `EmojiValue.name`)   |
-| `expect(adapter).toHaveStartedTyping(threadId)`                   | `adapter.startTyping` was called for this thread                                |
-| `expect(adapter).toHavePostedToChannel(channelId, textPattern?)`  | `adapter.postChannelMessage` was called for this channel                        |
-| `expect(chat).toHaveDispatched(handler)`                          | The named `process*` handler on the mock `ChatInstance` was called              |
-| `expect(state).toBeSubscribedTo(threadId)`                        | `state.isSubscribed(threadId)` resolves to `true` (async — `await expect(...)`) |
+| Matcher                                                           | Asserts                                                                                              |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `expect(adapter).toHavePosted(threadId, textPattern?)`            | `adapter.postMessage` was called for this thread                                                     |
+| `expect(adapter).toHaveEdited(threadId, messageId, textPattern?)` | `adapter.editMessage` was called for this message                                                    |
+| `expect(adapter).toHaveDeleted(threadId, messageId)`              | `adapter.deleteMessage` was called for this message                                                  |
+| `expect(adapter).toHaveReactedWith(threadId, messageId, emoji)`   | `adapter.addReaction` was called with the emoji (string or `EmojiValue.name`)                        |
+| `expect(adapter).toHaveStartedTyping(threadId)`                   | `adapter.startTyping` was called for this thread                                                     |
+| `expect(adapter).toHavePostedToChannel(channelId, textPattern?)`  | `adapter.postChannelMessage` was called for this channel                                             |
+| `expect(chat).toHaveDispatched(handler)`                          | The named `process*` handler on the mock `ChatInstance` was called                                   |
+| `expect(state).toBeSubscribedTo(threadId)`                        | `state.isSubscribed(threadId)` resolves to `true`. This matcher is async, so use `await expect(...)` |
 
-Text-pattern matchers extract a comparable string from `AdapterPostableMessage` — strings directly, `PostableMarkdown.markdown`, `PostableRaw.raw`, and `PostableCard.fallbackText`. AST-shaped messages and cards without `fallbackText` aren't text-matchable; assert without `textPattern` and inspect `mock.calls` directly.
+Text-pattern matchers extract a comparable string from `AdapterPostableMessage`: strings directly, `PostableMarkdown.markdown`, `PostableRaw.raw`, and `PostableCard.fallbackText`. AST-shaped messages and cards without `fallbackText` can't be matched by text. For those, assert without `textPattern` and inspect `mock.calls` directly.
 
 ## Bot authors: test your handlers
 
-When you're building a bot on top of Chat SDK, the kit lets you exercise your handlers without a real Slack/Teams/etc. webhook on the wire:
+If you're building a bot on Chat SDK, you can exercise your handlers with a mock adapter and mock state instead of real platform webhooks:
 
 ```typescript title="bot.test.ts"
 import { describe, expect, it } from "vitest";
@@ -114,7 +114,7 @@ describe("bot handlers", () => {
 
 ## Adapter authors: test webhook → dispatch
 
-When you're building a custom `Adapter`, the kit gives you a `ChatInstance` mock you can hand to your adapter and assert that webhooks route through the right `process*` hook with the right normalized payload:
+If you're building a custom `Adapter`, pass it a mock `ChatInstance` and assert that webhooks route through the right `process*` hook with the right normalized payload:
 
 ```typescript title="adapter.test.ts"
 import { describe, expect, it } from "vitest";
@@ -142,9 +142,9 @@ describe("MyAdapter.handleWebhook", () => {
 
 ## Adapter-specific helpers
 
-Helpers that depend on a specific platform's wire format (signed Slack webhooks, Teams claim builders, etc.) live in each adapter's own `/testing` subpath rather than in this kit, so adopting `@chat-adapter/tests` doesn't pull in adapter dependencies you don't use.
+Helpers that depend on one platform's wire format, such as signed Slack webhooks or Teams claim builders, live in each adapter's own `/testing` subpath rather than in this package. That way, adopting `@chat-adapter/tests` doesn't pull in adapter dependencies you don't use.
 
-If you're contributing adapters or core to this repo, see the [Testing adapters contributing guide](/docs/contributing/testing) for hand-rolled patterns used inside `packages/`.
+If you're contributing adapters or core to this repo, see the [Testing adapters contributing guide](/docs/contributing/testing) for the hand-rolled patterns used inside `packages/`.
 
 
 ---

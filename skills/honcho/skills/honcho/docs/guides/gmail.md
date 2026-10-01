@@ -97,12 +97,12 @@ That's it — your emails are now queryable in Honcho. Read on if you want to un
 
 The core idea is straightforward: each Gmail thread becomes a Honcho session, and each email participant becomes a peer. Here's the full mapping:
 
-| Gmail Concept      | Honcho Concept                | Details                                           |
-| ------------------ | ----------------------------- | ------------------------------------------------- |
-| Your Gmail account | Workspace (`gmail`)           | One workspace for all email data                  |
-| Email participant  | Peer                          | Email address as ID for deduplication             |
-| Email thread       | Session (`gmail-thread-{id}`) | One session per thread, all participants attached |
-| Individual email   | Message                       | Attributed to the sender with original timestamp  |
+| Gmail Concept | Honcho Concept | Details |
+| - | - | - |
+| Your Gmail account | Workspace (`gmail`) | One workspace for all email data |
+| Email participant | Peer | Email address as ID for deduplication |
+| Email thread | Session (`gmail-thread-{id}`) | One session per thread, all participants attached |
+| Individual email | Message | Attributed to the sender with original timestamp |
 
 ### Email as Peer ID
 

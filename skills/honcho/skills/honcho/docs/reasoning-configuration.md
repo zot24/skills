@@ -33,8 +33,8 @@ Separately, you can configure the reasoning status of a peer. This overrides def
 
 Controls whether the system should reason over messages.
 
-| Field     | Type   | Description                                                                                          |
-| --------- | ------ | ---------------------------------------------------------------------------------------------------- |
+| Field | Type | Description |
+| - | - | - |
 | `enabled` | `bool` | Whether to enable reasoning functionality. When disabled, no facts or representations are generated. |
 
 <CodeGroup>
@@ -67,9 +67,9 @@ Controls whether the system should reason over messages.
 
 Controls how peer cards (containing key biographical information) are generated and used.
 
-| Field    | Type   | Description                                                         |
-| -------- | ------ | ------------------------------------------------------------------- |
-| `use`    | `bool` | Whether to use peer cards during the reasoning process.             |
+| Field | Type | Description |
+| - | - | - |
+| `use` | `bool` | Whether to use peer cards during the reasoning process. |
 | `create` | `bool` | Whether to generate and update peer cards based on message content. |
 
 <CodeGroup>
@@ -94,11 +94,11 @@ Controls how peer cards (containing key biographical information) are generated 
 
 Controls automatic conversation summarization. Available at workspace and session levels only.
 
-| Field                        | Type   | Description                                                                                            |
-| ---------------------------- | ------ | ------------------------------------------------------------------------------------------------------ |
-| `enabled`                    | `bool` | Whether to enable summary functionality.                                                               |
-| `messages_per_short_summary` | `int`  | Number of messages between short summaries. Must be ≥ 10.                                              |
-| `messages_per_long_summary`  | `int`  | Number of messages between long summaries. Must be ≥ 20 and greater than `messages_per_short_summary`. |
+| Field | Type | Description |
+| - | - | - |
+| `enabled` | `bool` | Whether to enable summary functionality. |
+| `messages_per_short_summary` | `int` | Number of messages between short summaries. Must be ≥ 10. |
+| `messages_per_long_summary` | `int` | Number of messages between long summaries. Must be ≥ 20 and greater than `messages_per_short_summary`. |
 
 <CodeGroup>
   ```python Python
@@ -130,8 +130,8 @@ Controls automatic conversation summarization. Available at workspace and sessio
 
 Controls the "dreaming" process that consolidates and refines representations. Available at workspace and session levels only.
 
-| Field     | Type   | Description                                                                             |
-| --------- | ------ | --------------------------------------------------------------------------------------- |
+| Field | Type | Description |
+| - | - | - |
 | `enabled` | `bool` | Whether to enable dream functionality. Automatically disabled if reasoning is disabled. |
 
 <CodeGroup>

@@ -83,11 +83,11 @@ await session.aio.add_messages(robot_peer.message(response))
 
 The robot calls Honcho mid-conversation via OpenAI function calling — fast enough for real-time voice:
 
-| Tool                | Purpose                                            |
-| ------------------- | -------------------------------------------------- |
-| `recall`            | Query Honcho about the user ("What's their name?") |
-| `create_conclusion` | Save important facts to long-term memory           |
-| `see`               | Capture and analyze camera feed                    |
+| Tool | Purpose |
+| - | - |
+| `recall` | Query Honcho about the user ("What's their name?") |
+| `create_conclusion` | Save important facts to long-term memory |
+| `see` | Capture and analyze camera feed |
 
 ```python theme={null}
 # Recall - ask Honcho's dialectic API (returns in ~200-500ms)

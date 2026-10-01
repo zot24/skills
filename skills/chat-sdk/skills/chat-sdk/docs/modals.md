@@ -15,7 +15,7 @@ related:
 # Modals
 
 
-Modals open form dialogs in response to button clicks or [slash commands](/docs/slash-commands). They support text inputs, dropdowns, radio buttons, and server-side validation. Currently supported on Slack and Teams.
+Modals open form dialogs in response to button clicks or [slash commands](/docs/slash-commands). They support text inputs, dropdowns, radio buttons, and server-side validation. Modals are currently supported on Slack and Teams.
 
 ## Open a modal
 
@@ -112,39 +112,40 @@ A numeric field. Renders a Slack `number_input` and an Adaptive Card `Input.Numb
 | `initialValue` | `number` (optional)  | Pre-filled value                           |
 | `min`          | `number` (optional)  | Minimum accepted value                     |
 | `max`          | `number` (optional)  | Maximum accepted value                     |
-| `decimal`      | `boolean` (optional) | Allow decimals — defaults to integers only |
+| `decimal`      | `boolean` (optional) | Allow decimals (defaults to integers only) |
 | `optional`     | `boolean` (optional) | Allow empty submission                     |
 
-Like every other field, the submitted value arrives in `event.values` as a string — parse it with `Number(...)` if you need a number.
+Like every other field, the submitted value arrives in `event.values` as a string. Parse it with `Number(...)` if you need a number.
 
 
-  `decimal` is enforced by Slack. Adaptive Cards has no decimal switch, so `Input.Number` accepts decimals on Teams regardless — validate server-side if the distinction matters.
+  `decimal` is enforced by Slack. Adaptive Cards has no decimal switch, so `Input.Number` accepts decimals on Teams regardless. Validate server-side if the distinction matters.
 
 
 ### Select
 
 A dropdown for selecting a single option.
 
-| Prop            | Type                 | Description            |
-| --------------- | -------------------- | ---------------------- |
-| `id`            | `string`             | Field identifier       |
-| `label`         | `string`             | Field label            |
-| `placeholder`   | `string` (optional)  | Placeholder text       |
-| `initialOption` | `string` (optional)  | Pre-selected value     |
-| `optional`      | `boolean` (optional) | Allow empty submission |
+| Prop             | Type                 | Description                                                             |
+| ---------------- | -------------------- | ----------------------------------------------------------------------- |
+| `id`             | `string`             | Field identifier                                                        |
+| `label`          | `string`             | Field label                                                             |
+| `placeholder`    | `string` (optional)  | Placeholder text                                                        |
+| `initialOption`  | `string` (optional)  | Pre-selected value                                                      |
+| `optional`       | `boolean` (optional) | Allow empty submission                                                  |
+| `dispatchAction` | `boolean` (optional) | Send selection changes to `onAction` in Slack modals (default: `false`) |
 
 ### ExternalSelect
 
-A dropdown that loads its options dynamically from a handler as the user types. Useful for large or remote-backed option sets (people, tickets, records) where a static `<Select>` would be impractical. Slack-only.
+A dropdown that loads its options dynamically from a handler as the user types. Use it for large or remotely stored option sets, such as people, tickets, or records, where a static `<Select>` would be impractical. Slack-only.
 
-| Prop             | Type                          | Description                                                                                                                                                                                                                                               |
-| ---------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`             | `string`                      | Field identifier (key in `event.values`)                                                                                                                                                                                                                  |
-| `label`          | `string`                      | Field label                                                                                                                                                                                                                                               |
-| `placeholder`    | `string` (optional)           | Placeholder text                                                                                                                                                                                                                                          |
-| `minQueryLength` | `number` (optional)           | Minimum characters before the loader fires (Slack default: 3)                                                                                                                                                                                             |
-| `initialOption`  | `{ label, value }` (optional) | Pre-selected option when the modal opens (must match an option returned by the loader). For static `<Select>`, `initialOption` is just the value string — for `<ExternalSelect>` it's the full `{ label, value }` object since the loader hasn't run yet. |
-| `optional`       | `boolean` (optional)          | Allow empty submission                                                                                                                                                                                                                                    |
+| Prop             | Type                          | Description                                                                                                                                                                                                                                           |
+| ---------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`             | `string`                      | Field identifier (key in `event.values`)                                                                                                                                                                                                              |
+| `label`          | `string`                      | Field label                                                                                                                                                                                                                                           |
+| `placeholder`    | `string` (optional)           | Placeholder text                                                                                                                                                                                                                                      |
+| `minQueryLength` | `number` (optional)           | Minimum characters before the loader fires (Slack default: 3)                                                                                                                                                                                         |
+| `initialOption`  | `{ label, value }` (optional) | Pre-selected option when the modal opens (must match an option returned by the loader). For static `<Select>`, `initialOption` is the value string. For `<ExternalSelect>` it's the full `{ label, value }` object because the loader hasn't run yet. |
+| `optional`       | `boolean` (optional)          | Allow empty submission                                                                                                                                                                                                                                |
 
 Register the loader with `onOptionsLoad`:
 
@@ -175,7 +176,7 @@ bot.onModalSubmit("assign_form", async (event) => {
 });
 ```
 
-The selected value arrives in `event.values` on submit just like a static `<Select>`.
+The selected value arrives in `event.values` on submit, the same as for a static `<Select>`.
 
 #### Grouped options
 
@@ -197,22 +198,23 @@ bot.onOptionsLoad("assignee", async (event) => {
 Slack limits: max 100 groups, max 100 options per group, group label max 75 characters.
 
 
-  Slack requires a response within 3 seconds for options requests. The adapter caps the loader at \~2.5s and returns an empty result on timeout — keep your loader fast (cache, prefetch, or narrow the query server-side).
+  Slack requires a response within 3 seconds for options requests. The adapter caps the loader at \~2.5s and returns an empty result on timeout, so keep your loader fast by caching, prefetching, or narrowing the query server-side.
 
 
-  **Slack setup:** `ExternalSelect` uses Slack's `block_suggestion` payload, which is dispatched to the **Options Load URL**. In your [Slack app settings](https://api.slack.com/apps) go to **Interactivity & Shortcuts** → **Select Menus** and set the **Options Load URL** to the same endpoint as your Interactivity Request URL (e.g. `https://your-domain.com/api/webhooks/slack`). Without this, typing into an external select will silently return no results.
+  On Slack, `ExternalSelect` uses Slack's `block_suggestion` payload, which is dispatched to the **Options Load URL**. In your [Slack app settings](https://api.slack.com/apps) go to **Interactivity & Shortcuts** → **Select Menus** and set the **Options Load URL** to the same endpoint as your Interactivity Request URL (e.g. `https://your-domain.com/api/webhooks/slack`). Without this setting, typing into an external select returns no results and no error.
 
 
 ### RadioSelect
 
 A radio button group for mutually exclusive options.
 
-| Prop            | Type                 | Description            |
-| --------------- | -------------------- | ---------------------- |
-| `id`            | `string`             | Field identifier       |
-| `label`         | `string`             | Field label            |
-| `initialOption` | `string` (optional)  | Pre-selected value     |
-| `optional`      | `boolean` (optional) | Allow empty submission |
+| Prop             | Type                 | Description                                                             |
+| ---------------- | -------------------- | ----------------------------------------------------------------------- |
+| `id`             | `string`             | Field identifier                                                        |
+| `label`          | `string`             | Field label                                                             |
+| `initialOption`  | `string` (optional)  | Pre-selected value                                                      |
+| `optional`       | `boolean` (optional) | Allow empty submission                                                  |
+| `dispatchAction` | `boolean` (optional) | Send selection changes to `onAction` in Slack modals (default: `false`) |
 
 ### SelectOption
 
@@ -224,6 +226,23 @@ An option for `Select` or `RadioSelect`.
 | `value`       | `string`            | Value passed to handler   |
 | `description` | `string` (optional) | Help text below the label |
 
+## Handle selection changes
+
+In Slack modals, set `dispatchAction` on `Select` or `RadioSelect` to receive changes before submission:
+
+```tsx
+<RadioSelect id="scope" label="Scope" dispatchAction>
+  <SelectOption label="Personal" value="personal" />
+  <SelectOption label="Team" value="team" />
+</RadioSelect>
+```
+
+Register `bot.onAction("scope", handler)` to handle the selection. `event.actionId` is the input ID and `event.value` is the selected option's value. Clearing an optional select produces an undefined `event.value`. Modal actions have no `event.thread`; the Slack view ID and form state are available in `event.raw`.
+
+This maps to Slack's [input block `dispatch_action`](https://docs.slack.dev/reference/block-kit/blocks/input-block/). It defaults to `false`, is ignored by other adapters, and does not change the values received by `onModalSubmit`. Text input change events are not supported by this option.
+
+To change dependent fields, update the view using Slack's [views.update](https://docs.slack.dev/reference/methods/views.update/) API. Preserve the view's `private_metadata` and use its `hash` to protect against out-of-order updates. Keep the same input IDs for fields whose existing values should be preserved.
+
 ## Handle submissions
 
 Register a handler with `onModalSubmit` using the same `callbackId`:
@@ -232,7 +251,7 @@ Register a handler with `onModalSubmit` using the same `callbackId`:
 bot.onModalSubmit("feedback_form", async (event) => {
   const { message, category, email } = event.values;
 
-  // Validate input — return errors to show in the modal
+  // Validate input and return errors to show in the modal
   if (!message || message.length < 5) {
     return {
       action: "errors",
@@ -281,7 +300,7 @@ bot.onModalSubmit("feedback_form", async (event) => {
 
 ## Handle cancellation
 
-Optionally handle when users cancel a modal. Requires `notifyOnClose` on the `Modal` component:
+To run code when a user cancels a modal, register `onModalClose`. The `Modal` component must set `notifyOnClose`:
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onModalClose("feedback_form", async (event) => {

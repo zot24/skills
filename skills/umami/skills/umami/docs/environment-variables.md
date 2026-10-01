@@ -218,6 +218,16 @@ LOG_QUERY = 1
 ```
 
 
+### MCP_ENABLED<a href="#mcp_enabled" class="heading-anchor" aria-label="Permalink to “MCP_ENABLED”">#</a>
+
+Enables the [Model Context Protocol (MCP)](/docs/mcp) endpoint. MCP is disabled by default.
+
+
+``` code-block
+MCP_ENABLED = 1
+```
+
+
 ### PRIVATE_MODE<a href="#private_mode" class="heading-anchor" aria-label="Permalink to “PRIVATE_MODE”">#</a>
 
 
@@ -431,7 +441,7 @@ SKIP_DB_MIGRATION = 1
 ```
 
 
-<a href="/docs/enable-share-url" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Enable Share URL</span></span></a><a href="/docs/enable-cloudflare-headers" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Enable Cloudflare headers</span></span></a>
+<a href="/docs/enable-share-url" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Enable Share URL</span></span></a><a href="/docs/mcp" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Enable MCP</span></span></a>
 
 
 On this page

@@ -131,15 +131,15 @@ In Normal mode a scan costs **+2 credits per URL scanned**, on top of the base c
 
 ## Error reference
 
-| Status | When                                                                                                                         |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| `403`  | A request targets a URL blocked by the policy (`code: unsafe_domain_blocked`).                                               |
-| `403`  | A request includes a `threatProtection` override while overrides are disabled for the organization.                          |
-| `403`  | A `threatProtection` override sets `mode: "off"` while Threat Protection is enforced for the team.                           |
-| `403`  | The organization policy is updated with `mode: "off"` while Threat Protection is enforced for the team.                      |
-| `403`  | Threat Protection options are used on a team without the feature enabled.                                                    |
-| `403`  | A `threatProtection` override selects `mode: "zscaler"` while the organization has no Zscaler connection configured.         |
-| `403`  | A deprecated v0 endpoint is called while Threat Protection is enforced for the team (v0 does not support Threat Protection). |
+| Status | When |
+| - | - |
+| `403` | A request targets a URL blocked by the policy (`code: unsafe_domain_blocked`). |
+| `403` | A request includes a `threatProtection` override while overrides are disabled for the organization. |
+| `403` | A `threatProtection` override sets `mode: "off"` while Threat Protection is enforced for the team. |
+| `403` | The organization policy is updated with `mode: "off"` while Threat Protection is enforced for the team. |
+| `403` | Threat Protection options are used on a team without the feature enabled. |
+| `403` | A `threatProtection` override selects `mode: "zscaler"` while the organization has no Zscaler connection configured. |
+| `403` | A deprecated v0 endpoint is called while Threat Protection is enforced for the team (v0 does not support Threat Protection). |
 
 ## Notes
 

@@ -3,7 +3,7 @@
 ---
 title: MySQL
 description: Community MySQL state adapter for Chat SDK built on mysql2. Persistence, distributed locking, caching, lists, and queues without a separate Redis dependency.
-tagline: Community MySQL state adapter for Chat SDK. Use when MySQL is your primary datastore and you want state persistence without standing up a separate Redis cluster.
+tagline: Community MySQL state adapter for Chat SDK, for apps that already use MySQL as their primary datastore and don't want to run a separate Redis cluster.
 package: chat-state-mysql
 ---
 
@@ -38,7 +38,21 @@ const state = createMySqlState({
 });
 ```
 
-### Using an existing client
+## Configuration
+
+
+Either `url`, the `MYSQL_URL` / `DATABASE_URL` env var, or `client` is required.
+
+### Environment variables
+
+| Variable       | Required | Description                                                |
+| -------------- | -------- | ---------------------------------------------------------- |
+| `MYSQL_URL`    | No       | MySQL connection URL, auto-detected when `url` is omitted. |
+| `DATABASE_URL` | No       | Alternative to `MYSQL_URL`, also auto-detected.            |
+
+## Using an existing client
+
+Pass an existing `mysql2/promise` pool as `client` to reuse it:
 
 ```typescript
 import mysql from "mysql2/promise";
@@ -46,11 +60,6 @@ import mysql from "mysql2/promise";
 const client = mysql.createPool(process.env.MYSQL_URL);
 const state = createMySqlState({ client });
 ```
-
-## Configuration
-
-
-Either `url`, the `MYSQL_URL` / `DATABASE_URL` env var, or `client` is required.
 
 ## Data model
 
@@ -64,13 +73,13 @@ chat_state_lists
 chat_state_queues
 ```
 
-All rows are namespaced by `key_prefix`. Prefixes, thread IDs, and cache keys are stored as text, with SHA-256 hash columns used for MySQL primary keys and indexes — so long platform IDs and multibyte prefixes remain supported.
+All rows are namespaced by `key_prefix`. Prefixes, thread IDs, and cache keys are stored as text, with SHA-256 hash columns used for MySQL primary keys and indexes, so long platform IDs and multibyte prefixes remain supported.
 
 The schema avoids window functions and generated columns, and is compatible with MySQL 5.7 and newer.
 
 ## Locking considerations
 
-The Redis state adapters use atomic `SET NX PX` for lock acquisition. The MySQL adapter uses InnoDB row-level locking through `INSERT ... ON DUPLICATE KEY UPDATE`, replacing a lock only when the stored `expires_at` timestamp has passed. That's safe for typical multi-instance workloads, but Redis remains a better fit for high-contention distributed locking.
+The Redis state adapters use atomic `SET NX PX` for lock acquisition. The MySQL adapter uses InnoDB row-level locking through `INSERT ... ON DUPLICATE KEY UPDATE`, replacing a lock only when the stored `expires_at` timestamp has passed. This is safe for typical multi-instance workloads, but Redis remains a better fit for high-contention distributed locking.
 
 ## Expired row cleanup
 

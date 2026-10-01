@@ -200,6 +200,8 @@ hermes profile use default    # switch back
 
 Sets a default so plain `hermes` commands target that profile. Like `kubectl config use-context`.
 
+If the sticky profile's directory is deleted by hand, Hermes refuses to run ordinary commands in the default profile instead, since they would read or write the wrong profile's state. Only the ways out still run, with a warning: `hermes profile list`, `hermes profile use default`, and `hermes uninstall` without `--data` or `--full` (those two stay refused; the interactive uninstall menu still offers a full wipe of the default profile behind its confirmation prompts).
+
 ### Knowing where you are<a href="#knowing-where-you-are" class="hash-link" aria-label="Direct link to Knowing where you are" translate="no" title="Direct link to Knowing where you are">​</a>
 
 The CLI always shows which profile is active:
@@ -323,13 +325,15 @@ hermes update
 
 User-modified skills are never overwritten.
 
+Dependency preparation reads every profile's `config.yaml` to compute the plugin set the shared environment must carry. A profile whose `config.yaml` does not parse (or whose `plugins` / `memory` sections have the wrong shape) fails that step for the whole install — see [Dependency preparation and preservation](/docs/user-guide/features/plugins#dependency-preparation-and-preservation).
+
 ## Managing profiles<a href="#managing-profiles" class="hash-link" aria-label="Direct link to Managing profiles" translate="no" title="Direct link to Managing profiles">​</a>
 
 
 ``` prism-code
 hermes profile list           # show all profiles with status
 hermes profile show coder     # detailed info for one profile
-hermes profile rename coder dev-bot   # rename (updates alias + service)
+hermes profile rename coder dev-bot   # rename (updates alias; removes the old name's gateway service)
 hermes profile migrate-identity coder dev-bot   # retry a rename's identity migration
 hermes profile purge-identity dev-bot   # retry a delete's identity purge
 hermes profile export coder   # pack into coder.tar.gz (shareable; keys stripped)
@@ -405,6 +409,8 @@ The default profile is simply `~/.hermes` itself. No migration needed — existi
 A profile you built on one machine can go to another — your own workstation, a teammate's laptop, or the community. Two paths:
 
 **Send a file.** `/export` packs the profile into one `.tar.gz` — skills, memory, persona, crons, plugins, settings, and (from the desktop) your theme and layout. API keys are stripped. The recipient runs `/import`.
+
+Machine-specific PM state is not portable. Export, import, and distribution install exclude `installs/`, `tools/`, and `cache/` at a profile's root. Backup and restore apply the same rule to the default home and named profiles. Older archives cannot replace the destination machine's PM selections or tools. Files such as `plugins/example/facts.json` and `skills/example/tools/helper.py` remain user data and are preserved. Install dependencies on the destination through [PM](/docs/reference/package-management), rather than copying environments.
 
 
 ``` prism-code

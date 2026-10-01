@@ -24,32 +24,32 @@ Credits are the unit of usage in Firecrawl. Each plan includes a monthly credit 
 
 ### Credit costs per endpoint
 
-| Endpoint     | Credit Cost                  | Notes                                                                                                                                                                                                                                                                      |
-| ------------ | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Scrape**   | 1 credit / page              | Convert a single URL into clean markdown, HTML, or structured data. Additional credits apply when using scrape options (see below).                                                                                                                                        |
-| **Crawl**    | 1 credit / page              | Scrape an entire website by following links from a starting URL. The same per-page scrape option costs apply to each page crawled.                                                                                                                                         |
-| **Map**      | 1 credit / call              | Discover all URLs on a website without scraping their content.                                                                                                                                                                                                             |
-| **Search**   | 2 credits / 10 results       | Search the web and optionally scrape the results. Rounded up per 10 results (e.g., 11 results = 4 credits). Additional per-page scrape costs apply to each result that is scraped. See [here](/features/search#zero-data-retention-zdr) for enterprise ZDR search pricing. |
-| **Interact** | 2–7 credits / browser minute | Interactive browser sandbox session, billed per browser minute with a one-minute minimum. Sessions that use a `prompt` bill at 7 credits / browser minute; sessions without a prompt (Playwright `code` only) bill at 2 credits / browser minute.                          |
-| **Agent**    | Dynamic                      | Autonomous web research agent. 5 daily runs free; usage-based pricing beyond that.                                                                                                                                                                                         |
+| Endpoint | Credit Cost | Notes |
+| - | - | - |
+| **Scrape** | 1 credit / page | Convert a single URL into clean markdown, HTML, or structured data. Additional credits apply when using scrape options (see below). |
+| **Crawl** | 1 credit / page | Scrape an entire website by following links from a starting URL. The same per-page scrape option costs apply to each page crawled. |
+| **Map** | 1 credit / call | Discover all URLs on a website without scraping their content. |
+| **Search** | 2 credits / 10 results | Search the web and optionally scrape the results. Rounded up per 10 results (e.g., 11 results = 4 credits). Additional per-page scrape costs apply to each result that is scraped. See [here](/features/search#zero-data-retention-zdr) for enterprise ZDR search pricing. |
+| **Interact** | 2–7 credits / browser minute | Interactive browser sandbox session, billed per browser minute with a one-minute minimum. Sessions that use a `prompt` bill at 7 credits / browser minute; sessions without a prompt (Playwright `code` only) bill at 2 credits / browser minute. |
+| **Agent** | Dynamic | Autonomous web research agent. 5 daily runs free; usage-based pricing beyond that. |
 
 ### Additional credit costs for scrape options
 
 Certain scrape options add credits on top of the base cost per page:
 
-| Option                                                    | Additional Cost      | Description                                                                                                                                                                                                                                                             |
-| --------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PDF parsing                                               | +1 credit / PDF page | Extract content from PDF documents                                                                                                                                                                                                                                      |
-| JSON format (LLM extraction)                              | +4 credits / page    | Use an LLM to extract structured JSON data from the page                                                                                                                                                                                                                |
-| Prompt injection check                                    | +4 credits / page    | Opt-in `checkPromptInjection` guard for JSON format (see [Prompt injection detection](/features/llm-extract#prompt-injection-detection)). If the scrape fails after the check has run, 5 credits are billed. See [When credits are charged](#when-credits-are-charged). |
-| Zero Data Retention (ZDR)                                 | +1 credit / page     | Ensures no data is persisted beyond the request (see [Scrape ZDR](/features/scrape#zero-data-retention-zdr))                                                                                                                                                            |
-| `question` or `query` format                              | +4 credits / page    | LLM-generated answer to a question about the page (see [Scrape](/features/scrape))                                                                                                                                                                                      |
-| `highlights` format                                       | +4 credits / page    | LLM-selected relevant passages from the page (see [Scrape](/features/scrape))                                                                                                                                                                                           |
-| `audio` format                                            | +4 credits / page    | Transcribe audio found on the page (see [Scrape](/features/scrape))                                                                                                                                                                                                     |
-| `video` format                                            | +4 credits / page    | Transcribe video found on the page (see [Scrape](/features/scrape))                                                                                                                                                                                                     |
-| PII redaction (`redactPII`)                               | +4 credits / page    | Redact personal data from the returned markdown. Each additional PDF page adds another +4 on top of its +1 parsing cost (see [PII redaction](/features/pii-redaction))                                                                                                  |
-| `lockdown` (cache hit)                                    | +4 credits / page    | Serve from cache only, never fetching the target. A cache miss returns no document and bills 1 credit (see [Lockdown](/features/lockdown) and the table below)                                                                                                          |
-| Enhanced proxy (`proxy: "enhanced"` or `auto` escalation) | +0                   | Billed at the same 1 credit as a basic request. An escalated retry is not charged separately (see [Enhanced Mode](/features/enhanced-mode))                                                                                                                             |
+| Option | Additional Cost | Description |
+| - | - | - |
+| PDF parsing | +1 credit / PDF page | Extract content from PDF documents |
+| JSON format (LLM extraction) | +4 credits / page | Use an LLM to extract structured JSON data from the page |
+| Prompt injection check | +4 credits / page | Opt-in `checkPromptInjection` guard for JSON format (see [Prompt injection detection](/features/llm-extract#prompt-injection-detection)). If the scrape fails after the check has run, 5 credits are billed. See [When credits are charged](#when-credits-are-charged). |
+| Zero Data Retention (ZDR) | +1 credit / page | Ensures no data is persisted beyond the request (see [Scrape ZDR](/features/scrape#zero-data-retention-zdr)) |
+| `question` or `query` format | +4 credits / page | LLM-generated answer to a question about the page (see [Scrape](/features/scrape)) |
+| `highlights` format | +4 credits / page | LLM-selected relevant passages from the page (see [Scrape](/features/scrape)) |
+| `audio` format | +4 credits / page | Transcribe audio found on the page (see [Scrape](/features/scrape)) |
+| `video` format | +4 credits / page | Transcribe video found on the page (see [Scrape](/features/scrape)) |
+| PII redaction (`redactPII`) | +4 credits / page | Redact personal data from the returned markdown. Each additional PDF page adds another +4 on top of its +1 parsing cost (see [PII redaction](/features/pii-redaction)) |
+| `lockdown` (cache hit) | +4 credits / page | Serve from cache only, never fetching the target. A cache miss returns no document and bills 1 credit (see [Lockdown](/features/lockdown) and the table below) |
+| Enhanced proxy (`proxy: "enhanced"` or `auto` escalation) | +0 | Billed at the same 1 credit as a basic request. An escalated retry is not charged separately (see [Enhanced Mode](/features/enhanced-mode)) |
 
 These modifiers stack. For example, scraping a page with both JSON format and Zero Data Retention costs **1 + 4 + 1 = 6 credits** per page, and JSON format with PII redaction costs **1 + 4 + 4 = 9 credits**. These same modifiers apply to the Crawl and Search endpoints since they use scrape internally for each page.
 
@@ -64,13 +64,13 @@ What decides the charge is whether Firecrawl returned a document, not whether th
 
 A few cases still charge when no document comes back. They cover work that Firecrawl already performed on your behalf before the scrape ended.
 
-| Case                          | What is charged                                                                                                       |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Threat protection scan        | 2 credits per scanned URL, including a scrape that the scan itself blocked                                            |
-| Prompt injection check        | 5 credits, once the `checkPromptInjection` guard has run                                                              |
-| FIRE-1 agent                  | Usage-based, for the navigation the agent already did                                                                 |
-| `lockdown` cache miss         | 1 credit                                                                                                              |
-| Monitor check                 | A page that errors during a check is charged the base 1 credit per page                                               |
+| Case | What is charged |
+| - | - |
+| Threat protection scan | 2 credits per scanned URL, including a scrape that the scan itself blocked |
+| Prompt injection check | 5 credits, once the `checkPromptInjection` guard has run |
+| FIRE-1 agent | Usage-based, for the navigation the agent already did |
+| `lockdown` cache miss | 1 credit |
+| Monitor check | A page that errors during a check is charged the base 1 credit per page |
 | Interact and Browser sessions | Charged per browser minute of session time, with a one-minute minimum, whether or not the session got what you wanted |
 
 For **batch scrape** and **crawl** jobs, credits are billed asynchronously as each page completes processing, not when the job is submitted. This means there can be a delay between submitting a job and seeing the full credit cost reflected on your account. If a batch contains many URLs or pages are queued during high-traffic periods, credits may continue to appear minutes or hours after submission. Polling or checking batch status does not consume credits.
@@ -98,12 +98,12 @@ Subscription plans bill monthly or yearly. Paid self-serve plans can also use pa
 
 ### Paid plans
 
-| Plan         | Monthly Credits | Concurrent Browsers |
-| ------------ | --------------- | ------------------: |
-| **Hobby**    | 5,000           |                   5 |
-| **Standard** | 100,000         |                  25 |
-| **Growth**   | 500,000         |                  50 |
-| **Scale**    | 1,000,000       |                 100 |
+| Plan | Monthly Credits | Concurrent Browsers |
+| - | - | -: |
+| **Hobby** | 5,000 | 5 |
+| **Standard** | 100,000 | 25 |
+| **Growth** | 500,000 | 50 |
+| **Scale** | 1,000,000 | 100 |
 
 
   For needs beyond Scale, Firecrawl offers **Enterprise** plans with custom credits, dedicated support, SLAs, bulk discounts, zero-data retention, and SSO. Visit the [Enterprise page](https://www.firecrawl.dev/enterprise) for details.
@@ -154,12 +154,12 @@ You can also buy credits yourself at any time. Use **Load more credits** in your
 
 The credits in an increment depend on your plan. Pay-as-you-go and manual purchases use the same rate.
 
-| Plan         | Credits per 5 USD |
-| ------------ | ----------------- |
-| **Hobby**    | 1,000             |
-| **Standard** | 2,000             |
-| **Growth**   | 2,500             |
-| **Scale**    | 5,000             |
+| Plan | Credits per 5 USD |
+| - | - |
+| **Hobby** | 1,000 |
+| **Standard** | 2,000 |
+| **Growth** | 2,500 |
+| **Scale** | 5,000 |
 
 <h3 id="set-the-monthly-auto-reload-limit">
   Set the monthly pay-as-you-go limit
@@ -178,6 +178,21 @@ For example, a limit of 25 USD allows five increments each month. A limit of 22 
 
 Credits that you buy manually do not count toward this limit.
 
+<h2 id="api-key-spend-limits">
+  API key spend limits
+</h2>
+
+A spend limit caps the credits that one API key can use. The cap applies to that key alone, whatever your team balance is. Use it to stop one key from spending the whole team balance.
+
+You can also rename any API key. This includes the key named **Default** that Firecrawl creates with your team.
+
+The key owner or a team admin can do both. Open the [API keys page](https://www.firecrawl.dev/app/api-keys) in the dashboard, then open the menu on the key.
+
+* Click **Rename** to change the **Key Name**.
+* Click **Set limit** to open **Set a spend limit**. Enter a **Credit limit**, pick **per day**, **per week** or **per month**, then click **Save**.
+
+A limit is a number of credits, not an amount of money. A limit of `1` means one credit per period. Click **Remove limit** to clear the limit.
+
 ## Upgrading and Downgrading
 
 * **Upgrades** take effect immediately. You are charged the full new-plan price today (no proration), and your billing cycle resets. Your next renewal is one month or one year from the upgrade date. Any unused credits from your previous plan carry over, and your new credit allotment and concurrency limits apply right away.
@@ -192,11 +207,11 @@ Credits that you buy manually do not count toward this limit.
 
 What happens when your balance reaches zero depends on your plan and on your pay-as-you-go setting.
 
-| Plan                               | Pay-as-you-go          | At zero balance                                                                                                                                                                                                                             |
-| ---------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Free**                           | Not available          | Requests that consume credits return **HTTP 402 (Payment Required)** until the monthly reset.                                                                                                                                               |
-| **Hobby, Standard, Growth, Scale** | Off (limit set to `0`) | Requests that consume credits return **HTTP 402**. Your card is not charged.                                                                                                                                                                |
-| **Hobby, Standard, Growth, Scale** | On                     | Firecrawl charges your card for one 5 USD increment and adds its credits. Your requests continue. This repeats each time the balance reaches zero, until your **monthly pay-as-you-go limit** is reached. Leave the limit blank for no cap. |
+| Plan | Pay-as-you-go | At zero balance |
+| - | - | - |
+| **Free** | Not available | Requests that consume credits return **HTTP 402 (Payment Required)** until the monthly reset. |
+| **Hobby, Standard, Growth, Scale** | Off (limit set to `0`) | Requests that consume credits return **HTTP 402**. Your card is not charged. |
+| **Hobby, Standard, Growth, Scale** | On | Firecrawl charges your card for one 5 USD increment and adds its credits. Your requests continue. This repeats each time the balance reaches zero, until your **monthly pay-as-you-go limit** is reached. Leave the limit blank for no cap. |
 
 While pay-as-you-go is on, requests are not cut off at exactly zero. Your plan carries an overage allowance so that a burst of requests keeps running while a top-up settles: **1,500 credits on Hobby, 30,000 on Standard, 150,000 on Growth, and 600,000 on Scale**. Once the monthly limit is reached and the allowance is used, requests return **HTTP 402** until the next billing cycle. The allowance is headroom, not extra credits you keep.
 
@@ -261,9 +276,9 @@ Firecrawl uses the official **Grok API** from [xAI](https://x.ai/) to provide AI
 
 ### Credit costs
 
-| Component        | Credit Cost           | Description                                        |
-| ---------------- | --------------------- | -------------------------------------------------- |
-| **Base cost**    | 1 credit / request    | Standard scrape request processing                 |
+| Component | Credit Cost | Description |
+| - | - | - |
+| **Base cost** | 1 credit / request | Standard scrape request processing |
 | **Grok X Query** | +29 credits / request | Grok API usage (tokens + tool calls) for X content |
 
 For example, processing a typical post or thread request costs **30 credits** (`1` base + `29` Grok X Query) and returns Grok-generated structured data, thread context, and summaries. If JSON format (LLM extraction) is also enabled, the total is **34 credits** per request.

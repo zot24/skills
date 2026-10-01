@@ -18,12 +18,14 @@ package: chat-adapter-line
 ```typescript title="lib/bot.ts" lineNumbers
 import { Chat } from "chat";
 import { createLineAdapter } from "chat-adapter-line";
+import { createMemoryState } from "@chat-adapter/state-memory";
 
 const bot = new Chat({
   userName: "mybot",
   adapters: {
     line: createLineAdapter(),
   },
+  state: createMemoryState(),
 });
 
 bot.onDirectMessage(async (thread, message) => {
@@ -31,9 +33,11 @@ bot.onDirectMessage(async (thread, message) => {
 });
 ```
 
+The memory state adapter keeps subscriptions and locks in process memory, which suits local development. Use [Redis](/adapters/official/redis) or [PostgreSQL](/adapters/official/postgres) in production.
+
 When called with no arguments, `createLineAdapter()` reads `LINE_CHANNEL_ACCESS_TOKEN` and `LINE_CHANNEL_SECRET` from the environment.
 
-## LINE channel setup
+## Platform setup
 
 1. Create a provider and channel in the [LINE Developers Console](https://developers.line.biz/console/).
 2. Enable the Messaging API for the channel.
@@ -44,20 +48,23 @@ When called with no arguments, `createLineAdapter()` reads `LINE_CHANNEL_ACCESS_
 ## Configuration
 
 
-## Environment variables
+### Environment variables
 
 | Variable                    | Required | Description                                                      |
 | --------------------------- | -------- | ---------------------------------------------------------------- |
 | `LINE_CHANNEL_ACCESS_TOKEN` | Yes      | LINE channel access token, unless you pass `channelAccessToken`. |
 | `LINE_CHANNEL_SECRET`       | Yes      | LINE channel secret, unless you pass `channelSecret`.            |
 
-## Webhook setup
+## Webhooks
 
 ```typescript title="app/api/webhooks/line/route.ts" lineNumbers
+import { after } from "next/server";
 import { bot } from "@/lib/bot";
 
 export async function POST(request: Request): Promise<Response> {
-  return bot.webhooks.line(request);
+  return bot.webhooks.line(request, {
+    waitUntil: (task) => after(() => task),
+  });
 }
 ```
 
@@ -67,7 +74,11 @@ LINE sends each webhook with an `x-line-signature` header. The adapter computes 
 
 Text and Markdown output are converted to plain text. Chat SDK cards become LINE Flex Messages: the card title and text become the bubble body, and buttons become postback actions in the footer. Button clicks dispatch to Chat SDK action handlers.
 
-The adapter receives image, video, audio, and file messages as attachments. It doesn't upload outbound files; posting a message with files logs a warning and sends any text or card content.
+## Attachments
+
+The adapter receives image, video, audio, and file messages as attachments. It doesn't upload outbound files. Posting a message with files logs a warning and sends any text or card content.
+
+## Streaming
 
 Streaming is buffered. The adapter sends a text message after it collects more than 500 characters, then sends the remaining text after the stream ends. It sends at most five messages per stream.
 

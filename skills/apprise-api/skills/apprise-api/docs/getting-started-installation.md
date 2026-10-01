@@ -24,6 +24,34 @@ pip3 install apprise --user
 ```
 
 
+[uv](https://docs.astral.sh/uv/) is a fast alternative to `pip`. This works on Windows, macOS, and Linux.
+
+To install the `apprise` command on your system (it gets its own private environment, so it will not clash with other Python tools):
+
+```bash
+uv tool install apprise
+```
+
+To upgrade it later:
+
+```bash
+uv tool upgrade apprise
+```
+
+You can also run Apprise once without installing it at all:
+
+```bash
+uvx apprise -t "Hello" -b "World" \
+    "discord://webhook_id/webhook_token"
+```
+
+If you are adding Apprise to your own Python project that uses uv:
+
+```bash
+uv add apprise
+```
+
+
 Apprise is packaged as an RPM and available through [EPEL](https://docs.fedoraproject.org/en-US/epel/) supporting CentOS, Redhat, Rocky, and Oracle Linux.
 
 ### RedHat / Rocky / Oracle / Fedora
@@ -97,7 +125,6 @@ docker run --name apprise \
    -v /path/to/local/attach:/attach \
    -e APPRISE_STATEFUL_MODE=simple \
    -e APPRISE_WORKER_COUNT=1 \
-   -e APPRISE_ADMIN=y \
    -d caronc/apprise:latest
 ```
 

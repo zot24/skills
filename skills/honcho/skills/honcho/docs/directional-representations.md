@@ -44,11 +44,11 @@ Each peer has **one representation**, but that representation can contain reason
 
 These are stored as separate (observer, observed) pairs in Honcho's internal collections:
 
-| Observer | Observed | What This Represents                                                    |
-| -------- | -------- | ----------------------------------------------------------------------- |
-| alice    | alice    | Honcho's representation of Alice (across all sessions)                  |
-| alice    | bob      | Alice's representation of Bob (from sessions Alice participated in)     |
-| alice    | charlie  | Alice's representation of Charlie (from sessions Alice participated in) |
+| Observer | Observed | What This Represents |
+| - | - | - |
+| alice | alice | Honcho's representation of Alice (across all sessions) |
+| alice | bob | Alice's representation of Bob (from sessions Alice participated in) |
+| alice | charlie | Alice's representation of Charlie (from sessions Alice participated in) |
 
 ### Information Segmentation
 
@@ -76,10 +76,10 @@ With `observe_others=true` enabled on Alice:
 
 The `target` parameter controls which representation you retrieve:
 
-| Query                                       | Returns                                                                                  |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `representation("alice")`                   | Conclusions from Honcho's representation of Alice (across all sessions)                  |
-| `representation("alice", target="bob")`     | Conclusions from Alice's representation of Bob (from sessions Alice participated in)     |
+| Query | Returns |
+| - | - |
+| `representation("alice")` | Conclusions from Honcho's representation of Alice (across all sessions) |
+| `representation("alice", target="bob")` | Conclusions from Alice's representation of Bob (from sessions Alice participated in) |
 | `representation("alice", target="charlie")` | Conclusions from Alice's representation of Charlie (from sessions Alice participated in) |
 
 ### Code Examples
@@ -234,13 +234,13 @@ This architecture enables:
 
 Both `representation()` and `chat()` support semantic filtering to retrieve a subset of relevant conclusions. You can optionally filter by session — pass `session` to restrict to a single session, or use the REST-only [session allowlist](/docs/v3/documentation/features/advanced/using-filters#scoping-recall-to-sessions) to restrict to a set of sessions:
 
-| Parameter               | Type    | Description                               |
-| ----------------------- | ------- | ----------------------------------------- |
-| `search_query`          | `str`   | Semantic query to filter conclusions      |
-| `search_top_k`          | `int`   | Number of results to include (1–100)      |
-| `search_max_distance`   | `float` | Maximum semantic distance (0.0–1.0)       |
-| `include_most_frequent` | `bool`  | Include most frequent conclusions         |
-| `max_conclusions`       | `int`   | Cap on total conclusions returned (1–100) |
+| Parameter | Type | Description |
+| - | - | - |
+| `search_query` | `str` | Semantic query to filter conclusions |
+| `search_top_k` | `int` | Number of results to include (1–100) |
+| `search_max_distance` | `float` | Maximum semantic distance (0.0–1.0) |
+| `include_most_frequent` | `bool` | Include most frequent conclusions |
+| `max_conclusions` | `int` | Cap on total conclusions returned (1–100) |
 
 <CodeGroup>
   ```python Python

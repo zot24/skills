@@ -25,11 +25,11 @@ deleted wholesale later.
 
 ## Wisp vs Pour
 
-| Aspect      | Molecule (`bd mol pour`)                       | Wisp (`bd mol wisp`)                           |
-| ----------- | ---------------------------------------------- | ---------------------------------------------- |
-| Persistence | permanent, part of history                     | ephemeral, purged when done                    |
-| Sync        | synced like any bead                           | excluded from federation push                  |
-| Use case    | feature work, anything worth referencing later | release runs, operational loops, health checks |
+| Aspect | Molecule (`bd mol pour`) | Wisp (`bd mol wisp`) |
+| - | - | - |
+| Persistence | permanent, part of history | ephemeral, purged when done |
+| Sync | synced like any bead | excluded from federation push |
+| Use case | feature work, anything worth referencing later | release runs, operational loops, health checks |
 
 Formulas can declare `phase = "vapor"` to recommend wisp instantiation —
 pouring a vapor-phase formula warns.

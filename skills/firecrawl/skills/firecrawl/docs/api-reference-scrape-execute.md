@@ -20,35 +20,35 @@ When you are done, call `DELETE /v2/scrape/{jobId}/interact` to stop the session
 
 ## Path Parameters
 
-| Parameter | Type          | Required | Description                                                            |
-| --------- | ------------- | -------- | ---------------------------------------------------------------------- |
-| `jobId`   | string (UUID) | Yes      | The scrape job ID from `data.metadata.scrapeId` in the scrape response |
+| Parameter | Type | Required | Description |
+| - | - | - | - |
+| `jobId` | string (UUID) | Yes | The scrape job ID from `data.metadata.scrapeId` in the scrape response |
 
 ## Request Body
 
-| Parameter  | Type   | Required | Default  | Description                                                                                |
-| ---------- | ------ | -------- | -------- | ------------------------------------------------------------------------------------------ |
-| `code`     | string | No       | —        | Code to execute in the browser sandbox (1–100,000 chars). Required if `prompt` is not set. |
-| `prompt`   | string | No       | —        | Natural language task for the AI agent (1–10,000 chars). Required if `code` is not set.    |
-| `language` | string | No       | `"node"` | One of `"python"`, `"node"`, or `"bash"`. Only used with `code`.                           |
-| `timeout`  | number | No       | `30`     | Execution timeout in seconds (1–300).                                                      |
-| `origin`   | string | No       | —        | Optional origin label used for telemetry.                                                  |
+| Parameter | Type | Required | Default | Description |
+| - | - | - | - | - |
+| `code` | string | No | — | Code to execute in the browser sandbox (1–100,000 chars). Required if `prompt` is not set. |
+| `prompt` | string | No | — | Natural language task for the AI agent (1–10,000 chars). Required if `code` is not set. |
+| `language` | string | No | `"node"` | One of `"python"`, `"node"`, or `"bash"`. Only used with `code`. |
+| `timeout` | number | No | `30` | Execution timeout in seconds (1–300). |
+| `origin` | string | No | — | Optional origin label used for telemetry. |
 
 ## Response
 
-| Field                    | Type    | Description                                                                                                                              |
-| ------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `success`                | boolean | Whether the execution completed without errors                                                                                           |
-| `cdpUrl`                 | string  | Raw Chrome DevTools Protocol (CDP) WebSocket URL for the browser session. Connect directly with Playwright, Puppeteer, or any CDP client |
-| `liveViewUrl`            | string  | Read-only live view URL for the browser session                                                                                          |
-| `interactiveLiveViewUrl` | string  | Interactive live view URL (viewers can control the browser)                                                                              |
-| `output`                 | string  | AI agent's final response (only present when using `prompt`)                                                                             |
-| `stdout`                 | string  | Standard output from the code execution                                                                                                  |
-| `result`                 | string  | Return value — last expression value for Node.js, final page snapshot for `prompt`                                                       |
-| `stderr`                 | string  | Standard error output                                                                                                                    |
-| `exitCode`               | number  | Exit code of the execution (`0` = success)                                                                                               |
-| `killed`                 | boolean | Whether the execution was terminated due to timeout                                                                                      |
-| `error`                  | string  | Error message (only present on failure)                                                                                                  |
+| Field | Type | Description |
+| - | - | - |
+| `success` | boolean | Whether the execution completed without errors |
+| `cdpUrl` | string | Raw Chrome DevTools Protocol (CDP) WebSocket URL for the browser session. Connect directly with Playwright, Puppeteer, or any CDP client |
+| `liveViewUrl` | string | Read-only live view URL for the browser session |
+| `interactiveLiveViewUrl` | string | Interactive live view URL (viewers can control the browser) |
+| `output` | string | AI agent's final response (only present when using `prompt`) |
+| `stdout` | string | Standard output from the code execution |
+| `result` | string | Return value — last expression value for Node.js, final page snapshot for `prompt` |
+| `stderr` | string | Standard error output |
+| `exitCode` | number | Exit code of the execution (`0` = success) |
+| `killed` | boolean | Whether the execution was terminated due to timeout |
+| `error` | string | Error message (only present on failure) |
 
 ### Example Request (Code)
 
@@ -110,16 +110,16 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655
 
 ### Error Codes
 
-| Status | Description                                                 |
-| ------ | ----------------------------------------------------------- |
-| `402`  | Insufficient credits for a browser session                  |
-| `403`  | Scrape job belongs to a different team                      |
-| `404`  | Scrape job not found                                        |
-| `409`  | Replay context unavailable — rerun the scrape and try again |
-| `410`  | Browser session has already been destroyed                  |
-| `429`  | Maximum concurrent browser sessions reached                 |
-| `502`  | Browser service or AI agent execution failed                |
-| `503`  | Browser feature not configured (self-hosted only)           |
+| Status | Description |
+| - | - |
+| `402` | Insufficient credits for a browser session |
+| `403` | Scrape job belongs to a different team |
+| `404` | Scrape job not found |
+| `409` | Replay context unavailable — rerun the scrape and try again |
+| `410` | Browser session has already been destroyed |
+| `429` | Maximum concurrent browser sessions reached |
+| `502` | Browser service or AI agent execution failed |
+| `503` | Browser feature not configured (self-hosted only) |
 
 For detailed usage with examples, see the [Interact feature guide](/features/interact).
 

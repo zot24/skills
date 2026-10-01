@@ -2,7 +2,7 @@
 
 ---
 title: Baileys (WhatsApp)
-description: Community WhatsApp adapter for Chat SDK using Baileys, the unofficial WhatsApp Web API. Self-hosted via WebSocket, with QR / pairing-code auth, multi-account support, and WhatsApp-specific extensions.
+description: Community WhatsApp adapter for Chat SDK using Baileys, the unofficial WhatsApp Web API. Self-hosted over WebSocket, with QR or pairing-code auth, multi-account support, and WhatsApp-specific extensions.
 tagline: WhatsApp adapter for Chat SDK using Baileys (the unofficial WhatsApp Web API). Self-hosted, WebSocket-based, with native quoted replies, read receipts, polls, and locations.
 package: chat-adapter-baileys
 ---
@@ -10,18 +10,18 @@ package: chat-adapter-baileys
 # Baileys (WhatsApp)
 
 
-  This adapter uses Baileys, a third-party unofficial WhatsApp Web API. It is **not** an official WhatsApp/Meta API and may break when WhatsApp changes internal protocols. WhatsApp may also suspend or ban numbers/accounts that use unofficial automation. Use at your own risk and evaluate compliance requirements before production use.
+  This adapter uses Baileys, an unofficial third-party WhatsApp Web API. It is not an official WhatsApp or Meta API and may break when WhatsApp changes its internal protocols. WhatsApp may also suspend or ban numbers or accounts that use unofficial automation. Use it at your own risk, and evaluate your compliance requirements before using it in production.
 
 
 ## Install
 
 
-Optional — for terminal QR rendering during development:
+To render the QR code in the terminal during development, also install `qrcode`:
 
 
 ## Quick start
 
-The setup has six steps: prepare auth, create the adapter, create the `Chat` instance, register handlers, initialize, then connect. **Always register handlers before connecting** — messages can arrive as soon as `connect()` is called.
+Prepare the auth state, create the adapter and the `Chat` instance, register handlers, call `bot.initialize()`, and then call `whatsapp.connect()`. Register handlers before connecting, because messages can arrive as soon as `connect()` is called.
 
 ```typescript title="lib/bot.ts" lineNumbers
 import { Chat } from "chat";
@@ -69,13 +69,23 @@ await bot.initialize();
 await whatsapp.connect();
 ```
 
-Credentials are saved to `./auth_info` on first login. Subsequent startups reuse the saved session — no QR scan needed.
+## Authentication
+
+Pass the Baileys auth state and its `saveCreds` callback as `auth`. With `useMultiFileAuthState("./auth_info")`, credentials are saved to `./auth_info` on first login, and later startups reuse the saved session without a new login.
+
+### QR code
+
+Set `onQR` to receive a QR string whenever a new QR code is available, then render it however you like and scan it from WhatsApp. The quick start prints it to the terminal with `qrcode`.
+
+### Pairing code
+
+Set `phoneNumber` (E.164 format, without the `+`) and `onPairingCode` instead of `onQR`. The adapter calls `onPairingCode` with an 8-digit code, which you enter in WhatsApp under **Linked Devices**.
 
 ## Configuration
 
 ```typescript
 createBaileysAdapter({
-  // Unique name for this adapter — used as thread ID prefix. No ":" allowed.
+  // Unique name for this adapter, used as the thread ID prefix. No ":" allowed.
   adapterName: "baileys",
 
   // Required. Your Baileys auth state + credential-save callback.
@@ -104,6 +114,10 @@ createBaileysAdapter({
   socketOptions: {},
 });
 ```
+
+## Transport
+
+The adapter receives messages over a WebSocket opened by `connect()` instead of HTTP webhooks, so `handleWebhook()` returns `501`. It reconnects automatically after unexpected disconnects, but not after a logout or an explicit `disconnect()`.
 
 ## Multi-account support
 
@@ -136,11 +150,11 @@ await waMain.connect();
 await waSales.connect();
 ```
 
-All handlers receive messages from both accounts. The thread ID prefix (`baileys-main:` vs `baileys-sales:`) tells you which account a message came from.
+All handlers receive messages from both accounts. The thread ID prefix (`baileys-main:` or `baileys-sales:`) tells you which account a message came from.
 
 ## WhatsApp extensions
 
-`BaileysAdapter` exposes extra methods for WhatsApp features that have no Chat SDK equivalent. Branch on platform with `isBaileysAdapter()` when other adapters are also registered:
+`BaileysAdapter` exposes extra methods for WhatsApp features that have no Chat SDK equivalent. When other adapters are also registered, check the platform with `isBaileysAdapter()`:
 
 ```typescript
 import { isBaileysAdapter } from "chat-adapter-baileys";
@@ -149,11 +163,11 @@ bot.onSubscribedMessage(async (thread, message) => {
   const adapter = thread.adapter;
 
   if (isBaileysAdapter(adapter)) {
-    await adapter.markRead(
-      thread.threadId,
-      [message.id],
-      thread.isDM ? undefined : message.author.userId
-    );
+    await adapter.markRead({
+      threadId: thread.id,
+      messageIds: [message.id],
+      participant: thread.isDM ? undefined : message.author.userId,
+    });
     return;
   }
 
@@ -172,23 +186,29 @@ bot.onSubscribedMessage(async (thread, message) => {
 });
 ```
 
-| Method                                                             | Description                                        |
-| ------------------------------------------------------------------ | -------------------------------------------------- |
-| `whatsapp.reply(message, text)`                                    | Send a quoted reply (native WhatsApp reply bubble) |
-| `whatsapp.markRead(threadId, messageIds)`                          | Send read receipts (blue double-ticks)             |
-| `whatsapp.setPresence("available" \| "unavailable")`               | Set the bot's global online/offline status         |
-| `whatsapp.sendLocation(threadId, lat, lon, options?)`              | Send a native location pin                         |
-| `whatsapp.sendPoll(threadId, question, options, selectableCount?)` | Send a WhatsApp poll                               |
-| `whatsapp.fetchGroupParticipants(threadId)`                        | List group members with admin roles                |
+| Method                                                                            | Description                                                                   |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `whatsapp.reply(message, text)`                                                   | Send a quoted reply (native WhatsApp reply bubble)                            |
+| `whatsapp.markRead({ threadId, messageIds, participant? })`                       | Send read receipts (blue double-ticks). Pass `participant` for group messages |
+| `whatsapp.setPresence("available" \| "unavailable")`                              | Set the bot's global online/offline status                                    |
+| `whatsapp.sendLocation({ threadId, latitude, longitude, name?, address? })`       | Send a native location pin                                                    |
+| `whatsapp.sendPoll({ threadId, question, options, selectableCount?, metadata? })` | Send a WhatsApp poll                                                          |
+| `whatsapp.fetchGroupParticipants(threadId)`                                       | List group members with admin roles                                           |
 
-## Behavior notes
+The positional forms of `markRead`, `sendLocation`, and `sendPoll` still work but are deprecated.
 
-* **Transport** — WebSocket-based (`connect()`), not HTTP webhooks. `handleWebhook()` returns `501`.
-* **Message history** — `fetchMessages()` / `fetchChannelMessages()` return empty arrays. WhatsApp has no REST history API; persist `messages.upsert` events yourself if you need history.
-* **Cards** — sent as plain-text fallback; WhatsApp has no native card format.
-* **Buttons / rich interactivity** — not implemented. The adapter stays within ordinary WhatsApp chat behavior.
-* **Media** — incoming attachments include a lazy `fetchData()` for on-demand binary download.
-* **Reconnect** — automatic on unexpected disconnects; does not reconnect after logout or explicit `disconnect()`.
+## Message history
+
+`fetchMessages()` and `fetchChannelMessages()` return empty arrays because WhatsApp has no REST history API. If you need history, persist `messages.upsert` events yourself.
+
+## Attachments
+
+Incoming attachments include a lazy `fetchData()` that downloads the binary content on demand.
+
+## Limitations
+
+* Cards are sent as a plain-text fallback, because WhatsApp has no native card format.
+* Buttons and other rich interactivity aren't implemented. The adapter stays within ordinary WhatsApp chat behavior.
 
 ## Feature support
 

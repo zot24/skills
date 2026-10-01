@@ -14,19 +14,19 @@ Include `scrapeOptions` with `formats: [{"type": "markdown"}]` to get complete m
 
 We support a variety of query operators that allow you to filter your searches better.
 
-| Operator      | Functionality                                                             | Examples                          |
-| ------------- | ------------------------------------------------------------------------- | --------------------------------- |
-| `""`          | Non-fuzzy matches a string of text                                        | `"Firecrawl"`                     |
-| `-`           | Excludes certain keywords or negates other operators                      | `-bad`, `-site:firecrawl.dev`     |
-| `site:`       | Only returns results from a specified website                             | `site:firecrawl.dev`              |
-| `filetype:`   | Only returns results with a specific file extension                       | `filetype:pdf`, `-filetype:pdf`   |
-| `inurl:`      | Only returns results that include a word in the URL                       | `inurl:firecrawl`                 |
-| `allinurl:`   | Only returns results that include multiple words in the URL               | `allinurl:git firecrawl`          |
-| `intitle:`    | Only returns results that include a word in the title of the page         | `intitle:Firecrawl`               |
+| Operator | Functionality | Examples |
+| - | - | - |
+| `""` | Non-fuzzy matches a string of text | `"Firecrawl"` |
+| `-` | Excludes certain keywords or negates other operators | `-bad`, `-site:firecrawl.dev` |
+| `site:` | Only returns results from a specified website | `site:firecrawl.dev` |
+| `filetype:` | Only returns results with a specific file extension | `filetype:pdf`, `-filetype:pdf` |
+| `inurl:` | Only returns results that include a word in the URL | `inurl:firecrawl` |
+| `allinurl:` | Only returns results that include multiple words in the URL | `allinurl:git firecrawl` |
+| `intitle:` | Only returns results that include a word in the title of the page | `intitle:Firecrawl` |
 | `allintitle:` | Only returns results that include multiple words in the title of the page | `allintitle:firecrawl playground` |
-| `related:`    | Only returns results that are related to a specific domain                | `related:firecrawl.dev`           |
-| `imagesize:`  | Only returns images with exact dimensions                                 | `imagesize:1920x1080`             |
-| `larger:`     | Only returns images larger than specified dimensions                      | `larger:1920x1080`                |
+| `related:` | Only returns results that are related to a specific domain | `related:firecrawl.dev` |
+| `imagesize:` | Only returns images with exact dimensions | `imagesize:1920x1080` |
+| `larger:` | Only returns images larger than specified dimensions | `larger:1920x1080` |
 
 ## Location Parameter
 
@@ -217,11 +217,35 @@ paths:
                               - news
                         required:
                           - type
+                      - type: object
+                        title: Alexandria
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                              - alexandria
+                        required:
+                          - type
+                        additionalProperties: false
                   description: >-
                     Sources to search. Will determine the arrays available in
-                    the response. Defaults to ['web'].
+                    the response. Defaults to ['web']. The plain string form
+                    (e.g. `["web", "alexandria"]`) is also accepted. The
+                    `alexandria` source returns tool contracts discovered from
+                    the Alexandria catalogue in `data.tools` instead of search
+                    results; it is free and is never counted in `creditsUsed`.
+                    Requires the team's Alexandria access to be enabled (403
+                    otherwise).
                   default:
                     - web
+                domainTools:
+                  type: boolean
+                  description: >-
+                    Include tool contracts whose provider matches the domains of
+                    the returned web results. Defaults to on when `alexandria`
+                    is among the sources; set `false` to disable, or `true`
+                    alone to add domain-matched tools beside ordinary web
+                    results. Free.
                 categories:
                   type: array
                   items:
@@ -562,6 +586,17 @@ paths:
                                 error:
                                   type: string
                                   nullable: true
+                      tools:
+                        type: array
+                        description: >-
+                          Tool contracts discovered from the Alexandria
+                          catalogue. Present when `alexandria` is among the
+                          sources or when `domainTools` was requested; up to
+                          `limit` results per discovery source (semantic matches
+                          from the `alexandria` source, domain matches from
+                          `domainTools`).
+                        items:
+                          $ref: '#/components/schemas/DiscoveredTool'
                     description: >-
                       The search results. The arrays available will depend on
                       the sources you specified in the request. By default, the
@@ -569,7 +604,10 @@ paths:
                   warning:
                     type: string
                     nullable: true
-                    description: Warning message if any issues occurred
+                    description: >-
+                      Warning message if any issues occurred. Includes `Some
+                      tool discovery results are unavailable.` when Alexandria
+                      or domain tool discovery partially failed.
                   id:
                     type: string
                     description: The ID of the search job
@@ -1149,6 +1187,90 @@ components:
           description: >-
             What to do when the classifier can't be reached: `closed` blocks the
             request, `open` allows it.
+    DiscoveredTool:
+      type: object
+      description: >-
+        A catalogued provider tool discovered via Alexandria, semantic search,
+        or domain matching.
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+          description: The tool's identifier, formatted as `provider/capability`.
+        provider:
+          type: string
+          description: The catalogued provider.
+        capability:
+          type: string
+          description: The provider-relative capability.
+        name:
+          type: string
+          description: Human-readable name of the tool.
+        description:
+          type: string
+          description: Human-readable description of what the tool does.
+        creditsCost:
+          type: integer
+          minimum: 0
+          description: Credits charged per execution of this tool.
+        perRecord:
+          type: boolean
+          description: >-
+            Whether `creditsCost` is charged per record returned rather than per
+            call.
+        options:
+          type: array
+          description: The capability's accepted options.
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              name:
+                type: string
+                description: The option name.
+              type:
+                type: string
+                description: The option's data type.
+        response:
+          type: object
+          additionalProperties: true
+          description: Description of the shape of a successful response's `data`.
+          properties:
+            about:
+              type: string
+              description: Human-readable description of the response payload.
+            key:
+              type: string
+              description: >-
+                The key under which the primary payload is returned, when
+                applicable.
+            fields:
+              type: array
+              description: The response's documented fields.
+              items:
+                type: object
+                additionalProperties: true
+        matchedBy:
+          type: array
+          description: Why this tool was surfaced.
+          items:
+            type: string
+            enum:
+              - semantic
+              - domain
+        matchedUrls:
+          type: array
+          description: URLs whose domain matched this tool, when matched by domain.
+          items:
+            type: string
+      required:
+        - id
+        - provider
+        - capability
+        - name
+        - description
+        - creditsCost
+        - perRecord
     Formats:
       type: array
       items:

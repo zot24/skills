@@ -94,6 +94,8 @@ user: next message
 
 Failed turns still surface as errors; Hermes does not hide failures just because the text resembles a silence token.
 
+On a message from a person, a bare silence token is replaced by a short notice, because a message that needed a reply must not vanish. Internal wakes such as background-process notifications may stay silent, and so may a message the platform adapter reports as not addressed to the bot. Slack reports this for messages that open by @mentioning someone else and for unmentioned top-level messages that start a new thread in a free-response channel; other platforms always get the notice.
+
 ## Quick Setup<a href="#quick-setup" class="hash-link" aria-label="Direct link to Quick Setup" translate="no" title="Direct link to Quick Setup">​</a>
 
 The easiest way to configure messaging platforms is the interactive wizard:
@@ -216,7 +218,7 @@ Disable with `gateway.delivery_ledger: false` in `config.yaml` (restores the old
 
 ### Session continuity<a href="#session-continuity" class="hash-link" aria-label="Direct link to Session continuity" translate="no" title="Direct link to Session continuity">​</a>
 
-Gateway conversations do not reset after inactivity or at a daily boundary. Use `/new` or `/reset` for an explicit new conversation; context compression remains automatic. Legacy `session_reset` settings, reset-policy overrides and reset-timer environment variables are ignored. Cached agents may be released to reclaim resources without replacing the durable conversation. Restart-recovery freshness limits automatic continuation, not the history loaded when you send a message.
+Gateway conversations do not reset after inactivity or at a daily boundary. Use `/new` or `/reset` for an explicit new conversation; context compression remains automatic. Core ignores legacy `session_reset` settings, reset-policy overrides and reset-timer environment variables. If your config still sets `session_reset.mode` to `idle`, `daily` or `both`, gateway startup and `hermes doctor` warn about it. To keep time-based resets, install the catalog plugin that reads the same block unchanged: `hermes plugins install hermes-session-reset-policy`. Cached agents may be released to reclaim resources without replacing the durable conversation. Restart-recovery freshness limits automatic continuation, not the history loaded when you send a message.
 
 ## Per-Channel Model & System Prompt Overrides<a href="#per-channel-model--system-prompt-overrides" class="hash-link" aria-label="Direct link to Per-Channel Model &amp; System Prompt Overrides" translate="no" title="Direct link to Per-Channel Model &amp; System Prompt Overrides">​</a>
 
@@ -474,13 +476,13 @@ display:
 ```
 
 
-| Mode      | What you receive                                                                     |
-|-----------|--------------------------------------------------------------------------------------|
-| `concise` | One-line status message on completion; failures append a short output tail (default) |
-| `all`     | Running-output updates **and** the final status message with the output tail         |
-| `result`  | Only the final status message with the output tail (regardless of exit code)         |
-| `error`   | Only the final status message with the output tail when the exit code is non-zero    |
-| `off`     | No process watcher messages at all                                                   |
+| Mode      | What you receive                                                                                                                                                                 |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `concise` | One-line status message on completion; failures append a short output tail (default)                                                                                             |
+| `all`     | Running-output updates **and** the final status message with the output tail                                                                                                     |
+| `result`  | Only the final status message with the output tail (regardless of exit code)                                                                                                     |
+| `error`   | Only the final status message with the output tail when the exit code is non-zero                                                                                                |
+| `off`     | No process watcher messages at all. Also honored by the CLI, TUI and Desktop: background-process completions and heartbeats no longer wake the agent (subagent results still do) |
 
 You can also set this via environment variable:
 
@@ -600,7 +602,7 @@ launchd plists are static — if you install new tools (e.g. a new Node.js versi
 The plist sets `RunAtLoad`, so loading it starts the gateway. `hermes gateway install --no-start-now`, like answering No to "Start the gateway now?" in `hermes gateway setup`, writes the plist without loading it: the gateway starts at your next login, or when you run `hermes gateway start`. A gateway that launchd is already running is reloaded onto the new plist, not stopped.
 
 
-macOS Local Network Privacy attributes a socket to the executable launchd spawned for the job. A bare venv Python has no application identity, so a launchd-run gateway could not reach LAN hosts (Home Assistant, local model servers) — every connect failed with `errno 65 No route to host` while the same URL worked from Terminal, and no prompt was ever shown to grant it. The generated plist therefore runs the gateway through `/usr/bin/osascript` (`do shell script "exec …"`), whose children macOS treats as osascript's own — an Apple platform binary, exempt from the check. `ps` shows `osascript → stderr_timestamp → gateway run`; stop/restart/KeepAlive behave exactly as before. A plist installed by an older Hermes is refreshed by `hermes gateway install` (or on the next `hermes gateway start`).
+macOS Local Network Privacy attributes a socket to the executable launchd spawned for the job. A bare venv Python has no application identity, so a launchd-run gateway could not reach LAN hosts (Home Assistant, local model servers) — every connect failed with `errno 65 No route to host` while the same URL worked from Terminal, and no prompt was ever shown to grant it. The generated plist therefore runs the gateway through `/usr/bin/osascript`; a JXA `system()` call starts the gateway without an interactive event-polling loop, and macOS treats its children as osascript's own — an Apple platform binary, exempt from the check. `ps` shows `osascript → stderr_timestamp → gateway run`; stop/restart/KeepAlive behave exactly as before. A plist installed by an older Hermes is refreshed by `hermes gateway install` (or on the next `hermes gateway start`).
 
 
 Agents run as threads inside the one gateway process; the only child processes are tool subprocesses (terminal commands, browsers), which never hold provider credentials. A running gateway also re-reads the `openai-codex` login it seeded from `auth.json` the next time its pool selects that entry after it had gone `exhausted` or `dead` (entries added with `hermes auth add openai-codex` are independent accounts and are not resynced). When you want every session on the fresh login at once, restart the gateway — but prefer the drain-aware path over a bare kill:
@@ -812,6 +814,8 @@ Telegram is usually a mobile inbox, so the defaults are tuned for that surface:
 - **`busy_ack_detail`** defaults to **`off`** — busy-state acknowledgments and long-running heartbeats stay terse (no `iteration 21/60` debug detail).
 - **`interim_assistant_messages`** stays **on** — real mid-turn assistant commentary (the model literally telling you what it's about to do) is signal, not noise.
 - **`long_running_notifications`** stays **on** — a single edit-in-place "⏳ Working — N min" bubble updates every few minutes so you have a heartbeat instead of staring at `typing…` for half an hour.
+
+These per-platform defaults apply only while the same key is unset directly under `display:`. A global `display.tool_progress`, `display.show_reasoning`, `display.busy_ack_detail`, `display.interim_assistant_messages` or `display.long_running_notifications` applies to every platform and replaces its default. A `config.yaml` copied from an older `cli-config.yaml.example` sets all five globally, and an older first-time `hermes setup` wrote `tool_progress: all`; delete those lines to get the per-platform defaults back.
 
 Opt out of either of the kept-on defaults or opt back into verbose progress per platform:
 

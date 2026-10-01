@@ -4,7 +4,7 @@
 
 ## Brazilian Portuguese
 
-- [Brazilian Portuguese / v2 (203 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.md): Documentation for Brazilian Portuguese / v2.
+- [Brazilian Portuguese / v2 (204 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.md): Documentation for Brazilian Portuguese / v2.
 
 ### v1
 
@@ -12,7 +12,7 @@
 
 ##### Primeiros passos
 
-- [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): Faça uma busca na web, faça scraping de qualquer página e interaja com ela, tudo por meio de uma única API.
+- [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): A API de dados da web para agentes de IA. Faça uma busca na web, faça scraping de qualquer página e interaja com ela por meio de uma única API.
 - [Primeiros passos](https://docs.firecrawl.dev/pt-BR/mcp-server.md): Configure o Firecrawl MCP com acesso sem chave, login na conta ou uma chave de API.
 - [Guia Avançado de Scraping](https://docs.firecrawl.dev/pt-BR/advanced-scraping-guide.md): Configure opções de scraping, ações do navegador, rastreamento, map e o endpoint do agente em toda a API do Firecrawl.
 
@@ -45,10 +45,6 @@
 - [Rastreio de mudanças](https://docs.firecrawl.dev/pt-BR/features/change-tracking.md): Detecte e monitore mudanças em conteúdo da web entre scrapings
 - [Modo Aprimorado](https://docs.firecrawl.dev/pt-BR/features/enhanced-mode.md): Use proxies aprimorados para scraping confiável em sites complexos
 - [Proxies](https://docs.firecrawl.dev/pt-BR/features/proxies.md): Saiba mais sobre tipos de proxy, regiões e como o Firecrawl seleciona proxies para suas requisições.
-
-##### Recursos de agente
-
-- [Agente FIRE-1 (Beta)](https://docs.firecrawl.dev/pt-BR/agents/fire-1.md): Agente de IA que possibilita navegação e interação inteligentes com páginas da web
 
 ##### Webhooks
 

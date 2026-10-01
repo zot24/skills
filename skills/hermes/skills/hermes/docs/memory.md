@@ -273,11 +273,11 @@ A skill appears on the timeline as soon as it has a learning signal: it was crea
 
 Beyond viewing, the journey is also where you **prune and correct** what Hermes has learned:
 
-| Command                             | What it does                                                                                                 |
-|-------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `hermes journey list`               | List node ids — skill names and `memory:<source>:<index>` ids for memory chunks.                             |
-| `hermes journey delete <node> [-y]` | Delete a node. Skills are **archived** (restorable), memory chunks are removed. `-y` skips the confirmation. |
-| `hermes journey edit <node>`        | Open the node's content (a skill's `SKILL.md` or the memory chunk) in `$EDITOR`.                             |
+| Command                             | What it does                                                                                                                      |
+|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `hermes journey list`               | List node ids — skill names and `memory:<source>:<index>:<fingerprint>` ids for memory chunks (pass one back exactly as printed). |
+| `hermes journey delete <node> [-y]` | Delete a node. Skills are **archived** (restorable), memory chunks are removed. `-y` skips the confirmation.                      |
+| `hermes journey edit <node>`        | Open the node's content (a skill's `SKILL.md` or the memory chunk) in `$EDITOR`.                                                  |
 
 The same `list` / `delete <id>` / `edit <id>` subcommands work from the in-chat `/journey` command on the CLI, and the desktop panel offers edit/delete on nodes directly.
 

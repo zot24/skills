@@ -24,6 +24,8 @@ gl-inet/docs4.x
 
 <a href="#modem-upgrade" class="md-nav__link"><span class="md-ellipsis"> Modem Upgrade </span></a>
 
+<a href="#dpi-online-upgrade" class="md-nav__link"><span class="md-ellipsis"> DPI Online Upgrade </span></a>
+
 <a href="../scheduled_tasks/" class="md-nav__link"><span class="md-ellipsis"> Scheduled Tasks </span></a>
 
 <a href="../display_management/" class="md-nav__link"><span class="md-ellipsis"> Display Management </span></a>
@@ -47,6 +49,9 @@ gl-inet/docs4.x
 <a href="../help/" class="md-nav__link"><span class="md-ellipsis"> Help </span></a>
 
 
+<a href="../../features_update/" class="md-nav__link"><span class="md-ellipsis"> Features Update </span></a> <span class="md-nav__icon md-icon"></span>
+
+
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 
 
@@ -54,6 +59,8 @@ gl-inet/docs4.x
 
 
 <a href="#modem-upgrade" class="md-nav__link"><span class="md-ellipsis"> Modem Upgrade </span></a>
+
+<a href="#dpi-online-upgrade" class="md-nav__link"><span class="md-ellipsis"> DPI Online Upgrade </span></a>
 
 
 # Upgrade<a href="#upgrade" class="headerlink" title="Permanent link">¶</a>
@@ -80,15 +87,11 @@ You can find the current firmware version in the **Firmware Online Upgrade**.
 
 - **Accept Preview Plan**
 
-  If this option is enabled, you can try new features before the final version is issued and provide us with feedback. Set it once and it stays on, and you always have the option to turn it off. Note that these upgrades may not be stable. Please check <a href="https://www.gl-inet.com/whats-new/" target="_blank">What's New?</a> for the latest firmware features.
+  If enabled, you can try new features before the final version is issued and provide us with feedback. Note that these upgrades may not be stable.
 
-If your router is connected to the Internet, it will check for available firmware updates.
+**Note**: When trying to perform an online upgrade, if it displays **Download Failed**, please go to System -\> Time Zone, and fix the time zone error (sync to browser).
 
-<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/upgrade/upgrade_reminder.png" class="glboxshadow" alt="upgrade reminder" />
-
-**Note**: When trying to perform an online upgrade, if it displays **Download Failed**, please navigate to System -\> Time Zone, and fix the time zone error (sync to browser).
-
-<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/upgrade/online_download_failed.jpg" class="glboxshadow gl-50-desktop" alt="online download failed" />
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/upgrade/online_download_failed.jpg" class="glboxshadow" width="360" alt="online download failed" />
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/upgrade/time_zone.png" class="glboxshadow" alt="time zone" />
 
@@ -125,6 +128,14 @@ You can find the current cellular modem version here. If your router is connecte
 Manually upload a modem firmware file from your computer to update the cellular modem if needed.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/upgrade/modem_local_upgrade.png" class="glboxshadow" alt="modem local upgrade" />
+
+## DPI Online Upgrade<a href="#dpi-online-upgrade" class="headerlink" title="Permanent link">¶</a>
+
+The DPI Online Upgrade checks for and updates the DPI engine and its signature database, ensuring accurate traffic identification for Data Statistics, Content Filter, and other DPI-related features.
+
+**Note**: This feature was introduced in firmware v4.11.
+
+<img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/upgrade/dpi_online_upgrade.png" class="glboxshadow" width="700" alt="dpi online upgrade" />
 
 ------------------------------------------------------------------------
 

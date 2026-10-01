@@ -11,6 +11,8 @@ On this page
 # MCP (Model Context Protocol)
 
 
+Python dependency commands on this page use a [PM-prepared source checkout](/docs/reference/package-management#developer-workflow). After a dependency change, reactivate the checkout and restart Hermes.
+
 MCP lets Hermes Agent connect to external tool servers so the agent can use tools that live outside Hermes itself — GitHub, databases, file systems, browser stacks, internal APIs, and more.
 
 If you have ever wanted Hermes to use a tool that already exists somewhere else, MCP is usually the cleanest way to do it.
@@ -826,7 +828,7 @@ Check:
 
 ``` prism-code
 # Verify MCP deps are installed (already included in standard install)
-cd ~/.hermes/hermes-agent && uv pip install -e ".[mcp]"
+cd ~/.hermes/hermes-agent && python -c "import pm; pm.sync_venv(['mcp'], explicit=True)"
 
 node --version
 npx --version

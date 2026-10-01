@@ -44,10 +44,10 @@ print(agent.chat("Scrape the content from https://praison.ai/docs"))
 
 ## What you can do
 
-| Capability | Use case                                                               |
-| ---------- | ---------------------------------------------------------------------- |
+| Capability | Use case |
+| - | - |
 | **Scrape** | Fetch cleaned page content into agent context (`FirecrawlTool.scrape`) |
-| **Crawl**  | Collect pages from a site (`FirecrawlTool.crawl(url, limit=10)`)       |
+| **Crawl** | Collect pages from a site (`FirecrawlTool.crawl(url, limit=10)`) |
 
 ## Resources
 

@@ -27,6 +27,9 @@ Load secrets into the environment
 <a href="/get-started" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get Started</a>
 
 
+<a href="/tutorials" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tutorials</a>
+
+
 <a href="/security-for-ai" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Security for AI</a>
 
 
@@ -164,17 +167,17 @@ Load secrets
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_1tajdj4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7ladmcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_1uajdj4llktbsnlhjiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7padmcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_1vajdj4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7tadmcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -182,7 +185,7 @@ Load secrets
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1ijdj4llktbsnlhjiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6admcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -211,17 +214,17 @@ Load secrets
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_1tb3dj4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7lcdmcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_1ub3dj4llktbsnlhjiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7pcdmcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_1vb3dj4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7tcdmcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -229,7 +232,7 @@ Load secrets
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_1j3dj4llktbsnlhjiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6cdmcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -296,17 +299,17 @@ Environment file syntax rules
 
   <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-  <div id="base-ui-_R_3qm15a6ej4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_fao4l8pqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
   </div>
 
-  <div id="base-ui-_R_3sm15a6ej4llktbsnlhjiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_fio4l8pqcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
   <span class="sr-only" role="status"></span>
 
   </div>
 
-  <div id="base-ui-_R_3um15a6ej4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_fqo4l8pqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
   </div>
 
@@ -314,7 +317,7 @@ Environment file syntax rules
 
   <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-  <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_3615a6ej4llktbsnlhjiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+  <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_co4l8pqcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
   <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -348,17 +351,17 @@ Environment file syntax rules
 
   <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-  <div id="base-ui-_R_3qm45a6ej4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_faogl8pqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
   </div>
 
-  <div id="base-ui-_R_3sm45a6ej4llktbsnlhjiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_fiogl8pqcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
   <span class="sr-only" role="status"></span>
 
   </div>
 
-  <div id="base-ui-_R_3um45a6ej4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_fqogl8pqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
   </div>
 
@@ -366,7 +369,7 @@ Environment file syntax rules
 
   <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-  <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_3645a6ej4llktbsnlhjiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+  <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cogl8pqcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
   <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -522,17 +525,17 @@ APP_ENV=dev op run --env-file="./app.env" -- myapp deploy
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_3qm5ammj4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_faolaqqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_3sm5ammj4llktbsnlhjiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fiolaqqcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_3um5ammj4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fqolaqqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -540,7 +543,7 @@ APP_ENV=dev op run --env-file="./app.env" -- myapp deploy
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_365ammj4llktbsnlhjiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_colaqqcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -568,17 +571,17 @@ APP_ENV=dev op run --env-file="./app.env" -- myapp deploy
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_3qm9ammj4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fap5aqqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_3sm9ammj4llktbsnlhjiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fip5aqqcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_3um9ammj4llktbsnlhjiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_fqp5aqqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -586,7 +589,7 @@ APP_ENV=dev op run --env-file="./app.env" -- myapp deploy
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_369ammj4llktbsnlhjiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cp5aqqcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 

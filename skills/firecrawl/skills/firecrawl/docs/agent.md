@@ -865,19 +865,135 @@ curl -X POST "https://api.firecrawl.dev/v2/agent" \
 ## 
 
 
+<a href="#data-providers-that-need-terms" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| `onTermsRequired` | What happens                                                                                                                                                                |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `skip` (default)  | The run answers with accepted providers only and never blocks. `exchange.skippedProviders` lists the gated providers that would have helped.                                |
+| `ask`             | The same as `skip`. The run also ends with `exchange.requiresAction` and a `pendingApproval` of `kind: "terms"`, so you can ask your user, accept, and continue the thread. |
+
+
+### 
+
+
+<a href="#response-fields" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `skippedProviders` (any mode): one entry per gated provider that would have helped, with `provider`, `name`, `capability`, `adds` (what it would have added), `reason: "terms_required"`, `version` (the terms version) and `termsUrl` (where to accept in the dashboard).
+- `requiresAction` (`ask` only): `type: "accept_terms"`, an `approvalId` and a `providers` list. `approvalId` is always present. It’s the id of the `terms` pending approval you answer when you continue the thread. Each provider carries the exact `show` (`terms/show`) and `accept` (`terms/accept`) calls to make. Each provider’s `digest` (and `accept.options.digest`) is always present and can be `null`, meaning the catalog didn’t publish one. In that case, run `terms/show` first and send the digest it returns.
+
+
+``` shiki
+{
+  "status": "completed",
+  "exchange": {
+    "enabled": true,
+    "onTermsRequired": "ask",
+    "paidCalls": 0,
+    "creditsUsed": null,
+    "skippedProviders": [
+      {
+        "provider": "apollo",
+        "name": "Apollo",
+        "capability": "people/search",
+        "adds": "verified work emails and direct phone numbers",
+        "reason": "terms_required",
+        "version": "F-1.0.0",
+        "termsUrl": "https://www.firecrawl.dev/app/alexandria/apollo"
+      }
+    ],
+    "requiresAction": {
+      "type": "accept_terms",
+      "approvalId": "0199aaaa-0000-7000-8000-000000000000",
+      "providers": [
+        {
+          "provider": "apollo",
+          "name": "Apollo",
+          "capability": "people/search",
+          "version": "F-1.0.0",
+          "digest": "<sha256>",
+          "url": "https://www.firecrawl.dev/app/alexandria/apollo",
+          "show": { "provider": "firecrawl", "capability": "terms/show", "options": { "provider": "apollo" } },
+          "accept": {
+            "provider": "firecrawl",
+            "capability": "terms/accept",
+            "options": { "provider": "apollo", "version": "F-1.0.0", "digest": "<sha256>", "confirmed": true }
+          }
+        }
+      ]
+    }
+  },
+  "pendingApproval": {
+    "id": "0199aaaa-0000-7000-8000-000000000000",
+    "kind": "terms",
+    "reason": "Apollo could add verified work emails and direct phone numbers.",
+    "calls": [],
+    "terms": [{ "provider": "apollo", "name": "Apollo", "version": "F-1.0.0", "digest": "<sha256>", "url": "https://www.firecrawl.dev/app/alexandria/apollo" }],
+    "resolution": null
+  }
+}
+```
+
+
+### 
+
+
+<a href="#accept-then-continue" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1.  Show your user the terms. Run the provider’s `show` call through <a href="/features/alexandria" class="link"><code>/v2/scrape</code></a> with `alexandria`.
+2.  Only if the user explicitly agrees, run its `accept` call the same way. If `accept.options.digest` is `null`, use the digest `terms/show` returned:
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "alexandria": {
+      "provider": "firecrawl",
+      "capability": "terms/accept",
+      "options": { "provider": "apollo", "version": "F-1.0.0", "digest": "<sha256>", "confirmed": true }
+    }
+  }'
+```
+
+
+3.  Continue the same thread with `exchange.approve`. The offer is accepted as a whole, and `callIds` and `always` are ignored on it. The next turn uses those providers to fill the gap the previous answer named, rather than re-running everything.
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/agent \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "threadId": "<threadId from the previous run>",
+    "prompt": "Continue with Apollo.",
+    "exchange": {
+      "approve": { "approvalId": "0199aaaa-0000-7000-8000-000000000000" }
+    }
+  }'
+```
+
+
+## 
+
+
 <a href="#parameters" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Parameter               | Type    | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|-------------------------|---------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `prompt`                | string  | **Yes**  | Natural language description of the data you want to extract (max 10,000 characters)                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `model`                 | string  | No       | Defaults to `spark-2`, the model every run executes on. Spark 1 models are deprecated and route to `spark-2`                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| `effort`                | string  | No       | Reasoning budget: `low`, `medium`, or `high`. Every run executes on `spark-2`, so `effort` can be sent with or without `model`                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `urls`                  | array   | No       | Optional list of URLs to focus the extraction                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| `schema`                | object  | No       | Optional JSON schema for structured output                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `strictConstrainToURLs` | boolean | No       | If `true`, the agent only visits the URLs provided in the `urls` array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `webhook`               | object  | No       | Webhook to receive agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See the <a href="/api-reference/endpoint/webhook-agent-started" class="link">webhook payloads</a>                                                                                                                                                                                                                                                                                                                    |
-| `maxCredits`            | number  | No       | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails and **no data is returned**. Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
+| Parameter                  | Type    | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|----------------------------|---------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `prompt`                   | string  | **Yes**  | Natural language description of the data you want to extract (max 10,000 characters)                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `model`                    | string  | No       | Defaults to `spark-2`, the model every run executes on. Spark 1 models are deprecated and route to `spark-2`                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `effort`                   | string  | No       | Reasoning budget: `low`, `medium`, or `high`. Every run executes on `spark-2`, so `effort` can be sent with or without `model`                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `urls`                     | array   | No       | Optional list of URLs to focus the extraction                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `schema`                   | object  | No       | Optional JSON schema for structured output                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `strictConstrainToURLs`    | boolean | No       | If `true`, the agent only visits the URLs provided in the `urls` array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `webhook`                  | object  | No       | Webhook to receive agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See the <a href="/api-reference/endpoint/webhook-agent-started" class="link">webhook payloads</a>                                                                                                                                                                                                                                                                                                                    |
+| `maxCredits`               | number  | No       | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails and **no data is returned**. Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
+| `exchange.onTermsRequired` | string  | No       | What to do when an Alexandria data provider the agent would use needs terms your team has not accepted: `skip` (default) or `ask`. See <a href="#data-providers-that-need-terms" class="link">Data providers that need terms</a>                                                                                                                                                                                                                                                                                                                        |
 
 
 ## 

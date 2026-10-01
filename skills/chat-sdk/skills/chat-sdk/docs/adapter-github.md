@@ -18,16 +18,20 @@ package: @chat-adapter/github
 
   The adapter auto-detects credentials from `GITHUB_TOKEN` (or `GITHUB_APP_ID`/`GITHUB_PRIVATE_KEY`), `GITHUB_WEBHOOK_SECRET`, and `GITHUB_BOT_USERNAME`.
 
+  For managed credentials and webhook verification, see [Vercel Connect](#vercel-connect).
+
 
 ```typescript title="lib/bot.ts" lineNumbers
 import { Chat } from "chat";
 import { createGitHubAdapter } from "@chat-adapter/github";
+import { createMemoryState } from "@chat-adapter/state-memory";
 
-const bot = new Chat({
+export const bot = new Chat({
   userName: "my-bot",
   adapters: {
     github: createGitHubAdapter(),
   },
+  state: createMemoryState(),
 });
 
 bot.onNewMention(async (thread, message) => {
@@ -35,70 +39,26 @@ bot.onNewMention(async (thread, message) => {
 });
 ```
 
-## Configuration
+The memory state adapter keeps subscriptions and locks in process memory, which suits local development. Use [Redis](/adapters/official/redis) or [PostgreSQL](/adapters/official/postgres) in production.
 
+Then create the webhook route:
 
-One of `token`, `appId`+`privateKey`, or `installationToken` (Vercel Connect) is
-required, plus either `webhookSecret` or a `webhookVerifier`.
+```typescript title="app/api/webhooks/github/route.ts" lineNumbers
+import { after } from "next/server";
+import { bot } from "@/lib/bot";
+
+export async function POST(request: Request): Promise<Response> {
+  return bot.webhooks.github(request, {
+    waitUntil: (task) => after(() => task),
+  });
+}
+```
 
 ## Authentication
 
-### Option A — Personal Access Token
+### Vercel Connect
 
-Best for personal projects, testing, or single-repo bots.
-
-1. Go to [Settings then Developer settings then Personal access tokens](https://github.com/settings/tokens).
-2. Create a token with `repo` scope.
-3. Set `GITHUB_TOKEN`.
-
-```typescript
-createGitHubAdapter({
-  token: process.env.GITHUB_TOKEN!,
-});
-```
-
-### Option B — GitHub App (recommended)
-
-Better rate limits, security, and supports multiple installations.
-
-**Create the app:**
-
-1. Go to [Settings then Developer settings then GitHub Apps then New GitHub App](https://github.com/settings/apps/new).
-2. Set **Webhook URL** to `https://your-domain.com/api/webhooks/github`.
-3. Set a **Webhook secret**.
-4. Permissions: Issues — Read & write, Pull requests — Read & write, Metadata — Read-only.
-5. Subscribe to events: Issue comment, Pull request review comment.
-6. Click **Create GitHub App** and generate a private key.
-
-**Install the app:**
-
-1. From your app's settings click **Install App** and choose repositories.
-2. Note the **Installation ID** in the URL: `https://github.com/settings/installations/12345678`.
-
-**Single-tenant config:**
-
-```typescript
-createGitHubAdapter({
-  appId: process.env.GITHUB_APP_ID!,
-  privateKey: process.env.GITHUB_PRIVATE_KEY!,
-  installationId: parseInt(process.env.GITHUB_INSTALLATION_ID!, 10),
-});
-```
-
-**Multi-tenant** (omit `installationId`):
-
-```typescript
-createGitHubAdapter({
-  appId: process.env.GITHUB_APP_ID!,
-  privateKey: process.env.GITHUB_PRIVATE_KEY!,
-});
-```
-
-The adapter automatically extracts installation IDs from webhooks and caches API clients per-installation.
-
-### Option C — Vercel Connect
-
-Use [Vercel Connect](https://vercel.com/docs/connect) to source installation access tokens at runtime instead of storing a GitHub App private key. The `connectGitHubAdapter()` helper from [`@vercel/connect/chat`](https://www.npmjs.com/package/@vercel/connect) wires an `installationToken` resolver (skipping the App JWT exchange) and a `webhookVerifier` for Connect trigger-forwarded webhooks:
+Use [Vercel Connect](https://vercel.com/docs/connect) to source installation access tokens at runtime instead of storing a GitHub App private key. The `connectGitHubAdapter()` helper from [`@vercel/connect/chat`](https://www.npmjs.com/package/@vercel/connect) wires an `installationToken` resolver, which skips the App JWT exchange, and a `webhookVerifier` for Connect trigger-forwarded webhooks:
 
 ```typescript
 import { createGitHubAdapter } from "@chat-adapter/github";
@@ -113,7 +73,7 @@ createGitHubAdapter({
 `installationToken` accepts a `string` or `() => string | Promise<string>` resolver invoked per API call. When `webhookVerifier` is set it takes precedence over `webhookSecret` and `GITHUB_WEBHOOK_SECRET`.
 
 
-  In Connect mode the adapter only holds an installation token, so it can't auto-detect its own bot user id (the `/app` lookup needs the App's JWT). Without it the adapter can't recognize its own comments and will reply to itself in a loop. It learns the id from the first comment it posts, but that's in-memory only — not enough on serverless, where each webhook can hit a fresh instance. Pass `botUserId` (the numeric id of your `…[bot]` user, e.g. from `curl -s 'https://api.github.com/users/your-app%5Bbot%5D'`) so every instance knows it up front:
+  In Connect mode the adapter holds only an installation token, so it can't auto-detect its own bot user ID: the `/app` lookup needs the App's JWT. Without that ID, the adapter can't recognize its own comments and replies to itself in a loop. It learns the ID from the first comment it posts, but only in memory, which isn't enough on serverless where each webhook can hit a fresh instance. Pass `botUserId`, the numeric ID of your `your-app[bot]` user, so every instance knows it up front. You can look it up with `curl -s 'https://api.github.com/users/your-app%5Bbot%5D'`.
 
   ```typescript
   createGitHubAdapter({
@@ -125,63 +85,92 @@ createGitHubAdapter({
   Or set the `GITHUB_BOT_USER_ID` environment variable, which the adapter auto-detects.
 
 
-## Advanced
+### GitHub App
 
-### Installation lookup
+We recommend a GitHub App. It has better rate limits and security than a personal access token and supports multiple installations.
 
-Resolve the GitHub App installation ID associated with a `Thread` or `Message`:
+#### Create the app
+
+1. Go to [Settings then Developer settings then GitHub Apps then New GitHub App](https://github.com/settings/apps/new).
+2. Set **Webhook URL** to `https://your-domain.com/api/webhooks/github`.
+3. Set a **Webhook secret**.
+4. Under permissions, set Issues and Pull requests to Read & write, and Metadata to Read-only.
+5. Subscribe to events: Issue comment, Pull request review comment.
+6. Click **Create GitHub App** and generate a private key.
+
+#### Install the app
+
+1. From your app's settings click **Install App** and choose repositories.
+2. Note the **Installation ID** in the URL: `https://github.com/settings/installations/12345678`.
+
+#### Single-tenant configuration
 
 ```typescript
-bot.onNewMention(async (thread, message) => {
-  const installationIdFromThread = await github.getInstallationId(thread);
-  const installationIdFromMessage = await github.getInstallationId(
-    message.threadId
-  );
+createGitHubAdapter({
+  appId: process.env.GITHUB_APP_ID!,
+  privateKey: process.env.GITHUB_PRIVATE_KEY!,
+  installationId: parseInt(process.env.GITHUB_INSTALLATION_ID!, 10),
 });
 ```
 
-* **PAT mode** — returns `undefined`.
-* **Single-tenant GitHub App** — returns the configured installation ID.
-* **Multi-tenant** — only succeeds after the adapter has received a webhook for that repository and cached the mapping. Use a persistent state adapter so the mapping survives restarts.
+#### Multi-tenant configuration
 
-### Direct API client
-
-Access the underlying [Octokit](https://github.com/octokit/octokit.js) instance via `.octokit`:
+Omit `installationId`:
 
 ```typescript
-const github = bot.getAdapter("github").octokit;
-const { data: pulls } = await github.rest.pulls.list({
-  owner: "vercel",
-  repo: "chat",
-  state: "open",
+createGitHubAdapter({
+  appId: process.env.GITHUB_APP_ID!,
+  privateKey: process.env.GITHUB_PRIVATE_KEY!,
 });
 ```
 
-PAT and single-tenant App modes return the same client anywhere. Multi-tenant mode requires webhook-handler context — calling `.octokit` outside a handler throws.
+The adapter extracts installation IDs from incoming webhooks and caches API clients per installation.
 
-> The previous `.client` getter still works as a deprecated alias for `.octokit`.
+### Personal access token
 
-### Webhook setup
+A personal access token suits personal projects, testing, and single-repo bots.
+
+1. Go to [Settings then Developer settings then Personal access tokens](https://github.com/settings/tokens).
+2. Create a token with `repo` scope.
+3. Set `GITHUB_TOKEN`.
+
+```typescript
+createGitHubAdapter({
+  token: process.env.GITHUB_TOKEN!,
+});
+```
+
+## Configuration
+
+
+One of `token`, `appId`+`privateKey`, or `installationToken` (Vercel Connect) is
+required, plus either `webhookSecret` or a `webhookVerifier`.
+
+### Environment variables
+
+| Variable                 | Required                              | Description                                                                   |
+| ------------------------ | ------------------------------------- | ----------------------------------------------------------------------------- |
+| `GITHUB_TOKEN`           | One auth mode required                | Personal access token.                                                        |
+| `GITHUB_APP_ID`          | One auth mode required                | GitHub App ID. Use with `GITHUB_PRIVATE_KEY`.                                 |
+| `GITHUB_PRIVATE_KEY`     | One auth mode required                | GitHub App private key (PEM). Use with `GITHUB_APP_ID`.                       |
+| `GITHUB_INSTALLATION_ID` | No                                    | Installation ID for a single-tenant GitHub App. Omit for multi-tenant setups. |
+| `GITHUB_WEBHOOK_SECRET`  | Yes, unless using a `webhookVerifier` | Webhook secret.                                                               |
+| `GITHUB_BOT_USERNAME`    | No                                    | Bot username for @mention detection. Defaults to `github-bot`.                |
+| `GITHUB_BOT_USER_ID`     | Recommended with Vercel Connect       | Numeric ID of the bot user, so the adapter can recognize its own comments.    |
+
+## Webhooks
 
 For repository or organization webhooks:
 
-1. **Settings** then **Webhooks** then **Add webhook**.
-2. Set payload URL to `https://your-domain.com/api/webhooks/github`.
-3. Set **Content type** to `application/json` (the default `application/x-www-form-urlencoded` does not work).
+1. Open **Settings** then **Webhooks** then **Add webhook**.
+2. Set the payload URL to `https://your-domain.com/api/webhooks/github`.
+3. Set **Content type** to `application/json`. The default `application/x-www-form-urlencoded` does not work.
 4. Set **Secret** to match `webhookSecret`.
 5. Select events: Issue comments, Pull request review comments.
 
-GitHub App webhooks are configured during app creation — make sure to select `application/json`.
+You configure GitHub App webhooks when you create the app. Make sure to select `application/json` there too.
 
-### Thread model
-
-| Type            | Context              | Thread ID format                                  |
-| --------------- | -------------------- | ------------------------------------------------- |
-| PR-level        | PR Conversation tab  | `github:{owner}/{repo}:{prNumber}`                |
-| Review comments | PR Files Changed tab | `github:{owner}/{repo}:{prNumber}:rc:{commentId}` |
-| Issue comments  | Issue thread         | `github:{owner}/{repo}:issue:{issueNumber}`       |
-
-### Reactions
+## Reactions
 
 | SDK emoji     | GitHub reaction |
 | ------------- | --------------- |
@@ -194,11 +183,57 @@ GitHub App webhooks are configured during app creation — make sure to select `
 | `rocket`      | rocket          |
 | `eyes`        | eyes            |
 
+## Installation lookup
+
+Resolve the GitHub App installation ID associated with a `Thread` or `Message`:
+
+```typescript
+bot.onNewMention(async (thread, message) => {
+  const installationIdFromThread = await github.getInstallationId(thread);
+  const installationIdFromMessage = await github.getInstallationId(
+    message.threadId
+  );
+});
+```
+
+The result depends on the auth mode:
+
+* With a personal access token, it returns `undefined`.
+* With a single-tenant GitHub App, it returns the configured installation ID.
+* With a multi-tenant GitHub App, it succeeds only after the adapter has received a webhook for that repository and cached the mapping. Use a persistent state adapter so the mapping survives restarts.
+
+## Direct API client
+
+Access the underlying [Octokit](https://github.com/octokit/octokit.js) instance through `.octokit`:
+
+```typescript
+const github = bot.getAdapter("github").octokit;
+const { data: pulls } = await github.rest.pulls.list({
+  owner: "vercel",
+  repo: "chat",
+  state: "open",
+});
+```
+
+Personal access token and single-tenant App modes return the same client anywhere. Multi-tenant mode requires webhook handler context, and calling `.octokit` outside a handler throws.
+
+The previous `.client` getter still works as a deprecated alias for `.octokit`.
+
+## Thread IDs
+
+Issues and pull requests map to threads, and comments map to messages:
+
+| Type            | Context              | Thread ID format                                  |
+| --------------- | -------------------- | ------------------------------------------------- |
+| PR-level        | PR Conversation tab  | `github:{owner}/{repo}:{prNumber}`                |
+| Review comments | PR Files Changed tab | `github:{owner}/{repo}:{prNumber}:rc:{commentId}` |
+| Issue comments  | Issue thread         | `github:{owner}/{repo}:issue:{issueNumber}`       |
+
 ## Feature support
 
 
 ## Resources
 
-* [Ship a GitHub code review bot with Hono and Redis](https://vercel.com/kb/guide/ship-a-github-code-review-bot-with-hono-and-redis?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=adapter-github\&utm_content=ship-a-github-code-review-bot-with-hono-and-redis) — Walks through building a GitHub bot that reviews pull requests on demand. When a user @mentions the bot on a PR, Chat SDK picks up the mention, spins up a Vercel Sandbox with the repo cloned, and uses AI SDK to analyze the diff.
+* [Ship a GitHub code review bot with Hono and Redis](https://vercel.com/kb/guide/ship-a-github-code-review-bot-with-hono-and-redis?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=adapter-github\&utm_content=ship-a-github-code-review-bot-with-hono-and-redis): build a GitHub bot that reviews pull requests on demand. When a user @mentions the bot on a PR, Chat SDK picks up the mention, spins up a Vercel Sandbox with the repo cloned, and uses AI SDK to analyze the diff.
 
 See all guides and templates on the [resources](/resources?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=adapter-github\&utm_content=resources) page.

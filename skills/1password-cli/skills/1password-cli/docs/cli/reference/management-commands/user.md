@@ -27,6 +27,9 @@ user
 <a href="/get-started" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get Started</a>
 
 
+<a href="/tutorials" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tutorials</a>
+
+
 <a href="/security-for-ai" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Security for AI</a>
 
 
@@ -248,6 +251,9 @@ op user list --vault Staging --format=json | op user get -
 
 
 <a href="#user-provision" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Before you can use `op user provision`, you’ll need to set up provisioning. If your account uses automated provisioning, <a href="/cli/provision-users#with-automated-provisioning" class="link">complete the one-time setup</a>. If your account doesn’t use automated provisioning, an owner or administrator needs to <a href="/cli/provision-users#with-1password-cli" class="link">turn on CLI provisioning</a>.
 
 
 ``` shiki

@@ -22,12 +22,14 @@ package: @chat-adapter/x
 ```typescript title="lib/bot.ts" lineNumbers
 import { Chat } from "chat";
 import { createXchatAdapter } from "@chat-adapter/x/chat";
+import { createMemoryState } from "@chat-adapter/state-memory";
 
 const bot = new Chat({
   userName: "mybot",
   adapters: {
     xchat: createXchatAdapter(),
   },
+  state: createMemoryState(),
 });
 
 bot.onDirectMessage(async (thread, message) => {
@@ -39,9 +41,12 @@ bot.onNewMention(async (thread, message) => {
 });
 ```
 
-X sends two kinds of webhook requests: a **CRC challenge** (GET) answered with an HMAC-SHA256 of the token keyed by your app's consumer secret, and **event delivery** (POST) verified by the adapter via the `x-twitter-webhooks-signature` header. Route both methods through the adapter so it can constrain CRC tokens before signing them:
+The memory state adapter keeps subscriptions and locks in process memory, which suits local development. Use [Redis](/adapters/official/redis) or [PostgreSQL](/adapters/official/postgres) in production.
+
+Route both GET and POST through the adapter. See [Webhooks](#webhooks) for what each method handles.
 
 ```typescript title="app/api/webhooks/xchat/route.ts" lineNumbers
+import { after } from "next/server";
 import { bot } from "@/lib/bot";
 
 export async function GET(request: Request) {
@@ -49,33 +54,28 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  return bot.webhooks.xchat(request);
+  return bot.webhooks.xchat(request, {
+    waitUntil: (task) => after(() => task),
+  });
 }
 ```
 
-## XChat Adapter vs X Adapter
+## XChat adapter vs X adapter
 
-Both adapters ship from [`@chat-adapter/x`](https://www.npmjs.com/package/@chat-adapter/x), but they target different X surfaces and use different factories.
+The [`@chat-adapter/x`](https://www.npmjs.com/package/@chat-adapter/x) package contains two adapters for different X surfaces. This page covers the XChat adapter. For public posts, mentions, and classic DMs, use the [X adapter](/adapters/official/x).
 
-Use this **XChat** adapter (`createXchatAdapter` from `@chat-adapter/x/chat`) when you want:
+|                                     | X adapter                                                                                             | XChat adapter                                                               |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Factory                             | `createXAdapter` from `@chat-adapter/x`                                                               | `createXchatAdapter` from `@chat-adapter/x/chat`                            |
+| Conversations                       | Public timeline mentions and replies (`post.mention.create`), and classic unencrypted direct messages | Encrypted XChat 1:1 and group conversations                                 |
+| Top-level posts                     | Posts from the bot account to the public timeline (`x:public`)                                        | Not supported                                                               |
+| Reactions                           | Likes only                                                                                            | Emoji reactions                                                             |
+| Typing indicators and read receipts | Not supported                                                                                         | Supported                                                                   |
+| Encryption                          | None                                                                                                  | Handled inside the adapter: Juicebox PIN, key exchange, and signed messages |
 
-* Encrypted XChat 1:1 and group conversations
-* Typing indicators, read receipts, and emoji reactions
-* Crypto handled inside the adapter (Juicebox PIN, key exchange, signed messages)
+You can register both adapters on the same `Chat` instance if your bot needs public posts and DMs as well as encrypted XChat.
 
-Use the [**X** adapter](/adapters/official/x) (`createXAdapter` from `@chat-adapter/x`) when you want:
-
-* Public timeline mentions and replies (`post.mention.create`)
-* Classic (unencrypted) direct messages
-* Posting from the bot account to the public timeline (`x:public`)
-* Likes as reactions
-
-You can register both adapters on the same `Chat` instance if your bot needs encrypted XChat and public posts/DMs.
-
-## Configuration
-
-
-## Setup
+## Platform setup
 
 ### 1. Register encryption keys
 
@@ -118,39 +118,46 @@ curl -X POST "https://api.x.com/2/activity/subscriptions" \
 
 Subscribe to `chat.conversation_join` as well if you want the bot to post a welcome message when it is added to a group.
 
-## Environment variables
+## Configuration
 
-```bash
-XCHAT_BOT_TOKEN=xcbot_...          # OAuth2 user token for the bot account
-XCHAT_PIN=...                      # Juicebox PIN for key unlock
-X_CONSUMER_SECRET=...              # App secret (CRC + webhook signature verification)
-X_BOT_USERNAME=...                 # Optional @handle override; resolved from /2/users/me otherwise
-X_VERIFY_SIGNATURES=true           # Optional; set false to accept unverifiable messages
-```
 
-## Advanced
+### Environment variables
 
-### Encryption
+| Variable                         | Required                            | Description                                                                        |
+| -------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------- |
+| `XCHAT_BOT_TOKEN`                | Yes, unless `X_ACCESS_TOKEN` is set | OAuth 2.0 user token for the bot account                                           |
+| `X_ACCESS_TOKEN`                 | No                                  | Fallback name for the bot token                                                    |
+| `XCHAT_PIN`                      | No                                  | Juicebox PIN that unlocks the bot's private keys at startup                        |
+| `X_CONSUMER_SECRET`              | To receive webhooks                 | App secret for CRC responses and webhook signature verification                    |
+| `X_BOT_USERNAME`                 | No                                  | @handle override. Resolved from `GET /2/users/me` when unset                       |
+| `X_VERIFY_SIGNATURES`            | No                                  | Set to `false` to accept messages with unverifiable signatures                     |
+| `X_DISABLE_WEBHOOK_VERIFICATION` | No                                  | Set to `true` to skip webhook HMAC verification when an upstream layer verifies it |
+| `X_SIGNING_KEY_VERSION`          | No                                  | Signing key version override                                                       |
 
-Every XChat conversation is encrypted. The adapter handles the full crypto lifecycle transparently: conversation-key extraction and caching, message decryption and signature verification, and encryption + signing on send. Conversation keys arrive via `KeyChange` events and are cached per conversation and key version. Incoming message signatures are verified against participants' signing keys; with `verifySignatures: true` (the default), unverifiable messages are dropped. Media is encrypted separately from message text using streaming encryption.
+## Webhooks
 
-### Formatting
+The route handles two kinds of request from X:
 
-XChat has no client-side markdown rendering — outgoing markdown appears literally as plain text. URLs and @mentions are detected in outgoing text and rendered as tappable links and mention pills, tables are rendered as ASCII code blocks, and cards degrade to text with URL/mention entities plus a URL preview attachment (the first `x.com/.../status/...` URL in outgoing text auto-attaches as a post card).
+* GET CRC challenge: the adapter answers with an HMAC-SHA256 of the token keyed by your app's consumer secret. Routing GET through the adapter lets it constrain CRC tokens before signing them.
+* POST event delivery: the adapter verifies the `x-twitter-webhooks-signature` header against `X_CONSUMER_SECRET`.
 
-### Edits, deletes, and streaming
+## Encryption
 
-The adapter can edit and delete only the bot's own messages. The first edit of a fresh message is held until the message is `editSafetyDelayMs` old (default 5000ms), so receiving clients have stored the original before the edit arrives. Deletes are delete-for-all. Streaming works through message edits, but the age gate makes rapid token-by-token updates coarse.
+Every XChat conversation is encrypted, and the adapter handles the whole crypto lifecycle: conversation-key extraction and caching, message decryption and signature verification, and encryption and signing on send. Conversation keys arrive through `KeyChange` events and are cached per conversation and key version. Incoming message signatures are verified against participants' signing keys; with `verifySignatures: true` (the default), unverifiable messages are dropped. Media is encrypted separately from message text using streaming encryption.
 
-### Mention behavior in groups
+## Mention behavior in groups
 
 `bot.onNewMention(handler)` fires for group messages that mention the bot. A group message counts as a mention when its rich-text mention entities include the bot's @handle or user ID, when it is a swipe-reply to one of the bot's own messages, or when its plain text contains `@handle` (fallback when no entities are present). To reply to every group message instead, register a catch-all `bot.onNewMessage(/.+/, handler)`.
 
-### Open DM
+## Open DM
 
-`openDM(userId)` reuses an existing conversation or runs a fresh key exchange so the bot can message first. It requires the recipient to have encrypted chat set up, and the server requires the recipient to trust the bot (e.g. follow it) before the first message is accepted.
+`openDM(userId)` reuses an existing conversation or runs a fresh key exchange so the bot can message first. It requires the recipient to have encrypted chat set up, and the server requires the recipient to trust the bot (for example, follow it) before the first message is accepted.
 
-### Read receipts and typing
+## Formatting
+
+XChat clients do not render markdown, so outgoing markdown appears literally as plain text. The adapter detects URLs and @mentions in outgoing text and renders them as tappable links and mention pills. Tables render as ASCII code blocks. Cards degrade to text with URL and mention entities plus a URL preview attachment: the first `x.com/.../status/...` URL in outgoing text auto-attaches as a post card.
+
+## Read receipts and typing
 
 A read receipt is sent for each delivered inbound message before handlers run unless `sendReadReceipts: false`. To control the timing yourself, disable automatic receipts and call `thread.markAsRead()` in the handler. XChat advances the conversation's read watermark through the target message sequence. The typing indicator is re-sent every 3 seconds while a handler runs.
 
@@ -171,7 +178,11 @@ Automatic receipts never interrupt a handler, since a failure is logged and swal
 
 When a delivered message has no sequence id, such as an event the adapter could not decrypt, the watermark advances to the latest event in the conversation. When only an explicit message id is available, the adapter replays recent history and rejects if it cannot resolve that exact message rather than advancing through newer messages.
 
-### Thread ID format
+## Edits, deletes, and streaming
+
+The adapter can edit and delete only the bot's own messages. The first edit of a fresh message is held until the message is `editSafetyDelayMs` old (default 5000ms), so receiving clients have stored the original before the edit arrives. Deletes are delete-for-all. Streaming works through message edits, but the age gate makes rapid token-by-token updates coarse.
+
+## Thread IDs
 
 ```
 xchat:{conversationId}

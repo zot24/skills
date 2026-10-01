@@ -225,19 +225,19 @@ Use `limit_to_session` to only include conclusions from the current session:
 
 ### All Parameters Reference
 
-| Parameter               | Type    | Description                                                                                                                                                                                                                                              |
-| ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `summary`               | `bool`  | Include summary in context (default: true)                                                                                                                                                                                                               |
-| `tokens`                | `int`   | Maximum tokens to include                                                                                                                                                                                                                                |
-| `peer_target`           | `str`   | Peer ID to include representation for                                                                                                                                                                                                                    |
-| `peer_perspective`      | `str`   | Peer ID for perspective (requires peer\_target)                                                                                                                                                                                                          |
-| `scope`                 | `str`   | Named scope as the perspective source for `peer_target`'s representation and card. Requires `peer_target` and a workspace-level or admin-level key; mutually exclusive with `peer_perspective`. See [Scopes](/docs/v3/documentation/features/advanced/scopes) |
-| `search_query`          | `str`   | Query for semantic search (requires peer\_target)                                                                                                                                                                                                        |
-| `limit_to_session`      | `bool`  | Limit to session conclusions only                                                                                                                                                                                                                        |
-| `search_top_k`          | `int`   | Semantic search results to include (1-100)                                                                                                                                                                                                               |
-| `search_max_distance`   | `float` | Max semantic distance (0.0-1.0)                                                                                                                                                                                                                          |
-| `include_most_frequent` | `bool`  | Include most frequent conclusions                                                                                                                                                                                                                        |
-| `max_conclusions`       | `int`   | Maximum conclusions to include (1-100)                                                                                                                                                                                                                   |
+| Parameter | Type | Description |
+| - | - | - |
+| `summary` | `bool` | Include summary in context (default: true) |
+| `tokens` | `int` | Maximum tokens to include |
+| `peer_target` | `str` | Peer ID to include representation for |
+| `peer_perspective` | `str` | Peer ID for perspective (requires peer\_target) |
+| `scope` | `str` | Named scope as the perspective source for `peer_target`'s representation and card. Requires `peer_target` and a workspace-level or admin-level key; mutually exclusive with `peer_perspective`. See [Scopes](/docs/v3/documentation/features/advanced/scopes) |
+| `search_query` | `str` | Query for semantic search (requires peer\_target) |
+| `limit_to_session` | `bool` | Limit to session conclusions only |
+| `search_top_k` | `int` | Semantic search results to include (1-100) |
+| `search_max_distance` | `float` | Max semantic distance (0.0-1.0) |
+| `include_most_frequent` | `bool` | Include most frequent conclusions |
+| `max_conclusions` | `int` | Maximum conclusions to include (1-100) |
 
 ## Converting to LLM Formats
 

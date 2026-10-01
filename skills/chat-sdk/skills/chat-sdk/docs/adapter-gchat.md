@@ -22,12 +22,14 @@ package: @chat-adapter/gchat
 ```typescript title="lib/bot.ts" lineNumbers
 import { Chat } from "chat";
 import { createGoogleChatAdapter } from "@chat-adapter/gchat";
+import { createMemoryState } from "@chat-adapter/state-memory";
 
 const bot = new Chat({
   userName: "mybot",
   adapters: {
     gchat: createGoogleChatAdapter(),
   },
+  state: createMemoryState(),
 });
 
 bot.onNewMention(async (thread, message) => {
@@ -35,16 +37,9 @@ bot.onNewMention(async (thread, message) => {
 });
 ```
 
-## Configuration
+The memory state adapter keeps subscriptions and locks in process memory, which suits local development. Use [Redis](/adapters/official/redis) or [PostgreSQL](/adapters/official/postgres) in production.
 
-
-One of `googleChatProjectNumber`, `endpointUrl`, `pubsubAudience`, or `disableSignatureVerification: true` is required — the constructor throws otherwise. Configure the verifier(s) for each transport you actually receive.
-
-Set `botUserId` (or `GOOGLE_CHAT_BOT_USER_ID`) to the canonical `sender.name` from a verified message authored by your Chat app, such as `users/123456789`. The adapter never learns this identity from inbound mentions. When it is omitted, all `BOT` senders are conservatively treated as self to prevent reply loops.
-
-Apps upgrading from an earlier release that rely on mention handlers must configure `botUserId` to preserve mention handling. Without it, bot mention annotations are left unchanged and the default `onNewMention` detection may no longer match them.
-
-## Authentication
+## Platform setup
 
 ### 1. Create a GCP project
 
@@ -65,7 +60,7 @@ Apps upgrading from an earlier release that rely on mention handlers must config
 ### 3. Configure the Chat app
 
 1. Open the [Chat API configuration](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat).
-2. Fill in app name, avatar, description.
+2. Fill in the app name, avatar, and description.
 3. Enable **Receive 1:1 messages** and **Join spaces and group conversations**.
 4. Set connection settings to **App URL** with `https://your-domain.com/api/webhooks/gchat`.
 5. Set visibility, then save.
@@ -75,11 +70,66 @@ Apps upgrading from an earlier release that rely on mention handlers must config
 1. Open Google Chat.
 2. In a Space, open **Manage apps & integrations** then **Add apps** and find your app.
 
-## Advanced
+## Configuration
 
-### Pub/Sub for receiving all messages
 
-By default, Google Chat only sends webhooks for @mentions. To receive all messages in a space, set up Workspace Events with Pub/Sub.
+One of `googleChatProjectNumber`, `endpointUrl`, `pubsubAudience`, or `disableSignatureVerification: true` is required, and the constructor throws otherwise. Configure a verifier for each transport you actually receive.
+
+Set `botUserId` (or `GOOGLE_CHAT_BOT_USER_ID`) to the canonical `sender.name` from a verified message authored by your Chat app, such as `users/123456789`. The adapter never learns this identity from inbound mentions. When it is omitted, all `BOT` senders are conservatively treated as self to prevent reply loops.
+
+Apps upgrading from an earlier release that rely on mention handlers must configure `botUserId` to preserve mention handling. Without it, bot mention annotations are left unchanged and the default `onNewMention` detection may no longer match them.
+
+### Environment variables
+
+| Variable                                            | Required                      | Description                                                                                        |
+| --------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------- |
+| `GOOGLE_CHAT_CREDENTIALS`                           | Yes, unless using ADC         | Service account credentials JSON.                                                                  |
+| `GOOGLE_CHAT_USE_ADC`                               | No                            | Use Application Default Credentials instead of `GOOGLE_CHAT_CREDENTIALS`.                          |
+| `GOOGLE_CHAT_BOT_USER_ID`                           | Recommended                   | Canonical `users/...` resource name of your Chat app, used for self-message and mention detection. |
+| `GOOGLE_CHAT_PROJECT_NUMBER`                        | One verifier required         | GCP project number for direct webhook verification.                                                |
+| `GOOGLE_CHAT_PUBSUB_AUDIENCE`                       | One verifier required         | Expected JWT audience for Pub/Sub pushes.                                                          |
+| `GOOGLE_CHAT_PUBSUB_SERVICE_ACCOUNT_EMAIL`          | With Pub/Sub                  | Service account your push subscription authenticates as.                                           |
+| `GOOGLE_CHAT_WORKSPACE_ADDON_SERVICE_ACCOUNT_EMAIL` | With Workspace Add-on apps    | Your project's `service-{projectNumber}@gcp-sa-gsuiteaddons.iam.gserviceaccount.com` identity.     |
+| `GOOGLE_CHAT_PUBSUB_TOPIC`                          | With Pub/Sub                  | Full name of the Pub/Sub topic for Workspace Events.                                               |
+| `GOOGLE_CHAT_IMPERSONATE_USER`                      | For Pub/Sub, DMs, and history | Admin email for domain-wide delegation.                                                            |
+| `GOOGLE_CHAT_DISABLE_SIGNATURE_VERIFICATION`        | No                            | Set to `true` to accept unverified webhooks. Not for production.                                   |
+
+`endpointUrl` has no environment variable; pass it in config.
+
+## Webhook verification
+
+Direct webhooks and Pub/Sub pushes share one HTTP endpoint, so each verifier covers only its own request shape:
+
+* Direct webhooks: Google Chat sends a signed JWT in the `Authorization: Bearer …` header. The expected `aud` claim depends on how the Chat app is configured (see [Verify requests from Google Chat](https://developers.google.com/workspace/chat/verify-requests-from-chat)).
+* Pub/Sub push: Cloud Pub/Sub sends a signed OIDC JWT whose audience is whatever you configured on the push subscription. Configure both `pubsubAudience` and `pubsubServiceAccountEmail`.
+
+
+  Your push audience is a public URL, so anyone can point a Pub/Sub subscription in their own Google Cloud project at your endpoint and have Google mint a validly signed token naming it. Signature and `aud` therefore say nothing about who sent the push. Set `pubsubServiceAccountEmail` to the identity in your subscription's push auth settings and the adapter compares it exactly, as [Google requires](https://docs.cloud.google.com/pubsub/docs/authenticate-push-subscriptions). Leave it unset and Pub/Sub pushes are rejected with HTTP 401.
+
+
+If you configure only a direct-webhook verifier, incoming Pub/Sub-shaped requests are rejected with HTTP 401, and the reverse is also true. Configure both transports if you receive both.
+
+### Which direct-webhook option do I need?
+
+| Your Chat app                                                                                     | Token type & `aud`                         | Signed by                                                                               | Set                                                   |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Standalone Chat app, **Authentication audience: Project number** (in Chat API config)             | self-signed JWT, `aud` = project number    | `chat@system.gserviceaccount.com` (its own X.509 certs)                                 | `googleChatProjectNumber`                             |
+| Standalone Chat app, **Authentication audience: HTTP endpoint URL**                               | Google OIDC ID token, `aud` = endpoint URL | Google (`email`: `chat@system.gserviceaccount.com`)                                     | `endpointUrl`                                         |
+| Workspace Add-on Chat app (built via Google Workspace Marketplace SDK; the audience is hardcoded) | Google OIDC ID token, `aud` = endpoint URL | Google (`email`: `service-{projectNumber}@gcp-sa-gsuiteaddons.iam.gserviceaccount.com`) | `endpointUrl` and `workspaceAddOnServiceAccountEmail` |
+| Mixed across envs / not sure                                                                      | varies                                     | varies                                                                                  | both `googleChatProjectNumber` and `endpointUrl`      |
+
+The two token types are verified differently, matching [Google's reference implementation](https://developers.google.com/workspace/chat/verify-requests-from-chat): endpoint-URL tokens are standard OIDC ID tokens checked against Google's public certs plus the Chat service-account `email` claim; project-number tokens are self-signed by `chat@system.gserviceaccount.com` and checked against that service account's own X.509 certificates. When both `googleChatProjectNumber` and `endpointUrl` are set, either token type is accepted. If you don't know which mode your app uses, look at an incoming token: an `email` claim containing `gcp-sa-gsuiteaddons` means it's a Workspace Add-on (URL audience).
+
+
+  Every Workspace Add-on project produces an `email` of the same `service-{projectNumber}@gcp-sa-gsuiteaddons` shape, so that shape identifies some add-on, not necessarily yours. Set `workspaceAddOnServiceAccountEmail` to your own project's address and the adapter compares it exactly. Leave it unset and add-on tokens are rejected with HTTP 401, rather than accepting any add-on that happens to point at your endpoint URL. Standalone Chat apps signing as `chat@system.gserviceaccount.com` are unaffected.
+
+
+  Workspace Add-on Chat apps don't expose an "Authentication audience" radio; their token `aud` is always the endpoint URL. Set `endpointUrl` for these.
+
+
+## Pub/Sub for receiving all messages
+
+By default, Google Chat sends webhooks only for @mentions. To receive all messages in a space, set up Workspace Events with Pub/Sub.
 
 ```typescript title="lib/bot.ts" lineNumbers
 createGoogleChatAdapter({
@@ -88,15 +138,15 @@ createGoogleChatAdapter({
 });
 ```
 
-**Topic & subscription:**
+### Topic and subscription
 
-1. Under **Pub/Sub** then **Topics**, create a topic (e.g. `chat-events`) and copy its full name to `GOOGLE_CHAT_PUBSUB_TOPIC`.
+1. Under **Pub/Sub** then **Topics**, create a topic (for example, `chat-events`) and copy its full name to `GOOGLE_CHAT_PUBSUB_TOPIC`.
 2. Add `chat-api-push@system.gserviceaccount.com` as a Pub/Sub Publisher.
 3. Create a Push subscription with endpoint `https://your-domain.com/api/webhooks/gchat`. Enable authentication on it and pick a service account, then set that account's email as `GOOGLE_CHAT_PUBSUB_SERVICE_ACCOUNT_EMAIL`.
 
-**Domain-wide delegation:**
+### Domain-wide delegation
 
-Required for Workspace Events subscriptions and initiating DMs.
+Domain-wide delegation is required for Workspace Events subscriptions and for initiating DMs.
 
 1. In **IAM & Admin** then **Service Accounts**, edit your service account and check **Enable Google Workspace Domain-wide Delegation**. Copy the numeric **Client ID**.
 2. In the [Google Admin Console](https://admin.google.com), go to **Security** then **Access and data control** then **API controls**, then **Manage Domain Wide Delegation**.
@@ -109,42 +159,11 @@ Required for Workspace Events subscriptions and initiating DMs.
    ```
 4. Set `GOOGLE_CHAT_IMPERSONATE_USER` to an admin email.
 
-### Webhook verification
+## Limitations
 
-The two transports share one HTTP endpoint, so each verifier only covers its own request shape:
-
-* **Direct webhooks** — Google Chat sends a signed JWT in the `Authorization: Bearer …` header. The expected `aud` claim depends on how the Chat app is configured (see [Verify requests from Google Chat](https://developers.google.com/workspace/chat/verify-requests-from-chat)).
-* **Pub/Sub push** — Cloud Pub/Sub sends a signed OIDC JWT whose audience is whatever you configured on the push subscription. Configure with `pubsubAudience` **and** `pubsubServiceAccountEmail`.
-
-
-  Your push audience is a public URL, so anyone can point a Pub/Sub subscription in their own Google Cloud project at your endpoint and have Google mint a validly signed token naming it. Signature and `aud` therefore say nothing about who sent the push. Set `pubsubServiceAccountEmail` to the identity in your subscription's push auth settings and the adapter compares it exactly, as [Google requires](https://docs.cloud.google.com/pubsub/docs/authenticate-push-subscriptions). Leave it unset and Pub/Sub pushes are rejected with HTTP 401.
-
-
-If you only configure a direct-webhook verifier, incoming Pub/Sub-shaped requests are rejected with HTTP 401 — and vice versa. Configure both transports if you receive both.
-
-#### Which direct-webhook option do I need?
-
-| Your Chat app                                                                                         | Token type & `aud`                         | Signed by                                                                               | Set                                                       |
-| ----------------------------------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| Standalone Chat app, **Authentication audience: Project number** (in Chat API config)                 | self-signed JWT, `aud` = project number    | `chat@system.gserviceaccount.com` (its own X.509 certs)                                 | `googleChatProjectNumber`                                 |
-| Standalone Chat app, **Authentication audience: HTTP endpoint URL**                                   | Google OIDC ID token, `aud` = endpoint URL | Google (`email`: `chat@system.gserviceaccount.com`)                                     | `endpointUrl`                                             |
-| **Workspace Add-on Chat app** (built via Google Workspace Marketplace SDK; the audience is hardcoded) | Google OIDC ID token, `aud` = endpoint URL | Google (`email`: `service-{projectNumber}@gcp-sa-gsuiteaddons.iam.gserviceaccount.com`) | `endpointUrl` **and** `workspaceAddOnServiceAccountEmail` |
-| Mixed across envs / not sure                                                                          | varies                                     | varies                                                                                  | both `googleChatProjectNumber` and `endpointUrl`          |
-
-The two token types are verified differently, matching [Google's reference implementation](https://developers.google.com/workspace/chat/verify-requests-from-chat): endpoint-URL tokens are standard OIDC ID tokens checked against Google's public certs plus the Chat service-account `email` claim; project-number tokens are self-signed by `chat@system.gserviceaccount.com` and checked against that service account's own X.509 certificates. When both `googleChatProjectNumber` and `endpointUrl` are set, either token type is accepted. If you don't know which mode your app uses, look at an incoming token: an `email` claim containing `gcp-sa-gsuiteaddons` means it's a Workspace Add-on (URL audience).
-
-
-  Every Workspace Add-on project produces an `email` of the same `service-{projectNumber}@gcp-sa-gsuiteaddons` shape, so that shape identifies "some add-on", not *your* add-on. Set `workspaceAddOnServiceAccountEmail` to your own project's address and the adapter compares it exactly. Leave it unset and add-on tokens are rejected with HTTP 401, rather than accepting any add-on that happens to point at your endpoint URL. Standalone Chat apps signing as `chat@system.gserviceaccount.com` are unaffected.
-
-
-  Workspace Add-on Chat apps don't expose an "Authentication audience" radio; their token `aud` is always the endpoint URL. Set `endpointUrl` for these.
-
-
-### Limitations
-
-* **Typing indicators** — not supported by the Google Chat API.
-* **Adding reactions** — the Chat API doesn't allow service-account auth for reactions. With `impersonateUser` configured, the reaction appears as coming from the impersonated user.
-* **Message history (`fetchMessages`)** — requires domain-wide delegation with `impersonateUser`.
+* Typing indicators are not supported by the Google Chat API.
+* Adding reactions: the Chat API doesn't allow service-account auth for reactions. With `impersonateUser` configured, the reaction appears as coming from the impersonated user.
+* Message history (`fetchMessages`) requires domain-wide delegation with `impersonateUser`.
 
 ## Feature support
 

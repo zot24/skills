@@ -24,6 +24,11 @@ gl-inet/docs4.x
 
 <a href="../wireguard_server/" class="md-nav__link"><span class="md-ellipsis"> WireGuard Server </span></a>
 
+<a href="../expressvpn_activation_guide/" class="md-nav__link"><span class="md-ellipsis"> ExpressVPN Activation </span></a>
+
+
+<a href="../../features_update/" class="md-nav__link"><span class="md-ellipsis"> Features Update </span></a> <span class="md-nav__icon md-icon"></span>
+
 
 <a href="../../video_library/" class="md-nav__link"><span class="md-ellipsis"> Video Library </span></a> <span class="md-nav__icon md-icon"></span>
 

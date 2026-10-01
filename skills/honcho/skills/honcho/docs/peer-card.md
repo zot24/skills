@@ -16,14 +16,14 @@ Think of it as the front of a contact card: the information an agent needs at a 
 
 Peer cards are designed for **durable, biographical information**--things that remain true across sessions and contexts. Each fact is stored as a single string in a list.
 
-| Category      | Examples                                                 |
-| ------------- | -------------------------------------------------------- |
-| Identity      | `"Name: Alice"`, `"Age: 28"`, `"Location: Portland, OR"` |
-| Occupation    | `"Works as a senior engineer at Acme Corp"`              |
-| Relationships | `"Has a dog named Max"`, `"Married to Bob"`              |
-| Instructions  | `"INSTRUCTION: Always address as Dr. Chen"`              |
-| Preferences   | `"PREFERENCE: Prefers concise responses"`                |
-| Traits        | `"TRAIT: Detail-oriented, prefers data over anecdotes"`  |
+| Category | Examples |
+| - | - |
+| Identity | `"Name: Alice"`, `"Age: 28"`, `"Location: Portland, OR"` |
+| Occupation | `"Works as a senior engineer at Acme Corp"` |
+| Relationships | `"Has a dog named Max"`, `"Married to Bob"` |
+| Instructions | `"INSTRUCTION: Always address as Dr. Chen"` |
+| Preferences | `"PREFERENCE: Prefers concise responses"` |
+| Traits | `"TRAIT: Detail-oriented, prefers data over anecdotes"` |
 
 Peer cards are **not** for transient information like current mood, recent conversation topics, or reasoning traces. Those belong in conclusions and summaries.
 
@@ -160,10 +160,10 @@ The [dreaming](/docs/v3/documentation/features/advanced/dreaming) process reads 
 
 ## Limits
 
-| Constraint             | Value                               |
-| ---------------------- | ----------------------------------- |
-| Maximum facts per card | **40**                              |
-| Data type              | `list[str]` (each fact is a string) |
+| Constraint | Value |
+| - | - |
+| Maximum facts per card | **40** |
+| Data type | `list[str]` (each fact is a string) |
 
 When the dreaming process or a manual update pushes the card beyond 40 facts, it is automatically truncated to the first 40 entries. Keep facts concise and deduplicated to stay within the limit.
 
@@ -205,10 +205,10 @@ Peer card behavior is controlled through the [configuration hierarchy](/docs/v3/
   ```
 </CodeGroup>
 
-| Field    | Type   | Default | Description                                                 |
-| -------- | ------ | ------- | ----------------------------------------------------------- |
-| `use`    | `bool` | `true`  | Whether agents read the peer card during reasoning and chat |
-| `create` | `bool` | `true`  | Whether agents can create or update peer cards              |
+| Field | Type | Default | Description |
+| - | - | - | - |
+| `use` | `bool` | `true` | Whether agents read the peer card during reasoning and chat |
+| `create` | `bool` | `true` | Whether agents can create or update peer cards |
 
 Configuration can be set at the workspace, session, or message level. See [Reasoning Configuration](/docs/v3/documentation/features/advanced/reasoning-configuration) for the full hierarchy.
 

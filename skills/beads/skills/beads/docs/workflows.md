@@ -25,11 +25,11 @@ bd ready --mol <mol-id>            # which steps can run right now
 
 The three phases, in the chemistry metaphor the CLI uses:
 
-| Phase                 | What it is                                                       | Lifecycle                                                       |
-| --------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------- |
-| **Proto** (solid)     | template epic with `{{variables}}`, carries the `template` label | reusable, not live work                                         |
-| **Molecule** (liquid) | persistent beads poured from a proto (`bd mol pour`)             | synced like any bead                                            |
-| **Wisp** (vapor)      | ephemeral instantiation (`bd mol wisp`)                          | excluded from federation push by default; deleted by `bd purge` |
+| Phase | What it is | Lifecycle |
+| - | - | - |
+| **Proto** (solid) | template epic with `{{variables}}`, carries the `template` label | reusable, not live work |
+| **Molecule** (liquid) | persistent beads poured from a proto (`bd mol pour`) | synced like any bead |
+| **Wisp** (vapor) | ephemeral instantiation (`bd mol wisp`) | excluded from federation push by default; deleted by `bd purge` |
 
 ## Pages in this section
 

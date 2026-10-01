@@ -313,17 +313,17 @@ overlays, or auditing what a document contains. No additional cost.
 
 ### Block fields
 
-| Field          | Description                                                                                                                                                          |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`           | Stable within a response: `p<page>.b<index in reading order>`.                                                                                                       |
-| `type`         | Block type: `title`, `section_header`, `text`, `table`, `formula`, `figure`, `caption`, `page_number`, `page_header`, `page_footer`. New types may appear over time. |
-| `label`        | Raw layout-model label, passthrough for forward compatibility.                                                                                                       |
-| `bbox`         | `[x0, y0, x1, y1]` normalized 0–1 relative to the page. Multiply by `width`/`height` for pixel coordinates. `null` when the page has no known dimensions.            |
-| `content`      | The markdown fragment this block contributed.                                                                                                                        |
-| `markdownSpan` | `[start, end)` character offsets into the document `markdown` covering this block's fragment. `null` when post-processing rewrote the fragment.                      |
-| `readingOrder` | Position in the detected reading order.                                                                                                                              |
-| `source`       | Pipeline path that produced the block (e.g. `native_text`, `layout_ocr`, `tsr`, `formula_model`).                                                                    |
-| `confidence`   | `layout` detection score (0–1) and `ocr` text confidence where the source provides one; `null` otherwise — never an invented aggregate.                              |
+| Field | Description |
+| - | - |
+| `id` | Stable within a response: `p<page>.b<index in reading order>`. |
+| `type` | Block type: `title`, `section_header`, `text`, `table`, `formula`, `figure`, `caption`, `page_number`, `page_header`, `page_footer`. New types may appear over time. |
+| `label` | Raw layout-model label, passthrough for forward compatibility. |
+| `bbox` | `[x0, y0, x1, y1]` normalized 0–1 relative to the page. Multiply by `width`/`height` for pixel coordinates. `null` when the page has no known dimensions. |
+| `content` | The markdown fragment this block contributed. |
+| `markdownSpan` | `[start, end)` character offsets into the document `markdown` covering this block's fragment. `null` when post-processing rewrote the fragment. |
+| `readingOrder` | Position in the detected reading order. |
+| `source` | Pipeline path that produced the block (e.g. `native_text`, `layout_ocr`, `tsr`, `formula_model`). |
+| `confidence` | `layout` detection score (0–1) and `ocr` text confidence where the source provides one; `null` otherwise — never an invented aggregate. |
 
 ### Grounding: from an answer back to the page
 
@@ -434,25 +434,25 @@ All PDF behavior is controlled through the `parsers` option — on `/parse` and
 }
 ```
 
-| Property      | Type                        | Default      | Description                                                                                                            |
-| ------------- | --------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| `type`        | `"pdf"`                     | *(required)* | Parser type.                                                                                                           |
-| `mode`        | `"fast" \| "auto" \| "ocr"` | `"auto"`     | Parsing strategy — see below.                                                                                          |
-| `maxPages`    | `integer`                   | —            | Cap the number of pages to parse.                                                                                      |
-| `pages`       | `boolean`                   | `false`      | Also return [per-page markdown](#per-page-markdown-pdf). No additional cost.                                           |
-| `blocks`      | `boolean`                   | `false`      | Also return [layout blocks](#layout-blocks-pdf) with bounding boxes. No additional cost.                               |
-| `pageMarkers` | `boolean`                   | `false`      | Annotate page breaks in the document markdown with [`<!-- page N -->` markers](#page-markers-pdf). No additional cost. |
+| Property | Type | Default | Description |
+| - | - | - | - |
+| `type` | `"pdf"` | *(required)* | Parser type. |
+| `mode` | `"fast" \| "auto" \| "ocr"` | `"auto"` | Parsing strategy — see below. |
+| `maxPages` | `integer` | — | Cap the number of pages to parse. |
+| `pages` | `boolean` | `false` | Also return [per-page markdown](#per-page-markdown-pdf). No additional cost. |
+| `blocks` | `boolean` | `false` | Also return [layout blocks](#layout-blocks-pdf) with bounding boxes. No additional cost. |
+| `pageMarkers` | `boolean` | `false` | Annotate page breaks in the document markdown with [`<!-- page N -->` markers](#page-markers-pdf). No additional cost. |
 
 Passing `parsers: []` skips parsing entirely and returns the PDF as base64
 (1 credit flat).
 
 ### Parsing modes
 
-| Mode   | Description                                                                                                                                  |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `auto` | Attempts fast text-based extraction first, falls back to OCR when a page needs it. This is the default.                                      |
+| Mode | Description |
+| - | - |
+| `auto` | Attempts fast text-based extraction first, falls back to OCR when a page needs it. This is the default. |
 | `fast` | Text-based extraction only (embedded text). Fastest option, but fails on scanned or image-only pages rather than silently returning nothing. |
-| `ocr`  | Forces OCR on every page. Use for scanned documents or when `auto` misclassifies a page.                                                     |
+| `ocr` | Forces OCR on every page. Use for scanned documents or when `auto` misclassifies a page. |
 
 ## Supported formats
 

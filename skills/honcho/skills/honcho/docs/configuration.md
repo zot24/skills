@@ -46,21 +46,21 @@ The [Self-Hosting Guide](./self-hosting#llm-setup) covers the basic setup: eithe
 
 Model choice matters more for tool-use reliability than raw intelligence:
 
-| Tier       | Example models                  | Use case                                | Notes                                     |
-| ---------- | ------------------------------- | --------------------------------------- | ----------------------------------------- |
-| **Light**  | Gemini 2.5 Flash, GLM-4.7-Flash | Deriver, summary, dialectic minimal/low | High throughput, cheap, reliable tool use |
-| **Medium** | Claude Haiku 4.5, Grok 4.1 Fast | Dialectic medium/high                   | Good reasoning + tool use balance         |
-| **Heavy**  | Claude Sonnet 4, GLM-5          | Dream, dialectic max                    | Best quality for rare/complex tasks       |
+| Tier | Example models | Use case | Notes |
+| - | - | - | - |
+| **Light** | Gemini 2.5 Flash, GLM-4.7-Flash | Deriver, summary, dialectic minimal/low | High throughput, cheap, reliable tool use |
+| **Medium** | Claude Haiku 4.5, Grok 4.1 Fast | Dialectic medium/high | Good reasoning + tool use balance |
+| **Heavy** | Claude Sonnet 4, GLM-5 | Dream, dialectic max | Best quality for rare/complex tasks |
 
 You can mix providers freely — for example, use Gemini for the deriver and Claude for dreaming.
 
 ### Provider Types
 
-| Transport value | What it connects to                                                                               | API key env var         |
-| --------------- | ------------------------------------------------------------------------------------------------- | ----------------------- |
-| `openai`        | OpenAI or any OpenAI-compatible endpoint (OpenRouter, Together, Fireworks, LiteLLM, vLLM, Ollama) | `LLM_OPENAI_API_KEY`    |
-| `anthropic`     | Anthropic Claude (direct)                                                                         | `LLM_ANTHROPIC_API_KEY` |
-| `gemini`        | Google Gemini (direct)                                                                            | `LLM_GEMINI_API_KEY`    |
+| Transport value | What it connects to | API key env var |
+| - | - | - |
+| `openai` | OpenAI or any OpenAI-compatible endpoint (OpenRouter, Together, Fireworks, LiteLLM, vLLM, Ollama) | `LLM_OPENAI_API_KEY` |
+| `anthropic` | Anthropic Claude (direct) | `LLM_ANTHROPIC_API_KEY` |
+| `gemini` | Google Gemini (direct) | `LLM_GEMINI_API_KEY` |
 
 For OpenAI-compatible proxies (OpenRouter, vLLM, Ollama, etc.), use `transport = "openai"` and set `MODEL_CONFIG__OVERRIDES__BASE_URL` on each feature to point at your endpoint.
 
@@ -510,9 +510,22 @@ DREAM_INDUCTION_MODEL_CONFIG__MODEL=gpt-5.4-mini
 
 Optional subsystem for identifying unusual observations during dreaming:
 
+
+  Four of the seven tree types — `kdtree` (the default), `balltree`, `graph` and
+  `prototype` — require scikit-learn, which ships behind the optional `surprisal`
+  extra rather than as a base dependency (it pulls in scipy, \~200MB installed on
+  Linux, for a subsystem that is disabled by default). Install it with
+  `uv sync --extra surprisal`. The default Docker image does **not** include it,
+  so enabling surprisal in a container requires adding the extra to the
+  `uv sync` line in the Dockerfile.
+
+  `rptree`, `covertree` and `lsh` need only numpy and work out of the box. With
+  `DREAM_SURPRISAL__ENABLED=false` (the default) none of this applies.
+
+
 ```bash theme={null}
 DREAM_SURPRISAL__ENABLED=false
-DREAM_SURPRISAL__TREE_TYPE=kdtree
+DREAM_SURPRISAL__TREE_TYPE=kdtree  # needs the 'surprisal' extra; see warning above
 DREAM_SURPRISAL__TREE_K=5
 DREAM_SURPRISAL__SAMPLING_STRATEGY=recent
 DREAM_SURPRISAL__SAMPLE_SIZE=200
@@ -598,7 +611,7 @@ WEBHOOK_MAX_WORKSPACE_LIMIT=10
 ### Vector Store
 
 ```bash theme={null}
-VECTOR_STORE_TYPE=pgvector  # Options: pgvector, turbopuffer, lancedb, qdrant
+VECTOR_STORE_TYPE=pgvector  # Options: pgvector, turbopuffer, lancedb, qdrant, chromadb
 VECTOR_STORE_MIGRATED=false
 VECTOR_STORE_NAMESPACE=honcho
 # Embedding dim is configured via EMBEDDING_VECTOR_DIMENSIONS — see the
@@ -619,9 +632,28 @@ VECTOR_STORE_QDRANT_GRPC_PORT=6334
 VECTOR_STORE_QDRANT_HTTPS=false  # optional, inferred from URL scheme
 VECTOR_STORE_QDRANT_PREFIX=  # optional, for reverse-proxy path prefix
 VECTOR_STORE_QDRANT_TIMEOUT=  # optional, request timeout in seconds
+
+# ChromaDB-specific
+VECTOR_STORE_CHROMA_CLIENT_MODE=http        # Options: http, cloud
+VECTOR_STORE_CHROMA_HOST=localhost          # http mode (self-hosted server)
+VECTOR_STORE_CHROMA_PORT=8000               # http mode
+VECTOR_STORE_CHROMA_SSL=false               # http mode
+VECTOR_STORE_CHROMA_API_KEY=your-chroma-api-key  # cloud mode (required)
+VECTOR_STORE_CHROMA_TENANT=your-tenant-id        # cloud mode (optional)
+VECTOR_STORE_CHROMA_DATABASE=your-database       # cloud mode (optional)
 ```
 
 LanceDB is an optional extra and is not included in the default Docker image. Build with `docker build --build-arg INSTALL_LANCEDB=true .` (or `INSTALL_LANCEDB=true docker compose up -d --build`), or run `uv sync --extra lancedb` for manual setups. Note the extra is unavailable on Intel macOS.
+
+The ChromaDB backend requires the `chromadb` extra, which is not installed by default. Install it for manual deployments as shown below. The standard Docker image does not include ChromaDB, and this backend does not currently have an `INSTALL_CHROMADB` build argument.
+
+```bash theme={null}
+uv sync --extra chromadb
+```
+
+Use `http` with a self-hosted Chroma server or `cloud` with Chroma Cloud. Honcho rejects embedded `persistent` mode because its API and workers run in separate processes, and [Chroma does not support concurrent writers sharing a local persistence path](https://cookbook.chromadb.dev/core/system_constraints/). For local development, run `chroma run --path ./chroma_data --port 8001` and set `VECTOR_STORE_CHROMA_PORT=8001` so Chroma uses a different port from Honcho.
+
+ChromaDB queries retry connection failures, rate limiting, and temporary server errors up to three attempts, waiting 0.1 seconds and then 0.2 seconds between attempts. These short retries can recover brief interruptions; they may not outlast rate-limit windows. ChromaDB 1.5.9 disables HTTP timeouts, so retries do not bound request duration: a stalled server can leave a request waiting indefinitely. If all attempts fail with transient errors, queries return no results. Failed writes remain eligible for reconciliation. Authentication and invalid-request errors remain visible. Startup dimension sampling fails if a sampled namespace cannot be inspected or has a dimension mismatch; missing namespaces are allowed. Selecting ChromaDB without its optional dependency raises an installation error when the backend is initialized.
 
 ## Monitoring
 
@@ -648,6 +680,42 @@ TELEMETRY_FLUSH_INTERVAL_SECONDS=1.0
 TELEMETRY_MAX_RETRIES=3
 TELEMETRY_MAX_BUFFER_SIZE=10000
 ```
+
+#### Trace payloads
+
+Enable content-addressed LLM traces alongside telemetry:
+
+```bash theme={null}
+TELEMETRY_ENABLED=true
+TELEMETRY_TRACE_PAYLOADS_ENABLED=true
+# Optional: an empty list captures all call purposes.
+TELEMETRY_TRACE_PURPOSES='["dialectic.answer", "deriver.representation", "summary.short", "summary.long"]'
+```
+
+`llm.call.traced` and `embedding.call.traced` use schema version 2. LLM traces
+record each provider attempt, including retries, fallback calls, stream setup
+failures, and interrupted streams. Stream traces preserve the output received
+before interruption. `trace.content` remains at schema version 1.
+
+| Fields | Meaning |
+| - | - |
+| `workspace_name`, `session_id` | Workspace and canonical internal session ID, when the operation has a session. Session names are not used as trace identity. |
+| `run_id`, `trace_id`, `span_id`, `parent_span_id`, `iteration`, `step_seq` | Run and call correlation. Single-call operations can have a null iteration and step zero. |
+| `observers`, `observed`, `peer_name`, `agent_type`, `track_name` | LLM producer identity. `observers` lists every observer the call writes to, including single-observer agents, so batched derivation is not a special case. |
+| `source_message_ids`, `queue_item_ids` | Public message IDs and internal queue IDs associated with the LLM operation. Summary message IDs cover its current input window; these fields do not enumerate retrieved tool context or history compressed into an earlier summary. |
+| `duration_ms`, `outcome`, `error_class`, `attempt`, `retry_attempts`, `is_final_attempt` | Execution diagnostics for both LLM and embedding calls. `is_final_attempt` means the configured retry budget is exhausted, so an earlier successful attempt can have `false`. |
+| `was_stream`, `was_fallback`, `effective_max_output_tokens` | LLM execution mode, selected fallback, and effective output limit. |
+| `system_prompt_ref`, `system_prompt_refs`, `output_reasoning_ref` | References into `trace.content` for the system prompt and normalized provider reasoning details. `system_prompt_refs` lists each system message as the provider saw it; `system_prompt_ref` is a single ref for the whole system prompt — the lone message when there is one, otherwise their concatenation shipped under its own hash. |
+
+Fields remain null or empty when unavailable or inapplicable. Root spans have no
+parent; `parent_event_id` is populated only when a caller supplies an actual
+causal event ID. `raw_response_ref` remains reserved because capture stores
+normalized responses rather than provider wire payloads. Stream token counts
+include only usage exposed by the normalized backend; embedding input tokens
+remain estimates. Older trace payloads can omit the new fields.
+
+The CloudEvent ID formula is unchanged. Use the identity and correlation fields
+in `data` to group calls; content references continue to deduplicate by hash.
 
 ### Sentry
 
@@ -763,6 +831,9 @@ ENABLED = false
 
 [telemetry]
 ENABLED = false
+TRACE_PAYLOADS_ENABLED = false
+TRACE_PURPOSES = []
+TRACE_MAX_BYTES = 262144
 
 [vector_store]
 TYPE = "pgvector"

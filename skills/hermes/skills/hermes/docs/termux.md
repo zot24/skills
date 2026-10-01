@@ -1,0 +1,220 @@
+> Source: https://hermes-agent.nousresearch.com/docs/getting-started/termux/
+
+
+
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
+
+
+On this page
+
+
+# Hermes on Android with Termux
+
+
+The Termux package does not work right now. A fix is in progress and will ship soon. Until then, the steps below may fail or install a package that does not run.
+
+
+The Termux package runs Hermes on **aarch64 (arm64-v8a)** Android devices. Two APT channels are published under `https://hermes-assets.nousresearch.com/releases/termux/<channel>`:
+
+| Channel  | APT suite       | Contents                                                                 |
+|----------|-----------------|--------------------------------------------------------------------------|
+| `stable` | `hermes-stable` | Tagged `vMAJOR.MINOR.PATCH` releases that passed the stable release gate |
+| `canary` | `hermes-canary` | Prerelease builds from canary tags; versions carry `~canary.<timestamp>` |
+
+The steps below use `stable`. To follow prereleases, replace `stable` with `canary` and `hermes-stable` with `hermes-canary` in steps 2 and 4. Both channels are signed with the same key.
+
+The package includes Python, Node.js, npm, uv, ripgrep, ffmpeg, and their runtime libraries. CI builds the native Python wheels and the TUI before it creates the package. The device does not compile core dependencies or assemble its base Python environment during installation. The package uses Python 3.14 with the bionic interpreter pin; it does not require the same patch version as desktop CPython. The wheel closure is core plus `acp`, not all desktop extras.
+
+## Install<a href="#install" class="hash-link" aria-label="Direct link to Install" translate="no" title="Direct link to Install">​</a>
+
+Use the standard <a href="https://termux.dev/" target="_blank" rel="noopener noreferrer">Termux</a> application. The package requires its standard prefix, `/data/data/com.termux/files/usr`. Other architectures and renamed Termux application packages are not supported. The wheels target Android API 24 (`android_24_arm64_v8a`). Do not use the desktop/server `install.sh` or a glibc Linux archive on this target.
+
+1.  Install the tools for repository setup:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    pkg install curl gnupg
+    ```
+
+    </div>
+
+    </div>
+
+2.  Download the public key:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    mkdir -p "$PREFIX/etc/apt/keyrings"
+    curl -fsSL \
+      https://hermes-assets.nousresearch.com/releases/termux/stable/key.asc \
+      -o "$PREFIX/etc/apt/keyrings/hermes-agent.asc"
+    ```
+
+    </div>
+
+    </div>
+
+3.  Verify its primary fingerprint:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    gpg --show-keys --with-fingerprint "$PREFIX/etc/apt/keyrings/hermes-agent.asc"
+    ```
+
+    </div>
+
+    </div>
+
+    The repository key fingerprint is:
+
+    <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    C572 B5FD D1A2 9CCF A9A9 12B6 840B 0848 E139 156D
+    ```
+
+    </div>
+
+    </div>
+
+    If the fingerprint differs, stop. Do not disable signature verification.
+
+4.  Add the repository:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    printf '%s\n' \
+      "deb [signed-by=$PREFIX/etc/apt/keyrings/hermes-agent.asc] https://hermes-assets.nousresearch.com/releases/termux/stable hermes-stable main" \
+      > "$PREFIX/etc/apt/sources.list.d/hermes-agent.list"
+    ```
+
+    </div>
+
+    </div>
+
+5.  Install Hermes:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    pkg update
+    pkg install hermes-agent
+    ```
+
+    </div>
+
+    </div>
+
+6.  Configure a provider, then start the TUI:
+
+    <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36">
+
+    <div class="codeBlockContent_QJqH">
+
+    ``` prism-code
+    hermes setup
+    hermes --tui
+    ```
+
+    </div>
+
+    </div>
+
+The `hermes`, `hermes-agent`, and `hermes-acp` commands use the packaged runtimes. They do not require Termux's `python` or `nodejs` packages.
+
+## Files and updates<a href="#files-and-updates" class="hash-link" aria-label="Direct link to Files and updates" translate="no" title="Direct link to Files and updates">​</a>
+
+| Contents                    | Location                                                                   |
+|-----------------------------|----------------------------------------------------------------------------|
+| Package files               | `$PREFIX/lib/hermes-agent/`                                                |
+| Command symlinks            | `$PREFIX/bin/hermes`, `$PREFIX/bin/hermes-agent`, `$PREFIX/bin/hermes-acp` |
+| Configuration and user data | `~/.hermes/`, or the selected `HERMES_HOME`                                |
+
+Update through APT:
+
+
+``` prism-code
+pkg update
+pkg upgrade hermes-agent
+```
+
+
+`hermes update` refuses to modify an APT-owned installation. It prints the package-manager command instead. Canary versions contain `~canary.<timestamp>` and sort before the corresponding stable version. Each suite only lists its own channel's packages; to move between channels, edit the channel path and suite in `hermes-agent.list`, then `pkg update && pkg upgrade hermes-agent`.
+
+## Gateway<a href="#gateway" class="hash-link" aria-label="Direct link to Gateway" translate="no" title="Direct link to Gateway">​</a>
+
+This APT installation does not use systemd, launchd, or Windows Scheduled Tasks. Run the gateway in a Termux session:
+
+
+``` prism-code
+hermes gateway run
+```
+
+
+For a background process:
+
+
+``` prism-code
+mkdir -p "${HERMES_HOME:-$HOME/.hermes}/logs"
+nohup hermes gateway run >> "${HERMES_HOME:-$HOME/.hermes}/logs/gateway.log" 2>&1 &
+```
+
+
+Android can suspend or terminate background Termux processes. Battery optimization exemptions and `termux-wake-lock` can help, but do not guarantee persistent operation.
+
+
+## Limits<a href="#limits" class="hash-link" aria-label="Direct link to Limits" translate="no" title="Direct link to Limits">​</a>
+
+The package does not include the `nemo-relay` exporter. Its vendored build toolchain does not support this target.
+
+The package does not include Electron, local Chromium, or desktop computer-use tools. A local Docker daemon is not part of the Termux environment. Remote services have their own requirements and connectivity limits.
+
+Phone-native Termux:API microphone and clipboard adapters are not provided by this package path. The prebuilt CLI/TUI is not proof of local voice or wake-word support. Optional integrations and third-party plugins can require dependencies that do not support Android.
+
+Python 3.14 on this target reports `sys.platform == "android"`. A dependency or skill gated only to `linux` is not automatically available on Android.
+
+## Uninstall<a href="#uninstall" class="hash-link" aria-label="Direct link to Uninstall" translate="no" title="Direct link to Uninstall">​</a>
+
+
+``` prism-code
+pkg uninstall hermes-agent
+```
+
+
+APT removes the package and its command symlinks. It preserves your configuration, sessions, skills, and memories.
+
+## Troubleshooting<a href="#troubleshooting" class="hash-link" aria-label="Direct link to Troubleshooting" translate="no" title="Direct link to Troubleshooting">​</a>
+
+- **Package not found:** verify the repository entry, then run `pkg update`.
+- **Signature error:** verify the public key fingerprint. Do not use an unsigned repository or bypass the error.
+- **Missing command:** verify that `$PREFIX/bin` is on `PATH`, or reinstall the package.
+- **Missing library or TUI bundle:** report `hermes --version` and the complete error. The core package must not require a local rebuild.
+- **Gateway stops with the screen off:** review Android's battery and background-process limits.
+
+For general diagnostics, run `hermes doctor`.
+
+
+- <a href="#install" class="table-of-contents__link toc-highlight">Install</a>
+- <a href="#files-and-updates" class="table-of-contents__link toc-highlight">Files and updates</a>
+- <a href="#gateway" class="table-of-contents__link toc-highlight">Gateway</a>
+- <a href="#limits" class="table-of-contents__link toc-highlight">Limits</a>
+- <a href="#uninstall" class="table-of-contents__link toc-highlight">Uninstall</a>
+- <a href="#troubleshooting" class="table-of-contents__link toc-highlight">Troubleshooting</a>
+
+

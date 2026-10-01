@@ -23,11 +23,11 @@ A molecule is a persistent instance of a proto (a cooked formula):
 Under the hood, **a molecule is just an epic** — a parent bead with children —
 plus workflow semantics:
 
-| Term         | Meaning                        | When to use                        |
-| ------------ | ------------------------------ | ---------------------------------- |
-| **Epic**     | Parent issue with children     | General term for hierarchical work |
-| **Molecule** | Epic with execution intent     | When discussing workflow traversal |
-| **Proto**    | Epic with the `template` label | Reusable pattern (optional)        |
+| Term | Meaning | When to use |
+| - | - | - |
+| **Epic** | Parent issue with children | General term for hierarchical work |
+| **Molecule** | Epic with execution intent | When discussing workflow traversal |
+| **Proto** | Epic with the `template` label | Reusable pattern (optional) |
 
 Protos and formulas are optional layers for reusable patterns and complex
 composition — most work needs only epics and dependencies.
@@ -109,12 +109,12 @@ sequence. The multi-session loop:
 
 Only some dependency types block execution:
 
-| Type                 | Semantics                                      | Use case                                     |
-| -------------------- | ---------------------------------------------- | -------------------------------------------- |
-| `blocks`             | B can't start until A closes                   | Sequencing work                              |
-| `parent-child`       | If the parent is blocked, children are blocked | Hierarchy (children parallel by default)     |
-| `conditional-blocks` | B runs only if A fails                         | Error-handling paths                         |
-| `waits-for`          | B waits for all of A's dynamic children        | Fan-in gates — see [Gates](/workflows/gates) |
+| Type | Semantics | Use case |
+| - | - | - |
+| `blocks` | B can't start until A closes | Sequencing work |
+| `parent-child` | If the parent is blocked, children are blocked | Hierarchy (children parallel by default) |
+| `conditional-blocks` | B runs only if A fails | Error-handling paths |
+| `waits-for` | B waits for all of A's dynamic children | Fan-in gates — see [Gates](/workflows/gates) |
 
 Non-blocking types (`related`, `discovered-from`, `replies-to`) link issues
 without affecting execution.
@@ -208,12 +208,12 @@ bd mol bond A B --type conditional # B runs only if A fails
 
 The command is polymorphic over its operands:
 
-| Operands            | What happens                                             |
-| ------------------- | -------------------------------------------------------- |
-| proto + proto       | Compound proto (reusable template)                       |
-| proto + molecule    | Spawns the proto as new issues, attached to the molecule |
-| molecule + molecule | Joins them into a compound molecule                      |
-| formula + anything  | The formula is cooked inline first                       |
+| Operands | What happens |
+| - | - |
+| proto + proto | Compound proto (reusable template) |
+| proto + molecule | Spawns the proto as new issues, attached to the molecule |
+| molecule + molecule | Joins them into a compound molecule |
+| formula + anything | The formula is cooked inline first |
 
 Spawned issues follow the target's phase (persistent or ephemeral) by
 default. Override with `--pour` (force persistent) or `--ephemeral` (force

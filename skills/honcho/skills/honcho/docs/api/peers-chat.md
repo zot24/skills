@@ -27,7 +27,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.1.2
+  version: 3.2.2
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -299,6 +299,14 @@ components:
             - type: 'null'
           description: Session the conclusion is scoped to, if any
           title: Session Id
+        observer_id:
+          type: string
+          title: Observer Id
+          description: The peer who made the conclusion
+        observed_id:
+          type: string
+          title: Observed Id
+          description: The peer the conclusion is about
         source_ids:
           description: >-
             IDs of the conclusions this one was derived from. Empty for explicit
@@ -313,6 +321,8 @@ components:
         - level
         - content
         - created_at
+        - observer_id
+        - observed_id
       title: EvidenceObservation
       type: object
     EvidenceMessageRef:

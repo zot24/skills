@@ -326,13 +326,13 @@ The main entry point for workspace operations:
   ```
 </CodeGroup>
 
-| Option          | Python               | TypeScript           | Notes                                                                    |
-| --------------- | -------------------- | -------------------- | ------------------------------------------------------------------------ |
-| Query           | `query` (positional) | `query` (positional) | Required, 1 to 10,000 characters                                         |
-| Session         | `session=`           | `session`            | Session ID or object. Narrows message tools only                         |
-| Scope           | `scope=`             | `scope`              | One name or a list. Always an allowlist; mutually exclusive with session |
-| Reasoning level | `reasoning_level=`   | `reasoningLevel`     | `minimal`, `low` (default), `medium`, `high`, `max`                      |
-| Response format | `response_format=`   | `responseFormat`     | Pydantic model or JSON Schema (Python); JSON Schema (TypeScript)         |
+| Option | Python | TypeScript | Notes |
+| - | - | - | - |
+| Query | `query` (positional) | `query` (positional) | Required, 1 to 10,000 characters |
+| Session | `session=` | `session` | Session ID or object. Narrows message tools only |
+| Scope | `scope=` | `scope` | One name or a list. Always an allowlist; mutually exclusive with session |
+| Reasoning level | `reasoning_level=` | `reasoningLevel` | `minimal`, `low` (default), `medium`, `high`, `max` |
+| Response format | `response_format=` | `responseFormat` | Pydantic model or JSON Schema (Python); JSON Schema (TypeScript) |
 
 Workspace chat requires a workspace- or admin-level key. There is no `target` or `filters` option.
 
@@ -928,18 +928,18 @@ The SessionContext object has the following structure:
 
 **Session Context Parameters:**
 
-| Parameter                                   | Type               | Description                                        |
-| ------------------------------------------- | ------------------ | -------------------------------------------------- |
-| `summary`                                   | `bool`             | Whether to include summary (default: true)         |
-| `tokens`                                    | `int`              | Maximum tokens to include                          |
-| `peer_target`                               | `str`              | Peer ID to get representation for                  |
-| `peer_perspective`                          | `str`              | Peer ID for perspective (requires peer\_target)    |
-| `limit_to_session`                          | `bool`             | Limit representation to session only               |
-| `representationOptions.searchQuery`         | `str` or `Message` | Query string or Message object for semantic search |
-| `representationOptions.searchTopK`          | `int`              | Number of semantic search results (1-100)          |
-| `representationOptions.searchMaxDistance`   | `float`            | Max semantic distance (0.0-1.0)                    |
-| `representationOptions.includeMostFrequent` | `bool`             | Include most frequent conclusions                  |
-| `representationOptions.maxConclusions`      | `int`              | Max conclusions to include (1-100)                 |
+| Parameter | Type | Description |
+| - | - | - |
+| `summary` | `bool` | Whether to include summary (default: true) |
+| `tokens` | `int` | Maximum tokens to include |
+| `peer_target` | `str` | Peer ID to get representation for |
+| `peer_perspective` | `str` | Peer ID for perspective (requires peer\_target) |
+| `limit_to_session` | `bool` | Limit representation to session only |
+| `representationOptions.searchQuery` | `str` or `Message` | Query string or Message object for semantic search |
+| `representationOptions.searchTopK` | `int` | Number of semantic search results (1-100) |
+| `representationOptions.searchMaxDistance` | `float` | Max semantic distance (0.0-1.0) |
+| `representationOptions.includeMostFrequent` | `bool` | Include most frequent conclusions |
+| `representationOptions.maxConclusions` | `int` | Max conclusions to include (1-100) |
 
 ## Advanced Usage
 

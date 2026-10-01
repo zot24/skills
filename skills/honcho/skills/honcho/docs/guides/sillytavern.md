@@ -71,11 +71,11 @@ Every generation injects a **base context layer** from `session.context()` -- th
 
 The **enrichment mode** controls what layers on top of the base context:
 
-| Mode                    | Behavior                                                                        |
-| ----------------------- | ------------------------------------------------------------------------------- |
-| **Context only**        | Base layer only -- peer representation + session summary                        |
+| Mode | Behavior |
+| - | - |
+| **Context only** | Base layer only -- peer representation + session summary |
 | **Reasoning** (default) | Base layer + dialectic `peer.chat()` queries on a configurable per-turn cadence |
-| **Tool call**           | Base layer + function tools the LLM can call on demand                          |
+| **Tool call** | Base layer + function tools the LLM can call on demand |
 
 Both the context and reasoning layers use stale-while-revalidate with a configurable cadence ("Refresh every N turns" and "Reason every N turns"). After the first turn of a session, there is zero added latency.
 
@@ -87,11 +87,11 @@ Both the context and reasoning layers use stale-while-revalidate with a configur
 
 In tool call mode, the extension registers three function tools that the LLM can invoke:
 
-| Tool                     | Description                                                                   |
-| ------------------------ | ----------------------------------------------------------------------------- |
-| `honcho_query_memory`    | Dialectic chat query -- ask Honcho what it knows                              |
+| Tool | Description |
+| - | - |
+| `honcho_query_memory` | Dialectic chat query -- ask Honcho what it knows |
 | `honcho_save_conclusion` | Save a key insight or biographical detail about the user to persistent memory |
-| `honcho_search_history`  | Semantic search across session messages                                       |
+| `honcho_search_history` | Semantic search across session messages |
 
 This mode works best with models that support function calling. The LLM decides when to query memory rather than firing on every turn.
 
@@ -107,16 +107,16 @@ By default, only the user peer accumulates derived memory — Honcho observes th
 
 Peer mode controls memory partitioning; session naming controls conversation partitioning. Pair them to get the isolation you want.
 
-| Peer Mode                        | Behavior                                  |
-| -------------------------------- | ----------------------------------------- |
-| **Single peer for all personas** | One user peer shared across all personas  |
-| **Separate peer per persona**    | Each persona gets its own isolated memory |
+| Peer Mode | Behavior |
+| - | - |
+| **Single peer for all personas** | One user peer shared across all personas |
+| **Separate peer per persona** | Each persona gets its own isolated memory |
 
-| Session Naming    | Behavior                                |
-| ----------------- | --------------------------------------- |
-| **Auto**          | Per-chat hash (unique per conversation) |
-| **Per character** | One session per character (persistent)  |
-| **Custom**        | User-defined session name               |
+| Session Naming | Behavior |
+| - | - |
+| **Auto** | Per-chat hash (unique per conversation) |
+| **Per character** | One session per character (persistent) |
+| **Custom** | User-defined session name |
 
 Session IDs are frozen once assigned. Changing the naming mode, the custom session name, or the character name only affects new chats — existing chats stay linked to their original Honcho session so history, summaries, and derivations don't fragment.
 
@@ -169,16 +169,16 @@ Nested form (multiple tools sharing the file):
 
 ## Troubleshooting
 
-| Symptom                                                         | Fix                                                                                                    |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| No "Honcho Memory" in Extensions                                | Check symlink exists: `ls public/scripts/extensions/third-party/sillytavern-honcho/manifest.json`      |
-| Plugin not initializing                                         | Ensure `enableServerPlugins: true` in `config.yaml`, then restart ST                                   |
-| 403 on plugin requests                                          | Set Honcho API key in extension settings or `~/.honcho/config.json`                                    |
-| SDK import error                                                | Run `cd plugins/honcho-proxy && npm install`                                                           |
-| Extension loads but nothing happens                             | Enable the checkbox and ensure workspace ID is set                                                     |
+| Symptom | Fix |
+| - | - |
+| No "Honcho Memory" in Extensions | Check symlink exists: `ls public/scripts/extensions/third-party/sillytavern-honcho/manifest.json` |
+| Plugin not initializing | Ensure `enableServerPlugins: true` in `config.yaml`, then restart ST |
+| 403 on plugin requests | Set Honcho API key in extension settings or `~/.honcho/config.json` |
+| SDK import error | Run `cd plugins/honcho-proxy && npm install` |
+| Extension loads but nothing happens | Enable the checkbox and ensure workspace ID is set |
 | Plugin on disk but "Honcho Memory" drawer doesn't appear at all | Set `enableServerPlugins: true` in `config.yaml`; the panel can't show plugins the server never loaded |
-| Peer name on a new chat still shows an old value                | Clear the panel override field (falls back to root / ST persona) or set a new value                    |
-| Re-enabling global config didn't populate the UI                | You canceled on the diff dialog — click Enable again and choose Inherit                                |
+| Peer name on a new chat still shows an old value | Clear the panel override field (falls back to root / ST persona) or set a new value |
+| Re-enabling global config didn't populate the UI | You canceled on the diff dialog — click Enable again and choose Inherit |
 
 ***
 

@@ -37,11 +37,11 @@ Both representations are injected into the system prompt, giving Hermes awarenes
 
 Hermes exposes four Honcho tools to the agent:
 
-| Tool              | What it does                                                                                        |
-| ----------------- | --------------------------------------------------------------------------------------------------- |
-| `honcho_profile`  | Fast peer card retrieval (no LLM). Returns curated key facts about the user.                        |
-| `honcho_search`   | Semantic search over memory. Returns raw excerpts ranked by relevance.                              |
-| `honcho_context`  | Dialectic Q\&A powered by Honcho's LLM. Synthesizes answers from conversation history.              |
+| Tool | What it does |
+| - | - |
+| `honcho_profile` | Fast peer card retrieval (no LLM). Returns curated key facts about the user. |
+| `honcho_search` | Semantic search over memory. Returns raw excerpts ranked by relevance. |
+| `honcho_context` | Dialectic Q\&A powered by Honcho's LLM. Synthesizes answers from conversation history. |
 | `honcho_conclude` | Writes durable facts to Honcho when the user states preferences, corrections, or important context. |
 
 ## Running Honcho locally with Hermes
@@ -108,14 +108,14 @@ If Hermes calls the tool and returns results, the full tool pipeline (API connec
 
 ## Configuration options
 
-| Field                     | Default         | Description                                                                   |
-| ------------------------- | --------------- | ----------------------------------------------------------------------------- |
-| `recallMode`              | `hybrid`        | `hybrid` (auto-inject + tools), `context` (inject only), `tools` (tools only) |
-| `writeFrequency`          | `async`         | `async`, `turn`, `session`, or integer N                                      |
-| `sessionStrategy`         | `per-directory` | `per-directory`, `per-repo`, `per-session`, `global`                          |
-| `dialecticReasoningLevel` | `low`           | `minimal`, `low`, `medium`, `high`, `max`                                     |
-| `dialecticDynamic`        | `true`          | Auto-bump reasoning level by query complexity                                 |
-| `messageMaxChars`         | `25000`         | Max chars per message (chunked if exceeded)                                   |
+| Field | Default | Description |
+| - | - | - |
+| `recallMode` | `hybrid` | `hybrid` (auto-inject + tools), `context` (inject only), `tools` (tools only) |
+| `writeFrequency` | `async` | `async`, `turn`, `session`, or integer N |
+| `sessionStrategy` | `per-directory` | `per-directory`, `per-repo`, `per-session`, `global` |
+| `dialecticReasoningLevel` | `low` | `minimal`, `low`, `medium`, `high`, `max` |
+| `dialecticDynamic` | `true` | Auto-bump reasoning level by query complexity |
+| `messageMaxChars` | `25000` | Max chars per message (chunked if exceeded) |
 
 ## Next steps
 

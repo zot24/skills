@@ -11,9 +11,7 @@ related:
 # CLI
 
 
-`create-chat-sdk` creates a minimal Next.js app for Chat SDK bots.
-
-The CLI will generate your `Chat` configuration, webhook route, `.env.example` file, dependencies, and optional Web adapter route from the adapter catalog.
+`create-chat-sdk` creates a minimal Next.js app for a Chat SDK bot. Based on the adapters you pick from the adapter catalog, it generates your `Chat` configuration, a webhook route, a `.env.example` file, and the dependency list, plus a Web adapter route if you select that adapter.
 
 ## Quick start
 
@@ -62,7 +60,7 @@ The CLI will generate your `Chat` configuration, webhook route, `.env.example` f
 </CodeBlockTabs>
 
 
-  `create-chat-sdk` automatically detects when it is being run by Cursor, Claude Code, or another coding agent. In agent environments, pass at least one platform adapter with `--adapter`; the state adapter defaults to `memory`. The CLI runs non-interactively and uses `my-bot` when no project name is provided. Pass `--interactive` to force prompts.
+  `create-chat-sdk` detects when Cursor, Claude Code, or another coding agent runs it. In that case the CLI runs non-interactively: pass at least one platform adapter with `--adapter`, and it uses `memory` as the state adapter and `my-bot` as the project name unless you provide others. Pass `--interactive` to force prompts.
 
 
 ## Non-interactive usage
@@ -77,7 +75,7 @@ npm create chat-sdk@latest -- my-bot --adapter slack redis -y
   With npm, the `--` separator is required because npm consumes flags before it (`-y` is npm's own `--yes`) instead of forwarding them to the CLI. `pnpm create` and `yarn create` forward flags without it.
 
 
-The interactive prompt lists official adapters by default. Pass `--vendor` to list only vendor-official adapters instead. Automation and coding agents can install any CLI-supported official or vendor adapter directly with `--adapter`.
+The interactive prompt lists official adapters by default. Pass `--vendor` to list only vendor-official adapters instead. Scripts and coding agents can skip the prompt and pass any official or vendor-official adapter the CLI supports to `--adapter`.
 
 Adapters that require a long-running process, including Matrix and Lark, cannot run on the webhook-only serverless runtime and are not available through the CLI. Add them to an existing project manually instead.
 
@@ -123,13 +121,23 @@ When the [Discord adapter](/adapters/official/discord) is selected, the CLI also
 
 ## Vercel Connect
 
-[Vercel Connect](/docs/vercel-connect) supplies outbound credentials for the Slack, Discord, GitHub, Linear, Notion, and Telegram adapters. Pass `--connect` — or choose **Vercel Connect** at the interactive auth-mode prompt — to scaffold Connect wiring for any selected adapter in that list. Notion and Telegram webhooks remain direct and retain their native verification secrets.
+[Vercel Connect](/docs/vercel-connect) supplies outbound credentials for the Slack, Discord, GitHub, Linear, Notion, Teams, and Telegram adapters. To scaffold Connect wiring for any selected adapter in that list, pass `--connect` or choose **Vercel Connect** at the interactive auth-mode prompt. Notion and Telegram webhooks stay direct and keep their native verification secrets.
 
 ```bash
 npm create chat-sdk@latest -- my-bot --adapter slack --connect -y
 ```
 
-The generated `src/lib/bot.ts` spreads the matching helper from `@vercel/connect/chat` into the adapter factory, `@vercel/connect` is added to dependencies, and `.env.example` lists each connector UID (for example `SLACK_CONNECTOR`). Native webhook verification secrets are retained for adapters such as Notion and Telegram.
+The generated `src/lib/bot.ts` spreads the matching helper from `@vercel/connect/chat` into the adapter factory, `@vercel/connect` is added to dependencies, and `.env.example` lists each connector UID, for example `SLACK_CONNECTOR`.
+
+For Linear, `--adapter linear --connect` explicitly sets `mode: "agent-sessions"`, the recommended setup for Connect bots. Enable **Agent session events** on the Linear app and use an app-actor installation. The adapter itself still defaults to `"comments"` when `mode` is omitted.
+
+For Microsoft Teams, use `--adapter teams --connect`. The generated bot uses
+`connectTeamsAdapter(requireEnv("TEAMS_CONNECTOR"))`, and `.env.example` expects
+a connector UID such as `microsoft-teams/my-bot` instead of Azure credentials.
+Forward Connect triggers to `/api/webhooks/teams`. Microsoft Graph reads require
+the bot's resource-specific permissions to be granted when it is installed in a
+team. This setup requires releases of both `@vercel/connect` and
+`@chat-adapter/teams` that support the Teams Connect helper.
 
 
   Vercel Connect provides `VERCEL_OIDC_TOKEN` at runtime. For local development, run `vercel link` then `vercel env pull` to populate it. Connect forwards inbound webhooks only to deployed URLs, so test webhook delivery against a Vercel deployment (such as a preview) rather than localhost.
@@ -137,22 +145,22 @@ The generated `src/lib/bot.ts` spreads the matching helper from `@vercel/connect
 
 ## Reference
 
-| Option                     | Description                                                                                     |
-| -------------------------- | ----------------------------------------------------------------------------------------------- |
-| `[name]`                   | Name of the project.                                                                            |
-| `-d, --description <text>` | Project description.                                                                            |
-| `--adapter <values...>`    | Platform or state adapters to include.                                                          |
-| `--vendor`                 | List only vendor-official adapters in the interactive prompt.                                   |
-| `--connect`                | Authenticate Slack, Discord, GitHub, Linear, Notion, and Telegram adapters with Vercel Connect. |
-| `--pm <manager>`           | Package manager to use: `npm`, `yarn`, `pnpm`, or `bun`.                                        |
-| `-y, --yes`                | Skip prompts and accept defaults.                                                               |
-| `--interactive`            | Always prompt, even when a coding agent environment is detected.                                |
-| `-f, --force`              | Overwrite generated files in an existing directory.                                             |
-| `-s, --skip-install`       | Skip dependency installation.                                                                   |
-| `--no-git`                 | Skip git repository initialization.                                                             |
-| `-q, --quiet`              | Suppress non-essential output.                                                                  |
+| Option                     | Description                                                                                            |
+| -------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `[name]`                   | Name of the project.                                                                                   |
+| `-d, --description <text>` | Project description.                                                                                   |
+| `--adapter <values...>`    | Platform or state adapters to include.                                                                 |
+| `--vendor`                 | List only vendor-official adapters in the interactive prompt.                                          |
+| `--connect`                | Authenticate Slack, Discord, GitHub, Linear, Notion, Teams, and Telegram adapters with Vercel Connect. |
+| `--pm <manager>`           | Package manager to use: `npm`, `yarn`, `pnpm`, or `bun`.                                               |
+| `-y, --yes`                | Skip prompts and accept defaults.                                                                      |
+| `--interactive`            | Always prompt, even when a coding agent environment is detected.                                       |
+| `-f, --force`              | Overwrite generated files in an existing directory.                                                    |
+| `-s, --skip-install`       | Skip dependency installation.                                                                          |
+| `--no-git`                 | Skip git repository initialization.                                                                    |
+| `-q, --quiet`              | Suppress non-essential output.                                                                         |
 
-Color output follows the [NO\_COLOR standard](https://no-color.org/) — set `NO_COLOR=1` to disable colors.
+Color output follows the [NO\_COLOR standard](https://no-color.org/). Set `NO_COLOR=1` to disable colors.
 
 ## Customize your bot
 
@@ -160,7 +168,7 @@ Most bot behavior lives in `src/lib/bot.ts`. Start there when you want to:
 
 * Add or change handlers like `onNewMention`, `onSubscribedMessage`, `onNewMessage`, reactions, actions, or slash commands.
 * Adjust adapter configuration, for example passing explicit credentials or platform-specific options instead of relying only on environment variables.
-* If you selected the memory state adapter, switch to Redis, ioredis, or PostgreSQL before deploying to production.
+* Replace the memory state adapter, if you selected it, with Redis, ioredis, or PostgreSQL before deploying to production.
 
 The generated file includes starter handlers for mentions and subscribed thread replies.
 

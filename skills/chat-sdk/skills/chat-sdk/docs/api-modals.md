@@ -11,7 +11,7 @@ related:
 # Modals
 
 
-Modals display form dialogs that collect structured user input. Currently supported on Slack and Teams.
+Modals display form dialogs that collect structured user input. Modals are currently supported on Slack and Teams.
 
 ```typescript
 import {
@@ -20,6 +20,7 @@ import {
   DateInput,
   NumberInput,
   Select,
+  ExternalSelect,
   RadioSelect,
   SelectOption,
 } from "chat";
@@ -68,7 +69,7 @@ TextInput({
 
 ## DateInput
 
-A date picker — a Slack `datepicker`, an Adaptive Card `Input.Date` on Teams.
+A date picker. Renders a Slack `datepicker` and an Adaptive Card `Input.Date` on Teams.
 
 ```typescript
 DateInput({
@@ -80,11 +81,11 @@ DateInput({
 ```
 
 
-The submitted value arrives in `event.values` as an ISO `YYYY-MM-DD` string. An `initialValue` that is not a valid `YYYY-MM-DD` date is ignored with a warning — Slack rejects a malformed `initial_date` by failing the whole modal, so it is dropped rather than forwarded.
+The submitted value arrives in `event.values` as an ISO `YYYY-MM-DD` string. An `initialValue` that is not a valid `YYYY-MM-DD` date is dropped with a warning rather than forwarded, because Slack rejects a malformed `initial_date` by failing the whole modal.
 
 ## NumberInput
 
-A numeric input — a Slack `number_input`, an Adaptive Card `Input.Number` on Teams.
+A numeric input. Renders a Slack `number_input` and an Adaptive Card `Input.Number` on Teams.
 
 ```typescript
 NumberInput({
@@ -96,7 +97,7 @@ NumberInput({
 ```
 
 
-Values in `event.values` are always strings — parse with `Number(...)` when you need a number.
+Values in `event.values` are always strings. Parse with `Number(...)` when you need a number.
 
 ## Select
 
@@ -163,15 +164,15 @@ SelectOption({ label: "High", value: "high", description: "Urgent tasks" })
 
 The `children` array in `Modal` accepts these element types:
 
-| Type                 | Created by                     |
-| -------------------- | ------------------------------ |
-| `TextInputElement`   | `TextInput()`                  |
-| `DateInputElement`   | `DateInput()`                  |
-| `NumberInputElement` | `NumberInput()`                |
-| `SelectElement`      | `Select()`                     |
-| `RadioSelectElement` | `RadioSelect()`                |
-| `TextElement`        | `Text()` — static text content |
-| `FieldsElement`      | `Fields()` — key-value display |
+| Type                 | Created by                        |
+| -------------------- | --------------------------------- |
+| `TextInputElement`   | `TextInput()`                     |
+| `DateInputElement`   | `DateInput()`                     |
+| `NumberInputElement` | `NumberInput()`                   |
+| `SelectElement`      | `Select()`                        |
+| `RadioSelectElement` | `RadioSelect()`                   |
+| `TextElement`        | `Text()`, for static text content |
+| `FieldsElement`      | `Fields()`, for key-value display |
 
 
 ---

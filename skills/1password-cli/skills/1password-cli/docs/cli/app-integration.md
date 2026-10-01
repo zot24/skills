@@ -27,6 +27,9 @@ Use the 1Password desktop app to sign in to 1Password CLI
 <a href="/get-started" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Get Started</a>
 
 
+<a href="/tutorials" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Tutorials</a>
+
+
 <a href="/security-for-ai" class="link nav-tabs-item group relative h-full gap-2 flex items-center font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300">Security for AI</a>
 
 
@@ -232,6 +235,9 @@ export OP_BIOMETRIC_UNLOCK_ENABLED=true
 set -x OP_BIOMETRIC_UNLOCK_ENABLED true
 
 
+\$Env:OP_BIOMETRIC_UNLOCK_ENABLED = "true"
+
+
 Bash, Zsh, sh
 
 
@@ -247,6 +253,9 @@ export OP_BIOMETRIC_UNLOCK_ENABLED=false
 
 
 set -x OP_BIOMETRIC_UNLOCK_ENABLED false
+
+
+\$Env:OP_BIOMETRIC_UNLOCK_ENABLED = "false"
 
 
 ## 
@@ -270,6 +279,18 @@ set -x OP_BIOMETRIC_UNLOCK_ENABLED false
 
 
 <a href="#if-op-signin-doesn’t-list-your-account" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#if-you-see-“no-accounts-configured”-on-macos-27-golden-gate" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+1.  Open **System Settings** \> **Privacy & Security** \> **Files & Folders**.
+2.  Select the app you use to run commands, like Terminal, iTerm, or Ghostty. If you use a terminal built into an editor, like Visual Studio Code or Cursor, select the editor.
+3.  Turn on the setting that starts with “Data shared by 1Password”. The rest of the name depends on which 1Password apps you’ve installed.
+4.  Quit and reopen your terminal, then try your command again.
 
 
 ### 

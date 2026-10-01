@@ -83,11 +83,11 @@ This has a few different implications.
 
 The queue status endpoint reports on the following task types:
 
-| Task Type          | Description                                                                                |
-| ------------------ | ------------------------------------------------------------------------------------------ |
-| **representation** | Memory formation — the deriver processes messages and extracts observations about peers    |
-| **summary**        | Session summarization — creates short and long summaries at configurable message intervals |
-| **dream**          | Memory consolidation — explores and consolidates observations to improve memory quality    |
+| Task Type | Description |
+| - | - |
+| **representation** | Memory formation — the deriver processes messages and extracts observations about peers |
+| **summary** | Session summarization — creates short and long summaries at configurable message intervals |
+| **dream** | Memory consolidation — explores and consolidates observations to improve memory quality |
 
 Internal infrastructure tasks (such as webhook delivery, resource deletion, and
 vector reconciliation) are **not** included in queue status counts.

@@ -20,9 +20,11 @@ related:
 
 Before publishing, verify your `package.json` meets these requirements:
 
+`YOUR_PUBLISHED_ADAPTER_PACKAGE` is a placeholder for your adapter's npm package name. Replace it with a valid name you own before publishing, and use that exact name in the post-publish verification commands. Do not install the placeholder or an unrelated package with a similar name.
+
 ```json title="package.json" lineNumbers
 {
-  "name": "chat-adapter-matrix",
+  "name": "YOUR_PUBLISHED_ADAPTER_PACKAGE",
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -48,19 +50,21 @@ Before publishing, verify your `package.json` meets these requirements:
 
 | Field                | Why it matters                                                |
 | -------------------- | ------------------------------------------------------------- |
-| `"type": "module"`   | ESM-only — matches the Chat SDK ecosystem                     |
-| `"files": ["dist"]`  | Only publish compiled output, keeping the package lean        |
-| `"exports"`          | Explicit entry points for bundlers and Node.js                |
-| `"peerDependencies"` | Consumers provide their own `chat` instance                   |
+| `"type": "module"`   | Publishes ESM only, matching the Chat SDK packages            |
+| `"files": ["dist"]`  | Publishes only compiled output, which keeps the package small |
+| `"exports"`          | Declares explicit entry points for bundlers and Node.js       |
+| `"peerDependencies"` | Lets consumers provide their own `chat` instance              |
 | `"publishConfig"`    | Required for scoped packages (`@your-scope/chat-adapter-*`)   |
 | `"keywords"`         | Include `chat-sdk` and `chat-adapter` for npm discoverability |
 
 ## Naming conventions
 
-| Convention | Example                         | When to use                                                |
-| ---------- | ------------------------------- | ---------------------------------------------------------- |
-| Unscoped   | `chat-adapter-matrix`           | Most community adapters                                    |
-| Scoped     | `@your-org/chat-adapter-matrix` | Optional — if you prefer publishing under your org's scope |
+| Convention | Pattern                             | When to use                                    |
+| ---------- | ----------------------------------- | ---------------------------------------------- |
+| Unscoped   | `chat-adapter-PLATFORM`             | A unique, available name for your adapter      |
+| Scoped     | `@YOUR_SCOPE/chat-adapter-PLATFORM` | An adapter published under a scope you control |
+
+Replace `PLATFORM` and `YOUR_SCOPE` with your own values. These are naming patterns, not packages to install. New npm package names must be lowercase; see [npm's package name rules](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#name).
 
 
   The `@chat-adapter/` npm scope is reserved for Vercel-maintained adapters. Do not publish under this scope.
@@ -68,7 +72,7 @@ Before publishing, verify your `package.json` meets these requirements:
 
 ## Build and verify
 
-Run a full build and verify everything compiles before publishing.
+Before publishing, build the package, type-check it, and run the tests.
 
 ```sh title="Terminal"
 # Build
@@ -81,7 +85,7 @@ npm run typecheck
 npm test
 ```
 
-Inspect the package contents to make sure only `dist/` is included:
+Inspect the package contents to confirm that only `dist/` is included:
 
 ```sh title="Terminal"
 npm pack --dry-run
@@ -110,7 +114,7 @@ Follow [semver](https://semver.org):
 | New feature, new export, new config option          | `minor` | `1.0.0` → `1.1.0` |
 | Breaking change (removed export, changed signature) | `major` | `1.0.0` → `2.0.0` |
 
-When the Chat SDK releases a new major version, you'll need a major bump too if your adapter's peer dependency range changes.
+If a new Chat SDK major version changes your adapter's peer dependency range, bump your adapter's major version too.
 
 ## Publish to npm
 
@@ -152,19 +156,19 @@ mkdir /tmp/test-adapter && cd /tmp/test-adapter
 npm init -y
 
 # Install your adapter
-npm install chat chat-adapter-matrix
+npm install chat YOUR_PUBLISHED_ADAPTER_PACKAGE
 
 # Verify the import works
-node -e "import('chat-adapter-matrix').then(m => console.log(Object.keys(m)))"
+node -e "import('YOUR_PUBLISHED_ADAPTER_PACKAGE').then(m => console.log(Object.keys(m)))"
 ```
 
 You should see your exported symbols (`createMatrixAdapter`, `MatrixAdapter`, etc.).
 
 ## Keeping your adapter up to date
 
-* Watch the [Chat SDK changelog](https://github.com/vercel/chat/releases) for new features and breaking changes
-* Run your test suite against new Chat SDK releases before they ship to catch compatibility issues early
-* When the `Adapter` interface adds new optional methods, consider implementing them to keep your adapter feature-complete
+* Watch the [Chat SDK changelog](https://github.com/vercel/chat/releases) for new features and breaking changes.
+* Run your test suite against new Chat SDK releases before they ship to catch compatibility issues early.
+* When the `Adapter` interface adds new optional methods, consider implementing them to keep your adapter feature-complete.
 
 ## Listing on chat-sdk.dev
 
@@ -177,10 +181,10 @@ Community adapters can be listed on the [Adapters](https://chat-sdk.dev/adapters
 ### Pin your README to a commit or tag
 
 
-  The `readme` field **must** reference a specific commit SHA or tag — not a branch name like `main`.
+  The `readme` field must reference a specific commit SHA or tag, not a branch name like `main`.
 
 
-The docs site re-renders on every deploy, so an unpinned `readme` would serve whatever currently sits at your default branch — including edits made after the listing PR was reviewed. Pinning freezes the rendered content at the state we approved; new content goes live through a follow-up PR that bumps the ref.
+The docs site re-renders on every deploy, so an unpinned `readme` would serve whatever is on your default branch at that moment, including edits made after the listing PR was reviewed. Pinning keeps the rendered content at the version we approved. To publish new README content, open a follow-up PR that bumps the ref.
 
 ```json title="apps/docs/adapters.json"
 {
@@ -188,7 +192,7 @@ The docs site re-renders on every deploy, so an unpinned `readme` would serve wh
   "slug": "my-adapter",
   "type": "platform",
   "community": true,
-  "packageName": "chat-adapter-my-thing",
+  "packageName": "YOUR_PUBLISHED_ADAPTER_PACKAGE",
   "readme": "https://github.com/your-org/chat-adapter-my-thing/tree/v1.2.0"
 }
 ```
@@ -201,7 +205,7 @@ Accepted `readme` formats:
 | Repo root at a commit | `https://github.com/owner/repo/tree/abc1234...`             |
 | Subpath in a monorepo | `https://github.com/owner/repo/tree/<ref>/packages/adapter` |
 
-Unpinned refs (e.g., `tree/main`, or omitting `/tree/<ref>` entirely) will emit a build warning and are rejected during PR review.
+Unpinned refs, such as `tree/main` or a URL without `/tree/<ref>`, emit a build warning and are rejected during PR review.
 
 
 ---

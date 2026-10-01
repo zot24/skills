@@ -42,23 +42,23 @@ Dependencies have a type that determines whether they block work.
 
 **Blocking types** (affect `bd ready`):
 
-| Type                 | Meaning                              | Example              |
-| -------------------- | ------------------------------------ | -------------------- |
-| `blocks` (default)   | B cannot start until A closes        | Task ordering        |
-| `parent-child`       | Children blocked when parent blocked | Epic hierarchies     |
-| `conditional-blocks` | B runs only if A fails               | Error handling paths |
-| `waits-for`          | B waits for all of A's children      | Fanout aggregation   |
+| Type | Meaning | Example |
+| - | - | - |
+| `blocks` (default) | B cannot start until A closes | Task ordering |
+| `parent-child` | Children blocked when parent blocked | Epic hierarchies |
+| `conditional-blocks` | B runs only if A fails | Error handling paths |
+| `waits-for` | B waits for all of A's children | Fanout aggregation |
 
 **Non-blocking types** (graph annotations only):
 
-| Type              | Meaning                                                       |
-| ----------------- | ------------------------------------------------------------- |
-| `related`         | Informational link                                            |
-| `tracks`          | Tracks progress of another issue                              |
-| `discovered-from` | Found during work on another issue                            |
-| `caused-by`       | Root cause link                                               |
-| `validates`       | Test or verification link                                     |
-| `supersedes`      | Replaced by a different issue (`bd supersede old --with new`) |
+| Type | Meaning |
+| - | - |
+| `related` | Informational link |
+| `tracks` | Tracks progress of another issue |
+| `discovered-from` | Found during work on another issue |
+| `caused-by` | Root cause link |
+| `validates` | Test or verification link |
+| `supersedes` | Replaced by a different issue (`bd supersede old --with new`) |
 
 Specify with `--type`:
 
@@ -193,13 +193,13 @@ beads issue status.
 
 ### Gate Types
 
-| Type     | Condition              | Auto-Resolution                           |
-| -------- | ---------------------- | ----------------------------------------- |
-| `gh:pr`  | PR merged              | `gh pr view` returns MERGED               |
-| `gh:run` | CI passes              | `gh run view` returns completed + success |
-| `timer`  | Time elapsed           | Current time exceeds timeout              |
-| `bead`   | Cross-rig issue closed | Remote bead status checked                |
-| `human`  | Manual approval        | `bd gate resolve <id>`                    |
+| Type | Condition | Auto-Resolution |
+| - | - | - |
+| `gh:pr` | PR merged | `gh pr view` returns MERGED |
+| `gh:run` | CI passes | `gh run view` returns completed + success |
+| `timer` | Time elapsed | Current time exceeds timeout |
+| `bead` | Cross-rig issue closed | Remote bead status checked |
+| `human` | Manual approval | `bd gate resolve <id>` |
 
 ### Creating Gates
 

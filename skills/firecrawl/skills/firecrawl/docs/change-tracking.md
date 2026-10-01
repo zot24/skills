@@ -22,22 +22,22 @@ Change tracking is the per-scrape diff primitive. If you want Firecrawl to run t
 
 Every scrape with `changeTracking` enabled stores a snapshot and compares it against the previous snapshot for that URL. Snapshots are stored persistently and do not expire, so comparisons remain accurate regardless of how much time has passed between scrapes.
 
-| Scrape            | Result                                             |
-| ----------------- | -------------------------------------------------- |
-| First time        | `changeStatus: "new"` (no previous version exists) |
-| Content unchanged | `changeStatus: "same"`                             |
-| Content modified  | `changeStatus: "changed"` (diff data available)    |
-| Page removed      | `changeStatus: "removed"`                          |
+| Scrape | Result |
+| - | - |
+| First time | `changeStatus: "new"` (no previous version exists) |
+| Content unchanged | `changeStatus: "same"` |
+| Content modified | `changeStatus: "changed"` (diff data available) |
+| Page removed | `changeStatus: "removed"` |
 
 The response includes these fields in the `changeTracking` object:
 
-| Field              | Type                  | Description                                                                                    |
-| ------------------ | --------------------- | ---------------------------------------------------------------------------------------------- |
-| `previousScrapeAt` | `string \| null`      | Timestamp of the previous scrape (`null` on first scrape)                                      |
-| `changeStatus`     | `string`              | `"new"`, `"same"`, `"changed"`, or `"removed"`                                                 |
-| `visibility`       | `string`              | `"visible"` (discoverable via links/sitemap) or `"hidden"` (URL works but is no longer linked) |
-| `diff`             | `object \| undefined` | Line-level diff (only present in `git-diff` mode when status is `"changed"`)                   |
-| `json`             | `object \| undefined` | Field-level comparison (only present in `json` mode when status is `"changed"`)                |
+| Field | Type | Description |
+| - | - | - |
+| `previousScrapeAt` | `string \| null` | Timestamp of the previous scrape (`null` on first scrape) |
+| `changeStatus` | `string` | `"new"`, `"same"`, `"changed"`, or `"removed"` |
+| `visibility` | `string` | `"visible"` (discoverable via links/sitemap) or `"hidden"` (URL works but is no longer linked) |
+| `diff` | `object \| undefined` | Line-level diff (only present in `git-diff` mode when status is `"changed"`) |
+| `json` | `object \| undefined` | Field-level comparison (only present in `json` mode when status is `"changed"`) |
 
 ## Basic usage
 
@@ -503,12 +503,12 @@ Schedule it with `crontab -e`:
 0 */6 * * * /path/to/check-pricing.sh >> /var/log/price-monitor.log 2>&1
 ```
 
-| Schedule                 | Expression    |
-| ------------------------ | ------------- |
-| Every hour               | `0 * * * *`   |
-| Every 6 hours            | `0 */6 * * *` |
-| Daily at 9 AM            | `0 9 * * *`   |
-| Weekly on Monday at 8 AM | `0 8 * * 1`   |
+| Schedule | Expression |
+| - | - |
+| Every hour | `0 * * * *` |
+| Every 6 hours | `0 */6 * * *` |
+| Daily at 9 AM | `0 9 * * *` |
+| Weekly on Monday at 8 AM | `0 8 * * 1` |
 
 ### Cloud and serverless schedulers
 
@@ -615,13 +615,13 @@ For webhook configuration details (headers, metadata, events, retries, signature
 
 The full set of options available when passing a `changeTracking` format object:
 
-| Parameter | Type       | Default    | Description                                                       |
-| --------- | ---------- | ---------- | ----------------------------------------------------------------- |
-| `type`    | `string`   | (required) | Must be `"changeTracking"`                                        |
-| `modes`   | `string[]` | `[]`       | Diff modes to enable: `"git-diff"`, `"json"`, or both             |
-| `schema`  | `object`   | (none)     | JSON Schema for field-level comparison (required for `json` mode) |
-| `prompt`  | `string`   | (none)     | Custom prompt to guide LLM extraction (used with `json` mode)     |
-| `tag`     | `string`   | `null`     | Separate tracking history identifier                              |
+| Parameter | Type | Default | Description |
+| - | - | - | - |
+| `type` | `string` | (required) | Must be `"changeTracking"` |
+| `modes` | `string[]` | `[]` | Diff modes to enable: `"git-diff"`, `"json"`, or both |
+| `schema` | `object` | (none) | JSON Schema for field-level comparison (required for `json` mode) |
+| `prompt` | `string` | (none) | Custom prompt to guide LLM extraction (used with `json` mode) |
+| `tag` | `string` | `null` | Separate tracking history identifier |
 
 ### Data models
 
@@ -680,10 +680,10 @@ The full set of options available when passing a `changeTracking` format object:
 
 ## Billing
 
-| Mode                  | Cost                                    |
-| --------------------- | --------------------------------------- |
+| Mode | Cost |
+| - | - |
 | Basic change tracking | No extra cost (standard scrape credits) |
-| `git-diff` mode       | No extra cost                           |
-| `json` mode           | 5 credits per page                      |
+| `git-diff` mode | No extra cost |
+| `json` mode | 5 credits per page |
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.

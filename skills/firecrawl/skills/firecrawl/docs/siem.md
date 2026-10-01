@@ -58,10 +58,10 @@ The client secret is write-only: it is encrypted at rest, never shown again, and
 
 ## Error reference
 
-| Status                        | When                                                                                                       |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `403`                         | The SIEM configuration API is used on a team without the feature enabled.                                  |
-| `400`                         | The configuration is saved without a client secret when none is stored yet.                                |
+| Status | When |
+| - | - |
+| `403` | The SIEM configuration API is used on a team without the feature enabled. |
+| `400` | The configuration is saved without a client secret when none is stored yet. |
 | `200` with `delivered: false` | A test event was attempted and the destination rejected it; the response includes the destination's error. |
 
 ## Notes

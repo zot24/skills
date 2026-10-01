@@ -32,14 +32,14 @@ A search target uses `type: "search"` and replaces `urls` with the queries to ru
 }
 ```
 
-| Field            | Type                                             | Description                                                                                                                                                                                                                                                                 |
-| ---------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`           | `"search"`                                       | Selects the search target.                                                                                                                                                                                                                                                  |
-| `queries`        | `string[]`                                       | Search queries to run on each check. 1–12 queries, each up to 256 characters. Required.                                                                                                                                                                                     |
-| `searchWindow`   | `"5m" \| "15m" \| "1h" \| "6h" \| "24h" \| "7d"` | Recency filter. Only consider results published within this window. Defaults to `24h`.                                                                                                                                                                                      |
-| `maxResults`     | `number`                                         | Total results to evaluate per check, `1`–`50`. Defaults to `10`. This is a combined cap across all `queries` (results are merged and deduped first), not a per-query limit. An individual query may contribute fewer results, or none, if other queries fill the cap first. |
-| `includeDomains` | `string[]`                                       | Optional. Restrict results to these domains (up to 50). Mutually exclusive with `excludeDomains`.                                                                                                                                                                           |
-| `excludeDomains` | `string[]`                                       | Optional. Drop results from these domains (up to 50). Mutually exclusive with `includeDomains`.                                                                                                                                                                             |
+| Field | Type | Description |
+| - | - | - |
+| `type` | `"search"` | Selects the search target. |
+| `queries` | `string[]` | Search queries to run on each check. 1–12 queries, each up to 256 characters. Required. |
+| `searchWindow` | `"5m" \| "15m" \| "1h" \| "6h" \| "24h" \| "7d"` | Recency filter. Only consider results published within this window. Defaults to `24h`. |
+| `maxResults` | `number` | Total results to evaluate per check, `1`–`50`. Defaults to `10`. This is a combined cap across all `queries` (results are merged and deduped first), not a per-query limit. An individual query may contribute fewer results, or none, if other queries fill the cap first. |
+| `includeDomains` | `string[]` | Optional. Restrict results to these domains (up to 50). Mutually exclusive with `excludeDomains`. |
+| `excludeDomains` | `string[]` | Optional. Drop results from these domains (up to 50). Mutually exclusive with `includeDomains`. |
 
 
   A search target requires a non-empty monitor-level `goal` unless you set `judgeEnabled: false`. `queries` are required; the `goal` is what the judge scores each new result against. It does not generate the queries. See [Goals and judging](/features/monitoring#goals-and-judging).
@@ -242,13 +242,13 @@ Search results use the **same page-level `status` enum** as scrape and crawl mon
 
 The finer-grained search disposition is exposed on each page's `metadata.searchStatus`, one of:
 
-| `searchStatus` | Page `status` | Meaning                                                                                  |
-| -------------- | ------------- | ---------------------------------------------------------------------------------------- |
-| `alert`        | `new`         | New result the judge considers meaningful; fires a notification.                         |
-| `already_seen` | `same`        | Fingerprint matched a result from an earlier check.                                      |
-| `watching`     | `same`        | New result the judge isn't confident about yet; tracked but not alerted.                 |
-| `ignored`      | `same`        | New result the judge scored as not meaningful to the goal.                               |
-| `skipped`      | `error`       | Result could not be judged this check (for example, scrape failure or degraded judging). |
+| `searchStatus` | Page `status` | Meaning |
+| - | - | - |
+| `alert` | `new` | New result the judge considers meaningful; fires a notification. |
+| `already_seen` | `same` | Fingerprint matched a result from an earlier check. |
+| `watching` | `same` | New result the judge isn't confident about yet; tracked but not alerted. |
+| `ignored` | `same` | New result the judge scored as not meaningful to the goal. |
+| `skipped` | `error` | Result could not be judged this check (for example, scrape failure or degraded judging). |
 
 A result alerts once when it first appears as `new`. Dedup is keyed on the canonical URL alone (title and snippet are deliberately not part of the fingerprint, so a title/snippet change does not re-fire). Because the key is the URL, one real-world event reported across many article URLs alerts once per URL, not once per event.
 

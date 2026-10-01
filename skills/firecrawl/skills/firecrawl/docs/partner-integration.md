@@ -4,19 +4,35 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Partner Integration API
+# Firecrawl for Platforms
 
-> API reference for approved Firecrawl partners to create and manage API keys for their users
+> API reference for platforms that create and manage Firecrawl API keys for their users
 
 ## Overview
 
-The Firecrawl Partner Integration API allows approved partners to create and manage Firecrawl API keys for their users directly from within their own platform. This enables a seamless onboarding experience where users can start using Firecrawl without leaving the partner's platform.
+Firecrawl for Platforms lets your platform create and manage Firecrawl API keys for your users directly from your own backend. Users start using Firecrawl without leaving your platform.
 
 
-  Partner API access is **only available to approved Firecrawl partners**. Partner keys are shared privately with approved partners. To apply for the partner program or request a partner API key, email [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev).
+  Set up Firecrawl for Platforms yourself in the [Firecrawl dashboard](https://www.firecrawl.dev/app/partner-api). Any admin or member of an organization can create an integration: name it, choose an integration type, accept the agreement for that type, and copy the platform key. The key is shown once. You can mint and revoke keys later under Settings. No application or approval is needed.
 
 
-For details on what partner users receive, including credits, expiration, and plan limits, see [Partner Credits](/partner-credits).
+There are two integration types. Both provision accounts the same way through the endpoints below, with the same platform key; they differ in who pays for the user's usage:
+
+* **Standard**: your users pay Firecrawl. Each provisioned account keeps its own Firecrawl plan and billing, starts on the Free plan, and upgrades with Firecrawl directly.
+* **Gateway**: your organization funds your users. Accounts your integration creates are enrolled in Gateway, so their eligible usage bills to your organization once the user's own credits are used. See [Gateway](#gateway) below.
+
+You choose the integration type when you create the integration. It is not easy to change afterwards, so we recommend reviewing both options carefully before you accept the agreement. See the [Firecrawl for Platforms page](https://www.firecrawl.dev/firecrawl-for-platforms) for an overview.
+
+Some partner offers include promotional credits for provisioned users; when they do, [Partner Credits](/partner-credits) describes what the user receives.
+
+### Gateway
+
+Gateway is an integration type, not a separate API. The same platform key and the same endpoints apply. What changes for a Gateway integration:
+
+* Accounts are created for your integration alone and are API-only, with no dashboard login of their own. A request never attaches to an existing Firecrawl account, even when the email matches one.
+* A user's own credits are used first. Eligible usage beyond that bills to your organization.
+* Responses from `POST /partner/v1/accounts` carry a `gatewayStatus` field.
+* The integration accepts the Gateway version of the agreement when it is created.
 
 ## Base URL
 
@@ -26,17 +42,17 @@ https://integrations.firecrawl.dev
 
 ## Authentication
 
-All Partner Integration API requests require an `Authorization` header with your partner key:
+All Platforms API requests require an `Authorization` header with your platform key:
 
 ```bash theme={null}
-Authorization: Bearer <partner key>
+Authorization: Bearer <platform key>
 ```
 
-Partner keys are distinct from standard Firecrawl API keys and are provided directly by the Firecrawl team.
+Platform keys are distinct from standard Firecrawl API keys. You create and revoke them under Settings > Firecrawl for Platforms in the [Firecrawl dashboard](https://www.firecrawl.dev/app/partner-api).
 
 ## Security Requirements
 
-* **Server-side only**: Partner keys must only be used in server-side code. Never expose a partner key in frontend code, client-side JavaScript, or mobile applications.
+* **Server-side only**: Platform keys must only be used in server-side code. Never expose a platform key in frontend code, client-side JavaScript, or mobile applications.
 * **Terms of Service**: Before calling `POST /partner/v1/accounts`, your platform must prompt the user to accept Firecrawl's [Terms of Service](https://www.firecrawl.dev/terms-of-service).
 
 ***
@@ -45,7 +61,7 @@ Partner keys are distinct from standard Firecrawl API keys and are provided dire
 
 ### Create user
 
-Creates a Firecrawl API key associated with the user's email address.
+Provisions a Firecrawl account for one of your users, identified by email, and returns its API key.
 
 ```
 POST /partner/v1/accounts
@@ -53,24 +69,33 @@ POST /partner/v1/accounts
 
 #### Behavior
 
-* If the user does not yet have a Firecrawl account, a new user and team will be created.
-* If the user already has a Firecrawl account but does not have a team associated with your partner integration, a new partner-associated team will be created.
-* If the user already has a Firecrawl account and already has a team associated with your partner integration, the existing team is returned and the promotional coupon is **not** re-applied.
+With a **Standard** integration:
+
+* If the user does not yet have a Firecrawl account, a new user and team are created.
+* If the user already has a Firecrawl account but no team associated with your integration, a new team associated with your integration is created.
+* If the user already has a Firecrawl account and a team associated with your integration, the existing team is returned.
+
+With a **Gateway** integration:
+
+* Every account is created for your integration alone. A request never attaches to an existing Firecrawl account, even when the email matches one. The email is stored as the account's contact address and is not used to look accounts up.
+* Repeated calls for the same email return the same account and its API key.
+
+If your integration includes promotional credits, they are applied once, when the account is first created.
 
 #### Request
 
 ```bash cURL theme={null}
 curl -X POST "https://integrations.firecrawl.dev/partner/v1/accounts" \
-  -H "Authorization: Bearer <partner key>" \
+  -H "Authorization: Bearer <platform key>" \
   -H "Content-Type: application/json" \
   -d '{"email": "user@example.com"}'
 ```
 
 **Body**
 
-| Field   | Type   | Required | Description              |
-| ------- | ------ | -------- | ------------------------ |
-| `email` | string | Yes      | The user's email address |
+| Field | Type | Required | Description |
+| - | - | - | - |
+| `email` | string | Yes | The user's email address. For a Gateway integration it is stored as the account's contact address. |
 
 #### Response
 
@@ -83,23 +108,35 @@ curl -X POST "https://integrations.firecrawl.dev/partner/v1/accounts" \
 }
 ```
 
-| Field            | Type    | Description                                                                                                                        |
-| ---------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `apiKey`         | string  | The Firecrawl API key for this user's partner-associated team                                                                      |
-| `alreadyExisted` | boolean | `true` if both the user and the partner-associated team already existed. When `true`, the promotional coupon is not applied again. |
+For a Gateway integration the response also carries the enrollment status:
+
+```json theme={null}
+{
+  "apiKey": "fc-...",
+  "alreadyExisted": false,
+  "gatewayStatus": "enrolled"
+}
+```
+
+| Field | Type | Description |
+| - | - | - |
+| `apiKey` | string | The Firecrawl API key for the team your integration provisioned for this user |
+| `alreadyExisted` | boolean | `true` if your integration had already provisioned an account for this email. It says nothing about whether the email exists elsewhere in Firecrawl. |
+| `gatewayStatus` | string | Gateway integrations only. `enrolled` on the call that creates the account, `already_enrolled` on repeated calls for the same email. |
 
 #### Errors
 
-| Status | Description                                                     |
-| ------ | --------------------------------------------------------------- |
-| `401`  | Unauthorized - the partner key is incorrect or invalid          |
-| `500`  | Internal server error - these errors are monitored by Firecrawl |
+| Status | Description |
+| - | - |
+| `400` | Bad request - `email` is missing or malformed |
+| `401` | Unauthorized - the platform key is incorrect or invalid |
+| `500` | Internal server error - these errors are monitored by Firecrawl |
 
 ***
 
 ### Validate API Key
 
-Validates a Firecrawl API key and returns the associated team name and user email address. The API key will only return as valid if it was created through this partner integration.
+Validates a Firecrawl API key and returns the associated team name and user email address. The API key will only return as valid if it was created through your integration.
 
 ```
 POST /partner/v1/api-keys/validate
@@ -115,16 +152,16 @@ POST /partner/v1/api-keys/validate
 
 ```bash cURL theme={null}
 curl -X POST "https://integrations.firecrawl.dev/partner/v1/api-keys/validate" \
-  -H "Authorization: Bearer <partner key>" \
+  -H "Authorization: Bearer <platform key>" \
   -H "Content-Type: application/json" \
   -d '{"apiKey": "fc-..."}'
 ```
 
 **Body**
 
-| Field    | Type   | Required | Description             |
-| -------- | ------ | -------- | ----------------------- |
-| `apiKey` | string | Yes      | The API key to validate |
+| Field | Type | Required | Description |
+| - | - | - | - |
+| `apiKey` | string | Yes | The API key to validate |
 
 #### Response
 
@@ -137,18 +174,19 @@ curl -X POST "https://integrations.firecrawl.dev/partner/v1/api-keys/validate" \
 }
 ```
 
-| Field      | Type   | Description                                                |
-| ---------- | ------ | ---------------------------------------------------------- |
-| `teamName` | string | The name of the team associated with this API key          |
-| `email`    | string | The email address of the user associated with this API key |
+| Field | Type | Description |
+| - | - | - |
+| `teamName` | string | The name of the team associated with this API key |
+| `email` | string | The email the account was provisioned with. For Gateway accounts this is the contact address you supplied. |
 
 #### Errors
 
-| Status | Description                                                                                           |
-| ------ | ----------------------------------------------------------------------------------------------------- |
-| `401`  | Unauthorized - the partner key is incorrect or invalid                                                |
-| `404`  | API key not identifiable - the key does not exist or was not created through this partner integration |
-| `500`  | Internal server error - these errors are monitored by Firecrawl                                       |
+| Status | Description |
+| - | - |
+| `400` | Bad request - the API key is malformed |
+| `401` | Unauthorized - the platform key is incorrect or invalid |
+| `404` | API key not identifiable - the key does not exist or was not created through your integration |
+| `500` | Internal server error - these errors are monitored by Firecrawl |
 
 ***
 
@@ -164,16 +202,16 @@ POST /partner/v1/api-keys/rotate
 
 ```bash cURL theme={null}
 curl -X POST "https://integrations.firecrawl.dev/partner/v1/api-keys/rotate" \
-  -H "Authorization: Bearer <partner key>" \
+  -H "Authorization: Bearer <platform key>" \
   -H "Content-Type: application/json" \
   -d '{"apiKey": "fc-..."}'
 ```
 
 **Body**
 
-| Field    | Type   | Required | Description                       |
-| -------- | ------ | -------- | --------------------------------- |
-| `apiKey` | string | Yes      | The API key to delete and replace |
+| Field | Type | Required | Description |
+| - | - | - | - |
+| `apiKey` | string | Yes | The API key to delete and replace |
 
 #### Response
 
@@ -185,20 +223,20 @@ curl -X POST "https://integrations.firecrawl.dev/partner/v1/api-keys/rotate" \
 }
 ```
 
-| Field    | Type   | Description               |
-| -------- | ------ | ------------------------- |
+| Field | Type | Description |
+| - | - | - |
 | `apiKey` | string | The newly created API key |
 
 #### Errors
 
-| Status | Description                                                                                           |
-| ------ | ----------------------------------------------------------------------------------------------------- |
-| `401`  | Unauthorized - the partner key is incorrect or invalid                                                |
-| `404`  | API key not identifiable - the key does not exist or was not created through this partner integration |
-| `500`  | Internal server error - these errors are monitored by Firecrawl                                       |
+| Status | Description |
+| - | - |
+| `401` | Unauthorized - the platform key is incorrect or invalid |
+| `404` | API key not identifiable - the key does not exist or was not created through your integration |
+| `500` | Internal server error - these errors are monitored by Firecrawl |
 
 ***
 
-## Become a Partner
+## Get Started
 
-Firecrawl's partner program is available to approved platforms. If you're interested in integrating Firecrawl into your platform and offering credits to your users, contact us at [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev) to learn more and request a partner API key.
+Create your integration in the [Firecrawl dashboard](https://www.firecrawl.dev/app/partner-api): sign in, choose Standard or Gateway, accept the agreement, and copy your platform key. The integration type is not easy to change afterwards, so please confirm your choice before accepting the agreement. Then call the endpoints above from your server. Questions about your setup? Write to [help@firecrawl.com](mailto:help@firecrawl.com). A larger integration in mind? Write to [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev).

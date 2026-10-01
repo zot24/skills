@@ -10,20 +10,20 @@
 
 ## Headers
 
-| Header          | Value              |
-| --------------- | ------------------ |
+| Header | Value |
+| - | - |
 | `Authorization` | `Bearer <API_KEY>` |
 
 ## Path Parameters
 
-| Parameter   | Type   | Required | Description                        |
-| ----------- | ------ | -------- | ---------------------------------- |
-| `sessionId` | string | Yes      | The Interact session ID to destroy |
+| Parameter | Type | Required | Description |
+| - | - | - | - |
+| `sessionId` | string | Yes | The Interact session ID to destroy |
 
 ## Response
 
-| Field     | Type    | Description                                    |
-| --------- | ------- | ---------------------------------------------- |
+| Field | Type | Description |
+| - | - | - |
 | `success` | boolean | Whether the session was successfully destroyed |
 
 ### Example Request

@@ -2,7 +2,7 @@
 
 ---
 title: Overlapping Messages
-description: Control how overlapping messages on the same thread are handled - burst, queue, debounce, drop, or process concurrently.
+description: Control how overlapping messages on the same thread are handled, with the burst, queue, debounce, drop, and concurrent strategies.
 type: guide
 prerequisites:
   - /docs/handling-events
@@ -15,13 +15,13 @@ related:
 # Overlapping Messages
 
 
-When multiple messages arrive on the same thread while a handler is still processing, the SDK needs a strategy. By default, the incoming message is dropped. The `concurrency` option on `ChatConfig` lets you choose what happens instead.
+When a message arrives on a thread while a handler is still processing an earlier one, the SDK drops the new message by default. The `concurrency` option on `ChatConfig` lets you choose a different strategy.
 
 ## Strategies
 
 ### Drop (default)
 
-The original behavior. If a handler is already running on a thread, the new message is discarded and a `LockError` is thrown. No queuing, no retries.
+This is the original behavior. If a handler is already running on a thread, the new message is discarded and a `LockError` is thrown. Nothing is queued or retried.
 
 ```typescript title="lib/bot.ts"
 const bot = new Chat({
@@ -32,7 +32,7 @@ const bot = new Chat({
 
 ### Queue
 
-Messages that arrive while a handler is running are enqueued. When the current handler finishes, only the **latest** queued message is dispatched. All intermediate messages are provided as `context.skipped`, giving your handler full visibility into what happened while it was busy.
+Messages that arrive while a handler is running are enqueued. When the current handler finishes, only the latest queued message is dispatched. The intermediate messages are passed in `context.skipped`, so your handler can see everything that arrived while it was busy.
 
 ```typescript title="lib/bot.ts" lineNumbers
 const bot = new Chat({
@@ -52,7 +52,7 @@ bot.onNewMention(async (thread, message, context) => {
 });
 ```
 
-**Flow:**
+Flow:
 
 ```
 A arrives  → acquire lock → process A
@@ -87,7 +87,7 @@ bot.onNewMention(async (thread, message, context) => {
 });
 ```
 
-**Flow:**
+Flow:
 
 ```
 A arrives  → acquire lock → enqueue A → sleep(debounceMs)
@@ -103,9 +103,9 @@ E done     → queue empty → release lock
 
 ### Debounce
 
-The first message waits for `debounceMs`. Messages that arrive during that window replace the pending message, so only the **final message in the burst window** is processed.
+The first message waits for `debounceMs`. Messages that arrive during that window replace the pending message, so only the final message in the window is processed.
 
-This is particularly useful for platforms like **WhatsApp** and **Telegram** where users tend to send a flurry of short messages in quick succession instead of composing a single message - "hey", "quick question", "how do I reset my password?" arriving as three separate webhooks within a few seconds. Without debounce, the bot would respond to "hey" before the actual question even arrives. With debounce, the SDK waits briefly and processes only the final message in the window.
+This helps on platforms like WhatsApp and Telegram, where users tend to send several short messages in quick succession instead of composing one. "hey", "quick question", and "how do I reset my password?" can arrive as three separate webhooks within a few seconds. Without debounce, the bot would respond to "hey" before the actual question even arrives. With debounce, the SDK waits briefly and processes only the final message in the window.
 
 ```typescript title="lib/bot.ts" lineNumbers
 const bot = new Chat({
@@ -115,10 +115,10 @@ const bot = new Chat({
 ```
 
 
-  WhatsApp and Telegram adapters default to `lockScope: "channel"`, so debounce applies to the entire conversation — not just a single thread.
+  WhatsApp and Telegram adapters default to `lockScope: "channel"`, so debounce applies to the entire conversation rather than a single thread.
 
 
-**Flow:**
+Flow:
 
 ```
 A arrives  → acquire lock → store A as pending → sleep(debounceMs)
@@ -132,7 +132,7 @@ Debounce also works well for rapid corrections ("wait, I meant...") and multi-pa
 
 ### Concurrent
 
-No locking at all. Every message is processed immediately in its own handler invocation. Use this for stateless handlers where thread ordering doesn't matter.
+No locking. Every message is processed immediately in its own handler invocation. Use this for stateless handlers where thread ordering doesn't matter.
 
 ```typescript title="lib/bot.ts"
 const bot = new Chat({
@@ -143,7 +143,7 @@ const bot = new Chat({
 
 ## Configuration
 
-For fine-grained control, pass a `ConcurrencyConfig` object instead of a strategy string:
+To tune queue size, eviction, and timing, pass a `ConcurrencyConfig` object instead of a strategy string:
 
 ```typescript title="lib/bot.ts" lineNumbers
 const bot = new Chat({
@@ -170,7 +170,7 @@ const bot = new Chat({
 | `maxConcurrent`     | concurrent                   | `Infinity`      | Max concurrent handlers per thread                                                                                                                                            |
 
 
-  `maxConcurrent` only applies to the `concurrent` strategy. Pairing it with any other strategy logs a warning and the value is ignored. Setting `maxConcurrent` to a value less than `1` throws at construction time — `0` would deadlock the strategy and is rejected up front.
+  `maxConcurrent` only applies to the `concurrent` strategy. Pairing it with any other strategy logs a warning and the value is ignored. Setting `maxConcurrent` to a value less than `1` throws at construction time, because `0` would deadlock the strategy.
 
 
 ## MessageContext
@@ -186,7 +186,7 @@ interface MessageContext {
 }
 ```
 
-Existing handlers that don't use `context` are unaffected — the parameter is optional.
+The parameter is optional, so existing handlers that don't use `context` are unaffected.
 
 ### Example: Pass all messages to an LLM
 
@@ -204,7 +204,7 @@ bot.onSubscribedMessage(async (thread, message, context) => {
 
 ## Lock scope
 
-By default, locks are scoped to the thread — messages in different threads are processed independently. For platforms like WhatsApp and Telegram where conversations happen at the channel level rather than in threads, the lock scope defaults to `"channel"`.
+By default, locks are scoped to the thread, so messages in different threads are processed independently. For platforms like WhatsApp and Telegram where conversations happen at the channel level rather than in threads, the lock scope defaults to `"channel"`.
 
 You can override this globally:
 
@@ -257,17 +257,17 @@ All strategies emit structured log events at `info` level:
 
 ## Choosing a strategy
 
-| Use case                                  | Strategy     | Why                                                                                       |
-| ----------------------------------------- | ------------ | ----------------------------------------------------------------------------------------- |
-| Simple bots, one-shot commands            | `drop`       | No complexity, no queue overhead                                                          |
-| AI chatbots, customer support             | `queue`      | Never lose messages; handler sees full conversation context                               |
-| AI chatbots with multi-message user turns | `burst`      | Wait for the idle burst window, then respond once with every message in that window       |
-| WhatsApp/Telegram bots, rapid corrections | `debounce`   | Users send many short messages in quick succession; wait briefly and keep only the latest |
-| Stateless lookups, translations           | `concurrent` | Maximum throughput, no ordering needed                                                    |
+| Use case                                  | Strategy     | Why                                                                                                           |
+| ----------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------- |
+| Simple bots, one-shot commands            | `drop`       | No queue to configure and no queue overhead                                                                   |
+| AI chatbots, customer support             | `queue`      | Messages that arrive mid-run are queued, up to `maxQueueSize`, and the handler sees them in `context.skipped` |
+| AI chatbots with multi-message user turns | `burst`      | Wait for the idle burst window, then respond once with every message in that window                           |
+| WhatsApp/Telegram bots, rapid corrections | `debounce`   | Users send many short messages in quick succession; wait briefly and keep only the latest                     |
+| Stateless lookups, translations           | `concurrent` | Highest throughput when ordering doesn't matter                                                               |
 
 ## Backward compatibility
 
-* The default strategy is `drop` — existing behavior is unchanged.
+* The default strategy is `drop`, so existing behavior is unchanged.
 * The deprecated `onLockConflict` option continues to work but should be replaced with `concurrency`.
 * Handler signatures are backward-compatible; the new `context` parameter is optional.
 * Deduplication always runs regardless of strategy.

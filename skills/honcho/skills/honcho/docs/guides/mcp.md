@@ -394,14 +394,14 @@ On the first conversation there won't be much — but after a few exchanges, Hon
 
 ## Troubleshooting
 
-| Problem                             | Fix                                                                                                                                                                                             |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tools don't show up                 | Make sure you fully restarted the client after adding the config.                                                                                                                               |
-| Authorization errors                | Hosted: check your API key at [app.honcho.dev](https://app.honcho.dev). It should start with `hch-`. Local HTTP: send `Authorization: Bearer` on **every** request, including after initialize. |
-| `npx` / `bun` not found             | Install [Node.js](https://nodejs.org/) (for `npx` / `mcp-remote`) or [Bun](https://bun.sh) (for local stdio / `bun run http`).                                                                  |
-| Local connection refused            | Confirm the MCP process is up (`bun run http`, the compose `mcp` service, or a stdio spawn) and that `HONCHO_API_URL` reaches the API.                                                          |
-| Local stdio tools missing           | Run `bun install` in `mcp/`. `--cwd` must point at that package so Bun loads `bunfig.toml`.                                                                                                     |
-| "No personalization insights found" | Normal for new users. Honcho needs a few conversations to build context.                                                                                                                        |
-| Connection timeouts                 | Hosted: check that `https://mcp.honcho.dev` is reachable. Local: check `http://127.0.0.1:3000/health` or the stdio process logs.                                                                |
+| Problem | Fix |
+| - | - |
+| Tools don't show up | Make sure you fully restarted the client after adding the config. |
+| Authorization errors | Hosted: check your API key at [app.honcho.dev](https://app.honcho.dev). It should start with `hch-`. Local HTTP: send `Authorization: Bearer` on **every** request, including after initialize. |
+| `npx` / `bun` not found | Install [Node.js](https://nodejs.org/) (for `npx` / `mcp-remote`) or [Bun](https://bun.sh) (for local stdio / `bun run http`). |
+| Local connection refused | Confirm the MCP process is up (`bun run http`, the compose `mcp` service, or a stdio spawn) and that `HONCHO_API_URL` reaches the API. |
+| Local stdio tools missing | Run `bun install` in `mcp/`. `--cwd` must point at that package so Bun loads `bunfig.toml`. |
+| "No personalization insights found" | Normal for new users. Honcho needs a few conversations to build context. |
+| Connection timeouts | Hosted: check that `https://mcp.honcho.dev` is reachable. Local: check `http://127.0.0.1:3000/health` or the stdio process logs. |
 
 Need help? Join us on [Discord](https://discord.gg/honcho) or open an issue on [GitHub](https://github.com/plastic-labs/honcho/tree/main/mcp).

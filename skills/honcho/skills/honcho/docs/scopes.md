@@ -61,13 +61,13 @@ graph TB
 There are two ways to confine recall, and they behave differently. Picking the
 wrong one is the most common mistake with this feature.
 
-|                      | `scope="therapy"` (named scope)                                                       | `sessions=[...]` / `scope=["a","b"]` (allowlist)             |
-| -------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| **Mechanism**        | Reads the scope's own representation of the peer                                      | Restricts the peer's own representation to a set of sessions |
-| **Conclusions**      | All levels — `explicit`, plus `deductive` / `inductive` reasoned **within** the scope | `explicit` only                                              |
-| **Reasoning chains** | Available                                                                             | Unavailable                                                  |
-| **Setup required**   | Yes — create the scope, add sessions, wait for backfill                               | None — pass session IDs ad hoc                               |
-| **Accepts**          | One scope name                                                                        | A list of up to 100 scope names, or up to 1,000 session IDs  |
+| | `scope="therapy"` (named scope) | `sessions=[...]` / `scope=["a","b"]` (allowlist) |
+| - | - | - |
+| **Mechanism** | Reads the scope's own representation of the peer | Restricts the peer's own representation to a set of sessions |
+| **Conclusions** | All levels — `explicit`, plus `deductive` / `inductive` reasoned **within** the scope | `explicit` only |
+| **Reasoning chains** | Available | Unavailable |
+| **Setup required** | Yes — create the scope, add sessions, wait for backfill | None — pass session IDs ad hoc |
+| **Accepts** | One scope name | A list of up to 100 scope names, or up to 1,000 session IDs |
 
 ### Named scope: depth
 
@@ -254,13 +254,13 @@ empty result means none have — not that the scope is empty.
 
 `scope` is accepted on these surfaces:
 
-| Surface                                                           | Accepts             | Notes                                                                                                                              |
-| ----------------------------------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| [`peer.chat()`](/docs/v3/documentation/features/chat)                  | one scope or a list | Confines both conclusion recall and the messages the agent reads                                                                   |
-| `peer.representation()`                                           | one scope or a list | Confines conclusion recall                                                                                                         |
-| [`session.context()`](/docs/v3/documentation/features/get-context)     | one scope only      | Perspective source for `peer_target`'s representation and card. Requires `peer_target`; mutually exclusive with `peer_perspective` |
-| `honcho.search()`                                                 | one scope only      | Restricts message search to the scope's member sessions                                                                            |
-| [`honcho.chat()`](/docs/v3/documentation/features/chat#workspace-chat) | one scope or a list | Always the allowlist arm — even a single name. There is no observer to swap, and no `target`                                       |
+| Surface | Accepts | Notes |
+| - | - | - |
+| [`peer.chat()`](/docs/v3/documentation/features/chat) | one scope or a list | Confines both conclusion recall and the messages the agent reads |
+| `peer.representation()` | one scope or a list | Confines conclusion recall |
+| [`session.context()`](/docs/v3/documentation/features/get-context) | one scope only | Perspective source for `peer_target`'s representation and card. Requires `peer_target`; mutually exclusive with `peer_perspective` |
+| `honcho.search()` | one scope only | Restricts message search to the scope's member sessions |
+| [`honcho.chat()`](/docs/v3/documentation/features/chat#workspace-chat) | one scope or a list | Always the allowlist arm — even a single name. There is no observer to swap, and no `target` |
 
 <CodeGroup>
   ```python Python
@@ -359,14 +359,14 @@ and [`src/deriver/scope_backfill.py`](https://github.com/plastic-labs/honcho/blo
 
 ## Limits
 
-| Limit                             | Value              |
-| --------------------------------- | ------------------ |
-| Scope ID length                   | 506 characters     |
-| Scope ID charset                  | `^[a-zA-Z0-9_-]+$` |
-| Sessions per membership call      | 100                |
-| Scopes in one `scope` read option | 100                |
-| Scopes on session create          | 100                |
-| Sessions in a resolved allowlist  | 1,000              |
+| Limit | Value |
+| - | - |
+| Scope ID length | 506 characters |
+| Scope ID charset | `^[a-zA-Z0-9_-]+$` |
+| Sessions per membership call | 100 |
+| Scopes in one `scope` read option | 100 |
+| Scopes on session create | 100 |
+| Sessions in a resolved allowlist | 1,000 |
 
 Full request and response shapes are in the
 [API reference](/docs/v3/api-reference/endpoint/scopes/get-or-create-scope).

@@ -10,7 +10,7 @@ sidebar:
 
 Attachments let you send files such as images, logs, PDFs, and artifacts alongside your message. Whether they arrive as true attachments depends on what the destination service supports.
 
-## CLI attachments
+## CLI Attachments
 
 Use `--attach` one or more times:
 
@@ -68,10 +68,10 @@ If a remote attachment URL includes credentials, treat it like a secret. Avoid c
 
 ## In-Memory Attachments (AttachMemory)
 
-When you generate content on the fly — rendered HTML, chart images, CSVs, PDFs — you can pass it directly as an `AttachMemory` object without writing anything to disk.
+When you generate content on the fly (rendered HTML, chart images, CSVs, PDFs), you can pass it directly as an `AttachMemory` object without writing anything to disk.
 
 
-Pass a string or `bytes` directly — no temporary file is created:
+Pass a string or `bytes` directly, and no temporary file is created:
 
 ```python
 import apprise
