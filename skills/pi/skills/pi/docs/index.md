@@ -68,7 +68,7 @@ Pi can reuse prompts, load specialized instructions, add executable integrations
 <a href="#find-reference-and-setup-information" class="heading-anchor" aria-label="Permalink: Find reference and setup information" data-copy="" data-copy-text="https://pi.dev/docs/latest#find-reference-and-setup-information"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Use the reference pages to look up [CLI options](/docs/latest/cli), [settings](/docs/latest/settings), [provider authentication](/docs/latest/providers), [keybindings](/docs/latest/keybindings), and [environment variables](/docs/latest/environment-variables).
+Use the reference pages to look up [CLI options](/docs/latest/cli), [settings](/docs/latest/settings), [providers](/docs/latest/providers), [keybindings](/docs/latest/keybindings), and [environment variables](/docs/latest/environment-variables).
 
 For platform-specific help, see [Terminal Setup](/docs/latest/terminal-setup), [Windows](/docs/latest/windows), [tmux](/docs/latest/tmux), [Termux on Android](/docs/latest/termux), or [Containerization](/docs/latest/containerization).
 

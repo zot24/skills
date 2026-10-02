@@ -20,7 +20,7 @@ Search documentation
 On this page
 
 
-# Provider Authentication
+# Providers
 
 
 Most hosted providers support one or both of these authentication methods:
@@ -44,8 +44,6 @@ Run `/logout` and select a provider to remove its stored credential. This does n
 
 `auth.json` can contain API keys and OAuth tokens. Keep it private and do not commit it.
 
-Radius authentication uses its gateway catalog and caches refreshed model metadata for later offline startup. A custom Radius gateway configured in `models.json` uses its own catalog rather than inheriting the public `radius.pi.dev` catalog.
-
 
 ## Use an API key from the environment
 
@@ -61,7 +59,7 @@ pi
 ```
 
 
-This table covers providers with a single primary API-key variable. Providers that need additional configuration or support ambient credentials are covered under [Cloud providers](#cloud-providers).
+This table covers providers with a single primary API-key variable. Providers that need additional configuration or support ambient credentials are covered under [Provider Specific Config](#provider-specific-config).
 
 | Provider                                                                  | Environment variable            |
 |---------------------------------------------------------------------------|---------------------------------|
@@ -125,12 +123,12 @@ To use a secret manager without writing the resolved key to disk, set a provider
 Pi runs the command when the key is first needed and caches its standard output for the process lifetime. Empty output, a timeout, or a nonzero exit leaves the key unresolved until Pi restarts.
 
 
-## Cloud Providers
+## Provider Specific Config
 
-<a href="#cloud-providers" class="heading-anchor" aria-label="Permalink: Cloud Providers" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#cloud-providers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#provider-specific-config" class="heading-anchor" aria-label="Permalink: Provider Specific Config" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#provider-specific-config"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-The providers below need additional settings or can use credentials supplied by their cloud platform.
+The providers below have additional setup, need additional settings, or can use credentials supplied by their platform.
 
 A stored API-key credential can include an `env` object. Its values take priority over the process environment for that provider:
 
@@ -146,6 +144,22 @@ A stored API-key credential can include an `env` object. Its values take priorit
   }
 }
 ```
+
+
+### Radius
+
+<a href="#radius" class="heading-anchor" aria-label="Permalink: Radius" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#radius"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Radius is a service crafted for Pi by the builders of Pi, Earendil Works. It provides a customizable AI gateway with organization-level controls and analytics built in, and artifacts for sharing what you create with Pi.
+
+To get started, run `/login radius` in Pi. This adds Radius as a provider, and its models appear in `/model` like any other provider's.
+
+Radius also has an MCP server, so Pi can manage Radius for you.
+
+Radius is currently in early alpha and evolving quickly. See [radius.earendil.com](https://radius.earendil.com) for more.
+
+Radius authentication uses its gateway catalog and caches refreshed model metadata for later offline startup. A custom Radius gateway configured in `models.json` uses its own catalog rather than inheriting the public `radius.pi.dev` catalog.
 
 
 ### Azure OpenAI

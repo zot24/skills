@@ -189,7 +189,7 @@ See the focused examples for [models](https://github.com/earendil-works/pi/blob/
 <a href="#resources" class="heading-anchor" aria-label="Permalink: Resources" data-copy="" data-copy-text="https://pi.dev/docs/latest/sdk#resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-- [Choose a Model](/docs/latest/models) covers model selection and compatible endpoints; [Provider Authentication](/docs/latest/providers) covers credentials and cloud-provider setup.
+- [Choose a Model](/docs/latest/models) covers model selection and compatible endpoints; [Providers](/docs/latest/providers) covers credentials and provider-specific setup.
 - [Configuration](/docs/latest/configuration) explains normal discovery and settings; [Settings](/docs/latest/settings) lists every setting.
 - [Sessions and Context](/docs/latest/sessions) explains session behavior; [Session Format](/docs/latest/session-format) defines persisted entries; [Message Types](/docs/latest/message-types) defines shared transcript values.
 - [Extensions](/docs/latest/extensions), [Skills](/docs/latest/skills), and [Prompt Templates](/docs/latest/prompt-templates) document resources supplied through a `ResourceLoader`.

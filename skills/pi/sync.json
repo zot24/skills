@@ -254,6 +254,12 @@
       "target": "skills/pi/docs/virtual-models.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/codemode",
+      "target": "skills/pi/docs/codemode.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

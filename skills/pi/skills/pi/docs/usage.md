@@ -140,7 +140,7 @@ Use `/share` to upload the session and get a viewer link. With Radius authentica
 <a href="#adjust-the-terminal" class="heading-anchor" aria-label="Permalink: Adjust the terminal" data-copy="" data-copy-text="https://pi.dev/docs/latest/usage#adjust-the-terminal"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Regular mode uses the terminal's normal scrollback. Fullscreen mode keeps the editor and status area fixed while the transcript scrolls within the terminal window. Choose a mode through `/settings` or `--tui-mode`.
+Fullscreen mode, the default, keeps the editor and status area fixed while the transcript scrolls within the terminal window. Regular mode uses the terminal's normal scrollback. Choose a mode through `/settings` or `--tui-mode`.
 
 Terminal support for mouse input, keyboard shortcuts, and inline images varies. See [Terminal Setup](/docs/latest/terminal-setup) for platform-specific configuration and [Keybindings](/docs/latest/keybindings) for every configurable shortcut. Run `/hotkeys` to inspect the shortcuts active in your current session.
 
