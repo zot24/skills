@@ -158,15 +158,15 @@ Compatibility settings should describe verified differences in the endpoint's re
 <a href="#use-classifier-models" class="heading-anchor" aria-label="Permalink: Use classifier models" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#use-classifier-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Classifier models do not chat. They answer typed questions about JSON state: pick one of several choices, answer yes or no, or give a score, each with probabilities. Pi includes TypeSafe's Jev model from these providers:
+Classifier models do not chat. They answer typed questions about JSON state: pick one of several choices, answer yes or no, or give a score, each with probabilities. Pi includes TypeSafe's Jev model from these providers, and Cloudflare's Clef and Clef Flash models from Workers AI:
 
-| Provider                | Model IDs                                   | Authentication                                   |
-|-------------------------|---------------------------------------------|--------------------------------------------------|
-| `typesafe`              | `jev-latest`                                | `TYPESAFE_API_KEY`                               |
-| `openrouter`            | `typesafe/jev-1.13`, `~typesafe/jev-latest` | `OPENROUTER_API_KEY` or `/login`                 |
-| `cloudflare-workers-ai` | `typesafe/jev`                              | `CLOUDFLARE_API_KEY` and `CLOUDFLARE_ACCOUNT_ID` |
-| `vercel-ai-gateway`     | `typesafe-ai/jev`                           | `AI_GATEWAY_API_KEY`                             |
-| `opencode`              | `jev-1.13`, `jev-1.13-free`                 | `OPENCODE_API_KEY`                               |
+| Provider                | Model IDs                                                          | Authentication                                   |
+|-------------------------|--------------------------------------------------------------------|--------------------------------------------------|
+| `typesafe`              | `jev-latest`                                                       | `TYPESAFE_API_KEY`                               |
+| `openrouter`            | `typesafe/jev-1.13`, `~typesafe/jev-latest`                        | `OPENROUTER_API_KEY` or `/login`                 |
+| `cloudflare-workers-ai` | `typesafe/jev`, `@cf/cloudflare/clef`, `@cf/cloudflare/clef-flash` | `CLOUDFLARE_API_KEY` and `CLOUDFLARE_ACCOUNT_ID` |
+| `vercel-ai-gateway`     | `typesafe-ai/jev`                                                  | `AI_GATEWAY_API_KEY`                             |
+| `opencode`              | `jev-1.13`, `jev-1.13-free`                                        | `OPENCODE_API_KEY`                               |
 
 Chat models on a [llama.cpp router](/docs/latest/llama-cpp#classification) are also listed as classifier models.
 
