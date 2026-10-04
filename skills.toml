@@ -115,3 +115,7 @@ marketplace = "zot24-skills"
 [[skills]]
 name = "apprise-api"
 marketplace = "zot24-skills"
+
+[[skills]]
+name = "site-design-options"
+marketplace = "zot24-skills"

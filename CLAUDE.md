@@ -48,7 +48,8 @@ skills/
 │   ├── tower/                # Control tower + acceptance gates over a herdr fleet
 │   ├── pr-standard/          # House standard for GitHub PR descriptions (STE100 + labels + diagram)
 │   ├── skill-release-preflight/ # Pre-push checks for this repo — versions, manifests, labels
-│   └── apprise-api/          # Apprise API self-hosted notification gateway
+│   ├── apprise-api/          # Apprise API self-hosted notification gateway
+│   └── site-design-options/  # Redesign a site with its owner — copy spec, directions, mock-ups, lock
 └── README.md
 ```
 
@@ -264,6 +265,7 @@ Each skill syncs documentation from upstream sources.
 | tower | https://github.com/herdrdev/herdr (README, bundled `skills/herdr/SKILL.md`) + authored operating loop / dispatch / gates; checker from https://github.com/Leonxlnx/unlazy (`scripts/gate-check.mjs`, MIT) vendored by hand — never auto-synced, the attribution header must survive | URL-based + authored |
 | skill-release-preflight | None — this repository's own release and consistency rules | Self-contained |
 | apprise-api | https://github.com/caronc/apprise-api (README) + https://github.com/caronc/apprise-docs (`locales/en/` Markdown source of appriseit.com) | URL-based |
+| site-design-options | None — a way of working distilled from four site redesigns; calls Emil Kowalski's design skills, `unslop`, `writing-for-agents`, llm-wiki and the Inspo MCP without copying them | Self-contained |
 
 ### When to Sync
 

@@ -25,7 +25,7 @@ cd "$REPO_ROOT"
 
 # Allowlists: skills deliberately exempt from a given manifest. Empty by default.
 EXEMPT_RELEASE=""
-EXEMPT_SYNC="safe-delete gh-issue-tracker pr-standard skill-release-preflight"
+EXEMPT_SYNC="safe-delete gh-issue-tracker pr-standard skill-release-preflight site-design-options"
 
 MISMATCHES=0
 
