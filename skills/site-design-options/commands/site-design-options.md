@@ -14,7 +14,7 @@ Parse the arguments to determine the action:
 | `copy` | Stage 2: copy spec with claim register, then adversary and reviser (two rounds at most) |
 | `directions` | Stage 3: business intent in `CLAUDE.md`, Inspo study, three directions, then their mock-ups and stop |
 | `allocate` | Stage 3, several sites in one niche: the allocation table that keeps them apart |
-| `mocks` | Stage 4: first-screen mock-ups and the index the owner opens, checked in a browser |
+| `mocks` | Stage 4 alone, for directions already written: first-screen mock-ups and the index the owner opens, checked in a browser |
 | `family <favourite>` | Stage 5: freeze the favourite, make variants that each change one real thing |
 | `different` | Stage 5: a fresh study and directions that differ on all four axes |
 | `lock <pick>` | Stage 6: `design.md`, `references.md`, the page structure, unclear-copy list |

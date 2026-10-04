@@ -46,10 +46,10 @@ sites, keep one list for all of them in the folder of whoever runs them.
 
 ## Build the page
 
-An Artifact with the `db` capability (load `artifact-capabilities`, then `artifact-design`, before
-writing it). If a decisions template already exists in your environment (for example the tower's
-`~/tower/.tower/parent-bin/decisions-template.html`, with a `/*DECISIONS*/[]` slot), inject the JSON
-into it instead of designing a new page.
+An Artifact with the `db` capability. When the Artifact tool is available, load its built-in
+`artifact-design` and `artifact-capabilities` skills first; without it, use the fallback in this
+doc. If your environment already has a decisions template with a slot for the decisions JSON,
+inject the JSON into it and reuse it; otherwise build the page as this doc describes.
 
 Without Artifacts, give the owner `owner-decisions.md` with an `Answer` column pre-filled with each
 recommendation, ask them to edit it, and read the file back instead of the collection.

@@ -78,7 +78,7 @@ Under a tower each stage is a seat; alone, you play every role but the adversary
 | `emil-prototype` | 4–5 | only when the owner asks to flip through live variants |
 | `review-animations`, `break-ui`, `mobile-native` | 8 | the blind reviewer, on the built pages |
 | `unslop` | 2–7 | every owner-facing line; user-invoked, so read `~/.claude/skills/unslop/SKILL.md` and apply it |
-| `artifact-capabilities`, `artifact-design` | 7 | the decisions page and its `answers` collection |
+| `artifact-design`, `artifact-capabilities` | 7 | the decisions page and its `answers` collection; when the Artifact tool is available, load its built-in `artifact-design` and `artifact-capabilities` skills first; without it, use the fallback in [the decisions doc](docs/decisions-page.md#build-the-page) |
 | Playwright with the system Chrome | 1, 4–6, 8 | screenshots at 1280×800 and 375×812 |
 
 Emil Kowalski's skills come from `github.com/emilkowalski/skills`; a tower may stage a pinned copy
