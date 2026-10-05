@@ -36,6 +36,7 @@ An opinionated selection of skills for daily dev workflows.
 | [pr-standard](./skills/pr-standard) | House standard for GitHub pull request descriptions — the six ASD-STE100 writing rules, the four-label pack (type, `priority:*`, `t-shirt:*`, `area:*`), the required body shape with a mermaid diagram, and the forked-chat workflow |
 | [skill-release-preflight](./skills/skill-release-preflight) | Three checks before pushing to this repo — never hand-edit a release-please version, run `check-consistency.sh` locally, and read `gh label list` before `gh pr create` |
 | [apprise-api](./skills/apprise-api) | Deploy, configure, and drive the Apprise API (caronc/apprise-api) — the self-hosted notification gateway that fans one HTTP request out to 100+ services, with stateful config keys, tag routing, attachments, and webhook payload mapping |
+| [site-design-options](./skills/site-design-options) | Redesign an existing website with its owner — census and SEO/GEO snapshot, a cited copy spec an adversary attacks, an Inspo study with a budget, three directions as mock-ups the owner opens, the family and "actually different" loops, `design.md` and page structure, one decisions page, then a section-by-section build |
 
 ## Installation
 
@@ -156,6 +157,12 @@ Format: `/skill-name:command-name [arguments]`
 /apprise-api:apprise-api configure        # APPRISE_* environment variables
 /apprise-api:apprise-api key my-alerts    # Manage a stateful config key
 /apprise-api:apprise-api troubleshoot 424 # Diagnose a response code
+
+# Website redesign with the owner
+/site-design-options:site-design-options learn example.com  # Census + SEO/GEO snapshot
+/site-design-options:site-design-options directions         # Inspo study, three directions, mock-ups
+/site-design-options:site-design-options family d2          # Variants around the favourite
+/site-design-options:site-design-options decisions          # Every owner question on one page
 ```
 
 ### Natural Language
@@ -174,6 +181,7 @@ You can also just describe what you want:
 "Write a viral X/Twitter post about AI"
 "Set up a safe delete alias so I don't accidentally delete everything"
 "Deploy an Apprise API container and route my alerts to Discord and ntfy"
+"Redesign our marketing site — show me three directions I can open before you build anything"
 ```
 
 The skills auto-activate based on context.
@@ -747,6 +755,28 @@ Deploy, configure, and drive the Apprise API — a self-hosted notification gate
 
 [Full documentation](./skills/apprise-api/README.md)
 
+### site-design-options
+
+Redesign an existing website with its owner, in eight stages that stop for the owner's choice:
+
+- **learn** — census of what the site sells and to whom, every factual claim with file and line, and a snapshot of the SEO and GEO surface before anything changes
+- **copy** — a copy spec built on a claim register, attacked by an adversary from another provider, revised at most twice
+- **directions** — business intent in the site's `CLAUDE.md`, an Inspo study with a budget, three genuinely different directions, then stop; an allocation table when several sites share a niche
+- **mocks** — static first-screen mock-ups at desktop and phone width, beside a screenshot of today's site, open strings in yellow, checked in a real browser
+- **family** / **different** — keep the favourite frozen and vary one real thing, or run a fresh study that changes all four axes
+- **lock** — `design.md`, `references.md`, a page structure where each page owns a search question, and the list of unclear copy
+- **decisions** — every owner question on one page, recommended answers pre-selected, answers saved and read back
+- **build** — one section per commit, blind screenshot review, SEO and GEO diff against the snapshot
+
+```bash
+/site-design-options:site-design-options learn example.com
+/site-design-options:site-design-options directions
+/site-design-options:site-design-options family d2
+/site-design-options:site-design-options lock d2b
+```
+
+[Full documentation](./skills/site-design-options/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -889,7 +919,8 @@ skills/
 │   ├── beads/                    # Beads (bd) dependency-aware issue tracker
 │   ├── tower/                    # Control tower + acceptance gates over a herdr fleet
 │   ├── pr-standard/              # House standard for GitHub PR descriptions
-│   └── skill-release-preflight/  # Pre-push checks for this repo
+│   ├── skill-release-preflight/  # Pre-push checks for this repo
+│   └── site-design-options/      # Redesign a site with its owner
 └── README.md
 ```
 

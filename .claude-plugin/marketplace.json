@@ -173,6 +173,12 @@
       "source": "./skills/apprise-api",
       "description": "Deploy, configure, and drive the Apprise API (caronc/apprise-api) — a self-hosted notification gateway that fans one HTTP request out to 100+ services, with stateful config keys, tag routing, attachments, and webhook payload mapping.",
       "version": "1.0.2"
+    },
+    {
+      "name": "site-design-options",
+      "source": "./skills/site-design-options",
+      "description": "Redesign an existing website with its owner: learn the site and snapshot its SEO and GEO, write a cited copy spec an adversary attacks, study real sites through Inspo, show three directions as mock-ups the owner opens, iterate on the favourite, lock design.md and the page structure, collect every owner decision on one page, then build section by section",
+      "version": "1.0.0"
     }
   ]
 }

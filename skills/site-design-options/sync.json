@@ -1,0 +1,8 @@
+{
+  "name": "site-design-options",
+  "version": "1.0.0",
+  "description": "A repeatable way to design options for an existing website with its owner",
+  "sources": [],
+  "cache_dir": ".cache",
+  "notes": "This skill has no upstream sources - it distils a way of working used on four sites, and calls other skills (Emil Kowalski's design skills, unslop, writing-for-agents, llm-wiki) and the Inspo MCP without copying them"
+}

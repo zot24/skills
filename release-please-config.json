@@ -437,6 +437,21 @@
           "jsonpath": "$.version"
         }
       ]
+    },
+    "skills/site-design-options": {
+      "component": "site-design-options",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
     }
   }
 }
