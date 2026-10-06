@@ -151,15 +151,26 @@ pi --tools read,grep,find,ls --print "Review this project"
 See [Settings](/docs/latest/settings#tools) for configuring the default tool selection.
 
 - `-t`, `--tools <list>`  
-  Replaces the default selection with a comma-separated allowlist of built-in, extension, or custom tools.
+  Replaces the default selection with a comma-separated allowlist of built-in, extension, or custom tools. Entries are tool names or patterns where `*` matches any characters. MCP tools are kept unless an entry starts with `mcp__` (see [MCP tools](#mcp-tools)).
 - `-xt`, `--exclude-tools <list>`  
-  Disables comma-separated tool names after all other selection options.
+  Disables comma-separated tool names or patterns after all other selection options, MCP tools included.
 - `-nbt`, `--no-builtin-tools`  
   Disables default built-in tools while retaining extension and custom tools.
 - `-nt`, `--no-tools`  
-  Starts with all built-in, extension, and custom tools disabled.
+  Starts with all built-in, extension, custom, and MCP tools disabled.
 
 Default enabled tools are `read`, `bash`, `edit`, and `write`, unless `defaultTools` changes them. `--tools` replaces the whole selection, so name every tool you want; `defaultTools` also accepts `+name` and `-name` to change the defaults instead.
+
+
+`--tools` selects the tools declared to the model. It does not remove MCP tools, whose reach is set by their [exposure](/docs/latest/mcp#control-tool-exposure): `pi --tools read,codemode` keeps every MCP tool callable from codemode scripts. An MCP tool that no entry names or matches is never declared directly, whatever its exposure; only `tool_search`, if listed, can load it. Once an entry starts with `mcp__`, `--tools` filters MCP tools too, so this keeps only the tools of the `radius` server:
+
+
+``` shiki
+pi --tools read,bash,codemode,'mcp__radius__*'
+```
+
+
+The MCP resource tools (`list_mcp_resources`, `list_mcp_resource_templates`, `read_mcp_resource`) count as MCP tools. To remove MCP tools, use `--exclude-tools 'mcp__*'` or [`--no-mcp`](#resource-options).
 
 | Built-in     | Purpose                                           |
 |--------------|---------------------------------------------------|
@@ -238,6 +249,8 @@ See [Configuration](/docs/latest/configuration) for conventional directories and
   Loads an extension file or directory, or a built-in extension such as `builtin:mcp`, and is repeatable.
 - `-ne`, `--no-extensions`  
   Disables discovered, configured, and built-in extensions. Explicit `-e` paths still load, so `pi -ne -e builtin:mcp` keeps only the built-in MCP support.
+- `--no-mcp`  
+  Disables the built-in MCP support for this run: no servers connect, and there are no MCP tools or `/mcp`. It does not affect an extension that replaces the built-in MCP support.
 - `--skill <path>`  
   Loads a skill file or directory and is repeatable.
 - `-ns`, `--no-skills`  
