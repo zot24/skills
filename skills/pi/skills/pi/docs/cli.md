@@ -151,7 +151,7 @@ pi --tools read,grep,find,ls --print "Review this project"
 See [Settings](/docs/latest/settings#tools) for configuring the default tool selection.
 
 - `-t`, `--tools <list>`  
-  Replaces the default selection with a comma-separated allowlist of built-in, extension, or custom tools. Entries are tool names or patterns where `*` matches any characters. MCP tools are kept unless an entry starts with `mcp__` (see [MCP tools](#mcp-tools)).
+  Replaces the default selection with a comma-separated allowlist of built-in, extension, or custom tools. Entries are tool names or patterns where `*` matches any characters. MCP tools are kept unless an entry starts with `mcp__` (see [MCP tools](#mcp-tools)). A list of only `+name` and `-name` entries is not an allowlist; it changes the default selection instead.
 - `-xt`, `--exclude-tools <list>`  
   Disables comma-separated tool names or patterns after all other selection options, MCP tools included.
 - `-nbt`, `--no-builtin-tools`  
@@ -159,7 +159,7 @@ See [Settings](/docs/latest/settings#tools) for configuring the default tool sel
 - `-nt`, `--no-tools`  
   Starts with all built-in, extension, custom, and MCP tools disabled.
 
-Default enabled tools are `read`, `bash`, `edit`, and `write`, unless `defaultTools` changes them. `--tools` replaces the whole selection, so name every tool you want; `defaultTools` also accepts `+name` and `-name` to change the defaults instead.
+Default enabled tools are `read`, `bash`, `edit`, and `write`, unless `defaultTools` changes them. `--tools` with plain names replaces the whole selection, so name every tool you want. Like `defaultTools`, it also accepts a list of only `+name` and `-name` entries, which adds tools to or removes them from the default selection: `pi --tools +codemode,-write` keeps the other default tools, enables `codemode`, and disables `write`. These entries take exact tool names, not `*` patterns; use `--exclude-tools` to disable tools by pattern. Plain names and `+name`/`-name` entries cannot be mixed. `/reload` enables tools newly added to `defaultTools`, but a tool removed with `-name` stays removed.
 
 
 `--tools` selects the tools declared to the model. It does not remove MCP tools, whose reach is set by their [exposure](/docs/latest/mcp#control-tool-exposure): `pi --tools read,codemode` keeps every MCP tool callable from codemode scripts. An MCP tool that no entry names or matches is never declared directly, whatever its exposure; only `tool_search`, if listed, can load it. Once an entry starts with `mcp__`, `--tools` filters MCP tools too, so this keeps only the tools of the `radius` server:
@@ -206,11 +206,11 @@ To turn on `codemode` for every session, add it to the default tools in `~/.pi/a
 ```
 
 
-This keeps `read`, `bash`, `edit`, and `write` and adds `codemode`. For one invocation, list every tool, since `--tools` replaces the selection:
+This keeps `read`, `bash`, `edit`, and `write` and adds `codemode`. For one invocation, add it with `--tools`:
 
 
 ``` shiki
-pi --tools read,bash,edit,write,codemode
+pi --tools +codemode
 ```
 
 
