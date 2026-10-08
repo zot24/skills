@@ -27,36 +27,36 @@ Naming the server's own profile explicitly (for example `profile=default` on a d
 
 ## Platform Comparison<a href="#platform-comparison" class="hash-link" aria-label="Direct link to Platform Comparison" translate="no" title="Direct link to Platform Comparison">​</a>
 
-| Platform           | Voice | Images | Files | Threads | Reactions | Typing | Streaming |
-|--------------------|:-----:|:------:|:-----:|:-------:|:---------:|:------:|:---------:|
-| Telegram           |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
-| Discord            |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| Slack              |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| Google Chat        |   —   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |     —     |
-| WhatsApp           |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| WhatsApp Cloud API |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
-| Signal             |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
-| SMS                |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Email              |   —   |   ✅   |  ✅   |   ✅    |     —     |   —    |     —     |
-| Home Assistant     |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Mattermost         |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
-| Matrix             |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| DingTalk           |   —   |   ✅   |  ✅   |    —    |    ✅     |   —    |    ✅     |
-| Feishu/Lark        |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
-| WeCom              |  ✅   |   ✅   |  ✅   |    —    |     —     |   —    |     —     |
-| WeCom Callback     |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Weixin             |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
-| BlueBubbles        |   —   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
-| Photon (iMessage)  |  ✅   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
-| QQ                 |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
-| Yuanbao            |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
-| Microsoft Teams    |   —   |   ✅   |   —   |   ✅    |     —     |   ✅   |     —     |
-| LINE               |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
-| ntfy               |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Raft               |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| IRC                |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
-| Buzz               |   —   |   ✅   |   —   |   ✅    |     —     |   —    |     —     |
-| SimpleX            |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| Platform                | Voice | Images | Files | Threads | Reactions | Typing | Streaming |
+|-------------------------|:-----:|:------:|:-----:|:-------:|:---------:|:------:|:---------:|
+| Telegram                |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
+| Discord                 |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| Slack                   |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| Google Chat             |   —   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |     —     |
+| WhatsApp                |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| WhatsApp Cloud API      |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| Signal                  |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| SMS                     |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Email                   |   —   |   ✅   |  ✅   |   ✅    |     —     |   —    |     —     |
+| Home Assistant (plugin) |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Mattermost              |  ✅   |   ✅   |  ✅   |   ✅    |     —     |   ✅   |    ✅     |
+| Matrix                  |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| DingTalk                |   —   |   ✅   |  ✅   |    —    |    ✅     |   —    |    ✅     |
+| Feishu/Lark             |  ✅   |   ✅   |  ✅   |   ✅    |    ✅     |   ✅   |    ✅     |
+| WeCom                   |  ✅   |   ✅   |  ✅   |    —    |     —     |   —    |     —     |
+| WeCom Callback          |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Weixin                  |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| BlueBubbles             |   —   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
+| Photon (iMessage)       |  ✅   |   ✅   |  ✅   |    —    |    ✅     |   ✅   |     —     |
+| QQ                      |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| Yuanbao                 |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |    ✅     |
+| Microsoft Teams         |   —   |   ✅   |   —   |   ✅    |     —     |   ✅   |     —     |
+| LINE                    |   —   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
+| ntfy                    |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Raft                    |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| IRC                     |   —   |   —    |   —   |    —    |     —     |   —    |     —     |
+| Buzz                    |   —   |   ✅   |   —   |   ✅    |     —     |   —    |     —     |
+| SimpleX                 |  ✅   |   ✅   |  ✅   |    —    |     —     |   ✅   |     —     |
 
 **Voice** = TTS audio replies and/or voice message transcription. **Images** = send/receive images. **Files** = send/receive file attachments. **Threads** = threaded conversations. **Reactions** = emoji reactions on messages. **Typing** = typing indicator while processing. **Streaming** = progressive message updates via editing.
 
@@ -608,7 +608,7 @@ macOS Local Network Privacy attributes a socket to the executable launchd spawne
 Agents run as threads inside the one gateway process; the only child processes are tool subprocesses (terminal commands, browsers), which never hold provider credentials. A running gateway also re-reads the `openai-codex` login it seeded from `auth.json` the next time its pool selects that entry after it had gone `exhausted` or `dead` (entries added with `hermes auth add openai-codex` are independent accounts and are not resynced). When you want every session on the fresh login at once, restart the gateway — but prefer the drain-aware path over a bare kill:
 
 - `hermes gateway restart` asks the gateway (SIGUSR1) to refuse new turns, waits up to `agent.restart_after_turn_timeout` (default 1800 s) for in-flight turns to finish, exits, and lets launchd's `KeepAlive` relaunch it; the new process reads `auth.json` from scratch.
-- `launchctl kickstart -k gui/$UID/ai.hermes.gateway` sends SIGTERM instead: the gateway interrupts in-flight chat turns after `agent.restart_drain_timeout` (default `0` — immediately; the user is told and the turn resumes on their next message), gives cron runs `agent.cron_drain_timeout` (default 30 s), kills tool subprocesses and exits, then launchd relaunches it. Nothing from the old process survives, so a session that still fails with `401` after the relaunch is talking to a different gateway process — check `hermes gateway status` (and `launchctl list | grep hermes`) for a second PID, such as a manually started `hermes gateway run`, and stop that one too.
+- `launchctl kickstart -k gui/$UID/ai.hermes.gateway` sends SIGTERM instead: the gateway interrupts in-flight chat turns after `agent.restart_drain_timeout` (default `0` — immediately; the user is told and the turn resumes on their next message), gives cron runs and api_server (`/v1`) runs `agent.cron_drain_timeout` (default 30 s), kills tool subprocesses and exits, then launchd relaunches it. Nothing from the old process survives, so a session that still fails with `401` after the relaunch is talking to a different gateway process — check `hermes gateway status` (and `launchctl list | grep hermes`) for a second PID, such as a manually started `hermes gateway run`, and stop that one too.
 
 
 Like the Linux systemd service, each `HERMES_HOME` directory gets its own launchd label. The default `~/.hermes` uses `ai.hermes.gateway`; other installations use `ai.hermes.gateway-<suffix>`.
@@ -646,33 +646,33 @@ Because the launcher returns as soon as the gateway is spawned, Task Scheduler o
 
 Each platform has its own toolset:
 
-| Platform           | Toolset                 | Capabilities                                                                                          |
-|--------------------|-------------------------|-------------------------------------------------------------------------------------------------------|
-| CLI                | `hermes-cli`            | Full access                                                                                           |
-| Telegram           | `hermes-telegram`       | Full tools including terminal                                                                         |
-| Discord            | `hermes-discord`        | Full tools including terminal                                                                         |
-| WhatsApp           | `hermes-whatsapp`       | Full tools including terminal                                                                         |
-| WhatsApp Cloud API | `hermes-whatsapp`       | Full tools including terminal (shares toolset with the Baileys bridge)                                |
-| Slack              | `hermes-slack`          | Full tools including terminal                                                                         |
-| Google Chat        | `hermes-google_chat`    | Full tools including terminal                                                                         |
-| Signal             | `hermes-signal`         | Full tools including terminal                                                                         |
-| SMS                | `hermes-sms`            | Full tools including terminal                                                                         |
-| Email              | `hermes-email`          | Full tools including terminal                                                                         |
-| Home Assistant     | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services)    |
-| Mattermost         | `hermes-mattermost`     | Full tools including terminal                                                                         |
-| Matrix             | `hermes-matrix`         | Full tools including terminal                                                                         |
-| DingTalk           | `hermes-dingtalk`       | Full tools including terminal                                                                         |
-| Feishu/Lark        | `hermes-feishu`         | Full tools including terminal                                                                         |
-| WeCom              | `hermes-wecom`          | Full tools including terminal                                                                         |
-| WeCom Callback     | `hermes-wecom-callback` | Full tools including terminal                                                                         |
-| Weixin             | `hermes-weixin`         | Full tools including terminal                                                                         |
-| BlueBubbles        | `hermes-bluebubbles`    | Full tools including terminal                                                                         |
-| QQBot              | `hermes-qqbot`          | Full tools including terminal                                                                         |
-| Yuanbao            | `hermes-yuanbao`        | Full tools including terminal                                                                         |
-| Microsoft Teams    | `hermes-teams`          | Full tools including terminal                                                                         |
-| API Server         | `hermes-api-server`     | Full tools (drops `clarify`, `text_to_speech` — programmatic access doesn't have an interactive user) |
-| Webhooks           | `hermes-webhook`        | Full tools including terminal                                                                         |
-| Raft               | `hermes-raft`           | Wake-only channel; agent uses Raft CLI for message I/O                                                |
+| Platform                | Toolset                 | Capabilities                                                                                                                               |
+|-------------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| CLI                     | `hermes-cli`            | Full access                                                                                                                                |
+| Telegram                | `hermes-telegram`       | Full tools including terminal                                                                                                              |
+| Discord                 | `hermes-discord`        | Full tools including terminal                                                                                                              |
+| WhatsApp                | `hermes-whatsapp`       | Full tools including terminal                                                                                                              |
+| WhatsApp Cloud API      | `hermes-whatsapp`       | Full tools including terminal (shares toolset with the Baileys bridge)                                                                     |
+| Slack                   | `hermes-slack`          | Full tools including terminal                                                                                                              |
+| Google Chat             | `hermes-google_chat`    | Full tools including terminal                                                                                                              |
+| Signal                  | `hermes-signal`         | Full tools including terminal                                                                                                              |
+| SMS                     | `hermes-sms`            | Full tools including terminal                                                                                                              |
+| Email                   | `hermes-email`          | Full tools including terminal                                                                                                              |
+| Home Assistant (plugin) | `hermes-homeassistant`  | Full tools + HA device control (ha_list_entities, ha_get_state, ha_call_service, ha_list_services) from the `homeassistant` catalog plugin |
+| Mattermost              | `hermes-mattermost`     | Full tools including terminal                                                                                                              |
+| Matrix                  | `hermes-matrix`         | Full tools including terminal                                                                                                              |
+| DingTalk                | `hermes-dingtalk`       | Full tools including terminal                                                                                                              |
+| Feishu/Lark             | `hermes-feishu`         | Full tools including terminal                                                                                                              |
+| WeCom                   | `hermes-wecom`          | Full tools including terminal                                                                                                              |
+| WeCom Callback          | `hermes-wecom-callback` | Full tools including terminal                                                                                                              |
+| Weixin                  | `hermes-weixin`         | Full tools including terminal                                                                                                              |
+| BlueBubbles             | `hermes-bluebubbles`    | Full tools including terminal                                                                                                              |
+| QQBot                   | `hermes-qqbot`          | Full tools including terminal                                                                                                              |
+| Yuanbao                 | `hermes-yuanbao`        | Full tools including terminal                                                                                                              |
+| Microsoft Teams         | `hermes-teams`          | Full tools including terminal                                                                                                              |
+| API Server              | `hermes-api-server`     | Full tools (drops `clarify`, `text_to_speech` — programmatic access doesn't have an interactive user)                                      |
+| Webhooks                | `hermes-webhook`        | Full tools including terminal                                                                                                              |
+| Raft                    | `hermes-raft`           | Wake-only channel; agent uses Raft CLI for message I/O                                                                                     |
 
 ## Operating a multi-platform gateway<a href="#operating-a-multi-platform-gateway" class="hash-link" aria-label="Direct link to Operating a multi-platform gateway" translate="no" title="Direct link to Operating a multi-platform gateway">​</a>
 
@@ -886,7 +886,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - [Signal Setup](/docs/user-guide/messaging/signal)
 - [SMS Setup (Twilio)](/docs/user-guide/messaging/sms)
 - [Email Setup](/docs/user-guide/messaging/email)
-- [Home Assistant Integration](/docs/user-guide/messaging/homeassistant)
+- [Home Assistant Integration](/docs/user-guide/messaging/homeassistant) (plugin catalog)
 - [Mattermost Setup](/docs/user-guide/messaging/mattermost)
 - [Matrix Setup](/docs/user-guide/messaging/matrix)
 - [DingTalk Setup](/docs/user-guide/messaging/dingtalk)

@@ -118,7 +118,7 @@ The dashboard uses its `pywinpty`/ConPTY bridge on Windows and `ptyprocess` on P
 ### Optional dependency limits<a href="#optional-dependency-limits" class="hash-link" aria-label="Direct link to Optional dependency limits" translate="no" title="Direct link to Optional dependency limits">​</a>
 
 - Matrix's native encrypted adapter is Linux-only; use a supported proxy route or a Linux backend on Windows.
-- Native Windows ARM64 excludes the `mem0` and `google-chat` SDK extras, and the openWakeWord engine. Sherpa supports native Windows ARM64 and is the automatic wake-word default on that target.
+- Native Windows ARM64 excludes the `google-chat` SDK extra and the openWakeWord engine. Sherpa supports native Windows ARM64 and is the automatic wake-word default on that target.
 - Local Faster-Whisper STT is excluded on native Windows ARM64. Use a cloud or command-based STT provider. Porcupine remains a wake-engine alternative.
 
 The platform markers in `pyproject.toml` define the packaged dependency set. A general gateway or voice feature claim does not override those markers.

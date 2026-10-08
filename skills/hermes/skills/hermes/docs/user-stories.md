@@ -10,22 +10,24 @@
 What the Hermes Agent community is actually building. Every tile below links to a real post, issue, video, or gist where someone describes how they use Hermes — scraped from X, GitHub, Reddit, Hacker News, YouTube, blogs, and podcasts.
 
 
-**326** stories**15** categories**11** sources
+**371** stories**15** categories**11** sources
 
 
-All<span class="filterCount_ONfA">326</span>
+All<span class="filterCount_ONfA">371</span>
 
-Dev Workflow<span class="filterCount_ONfA">77</span>
+Dev Workflow<span class="filterCount_ONfA">80</span>
 
 Personal Assistant<span class="filterCount_ONfA">49</span>
 
-Integrations<span class="filterCount_ONfA">32</span>
+Business Ops<span class="filterCount_ONfA">48</span>
+
+Integrations<span class="filterCount_ONfA">33</span>
 
 Creative<span class="filterCount_ONfA">26</span>
 
-Business Ops<span class="filterCount_ONfA">23</span>
-
 Meta & Ecosystem<span class="filterCount_ONfA">23</span>
+
+Enterprise<span class="filterCount_ONfA">21</span>
 
 Cost Optimization<span class="filterCount_ONfA">20</span>
 
@@ -35,30 +37,28 @@ Content Creation<span class="filterCount_ONfA">12</span>
 
 Research<span class="filterCount_ONfA">12</span>
 
-Enterprise<span class="filterCount_ONfA">12</span>
-
 Messaging<span class="filterCount_ONfA">11</span>
+
+Marketing<span class="filterCount_ONfA">9</span>
 
 General<span class="filterCount_ONfA">9</span>
 
 Trading & Markets<span class="filterCount_ONfA">5</span>
 
-Marketing<span class="filterCount_ONfA">2</span>
-
 
 All sources
 
-X · Twitter<span class="filterCount_ONfA">61</span>
+X · Twitter<span class="filterCount_ONfA">72</span>
 
-Hacker News<span class="filterCount_ONfA">4</span>
+Hacker News<span class="filterCount_ONfA">9</span>
 
-Reddit<span class="filterCount_ONfA">60</span>
+Reddit<span class="filterCount_ONfA">79</span>
 
-GitHub<span class="filterCount_ONfA">38</span>
+GitHub<span class="filterCount_ONfA">39</span>
 
-YouTube<span class="filterCount_ONfA">17</span>
+YouTube<span class="filterCount_ONfA">19</span>
 
-Blog<span class="filterCount_ONfA">20</span>
+Blog<span class="filterCount_ONfA">27</span>
 
 Podcast<span class="filterCount_ONfA">2</span>
 
@@ -71,7 +71,232 @@ Product Hunt<span class="filterCount_ONfA">1</span>
 Discord<span class="filterCount_ONfA">116</span>
 
 
-<a href="https://www.reddit.com/r/hermesagent/comments/1u9fa2w/" class="tile_PdK3 tileLg_b1pu" target="_blank" rel="noopener noreferrer" style="--tile-accent:linear-gradient(90deg, #3b82f6, #60a5fa, #a78bfa);--tile-accent-solid:#60a5fa;--tile-accent-soft:rgba(96, 165, 250, 0.14)"></a>
+<a href="https://engineering.razorpay.com/running-hermes-at-razorpay-a-network-isolated-self-improving-second-brain-for-every-employee-f91d56bea3f1" class="tile_PdK3 tileLg_b1pu" target="_blank" rel="noopener noreferrer" style="--tile-accent:linear-gradient(90deg, #64748b, #94a3b8, #cbd5e1);--tile-accent-solid:#94a3b8;--tile-accent-soft:rgba(148, 163, 184, 0.16)"></a>
+
+
+### Razorpay gives 220+ employees their own isolated, always-on Hermes agent
+
+“Today, more than 220 Razorpay employees each have their own always-on AI agent. On a typical day, about 84 of them are actively working. … Every one runs in its own isolated Kubernetes namespace, with its own encrypted storage, its own cloud identity, and its own network policy.”
+
+
+### A 17-person startup gives every team its own Hermes profile, from code to BizOps
+
+“Every one of us works alongside Hermes, an open-source AI agent harness from @NousResearch. It runs on a single physical machine in Germany, has a different personality for each team, and dreams at night. … Hermes BizOps handles the recurring operational work: pipeline reviews, reconciliation, tracker updates, finding the exceptions that need a human.”
+
+
+### Route manager at a 400-pools-a-week service company has Hermes flag bad tech reports live
+
+“I manage route/QC operations for a pool service company. We have 450+ pools and service 400+ a week. … QC Now has been the bigger money saver. Hermes watches service reports as they come in and flags things while the route is still live. It messages me on Telegram and messages the service tech in Slack if needed.”
+
+
+### Runs Hermes assistants for French small business owners, 8,000 scheduled runs so far
+
+“engine-cleaning shop: Hermes reads the Facebook Messenger leads every 15 min, sums each one up and asks the owner what to reply … coffee machine dealer dictates his quotes straight into his CRM … beauty distributor built her Christmas catalogue PDF from phone photos … ~8,000 scheduled runs so far.”
+
+
+### Film production company owner runs budgets, deal memos and sales follow-ups via Hermes
+
+“I use Hermes for the office around those jobs: production paperwork, sales follow-up, research, content, studio operations, and the records that keep the whole thing from living in my head. … George works on the sales side. He checks proposal status every business morning and drafts a follow-up when something has been sitting unsigned.”
+
+
+### A maternal-fetal medicine specialist runs clinical documentation through 94 skills
+
+“I have a Telegram bot that knows my clinical practice, my content voice, my theology writing, and my codebase. … Clinical documentation. The highest-value cluster. These are the skills that replace 30 to 45 minutes of documentation work per case.”
+
+
+### Korean AI company runs dozens of Hermes agents on a Mac Mini farm across every team
+
+“our CEO went absolute beast mode and bought a ton of Mac Minis to set up a full Mac Mini farm—literally building a Hermes production factory for us. We already have dozens of agents working actively inside Sionic. … From Service Development and DevOps to AI Research and Strategy & BD, we’re applying it across the board without exception.”
+
+
+### Attorney who also runs a local multi-site business automates payment reconciliation
+
+“I am US-based, an attorney (16 years), and my wife and I own a local brick-and-mortar business (a few locations in our city). … So I added a few more seemingly complex automations related to recording customer payments and reconciling those between our invoice platform (Zoho Billing) and the Google Sheet we use to track things by month.”
+
+
+### Swiss web agency drafts client invoices from Harvest and ClickUp, a human sends them
+
+“We've pretty much automated our entire invoice drafting process with Hermes Agent. … It reviews task statuses, history, checks the completed work, creates the draft in Harvest, and generates a bullet-point summary for the client. … the AI agent never sends invoices on its own. It's always reviewed by a human first, and then sent manually.”
+
+
+### Two-person video startup lets Hermes PM and engineer agents run most of its SDLC
+
+“We’re Moosky AI - two humans building an agentic multimodal video platform. … Internally, Hermes runs most of our SDLC: grooming, pick up work, implement, test, PR, gate, ship. … Each Hermes team has a PM plus Engineers/Architects. The PMs own Azure DevOps Boards end to end.”
+
+
+### A PR agency runs sales ops in Slack: CRM lookups, lead research notes and email triage
+
+“we run it on Slack. So, I'm going to show you some examples from Slack how I query it, how you can search for emails, contacts, invoices, whatever you can imagine. And we use this system for our business, Press Wiz, here using the GoHighLevel CRM. … it creates a note for every lead that comes in about their business, about them, about their social media”
+
+
+### Ad agency team runs spend audits and creative refreshes with Hermes in Slack
+
+“I can ask for a 78-post audit on ads. The agent pulls the spend performance data. Someone else jumps in and asks for creative refresh ideas. The analytics agent explains where we’re burning money. The creative agent kicks out three variations across two ad formats. … People on our team have said they feel at least 40% faster with this.”
+
+
+### Nontechnical teammates query BigQuery, Stripe and Amplitude through Hermes in Slack
+
+“I set up a Hermes agent for our company and connected it to BigQuery, Stripe, Amplitude, etc so that our nontechnical teammates can ask and answer their own data questions via Slack. It works great!”
+
+
+### Fin-crime platform reworked 2,500+ rule scenarios so client config changes skip a deploy
+
+“We essentially apply rules to payments looking for signs of money laundering, people trafficking and fraud. … for every scenario of every rule in the system. (2,500+ changes). … It’s been deployed about a week and it’s doing great. Drastically speeding up how quickly we can respond to client changes. … These days I’m not even involved. The ops folks can change config values via the admin tools and it just works.”
+
+
+### Managed agent cut a real estate client's accounting fees by \$18k a year
+
+“Helped a real estate agent drop \$18k a year in accounting fees … Stood up a managed @NousResearch Hermes agent on my infrastructure, connected it to his Google Workspace and QuickBooks. The agent now handles the repetitive work without the overhead.”
+
+
+### Construction company owner runs bidding, legal drafts and ERP invoicing with seven agents
+
+“i have 15 years of experience in construction industry, i fed to the system all my company knowledge, bidding and legal agents use RAG to generate what i need it to generate. … I connected my accounting agent to my accounting system and i just prompt it to do what i need from invoicing to payments tracking and expenses tracking directly in my ERP software.”
+
+
+### An e-commerce SEO agency splits Hermes into Shopify, search and client-prep agents
+
+“Inside Hermes, I’ve already got different sub-agents split out and dedicated to specific roles. One is a Shopify engineering agent. One is a search engineering agent. I have another agent specifically for helping me prep for client meetings. … So, the process is: diagnose, propose, backup, fix.”
+
+
+### Podcast hosting founder shares his agent with the team to mine support tickets
+
+“i shared the Hermes agent, and KB with our team. … it's starting with support & dev, just cause I feel like they're tightly coupled, but also because they can be pretty deterministic. … Received our first automated scan of new support tickets … there were 6 help doc suggestions and 2 marketing suggestions.”
+
+
+### Bookstore runs a staff agent on Discord and a customer agent on iMessage for under \$10/mo
+
+“i have two agent setups: customer facing on oracle cloud pay as you go, costs nothing. and internal one on my cheap beelink PC … my provider is neuralwatt and i spend less than \$10 a month on glm 5.3, kimi k3, and deepseek flash … my bookstore staff use discord so i lock down terminal tools and only share a subset. my admin staff use telegram and imesages.”
+
+
+### Replaced the helpdesk: Hermes briefs a local support agent and escalates to the team
+
+“We replaced our helpdesk with Hermes. It has long term memory about our business. When a customer messages us, Hermes gets all the relevant details about the customer and creates a Pi session using Gemma 4 running locally and customer talks to that agent. That agent can escalate that issue to Hermes and Hermes can escalate to us.”
+
+
+### A 50-developer team uses Hermes for code review, incident notes and ticket triage
+
+“Hermes is doing an increasing amount of work for our engineering team (~50 devs) -- multi-agent code review flows, coding internal tools and simple fixes, it's becoming our stenographer for production incidents/postmortems, it does preliminary root cause analysis for production bugs, farms our linear tickets and projects, etc”
+
+
+### Deployed LinkedIn prospecting agents for consulting firms and web agencies
+
+“Over the past months I deployed prospecting agents for several clients: consulting firms, web agencies, and similar companies. … When a prospect replies on LinkedIn, Lemlist pushes an event to a Slack channel. The Hermes agent picks it up, reads the conversation through the Lemlist API, and decides what comes next.”
+
+
+### Family collectibles shop on a \$12 VPS gets inbox triage and stock alerts across 4,000 SKUs
+
+“The setup hooks to their email accounts and scans them for emails on sales, questions, and other items. … It reads from an inventory system of over 4000 SKUS that can change and be added and removed. It lets him build out bundles, checks pricing, and sends alerts if stock is low on the reuseable items”
+
+
+### A three-person software house uses Hermes for lead research and competitor analysis
+
+“We're a software house. Three people, Ostrów Wielkopolski. And an AI agent that's been in every strategic conversation for months. … It did full research on 24 leads. Each one got a ticket in YouTrack (our management system) with:”
+
+
+### YC-backed design-to-code startup made a Hermes agent its on-call engineer
+
+“It started by tracing unwanted behaviour and bugs, and now it also solves them, ending up with a PR (Pushing code updates, pending dev approval) - It wakes up on user feedback, bug spikes, or a CS inquiry. It is magical.”
+
+
+### Media company agent brings 7 months of company memory into a shared team workspace
+
+“Our agent (Martin) has 7 months of built up company knowledge and memory that he’s been able to bring to the other agents running in Buzz. … Task delegation is much easier now that we can have the TFTC team and a swarm of agents in the same workspace with Martin bringing our company brain knowledge to the mix.”
+
+
+### IT consultancy deploys Hermes for SME clients: CRM outreach, lead vetting, ERP support
+
+“I run a small IT and automation consultancy. My work ranges from fractional IT Director support and operational diagnostics through to implementing the automations that come out of them. … Researching, vetting and qualifying prospective leads for a drinks packaging company.”
+
+
+### A real service business ran lead to payment over Telegram, owner approving each step
+
+“We stood up a real service business and ran it end-to-end over Telegram: leads came in, estimates went out, the owner approved them, Stripe collected payment, QuickBooks stayed reconciled. … Written from running a real gateway that two non-technical owners depend on daily.”
+
+
+### Company agents for sales and sprint reports went from hackathon to daily CEO and CMO use
+
+“Started as a hackathon project, ended up in production with our CEO and CMO using the agents daily. … Ben (sales) — finds leads via Tavily, drafts emails + LinkedIn messages, stores everything in Notion, sends emails on approval … Dexter (PM) — posts mid-sprint and end-of-sprint reports to Slack automatically via cron”
+
+
+### Outbound sales agent researches accounts and queues every send for approval in Telegram
+
+“Instead of starting every day with another prospecting list, you open Telegram to a queue of accounts Hermes has already researched, scored, and prepared for action. … Approve the ones you like and the system runs the outreach, follows every response, updates HubSpot, and stops the moment a prospect replies.”
+
+
+### Staff forward email threads to an update@ inbox and Hermes files them into the wiki
+
+“I gave Hermes an email inbox to monitor, and it's job was to monitor that inbox for internal-only emails and scan email body for information that should be added to company wiki. This was effective because instead of asking people to switch tabs/tasks and remember to update company wiki, they could stay in email and just forward an email thread to the update@ email address”
+
+
+### A software consultancy built an internal Slack assistant that knows the company
+
+“Since we want Hermes to always "know" about Echobind, we need to decide how to set up its knowledge internally … We went from an empty DigitalOcean Droplet to a fully functional AI Slack assistant that is secure, connected to Slack, and knows about our company.”
+
+
+### Marketing business owner has Hermes find 50 prospects a day and run weekly SEO checks
+
+“I have it scrape every single day for 50 prospects for my products and services and reach out to 25. … I use Hermes on a cron to automatically scan competitor sites once a week for keywords I’m tracking, see how my pages compare and suggest changes. … I also sell piecemealed parts of Hermes to my clients directly as things like an automatic call scheduling bot”
+
+
+### A daily SEO loop: Search Console analysis, drafts, approval, then publishing
+
+“For the last couple of months, I've been using Hermes to do my SEO, and I got to say, I'm very impressed. Every day, it checks my analytics, my Google Search Console data for SEO. It provides me opportunities. It writes the content. It drives it for me. It waits for my approval. And if I like it, it'll publish that for me.”
+
+
+### 20-developer software agency hands PR notices, client status and app builds to Hermes
+
+“So, I run a small software development company having 20ish devs spanning over 4-5 enterprise grade client systems. … For PRs and daily status and daily ios/apk builds for clients, it's almost a manual work so far, from sending team a notification regarding pr reviewed to sending client status and all.”
+
+
+### Startup founder runs support, banking, Stripe and SEO through Hermes agents
+
+“I've been running Hermes as the backbone of my company for months now. Support systems, banking, Stripe, analytics, marketing, SEO, and everything else. It's all managed by agents that get smarter without me touching them. … That's why it's the backbone of Dropmagic.”
+
+
+### Managed-service firm runs a separate Hermes agent per client to produce deliverables
+
+“For the past two years I’ve been building a 'managed service' business and have created a big collection of skills, SOPs, and processes that output specific deliverables for our clients. … We set up a separate Hermes agent for each client since every client has their own data, soul, memories, etc. That part is working okay for the most part.”
+
+
+### A startup's company brain runs daily standups and GTM tracking in Discord
+
+“So I built a company brain. It's an AI agent that lives in our Discord, runs daily standups, tracks our GTM numbers, and generates dashboards. We named it Dojo. It costs about \$2-5 a month to run. … The stack: a Hermes Agent instance with a dedicated profile”
+
+
+### Owner of three commercial real estate firms runs a Hermes chief of staff over specialists
+
+“Quick context: I use hermes for my business operations as an assistant as i have 3 commercial real estate businesses. I went with multi profile setup, Nyx (gave it a name so i feel less weird talking to a bot) is my Hermes "Chief of Staff." Its whole job is to figure out what I want, delegate to the specialist i spent days working out their roles and rules.”
+
+
+### Asking internal business tools about orders and inventory over Telegram
+
+“I've added MCP servers to my internal business tools (Elixir apps) and can chat with the Nous Hermes agent over Telegram about pending orders, inventory level, historical product prices, etc.”
+
+
+### Niche online store owner has Hermes turn B2B client emails into Shopify draft orders
+
+“I use obsidian and notion. Notion more for project management, crm and to keep a more visual overview of my business. one thing I love about Hermes, is when b2b clients sends an email, I can just tell Hermes through telegram to go and prepare a draft order in Shopify, and when I’m back at the computer I double check and send the quote to the client.”
+
+
+### A first-time founder uses Hermes as a daily boss for fundraising and compliance
+
+“I'm a first time founder, and there are so many unknowns when you're getting started. I've been using a Hermes agent to act as my "boss", giving me three tasks to do each day / creating a memory of everything with the business. … It really helped me with fundraising, incorporation, compliance, and just keeping me on track.”
+
+
+### Consultant wires Hermes to a self-hosted CRM and gets an 8-page meeting prep brief
+
+“I am seeing a new client next week - and wanted to test a user case end to end for myself to assist me with prepping for the meeting. … Hermes (Deepseek v4 Pro) did the research on the person, and the company, studied my strategy / offerings / ..., and created an 8 page sales prep meeting … The info and advise was spot-on!”
+
+
+### A marketing founder runs WhatsApp replies, approval-gated jobs and Notion team check-ins
+
+“Two weeks in, Hermes is the best hire I have made all year. … Now it replies in my WhatsApp, runs real jobs on my Mac behind an approval gate, and checks my team in on Notion, every day.”
+
+
+### A daily work setup on Hermes for meetings, prospects and commercial proposals
+
+“It's now become the set up that I use for work every day and it has significantly increased my productivity. … I use it every day to keep track of projects and tasks, prepare for meetings, write docs, find prospects, and put together commercial proposals.”
 
 
 ### Solo-building a job-site app where the agent files its own tasks and deploys

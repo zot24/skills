@@ -11,7 +11,7 @@ Hermes Agent
 
 Give Hermes new powers. Memory, voice, messaging, browsing, Desktop panes and more, built by the community.
 
-Built a plugin? <a href="/docs/user-guide/features/plugin-catalog#submitting-a-plugin-to-the-catalog" class="heroLink_q0bw">Submit it to the catalog →</a>
+Built a plugin? <a href="/docs/developer-guide/plugins/catalog-submission" class="heroLink_q0bw">Submit it to the catalog →</a>
 
 <a href="https://portal.nousresearch.com/terms" target="_blank" rel="noopener noreferrer">Terms</a> • <a href="https://portal.nousresearch.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
 

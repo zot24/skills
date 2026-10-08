@@ -28,7 +28,9 @@ Download the package for your platform from the <a href="https://hermes-agent.no
 
 Bundled packages contain the agent, Python, supported dependencies, and prebuilt interfaces. First launch does not build that base runtime. Provider access and optional integrations can still require network access.
 
-A `Hermes-Setup` bootstrap installer is different: it downloads a source installation and builds the desktop app. Light is a remote-only build variant, not a bundled local runtime. See [Hermes Desktop](/docs/user-guide/desktop).
+A `Hermes-Setup` bootstrap installer is different: it downloads a source installation and builds the desktop app. See [Hermes Desktop](/docs/user-guide/desktop).
+
+There is no separate remote-only Desktop download. To use Desktop with a Hermes backend on another machine, install one of the packages above and connect it from **Settings → Gateways**; see [Connecting to a remote backend](/docs/user-guide/desktop#connecting-to-a-remote-backend).
 
 
 The macOS installer is **Apple Silicon only**. macOS on x86 (Intel) processors is [not a supported platform](/docs/getting-started/platform-support#unsupported).
@@ -140,6 +142,8 @@ Current first-party installations run on **Python 3.14**. The broader `>=3.11,<3
 
 Source builds can require a native compiler and platform development libraries. Building Electron from source adds Node native-module requirements. These build prerequisites do not apply to installing a complete desktop package. Linux Chromium also requires system libraries supplied by the distribution.
 
+On glibc Linux, the managed Node.js links `libatomic.so.1`, which minimal Debian, Ubuntu and RHEL-family images do not ship. When the library is missing, the installer and `hermes update` install the distro package (`libatomic1` on apt and zypper, `libatomic` on dnf/yum and apk, `gcc-libs` on pacman). They run the package manager directly as root, or as `sudo -n` otherwise. An interactive run asks for your sudo password once, before installing dependencies. `--non-interactive` runs never prompt. If the install cannot run, the error names the exact command for the package manager it found.
+
 
 Nix is **no longer an explicitly supported install path** (best-effort only). If you already use Nix (on NixOS, macOS, or Linux), there's a dedicated setup path with a Nix flake, declarative NixOS module, and optional container mode. See the **[Nix & NixOS Setup](/docs/getting-started/nix-setup)** guide.
 
@@ -202,7 +206,7 @@ Run the source installer as the intended service user. Its home, tool store, con
 
     </div>
 
-The current source installer does not run Playwright's `--with-deps` step or provide a package-manager-specific sudo fallback. PM manages tool binaries; the administrator supplies system libraries. See [Browser automation](/docs/user-guide/features/browser) and [Messaging Gateway](/docs/user-guide/messaging/).
+The current source installer does not run Playwright's `--with-deps` step. Apart from Node.js's `libatomic` (see Prerequisites), it does not install system packages. PM manages tool binaries; the administrator supplies system libraries. A service user without sudo gets the exact `libatomic` command to ask an administrator to run. See [Browser automation](/docs/user-guide/features/browser) and [Messaging Gateway](/docs/user-guide/messaging/).
 
 ------------------------------------------------------------------------
 

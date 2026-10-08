@@ -176,6 +176,29 @@ Say **"stop"** — and nothing else — to end the voice conversation hands-free
 
 **Typing** a bare stop phrase while a voice chat is active works the same way on every surface (CLI, TUI, desktop): the message ends the voice chat instead of being sent to the agent. Outside a voice chat, typed "stop" is an ordinary message.
 
+### Live transcription (streaming STT)<a href="#live-transcription-streaming-stt" class="hash-link" aria-label="Direct link to Live transcription (streaming STT)" translate="no" title="Direct link to Live transcription (streaming STT)">​</a>
+
+Set `stt.streaming: true` to transcribe while you speak instead of after you stop. Partial text appears as you talk (in the classic CLI and TUI input placeholder, and in the Desktop dictation pill), and the transcript is ready when you stop speaking instead of after a full upload.
+
+
+``` prism-code
+stt:
+  provider: openai        # or xai, elevenlabs
+  streaming: true
+  openai:
+    streaming_model: gpt-live-transcribe   # the default; the one OpenAI model that streams text mid-utterance
+```
+
+
+| Provider     | Live endpoint                             | Notes                                                                                          |
+|--------------|-------------------------------------------|------------------------------------------------------------------------------------------------|
+| `openai`     | Realtime transcription session            | Needs your own `OPENAI_API_KEY`; the Nous-managed audio gateway serves file transcription only |
+| `xai`        | `wss://api.x.ai/v1/stt`                   | Needs `XAI_API_KEY` (the Grok OAuth login is not used for live STT)                            |
+| `elevenlabs` | Scribe v2 realtime                        | `ELEVENLABS_API_KEY`                                                                           |
+| plugin       | `TranscriptionProvider.streaming_capable` | Plugins opt in with `open_stream_session()`                                                    |
+
+Live transcription covers CLI and TUI voice mode and Desktop dictation. Local whisper, Groq, Mistral and DeepInfra keep using the file path. If a live session can't open, or fails mid-recording, Hermes transcribes the recording as usual, so turning this on never loses a take.
+
 ### Streaming TTS<a href="#streaming-tts" class="hash-link" aria-label="Direct link to Streaming TTS" translate="no" title="Direct link to Streaming TTS">​</a>
 
 When TTS is enabled, the agent speaks its reply **sentence-by-sentence** as it generates text — you don't wait for the full response. This works with **every TTS provider**:
@@ -225,6 +248,26 @@ Requirements: an OpenAI API key (`OPENAI_API_KEY`, `VOICE_TOOLS_OPENAI_KEY`, or 
 How it works: pressing the voice button opens a WebRTC session from the desktop to GPT-Live; the desktop only ever receives a session id and an SDP answer — the key stays on the gateway host, which performs the session creation (`POST /api/audio/voice-live/session`). Each `session.delegation.created` becomes a normal turn on the open chat (the bubble shows what you said; the recent spoken exchange rides the model input as a per-turn note, never the system prompt, so the reply is speakable prose). Tool activity is fed to the voice as quiet context ("Hermes is working: terminal") so it can tell you what is happening if you ask; the final answer is streamed back sentence by sentence. Saying the stop phrase ends the conversation. If `gpt-live` is selected but no key resolves, the button falls back to the chained mode with a notice.
 
 Not supported in this mode: the Nous-managed audio proxy (direct key only), the CLI/TUI (`/voice` keeps the chained loop), and the `tts` tool (it keeps using `tts.provider`).
+
+### Voice chat model<a href="#voice-chat-model" class="hash-link" aria-label="Direct link to Voice chat model" translate="no" title="Direct link to Voice chat model">​</a>
+
+Spoken turns can run on a different (usually faster) model than the one you type to. Set the `voice_chat` auxiliary slot, in Settings → Models → Auxiliary models on Desktop, in `hermes model` → Auxiliary models, or in config.yaml:
+
+
+``` prism-code
+auxiliary:
+  voice_chat:
+    provider: openrouter          # "auto" = the session's model (default)
+    model: google/gemini-3-flash-preview   # empty with a provider = that provider's fast model
+    reasoning_effort: none        # default: reasoning off on voice turns (see below)
+```
+
+
+Reasoning is off on voice turns by default, also when the slot is left on `auto` and the session's model answers. A model that cannot switch reasoning off (gpt-6-astra, mandatory-thinking Claude, routes whose catalog marks it mandatory) gets its lowest accepted level instead, and a route that rejects the disable at runtime is remembered for the next voice turn. Set any level, or `""` to use the session's effort.
+
+It applies to every chained voice turn: CLI and TUI voice mode, the Desktop voice conversation, and voice notes on messaging platforms. The voice turn has the full toolset; only the model answering it changes. The next typed message goes back to the session's model, and so do memory and skill reviews after the turn. Usage is recorded under the `voice_chat` task, so the session keeps the model you picked as its own.
+
+The voice model never forces a compaction: when the conversation is already larger than its context window, that turn runs on the session's model and a one-time notice says so. GPT-Live voice chat ignores this slot, because there the voice layer already is the fast model and delegates real work to the session's model.
 
 ### Barge-in<a href="#barge-in" class="hash-link" aria-label="Direct link to Barge-in" translate="no" title="Direct link to Barge-in">​</a>
 
@@ -458,6 +501,7 @@ When the bot is in a voice channel:
 - Transcripts appear in the text channel: `[Voice] @user: what you said`
 - Agent responses are sent as text in the channel AND spoken in the VC
 - The text channel is the one where `/voice join` was issued
+- Running `/voice join` from another text channel moves the binding there; speech captured before the move, whether still being transcribed or not yet finished, is dropped, not posted to the new channel
 
 ### Echo Prevention<a href="#echo-prevention" class="hash-link" aria-label="Direct link to Echo Prevention" translate="no" title="Direct link to Echo Prevention">​</a>
 
@@ -465,7 +509,7 @@ The bot automatically pauses its audio listener while playing TTS replies, preve
 
 ### Access Control<a href="#access-control" class="hash-link" aria-label="Direct link to Access Control" translate="no" title="Direct link to Access Control">​</a>
 
-Only users listed in `DISCORD_ALLOWED_USERS` can interact via voice. Other users' audio is silently ignored.
+Only users allowed by `DISCORD_ALLOWED_USERS` or `DISCORD_ALLOWED_ROLES` can interact via voice; a role is checked for the speaker each time they talk. Other users' audio is silently ignored.
 
 
 ``` prism-code
@@ -499,9 +543,9 @@ stt:
                                     # passes its path to the agent as part of the
                                     # inbound message, useful for custom pipelines
                                     # (diarization, alignment, archival, etc.)
-  provider: "local"                  # "local" (free) | "groq" | "openai" | "mistral" | "xai"
+  provider: "local"                  # "local" (free) | "groq" | "openai" | "mistral" | "xai" | "elevenlabs" | "deepinfra"
   local:
-    model: "base"                    # tiny, base, small, medium, large-v3
+    model: "base"                    # tiny, base, small, medium, large-v3, turbo
     language: ""                     # optional ISO-639-1 hint; blank = use HERMES_LOCAL_STT_LANGUAGE if set, else auto-detect
   groq:
     language: ""                     # optional ISO-639-1 hint; blank = use HERMES_LOCAL_STT_LANGUAGE if set, else auto-detect
@@ -559,20 +603,24 @@ DISCORD_ALLOWED_USERS=...
 
 ### STT Provider Comparison<a href="#stt-provider-comparison" class="hash-link" aria-label="Direct link to STT Provider Comparison" translate="no" title="Direct link to STT Provider Comparison">​</a>
 
-| Provider    | Model                    | Speed                     | Quality | Cost                | API Key |
-|-------------|--------------------------|---------------------------|---------|---------------------|---------|
-| **Local**   | `base`                   | Fast (depends on CPU/GPU) | Good    | Free                | No      |
-| **Local**   | `small`                  | Medium                    | Better  | Free                | No      |
-| **Local**   | `large-v3`               | Slow                      | Best    | Free                | No      |
-| **Groq**    | `whisper-large-v3-turbo` | Very fast (~0.5s)         | Good    | Free tier           | Yes     |
-| **Groq**    | `whisper-large-v3`       | Fast (~1s)                | Better  | Free tier           | Yes     |
-| **OpenAI**  | `whisper-1`              | Fast (~1s)                | Good    | Paid                | Yes     |
-| **OpenAI**  | `gpt-4o-transcribe`      | Medium (~2s)              | Best    | Paid                | Yes     |
-| **OpenAI**  | `gpt-transcribe`         | Fast                      | Best    | Paid (\$0.0045/min) | Yes     |
-| **Mistral** | `voxtral-mini-latest`    | Fast                      | Good    | Paid                | Yes     |
-| **xAI**     | `grok-stt`               | Fast                      | Good    | Paid                | Yes     |
+| Provider    | Model                       | Speed                     | Quality | Cost                   | API Key |
+|-------------|-----------------------------|---------------------------|---------|------------------------|---------|
+| **Local**   | `base`                      | Fast (depends on CPU/GPU) | Good    | Free                   | No      |
+| **Local**   | `small`                     | Medium                    | Better  | Free                   | No      |
+| **Local**   | `large-v3`                  | Slow                      | Best    | Free                   | No      |
+| **Groq**    | `whisper-large-v3-turbo`    | Very fast (~0.5s)         | Good    | Free tier              | Yes     |
+| **Groq**    | `whisper-large-v3`          | Fast (~1s)                | Better  | Free tier              | Yes     |
+| **OpenAI**  | `whisper-1`                 | Fast (~1s)                | Good    | Paid                   | Yes     |
+| **OpenAI**  | `gpt-4o-transcribe`         | Medium (~2s)              | Best    | Paid                   | Yes     |
+| **OpenAI**  | `gpt-transcribe`            | Fast                      | Best    | Paid (\$0.0045/min)    | Yes     |
+| **Mistral** | `voxtral-mini-latest`       | Fast                      | Good    | Paid                   | Yes     |
+| **xAI**     | `grok-voice-transcribe-2.0` | Fast                      | Best    | Paid (\$0.10/hr batch) | Yes     |
 
 Provider priority (automatic fallback): **local** \> **groq** \> **openai**
+
+### Long recordings and upload limits<a href="#long-recordings-and-upload-limits" class="hash-link" aria-label="Direct link to Long recordings and upload limits" translate="no" title="Direct link to Long recordings and upload limits">​</a>
+
+Cloud providers cap a single request: OpenAI and Groq accept 25 MB, Mistral 500 MB (60 minutes), xAI 500 MB and ElevenLabs just under 5 GB. Some OpenAI models also have a practical length limit per request: about 7.5 minutes for `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` (their 2,000-token output ceiling) and 10 minutes for `whisper-1` (so each request finishes inside the default 60 s timeout). When a voice note, audio attachment or voice-mode recording is over the active provider's limit, Hermes first re-encodes it to compact 16 kHz mono AAC, which fits most recordings into one request. If it is still too large, Hermes splits it at pauses, transcribes the pieces in order and joins the text. Local providers have no upload limit and are never split. ffmpeg is required for both steps.
 
 ### TTS Provider Comparison<a href="#tts-provider-comparison" class="hash-link" aria-label="Direct link to TTS Provider Comparison" translate="no" title="Direct link to TTS Provider Comparison">​</a>
 
@@ -650,9 +698,11 @@ The hallucination filter catches most cases automatically. If you're still getti
   - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How It Works</a>
   - <a href="#silence-detection" class="table-of-contents__link toc-highlight">Silence Detection</a>
   - <a href="#ending-a-voice-chat-by-voice" class="table-of-contents__link toc-highlight">Ending a voice chat by voice</a>
+  - <a href="#live-transcription-streaming-stt" class="table-of-contents__link toc-highlight">Live transcription (streaming STT)</a>
   - <a href="#streaming-tts" class="table-of-contents__link toc-highlight">Streaming TTS</a>
   - <a href="#desktop-remote-client-direct-voice-lowest-hop-path" class="table-of-contents__link toc-highlight">Desktop remote: client-direct voice (lowest-hop path)</a>
   - <a href="#desktop-gpt-live-voice-chat-mode-full-duplex-delegates-to-hermes" class="table-of-contents__link toc-highlight">Desktop: GPT-Live voice chat mode (full duplex, delegates to Hermes)</a>
+  - <a href="#voice-chat-model" class="table-of-contents__link toc-highlight">Voice chat model</a>
   - <a href="#barge-in" class="table-of-contents__link toc-highlight">Barge-in</a>
   - <a href="#hallucination-filter" class="table-of-contents__link toc-highlight">Hallucination Filter</a>
 - <a href="#gateway-voice-reply-telegram--discord" class="table-of-contents__link toc-highlight">Gateway Voice Reply (Telegram &amp; Discord)</a>
@@ -672,6 +722,7 @@ The hallucination filter catches most cases automatically. If you're still getti
   - <a href="#configyaml" class="table-of-contents__link toc-highlight">config.yaml</a>
   - <a href="#environment-variables" class="table-of-contents__link toc-highlight">Environment Variables</a>
   - <a href="#stt-provider-comparison" class="table-of-contents__link toc-highlight">STT Provider Comparison</a>
+  - <a href="#long-recordings-and-upload-limits" class="table-of-contents__link toc-highlight">Long recordings and upload limits</a>
   - <a href="#tts-provider-comparison" class="table-of-contents__link toc-highlight">TTS Provider Comparison</a>
 - <a href="#troubleshooting" class="table-of-contents__link toc-highlight">Troubleshooting</a>
   - <a href="#no-audio-device-found-cli" class="table-of-contents__link toc-highlight">"No audio device found" (CLI)</a>
