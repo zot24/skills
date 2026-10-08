@@ -288,7 +288,7 @@ hermes gateway setup    # Interactive platform configuration
 ```
 
 
-Connect [Telegram](/docs/user-guide/messaging/telegram), [Discord](/docs/user-guide/messaging/discord), [Slack](/docs/user-guide/messaging/slack), [WhatsApp](/docs/user-guide/messaging/whatsapp), [Signal](/docs/user-guide/messaging/signal), [Email](/docs/user-guide/messaging/email), or [Home Assistant](/docs/user-guide/messaging/homeassistant), or [Microsoft Teams](/docs/user-guide/messaging/teams).
+Connect [Telegram](/docs/user-guide/messaging/telegram), [Discord](/docs/user-guide/messaging/discord), [Slack](/docs/user-guide/messaging/slack), [WhatsApp](/docs/user-guide/messaging/whatsapp), [Signal](/docs/user-guide/messaging/signal), [Email](/docs/user-guide/messaging/email), [Home Assistant](/docs/user-guide/messaging/homeassistant) (plugin), or [Microsoft Teams](/docs/user-guide/messaging/teams).
 
 ### Automation and tools<a href="#automation-and-tools" class="hash-link" aria-label="Direct link to Automation and tools" translate="no" title="Direct link to Automation and tools">​</a>
 

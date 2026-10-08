@@ -205,7 +205,7 @@ To add an MCP to the catalog, open a PR against <a href="https://github.com/Nous
 
 ### Suggestion metadata (`suggest:`)<a href="#suggestion-metadata-suggest" class="hash-link" aria-label="Direct link to suggestion-metadata-suggest" translate="no" title="Direct link to suggestion-metadata-suggest">​</a>
 
-A manifest may declare an optional `suggest:` block with `keywords:` and/or `hosts:` lists. UI surfaces (currently the Desktop app's composer) use it to offer a one-click "Add \<server\>" pill when your draft mentions one of the keywords as a completed word, or contains a pasted link whose hostname ends with one of the host suffixes. It is purely advisory — installs still flow through the same validated catalog/config paths — and most hosted remote entries (Atlassian, Sentry, Notion, Stripe, Vercel, Supabase, and friends) declare it.
+A manifest may declare an optional `suggest:` block with `keywords:` and/or `hosts:` lists. UI surfaces (currently the Desktop app's composer) use it to offer a one-click "Add \<server\>" pill when your draft mentions one of the keywords as a completed word, or contains a pasted link whose hostname ends with one of the host suffixes. It is purely advisory — installs still flow through the same validated catalog/config paths — and most hosted remote entries (Atlassian, Sentry, Notion, Stripe, Vercel, Supabase, and friends) declare it. Optional `applications:` (up to 16 app names), `requires_app: true` (the MCP needs that local app; such entries are never offered as a one-click pill) and `examples:` (up to six one-line outcomes) describe entries that drive a desktop application.
 
 GitHub is deliberately **not** in the catalog: its hosted MCP requires each client to bring its own OAuth app (generic dynamic client registration is rejected), and Hermes's bundled `github/*` skills driving the `gh` CLI are a more capable integration. On Desktop, GitHub mentions instead offer the `github-auth` skill when `gh` isn't signed in yet.
 
@@ -520,6 +520,10 @@ Two behaviors apply to every MCP tool result before the model sees it:
 - **Invisible Unicode TAG characters are stripped.** Characters in the U+E0000–U+E007F range render as nothing in terminals and chat UIs but are fully visible to the model — a classic prompt-injection smuggling channel for a malicious or compromised server. Hermes strips them from tool results, resource content, and tool descriptions. Legitimate emoji tag sequences (regional flags like 🏴󠁧󠁢󠁳󠁣󠁴󠁿) are preserved.
 - **Vendor `_meta` is surfaced; protocol-reserved keys are not.** When a server attaches a `_meta` mapping to a tool result (vendor namespaces like `com.example/handoff`), Hermes passes it through to the model alongside the result content. Keys under protocol-reserved prefixes — a `modelcontextprotocol` or `mcp` label followed by another label, e.g. `modelcontextprotocol.io/...` or `tools.mcp.com/...` — are dropped, matching the MCP spec's key-name rules. If nothing model-facing remains, the `_meta` field is omitted entirely.
 
+### Image results<a href="#image-results" class="hash-link" aria-label="Direct link to Image results" translate="no" title="Direct link to Image results">​</a>
+
+An `ImageContent` block (a screenshot, a rendered chart, a page capture) is saved to Hermes' image cache and its path is reported in the result as `MEDIA:/path/to/image.png`, so you can ask for the file on any attachment-capable surface. When the main model can see images inside tool results, the image itself is attached to the result too, so the model reads the pixels directly. MCP results follow the same rule as `vision_analyze`: `agent.image_input_mode`, an explicit `auxiliary.vision` backend and the model's vision capability all apply (see [Vision](/docs/user-guide/features/vision#vision_analyze-has-the-same-dual-behavior)). Attached images are downscaled to `vision.embed_target_bytes` (up to 4 per result) because they are re-sent on every later turn. Text-only models get the path only.
+
 ## MCP utility tools<a href="#mcp-utility-tools" class="hash-link" aria-label="Direct link to MCP utility tools" translate="no" title="Direct link to MCP utility tools">​</a>
 
 When supported, Hermes also registers utility tools around MCP resources and prompts:
@@ -717,7 +721,7 @@ If you change MCP config, use:
 ```
 
 
-This reloads MCP servers from config and refreshes the available tool list. It is also the explicit way to re-probe availability-gated tools (Docker, `HASS_TOKEN`, OAuth…): a session's tool set is otherwise frozen, so a credential or daemon that appears mid-session is only picked up on `/reload-mcp`, `/new`, or context compaction. For runtime tool changes pushed by the server itself, see [Dynamic Tool Discovery](#dynamic-tool-discovery) above.
+This reloads MCP servers from config and refreshes the available tool list. It is also the explicit way to re-probe availability-gated tools (Docker, plugin credentials such as `HASS_TOKEN`, OAuth…): a session's tool set is otherwise frozen, so a credential or daemon that appears mid-session is only picked up on `/reload-mcp`, `/new`, or context compaction. For runtime tool changes pushed by the server itself, see [Dynamic Tool Discovery](#dynamic-tool-discovery) above.
 
 A running messaging gateway (`hermes gateway run`) also watches `config.yaml` on its own: within about a minute of you removing an `mcp_servers` entry or setting `enabled: false`, that server's connection is torn down; a newly added entry is connected. A server whose first connect failed (an unreachable host, or an OAuth server on a headless box that had no token yet) is retried automatically on its connect cooldown schedule (30 s, doubling up to 10 min) once you fix the cause. No restart or `/reload-mcp` needed for the edit to take effect.
 
@@ -1099,6 +1103,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
 - <a href="#built-in-presets" class="table-of-contents__link toc-highlight">Built-in presets</a>
 - <a href="#how-hermes-registers-mcp-tools" class="table-of-contents__link toc-highlight">How Hermes registers MCP tools</a>
   - <a href="#tool-result-sanitization-and-_meta" class="table-of-contents__link toc-highlight">Tool-result sanitization and <code>_meta</code></a>
+  - <a href="#image-results" class="table-of-contents__link toc-highlight">Image results</a>
 - <a href="#mcp-utility-tools" class="table-of-contents__link toc-highlight">MCP utility tools</a>
   - <a href="#important" class="table-of-contents__link toc-highlight">Important</a>
 - <a href="#per-server-filtering" class="table-of-contents__link toc-highlight">Per-server filtering</a>
