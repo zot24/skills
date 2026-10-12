@@ -91,7 +91,7 @@ Speech-to-text supports eight providers: local faster-whisper (free, runs on-dev
 ## Memory & Personalization<a href="#memory--personalization" class="hash-link" aria-label="Direct link to Memory &amp; Personalization" translate="no" title="Direct link to Memory &amp; Personalization">​</a>
 
 - **[Built-in Memory](/docs/user-guide/features/memory)** — Persistent, curated memory via `MEMORY.md` and `USER.md` files. The agent maintains bounded stores of personal notes and user profile data that survive across sessions.
-- **[Memory Providers](/docs/user-guide/features/memory-providers)** — Plug in external memory backends for deeper personalization. Three providers ship with Hermes: Holographic (local SQLite), RetainDB (hybrid search) and ByteRover (CLI-based); Honcho (dialectic reasoning), Hindsight (knowledge graphs), Supermemory (semantic recall), Mem0 (cloud extraction) and OpenViking (tiered retrieval) are available from the plugin catalog via `hermes plugins install <name>`.
+- **[Memory Providers](/docs/user-guide/features/memory-providers)** — Plug in external memory backends for deeper personalization. Two providers ship with Hermes: RetainDB (hybrid search) and ByteRover (CLI-based); Honcho (dialectic reasoning), Hindsight (knowledge graphs), Supermemory (semantic recall), Mem0 (cloud extraction), OpenViking (tiered retrieval) and Holographic (local SQLite) are available from the plugin catalog via `hermes plugins install <name>`.
 
 ## Messaging Platforms<a href="#messaging-platforms" class="hash-link" aria-label="Direct link to Messaging Platforms" translate="no" title="Direct link to Messaging Platforms">​</a>
 

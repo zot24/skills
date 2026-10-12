@@ -287,12 +287,19 @@ memory:
   memory_char_limit: 2200   # ~800 tokens
   user_char_limit: 1375     # ~500 tokens
   write_approval: false     # false = write freely (default) | true = require approval
+  prefetch_spill_enabled: false  # external recall stays intact unless explicitly enabled
 ```
 
 
 Setting **both** `memory_enabled` and `user_profile_enabled` to `false` turns the built-in stores off completely: the `memory` tool is dropped from the schema and its guidance block is dropped from the system prompt, so the model is never told about a tool it cannot use. An external provider set via `memory.provider` (Hindsight, Mem0, Honcho, …) is unaffected and keeps its own tools — use this when you want a third-party memory backend *instead of* the built-in files. Listing `memory` under `agent.disabled_toolsets` is the heavier switch: it hides external provider tools too.
 
 With only `memory_enabled: false` (user profile still on), the tool stays — it backs the profile store — but the system prompt swaps the full memory guidance for a narrower profile-only block. The tool schema advertises only the `user` target, and direct or staged writes to disabled `MEMORY.md` are rejected. The inverse configuration advertises only `memory` and rejects `USER.md` writes.
+
+### External recall size<a href="#external-recall-size" class="hash-link" aria-label="Direct link to External recall size" translate="no" title="Direct link to External recall size">​</a>
+
+External memory providers return their full prefetched context by default, up to a safety ceiling of 10× `hooks.output_spill.max_chars` (at least 100,000 characters); recall above that still spills so a runaway provider can't overflow the context window. `memory.prefetch_spill_enabled: true` opts the active profile into replacing oversized recall with a head/tail preview and a file path. This can reduce replayed context, but the relevance-ranked middle is no longer immediately visible to the model. Prefer your provider's own recall budget when available.
+
+The opt-in uses the shared `hooks.output_spill` threshold, preview lengths, and directory; `hooks.output_spill.enabled: false` still disables it. Normal plugin hooks continue to spill by default, independently of the memory opt-in. Settings are captured at provider registration: restart Hermes after changing them. See [oversized prefetch results](/docs/developer-guide/memory-provider-plugin#oversized-prefetch-results) for the configuration details.
 
 ## Controlling memory writes (`write_approval`)<a href="#controlling-memory-writes-write_approval" class="hash-link" aria-label="Direct link to controlling-memory-writes-write_approval" translate="no" title="Direct link to controlling-memory-writes-write_approval">​</a>
 
@@ -458,7 +465,7 @@ On a messaging platform, approve a skill from its gist + metadata, or open `/ski
 
 ## External Memory Providers<a href="#external-memory-providers" class="hash-link" aria-label="Direct link to External Memory Providers" translate="no" title="Direct link to External Memory Providers">​</a>
 
-For deeper, persistent memory that goes beyond MEMORY.md and USER.md, Hermes ships with 3 external memory provider plugins — Holographic, RetainDB and ByteRover — and more, such as Honcho, Hindsight, Supermemory, Mem0 and OpenViking, are available from the [plugin catalog](/docs/user-guide/features/plugins) via `hermes plugins install <name>`.
+For deeper, persistent memory that goes beyond MEMORY.md and USER.md, Hermes ships with 2 external memory provider plugins — RetainDB and ByteRover — and more, such as Honcho, Hindsight, Supermemory, Mem0, OpenViking and Holographic, are available from the [plugin catalog](/docs/user-guide/features/plugins) via `hermes plugins install <name>`.
 
 External providers run **alongside** built-in memory (never replacing it) and add capabilities like knowledge graphs, semantic search, automatic fact extraction, and cross-session user modeling.
 
@@ -493,6 +500,7 @@ See the [Memory Providers](/docs/user-guide/features/memory-providers) guide for
   - <a href="#session_search-vs-memory" class="table-of-contents__link toc-highlight">session_search vs memory</a>
 - <a href="#learning-journey-journey" class="table-of-contents__link toc-highlight">Learning Journey (<code>/journey</code>)</a>
 - <a href="#configuration" class="table-of-contents__link toc-highlight">Configuration</a>
+  - <a href="#external-recall-size" class="table-of-contents__link toc-highlight">External recall size</a>
 - <a href="#controlling-memory-writes-write_approval" class="table-of-contents__link toc-highlight">Controlling memory writes (<code>write_approval</code>)</a>
 - <a href="#background-review-notifications-displaymemory_notifications" class="table-of-contents__link toc-highlight">Background review notifications (<code>display.memory_notifications</code>)</a>
 - <a href="#running-the-review-on-a-cheaper-model-auxiliarybackground_review" class="table-of-contents__link toc-highlight">Running the review on a cheaper model (<code>auxiliary.background_review</code>)</a>

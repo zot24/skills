@@ -99,6 +99,7 @@ The install also ships `hermes-agent`, a minimal runner that sends one query and
 | `hermes memory`                                       | Configure external memory provider. Plugin-specific subcommands (e.g. `hermes honcho`) register automatically when their provider is active.                                                                                                                                                    |
 | `hermes acp`                                          | Run Hermes as an ACP server for editor integration.                                                                                                                                                                                                                                             |
 | `hermes mcp`                                          | Manage MCP server configurations and run Hermes as an MCP server.                                                                                                                                                                                                                               |
+| `hermes connectors`                                   | List, connect, rename and disconnect hosted connector accounts.                                                                                                                                                                                                                                 |
 | `hermes plugins`                                      | Manage Hermes Agent plugins (install, enable, disable, remove).                                                                                                                                                                                                                                 |
 | `hermes portal`                                       | Nous Portal status, subscription link, and Tool Gateway routing. See [Tool Gateway](/docs/user-guide/features/tool-gateway).                                                                                                                                                                    |
 | `hermes tools`                                        | Configure enabled tools per platform.                                                                                                                                                                                                                                                           |
@@ -114,7 +115,7 @@ The install also ships `hermes-agent`, a minimal runner that sends one query and
 | `hermes profile`                                      | Manage profiles — multiple isolated Hermes instances.                                                                                                                                                                                                                                           |
 | `hermes completion`                                   | Print shell completion scripts (bash/zsh/fish).                                                                                                                                                                                                                                                 |
 | `hermes --version`                                    | Show version information.                                                                                                                                                                                                                                                                       |
-| `hermes update`                                       | Pull latest code and reinstall dependencies. `--check` previews without installing; `--backup` takes a pre-pull `HERMES_HOME` snapshot.                                                                                                                                                         |
+| `hermes update`                                       | Update to the latest stable release (or the selected channel) and reinstall dependencies. `--check` previews without installing; `--backup` takes a pre-pull `HERMES_HOME` snapshot.                                                                                                            |
 | `hermes uninstall`                                    | Remove Hermes from the system.                                                                                                                                                                                                                                                                  |
 
 ## `hermes chat`<a href="#hermes-chat" class="hash-link" aria-label="Direct link to hermes-chat" translate="no" title="Direct link to hermes-chat">​</a>
@@ -674,11 +675,10 @@ hermes auth reset openrouter 2                           # Clear the cooldown on
 hermes auth refresh openai-codex work                    # Refresh one OAuth credential and clear its cooldown
 hermes auth status anthropic                             # Show auth status for a provider
 hermes auth logout anthropic                             # Log out and clear stored auth state
-hermes auth spotify                                      # Authenticate Hermes with Spotify via PKCE
 ```
 
 
-Subcommands: `add`, `list`, `remove`, `reset`, `priority`, `refresh`, `status`, `logout`, `spotify`. When called with no subcommand, launches the interactive management wizard.
+Subcommands: `add`, `list`, `remove`, `reset`, `priority`, `refresh`, `status`, `logout`. Spotify login moved to the `spotify` catalog plugin's `hermes spotify login`. When called with no subcommand, launches the interactive management wizard.
 
 ## `hermes usage`<a href="#hermes-usage" class="hash-link" aria-label="Direct link to hermes-usage" translate="no" title="Direct link to hermes-usage">​</a>
 
@@ -1592,7 +1592,7 @@ hermes memory <subcommand>
 ```
 
 
-Set up and manage external memory provider plugins. Bundled providers: holographic, retaindb, byterover; honcho, hindsight, supermemory, mem0 and openviking (plugin catalog) after `hermes plugins install <name>` (`hermes update` does this automatically for a provider already named in `memory.provider`). Only one external provider can be active at a time. Built-in memory (MEMORY.md/USER.md) is always active.
+Set up and manage external memory provider plugins. Bundled providers: retaindb, byterover; honcho, hindsight, supermemory, mem0, openviking and holographic (plugin catalog) after `hermes plugins install <name>` (`hermes update` does this automatically for a provider already named in `memory.provider`). Only one external provider can be active at a time. Built-in memory (MEMORY.md/USER.md) is always active.
 
 Subcommands:
 
@@ -1659,6 +1659,26 @@ Manage MCP (Model Context Protocol) server configurations and run Hermes as an M
 | `login <name>`                                                              | Force re-authentication for an OAuth-based MCP server.                                                                          |
 
 See [MCP Config Reference](/docs/reference/mcp-config-reference), [Use MCP with Hermes](/docs/guides/use-mcp-with-hermes), and [MCP Server Mode](/docs/user-guide/features/mcp#running-hermes-as-an-mcp-server).
+
+## `hermes connectors`<a href="#hermes-connectors" class="hash-link" aria-label="Direct link to hermes-connectors" translate="no" title="Direct link to hermes-connectors">​</a>
+
+
+``` prism-code
+hermes connectors <subcommand>
+```
+
+
+Manage hosted connector accounts (apps such as Gmail reached through the Nous tool gateway). Needs a Nous Portal sign-in. One app can have several named accounts; see [Multiple connector accounts](/docs/user-guide/features/tool-gateway#multiple-connector-accounts).
+
+| Subcommand                                             | Description                                                                                                                                                                                                                                                                                                                                   |
+|--------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `list`                                                 | List connectors and whether each is connected.                                                                                                                                                                                                                                                                                                |
+| `accounts [app] [--all]`                               | List accounts, for one app or all of them. `--all` includes retired accounts.                                                                                                                                                                                                                                                                 |
+| `connect <app> [--alias NAME] [--reconnect [--force]]` | Print the link to connect an account, then wait until it is connected or the deadline passes. Ctrl-C stops waiting. `--alias` names the account; a new name adds another account. `--reconnect` repairs the named account and deletes nothing; on an account that is already connected it says so and does nothing unless `--force` is given. |
+| `rename <app> <name-or-label> --to <new>`              | Rename an account. An unnamed account is matched by its app label.                                                                                                                                                                                                                                                                            |
+| `disconnect <app> [--alias NAME] [--yes]`              | Remove an account. Asks to confirm unless you pass `--yes`.                                                                                                                                                                                                                                                                                   |
+
+Rename needs a Nous Portal version that supports it. Until then it reports "This Nous Portal cannot rename connector accounts yet."
 
 ## `hermes plugins`<a href="#hermes-plugins" class="hash-link" aria-label="Direct link to hermes-plugins" translate="no" title="Direct link to hermes-plugins">​</a>
 
@@ -2034,13 +2054,13 @@ hermes update [--gateway] [--check] [--plan] [--no-backup] [--backup] [--yes]
 
 Updates an admitted source checkout and prepares dependencies through PM. Use `--check` to compare with its configured source target without applying the update. Desktop bundles, Docker, Nix, and Termux packages retain their external update owner. See [Updating & Uninstalling](/docs/getting-started/updating).
 
-`hermes update` pulls the configured update branch (default: `main`). If your checkout is on another branch, Hermes may check out the update branch before pulling. Commit branch work before updating when you want to keep it outside the update autostash flow.
+`hermes update` follows this installation's update channel. A source checkout of the official repository defaults to `stable`, the latest published `vX.Y.Z` GitHub release at its exact commit; forks and mirrors default to `main`. To follow every commit on `main` instead, run `hermes update --set-channel main`; `hermes update --set-channel stable` switches back. On the `main` channel, a checkout on another branch may be switched to the update branch before pulling. Commit branch work before updating when you want to keep it outside the update autostash flow.
 
 | Option                  | Description                                                                                                                                                                                                                                                                                                                        |
 |-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `--install-id`          | Print this installation's identity and path, then exit.                                                                                                                                                                                                                                                                            |
-| `--set-channel CHANNEL` | Persist the update channel for this source installation without applying an update. `main` is the only valid source channel. Bundled applications have a fixed build channel and refuse channel changes.                                                                                                                           |
-| `--channel CHANNEL`     | Select a source channel for this invocation only (`main` is the only valid one).                                                                                                                                                                                                                                                   |
+| `--set-channel CHANNEL` | Persist the update channel for this source installation without applying an update: `stable` (published releases) or `main` (every commit). Bundled applications have a fixed build channel and refuse channel changes.                                                                                                            |
+| `--channel CHANNEL`     | Select a source channel for this invocation only (`stable` or `main`); nothing is saved.                                                                                                                                                                                                                                           |
 | `--branch NAME`         | Select a source branch for this invocation; takes precedence over source channel selection.                                                                                                                                                                                                                                        |
 | `--gateway`             | Internal mode used by the messaging `/update` command. Uses file-based IPC for prompts and progress streaming instead of reading from terminal stdin. Not a gateway restart flag.                                                                                                                                                  |
 | `--check`               | Check whether an update is available without pulling, installing dependencies, or restarting anything.                                                                                                                                                                                                                             |
@@ -2147,6 +2167,7 @@ Additional behavior:
 - <a href="#hermes-memory" class="table-of-contents__link toc-highlight"><code>hermes memory</code></a>
 - <a href="#hermes-acp" class="table-of-contents__link toc-highlight"><code>hermes acp</code></a>
 - <a href="#hermes-mcp" class="table-of-contents__link toc-highlight"><code>hermes mcp</code></a>
+- <a href="#hermes-connectors" class="table-of-contents__link toc-highlight"><code>hermes connectors</code></a>
 - <a href="#hermes-plugins" class="table-of-contents__link toc-highlight"><code>hermes plugins</code></a>
 - <a href="#hermes-tools" class="table-of-contents__link toc-highlight"><code>hermes tools</code></a>
 - <a href="#hermes-computer-use" class="table-of-contents__link toc-highlight"><code>hermes computer-use</code></a>
