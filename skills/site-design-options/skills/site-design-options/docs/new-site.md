@@ -6,7 +6,7 @@ product on the first screen, yellow means open, freeze the favourite — holds u
 
 Use this entry when the `sites` skill hands over a `site-brief.md`, or when the owner asks for a
 site that does not exist yet. The site lands in the app's monorepo at `apps/web`, started from the
-`site-starter` template; this skill owns how it looks and what it says, not the plumbing.
+template bundled with the `sites` skill; this skill owns how it looks and what it says, not the plumbing.
 
 ## Stage 1N — learn the brief and the product
 
