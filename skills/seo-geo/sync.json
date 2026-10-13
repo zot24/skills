@@ -1,0 +1,50 @@
+{
+  "name": "seo-geo",
+  "version": "1.0.0",
+  "description": "Technical SEO and GEO for Astro sites on Cloudflare: head tags, sitemap, robots, structured data, AI crawler policy, llms.txt, answer-first content",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/bots/additional-configurations/block-ai-bots.mdx",
+      "target": "skills/seo-geo/docs/cloudflare-ai-bot-policies.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/bots/additional-configurations/managed-robots-txt.mdx",
+      "target": "skills/seo-geo/docs/cloudflare-managed-robots-txt.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/ai-crawl-control/features/manage-ai-crawlers.mdx",
+      "target": "skills/seo-geo/docs/cloudflare-manage-ai-crawlers.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/ai-crawl-control/reference/bots.mdx",
+      "target": "skills/seo-geo/docs/cloudflare-ai-bots-reference.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/ai-crawl-control/features/analyze-ai-traffic.mdx",
+      "target": "skills/seo-geo/docs/cloudflare-analyze-ai-traffic.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/withastro/docs/main/src/content/docs/en/guides/integrations-guide/sitemap.mdx",
+      "target": "skills/seo-geo/docs/astro-sitemap.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/AnswerDotAI/llms-txt/main/nbs/index.qmd",
+      "target": "skills/seo-geo/docs/llms-txt-spec.md",
+      "type": "raw",
+      "freshness_days": 14
+    }
+  ],
+  "cache_dir": ".cache"
+}

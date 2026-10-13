@@ -490,6 +490,21 @@
           "jsonpath": "$.version"
         }
       ]
+    },
+    "skills/seo-geo": {
+      "component": "seo-geo",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
     }
   }
 }
