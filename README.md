@@ -39,6 +39,7 @@ An opinionated selection of skills for daily dev workflows.
 | [site-design-options](./skills/site-design-options) | Redesign an existing website with its owner — census and SEO/GEO snapshot, a cited copy spec an adversary attacks, an Inspo study with a budget, three directions as mock-ups the owner opens, the family and "actually different" loops, `design.md` and page structure, one decisions page, then a section-by-section build |
 | [cloudflare-domains](./skills/cloudflare-domains) | Take a domain from search to serving on Cloudflare with the official `cf` CLI — registration behind a money gate, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks |
 | [search-engines](./skills/search-engines) | Get a live site into Google and Bing — Search Console and Bing Webmaster verification, sitemaps, IndexNow, URL inspection and search reports through the APIs |
+| [seo-geo](./skills/seo-geo) | Technical SEO and GEO for Astro on Cloudflare — head tags, sitemap, robots.txt, JSON-LD, AI crawler policy, llms.txt, answer-first content, audit |
 
 ## Installation
 
@@ -174,6 +175,10 @@ Format: `/skill-name:command-name [arguments]`
 # Search engines
 /search-engines:search-engines launch acmewidgets.com   # Google + Bing + IndexNow
 /search-engines:search-engines report acmewidgets.com   # Indexing and queries
+
+# SEO + GEO
+/seo-geo:seo-geo audit https://acmewidgets.com          # Scripted audit
+/seo-geo:seo-geo ai-bots acmewidgets.com               # AI crawler access
 ```
 
 ### Natural Language
@@ -823,6 +828,23 @@ Get a live site into Google and Bing, and report how it does there:
 
 [Full documentation](./skills/search-engines/README.md)
 
+### seo-geo
+
+Make Astro sites on Cloudflare easy to find in search and easy to quote in AI answers:
+
+- **Technical SEO** — head component, canonicals, sitemap, robots.txt, preview noindex
+- **Structured data** — JSON-LD per page, `Organization` with `sameAs`
+- **AI crawlers** — Cloudflare AI bot policies and robots.txt in agreement
+- **llms.txt** and **answer-first content** — passages assistants quote
+- **Audit** — scripted checks with pass criteria
+
+```bash
+/seo-geo:seo-geo audit https://acmewidgets.com
+/seo-geo:seo-geo copy /pricing
+```
+
+[Full documentation](./skills/seo-geo/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -968,7 +990,8 @@ skills/
 │   ├── skill-release-preflight/  # Pre-push checks for this repo
 │   ├── site-design-options/      # Redesign a site with its owner
 │   ├── cloudflare-domains/       # Domains, DNS, email, redirects, tunnels on Cloudflare
-│   └── search-engines/           # Google Search Console, Bing Webmaster, IndexNow
+│   ├── search-engines/           # Google Search Console, Bing Webmaster, IndexNow
+│   └── seo-geo/                  # Technical SEO, JSON-LD, AI crawlers, llms.txt
 └── README.md
 ```
 

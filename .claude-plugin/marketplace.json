@@ -191,6 +191,12 @@
       "source": "./skills/search-engines",
       "description": "Get a live site into Google and Bing through their APIs: Search Console domain verification, property and sitemap, Bing Webmaster site, verification and sitemap, IndexNow pings, URL inspection and search performance checks.",
       "version": "1.0.0"
+    },
+    {
+      "name": "seo-geo",
+      "source": "./skills/seo-geo",
+      "description": "Technical SEO and GEO for Astro sites on Cloudflare: head tags, canonicals, sitemap, robots.txt, preview noindex, JSON-LD, Cloudflare AI bot policies, llms.txt, answer-first content and a scripted audit.",
+      "version": "1.0.0"
     }
   ]
 }

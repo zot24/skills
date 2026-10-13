@@ -127,3 +127,7 @@ marketplace = "zot24-skills"
 [[skills]]
 name = "search-engines"
 marketplace = "zot24-skills"
+
+[[skills]]
+name = "seo-geo"
+marketplace = "zot24-skills"
