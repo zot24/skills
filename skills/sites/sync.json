@@ -1,0 +1,8 @@
+{
+  "name": "sites",
+  "version": "1.0.0",
+  "description": "Plan, build and run landing pages on Cloudflare from one brief: grill, plan, design, wire, launch gate, review",
+  "sources": [],
+  "cache_dir": ".cache",
+  "notes": "Orchestrator with no synced sources. Domain knowledge lives in the skills it calls (cloudflare-domains, umami, search-engines, seo-geo, site-design-options) and in the official cloudflare/skills and stripe/ai skills. The template/ folder is the site starter, copied into apps/web."
+}

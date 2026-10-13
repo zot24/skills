@@ -1,0 +1,33 @@
+# Checks only. Deploys run on Cloudflare Workers Builds (root dir apps/web, watch path apps/web/**).
+name: web checks
+on:
+  pull_request:
+    paths: ["apps/web/**", "pnpm-lock.yaml", ".github/workflows/web-checks.yml"]
+  push:
+    branches: [main]
+    paths: ["apps/web/**"]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: DESIGN.md lint
+        run: pnpm design:lint
+      - name: Tokens match DESIGN.md
+        run: pnpm design:tokens && git diff --exit-code src/styles/theme.css
+      - name: Type check and build (production)
+        run: pnpm build
+      - name: Built-page audit
+        run: pnpm audit:built
+      - name: Lighthouse
+        run: npx @lhci/cli@0.15.1 autorun

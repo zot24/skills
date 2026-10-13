@@ -1,0 +1,49 @@
+---
+// Placeholder sections. Layout and look come from DESIGN.md (site-design-options skill);
+// copy comes from the copy spec. Keep the facts in src/content/.
+import Base from '../layouts/Base.astro';
+import { getSite, getPlans } from '../lib/site';
+
+const site = await getSite();
+const plans = await getPlans();
+const origin = Astro.site!.origin;
+const graph = [
+  {
+    '@type': 'Service',
+    '@id': `${origin}/#service`,
+    name: site.name,
+    provider: { '@id': `${origin}/#org` },
+    offers: plans.map((p) => ({ '@type': 'Offer', name: p.name, price: p.price.toFixed(2), priceCurrency: p.currency, url: `${origin}/#pricing` })),
+  },
+];
+---
+<Base title={`${site.tagline} · ${site.name}`} description={site.description} graph={graph}>
+  <main>
+    <section id="hero">
+      <h1>{site.tagline}</h1>
+      <p>{site.description}</p>
+      <a href={site.conversion.href} data-umami-event={site.conversion.event} data-umami-event-location="hero">
+        {site.conversion.label}
+      </a>
+    </section>
+
+    <section id="pricing">
+      <h2>Pricing</h2>
+      {plans.map((plan) => (
+        <article>
+          <h3>{plan.name}</h3>
+          <p>{plan.price} {plan.currency}{plan.interval !== 'once' && ` / ${plan.interval}`}</p>
+          <ul>{plan.features.map((f) => <li>{f}</li>)}</ul>
+          {plan.paymentLink ? (
+            <a href={plan.paymentLink} data-umami-event="checkout-start" data-umami-event-plan={plan.id}>Buy</a>
+          ) : (
+            <form method="post" action="/api/checkout">
+              <input type="hidden" name="plan" value={plan.id} />
+              <button type="submit" data-umami-event="checkout-start" data-umami-event-plan={plan.id}>Buy</button>
+            </form>
+          )}
+        </article>
+      ))}
+    </section>
+  </main>
+</Base>

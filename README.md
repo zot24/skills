@@ -40,6 +40,7 @@ An opinionated selection of skills for daily dev workflows.
 | [cloudflare-domains](./skills/cloudflare-domains) | Take a domain from search to serving on Cloudflare with the official `cf` CLI — registration behind a money gate, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks |
 | [search-engines](./skills/search-engines) | Get a live site into Google and Bing — Search Console and Bing Webmaster verification, sitemaps, IndexNow, URL inspection and search reports through the APIs |
 | [seo-geo](./skills/seo-geo) | Technical SEO and GEO for Astro on Cloudflare — head tags, sitemap, robots.txt, JSON-LD, AI crawler policy, llms.txt, answer-first content, audit |
+| [sites](./skills/sites) | Orchestrator for landing pages on Cloudflare — quick grill, brief, plan, Astro template, domain, Umami, search engines, Stripe, Resend email, launch gate, review mode |
 
 ## Installation
 
@@ -179,6 +180,10 @@ Format: `/skill-name:command-name [arguments]`
 # SEO + GEO
 /seo-geo:seo-geo audit https://acmewidgets.com          # Scripted audit
 /seo-geo:seo-geo ai-bots acmewidgets.com               # AI crawler access
+
+# Sites (orchestrator)
+/sites:sites new                                         # Brief to live site
+/sites:sites review                                      # Umami + Search Console report
 ```
 
 ### Natural Language
@@ -845,6 +850,23 @@ Make Astro sites on Cloudflare easy to find in search and easy to quote in AI an
 
 [Full documentation](./skills/seo-geo/README.md)
 
+### sites
+
+One brief in, one live, measured, indexed site out, inside the app's monorepo at `apps/web`:
+
+- **Quick grill** — about five numbered questions with recommended answers → `site-brief.md`
+- **Plan** — a checklist with evidence per step
+- **Template** — Astro 7 on Workers, SEO/GEO components, Umami, Stripe Checkout, Varlock, CI
+- **Wire** — calls `cloudflare-domains`, `umami`, `search-engines`, `seo-geo`, `site-design-options`
+- **Launch gate and review mode**
+
+```bash
+/sites:sites new
+/sites:sites gate
+```
+
+[Full documentation](./skills/sites/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -991,7 +1013,8 @@ skills/
 │   ├── site-design-options/      # Redesign a site with its owner
 │   ├── cloudflare-domains/       # Domains, DNS, email, redirects, tunnels on Cloudflare
 │   ├── search-engines/           # Google Search Console, Bing Webmaster, IndexNow
-│   └── seo-geo/                  # Technical SEO, JSON-LD, AI crawlers, llms.txt
+│   ├── seo-geo/                  # Technical SEO, JSON-LD, AI crawlers, llms.txt
+│   └── sites/                    # Landing-page orchestrator + Astro template
 └── README.md
 ```
 
