@@ -6,8 +6,8 @@
 
 GEO starts with letting the right bots in. Two layers decide that, and they must agree:
 
-1. **Cloudflare AI bot policies** — enforced at the edge (Security Settings → Configure AI bot
-   policies, or AI Crawl Control per crawler).
+1. **Cloudflare AI bot policies** — enforced at the edge (`cf bot-management`, or AI Crawl Control
+   per crawler).
 2. **robots.txt** — a published preference, voluntary for the crawler.
 
 A site can have perfect content and still be invisible to ChatGPT because the edge blocks
@@ -31,18 +31,30 @@ explicitly so the result does not depend on detection.
 
 ## Set the edge policy
 
-Dashboard: domain → Security → Settings → **Configure AI bot policies**:
+With Cloudflare's `cf` CLI (see the `cf-cli` skill in cloudflare/skills), one call sets all three:
 
-- Search: **Allow**
-- Agent: **Allow**
-- Training: **Allow** (or **Block** when the owner chose to)
+```bash
+cf bot-management get -z acmewidgets.com | jq '{ai_search, ai_user, ai_training, is_robots_txt_managed}'
+cf bot-management update -z acmewidgets.com --ai-search disabled --ai-user disabled --ai-training disabled
+```
 
-Then AI Crawl Control → Crawlers: confirm no individual crawler from the Search and Agent rows above
-is set to Block. Blocking in AI Crawl Control writes a WAF custom rule; look for it under Security →
-WAF → Custom rules when a bot is blocked and the policy says allow.
+| Flag | Values | Landing page |
+|---|---|---|
+| `--ai-search` | `disabled` (allow), `block`, `only_on_ad_pages` | `disabled` |
+| `--ai-user` (Agent) | `disabled`, `block`, `only_on_ad_pages` | `disabled` |
+| `--ai-training` | `disabled`, `disallow` (robots.txt only), `block` (edge), `only_on_ad_pages` | `disabled`, or `block` when the owner chose to |
 
-These settings have no documented public API yet. Ask the owner to set them, or drive the dashboard
-with a browser tool when one is available, and record the result in the site brief.
+Run `--dry-run` first: `bot-management update` takes other fields too, and only the three above
+belong to this skill. Then check that no single crawler from the Search and Agent rows is blocked by
+a WAF custom rule (AI Crawl Control writes one when someone blocks a crawler there):
+
+```bash
+cf rulesets entrypoint get http_request_firewall_custom -z acmewidgets.com \
+  | jq '.rules[]? | select(.expression | test("(?i)bot|user_agent")) | {description, action}'
+```
+
+Record the result in the site brief. The dashboard path is Security → Settings → Configure AI bot
+policies, for an owner who wants to look.
 
 ## robots.txt groups
 

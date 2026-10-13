@@ -61,6 +61,7 @@ Synced upstream references:
 - `search-engines` — Search Console and Bing: submission, indexing, queries
 - `cloudflare-domains` — redirects, Crawler Hints
 - `site-design-options` — layout, voice and copy spec
+- `cf-cli` (cloudflare/skills) — the `cf` CLI for AI bot policies and WAF checks
 - `web-perf` (cloudflare/skills) — deep performance work
 - `umami` — AI referrer traffic, heatmaps on the pages being optimised
 
