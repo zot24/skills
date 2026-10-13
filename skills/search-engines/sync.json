@@ -1,0 +1,8 @@
+{
+  "name": "search-engines",
+  "version": "1.0.0",
+  "description": "Get a site into Google and Bing: Search Console, Bing Webmaster Tools and IndexNow through their APIs",
+  "sources": [],
+  "cache_dir": ".cache",
+  "notes": "No synced sources. The guides are authored from the Search Console and Site Verification API discovery documents (searchconsole.googleapis.com/$discovery/rest?version=v1, googleapis.com/discovery/v1/apis/siteVerification/v1/rest), the Bing Webmaster API reference on learn.microsoft.com and the IndexNow protocol at indexnow.org"
+}

@@ -123,3 +123,7 @@ marketplace = "zot24-skills"
 [[skills]]
 name = "cloudflare-domains"
 marketplace = "zot24-skills"
+
+[[skills]]
+name = "search-engines"
+marketplace = "zot24-skills"

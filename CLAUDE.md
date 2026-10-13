@@ -50,7 +50,8 @@ skills/
 │   ├── skill-release-preflight/ # Pre-push checks for this repo — versions, manifests, labels
 │   ├── apprise-api/          # Apprise API self-hosted notification gateway
 │   ├── site-design-options/  # Redesign a site with its owner — copy spec, directions, mock-ups, lock
-│   └── cloudflare-domains/   # Domains, DNS, email, redirects, tunnels on Cloudflare
+│   ├── cloudflare-domains/   # Domains, DNS, email, redirects, tunnels on Cloudflare
+│   └── search-engines/       # Google Search Console, Bing Webmaster, IndexNow
 └── README.md
 ```
 
@@ -268,6 +269,7 @@ Each skill syncs documentation from upstream sources.
 | apprise-api | https://github.com/caronc/apprise-api (README) + https://github.com/caronc/apprise-docs (`locales/en/` Markdown source of appriseit.com) | URL-based |
 | site-design-options | None — a way of working distilled from four site redesigns; calls Emil Kowalski's design skills, `unslop`, `writing-for-agents`, llm-wiki and the Inspo MCP without copying them | Self-contained |
 | cloudflare-domains | None — playbook over Cloudflare's official `cf` CLI and its `cf-cli` skill (cloudflare/skills); authored playbook, redirects, email, tunnel and secrets guides | Self-contained |
+| search-engines | None — authored from the Search Console and Site Verification API discovery documents, the Bing Webmaster API reference and the IndexNow protocol | Self-contained |
 
 ### When to Sync
 

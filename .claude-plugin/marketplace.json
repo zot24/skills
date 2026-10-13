@@ -185,6 +185,12 @@
       "source": "./skills/cloudflare-domains",
       "description": "Take a domain from search to serving on Cloudflare with the official cf CLI: registration behind a money gate, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks.",
       "version": "1.1.0"
+    },
+    {
+      "name": "search-engines",
+      "source": "./skills/search-engines",
+      "description": "Get a live site into Google and Bing through their APIs: Search Console domain verification, property and sitemap, Bing Webmaster site, verification and sitemap, IndexNow pings, URL inspection and search performance checks.",
+      "version": "1.0.0"
     }
   ]
 }
