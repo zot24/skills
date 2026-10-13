@@ -52,6 +52,9 @@ The reviewer runs:
   strings, missing fields, long names), `mobile-native` on the phone build.
 - **Tokens:** computed `background-color` on `body`, `font-family` on `h1` and body text, and the
   primary button's accent match `design.md`.
+- **The lock still lints:** `design.md lint` reports no new errors or warnings, `diff` against
+  `design.locked.md` names only changes the owner approved, and the theme file matches a fresh
+  `export`. The site repo's CI runs the same lint on every pull request that touches `design.md`.
 - **Tell scan:** fail on cream or off-white paper, Inter or Instrument Serif, a 3-equal-card grid, a
   hero that overflows the first screen, a mid-page section with zero vertical padding — unless
   `design.md` chose it on purpose.

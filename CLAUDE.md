@@ -265,7 +265,7 @@ Each skill syncs documentation from upstream sources.
 | tower | https://github.com/herdrdev/herdr (README, bundled `skills/herdr/SKILL.md`) + authored operating loop / dispatch / gates; checker from https://github.com/Leonxlnx/unlazy (`scripts/gate-check.mjs`, MIT) vendored by hand — never auto-synced, the attribution header must survive | URL-based + authored |
 | skill-release-preflight | None — this repository's own release and consistency rules | Self-contained |
 | apprise-api | https://github.com/caronc/apprise-api (README) + https://github.com/caronc/apprise-docs (`locales/en/` Markdown source of appriseit.com) | URL-based |
-| site-design-options | None — a way of working distilled from four site redesigns; calls Emil Kowalski's design skills, `unslop`, `writing-for-agents`, llm-wiki and the Inspo MCP without copying them | Self-contained |
+| site-design-options | A way of working distilled from four site redesigns (calls Emil Kowalski's design skills, `unslop`, `writing-for-agents`, llm-wiki and the Inspo MCP without copying them) + https://github.com/google-labs-code/design.md (README, `docs/spec.md`) and https://github.com/google-labs-code/stitch-skills (README) | Authored + URL-based |
 
 ### When to Sync
 

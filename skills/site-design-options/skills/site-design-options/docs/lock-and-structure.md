@@ -20,30 +20,37 @@ it keeps them through every later revamp. It is an agent-facing document, so wri
 `get_design_system` output, never from a shared gallery file: several sites seeded from one gallery
 converge.
 
-Open it with three things: the lock date, the owner's words, and one rule. **Any change to the look
-edits this file first, and a section that departs from it is a defect.** Copy comes from the copy
-spec, not from here.
+Write it in Google's [DESIGN.md format](stitch-and-design-md.md#designmd-the-locks-file-format):
+YAML front matter for the tokens, then Markdown sections. The front matter holds every colour, type
+role, radius, spacing step and component (the claim-and-caveat block, the buttons and the mobile
+action bar included), so the linter checks their contrast.
+
+Open the body with three things: the lock date, the owner's words, and one rule. **Any change to the
+look edits this file first, and a section that departs from it is a defect.** Copy comes from the
+copy spec, not from here.
+
+The eight canonical sections come first, in this order, and the site's own sections follow:
 
 | § | Holds |
 |---|---|
-| Idea | One line |
-| Rules that settle most questions | Stated positively: the picks themselves |
-| Forbidden | Each model default, listed after the pick that replaces it. A bare ban moves the model to the next default in line |
-| Colour | `\| Token \| Hex \| Role \| Contrast \|`, `color-scheme` and `theme-color`, and where the accent may appear |
-| Type | Families and their coverage (locales, symbols, figures), `\| Role \| Size \| Weight \| Line height \| Tracking \|`, measure, `tabular-nums` |
-| Space | Base step, container padding (inline only), section rhythm, header height, radius, borders, the one shadow, 44 px targets |
-| Templates | Page templates and the first-viewport rule |
-| Components | Anatomy, variants and rules for each: header, buttons, the claim-and-caveat block, tiles, tables, FAQ, footer, mobile action bar, share image |
-| Navigation | Desktop bar and its phone form |
-| Icons and emoji | Where they appear and where they never do |
-| The conversion action | Its one form, label and tracking code |
+| Overview | The idea in one line, then the rules that settle most questions, stated positively as the picks themselves |
+| Colors | The role of each colour token and its contrast, `color-scheme` and `theme-color`, and where the accent may appear |
+| Typography | Families and their coverage (locales, symbols, figures), the ramp as tokens, measure, `tabular-nums` |
+| Layout | Base step, container padding (inline only), section rhythm, header height, page templates and the first-viewport rule, navigation on desktop and its phone form, and the rules `mobile-native` gives for this direction, applied by name |
+| Elevation & Depth | Borders and the one shadow |
+| Shapes | Radius, icons and emoji: where they appear and where they never do |
+| Components | Anatomy, variants and rules for each: header, buttons, the claim-and-caveat block, tiles, tables, FAQ, footer, mobile action bar, share image, and the conversion action's one form, label and tracking code |
+| Do's and Don'ts | Each model default, listed after the pick that replaces it (a bare ban moves the model to the next default in line), then the tells by name, then any lint warning kept on purpose |
 | Motion | `\| Interaction \| Motion \| Duration and easing \| Why \|`, from `emil-design-eng` and `apple-design`; reduced motion; a short "never" list |
-| Mobile | The rules `mobile-native` gives for this direction, applied by name |
-| Accessibility and speed | Contrast, focus, LCP, CLS and INP targets |
+| Accessibility and speed | Contrast, focus, 44 px targets, LCP, CLS and INP targets |
 | Rendering contract | What must be in the server HTML |
-| Tokens | A code block the build pastes, such as a Tailwind `@theme` |
-| Build gates | Computed values, the tell scan, the claim rule, the fold, the rhythm, motion, server HTML |
-| Not this site | The tells, by name |
+| Build gates | The lint result, computed values, the tell scan, the claim rule, the fold, the rhythm, motion, server HTML |
+
+The build's token code (a Tailwind `@theme` block) is exported from the front matter with
+`design.md export`, never typed by hand. The lock is done when `lint` reports zero errors and zero
+warnings, or each remaining warning is named under Do's and Don'ts. Keep a frozen copy as
+`design.locked.md`, so that later changes can be checked with `diff`. Commands are in
+[the gates](stitch-and-design-md.md#gates).
 
 Use `pick-ui-library` before you name a library. The usual answer is none, or at most one, and
 installed equivalents stay rather than churn.
@@ -129,6 +136,6 @@ work is yellow** and labelled with its question id or `C`, so the owner sees wha
 means" legend, then the desktop and phone frames for each page. Count the yellow marks per page, for
 the owner and for the copywriter separately, and put the counts in the report.
 
-**Done when:** `design.md` and `references.md` exist, every inner page in the IA owns a question, the
+**Done when:** `design.md` passes `lint` and `references.md` exists, every inner page in the IA owns a question, the
 three mocks pass the browser check, and every yellow string appears in the unclear-copy list or on
 the decisions page.

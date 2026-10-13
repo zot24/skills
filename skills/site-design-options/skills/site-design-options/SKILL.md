@@ -1,6 +1,6 @@
 ---
 name: site-design-options
-description: Redesigns an existing website with its owner — learns the site, writes cited copy, shows design directions as mock-ups the owner opens, iterates on the favourite, locks design.md and the page structure, then builds section by section. Use when the owner asks to redesign a site or rewrite its copy, SEO and GEO with the look; wants design options or mock-ups to choose from; asks for more versions of a favourite or "actually different" ones; or wants a site's design locked or its open questions gathered. Also triggers on copy spec, claim register, design.md, information architecture, decisions page.
+description: Redesigns an existing website with its owner — learns the site, writes cited copy, shows design directions as mock-ups the owner opens, iterates on the favourite, locks design.md and the page structure, then builds section by section. Use when the owner asks to redesign a site or rewrite its copy, SEO and GEO with the look; wants design options or mock-ups to choose from; asks for more versions of a favourite or "actually different" ones; or wants a site's design locked or its open questions gathered. Also triggers on copy spec, claim register, design.md, DESIGN.md lint, Google Stitch, information architecture, decisions page.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
@@ -19,7 +19,7 @@ point at. Three end on a **stop** where the owner decides, and the last on a PR 
 | 3 | [Directions](docs/directions.md) | `CLAUDE.md` business section, directions file | three directions, study budget kept and logged; go straight to 4 |
 | 4 | [Mock-ups](docs/mock-ups.md) | one HTML file per direction, `index.html` | every file checked in a real browser at 1280 and 375 — **stop** |
 | 5 | [The owner's loop](docs/owner-loop.md) | variants beside the frozen favourite | favourite's hash unchanged; each variant names its one change — **stop**, repeat as asked |
-| 6 | [Lock and structure](docs/lock-and-structure.md) | `design.md`, `references.md`, IA, inner-page mocks | each inner page owns one search question; every open string is yellow and listed |
+| 6 | [Lock and structure](docs/lock-and-structure.md) | `design.md`, `references.md`, IA, inner-page mocks | `design.md` lints clean; each inner page owns one search question; every open string is yellow and listed |
 | 7 | [One decisions page](docs/decisions-page.md) | decisions JSON, an Artifact page | every owner question on it once; answers read back — **stop** |
 | 8 | [Build and review](docs/build-and-review.md) | one commit per section, a PR | blind review passes; the SEO/GEO diff shows only planned changes |
 
@@ -80,6 +80,8 @@ Under a tower each stage is a seat; alone, you play every role but the adversary
 | `unslop` | 2–7 | every owner-facing line; user-invoked, so read `~/.claude/skills/unslop/SKILL.md` and apply it |
 | `artifact-design`, `artifact-capabilities` | 7 | the decisions page and its `answers` collection; when the Artifact tool is available, load its built-in `artifact-design` and `artifact-capabilities` skills first; without it, use the fallback in [the decisions doc](docs/decisions-page.md#build-the-page) |
 | Playwright with the system Chrome | 1, 4–6, 8 | screenshots at 1280×800 and 375×812 |
+| `@google/design.md` CLI | 6, 8 | `design.md` in Google's DESIGN.md format: `lint` gates the lock, `export` writes the theme, `diff` checks later changes ([guide](docs/stitch-and-design-md.md)) |
+| Stitch CLI (`@google/stitch`), optional | 1, 3–6 | drafts directions and variants with `--creative-range`, only with the owner's word; drafts are reworked to the mock-up rules ([guide](docs/stitch-and-design-md.md#stitch-an-optional-generator-for-stages-3-to-5)) |
 
 Emil Kowalski's skills come from `github.com/emilkowalski/skills`; a tower may stage a pinned copy
 (`~/tower/.tower/vendor/emil-skills-<sha>/`). Copy them into the site worktree's `.claude/skills/`,

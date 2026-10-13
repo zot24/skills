@@ -763,8 +763,8 @@ Redesign an existing website with its owner, in eight stages that stop for the o
 - **copy** — a copy spec built on a claim register, attacked by an adversary from another provider, revised at most twice
 - **directions** — business intent in the site's `CLAUDE.md`, an Inspo study with a budget, three genuinely different directions, then stop; an allocation table when several sites share a niche
 - **mocks** — static first-screen mock-ups at desktop and phone width, beside a screenshot of today's site, open strings in yellow, checked in a real browser
-- **family** / **different** — keep the favourite frozen and vary one real thing, or run a fresh study that changes all four axes
-- **lock** — `design.md`, `references.md`, a page structure where each page owns a search question, and the list of unclear copy
+- **family** / **different** — keep the favourite frozen and vary one real thing, or run a fresh study that changes all four axes; Google Stitch can draft the variants when the owner allows it
+- **lock** — `design.md` in Google's DESIGN.md format with lint, export and diff gates, `references.md`, a page structure where each page owns a search question, and the list of unclear copy
 - **decisions** — every owner question on one page, recommended answers pre-selected, answers saved and read back
 - **build** — one section per commit, blind screenshot review, SEO and GEO diff against the snapshot
 
