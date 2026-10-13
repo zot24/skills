@@ -196,7 +196,7 @@
       "name": "seo-geo",
       "source": "./skills/seo-geo",
       "description": "Technical SEO and GEO for Astro sites on Cloudflare: head tags, canonicals, sitemap, robots.txt, preview noindex, JSON-LD, Cloudflare AI bot policies, llms.txt, answer-first content and a scripted audit.",
-      "version": "1.1.0"
+      "version": "1.0.0"
     }
   ]
 }
