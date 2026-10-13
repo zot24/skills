@@ -130,4 +130,6 @@ made. When the reworked file and the Stitch canvas disagree, the file wins.
 - **One prompt cannot hold a whole design.** For multi-page drafts, put the constraints in a DESIGN.md
   and upload it first, and only then generate pages. Without it, every screen drifts to a new style.
 - **The CLI's own agent skill** (`stitch agent-skills add`) teaches an agent the commands. It does
-  not replace this pipeline's stops. Install it per project, not user-wide.
+  not replace this pipeline's stops. Install it per project, not user-wide, and pass
+  `--dir .claude/skills` for Claude Code: the default `.agents/skills` folder is not one Claude Code
+  loads skills from, so the skill would sit unused.

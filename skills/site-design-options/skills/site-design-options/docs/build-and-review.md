@@ -37,7 +37,8 @@ Two layout rules hold everywhere: the hero fits the first viewport (an oversized
 is the commonest failure), and sections keep 80–160 px of vertical rhythm (a padding shorthand can
 zero it silently — check the computed value).
 
-Motion comes last and is optional. Use Emil Kowalski's `emil-design-eng` and `apple-design` for
+Motion comes last and is optional. A build agent tends to add small effects nobody asked for, such
+as images that zoom on entry; remove them unless `design.md` lists them. Use Emil Kowalski's `emil-design-eng` and `apple-design` for
 what to animate, and keep to `design.md`'s motion rules. Scroll-driven video pages stay out unless
 the owner asks: they cost mobile load time and move meaning out of the text crawlers read.
 
@@ -62,8 +63,9 @@ The reviewer runs:
   told to assume the page fails until the evidence says otherwise, with no praise. It scores each
   section (keep, rework, broken), measures each section's share of the page height against how
   much that section matters, so the most important moment is also the biggest one, and flags
-  repeated peaks, early spoilers and threads that never pay off. It reports and stops; fixes wait
-  for the owner's pick.
+  repeated peaks, early spoilers and threads that never pay off. It also scrolls fast: effects that
+  each look fine can pile up into noise (too many particles, too many moving layers at once). It
+  sorts findings worst first, reports and stops; fixes wait for the owner's pick.
 - **Tokens:** computed `background-color` on `body`, `font-family` on `h1` and body text, and the
   primary button's accent match `design.md`.
 - **The lock still lints:** `design.md lint` reports no new errors or warnings, `diff` against
