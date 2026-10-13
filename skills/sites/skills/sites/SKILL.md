@@ -61,6 +61,7 @@ Install the official ones as dependencies, never copy them: see [dependencies](d
 |---|---|
 | Where | `apps/web` in the app's pnpm + Turborepo monorepo; the repo root when the repo is the site; nothing else |
 | Stack | Astro (static pages, React islands, content collections), one Worker with static assets |
+| Not Astro when | The "site" is really an app: logins, dashboards, most pages behind data. Use TanStack Start on Workers (`npm create cloudflare@latest -- <name> --framework=tanstack-start`, the `wrangler` skill for config) and keep the marketing pages in Astro |
 | Deploy | Cloudflare Workers Builds; GitHub Actions only for checks |
 | Analytics | The owner's self-hosted Umami at `umami.<domain>`; no Google Analytics, no fallback |
 | Conversion | Whatever the brief names: a sign-up link, a chat link, or Stripe. Payments are optional |
