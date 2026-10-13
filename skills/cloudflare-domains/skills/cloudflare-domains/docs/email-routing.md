@@ -1,64 +1,50 @@
-<!-- Authored for this skill. Not synced from upstream.
-     Endpoints follow the Cloudflare API reference (developers.cloudflare.com/api, "Email Routing").
-     Cloudflare moved the Email Routing guides under Email Service; check the API reference
-     if a call returns 404. -->
+<!-- Authored for this skill. Commands come from Cloudflare's cf CLI; see the cf-cli skill. -->
 
 # Email Routing
 
-Forward mail for the new domain to the owner's existing inbox. No mailbox is created; Cloudflare adds
-the MX and SPF records itself.
+Forward mail for the domain to the owner's existing inbox. No mailbox is created; Cloudflare adds the
+MX and SPF records itself. Sending from the domain is a separate service: the `sites` skill uses
+Resend for it, on `send.<domain>`, so the two never collide.
 
 ## 1. Enable on the zone (adds MX + SPF)
 
 ```bash
-curl -s -X POST "$CF/zones/$ZONE/email/routing/dns" "${AUTH[@]}"
-curl -s "$CF/zones/$ZONE/email/routing" "${AUTH[@]}" | jq '.result | {enabled, status}'
+cf dns records list -z "$D" --type MX | jq 'length'   # anything but 0: ask the owner first
+cf email-routing enable -z "$D"
+cf email-routing settings get -z "$D" | jq '{enabled, status}'
 ```
 
-If the zone already has MX records from another provider, stop and ask the owner: enabling replaces
-where mail goes.
+Existing MX records mean mail already goes somewhere else. Enabling moves it: ask before doing that.
 
 ## 2. Destination address (account level, verified once)
 
-```bash
-curl -s -X POST "$CF/accounts/$CLOUDFLARE_ACCOUNT_ID/email/routing/addresses" "${AUTH[@]}" \
-  -d '{"email":"owner@example.com"}'
-```
-
-Cloudflare emails a verification link to that address. A rule that forwards to an unverified address
-silently drops mail, so tell the owner to click it, then check `verified` is set:
+The owner's address is private: read it from the environment (`OWNER_EMAIL`), never from the repo.
 
 ```bash
-curl -s "$CF/accounts/$CLOUDFLARE_ACCOUNT_ID/email/routing/addresses" "${AUTH[@]}" \
-  | jq '.result[] | {email, verified}'
+cf email-routing addresses list | jq '.[] | {email, verified}'
+cf email-routing addresses create --body "$(jq -nc --arg e "$OWNER_EMAIL" '{email:$e}')"
 ```
 
-Reuse an already verified address across every site; never ask for it again.
+Cloudflare mails a verification link to that address. A rule that forwards to an unverified address
+drops mail silently, so tell the owner to click it, then check `verified` is set. Reuse a verified
+address for every site; never ask for it again.
 
-## 3. Rules
-
-A named address:
+## 3. Forward info@
 
 ```bash
-curl -s -X POST "$CF/zones/$ZONE/email/routing/rules" "${AUTH[@]}" -d '{
-  "name": "hello",
-  "enabled": true,
-  "matchers": [{ "type": "literal", "field": "to", "value": "hello@acmewidgets.com" }],
-  "actions":  [{ "type": "forward", "value": ["owner@example.com"] }]
-}'
+cf email-routing rules create -z "$D" --body "$(jq -nc --arg to "info@$D" --arg e "$OWNER_EMAIL" '{
+  name: "info", enabled: true,
+  matchers: [{type: "literal", field: "to", value: $to}],
+  actions:  [{type: "forward", value: [$e]}] }')"
 ```
 
-Or a catch-all, for landing pages that list several addresses:
+Or a catch-all, for sites that list several addresses:
 
 ```bash
-curl -s -X PUT "$CF/zones/$ZONE/email/routing/rules/catch_all" "${AUTH[@]}" -d '{
-  "enabled": true,
-  "matchers": [{ "type": "all" }],
-  "actions":  [{ "type": "forward", "value": ["owner@example.com"] }]
-}'
+cf email-routing rules catch-all update -z "$D" --body "$(jq -nc --arg e "$OWNER_EMAIL" '{
+  enabled: true, matchers: [{type: "all"}], actions: [{type: "forward", value: [$e]}] }')"
 ```
 
-## Sending mail
+## Check
 
-Email Routing only receives. Sending from the domain (contact-form replies, receipts) is Cloudflare
-Email Service — the official `cloudflare-email-service` skill in cloudflare/skills covers it.
+Mail `info@<domain>` from another account; it arrives in the owner's inbox within a minute.

@@ -37,7 +37,7 @@ An opinionated selection of skills for daily dev workflows.
 | [skill-release-preflight](./skills/skill-release-preflight) | Three checks before pushing to this repo — never hand-edit a release-please version, run `check-consistency.sh` locally, and read `gh label list` before `gh pr create` |
 | [apprise-api](./skills/apprise-api) | Deploy, configure, and drive the Apprise API (caronc/apprise-api) — the self-hosted notification gateway that fans one HTTP request out to 100+ services, with stateful config keys, tag routing, attachments, and webhook payload mapping |
 | [site-design-options](./skills/site-design-options) | Redesign an existing website with its owner — census and SEO/GEO snapshot, a cited copy spec an adversary attacks, an Inspo study with a budget, three directions as mock-ups the owner opens, the family and "actually different" loops, `design.md` and page structure, one decisions page, then a section-by-section build |
-| [cloudflare-domains](./skills/cloudflare-domains) | Take a domain from search to serving on Cloudflare — Registrar API with a money gate, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks |
+| [cloudflare-domains](./skills/cloudflare-domains) | Take a domain from search to serving on Cloudflare with the official `cf` CLI — registration behind a money gate, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks |
 
 ## Installation
 
@@ -785,12 +785,12 @@ Redesign an existing website with its owner, in eight stages that stop for the o
 
 ### cloudflare-domains
 
-Take a domain from search to serving on Cloudflare, through the API and `wrangler`:
+Take a domain from search to serving on Cloudflare, with the official `cf` CLI and `wrangler`:
 
 - **registrar** — search, availability and price, registration only after the user's explicit yes
 - **dns** — zone lookup, records, Always Use HTTPS, DNSSEC, Worker custom domains
 - **redirect** — www to apex as one Single Redirect, existing rules kept
-- **email** — Email Routing to an existing inbox, named addresses or catch-all
+- **email** — Email Routing to an existing inbox, `info@` or catch-all
 - **tunnel** — a public hostname on an existing Cloudflare Tunnel, admin paths blocked by a WAF rule
 - **crawler hints** — IndexNow pings when pages change
 

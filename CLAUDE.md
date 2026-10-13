@@ -267,7 +267,7 @@ Each skill syncs documentation from upstream sources.
 | skill-release-preflight | None — this repository's own release and consistency rules | Self-contained |
 | apprise-api | https://github.com/caronc/apprise-api (README) + https://github.com/caronc/apprise-docs (`locales/en/` Markdown source of appriseit.com) | URL-based |
 | site-design-options | None — a way of working distilled from four site redesigns; calls Emil Kowalski's design skills, `unslop`, `writing-for-agents`, llm-wiki and the Inspo MCP without copying them | Self-contained |
-| cloudflare-domains | https://github.com/cloudflare/cloudflare-docs (raw `.mdx` for Registrar, DNS, redirects, WAF, Crawler Hints, tunnels, tokens) + authored playbook, redirects, email, tunnel and secrets guides | URL-based + authored |
+| cloudflare-domains | None — playbook over Cloudflare's official `cf` CLI and its `cf-cli` skill (cloudflare/skills); authored playbook, redirects, email, tunnel and secrets guides | Self-contained |
 
 ### When to Sync
 

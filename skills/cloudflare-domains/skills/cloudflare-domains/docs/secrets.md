@@ -5,7 +5,7 @@
 ## The API token
 
 One account-scoped token covers the whole playbook. Create it with these permissions
-(names as the token screen shows them; see [create-api-token](create-api-token.md)):
+(names as the token screen shows them):
 
 | Scope | Permission | Used for |
 |---|---|---|
@@ -16,7 +16,7 @@ One account-scoped token covers the whole playbook. Create it with these permiss
 | Zone | Zone — Read | zone ID lookup |
 | Zone | DNS — Edit | records, www placeholder, tunnel CNAMEs |
 | Zone | Zone Settings — Edit | Always Use HTTPS, DNSSEC |
-| Zone | Single Redirect — Edit | www → apex |
+| Zone | Single Redirect — Edit | www → apex and other redirects |
 | Zone | Zone WAF — Edit | locking paths on self-hosted hostnames |
 | Zone | Email Routing Rules — Edit | forwarding rules |
 | Zone | Workers Routes — Edit | custom domains |
@@ -38,6 +38,9 @@ stands for it. Expected items:
 
 If an item is missing, stop and ask the owner to add it to the vault. Never create credentials or ask
 for them in chat.
+
+`cf` reads `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` from the environment; agents never run
+`cf auth login`, which needs a browser.
 
 ## Varlock (preferred)
 
@@ -66,7 +69,7 @@ Varlock so values never land in shell history or logs:
 ```bash
 npx varlock load                        # validates; sensitive values are redacted
 npx varlock run -- wrangler deploy
-npx varlock run -- bash -c 'curl -s "$CF/zones?name=acmewidgets.com" -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"'
+npx varlock run -- cf zones list --name acmewidgets.com
 ```
 
 ## 1Password CLI (fallback)
@@ -75,5 +78,5 @@ When the repo has no `.env.schema` yet, use `op` directly (see the `1password-cl
 
 ```bash
 export OP_SERVICE_ACCOUNT_TOKEN=...      # provided by the environment, never typed into chat
-op run --env-file=<(printf 'CLOUDFLARE_API_TOKEN="op://$OP_VAULT/cloudflare/credential"\n') -- wrangler whoami
+op run --env-file=<(printf 'CLOUDFLARE_API_TOKEN="op://$OP_VAULT/cloudflare/credential"\n') -- cf auth whoami
 ```

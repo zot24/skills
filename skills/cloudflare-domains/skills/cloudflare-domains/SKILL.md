@@ -1,83 +1,64 @@
 ---
 name: cloudflare-domains
-description: Takes a domain from search to serving on Cloudflare — Registrar API search, check and registration, zone DNS, Worker custom domains, www to apex redirect, Always Use HTTPS, DNSSEC, Email Routing, Crawler Hints (IndexNow), public hostnames on an existing Cloudflare Tunnel and WAF rules that hide admin paths. Use when buying or wiring a domain, pointing a domain at a Worker, forwarding domain email, or exposing a self-hosted service under a site's subdomain. Triggers on Cloudflare Registrar, buy a domain, register domain, DNS records, www redirect, email routing, custom domain, cloudflared tunnel hostname, cfargotunnel, WAF custom rule, Crawler Hints, IndexNow.
+description: Takes a domain from search to serving on Cloudflare with the official cf CLI — availability and price, registration behind a money gate, DNS, DNSSEC, Always Use HTTPS, Worker custom domains, www to apex redirect, Email Routing, Crawler Hints, public hostnames on an existing Cloudflare Tunnel and WAF rules that hide admin paths. A playbook over Cloudflare's own cf-cli skill, not a copy of its docs. Use when buying or wiring a domain, pointing a domain at a Worker, forwarding domain email, or exposing a self-hosted service under a site's subdomain. Triggers on buy a domain, register domain, Cloudflare Registrar, DNS records, www redirect, email routing, custom domain, tunnel hostname, cfargotunnel, WAF custom rule, Crawler Hints.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
 # cloudflare-domains
 
 Everything between "we want acmewidgets.com" and "it serves the site, forwards mail and pings search
-engines" — driven through the Cloudflare API and `wrangler`, no dashboard clicking.
+engines", run with Cloudflare's official `cf` CLI. Cloudflare's **`cf-cli`** skill (cloudflare/skills)
+owns the commands; this skill owns the order, the stops and the merges that keep other things
+working.
 
 ## Overview
 
-- **Registrar API** — search, check price and availability, register, poll status
-- **DNS and HTTPS** — zone lookup, records, Always Use HTTPS, DNSSEC
-- **Worker custom domains** — apex served by the site's Worker, certificate included
-- **www → apex** — one Single Redirect rule, never clobbering existing rules
-- **Email Routing** — forward `hello@` or a catch-all to the owner's inbox
+- **Registrar** — availability and price, registration only after the owner's yes
+- **DNS and HTTPS** — records, DNSSEC, Always Use HTTPS, Crawler Hints
+- **Worker custom domains** — declared in the site's `wrangler.jsonc`, attached on deploy
+- **www → apex** — one Single Redirect rule added next to the rules already there
+- **Email Routing** — `info@<domain>` forwarded to the owner's inbox
 - **Tunnel hostnames + WAF** — `umami.<site-domain>` on an existing tunnel, admin paths blocked
 
-## Two hard rules
+## Three hard rules
 
-1. **Money gate.** Registration charges the account card immediately and cannot be refunded. Show the
-   user the exact domain, price and renewal price, and register only after an explicit yes.
-2. **Read before replace.** Redirect entry points, WAF entry points and tunnel ingress lists are
-   replaced wholesale by `PUT`. Read the current state, merge, then write.
+1. **Money gate.** Registration charges the account card at once and cannot be refunded. Show the
+   exact domain, first-year price and renewal price; register only after an explicit yes.
+2. **Add, never replace.** Rulesets take one new rule with `cf rulesets rules create`. The tunnel
+   ingress list has no add command, so read it, merge, write it back.
+3. **No secrets in repos.** Token and account ID come from the environment (1Password via Varlock).
+   Never print them, and never commit vault names, account IDs or tunnel IDs.
 
 ## Quick start
 
 ```bash
-CF=https://api.cloudflare.com/client/v4
-AUTH=(-H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json")
-curl -s -X POST "$CF/accounts/$CLOUDFLARE_ACCOUNT_ID/registrar/domain-check" "${AUTH[@]}" \
-  -d '{"domains":["acmewidgets.com"]}'
-ZONE=$(curl -s "$CF/zones?name=acmewidgets.com" "${AUTH[@]}" | jq -r '.result[0].id')
+npm i -g cf                                   # Cloudflare CLI; needs Node 22.18+
+cf registrar registrations check acmewidgets.com
+cf zones settings edit always_use_https -z acmewidgets.com --body '{"value":"on"}'
 ```
 
-Credentials come from 1Password through Varlock — never hard-code them, never print them, and never
-write vault names, tunnel IDs or account IDs into a repo. See [secrets](docs/secrets.md).
+`-z` takes the domain name, so there is no zone ID lookup. Before a command you have not run, use
+`cf cli search "<task>"`, then `--help` and `--dry-run` (see Cloudflare's `cf-cli` skill).
 
 ## Documentation
 
-Authored playbooks (start here):
-
-- **[Playbook](docs/playbook.md)** — the nine steps for a new domain, in order, with verification
-- **[Secrets](docs/secrets.md)** — token permissions, Varlock schema, `op` fallback
-- **[Redirects](docs/redirects.md)** — www → apex without losing existing rules
-- **[Email Routing](docs/email-routing.md)** — enable, verify destination, rules, catch-all
+- **[Playbook](docs/playbook.md)** — the steps for a new domain, in order, with checks
+- **[Redirects](docs/redirects.md)** — www → apex without touching existing rules
+- **[Email Routing](docs/email-routing.md)** — enable, verify the destination, forward `info@`
 - **[Tunnel hostnames](docs/tunnel-hostnames.md)** — ingress merge, CNAME, WAF path lock
+- **[Secrets](docs/secrets.md)** — token permissions, Varlock schema, `op` fallback
 
-Upstream Cloudflare docs (synced):
+## Depends on
 
-- **[Registrar API](docs/registrar-api.md)** · **[Register a domain](docs/register-domain.md)**
-- **[Create DNS records](docs/create-dns-records.md)** · **[DNSSEC](docs/dnssec.md)**
-- **[Workers custom domains](docs/workers-custom-domains.md)**
-- **[Redirect www to root](docs/redirect-www-to-root.md)** · **[Single Redirects API](docs/single-redirects-api.md)**
-- **[WAF custom rules API](docs/waf-custom-rules-api.md)** · **[Crawler Hints](docs/crawler-hints.md)**
-- **[Remote tunnel API](docs/remote-tunnel-api.md)** · **[Tunnel DNS records](docs/tunnel-dns-records.md)**
-- **[Create an API token](docs/create-api-token.md)**
+| Skill | Source | For |
+|---|---|---|
+| `cf-cli` | cloudflare/skills | every `cf` command, sign-in, `cf cli search` |
+| `wrangler` | cloudflare/skills | deploys and Worker custom domains |
+| `cloudflare` | cloudflare/skills | product references (WAF, tunnels) |
+| `1password-cli` | zot24/skills | secrets fallback |
 
 ## Common workflows
 
-- **New site domain:** playbook steps 1–8, then `wrangler deploy` with the custom domain route.
-- **Existing domain, new Worker:** skip steps 1–2; start at the zone lookup.
-- **Analytics hostname:** [tunnel hostnames](docs/tunnel-hostnames.md), then hand the hostname to the
-  `umami` skill to create the website and inject its script.
-
-## Related skills
-
-- `wrangler`, `workers-best-practices` (cloudflare/skills) — Worker config and deploys
-- `cloudflare-email-service` (cloudflare/skills) — sending mail from the domain
-- `1password-cli` — reading secrets when Varlock is not set up
-
-## Upstream Sources
-
-- **Documentation**: https://developers.cloudflare.com
-- **Docs source**: https://github.com/cloudflare/cloudflare-docs
-- **API reference**: https://developers.cloudflare.com/api
-
-## Sync & Update
-
-When user runs `sync`: run `.github/workflows/scripts/sync-skill.sh skills/cloudflare-domains --force`.
-When user runs `diff`: run the same script with `--dry-run`. Authored docs are not touched by sync.
+- New site: `setup <domain>` runs the [playbook](docs/playbook.md) end to end.
+- Self-hosted tracker for a site: `tunnel umami.<domain>` ([tunnel hostnames](docs/tunnel-hostnames.md)).
+- A domain bought elsewhere: `cf zones create`, then the owner changes nameservers; continue at step 3.

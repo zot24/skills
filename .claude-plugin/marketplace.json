@@ -183,7 +183,7 @@
     {
       "name": "cloudflare-domains",
       "source": "./skills/cloudflare-domains",
-      "description": "Take a domain from search to serving on Cloudflare: Registrar API, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks, all through the API and wrangler.",
+      "description": "Take a domain from search to serving on Cloudflare with the official cf CLI: registration behind a money gate, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks.",
       "version": "1.0.0"
     }
   ]
