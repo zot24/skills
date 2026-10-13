@@ -60,12 +60,18 @@ public paths (see [waf-custom-rules-api](waf-custom-rules-api.md); same read-bef
 redirects, phase `http_request_firewall_custom`). For Umami:
 
 ```
-(http.host eq "umami.acmewidgets.com"
-  and not http.request.uri.path in {"/script.js" "/recorder.js" "/api/send"})
+(http.host eq "umami.acmewidgets.com" and not (
+  http.request.uri.path in {"/script.js" "/recorder.js" "/api/send" "/api/record"}
+  or (http.request.method in {"GET" "OPTIONS"}
+      and starts_with(http.request.uri.path, "/api/websites/")
+      and ends_with(http.request.uri.path, "/recorder"))
+))
 ```
 
-with action `block`. The owner reaches the dashboard over their private network instead. Confirm the
-public paths against the analytics skill before applying: tracker file names change between versions.
+with action `block`. `/api/record` and `/api/websites/<id>/recorder` carry session replays and
+heatmaps (Umami 3.1+); leave them out and recording fails with no error. The owner reaches the
+dashboard over their private network instead. Confirm the public paths against the `umami` skill
+before applying: a custom `TRACKER_SCRIPT_NAME` renames `/script.js`.
 
 ## Check
 
