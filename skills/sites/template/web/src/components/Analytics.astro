@@ -1,0 +1,18 @@
+---
+// Umami tracker + recorder (replays, heatmaps). Rules: umami skill, docs/site-setup.md.
+// Renders nothing until PUBLIC_UMAMI_WEBSITE_ID is set, and nothing on preview builds.
+import { isProduction } from '../lib/site';
+
+interface Props { websiteId?: string }
+const host = import.meta.env.PUBLIC_UMAMI_HOST;
+// A section with its own Umami website passes websiteId; everything else uses the site default.
+const id = Astro.props.websiteId ?? import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const domains = Astro.site?.hostname;
+---
+{isProduction && id && (
+  <>
+    <script is:inline defer src={`${host}/script.js`} data-website-id={id}
+      data-domains={domains} data-performance="true" data-do-not-track="true"></script>
+    <script is:inline defer src={`${host}/recorder.js`} data-website-id={id}></script>
+  </>
+)}

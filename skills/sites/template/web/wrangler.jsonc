@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // One Worker per site. The sites skill renames it and sets the domain.
+  // The Astro adapter fills in main and assets at build time (dist/server/wrangler.json).
+  "name": "example-web",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  // Production is served on the custom domain only; previews keep their own URLs.
+  "workers_dev": false,
+  "preview_urls": true,
+  "routes": [{ "pattern": "example.com", "custom_domain": true }]
+  // Public build-time values (Umami host and website ID) live in .env, not here: pages are
+  // prerendered, so runtime vars never reach them.
+  // Secrets (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET) are set with `wrangler secret put`,
+  // read from 1Password through Varlock. Never here.
+}

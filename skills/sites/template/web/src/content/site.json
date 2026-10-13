@@ -1,0 +1,11 @@
+[
+  {
+    "id": "main",
+    "name": "Example",
+    "tagline": "One line that says what the visitor gets",
+    "description": "What the site offers, to whom, and the one number that matters, in under 160 characters.",
+    "email": "info@example.com",
+    "sameAs": [],
+    "conversion": { "label": "Get started", "href": "#pricing", "event": "cta-click" }
+  }
+]

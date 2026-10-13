@@ -1,0 +1,44 @@
+---
+import Seo from '../components/Seo.astro';
+import JsonLd from '../components/JsonLd.astro';
+import Analytics from '../components/Analytics.astro';
+import { getSite } from '../lib/site';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  graph?: Record<string, unknown>[];
+  umamiWebsiteId?: string;
+}
+const { title, description, image, noindex, graph = [], umamiWebsiteId } = Astro.props;
+const site = await getSite();
+const origin = Astro.site!.origin;
+const siteGraph = [
+  {
+    '@type': 'Organization',
+    '@id': `${origin}/#org`,
+    name: site.name,
+    url: origin,
+    email: site.email,
+    ...(site.sameAs.length ? { sameAs: site.sameAs } : {}),
+  },
+  { '@type': 'WebSite', '@id': `${origin}/#website`, url: origin, name: site.name, publisher: { '@id': `${origin}/#org` } },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Seo title={title} description={description} image={image} noindex={noindex} />
+    <JsonLd graph={[...siteGraph, ...graph]} />
+    <Analytics websiteId={umamiWebsiteId} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,17 @@
+@theme {
+  --color-primary: #111111;
+  --color-on-primary: #ffffff;
+  --color-neutral: #fafafa;
+  --color-muted: #6b6b6b;
+  --color-accent: #2f5bea;
+  --font-h1: "system-ui";
+  --font-body-md: "system-ui";
+  --text-h1: 3rem;
+  --text-body-md: 1rem;
+  --font-weight-h1: 700;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 32px;
+}
