@@ -1,6 +1,6 @@
 ---
 name: umami
-description: Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker functions, event tracking, website statistics, reports, and team management. Includes umami-cli Rust CLI tool for terminal-based management. Use when setting up web analytics, tracking pageviews, or working with Umami. Triggers on mentions of Umami, umami-cli, web analytics, pageviews, event tracking, privacy analytics, Google Analytics alternative.
+description: Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker functions, event tracking, website statistics, reports, and team management. Includes umami-cli Rust CLI tool for terminal-based management. Use when setting up web analytics, adding a site to a self-hosted Umami, enabling session replays or heatmaps, tracking pageviews, or working with Umami. Triggers on mentions of Umami, umami-cli, web analytics, pageviews, event tracking, privacy analytics, Google Analytics alternative, session replay, heatmaps, recorder.js, revenue events.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
@@ -16,6 +16,8 @@ Expert at deploying and managing Umami, a privacy-focused open-source web analyt
 - **Tracker** — Client-side `umami.track()` and `umami.identify()` functions
 - **Reports** — Attribution, funnel, retention, journey, revenue, and UTM analysis
 - **Realtime** — Live visitor data with 30-minute rolling window
+- **Replays + heatmaps** — Built in since 3.1 / 3.2 through `recorder.js`, enabled per website
+- **Per-site setup** — Website, public collection hostname, scripts, events, revenue, verification
 
 ## CLI Tool (umami-cli)
 
@@ -79,7 +81,19 @@ const { ok, data } = await client.getWebsites();
 
 **API Client Config** — Set `UMAMI_API_CLIENT_USER_ID`, `UMAMI_API_CLIENT_SECRET`, and `UMAMI_API_CLIENT_ENDPOINT` for self-hosted. Set `UMAMI_API_KEY` and `UMAMI_API_CLIENT_ENDPOINT` for Cloud.
 
+## Add a site (self-hosted)
+
+Follow [site setup](docs/site-setup.md): check the version, add `umami.<site-domain>` on the tunnel
+with the `cloudflare-domains` skill, create the website with `umami-cli`, enable replays and heatmaps,
+inject `script.js` + `recorder.js`, verify. The dashboard URL and credentials come from the
+environment and never go into a site repository. The collection allow-list must include
+`/api/record` and `/api/websites/<id>/recorder`, or replays fail silently.
+
 ## Documentation Index
+
+### Sites
+- **[Site Setup](docs/site-setup.md)** — Per-site flow, tracker attributes, Astro component, revenue events
+- **[Replays & Heatmaps](docs/replays-heatmaps.md)** — `replayConfig` API, masking, sampling, public paths
 
 ### Setup & Configuration
 - **[Installation](docs/installation.md)** — Docker, source, and cloud setup

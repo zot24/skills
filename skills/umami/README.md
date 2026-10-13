@@ -12,11 +12,15 @@ Expert skill for deploying and managing [Umami](https://umami.is), a privacy-foc
 - **Reports** — Attribution, funnel, retention, journey, revenue, UTM analysis
 - **Team Management** — Multi-user team and website organization
 - **Configuration** — Environment variables and deployment options
+- **Site setup** — Add a site to a self-hosted Umami: public collection hostname, scripts, events, revenue
+- **Replays & heatmaps** — Enable `recorder.js` features per website through the API
 
 ## Commands
 
 ```bash
 /umami:umami setup              # Installation guide
+/umami:umami site acmewidgets.com # Add a site end to end
+/umami:umami recorder <websiteId> # Replays + heatmaps
 /umami:umami configure           # Environment variables
 /umami:umami api getWebsites     # API client usage
 /umami:umami track purchase       # Event tracking
