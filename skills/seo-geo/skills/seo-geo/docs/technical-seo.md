@@ -3,7 +3,7 @@
 # Technical SEO on Astro + Cloudflare Workers
 
 The plumbing every page needs. Most of it lives in one head component and the Astro config, so it is
-written once per site (the `site-starter` template ships it) and checked at launch.
+written once per site (the `sites` skill's template ships it) and checked at launch.
 
 ## astro.config.mjs
 

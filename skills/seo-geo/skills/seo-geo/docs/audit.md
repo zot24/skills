@@ -52,7 +52,7 @@ npx lighthouse $SITE --only-categories=performance,seo,accessibility --form-fact
   --output=json --quiet --chrome-flags="--headless" | jq '.categories | map_values(.score)'
 ```
 
-Pass: SEO 1.0, Performance ≥ 0.9, Accessibility ≥ 0.9. The `site-starter` CI runs this on every PR
+Pass: SEO 1.0, Performance ≥ 0.9, Accessibility ≥ 0.9. The `sites` template CI runs this on every PR
 against the preview URL.
 
 ## After launch
