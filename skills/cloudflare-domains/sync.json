@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-domains",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Domain-to-live playbook for Cloudflare on top of the official cf CLI: money gate, step order, rule merges, tunnel hostnames with WAF locks",
   "sources": [],
   "cache_dir": ".cache"
