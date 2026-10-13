@@ -79,7 +79,7 @@ Under a tower each stage is a seat; alone, you play every role but the adversary
 | `review-animations`, `break-ui`, `mobile-native` | 8 | the blind reviewer, on the built pages |
 | `unslop` | 2–7 | every owner-facing line; user-invoked, so read `~/.claude/skills/unslop/SKILL.md` and apply it |
 | `artifact-design`, `artifact-capabilities` | 7 | the decisions page and its `answers` collection; when the Artifact tool is available, load its built-in `artifact-design` and `artifact-capabilities` skills first; without it, use the fallback in [the decisions doc](docs/decisions-page.md#build-the-page) |
-| Playwright with the system Chrome | 1, 4–6, 8 | screenshots at 1280×800 and 375×812 |
+| Playwright with the system Chrome | 1, 4–6, 8 | screenshots at 1280×800 and 375×812; stage 8 adds 768×1024 and 1920×1080 and the layout audit |
 | `@google/design.md` CLI | 6, 8 | `design.md` in Google's DESIGN.md format: `lint` gates the lock, `export` writes the theme, `diff` checks later changes ([guide](docs/stitch-and-design-md.md)) |
 | Stitch CLI (`@google/stitch`), optional | 1, 3–6 | drafts directions and variants with `--creative-range`, only with the owner's word; drafts are reworked to the mock-up rules ([guide](docs/stitch-and-design-md.md#stitch-an-optional-generator-for-stages-3-to-5)) |
 

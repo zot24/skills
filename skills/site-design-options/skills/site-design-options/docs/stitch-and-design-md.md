@@ -82,13 +82,26 @@ through screens on a canvas. You are still the design director. Stitch drafts, a
 
 | Stage | Stitch move | What stays yours |
 |---|---|---|
-| 1 Learn | `stitch capture <url>` saves today's page as one HTML file; `stitch upload screen` puts it on the canvas | The census, the snapshot and the screenshots of today |
+| 1 Learn | `stitch capture <url>` saves today's page as one HTML file; `stitch upload screen` puts it on the canvas. For an existing site, capture its real pages; never `generate` a stand-in for a page that exists | The census, the snapshot and the screenshots of today |
 | 3 Directions | `stitch generate screen` per direction, with a prompt built from the direction's axes, palette hexes and faces, never the category name alone | The Inspo study, the tells, the axes table and the distinctness check |
 | 5 Family loop | `stitch generate variants --creative-range REFINE --aspects <one>` from the frozen favourite | One variant, one change. Use one aspect per variant (`LAYOUT`, `COLOR_SCHEME`, `TEXT_FONT`) so each variant names its change |
 | 5 "Actually different" | `--creative-range REIMAGINE`, seeded from a fresh study, not from the favourite | All four axes must still differ; REIMAGINE output often keeps the favourite's paper or face, so check |
 | 6 Lock | `stitch upload design design.md` applies the lock to the canvas screens for an owner preview | `design.md` is written and linted here, never exported from Stitch unread |
 
 `EXPLORE` sits between the two and suits a round where the owner said "close, but not quite".
+
+### Keep the run traceable
+
+- **One source for every prompt.** Build each prompt from the directions file and the copy spec,
+  never from memory or a one-off idea. When a prompt needs a fact the files lack, add it to the
+  files first.
+- **A screen table per round** in the directions file: `| Screen | Stitch ID | Prompt source | Status |`,
+  where status is `clean` or the defect seen (headline clipped, text over image, wrong face). A
+  defective screen is re-prompted or dropped; it never reaches the index as it is.
+- **Keep both hand-off files.** Save each kept screen's HTML and its PNG under
+  `<specs>/<site>-mocks/stitch/`. The PNG is the reference the rework is compared with.
+- **Record the project.** The site's `CLAUDE.md` design section names the Stitch project ID and
+  says that Stitch is prompted only through the agent, from the specs, never by hand.
 
 ### Stitch output is raw material
 

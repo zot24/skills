@@ -27,7 +27,8 @@ For each section:
    pricing, faq, cta, stat, nav, footer…; `find_reference_components` then `get_reference_jsx` for an
    archetype's source).
 2. Build it against `design.md` and the copy spec's strings, byte for byte.
-3. Screenshot at 1280×800 and 375×812.
+3. Screenshot at 1280×800 and 375×812, plus 768×1024 and 1920×1080 once the section is in. The mock-ups
+   only showed desktop and phone, so tablet and wide screens are where a build breaks unseen.
 4. Compare with the locked mock-up, the reference crop, the tokens, and the live site before the
    change.
 5. Commit. Commits are the rollback points.
@@ -50,6 +51,19 @@ The reviewer runs:
 
 - `review-animations` on every motion, `break-ui` with worst-case data (the longest fallback
   strings, missing fields, long names), `mobile-native` on the phone build.
+- **Fidelity:** each built section against its locked mock-up, side by side at the same width.
+  List the departures, then list separately what looks different but is not a defect (a dev
+  badge, a capture caught mid-fade). The owner picks which departures to fix.
+- **Layout audit, by script, at all four widths:** horizontal overflow, the smallest rendered font
+  size, tap targets under 24 px, text pairs under the contrast floor, overlapping text boxes and
+  clipped text. Record the counts per width in the review, and fail on any overflow, clipped text,
+  or font under 12 px in running copy.
+- **Story and pacing,** when the page tells a story or has motion: a read-only pass by a reviewer
+  told to assume the page fails until the evidence says otherwise, with no praise. It scores each
+  section (keep, rework, broken), measures each section's share of the page height against how
+  much that section matters, so the most important moment is also the biggest one, and flags
+  repeated peaks, early spoilers and threads that never pay off. It reports and stops; fixes wait
+  for the owner's pick.
 - **Tokens:** computed `background-color` on `body`, `font-family` on `h1` and body text, and the
   primary button's accent match `design.md`.
 - **The lock still lints:** `design.md lint` reports no new errors or warnings, `diff` against
