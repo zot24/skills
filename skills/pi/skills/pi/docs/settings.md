@@ -25,6 +25,8 @@ On this page
 
 This reference lists user-configurable settings, their types, defaults, and purposes. Project settings override agent-directory settings. Resource lists are combined. See [Configuration](/docs/latest/configuration) for file locations and trust behavior.
 
+Add `"$schema": "https://pi.dev/schemas/settings.schema.json"` to `settings.json` for editor validation and completion.
+
 
 ## Model and thinking
 

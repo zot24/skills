@@ -92,6 +92,7 @@ Use [`models.json`](/docs/latest/configuration#agent-directory) when an endpoint
 
 ``` shiki
 {
+  "$schema": "https://pi.dev/schemas/models.schema.json",
   "providers": {
     "ollama": {
       "baseUrl": "http://localhost:11434/v1",

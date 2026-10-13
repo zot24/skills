@@ -97,7 +97,7 @@ See [CLI resources](/docs/latest/cli#resources) for the command-line option.
 <a href="#create-a-custom-theme" class="heading-anchor" aria-label="Permalink: Create a custom theme" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#create-a-custom-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Copy one of the [built-in themes](https://github.com/earendil-works/pi/tree/main/packages/coding-agent/src/modes/interactive/theme) or create a new JSON file conforming to the [schema](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json). The built-in themes use OKHSL colors, with variables for colors that several roles share, so you can adjust a hue, saturation, or lightness directly.
+Copy one of the [built-in themes](https://github.com/earendil-works/pi/tree/main/packages/coding-agent/src/modes/interactive/theme) or create a new JSON file conforming to the [schema](https://pi.dev/schemas/theme.schema.json). The built-in themes use OKHSL colors, with variables for colors that several roles share, so you can adjust a hue, saturation, or lightness directly.
 
 1.  Save the file as `<agent-dir>/themes/my-theme.json`. The agent directory defaults to `~/.pi/agent`.
 2.  Set its `name` to `my-theme`.
@@ -121,6 +121,8 @@ Use the theme name as the filename. Pi hot-reloads the active user theme only fr
 | `colors`     | Yes      | Assigns colors to terminal UI roles. The schema identifies required and optional roles.                            |
 | `export`     | No       | Overrides page and panel backgrounds in HTML exports.                                                              |
 
+Theme objects are strict: only documented top-level fields and color tokens are accepted. Define reusable custom colors under `vars`; custom keys under `colors` or `export` and additional top-level metadata are rejected.
+
 A color can be written in six forms:
 
 | Form               | Example                 | Meaning                                                                                                                                                                                     |
@@ -136,7 +138,7 @@ Terminal default colors render as the terminal's own colors. Where Pi needs a co
 
 Pi resolves chained variable references. A missing variable or circular reference makes the theme invalid. Pi uses truecolor when available, gamut-maps OKLCH to sRGB, and approximates colors for 256-color terminals. HTML exports convert OKHSL values to hexadecimal because CSS does not support them. If colors differ from their source values, check your terminal's truecolor detection and contrast settings. See [Configure Your Terminal](/docs/latest/terminal-setup#override-detected-capabilities).
 
-Use the [theme JSON schema](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json) for the exact properties, required colors, and accepted value types.
+Use the [theme JSON schema](https://pi.dev/schemas/theme.schema.json) for the exact properties, required colors, and accepted value types.
 
 Pi reports invalid theme files during startup and `/reload`.
 
