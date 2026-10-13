@@ -29,6 +29,7 @@
   "skills/umbrel-app": "2.1.4",
   "skills/wealthfolio": "1.1.6",
   "skills/x-engagement": "1.6.1",
-  "skills/site-design-options": "1.2.0",
-  "skills/cloudflare-domains": "1.1.0"
+  "skills/site-design-options": "1.1.0",
+  "skills/cloudflare-domains": "1.0.0",
+  "skills/search-engines": "1.0.0"
 }

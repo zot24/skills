@@ -38,6 +38,7 @@ An opinionated selection of skills for daily dev workflows.
 | [apprise-api](./skills/apprise-api) | Deploy, configure, and drive the Apprise API (caronc/apprise-api) — the self-hosted notification gateway that fans one HTTP request out to 100+ services, with stateful config keys, tag routing, attachments, and webhook payload mapping |
 | [site-design-options](./skills/site-design-options) | Redesign an existing website with its owner — census and SEO/GEO snapshot, a cited copy spec an adversary attacks, an Inspo study with a budget, three directions as mock-ups the owner opens, the family and "actually different" loops, `design.md` and page structure, one decisions page, then a section-by-section build |
 | [cloudflare-domains](./skills/cloudflare-domains) | Take a domain from search to serving on Cloudflare with the official `cf` CLI — registration behind a money gate, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks |
+| [search-engines](./skills/search-engines) | Get a live site into Google and Bing — Search Console and Bing Webmaster verification, sitemaps, IndexNow, URL inspection and search reports through the APIs |
 
 ## Installation
 
@@ -169,6 +170,10 @@ Format: `/skill-name:command-name [arguments]`
 /cloudflare-domains:cloudflare-domains check acmewidgets.com  # Availability + price
 /cloudflare-domains:cloudflare-domains setup acmewidgets.com  # Full new-domain playbook
 /cloudflare-domains:cloudflare-domains tunnel umami.acmewidgets.com
+
+# Search engines
+/search-engines:search-engines launch acmewidgets.com   # Google + Bing + IndexNow
+/search-engines:search-engines report acmewidgets.com   # Indexing and queries
 ```
 
 ### Natural Language
@@ -802,6 +807,22 @@ Take a domain from search to serving on Cloudflare, with the official `cf` CLI a
 
 [Full documentation](./skills/cloudflare-domains/README.md)
 
+### search-engines
+
+Get a live site into Google and Bing, and report how it does there:
+
+- **Google Search Console** — Domain property verified by DNS TXT, owner added, sitemap submitted
+- **Bing Webmaster Tools** — site added, verified by CNAME, sitemap submitted
+- **IndexNow** — Cloudflare Crawler Hints by default, manual pings for launches
+- **Monitoring** — URL inspection, search analytics, crawl issues
+
+```bash
+/search-engines:search-engines launch acmewidgets.com
+/search-engines:search-engines inspect https://acmewidgets.com/pricing
+```
+
+[Full documentation](./skills/search-engines/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -946,7 +967,8 @@ skills/
 │   ├── pr-standard/              # House standard for GitHub PR descriptions
 │   ├── skill-release-preflight/  # Pre-push checks for this repo
 │   ├── site-design-options/      # Redesign a site with its owner
-│   └── cloudflare-domains/       # Domains, DNS, email, redirects, tunnels on Cloudflare
+│   ├── cloudflare-domains/       # Domains, DNS, email, redirects, tunnels on Cloudflare
+│   └── search-engines/           # Google Search Console, Bing Webmaster, IndexNow
 └── README.md
 ```
 

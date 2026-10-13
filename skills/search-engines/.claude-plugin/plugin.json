@@ -1,0 +1,21 @@
+{
+  "name": "search-engines",
+  "description": "Get a site into Google and Bing through their APIs: Search Console domain verification, property and sitemap, Bing Webmaster site, verification and sitemap, IndexNow pings, URL inspection and search performance checks.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://developers.google.com/webmaster-tools",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "seo",
+    "google-search-console",
+    "bing-webmaster-tools",
+    "indexnow",
+    "sitemap",
+    "site-verification",
+    "url-inspection",
+    "cloudflare"
+  ]
+}
