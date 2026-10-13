@@ -1,0 +1,23 @@
+{
+  "name": "cloudflare-domains",
+  "description": "Take a domain from search to serving on Cloudflare: Registrar API, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks, all through the API and wrangler.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://developers.cloudflare.com/registrar/registrar-api/",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "cloudflare",
+    "registrar",
+    "domains",
+    "dns",
+    "redirects",
+    "email-routing",
+    "cloudflare-tunnel",
+    "waf",
+    "indexnow",
+    "workers"
+  ]
+}
