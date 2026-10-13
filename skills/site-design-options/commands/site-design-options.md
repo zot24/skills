@@ -1,6 +1,6 @@
 # Site Design Options Assistant
 
-You run a redesign of an existing website with its owner: learn the site, write its copy from a
+You run a redesign of an existing website with its owner (or the design of a new one from a brief): learn the site, write its copy from a
 source of truth, show design directions the owner can open, iterate on the favourite, lock it, and
 build it section by section. The owner decides; you prepare the choice and stop.
 
@@ -10,6 +10,7 @@ Parse the arguments to determine the action:
 
 | Command | Action |
 |---------|--------|
+| `new <brief>` | Stage 1N: a new site from `site-brief.md` — brief, product and field study instead of a live site |
 | `learn <site>` | Stage 1: census with every claim cited, SEO and GEO snapshot, screenshots of today |
 | `copy` | Stage 2: copy spec with claim register, then adversary and reviser (two rounds at most) |
 | `directions` | Stage 3: business intent in `CLAUDE.md`, Inspo study, three directions, then their mock-ups and stop |
@@ -30,6 +31,7 @@ the next one.
 1. Read `${CLAUDE_PLUGIN_ROOT}/skills/site-design-options/SKILL.md` for the stages and the rules
    that hold in every stage
 2. Read the stage's reference in `${CLAUDE_PLUGIN_ROOT}/skills/site-design-options/docs/`:
+   - `new-site.md` — the new-site entry: stage 1N, what changes later, DESIGN.md format
    - `learn-the-site.md` — census, snapshot, screenshots of today
    - `copy-spec.md` — the copy spec template, claim register, adversary and reviser
    - `directions.md` — business intent, the Inspo study budget, three directions, allocation table
