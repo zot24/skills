@@ -58,7 +58,8 @@ See [replays and heatmaps](replays-heatmaps.md). Start at `sampleRate` 0.15 and 
 ## 5. Inject the scripts
 
 The website ID and the public hostname are not secrets: they ship in every page. Keep them in the
-site's public config, for Astro as `PUBLIC_` variables in `wrangler.jsonc` `vars` or `.env`:
+site's committed `.env` as `PUBLIC_` variables. Prerendered pages read them at build time, so
+Worker runtime `vars` never reach them:
 
 ```astro
 ---
