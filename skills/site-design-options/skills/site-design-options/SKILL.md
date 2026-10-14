@@ -1,6 +1,6 @@
 ---
 name: site-design-options
-description: Redesigns an existing website with its owner — learns the site, writes cited copy, shows design directions as mock-ups the owner opens, iterates on the favourite, locks design.md and the page structure, then builds section by section. Use when the owner asks to redesign a site or rewrite its copy, SEO and GEO with the look; wants design options or mock-ups to choose from; asks for more versions of a favourite or "actually different" ones; or wants a site's design locked or its open questions gathered. Also triggers on copy spec, claim register, design.md, DESIGN.md lint, Google Stitch, information architecture, decisions page.
+description: Redesigns an existing website with its owner, or designs a new one from a site brief — learns the site, writes cited copy, shows design directions as mock-ups the owner opens, iterates on the favourite, locks design.md and the page structure, then builds section by section. Use when the owner asks to redesign a site or rewrite its copy, SEO and GEO with the look; wants design options or mock-ups to choose from; asks for more versions of a favourite or "actually different" ones; or wants a site's design locked or its open questions gathered. Also use when the sites skill hands over a site-brief.md for a site that does not exist yet. Also triggers on copy spec, new site, site brief, DESIGN.md lint, Google Stitch, claim register, design.md, information architecture, decisions page.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 ---
 
@@ -22,6 +22,10 @@ point at. Three end on a **stop** where the owner decides, and the last on a PR 
 | 6 | [Lock and structure](docs/lock-and-structure.md) | `design.md`, `references.md`, IA, inner-page mocks | `design.md` lints clean; each inner page owns one search question; every open string is yellow and listed |
 | 7 | [One decisions page](docs/decisions-page.md) | decisions JSON, an Artifact page | every owner question on it once; answers read back — **stop** |
 | 8 | [Build and review](docs/build-and-review.md) | one commit per section, a PR | blind review passes; the SEO/GEO diff shows only planned changes |
+
+**No site yet?** Start at [new site](docs/new-site.md): stage 1N learns the brief, the product and
+the field instead of a live site, the mock-up index opens with the brief instead of today, and the
+lock is `apps/web/DESIGN.md` in Google's DESIGN.md format, linted and exported to tokens.
 
 Stage 7 runs as soon as questions pile up (usually after the first mock-ups) and is republished
 as new ones arrive; stages 6 and 8 start from its answers.
@@ -89,6 +93,8 @@ per site rather than user-wide; the build commits them with their licence.
 
 ## Common workflows
 
+- **New site from a brief:** [1N](docs/new-site.md) → 2 → 3 → 4, stop; 5; 6 and 7, stop; 8 into the
+  starter; hand back to `sites`.
 - **One site:** 1 → 2 → 3 → 4, stop; 5 as often as the owner asks; 6 and 7, stop; 8.
 - **Several sites in one niche:** stages 1–2 per site, then one [allocation
   table](docs/directions.md#several-sites-in-one-niche) before any stage 3; every brief carries what

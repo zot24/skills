@@ -284,8 +284,16 @@
     "skills/pi": {
       "component": "pi",
       "extra-files": [
-        {"type": "json", "path": "sync.json", "jsonpath": "$.version"},
-        {"type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version"}
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
       ]
     },
     "skills/portainerctl": {
@@ -440,6 +448,66 @@
     },
     "skills/site-design-options": {
       "component": "site-design-options",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/cloudflare-domains": {
+      "component": "cloudflare-domains",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/search-engines": {
+      "component": "search-engines",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/seo-geo": {
+      "component": "seo-geo",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "sync.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/sites": {
+      "component": "sites",
       "extra-files": [
         {
           "type": "json",

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "basic",
+    "name": "Basic",
+    "price": 49,
+    "currency": "USD",
+    "interval": "once",
+    "features": ["Replace with a real feature"]
+  }
+]

@@ -112,7 +112,7 @@
       "name": "umami",
       "source": "./skills/umami",
       "description": "Deploy, configure, and manage Umami — open-source privacy-focused web analytics with API client, tracker, events, statistics, reports, and team management",
-      "version": "1.0.10"
+      "version": "1.1.0"
     },
     {
       "name": "flue",
@@ -178,7 +178,31 @@
       "name": "site-design-options",
       "source": "./skills/site-design-options",
       "description": "Redesign an existing website with its owner: learn the site and snapshot its SEO and GEO, write a cited copy spec an adversary attacks, study real sites through Inspo, show three directions as mock-ups the owner opens, iterate on the favourite, lock design.md and the page structure, collect every owner decision on one page, then build section by section",
+      "version": "1.2.0"
+    },
+    {
+      "name": "cloudflare-domains",
+      "source": "./skills/cloudflare-domains",
+      "description": "Take a domain from search to serving on Cloudflare with the official cf CLI: registration behind a money gate, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks.",
       "version": "1.1.0"
+    },
+    {
+      "name": "search-engines",
+      "source": "./skills/search-engines",
+      "description": "Get a live site into Google and Bing through their APIs: Search Console domain verification, property and sitemap, Bing Webmaster site, verification and sitemap, IndexNow pings, URL inspection and search performance checks.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "seo-geo",
+      "source": "./skills/seo-geo",
+      "description": "Technical SEO and GEO for Astro sites on Cloudflare: head tags, canonicals, sitemap, robots.txt, preview noindex, JSON-LD, Cloudflare AI bot policies, llms.txt, answer-first content and a scripted audit.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "sites",
+      "source": "./skills/sites",
+      "description": "Plan, build and run landing pages on Cloudflare end to end: read the repo, quick grill, site brief, plan, design and copy, domain, Umami, search engines, Stripe, deploy, launch gate and review mode. Ships the Astro starter template.",
+      "version": "1.1.1"
     }
   ]
 }

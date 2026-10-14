@@ -1,0 +1,23 @@
+{
+  "name": "sites",
+  "description": "Plan, build and run landing pages on Cloudflare end to end: read the repo, quick grill, site brief, plan, design and copy, domain, Umami, search engines, Stripe, deploy, launch gate and review mode. Ships the Astro starter template.",
+  "version": "1.1.1",
+  "author": {
+    "name": "zot24"
+  },
+  "homepage": "https://github.com/zot24/skills/tree/main/skills/sites",
+  "repository": "https://github.com/zot24/skills",
+  "license": "MIT",
+  "keywords": [
+    "landing-page",
+    "website",
+    "astro",
+    "cloudflare-workers",
+    "monorepo",
+    "umami",
+    "seo",
+    "geo",
+    "stripe",
+    "orchestrator"
+  ]
+}

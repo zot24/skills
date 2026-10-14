@@ -49,7 +49,11 @@ skills/
 │   ├── pr-standard/          # House standard for GitHub PR descriptions (STE100 + labels + diagram)
 │   ├── skill-release-preflight/ # Pre-push checks for this repo — versions, manifests, labels
 │   ├── apprise-api/          # Apprise API self-hosted notification gateway
-│   └── site-design-options/  # Redesign a site with its owner — copy spec, directions, mock-ups, lock
+│   ├── site-design-options/  # Redesign a site with its owner — copy spec, directions, mock-ups, lock
+│   ├── cloudflare-domains/   # Domains, DNS, email, redirects, tunnels on Cloudflare
+│   ├── search-engines/       # Google Search Console, Bing Webmaster, IndexNow
+│   ├── seo-geo/              # Technical SEO, JSON-LD, AI crawlers, llms.txt
+│   └── sites/                # Landing-page orchestrator + Astro template (template/)
 └── README.md
 ```
 
@@ -266,6 +270,10 @@ Each skill syncs documentation from upstream sources.
 | skill-release-preflight | None — this repository's own release and consistency rules | Self-contained |
 | apprise-api | https://github.com/caronc/apprise-api (README) + https://github.com/caronc/apprise-docs (`locales/en/` Markdown source of appriseit.com) | URL-based |
 | site-design-options | A way of working distilled from four site redesigns (calls Emil Kowalski's design skills, `unslop`, `writing-for-agents`, llm-wiki and the Inspo MCP without copying them) + https://github.com/google-labs-code/design.md (README, `docs/spec.md`) and https://github.com/google-labs-code/stitch-skills (README) | Authored + URL-based |
+| cloudflare-domains | None — playbook over Cloudflare's official `cf` CLI and its `cf-cli` skill (cloudflare/skills); authored playbook, redirects, email, tunnel and secrets guides | Self-contained |
+| search-engines | None — authored from the Search Console and Site Verification API discovery documents, the Bing Webmaster API reference and the IndexNow protocol | Self-contained |
+| seo-geo | https://github.com/cloudflare/cloudflare-docs (AI bot policies, managed robots.txt, AI Crawl Control) + https://github.com/withastro/docs (sitemap) + https://github.com/AnswerDotAI/llms-txt (spec) + authored guides | URL-based + authored |
+| sites | None — orchestrator over cloudflare-domains, umami, search-engines, seo-geo and site-design-options; bundles an Astro starter in `template/` built by `sites-template.yml` | Self-contained |
 
 ### When to Sync
 

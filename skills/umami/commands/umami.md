@@ -9,6 +9,8 @@ Parse the arguments to determine the action:
 | Command | Action |
 |---------|--------|
 | `setup` | Installation guide (Docker, source, cloud) |
+| `site <domain>` | Add a site: website, hostname, scripts, replays, heatmaps, verify |
+| `recorder <websiteId>` | Enable or tune session replays and heatmaps |
 | `configure` | Environment variables and settings |
 | `api [method]` | API client usage with examples |
 | `track [event]` | Tracker functions and event tracking |
@@ -26,6 +28,8 @@ Parse the arguments to determine the action:
 1. Read the skill file at `${CLAUDE_PLUGIN_ROOT}/skills/umami/SKILL.md` for overview
 2. Read detailed docs in `${CLAUDE_PLUGIN_ROOT}/skills/umami/docs/` for specific topics
 3. For **setup**: Reference `docs/installation.md`
+   For **site**: Follow `docs/site-setup.md` step by step
+   For **recorder**: Reference `docs/replays-heatmaps.md`
 4. For **configure**: Reference `docs/environment-variables.md`
 5. For **api**: Reference `docs/api-client.md` and specific endpoint docs
 6. For **track**: Reference `docs/tracker-functions.md` and `docs/node-client.md`
@@ -70,10 +74,16 @@ await client.createReport({ websiteId, type: 'funnel', parameters: {...} });
 <script defer src="https://your-umami.com/script.js" data-website-id="your-id"></script>
 ```
 
+### Recorder Script (replays + heatmaps)
+```html
+<script defer src="https://your-umami.com/recorder.js" data-website-id="your-id"></script>
+```
+
 ### Track Events
 ```javascript
 umami.track();                          // pageview
 umami.track('signup-button');           // named event
 umami.track('purchase', { amount: 99 }); // event with data
 umami.identify('user-123');             // identify session
+umami.track('checkout-complete', { revenue: 49, currency: 'USD' }); // revenue
 ```

@@ -37,6 +37,10 @@ An opinionated selection of skills for daily dev workflows.
 | [skill-release-preflight](./skills/skill-release-preflight) | Three checks before pushing to this repo — never hand-edit a release-please version, run `check-consistency.sh` locally, and read `gh label list` before `gh pr create` |
 | [apprise-api](./skills/apprise-api) | Deploy, configure, and drive the Apprise API (caronc/apprise-api) — the self-hosted notification gateway that fans one HTTP request out to 100+ services, with stateful config keys, tag routing, attachments, and webhook payload mapping |
 | [site-design-options](./skills/site-design-options) | Redesign an existing website with its owner — census and SEO/GEO snapshot, a cited copy spec an adversary attacks, an Inspo study with a budget, three directions as mock-ups the owner opens, the family and "actually different" loops, `design.md` and page structure, one decisions page, then a section-by-section build |
+| [cloudflare-domains](./skills/cloudflare-domains) | Take a domain from search to serving on Cloudflare with the official `cf` CLI — registration behind a money gate, DNS, Worker custom domains, www redirect, Email Routing, Crawler Hints, tunnel hostnames and WAF path locks |
+| [search-engines](./skills/search-engines) | Get a live site into Google and Bing — Search Console and Bing Webmaster verification, sitemaps, IndexNow, URL inspection and search reports through the APIs |
+| [seo-geo](./skills/seo-geo) | Technical SEO and GEO for Astro on Cloudflare — head tags, sitemap, robots.txt, JSON-LD, AI crawler policy, llms.txt, answer-first content, audit |
+| [sites](./skills/sites) | Orchestrator for landing pages on Cloudflare — quick grill, brief, plan, Astro template, domain, Umami, search engines, Stripe, Resend email, launch gate, review mode |
 
 ## Installation
 
@@ -163,6 +167,23 @@ Format: `/skill-name:command-name [arguments]`
 /site-design-options:site-design-options directions         # Inspo study, three directions, mock-ups
 /site-design-options:site-design-options family d2          # Variants around the favourite
 /site-design-options:site-design-options decisions          # Every owner question on one page
+
+# Cloudflare domains
+/cloudflare-domains:cloudflare-domains check acmewidgets.com  # Availability + price
+/cloudflare-domains:cloudflare-domains setup acmewidgets.com  # Full new-domain playbook
+/cloudflare-domains:cloudflare-domains tunnel umami.acmewidgets.com
+
+# Search engines
+/search-engines:search-engines launch acmewidgets.com   # Google + Bing + IndexNow
+/search-engines:search-engines report acmewidgets.com   # Indexing and queries
+
+# SEO + GEO
+/seo-geo:seo-geo audit https://acmewidgets.com          # Scripted audit
+/seo-geo:seo-geo ai-bots acmewidgets.com               # AI crawler access
+
+# Sites (orchestrator)
+/sites:sites new                                         # Brief to live site
+/sites:sites review                                      # Umami + Search Console report
 ```
 
 ### Natural Language
@@ -777,6 +798,75 @@ Redesign an existing website with its owner, in eight stages that stop for the o
 
 [Full documentation](./skills/site-design-options/README.md)
 
+### cloudflare-domains
+
+Take a domain from search to serving on Cloudflare, with the official `cf` CLI and `wrangler`:
+
+- **registrar** — search, availability and price, registration only after the user's explicit yes
+- **dns** — zone lookup, records, Always Use HTTPS, DNSSEC, Worker custom domains
+- **redirect** — www to apex as one Single Redirect, existing rules kept
+- **email** — Email Routing to an existing inbox, `info@` or catch-all
+- **tunnel** — a public hostname on an existing Cloudflare Tunnel, admin paths blocked by a WAF rule
+- **crawler hints** — IndexNow pings when pages change
+
+```bash
+/cloudflare-domains:cloudflare-domains check acmewidgets.com
+/cloudflare-domains:cloudflare-domains setup acmewidgets.com
+/cloudflare-domains:cloudflare-domains tunnel umami.acmewidgets.com
+```
+
+[Full documentation](./skills/cloudflare-domains/README.md)
+
+### search-engines
+
+Get a live site into Google and Bing, and report how it does there:
+
+- **Google Search Console** — Domain property verified by DNS TXT, owner added, sitemap submitted
+- **Bing Webmaster Tools** — site added, verified by CNAME, sitemap submitted
+- **IndexNow** — Cloudflare Crawler Hints by default, manual pings for launches
+- **Monitoring** — URL inspection, search analytics, crawl issues
+
+```bash
+/search-engines:search-engines launch acmewidgets.com
+/search-engines:search-engines inspect https://acmewidgets.com/pricing
+```
+
+[Full documentation](./skills/search-engines/README.md)
+
+### seo-geo
+
+Make Astro sites on Cloudflare easy to find in search and easy to quote in AI answers:
+
+- **Technical SEO** — head component, canonicals, sitemap, robots.txt, preview noindex
+- **Structured data** — JSON-LD per page, `Organization` with `sameAs`
+- **AI crawlers** — Cloudflare AI bot policies and robots.txt in agreement
+- **llms.txt** and **answer-first content** — passages assistants quote
+- **Audit** — scripted checks with pass criteria
+
+```bash
+/seo-geo:seo-geo audit https://acmewidgets.com
+/seo-geo:seo-geo copy /pricing
+```
+
+[Full documentation](./skills/seo-geo/README.md)
+
+### sites
+
+One brief in, one live, measured, indexed site out, inside the app's monorepo at `apps/web`:
+
+- **Quick grill** — about five numbered questions with recommended answers → `site-brief.md`
+- **Plan** — a checklist with evidence per step
+- **Template** — Astro 7 on Workers, SEO/GEO components, Umami, Stripe Checkout, Varlock, CI
+- **Wire** — calls `cloudflare-domains`, `umami`, `search-engines`, `seo-geo`, `site-design-options`
+- **Launch gate and review mode**
+
+```bash
+/sites:sites new
+/sites:sites gate
+```
+
+[Full documentation](./skills/sites/README.md)
+
 ## Adding New Skills
 
 1. Create a new directory under `skills/`:
@@ -920,7 +1010,11 @@ skills/
 │   ├── tower/                    # Control tower + acceptance gates over a herdr fleet
 │   ├── pr-standard/              # House standard for GitHub PR descriptions
 │   ├── skill-release-preflight/  # Pre-push checks for this repo
-│   └── site-design-options/      # Redesign a site with its owner
+│   ├── site-design-options/      # Redesign a site with its owner
+│   ├── cloudflare-domains/       # Domains, DNS, email, redirects, tunnels on Cloudflare
+│   ├── search-engines/           # Google Search Console, Bing Webmaster, IndexNow
+│   ├── seo-geo/                  # Technical SEO, JSON-LD, AI crawlers, llms.txt
+│   └── sites/                    # Landing-page orchestrator + Astro template
 └── README.md
 ```
 

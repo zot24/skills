@@ -8,6 +8,9 @@ The owner decides at every stop. The agent prepares the choice, recommends one a
 
 ## What This Skill Covers
 
+- **New sites too** — from a `site-brief.md`: learns the brief, the product and the field instead of
+  a live site, opens the mock-up index with the brief, and locks `apps/web/DESIGN.md` in Google's
+  DESIGN.md format (linted, exported to Tailwind tokens)
 - **Learn the site first** — a census of what the site sells and to whom, every factual claim with
   file and line, and a snapshot of the SEO and GEO surface (title, meta, canonical, JSON-LD,
   `llms.txt`, server-rendered text) before anything changes

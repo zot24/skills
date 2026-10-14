@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/zot24/skills/compare/umami-v1.0.10...umami-v1.1.0) (2026-10-13)
+
+
+### Features
+
+* **umami:** add per-site setup, session replays and heatmaps ([#292](https://github.com/zot24/skills/issues/292)) ([f4ea9b7](https://github.com/zot24/skills/commit/f4ea9b7e538c2779bb8cf39dee3ac2ad9918cae4))
+
 ## [1.0.10](https://github.com/zot24/skills/compare/umami-v1.0.9...umami-v1.0.10) (2026-10-01)
 
 
