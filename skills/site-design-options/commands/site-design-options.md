@@ -40,6 +40,9 @@ the next one.
    - `lock-and-structure.md` — `design.md`, `references.md`, the information architecture
    - `decisions-page.md` — the decisions data shape, the `answers` collection, reading back
    - `build-and-review.md` — section-by-section build, review, SEO and GEO diff
+   - `stitch-and-design-md.md` — the DESIGN.md format and its lint gates; Stitch as an optional
+     generator for directions and variants
+   - `upstream-*.md` — cached Google Labs docs for DESIGN.md and the Stitch skills
 3. End every stage at its stop point. Put the owner's choice and your recommendation in the report,
    and wait for the answer
 

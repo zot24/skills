@@ -54,6 +54,11 @@ The owner liked one direction and wants alternatives built from it. Make three v
 7. Rebuild the index with the favourite first, then the variants three across, then the earlier
    directions further down.
 
+With the owner's word, Stitch can draft the variants: `generate variants --creative-range REFINE`
+from the frozen favourite, with one `--aspects` value per variant so each changes one thing. Rework
+every draft by [the raw-material rules](stitch-and-design-md.md#stitch-output-is-raw-material)
+before it enters the index.
+
 When the owner asked for a family "in the style of" a body of work, run a wider live study of that
 work first. Give each variant a different strength of it, for example a data table, a founder's
 voice, or a product landing with proof. Borrow the way of building, never the brand.

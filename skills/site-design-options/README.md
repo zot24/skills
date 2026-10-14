@@ -26,8 +26,12 @@ The owner decides at every stop. The agent prepares the choice, recommends one a
   browser
 - **The owner's loop** — freeze the favourite and vary one real thing per variant; or run a fresh
   study for directions that differ on all four axes
-- **Lock and structure** — `design.md`, `references.md`, a page structure where each page owns a
+- **Lock and structure** — `design.md` in Google's DESIGN.md format (linted, exported to the
+  theme, diffed on every later change), `references.md`, a page structure where each page owns a
   search question, and the list of unclear copy for the owner and the copywriter
+- **Stitch, optional** — Google Stitch drafts directions and variants (`--creative-range` REFINE for
+  the family loop, REIMAGINE for "actually different") when the owner allows it; every draft is
+  reworked to the mock-up rules before the owner sees it
 - **One decisions page** — every owner question across specs on one page, recommended answers
   pre-selected, answers saved and read back
 - **Build and review** — section by section, blind screenshot review, SEO and GEO diff against the
@@ -60,6 +64,7 @@ Or in plain words: "redesign this site — show me three directions before you b
 - [Lock and structure](./skills/site-design-options/docs/lock-and-structure.md)
 - [Decisions page](./skills/site-design-options/docs/decisions-page.md)
 - [Build and review](./skills/site-design-options/docs/build-and-review.md)
+- [Stitch and DESIGN.md](./skills/site-design-options/docs/stitch-and-design-md.md)
 
 ## What it calls
 
@@ -73,6 +78,9 @@ The skill names these and says when to use each; it does not copy them.
 - `unslop` for every owner-facing line, `writing-for-agents` for the site's `CLAUDE.md` and
   `design.md`, the llm-wiki commands for the knowledge base behind the claim register, and
   `artifact-capabilities` for the decisions page
+- Google Labs' [`@google/design.md`](https://github.com/google-labs-code/design.md) CLI for the
+  lock's lint, export and diff gates, and optionally the Stitch CLI (`@google/stitch`) with
+  [Stitch skills](https://github.com/google-labs-code/stitch-skills)
 
 ## Why it exists
 
@@ -83,4 +91,6 @@ people visit — was missing from the first screen. Each of those turns is a ste
 
 ## Sources
 
-No upstream. `sync.json` carries an empty `sources` array and the skill is listed in `EXEMPT_SYNC`.
+The stages are authored. CI syncs three upstream files into `docs/upstream-*.md`: the DESIGN.md
+README and spec from `google-labs-code/design.md`, and the Stitch skills README from
+`google-labs-code/stitch-skills` (all Apache-2.0).

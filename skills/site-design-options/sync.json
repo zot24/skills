@@ -2,7 +2,26 @@
   "name": "site-design-options",
   "version": "1.2.0",
   "description": "A repeatable way to design options for an existing website with its owner",
-  "sources": [],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/google-labs-code/design.md/main/README.md",
+      "target": "skills/site-design-options/docs/upstream-design-md-readme.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google-labs-code/design.md/main/docs/spec.md",
+      "target": "skills/site-design-options/docs/upstream-design-md-spec.md",
+      "type": "raw",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google-labs-code/stitch-skills/main/README.md",
+      "target": "skills/site-design-options/docs/upstream-stitch-skills-readme.md",
+      "type": "raw",
+      "freshness_days": 14
+    }
+  ],
   "cache_dir": ".cache",
-  "notes": "This skill has no upstream sources - it distils a way of working used on four sites, and calls other skills (Emil Kowalski's design skills, unslop, writing-for-agents, llm-wiki) and the Inspo MCP without copying them"
+  "notes": "The stages are a way of working distilled from four sites and call other skills (Emil Kowalski's design skills, unslop, writing-for-agents, llm-wiki) and the Inspo MCP without copying them. The synced sources are Google Labs' DESIGN.md format and linter (the lock's file format) and the Stitch skills catalogue (an optional generator for directions and variants)."
 }
