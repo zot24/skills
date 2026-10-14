@@ -1,15 +1,28 @@
 ---
 // Head tags for every page. Rules: seo-geo skill, docs/technical-seo.md.
+// An existing site keeps its own sitemap URL (the one submitted to Search Console): pass `sitemap`.
 import { isProduction } from '../lib/site';
 
 interface Props {
   title: string;
   description: string;
+  siteName: string;
   image?: string;
+  imageAlt?: string;
   noindex?: boolean;
   type?: 'website' | 'article';
+  sitemap?: string;
 }
-const { title, description, image = '/og/default.png', noindex = false, type = 'website' } = Astro.props;
+const {
+  title,
+  description,
+  siteName,
+  image = '/og/default.png',
+  imageAlt,
+  noindex = false,
+  type = 'website',
+  sitemap = '/sitemap-index.xml',
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
@@ -17,11 +30,17 @@ const ogImage = new URL(image, Astro.site);
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 {(noindex || !isProduction) && <meta name="robots" content="noindex, nofollow" />}
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="sitemap" href={sitemap} />
 <link rel="describedby" type="text/markdown" href="/llms.txt" />
 <meta property="og:type" content={type} />
+<meta property="og:site_name" content={siteName} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImage} />
+{imageAlt && <meta property="og:image:alt" content={imageAlt} />}
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+{imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
