@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/zot24/skills/compare/site-design-options-v1.2.0...site-design-options-v1.3.0) (2026-10-14)
+
+
+### Features
+
+* **site-design-options:** DESIGN.md lock gates, optional Google Stitch generator, wider build review ([#297](https://github.com/zot24/skills/issues/297)) ([9b7ef1e](https://github.com/zot24/skills/commit/9b7ef1eabfc473f29ff2971c53986519f564026a))
+
 ## [1.2.0](https://github.com/zot24/skills/compare/site-design-options-v1.1.0...site-design-options-v1.2.0) (2026-10-13)
 
 
