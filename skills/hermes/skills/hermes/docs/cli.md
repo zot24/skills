@@ -45,14 +45,15 @@ hermes chat --provider openrouter  # Force OpenRouter
 # With specific toolsets
 hermes chat --toolsets "web,terminal,skills"
 
-# Start with one or more skills preloaded
-hermes -s hermes-agent-dev,github-auth
-hermes chat -s github-pr-workflow -q "open a draft PR"
+# Start with one or more skills preloaded (rendered once into the session's prompt)
+hermes chat -s hermes-agent-dev,github-auth
 
 # Resume previous sessions
-hermes --continue             # Resume the most recent CLI session (-c)
 hermes --resume <session_id>  # Resume a specific session by ID (-r)
-hermes --resume latest        # Resume the most recent session (same as -c)
+hermes --resume "my thread"   # Resume by title (latest "#N" continuation in the lineage)
+hermes -c "my thread" --create-if-missing  # Resume that titled session, creating it if absent
+hermes --continue             # Resume the most recent session (bare -c)
+hermes --resume latest        # Same as bare -c
 hermes --resume latest --in ./dir  # Resume ./dir's latest session, staying in ./dir
 
 # Verbose mode (debug output)
@@ -66,7 +67,7 @@ hermes -w -z "Fix issue #123"     # Single query in worktree
 
 ### Worktree cleanup<a href="#worktree-cleanup" class="hash-link" aria-label="Direct link to Worktree cleanup" translate="no" title="Direct link to Worktree cleanup">​</a>
 
-`hermes -w` sessions create disposable worktrees under `<repo>/.worktrees/`. A conservative pruner runs automatically at startup (it only removes clean, fully-merged scratch trees past an age threshold), but preserved trees and merged local branches still accumulate on busy machines. Reclaim them explicitly:
+`hermes -w` sessions create disposable worktrees under `<repo>/.worktrees/`. With `hermes --tui -w`, closing the terminal detaches from the gateway-owned session. Its worktree is retained even when clean: the turn may still be running there, and resuming the session uses the same working directory. Review and prune it after the session's work is finished. A conservative pruner runs automatically at startup (it only removes clean, fully-merged scratch trees past an age threshold), but preserved trees and merged local branches still accumulate on busy machines. Reclaim them explicitly:
 
 
 ``` prism-code
@@ -116,6 +117,12 @@ hermes plugins remove <plugin-name>
 Portable packages remain disabled until explicitly enabled. Hermes currently loads portable Agent Skills and stdio MCP entries. See the [plugin developer guide](/docs/developer-guide/plugins#portable-agent-plugins-v1-packages) for the exact supported subset and trust boundary.
 
 ## Interface Layout<a href="#interface-layout" class="hash-link" aria-label="Direct link to Interface Layout" translate="no" title="Direct link to Interface Layout">​</a>
+
+
+`hermes chat` (and the bare `hermes` prompt when `display.interface` is `cli`) no longer runs the agent inside your terminal process. It discovers or starts the profile's gateway (`hermes gateway ensure`), creates or resumes the session there, and attaches over the gateway's local WebSocket — the same session a Desktop window, the TUI, or a Telegram topic can open at the same time. Closing the terminal detaches (`Detached; accepted work continues at the gateway.`); it does not cancel the turn. Your working directory, `--model`, `--provider`, `--reasoning`, `--toolsets`, `--max-turns`, `--skills`, `--checkpoints`, `--yolo`, `--accept-hooks`, `--pass-session-id`, `--ignore-rules`, `--base-url`/`--api-key`, and `--safe-mode`/`--ignore-user-config` are frozen into the session at creation; `--resume` may repeat the same values but cannot change them. `--resume <id-or-title>` and `-c <title>` name the session; the gateway resolves the title (exact id first, then the latest `"<title> #N"` continuation, followed to its live tip) among the sessions you may read, and reports `No session found matching '…'` (exit 1) otherwise. Bare `-c` and `--resume latest` resume this workspace's most recent CLI session through the gateway. `-c <title> --create-if-missing` creates a session with that title when none exists and resumes it when one does, so programmatic callers (Bot Mode's `Bot Chat` turns) get a deterministic thread. Options that only make sense for an in-process agent — `--image`, `--worktree`/`-w`, `--no-restore-cwd`, `--run-budget`, `--verbose`/`-v`, `--compact`, and `--create-if-missing` without `-c <name>` — are refused up front (`Unsupported gateway CLI options: …`, exit 2); the refusal lists, per flag, where that capability lives now (the TUI flag, the `config.yaml` key, or the `hermes` subcommand), and nothing falls back to a local agent. A `--safe-mode` / `--ignore-user-config` launch reads no profile default model, so it must name one; the refusal prints a complete example such as `hermes chat --safe-mode --provider openrouter --model anthropic/claude-sonnet-4 -q "hello"`. In this mode the slash surface is `/stop`, `/approve <id> <choice>`, `/answer <id> <text>`, `/discard <admission_id>`, `/branch [title]`, `/model <model> [--provider name]`, `/compress [here [N] | <focus>] [--preview]`, `/yolo [on|off]`, `/help` and `/quit`; other slash commands print `Unsupported gateway CLI command; use /help.` Use the TUI (`hermes --tui`) for the full slash registry.
+
+
+If a running turn loses its owner while your finite CLI query is queued, the CLI exits with code `3`. Your accepted input stays queued. Resume the printed session interactively, inspect the unknown turn, and use `/discard <admission_id>` to acknowledge it before continuing. Do not resend the queued input.
 
 <img src="/docs/img/docs/cli-layout.svg" class="docs-terminal-figure" alt="Stylized preview of the Hermes CLI layout showing the banner, conversation area, and fixed input prompt." />
 
@@ -395,11 +402,11 @@ While the agent is working, you can send a correction without starting a new tur
 
 The `display.busy_input_mode` config key controls what happens when you press Enter while the agent is working:
 
-| Mode                    | Behavior                                                                                                                                                                                                                                                                                                         |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `"interrupt"` (default) | Your message redirects the active turn. Model generation restarts with displayed reasoning and completed work preserved. A running foreground terminal command is moved to the background (not killed — you get a completion notification) so your message is read immediately; other running tools finish first |
-| `"queue"`               | Your message is silently queued and sent as the next turn after the agent finishes                                                                                                                                                                                                                               |
-| `"steer"`               | Your message is injected into the current run via `/steer`, arriving at the agent after the next tool call — no interrupt, no new turn                                                                                                                                                                           |
+| Mode                    | Behavior                                                                                                                                                                                                                                                                                                                                |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `"interrupt"` (default) | Your message redirects the active turn. Model generation restarts with displayed reasoning and completed work preserved. A running foreground terminal command is moved to the background (not killed — you get a completion notification) so your message is read immediately; other running tools finish first                        |
+| `"queue"`               | Your message is queued as the next turn after the agent finishes. The queue lives on the gateway (crash-durable, visible to every attached client). Classic `hermes chat` always behaves this way: every line typed during a turn queues at the gateway, whatever this key says; `interrupt` and `steer` are TUI and Desktop behaviours |
+| `"steer"`               | Your message is injected into the current run via `/steer`, arriving at the agent after the next tool call — no interrupt, no new turn                                                                                                                                                                                                  |
 
 
 ``` prism-code
@@ -505,6 +512,7 @@ Resume options:
 hermes --continue                          # Resume the most recent CLI session
 hermes -c                                  # Short form
 hermes -c "my project"                     # Resume a named session (latest in lineage)
+hermes -c "my project" --create-if-missing # Same, creating the titled session if none exists
 hermes --resume 20260225_143052_a1b2c3     # Resume a specific session by ID
 hermes --resume "refactoring auth"         # Resume by title
 hermes --resume latest                     # Resume the most recent session (same as -c)
